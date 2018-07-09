@@ -64,9 +64,10 @@ class EnvironmentSubscriber extends CommonSubscriber
         if (!$request->hasPreviousSession()) {
             return;
         }
-
-        // Set date/time
-        date_default_timezone_set($request->getSession()->get('_timezone', $this->params['default_timezone']));
+        if (isset($this->params['default_timezone'])) {
+            // Set date/time
+            date_default_timezone_set($request->getSession()->get('_timezone', $this->params['default_timezone']));
+        }
     }
 
     /**
