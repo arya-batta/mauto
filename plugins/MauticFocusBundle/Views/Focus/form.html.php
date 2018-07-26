@@ -31,7 +31,7 @@ echo $view['form']->start($form);
         <!-- container -->
         <div class="col-md-9 bg-auto height-auto bdr-r pa-md">
             <div class="row">
-                <?php if (!$entity->getId()) : ?>
+                <?php if (!$entity->getId() && isset($focusTemplates)) : ?>
                 <div class="col-md-12">
                     <?php echo $view->render('MauticFocusBundle:Focus:focus_template_select.html.php', [
                         'focusTemplates' => $focusTemplates,

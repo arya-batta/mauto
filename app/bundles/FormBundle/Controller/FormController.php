@@ -348,6 +348,11 @@ class FormController extends CommonFormController
             $objectEntity   = $objectvalues[0];
             $objectformtype = $objectvalues[1];
         }
+        $signuprepository = $this->get('le.core.repository.signup');
+        $formitems        = $signuprepository->selectformItems();
+        if (empty($formitems)) {
+            $objectEntity = 'scratch';
+        }
         if (!$this->get('mautic.security')->isGranted('form:forms:create')) {
             return $this->accessDenied();
         }
@@ -512,8 +517,6 @@ class FormController extends CommonFormController
         $customComponents = $model->getCustomComponents($sessionId);
 
         $fieldHelper      = $this->get('mautic.helper.form.field_helper');
-        $signuprepository = $this->get('le.core.repository.signup');
-        $formitems        = $signuprepository->selectformItems();
 
         return $this->delegateView(
             [
@@ -1302,6 +1305,8 @@ class FormController extends CommonFormController
         $entity->setAlias($formitem['alias']);
         $entity->setTemplate($formitem['template']);
         $entity->setFormType($formitem['form_type']);
+        $entity->setPostAction($formitem['post_action']);
+        $entity->setPostActionProperty($formitem['post_action_property']);
         $session           = $this->get('session');
         $sessionId         = $this->request->request->get('mauticform[sessionId]', 'mautic_'.sha1(uniqid(mt_rand(), true)), true);
         $modifiedFields    = $session->get('mautic.form.'.$sessionId.'.fields.modified', []);
@@ -1311,16 +1316,26 @@ class FormController extends CommonFormController
             $keyId = 'new'.hash('sha1', uniqid(mt_rand()));
             $field = new Field();
 
-            $modifiedFields[$keyId]                    = $field->convertToArray();
-            $modifiedFields[$keyId]['label']           = $formFields[$i]['label'];
-            $modifiedFields[$keyId]['alias']           = $formFields[$i]['alias'];
-            $modifiedFields[$keyId]['showLabel']       = $formFields[$i]['showLabel'];
-            $modifiedFields[$keyId]['type']            = $formFields[$i]['type'];
-            $modifiedFields[$keyId]['id']              = $keyId;
-            $modifiedFields[$keyId]['inputAttributes'] = $formFields[$i]['inputAttributes'];
-            $modifiedFields[$keyId]['formId']          = $sessionId;
-            $modifiedFields[$keyId]['leadField']       = $formFields[$i]['leadField'];
-            $modifiedFields[$keyId]['properties']      = unserialize($formFields[$i]['properties']);
+            $modifiedFields[$keyId]                            = $field->convertToArray();
+            $modifiedFields[$keyId]['label']                   = $formFields[$i]['label'];
+            $modifiedFields[$keyId]['alias']                   = $formFields[$i]['alias'];
+            $modifiedFields[$keyId]['showLabel']               = $formFields[$i]['showLabel'];
+            $modifiedFields[$keyId]['type']                    = $formFields[$i]['type'];
+            $modifiedFields[$keyId]['id']                      = $keyId;
+            $modifiedFields[$keyId]['inputAttributes']         = $formFields[$i]['inputAttributes'];
+            $modifiedFields[$keyId]['formId']                  = $sessionId;
+            $modifiedFields[$keyId]['leadField']               = $formFields[$i]['leadField'];
+            $modifiedFields[$keyId]['properties']              = unserialize($formFields[$i]['properties']);
+            $modifiedFields[$keyId]['validationMessage']       = $formFields[$i]['validationMessage'];
+            $modifiedFields[$keyId]['isRequired']              = $formFields[$i]['isRequired'];
+            $modifiedFields[$keyId]['helpMessage']             = $formFields[$i]['helpMessage'];
+            $modifiedFields[$keyId]['defaultValue']            = $formFields[$i]['defaultValue'];
+            $modifiedFields[$keyId]['labelAttributes']         = $formFields[$i]['labelAttributes'];
+            $modifiedFields[$keyId]['containerAttributes']     = $formFields[$i]['containerAttributes'];
+            $modifiedFields[$keyId]['showWhenValueExists']     = $formFields[$i]['showWhenValueExists'];
+            $modifiedFields[$keyId]['isAutoFill']              = $formFields[$i]['isAutoFill'];
+            $modifiedFields[$keyId]['saveResult']              = $formFields[$i]['saveResult'];
+            $modifiedFields[$keyId]['showAfterXSubmissions']   = $formFields[$i]['showAfterXSubmissions'];
             if (!empty($formFields[$i]['leadField'])) {
                 $usedLeadFields[$keyId] = $formFields[$i]['leadField'];
             }

@@ -160,12 +160,18 @@ class SignupRepository
 
     public function selectfocusItems($args = [])
     {
+        try {
+            $this->getConnection()->connect();
+        } catch (\Exception $e) {
+            return [];
+        }
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->select('f.*')
             ->from(MAUTIC_TABLE_PREFIX.'focus', 'f', 'f.id')
             ->andWhere($qb->expr()->neq('f.focus_type', ':form'))
             ->setParameter(':form', 'form')
             ->andWhere($qb->expr()->eq('f.is_published', 0))
+            ->andWhere($qb->expr()->eq('f.created_by', 1))
             ->orderBy('f.templateorder', 'asc');
 
         return $qb->execute()->fetchAll();
@@ -173,10 +179,18 @@ class SignupRepository
 
     public function selectformItems($args = [])
     {
+        try {
+            $this->getConnection()->connect();
+        } catch (\Exception $e) {
+            return [];
+        }
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->select('f.*')
             ->from(MAUTIC_TABLE_PREFIX.'forms', 'f', 'f.id')
             ->andWhere($qb->expr()->eq('f.is_published', 0))
+            ->andWhere($qb->expr()->eq('f.created_by', 1))
+            ->andWhere($qb->expr()->eq('f.form_type', ':formtype'))
+            ->setParameter(':formtype', 'standalone')
             ->orderBy('f.templateorder', 'asc');
 
         return $qb->execute()->fetchAll();
