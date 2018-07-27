@@ -129,6 +129,7 @@ class CampaignSubscriber extends CommonSubscriber
                         ],
                     ],
                 ],
+                'order'          => 15,
             ];
             $event->addAction('tracking.pixel.send', $action);
         }

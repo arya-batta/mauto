@@ -1173,11 +1173,13 @@ abstract class AbstractStandardFormController extends AbstractFormController
             $signuprepository = $this->get('le.core.repository.signup');
             $focusitems       = $signuprepository->selectfocusItems();
             //dump($focusitems);
-            if ($objectId != null && $objectId != 'blank') {
-                $delegateArgs['viewParameters']['entity'] = $objectId;
-                $delegateArgs['entity']                   = $objectId;
+            if (!empty($focusitems)) {
+                if ($objectId != null && $objectId != 'blank') {
+                    $delegateArgs['viewParameters']['entity'] = $objectId;
+                    $delegateArgs['entity']                   = $objectId;
+                }
+                $delegateArgs['viewParameters']['focusTemplates'] = $focusitems;
             }
-            $delegateArgs['viewParameters']['focusTemplates'] = $focusitems;
         }
 
         return $this->delegateView(
@@ -1304,20 +1306,25 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $model            = $this->getModel('focus');
         $signuprepository = $this->get('le.core.repository.signup');
         $focusitems       = $signuprepository->selectPopupTemplatebyID($focusid);
-        $focusitem        = $focusitems;
-        $entity           = $model->getEntity();
-        $entity->setName($focusitem['name']);
-        $entity->setType($focusitem['focus_type']);
-        $entity->setStyle($focusitem['style']);
-        $properties = unserialize($focusitem['properties']);
-        $entity->setProperties($properties);
-        $entity->setHtmlMode($focusitem['html_mode']);
-        $entity->setEditor($focusitem['editor']);
-        $entity->setCache($focusitem['cache']);
-        $entity->setHtml($focusitem['html']);
+        if (!$focusitems) {
+            return $this->newStandard('blank');
+        } else {
+            $focusitem = $focusitems;
+            $entity    = $model->getEntity();
+            $entity->setName($focusitem['name']);
+            $entity->setType($focusitem['focus_type']);
+            $entity->setStyle($focusitem['style']);
+            $properties = unserialize($focusitem['properties']);
+            $entity->setProperties($properties);
+            $entity->setHtmlMode($focusitem['html_mode']);
+            $entity->setEditor($focusitem['editor']);
+            $entity->setCache($focusitem['cache']);
+            $entity->setHtml($focusitem['html']);
+            $entity->setWebsite($focusitem['website']);
 
-        $newEntity = clone $entity;
+            $newEntity = clone $entity;
 
-        return $this->newStandard($newEntity);
+            return $this->newStandard($newEntity);
+        }
     }
 }
