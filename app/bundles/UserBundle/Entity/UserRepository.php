@@ -204,6 +204,24 @@ class UserRepository extends CommonRepository
         return $q->getQuery()->getArrayResult();
     }
 
+    public function getAdminUserlist()
+    {
+        $q = $this->_em->createQueryBuilder();
+
+        $q->select('u.id')
+            ->from('MauticUserBundle:User', 'u')
+            ->leftJoin('u.role', 'r')
+            ->leftJoin('r.permissions', 'p');
+        $expr = $q->expr()->andX(
+            $q->expr()->eq('u.role', ':roleid')
+        );
+
+        $q->setParameter('roleid', 2);
+        $q->andWhere($expr)->orderBy('u.id', 'asc');
+
+        return $q->getQuery()->getArrayResult();
+    }
+
     /**
      * Return list of Users for formType Choice.
      *

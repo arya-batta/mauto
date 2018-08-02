@@ -147,6 +147,46 @@ class NotificationModel extends FormModel
         $this->saveAndDetachEntity($notification);
     }
 
+    public function getNotificationbyHeader($header = null)
+    {
+        return $this->getRepository()->getNotificationsbyHeader($header);
+    }
+
+    public function updateNotification($id, $message, $type, $isRead, $header, $iconClass = null, $datetime = null, $user)
+    {
+        $notification = $this->getEntity($id);
+        if ($notification == null) {
+            $this->addNotification($message, $type, $isRead, $header, $iconClass, $datetime, $user);
+        } else {
+            $notification->setIsRead($isRead);
+            $notification->setMessage($message);
+            $notification->setUser($user);
+            if ($datetime == null) {
+                $datetime = new \DateTime();
+            }
+            $notification->setDateAdded($datetime);
+            $this->saveAndDetachEntity($notification);
+        }
+    }
+
+    /**
+     * Get a specific entity or generate a new one if id is empty.
+     *
+     * @param $id
+     *
+     * @return null|Lead
+     */
+    public function getEntity($id = null)
+    {
+        if ($id === null) {
+            return new Notification();
+        }
+
+        $entity = parent::getEntity($id);
+
+        return $entity;
+    }
+
     /**
      * Mark notifications read for a user.
      */

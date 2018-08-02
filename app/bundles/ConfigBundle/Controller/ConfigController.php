@@ -136,6 +136,9 @@ class ConfigController extends FormController
 
                         // Merge each bundle's updated configuration into the local configuration
                         foreach ($formValues as $key => $object) {
+                            if ($key == 'smsconfig') {
+                                $object = $this->saveSMSConfig($object);
+                            }
                             $checkThese = array_intersect(array_keys($object), $unsetIfEmpty);
                             foreach ($checkThese as $checkMe) {
                                 if (empty($object[$checkMe])) {
@@ -337,6 +340,63 @@ class ConfigController extends FormController
                     $form['parameters'][$key] = (is_string($localParams[$key])) ? str_replace('%%', '%', $localParams[$key]) : $localParams[$key];
                 }
             }
+        }
+    }
+
+    private function saveSMSConfig($objects)
+    {
+        $this->unpublishAllSMSSettings();
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper            = $this->factory->getHelper('integration');
+        $integrationObject            = $integrationHelper->getIntegrationObject($this->translator->trans($objects['sms_transport']));
+        $settings                     = $integrationObject->getIntegrationSettings();
+        $apikeys                      = [];
+        $features                     = [];
+        $features['frequency_number'] = $objects['sms_frequency_number'];
+        $features['frequency_time']   = $objects['sms_frequency_time'];
+
+        if ($objects['sms_transport'] == 'mautic.sms.transport.solutioninfini') {
+            $apikeys['url']                = $objects['account_url'];
+            $apikeys['apikey']             = $objects['account_api_key'];
+            $apikeys['senderid']           = $objects['account_sender_id'];
+            $objects['account_auth_token'] = '';
+            $objects['account_sid']        = '';
+            $objects['sms_from_number']    = '';
+        } elseif ($objects['sms_transport'] == 'mautic.sms.transport.twilio') {
+            $apikeys['username']              = $objects['account_auth_token'];
+            $apikeys['password']              = $objects['account_sid'];
+            $features['sending_phone_number'] = $objects['sms_from_number'];
+            $objects['account_url']           = '';
+            $objects['account_api_key']       = '';
+            $objects['account_sender_id']     = '';
+        }
+        $settings->setFeatureSettings($features);
+        $settings->setApiKeys($apikeys);
+        $settings->setIsPublished($objects['publish_account']);
+
+        // Prevent merged keys
+        $integrationObject->encryptAndSetApiKeys($apikeys, $settings);
+
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->persist($settings);
+        $em->flush();
+
+        return $objects;
+    }
+
+    private function unpublishAllSMSSettings()
+    {
+        $transportChain = $this->factory->get('mautic.sms.transport_chain');
+        $transports     = $transportChain->getEnabledTransports();
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper  = $this->factory->getHelper('integration');
+        foreach ($transports as $transportServiceId=>$transport) {
+            $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+            $settings          = $integrationObject->getIntegrationSettings();
+            $settings->setIsPublished(false);
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($settings);
+            $em->flush();
         }
     }
 }

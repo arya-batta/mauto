@@ -57,7 +57,7 @@ class Version20170324112219 extends AbstractMauticMigration
             'password' => $coreParametersHelper->getParameter('sms_password'),
         ];
         $twilioFeatureSettings = [
-            'sending_phone_number' => $coreParametersHelper->getParameter('sms_sending_phone_number'),
+            'sending_phone_number' => $coreParametersHelper->getParameter('sms_from_number'),
             'frequency_number'     => $coreParametersHelper->getParameter('sms_frequency_number'),
             'frequency_time'       => $coreParametersHelper->getParameter('sms_frequency_time'),
         ];

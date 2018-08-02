@@ -663,6 +663,7 @@ return [
                 'arguments' => [
                     'mautic.email.model.email',
                     'mautic.helper.licenseinfo',
+                    'mautic.helper.notification',
                 ],
             ],
             'mautic.email.model.send_email_to_contacts' => [

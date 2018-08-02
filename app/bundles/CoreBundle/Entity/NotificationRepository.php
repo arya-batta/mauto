@@ -153,4 +153,35 @@ class NotificationRepository extends CommonRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    public function getNotificationsbyHeader($header = null)
+    {
+        $qb = $this->createQueryBuilder('n');
+        if ($header != null) {
+            $expr = $qb->expr()->andX(
+                $qb->expr()->eq('n.header', ':header')
+            );
+            $qb->setParameter('header', $header);
+            $qb->where($expr)
+                ->orderBy('n.id');
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return array
+     */
+    public function getNotificationbyId($id)
+    {
+        $fq = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $fq->select('n.*')
+            ->from(MAUTIC_TABLE_PREFIX.'notification', 'n')
+            ->where('n.id = '.$id);
+        $results = $fq->execute()->fetchAll();
+
+        return (isset($results[0])) ? $results[0] : [];
+    }
 }

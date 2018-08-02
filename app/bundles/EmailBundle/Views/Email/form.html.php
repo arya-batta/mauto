@@ -101,7 +101,7 @@ if ($mailertransport != 'mautic.transport.amazon') {
                         <td style="width: 20%">
                               <li class="dropdown" style="display: block;">
                                  <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="margin-top: 10px;font-size: 13px;" data-toggle="dropdown" href="#">
-                                        <span>Personalize</span> </span><span><i class="caret" ></i>
+                                        <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                  </a>
                               <ul class="dropdown-menu dropdown-menu-right">
                                  <li>

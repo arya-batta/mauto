@@ -17,6 +17,7 @@ return [
                 'arguments' => [
                     'mautic.helper.integration',
                     'mautic.sms.model.sms',
+                    'mautic.helper.notification',
                 ],
             ],
             'mautic.sms.smsbundle.subscriber' => [
@@ -89,15 +90,19 @@ return [
             ],
         ],
         'other' => [
-            'mautic.sms.api' => [
-                'class'     => 'Mautic\SmsBundle\Api\SolutionInfinityApi',
+            'mautic.sms.transport.solutioninfini' => [
+                'class'     => \Mautic\SmsBundle\Api\SolutionInfinityApi::class,
                 'arguments' => [
                     'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
                     'monolog.logger.mautic',
                 ],
-                'alias' => 'sms_api',
+                'tag'          => 'mautic.sms_transport',
+                'tagArguments' => [
+                    'integrationAlias' => 'SolutionInfinity',
+                ],
+                'alias' => 'SolutionInfinity',
             ],
             'mautic.sms.transport_chain' => [
                 'class'     => \Mautic\SmsBundle\Sms\TransportChain::class,
@@ -182,16 +187,7 @@ return [
                     'route'  => 'mautic_sms_index',
                     'access' => ['sms:smses:viewown', 'sms:smses:viewother'],
                     'parent' => 'mautic.core.channels',
-                    'checks' => [
-                        'integration' => [
-                            'Twilio' => [
-                                'enabled' => true,
-                            ],
-                            'SolutionInfinity' => [
-                                'enabled' => true,
-                            ],
-                        ],
-                    ],
+
                     'priority' => 50,
                 ],
             ],
@@ -201,9 +197,15 @@ return [
         'sms_enabled'              => false,
         'sms_username'             => null,
         'sms_password'             => null,
-        'sms_sending_phone_number' => null,
+        'sms_transport'            => 'mautic.sms.transport.twilio',
+        'account_url'              => null,
+        'account_sid'              => null,
+        'account_api_key'          => null,
+        'account_auth_token'       => null,
+        'account_sender_id'        => null,
         'sms_frequency_number'     => null,
         'sms_frequency_time'       => null,
-        'sms_transport'            => 'mautic.sms.transport.twilio',
+        'sms_from_number'          => null,
+        'publish_account'          => null,
     ],
 ];

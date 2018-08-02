@@ -8,7 +8,11 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$isadmin=$view['security']->isAdmin();
+if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
+    $isadmin = true;
+} else {
+    $isadmin = false;
+}
 ?>
 <?php if ($isadmin): ?>
     <li class="dropdown dropdown-custom" id="notificationsDropdown">

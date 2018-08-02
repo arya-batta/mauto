@@ -15,6 +15,7 @@ use Mautic\CampaignBundle\CampaignEvents;
 use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
 use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
+use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
@@ -34,6 +35,11 @@ class CampaignSubscriber extends CommonSubscriber
      */
     protected $smsModel;
 
+    /*
+     * @var NotificationHelper
+     */
+    protected $notificationhelper;
+
     /**
      * CampaignSubscriber constructor.
      *
@@ -42,10 +48,12 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function __construct(
         IntegrationHelper $integrationHelper,
-        SmsModel $smsModel
+        SmsModel $smsModel,
+        NotificationHelper $notificationhelper
     ) {
-        $this->integrationHelper = $integrationHelper;
-        $this->smsModel          = $smsModel;
+        $this->integrationHelper  = $integrationHelper;
+        $this->smsModel           = $smsModel;
+        $this->notificationhelper = $notificationhelper;
     }
 
     /**
@@ -64,25 +72,31 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-        $integration = $this->integrationHelper->getIntegrationObject('SolutionInfinity');
-
-        if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-            $event->addAction(
-                'sms.send_text_sms',
-                [
-                    'label'            => 'mautic.campaign.sms.send_text_sms',
-                    'description'      => 'mautic.campaign.sms.send_text_sms.tooltip',
-                    'eventName'        => SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-                    'formType'         => 'smssend_list',
-                    'formTypeOptions'  => ['update_select' => 'campaignevent_properties_sms'],
-                    'formTheme'        => 'MauticSmsBundle:FormTheme\SmsSendList',
-                    'timelineTemplate' => 'MauticSmsBundle:SubscribedEvents\Timeline:index.html.php',
-                    'channel'          => 'sms',
-                    'channelIdField'   => 'sms',
-                    'order'            => 2,
-                ]
-            );
+        $transportChain = $this->factory->get('mautic.sms.transport_chain');
+        $transports     = $transportChain->getEnabledTransports();
+        $isEnabled      = false;
+        foreach ($transports as $transportServiceId=>$transport) {
+            $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+                $isEnabled = true;
+                $event->addAction(
+                    'sms.send_text_sms',
+                    [
+                        'label'            => 'mautic.campaign.sms.send_text_sms',
+                        'description'      => 'mautic.campaign.sms.send_text_sms.tooltip',
+                        'eventName'        => SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                        'formType'         => 'smssend_list',
+                        'formTypeOptions'  => ['update_select' => 'campaignevent_properties_sms'],
+                        'formTheme'        => 'MauticSmsBundle:FormTheme\SmsSendList',
+                        'timelineTemplate' => 'MauticSmsBundle:SubscribedEvents\Timeline:index.html.php',
+                        'channel'          => 'sms',
+                        'channelIdField'   => 'sms',
+                        'order'            => 2,
+                    ]
+                );
+            }
         }
+        $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
     }
 
     /**
@@ -101,7 +115,9 @@ class CampaignSubscriber extends CommonSubscriber
         }
 
         $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
-
+        if ($result['errorResult'] != 'Success') {
+            $this->notificationhelper->sendNotificationonFailure(false, false);
+        }
         if ('Authenticate' === $result['status']) {
             // Don't fail the event but reschedule it for later
             return $event->setResult(false);
