@@ -502,6 +502,11 @@ class IntegrationHelper
         return $this->em->getRepository('MauticPluginBundle:Integration')->getCoreIntegrations();
     }
 
+    public function getIntegrationReporitory()
+    {
+        return $this->em->getRepository('MauticPluginBundle:Integration');
+    }
+
     /**
      * Get the user's social profile data from cache or integrations if indicated.
      *

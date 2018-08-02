@@ -196,10 +196,11 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $sendTo = [$sendTo];
         }
 
-        $sentCount     = 0;
-        $results       = [];
-        $contacts      = [];
-        $fetchContacts = [];
+        $sentCount      = 0;
+        $results        = [];
+        $contacts       = [];
+        $fetchContacts  = [];
+        $sendResultText = 'Success';
         foreach ($sendTo as $lead) {
             if (!$lead instanceof Lead) {
                 $fetchContacts[] = $lead;
@@ -308,6 +309,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
                     if (true !== $metadata) {
                         $sendResult['status'] = $metadata;
+                        $sendResultText       = 'Failed';
                     } else {
                         $sendResult['sent'] = true;
                         $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
@@ -326,6 +328,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $this->getStatRepository()->saveEntities($stats);
             $this->em->clear(Stat::class);
         }
+        $results['errorResult'] = $sendResultText;
 
         return $results;
     }

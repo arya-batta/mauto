@@ -60,11 +60,11 @@ EOT
             $container  = $this->getContainer();
             $dispatcher = $container->get('event_dispatcher');
 
-            $skipClear = $input->getOption('do-not-clear');
-            $quiet     = $input->getOption('quiet');
-            $timeout   = $input->getOption('clear-timeout');
-            $queueMode = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
-
+            $skipClear      = $input->getOption('do-not-clear');
+            $quiet          = $input->getOption('quiet');
+            $timeout        = $input->getOption('clear-timeout');
+            $queueMode      = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
+            $sendResultText = 'Success';
             if ($queueMode != 'file') {
                 $output->writeln('Mautic is not set to queue email.');
 
@@ -117,6 +117,7 @@ EOT
                             try {
                                 $transport->send($message);
                             } catch (\Swift_TransportException $e) {
+                                $sendResultText = 'Failed '.$e->getMessage();
                                 if ($dispatcher->hasListeners(EmailEvents::EMAIL_FAILED)) {
                                     $event = new QueueEmailEvent($message);
                                     $dispatcher->dispatch(EmailEvents::EMAIL_FAILED, $event);
@@ -175,7 +176,9 @@ EOT
             $returnCode = $command->run($input, $output);
 
             $this->completeRun();
-
+            if ($sendResultText != 'Success') {
+                $container->get('mautic.helper.notification')->sendNotificationonFailure(true, false);
+            }
             if ($returnCode !== 0) {
                 return $returnCode;
             }
@@ -183,6 +186,7 @@ EOT
             return 0;
         } catch (\Exception $e) {
             echo 'exception->'.$e->getMessage()."\n";
+            $this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
 
             return 0;
         }

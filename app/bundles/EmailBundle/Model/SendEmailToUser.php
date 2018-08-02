@@ -15,6 +15,7 @@ use Mautic\CoreBundle\Helper\LicenseInfoHelper;
 use Mautic\EmailBundle\Exception\EmailCouldNotBeSentException;
 use Mautic\EmailBundle\OptionsAccessor\EmailToUserAccessor;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\UserBundle\Hash\UserHash;
 
 class SendEmailToUser
@@ -27,10 +28,16 @@ class SendEmailToUser
      */
     private $licenseInfoHelper;
 
-    public function __construct(EmailModel $emailModel, LicenseInfoHelper $licenseInfoHelper)
+    /*
+     * @var NotificationHelper
+     */
+    private $notificationHelper;
+
+    public function __construct(EmailModel $emailModel, LicenseInfoHelper $licenseInfoHelper, NotificationHelper $notificationHelper)
     {
-        $this->emailModel        = $emailModel;
-        $this->licenseInfoHelper = $licenseInfoHelper;
+        $this->emailModel         = $emailModel;
+        $this->licenseInfoHelper  = $licenseInfoHelper;
+        $this->notificationHelper = $notificationHelper;
     }
 
     /**
@@ -62,7 +69,8 @@ class SendEmailToUser
         $owner = $lead->getOwner();
         $users = $emailToUserAccessor->getUserIdsToSend($owner);
 
-        $idHash = UserHash::getFakeUserHash();
+        $idHash         = UserHash::getFakeUserHash();
+        $sendResultTest = 'Success';
         if (!$accountStatus) {
             if ($isValidEmailCount && $isHavingEmailValidity) {
                 $tokens = $this->emailModel->dispatchEmailSendEvent($email, $leadCredentials, $idHash)->getTokens();
@@ -70,13 +78,19 @@ class SendEmailToUser
                 $this->licenseInfoHelper->intEmailCount('1');
 
                 if ($errors) {
+                    $sendResultTest = 'Failed';
                     throw new EmailCouldNotBeSentException(implode(', ', $errors));
                 }
             } else {
+                $sendResultTest = 'InSufficient Email Count Please Contact Support';
                 throw new EmailCouldNotBeSentException('InSufficient Email Count Please Contact Support');
             }
         } else {
+            $sendResultTest = "Your Account Has Been Kept on REVIEW and You Can't Send Emails for Now. Please Contact Support Team.";
             throw new EmailCouldNotBeSentException('Your Account Has Been Kept on REVIEW and You Can\'t Send Emails for Now. Please Contact Support Team.');
+        }
+        if ($sendResultTest != 'Success') {
+            $this->notificationHelper->sendNotificationonFailure(true, false, $sendResultTest);
         }
     }
 }

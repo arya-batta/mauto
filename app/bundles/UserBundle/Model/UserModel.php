@@ -453,4 +453,9 @@ class UserModel extends FormModel
 
         return $result['timezone'];
     }
+
+    public function getAdminUserList()
+    {
+        return $this->getRepository()->getAdminUserlist();
+    }
 }

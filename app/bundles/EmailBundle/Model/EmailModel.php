@@ -1330,7 +1330,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 }
             }
         }
-
+        $sendResultTest = 'Success';
         foreach ($groupedContactsByEmail as $parentId => $translatedEmails) {
             $useSettings = $emailSettings[$parentId];
             foreach ($translatedEmails as $translatedId => $contacts) {
@@ -1352,20 +1352,26 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                                     ++$emailSettings[$parentId]['variantCount'];
                                 }
                             } else {
+                                $sendResultTest = $this->translator->trans('mautic.email.validity.expired');
                                 $this->sendModel->reset();
                                 throw new FailedToSendToContactException();
                             }
                         } else {
                             $this->sendModel->reset();
+                            $sendResultTest = $this->translator->trans('le.email.send.account.inactive');
                             throw new FailedToSendToContactException();
                         }
                     } catch (FailedToSendToContactException $exception) {
+                        $sendResultTest = 'Failed';
                         // move along to the next contact
                     }
                 }
             }
         }
-
+        if ($sendResultTest != 'Success') {
+            $notificationModel = $this->factory->get('mautic.helper.notification');
+            $notificationModel->sendNotificationonFailure(true, false, $sendResultTest);
+        }
         // Flush the queue and store pending email stats
         $this->sendModel->finalFlush();
 

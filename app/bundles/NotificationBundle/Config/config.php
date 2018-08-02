@@ -124,6 +124,7 @@ return [
                     'mautic.helper.integration',
                     'router',
                     'request_stack',
+                    'translator',
                 ],
             ],
         ],

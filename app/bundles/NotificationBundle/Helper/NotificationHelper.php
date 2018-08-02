@@ -20,6 +20,7 @@ use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class NotificationHelper
 {
@@ -53,6 +54,17 @@ class NotificationHelper
      */
     protected $request;
 
+    protected $usermodel;
+
+    protected $notificationModel;
+
+    /*
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    protected $em;
+
     /**
      * NotificationHelper constructor.
      *
@@ -62,8 +74,9 @@ class NotificationHelper
      * @param IntegrationHelper    $integrationHelper
      * @param Router               $router
      * @param RequestStack         $requestStack
+     * @param TranslatorInterface  $translator
      */
-    public function __construct(MauticFactory $factory, AssetsHelper $assetsHelper, CoreParametersHelper $coreParametersHelper, IntegrationHelper $integrationHelper, Router $router, RequestStack $requestStack)
+    public function __construct(MauticFactory $factory, AssetsHelper $assetsHelper, CoreParametersHelper $coreParametersHelper, IntegrationHelper $integrationHelper, Router $router, RequestStack $requestStack, TranslatorInterface $translator)
     {
         $this->factory              = $factory;
         $this->assetsHelper         = $assetsHelper;
@@ -71,6 +84,8 @@ class NotificationHelper
         $this->integrationHelper    = $integrationHelper;
         $this->router               = $router;
         $this->request              = $requestStack;
+        $this->translator           = $translator;
+        $this->em                   = $factory->getEntityManager();
     }
 
     /**
@@ -241,5 +256,44 @@ JS;
         }
 
         return true;
+    }
+
+    public function sendNotificationonFailure($isemail = false, $isEnabled = true, $errorMessage = '')
+    {
+        $configurl     = $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        $messagetext   = 'le.sms.configuration.failure.notification';
+        $messageheader = 'le.sms.configuration.failure.header';
+        if ($isemail) {
+            $messagetext   = 'le.email.send.failed.message';
+            $messageheader = 'le.email.send.failed';
+        }
+        $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
+        if ($errorMessage != '' && $errorMessage != 'Failed') {
+            $message = $errorMessage;
+        }
+        $header                  = $this->translator->trans($messageheader);
+        $isRead                  = 0;
+        $iconClass               = null;
+        $this->userModel         = $this->factory->getModel('user.user');
+        $this->notificationModel = $this->factory->getModel('core.notification');
+        $adminusers              = $this->userModel->getAdminUserList();
+        $userid                  = $adminusers[0]['id'];
+        $user                    = $this->userModel->getEntity($userid);
+        $datetime                = null;
+        $type                    = 'error';
+        $response                = $this->notificationModel->getNotificationbyHeader($this->translator->trans($messageheader));
+        if (!$isEnabled) {
+            $isRead = 0;
+            if (sizeof($response) > 0) {
+                $this->notificationModel->updateNotification($response[0]['id'], $message, $type, $isRead, $header, $iconClass, $datetime, $user);
+            } else {
+                $this->notificationModel->addNotification($message, $type, $isRead, $header, $iconClass, $datetime, $user);
+            }
+        } else {
+            $isRead = 1;
+            if (sizeof($response) > 0) {
+                $this->notificationModel->updateNotification($response[0]['id'], $message, $type, $isRead, $header, $iconClass, $datetime, $user);
+            }
+        }
     }
 }

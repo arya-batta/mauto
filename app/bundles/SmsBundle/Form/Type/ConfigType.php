@@ -63,8 +63,166 @@ class ConfigType extends AbstractType
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.sms.config.select_default_transport',
             ],
+            'data'      => $options['data']['sms_transport'],
+            'required'  => false,
             'choices'   => $choices,
         ]);
+        $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["mautic.sms.transport.solutioninfini"]}';
+        $TwilioShowConditions    = '{"config_smsconfig_sms_transport":["mautic.sms.transport.twilio"]}';
+        $builder->add(
+            'account_url',
+            'text',
+            [
+                'label'      => 'le.sms.account.name.solutioninfini',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-show-on' => $SolutionShowConditions,
+                    'data-hide-on' => $TwilioShowConditions,
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['account_url'],
+            ]
+        );
+        $builder->add(
+            'account_sid',
+            'text',
+            [
+                'label'      => 'le.sms.account.name.twilio',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-show-on' => $TwilioShowConditions,
+                    'data-hide-on' => $SolutionShowConditions,
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['account_sid'],
+            ]
+        );
+        $builder->add(
+            'account_api_key',
+            'text',
+            [
+                'label'      => 'le.sms.account.api.solutioninfini',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-hide-on' => $TwilioShowConditions,
+                    'data-show-on' => $SolutionShowConditions,
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['account_api_key'],
+            ]
+        );
+        $builder->add(
+            'account_auth_token',
+            'text',
+            [
+                'label'      => 'le.sms.account.auth.token',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-show-on' => $TwilioShowConditions,
+                    'data-hide-on' => $SolutionShowConditions,
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['account_auth_token'],
+            ]
+        );
+        $builder->add(
+            'account_sender_id',
+            'text',
+            [
+                'label'      => 'le.sms.account.senderid.solutioninfini',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-hide-on' => $TwilioShowConditions,
+                    'data-show-on' => $SolutionShowConditions,
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['account_sender_id'],
+            ]
+        );
+        $builder->add(
+            'sms_from_number',
+            'text',
+            [
+                'label'      => 'le.sms.account.fromnumber',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => false,
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-show-on' => $TwilioShowConditions,
+                    'data-hide-on' => $SolutionShowConditions,
+                ],
+                'data' => $options['data']['sms_from_number'],
+            ]
+        );
+        $builder->add(
+            'sms_frequency_number',
+            'number',
+            [
+                'precision'  => 0,
+                'label'      => 'le.sms.features.frequency_number',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => false,
+                'attr'       => [
+                    'class' => 'form-control frequency',
+                ],
+                'data' => $options['data']['sms_frequency_number'],
+            ]
+        );
+        $builder->add(
+            'sms_frequency_time',
+            'choice',
+            [
+                'choices' => [
+                    'DAY'   => 'day',
+                    'WEEK'  => 'week',
+                    'MONTH' => 'month',
+                ],
+                'label'      => 'le.sms.feature.frequency_time',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => false,
+                'multiple'   => false,
+                'attr'       => [
+                    'class' => 'form-control frequency',
+                ],
+                'data' => $options['data']['sms_frequency_time'],
+            ]
+        );
+        $builder->add(
+            'publish_account',
+            'yesno_button_group',
+            [
+                'label'      => 'le.sms.account.publish.account',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control',
+                ],
+                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
+                'required'   => false,
+            ]
+        );
+
+        $builder->add(
+            'sms_test_connection_button',
+            'standalone_button',
+            [
+                'label'    => 'le.sms.config.test_connection',
+                'required' => false,
+                'attr'     => [
+                    'class'   => 'btn btn-success',
+                    'onclick' => 'Mautic.testSmsServerConnection(true)',
+                ],
+            ]
+        );
     }
 
     /**

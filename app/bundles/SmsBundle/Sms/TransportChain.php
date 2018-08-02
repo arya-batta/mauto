@@ -123,17 +123,17 @@ class TransportChain
     {
         $enabled = [];
         foreach ($this->transports as $alias=>$transport) {
-            if (!isset($transport['published'])) {
-                $integration = $this->integrationHelper->getIntegrationObject($transport['integrationAlias']);
-                if (!$integration) {
-                    continue;
-                }
-                $transport['published']   = $integration->getIntegrationSettings()->getIsPublished();
-                $this->transports[$alias] = $transport;
-            }
-            if ($transport['published']) {
-                $enabled[$alias] = $transport['service'];
-            }
+            //if (!isset($transport['published'])) {
+            //    $integration = $this->integrationHelper->getIntegrationObject($transport['integrationAlias']);
+            //    if (!$integration) {
+            //        continue;
+            //    }
+            //     $transport['published']   = $integration->getIntegrationSettings()->getIsPublished();
+            $this->transports[$alias] = $transport;
+            // }
+            // if ($transport['published']) {
+            $enabled[$alias] = $transport['service'];
+            // }
         }
 
         return $enabled;
