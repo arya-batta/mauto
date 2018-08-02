@@ -53,7 +53,7 @@ if ($item->hasChildren() && $options['depth'] !== 0 && $item->getDisplayChildren
         }
 
         if (!empty($extras['iconClass'])) {
-            echo "<span class=\"icon pull-left fa {$extras['iconClass']}\"></span>";
+            echo "<i class=\"icon pull-left fa {$extras['iconClass']}\"></i>";
         }
 
         $labelAttributes = $child->getLabelAttributes();
@@ -77,6 +77,7 @@ if ($item->hasChildren() && $options['depth'] !== 0 && $item->getDisplayChildren
 
             //set the class
             $child->setChildrenAttribute('class', $levelClass);
+            $child->setChildrenAttribute('style', 'line-height: 2.4;');
             $child->setChildrenAttribute('id', $linkAttributes['id'].'_child');
             echo $view->render('MauticCoreBundle:Menu:main.html.php', [
                 'item'    => $child,

@@ -79,7 +79,7 @@ $isAdmin    =$view['security']->isAdmin();
         <td class="visible-md visible-lg">
             <?php $tags = $item->getTags(); ?>
             <?php foreach ($tags as $tag): ?>
-                <div class="label label-info" style="margin-bottom: 2px;background-color:  #00b49c;"><?php echo $tag->getTag(); ?></div>
+                <div class="label label-primary" style="margin-bottom: 2px;"><?php echo $tag->getTag(); ?></div>
             <?php endforeach; ?>
         </td>
         <td class="visible-md visible-lg" style="text-align:center;">
@@ -94,7 +94,7 @@ $isAdmin    =$view['security']->isAdmin();
             $color = $item->getColor();
             $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
             ?>
-            <span class="label label-success"><?php echo $item->getPoints(); ?></span>
+            <span class="label label-primary"><?php echo $item->getPoints(); ?></span>
         </td>
         <td class="visible-md visible-lg">
             <abbr title="<?php echo $view['date']->toFull($item->getLastActive()); ?>">

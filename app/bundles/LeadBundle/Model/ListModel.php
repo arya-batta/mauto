@@ -291,69 +291,6 @@ class ListModel extends FormModel
                 'operators' => $this->getOperatorsForFieldType('multiselect'),
                 'object'    => 'lead',
             ],
-            'lead_email_received' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_received'),
-                'properties' => [
-                    'type' => 'lead_email_received',
-                ],
-                'operators' => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            'in',
-                            '!in',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'lead_email_sent' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_sent'),
-                'properties' => [
-                    'type' => 'lead_email_received',
-                ],
-                'operators' => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            'in',
-                            '!in',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'lead_email_read_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            '!=',
-                            'gt',
-                            'lt',
-                            'gte',
-                            'lte',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'lead_email_read_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_count'),
-                'properties' => ['type' => 'number'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            'gt',
-                            'gte',
-                            'lt',
-                            'lte',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
             'tags' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.tags'),
                 'properties' => [
@@ -397,86 +334,6 @@ class ListModel extends FormModel
                             '=',
                             'like',
                             'regexp',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'dnc_bounced' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_bounced'),
-                'properties' => [
-                    'type' => 'boolean',
-                    'list' => [
-                        0 => $this->translator->trans('mautic.core.form.no'),
-                        1 => $this->translator->trans('mautic.core.form.yes'),
-                    ],
-                ],
-                'operators' => $this->getOperatorsForFieldType('bool'),
-                'object'    => 'lead',
-            ],
-            'dnc_unsubscribed' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_unsubscribed'),
-                'properties' => [
-                    'type' => 'boolean',
-                    'list' => [
-                        0 => $this->translator->trans('mautic.core.form.no'),
-                        1 => $this->translator->trans('mautic.core.form.yes'),
-                    ],
-                ],
-                'operators' => $this->getOperatorsForFieldType('bool'),
-                'object'    => 'lead',
-            ],
-
-            'hit_url' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url'),
-                'properties' => [
-                    'type' => 'text',
-                ],
-                'operators' => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            '!=',
-                            'like',
-                            '!like',
-                            'regexp',
-                            '!regexp',
-                            'startsWith',
-                            'endsWith',
-                            'contains',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'hit_url_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            '!=',
-                            'gt',
-                            'lt',
-                            'gte',
-                            'lte',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-            'hit_url_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
-                'properties' => ['type' => 'number'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            'gt',
-                            'gte',
-                            'lt',
-                            'lte',
                         ],
                     ]
                 ),
@@ -618,6 +475,152 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],
         ];
+        $choices['emails']= [
+         'lead_email_sent' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_sent'),
+                'properties' => ['type' => 'lead_email_received'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            'in',
+                            '!in',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+          ],
+        'lead_email_received' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_received'),
+                'properties' => [
+                    'type' => 'lead_email_received',
+                ],
+                'operators' => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            'in',
+                            '!in',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+        'lead_email_read_count' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_count'),
+                'properties' => ['type' => 'number'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            'gt',
+                            'gte',
+                            'lt',
+                            'lte',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+        'lead_email_read_date' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            '!=',
+                            'gt',
+                            'lt',
+                            'gte',
+                            'lte',
+                            'past',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+        'dnc_bounced' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_bounced'),
+                'properties' => [
+                    'type' => 'boolean',
+                    'list' => [
+                        0 => $this->translator->trans('mautic.core.form.no'),
+                        1 => $this->translator->trans('mautic.core.form.yes'),
+                    ],
+                ],
+                'operators' => $this->getOperatorsForFieldType('bool'),
+                'object'    => 'lead',
+        ],
+        'dnc_unsubscribed' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_unsubscribed'),
+                'properties' => [
+                    'type' => 'boolean',
+                    'list' => [
+                        0 => $this->translator->trans('mautic.core.form.no'),
+                        1 => $this->translator->trans('mautic.core.form.yes'),
+                    ],
+                ],
+                'operators' => $this->getOperatorsForFieldType('bool'),
+                'object'    => 'lead',
+            ],
+        ];
+        $choices['pages']= [
+            'hit_url' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url'),
+                'properties' => [
+                    'type' => 'text',
+                ],
+                'operators' => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            '!=',
+                            'like',
+                            '!like',
+                            'regexp',
+                            '!regexp',
+                            'startsWith',
+                            'endsWith',
+                            'contains',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+        'hit_url_date' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            '!=',
+                            'gt',
+                            'lt',
+                            'gte',
+                            'lte',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+        'hit_url_count' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
+                'properties' => ['type' => 'number'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            'gt',
+                            'gte',
+                            'lt',
+                            'lte',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+        ],
+    ];
+
         if ($this->security->isAdmin()) {
             $choices['lead']['page_id']= [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.page_id'),

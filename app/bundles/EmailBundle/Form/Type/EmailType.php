@@ -530,7 +530,7 @@ class EmailType extends AbstractType
                     'name'  => 'beeeditor',
                     'label' => 'mautic.core.beeeditor',
                     'attr'  => [
-                        'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor',
+                        'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
                         'icon'    => 'fa fa-cube',
                         'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
                     ],

@@ -86,6 +86,10 @@ return [
                 'path'       => '/email/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
             ],
+            'mautic_email_updatelead' => [
+                'path'       => '/email/updatelead/{idHash}',
+                'controller' => 'MauticEmailBundle:Public:updatelead',
+            ],
             'mautic_email_resubscribe' => [
                 'path'       => '/email/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
@@ -110,10 +114,11 @@ return [
         'main' => [
             'items' => [
                 'mautic.email.emails' => [
-                    'route'    => 'mautic_email_index',
-                    'access'   => ['email:emails:viewown', 'email:emails:viewother'],
-                    'parent'   => 'mautic.core.channels',
-                    'priority' => 300,
+                    'iconClass'  => 'fa fa-envelope',
+                    'route'      => 'mautic_email_index',
+                    'access'     => ['email:emails:viewown', 'email:emails:viewother'],
+                    'parent'     => 'mautic.core.channels',
+                    'priority'   => 300,
                 ],
                 /*'mautic.emailcampaign.emails' => [
                     'route'    => 'mautic_email_campaign_index',

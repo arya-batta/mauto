@@ -258,7 +258,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                         <span class="mt-xs label label-info has-click-event clickable-stat"
-                              id="spam-count-<?php echo $item->getId(); ?>">
+                              id="spam-count-<?php echo $item->getId(); ?>" style="background-color: #251625;">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_spam').':'.$item->getId()]

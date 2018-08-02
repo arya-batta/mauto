@@ -64,7 +64,7 @@ if (!$isEmbedded) {
 
     $customButtons[] = [
         'attr' => [
-            'class'       => 'btn btn-default btn-nospin',
+            'class'       => 'btn btn-default btn-nospin le-btn-default',
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'href'        => $view['router']->path($actionRoute, ['objectAction' => 'sendExample', 'objectId' => $email->getId()]),

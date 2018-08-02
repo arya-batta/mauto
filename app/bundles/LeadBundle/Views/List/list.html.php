@@ -95,7 +95,7 @@ $isAdmin     =$view['security']->isAdmin();
                                             ),
                                         ],
                                         'icon'  => 'fa-users',
-                                        'label' => 'mautic.lead.list.view_contacts',
+                                        'label' => 'mautic.lead.list.view_leads',
                                     ],
                                 ],
                             ]

@@ -15,9 +15,10 @@ $extraMenu = $view['menu']->render('extra');
     <!-- brand -->
     <div style="text-align: center; padding: 0px 0px 0px 0px; ">
         <img style="
-    width: 180px;
-    margin-top: 13px;
-" src="<?php echo $view['assets']->getUrl('media/images/leadsengage-white-logo.png') ?>"></div>
+    width: 200px;
+    margin-top: 25px;
+    padding: 2px;
+" src="<?php echo $view['assets']->getUrl('media/images/leadsengage-new-logo.png') ?>"></div>
     <!--<a class="mautic-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#">-->
     <!-- logo figure -->
     <!--<svg version="1.1" class="mautic-logo-figure" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 128 128" enable-background="new 0 0 128 128" xml:space="preserve">

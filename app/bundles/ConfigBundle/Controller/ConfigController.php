@@ -201,7 +201,7 @@ class ConfigController extends FormController
 
                     $loginsession->set('isLogin', false);
 
-                    return $this->delegateRedirect($this->generateUrl('mautic_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
                 }
             }
         }

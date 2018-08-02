@@ -16,7 +16,7 @@ $pageButtons = [];
 if ($permissions['lead:leads:create']) {
     $pageButtons[] = [
         'attr' => [
-            'class'       => 'btn btn-default btn-nospin quickadd',
+            'class'       => 'btn btn-default btn-nospin quickadd le-btn-default',
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'new', 'qf' => 1]),
@@ -79,7 +79,7 @@ $view['slots']->set(
 $toolbarButtons = [
     [
         'attr' => [
-            'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin',
+            'class'       => 'hidden-xs le-btn-default btn btn-default btn-sm btn-nospin',
             'href'        => 'javascript: void(0)',
             'onclick'     => 'Mautic.toggleLiveLeadListUpdate();',
             'id'          => 'liveModeButton',
@@ -94,7 +94,7 @@ $toolbarButtons = [
 if ($indexMode == 'list') {
     $toolbarButtons[] = [
         'attr' => [
-            'class'          => 'hidden-xs btn btn-default btn-sm btn-nospin'.(($anonymousShowing) ? ' btn-primary' : ''),
+            'class'          => 'hidden-xs btn btn-default btn-sm btn-nospin le-btn-default'.(($anonymousShowing) ? ' le-btn-default' : ''),
             'href'           => 'javascript: void(0)',
             'onclick'        => 'Mautic.toggleAnonymousLeads();',
             'id'             => 'anonymousLeadButton',

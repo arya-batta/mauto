@@ -64,6 +64,10 @@ trait FilterTrait
             $field = $options['fields']['lead'][$fieldName];
         } elseif (isset($options['fields']['company'][$fieldName])) {
             $field = $options['fields']['company'][$fieldName];
+        } elseif (isset($options['fields']['pages'][$fieldName])) {
+            $field = $options['fields']['pages'][$fieldName];
+        } elseif (isset($options['fields']['emails'][$fieldName])) {
+            $field = $options['fields']['emails'][$fieldName];
         }
 
         $customOptions = [];

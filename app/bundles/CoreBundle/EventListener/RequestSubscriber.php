@@ -51,7 +51,7 @@ class RequestSubscriber extends CommonSubscriber
         $request = $event->getRequest();
 
         if ($this->isAjaxPost($request) && $this->isSecurePath($request) && !$this->isCsrfTokenFromRequestHeaderValid($request)) {
-            $message  = $this->translator->trans('mautic.core.error.csrf', [], 'flashes');
+            $message  = $this->translator->trans('le.core.error.csrf', [], 'flashes');
             $data     = ['flashes' => ['error' => $message]];
             $content  = $this->templating->render('MauticCoreBundle:Notification:flash_messages.html.php', $data);
             $response = new JsonResponse(['flashes' => $content], Response::HTTP_OK);

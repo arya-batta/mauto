@@ -89,7 +89,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                             <div class="pa-md bg-auto bg-light-xs bdr-b">
                                 <h4 class="fw-sb"><?php echo $view['translator']->trans('mautic.lead.field.group.'.$group); ?></h4>
                             </div>
-                            <div class="pa-md">
+                            <div class="pa-md" style="width: 150%;">
                                 <?php if ($group == 'core'): ?>
                                     <?php if (isset($form['title']) || isset($form['firstname']) || isset($form['lastname'])): ?>
                                         <div class="form-group mb-0">

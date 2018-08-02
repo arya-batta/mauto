@@ -35,9 +35,15 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
     <!--/ end: left nav -->
 
     <!-- start: right nav -->
+    <ul class="nav navbar-nav navbar-right" style="margin-left: -25px;">
+        <?php if ($isCustomAdmin): ?>
+        <?php echo $view->render('MauticCoreBundle:Menu:right_panel.html.php'); ?>
+        <?php endif; ?>
+    </ul>
     <ul class="nav navbar-nav navbar-right">
         <?php echo $view->render('MauticCoreBundle:Menu:profile.html.php'); ?>
-        <?php if ($isAdmin || $isCustomAdmin): ?>
+    <!-- Hided Right Panel -->
+      <?php if ($isAdmin):?>
             <li>
                 <a href="javascript: void(0);" data-toggle="sidebar" data-direction="rtl">
                     <i class="fa fa-cog fs-16"></i>
@@ -46,9 +52,9 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
         <?php endif; ?>
     </ul>
     <!-- start: right nav -->
-    <ul class="nav navbar-nav navbar-right">
-        <?php echo $view->render('MauticCoreBundle:Menu:support.html.php'); ?>
-    </ul>
+   <!-- <ul class="nav navbar-nav navbar-right">
+        <?php /*echo $view->render('MauticCoreBundle:Menu:support.html.php'); */?>
+    </ul>-->
     <div class="navbar-toolbar pull-right mt-15 mr-10">
     <?php
     echo $view['buttons']->reset($app->getRequest(), \Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR)

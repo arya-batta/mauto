@@ -114,6 +114,7 @@ class BuilderSubscriber extends CommonSubscriber
             '{from_email}'            => $this->translator->trans('mautic.email.token.from_email'),
             '{postal_address}'        => $this->translator->trans('mautic.email.token.postal_address'),
             '{unsubscribe_link}'      => $this->translator->trans('mautic.email.token.unsubscribe_text'),
+            '{updatelead_link}'       => $this->translator->trans('mautic.email.token.updatelead_text'),
             //'{webview_text}'     => $this->translator->trans('mautic.email.token.webview_text'),
             //'{signature}'        => $this->translator->trans('mautic.email.token.signature'),
             //'{subject}'          => $this->translator->trans('mautic.email.subject'),
@@ -265,6 +266,16 @@ class BuilderSubscriber extends CommonSubscriber
 
         $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]));
 
+        $updateLead = $this->coreParametersHelper->getParameter('updatelead');
+        if (!$updateLead) {
+            $updateLead = $this->translator->trans('mautic.email.updatelead.text', ['%link%' => '|URL|']);
+        }
+        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $updateLead);
+
+        $event->addToken('{updatelead_link}', EmojiHelper::toHtml($updateLead));
+
+        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]));
+
         $webviewText = $this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
             $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|']);
@@ -304,6 +315,10 @@ class BuilderSubscriber extends CommonSubscriber
         if ($footerText != '') {
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]), $footerText);
+
+            $footerText = str_replace('{updatelead_link}', "<a href='|URL|'>change your contact details</a>", $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $footerText);
+
             if ($helper != null && !empty($helper->message->getFrom())) {
                 foreach ($helper->message->getFrom() as $fromemail => $fromname) {
                     $footerText = str_replace('{from_email}', $fromemail, $footerText);

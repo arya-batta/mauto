@@ -184,9 +184,10 @@ return [
         'main' => [
             'items' => [
                 'mautic.sms.smses' => [
-                    'route'  => 'mautic_sms_index',
-                    'access' => ['sms:smses:viewown', 'sms:smses:viewother'],
-                    'parent' => 'mautic.core.channels',
+                    'iconClass'=> 'fa fa-weixin',
+                    'route'    => 'mautic_sms_index',
+                    'access'   => ['sms:smses:viewown', 'sms:smses:viewother'],
+                    'parent'   => 'mautic.core.channels',
 
                     'priority' => 50,
                 ],

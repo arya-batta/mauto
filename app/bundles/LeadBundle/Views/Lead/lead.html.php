@@ -425,7 +425,7 @@ $view['slots']->set(
                 <?php
                 $color = $lead->getColor();
                 $style = !empty($color) ? ' style="font-color: '.$color.' !important;"' : '';
-                $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getCountryFlag($fields['core']['score']['value']) : '';
+                $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : '';
                 ?>
                 <h1
                     <?php echo $style; ?>>
@@ -577,7 +577,7 @@ $view['slots']->set(
         <div class="pa-sm">
             <?php $tags = $lead->getTags(); ?>
             <?php foreach ($tags as $tag): ?>
-                <h5 class="pull-left mt-xs mr-xs"><span class="label label-success"><?php echo $tag->getTag(); ?></span>
+                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $tag->getTag(); ?></span>
                 </h5>
             <?php endforeach; ?>
             <div class="clearfix"></div>

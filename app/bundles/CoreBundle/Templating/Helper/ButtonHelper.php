@@ -536,9 +536,9 @@ class ButtonHelper extends Helper
         if (!empty($addTo['btnClass'])) {
             $addTo['attr']['class'] = $addTo['btnClass'];
         } elseif (!isset($button['attr']['class'])) {
-            $addTo['attr']['class'] = 'btn btn-default';
+            $addTo['attr']['class'] = 'btn btn-default le-btn-default';
         } elseif (!strstr($addTo['attr']['class'], 'btn-')) {
-            $addTo['attr']['class'] .= ' btn btn-default';
+            $addTo['attr']['class'] .= 'btn btn-default le-btn-default';
         }
 
         if (self::LOCATION_PAGE_ACTIONS == $this->location) {

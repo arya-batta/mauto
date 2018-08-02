@@ -408,7 +408,7 @@ class ImportController extends FormController
                                 )
                             );
                         } else {
-                            $defaultOwner = ($owner) ? $owner->getId() : null;
+                            $defaultOwner = ($owner) ? $owner : null;
 
                             /** @var \Mautic\LeadBundle\Entity\Import $import */
                             $import = $importModel->getEntity();

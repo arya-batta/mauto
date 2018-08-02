@@ -74,10 +74,11 @@ return [
         'main' => [
             'items' => [
                 'mautic.page.pages' => [
-                    'route'    => 'mautic_page_index',
-                    'access'   => ['page:pages:viewown', 'page:pages:viewother'],
-                    'parent'   => 'mautic.core.components',
-                    'priority' => 250,
+                    'iconClass' => 'fa fa-newspaper-o',
+                    'route'     => 'mautic_page_index',
+                    'access'    => ['page:pages:viewown', 'page:pages:viewother'],
+                    'parent'    => 'mautic.core.components',
+                    'priority'  => 250,
                 ],
             ],
         ],

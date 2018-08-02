@@ -8,7 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
+if ($view['security']->isAdmin()) {
     $isadmin = true;
 } else {
     $isadmin = false;
@@ -18,7 +18,7 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
     <li class="dropdown dropdown-custom" id="notificationsDropdown">
         <a href="javascript: void(0);" onclick="Mautic.showNotifications();" class="dropdown-toggle dropdown-notification" data-toggle="dropdown">
             <?php $hideClass = (!empty($updateMessage['isNew']) || !empty($showNewIndicator)) ? '' : ' hide'; ?>
-            <span class="label label-danger<?php echo $hideClass; ?>" id="newNotificationIndicator"><i class="fa fa-asterisk"></i></span>
+             <span class="label label-danger<?php echo $hideClass; ?>" id="newNotificationIndicator"><i class="fa fa-asterisk"></i></span>
             <span class="fa fa-bell fs-16"></span>
         </a>
         <div class="dropdown-menu">

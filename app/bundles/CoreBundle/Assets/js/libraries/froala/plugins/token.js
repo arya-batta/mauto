@@ -46,7 +46,7 @@
         }
 
         function _init() {
-            var method = location.href.match(/(email|dwc|config|contacts|broadcast)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
+            var method = location.href.match(/(email|dwc|config|leads|broadcast)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
             Mautic.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
                     if (k.match(/assetlink=/i) && v.match(/a:/)){
@@ -62,7 +62,7 @@
                     } else if (k.match(/dwc=/i)){
                         var tn = k.substr(5, k.length - 6);
                         tokens[k] = v + ' (' + tn + ')';
-                    } else if (k.match(/contactfield=company/i) && !v.match(/company/i)){
+                    } else if (k.match(/leadfield=company/i) && !v.match(/company/i)){
                         tokens[k] = 'Company ' + v;
                     }
                 });

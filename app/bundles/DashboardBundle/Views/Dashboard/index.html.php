@@ -26,7 +26,7 @@ $buttons = [
     ],
     [
         'attr' => [
-            'class'       => 'btn btn-default btn-nospin',
+            'class'       => 'btn btn-default btn-nospin le-btn-default',
             'href'        => 'javascript:void()',
             'onclick'     => "Mautic.saveDashboardLayout('{$view['translator']->trans('mautic.dashboard.confirmation_layout_name')}');",
             'data-toggle' => '',

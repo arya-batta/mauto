@@ -16,7 +16,7 @@ if (!function_exists('getLocalConfigPath')) {
         if (isset($_SERVER['SERVER_NAME'])) {
             $host=$_SERVER['SERVER_NAME'];
         }
-        if ($host == '192.168.1.50') {
+        if ($host == '192.168.1.39') {
             $host='localhost';
         }
         $hostarr=explode('.', $host);

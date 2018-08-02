@@ -129,6 +129,78 @@ class PublicController extends CommonFormController
     /**
      * @param $idHash
      *
+     * @throws \Exception
+     * @throws \Mautic\CoreBundle\Exception\FileNotFoundException
+     */
+    public function updateleadAction($idHash)
+    {
+        $model       = $this->getModel('email');
+        $emailRepo   = $model->getRepository();
+        $stat        = $model->getEmailStatus($idHash);
+        $formContent = '';
+        $leadId      = '';
+        $message     = '';
+        $email       = '';
+        $actionName  = '';
+
+        if (!empty($stat)) {
+            if ($email = $stat->getEmailAddress()) {
+                $lead = $stat->getLead();
+                if (!empty($lead)) {
+                    $leadId = $lead->getId();
+                } else {
+                    $message = $this->translator->trans('mautic.email.stat_record.not_found');
+                }
+            }
+            $formContent = '';
+        } else {
+            $message = $this->translator->trans('mautic.email.stat_record.not_found');
+        }
+
+        $actionRoute = $this->generateUrl('mautic_email_updatelead', ['idHash' => $idHash]);
+
+        if ($this->request->getMethod() == 'POST') {
+            $parameter       = $this->request->request->all();
+            $leadName        = $parameter['leadname'];
+            $newEmailAddress = $parameter['emailaddress'];
+
+            if (!empty($leadName) && !empty($newEmailAddress)) {
+                $emailRepo->updateLeadDetails($leadName, $newEmailAddress, $leadId);
+            }
+            $viewParams['content'] = $formContent;
+
+            $contentTemplate       = 'MauticEmailBundle:Email:updatelead.html.php';
+            $viewParams            = [
+                'email'       => $email,
+                'message'     => $message,
+                'actionroute' => $actionRoute,
+                'actionName'  => 'viewlead',
+            ];
+
+            return $this->render($contentTemplate, $viewParams);
+        }
+
+        $emailAddress = preg_replace('/(?:^|.@).\K|..[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '.', $email);
+
+        if (empty($message)) {
+            $actionName = 'updatelead';
+        }
+
+        $viewParams  = [
+            'email'       => $emailAddress,
+            'message'     => $message,
+            'actionroute' => $actionRoute,
+            'actionName'  => $actionName,
+        ];
+
+        $contentTemplate  = 'MauticEmailBundle:Email:updatelead.html.php';
+
+        return $this->render($contentTemplate, $viewParams);
+    }
+
+    /**
+     * @param $idHash
+     *
      * @return Response
      *
      * @throws \Exception

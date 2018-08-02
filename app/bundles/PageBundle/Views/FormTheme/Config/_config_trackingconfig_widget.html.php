@@ -44,7 +44,7 @@ $isAdmin    =$view['security']->isAdmin();
             </a>
 
         </div>
-        <div class="row" <?php echo $hidepanel ?>>
+        <div class="row">
             <?php foreach ($form->children as $name => $f): ?>
                 <?php if (in_array($name, ['track_contact_by_ip', 'track_by_tracking_url', 'track_by_fingerprint'])) {
                     ?>
@@ -71,11 +71,11 @@ $isAdmin    =$view['security']->isAdmin();
         </div>
         </div>
     </div>
-    <div class="panel-heading" <?php echo $hidepanel ?>>
+    <div class="panel-heading" >
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.facebook.pixel'); ?></h3>
 
     </div>
-    <div class="panel-body" <?php echo $hidepanel ?>>
+    <div class="panel-body" >
         <?php echo $view['form']->row($form['facebook_pixel_id']); ?>
         <div class="row">
             <?php foreach ($form->children as $name => $f): ?>
@@ -90,11 +90,11 @@ $isAdmin    =$view['security']->isAdmin();
         </div>
     </div>
 
-    <div class="panel-heading" <?php echo $hidepanel ?>>
+    <div class="panel-heading" >
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.google.analytics'); ?></h3>
 
     </div>
-    <div class="panel-body" <?php echo $hidepanel ?>>
+    <div class="panel-body">
         <?php echo $view['form']->row($form['google_analytics_id']); ?>
         <div class="row">
             <?php foreach ($form->children as $name => $f): ?>

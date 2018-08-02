@@ -34,7 +34,7 @@ return [
     ],
 
     'menu' => [
-        'main' => [
+        /*'main' => [
             'priority' => 100,
             'items'    => [
                 'mautic.dashboard.menu.index' => [
@@ -42,7 +42,7 @@ return [
                     'iconClass' => 'fa-th-large',
                 ],
             ],
-        ],
+        ],*/
     ],
     'services' => [
         'events' => [

@@ -130,7 +130,7 @@ return [
             ],
             'mautic_segment_contacts' => [
                 'path'       => '/segment/view/{objectId}/contact/{page}',
-                'controller' => 'MauticLeadBundle:List:leads',
+                'controller' => 'MauticLeadBundle:List:contacts',
             ],
         ],
         'api' => [
@@ -311,7 +311,7 @@ return [
                     'iconClass' => 'fa-user',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_contact_index',
-                    'priority'  => 70,
+                    'priority'  => 100,
                     //'parent'    => 'mautic.segments.root',
                 ],
                 /*   'mautic.companies.menu.index' => [

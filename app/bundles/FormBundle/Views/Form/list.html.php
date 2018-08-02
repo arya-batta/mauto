@@ -179,7 +179,7 @@ $isAdmin=$view['security']->isAdmin();
                         <a href="<?php echo $view['router']->path(
                             'mautic_form_action',
                             ['objectAction' => 'results', 'objectId' => $item->getId()]
-                        ); ?>" data-toggle="ajax" data-menu-link="mautic_form_index" class="btn btn-primary btn-xs" <?php echo ($i['submission_count']
+                        ); ?>" data-toggle="ajax" data-menu-link="mautic_form_index" class="label label-primary" <?php echo ($i['submission_count']
                             == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'mautic.form.form.viewresults',

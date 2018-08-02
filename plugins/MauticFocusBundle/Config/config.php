@@ -160,11 +160,12 @@ return [
     'menu' => [
         'main' => [
             'mautic.focus' => [
-                'route'    => 'mautic_focus_index',
-                'access'   => 'plugin:focus:items:view',
-                'parent'   => 'mautic.campaigns.root',
-                'priority' => 170,
-                'parent'   => 'mautic.core.components',
+                'iconClass' => 'fa fa-bullseye',
+                'route'     => 'mautic_focus_index',
+                'access'    => 'plugin:focus:items:view',
+                'parent'    => 'mautic.campaigns.root',
+                'priority'  => 170,
+                'parent'    => 'mautic.core.components',
             ],
         ],
     ],

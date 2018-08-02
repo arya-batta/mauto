@@ -155,7 +155,7 @@ class EmailType extends AbstractType
         $builder->add('buttons', 'form_buttons', [
             'apply_text'  => false,
             'save_text'   => 'mautic.email.send',
-            'save_class'  => 'btn btn-primary',
+            'save_class'  => 'le-btn-default',
             'save_icon'   => 'fa fa-send',
             'cancel_icon' => 'fa fa-times',
         ]);
