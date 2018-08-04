@@ -79,7 +79,14 @@ abstract class AbstractChart
      *
      * @var array
      */
-    public $colors = ['#375695', '#00B49C', '#FD9572', '#FDB933', '#757575', '#9C4E5C', '#694535', '#596935'];
+    public $mauticcolors = ['#375695', '#00B49C', '#FD9572', '#FDB933', '#757575', '#9C4E5C', '#694535', '#596935'];
+
+    /**
+     * Default Latest colors.
+     *
+     * @var array
+     */
+    public $colors = ['#f53794', '#4dc9f6', '#f67019', '#537bc4', '#acc236', '#166a8f', '#00a950', '#58595b', '#8549ba'];
 
     /**
      * Create a DateInterval time unit.
