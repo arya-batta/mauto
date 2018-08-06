@@ -557,7 +557,7 @@ final class SimpleEmailServiceMessage
         $this->is_clean = true;
 
         $boundary    = uniqid(rand(), true);
-        $raw_message = count($this->customHeaders) > 0 ? join("\n", $this->customHeaders)."\n" : '';
+        $raw_message = '';
 
         if (!empty($this->message_tags)) {
             $message_tags = [];
@@ -593,6 +593,7 @@ final class SimpleEmailServiceMessage
         $raw_message .= 'Content-type: '.($this->hasInlineAttachments() ? 'multipart/related' : 'Multipart/Mixed').'; boundary="'.$boundary.'"'."\n";
         $raw_message .= "\n--{$boundary}\n";
         $raw_message .= 'Content-type: Multipart/Alternative; boundary="alt-'.$boundary.'"'."\n";
+        $raw_message .= count($this->customHeaders) > 0 ? join("\n", $this->customHeaders)."\n" : '';
 
         if ($this->messagetext != null && strlen($this->messagetext) > 0) {
             $charset = empty($this->messageTextCharset) ? '' : "; charset=\"{$this->messageTextCharset}\"";

@@ -223,6 +223,23 @@ class ConfigType extends AbstractType
             ]
         );
 
+        $choices = [
+            'mautic.transport.amazon'     => 'mautic.transport.amazon',
+            'le.transport.vialeadsengage' => 'le.transport.vialeadsengage',
+        ];
+        $transport        = $options['data']['mailer_transport'];
+        $datavalue        = $transport;
+        $disabletransport = false;
+        if ($emailProvider == 'LeadsEngage' && ($transport == 'mautic.transport.elasticemail' || $transport == 'mautic.transport.sendgrid_api') && !$currentUser) {
+            $datavalue        = 'le.transport.vialeadsengage';
+            $disabletransport = false;
+        } elseif ($emailProvider == 'Sparkpost' && !$currentUser) {
+            $disabled = true;
+        }
+        if ($currentUser) {
+            $disabletransport = false;
+        }
+
         $builder->add(
             'mailer_from_email',
             'text',
@@ -267,21 +284,6 @@ class ConfigType extends AbstractType
                 'required' => false,
             ]
         );
-
-        $choices = [
-            'mautic.transport.amazon'     => 'mautic.transport.amazon',
-            'le.transport.vialeadsengage' => 'le.transport.vialeadsengage',
-        ];
-        $transport        = $options['data']['mailer_transport'];
-        $datavalue        = 'mautic.transport.amazon';
-        $disabletransport = true;
-        if ($transport != 'mautic.transport.amazon' && !$currentUser) {
-            $datavalue        = 'le.transport.vialeadsengage';
-            $disabletransport = false;
-        }
-        if ($currentUser) {
-            $disabletransport = false;
-        }
 
         $builder->add(
             'mailer_transport',
@@ -372,7 +374,7 @@ class ConfigType extends AbstractType
             'mailer_transport_name',
             'choice',
             [
-                'choices'  => $choices,
+                'choices'  => $this->transportType->getCustomTransportType(),
                 'label'    => 'le.email.tranport.header',
                 'required' => false,
                 'attr'     => [
@@ -477,7 +479,7 @@ class ConfigType extends AbstractType
                 "plain",
                 "login",
                 "cram-md5"
-            ], "config_emailconfig_mailer_transport_name":['.$this->transportType->getAmazonService().']
+            ], "config_emailconfig_mailer_transport_name":['.$this->transportType->getCustomService().']
             }';
 
             $mailerLoginPasswordShowConditions = '{
@@ -485,14 +487,16 @@ class ConfigType extends AbstractType
                 "plain",
                 "login",
                 "cram-md5"
-            ], "config_emailconfig_mailer_transport_name":['.$this->transportType->getAmazonService().']
+            ], "config_emailconfig_mailer_transport_name":['.$this->transportType->getCustomServiceForUser().']
             }';
             $mailerLoginUserHideConditions = '{
             "config_emailconfig_mailer_transport_name":['.$this->transportType->getLeadsEngageService().']
+            ,"config_emailconfig_mailer_transport_name":['.$this->transportType->getServiceDoNotNeedLogin().']
             }';
 
             $mailerLoginPasswordHideConditions = '{
             "config_emailconfig_mailer_transport_name":['.$this->transportType->getLeadsEngageService().']
+            ,"config_emailconfig_mailer_transport_name":['.$this->transportType->getServiceDoNotNeedLogin().']
             }';
         }
 
@@ -535,7 +539,7 @@ class ConfigType extends AbstractType
         if ($currentUser) {
             $apiKeyShowConditions = '{"config_emailconfig_mailer_transport":['.$this->transportType->getServiceRequiresApiKey().']}';
         } else {
-            $apiKeyShowConditions = '{"config_emailconfig_mailer_transport":[]}';
+            $apiKeyShowConditions = '{"config_emailconfig_mailer_transport_name":['.$this->transportType->getServiceRequiresApiKey().']}';
         }
         $builder->add(
             'mailer_api_key',

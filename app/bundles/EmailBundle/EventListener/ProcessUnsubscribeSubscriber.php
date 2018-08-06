@@ -90,13 +90,20 @@ class ProcessUnsubscribeSubscriber implements EventSubscriberInterface
     public function onEmailSend(EmailSendEvent $event)
     {
         $helper = $event->getHelper();
-        if ($helper && $unsubscribeEmail = $helper->generateUnsubscribeEmail()) {
+        /*if ($helper && $unsubscribeEmail = $helper->generateUnsubscribeEmail()) {
             $headers          = $event->getTextHeaders();
             $existing         = (isset($headers['List-Unsubscribe'])) ? $headers['List-Unsubscribe'] : '';
             $unsubscribeEmail = "<mailto:$unsubscribeEmail>";
-            $updatedHeader    = ($existing) ? $unsubscribeEmail.', '.$existing : $unsubscribeEmail;
-
+            $updatedHeader    = $unsubscribeEmail;//($existing) ? $unsubscribeEmail.', '.$existing : $unsubscribeEmail;
+            file_put_contents("/var/www/log.txt","Inside 77777".$updatedHeader."\n",FILE_APPEND);
             $event->addTextHeader('List-Unsubscribe', $updatedHeader);
+        }*/
+        if ($helper) {
+            $headers          = $event->getTextHeaders();
+            if (isset($headers['List-Unsubscribe'])) {
+                $updatedHeader = $headers['List-Unsubscribe'];
+                $event->addTextHeader('List-Unsubscribe', $updatedHeader);
+            }
         }
     }
 }

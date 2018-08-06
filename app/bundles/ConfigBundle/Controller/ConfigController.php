@@ -162,15 +162,16 @@ class ConfigController extends FormController
                                 $configurator->mergeParameters(['mailer_user' => $params['mailer_user']]);
                             }
                             $emailTransport='';
-                            if ($emailProvider != $this->translator->trans('mautic.transport.amazon')) {
-                                $emailTransport = $formData['emailconfig']['mailer_transport'];
+                            if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
+                                $emailTransport = $formData['emailconfig']['mailer_transport_name'];
                                 //$emailTransport = $params['mailer_transport_name'];
                                 $configurator->mergeParameters(['mailer_transport' => $emailTransport]);
+                                $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                             } else {
                                 $emailTransport = $params['mailer_transport_name'];
-                                $configurator->mergeParameters(['mailer_transport' => $emailTransport]);
+                                $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
+                                $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                             }
-                            $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                             $configurator->write();
 
                             $this->addFlash('mautic.config.config.notice.updated');

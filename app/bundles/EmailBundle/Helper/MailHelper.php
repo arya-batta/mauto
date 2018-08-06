@@ -23,6 +23,7 @@ use Mautic\EmailBundle\Swiftmailer\Exception\BatchQueueMaxException;
 use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
 use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\SubscriptionBundle\Entity\Account;
 
 /**
  * Class MailHelper.
@@ -361,11 +362,11 @@ class MailHelper
         } elseif (!empty($this->returnPath)) {
             $this->message->setReturnPath($this->returnPath);
         }
+        $this->addUnsubscribeHeader();
 
         if (empty($this->fatal)) {
             if (!$isQueueFlush) {
                 // Only add unsubscribe header to one-off sends as tokenized sends are built by the transport
-                $this->addUnsubscribeHeader();
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
@@ -510,11 +511,33 @@ class MailHelper
             $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
             font-weight: normal;');
             $ptag1      = $doc->createElement('span', '{footer_text}');
-            $ptag1->setAttribute('style', 'display:block;padding-top:20px;');
             $divelement->appendChild($ptag1);
 
+            $accountmodel  = $this->factory->getModel('subscription.accountinfo');
+            $accrepo       = $accountmodel->getRepository();
+            $accountentity = $accrepo->findAll();
+            if (sizeof($accountentity) > 0) {
+                $account = $accountentity[0]; //$model->getEntity(1);
+            } else {
+                $account = new Account();
+            }
+            if ($account->getNeedpoweredby()) {
+                $ptag1->setAttribute('style', 'display:block;padding-top:20px;width:60%;float:left;text-align:right;');
+                $powerspan = $doc->createElement('span');
+                $powerspan->setAttribute('style', 'width:40%;float:right;text-align:left;');
+
+                $imgtag = $doc->createElement('img');
+                $imgtag->setAttribute('src', 'https://s3-eu-west-1.amazonaws.com/cdn.supporthero.io/account/1829/00854641-cbd0-4e19-a4db-9ac4370d6b89.png');
+                $imgtag->setAttribute('style', 'height:100px;width:250px;');
+
+                $powerspan->appendChild($imgtag);
+                $divelement->appendChild($powerspan);
+            } else {
+                $ptag1->setAttribute('style', 'display:block;padding-top:20px;');
+            }
             //actually append the element
             $body->appendChild($divelement);
+
             $bodyContent = $doc->saveHTML();
         }
         libxml_clear_errors();

@@ -22,6 +22,9 @@
             <div class="col-md-6">
                 <?php echo $view['form']->row($form['account_url']); ?>
             </div>
+            <div class="col-md-6">
+                <?php echo $view['form']->row($form['sms_from_number']); ?>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -53,13 +56,11 @@
         </div>
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.frequency_rules'); ?></h3>
+                <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.sms.frequency_rules'); ?></h3>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($form['sms_from_number']); ?>
-                    </div>
+
                     <div class="col-md-12">
                         <?php echo $view['form']->row($form['sms_frequency_number']); ?>
                     </div>

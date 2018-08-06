@@ -156,6 +156,12 @@ class AmazonApiTransport implements \Swift_Transport, TokenTransportInterface, C
                 $rawmessage->addAttachmentFromFile($emailAttachment['fileName'], $emailAttachment['filePath'], $emailAttachment['contentType']);
             }
         }
+        $headers     = $message->getHeaders()->getAll();
+        foreach ($headers as $headerKey => $headerValue) {
+            if (strpos($headerValue, 'List-Unsubscribe:') !== false) {
+                $rawmessage->addCustomHeader($headerValue);
+            }
+        }
 
         return $rawmessage;
     }

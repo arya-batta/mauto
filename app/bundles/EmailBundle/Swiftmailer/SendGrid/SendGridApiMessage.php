@@ -63,6 +63,13 @@ class SendGridApiMessage
         $this->sendGridMailPersonalization->addPersonalizedDataToMail($mail, $message);
         $this->sendGridMailMetadata->addMetadataToMail($mail, $message);
         $this->sendGridMailAttachment->addAttachmentsToMail($mail, $message);
+        $headers     = $message->getHeaders()->getAll();
+        foreach ($headers as $headerKey => $headerValue) {
+            if (strpos($headerValue, 'List-Unsubscribe:') !== false) {
+                $keyvalue = explode(':', $headerValue);
+                $mail->addHeader($keyvalue[0], $keyvalue[1]);
+            }
+        }
 
         return $mail;
     }

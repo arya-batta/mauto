@@ -128,13 +128,38 @@ Mautic.copytoClipboardforms = function(id) {
 
 Mautic.showBounceCallbackURL = function(modeEl) {
     var mode = mQuery(modeEl).val();
-    if(mode != "mautic.transport.amazon") {
+    if(mode != "mautic.transport.amazon" && mode != "mautic.transport.sendgrid_api" && mode != "mautic.transport.sparkpost" && mode != "mautic.transport.elasticemail") {
         mQuery('.transportcallback').addClass('hide');
+        mQuery('.transportcallback_spam').addClass('hide');
     } else {
+        var urlvalue = mQuery('#transportcallback').val();
+        var replaceval = "";
         mQuery('.transportcallback').removeClass('hide');
-           }
+        mQuery('.transportcallback_spam').addClass('hide');
+        var notificationHelpURL = "http://help.leadsengage.io/container/show/";
+        if (mode == "mautic.transport.amazon"){
+            replaceval = "amazon";
+            notificationHelpURL += "amazon-ses";
+            mQuery('.transportcallback_spam').removeClass('hide');
+        } else if(mode == "mautic.transport.sendgrid_api") {
+            replaceval = "sendgrid_api";
+            notificationHelpURL += replaceval;
+        } else if (mode == "mautic.transport.sparkpost"){
+            replaceval = "sparkpost";
+            notificationHelpURL += replaceval;
+        } else if (mode == "mautic.transport.elasticemail"){
+            replaceval = "elasticemail";
+            notificationHelpURL += replaceval
+        }
+        mQuery('#notificationHelpURL').attr('href',notificationHelpURL);
+        var toreplace = urlvalue.split('/');
+        toreplace = toreplace[toreplace.length - 2];
+        urlvalue = urlvalue.replace(toreplace,replaceval);
+        mQuery('#transportcallback').val(urlvalue);
+    }
     mQuery('#config_emailconfig_mailer_user').val('');
     mQuery('#config_emailconfig_mailer_password').val('');
+    mQuery('#config_emailconfig_mailer_api_key').val('');
 };
 
 

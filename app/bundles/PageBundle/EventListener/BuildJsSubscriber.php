@@ -153,7 +153,7 @@ class BuildJsSubscriber extends CommonSubscriber
             }
             params['ct'] = value;
         }
-    if(document.cookie.indexOf("IsTrackingEnabled") > -1){
+//    if(document.cookie.indexOf("IsTrackingEnabled") > -1){
         MauticJS.makeCORSRequest('POST', m.pageTrackingCORSUrl, params,
             function(response) {
                 MauticJS.dispatchEvent('mauticPageEventDelivered', {
@@ -168,7 +168,7 @@ class BuildJsSubscriber extends CommonSubscriber
                 m.firstDeliveryMade = true;
             });
         }
-    }
+//    }
     
     m.buildTrackingImage = function(pageview, params) {
         delete m.trackingPixel;

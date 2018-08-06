@@ -22,6 +22,17 @@ class TransportType
         ];
     }
 
+    public function getCustomTransportType()
+    {
+        return [
+            'mautic.transport.amazon'       => 'mautic.transport.amazon',
+            'le.transport.vialeadsengage'   => 'le.transport.vialeadsengage',
+            'mautic.transport.elasticemail' => 'mautic.email.config.mailer_transport.elasticemail',
+            'mautic.transport.sendgrid_api' => 'mautic.email.config.mailer_transport.sendgrid_api',
+            'mautic.transport.sparkpost'    => 'mautic.email.config.mailer_transport.sparkpost',
+        ];
+    }
+
     public function getSmtpService()
     {
         return '"smtp"';
@@ -30,6 +41,21 @@ class TransportType
     public function getAmazonService()
     {
         return '"mautic.transport.amazon"';
+    }
+
+    public function getCustomServiceForUser()
+    {
+        return '"mautic.transport.amazon",
+                "mautic.transport.elasticemail"';
+    }
+
+    public function getCustomService()
+    {
+        return '"mautic.transport.amazon",
+                "mautic.transport.sparkpost",
+                "mautic.transport.mandrill",
+                "mautic.transport.sendgrid_api",
+                "mautic.transport.elasticemail"';
     }
 
     public function getLeadsEngageService()

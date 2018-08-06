@@ -71,7 +71,7 @@ class AccountController extends FormController
                     $account->setCurrencysymbol($currencysymbol);
                     $account->setTimezone($timezone);
                     $account->setAccountid($accountid);
-                    $account->getNeedpoweredby($needpoweredby);
+                    $account->setNeedpoweredby($needpoweredby);
                     /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
                     $configurator = $this->get('mautic.configurator');
                     $isWritabale  = $configurator->isFileWritable();

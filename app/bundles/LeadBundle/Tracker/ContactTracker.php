@@ -83,6 +83,8 @@ class ContactTracker
      */
     private $dispatcher;
 
+    protected $isanonymousneeded;
+
     /**
      * ContactTracker constructor.
      *
@@ -115,6 +117,7 @@ class ContactTracker
         $this->request                = $requestStack->getCurrentRequest();
         $this->coreParametersHelper   = $coreParametersHelper;
         $this->dispatcher             = $dispatcher;
+        $this->isanonymousneeded      = false;
     }
 
     /**
@@ -128,6 +131,9 @@ class ContactTracker
 
         if (empty($this->trackedContact)) {
             $this->trackedContact = $this->getCurrentContact();
+            if ($this->trackedContact == null) {
+                return null;
+            }
             $this->generateTrackingCookies();
         }
 
@@ -226,7 +232,9 @@ class ContactTracker
 
             return null;
         }
-
+        if (!$this->isanonymousneeded) {
+            return null;
+        }
         if ($this->useSystemContact()) {
             $this->logger->addDebug('LEAD: System lead is being used');
             if (null === $this->systemContact) {
@@ -312,6 +320,9 @@ class ContactTracker
      */
     private function createNewContact(IpAddress $ip = null, $persist = true)
     {
+        if (!$this->isanonymousneeded) {
+            return null;
+        }
         //let's create a lead
         $lead = new Lead();
         $lead->setNewlyCreated(true);

@@ -796,5 +796,6 @@ return [
         'disable_trackable_urls'              => false,
         'footer_text'                         => null,
         'postal_address'                      => null,
+        'mailer_transport_name'               => null,
     ],
 ];
