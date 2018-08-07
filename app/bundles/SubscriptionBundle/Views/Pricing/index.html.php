@@ -14,55 +14,65 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
 ?>
 
 <div style="display: block;text-align: center" class="alert alert-danger hide" id="pricing-plan-alert-info" role="alert"> You're not quite ready to process the payment.
-    You need to connect your AWS account to proceed further. <a href="<?php echo $view['router']->path('mautic_config_action', ['objectAction' => 'edit']); ?>">
+    You need to connect your Email Provider account to proceed further. <a href="<?php echo $view['router']->path('mautic_config_action', ['objectAction' => 'edit']); ?>">
         Click Here
     </a> to connect it.</div>
+<br>
+<br>
+<br>
+<br>
 <div class="pricing-plan-holder" data-email-transaport="<?php echo $transport ?>">
+    <div class="col-md-4 pricing-plan-list plan-monthly">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="pricing-plan-header">
+                    <div class="sub-plan-header">Pay Monthly</div>
+                    <div class="price">
+                        <span>$</span>
+                        <span>149</span>
+                    </div>
+                    <div class="price-desc">Per Month, Billed Monthly</div>
+                </div>
+                <div class="details-list">
+                    <span>Unlimited Contacts</span>
+<!--                    <span>Priority Support Via Email</span>-->
+                    <span>Unlimited Team Members</span>
+                    <span>All Leadsengage Features </span>
+                </div>
+                <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="149" data-plancredits="UL" data-validity="1" class="btn btn-success plan-btn">
+                    Subscribe
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <div class="col-md-4 pricing-plan-list">
+    <div class="col-md-4 pricing-plan-list plan-yearly">
         <div class="panel panel-default">
+            <div class="highlight-ribbon">
+                <span class="highlight-ribbon-span">Save 33%</span>
+            </div>
             <div class="panel-body">
-                <h4 class="plan-header">Emails Via Amazon SES</h4>
-                <div class="sub-plan-header">10,000 contacts</div>
-                <div class="price">
-                    <span>$</span>
-                    <span>9</span>
+                <div class="pricing-plan-header">
+                    <div class="sub-plan-header">Pay Annually</div>
+                    <div class="price">
+                        <span>$</span>
+                        <span>99</span>
+                    </div>
+                    <div class="price-desc">Per Month, Billed Annually - $1188/yr</div>
                 </div>
-                <div class="price-desc">Per Month,Billed Monthly</div>
                 <div class="details-list">
-                    <span>All Features Included</span>
-<!--                    <span>Priority Support Via Email</span>-->
-                    <span>$9 extra for every 10,000 additional contacts</span>
-                    <span>AWS SES charges are extra and paid to Amazon</span>
+                    <span>Unlimited Contacts</span>
+                    <!--                    <span>Priority Support Via Email</span>-->
+                    <span>Unlimited Team Members</span>
+                    <span>All Leadsengage Features </span>
                 </div>
-                <a href="#" type="button" data-planname="viaaws" data-plancurrency="$" data-planamount="9" data-plancredits="10000" class="btn btn-success plan-btn">
+                <a href="#" type="button" data-planname="leplan1" data-plancurrency="$" data-planamount="<?php echo 12 * 99; ?>" data-plancredits="UL" data-validity="12" class="btn btn-success plan-btn">
                     Subscribe
                 </a>
             </div>
         </div>
     </div>
-    <div class="col-md-4 pricing-plan-list">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h4 class="plan-header">Emails Via LeadsEngage</h4>
-                <div class="sub-plan-header">10,000 contacts</div>
-                <div class="price">
-                    <span>$</span>
-                    <span>29</span>
-                </div>
-                <div class="price-desc">Per Month,Billed Monthly</div>
-                <div class="details-list">
-                    <span>All Features Included</span>
-<!--                    <span>Priority Support Via Email</span>-->
-                    <span>$29 extra for every 10,000 additional contacts</span>
-                    <span>Charges include email deliveries</span>
-                </div>
-                <a href="#" type="button"  data-planname="viale" data-plancurrency="$" data-planamount="29" data-plancredits="10000" class="btn btn-success plan-btn">
-                    Subscribe
-                </a>
-            </div>
-        </div>
-    </div>
+
 </div>
 <div class="pricing-type-modal-backdrop hide" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
 

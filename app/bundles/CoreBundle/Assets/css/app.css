@@ -1398,7 +1398,7 @@ blockquote > p:after {
 }
 .btn-sm.viewinvoice:hover{
   background-color: #fff;
-  border-color: #375695;
+  border-color: #d81b60;
   color: #d81b60;
   font-weight: 700;
 }

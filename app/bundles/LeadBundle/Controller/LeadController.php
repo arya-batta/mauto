@@ -13,6 +13,7 @@ namespace Mautic\LeadBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\EmojiHelper;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Model\IteratorExportDataModel;
 use Mautic\LeadBundle\DataObject\LeadManipulator;
 use Mautic\LeadBundle\Entity\DoNotContact;
@@ -52,6 +53,30 @@ class LeadController extends FormController
             ],
             'RETURN_ARRAY'
         );
+
+        $videoarg       = $this->request->get('login');
+        $loginsession   = $this->get('session');
+        $loginarg       = $loginsession->get('isLogin');
+        $dbhost         = $this->coreParametersHelper->getParameter('le_db_host');
+        $showsetup      = false;
+        $billformview   = '';
+        $accformview    = '';
+        $userformview   = '';
+        $videoURL       = '';
+        $showvideo      = false;
+        $kycview        = $this->get('mautic.helper.licenseinfo')->getFirstTimeSetup($dbhost, $loginarg);
+
+        $ismobile = InputHelper::isMobile();
+        if (sizeof($kycview) > 0) {
+            $showsetup      = true;
+            $billformview   = $kycview[0];
+            $accformview    = $kycview[1];
+            $userformview   = $kycview[2];
+            $videoURL       = '';
+            $showvideo      = false;
+        } else {
+            $loginsession->set('isLogin', false);
+        }
 
         if (!$permissions['lead:leads:viewown'] && !$permissions['lead:leads:viewother']) {
             return $this->accessDenied();
@@ -250,22 +275,29 @@ class LeadController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'searchValue'      => $search,
-                    'filters'          => $listFilters,
-                    'items'            => $leads,
-                    'page'             => $page,
-                    'totalItems'       => $count,
-                    'limit'            => $limit,
-                    'permissions'      => $permissions,
-                    'tmpl'             => $tmpl,
-                    'indexMode'        => $indexMode,
-                    'lists'            => $lists,
-                    'currentList'      => $list,
-                    'security'         => $this->get('mautic.security'),
-                    'inSingleList'     => $inSingleList,
-                    'noContactList'    => $emailRepo->getDoNotEmailList(array_keys($leads)),
-                    'maxLeadId'        => $maxLeadId,
-                    'anonymousShowing' => $anonymousShowing,
+                    'searchValue'          => $search,
+                    'filters'              => $listFilters,
+                    'items'                => $leads,
+                    'page'                 => $page,
+                    'totalItems'           => $count,
+                    'limit'                => $limit,
+                    'permissions'          => $permissions,
+                    'tmpl'                 => $tmpl,
+                    'indexMode'            => $indexMode,
+                    'lists'                => $lists,
+                    'currentList'          => $list,
+                    'security'             => $this->get('mautic.security'),
+                    'inSingleList'         => $inSingleList,
+                    'noContactList'        => $emailRepo->getDoNotEmailList(array_keys($leads)),
+                    'maxLeadId'            => $maxLeadId,
+                    'anonymousShowing'     => $anonymousShowing,
+                    'showvideo'            => $showvideo,
+                    'videoURL'             => $videoURL,
+                    'showsetup'            => $showsetup,
+                    'billingform'          => $billformview,
+                    'accountform'          => $accformview,
+                    'userform'             => $userformview,
+                    'isMobile'             => $ismobile,
                 ],
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
@@ -1202,7 +1234,7 @@ class LeadController extends FormController
                 $deleteCount      =$this->get('mautic.helper.licenseinfo')->getDeleteCount();
                 $totalRecordCount =$this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
                 $totalDeleteCount = $deleteCount + 1;
-                if (($totalRecordCount * 2) >= $totalDeleteCount) {
+                if (($totalRecordCount * 2) >= $totalDeleteCount || $totalRecordCount == 'UL') {
                     $model->deleteEntity($entity);
                     $this->get('mautic.helper.licenseinfo')->intRecordCount('1', false);
                     $this->get('mautic.helper.licenseinfo')->intDeleteCount('1', true);
@@ -1294,7 +1326,7 @@ class LeadController extends FormController
                 $totalRecordCount =$this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
                 $pendingDelete    = $dbDeleteCount + $deleteCounts;
 
-                if (($totalRecordCount * 2) >= $pendingDelete) {
+                if (($totalRecordCount * 2) >= $pendingDelete || $totalRecordCount == 'UL') {
                     $entities = $model->deleteEntities($deleteIds);
                     $this->get('mautic.helper.licenseinfo')->intRecordCount($deleteCounts, false);
                     $this->get('mautic.helper.licenseinfo')->intDeleteCount($deleteCounts, true);

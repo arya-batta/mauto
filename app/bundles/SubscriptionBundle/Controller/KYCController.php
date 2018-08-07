@@ -122,7 +122,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', false);
 
-            return $this->delegateRedirect($this->generateUrl('mautic_dashboard_index'));
+            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
         }
 
         return $this->delegateView(
@@ -254,7 +254,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', true);
 
-            return $this->delegateRedirect($this->generateUrl('mautic_dashboard_index'));
+            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
         }
 
         return $this->delegateView(

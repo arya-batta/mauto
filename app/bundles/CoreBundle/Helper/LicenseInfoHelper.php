@@ -11,6 +11,9 @@ namespace Mautic\CoreBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use Mautic\CoreBundle\Entity\LicenseInfo;
 use Mautic\CoreBundle\Entity\LicenseInfoRepository;
+use Mautic\CoreBundle\Factory\MauticFactory;
+use Mautic\SubscriptionBundle\Entity\Account;
+use Mautic\SubscriptionBundle\Entity\Billing;
 
 class LicenseInfoHelper
 {
@@ -22,15 +25,22 @@ class LicenseInfoHelper
     private $licenseinfo;
 
     /**
+     * @var MauticFactory
+     */
+    private $factory;
+
+    /**
      * LicenseInfoHelper constructor.
      *
      * @param EntityManager         $entityManager
      * @param LicenseInfoRepository $licenseinforepository
+     * @param MauticFactory         $factory
      */
-    public function __construct(EntityManager $entityManager, LicenseInfoRepository $licenseinforepository)
+    public function __construct(EntityManager $entityManager, LicenseInfoRepository $licenseinforepository, MauticFactory $factory)
     {
         $this->em         = $entityManager;
         $this->licenseinfo=$licenseinforepository;
+        $this->factory    = $factory;
     }
 
     public function intRecordCount($totalRecordCount, $isSum)
@@ -703,6 +713,11 @@ class LicenseInfoHelper
         $totalEmailCount  = $entity->getTotalEmailCount();
         $actualEmailCount = $entity->getActualEmailCount();
 
+        $configtransport = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
+        if ($configtransport == 'le.transport.vialeadsengage') {
+            $totalEmailCount = 100;
+        }
+
         if ($totalEmailCount == 'UL') {
             return $totalEmailCount;
         } else {
@@ -878,5 +893,112 @@ class LicenseInfoHelper
         } else {
             return 'InActive';
         }
+    }
+
+    public function getFirstTimeSetup($dbhost = 'localhost', $islogin = false)
+    {
+        if ($dbhost == 'localhost' && $islogin) {
+            $billformview = '';
+            $accformview  = '';
+            $userformview = '';
+            $kycview      = [];
+            $showsetup    = false;
+            /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
+            $usermodel  = $this->factory->getModel('user.user');
+            $userentity = $usermodel->getCurrentUserEntity();
+
+            $userform = $usermodel->createForm($userentity, $this->factory->get('form.factory'));
+
+            /** @var \Mautic\SubscriptionBundle\Model\BillingModel $billingmodel */
+            $billingmodel  = $this->factory->getModel('subscription.billinginfo');
+            $billingrepo   = $billingmodel->getRepository();
+            $billingentity = $billingrepo->findAll();
+            if (sizeof($billingentity) > 0) {
+                $billing = $billingentity[0]; //$model->getEntity(1);
+            } else {
+                $showsetup = true;
+                $billing   = new Billing();
+            }
+            $countrydetails = $this->getCountryName();
+            $timezone       = $countrydetails['timezone'];
+            $countryname    = $countrydetails['countryname'];
+            //if ($countryname == 'India') {
+            //    $timezone = 'Asia/Calcutta';
+            $billing->setCountry($countryname);
+            //}
+            $repository = $this->factory->get('le.core.repository.subscription');
+            $signupinfo = $repository->getSignupInfo($userentity->getEmail());
+            if (!empty($signupinfo)) {
+                $billing->setCompanyname($signupinfo[0]['f2']);
+                $billing->setAccountingemail($userentity->getEmail());
+            }
+
+            $billform = $billingmodel->createForm($billing, $this->factory->get('form.factory'), [], ['isBilling' => false]);
+
+            /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+            $model         = $this->factory->getModel('subscription.accountinfo');
+            $accrepo       = $model->getRepository();
+            $accountentity = $accrepo->findAll();
+            if (sizeof($accountentity) > 0) {
+                $account = $accountentity[0]; //$model->getEntity(1);
+                if (!$account->getMobileverified()) {
+                    $showsetup = true;
+                }
+            } else {
+                $showsetup = true;
+                $account   = new Account();
+            }
+            if (!empty($signupinfo)) {
+                $account->setPhonenumber($signupinfo[0]['f11']);
+            }
+            if ($timezone != '') {
+                $account->setTimezone($timezone);
+            }
+            $accform = $model->createForm($account, $this->factory->get('form.factory'));
+            if ($showsetup) {
+                $billformview = $billform->createView();
+                $accformview  = $accform->createView();
+                $userformview = $userform->createView();
+                $kycview[]    = $billformview;
+                $kycview[]    = $accformview;
+                $kycview[]    = $userformview;
+            } else {
+                $kycview = [];
+            }
+
+            return $kycview;
+        } else {
+            return [];
+        }
+    }
+
+    public function getCountryName()
+    {
+        $clientip                      = $this->factory->getRequest()->getClientIp();
+        $dataArray                     = json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.$clientip));
+        $countrycode                   = $dataArray->{'geoplugin_countryName'};
+        $lat                           = $dataArray->{'geoplugin_latitude'};
+        $lon                           = $dataArray->{'geoplugin_longitude'};
+        $countrydetails                = [];
+        $countrydetails['countryname'] = $countrycode;
+        $timezone                      = '';
+        if ($lat != null && $lon != null) {
+            $timezone = $this->getTimeZone($lat, $lon);
+        }
+        $countrydetails['timezone']    = $timezone;
+
+        return $countrydetails;
+    }
+
+    public function getTimeZone($lat, $lon)
+    {
+        $url             = "https://maps.googleapis.com/maps/api/timezone/json?location=$lat,$lon&timestamp=1458000000";
+        $dataArray       = json_decode(file_get_contents($url));
+        $timezone        =$dataArray->{'timeZoneId'};
+        if ($timezone == 'Asia/Kolkata') {
+            $timezone = 'Asia/Calcutta';
+        }
+
+        return $timezone;
     }
 }

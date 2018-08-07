@@ -14,8 +14,6 @@ namespace Mautic\DashboardBundle\Controller;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\DashboardBundle\Entity\Widget;
-use Mautic\SubscriptionBundle\Entity\Account;
-use Mautic\SubscriptionBundle\Entity\Billing;
 use Mautic\SubscriptionBundle\Entity\UserPreference;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Form\FormError;
@@ -42,60 +40,8 @@ class DashboardController extends FormController
         $accformview  = '';
         $userformview = '';
 
-        if ($dbhost != 'localhost' && $loginarg) {
-            /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
-            $usermodel     = $this->getModel('user.user');
-            $userentity    = $usermodel->getCurrentUserEntity();
+        $kycview = $this->get('mautic.helper.licenseinfo')->getFirstTimeSetup($dbhost, $loginarg);
 
-            $userform = $usermodel->createForm($userentity, $this->get('form.factory'));
-
-            /** @var \Mautic\SubscriptionBundle\Model\BillingModel $billingmodel */
-            $billingmodel  = $this->getModel('subscription.billinginfo');
-            $billingrepo   = $billingmodel->getRepository();
-            $billingentity = $billingrepo->findAll();
-            if (sizeof($billingentity) > 0) {
-                $billing = $billingentity[0]; //$model->getEntity(1);
-            } else {
-                $showsetup = true;
-                $billing   = new Billing();
-            }
-            $countrydetails = $this->getCountryName();
-            $timezone       = $countrydetails['timezone'];
-            $countryname    = $countrydetails['countryname'];
-            //if ($countryname == 'India') {
-            //    $timezone = 'Asia/Calcutta';
-            $billing->setCountry($countryname);
-            //}
-            $repository  =$this->get('le.core.repository.subscription');
-            $signupinfo  =$repository->getSignupInfo($userentity->getEmail());
-            if (!empty($signupinfo)) {
-                $billing->setCompanyname($signupinfo[0]['f2']);
-                $billing->setAccountingemail($userentity->getEmail());
-            }
-
-            $billform = $billingmodel->createForm($billing, $this->get('form.factory'), [], ['isBilling' => false]);
-
-            /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
-            $model         = $this->getModel('subscription.accountinfo');
-            $accrepo       = $model->getRepository();
-            $accountentity = $accrepo->findAll();
-            if (sizeof($accountentity) > 0) {
-                $account = $accountentity[0]; //$model->getEntity(1);
-                if (!$account->getMobileverified()) {
-                    $showsetup = true;
-                }
-            } else {
-                $showsetup = true;
-                $account   = new Account();
-            }
-            if (!empty($signupinfo)) {
-                $account->setPhonenumber($signupinfo[0]['f11']);
-            }
-            if ($timezone != '') {
-                $account->setTimezone($timezone);
-            }
-            $accform = $model->createForm($account, $this->get('form.factory'));
-        }
         /** @var \Mautic\DashboardBundle\Model\DashboardModel $model */
         $model   = $this->getModel('dashboard');
         $widgets = $model->getWidgets();
@@ -169,10 +115,11 @@ class DashboardController extends FormController
             $showvideo = true;
         }
         $ismobile = InputHelper::isMobile();
-        if ($showsetup) {
-            $billformview = $billform->createView();
-            $accformview  = $accform->createView();
-            $userformview = $userform->createView();
+        if (sizeof($kycview) > 0) {
+            $showsetup    = true;
+            $billformview = $kycview[0];
+            $accformview  = $kycview[1];
+            $userformview = $kycview[2];
         } else {
             $loginsession->set('isLogin', false);
         }
@@ -640,36 +587,6 @@ class DashboardController extends FormController
                 ],
             ]
         );
-    }
-
-    public function getCountryName()
-    {
-        $clientip                      = $this->request->getClientIp();
-        $dataArray                     = json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.$clientip));
-        $countrycode                   = $dataArray->{'geoplugin_countryName'};
-        $lat                           = $dataArray->{'geoplugin_latitude'};
-        $lon                           = $dataArray->{'geoplugin_longitude'};
-        $countrydetails                = [];
-        $countrydetails['countryname'] = $countrycode;
-        $timezone                      = '';
-        if ($lat != null && $lon != null) {
-            $timezone = $this->getTimeZone($lat, $lon);
-        }
-        $countrydetails['timezone']    = $timezone;
-
-        return $countrydetails;
-    }
-
-    public function getTimeZone($lat, $lon)
-    {
-        $url             = "https://maps.googleapis.com/maps/api/timezone/json?location=$lat,$lon&timestamp=1458000000";
-        $dataArray       = json_decode(file_get_contents($url));
-        $timezone        =$dataArray->{'timeZoneId'};
-        if ($timezone == 'Asia/Kolkata') {
-            $timezone = 'Asia/Calcutta';
-        }
-
-        return $timezone;
     }
 
     /**

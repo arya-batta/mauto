@@ -44,22 +44,23 @@ Mautic.pricingplansOnLoad = function (container) {
         var planamount = currentLink.attr('data-planamount');
         var plancurrency = currentLink.attr('data-plancurrency');
         var plancredits = currentLink.attr('data-plancredits');
+        var planvalidity = currentLink.attr('data-validity');
         var paynowbtn=mQuery('.pay-now-btn');
         var emailtransport=mQuery('.pricing-plan-holder').attr('data-email-transaport');
-        if(emailtransport == 'viale' && planname == 'viaaws'){
-    mQuery('#pricing-plan-alert-info').removeClass('hide');
-}else{
+        if(emailtransport == 'viale'){
+            mQuery('#pricing-plan-alert-info').removeClass('hide');
+        }else{
             mQuery('#pricing-plan-alert-info').addClass('hide');
-    paynowbtn.html("Pay Now"+" ("+plancurrency+planamount+")");
-    paynowbtn.attr("planamount",planamount);
-    paynowbtn.attr("plancurrency",plancurrency);
-    paynowbtn.attr("plancredits",plancredits);
-    paynowbtn.attr("planname",planname);
-    mQuery('.pricing-type-modal-backdrop').removeClass('hide');
-    mQuery('.pricing-type-modal').removeClass('hide');
-    mountStripeCard(stripe,card,'#card-holder-widget');
-}
-
+            paynowbtn.html("Pay Now"+" ("+plancurrency+planamount+")");
+            paynowbtn.attr("planamount",planamount);
+            paynowbtn.attr("plancurrency",plancurrency);
+            paynowbtn.attr("plancredits",plancredits);
+            paynowbtn.attr("planname",planname);
+            paynowbtn.attr("planvalidity",planvalidity);
+            mQuery('.pricing-type-modal-backdrop').removeClass('hide');
+            mQuery('.pricing-type-modal').removeClass('hide');
+            mountStripeCard(stripe,card,'#card-holder-widget');
+        }
     });
     mQuery('.pay-now-btn').click(function(e) {
         e.preventDefault();
@@ -68,6 +69,7 @@ Mautic.pricingplansOnLoad = function (container) {
         var plancurrency = currentLink.attr('plancurrency');
         var planname = currentLink.attr('planname');
         var plancredits = currentLink.attr('plancredits');
+        var planvalidity = currentLink.attr('planvalidity');
         Mautic.activateButtonLoadingIndicator(currentLink);
         stripe.createToken(card).then(function(result) {
             if (result.error) {
@@ -135,16 +137,18 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
     var plancurrency="$";
     var plancredits=0;
     var planname="";
+    var planvalidity="";
     var isCardUpdateAlone=true;
     if(btnelement != null){
         planamount = btnelement.attr('planamount');
         plancurrency = btnelement.attr('plancurrency');
         planname = btnelement.attr('planname');
         plancredits = btnelement.attr('plancredits');
+        planvalidity = btnelement.attr('planvalidity');
         isCardUpdateAlone=false;
     }
     // Insert the token ID into the form so it gets submitted to the server
-    Mautic.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,isCardUpdateAlone:isCardUpdateAlone}, function(response) {
+    Mautic.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,planvalidity:planvalidity,isCardUpdateAlone:isCardUpdateAlone}, function(response) {
 
         if(isCardUpdateAlone){
             Mautic.deactivateBackgroup();

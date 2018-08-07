@@ -80,6 +80,20 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
     $custom[]     = array_merge($changeStage, $customButton);
     $customButtons=$custom[0];
 }
+if ($showsetup) {
+    echo $view->render('MauticSubscriptionBundle:Subscription:kyc.html.php',
+        [
+            'typePrefix' => 'email',
+            'form'       => $accountform,
+            'billform'   => $billingform,
+            'userform'   => $userform,
+            'videoURL'   => $videoURL,
+            'showSetup'  => $showsetup,
+            'showVideo'  => $showvideo,
+            'isMobile'   => $isMobile,
+        ]);
+}
+
 ?>
 
 <?php if (count($items)): ?>

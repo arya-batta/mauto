@@ -265,7 +265,7 @@ class AjaxController extends CommonAjaxController
         $dataArray['otp']         = $otp;
         $dataArray['otpsend']     = $otpsend;
         $dataArray['mobile']      = $phonenumber;
-        $url                      = $this->generateUrl('mautic_dashboard_index');
+        $url                      = $this->generateUrl('mautic_contact_index');
         $dataArray['redirecturl'] = $url;
 
         return $this->sendJsonResponse($dataArray);
@@ -320,7 +320,7 @@ class AjaxController extends CommonAjaxController
             $signuprepository->updateCustomerStatus('Active', 'Trial', $email);
         }
         $dataArray                = ['success' => true];
-        $url                      = $this->generateUrl('mautic_dashboard_index');
+        $url                      = $this->generateUrl('mautic_contact_index');
         $dataArray['redirecturl'] = $url;
 
         return $this->sendJsonResponse($dataArray);
@@ -757,6 +757,7 @@ class AjaxController extends CommonAjaxController
         $planname                       = $request->request->get('planname');
         $plancredits                    = $request->request->get('plancredits');
         $isCardUpdateAlone              = $request->request->get('isCardUpdateAlone');
+        $planvalidity                   = $request->request->get('planvalidity');
         // file_put_contents("/var/www/mauto/app/logs/stripe.txt",$isCardUpdateAlone,FILE_APPEND);
         $apikey=$this->coreParametersHelper->getParameter('stripe_api_key');
         \Stripe\Stripe::setApiKey($apikey);
@@ -895,7 +896,7 @@ class AjaxController extends CommonAjaxController
                         $createdby    =$user->getId();
                         $createdbyuser=$user->getName();
                     }
-                    $validitytill       =date('Y-m-d', strtotime('+1 months'));
+                    $validitytill       =date('Y-m-d', strtotime('+'.$planvalidity.' months'));
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser);
                     $subsrepository     =$this->get('le.core.repository.subscription');

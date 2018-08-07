@@ -418,7 +418,9 @@ return [
             'mautic.helper.licenseinfo' => [
                 'class'     => 'Mautic\CoreBundle\Helper\LicenseInfoHelper',
                 'arguments' => ['doctrine.orm.entity_manager',
-                                'mautic.email.repository.licenseinfo', ],
+                                'mautic.email.repository.licenseinfo',
+                                'mautic.factory',
+                                ],
             ],
             'mautic.helper.template.menu' => [
                 'class'     => 'Mautic\CoreBundle\Templating\Helper\MenuHelper',

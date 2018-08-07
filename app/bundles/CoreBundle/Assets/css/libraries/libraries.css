@@ -18831,10 +18831,10 @@ html body .fr-gatedvideo-overlay {
   margin-left: 10px;
 }
 .plan-list .details-list span {
-display: block;
+  display: block;
 }
 .plan-list .details-list{
-  padding-top: 10px;
+  padding-top: 15px;
   padding-bottom: 10px;
   text-align: center;
 
@@ -18842,7 +18842,6 @@ display: block;
 .plan-list .feature-list span {
   display: block;
 }
-
 .plan-list .feature-list{
   padding-top: 10px;
   padding-bottom: 10px;
@@ -18857,7 +18856,6 @@ display: block;
   margin-bottom: 10px;
   text-transform: uppercase;
 }
-
 .plan-list .plan-btn {
   display: block;
   font-size: 14px;
@@ -19218,9 +19216,10 @@ padding:5px;
 }
 .pricing-plan-list .details-list span {
   display: block;
+  padding-left:20%;
   padding-bottom: 10px;
   font-weight: 600;
-  text-align: center;
+  /*text-align: center;*/
 }
 .pricing-plan-list .details-list span:before{
   content: "\2713";
@@ -19231,9 +19230,9 @@ padding:5px;
   font-size: 15px;
 }
 .pricing-plan-list .details-list{
-  padding-top: 10px;
-  padding-bottom: 10px;
-  height: 150px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: auto;
 }
 .pricing-plan-list .plan-header{
   font-size: 18px;
@@ -19241,7 +19240,7 @@ padding:5px;
   text-align: center;
   margin-bottom: 10px;
   text-transform: uppercase;
-  background: #375695;
+  background: #000;
   padding: 10px;
   color: #fff;
   font-weight: 600;
@@ -19250,8 +19249,8 @@ padding:5px;
 .pricing-plan-list .sub-plan-header{
   text-align: center;
   font-size: 20px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   color: #444;
   font-weight: 600;
 }
@@ -19269,9 +19268,9 @@ padding:5px;
 }
 .pricing-plan-list .price-desc{
   text-align: center;
-  font-size: 16px;
+  font-size: 1em;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #444;
   font-weight: 600;
   width: 100%;
@@ -19287,6 +19286,12 @@ padding:5px;
   position: relative;
   top: -15px;
   font-size: 22px;
+}
+.plan-yearly > .panel-default{
+  border-top: 2px solid #f3595b;
+}
+.plan-monthly > .panel-default{
+  border-top: 5px solid #2ebd59;
 }
 .pay-now-btn{
   margin-top: 15px;
@@ -19329,4 +19334,29 @@ padding:5px;
   display: block;
   width:100px;
   cursor: pointer;
+}
+.panel-default .highlight-ribbon {
+  margin-top: -11%;
+  background: #f3595b;
+  height: 35px;
+  text-align: center;
+  padding-top: 3px;
+}
+.highlight-ribbon > span{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+}
+.panel-body .pricing-plan-header {
+  border-bottom: 1px solid #000;
+}
+.plan-monthly .plan-btn{
+  text-shadow: 0 1px 8px rgba(0,0,0,.5);
+  background-color: #2ebd59;
+  border-color: #249446;
+}
+.plan-yearly .plan-btn{
+  text-shadow: 0 1px 8px rgba(0,0,0,.5);
+  background-color: #f3595b;
+  border-color: #f0292c;
 }

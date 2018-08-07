@@ -65,7 +65,7 @@ class PaymentRepository extends CommonRepository
         $paymenthistory->setAfterCredits($netcredits);
         $paymenthistory->setValidityTill($validitytill);
         $paymenthistory->setPlanName($planname);
-        $paymenthistory->setPlanLabel($planname == 'viaaws' ? 'SES' : 'LE');
+        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'Unlimited Leads - Yearly Subscription' : 'Unlimited Leads - Monthly Subscription');
         $paymenthistory->setcreatedBy($createdby);
         $paymenthistory->setcreatedByUser($createdbyuser);
         $paymenthistory->setcreatedOn(new \DateTime());

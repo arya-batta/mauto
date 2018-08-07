@@ -57,10 +57,10 @@ class SubscriptionController extends CommonController
         // $repository=$this->get('le.core.repository.subscription');
         //  $planinfo  =$repository->getAllPrepaidPlans();
         $paymenthelper     =$this->get('le.helper.payment');
-        $configtransport   =$this->coreParametersHelper->getParameter('mailer_transport');
-        $transport         ='viale';
-        if ($configtransport == 'mautic.transport.amazon') {
-            $transport='viaaws';
+        $configtransport   =$this->coreParametersHelper->getParameter('mailer_transport_name');
+        $transport         ='viaothers';
+        if ($configtransport == 'le.transport.vialeadsengage') {
+            $transport='viaothers';
         }
 
         return $this->delegateView([
@@ -128,7 +128,7 @@ class SubscriptionController extends CommonController
         if ($orderid != '') {
             $paymentrepository  =$this->get('le.subscription.repository.payment');
             $paymenthistory     = $paymentrepository->findBy(['orderid' => $orderid]);
-            $payment            =$paymenthistory[0];
+            $payment            = $paymenthistory[0];
 
             return $this->delegateView([
                 'viewParameters' => [

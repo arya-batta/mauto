@@ -41,16 +41,16 @@ if ($totalContactCredits != 'UL') {
                         </div>
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
-                            <div class="trial-info-block <?php echo $planType == 'Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> contacts and <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : $totalEmailCredits?></b> emails. Your free trial ends in <b><?php echo $trialEndDays?></b> days.</span>
-                                <span class='plan-info-lbl2'>Your current usage for the trial period  is <b><?php echo $contactUsage?></b> contacts<b><?php echo $contactusageper?></b> and <b><?php echo $emailUsage?></b> email sends.</span>
+                            <div class="trial-info-block <?php echo $planType == 'Free' ? '' : 'hide' ?>">
+                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> leads and <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : $totalEmailCredits?></b> emails. Your free trial ends in <b><?php echo $trialEndDays?></b> days.</span>
+                                <span class='plan-info-lbl2'>Your current usage for the free period  is <b><?php echo $contactUsage?></b> leads<b><?php echo $contactusageper?></b> and <b><?php echo $emailUsage?></b> email sends.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Subscribe
                                 </a>
                             </div>
-                            <div class="paid-info-block <?php echo $planType == 'Trial' ? 'hide' : '' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> contacts and <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : $totalEmailCredits?></b> email sends.</span>
-                                <span class='plan-info-lbl2'>Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <b><?php echo $contactUsage?></b> contacts<b><?php echo $contactusageper?></b> and <b><?php echo $emailUsage?></b> email sends.</span>
+                            <div class="paid-info-block <?php echo $planType == 'Free' ? 'hide' : '' ?>">
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> leads and <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : $totalEmailCredits?></b> email sends.</span>
+                                <span class='plan-info-lbl2'>Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <b><?php echo $contactUsage?></b> leads<b><?php echo $contactusageper?></b> and <b><?php echo $emailUsage?></b> email sends.</span>
                             </div>
                         </div>
                     </div>

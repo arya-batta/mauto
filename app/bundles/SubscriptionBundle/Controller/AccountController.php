@@ -46,7 +46,12 @@ class AccountController extends FormController
         } else {
             $account = new Account();
         }
-        $form          = $model->createForm($account, $this->get('form.factory'), $action);
+        $disablepoweredby   = 1;
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($lastpayment != null) {
+            $disablepoweredby = 0;
+        }
+        $form          = $model->createForm($account, $this->get('form.factory'), $action, ['isPoweredBy' => $disablepoweredby]);
         if ($this->request->getMethod() == 'POST') {
             $isValid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
@@ -86,7 +91,7 @@ class AccountController extends FormController
                 if (!$cancelled && $this->isFormApplied($form)) {
                     return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'edit']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('mautic_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
                 }
             }
         }
@@ -148,7 +153,7 @@ class AccountController extends FormController
                 if (!$cancelled && $this->isFormApplied($form)) {
                     return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'billing']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('mautic_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
                 }
             }
         }
@@ -166,16 +171,20 @@ class AccountController extends FormController
         $emailValidityEndDays = round((strtotime($emailValidityEndDate) - strtotime($currentDate)) / 86400);
         $emailUsage           =$statrepo->getSentCountsByDate($monthStartDate);
         $trialEndDays         =$this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
-        $planType             ='Trial';
+        $planType             ='Free';
         $paymentrepository    =$this->get('le.subscription.repository.payment');
         $lastpayment          =$paymentrepository->getLastPayment();
         $validityTill         ='';
         $planAmount           ='';
         $datehelper           =$this->get('mautic.helper.template.date');
         if ($lastpayment != null) {
-            $planType    ='Paid';
+            $planType    = $lastpayment->getPlanLabel();
             $validityTill=$datehelper->toDate($lastpayment->getValidityTill());
             $planAmount  =$lastpayment->getCurrency().$lastpayment->getAmount();
+            if ($lastpayment->getPlanName() == 'leplan1') {
+                $planAmount = ($lastpayment->getAmount() / 12);
+                $planAmount = $lastpayment->getCurrency().$planAmount;
+            }
         }
 
         return $this->delegateView([

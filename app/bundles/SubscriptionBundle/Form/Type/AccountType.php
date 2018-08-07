@@ -19,6 +19,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\ReportBundle\Model\ReportModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -179,7 +180,10 @@ class AccountType extends AbstractType
                 'required'    => false,
             ]
         );
-
+        $ispoweredby = true;
+        if (isset($options['isPoweredBy'])) {
+            $ispoweredby = $options['isPoweredBy'];
+        }
         $builder->add(
             'needpoweredby',
             'yesno_button_group',
@@ -187,7 +191,7 @@ class AccountType extends AbstractType
                 'label'      => 'leadsengage.subs.accountpowered',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control'],
-                'disabled'   => 1,
+                'disabled'   => $ispoweredby,
                 'data'       => true,
             ]
         );
@@ -209,6 +213,19 @@ class AccountType extends AbstractType
 
         // Alpha sort the languages by name
         asort($langChoices);
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class'    => 'Mautic\SubscriptionBundle\Entity\Account',
+                'isPoweredBy'   => false,
+            ]
+        );
     }
 
     /**

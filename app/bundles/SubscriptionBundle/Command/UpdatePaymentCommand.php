@@ -67,9 +67,13 @@ class UpdatePaymentCommand extends ModeratedCommand
                     if (sizeof($stripecards) > 0) {
                         $stripecard = $stripecards[0];
                     }
+                    $monthcount = 1;
+                    if ($planname == 'leplan1') {
+                        $monthcount = 12;
+                    }
                     if ($stripecard != null) {
                         $ismoreusage=false;
-                        if ($totalrecordcount < $actualrecordcount) {
+                        if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
                             $ismoreusage=true;
                         }
                         $isvalidityexpired=false;
@@ -84,9 +88,9 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $multiplx   =ceil($actualrecordcount / 10000);
                             }
                             if ($isvalidityexpired) {
-                                $netamount   =$planamount * $multiplx;
-                                $netcredits  =$plancredits * $multiplx;
-                                $validitytill=date('Y-m-d', strtotime($validitytill.' +1 months'));
+                                $netamount   =$planamount; // * $multiplx;
+                                $netcredits  =$plancredits; // * $multiplx;
+                                $validitytill=date('Y-m-d', strtotime($validitytill.'+'.$monthcount.' months'));
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;

@@ -21,6 +21,7 @@ if ($billing->getState() == 'Tamil Nadu') {
 if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
     $showcgst = $showgst = 'hide';
 }
+$planaftercredit = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
 ?>
 <html>
 <head>
@@ -186,7 +187,7 @@ if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
                     <?php echo $payment->getPlanLabel(); ?>
                 </td>
                 <td class="table_body description_body">
-                    <span><?php echo 'Up To '.number_format($payment->getAfterCredits()).' Contact Credits '; ?></span> <!--Email Credits-->
+                    <span><?php echo 'Up To '.$planaftercredit.' leads Credits '; ?></span> <!--Email Credits-->
                 </td>
                 <td class="table_body service_body">
                     <?php echo $view['date']->toDate($payment->getcreatedOn()); ?> -<br> <?php echo $view['date']->toDate($payment->getValidityTill()); ?>
