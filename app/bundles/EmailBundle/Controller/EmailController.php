@@ -514,8 +514,10 @@ class EmailController extends FormController
         if (!$this->get('mautic.security')->isGranted('email:emails:create')) {
             return $this->accessDenied();
         }
-        $fromName   = $entity->getFromName();
-        $fromAdress = $entity->getFromAddress();
+        $fromName          = $entity->getFromName();
+        $fromAdress        = $entity->getFromAddress();
+        $unsubscribeFooter = $entity->getUnsubscribeText();
+        $PostalAddress     = $entity->getPostalAddress();
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator= $this->get('mautic.configurator');
 
@@ -526,12 +528,21 @@ class EmailController extends FormController
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];
+        $unsubscribeText = $params['footer_text'];
+        $postaladdress   = $params['postal_address'];
 
         if (empty($fromName)) {
             $entity->setFromName($fromname);
         }
         if (empty($fromAdress)) {
             $entity->setFromAddress($fromadress);
+            $entity->setReplyToAddress($fromadress);
+        }
+        if (empty($unsubscribeFooter)) {
+            $entity->setUnsubscribeText($unsubscribeText);
+        }
+        if (empty($PostalAddress)) {
+            $entity->setPostalAddress($postaladdress);
         }
         $emailValidator = $this->factory->get('mautic.validator.email');
         if ($mailertransport == 'mautic.transport.amazon') {

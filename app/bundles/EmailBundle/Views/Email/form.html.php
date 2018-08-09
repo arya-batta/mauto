@@ -83,217 +83,81 @@ if ($mailertransport != 'mautic.transport.amazon') {
     $pointereventstyle    = '';
     $tabindex             = '';
 }
+$custombutton = [
+        [
+            'name'    => 'beeeditor',
+            'btnText' => 'mautic.core.beeeditor',
+            'attr'    => [
+                'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
+                'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
+            ],
+            'iconClass' => 'fa fa-cube',
+        ],
+];
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
-    <div class="box-layout">
-        <div class="col-md-9 height-auto bg-white">
-            <div class="row">
-                <div class="col-xs-12">
-                    <table style="width: 100%">
-                      <tr>
-                        <td style="width: 80%"><div class="form-group col-xs-12" >
-                              <?php echo $view['form']->label($form['subject']); ?>
-                              <div>
-                                <?php echo $view['form']->widget($form['subject']); ?>
-                              </div>
-                                </div>
-                        </td>
-                        <td style="width: 20%">
-                              <li class="dropdown" style="display: block;">
-                                 <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="margin-top: 10px;font-size: 13px;" data-toggle="dropdown" href="#">
-                                        <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
-                                 </a>
-                              <ul class="dropdown-menu dropdown-menu-right">
-                                 <li>
-                                  <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
-                              </div
-                            </li>
-                               </ul>
-                              </li>
-                            </td>
-                        </tr>
-                    </table>
-                    <!-- tabs controls -->
-                    <ul class="bg-auto nav nav-tabs pr-md pl-md">
-                        <!--builder disabled due to bee editor-->
-                       <!-- <li class="active">
-                            <a href="#email-container" role="tab" data-toggle="tab">
-                                <?php //echo $view['translator']->trans('mautic.core.form.theme');?>
-                            </a>
-                        </li>-->
-                        <li <?php echo $activatebasiceditor != '' ? 'class='.$activatebasiceditor : '' ?>>
-                            <a <?php echo $hidebasiceditor != '' ? 'class='.$hidebasiceditor : '' ?> id="email-editor-basic" href="#email-basic-container" role="tab" data-toggle="tab">
-                                <?php echo $view['translator']->trans('mautic.email.form.editor.basic'); ?>
-                            </a>
-                        </li>
-                        <li <?php echo $activateadvanceeditor != '' ? 'class='.$activateadvanceeditor : '' ?>>
-                            <a <?php echo $hideadvanceeditor != '' ? 'class='.$hideadvanceeditor : '' ?> id="email-editor-advance" href="#email-advance-container" role="tab" data-toggle="tab">
-                                <?php echo $view['translator']->trans('mautic.email.form.editor.advance'); ?>
-                            </a>
-                        </li>
-                        <li <?php echo $activateotherconfig != '' ? 'class='.$activateotherconfig : '' ?>>
-                            <a href="#email-other-container" role="tab" data-toggle="tab">
-                                <?php echo $view['translator']->trans('mautic.email.form.editor.other'); ?>
-                            </a>
-                        </li>
-                        <li id="dynamic-content-tab" <?php echo (!$isCodeMode) ? 'class="hidden"' : ''; ?>>
-                            <a href="#dynamic-content-container" role="tab" data-toggle="tab">
-                                <?php echo $view['translator']->trans('mautic.core.dynamicContent'); ?>
-                            </a>
-                        </li>
-                    </ul>
-                    <!--/ tabs controls -->
-                    <div class="tab-content pa-md">
-                        <!--builder disabled due to bee editor-->
-                       <!-- <div class="tab-pane fade in active bdr-w-0" id="email-container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <?php //echo $view['form']->row($form['template']);?>
-                                </div>
-                            </div>
-                            <?php //echo $view->render('MauticCoreBundle:Helper:theme_select.html.php', [
-                                //'type'   => 'email',
-                               // 'themes' => $themes,
-                              //  'active' => $form['template']->vars['value'],
-                           // ]);?>
-                        </div>-->
-                        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor ?>" id="email-basic-container">
-                            <?php echo $view['form']->widget($form['customHtml']); ?>
-                        </div>
-                        <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor ?>" id="email-advance-container">
-                            <div class="row">
-                                <div class="col-md-12 hide">
-                                    <?php echo $view['form']->row($form['template']); ?>
-                                </div>
-                            </div>
-                            <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
-                                'beetemplates' => $beetemplates,
-                                'active'       => $form['template']->vars['value'],
-                            ]); ?>
-                        </div>
-                        <div class="tab-pane fade bdr-w-0 <?php echo $activateotherconfig ?>" id="email-other-container">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?php echo $view['form']->row($form['fromName']); ?>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pull-left" style="max-width:<?php echo $style; ?>;">
-                                        <?php echo $view['form']->row($form['fromAddress'],
-                                            ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
-                                    </div>
-                                        <?php echo $view['form']->widget($form['fromAddress']); ?>
-                                    <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:23px;" data-toggle="dropdown" href="#">
-                                            <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
-                                            <li>
-                                                    <?php foreach ($verifiedemail as $key=> $value): ?>
-                                            <li >
-                                                <a class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>"><?php echo $value; ?></a>
-                                            </li>
-                                                   <?php endforeach; ?>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?php echo $view['form']->row($form['replyToAddress']); ?>
-                                </div>
-                                <div class="col-md-6">
-                                    <?php echo $view['form']->row($form['bccAddress']); ?>
-                                </div>
-                            </div>
-                            <?php if ($isAdmin):?>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="pull-left">
-                                        <?php echo $view['form']->label($form['assetAttachments']); ?>
-                                    </div>
-                                    <div class="text-right pr-10">
-                                        <span class="label label-info" id="attachment-size"><?php echo $attachmentSize; ?></span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <?php echo $view['form']->widget($form['assetAttachments']); ?>
-                                </div>
-                            </div>
-                            <?php endif; ?>
-                             <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pull-left">
-                                        <?php echo $view['form']->label($form['plainText']); ?>
-                                    </div>
-                                    <div class="text-right pr-10">
-                                        <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
-                                        <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('mautic.email.plaintext.generate'); ?></a>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <?php echo $view['form']->widget($form['plainText']); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade bdr-w-0" id="dynamic-content-container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <?php
-                                        $tabHtml = '<div class="col-xs-3 dynamicContentFilterContainer">';
-                                        $tabHtml .= '<ul class="nav nav-tabs tabs-left" id="dynamicContentTabs">';
-                                        $tabHtml .= '<li><a href="javascript:void(0);" role="tab" class="btn btn-primary" id="addNewDynamicContent"><i class="fa fa-plus text-success"></i> '.$view['translator']->trans('mautic.core.form.new').'</a></li>';
-                                        $tabContentHtml = '<div class="tab-content pa-md col-xs-9" id="dynamicContentContainer">';
-
-                                        foreach ($form['dynamicContent'] as $i => $dynamicContent) {
-                                            $linkText = $dynamicContent['tokenName']->vars['value'] ?: $view['translator']->trans('mautic.core.dynamicContent').' '.($i + 1);
-
-                                            $tabHtml .= '<li class="'.($i === 0 ? ' active' : '').'"><a role="tab" data-toggle="tab" href="#'.$dynamicContent->vars['id'].'">'.$linkText.'</a></li>';
-
-                                            $tabContentHtml .= $view['form']->widget($dynamicContent);
-                                        }
-
-                                        $tabHtml .= '</ul></div>';
-                                        $tabContentHtml .= '</div>';
-
-                                        echo $tabHtml;
-                                        echo $tabContentHtml;
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div id="page-wrap" class="tab-content">
+    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
+        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>CONTENT</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
+        </ul>
+        <div id="fragment-1" class="ui-tabs-panel">
+            <a href="#" class="next-tab mover" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+            <br>
+            <br>
+            <div class="row bg-white height-auto">
+                <div class="pr-lg pl-lg pt-md pb-md">
+                    <?php echo $view['form']->row($form['name']); ?>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 bg-white height-auto bdr-l">
-            <div class="pr-lg pl-lg pt-md pb-md">
-
-                <?php echo $view['form']->row($form['name']); ?>
+            <div class="row">
+                <div class="col-md-9">
+                    <?php echo $view['form']->row($form['subject']); ?>
+                </div>
+                <div>
+                    <li class="dropdown dropdown-menu-right" style="display: block;">
+                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="position: relative;font-size: 13px;top: 22px;" data-toggle="dropdown" href="#">
+                            <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;margin-right: 8%;">
+                            <li>
+                                <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                                </div
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+            <div class="row bg-white height-auto">
+                <div class="pr-lg pl-lg pt-md pb-md">
+                    <?php echo $view['form']->row($form['previewText']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pr-lg pl-lg pt-md pb-md">
                 <?php if ($isVariant): ?>
-                    <?php echo $view['form']->row($form['variantSettings']); ?>
-                    <?php echo $view['form']->row($form['isPublished']); ?>
-                    <?php if ($isAdmin): ?>
-                       <?php echo $view['form']->row($form['publishUp']); ?>
-                       <?php echo $view['form']->row($form['publishDown']); ?>
-                    <?php endif; ?>
+                <?php echo $view['form']->row($form['variantSettings']); ?>
+                <?php echo $view['form']->row($form['isPublished']); ?>
+                <?php if ($isAdmin): ?>
+                    <?php echo $view['form']->row($form['publishUp']); ?>
+                    <?php echo $view['form']->row($form['publishDown']); ?>
+                <?php endif; ?>
                 <?php else: ?>
                     <div id="leadList"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
                         <?php echo $view['form']->row($form['lists']); ?>
                     </div>
                     <?php echo $view['form']->row($form['category']); ?>
-                <div class="hide">
-                    <?php echo $view['form']->row($form['language']); ?>
-                    <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
-                        <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
+                    <div class="hide">
+                        <?php echo $view['form']->row($form['language']); ?>
+                        <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                            <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
+                        </div>
+                        <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
+                            <?php echo $view['form']->row($form['templateTranslationParent']); ?>
+                        </div>
                     </div>
-                    <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
-                        <?php echo $view['form']->row($form['templateTranslationParent']); ?>
-                    </div>
-                </div>
                 <?php endif; ?>
 
                 <?php if ($isAdmin):?>
@@ -308,7 +172,7 @@ if ($mailertransport != 'mautic.transport.amazon') {
                         empty($permissions['page:preference_center:viewother']))): ?>
                         <?php echo $view['form']->row($form['preferenceCenter']); ?>
                     <?php endif; ?>
-                <?php else: ?>
+                <?php endif; ?>
                     <?php if (!$isVariant): ?>
                         <?php echo $view['form']->row($form['isPublished']); ?>
                     <?php endif; ?>
@@ -316,20 +180,185 @@ if ($mailertransport != 'mautic.transport.amazon') {
                     <h5><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
                     <br />
                     <?php
-                    foreach ($form['utmTags'] as $i => $utmTag):
-                        echo $view['form']->row($utmTag);
-                    endforeach;
+                    foreach ($form['utmTags'] as $i => $utmTag):?>
+                        <div class="col-sm-6"><?php echo $view['form']->row($utmTag); ?></div>
+                    <?php endforeach;
                     ?>
-                <?php endif; ?>
             </div>
-            <div class="hide">
-                <?php echo $view['form']->rest($form); ?>
+
+        </div>
+    </div>
+    <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
+        <a href="#" class="prev-tab mover" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <a href="#" class="next-tab mover" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+        <br>
+        <br>
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
+            <?php echo $view['form']->widget($form['customHtml']); ?>
+        </div>
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
+            <div class="pull-right" style="padding-bottom:15px;margin-top:-4%;">
+            <?php echo $view->render(
+                'MauticCoreBundle:Helper:page_actions.html.php',
+                [
+                    'routeBase'     => 'email',
+                    'langVar'       => 'email',
+                    'customButtons' => $custombutton,
+                ]
+            ); ?>
+            </div>
+            <div class="row">
+                <div class="col-md-12 hide">
+                    <?php echo $view['form']->row($form['template']); ?>
+                </div>
+            </div>
+            <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
+                'beetemplates' => $beetemplates,
+                'active'       => $form['template']->vars['value'],
+            ]); ?>
+        </div>
+    </div>
+    <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
+        <a href="#" class="prev-tab mover" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <div class="toolbar-form-buttons pull-right">
+                <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                </div>
+            </div>
+        <br>
+        <br>
+        <div id="email-other-container">
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['fromName']); ?>
+                </div>
+                <div class="col-md-6">
+                    <div class="pull-left" style="max-width:<?php echo $style; ?>;">
+                        <?php echo $view['form']->row($form['fromAddress'],
+                            ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
+                    </div>
+                    <?php echo $view['form']->widget($form['fromAddress']); ?>
+                    <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
+                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:23px;" data-toggle="dropdown" href="#">
+                            <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
+                            <li>
+                                <?php foreach ($verifiedemail as $key=> $value): ?>
+                            <li >
+                                <a class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>"><?php echo $value; ?></a>
+                            </li>
+                            <?php endforeach; ?>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['replyToAddress']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['bccAddress']); ?>
+                </div>
+            </div>
+            <?php if ($isAdmin):?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pull-left">
+                            <?php echo $view['form']->label($form['assetAttachments']); ?>
+                        </div>
+                        <div class="text-right pr-10">
+                            <span class="label label-info" id="attachment-size"><?php echo $attachmentSize; ?></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <?php echo $view['form']->widget($form['assetAttachments']); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <?php echo $view['form']->label($form['plainText']); ?>
+                    </div>
+                    <div class="text-right pr-10">
+                        <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
+                        <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('mautic.email.plaintext.generate'); ?></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <?php echo $view['form']->widget($form['plainText']); ?>
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
+                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    <?php echo $view['form']->label($form['postal_address']); ?>
+                    <?php echo $view['form']->widget($form['postal_address']); ?>
+                </div>
+            </div>
+            </div>
+            <div class="tab-pane fade bdr-w-0" id="dynamic-content-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <?php
+                            $tabHtml = '<div class="col-xs-3 dynamicContentFilterContainer">';
+                            $tabHtml .= '<ul class="nav nav-tabs tabs-left" id="dynamicContentTabs">';
+                            $tabHtml .= '<li><a href="javascript:void(0);" role="tab" class="btn btn-primary" id="addNewDynamicContent"><i class="fa fa-plus text-success"></i> '.$view['translator']->trans('mautic.core.form.new').'</a></li>';
+                            $tabContentHtml = '<div class="tab-content pa-md col-xs-9" id="dynamicContentContainer">';
+
+                            foreach ($form['dynamicContent'] as $i => $dynamicContent) {
+                                $linkText = $dynamicContent['tokenName']->vars['value'] ?: $view['translator']->trans('mautic.core.dynamicContent').' '.($i + 1);
+
+                                $tabHtml .= '<li class="'.($i === 0 ? ' active' : '').'"><a role="tab" data-toggle="tab" href="#'.$dynamicContent->vars['id'].'">'.$linkText.'</a></li>';
+
+                                $tabContentHtml .= $view['form']->widget($dynamicContent);
+                            }
+
+                            $tabHtml .= '</ul></div>';
+                            $tabContentHtml .= '</div>';
+
+                            echo $tabHtml;
+                            echo $tabContentHtml;
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 bg-white height-auto bdr-l <?php echo $isAdmin ? '' : 'hide'?> <?php echo ($emailType == 'template') ? 'hide' : ''; ?>">
+                <div class="pr-lg pl-lg pt-md pb-md ">
+                         <div id="leadList"<?php echo ($emailType == 'template') ? ' hide' : ''; ?>>
+                            <?php echo $view['form']->row($form['lists']); ?>
+                        </div>
+                        <?php echo $view['form']->row($form['category']); ?>
+                        <div class="hide">
+                            <?php echo $view['form']->row($form['language']); ?>
+                            <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                                <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
+                            </div>
+                            <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
+                                <?php echo $view['form']->row($form['templateTranslationParent']); ?>
+                            </div>
+                        </div>
+                <div class="hide">
+                    <?php echo $view['form']->rest($form); ?>
+                </div>
+                </div>
             </div>
         </div>
     </div>
-
-<?php echo $view['form']->row($form['customHtml']); ?>
+</div>
 <?php echo $view['form']->end($form); ?>
+
 
     <div id="dynamicContentPrototype" data-prototype="<?php echo $view->escape($view['form']->widget($dynamicContentPrototype)); ?>"></div>
 <?php if ($filterBlockPrototype instanceof FormView) : ?>

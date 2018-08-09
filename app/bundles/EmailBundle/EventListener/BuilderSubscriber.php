@@ -298,6 +298,9 @@ class BuilderSubscriber extends CommonSubscriber
         $event->addToken('{subject}', EmojiHelper::toHtml($event->getSubject()));
 
         $postal_address = $this->coreParametersHelper->getParameter('postal_address');
+        if ($email != null && $email->getPostalAddress() != '') {
+            $postal_address = $email->getPostalAddress();
+        }
         if ($postal_address != '') {
             $event->addToken('{postal_address}', EmojiHelper::toHtml($postal_address));
         }
@@ -311,6 +314,9 @@ class BuilderSubscriber extends CommonSubscriber
         $footerText = $this->coreParametersHelper->getParameter('footer_text');
         if (!$footerText) {
             $footerText = $this->translator->trans('leadsengage.email.default.footer');
+        }
+        if ($email != null && $email->getUnsubscribeText() != '') {
+            $footerText = $email->getUnsubscribeText();
         }
         if ($footerText != '') {
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
@@ -327,7 +333,7 @@ class BuilderSubscriber extends CommonSubscriber
                 $fromAddress = $this->coreParametersHelper->getParameter('mailer_from_email');
                 $footerText  = str_replace('{from_email}', $fromAddress, $footerText);
             }
-            $postal_address = $this->coreParametersHelper->getParameter('postal_address');
+
             if ($postal_address != '') {
                 $footerText = str_replace('{postal_address}', $postal_address, $footerText);
             }

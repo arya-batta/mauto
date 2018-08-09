@@ -506,6 +506,13 @@ class MailHelper
         $body = $doc->getElementsByTagName('body');
         if ($body and $body->length > 0) {
             $body = $body->item(0);
+            if ($this->email != null && $this->email->getPreviewText() != null && $this->email->getPreviewText() != '') {
+                $previewtext = $doc->createElement('span', $this->email->getPreviewText());
+                $previewtext->setAttribute('class', 'preheader');
+                $previewtext->setAttribute('style', 'display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;');
+                //$body->appendChild($previewtext);
+                $body->insertBefore($previewtext, $body->firstChild);
+            }
             //create the div element to append to body element
             $divelement = $doc->createElement('div');
             $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;

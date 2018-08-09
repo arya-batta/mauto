@@ -401,6 +401,52 @@ class EmailType extends AbstractType
             ]
         );
 
+        $builder->add(
+            'previewText',
+            'text',
+            [
+                'label'      => 'le.email.previewText',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'    => 'form-control',
+                    'tooltip'  => 'le.email.previewText.tooltip',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
+            $builder->create(
+                'unsubscribe_text',
+                'textarea',
+                [
+                    'label'      => 'le.email.footer.content',
+                    'label_attr' => ['class' => 'control-label'],
+                    'attr'       => [
+                        'class'                => 'form-control editor editor-advanced editor-builder-tokens',
+                        'data-token-callback'  => 'email:getBuilderTokens',
+                        'data-token-activator' => '{',
+                    ],
+                    'required' => false,
+                ]
+            )
+        );
+
+        $builder->add(
+            'postal_address',
+            'textarea',
+            [
+                'label'      => 'le.email.postal.address.content',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control',
+                    'tooltip' => 'mautic.email.config.postal_address.tooltip',
+                    'style'   => 'height:100px;',
+                ],
+                'required' => false,
+            ]
+        );
+
         $url                     = $this->request->getSchemeAndHttpHost().$this->request->getBasePath();
         $variantSettingsModifier = function (FormEvent $event, $isVariant) use ($url) {
             if ($isVariant) {
@@ -544,10 +590,16 @@ class EmailType extends AbstractType
             'buttons',
             'form_buttons',
             [
-                'pre_extra_buttons' => $customButtons,
+                'apply_text' => false,
             ]
         );
-
+        /*$builder->add(
+            'buttons',
+            'form_buttons',
+            [
+                'pre_extra_buttons' => $customButtons,
+            ]
+        );*/
         if (!empty($options['update_select'])) {
             $builder->add(
                 'updateSelect',

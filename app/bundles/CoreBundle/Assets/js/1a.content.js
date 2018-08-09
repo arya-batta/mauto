@@ -497,7 +497,9 @@ Mautic.onPageLoad = function (container, response, inModal) {
                     }
 
                 });
-                mQuery('.toolbar-form-buttons').removeClass('hide');
+                if(!location.href.match(/(email)/i)){
+                    mQuery('.toolbar-form-buttons').removeClass('hide');
+                }
             }
         }
     });

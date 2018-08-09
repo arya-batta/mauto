@@ -213,6 +213,21 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $assetAttachments;
 
+    /*
+     * @var string
+     */
+    private $previewText;
+
+    /*
+     * @var string
+     */
+    private $unsubscribeText;
+
+    /*
+     * @var string
+     */
+    private $postalAddress;
+
     /**
      * Used to identify the page for the builder.
      *
@@ -415,6 +430,21 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
 
         $builder->createField('beeJSON', 'text')
             ->columnName('bee_json')
+            ->nullable()
+            ->build();
+
+        $builder->createField('previewText', 'text')
+            ->columnName('preview_text')
+            ->nullable()
+            ->build();
+
+        $builder->createField('unsubscribeText', 'text')
+            ->columnName('unsubscribe_text')
+            ->nullable()
+            ->build();
+
+        $builder->createField('postalAddress', 'text')
+            ->columnName('postal_address')
             ->nullable()
             ->build();
     }
@@ -1346,6 +1376,54 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     {
         $this->decodeAmpersands($this->plainText);
         $this->decodeAmpersands($this->customHtml);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreviewText()
+    {
+        return $this->previewText;
+    }
+
+    /**
+     * @param mixed $previewText
+     */
+    public function setPreviewText($previewText)
+    {
+        $this->previewText = $previewText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnsubscribeText()
+    {
+        return $this->unsubscribeText;
+    }
+
+    /**
+     * @param mixed $unsubscribeText
+     */
+    public function setUnsubscribeText($unsubscribeText)
+    {
+        $this->unsubscribeText = $unsubscribeText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPostalAddress()
+    {
+        return $this->postalAddress;
+    }
+
+    /**
+     * @param mixed $postalAddress
+     */
+    public function setPostalAddress($postalAddress)
+    {
+        $this->postalAddress = $postalAddress;
     }
 
     /**

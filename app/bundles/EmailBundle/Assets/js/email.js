@@ -28,6 +28,25 @@ Mautic.emailOnLoad = function (container, response) {
     } else if (mQuery(container + ' #list-search').length) {
         Mautic.activateSearchAutocomplete('list-search', 'email');
     }
+    mQuery(".ui-tabs-panel").each(function(i){
+        var totalSize = mQuery(".ui-tabs-panel").size() - 1;
+        if (i != totalSize) {
+            if(i == 0){
+                mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
+            }
+            next = i + 2;
+        }
+        if (i != 0) {
+            prev = i;
+        }
+    });
+    mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
+        var selectrel = mQuery(this).attr("rel");
+        mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
+        mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
+        mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+    });
 
     if (mQuery('table.email-list').length) {
         mQuery('td.col-stats').each(function () {
@@ -279,8 +298,8 @@ Mautic.selectEmailType = function(emailType) {
 };
 
 Mautic.selectEmailEditor = function(editorType) {
-    var basic= mQuery('#email-editor-basic');
-    var advance= mQuery('#email-editor-advance');
+    var basic= mQuery('#email-basic-container');
+    var advance= mQuery('#email-advance-container');
     var other= mQuery('#email-other-container');
     var builderbtn= mQuery('.btn-beeditor');
     var activateTab='';

@@ -215,6 +215,7 @@ class PublicController extends CommonFormController
         $formContent = '';
         $lead        = '';
         $message     = '';
+        $email       = '';
         if (!empty($stat)) {
             if ($email = $stat->getEmailAddress()) {
                 $lead = $stat->getLead();
