@@ -284,7 +284,16 @@ Mautic.leadEmailOnLoad = function(container, response) {
         textarea.val(emailHtml.find('html').get(0).outerHTML);
     });
 }
+Mautic.addSegementFilter= function(filterId){
+    if (filterId.id != "") {
+        Mautic.addLeadListFilter(filterId.id);
+        mQuery(this).val('');
+        mQuery(this).trigger('chosen:updated');
 
+        mQuery('#filters').addClass('active in');
+        mQuery('#details').removeClass('active');
+    }
+};
 Mautic.leadlistOnLoad = function(container) {
     if (mQuery(container + ' #list-search').length) {
         Mautic.activateSearchAutocomplete('list-search', 'lead.list');

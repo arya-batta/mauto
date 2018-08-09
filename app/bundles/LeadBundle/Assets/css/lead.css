@@ -249,3 +249,14 @@ ul.tag-cloud li {
     font-family: "FontAwesome";
     padding-right: 3px;
 }
+.lead-segment-filter-panel {
+    position: relative;
+}
+.lead-segment-filter-panel .avatar-collapser a.arrow {
+    position: absolute;
+    top:0;
+    right: 0px;
+    margin: 0 3px 0 0;
+    padding: 0 10px;
+}
+

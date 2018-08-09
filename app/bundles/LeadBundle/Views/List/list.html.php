@@ -111,7 +111,7 @@ $isAdmin     =$view['security']->isAdmin();
                             <?php if ($view['security']->hasEntityAccess(true, $permissions['lead:lists:editother'], $item->getCreatedBy())) : ?>
                                 <a href="<?php echo $view['router']->path(
                                     'mautic_segment_action',
-                                    ['objectAction' => 'view', 'objectId' => $item->getId()]
+                                    ['objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajax">
                                     <?php echo $item->getName(); ?> (<?php echo $item->getAlias(); ?>)
                                 </a>
@@ -132,7 +132,7 @@ $isAdmin     =$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="visible-md visible-lg" style="width: 30%;">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'mautic_contact_index',
                             ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.list').':'.$item->getAlias()]

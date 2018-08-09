@@ -68,6 +68,16 @@ trait FilterTrait
             $field = $options['fields']['pages'][$fieldName];
         } elseif (isset($options['fields']['emails'][$fieldName])) {
             $field = $options['fields']['emails'][$fieldName];
+        } elseif (isset($options['fields']['date_activity'][$fieldName])) {
+            $field = $options['fields']['date_activity'][$fieldName];
+        } elseif (isset($options['fields']['list_tags'][$fieldName])) {
+            $field = $options['fields']['list_tags'][$fieldName];
+        } elseif (isset($options['fields']['list_points'][$fieldName])) {
+            $field = $options['fields']['list_points'][$fieldName];
+        } elseif (isset($options['fields']['list_leadlist'][$fieldName])) {
+            $field = $options['fields']['list_leadlist'][$fieldName];
+        } elseif (isset($options['fields']['list_categories'][$fieldName])) {
+            $field = $options['fields']['list_categories'][$fieldName];
         }
 
         $customOptions = [];

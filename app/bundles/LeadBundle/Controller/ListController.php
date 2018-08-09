@@ -194,15 +194,16 @@ class ListController extends FormController
             }
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
-                return $this->postActionRedirect([
-                    'returnUrl'       => $returnUrl,
-                    'viewParameters'  => ['page' => $page],
-                    'contentTemplate' => 'MauticLeadBundle:List:index',
-                    'passthroughVars' => [
-                        'activeLink'    => '#mautic_segment_index',
-                        'mauticContent' => 'leadlist',
-                    ],
-                ]);
+                return $this->indexAction();
+            /*return $this->postActionRedirect([
+                'returnUrl'       => $returnUrl,
+                'viewParameters'  => ['page' => $page],
+                'contentTemplate' => 'MauticLeadBundle:List:index',
+                'passthroughVars' => [
+                    'activeLink'    => '#mautic_segment_index',
+                    'mauticContent' => 'leadlist',
+                ],
+            ]);*/
             } elseif ($valid && !$cancelled) {
                 return $this->editAction($list->getId(), true);
             }
@@ -357,7 +358,7 @@ class ListController extends FormController
 
                         return $this->postActionRedirect($postActionVars);
                     } else {
-                        return $this->viewAction($segment->getId());
+                        return $this->indexAction();
                     }
                 }
             } else {
