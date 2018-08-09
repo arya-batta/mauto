@@ -5325,22 +5325,24 @@ figcaption {
 .next-tab {
   bottom: 0;
   right: 0;
-  -moz-border-radius-topleft: 10px;
-  -webkit-border-top-right-radius: 10px;
 }
-.prev-tab {
+.prev-tab, .cancel-tab {
   bottom: 0;
   left: 0;
-  -moz-border-radius-topright: 10px;
-  -webkit-border-top-left-radius: 10px;
 }
 .ui-tabs-panel a.mover {
-  background: #ec407a;
-  padding: 6px 12px;
   position: relative;
-  color: white;
   font-weight: bold;
   text-decoration: none;
+}
+#cancel-tab-1{
+  margin-left:74%;
+}
+#cancel-tab-2{
+  margin-left:60%;
+}
+#next-tab-1,#next-tab-2{
+  margin-left:0%;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;

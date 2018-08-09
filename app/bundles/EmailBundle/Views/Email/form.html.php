@@ -104,11 +104,12 @@ $custombutton = [
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
-            <a href="#" class="next-tab mover" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+            <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+            <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
             <br>
             <br>
-            <div class="row bg-white height-auto">
-                <div class="pr-lg pl-lg pt-md pb-md">
+            <div class="row">
+                <div class="col-md-12">
                     <?php echo $view['form']->row($form['name']); ?>
                 </div>
             </div>
@@ -130,13 +131,13 @@ $custombutton = [
                     </li>
                 </div>
             </div>
-            <div class="row bg-white height-auto">
-                <div class="pr-lg pl-lg pt-md pb-md">
+            <div class="row">
+                <div class="col-md-12">
                     <?php echo $view['form']->row($form['previewText']); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="pr-lg pl-lg pt-md pb-md">
+                <div class="col-md-12">
                 <?php if ($isVariant): ?>
                 <?php echo $view['form']->row($form['variantSettings']); ?>
                 <?php echo $view['form']->row($form['isPublished']); ?>
@@ -189,15 +190,16 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
-        <a href="#" class="prev-tab mover" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-        <a href="#" class="next-tab mover" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+        <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
         <br>
         <br>
         <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
             <?php echo $view['form']->widget($form['customHtml']); ?>
         </div>
         <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
-            <div class="pull-right" style="padding-bottom:15px;margin-top:-4%;">
+            <div class="pull-right" style="padding-bottom:15px;margin-top:-5.6%;margin-right: 27%;">
             <?php echo $view->render(
                 'MauticCoreBundle:Helper:page_actions.html.php',
                 [
@@ -219,7 +221,7 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
-        <a href="#" class="prev-tab mover" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
         <div class="toolbar-form-buttons pull-right">
                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
