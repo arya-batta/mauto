@@ -62,8 +62,6 @@ trait FilterTrait
 
         if (isset($options['fields']['lead'][$fieldName])) {
             $field = $options['fields']['lead'][$fieldName];
-        } elseif (isset($options['fields']['company'][$fieldName])) {
-            $field = $options['fields']['company'][$fieldName];
         } elseif (isset($options['fields']['pages'][$fieldName])) {
             $field = $options['fields']['pages'][$fieldName];
         } elseif (isset($options['fields']['emails'][$fieldName])) {
@@ -78,7 +76,9 @@ trait FilterTrait
             $field = $options['fields']['list_leadlist'][$fieldName];
         } elseif (isset($options['fields']['list_categories'][$fieldName])) {
             $field = $options['fields']['list_categories'][$fieldName];
-        }
+        } /*elseif (isset($options['fields']['company'][$fieldName])) {
+            $field = $options['fields']['company'][$fieldName];
+        }*/
 
         $customOptions = [];
         switch ($fieldType) {

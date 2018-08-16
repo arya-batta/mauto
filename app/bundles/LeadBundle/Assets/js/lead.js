@@ -1206,6 +1206,7 @@ Mautic.toggleAnonymousLeads = function() {
         } else {
             searchValue = string;
         }
+        searchValue = string;
         mQuery('#anonymousLeadButton').addClass('btn-primary');
     } else {
         searchValue = mQuery.trim(searchValue.replace(string, ''));

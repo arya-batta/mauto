@@ -637,8 +637,33 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             ],
             $this->availableSocialFields
         );
+        $unique   = $this->generateRandomParameterName();
+        $xFunc    = 'orX';
+        $expr     = $q->expr()->$xFunc();
+        $dncId    = $this->getDNCLeadsId();
 
-        return $this->addStandardCatchAllWhereClause($q, $filter, $columns);
+        if ($filter->string == 'activeleadsfilter') {
+            $exprFunc              ='gte';
+            $columns               = ['l.date_modified', 'l.date_identified'];
+            $last10daysActiveLeads = date('Y-m-d', strtotime('-10 days'));
+
+            foreach ($columns as $col) {
+                $expr->add(
+                   $q->expr()->$exprFunc($col, ":$unique")
+               );
+            }
+
+            return [
+               $expr,
+               ["$unique" => $last10daysActiveLeads],
+           ];
+        } elseif ($filter->string == 'donotcontact' && !empty($dncId)) {
+            $ids = implode(',', $dncId);
+            $q->select('l.*');
+            $q->where($q->expr()->in('l.id', $ids));
+        } else {
+            return $this->addStandardCatchAllWhereClause($q, $filter, $columns);
+        }
     }
 
     /**
@@ -1223,9 +1248,77 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             ->where('l.score in ("hot","warm")')
             ->andWhere('l.last_active <= '."'".$dateinterval."'");
 
-        //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 
         return $results;
+    }
+
+    public function getAllLeadsCount()
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as allleads')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['allleads'];
+    }
+
+    public function getHotLeadsCount()
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as hotlead')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->where('l.score in ("hot")');
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['hotlead'];
+    }
+
+    public function getActiveLeadCount()
+    {
+        $last10daysActiveLeads = date('Y-m-d', strtotime('-10 days'));
+
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activeleads')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->andWhere('l.date_added >= '."'".$last10daysActiveLeads."'".'OR '.
+                             'l.date_modified >= '."'".$last10daysActiveLeads."'");
+
+        $results = $q->execute()->fetchAll();
+
+        return $results;
+    }
+
+    public function getDoNotContactLeadsCount()
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as donotcontact')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'l');
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['donotcontact'];
+    }
+
+    public function getDNCLeadsId()
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('dnc.lead_id as leadid')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'dnc');
+
+        $results = $q->execute()->fetchAll();
+        $dncIds  = [];
+        foreach ($results as $key => $value) {
+            $dncIds[] = $value['leadid'];
+        }
+
+        return $dncIds;
     }
 }

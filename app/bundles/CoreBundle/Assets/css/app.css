@@ -5354,3 +5354,154 @@ figcaption {
   top: -63px;
   left: 2%;
 }
+.info-box{
+  display: block;
+  min-height: 65px;
+  background: #fff;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat-x: initial;
+  background-repeat-y: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  border-radius: 2px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+  margin-bottom: 15px;
+
+}
+.info-box-text {
+  text-transform: uppercase;
+}
+.info-box-number {
+  display: block;
+  font-weight: bold;
+  font-size: 18px;
+}
+.info-box-icon{
+  display: block;
+  float: left;
+  height: 65px;
+  width: 40%;
+  text-align: center;
+  font-size: 45px;
+  line-height: 51px;
+}
+.info-box-content {
+  padding: 5px 7px;
+  margin-left: 42%;
+  font-size: 14px;
+}
+#icon-class-leads{
+  color: #fff;
+  font-size: 28px;
+}
+#leads-info-box-container {
+  float: left;
+  margin-left:16px;
+  box-shadow: 1px 1px 5px #888888;
+  width: 23%;
+}
+#leads-info-box-container:hover {
+  background: #fff;
+  outline: 0;
+  text-decoration: none;
+  color: #212121;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+.md-card {
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+  border: none;
+  margin-left: 8%;
+  height: 70px;
+  width: 212px;
+}
+.md-card .md-card-content {
+  padding: 12px;
+}
+.uk-grid {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.le-lead-dialogue {
+  font-size: 38px!important;
+  vertical-align: -24px;
+  margin-left: 23px;
+}
+.uk-margin-remove {
+  margin: 0!important;
+}
+.uk-float-right {
+  float: right;
+}
+.le-lead-card-alignment{
+  margin-left: 16px;
+  width: 22.5%;
+}
+.le-lead-card-header{
+  font-size: 15px;
+}
+.le-lead-card-content{
+  font-size: 16px;
+  font-weight: 700;
+}
+.le-lead-card-score-content{
+  float: right;
+  margin-top: -15px;
+  width: 36px;
+  height: auto;
+}
+.le-text-primary{
+  color: #2196f3!important;
+}
+.le-text-danger{
+  color: #e53935!important;
+}
+.le-avatar-panel{
+  height: 240px;
+  width: 224px;
+  padding-left: 8px;
+  padding-top: 39px;
+}
+.lead-profile-table-col-1{
+  margin-top: -205px;
+  margin-left: 300px;
+  margin-right: auto;
+}
+.lead-profile-table-col-2{
+/*  margin-top: -210px;
+  margin-left: 660px;
+  margin-right: auto;*/
+  position: absolute;
+  top: 21%;
+  right: 18%;
+}
+.leads-index-score-alignment {
+  margin-top: 2px;
+  width: 35px;
+  height: auto;
+}
+.le-label-danger{
+  background-color: #EF0500!important;
+}
+.dnc-alignment{
+  position: absolute;
+  top: 5px;
+  right: 24px;
+}

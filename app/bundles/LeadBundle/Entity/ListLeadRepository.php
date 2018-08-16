@@ -74,4 +74,16 @@ class ListLeadRepository extends CommonRepository
 
         return $qb->execute()->fetchAll();
     }
+
+    public function getSegmentNameByID($id)
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+
+        $qb->select('l.name')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
+            ->andWhere('l.id = :lead')
+            ->setParameter('lead', $id);
+
+        return $qb->execute()->fetch();
+    }
 }

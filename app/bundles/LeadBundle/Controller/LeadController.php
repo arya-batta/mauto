@@ -266,7 +266,11 @@ class LeadController extends FormController
         }
 
         // Get the max ID of the latest lead added
-        $maxLeadId = $model->getRepository()->getMaxLeadId();
+        $maxLeadId         = $model->getRepository()->getMaxLeadId();
+        $activeLeads       = $model->getRepository()->getActiveLeadCount();
+        $allLeads          = $model->getRepository()->getAllLeadsCount();
+        $hotLeads          = $model->getRepository()->getHotLeadsCount();
+        $doNotContactLeads = $model->getRepository()->getDoNotContactLeadsCount();
 
         // We need the EmailRepository to check if a lead is flagged as do not contact
         /** @var \Mautic\EmailBundle\Entity\EmailRepository $emailRepo */
@@ -298,6 +302,10 @@ class LeadController extends FormController
                     'accountform'          => $accformview,
                     'userform'             => $userformview,
                     'isMobile'             => $ismobile,
+                    'hotLeads'             => $hotLeads,
+                    'donotContact'         => $doNotContactLeads,
+                    'activeLeads'          => $activeLeads,
+                    'allLeads'             => $allLeads,
                 ],
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
@@ -472,6 +480,13 @@ class LeadController extends FormController
         $emailRepo       = $this->getModel('email')->getRepository();
         $integrationRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MauticPluginBundle:IntegrationEntity');
         $pageHitDetails  = $this->getPageHitsDetails($lead);
+        $listRepository  = $this->getModel('lead.List')->getListLeadRepository();
+        $segments        = $listRepository->getSegmentIDbyLeads($lead->getId());
+
+        $segmentName    = [];
+        foreach ($segments as $segment) {
+            $segmentName[] = $listRepository->getSegmentNameByID($segment['leadlist_id']);
+        }
 
         return $this->delegateView(
             [
@@ -500,6 +515,7 @@ class LeadController extends FormController
                         ]
                     )->getContent(),
                     'security'         => $this->get('mautic.security'),
+                    'segmentName'      => $segmentName,
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:lead.html.php',
                 'passthroughVars' => [

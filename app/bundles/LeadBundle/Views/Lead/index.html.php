@@ -105,6 +105,51 @@ if ($indexMode == 'list') {
     ];
 }
 ?>
+<div style="padding-top: 15px;">
+        <div class="info-box" id="leads-info-box-container">
+            <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> '']); ?>" data-toggle="ajax">
+                <span class="info-box-icon" style="background-color:#00c0ef;>">
+                    <i class="fa fa-users" id="icon-class-leads"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.lifecycle.graph.pie.all.lists'); ?></span>
+                    <span class="info-box-number"><?php echo $allLeads; ?></span>
+                </div>
+            </a>
+        </div>
+
+    <div class="info-box" id="leads-info-box-container">
+        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'score:Hot']); ?>" data-toggle="ajax">
+                <span class="info-box-icon" style="background-color: #FF0000;>">
+                    <img class="leads-index-score-alignment" src="<?php echo $view['assets']->getLeadScoreIcon('Hotleads'); ?>"/></span>
+            <div class="info-box-content">
+                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.lead.scoretype'); ?></span>
+                <span class="info-box-number"><?php echo $hotLeads; ?></span>
+            </div>
+        </a>
+    </div>
+    <div class="info-box" id="leads-info-box-container">
+        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'activeleadsfilter']); ?>" data-toggle="ajax">
+                <span class="info-box-icon" style="background-color: #42CC39;>">
+                    <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.active.leads'); ?></span>
+                <span class="info-box-number"><?php echo $activeLeads[0]['activeleads']; ?></span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <div class="info-box" id="leads-info-box-container">
+            <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'donotcontact']); ?>" data-toggle="ajax">
+            <span class="info-box-icon" style="background-color:#EF731C;>">
+                  <i class="fa fa-user-times" id="icon-class-leads"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.churn.leads'); ?></span>
+                <span class="info-box-number"><?php echo $donotContact; ?></span>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
 
 <div class="panel panel-default bdr-t-wdh-0 mb-0">
     <?php echo $view->render(
