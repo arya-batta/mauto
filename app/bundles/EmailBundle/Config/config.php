@@ -797,5 +797,7 @@ return [
         'footer_text'                         => null,
         'postal_address'                      => null,
         'mailer_transport_name'               => null,
+        'beeeditor_client_id'                 => '',
+        'beeeditor_client_secret'             => '',
     ],
 ];
