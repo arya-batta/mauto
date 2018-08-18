@@ -85,7 +85,8 @@
         // save('newsletter.json', jsonFile);
       },
       onSaveAsTemplate: function(jsonFile) { // + thumbnail?
-          alert("Feature not supported.");
+          save('template.json', jsonFile);
+         // alert("Feature not supported.");
         //save('newsletter-template.json', jsonFile);
       },
       onAutoSave: function(jsonFile) {
@@ -95,7 +96,8 @@
        // window.localStorage.setItem('newsletter.autosave', jsonFile);
       },
       onSend: function(htmlFile) {
-          alert("Feature not supported.");
+          save('template.html', htmlFile);
+         // alert("Feature not supported.");
         //write your send test function here
       },
       onError: function(errorMessage) {
