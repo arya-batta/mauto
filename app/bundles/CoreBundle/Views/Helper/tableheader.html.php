@@ -39,7 +39,7 @@ if (!empty($checkall)):
 <th class="col-actions" <?php if (!empty($tooltip)): ?> data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo $view['translator']->trans($tooltip); ?>"<?php endif; ?>>
     <?php if ($view['buttons']->getButtonCount()): ?>
     <div class="input-group input-group-sm">
-    <span class="input-group-addon">
+    <span class="input-group-addon" style="background-color: #FFFFFF;border: 1px solid #FFFFFF;">
         <input type="checkbox" id="customcheckbox-one0" value="1" data-toggle="checkall" data-target="<?php echo $target; ?>">
     </span>
 

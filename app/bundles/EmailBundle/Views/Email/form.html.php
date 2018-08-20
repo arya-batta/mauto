@@ -74,7 +74,7 @@ if ($formcontainserror) {
     $activateotherconfig  ='active in';
 }
 $hideawsemailoptions = '';
-$style               ='78%';
+$style               ='80%';
 $tabindex            ='-1';
 $pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
 if ($mailertransport != 'mautic.transport.amazon') {
@@ -190,16 +190,8 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
-        <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-        <br>
-        <br>
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
-            <?php echo $view['form']->widget($form['customHtml']); ?>
-        </div>
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
-            <div class="pull-right" style="padding-bottom:15px;margin-top:-5.6%;margin-right: 27%;">
+        <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <a class="pull-right" id="#cancel-tab-2" style="padding-bottom:15px;">
             <?php echo $view->render(
                 'MauticCoreBundle:Helper:page_actions.html.php',
                 [
@@ -208,7 +200,24 @@ $custombutton = [
                     'customButtons' => $custombutton,
                 ]
             ); ?>
-            </div>
+        </a>
+        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+        <br>
+        <br>
+        <div style="width:64%;">
+            <?php if (!empty($filters)): ?>
+                <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                    'filters' => $filters,
+                    'target'  => (empty($target)) ? null : $target,
+                    'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                ]); ?>
+            <?php endif; ?>
+        </div>
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
+            <?php echo $view['form']->widget($form['customHtml']); ?>
+        </div>
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
             <div class="row">
                 <div class="col-md-12 hide">
                     <?php echo $view['form']->row($form['template']); ?>
@@ -409,7 +418,7 @@ $custombutton = [
 <?php
 $type = $email->getEmailType();
 if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantParent && empty($type)) || empty($type) || !empty($forceTypeSelection)):
-    echo $view->render('MauticCoreBundle:Helper:form_selecttype.html.php',
+    echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'       => $email,
             'mauticLang' => [
@@ -437,7 +446,7 @@ endif;
 <?php
 $type    = $email->getEmailType();
 if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror && !$variantParent && !$isMobile):
-    echo $view->render('MauticCoreBundle:Helper:form_selecttype.html.php',
+    echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'                => $email,
             'mauticLang'          => [],

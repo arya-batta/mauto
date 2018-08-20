@@ -687,6 +687,19 @@ class EmailController extends FormController
             'RETURN_ARRAY'
         );
 
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['mautic.core.filter.beeeditor.filter']  = [
+            'options' => $model->getTemplateGroupNames(),
+        ];
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -705,6 +718,7 @@ class EmailController extends FormController
                     'isMobile'           => $ismobile,
                     'verifiedemail'      => $verifiedemail,
                     'mailertransport'    => $mailertransport,
+                    'filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [
@@ -954,6 +968,19 @@ class EmailController extends FormController
             'RETURN_ARRAY'
         );
 
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['mautic.core.filter.beeeditor.filter']  = [
+            'options' => $model->getTemplateGroupNames(),
+        ];
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -972,6 +999,7 @@ class EmailController extends FormController
                     'isMobile'           => $ismobile,
                     'verifiedemail'      => $verifiedemail,
                     'mailertransport'    => $mailertransport,
+                    'filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [

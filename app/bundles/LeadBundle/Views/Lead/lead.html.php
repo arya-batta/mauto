@@ -306,7 +306,7 @@ $view['slots']->set(
 
                                 <tr>
                                     <td>
-                                            <?php $tags = $lead->getTags(); ?>
+                                        <?php $tags = $lead->getTags(); ?>
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
                                             <?php foreach ($tags as $tag): ?>
                                                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $tag->getTag(); ?></span>
@@ -317,10 +317,12 @@ $view['slots']->set(
                                 </tr>
                                 <tr>
                                     <td style="padding-top: .5em;">
+                                        <?php if (!empty($segmentName)): ?>
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
                                         <?php foreach ($segmentName as $segment): ?>
                                         <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
                                         <?php endforeach; ?>
+                                        <?php endif; ?>
                                         <div class="clearfix"></div>
                                     </td>
                                 </tr>
@@ -412,7 +414,7 @@ $view['slots']->set(
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
-                                <i class="le-lead-dialogue material-icons le-text-danger">autorenew</i></div>
+                                <i class="le-lead-dialogue fa fa-history  le-text-danger"></i></div>
                             <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.lead.lastactive'); ?> </span><br>
                             <span class="le-lead-card-content"><?php echo $lastacitve = !empty($lead->getLastActive()) ? $view['date']->toDate($lead->getLastActive()) : 'N/A'?> </span>
                         </div>

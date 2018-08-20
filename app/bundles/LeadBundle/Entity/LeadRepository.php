@@ -637,15 +637,14 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             ],
             $this->availableSocialFields
         );
-        $unique   = $this->generateRandomParameterName();
-        $xFunc    = 'orX';
-        $expr     = $q->expr()->$xFunc();
-        $dncId    = $this->getDNCLeadsId();
-
-        if ($filter->string == 'activeleadsfilter') {
-            $exprFunc              ='gte';
-            $columns               = ['l.date_modified', 'l.date_identified'];
-            $last10daysActiveLeads = date('Y-m-d', strtotime('-10 days'));
+        $unique                = $this->generateRandomParameterName();
+        $xFunc                 = 'orX';
+        $expr                  = $q->expr()->$xFunc();
+        $dncId                 = $this->getDNCLeadsId();
+        $last7daysDateInterval = date('Y-m-d', strtotime('-6 days'));
+        $exprFunc              ='gte';
+        if ($filter->string == 'recentlyaddedleads') {
+            $columns               = ['l.date_added'];
 
             foreach ($columns as $col) {
                 $expr->add(
@@ -655,8 +654,21 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
             return [
                $expr,
-               ["$unique" => $last10daysActiveLeads],
+               ["$unique" => $last7daysDateInterval],
            ];
+        } elseif ($filter->string == 'activeleads') {
+            $columns               = ['l.last_active'];
+
+            foreach ($columns as $col) {
+                $expr->add(
+                    $q->expr()->$exprFunc($col, ":$unique")
+                );
+            }
+
+            return [
+                $expr,
+                ["$unique" => $last7daysDateInterval],
+            ];
         } elseif ($filter->string == 'donotcontact' && !empty($dncId)) {
             $ids = implode(',', $dncId);
             $q->select('l.*');
@@ -1253,45 +1265,48 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         return $results;
     }
 
-    public function getAllLeadsCount()
+    public function getRecentlyAddedLeadsCount()
+    {
+        $q                   = $this->_em->getConnection()->createQueryBuilder();
+        $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
+
+        $q->select('count(*) as recentlyadded')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->andWhere('l.date_added >= '."'".$last7daysAddedLeads."'")
+            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['recentlyadded'];
+    }
+
+    public function getTotalLeadsCount()
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
 
         $q->select('count(*) as allleads')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
 
         $results = $q->execute()->fetchAll();
 
         return $results[0]['allleads'];
     }
 
-    public function getHotLeadsCount()
-    {
-        $q = $this->_em->getConnection()->createQueryBuilder();
-
-        $q->select('count(*) as hotlead')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->where('l.score in ("hot")');
-
-        $results = $q->execute()->fetchAll();
-
-        return $results[0]['hotlead'];
-    }
-
     public function getActiveLeadCount()
     {
-        $last10daysActiveLeads = date('Y-m-d', strtotime('-10 days'));
+        $last7daysActiveLeads = date('Y-m-d', strtotime('-6 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
 
         $q->select('count(*) as activeleads')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere('l.date_added >= '."'".$last10daysActiveLeads."'".'OR '.
-                             'l.date_modified >= '."'".$last10daysActiveLeads."'");
+            ->andWhere('l.last_active >= '."'".$last7daysActiveLeads."'")
+            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
 
         $results = $q->execute()->fetchAll();
 
-        return $results;
+        return $results[0]['activeleads'];
     }
 
     public function getDoNotContactLeadsCount()

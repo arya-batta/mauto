@@ -2418,4 +2418,17 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
            ->setParameter('emails', $emailId)
            ->execute();
     }
+
+    public function getTemplateGroupNames()
+    {
+        $groupname              = [];
+        $groupname['all']       = $this->translator->trans('le.email.form.bee.alltemplate');
+        $groupname['art']       = $this->translator->trans('le.email.form.bee.arttemplate');
+        $groupname['education'] = $this->translator->trans('le.email.form.bee.educationtemplate');
+        $groupname['food']      = $this->translator->trans('le.email.form.bee.foodtemplate');
+        $groupname['product']   = $this->translator->trans('le.email.form.bee.prodcuttemplate');
+        $groupname['travel']    = $this->translator->trans('le.email.form.bee.traveltemplate');
+
+        return $groupname;
+    }
 }

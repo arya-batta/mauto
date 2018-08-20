@@ -268,10 +268,9 @@ class LeadController extends FormController
         // Get the max ID of the latest lead added
         $maxLeadId         = $model->getRepository()->getMaxLeadId();
         $activeLeads       = $model->getRepository()->getActiveLeadCount();
-        $allLeads          = $model->getRepository()->getAllLeadsCount();
-        $hotLeads          = $model->getRepository()->getHotLeadsCount();
+        $recentlyAdded     = $model->getRepository()->getRecentlyAddedLeadsCount();
         $doNotContactLeads = $model->getRepository()->getDoNotContactLeadsCount();
-
+        $totalLeadsCount   = $model->getRepository()->getTotalLeadsCount();
         // We need the EmailRepository to check if a lead is flagged as do not contact
         /** @var \Mautic\EmailBundle\Entity\EmailRepository $emailRepo */
         $emailRepo = $this->getModel('email')->getRepository();
@@ -302,10 +301,10 @@ class LeadController extends FormController
                     'accountform'          => $accformview,
                     'userform'             => $userformview,
                     'isMobile'             => $ismobile,
-                    'hotLeads'             => $hotLeads,
+                    'recentlyAdded'        => $recentlyAdded,
                     'donotContact'         => $doNotContactLeads,
                     'activeLeads'          => $activeLeads,
-                    'allLeads'             => $allLeads,
+                    'totalLeadsCount'      => $totalLeadsCount,
                 ],
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
