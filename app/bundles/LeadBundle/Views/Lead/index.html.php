@@ -112,35 +112,34 @@ if ($indexMode == 'list') {
                     <i class="fa fa-users" id="icon-class-leads"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.lifecycle.graph.pie.all.lists'); ?></span>
-                    <span class="info-box-number"><?php echo $allLeads; ?></span>
+                    <span class="info-box-number"><?php echo $totalLeadsCount; ?></span>
                 </div>
             </a>
         </div>
-
     <div class="info-box" id="leads-info-box-container">
-        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'score:Hot']); ?>" data-toggle="ajax">
-                <span class="info-box-icon" style="background-color: #FF0000;>">
-                    <img class="leads-index-score-alignment" src="<?php echo $view['assets']->getLeadScoreIcon('Hotleads'); ?>"/></span>
+        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'recentlyaddedleads']); ?>" data-toggle="ajax">
+                <span class="info-box-icon" style="background-color: #f39c12;>">
+                     <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.lead.scoretype'); ?></span>
-                <span class="info-box-number"><?php echo $hotLeads; ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.recently.added'); ?></span>
+                <span class="info-box-number"><?php echo $recentlyAdded; ?></span>
             </div>
         </a>
     </div>
     <div class="info-box" id="leads-info-box-container">
-        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'activeleadsfilter']); ?>" data-toggle="ajax">
+        <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'activeleads']); ?>" data-toggle="ajax">
                 <span class="info-box-icon" style="background-color: #42CC39;>">
-                    <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
+                    <i class="fa fa-history" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.active.leads'); ?></span>
-                <span class="info-box-number"><?php echo $activeLeads[0]['activeleads']; ?></span>
+                <span class="info-box-number"><?php echo $activeLeads; ?></span>
             </div>
         </a>
     </div>
     <div>
         <div class="info-box" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> 'donotcontact']); ?>" data-toggle="ajax">
-            <span class="info-box-icon" style="background-color:#EF731C;>">
+            <span class="info-box-icon" style="background-color:#FF0000;>">
                   <i class="fa fa-user-times" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.churn.leads'); ?></span>

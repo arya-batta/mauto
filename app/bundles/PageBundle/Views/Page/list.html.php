@@ -140,13 +140,18 @@ $isAdmin=$view['security']->isAdmin();
                             <?php endif; ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="visible-md visible-lg" style="text-align: center;">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-md visible-lg"><?php echo $item->getHits(); ?></td>
+                    <td class="visible-sm visible-md visible-lg col-stats">
+                        <span class="label label-primary">
+                            <?php echo $item->getHits(); ?>
+                     </span>
+                    </td>
+
                     <?php if ($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>

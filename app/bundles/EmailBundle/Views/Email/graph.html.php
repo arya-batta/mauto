@@ -64,10 +64,10 @@ $actionRoute = $view['router']->path('mautic_email_action',
                     </div>
                 </div>
                 <div class="row">
-                    <div class="pt-0 pl-15 pb-10 pr-15 col-xs-6">
+                    <div class="pt-0 pl-15 pb-10 pr-15">
                         <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 300]); ?>
                     </div>
-                    <div class="pt-0 pl-15 pb-10 pr-15 col-xs-6">
+                    <div class="pt-0 pl-15 pb-10 pr-15 col-xs-6 hide">
                         <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $statsDevices, 'chartType' => 'horizontal-bar', 'chartHeight' => 300]); ?>
                     </div>
                 </div>

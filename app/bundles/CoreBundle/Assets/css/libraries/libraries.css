@@ -3572,9 +3572,38 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 1;
   color: #596776;
   text-align: center;
-  /* background-color: #ebedf0; */
-  /* border: 1px solid #d5d5d5; */
+  background-color: #EAEAEA;
+  border: 1px solid #DADADA;
   border-radius: 3px;
+}
+.le-input-group-addon{
+  display: table-cell;
+}
+.le-input-group-addon {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1;
+  color: #596776;
+  text-align: center;
+  /* background-color: #EAEAEA;
+   border: 1px solid #DADADA;*/
+  border-radius: 3px;
+}
+.le-input-group-addon{
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.le-input-group-addon.input-sm {
+  padding: 5px 10px;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.le-input-group-addon.input-lg {
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 4px;
 }
 .input-group-addon.input-sm {
   padding: 5px 10px;

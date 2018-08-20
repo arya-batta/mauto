@@ -142,6 +142,15 @@ Mautic.emailOnLoad = function (container, response) {
         var value = currentLink.attr('data-verified-emails');
         mQuery("#emailform_fromAddress").val(value);
     });
+    Mautic.filterBeeTemplates= function () {
+        d = document.getElementById("filters").value;
+        if(d == "all"){
+            mQuery('.bee-template').removeClass('hide');
+        } else {
+            mQuery('.bee-template').addClass('hide');
+            mQuery('.'+d).removeClass('hide');
+        }
+    };
 };
 
 Mautic.emailOnUnload = function(id) {
@@ -331,6 +340,7 @@ Mautic.selectEmailEditor = function(editorType) {
           var editor = mQuery('.builder-html').data('froala.editor');
           editor.commands.exec('html');
        }
+       mQuery('#filters_chosen').addClass('hide');
     } else if(activateTab == 'advance'){
         advance.trigger('click');
     } else{
