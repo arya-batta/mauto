@@ -317,19 +317,17 @@ $view['slots']->set(
                                 </tr>
                                 <tr>
                                     <td style="padding-top: .5em;">
-                                        <?php if (!empty($segmentName)): ?>
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
                                         <?php foreach ($segmentName as $segment): ?>
                                         <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
                                         <?php endforeach; ?>
-                                        <?php endif; ?>
                                         <div class="clearfix"></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: .5em;">
+                                        <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
                                             <?php if (!empty($pageHitDetails)): ?>
-                                                <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
                                                 <?php foreach ($pageHitDetails as $counter => $event): ?>
                                                     <?php
                                                     $linkType   = 'target="_new"';

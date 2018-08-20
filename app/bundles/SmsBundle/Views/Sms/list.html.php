@@ -150,7 +150,7 @@ if (count($items)):
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;">
                         <span class="mt-xs label label-primary has-click-event clickable-stat"
                               data-toggle="tooltip"
                               title="<?php echo $view['translator']->trans('mautic.channel.stat.leadcount.tooltip'); ?>">

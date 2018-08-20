@@ -34,6 +34,7 @@ echo $view['assets']->includeScript('plugins/MauticFocusBundle/Assets/js/focus.j
             'searchValue' => $searchValue,
             'searchHelp'  => 'mautic.core.help.searchcommands',
             'action'      => $currentRoute,
+            'filters'     => $filters,
         ]
     ); ?>
     <div class="page-list">

@@ -149,7 +149,11 @@ $isAdmin=$view['security']->isAdmin();
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-md visible-lg"><?php echo $item->getDownloadCount(); ?></td>
+                    <td class="visible-sm visible-md visible-lg col-stats" style="text-align: centre;">
+                        <span class="mt-xs label label-primary has-click-event clickable-stat">
+                            <?php echo $item->getDownloadCount(); ?>
+                        </span>
+                    </td>
                  <?php  if ($isAdmin): ?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                  <?php  endif; ?>

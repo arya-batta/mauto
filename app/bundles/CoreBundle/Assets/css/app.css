@@ -5591,3 +5591,9 @@ text-align: center;
   width: 211%;
   font-size: 15px;
 }
+.col-asset-title{
+  width: 50%;
+}
+.col-asset-download-count{
+  text-align: center;
+}

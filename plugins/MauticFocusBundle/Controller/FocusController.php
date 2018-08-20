@@ -237,4 +237,102 @@ class FocusController extends FormController
     {
         return parent::clonePopupsFromTemplateAction($objectId);
     }
+
+    /**
+     * @param array $args
+     * @param       $action
+     *
+     * @return array
+     */
+    public function getViewArguments(array $args, $action)
+    {
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'multiple'    => true,
+            ],
+        ];
+
+        // Reset available groups
+        $listFilters['filters']['groups'] = [];
+
+        $listFilters['filters']['groups']['mautic.core.filter.category'] = [
+            'options' => $this->getModel('category.category')->getLookupResults('plugin:focus'),
+            'prefix'  => 'category',
+        ];
+
+        switch ($action) {
+            case 'index':
+                $args['viewParameters']['filters']    = $listFilters;
+                break;
+        }
+
+        return $args;
+    }
+
+    /**
+     * @param       $start
+     * @param       $limit
+     * @param       $filter
+     * @param       $orderBy
+     * @param       $orderByDir
+     * @param array $args
+     */
+    protected function getIndexItems($start, $limit, $filter, $orderBy, $orderByDir, array $args = [])
+    {
+        $updatedFilters = $this->request->get('filters', false);
+
+        if ($updatedFilters) {
+            // Parse the selected values
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    list($clmn, $fltr) = explode(':', $updatedFilter);
+
+                    $newFilters[$clmn][] = $fltr;
+                }
+
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+
+        $this->get('session')->set('mautic.form.filter', []);
+        if (!empty($currentFilters)) {
+            $catIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                switch ($type) {
+                    case 'category':
+                        $key = 'categories';
+                        break;
+                }
+
+                $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
+
+                foreach ($typeFilters as $fltr) {
+                    switch (true) {
+                        case 'category':
+                            $catIds[] = (int) $fltr;
+                            break;
+                    }
+                }
+            }
+
+            if (!empty($catIds)) {
+                $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
+            }
+        }
+
+        return parent::getIndexItems(
+            $start,
+            $limit,
+            $filter,
+            $orderBy,
+            $orderByDir,
+            $args
+        );
+    }
 }
