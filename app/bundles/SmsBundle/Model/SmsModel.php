@@ -296,15 +296,6 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                         )
                     );
 
-                    $sendResult = [
-                        'sent'    => false,
-                        'type'    => 'mautic.sms.sms',
-                        'status'  => 'mautic.sms.timeline.status.delivered',
-                        'id'      => $sms->getId(),
-                        'name'    => $sms->getName(),
-                        'content' => $tokenEvent->getContent(),
-                    ];
-
                     $metadata = $this->transport->sendSms($leadPhoneNumber, $tokenEvent->getContent());
 
                     if (true !== $metadata) {
@@ -315,6 +306,16 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                         $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
                         ++$sentCount;
                     }
+
+                    $sendResult = [
+                        'sent'    => false,
+                        'type'    => 'mautic.sms.sms',
+                        'status'  => 'mautic.sms.timeline.status.delivered',
+                        'id'      => $sms->getId(),
+                        'name'    => $sms->getName(),
+                        'content' => $tokenEvent->getContent(),
+                        'errorResult'=> $sendResultText,
+                    ];
 
                     $results[$leadId] = $sendResult;
 
@@ -328,7 +329,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $this->getStatRepository()->saveEntities($stats);
             $this->em->clear(Stat::class);
         }
-        $results['errorResult'] = $sendResultText;
+      //  $results['errorResult'] = $sendResultText;
 
         return $results;
     }

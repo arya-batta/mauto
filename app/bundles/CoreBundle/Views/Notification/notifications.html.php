@@ -8,7 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if ($view['security']->isAdmin()) {
+if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
     $isadmin = true;
 } else {
     $isadmin = false;
