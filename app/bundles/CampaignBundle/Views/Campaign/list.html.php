@@ -98,7 +98,7 @@ $isAdmin=$view['security']->isAdmin();
                             ); ?>
                             <a href="<?php echo $view['router']->path(
                                 'mautic_campaign_action',
-                                ['objectAction' => 'view', 'objectId' => $item->getId()]
+                                ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
                             <?php echo $view['content']->getCustomContent('campaign.name', $mauticTemplateVars); ?>

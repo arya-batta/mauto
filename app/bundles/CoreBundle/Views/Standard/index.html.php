@@ -34,6 +34,8 @@ $view['slots']->set(
             'actionRoute'     => $actionRoute,
             'indexRoute'      => $indexRoute,
             'translationBase' => $translationBase,
+            'customAction'    => (isset($customAction)) ? $customAction : '',
+            'customAttr'      => (isset($customAttr)) ? $customAttr : [],
         ]
     )
 );

@@ -11,6 +11,7 @@
 
 namespace Mautic\CoreBundle\Controller;
 
+use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\Entity\FormEntity;
 use Mautic\CoreBundle\Model\AbstractCommonModel;
 use Mautic\CoreBundle\Model\FormModel;
@@ -1016,6 +1017,13 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $model = $this->getModel($this->getModelName());
         if (!$model instanceof FormModel) {
             throw new \Exception(get_class($model).' must extend '.FormModel::class);
+        }
+
+        if ($model instanceof CampaignModel) {
+            $campname = $this->request->get('campaignName', '');
+            if ($campname != '') {
+                $entity->setName($campname);
+            }
         }
 
         //set the page we came from

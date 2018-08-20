@@ -34,7 +34,6 @@ foreach ($templateButtons as $action => $enabled) {
     $path     = false;
     $primary  = false;
     $priority = 0;
-
     switch ($action) {
         case 'clone':
         case 'abtest':
@@ -56,7 +55,10 @@ foreach ($templateButtons as $action => $enabled) {
         case'edit':
             $actionQuery = ('edit' == $action) ? ['objectId' => $item->getId()] : [];
             $icon        = ('edit' == $action) ? 'pencil-square-o' : 'plus';
-            $path        = $view['router']->path($actionRoute, array_merge(['objectAction' => $action], $actionQuery, $query));
+            if (!isset($customAction) || $customAction == '') {
+                $customAction = $action;
+            }
+            $path        = $view['router']->path($actionRoute, array_merge(['objectAction' => $customAction], $actionQuery, $query));
             $primary     = true;
             break;
         case 'delete':
@@ -82,6 +84,9 @@ foreach ($templateButtons as $action => $enabled) {
 
     if ($path) {
         $mergeAttr = (!in_array($action, ['edit', 'new'])) ? [] : $editAttr;
+        if (isset($customAttr)) {
+            $mergeAttr = array_merge($mergeAttr, $customAttr);
+        }
         $view['buttons']->addButton(
             [
                 'attr' => array_merge(

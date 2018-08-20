@@ -45,86 +45,112 @@ class CampaignType extends AbstractType
     {
         $builder->addEventSubscriber(new CleanFormSubscriber(['description' => 'html']));
         $builder->addEventSubscriber(new FormExitSubscriber('campaign', $options));
+        if ($options['isShortForm']) {
+            $builder->add('name', 'text', [
+                'label'      => 'mautic.core.name',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => ['class' => 'form-control'],
+                'required'   => true,
+            ]);
 
-        $builder->add('name', 'text', [
-            'label'      => 'mautic.core.name',
-            'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control'],
-        ]);
-
-        $builder->add('description', 'textarea', [
-            'label'      => 'mautic.core.description',
-            'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control editor'],
-            'required'   => false,
-        ]);
-
-        //add category
-        $builder->add('category', 'category', [
-            'bundle' => 'campaign',
-        ]);
-
-        if (!empty($options['data']) && $options['data']->getId()) {
-            $readonly = !$this->security->isGranted('campaign:campaigns:publish');
-            $data     = $options['data']->isPublished(false);
-        } elseif (!$this->security->isGranted('campaign:campaigns:publish')) {
-            $readonly = true;
-            $data     = false;
-        } else {
-            $readonly = false;
-            $data     = false;
-        }
-
-        $builder->add('isPublished', 'yesno_button_group', [
-            'read_only' => $readonly,
-            'data'      => $data,
-        ]);
-
-        $builder->add('publishUp', 'datetime', [
-            'widget'     => 'single_text',
-            'label'      => 'mautic.core.form.publishup',
-            'label_attr' => ['class' => 'control-label'],
-            'attr'       => [
-                'class'       => 'form-control',
-                'data-toggle' => 'datetime',
-            ],
-            'format'   => 'yyyy-MM-dd HH:mm',
-            'required' => false,
-        ]);
-
-        $builder->add('publishDown', 'datetime', [
-            'widget'     => 'single_text',
-            'label'      => 'mautic.core.form.publishdown',
-            'label_attr' => ['class' => 'control-label'],
-            'attr'       => [
-                'class'       => 'form-control',
-                'data-toggle' => 'datetime',
-            ],
-            'format'   => 'yyyy-MM-dd HH:mm',
-            'required' => false,
-        ]);
-
-        $builder->add('sessionId', 'hidden', [
-            'mapped' => false,
-        ]);
-
-        if (!empty($options['action'])) {
-            $builder->setAction($options['action']);
-        }
-
-        $builder->add('buttons', 'form_buttons', [
-            'pre_extra_buttons' => [
+            $builder->add(
+                'buttons',
+                'form_buttons',
                 [
-                    'name'  => 'builder',
-                    'label' => 'mautic.campaign.campaign.launch.builder',
-                    'attr'  => [
-                        'class'   => 'btn btn-default btn-dnd le-btn-default',
-                        'icon'    => 'fa fa-cube',
-                        'onclick' => 'Mautic.launchCampaignEditor();',
+                    'apply_text' => false,
+                    'save_text'  => 'le.campaign.new.add.create.campaign',
+                    'save_attr'  => [
+                        'href'         => '#',
+                    ],
+                    'save_onclick' => 'Mautic.CloseDataModelCampaign()',
+                    'cancel_attr'  => [
+                        'data-dismiss' => 'modal',
+                        'href'         => '#',
+                    ],
+                ]
+            );
+        } else {
+            $builder->add('name', 'text', [
+                'label'      => 'mautic.core.name',
+                'label_attr' => ['class' => 'control-label', 'style' => 'color:#fff;'],
+                'attr'       => ['class' => 'form-control'],
+            ]);
+
+            $builder->add('description', 'textarea', [
+                'label'      => 'mautic.core.description',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => ['class' => 'form-control editor'],
+                'required'   => false,
+            ]);
+
+            //add category
+            $builder->add('category', 'category', [
+                'bundle'     => 'campaign',
+                'label_attr' => ['class' => 'control-label', 'style' => 'color:#fff;'],
+            ]);
+
+            if (!empty($options['data']) && $options['data']->getId()) {
+                $readonly = !$this->security->isGranted('campaign:campaigns:publish');
+                $data     = $options['data']->isPublished(false);
+            } elseif (!$this->security->isGranted('campaign:campaigns:publish')) {
+                $readonly = true;
+                $data     = false;
+            } else {
+                $readonly = false;
+                $data     = false;
+            }
+
+            $builder->add('isPublished', 'yesno_button_group', [
+                'read_only' => $readonly,
+                'data'      => $data,
+            ]);
+
+            $builder->add('publishUp', 'datetime', [
+                'widget'     => 'single_text',
+                'label'      => 'mautic.core.form.publishup',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'       => 'form-control',
+                    'data-toggle' => 'datetime',
+                ],
+                'format'   => 'yyyy-MM-dd HH:mm',
+                'required' => false,
+            ]);
+
+            $builder->add('publishDown', 'datetime', [
+                'widget'     => 'single_text',
+                'label'      => 'mautic.core.form.publishdown',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'       => 'form-control',
+                    'data-toggle' => 'datetime',
+                ],
+                'format'   => 'yyyy-MM-dd HH:mm',
+                'required' => false,
+            ]);
+
+            $builder->add('sessionId', 'hidden', [
+                'mapped' => false,
+            ]);
+
+            if (!empty($options['action'])) {
+                $builder->setAction($options['action']);
+            }
+
+            $builder->add('buttons', 'form_buttons', [
+                'pre_extra_buttons' => [
+                    [
+                        'name'  => 'builder',
+                        'label' => 'mautic.campaign.campaign.launch.builder',
+                        'attr'  => [
+                            'class'   => 'btn btn-default btn-dnd le-btn-default',
+                            'icon'    => 'fa fa-cube',
+                            'onclick' => 'Mautic.launchCampaignEditor();',
+                        ],
                     ],
                 ],
-            ],
-        ]);
+            ]);
+        }
     }
 
     /**
@@ -133,7 +159,8 @@ class CampaignType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Mautic\CampaignBundle\Entity\Campaign',
+            'data_class'  => 'Mautic\CampaignBundle\Entity\Campaign',
+            'isShortForm' => false,
         ]);
     }
 

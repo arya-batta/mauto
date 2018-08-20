@@ -8,23 +8,65 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+$isAdmin=$view['security']->isAdmin();
 ?>
 <div class="hide builder campaign-builder live">
-    <div class="btns-builder">
-        <button type="button" class="btn btn-primary btn-apply-builder" onclick="Mautic.saveCampaignFromBuilder();">
-            <?php echo $view['translator']->trans('mautic.core.form.apply'); ?>
-        </button>
-        <button type="button" class="btn btn-primary btn-close-campaign-builder"
+    <div class="btns-builders custom-campaign-builder">
+        <?php echo $view['form']->start($form); ?>
+        <!-- start: box layout -->
+            <!-- container -->
+            <div class="col-md-6 height-auto">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo $view['form']->row($form['name']); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php echo $view['form']->row($form['category']); ?>
+                        </div>
+                    </div>
+                    <div class="row hide">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->row($form['description']); ?>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-md-3 bg-white height-auto hide">
+                <div class="pr-lg pl-lg pt-md pb-md">
+                    <div class="hide">
+                        <?php
+                        echo $view['form']->row($form['isPublished']);
+                        echo $view['form']->row($form['publishUp']);
+                        echo $view['form']->row($form['publishDown']);
+                        ?>
+                    </div>
+                </div>
+            </div>
+        <div class="campaign-custom-button-div">
+        <?php echo $view['form']->end($form); ?>
+        <!--<button type="button" class="btn btn-primary btn-close-campaign-builder campaign-custom-close-button"
                 onclick="Mautic.closeCampaignBuilder();">
             <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
-        </button>
+        </button>-->
+            <button type="button" class="btn btn-primary btn-save-builder campaign-custom-save-button" onclick="Mautic.saveCampaignFromBuilder();">
+                <?php echo $view['translator']->trans('mautic.core.close'); ?>
+            </button>
+            <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
+                <?php echo $view['translator']->trans('mautic.core.form.save'); ?>
+            </button>
+            <div class="custom-fields">
+            <button type="button" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
+                <?php echo $view['translator']->trans('Start Campaign'); ?>
+            </button>
+
+        </div>
+        </div>
     </div>
     <div id="builder-errors" class="alert alert-danger" role="alert" style="display: none;">test</div>
     <div class="builder-content">
         <div id="CampaignCanvas">
             <div id="CampaignEvent_newsource<?php if (!empty($campaignSources)) {
-    echo '_hide';
-} ?>" class="text-center list-campaign-source list-campaign-leadsource">
+                            echo '_hide';
+                        } ?>" class="text-center list-campaign-source list-campaign-leadsource">
                 <div class="campaign-event-content">
                     <div>
                         <span class="campaign-event-name ellipsis">
@@ -55,6 +97,18 @@
 
         </div>
     </div>
+    <div class="campaign-statistics">
+        <?php if ($actions): ?>
+            <div class="active tab-pane fade in bdr-w-0 minimized" id="actions-container" style="">
+                <div class="modal-header campaign-model-header" style="height:50px;">
+                    <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
+                    <a href="#" onclick="Mautic.CloseStatisticsWidget();"><span aria-hidden="true" id="campaignStatistics" style="float:right;font-size:14px;background-color: #ec407a;padding-left: 3px;padding-right: 5px;" value="open">&gt;</span></a>
+                </div>
+                <?php echo $actions; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
 </div>
 <!-- dropped coordinates -->
 <input type="hidden" value="" id="droppedX"/>

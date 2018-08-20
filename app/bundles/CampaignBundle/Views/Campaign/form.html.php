@@ -18,46 +18,6 @@ $view['slots']->set('headerTitle', $header);
 $isAdmin=$view['security']->isAdmin();
 ?>
 
-<?php echo $view['form']->start($form); ?>
-<!-- start: box layout -->
-<div class="box-layout">
-    <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-r">
-        <div class="pa-md">
-            <?php if ($entity->getId() && $entity->isPublished()): ?>
-                <div class="alert alert-danger"><p><?php echo $view['translator']->trans('mautic.campaign.modify.warning'); ?></p></div>
-            <?php endif; ?>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['name']); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php echo $view['form']->row($form['description']); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 bg-white height-auto">
-        <div class="pr-lg pl-lg pt-md pb-md">
-            <?php
-            echo $view['form']->row($form['category']);
-            echo $view['form']->row($form['isPublished']);
-            ?>
-            <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-                <?php
-                echo $view['form']->row($form['publishUp']);
-                echo $view['form']->row($form['publishDown']);
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php echo $view['form']->end($form); ?>
-
 <?php
 if ($items != null && !empty($items)):
 echo $view->render(
@@ -75,12 +35,18 @@ echo $view->render(
     );
 endif;
 ?>
-<?php echo $view->render('MauticCampaignBundle:Campaign:builder.html.php', [
+<?php
+$actions    = trim($view->render('MauticCampaignBundle:Campaign:events.html.php', ['events' => $events['action']]));
+echo $view->render('MauticCampaignBundle:Campaign:builder.html.php', [
     'campaignId'      => $form['sessionId']->vars['data'],
     'campaignEvents'  => $campaignEvents,
     'campaignSources' => $campaignSources,
     'eventSettings'   => $eventSettings,
     'canvasSettings'  => $entity->getCanvasSettings(),
+    'form'            => $form,
+    'actions'         => $actions,
+    'actionRoute'     => $actionRoute,
+    'entity'          => $entity,
 ]);
 
 ?>

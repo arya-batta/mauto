@@ -158,6 +158,46 @@ class CampaignController extends AbstractStandardFormController
         return $this->newStandard($objectId);
     }
 
+    public function quickaddAction()
+    {
+        /** @var CampaignModel $model */
+        $model     = $this->getModel('campaign');
+        $campaign  = $model->getEntity();
+        $action    = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'quickadd']);
+        $form      = $model->createForm($campaign, $this->get('form.factory'), $action, ['isShortForm' => true]);
+        if ($this->request->getMethod() == 'POST') {
+            $valid = false;
+            if (!$cancelled = $this->isFormCancelled($form)) {
+                if ($valid = $this->isFormValid($form)) {
+                    $name      = $campaign->getName();
+                    $newaction = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'new', 'campaignName' => $name]);
+
+                    return $this->delegateRedirect($newaction);
+                }
+            }
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form'   => $form->createView(),
+                    'lead'   => $campaign,
+                ],
+                'contentTemplate' => 'MauticCampaignBundle:Campaign:quickadd.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#mautic_campaign_index',
+                    'mauticContent' => 'lead',
+                    'route'         => $this->generateUrl(
+                        'mautic_campaign_action',
+                        [
+                            'objectAction' => 'new',
+                        ]
+                    ),
+                ],
+            ]
+        );
+    }
+
     /**
      * View a specific campaign.
      *
@@ -165,10 +205,10 @@ class CampaignController extends AbstractStandardFormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction($objectId)
+    /*public function viewAction($objectId)
     {
         return $this->viewStandard($objectId, $this->getModelName(), null, null, 'campaign');
-    }
+    }*/
 
     /**
      * @param $campaign
@@ -329,7 +369,7 @@ class CampaignController extends AbstractStandardFormController
                 )
             );
 
-            return false;
+            return true; //not validating campaign events
         }
 
         if (empty($this->campaignSources['lists']) && empty($this->campaignSources['forms'])) {
@@ -340,7 +380,7 @@ class CampaignController extends AbstractStandardFormController
                 )
             );
 
-            return false;
+            return true; //not validating campaign sources.
         }
 
         if ($isClone) {
@@ -657,7 +697,14 @@ class CampaignController extends AbstractStandardFormController
     {
         switch ($action) {
             case 'index':
-                $args['viewParameters']['filters'] = $this->listFilters;
+                $args['viewParameters']['customAction'] = 'quickadd';
+                $customAttr                             = [
+                    'data-toggle' => 'ajaxmodal',
+                    'data-target' => '#MauticSharedModal',
+                    'data-header' => $this->translator->trans('le.campaign.new.add'),
+                ];
+                $args['viewParameters']['customAttr'] = $customAttr;
+                $args['viewParameters']['filters']    = $this->listFilters;
                 break;
             case 'view':
                 /** @var Campaign $entity */
@@ -668,36 +715,7 @@ class CampaignController extends AbstractStandardFormController
                 $action          = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]);
                 $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
-                /** @var LeadEventLogRepository $eventLogRepo */
-                $eventLogRepo      = $this->getDoctrine()->getManager()->getRepository('MauticCampaignBundle:LeadEventLog');
-                $events            = $this->getCampaignModel()->getEventRepository()->getCampaignEvents($entity->getId());
-                $leadCount         = $this->getCampaignModel()->getRepository()->getCampaignLeadCount($entity->getId());
-                $campaignLogCounts = $eventLogRepo->getCampaignLogCounts($entity->getId(), false, false);
-                $sortedEvents      = [
-                    'decision'  => [],
-                    'action'    => [],
-                    'condition' => [],
-                ];
-
-                foreach ($events as $event) {
-                    $event['logCount']   =
-                    $event['percent']    =
-                    $event['yesPercent'] =
-                    $event['noPercent']  = 0;
-                    $event['leadCount']  = $leadCount;
-
-                    if (isset($campaignLogCounts[$event['id']])) {
-                        $event['logCount'] = array_sum($campaignLogCounts[$event['id']]);
-
-                        if ($leadCount) {
-                            $event['percent']    = round(($event['logCount'] / $leadCount) * 100, 1);
-                            $event['yesPercent'] = round(($campaignLogCounts[$event['id']][1] / $leadCount) * 100, 1);
-                            $event['noPercent']  = round(($campaignLogCounts[$event['id']][0] / $leadCount) * 100, 1);
-                        }
-                    }
-
-                    $sortedEvents[$event['eventType']][] = $event;
-                }
+                $events          = $this->getCampaignModel()->getEventRepository()->getCampaignEvents($entity->getId());
 
                 $stats = $this->getCampaignModel()->getCampaignMetricsLineChartData(
                     null,
@@ -719,7 +737,7 @@ class CampaignController extends AbstractStandardFormController
                     [
                         'campaign'        => $entity,
                         'stats'           => $stats,
-                        'events'          => $sortedEvents,
+                        'events'          => $this->getSortedEvents($args),
                         'eventSettings'   => $this->getCampaignModel()->getEvents(),
                         'sources'         => $this->getCampaignModel()->getLeadSources($entity),
                         'dateRangeForm'   => $dateRangeForm->createView(),
@@ -739,6 +757,7 @@ class CampaignController extends AbstractStandardFormController
 
             case 'new':
             case 'edit':
+                $events                 = $this->getSortedEvents($args);
                 $args['viewParameters'] = array_merge(
                     $args['viewParameters'],
                     [
@@ -746,12 +765,50 @@ class CampaignController extends AbstractStandardFormController
                         'campaignEvents'  => $this->campaignEvents,
                         'campaignSources' => $this->campaignSources,
                         'deletedEvents'   => $this->deletedEvents,
+                        'events'          => $events,
                     ]
                 );
                 break;
         }
 
         return $args;
+    }
+
+    public function getSortedEvents($args)
+    {
+        $entity   = $args['entity'];
+        /** @var LeadEventLogRepository $eventLogRepo */
+        $eventLogRepo      = $this->getDoctrine()->getManager()->getRepository('MauticCampaignBundle:LeadEventLog');
+        $events            = $this->getCampaignModel()->getEventRepository()->getCampaignEvents($entity->getId());
+        $leadCount         = $this->getCampaignModel()->getRepository()->getCampaignLeadCount($entity->getId());
+        $campaignLogCounts = $eventLogRepo->getCampaignLogCounts($entity->getId(), false, false);
+        $sortedEvents      = [
+            'decision'  => [],
+            'action'    => [],
+            'condition' => [],
+        ];
+
+        foreach ($events as $event) {
+            $event['logCount']   =
+            $event['percent']    =
+            $event['yesPercent'] =
+            $event['noPercent']  = 0;
+            $event['leadCount']  = $leadCount;
+
+            if (isset($campaignLogCounts[$event['id']])) {
+                $event['logCount'] = array_sum($campaignLogCounts[$event['id']]);
+
+                if ($leadCount) {
+                    $event['percent']    = round(($event['logCount'] / $leadCount) * 100, 1);
+                    $event['yesPercent'] = round(($campaignLogCounts[$event['id']][1] / $leadCount) * 100, 1);
+                    $event['noPercent']  = round(($campaignLogCounts[$event['id']][0] / $leadCount) * 100, 1);
+                }
+            }
+
+            $sortedEvents[$event['eventType']][] = $event;
+        }
+
+        return $sortedEvents;
     }
 
     /**
