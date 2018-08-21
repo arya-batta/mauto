@@ -531,7 +531,7 @@ solid #ccc;outline:none;border-radius:3px;font:normal 16px/24px "GT-Walsheim-Reg
 18px;-webkit-transition:border-color 150ms;transition:border-color 150ms;width:100% !important;height:48px}.le-pasword-reset-widget:hover{-webkit-box-shadow:none;box-shadow:none;border:1px
 solid #757575}.le-pasword-reset-widget:focus{-webkit-box-shadow:none;box-shadow:none;border:1px
 solid #f224f2}.le-new-login-register .lg-info-panel .lg-content
-h2{color:#fff}.le-new-login-register .lg-info-panel{background:url("https://s3.ap-south-1.amazonaws.com/cops.cratiocrm.com/images/login-register.jpg") no-repeat center center / cover!important;position:fixed}.lg-content-header{line-height:36px;font-size:24px}.le-content-description{padding:20px
+h2{color:#fff}.le-new-login-register .lg-info-panel{position:fixed}.lg-content-header{line-height:36px;font-size:24px;text-transform:uppercase}.le-content-description{padding:20px
 0;color:rgba(255, 255, 255, 0.7);font-style:italic}.col-client-id{width:75px}.thumbnail-preview
 img{height:100px}.modal-body-content iframe, .preview-detail
 iframe{height:400px}.form-group.preview
