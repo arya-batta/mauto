@@ -30,10 +30,9 @@ class PasswordResetConfirmType extends AbstractType
 
         $builder->add('identifier', 'text', [
             'label'      => 'mautic.user.auth.form.loginusername',
-            'label_attr' => ['class' => 'sr-only'],
+            'label_attr' => ['class' => 'le-login-label'],
             'attr'       => [
-                'class'       => 'form-control',
-                'preaddon'    => 'fa fa-user',
+                'class'       => 'form-control le-pasword-reset-widget',
                 'placeholder' => 'mautic.user.auth.form.loginusername',
             ],
             'required'    => true,
@@ -46,12 +45,11 @@ class PasswordResetConfirmType extends AbstractType
             'first_name'    => 'password',
             'first_options' => [
                 'label'      => 'mautic.core.password',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'le-login-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-pasword-reset-widget',
                     'placeholder'  => 'mautic.user.user.passwordreset.password.placeholder',
                     'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
-                    'preaddon'     => 'fa fa-lock',
                     'autocomplete' => 'off',
                 ],
                 'required'       => true,
@@ -67,12 +65,11 @@ class PasswordResetConfirmType extends AbstractType
             'second_name'    => 'confirm',
             'second_options' => [
                 'label'      => 'mautic.user.user.form.passwordconfirm',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'le-login-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-pasword-reset-widget',
                     'placeholder'  => 'mautic.user.user.passwordreset.confirm.placeholder',
                     'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
-                    'preaddon'     => 'fa fa-lock',
                     'autocomplete' => 'off',
                 ],
                 'required'       => true,

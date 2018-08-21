@@ -2251,13 +2251,13 @@ label {
 .radio.custom-primary label input + span:after,
 .checkbox-inline.custom-primary label input + span:after,
 .radio-inline.custom-primary label input + span:after {
-  background-color: #375695;
+  background-color: #ec407a;
 }
 .checkbox.custom-primary label input:checked + span,
 .radio.custom-primary label input:checked + span,
 .checkbox-inline.custom-primary label input:checked + span,
 .radio-inline.custom-primary label input:checked + span {
-  border: 1px solid #375695;
+  border: 1px solid #ec407a;
 }
 .checkbox.custom-primary label:hover input + span,
 .radio.custom-primary label:hover input + span,
@@ -2269,7 +2269,7 @@ label {
 .radio.custom-primary label:hover input:checked + span,
 .checkbox-inline.custom-primary label:hover input:checked + span,
 .radio-inline.custom-primary label:hover input:checked + span {
-  border: 1px solid #375695;
+  border: 1px solid #ec407a;
 }
 .checkbox.custom-info label input + span:after,
 .radio.custom-info label input + span:after,
@@ -5397,7 +5397,7 @@ figcaption {
   line-height: 58px;
 }
 .info-box-content {
-  padding: 17px 7px;
+  padding: 16px 7px;
   margin-left: 42%;
   font-size: 12px;
 }
@@ -5596,4 +5596,224 @@ text-align: center;
 }
 .col-asset-download-count{
   text-align: center;
+}
+.left-col__inner{
+  width: 60%;
+  margin-left: -126%;
+}
+.external-container--signin__grid-item.left-col {
+    width: 35%;
+    padding: 100px 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.external-container--signin__grid-item.left-col {
+  padding: 36px;
+  margin: 0 auto;
+  width: 100%;
+}
+.external-container--signin__grid-item.right-col, .external-container--signin__grid-item.left-col {
+  width: 100%;
+}
+.le-login-label {
+  font: normal 16px/24px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+  color: #000000;
+  display: block;
+  padding: 0 3px 6px;
+  white-space: nowrap;
+}
+.le-login-widget{
+    display: block;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+   position: relative;
+   border: 1px solid #cccccc;
+   outline: none;
+   border-radius: 3px;
+   font: normal 16px/24px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+   color: #262626;
+   padding: 12px 18px;
+   -webkit-transition: border-color 150ms;
+   transition: border-color 150ms;
+   width:  150% !important;
+   height: 48px;
+}
+.le-login-widget:hover{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid #757575;
+}
+.le-login-widget:focus{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid #f224f2;
+}
+.le-login-button {
+  position: inherit;
+  min-height: 47px;
+  margin: 0;
+  padding: 5px 36px;
+  margin-top: 45px;
+  -moz-appearance: none;
+  appearance: none;
+  -moz-osx-font-smoothing: grayscale;
+  font: normal 16px/32px "GT-Walsheim-Bold", "Poppins-Bold", Helvetica, Arial, sans-serif;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-transition: background 150ms, border-color 150ms;
+  transition: background 150ms, border-color 150ms;
+  font-weight: 600;
+}
+.le-login-button:hover{
+  color: #ffffff;
+  background-color: #EF6E99;
+}
+.le-button-container{
+
+}
+.le-btn-danger{
+  background: #f33155;
+  border: 1px solid #f33155;
+}
+.le-btn-danger:hover{
+  background: #f33155;
+  opacity: 0.8;
+  border: 1px solid #f33155;
+}
+.le-password-reset{
+  font: normal 15px/34px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+  text-decoration: underline;
+}
+.le-password-reset:hover{
+  color: #ec407a;
+  background-color: #ffffff;
+}
+.le-copyright-content{
+  width: 220%;
+  color: black;
+  margin-top: 10px;
+  font: normal 14px/24px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+}
+.le-login-content{
+  font: normal 15px/19px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+  color: #262626;
+  cursor: pointer;
+  white-space: normal;
+  word-break: break-all;
+  display: block;
+  position: relative;
+  -webkit-transition: color 150ms;
+  transition: color 150ms;
+}
+.le-new-login-register .lg-info-panel {
+  width: 450px;
+}
+.le-new-login-register .lg-info-panel {
+  width: 460px;
+  height: 100%;
+  position: fixed;
+}
+.le-new-login-register .lg-info-panel .inner-panel {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.le-new-login-register .lg-info-panel .lg-content {
+  margin-top: 50%;
+  text-align: center;
+  padding: 0 50px;
+}
+.le-new-login-register .new-login-box {
+  margin-left: 500px;
+}
+.le-new-login-register .new-login-box {
+  margin-left: 50%;
+  margin-top: 10%;
+  width: 400px;
+}
+.white-box {
+  background: #ffffff;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+.white-box .box-title {
+  margin: 0px 0px 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+.le-new-login-register .new-login-box .new-lg-form {
+  padding-top: 20px;
+}
+#recoverform {
+  display: none;
+}
+.form-horizontal .form-group {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.form-horizontal .form-group {
+  margin-bottom: 25px;
+}
+.le-new-login-register .lg-info-panel .lg-content {
+  margin-top: 50%;
+  text-align: center;
+  padding: 0 50px;
+}
+#wrapper {
+  width: 100%;
+}
+.le-new-login-register {
+  position: absolute;
+  height: 100%;
+}
+.le-pasword-reset-widget{
+  display: block;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  position: relative;
+  border: 1px solid #cccccc;
+  outline: none;
+  border-radius: 3px;
+  font: normal 16px/24px "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+  color: #262626;
+  padding: 12px 18px;
+  -webkit-transition: border-color 150ms;
+  transition: border-color 150ms;
+  width:  100% !important;
+  height: 48px;
+}
+.le-pasword-reset-widget:hover{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid #757575;
+}
+.le-pasword-reset-widget:focus{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid #f224f2;
+}
+.le-new-login-register .lg-info-panel .lg-content h2 {
+  color: #ffffff;
+}
+.le-new-login-register .lg-info-panel {
+  position: fixed;
+}
+.lg-content-header{
+  line-height: 36px;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.le-content-description {
+  padding: 20px 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
 }

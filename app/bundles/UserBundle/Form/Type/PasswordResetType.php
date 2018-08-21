@@ -30,10 +30,9 @@ class PasswordResetType extends AbstractType
 
         $builder->add('identifier', 'text', [
             'label'      => 'mautic.user.auth.form.loginusername',
-            'label_attr' => ['class' => 'sr-only'],
+            'label_attr' => ['class' => 'le-login-label'],
             'attr'       => [
-                'class'       => 'form-control',
-                'preaddon'    => 'fa fa-user',
+                'class'       => 'form-control le-pasword-reset-widget',
                 'placeholder' => 'mautic.user.auth.form.loginusername',
             ],
             'constraints' => [
