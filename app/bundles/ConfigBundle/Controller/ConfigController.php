@@ -364,8 +364,8 @@ class ConfigController extends FormController
             $objects['account_sid']        = '';
             $objects['sms_from_number']    = '';
         } elseif ($objects['sms_transport'] == 'mautic.sms.transport.twilio') {
-            $apikeys['username']              = $objects['account_auth_token'];
-            $apikeys['password']              = $objects['account_sid'];
+            $apikeys['username']              = $objects['account_sid'];
+            $apikeys['password']              = $objects['account_auth_token'];
             $features['sending_phone_number'] = $objects['sms_from_number'];
             $objects['account_url']           = '';
             $objects['account_api_key']       = '';

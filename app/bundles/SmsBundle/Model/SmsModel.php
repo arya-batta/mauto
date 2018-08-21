@@ -301,14 +301,15 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     if (true !== $metadata) {
                         $sendResult['status'] = $metadata;
                         $sendResultText       = 'Failed';
+                        $send = false;
                     } else {
-                        $sendResult['sent'] = true;
+                        $send = true;
                         $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
                         ++$sentCount;
                     }
 
                     $sendResult = [
-                        'sent'    => false,
+                        'sent'    => $send,
                         'type'    => 'mautic.sms.sms',
                         'status'  => 'mautic.sms.timeline.status.delivered',
                         'id'      => $sms->getId(),
