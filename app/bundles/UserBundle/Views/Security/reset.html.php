@@ -23,6 +23,6 @@ echo $view['form']->widget($form['submit']);
 echo $view['form']->end($form);
 ?>
 
-<div class="mt-sm">
+<div class="mt-sm le-password-reset">
     <a href="<?php echo $view['router']->path('login'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.back'); ?></a>
 </div>

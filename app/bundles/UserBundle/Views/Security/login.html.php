@@ -22,22 +22,19 @@
 <?php endif; ?>
 <form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="<?php echo $view['router']->path('mautic_user_logincheck') ?>" method="post">
     <div class="input-group mb-md">
-
-        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-        <label for="username" class="sr-only"><?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?></label>
-        <input type="text" id="username" name="_username"
-               class="form-control input-lg" value="<?php echo $view->escape($last_username) ?>" required autofocus
+        <label class="le-login-label" for="username"><?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?></label>
+        <input  type="text" id="username" name="_username"
+               class="form-control input-lg le-login-widget" value="<?php echo $view->escape($last_username) ?>" required autofocus
                placeholder="<?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?>" />
     </div>
     <div class="input-group mb-md">
-        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-        <label for="password" class="sr-only"><?php echo $view['translator']->trans('mautic.core.password'); ?>:</label>
+        <label for="password" class="le-login-label"><?php echo $view['translator']->trans('mautic.core.password'); ?></label>
         <input type="password" id="password" name="_password"
-               class="form-control input-lg" required
+               class="form-control input-lg le-login-widget" required
                placeholder="<?php echo $view['translator']->trans('mautic.core.password'); ?>" />
     </div>
 
-    <div class="checkbox-inline custom-primary pull-left mb-md">
+    <div class="checkbox-inline custom-primary pull-left mb-md le-login-content">
         <label for="remember_me">
             <input type="checkbox" id="remember_me" name="_remember_me" />
             <span></span>
@@ -46,10 +43,12 @@
     </div>
 
     <input type="hidden" name="_csrf_token" value="<?php echo $view->escape($view['form']->csrfToken('authenticate')) ?>" />
-    <button class="btn btn-lg btn-primary btn-block" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
-
-    <div class="mt-sm text-right">
-        <a href="<?php echo $view['router']->path('mautic_user_passwordreset'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.link'); ?></a>
+    <div class="le-button-container">
+        <button class="btn btn-lg btn-primary btn-block le-login-button" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
+        <a class="le-password-reset" href="<?php echo $view['router']->path('mautic_user_passwordreset'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.link'); ?></a>
+    </div>
+    <div class="le-copyright-content">
+        <?php echo $view['translator']->trans('mautic.core.copyright', ['%date%' => date('Y')]); ?>
     </div>
 </form>
 <?php if (!empty($integrations)): ?>
