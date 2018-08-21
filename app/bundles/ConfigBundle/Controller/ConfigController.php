@@ -319,6 +319,7 @@ class ConfigController extends FormController
      *
      * @return array
      */
+
     private function mergeParamsWithLocal(&$forms, $doNotChange)
     {
         // Import the current local configuration, $parameters is defined in this file
