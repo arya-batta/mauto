@@ -266,11 +266,14 @@ class LeadController extends FormController
         }
 
         // Get the max ID of the latest lead added
+        $ownerId           = $this->get('mautic.helper.user')->getUser()->getId();
+        $isAdmin           = $this->get('mautic.helper.user')->getUser()->isAdmin();
+        $isCustomAdmin     = $this->get('mautic.helper.user')->getUser()->isCustomAdmin();
         $maxLeadId         = $model->getRepository()->getMaxLeadId();
-        $activeLeads       = $model->getRepository()->getActiveLeadCount();
-        $recentlyAdded     = $model->getRepository()->getRecentlyAddedLeadsCount();
-        $doNotContactLeads = $model->getRepository()->getDoNotContactLeadsCount();
-        $totalLeadsCount   = $model->getRepository()->getTotalLeadsCount();
+        $activeLeads       = $model->getRepository()->getActiveLeadCount($ownerId, $isAdmin, $isCustomAdmin);
+        $recentlyAdded     = $model->getRepository()->getRecentlyAddedLeadsCount($ownerId, $isAdmin, $isCustomAdmin);
+        $doNotContactLeads = $model->getRepository()->getDoNotContactLeadsCount($ownerId, $isAdmin, $isCustomAdmin);
+        $totalLeadsCount   = $model->getRepository()->getTotalLeadsCount($ownerId, $isAdmin, $isCustomAdmin);
         // We need the EmailRepository to check if a lead is flagged as do not contact
         /** @var \Mautic\EmailBundle\Entity\EmailRepository $emailRepo */
         $emailRepo = $this->getModel('email')->getRepository();

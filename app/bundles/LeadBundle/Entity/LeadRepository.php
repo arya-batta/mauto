@@ -1265,56 +1265,100 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         return $results;
     }
 
-    public function getRecentlyAddedLeadsCount()
+    public function getRecentlyAddedLeadsCount($ownerId, $isAdmin, $isCustomAdmin)
     {
         $q                   = $this->_em->getConnection()->createQueryBuilder();
         $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
 
-        $q->select('count(*) as recentlyadded')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere('l.date_added >= '."'".$last7daysAddedLeads."'")
-            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        if ($isAdmin) {
+            $q->select('count(*) as recentlyadded')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.date_added >= '."'".$last7daysAddedLeads."'");
+        } elseif ($isCustomAdmin) {
+            $q->select('count(*) as recentlyadded')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.date_added >= '."'".$last7daysAddedLeads."'")
+                ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        } else {
+            $q->select('count(*) as recentlyadded')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.date_added >= '."'".$last7daysAddedLeads."'")
+                ->andWhere('l.owner_id = '."'".$ownerId."'");
+        }
 
         $results = $q->execute()->fetchAll();
 
         return $results[0]['recentlyadded'];
     }
 
-    public function getTotalLeadsCount()
+    public function getTotalLeadsCount($ownerId, $isAdmin, $isCustomAdmin)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
 
-        $q->select('count(*) as allleads')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        if ($isAdmin) {
+            $q->select('count(*) as allleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        } elseif ($isCustomAdmin) {
+            $q->select('count(*) as allleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        } else {
+            $q->select('count(*) as allleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.owner_id = '."'".$ownerId."'");
+        }
 
         $results = $q->execute()->fetchAll();
 
         return $results[0]['allleads'];
     }
 
-    public function getActiveLeadCount()
+    public function getActiveLeadCount($ownerId, $isAdmin, $isCustomAdmin)
     {
         $last7daysActiveLeads = date('Y-m-d', strtotime('-6 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
 
-        $q->select('count(*) as activeleads')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere('l.last_active >= '."'".$last7daysActiveLeads."'")
-            ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        if ($isAdmin) {
+            $q->select('count(*) as activeleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.last_active >= '."'".$last7daysActiveLeads."'");
+        } elseif ($isCustomAdmin) {
+            $q->select('count(*) as activeleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.last_active >= '."'".$last7daysActiveLeads."'")
+                ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        } else {
+            $q->select('count(*) as activeleads')
+                ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                ->andWhere('l.last_active >= '."'".$last7daysActiveLeads."'")
+                ->andWhere('l.owner_id = '."'".$ownerId."'");
+        }
 
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];
     }
 
-    public function getDoNotContactLeadsCount()
+    public function getDoNotContactLeadsCount($ownerId, $isAdmin, $isCustomAdmin)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
 
-        $q->select('count(*) as donotcontact')
-            ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'l');
+        if ($isAdmin) {
+            $q->select('count(*) as donotcontact')
+                ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'dnc');
+        } elseif ($isCustomAdmin) {
+            $q->select('count(*) as donotcontact')
+                ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'dnc')
+                ->leftJoin('dnc', MAUTIC_TABLE_PREFIX.'leads', 'l', 'l.id = dnc.lead_id')
+                ->andWhere('l.created_by != 1 OR l.created_by is NULL');
+        } else {
+            $q->select('count(*) as donotcontact')
+                ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'dnc')
+                ->leftJoin('dnc', MAUTIC_TABLE_PREFIX.'leads', 'l', 'l.id = dnc.lead_id')
+                ->andwhere($q->expr()->eq('l.owner_id', ':value'))
+                ->setParameter('value', $ownerId);
+        }
 
         $results = $q->execute()->fetchAll();
 
