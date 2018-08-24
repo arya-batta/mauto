@@ -17,6 +17,7 @@ use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
+use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\PointsChangeLog;
 use Mautic\LeadBundle\Form\Type\ChangeOwnerType;
@@ -90,6 +91,8 @@ class CampaignSubscriber extends CommonSubscriber
                 ['onCampaignTriggerActionDeleteContact', 6],
                 ['onCampaignTriggerActionChangeOwner', 7],
                 ['onCampaignTriggerActionChangeScore', 8],
+                ['onCampaignTriggerActionSetDNC', 9],
+                ['onCampaignTriggerActionRemoveDNC', 10],
             ],
             LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION => ['onCampaignTriggerCondition', 0],
         ];
@@ -190,6 +193,24 @@ class CampaignSubscriber extends CommonSubscriber
             'order'                  => 10,
         ];
         $event->addAction('lead.deletecontact', $trigger);
+
+        $trigger = [
+            'label'       => 'le.lead.lead.events.set.donotcontact',
+            'description' => 'le.lead.lead.events.set.donotcontact_descr',
+            'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+            'order'       => 18,
+        ];
+
+        $event->addAction('lead.setdonotcontact', $trigger);
+
+        $trigger = [
+            'label'       => 'le.lead.lead.events.remove.donotcontact',
+            'description' => 'le.lead.lead.events.remove.donotcontact_descr',
+            'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+            'order'       => 19,
+        ];
+
+        $event->addAction('lead.removedonotcontact', $trigger);
 
         $trigger = [
             'label'       => 'mautic.lead.lead.events.field_value',
@@ -440,6 +461,47 @@ class CampaignSubscriber extends CommonSubscriber
         $this->leadModel->deleteEntity($event->getLead());
 
         return $event->setResult(true);
+    }
+
+    /**
+     * @param CampaignExecutionEvent $event
+     */
+    public function onCampaignTriggerActionSetDNC(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('lead.setdonotcontact')) {
+            return;
+        }
+
+        $lead              = $event->getLead();
+        $somethingHappened = false;
+        if ($lead !== null) {
+            $comments = $this->translator->trans('le.email.dnc.manual');
+            $this->leadModel->addDncForLead($lead, 'email', $comments, DoNotContact::MANUAL);
+            $somethingHappened = true;
+        }
+
+        return $event->setResult($somethingHappened);
+    }
+
+    /**
+     * @param CampaignExecutionEvent $event
+     */
+    public function onCampaignTriggerActionRemoveDNC(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('lead.removedonotcontact')) {
+            return;
+        }
+
+        $lead   = $event->getLead();
+
+        $somethingHappened = false;
+
+        if ($lead !== null) {
+            $this->leadModel->removeDncForLead($lead, 'email');
+            $somethingHappened = true;
+        }
+
+        return $event->setResult($somethingHappened);
     }
 
     /**

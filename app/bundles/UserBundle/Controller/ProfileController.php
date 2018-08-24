@@ -222,7 +222,7 @@ class ProfileController extends FormController
                     );
                 }
             } else {
-                return $this->redirect($this->generateUrl('mautic_dashboard_index'));
+                return $this->redirect($this->generateUrl('mautic_contact_index'));
             }
         }
         $this->get('session')->set('formProcessed', 0);

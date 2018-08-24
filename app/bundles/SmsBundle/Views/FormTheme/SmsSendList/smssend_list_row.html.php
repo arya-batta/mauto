@@ -20,3 +20,14 @@
         </div>
     </div>
 </div>
+<?php if (isset($form['user_id'])):?>
+<div class="row" >
+    <div class="col-md-6">
+        <?php echo $view['form']->row($form['user_id']); ?>
+    </div>
+    <div class="col-md-6">
+        <?php echo $view['form']->row($form['to_owner']); ?>
+    </div>
+
+</div>
+<?php endif; ?>

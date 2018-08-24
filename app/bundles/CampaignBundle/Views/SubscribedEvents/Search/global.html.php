@@ -16,7 +16,7 @@
     </a>
 </div>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('mautic_campaign_action', ['objectAction' => 'view', 'objectId' => $campaign->getId()]); ?>" data-toggle="ajax">
+<a href="<?php echo $view['router']->generate('mautic_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign->getId()]); ?>" data-toggle="ajax">
     <?php echo $campaign->getName(); ?>
 </a>
 <?php endif; ?>

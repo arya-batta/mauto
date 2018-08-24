@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-4 va-m">
                         <h5 class="fw-sb text-primary">
-                            <a href="<?php echo $view['router']->path('mautic_campaign_action', ['objectAction' => 'view', 'objectId' => $email['campaign_id']]); ?>" data-toggle="ajax">
+                            <a href="<?php echo $view['router']->path('mautic_campaign_action', ['objectAction' => 'edit', 'objectId' => $email['campaign_id']]); ?>" data-toggle="ajax">
                                 <?php echo $email['campaign_name']; ?>
                             </a>
                         </h5>

@@ -114,6 +114,26 @@ class SmsSendType extends AbstractType
                 ]
             );
         }
+        if (!empty($options['isSmstoUser'])) {
+            $builder->add('user_id', 'user_list', [
+                'label'      => 'mautic.sms.form.action.sendsms.admin',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control',
+                    'tooltip' => 'mautic.core.help.autocomplete',
+                ],
+                'required' => false,
+            ]);
+
+            $builder->add(
+                'to_owner',
+                'yesno_button_group',
+                [
+                    'label' => 'mautic.form.action.send.email.to.owner',
+                    'data'  => isset($options['data']['to_owner']) ? $options['data']['to_owner'] : false,
+                ]
+            );
+        }
     }
 
     /**
@@ -121,7 +141,7 @@ class SmsSendType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(['update_select']);
+        $resolver->setOptional(['update_select', 'isSmstoUser']);
     }
 
     /**

@@ -18,6 +18,7 @@ return [
                     'mautic.helper.integration',
                     'mautic.sms.model.sms',
                     'mautic.helper.notification',
+                    'mautic.sms.model.send_sms_to_user',
                 ],
             ],
             'mautic.sms.smsbundle.subscriber' => [
@@ -134,6 +135,16 @@ return [
                     'mautic.lead.model.lead',
                     'mautic.channel.model.queue',
                     'mautic.sms.transport_chain',
+                    'mautic.user.model.user',
+                ],
+            ],
+            'mautic.sms.model.send_sms_to_user' => [
+                'class'     => \Mautic\SmsBundle\Model\SendSmsToUser::class,
+                'arguments' => [
+                    'mautic.sms.model.sms',
+                    'mautic.helper.licenseinfo',
+                    'mautic.helper.notification',
+                    'mautic.user.model.user',
                 ],
             ],
         ],

@@ -17,6 +17,8 @@ use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
+use Mautic\SmsBundle\Exception\SmsCouldNotBeSentException;
+use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
 
@@ -40,6 +42,11 @@ class CampaignSubscriber extends CommonSubscriber
      */
     protected $notificationhelper;
 
+    /*
+     * @var SendSmstoUser
+     */
+    protected $sendSmstoUser;
+
     /**
      * CampaignSubscriber constructor.
      *
@@ -49,11 +56,13 @@ class CampaignSubscriber extends CommonSubscriber
     public function __construct(
         IntegrationHelper $integrationHelper,
         SmsModel $smsModel,
-        NotificationHelper $notificationhelper
+        NotificationHelper $notificationhelper,
+        SendSmsToUser $sendSmstoUser
     ) {
         $this->integrationHelper  = $integrationHelper;
         $this->smsModel           = $smsModel;
         $this->notificationhelper = $notificationhelper;
+        $this->sendSmstoUser      = $sendSmstoUser;
     }
 
     /**
@@ -63,7 +72,10 @@ class CampaignSubscriber extends CommonSubscriber
     {
         return [
             CampaignEvents::CAMPAIGN_ON_BUILD     => ['onCampaignBuild', 0],
-            SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION => ['onCampaignTriggerAction', 0],
+            SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION => [
+                ['onCampaignTriggerAction', 0],
+                ['onCampaignTriggerActionSendSmsToUser', 1],
+            ],
         ];
     }
 
@@ -94,6 +106,21 @@ class CampaignSubscriber extends CommonSubscriber
                         'order'            => 2,
                     ]
                 );
+                $event->addAction(
+                    'sms.send_text_sms.to.user',
+                    [
+                        'label'            => 'le.campaign.sms.send_text_sms.to.user',
+                        'description'      => 'le.campaign.sms.send_text_sms.to.use.tooltip',
+                        'eventName'        => SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                        'formType'         => 'smssend_list',
+                        'formTypeOptions'  => ['update_select' => 'campaignevent_properties_sms', 'isSmstoUser' => true],
+                        'formTheme'        => 'MauticSmsBundle:FormTheme\SmsSendList',
+                        'timelineTemplate' => 'MauticSmsBundle:SubscribedEvents\Timeline:index.html.php',
+                        'channel'          => 'sms',
+                        'channelIdField'   => 'sms',
+                        'order'            => 17,
+                    ]
+                );
             }
         }
         $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
@@ -106,6 +133,9 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignTriggerAction(CampaignExecutionEvent $event)
     {
+        if (!$event->checkContext('sms.send_text_sms')) {
+            return;
+        }
         $lead  = $event->getLead();
         $smsId = (int) $event->getConfig()['sms'];
         $sms   = $this->smsModel->getEntity($smsId);
@@ -116,7 +146,7 @@ class CampaignSubscriber extends CommonSubscriber
 
         $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
         if ($result['errorResult'] != 'Success') {
-            $this->notificationhelper->sendNotificationonFailure(false, false,$result['exception']);
+            $this->notificationhelper->sendNotificationonFailure(false, false, $result['exception']);
         }
         if ('Authenticate' === $result['status']) {
             // Don't fail the event but reschedule it for later
@@ -131,5 +161,32 @@ class CampaignSubscriber extends CommonSubscriber
             $result['reason'] = $result['status'];
             $event->setResult($result);
         }
+    }
+
+    /**
+     * @param CampaignExecutionEvent $event
+     *
+     * @return mixed
+     */
+    public function onCampaignTriggerActionSendSmsToUser(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('sms.send_text_sms.to.user')) {
+            return;
+        }
+        $lead  = $event->getLead();
+        $smsId = (int) $event->getConfig()['sms'];
+        $sms   = $this->smsModel->getEntity($smsId);
+
+        if (!$sms) {
+            return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
+        }
+
+        try {
+            $event = $this->sendSmstoUser->sendSmsToUsers($event->getConfig(), $lead, $event);
+        } catch (SmsCouldNotBeSentException $e) {
+            $event->setFailed($e->getMessage());
+        }
+
+        return $event;
     }
 }

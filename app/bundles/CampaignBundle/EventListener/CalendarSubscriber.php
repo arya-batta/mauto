@@ -79,7 +79,7 @@ class CalendarSubscriber extends CommonSubscriber
                 }
                 $date                  = new DateTimeHelper($object['start']);
                 $object['start']       = $date->toLocalString(\DateTime::ISO8601);
-                $object['url']         = $this->router->generate('mautic_campaign_action', ['objectAction' => 'view', 'objectId' => $object['campaign_id']], true);
+                $object['url']         = $this->router->generate('mautic_campaign_action', ['objectAction' => 'edit', 'objectId' => $object['campaign_id']], true);
                 $object['attr']        = 'data-toggle="ajax"';
                 $object['description'] = $this->translator->trans('mautic.campaign.event.'.$eventKey.'.description', ['%campaign%' => $object['campaign_name'], '%lead%' => $leadName]);
                 $object['title']       = $this->translator->trans('mautic.campaign.event.'.$eventKey, ['%event%' => $object['event_name']]);
