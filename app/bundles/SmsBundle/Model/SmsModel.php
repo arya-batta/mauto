@@ -30,6 +30,7 @@ use Mautic\SmsBundle\Event\SmsEvent;
 use Mautic\SmsBundle\Event\SmsSendEvent;
 use Mautic\SmsBundle\Sms\TransportChain;
 use Mautic\SmsBundle\SmsEvents;
+use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -60,19 +61,26 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
     protected $transport;
 
     /**
+     * @var
+     */
+    protected $userModel;
+
+    /**
      * SmsModel constructor.
      *
      * @param TrackableModel    $pageTrackableModel
      * @param LeadModel         $leadModel
      * @param MessageQueueModel $messageQueueModel
      * @param TransportChain    $transport
+     * @param UserModel         $userModel
      */
-    public function __construct(TrackableModel $pageTrackableModel, LeadModel $leadModel, MessageQueueModel $messageQueueModel, TransportChain $transport)
+    public function __construct(TrackableModel $pageTrackableModel, LeadModel $leadModel, MessageQueueModel $messageQueueModel, TransportChain $transport, UserModel $userModel)
     {
         $this->pageTrackableModel = $pageTrackableModel;
         $this->leadModel          = $leadModel;
         $this->messageQueueModel  = $messageQueueModel;
         $this->transport          = $transport;
+        $this->userModel          = $userModel;
     }
 
     /**
@@ -301,22 +309,22 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     if (true !== $metadata) {
                         $sendResult['status'] = $metadata;
                         $sendResultText       = 'Failed';
-                        $send = false;
+                        $send                 = false;
                     } else {
-                        $send = true;
+                        $send               = true;
                         $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
                         ++$sentCount;
                     }
 
                     $sendResult = [
-                        'sent'    => $send,
-                        'type'    => 'mautic.sms.sms',
-                        'status'  => 'mautic.sms.timeline.status.delivered',
-                        'id'      => $sms->getId(),
-                        'name'    => $sms->getName(),
-                        'content' => $tokenEvent->getContent(),
+                        'sent'       => $send,
+                        'type'       => 'mautic.sms.sms',
+                        'status'     => 'mautic.sms.timeline.status.delivered',
+                        'id'         => $sms->getId(),
+                        'name'       => $sms->getName(),
+                        'content'    => $tokenEvent->getContent(),
                         'errorResult'=> $sendResultText,
-                        'exception'=> $metadata,
+                        'exception'  => $metadata,
                     ];
 
                     $results[$leadId] = $sendResult;
@@ -331,7 +339,69 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $this->getStatRepository()->saveEntities($stats);
             $this->em->clear(Stat::class);
         }
-      //  $results['errorResult'] = $sendResultText;
+
+        return $results;
+    }
+
+    public function sendSmstoUser(Sms $sms, $users, $lead, $options = [])
+    {
+        $channel        = (isset($options['channel'])) ? $options['channel'] : null;
+        $sendResultText = 'Success';
+        $results        = [];
+        foreach ($users as $user) {
+            if (!is_array($user)) {
+                $id   = $user;
+                $user = ['id' => $id];
+            } else {
+                $id = $user['id'];
+            }
+
+            $userEntity      = $this->userModel->getEntity($id);
+            $userPhoneNumber = $userEntity->getMobile();
+
+            if (empty($userPhoneNumber)) {
+                $results[$lead->getId()] = [
+                    'sent'        => false,
+                    'status'      => 'mautic.sms.campaign.failed.missing_number',
+                    'errorResult' => 'Failed',
+                ];
+            }
+            $smsEvent = new SmsSendEvent($sms->getMessage(), $lead);
+            $smsEvent->setSmsId($sms->getId());
+            $this->dispatcher->dispatch(SmsEvents::SMS_ON_SEND, $smsEvent);
+
+            $tokenEvent = $this->dispatcher->dispatch(
+                SmsEvents::TOKEN_REPLACEMENT,
+                new TokenReplacementEvent(
+                    $smsEvent->getContent(),
+                    $lead,
+                    ['channel' => ['sms', $sms->getId()]]
+                )
+            );
+
+            $metadata = $this->transport->sendSms($userPhoneNumber, $tokenEvent->getContent());
+
+            if (true !== $metadata) {
+                $sendResult['status'] = $metadata;
+                $sendResultText       = 'Failed';
+            } else {
+                $sendResult['sent'] = true;
+                $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
+            }
+            $sendResult = [
+                'sent'        => false,
+                'type'        => 'mautic.sms.sms',
+                'status'      => 'mautic.sms.timeline.status.delivered',
+                'id'          => $sms->getId(),
+                'name'        => $sms->getName(),
+                'content'     => $tokenEvent->getContent(),
+                'errorResult' => $sendResultText,
+            ];
+
+            $results[$lead->getId()] = $sendResult;
+
+            unset($smsEvent, $tokenEvent, $sendResult, $metadata);
+        }
 
         return $results;
     }

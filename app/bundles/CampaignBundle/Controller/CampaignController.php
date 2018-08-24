@@ -712,7 +712,7 @@ class CampaignController extends AbstractStandardFormController
                 $objectId = $args['objectId'];
                 // Init the date range filter form
                 $dateRangeValues = $this->request->get('daterange', []);
-                $action          = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+                $action          = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
                 $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
                 $events          = $this->getCampaignModel()->getEventRepository()->getCampaignEvents($entity->getId());
