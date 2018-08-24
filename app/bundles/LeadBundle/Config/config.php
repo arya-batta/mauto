@@ -641,6 +641,10 @@ return [
                 'class' => 'Mautic\LeadBundle\Form\Type\CampaignEventLeadSegmentsType',
                 'alias' => 'campaignevent_lead_segments',
             ],
+            'mautic.form.type.campaignsource_lists' => [
+                'class' => 'Mautic\LeadBundle\Form\Type\CampaignSourceLeadSegmentsType',
+                'alias' => 'campaignsource_lists',
+            ],
             'mautic.form.type.campaignevent_lead_campaigns' => [
                 'class'     => Mautic\LeadBundle\Form\Type\CampaignEventLeadCampaignsType::class,
                 'alias'     => 'campaignevent_lead_campaigns',

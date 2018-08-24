@@ -322,12 +322,12 @@ class CampaignController extends AbstractStandardFormController
         list($this->modifiedEvents, $this->deletedEvents, $this->campaignEvents) = $this->getSessionEvents($sessionId);
 
         //set added/updated sources
-        list($this->addedSources, $this->deletedSources, $campaignSources) = $this->getSessionSources($sessionId, $isClone);
+        //list($this->addedSources, $this->deletedSources, $campaignSources) = $this->getSessionSources($sessionId, $isClone);
         $this->connections                                                 = $this->getSessionCanvasSettings($sessionId);
 
         if ($isPost) {
             $this->getCampaignModel()->setCanvasSettings($entity, $this->connections, false, $this->modifiedEvents);
-            $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources, true);
+        //  $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources, true);
         } else {
             if (!$isClone) {
                 //clear out existing fields in case the form was refreshed, browser closed, etc
@@ -335,8 +335,8 @@ class CampaignController extends AbstractStandardFormController
                 $this->modifiedEvents = $this->campaignSources = [];
 
                 if ($entity->getId()) {
-                    $campaignSources = $this->getCampaignModel()->getLeadSources($entity->getId());
-                    $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources);
+                    //   $campaignSources = $this->getCampaignModel()->getLeadSources($entity->getId());
+                    //     $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources);
 
                     $this->setSessionCanvasSettings($sessionId, $entity->getCanvasSettings());
                 }
@@ -361,22 +361,22 @@ class CampaignController extends AbstractStandardFormController
      */
     protected function beforeEntitySave($entity, Form $form, $action, $objectId = null, $isClone = false)
     {
-        if (empty($this->campaignEvents)) {
+        if (!$this->checkCampaignSourceExists($this->campaignEvents)) {
             //set the error
             $form->addError(
                 new FormError(
-                    $this->get('translator')->trans('mautic.campaign.form.events.notempty', [], 'validators')
+                    $this->get('translator')->trans('mautic.campaign.form.sources.notempty', [], 'validators')
                 )
             );
 
             return true; //not validating campaign events
         }
 
-        if (empty($this->campaignSources['lists']) && empty($this->campaignSources['forms'])) {
+        if (empty($this->campaignEvents)) {
             //set the error
             $form->addError(
                 new FormError(
-                    $this->get('translator')->trans('mautic.campaign.form.sources.notempty', [], 'validators')
+                    $this->get('translator')->trans('mautic.campaign.form.events.notempty', [], 'validators')
                 )
             );
 
@@ -392,7 +392,7 @@ class CampaignController extends AbstractStandardFormController
         }
 
         // Set lead sources
-        $this->getCampaignModel()->setLeadSources($entity, $this->addedSources, $this->deletedSources);
+        // $this->getCampaignModel()->setLeadSources($entity, $this->addedSources, $this->deletedSources);
 
         // Build and set Event entities
         $this->getCampaignModel()->setEvents($entity, $this->campaignEvents, $this->connections, $this->deletedEvents);
@@ -406,6 +406,19 @@ class CampaignController extends AbstractStandardFormController
         }
 
         return true;
+    }
+
+    private function checkCampaignSourceExists($campaignEvents)
+    {
+        $isExists=false;
+        foreach ($campaignEvents as $key => $event) {
+            if ($event['eventType'] == 'source') {
+                $isExists=true;
+                break;
+            }
+        }
+
+        return $isExists;
     }
 
     /**

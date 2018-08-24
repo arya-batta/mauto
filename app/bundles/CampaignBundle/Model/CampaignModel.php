@@ -513,6 +513,7 @@ class CampaignModel extends CommonFormModel
             $events['decision']  = $event->getDecisions();
             $events['condition'] = $event->getConditions();
             $events['action']    = $event->getActions();
+            $events['source']    = $event->getSources();
 
             $connectionRestrictions = ['anchor' => []];
 

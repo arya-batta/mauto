@@ -90,9 +90,10 @@ class CampaignSubscriber extends CommonSubscriber
                         ],
                     ],
                 ],
-                'channel'        => 'dynamicContent',
-                'channelIdField' => 'dwc_slot_name',
-                'order'          => 14,
+                'channel'         => 'dynamicContent',
+                'channelIdField'  => 'dwc_slot_name',
+                'order'           => 14,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
         if ($this->security->isGranted(['dynamiccontent:dynamiccontents:viewown', 'dynamiccontent:dynamiccontents:viewother'], 'MATCH_ONE')) {

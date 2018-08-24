@@ -440,16 +440,15 @@ class SubmissionModel extends CommonFormModel
 
             return ['errors' => [$exception->getMessage()]];
         }
-
-        if (!$form->isStandalone()) {
-            // Find and add the lead to the associated campaigns
-            $campaigns = $this->campaignModel->getCampaignsByForm($form);
-            if (!empty($campaigns)) {
-                foreach ($campaigns as $campaign) {
-                    $this->campaignModel->addLead($campaign, $lead);
-                }
+        //if (!$form->isStandalone()) {
+        // Find and add the lead to the associated campaigns
+        $campaigns = $this->campaignModel->getCampaignsByForm($form);
+        if (!empty($campaigns)) {
+            foreach ($campaigns as $campaign) {
+                $this->campaignModel->addLead($campaign, $lead);
             }
         }
+        //  }
 
         if ($this->dispatcher->hasListeners(FormEvents::FORM_ON_SUBMIT)) {
             // Reset action config from executeFormActions()

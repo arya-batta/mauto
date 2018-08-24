@@ -149,6 +149,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
                 'order'           => 1,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
         if ($isAdmin) {
@@ -181,6 +182,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
                 'order'           => 3,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
     }

@@ -104,6 +104,7 @@ class CampaignSubscriber extends CommonSubscriber
                         'channel'          => 'sms',
                         'channelIdField'   => 'sms',
                         'order'            => 2,
+                        'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
                 $event->addAction(
@@ -119,8 +120,10 @@ class CampaignSubscriber extends CommonSubscriber
                         'channel'          => 'sms',
                         'channelIdField'   => 'sms',
                         'order'            => 17,
+                        'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
+                break;
             }
         }
         $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);

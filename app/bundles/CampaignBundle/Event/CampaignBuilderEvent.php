@@ -25,6 +25,11 @@ class CampaignBuilderEvent extends Event
     /**
      * @var array
      */
+    private $sources = [];
+
+    /**
+     * @var array
+     */
     private $decisions = [];
 
     /**
@@ -166,6 +171,35 @@ class CampaignBuilderEvent extends Event
         $this->conditions[$key] = $event;
     }
 
+    public function addSources($key, array $event)
+    {
+        if (array_key_exists($key, $this->sources)) {
+            throw new InvalidArgumentException("The key, '$key' is already used by another contact action. Please use a different key.");
+        }
+
+        //check for required keys and that given functions are callable
+        $this->verifyComponent(
+            ['label', 'sourcetype'],
+            $event,
+            []
+        );
+
+        $event['label']       = $this->translator->trans($event['label']);
+        $event['description'] = (isset($event['description'])) ? $this->translator->trans($event['description']) : '';
+
+        $this->sources[$key] = $event;
+    }
+
+    /**
+     * Get lead conditions.
+     *
+     * @return array
+     */
+    public function getSources()
+    {
+        return $this->sort('sources');
+    }
+
     /**
      * Get lead conditions.
      *
@@ -234,8 +268,8 @@ class CampaignBuilderEvent extends Event
         //translate the group
         $action['label']       = $this->translator->trans($action['label']);
         $action['description'] = (isset($action['description'])) ? $this->translator->trans($action['description']) : '';
-
-        $this->actions[$key] = $action;
+        $action['group']       = $this->translator->trans($action['group']);
+        $this->actions[$key]   = $action;
     }
 
     /**

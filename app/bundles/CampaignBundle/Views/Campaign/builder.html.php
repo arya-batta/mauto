@@ -8,6 +8,15 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+//dump($campaignEvents);
+$sourcefound=false;
+foreach ($campaignEvents as $event):
+    if ($event['eventType'] == 'source') {
+        $sourcefound=true;
+        break;
+    }
+endforeach;
 $isAdmin=$view['security']->isAdmin();
 ?>
 <div class="hide builder campaign-builder live">
@@ -62,11 +71,17 @@ $isAdmin=$view['security']->isAdmin();
         </div>
     </div>
     <div id="builder-errors" class="alert alert-danger" role="alert" style="display: none;">test</div>
+    <div  id='campaign-new-request-url' data-href="<?php echo $view['router']->path(
+        'mautic_campaignevent_action',
+        [
+            'objectAction' => 'new',
+        ]
+    ); ?>"></div>
     <div class="builder-content">
         <div id="CampaignCanvas">
-            <div id="CampaignEvent_newsource<?php if (!empty($campaignSources)) {
-                            echo '_hide';
-                        } ?>" class="text-center list-campaign-source list-campaign-leadsource">
+            <div id="CampaignEvent_newsource<?php if ($sourcefound) {
+        echo '_hide';
+    } ?>" class="text-center list-campaign-source list-campaign-leadsource">
                 <div class="campaign-event-content">
                     <div>
                         <span class="campaign-event-name ellipsis">
@@ -77,9 +92,9 @@ $isAdmin=$view['security']->isAdmin();
             </div>
 
             <?php
-            foreach ($campaignSources as $source):
-                echo $view->render('MauticCampaignBundle:Source:index.html.php', $source);
-            endforeach;
+//            foreach ($campaignSources as $source):
+//                echo $view->render('MauticCampaignBundle:Source:index.html.php', $source);
+//            endforeach;
 
             foreach ($campaignEvents as $event):
                 echo $view->render('MauticCampaignBundle:Event:generic.html.php',
@@ -135,7 +150,44 @@ $isAdmin=$view['security']->isAdmin();
     Mautic.campaignBuilderCanvasEvents =
     <?php echo json_encode($campaignEvents, JSON_PRETTY_PRINT); ?>;
     <?php endif; ?>
-
     Mautic.campaignBuilderConnectionRestrictions =
     <?php echo json_encode($eventSettings['connectionRestrictions'], JSON_PRETTY_PRINT); ?>;
+    <?php
+$acions      =$eventSettings['action'];
+$eventoptions=[];
+foreach ($acions as $key => $value) {
+    $options             =[];
+    $options['label']    =$value['label'];
+    $options['desc']     =$value['description'];
+    $options['eventtype']='action';
+    $options['category'] =$key;
+    $options['order']    =$value['order'];
+    $options['group']    =$value['group'];
+    $eventoptions[]      =$options;
+}
+     $campaigngroupoptions = [
+        ['label'=> 'LeadsEngage', 'order'=> 1],
+        ['label'=> 'Drip', 'order'=> 2],
+        ['label'=> 'Facebook', 'order'=> 3],
+    ];
+    $sources      =$eventSettings['source'];
+    $sourceoptions=[];
+    foreach ($sources as $key => $value) {
+        $options             =[];
+        $options['label']    =$value['label'];
+        $options['desc']     =$value['description'];
+        $options['eventtype']='source';
+        $options['category'] =$key;
+        $options['order']    =$value['order'];
+        $options['group']    =$value['group'];
+        $sourceoptions[]     =$options;
+    }
+
+?>
+    Mautic.campaignBuilderEventOptions =
+    <?php echo json_encode($eventoptions, JSON_PRETTY_PRINT); ?>;
+    Mautic.campaignBuilderSourceOptions =
+    <?php echo json_encode($sourceoptions, JSON_PRETTY_PRINT); ?>;
+    Mautic.campaignBuilderGroupOptions =
+    <?php echo json_encode($campaigngroupoptions, JSON_PRETTY_PRINT); ?>;
 </script>

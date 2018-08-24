@@ -97,6 +97,17 @@ class CampaignSubscriber extends CommonSubscriber
         if ($this->security->isAdmin()) {
             $event->addCondition('form.field_value', $trigger);
         }
+
+        $source = [
+            'label'         => 'mautic.campaign.leadsource.forms',
+            'description'   => 'mautic.campaign.leadsource.forms.desc',
+            'formType'      => 'campaignsource_forms',
+            'sourcetype'    => 'forms',
+            'group'         => 'LeadsEngage',
+            'order'         => 2,
+        ];
+
+        $event->addSources('forms', $source);
     }
 
     /**

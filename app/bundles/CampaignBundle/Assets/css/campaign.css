@@ -107,18 +107,15 @@
     border-radius: 3px;
 }
 
-.live .list-campaign-event:hover, .live .list-campaign-source:hover {
-    border:1px solid #123456;
-    /*
-    box-shadow: 2px 2px 19px #444;
-    -o-box-shadow: 2px 2px 19px #444;
-    -webkit-box-shadow: 2px 2px 19px #444;
-    -moz-box-shadow: 2px 2px 19px #fff;
-    opacity:0.9;
-    filter:alpha(opacity=90);
-    */
+.live .list-campaign-event:hover{
+    border: solid 2px #0a73a6;
 }
-
+.live .list-campaign-source:hover {
+    border: solid 2px #0aa659;
+}
+.live .list-campaign-condition:hover,.live .list-campaign-decision:hover {
+    border: solid 2px #bd9d00;
+}
 .campaign-event-buttons {
     position: absolute;
     top: -10px;
@@ -138,25 +135,27 @@
 }
 
 .list-campaign-decision {
-    /*background-color: #e5ffff;*/
-    border: solid 1px #00b49d;
+    background: #fff6cc;
+    border: solid 2px #ffda24;
+    color: #000;
 }
 
 .list-campaign-condition {
-    /*background-color: #ffe9d1;*/
-    border: solid 1px #ffb79f;
+    background: #fff6cc;
+    border: solid 2px #ffda24;
+    color: #000;
 }
 
 .list-campaign-action {
-    /*background-color: #cdddff;*/
-    border: solid 1px #9babeb;
-    /*color: #fff;*/
+    background: #c3e9fb;
+    border: solid 2px #24aef2;
+    color: #000;
 }
 
-.list-campaign-leadsource {
-    /*background-color: #ffffe6;*/
-    border: solid 1px #fdb933;
-    /*color: #fff;*/
+.list-campaign-leadsource,.list-campaign-source {
+    background: #dbfdec;
+    border: solid 2px #24f28c;
+    color: #000;
 }
 
 #CampaignEventSelector_chosen .list-campaign-action,
@@ -204,7 +203,7 @@
 }
 
 .campaign-event-buttons .btn-edit {
-    background: #337ab7;
+    background: #ec407a;
 }
 
 .stat-boxes .pie-legend li {
@@ -365,4 +364,32 @@
 .custom-campaign-builder .help-block{
     color: #ffffff !important;
     font-weight: bold;
+}
+
+.campaign-event-type-icon{
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    align-items: center;
+    padding: 16px;
+    margin-right: 10px;
+}
+
+.campaign-event-type-anchor{
+    display: flex;
+    padding: 12px 18px 18px;
+    height: 100%;
+    align-items: center;
+}
+.campaign-event-type-anchor:hover{
+    background: #f2f2f2;
+}
+.campaign-event-type-icon-font{
+    width: 24px;
+    height: 24px;
+    color: #fbfbfb;
+    vertical-align: text-top;
+}
+.campaign-event-type-anchor h3{
+    font-weight: 600;
 }

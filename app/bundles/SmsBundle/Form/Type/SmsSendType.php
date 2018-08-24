@@ -87,7 +87,7 @@ class SmsSendType extends AbstractType
                 ]
             );
 
-            $sms = $options['data']['sms'];
+            $sms = !empty($options['data']['sms']) ? $options['data']['sms'] : '';
 
             // create button edit sms
             $windowUrlEdit = $this->router->generate(

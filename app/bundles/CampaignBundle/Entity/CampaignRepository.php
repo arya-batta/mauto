@@ -178,23 +178,49 @@ class CampaignRepository extends CommonRepository
     public function getCampaignListIds($id = null)
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder()
-            ->from(MAUTIC_TABLE_PREFIX.'campaign_leadlist_xref', 'cl');
-
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'ce');
         if ($id) {
-            $q->select('cl.leadlist_id')
-                ->where(
-                    $q->expr()->eq('cl.campaign_id', $id)
-                );
+            $q->select('ce.properties')
+                ->where($q->expr()->andX(
+                    $q->expr()->eq('ce.campaign_id', $id),
+                    $q->expr()->eq('ce.event_type', ':event_type'),
+                    $q->expr()->eq('ce.type', ':type'))
+                )->setParameter('event_type', 'source', 'string')
+                ->setParameter('type', 'lists', 'string');
         } else {
-            // Retrieve a list of unique IDs that are assigned to a campaign
-            $q->select('DISTINCT cl.leadlist_id');
+            $q->select('ce.properties')
+                ->where($q->expr()->andX(
+                    $q->expr()->eq('ce.event_type', ':event_type'),
+                    $q->expr()->eq('ce.type', ':type'))
+                )->setParameter('event_type', 'source', 'string')
+                ->setParameter('type', 'lists', 'string');
         }
+//        $q = $this->getEntityManager()->getConnection()->createQueryBuilder()
+//            ->from(MAUTIC_TABLE_PREFIX.'campaign_leadlist_xref', 'cl');
+//
+//        if ($id) {
+//            $q->select('cl.leadlist_id')
+//                ->where(
+//                    $q->expr()->eq('cl.campaign_id', $id)
+//                );
+//        } else {
+//            // Retrieve a list of unique IDs that are assigned to a campaign
+//            $q->select('DISTINCT cl.leadlist_id');
+//        }
 
         $lists   = [];
         $results = $q->execute()->fetchAll();
 
         foreach ($results as $r) {
-            $lists[] = $r['leadlist_id'];
+            $properties = $r['properties'];
+            $properties =unserialize($properties);
+            if (!empty($properties['lists'])) {
+                $lists=array_merge($lists, $properties['lists']);
+            }
+            // $lists[] = $r['leadlist_id'];
+        }
+        if (!empty($lists)) {
+            $lists=array_unique($lists);
         }
 
         return $lists;
@@ -261,12 +287,33 @@ class CampaignRepository extends CommonRepository
      */
     public function findByFormId($formId)
     {
-        $q = $this->createQueryBuilder('c')
-            ->join('c.forms', 'f');
-        $q->where(
-            $q->expr()->eq('f.id', $formId)
-        );
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'ce');
 
+        $q->select('ce.campaign_id,ce.properties')
+            ->where($q->expr()->andX(
+                $q->expr()->eq('ce.event_type', ':event_type'),
+                $q->expr()->eq('ce.type', ':type'))
+            )->setParameter('event_type', 'source', 'string')
+            ->setParameter('type', 'forms', 'string');
+        $results    = $q->execute()->fetchAll();
+        $campaignids=['-1'];
+        foreach ($results as $r) {
+            $campaignid = $r['campaign_id'];
+            $properties = $r['properties'];
+            $properties =unserialize($properties);
+            if (!empty($properties['forms'])) {
+                $forms=$properties['forms'];
+                if (!empty($forms) && in_array($formId, $forms)) {
+                    $campaignids[]=$campaignid;
+                }
+            }
+        }
+        $q = $this->createQueryBuilder('c');
+        // ->join('c.forms', 'f');
+        $q->where(
+            $q->expr()->in('c.id', $campaignids)
+        );
         $campaigns = $q->getQuery()->getResult();
 
         return $campaigns;

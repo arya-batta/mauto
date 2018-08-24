@@ -19,7 +19,14 @@
     </div>
 
     <?php echo $view['form']->start($form); ?>
-
+    <div id="campaigneventgroup" style="display: flex" data-href="<?php echo $accessurl?>">
+        <div style="width: 30%;">
+        <?php echo $view['form']->widget($form['group']); ?>
+        </div>
+        <div style="width: 70%;">
+        <?php echo $view['form']->widget($form['subgroup']); ?>
+        </div>
+    </div>
     <?php echo $view['form']->widget($form['canvasSettings']['droppedX']); ?>
     <?php echo $view['form']->widget($form['canvasSettings']['droppedY']); ?>
 

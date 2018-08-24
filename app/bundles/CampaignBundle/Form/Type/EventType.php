@@ -34,7 +34,7 @@ class EventType extends AbstractType
 
         $builder->add(
             'name',
-            'text',
+            'hidden',
             [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
@@ -42,7 +42,26 @@ class EventType extends AbstractType
                 'required'   => false,
             ]
         );
-
+        $builder->add(
+            'group',
+            'text',
+            [
+                'label'      => 'le.campaign.event.group.name',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => ['class' => 'form-control'],
+                'required'   => false,
+            ]
+        );
+        $builder->add(
+            'subgroup',
+            'text',
+            [
+                'label'      => 'le.campaign.event.subgroup.name',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => ['class' => 'form-control'],
+                'required'   => false,
+            ]
+        );
         $builder->add(
             'anchor',
             'hidden',
@@ -171,8 +190,9 @@ class EventType extends AbstractType
             ]
         );
 
-        $update = !empty($options['data']['properties']);
-        if (!empty($update)) {
+        // $update = !empty($options['data']['properties']);
+        $isnew=$options['data']['isnew'];
+        if (!$isnew) {
             $btnValue = 'mautic.core.form.update';
             $btnIcon  = 'fa fa-pencil';
         } else {

@@ -16,7 +16,6 @@ Mautic.ajaxifyModal = function (el, event) {
     }
 
     var target = mQuery(el).attr('data-target');
-
     var route = (mQuery(el).attr('data-href')) ? mQuery(el).attr('data-href') : mQuery(el).attr('href');
     if (route.indexOf('javascript') >= 0) {
         return false;
@@ -37,7 +36,6 @@ Mautic.ajaxifyModal = function (el, event) {
         // Reset
         mQuery(el).removeAttr('data-prevent-dismiss');
     }
-
     Mautic.loadAjaxModal(target, route, method, header, footer, preventDismissal);
 };
 
@@ -125,7 +123,6 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
     } else if (typeof Mautic.modalContentXhr[target] != 'undefined') {
         Mautic.modalContentXhr[target].abort();
     }
-
     Mautic.modalContentXhr[target] = mQuery.ajax({
         url: route,
         type: method,
@@ -147,6 +144,44 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
     });
 };
 
+Mautic.updateAjaxModal = function (target, route, method) {
+    if (mQuery(target + ' .loading-placeholder').length) {
+        mQuery(target + ' .loading-placeholder').removeClass('hide');
+        mQuery(target + ' .modal-body-content').addClass('hide');
+
+        if (mQuery(target + ' .modal-loading-bar').length) {
+            mQuery(target + ' .modal-loading-bar').addClass('active');
+        }
+    }
+    Mautic.modalContentXhr[target] = mQuery.ajax({
+        url: route,
+        type: method,
+        dataType: "json",
+        success: function (response) {
+            if (response.newContent) {
+                //load the content
+                if (mQuery(target + ' .loading-placeholder').length) {
+                    mQuery(target + ' .loading-placeholder').addClass('hide');
+                    mQuery(target + ' .modal-body-content').html(response.newContent);
+                    mQuery(target + ' .modal-body-content').removeClass('hide');
+                } else {
+                    mQuery(target + ' .modal-body').html(response.newContent);
+                }
+                //activate content specific stuff
+                Mautic.onPageLoad(target, response, true);
+            }
+            Mautic.stopIconSpinPostEvent();
+        },
+        error: function (request, textStatus, errorThrown) {
+            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Mautic.stopIconSpinPostEvent();
+        },
+        complete: function () {
+            Mautic.stopModalLoadingBar(target);
+            delete Mautic.modalContentXhr[target];
+        }
+    });
+};
 /**
  * Clears content from a shared modal
  * @param target
@@ -155,7 +190,6 @@ Mautic.resetModal = function (target) {
     if (mQuery(target).hasClass('in')) {
         return;
     }
-
     mQuery(target + " .modal-title").html('');
     mQuery(target + " .modal-body-content").html('');
 
@@ -180,7 +214,6 @@ Mautic.resetModal = function (target) {
  */
 Mautic.processModalContent = function (response, target) {
     Mautic.stopIconSpinPostEvent();
-
     if (response.error) {
         if (response.errors) {
             alert(response.errors[0].message);
@@ -200,7 +233,6 @@ Mautic.processModalContent = function (response, target) {
         //assume the content is to refresh main app
         Mautic.processPageContent(response);
     } else {
-
         if (response.notifications) {
             Mautic.setNotifications(response.notifications);
         }
@@ -223,10 +255,10 @@ Mautic.processModalContent = function (response, target) {
             //load the content
             if (mQuery(target + ' .loading-placeholder').length) {
                 mQuery(target + ' .loading-placeholder').addClass('hide');
-                mQuery(target + ' .modal-body-content').html(response.newContent);
+                 mQuery(target + ' .modal-body-content').html(response.newContent);
                 mQuery(target + ' .modal-body-content').removeClass('hide');
             } else {
-                mQuery(target + ' .modal-body').html(response.newContent);
+               mQuery(target + ' .modal-body').html(response.newContent);
             }
         }
 

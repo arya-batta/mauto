@@ -23,6 +23,7 @@ use Mautic\FormBundle\EventListener\WebhookSubscriber;
 use Mautic\FormBundle\Form\Type\ActionType;
 use Mautic\FormBundle\Form\Type\CampaignEventFormFieldValueType;
 use Mautic\FormBundle\Form\Type\CampaignEventFormSubmitType;
+use Mautic\FormBundle\Form\Type\CampaignSourceFormType;
 use Mautic\FormBundle\Form\Type\FieldType;
 use Mautic\FormBundle\Form\Type\FormFieldCaptchaType;
 use Mautic\FormBundle\Form\Type\FormFieldFileType;
@@ -312,6 +313,10 @@ return [
             'mautic.form.type.campaignevent_formsubmit' => [
                 'class' => CampaignEventFormSubmitType::class,
                 'alias' => 'campaignevent_formsubmit',
+            ],
+            'mautic.form.type.campaignsource_forms' => [
+                'class' => CampaignSourceFormType::class,
+                'alias' => 'campaignsource_forms',
             ],
             'mautic.form.type.campaignevent_form_field_value' => [
                 'class'     => CampaignEventFormFieldValueType::class,

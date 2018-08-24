@@ -94,6 +94,7 @@ class CampaignSubscriber extends CommonSubscriber
                 ],
             ],
             'order'                  => 18,
+            'group'                  => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('focus.show', $action);
     }

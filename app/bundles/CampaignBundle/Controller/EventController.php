@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventController extends CommonFormController
 {
-    private $supportedEventTypes = ['decision', 'action', 'condition'];
+    private $supportedEventTypes = ['decision', 'action', 'condition', 'source'];
 
     /**
      * Generates new form and processes post data.
@@ -70,6 +70,7 @@ class EventController extends CommonFormController
             return $this->modalAccessDenied();
         }
 
+        $event['isnew']=true;
         //fire the builder event
         $events = $this->getModel('campaign')->getEvents();
         $form   = $this->get('form.factory')->create(
@@ -98,10 +99,10 @@ class EventController extends CommonFormController
                     $formData       = $form->getData();
                     $event          = array_merge($event, $formData);
                     $event['id']    = $event['tempId']    = $keyId;
-                    if (empty($event['name'])) {
-                        //set it to the event default
-                        $event['name'] = $this->get('translator')->trans($event['settings']['label']);
-                    }
+                    //if (empty($event['name'])) {
+                    //set it to the event default
+                    $event['name'] = $this->get('translator')->trans($event['settings']['label']);
+                    // }
                     $modifiedEvents[$keyId] = $event;
                     $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
                 } else {
@@ -128,11 +129,12 @@ class EventController extends CommonFormController
         }
 
         $viewParams['hideTriggerMode'] = isset($event['settings']['hideTriggerMode']) && $event['settings']['hideTriggerMode'];
-
-        $passthroughVars = [
-            'mauticContent' => 'campaignEvent',
-            'success'       => $success,
-            'route'         => false,
+        $viewParams['accessurl']       =$this->generateUrl('mautic_campaignevent_action', ['objectAction' => 'new']);
+        $passthroughVars               = [
+            'mauticContent'     => 'campaignEvent',
+            'success'           => $success,
+            'route'             => false,
+            'eventType'         => $eventType,
         ];
 
         if (!empty($keyId)) {
@@ -224,12 +226,17 @@ class EventController extends CommonFormController
         $success        = 0;
         $valid          = $cancelled          = false;
         $event          = (array_key_exists($objectId, $modifiedEvents)) ? $modifiedEvents[$objectId] : null;
-
         if ($method == 'POST') {
+            $event['type']            =$this->request->request->get('campaignevent[type]', '', true);
             $event['anchor']          = $this->request->request->get('campaignevent[anchor]', '', true);
             $event['anchorEventType'] = $this->request->request->get('campaignevent[anchorEventType]', '', true);
+            unset($event['properties']);
         } else {
-            if (!isset($event['anchor'])) {
+            $type              = $this->request->query->get('type', $event['type'], true);
+            $eventType         = $this->request->query->get('eventType', $event['eventType'], true);
+            $event['type']     =$type;
+            $event['eventType']=$eventType;
+            if ($eventType != 'source' && !isset($event['anchor'])) {
                 // Used to generate label
                 $event['anchor'] = $event['decisionPath'];
             }
@@ -248,6 +255,7 @@ class EventController extends CommonFormController
         if ($event !== null) {
             $type      = $event['type'];
             $eventType = $event['eventType'];
+            //  file_put_contents("/var/www/mauto/events.txt","Current Event Group:->".$eventType."\n",FILE_APPEND);
             if (!in_array($eventType, $this->supportedEventTypes)) {
                 return $this->modalAccessDenied();
             }
@@ -264,7 +272,9 @@ class EventController extends CommonFormController
             ) {
                 return $this->modalAccessDenied();
             }
-
+            // file_put_contents("/var/www/mauto/events.txt","Current Event Group111:->".$eventType."\n",FILE_APPEND);
+            //  file_put_contents("/var/www/mauto/events.txt","Current Event Group222:->".$type."\n",FILE_APPEND);
+            $event['isnew']=false;
             //fire the builder event
             $events = $this->getModel('campaign')->getEvents();
             $form   = $this->get('form.factory')->create(
@@ -275,6 +285,7 @@ class EventController extends CommonFormController
                     'settings' => $events[$eventType][$type],
                 ]
             );
+            // file_put_contents("/var/www/mauto/events.txt","33333333333333333333333".$type."\n",FILE_APPEND);
             $event['settings'] = $events[$eventType][$type];
 
             $form->get('campaignId')->setData($campaignId);
@@ -290,10 +301,10 @@ class EventController extends CommonFormController
                         $formData       = $form->getData();
                         $event          = array_merge($event, $formData);
 
-                        if (empty($event['name'])) {
-                            //set it to the event default
-                            $event['name'] = $this->get('translator')->trans($event['settings']['label']);
-                        }
+                        // if (empty($event['name'])) {
+                        //set it to the event default
+                        $event['name'] = $this->get('translator')->trans($event['settings']['label']);
+                        // }
                         $modifiedEvents[$objectId] = $event;
 
                         $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
@@ -307,6 +318,7 @@ class EventController extends CommonFormController
             if ($cancelled || $valid) {
                 $closeModal = true;
             } else {
+                // file_put_contents("/var/www/mauto/events.txt","2222222222222222222222222222".$type."\n",FILE_APPEND);
                 $closeModal = false;
                 $formThemes = ['MauticCampaignBundle:FormTheme\Event'];
                 if (isset($event['settings']['formTheme'])) {
@@ -318,13 +330,15 @@ class EventController extends CommonFormController
                     $event['settings']['description']
                 ) : '';
             }
-
+            // file_put_contents("/var/www/mauto/events.txt","111111111111111111111:->".$type."\n",FILE_APPEND);
             $viewParams['hideTriggerMode'] = isset($event['settings']['hideTriggerMode']) && $event['settings']['hideTriggerMode'];
-
-            $passthroughVars = [
-                'mauticContent' => 'campaignEvent',
-                'success'       => $success,
-                'route'         => false,
+            $viewParams['accessurl']       =$this->generateUrl('mautic_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+            $viewParams['events']          =$event;
+            $passthroughVars               = [
+                'mauticContent'     => 'campaignEvent',
+                'success'           => $success,
+                'route'             => false,
+                'eventType'         => $eventType,
             ];
 
             if ($closeModal) {
