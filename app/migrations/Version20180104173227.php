@@ -49,7 +49,7 @@ INSERT INTO {$this->prefix}plugin_integration_settings (
   supported_features, 
   api_keys, 
   feature_settings
-) VALUES ('Solution Infini',0,'','','')
+) VALUES ('SolutionInfinity',0,'','','')
 SQL;
         $this->addSql($sql);
         /*$insert = [

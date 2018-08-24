@@ -53,7 +53,11 @@ class ConfigType extends AbstractType
         $choices    = [];
         $transports = $this->transportChain->getEnabledTransports();
         foreach ($transports as $transportServiceId=>$transport) {
-            $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
+            if($transportServiceId == 'mautic.sms.transport.solutioninfini') {
+                $choices[$transportServiceId] = $this->translator->trans('mautic.sms.transport.solutioninfini.choice');
+            } else {
+                $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
+            }
         }
 
         $builder->add('sms_transport', ChoiceType::class, [

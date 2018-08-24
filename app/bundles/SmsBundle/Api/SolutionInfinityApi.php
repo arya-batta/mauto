@@ -126,7 +126,7 @@ class SolutionInfinityApi extends AbstractSmsApi
                     $message
                 );
 
-                return false;
+                return $message;
             }
         } catch (NumberParseException $e) {
             $this->logger->addWarning(

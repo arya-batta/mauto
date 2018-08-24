@@ -12,6 +12,7 @@
 namespace Mautic\SmsBundle\EventListener;
 
 use Mautic\ConfigBundle\ConfigEvents;
+use Mautic\ConfigBundle\Event\ConfigEvent;
 use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 
@@ -27,6 +28,7 @@ class ConfigSubscriber extends CommonSubscriber
     {
         return [
             ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
+            ConfigEvents::CONFIG_PRE_SAVE => ['onConfigSave',0],
         ];
     }
 
@@ -38,5 +40,31 @@ class ConfigSubscriber extends CommonSubscriber
             'formTheme'  => 'MauticSmsBundle:FormTheme\Config',
             'parameters' => $event->getParametersFromConfig('MauticSmsBundle'),
         ]);
+    }
+    public function onConfigSave(ConfigEvent $event)
+    {
+        $data = $event->getConfig('smsconfig');
+        if($data['sms_transport']== 'mautic.sms.transport.solutioninfini')
+        {
+            if(empty($data['account_url'])){
+                $event->setError('le.sms.solution.account.url.invalid',[],'smsconfig','account_url');
+            } elseif (empty($data['account_api_key'])){
+                $event->setError('le.sms.solution.account.api.invalid',[],'smsconfig','account_api_key');
+            }elseif (empty($data['account_sender_id'])){
+                $event->setError('le.sms.solution.account.sid.invalid',[],'smsconfig','account_sender_id');
+            }
+
+        }elseif ($data['sms_transport']== 'mautic.sms.transport.twilio'){
+            if(empty($data['account_auth_token'])){
+                $event->setError('le.sms.twilo.authentication.invalid',[],'smsconfig','account_auth_token');
+            } elseif (empty($data['account_sid'])){
+                $event->setError('le.sms.twilo.account.sid.invalid',[],'smsconfig','account_sid');
+            }elseif (empty($data['sms_from_number'])){
+                $event->setError('le.sms.twilo.from.number.invalid',[],'smsconfig','sms_from_number');
+            }
+
+        }
+
+        $event->setConfig($data, 'smsconfig');
     }
 }

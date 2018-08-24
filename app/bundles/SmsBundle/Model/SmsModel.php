@@ -316,6 +316,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                         'name'    => $sms->getName(),
                         'content' => $tokenEvent->getContent(),
                         'errorResult'=> $sendResultText,
+                        'exception'=> $metadata,
                     ];
 
                     $results[$leadId] = $sendResult;
