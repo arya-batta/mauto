@@ -270,6 +270,9 @@ JS;
         $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
         if ($errorMessage != '' && $errorMessage != 'Failed') {
             $message = $errorMessage;
+            if(strpos($message, 'Insufficient credits') !== false){
+                $message = "le.sms.configuration.failure.solutioninfini";
+            }
         }
         $header                  = $this->translator->trans($messageheader);
         $isRead                  = 0;

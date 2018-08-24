@@ -116,7 +116,7 @@ class CampaignSubscriber extends CommonSubscriber
 
         $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
         if ($result['errorResult'] != 'Success') {
-            $this->notificationhelper->sendNotificationonFailure(false, false);
+            $this->notificationhelper->sendNotificationonFailure(false, false,$result['exception']);
         }
         if ('Authenticate' === $result['status']) {
             // Don't fail the event but reschedule it for later
