@@ -798,6 +798,6 @@ return [
         'postal_address'                         => null,
         'mailer_transport_name'                  => null,
         'beeeditor_client_id'                    => '',
-        'beeeditor_client_secret123'             => '',
+        'beeeditor_client_secret'                => '',
     ],
 ];
