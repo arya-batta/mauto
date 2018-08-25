@@ -30,7 +30,7 @@ $isAdmin=$view['security']->isAdmin();
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.downloadhtml'); ?>
                 </button>
                 <?php endif; ?>
-                <button type="button" class="btn btn-primary btn-bee-save" onclick="javascript:bee.saveAsTemplate();">
+                <button type="button" class="btn btn-primary btn-bee-save" onclick="javascript:bee.save();">
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
                 </button>
                 <button type="button" class="btn btn-primary btn-bee-close-editor" onclick="Mautic.closeBeeEditor();">
