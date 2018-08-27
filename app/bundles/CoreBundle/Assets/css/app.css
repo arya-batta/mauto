@@ -5318,7 +5318,7 @@ figcaption {
   border: 1px solid #ccc;
   border-radius: 2px;
   position: relative;
-  min-height: 800px;
+  min-height: 400px;
 }
 .ui-tabs .ui-tabs-hide {
   display: none !important;
@@ -5337,10 +5337,10 @@ figcaption {
   text-decoration: none;
 }
 #cancel-tab-1{
-  margin-left:74%;
+  margin-left:76%;
 }
 #cancel-tab-2{
-  margin-left:0%;
+  margin-left:18%;
 }
 .prev-tab {
   margin-right: 44%;
@@ -5817,4 +5817,8 @@ text-align: center;
   padding: 20px 0;
   color: rgba(255, 255, 255, 0.7);
   font-style: italic;
+}
+.wrap-text{
+  width:100%;
+  word-wrap: break-word;
 }

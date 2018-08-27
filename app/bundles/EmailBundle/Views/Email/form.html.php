@@ -114,7 +114,7 @@ $custombutton = [
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <?php echo $view['form']->row($form['subject']); ?>
                 </div>
                 <div>
@@ -122,7 +122,7 @@ $custombutton = [
                         <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="position: relative;font-size: 13px;top: 22px;" data-toggle="dropdown" href="#">
                             <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;margin-right: 8%;">
+                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
                             <li>
                                 <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
                                 </div
@@ -137,10 +137,18 @@ $custombutton = [
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['category']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isPublished']); ?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                 <?php if ($isVariant): ?>
                 <?php echo $view['form']->row($form['variantSettings']); ?>
-                <?php echo $view['form']->row($form['isPublished']); ?>
+
                 <?php if ($isAdmin): ?>
                     <?php echo $view['form']->row($form['publishUp']); ?>
                     <?php echo $view['form']->row($form['publishDown']); ?>
@@ -149,7 +157,7 @@ $custombutton = [
                     <div id="leadList"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
                         <?php echo $view['form']->row($form['lists']); ?>
                     </div>
-                    <?php echo $view['form']->row($form['category']); ?>
+
                     <div class="hide">
                         <?php echo $view['form']->row($form['language']); ?>
                         <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
@@ -191,7 +199,11 @@ $custombutton = [
     </div>
     <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
         <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-        <a class="pull-right" id="#cancel-tab-2" style="padding-bottom:15px;">
+        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+        <br>
+        <br>
+        <div class="uk-float-right <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="margin-top: -5.7%;margin-right: 24.7%;">
             <?php echo $view->render(
                 'MauticCoreBundle:Helper:page_actions.html.php',
                 [
@@ -200,12 +212,8 @@ $custombutton = [
                     'customButtons' => $custombutton,
                 ]
             ); ?>
-        </a>
-        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-        <br>
-        <br>
-        <div style="width:64%;">
+        </div>
+        <div class="<?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:64%;">
             <?php if (!empty($filters)): ?>
                 <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                     'filters' => $filters,
@@ -317,7 +325,7 @@ $custombutton = [
                 </div>
             </div>
             </div>
-            <div class="tab-pane fade bdr-w-0" id="dynamic-content-container">
+            <div class="tab-pane fade bdr-w-0 <?php echo $isAdmin ? '' : 'hide'?>" id="dynamic-content-container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
