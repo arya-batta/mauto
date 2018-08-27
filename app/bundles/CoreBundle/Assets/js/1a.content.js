@@ -466,9 +466,9 @@ Mautic.onPageLoad = function (container, response, inModal) {
                         event.preventDefault();
 
                         // Disable the form buttons until this action is complete
-                        if (!mQuery(this).hasClass('btn-dnd')) {
-                            mQuery(this).parent().find('button').prop('disabled', true);
-                        }
+                       // if (!mQuery(this).hasClass('btn-dnd')) {
+                       //     mQuery(this).parent().find('button').prop('disabled', true);
+                      //  }
 
                         Mautic.startIconSpinOnEvent(event);
                         mQuery('#' + id).click();

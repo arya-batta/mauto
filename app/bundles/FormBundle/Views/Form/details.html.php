@@ -134,7 +134,7 @@ $isadmin     =$view['security']->isAdmin();
                                         <?php echo $view['translator']->trans('mautic.form.graph.line.submissions'); ?>
                                     </h5>
                                 </div>
-                                <div class="col-xs-6 va-m">
+                                <div class="col-md-8 va-m">
                                     <?php echo $view->render(
                                         'MauticCoreBundle:Helper:graph_dateselect.html.php',
                                         ['dateRangeForm' => $dateRangeForm, 'class' => 'pull-right']
@@ -274,7 +274,7 @@ $isadmin     =$view['security']->isAdmin();
                         ); ?></h5>
                     <p class="mb-sm"><?php echo $view['translator']->trans('mautic.form.form.help.landingpages'); ?></p>
 
-                    <a href="#" class="btn btn-info" data-toggle="modal"
+                    <a href="#" class="btn btn-info" data-toggle="modal" style="border-color: #ffffff; "
                        data-target="#modal-automatic-copy"><?php echo $view['translator']->trans(
                             'mautic.form.form.header.automaticcopy'
                         ); ?></a>

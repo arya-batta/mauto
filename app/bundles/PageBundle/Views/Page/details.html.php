@@ -214,9 +214,11 @@ $view['slots']->set(
         <div class="pa-md">
             <div class="text-center" style="height: 100%; width: 100%; ">
                 <h3 style="padding: 30px;">
-                    <a class="create-abtest-link" href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'abtest', 'objectId' => $activePage->getId()]); ?>" data-toggle="ajax">
-                        <?php echo $view['translator']->trans('mautic.core.ab_test.create'); ?> <i class="fa fa-angle-right"></i>
-                    </a>
+
+                        <a class="create-abtest-link le-btn-default"  href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'abtest', 'objectId' => $activePage->getId()]); ?>" data-toggle="ajax">
+                             <?php echo $view['translator']->trans('mautic.core.ab_test.create'); ?> <i class="fa fa-angle-right"></i>
+                        </a>
+
                 </h3>
             </div>
         </div>

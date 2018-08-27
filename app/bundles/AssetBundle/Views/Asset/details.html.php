@@ -132,7 +132,7 @@ $view['slots']->set(
                                         <?php echo $view['translator']->trans('mautic.asset.graph.line.downloads'); ?>
                                     </h5>
                                 </div>
-                                <div class="col-md-2 va-m text-center">
+                                <div class="col-md-4 va-m text-center">
                                     <span class="text-white dark-md fw-sb mb-xs"><?php echo $view['translator']->trans('mautic.asset.asset.downloads.total', ['count' => $stats['downloads']['total']]); ?></span>
                                     <span class="text-white dark-md fw-sb mb-xs">|</span>
                                     <span class="text-white dark-md fw-sb mb-xs"><?php echo $view['translator']->trans('mautic.asset.asset.downloads.unique', ['count' => $stats['downloads']['unique']]); ?></span>

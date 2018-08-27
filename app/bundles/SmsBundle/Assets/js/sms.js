@@ -10,7 +10,7 @@ Mautic.smsOnLoad = function (container, response) {
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
                 delete tokens[k];
             }
-            if(tokens[k]=='Title' || tokens[k]=='First Name' || tokens[k]=='Last Name' || tokens[k]=='Company' || tokens[k] == 'Mobile' || tokens[k] == 'Email'){
+            if(tokens[k]=='Title' || tokens[k]=='First Name' || tokens[k]=='Last Name' || tokens[k]=='Company' || tokens[k] == 'Mobile' || tokens[k] == 'Email' || tokens[k] == 'Lead Owner Name' || tokens[k] == 'Lead Owner Mobile' || tokens[k] == 'Lead Owner Email'){
 
             } else {
                 delete tokens[k];
@@ -22,7 +22,7 @@ Mautic.smsOnLoad = function (container, response) {
                 keys.push(k);
             }
         }
-        keys.sort();
+        //keys.sort();
         //var tborder= "<table border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
         var tborder= "<div border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
         for (var i = 0; i < keys.length; i++) {

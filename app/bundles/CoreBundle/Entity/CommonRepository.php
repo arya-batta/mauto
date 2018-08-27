@@ -666,6 +666,10 @@ class CommonRepository extends EntityRepository
         $q->select($prefix.$valueColumn.' as value, '.$prefix.$labelColumn.' as label'.($extraColumns ? ", $extraColumns" : ''))
             ->from($tableName, $alias)
             ->orderBy($prefix.$labelColumn);
+        if($tableName=='lead_fields')
+        {
+            $q->orderBy($prefix.'field_order','asc');
+        }
 
         if ($expr !== null && $expr->count()) {
             $q->where($expr);

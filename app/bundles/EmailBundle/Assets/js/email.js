@@ -102,7 +102,7 @@ Mautic.emailOnLoad = function (container, response) {
                 keys.push(k);
             }
         }
-        keys.sort();
+        //keys.sort();
         //var tborder= "<table border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
         var tborder= "<div border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
         for (var i = 0; i < keys.length; i++) {
