@@ -247,7 +247,7 @@ MauticJS.mtcSet = false;
 MauticJS.appendTrackedContact = function(data) {
     if (window.localStorage) {
         if (mtcId  = localStorage.getItem('mtc_id')) {
-            data['mautic_device_id'] = localStorage.getItem('mautic_device_id');
+            data['device_id'] = localStorage.getItem('device_id');
         }              
     }
     
@@ -269,7 +269,7 @@ MauticJS.setTrackedContact = function(response) {
     if (response.id) {
         MauticJS.setCookie('mtc_id', response.id);
         MauticJS.setCookie('mtc_sid', response.sid);
-        MauticJS.setCookie('mautic_device_id', response.device_id);
+        MauticJS.setCookie('device_id', response.device_id);
         MauticJS.mtcSet = true;
             
         // Set the id in local storage in case cookies are only allowed for sites visited and Mautic is on a different domain
@@ -277,7 +277,7 @@ MauticJS.setTrackedContact = function(response) {
         try {
             localStorage.setItem('mtc_id', response.id);
             localStorage.setItem('mtc_sid', response.sid);
-            localStorage.setItem('mautic_device_id', response.device_id);
+            localStorage.setItem('device_id', response.device_id);
         } catch (e) {
             console.warn('Browser does not allow storing in local storage');
         }

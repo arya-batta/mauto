@@ -33,7 +33,7 @@ class PasswordResetConfirmType extends AbstractType
             'label_attr' => ['class' => 'le-login-label'],
             'attr'       => [
                 'class'       => 'form-control le-pasword-reset-widget',
-                'placeholder' => 'mautic.user.auth.form.loginusername',
+               // 'placeholder' => 'mautic.user.auth.form.loginusername',
             ],
             'required'    => true,
             'constraints' => [

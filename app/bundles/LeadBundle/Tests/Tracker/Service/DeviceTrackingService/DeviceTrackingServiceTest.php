@@ -74,7 +74,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
         $leadDeviceMock = $this->createMock(LeadDevice::class);
 
@@ -101,7 +101,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
 
         $this->leadDeviceRepositoryMock->expects($this->at(0))
@@ -127,7 +127,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
 
         $leadDeviceMock = $this->createMock(LeadDevice::class);
@@ -154,11 +154,11 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn(null);
         $requestMock->expects($this->at(0))
             ->method('get')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
 
         $leadDeviceMock = $this->createMock(LeadDevice::class);
@@ -182,11 +182,11 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn(null);
         $requestMock->expects($this->at(0))
             ->method('get')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn(null);
 
         $this->leadDeviceRepositoryMock->expects($this->never())
@@ -227,7 +227,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
 
         $this->leadDeviceRepositoryMock->expects($this->at(0))
@@ -261,7 +261,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn($trackingId);
 
         $this->leadDeviceRepositoryMock->expects($this->at(0))
@@ -295,7 +295,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new Lead());
         $this->cookieHelperMock->expects($this->at(3))
             ->method('setCookie')
-            ->with('mautic_device_id', $uniqueTrackingIdentifier, 31536000);
+            ->with('device_id', $uniqueTrackingIdentifier, 31536000);
 
         $deviceTrackingService = $this->getDeviceTrackingService();
         $returnedLeadDevice    = $deviceTrackingService->trackCurrentDevice($leadDeviceMock, true);
@@ -320,12 +320,12 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedDevice()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn(null);
 
         $requestMock->expects($this->at(0))
             ->method('get')
-            ->with('mautic_device_id', null)
+            ->with('device_id', null)
             ->willReturn(null);
 
         $leadDeviceMock->expects($this->at(0))
@@ -355,7 +355,7 @@ final class DeviceTrackingServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->cookieHelperMock->expects($this->at(3))
             ->method('setCookie')
-            ->with('mautic_device_id', $uniqueTrackingIdentifier, 31536000);
+            ->with('device_id', $uniqueTrackingIdentifier, 31536000);
 
         $deviceTrackingService = $this->getDeviceTrackingService();
         $returnedLeadDevice    = $deviceTrackingService->trackCurrentDevice($leadDeviceMock, false);

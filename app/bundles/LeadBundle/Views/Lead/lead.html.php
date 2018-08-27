@@ -308,19 +308,20 @@ $view['slots']->set(
                                     <td>
                                         <?php $tags = $lead->getTags(); ?>
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
-                                            <?php foreach ($tags as $tag): ?>
+                                           <div class="leadprofile"> <?php foreach ($tags as $tag): ?>
                                                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $tag->getTag(); ?></span>
                                                 </h5>
-                                            <?php endforeach; ?>
+                                               <?php endforeach; ?></div>
                                             <div class="clearfix"></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: .5em;">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
+                                       <div class="leadprofile">
                                         <?php foreach ($segmentName as $segment): ?>
                                         <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
-                                        <?php endforeach; ?>
+                                        <?php endforeach; ?></div>
                                         <div class="clearfix"></div>
                                     </td>
                                 </tr>
@@ -329,11 +330,13 @@ $view['slots']->set(
                                         <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
                                             <?php if (!empty($pageHitDetails)): ?>
                                                 <?php foreach ($pageHitDetails as $counter => $event): ?>
+                                                   <?php if($event['url'] != ""):?>
                                                     <?php
                                                     $linkType   = 'target="_new"';
-                                                    $eventLabel = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
-                                                    <h5 class="pull-left mt-xs mr-xs">
+                                                        $eventLabel = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
+                                                    <h5 class="pull-left mt-xs mr-xs" style="width: 30%; word-wrap: break-word;">
                                                         <?php echo $event['pagehits'].' x '.$eventLabel.'<br>'?></h5>
+                                                       <?php endif;?>
                                                 <?php endforeach; ?>
                                                 <div class="clearfix"></div>
                                             <?php endif; ?>

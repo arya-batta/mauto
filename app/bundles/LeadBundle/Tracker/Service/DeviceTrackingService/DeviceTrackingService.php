@@ -147,7 +147,7 @@ final class DeviceTrackingService implements DeviceTrackingServiceInterface
 
     public function clearTrackingCookies()
     {
-        $this->cookieHelper->deleteCookie('mautic_device_id');
+        $this->cookieHelper->deleteCookie('device_id');
         $this->cookieHelper->deleteCookie('mtc_id');
         $this->cookieHelper->deleteCookie('mtc_sid');
 
@@ -168,9 +168,9 @@ final class DeviceTrackingService implements DeviceTrackingServiceInterface
             return $this->trackedDevice->getTrackingId();
         }
 
-        $deviceTrackingId = $this->cookieHelper->getCookie('mautic_device_id', null);
+        $deviceTrackingId = $this->cookieHelper->getCookie('device_id', null);
         if ($deviceTrackingId === null) {
-            $deviceTrackingId = $this->request->get('mautic_device_id', null);
+            $deviceTrackingId = $this->request->get('device_id', null);
         }
 
         return $deviceTrackingId;
@@ -197,7 +197,7 @@ final class DeviceTrackingService implements DeviceTrackingServiceInterface
         $this->clearBcTrackingCookies();
 
         // Device cookie
-        $this->cookieHelper->setCookie('mautic_device_id', $device->getTrackingId(), 31536000);
+        $this->cookieHelper->setCookie('device_id', $device->getTrackingId(), 31536000);
 
         // Mainly for landing pages so that JS has the same access as 3rd party tracking code
         $this->cookieHelper->setCookie('mtc_id', $device->getLead()->getId(), null);

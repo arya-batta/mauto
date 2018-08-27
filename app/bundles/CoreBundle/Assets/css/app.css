@@ -1219,6 +1219,7 @@ a.text-white.dark-lg:hover {
 }
 .text-primary {
   color: #000;
+  min-height: 10px;
 }
 a.text-primary:hover {
   color: #000;
@@ -4900,13 +4901,13 @@ figcaption {
   color : #000000;
 }
 .login-notifiation {
-  background-color: #f9edbe;
-  width: 100%;
+  background-color: #fef4f6;
+  width: 91%;
   text-align: center;
   padding: 8px;
   max-height: inherit;
   display: block;
-  color : #000000;
+  color : #b20a26;
   margin-bottom: 10px;
 }
 .button-notification{
@@ -5489,7 +5490,7 @@ figcaption {
 }
 .lead-profile-table-col-2{
   position: absolute;
-  top: 21%;
+  top: 22%;
   left: 63%;
   width: 31%;
 }

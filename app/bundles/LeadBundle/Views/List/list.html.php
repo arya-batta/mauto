@@ -123,7 +123,9 @@ $isAdmin     =$view['security']->isAdmin();
                                 <span class="small">(<?php echo $item->getCreatedByUser(); ?>)</span>
                             <?php endif; ?>
                             <?php if ($item->isGlobal()): ?>
-                                <i class="fa fa-fw fa-globe"></i>
+                            <span data-toggle="tooltip" title="<?php echo $view['translator']->trans(
+                                'mautic.lead.list.form.isglobal'
+                            ); ?>"><i class="fa fa-fw fa-globe"></i></span>
                             <?php endif; ?>
                         </div>
                         <?php if ($description = $item->getDescription()): ?>

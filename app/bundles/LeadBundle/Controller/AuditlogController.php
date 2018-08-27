@@ -113,15 +113,15 @@ class AuditlogController extends CommonController
             $exportType=$event['eventType'];
 
             if ($exportType == 'create') {
-                $exportType='Contact created';
+                $exportType='Lead created';
             } elseif ($exportType == 'update') {
-                $exportType='Contact updated';
+                $exportType='Lead updated';
             } elseif ($exportType == 'delete') {
-                $exportType='Contact deleted';
+                $exportType='Lead deleted';
             } elseif ($exportType == 'merge') {
-                $exportType = 'Contact merged';
+                $exportType = 'Lead merged';
             } elseif ($exportType == 'identified') {
-                $exportType = 'Contact identified';
+                $exportType = 'Lead identified';
             } elseif ($exportType == 'ipadded') {
                 $exportType='Accessed from IP';
             }

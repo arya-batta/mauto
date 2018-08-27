@@ -24,14 +24,12 @@
     <div class="input-group mb-md">
         <label class="le-login-label" for="username"><?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?></label>
         <input  type="text" id="username" name="_username"
-               class="form-control input-lg le-login-widget" value="<?php echo $view->escape($last_username) ?>" required autofocus
-               placeholder="<?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?>" />
+               class="form-control input-lg le-login-widget" value="<?php echo $view->escape($last_username) ?>" required autofocus/>
     </div>
     <div class="input-group mb-md">
         <label for="password" class="le-login-label"><?php echo $view['translator']->trans('mautic.core.password'); ?></label>
         <input type="password" id="password" name="_password"
-               class="form-control input-lg le-login-widget" required
-               placeholder="<?php echo $view['translator']->trans('mautic.core.password'); ?>" />
+               class="form-control input-lg le-login-widget" required/>
     </div>
 
     <div class="checkbox-inline custom-primary pull-left mb-md le-login-content">
