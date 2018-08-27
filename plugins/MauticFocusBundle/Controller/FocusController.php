@@ -265,6 +265,9 @@ class FocusController extends FormController
             case 'index':
                 $args['viewParameters']['filters']    = $listFilters;
                 break;
+            case 'view':
+                $args = $this->customizeViewArguments($args, $action);
+                break;
         }
 
         return $args;
