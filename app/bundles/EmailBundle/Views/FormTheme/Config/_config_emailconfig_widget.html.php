@@ -16,7 +16,7 @@ $isadmin       =$view['security']->isAdmin();
 $hidebounceurl = '';
 $hidespamurl   = 'hide';
 $helpurl       = 'http://help.leadsengage.io/container/show/';
-$transportname = 'amazon_api';
+$transportname = 'amazon';
 
 $transport = $formConfig['parameters']['mailer_transport'];
 if ($transport == 'mautic.transport.sendgrid_api') {
@@ -25,7 +25,7 @@ if ($transport == 'mautic.transport.sendgrid_api') {
 } elseif ($transport == 'mautic.transport.amazon') {
     $hidebounceurl = '';
     $hidespamurl   = '';
-    $transportname = 'amazon_api';
+    $transportname = 'amazon';
     $helpurl .= $view['translator']->trans('le.email.amazon.helpurl.value');
 } elseif ($transport == 'mautic.transport.sparkpost') {
     $transportname = 'sparkpost';
@@ -109,7 +109,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
 
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">
                 <div class="col-sm-12">
-                    <a id = "notificationHelpURL"href="<?php echo $helpurl; ?>"><?php echo $view['translator']->trans('le.email.callback.setup.help'); ?></a>
+                    <a target="_blank" id = "notificationHelpURL"href="<?php echo $helpurl; ?>"><?php echo $view['translator']->trans('le.email.callback.setup.help'); ?></a>
                 </div>
             </div>
             <br>
@@ -140,7 +140,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                     <!--<div class="transportcallback_help" style="width:60%;float:right;text-align:right;">
                         <a href="https://leadsengage.com"><?php /*echo $view['translator']->trans('le.email.amazon.spam.help'); */?></a>
                     </div>-->
-                    <input type="text" id="transportcallback_spam" class="form-control" readonly value="<?php echo $view['router']->url('mautic_mailer_transport_callback', ['transport' => 'amazon_api']); ?>" />
+                    <input type="text" id="transportcallback_spam" class="form-control" readonly value="<?php echo $view['router']->url('mautic_mailer_transport_callback', ['transport' => 'amazon']); ?>" />
                     <a id="transportcallback_spam_atag" onclick="Mautic.copytoClipboardforms('transportcallback_spam');">
                         <i aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(

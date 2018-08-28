@@ -84,7 +84,7 @@ class AmazonTransport extends \Swift_SmtpTransport implements CallbackTransportI
      */
     public function getCallbackPath()
     {
-        return 'amazon';
+        return 'amazon_smtp';
     }
 
     /**

@@ -232,7 +232,7 @@ class AmazonApiTransport implements \Swift_Transport, TokenTransportInterface, C
      */
     public function getCallbackPath()
     {
-        return 'amazon_api';
+        return 'amazon';
     }
 
     /**
