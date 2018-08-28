@@ -243,8 +243,59 @@ class ListModel extends FormModel
     public function getChoiceFields()
     {
         //field choices
-        $choices['lead'] = [
-            'owner_id' => [
+        $choices=[];
+
+        // Add custom choices
+        if ($this->dispatcher->hasListeners(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE)) {
+            $event = new LeadListFiltersChoicesEvent($choices, $this->getOperatorsForFieldType(), $this->translator);
+            $this->dispatcher->dispatch(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE, $event);
+            $choices = $event->getChoices();
+        }
+        $filter['force']=[
+            ['column' => 'f.isPublished', 'expr' => 'eq', 'value' => '1'],
+            ['column' => 'f.isListable', 'expr' => 'eq', 'value' => '1'],
+        ];
+        if (!$this->security->isAdmin()) {
+            $filter['force'][]= ['column' => 'f.object', 'expr' => 'neq', 'value' => 'company'];
+            $filter['force'][]= ['column' => 'f.alias', 'expr' => 'notIn', 'value' => ['company']];
+        }
+        //get list of custom fields
+        $fields = $this->em->getRepository('MauticLeadBundle:LeadField')->getEntities(
+            [
+                'filter' => $filter,
+
+                'orderBy' => 'f.object',
+            ]
+        );
+        foreach ($fields as $field) {
+            $type               = $field->getType();
+            $properties         = $field->getProperties();
+            $properties['type'] = $type;
+            if (in_array($type, ['lookup', 'multiselect', 'boolean'])) {
+                if ($type == 'boolean') {
+                    //create a lookup list with ID
+                    $properties['list'] = [
+                        0 => $properties['no'],
+                        1 => $properties['yes'],
+                    ];
+                } else {
+                    $properties['callback'] = 'activateLeadFieldTypeahead';
+                    $properties['list']     = (isset($properties['list'])) ? FormFieldHelper::formatList(
+                        FormFieldHelper::FORMAT_ARRAY,
+                        FormFieldHelper::parseList($properties['list'])
+                    ) : '';
+                }
+            }
+            $choices[$field->getObject()][$field->getAlias()] = [
+                'label'      => $field->getLabel(),
+                'properties' => $properties,
+                'object'     => $field->getObject(),
+            ];
+
+            $choices[$field->getObject()][$field->getAlias()]['operators'] = $this->getOperatorsForFieldType($type);
+        }
+
+        $choices['lead']['owner_id'] = [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.owner'),
                 'properties' => [
                     'type'     => 'lookup_id',
@@ -252,8 +303,9 @@ class ListModel extends FormModel
                 ],
                 'operators' => $this->getOperatorsForFieldType('lookup_id'),
                 'object'    => 'lead',
-            ],
-            'notification' => [
+            ];
+        $choices['lead']['notification'] = [
+
                 'label'      => $this->translator->trans('mautic.lead.list.filter.notification'),
                 'properties' => [
                     'type' => 'boolean',
@@ -264,32 +316,32 @@ class ListModel extends FormModel
                 ],
                 'operators' => $this->getOperatorsForFieldType('bool'),
                 'object'    => 'lead',
-            ],
-            'city' => [
+            ];
+        $choices['lead']['city'] = [
                 'label'      => $this->translator->trans('mautic.lead.lead.thead.city'),
                 'properties' => ['type' => 'text'],
                 'operators'  => $this->getOperatorsForFieldType('default'),
                 'object'     => 'lead',
-            ],
-            'country' => [
+            ];
+        $choices['lead']['country'] = [
                 'label'      => $this->translator->trans('mautic.lead.lead.thead.country'),
                 'properties' => ['type' => 'text'],
                 'operators'  => $this->getOperatorsForFieldType('default'),
                 'object'     => 'lead',
-            ],
-            'state' => [
+            ];
+        $choices['lead']['state'] = [
                 'label'      => $this->translator->trans('mautic.lead.lead.thead.state'),
                 'properties' => ['type' => 'text'],
                 'operators'  => $this->getOperatorsForFieldType('default'),
                 'object'     => 'lead',
-            ],
-            'zipcode' => [
+            ];
+        $choices['lead']['zipcode'] = [
                 'label'      => $this->translator->trans('mautic.company.zipcode'),
                 'properties' => ['type' => 'text'],
                 'operators'  => $this->getOperatorsForFieldType('default'),
                 'object'     => 'lead',
-            ],
-        ];
+            ];
+
         $choices['list_points'] = [
             'points' => [
                 'label'      => $this->translator->trans('mautic.lead.lead.event.points'),
@@ -300,23 +352,23 @@ class ListModel extends FormModel
         ];
         $choices['list_tags'] = [
             'tags' => [
-            'label'      => $this->translator->trans('mautic.lead.list.filter.tags'),
-            'properties' => [
-                'type' => 'tags',
-            ],
-            'operators' => $this->getOperatorsForFieldType('multiselect'),
-            'object'    => 'lead',
+                'label'      => $this->translator->trans('mautic.lead.list.filter.tags'),
+                'properties' => [
+                    'type' => 'tags',
+                ],
+                'operators' => $this->getOperatorsForFieldType('multiselect'),
+                'object'    => 'lead',
             ],
         ];
         $choices['list_leadlist'] = [
             'leadlist' => [
-            'label'      => $this->translator->trans('mautic.lead.list.filter.lists'),
-            'properties' => [
-                'type' => 'leadlist',
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lists'),
+                'properties' => [
+                    'type' => 'leadlist',
+                ],
+                'operators' => $this->getOperatorsForFieldType('multiselect'),
+                'object'    => 'lead',
             ],
-            'operators' => $this->getOperatorsForFieldType('multiselect'),
-            'object'    => 'lead',
-           ],
         ];
         $choices['list_categories']=[
             'globalcategory' => [
@@ -355,7 +407,7 @@ class ListModel extends FormModel
             ],
         ];
         $choices['emails']= [
-         'lead_email_sent' => [
+            'lead_email_sent' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_sent'),
                 'properties' => ['type' => 'lead_email_received'],
                 'operators'  => $this->getOperatorsForFieldType(
@@ -367,8 +419,8 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-          ],
-        'lead_email_received' => [
+            ],
+            'lead_email_received' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_received'),
                 'properties' => [
                     'type' => 'lead_email_received',
@@ -382,8 +434,8 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-        ],
-        'lead_email_read_count' => [
+            ],
+            'lead_email_read_count' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_count'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType(
@@ -398,8 +450,8 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-        ],
-        'lead_email_read_date' => [
+            ],
+            'lead_email_read_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
                 'properties' => ['type' => 'datetime'],
                 'operators'  => $this->getOperatorsForFieldType(
@@ -416,8 +468,8 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-        ],
-        'dnc_bounced' => [
+            ],
+            'dnc_bounced' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_bounced'),
                 'properties' => [
                     'type' => 'boolean',
@@ -428,8 +480,8 @@ class ListModel extends FormModel
                 ],
                 'operators' => $this->getOperatorsForFieldType('bool'),
                 'object'    => 'lead',
-        ],
-        'dnc_unsubscribed' => [
+            ],
+            'dnc_unsubscribed' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_unsubscribed'),
                 'properties' => [
                     'type' => 'boolean',
@@ -443,8 +495,8 @@ class ListModel extends FormModel
             ],
         ];
         $choices['pages']= [
-          'hit_url' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url'),
+            'url_title' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.url_title'),
                 'properties' => [
                     'type' => 'text',
                 ],
@@ -464,26 +516,9 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-        ],
-        'hit_url_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            '!=',
-                            'gt',
-                            'lt',
-                            'gte',
-                            'lte',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-        ],
-        'hit_url_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
+            ],
+            'sessions' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.session'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType(
                     [
@@ -497,8 +532,8 @@ class ListModel extends FormModel
                     ]
                 ),
                 'object' => 'lead',
-        ],
-        'source' => [
+            ],
+            'source' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.source'),
                 'properties' => [
                     'type' => 'text',
@@ -528,8 +563,47 @@ class ListModel extends FormModel
                 'operators' => $this->getOperatorsForFieldType('default'),
                 'object'    => 'lead',
             ],
-            'sessions' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.session'),
+            'hit_url' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url'),
+                'properties' => [
+                    'type' => 'text',
+                ],
+                'operators' => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            '!=',
+                            'like',
+                            '!like',
+                            'regexp',
+                            '!regexp',
+                            'startsWith',
+                            'endsWith',
+                            'contains',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+            ],
+            'hit_url_date' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            '!=',
+                            'gt',
+                            'lt',
+                            'gte',
+                            'lte',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+            ],
+            'hit_url_count' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType(
                     [
@@ -544,6 +618,7 @@ class ListModel extends FormModel
                 ),
                 'object' => 'lead',
             ],
+
             'referer' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.referer'),
                 'properties' => [
@@ -566,29 +641,8 @@ class ListModel extends FormModel
                 ),
                 'object' => 'lead',
             ],
-            'url_title' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.url_title'),
-                'properties' => [
-                    'type' => 'text',
-                ],
-                'operators' => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            '!=',
-                            'like',
-                            '!like',
-                            'regexp',
-                            '!regexp',
-                            'startsWith',
-                            'endsWith',
-                            'contains',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-    ];
+
+        ];
         //Device Filter Hided not in used as of now
         /*  $choices['device_activity'] =[
               'device_type' => [
@@ -711,64 +765,13 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ];
         }
-        // Add custom choices
-        if ($this->dispatcher->hasListeners(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE)) {
-            $event = new LeadListFiltersChoicesEvent($choices, $this->getOperatorsForFieldType(), $this->translator);
-            $this->dispatcher->dispatch(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE, $event);
-            $choices = $event->getChoices();
-        }
-        $filter['force']=[
-            ['column' => 'f.isPublished', 'expr' => 'eq', 'value' => '1'],
-            ['column' => 'f.isListable', 'expr' => 'eq', 'value' => '1'],
-        ];
-        if (!$this->security->isAdmin()) {
-            $filter['force'][]= ['column' => 'f.object', 'expr' => 'neq', 'value' => 'company'];
-            $filter['force'][]= ['column' => 'f.alias', 'expr' => 'notIn', 'value' => ['company']];
-        }
-        //get list of custom fields
-        $fields = $this->em->getRepository('MauticLeadBundle:LeadField')->getEntities(
-            [
-                'filter' => $filter,
-
-                'orderBy' => 'f.object',
-            ]
-        );
-        foreach ($fields as $field) {
-            $type               = $field->getType();
-            $properties         = $field->getProperties();
-            $properties['type'] = $type;
-            if (in_array($type, ['lookup', 'multiselect', 'boolean'])) {
-                if ($type == 'boolean') {
-                    //create a lookup list with ID
-                    $properties['list'] = [
-                        0 => $properties['no'],
-                        1 => $properties['yes'],
-                    ];
-                } else {
-                    $properties['callback'] = 'activateLeadFieldTypeahead';
-                    $properties['list']     = (isset($properties['list'])) ? FormFieldHelper::formatList(
-                        FormFieldHelper::FORMAT_ARRAY,
-                        FormFieldHelper::parseList($properties['list'])
-                    ) : '';
-                }
-            }
-            $choices[$field->getObject()][$field->getAlias()] = [
-                'label'      => $field->getLabel(),
-                'properties' => $properties,
-                'object'     => $field->getObject(),
-            ];
-
-            $choices[$field->getObject()][$field->getAlias()]['operators'] = $this->getOperatorsForFieldType($type);
-        }
-
         foreach ($choices as $key => $choice) {
             $cmp = function ($a, $b) {
                 return strcmp($a['label'], $b['label']);
             };
-            uasort($choice, $cmp);
+           // uasort($choice, $cmp);
             $choices[$key] = $choice;
         }
-
         return $choices;
     }
 
