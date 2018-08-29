@@ -4896,6 +4896,9 @@ figcaption {
   border: 1px solid #f22446;
 
 }
+.page_hit_url{
+  word-wrap: break-word;
+}
 .page_hit_url:hover{
   text-decoration: underline;
 }
@@ -5829,4 +5832,9 @@ text-align: center;
 .wrap-text{
   width:100%;
   word-wrap: break-word;
+}
+.lead_page_hit_url_div{
+  max-height:100px;
+  overflow: auto;
+  max-width: 76%;
 }

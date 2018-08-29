@@ -328,18 +328,20 @@ $view['slots']->set(
                                 <tr>
                                     <td style="padding-top: .5em;">
                                         <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
-                                            <?php if (!empty($pageHitDetails)): ?>
+                                        <div class="lead_page_hit_url_div">
+                                        <?php if (!empty($pageHitDetails)): ?>
                                                 <?php foreach ($pageHitDetails as $counter => $event): ?>
-                                                   <?php if($event['url'] != ""):?>
+                                                   <?php if ($event['url'] != ''):?>
                                                     <?php
-                                                    $linkType   = 'target="_new"';
+                                                    $linkType       = 'target="_new"';
                                                         $eventLabel = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
-                                                    <h5 class="mt-xs mr-xs" style="width: 80%; word-wrap: break-word;">
-                                                        <?php echo $event['pagehits'].' x '.$eventLabel.'<br>'?></h5>
-                                                       <?php endif;?>
+                                                    <h5 class="mt-xs mr-xs">
+                                                        <?php echo $event['pagehits'].'x '.$eventLabel.'<br>'?></h5>
+                                                       <?php endif; ?>
                                                 <?php endforeach; ?>
                                                 <div class="clearfix"></div>
                                             <?php endif; ?>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
