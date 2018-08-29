@@ -169,6 +169,43 @@ class CampaignRepository extends CommonRepository
     }
 
     /**
+     * Returns a list of all published (and active) campaigns that All Leads are part of.
+     *
+     * @param int|array $sourceType
+     *
+     * @return array
+     */
+    public function getPublishedCampaignbySourceType($sourceType)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'ce')
+            ->join('ce', MAUTIC_TABLE_PREFIX.'campaigns', 'c', 'c.id = ce.campaign_id');
+
+        $q->select('ce.campaign_id as id, ce.properties as properties')
+            ->where($q->expr()->andX(
+                $q->expr()->eq('ce.event_type', ':event_type'),
+                $q->expr()->eq('c.is_published', ':is_published'),
+                $q->expr()->eq('ce.type', ':type'))
+            )->setParameter('event_type', 'source', 'string')
+            ->setParameter('is_published', 1, 'boolean')
+            ->setParameter('type', $sourceType, 'string');
+
+        $results = $q->execute()->fetchAll();
+
+        $campaigns = [];
+        foreach ($results as $result) {
+            if (!isset($campaigns[$result['id']])) {
+                $campaigns[$result['id']] = [
+                    'id'         => $result['id'],
+                    'properties' => $result['properties'],
+                ];
+            }
+        }
+
+        return $campaigns;
+    }
+
+    /**
      * Get array of list IDs assigned to this campaign.
      *
      * @param null $id

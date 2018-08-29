@@ -134,6 +134,16 @@ class CampaignSubscriber extends CommonSubscriber
             ];
             $event->addAction('tracking.pixel.send', $action);
         }
+
+        $source = [
+            'label'          => 'le.page.campaign.event.pagehit',
+            'description'    => 'le.page.campaign.event.pagehit_descr',
+            'formType'       => 'campaignevent_pagehit',
+            'group'          => 'LeadsEngage',
+            'sourcetype'     => 'pagehit',
+            'order'          => '9',
+        ];
+        $event->addSources('pagehit', $source);
     }
 
     /**

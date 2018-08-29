@@ -447,7 +447,7 @@ class ConfigType extends AbstractType
                 'empty_value' => 'mautic.email.config.mailer_auth_mode.none',
             ]
         );
-        if ($currentUser || $transport == 'mautic.transport.amazon') {
+        if ($currentUser) {
             $mailerLoginUserShowConditions = '{
             "config_emailconfig_mailer_auth_mode":[
                 "plain",

@@ -160,6 +160,10 @@ Mautic.showBounceCallbackURL = function(modeEl) {
     mQuery('#config_emailconfig_mailer_user').val('');
     mQuery('#config_emailconfig_mailer_password').val('');
     mQuery('#config_emailconfig_mailer_api_key').val('');
+    if(mode != 'le.transport.vialeadsengage') {
+        mQuery('#config_emailconfig_mailer_transport').val(mode);
+    }
+    mQuery('#config_emailconfig_mailer_amazon_region').val('');
 };
 
 

@@ -195,6 +195,10 @@
         e_index = html.substring(0, e_index).length - html.substring(0, html.substring(0, e_index).lastIndexOf('\n')  + 1).length;
 
         code_mirror.setSize(null, editor.opts.height ? editor.opts.height : 'auto');
+          editor.events.$on(editor.$box, 'focus focusout', function () {
+              // Code mirror enabled.
+              editor.html.set(get());
+          });
         if (editor.opts.heightMin) editor.$box.find('.CodeMirror-scroll').css('min-height', editor.opts.heightMin);
         code_mirror.setValue(html);
         code_mirror.focus();

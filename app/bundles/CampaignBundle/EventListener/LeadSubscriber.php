@@ -11,14 +11,17 @@
 
 namespace Mautic\CampaignBundle\EventListener;
 
+use Mautic\AssetBundle\Event\AssetLoadEvent;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
-use Mautic\LeadBundle\Entity\Lead;
+use Mautic\EmailBundle\Event\EmailOpenEvent;
+use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
 use Mautic\LeadBundle\Event\LeadTimelineEvent;
 use Mautic\LeadBundle\Event\ListChangeEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\PageBundle\Event\PageHitEvent;
 
 /**
  * Class LeadSubscriber.
@@ -53,10 +56,17 @@ class LeadSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            LeadEvents::LEAD_LIST_BATCH_CHANGE => ['onLeadListBatchChange', 0],
-            LeadEvents::LEAD_LIST_CHANGE       => ['onLeadListChange', 0],
-            LeadEvents::TIMELINE_ON_GENERATE   => ['onTimelineGenerate', 0],
-            LeadEvents::LEAD_POST_MERGE        => ['onLeadMerge', 0],
+            LeadEvents::LEAD_LIST_BATCH_CHANGE   => ['onLeadListBatchChange', 0],
+            LeadEvents::LEAD_LIST_CHANGE         => ['onLeadListChange', 0],
+            LeadEvents::TIMELINE_ON_GENERATE     => ['onTimelineGenerate', 0],
+            LeadEvents::LEAD_POST_MERGE          => ['onLeadMerge', 0],
+            LeadEvents::ADD_LEAD_WITH_CAMPAIGN   => ['AddLeadCampaignEvent', 0],
+            LeadEvents::MODIFY_TAG_EVENT         => ['AddTagModifiedLead', 0],
+            LeadEvents::MODIFY_LEAD_FIELD_EVENT  => ['AddModifiedLeadbasedonFields', 0],
+            LeadEvents::DOWNLOAD_ASSET_EVENT     => ['DownloadAssetEvent', 0],
+            LeadEvents::OPEN_EMAIL_EVENT         => ['OpenEmailEvent', 0],
+            LeadEvents::CLICK_EMAIL_EVENT        => ['ClickEmailEvent', 0],
+            LeadEvents::PAGE_HIT_EVENT           => ['PageHitEvent', 0],
         ];
     }
 
@@ -159,6 +169,217 @@ class LeadSubscriber extends CommonSubscriber
                 }
 
                 unset($campaign);
+            }
+        }
+    }
+
+    public function AddLeadCampaignEvent(LeadEvent $event)
+    {
+        $lead   = $event->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('allleads');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+
+                $this->campaignModel->addLead($campaign, $lead);
+
+                unset($campaign);
+            }
+        }
+    }
+
+    public function AddTagModifiedLead(LeadEvent $event)
+    {
+        $lead   = $event->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('leadtags');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+
+                if (!empty($lead->getTags())) {
+                    foreach ($lead->getTags() as $tag) {
+                        if (in_array($tag->getTag(), $properties['tags'])) {
+                            $this->campaignModel->addLead($campaign, $lead);
+
+                            unset($campaign);
+                            break;
+                        } else {
+                            $this->campaignModel->removeLead($campaign, $lead);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function AddModifiedLeadbasedonFields(LeadEvent $event)
+    {
+        $lead   = $event->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('fieldvalue');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
+                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+
+                    $this->campaignModel->addLead($campaign, $lead);
+
+                    unset($campaign);
+                }
+            }
+        }
+    }
+
+    public function DownloadAssetEvent(AssetLoadEvent $event)
+    {
+        $download = $event->getRecord();
+        $asset    = $event->getAsset();
+        $lead     = $download->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('assertDownload');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                if (in_array($asset->getId(), $properties['assets'])) {
+                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+                    $this->campaignModel->addLead($campaign, $lead);
+
+                    unset($campaign);
+                }
+            }
+        }
+    }
+
+    public function OpenEmailEvent(EmailOpenEvent $event)
+    {
+        $stat  = $event->getStat();
+        $email = $event->getEmail();
+        $lead  = $stat->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('openEmail');
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+                if ($email != null && in_array($email->getId(), $properties['email'])) {
+                    $this->campaignModel->addLead($campaign, $lead);
+
+                    unset($campaign);
+                } else {
+                    $this->campaignModel->removeLead($campaign, $lead);
+                }
+            }
+        }
+    }
+
+    public function ClickEmailEvent(PageHitEvent $event)
+    {
+        $hit   = $event->getHit();
+        $email = $hit->getEmail();
+        $lead  = $hit->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('clickEmail');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+                if ($email != null && in_array($email->getId(), $properties['email'])) {
+                    $this->campaignModel->addLead($campaign, $lead);
+
+                    unset($campaign);
+                } else {
+                    $this->campaignModel->removeLead($campaign, $lead);
+                }
+            }
+        }
+    }
+
+    public function PageHitEvent(PageHitEvent $event)
+    {
+        $pagehit = $event->getHit();
+        $lead    = $pagehit->getLead();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('pagehit');
+
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                $properties = unserialize($c['properties']);
+                $result     = false;
+                if ($pagehit instanceof Page) {
+                    list($parent, $children) = $pagehit->getVariants();
+                    //use the parent (self or configured parent)
+                    $pageHitId = $parent->getId();
+                } else {
+                    $pageHitId = 0;
+                }
+
+                $limitToPages = (isset($properties['pages'])) ? $properties['pages'] : [];
+
+                $urlMatches = [];
+
+                // Check Landing Pages URL or Tracing Pixel URL
+                if (isset($properties['url']) && $properties['url']) {
+                    $pageUrl     = $pagehit->getUrl();
+                    $limitToUrls = explode(',', $properties['url']);
+
+                    foreach ($limitToUrls as $url) {
+                        $url              = trim($url);
+                        $urlMatches[$url] = fnmatch($url, $pageUrl);
+                    }
+                }
+
+                $refererMatches = [];
+
+                // Check Landing Pages URL or Tracing Pixel URL
+                if (isset($properties['referer']) && $properties['referer']) {
+                    $refererUrl      = $pagehit->getReferer();
+                    $limitToReferers = explode(',', $properties['referer']);
+
+                    foreach ($limitToReferers as $referer) {
+                        $referer                  = trim($referer);
+                        $refererMatches[$referer] = fnmatch($referer, $refererUrl);
+                    }
+                }
+
+                // **Page hit is true if:**
+                // 1. no landing page is set and no URL rule is set
+                $applyToAny = (empty($properties['url']) && empty($properties['referer']) && empty($limitToPages));
+
+                // 2. some landing pages are set and page ID match
+                $langingPageIsHit = (!empty($limitToPages) && in_array($pageHitId, $limitToPages));
+
+                // 3. URL rule is set and match with URL hit
+                $urlIsHit = (!empty($properties['url']) && in_array(true, $urlMatches));
+
+                // 3. URL rule is set and match with URL hit
+                $refererIsHit = (!empty($properties['referer']) && in_array(true, $refererMatches));
+
+                if ($langingPageIsHit || $urlIsHit || $refererIsHit) {
+                    $result = true;
+                }
+                if ($result) {
+                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+
+                    $this->campaignModel->addLead($campaign, $lead);
+
+                    unset($campaign);
+                }
             }
         }
     }

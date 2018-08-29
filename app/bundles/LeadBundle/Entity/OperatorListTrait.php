@@ -121,11 +121,13 @@ trait OperatorListTrait
             'label'       => 'mautic.lead.list.form.operator.islike',
             'expr'        => 'like',
             'negate_expr' => 'notLike',
+            'hide'        => true,
         ],
         '!like' => [
             'label'       => 'mautic.lead.list.form.operator.isnotlike',
             'expr'        => 'notLike',
             'negate_expr' => 'like',
+            'hide'        => true,
         ],
         'between' => [
             'label'       => 'mautic.lead.list.form.operator.between',
@@ -145,21 +147,25 @@ trait OperatorListTrait
             'label'       => 'mautic.lead.list.form.operator.in',
             'expr'        => 'in',
             'negate_expr' => 'notIn',
+            'hide'        => true,
         ],
         '!in' => [
             'label'       => 'mautic.lead.list.form.operator.notin',
             'expr'        => 'notIn',
             'negate_expr' => 'in',
+            'hide'        => true,
         ],
         'regexp' => [
             'label'       => 'mautic.lead.list.form.operator.regexp',
             'expr'        => 'regexp', //special case
             'negate_expr' => 'notRegexp',
+            'hide'        => true,
         ],
         '!regexp' => [
             'label'       => 'mautic.lead.list.form.operator.notregexp',
             'expr'        => 'notRegexp', //special case
             'negate_expr' => 'regexp',
+            'hide'        => true,
         ],
         'date' => [
             'label'       => 'mautic.lead.list.form.operator.date',
@@ -171,11 +177,13 @@ trait OperatorListTrait
             'label'       => 'mautic.core.operator.starts.with',
             'expr'        => 'startsWith',
             'negate_expr' => 'startsWith',
+            'hide'        => true,
         ],
         'endsWith' => [
             'label'       => 'mautic.core.operator.ends.with',
             'expr'        => 'endsWith',
             'negate_expr' => 'endsWith',
+            'hide'        => true,
         ],
         'contains' => [
             'label'       => 'mautic.core.operator.contains',

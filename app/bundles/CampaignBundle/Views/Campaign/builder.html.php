@@ -112,9 +112,9 @@ $isAdmin=$view['security']->isAdmin();
 
         </div>
     </div>
-    <div class="campaign-statistics">
+    <div class="campaign-statistics minimized">
         <?php if ($actions): ?>
-            <div class="active tab-pane fade in bdr-w-0 minimized" id="actions-container" style="">
+            <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
                 <div class="modal-header campaign-model-header" style="height:50px;">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
                     <a href="#" onclick="Mautic.CloseStatisticsWidget();"><span aria-hidden="true" id="campaignStatistics" style="float:right;font-size:14px;background-color: #ec407a;padding-left: 3px;padding-right: 5px;" value="open">&gt;</span></a>

@@ -28,6 +28,7 @@ use Mautic\LeadBundle\Entity\Company;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\UtmTag;
 use Mautic\LeadBundle\Helper\IdentifyCompanyHelper;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\FieldModel;
 use Mautic\LeadBundle\Model\LeadModel;
@@ -770,7 +771,14 @@ class PageModel extends FormModel
                 );
             }
         }
-
+        if ($this->dispatcher->hasListeners(LeadEvents::PAGE_HIT_EVENT)) {
+            $event = new PageHitEvent($hit, $request, $hit->getCode(), $clickthrough, $isUnique);
+            $this->dispatcher->dispatch(LeadEvents::PAGE_HIT_EVENT, $event);
+        }
+        if ($this->dispatcher->hasListeners(LeadEvents::CLICK_EMAIL_EVENT)) {
+            $event = new PageHitEvent($hit, $request, $hit->getCode(), $clickthrough, $isUnique);
+            $this->dispatcher->dispatch(LeadEvents::CLICK_EMAIL_EVENT, $event);
+        }
         if ($this->dispatcher->hasListeners(PageEvents::PAGE_ON_HIT)) {
             $event = new PageHitEvent($hit, $request, $hit->getCode(), $clickthrough, $isUnique);
             $this->dispatcher->dispatch(PageEvents::PAGE_ON_HIT, $event);

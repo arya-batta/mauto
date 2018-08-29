@@ -50,7 +50,7 @@ class EmailSendType extends AbstractType
                     'tooltip'  => 'mautic.email.choose.emails_descr',
                     'onchange' => 'Mautic.disabledEmailAction(window, this)',
                 ],
-                'multiple'    => false,
+                'multiple'    => true,
                 'required'    => true,
                 'constraints' => [
                     new NotBlank(

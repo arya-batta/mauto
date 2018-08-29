@@ -104,7 +104,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'      => 'campaignsource_forms',
             'sourcetype'    => 'forms',
             'group'         => 'LeadsEngage',
-            'order'         => 2,
+            'order'         => 3,
         ];
 
         $event->addSources('forms', $source);

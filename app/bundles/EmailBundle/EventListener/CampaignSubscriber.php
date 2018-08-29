@@ -185,6 +185,30 @@ class CampaignSubscriber extends CommonSubscriber
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
+
+        $event->addSources(
+            'openEmail',
+            [
+                'label'           => 'le.email.campaign.event.email.open',
+                'description'     => 'le.email.campaign.event.email.open_descr',
+                'sourcetype'      => 'openEmail',
+                'formType'        => 'emailsend_list',
+                'order'           => '7',
+                'group'           => 'LeadsEngage',
+            ]
+        );
+
+        $event->addSources(
+            'clickEmail',
+            [
+                'label'           => 'le.email.campaign.event.email.click',
+                'description'     => 'le.email.campaign.event.email.click_descr',
+                'sourcetype'      => 'clickEmail',
+                'formType'        => 'emailsend_list',
+                'order'           => '8',
+                'group'           => 'LeadsEngage',
+            ]
+        );
     }
 
     /**

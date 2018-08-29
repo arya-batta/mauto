@@ -158,11 +158,11 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.changetags', $action);
         if ($this->security->isGranted('stage:stages:view')) {
             $action = [
-                'label'       => 'mautic.lead.lead.events.addtocompany',
-                'description' => 'mautic.lead.lead.events.addtocompany_descr',
-                'formType'    => 'addtocompany_action',
-                'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-                'order'       => 15,
+                'label'           => 'mautic.lead.lead.events.addtocompany',
+                'description'     => 'mautic.lead.lead.events.addtocompany_descr',
+                'formType'        => 'addtocompany_action',
+                'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'order'           => 15,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('lead.addtocompany', $action);
@@ -291,10 +291,43 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'      => 'campaignsource_lists',
             'sourcetype'    => 'lists',
             'group'         => 'LeadsEngage',
-            'order'         => 1,
+            'order'         => 2,
         ];
 
         $event->addSources('lists', $source);
+
+        $source = [
+            'label'         => 'le.campaign.leadsource.allleads',
+            'description'   => 'le.campaign.leadsource.allleads.desc',
+            'sourcetype'    => 'allleads',
+            'group'         => 'LeadsEngage',
+            'order'         => 1,
+        ];
+
+        $event->addSources('allleads', $source);
+
+        $source = [
+            'label'       => 'mautic.lead.lead.events.tags',
+            'description' => 'le.lead.lead.events.tags_descr',
+            'order'       => '4',
+            'formType'    => 'campaignevent_lead_tags',
+            'group'       => 'LeadsEngage',
+            'sourcetype'  => 'leadtags',
+        ];
+
+        $event->addSources('leadtags', $source);
+
+        $source = [
+            'label'       => 'mautic.lead.lead.events.field_value',
+            'description' => 'le.lead.lead.events.field_value_descr',
+            'formType'    => 'campaignevent_lead_field_value',
+            'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
+            'order'       => '6',
+            'group'       => 'LeadsEngage',
+            'sourcetype'  => 'fieldvalue',
+        ];
+
+        $event->addSources('fieldvalue', $source);
     }
 
     /**
@@ -576,57 +609,9 @@ class CampaignSubscriber extends CommonSubscriber
         } elseif ($event->checkContext('lead.campaigns')) {
             $result = $this->campaignModel->getCampaignLeadRepository()->checkLeadInCampaigns($lead, $event->getConfig());
         } elseif ($event->checkContext('lead.field_value')) {
-            if ($event->getConfig()['operator'] === 'date') {
-                // Set the date in system timezone since this is triggered by cron
-                $triggerDate = new \DateTime('now', new \DateTimeZone($this->params['default_timezone']));
-                $interval    = substr($event->getConfig()['value'], 1); // remove 1st character + or -
-
-                if (strpos($event->getConfig()['value'], '+P') !== false) { //add date
-                    $triggerDate->add(new \DateInterval($interval)); //add the today date with interval
-                    $result = $this->compareDateValue($lead, $event, $triggerDate);
-                } elseif (strpos($event->getConfig()['value'], '-P') !== false) { //subtract date
-                    $triggerDate->sub(new \DateInterval($interval)); //subtract the today date with interval
-                    $result = $this->compareDateValue($lead, $event, $triggerDate);
-                } elseif ($event->getConfig()['value'] === 'anniversary') {
-                    /**
-                     * note: currently mautic campaign only one time execution
-                     * ( to integrate with: recursive campaign (future)).
-                     */
-                    $result = $this->leadFieldModel->getRepository()->compareDateMonthValue(
-                        $lead->getId(), $event->getConfig()['field'], $triggerDate);
-                }
-            } else {
-                $operators = $this->leadModel->getFilterExpressionFunctions();
-
-                $result = $this->leadFieldModel->getRepository()->compareValue(
-                    $lead->getId(),
-                    $event->getConfig()['field'],
-                    $event->getConfig()['value'],
-                    $operators[$event->getConfig()['operator']]['expr']
-                );
-            }
+            $result = $this->leadModel->checkLeadFieldValue($lead, $event->getConfig());
         }
 
         return $event->setResult($result);
-    }
-
-    /**
-     * Function to compare date value.
-     *
-     * @param Lead                   $lead
-     * @param CampaignExecutionEvent $event
-     * @param \DateTime              $triggerDate
-     *
-     * @return bool
-     */
-    private function compareDateValue(Lead $lead, CampaignExecutionEvent $event, \DateTime $triggerDate)
-    {
-        $result = $this->leadFieldModel->getRepository()->compareDateValue(
-            $lead->getId(),
-            $event->getConfig()['field'],
-            $triggerDate->format('Y-m-d')
-        );
-
-        return $result;
     }
 }

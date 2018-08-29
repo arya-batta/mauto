@@ -42,6 +42,7 @@ use Mautic\EmailBundle\MonitoredEmail\Mailbox;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadDevice;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Model\TrackableModel;
@@ -501,6 +502,10 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         //check for existing IP
         $ipAddress = $this->ipLookupHelper->getIpAddress();
         $stat->setIpAddress($ipAddress);
+        if ($this->dispatcher->hasListeners(LeadEvents::OPEN_EMAIL_EVENT)) {
+            $event = new EmailOpenEvent($stat, $request, $firstTime);
+            $this->dispatcher->dispatch(LeadEvents::OPEN_EMAIL_EVENT, $event);
+        }
 
         if ($this->dispatcher->hasListeners(EmailEvents::EMAIL_ON_OPEN)) {
             $event = new EmailOpenEvent($stat, $request, $firstTime);

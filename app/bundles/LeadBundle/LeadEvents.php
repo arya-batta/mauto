@@ -563,4 +563,67 @@ final class LeadEvents
      * @var string
      */
     const ADD_CHANNEL = 'mautic.bc_add_channel';
+
+    /**
+     * The mautic.add_lead_with_campaign event registers Lead Add.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const ADD_LEAD_WITH_CAMPAIGN = 'mautic.add_lead_with_campaign';
+
+    /**
+     * The mautic.modify_tag_with_campaign event registers Lead Tag Modify.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const MODIFY_TAG_EVENT = 'mautic.modify_tag_with_campaign';
+
+    /**
+     * The mautic.modify_lead_field_with_campaign event registers Lead Field Value Modify.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const MODIFY_LEAD_FIELD_EVENT = 'mautic.modify_lead_field_with_campaign';
+
+    /**
+     * The mautic.download_asset_with_campaign event registers Download Asset Event.
+     *
+     * The event listener receives a Mautic\AssetBundle\Event\AssetLoadEvent instance
+     *
+     * @var string
+     */
+    const DOWNLOAD_ASSET_EVENT = 'mautic.download_asset_with_campaign';
+
+    /**
+     * The mautic.open_email_with_campaign event registers Open Email Event.
+     *
+     * The event listener receives a Mautic\EmailBundle\Event\EmailOpenEvent instance
+     *
+     * @var string
+     */
+    const OPEN_EMAIL_EVENT = 'mautic.open_email_with_campaign';
+
+    /**
+     * The mautic.click_email_with_campaign event registers Click Email Event.
+     *
+     * The event listener receives a Mautic\EmailBundle\Event\EmailOpenEvent instance
+     *
+     * @var string
+     */
+    const CLICK_EMAIL_EVENT = 'mautic.click_email_with_campaign';
+
+    /**
+     * The mautic.page_hit_with_campaign event registers Page hit Event.
+     *
+     * The event listener receives a Mautic\PageBundle\Event\PageHitEvent instance
+     *
+     * @var string
+     */
+    const PAGE_HIT_EVENT = 'mautic.page_hit_with_campaign';
 }

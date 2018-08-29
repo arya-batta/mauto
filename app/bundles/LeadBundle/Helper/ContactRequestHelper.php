@@ -170,7 +170,7 @@ class ContactRequestHelper
             true,
             true
         );
-        if ($foundContact->getId() !== $this->trackedContact->getId()) {
+        if ($foundContact != null && $foundContact->getId() !== $this->trackedContact->getId()) {
             // A contact was found by a publicly updatable field
             return $foundContact;
         }
@@ -202,7 +202,7 @@ class ContactRequestHelper
             throw new ContactNotFoundException();
         }
 
-        if ((int) $stat->getEmail()->getId() !== (int) $clickthrough['channel']['email']) {
+        if ($stat->getEmail() != null && (int) $stat->getEmail()->getId() !== (int) $clickthrough['channel']['email']) {
             // Email ID mismatch - fishy so use tracked lead
             throw new ContactNotFoundException();
         }
@@ -304,7 +304,7 @@ class ContactRequestHelper
      */
     private function mergeWithTrackedContact(Lead $foundContact)
     {
-        if ($this->trackedContact->getId() && $this->trackedContact->isAnonymous()) {
+        if ($this->trackedContact != null && $this->trackedContact->getId() && $this->trackedContact->isAnonymous()) {
             return $this->leadModel->mergeLeads($this->trackedContact, $foundContact, false);
         }
 

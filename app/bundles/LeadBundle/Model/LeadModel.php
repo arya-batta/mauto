@@ -534,6 +534,27 @@ class LeadModel extends FormModel
             $this->setPrimaryCompany($companyEntity->getId(), $entity->getId());
         }
 
+        if (($this->dispatcher->hasListeners(LeadEvents::MODIFY_TAG_EVENT))) {
+            $event = new LeadEvent($entity, true);
+            $this->dispatcher->dispatch(LeadEvents::MODIFY_TAG_EVENT, $event);
+
+            unset($event);
+        }
+
+        if (($this->dispatcher->hasListeners(LeadEvents::ADD_LEAD_WITH_CAMPAIGN))) {
+            $event = new LeadEvent($entity, true);
+            $this->dispatcher->dispatch(LeadEvents::ADD_LEAD_WITH_CAMPAIGN, $event);
+
+            unset($event);
+        }
+
+        if (($this->dispatcher->hasListeners(LeadEvents::MODIFY_LEAD_FIELD_EVENT))) {
+            $event = new LeadEvent($entity, true);
+            $this->dispatcher->dispatch(LeadEvents::MODIFY_LEAD_FIELD_EVENT, $event);
+
+            unset($event);
+        }
+
         $this->em->clear(CompanyChangeLog::class);
     }
 
@@ -2840,5 +2861,58 @@ class LeadModel extends FormModel
     public function isAdmin()
     {
         return $this->security->isAdmin();
+    }
+
+    public function checkLeadFieldValue($lead, $config)
+    {
+        if ($config['operator'] === 'date') {
+            // Set the date in system timezone since this is triggered by cron
+            $triggerDate = new \DateTime('now', new \DateTimeZone($this->params['default_timezone']));
+            $interval    = substr($config['value'], 1); // remove 1st character + or -
+
+            if (strpos($config['value'], '+P') !== false) { //add date
+                $triggerDate->add(new \DateInterval($interval)); //add the today date with interval
+                return $this->compareDateValue($lead, $config, $triggerDate);
+            } elseif (strpos($config['value'], '-P') !== false) { //subtract date
+                $triggerDate->sub(new \DateInterval($interval)); //subtract the today date with interval
+                return $this->compareDateValue($lead, $config, $triggerDate);
+            } elseif ($config['value'] === 'anniversary') {
+                /*
+                 * note: currently mautic campaign only one time execution
+                 * ( to integrate with: recursive campaign (future)).
+                 */
+                return $this->leadFieldModel->getRepository()->compareDateMonthValue(
+                    $lead->getId(), $config['field'], $triggerDate);
+            }
+        } else {
+            $operators = $this->getFilterExpressionFunctions();
+
+            return $this->leadFieldModel->getRepository()->compareValue(
+                $lead->getId(),
+                $config['field'],
+                $config['value'],
+                $operators[$config['operator']]['expr']
+            );
+        }
+    }
+
+    /**
+     * Function to compare date value.
+     *
+     * @param Lead                   $lead
+     * @param CampaignExecutionEvent $event
+     * @param \DateTime              $triggerDate
+     *
+     * @return bool
+     */
+    private function compareDateValue(Lead $lead, $config, \DateTime $triggerDate)
+    {
+        $result = $this->leadFieldModel->getRepository()->compareDateValue(
+            $lead->getId(),
+            $config['field'],
+            $triggerDate->format('Y-m-d')
+        );
+
+        return $result;
     }
 }

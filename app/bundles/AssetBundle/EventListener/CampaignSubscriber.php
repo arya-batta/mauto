@@ -67,6 +67,17 @@ class CampaignSubscriber extends CommonSubscriber
         ];
 
         $event->addDecision('asset.download', $trigger);
+
+        $source = [
+            'label'          => 'mautic.asset.campaign.event.download',
+            'description'    => 'mautic.asset.campaign.event.download_descr',
+            'formType'       => 'campaignevent_assetdownload',
+            'group'          => 'LeadsEngage',
+            'sourcetype'     => 'assertDownload',
+            'order'          => '5',
+        ];
+
+        $event->addSources('assertDownload', $source);
     }
 
     /**

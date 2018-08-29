@@ -26,6 +26,7 @@ use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Model\FormModel;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Tracker\Factory\DeviceDetectorFactory\DeviceDetectorFactoryInterface;
 use Mautic\LeadBundle\Tracker\Service\DeviceCreatorService\DeviceCreatorServiceInterface;
@@ -306,6 +307,12 @@ class AssetModel extends FormModel
         if ($this->dispatcher->hasListeners(AssetEvents::ASSET_ON_LOAD)) {
             $event = new AssetLoadEvent($download, $isUnique);
             $this->dispatcher->dispatch(AssetEvents::ASSET_ON_LOAD, $event);
+        }
+
+        // Dispatch event
+        if ($this->dispatcher->hasListeners(LeadEvents::DOWNLOAD_ASSET_EVENT)) {
+            $event = new AssetLoadEvent($download, $isUnique);
+            $this->dispatcher->dispatch(LeadEvents::DOWNLOAD_ASSET_EVENT, $event);
         }
 
         // Wrap in a try/catch to prevent deadlock errors on busy servers

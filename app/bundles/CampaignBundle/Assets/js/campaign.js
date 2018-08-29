@@ -1408,12 +1408,12 @@ Mautic.CloseStatisticsWidget = function(){
     var value = mQuery('#campaignStatistics').attr("value");
     if(value == "close") {
         mQuery('#campaignStatistics').attr("value","open");
-        mQuery('#actions-container').addClass('minimized');
+        mQuery('.campaign-statistics').addClass('minimized');
         mQuery('.'+value+'Group').addClass('hide');
         mQuery('#campaignStatistics').html('>');
     } else {
         mQuery('#campaignStatistics').attr("value","close");
-        mQuery('#actions-container').removeClass('minimized');
+        mQuery('.campaign-statistics').removeClass('minimized');
         mQuery('#campaignStatistics').html('<');
         mQuery('.campaign-event-list').removeClass('hide');
     }

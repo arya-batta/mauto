@@ -109,13 +109,17 @@ $custombutton = [
             <br>
             <br>
             <div class="row">
-                <div class="col-md-12">
-                    <?php echo $view['form']->row($form['name']); ?>
+                <div class="col-md-12" id="Email_TemplateName">
+                    <?php echo $view['form']->label($form['name']); ?>
+                    <?php echo $view['form']->widget($form['name']); ?>
+                    <div class="help-block"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10">
-                    <?php echo $view['form']->row($form['subject']); ?>
+                <div class="col-md-10" id="Email_Subject">
+                    <?php echo $view['form']->label($form['subject']); ?>
+                    <?php echo $view['form']->widget($form['subject']); ?>
+                    <div class="help-block"></div>
                 </div>
                 <div>
                     <li class="dropdown dropdown-menu-right" style="display: block;">
@@ -302,7 +306,17 @@ $custombutton = [
             <?php endif; ?>
             <br>
             <div class="row">
+                <div class="col-md-12" id="unsubscribe_text_div">
+                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
+                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                </div>
                 <div class="col-md-12">
+                    <br>
+                    <?php echo $view['form']->label($form['postal_address']); ?>
+                    <?php echo $view['form']->widget($form['postal_address']); ?>
+                </div>
+                <div class="col-md-12">
+                    <br>
                     <div class="pull-left">
                         <?php echo $view['form']->label($form['plainText']); ?>
                     </div>
@@ -312,16 +326,6 @@ $custombutton = [
                     </div>
                     <div class="clearfix"></div>
                     <?php echo $view['form']->widget($form['plainText']); ?>
-                </div>
-                <div class="col-md-12">
-                    <br>
-                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
-                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
-                </div>
-                <div class="col-md-12">
-                    <br>
-                    <?php echo $view['form']->label($form['postal_address']); ?>
-                    <?php echo $view['form']->widget($form['postal_address']); ?>
                 </div>
             </div>
             </div>
