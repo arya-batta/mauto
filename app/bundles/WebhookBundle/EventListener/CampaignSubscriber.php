@@ -134,6 +134,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'    => 'campaignevent_sendwebhook',
             'eventName'   => WebhookEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'       => 20,
+            'group'       => 'le.campaign.event.group.name.leadsengage',
         ];
         if ($this->security->isAdmin()) {
             $event->addAction('campaign.sendwebhook', $sendWebhookAction);

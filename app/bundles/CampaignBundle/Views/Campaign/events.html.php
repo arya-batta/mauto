@@ -11,7 +11,7 @@
 ?>
 <?php if (!empty($events) && is_array($events)) : ?>
 <!-- start: trigger type event -->
-<ul class="list-group campaign-event-list">
+<ul class="list-group campaign-event-list scroll">
     <?php foreach ($events as $event) : ?>
         <li class="list-group-item bg-auto bg-light-xs">
             <?php $yesClass = ('action' === $event['eventType'] && 'no' === $event['decisionPath']) ? 'danger' : 'success'; ?>

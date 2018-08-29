@@ -130,6 +130,7 @@ class CampaignSubscriber extends CommonSubscriber
                     ],
                 ],
                 'order'          => 15,
+                'group'          => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('tracking.pixel.send', $action);
         }

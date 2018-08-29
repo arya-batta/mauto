@@ -102,6 +102,7 @@ class CampaignSubscriber extends CommonSubscriber
                     'messageSettings' => $channels,
                 ],
                 'order'               => 19,
+                'group'               => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('message.send', $action);
         }

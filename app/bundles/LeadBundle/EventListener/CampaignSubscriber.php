@@ -163,6 +163,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formType'    => 'addtocompany_action',
                 'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'order'       => 15,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('lead.addtocompany', $action);
         }
@@ -182,6 +183,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formType'    => 'scorecontactscompanies_action',
                 'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'order'       => 16,
+                'group'       => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('lead.scorecontactscompanies', $action);
         }

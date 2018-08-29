@@ -585,6 +585,22 @@ class ListModel extends FormModel
                 ),
                 'object' => 'lead',
             ],
+            'hit_url_count' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
+                'properties' => ['type' => 'number'],
+                'operators'  => $this->getOperatorsForFieldType(
+                    [
+                        'include' => [
+                            '=',
+                            'gt',
+                            'gte',
+                            'lt',
+                            'lte',
+                        ],
+                    ]
+                ),
+                'object' => 'lead',
+            ],
             'hit_url_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
                 'properties' => ['type' => 'datetime'],
@@ -602,23 +618,6 @@ class ListModel extends FormModel
                 ),
                 'object' => 'lead',
             ],
-            'hit_url_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
-                'properties' => ['type' => 'number'],
-                'operators'  => $this->getOperatorsForFieldType(
-                    [
-                        'include' => [
-                            '=',
-                            'gt',
-                            'gte',
-                            'lt',
-                            'lte',
-                        ],
-                    ]
-                ),
-                'object' => 'lead',
-            ],
-
             'referer' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.referer'),
                 'properties' => [

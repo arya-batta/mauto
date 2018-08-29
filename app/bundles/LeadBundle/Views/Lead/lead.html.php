@@ -334,7 +334,7 @@ $view['slots']->set(
                                                     <?php
                                                     $linkType   = 'target="_new"';
                                                         $eventLabel = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
-                                                    <h5 class="pull-left mt-xs mr-xs" style="width: 30%; word-wrap: break-word;">
+                                                    <h5 class="mt-xs mr-xs" style="width: 80%; word-wrap: break-word;">
                                                         <?php echo $event['pagehits'].' x '.$eventLabel.'<br>'?></h5>
                                                        <?php endif;?>
                                                 <?php endforeach; ?>

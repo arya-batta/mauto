@@ -123,7 +123,7 @@ if (count($items)):
                         );
                         ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <div>
                             <?php if ($type == 'template'): ?>
                                 <?php echo $view->render(

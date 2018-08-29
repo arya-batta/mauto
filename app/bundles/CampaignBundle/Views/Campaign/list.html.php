@@ -87,7 +87,7 @@ $isAdmin=$view['security']->isAdmin();
                         );
                         ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <div>
                             <?php echo $view->render(
                                 'MauticCoreBundle:Helper:publishstatus_icon.html.php',

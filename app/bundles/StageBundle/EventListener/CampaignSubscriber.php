@@ -71,6 +71,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formType'    => 'stageaction_change',
                 'formTheme'   => 'MauticStageBundle:FormTheme\StageActionChange',
                 'order'       => 17,
+                'group'       => 'le.campaign.event.group.name.leadsengage',
             ];
             $event->addAction('stage.change', $action);
         }

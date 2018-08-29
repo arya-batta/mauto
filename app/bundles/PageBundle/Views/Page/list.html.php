@@ -105,7 +105,7 @@ $isAdmin=$view['security']->isAdmin();
                         );
                         ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'page.page']); ?>
                         <a href="<?php echo $view['router']->path(
                             'mautic_page_action',

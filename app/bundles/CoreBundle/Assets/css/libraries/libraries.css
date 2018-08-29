@@ -5690,6 +5690,7 @@ button.close {
   margin: 0;
   line-height: 1.3856;
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 .modal-title-note {
   margin: 0;
