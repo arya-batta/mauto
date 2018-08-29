@@ -27,7 +27,7 @@ class ConfigSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
+            ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 4],
             ConfigEvents::CONFIG_PRE_SAVE    => ['onConfigSave', 0],
         ];
     }
