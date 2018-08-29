@@ -4,7 +4,7 @@ Mautic.smsOnLoad = function (container, response) {
         Mautic.activateSearchAutocomplete('list-search', 'sms');
     }
     Mautic.getTokens('email:getBuilderTokens', function(tokens) {
-        mQuery.each(tokens, function(k,v){
+       /** mQuery.each(tokens, function(k,v){
             if (k.match(/assetlink=/i) && v.match(/a:/)){
                 delete tokens[k];
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
@@ -15,7 +15,17 @@ Mautic.smsOnLoad = function (container, response) {
             } else {
                 delete tokens[k];
             }
-        });
+        }); */
+       tokens = [];
+       tokens['{leadfield=title}']       = 'Title';
+       tokens['{leadfield=firstname}']   = 'First Name';
+       tokens['{leadfield=lastname}']    = 'Last Name';
+       tokens['{leadfield=company_new}'] = 'Company';
+       tokens['{leadfield=mobile}']      = 'Mobile';
+       tokens['{leadfield=email}']       = 'Email';
+       tokens['{lead_owner_name}']       = 'Lead Owner Name';
+       tokens['{lead_owner_mobile}']     = 'Lead Owner Mobile';
+       tokens['{lead_owner_email}']      = 'Lead Owner Email';
         var k, keys = [];
         for (k in tokens) {
             if (tokens.hasOwnProperty(k)) {

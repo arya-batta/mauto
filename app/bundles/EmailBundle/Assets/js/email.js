@@ -84,7 +84,7 @@ Mautic.emailOnLoad = function (container, response) {
     }
 
     Mautic.getTokens('email:getBuilderTokens', function(tokens) {
-        mQuery.each(tokens, function(k,v){
+      /**  mQuery.each(tokens, function(k,v){
             if (k.match(/assetlink=/i) && v.match(/a:/)){
                 delete tokens[k];
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
@@ -95,7 +95,14 @@ Mautic.emailOnLoad = function (container, response) {
             } else {
                 delete tokens[k];
             }
-        });
+        }); */
+
+        tokens = [];
+        tokens['{leadfield=title}']       = 'Title';
+        tokens['{leadfield=firstname}']   = 'First Name';
+        tokens['{leadfield=lastname}']    = 'Last Name';
+        tokens['{leadfield=company_new}'] = 'Company';
+
         var k, keys = [];
         for (k in tokens) {
             if (tokens.hasOwnProperty(k)) {
