@@ -28,7 +28,7 @@ $view['slots']->set(
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.sms.smses'); ?></h3></div>
 <div style="padding-top: 15px;">
-    <?php foreach ($smsBlockDetails as $key => $smsBlock): ?>
+    <?php foreach ($smsBlockDetails as $key =>  $smsBlock): ?>
         <div class="info-box" id="leads-info-box-container">
                 <span class="info-box-icon" style="background-color:<?php echo $smsBlock[0]; ?>;>">
                     <i class="<?php echo $smsBlock[1]; ?>" id="icon-class-leads"></i></span>
