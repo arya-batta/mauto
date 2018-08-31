@@ -31,6 +31,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
+use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
@@ -45,15 +46,20 @@ class ListModel extends FormModel
      * @var CoreParametersHelper
      */
     protected $coreParametersHelper;
-
+    /**
+     * @var IntegrationHelper
+     */
+    protected $integrationHelper;
     /**
      * ListModel constructor.
      *
      * @param CoreParametersHelper $coreParametersHelper
+     * @param IntegrationHelper $integrationHelper
      */
-    public function __construct(CoreParametersHelper $coreParametersHelper)
+    public function __construct(CoreParametersHelper $coreParametersHelper,IntegrationHelper $integrationHelper)
     {
         $this->coreParametersHelper = $coreParametersHelper;
+        $this->integrationHelper = $integrationHelper;
     }
 
     /**
@@ -304,8 +310,12 @@ class ListModel extends FormModel
                 'operators' => $this->getOperatorsForFieldType('lookup_id'),
                 'object'    => 'lead',
             ];
-        $choices['lead']['notification'] = [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.notification'),
+        //Check if onesignal plugin is published or not
+        $integration = $this->integrationHelper->getIntegrationObject('OneSignal');
+        if ($integration->getIntegrationSettings()->getIsPublished()) {
+            $choices['lead']['notification'] = [
+
+                'label' => $this->translator->trans('mautic.lead.list.filter.notification'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -316,6 +326,7 @@ class ListModel extends FormModel
                 'operators' => $this->getOperatorsForFieldType('bool'),
                 'object'    => 'lead',
             ];
+        }
         $choices['lead']['city'] = [
                 'label'      => $this->translator->trans('mautic.lead.lead.thead.city'),
                 'properties' => ['type' => 'text'],

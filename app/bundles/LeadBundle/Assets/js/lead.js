@@ -291,7 +291,9 @@ Mautic.addSegementFilter= function(filterId){
         mQuery(this).trigger('chosen:updated');
 
         mQuery('#filters').addClass('active in');
-        mQuery('#details').removeClass('active');
+        mQuery('#details').removeClass('active in');
+        mQuery('#filterstab').addClass('active');
+        mQuery('#detailstab').removeClass('active');
     }
 };
 Mautic.leadlistOnLoad = function(container) {

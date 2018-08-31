@@ -49,7 +49,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
         <div class="row">
             <div class="col-xs-12">
                 <ul class="bg-auto nav nav-tabs pr-md pl-md">
-                    <li class="active">
+                    <li class="active" id="detailstab">
                         <a href="#details" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
                             <?php echo $view['translator']->trans('mautic.core.details'); ?>
                             <?php if ($mainErrors): ?>
@@ -57,7 +57,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             <?php endif; ?>
                         </a>
                     </li>
-                    <li data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.lead.segment.add.help'); ?>">
+                    <li id="filterstab" data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.lead.segment.add.help'); ?>">
                         <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
                             <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
                             <?php if ($filterErrors): ?>

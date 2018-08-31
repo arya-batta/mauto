@@ -109,6 +109,8 @@ class CampaignSubscriber extends CommonSubscriber
                     'timelineTemplate' => 'MauticNotificationBundle:SubscribedEvents\Timeline:index.html.php',
                     'channel'          => 'mobile_notification',
                     'channelIdField'   => 'mobile_notification',
+                    'order'            => 22,
+                    'group'            => 'le.campaign.event.group.name.leadsengage',
                 ]
             );
         }
@@ -125,6 +127,8 @@ class CampaignSubscriber extends CommonSubscriber
                 'timelineTemplate' => 'MauticNotificationBundle:SubscribedEvents\Timeline:index.html.php',
                 'channel'          => 'notification',
                 'channelIdField'   => 'notification',
+                'order'            => 23,
+                'group'            => 'le.campaign.event.group.name.leadsengage',
             ]
         );
     }
@@ -143,6 +147,7 @@ class CampaignSubscriber extends CommonSubscriber
         }
 
         $notificationId = (int) $event->getConfig()['notification'];
+
 
         /** @var \Mautic\NotificationBundle\Entity\Notification $notification */
         $notification = $this->notificationModel->getEntity($notificationId);
@@ -168,7 +173,7 @@ class CampaignSubscriber extends CommonSubscriber
                 continue;
             }
 
-            $playerID[] = $pushID->getPushID();
+            $playerID = $pushID->getPushID();
         }
 
         if (empty($playerID)) {
