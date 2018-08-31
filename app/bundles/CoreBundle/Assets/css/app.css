@@ -5438,6 +5438,7 @@ figcaption {
   margin-left: 16px;
   box-shadow: 2px 2px 8px #353535;
   width: 23%;
+  cursor: pointer;
 }
 #leads-info-box-container:hover {
   background: #fff;
