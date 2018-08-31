@@ -117,13 +117,13 @@ $isAdmin     =$view['security']->isAdmin();
                         );
                         ?>
                     </td>
-                    <td class="table-description">
+                    <td>
                         <?php echo $view->render(
                             'MauticCoreBundle:Helper:publishstatus_icon.html.php',
                             ['item' => $item, 'model' => 'lead.list']
                         ); ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <div>
                             <?php if ($view['security']->hasEntityAccess(true, $permissions['lead:lists:editother'], $item->getCreatedBy())) : ?>
                                 <a href="<?php echo $view['router']->path(

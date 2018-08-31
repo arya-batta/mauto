@@ -825,6 +825,7 @@ return [
                 'class'     => 'Mautic\LeadBundle\Model\ListModel',
                 'arguments' => [
                     'mautic.helper.core_parameters',
+                    'mautic.helper.integration',
                 ],
             ],
             'mautic.lead.model.note' => [

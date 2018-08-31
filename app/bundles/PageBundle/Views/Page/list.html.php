@@ -121,10 +121,10 @@ $isAdmin=$view['security']->isAdmin();
                         );
                         ?>
                     </td>
-                    <td class="table-description">
+                    <td>
                         <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'page.page']); ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <a href="<?php echo $view['router']->path(
                             'mautic_page_action',
                             ['objectAction' => 'view', 'objectId' => $item->getId()]

@@ -134,7 +134,7 @@ $isAdmin=$view['security']->isAdmin();
                         );
                         ?>
                     </td>
-                    <td class="table-description">
+                    <td>
                         <?php echo $view->render(
                             'MauticCoreBundle:Helper:publishstatus_icon.html.php',
                             [
@@ -143,7 +143,7 @@ $isAdmin=$view['security']->isAdmin();
                             ]
                         ); ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 'mautic_asset_action',
