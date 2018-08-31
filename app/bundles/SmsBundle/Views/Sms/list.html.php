@@ -138,7 +138,7 @@ if (count($items)):
                         );
                         ?>
                     </td>
-                    <td class="table-description">
+                    <td>
                         <?php if ($type == 'template'): ?>
                             <?php echo $view->render(
                                 'MauticCoreBundle:Helper:publishstatus_icon.html.php',
@@ -148,7 +148,7 @@ if (count($items)):
                             <i class="fa fa-fw fa-lg fa-toggle-on text-muted disabled"></i>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="table-description">
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 'mautic_sms_action',
