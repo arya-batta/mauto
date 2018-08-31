@@ -239,10 +239,50 @@ class SmsRepository extends CommonRepository
 
         $results= $q->execute()->fetchAll();
 
-        if (!isset($results['sentcount'])) {
-            $results['sentcount']=0;
+        return $results[0]['sentcount'];
+    }
+
+    /**
+     * Get click counts based on date.
+     *
+     * @param array $emailIds
+     *
+     * @return array
+     */
+    public function getLast30DaysSMSClickCounts($viewOthers =false)
+    {
+        $dateinterval   = date('Y-m-d', strtotime('-29 days'));
+        $q              = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $currentUserId  = $this->currentUser->getId();
+        $q->select('SUM(t.hits)')
+            ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
+            ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
+                $q->expr()->andX(
+                    $q->expr()->eq('r.id', 't.redirect_id'),
+                    $q->expr()->eq('t.channel', ':channel')
+                )
+            )
+            ->setParameter('channel', 'sms')
+            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'sms_messages', 's',
+                $q->expr()->andX(
+                    $q->expr()->eq('t.channel_id', 's.id')
+                ))
+            ->andWhere($q->expr()->gte('r.date_added', ':dateAdded'))
+            ->setParameter('dateAdded', $dateinterval)
+            ->orderBy('r.url');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
-        return $results['sentcount'];
+        if ($currentUserId != 1) {
+            $q->andWhere($q->expr()->neq('r.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
     }
 }

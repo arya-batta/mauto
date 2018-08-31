@@ -605,4 +605,19 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
         return $results;
     }
+
+    public function getSMSBlocks()
+    {
+        $smsOpened =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.sent'),
+            $this->getRepository()->getLast30DaysSmsSentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother')),
+        ];
+        $smsClicked = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+            $this->getRepository()->getLast30DaysSMSClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother')),
+        ];
+
+        $allBlockDetails[] = $smsOpened;
+        $allBlockDetails[] = $smsClicked;
+
+        return $allBlockDetails;
+    }
 }

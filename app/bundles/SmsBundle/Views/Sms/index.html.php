@@ -28,14 +28,17 @@ $view['slots']->set(
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.sms.smses'); ?></h3></div>
 <div style="padding-top: 15px;">
-<div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="background-color:<?php echo $view['translator']->trans('le.form.display.color.blocks.blue'); ?>;>">
-                    <i class="fa fa-envelope-open-o done_all" id="icon-class-leads"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text"><?php echo $view['translator']->trans('le.index.last30daysms.sent'); ?></span>
-            <span class="info-box-number"><?php echo $last30DaysSmsSent; ?></span>
+    <?php foreach ($smsBlockDetails as $key => $smsBlock): ?>
+        <div class="info-box" id="leads-info-box-container">
+                <span class="info-box-icon" style="background-color:<?php echo $smsBlock[0]; ?>;>">
+                    <i class="<?php echo $smsBlock[1]; ?>" id="icon-class-leads"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text"><?php echo $smsBlock[2]; ?></span>
+                <span class="info-box-number"><?php echo $smsBlock[3]; ?></span>
+            </div>
+
         </div>
-</div>
+    <?php endforeach; ?>
 </div>
 <div class="panel panel-default bdr-t-wdh-0 mb-0">
     <?php echo $view->render(

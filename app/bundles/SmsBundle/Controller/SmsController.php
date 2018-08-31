@@ -173,7 +173,7 @@ class SmsController extends FormController
         $session->set('mautic.sms.page', $page);
 
         $integration       = $this->get('mautic.helper.integration')->getIntegrationObject('SolutionInfinity');
-        $last30DaysSmsSent = $model->getRepository()->getLast30DaysSmsSentCount($permissions['sms:smses:viewother']);
+        $smsBlockDetails   = $model->getSMSBlocks();
 
         return $this->delegateView([
             'viewParameters' => [
@@ -187,7 +187,7 @@ class SmsController extends FormController
                 'model'            => $model,
                 'security'         => $this->get('mautic.security'),
                 'configured'       => ($integration && $integration->getIntegrationSettings()->getIsPublished()),
-                'last30DaysSmsSent'=> $last30DaysSmsSent,
+                'smsBlockDetails'  => $smsBlockDetails,
                 'filters'          => $listFilters,
                 ],
             'contentTemplate' => 'MauticSmsBundle:Sms:list.html.php',
