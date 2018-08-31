@@ -296,9 +296,13 @@ trait FilterTrait
                 break;
         }
 
+        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
         $customOptions['constraints'] = [];
         if (in_array($data['operator'], ['empty', '!empty'])) {
             $attr['disabled'] = 'disabled';
+        } elseif (in_array($data['operator'], $disOpr)) {
+            $attr['style']    = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
+            $attr['tabindex'] = '-1';
         } elseif ($data['operator']) {
             $customOptions['constraints'][] = new NotBlank(
                 [
@@ -372,6 +376,17 @@ trait FilterTrait
                 'label'          => false,
                 'attr'           => $displayAttr,
                 'data'           => (isset($data['display'])) ? $data['display'] : '',
+                'error_bubbling' => false,
+            ]
+        );
+
+        $form->add(
+            'customObject',
+            'hidden',
+            [
+                'label'          => false,
+                'attr'           => [],
+                'data'           => (isset($data['customObject'])) ? $data['customObject'] : '',
                 'error_bubbling' => false,
             ]
         );

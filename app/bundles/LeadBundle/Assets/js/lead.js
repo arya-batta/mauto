@@ -443,6 +443,14 @@ Mautic.convertLeadFilterInput = function(el) {
         mQuery(filterId).val('');
     }
 
+    var customFilter = (operator == 'today' || operator == 'tomorrow' || operator == 'yesterday' || operator == 'week_last' || operator == 'week_next' || operator == 'week_this' || operator == 'month_last' || operator == 'month_next' || operator == 'month_this' || operator == 'year_last' || operator == 'year_next' || operator == 'year_this');
+
+    if (customFilter) {
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').prop('tabindex', '-1');
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').prop('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
+        mQuery(filterId).val(operator);
+    }
+
     var newName = '';
     var lastPos;
 
@@ -524,6 +532,7 @@ Mautic.addLeadListFilter = function (elId) {
     var prototype = mQuery('.available-filters').data('prototype');
     var fieldType = mQuery(filterId).data('field-type');
     var fieldObject = mQuery(filterId).data('field-object');
+    var customObject = mQuery(filterId).data('field-customobject');
     var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os', 'lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory']) != -1);
 
     prototype = prototype.replace(/__name__/g, filterNum);
@@ -578,6 +587,7 @@ Mautic.addLeadListFilter = function (elId) {
     mQuery(prototype).find("input[name='" + filterBase + "[field]']").val(elId);
     mQuery(prototype).find("input[name='" + filterBase + "[type]']").val(fieldType);
     mQuery(prototype).find("input[name='" + filterBase + "[object]']").val(fieldObject);
+    mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").val(customObject);
 
     var filterEl = (isSpecial) ? "select[name='" + filterBase + "[filter]']" : "input[name='" + filterBase + "[filter]']";
 

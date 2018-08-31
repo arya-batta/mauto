@@ -119,8 +119,8 @@ class LeadListRepository extends CommonRepository
             $q->andWhere($q->expr()->eq('l.isGlobal', ':true'));
             $q->orWhere('l.createdBy = :user');
             $q->setParameter('user', $user);
-        }else{
-            if($this->currentUser != null && !$this->currentUser->isAdmin()){
+        } else {
+            if ($this->currentUser != null && !$this->currentUser->isAdmin()) {
                 $q->andWhere('l.createdBy != 1');
             }
         }
@@ -265,7 +265,7 @@ class LeadListRepository extends CommonRepository
             ->setParameter(':true', true, 'boolean')
             ->andWhere($q->expr()->eq('l.isGlobal', ':true'))
             ->orderBy('l.name');
-        if($this->currentUser != null && !$this->currentUser->isAdmin()){
+        if ($this->currentUser != null && !$this->currentUser->isAdmin()) {
             $q->andWhere('l.createdBy != 1');
         }
         $results = $q->getQuery()->getArrayResult();
@@ -692,7 +692,9 @@ class LeadListRepository extends CommonRepository
             if (!empty($details['object'])) {
                 $object = $details['object'];
             }
-
+            if (!empty($details['customObject'])) {
+                $object = $details['customObject'];
+            }
             if ($object == 'lead') {
                 $column = isset($this->leadTableSchema[$details['field']]) ? $this->leadTableSchema[$details['field']] : false;
             } elseif ($object == 'company') {
@@ -1476,6 +1478,30 @@ class LeadListRepository extends CommonRepository
                         }
                     }
 
+                    break;
+                case 'lead_email_activity':
+                    $func                    = ($func == 'in') ? 1 : 0;
+                    $select                  = 'id';
+                    $table                   = 'email_stats';
+                    $isexist                 = 'EXISTS';
+                    $parameters[$parameter]  = $func;
+                    $subqb                   = $this->getEntityManager()->getConnection()
+                        ->createQueryBuilder()
+                        ->select($select)
+                        ->from(MAUTIC_TABLE_PREFIX.$table, $alias);
+
+                    $subqb->where(
+                        $q->expr()
+                            ->andX(
+                                $q->expr()->eq($alias.'.lead_id', 'l.id'),
+                                $q->expr()->eq($alias.'.is_read', $exprParameter),
+                                $q->expr()->isNotNull($alias.'.email_id')
+                            )
+                    );
+                    $subqb->orderBy($alias.'.id', 'DESC')->setMaxResults($details['filter']);
+                    $groupExpr->add(
+                        sprintf('%s (%s)', $isexist, $subqb->getSQL())
+                    );
                     break;
                 case 'tags':
                 case 'globalcategory':

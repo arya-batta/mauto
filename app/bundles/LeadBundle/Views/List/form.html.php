@@ -118,6 +118,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                                                     data-field-list="<?php echo $view->escape($list); ?>"
                                                     data-field-callback="<?php echo $callback; ?>"
                                                     data-field-operators="<?php echo $operators; ?>"
+                                                    data-field-customobject="<?php echo $params['object']; ?>"
                                                     class="segment-filter <?php echo $icon; ?>">
 
                                                     <?php echo $view['translator']->trans($params['label']); ?>
@@ -192,6 +193,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             data-field-list="<?php echo $view->escape($list); ?>"
                             data-field-callback="<?php echo $callback; ?>"
                             data-field-operators="<?php echo $operators; ?>"
+                            data-field-customobject="<?php echo $params['object']; ?>"
                             class="segment-filter-badge fa fa-plus">
 
                             <?php echo $view['translator']->trans($params['label']); ?>

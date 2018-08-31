@@ -22,11 +22,6 @@ trait OperatorListTrait
                 '!empty',
                 'like',
                 '!like',
-                'regexp',
-                '!regexp',
-                'startsWith',
-                'endsWith',
-                'contains',
             ],
         ],
         'select' => [
@@ -52,6 +47,11 @@ trait OperatorListTrait
                 'in',
                 '!in',
                 'date',
+                'regexp',
+                '!regexp',
+                'startsWith',
+                'endsWith',
+                'contains',
             ],
         ],
         'multiselect' => [
@@ -66,12 +66,63 @@ trait OperatorListTrait
                 '!in',
             ],
         ],
+        'custmdate' => [
+            'exclude' => [
+                'in',
+                '!in',
+                'gt',
+                'gte',
+                'lt',
+                'lte',
+                'like',
+                '!like',
+                'regexp',
+                '!regexp',
+                'startsWith',
+                'endsWith',
+                'contains',
+                'activity',
+                'inactivity',
+            ],
+        ],
+        'number'    => [
+            'include' => [
+                '=',
+                '!=',
+                'gt',
+                'gte',
+                'lt',
+                'lte',
+            ],
+        ],
         'lookup_id' => [
             'include' => [
                 '=',
                 '!=',
                 'empty',
                 '!empty',
+            ],
+        ],
+        'pages'     => [
+            'include' => [
+                '=',
+                '!=',
+                'empty',
+                '!empty',
+                'like',
+                '!like',
+            ],
+        ],
+        'selecttemplate' => [
+            'include' => [
+                'in',
+                '!in',
+            ],
+        ],
+        'emailactivity' => [
+            'include' => [
+                'activity',
+                'inactivity',
             ],
         ],
     ];
@@ -118,12 +169,12 @@ trait OperatorListTrait
             'negate_expr' => 'empty',
         ],
         'like' => [
-            'label'       => 'mautic.lead.list.form.operator.islike',
+            'label'       => 'le.lead.list.form.operator.contains',
             'expr'        => 'like',
             'negate_expr' => 'notLike',
         ],
         '!like' => [
-            'label'       => 'mautic.lead.list.form.operator.isnotlike',
+            'label'       => 'le.lead.list.form.operator.notcontains',
             'expr'        => 'notLike',
             'negate_expr' => 'like',
         ],
@@ -181,6 +232,76 @@ trait OperatorListTrait
             'label'       => 'mautic.core.operator.contains',
             'expr'        => 'contains',
             'negate_expr' => 'contains',
+        ],
+        'activity' => [
+            'label'       => 'le.lead.list.form.operator.activity',
+            'expr'        => 'in',
+            'negate_expr' => 'notIn',
+        ],
+        'inactivity' => [
+            'label'       => 'le.lead.list.form.operator.inactivity',
+            'expr'        => 'notIn',
+            'negate_expr' => 'in',
+        ],
+        'today' => [
+            'label'       => 'le.core.operator.today',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'tomorrow' => [
+            'label'       => 'le.core.operator.tomorrow',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'yesterday' => [
+            'label'       => 'le.core.operator.yesterday',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'week_last' => [
+            'label'       => 'le.core.operator.week_last',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'week_next' => [
+            'label'       => 'le.core.operator.week_next',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'week_this' => [
+            'label'       => 'le.core.operator.week_this',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'month_last' => [
+            'label'       => 'le.core.operator.month_last',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'month_next' => [
+            'label'       => 'le.core.operator.month_next',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'month_this' => [
+            'label'       => 'le.core.operator.month_this',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'year_last' => [
+            'label'       => 'le.core.operator.year_last',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'year_next' => [
+            'label'       => 'le.core.operator.year_next',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
+        'year_this' => [
+            'label'       => 'le.core.operator.year_this',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
         ],
     ];
 

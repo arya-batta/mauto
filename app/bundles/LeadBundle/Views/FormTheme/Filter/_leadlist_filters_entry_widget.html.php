@@ -49,5 +49,6 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
         <?php echo $view['form']->widget($form['field']); ?>
         <?php echo $view['form']->widget($form['type']); ?>
         <?php echo $view['form']->widget($form['object']); ?>
+        <?php echo $view['form']->widget($form['customObject']); ?>
     </div>
 </div>
