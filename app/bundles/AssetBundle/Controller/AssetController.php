@@ -170,20 +170,22 @@ class AssetController extends FormController
         $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
 
         //retrieve a list of categories
-        $categories = $this->getModel('asset')->getLookupResults('category', '', 0);
+        $categories        = $this->getModel('asset')->getLookupResults('category', '', 0);
+        $assetBlockDetails = $model->getAssetBlocks();
 
         return $this->delegateView([
             'viewParameters' => [
-                'searchValue' => $search,
-                'filters'     => $listFilters,
-                'items'       => $assets,
-                'categories'  => $categories,
-                'limit'       => $limit,
-                'permissions' => $permissions,
-                'model'       => $model,
-                'tmpl'        => $tmpl,
-                'page'        => $page,
-                'security'    => $this->get('mautic.security'),
+                'searchValue'      => $search,
+                'filters'          => $listFilters,
+                'items'            => $assets,
+                'categories'       => $categories,
+                'limit'            => $limit,
+                'permissions'      => $permissions,
+                'model'            => $model,
+                'tmpl'             => $tmpl,
+                'page'             => $page,
+                'security'         => $this->get('mautic.security'),
+                'assetBlockDetails'=> $assetBlockDetails,
             ],
             'contentTemplate' => 'MauticAssetBundle:Asset:list.html.php',
             'passthroughVars' => [

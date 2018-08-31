@@ -228,22 +228,25 @@ class EmailController extends FormController
         }
         $session->set('mautic.email.page', $page);
 
+        $emailBlockDetails = $model->getEmailBlocks();
+
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'searchValue'     => $search,
-                    'filters'         => $listFilters,
-                    'items'           => $emails,
-                    'totalItems'      => $count,
-                    'page'            => $page,
-                    'limit'           => $limit,
-                    'tmpl'            => $this->request->get('tmpl', 'index'),
-                    'permissions'     => $permissions,
-                    'model'           => $model,
-                    'actionRoute'     => 'mautic_email_action',
-                    'indexRoute'      => 'mautic_email_index',
-                    'headerTitle'     => 'mautic.email.emails',
-                    'translationBase' => 'mautic.email',
+                    'searchValue'      => $search,
+                    'filters'          => $listFilters,
+                    'items'            => $emails,
+                    'totalItems'       => $count,
+                    'page'             => $page,
+                    'limit'            => $limit,
+                    'tmpl'             => $this->request->get('tmpl', 'index'),
+                    'permissions'      => $permissions,
+                    'model'            => $model,
+                    'actionRoute'      => 'mautic_email_action',
+                    'indexRoute'       => 'mautic_email_index',
+                    'headerTitle'      => 'mautic.email.emails',
+                    'translationBase'  => 'mautic.email',
+                    'emailBlockDetails'=> $emailBlockDetails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -696,7 +699,7 @@ class EmailController extends FormController
 
         $groupFilters['filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['mautic.core.filter.beeeditor.filter']  = [
+        $groupFilters['filters']['groups']['']  = [
             'options' => $model->getTemplateGroupNames(),
         ];
 
@@ -977,7 +980,7 @@ class EmailController extends FormController
 
         $groupFilters['filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['mautic.core.filter.beeeditor.filter']  = [
+        $groupFilters['filters']['groups']['']  = [
             'options' => $model->getTemplateGroupNames(),
         ];
 

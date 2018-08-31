@@ -299,18 +299,26 @@ $view['slots']->set(
                                     <td>
                                         <?php if ($lead->getOwner()) : ?>
                                             <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
-                                            <p class="text-muted"><?php echo $lead->getOwner()->getName(); ?></p>
+                                            <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        <?php $tags = $lead->getTags(); ?>
-                                        <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
-                                           <div class="leadprofile"> <?php foreach ($tags as $tag): ?>
-                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $tag->getTag(); ?></span>
+                                        <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+                                        <?php $tags   = $lead->getTags(); ?>
+                                        <?php $count  =  0; ?>
+                                        <h6 class="fw-b">
+                                            <?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
+                                           <div class="leadprofile">
+                                               <?php foreach ($tags as $tag): ?>
+                                                   <?php if ($count == 5):
+                                                       $count=0;
+                                                   endif; ?>
+                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
                                                 </h5>
+                                                   <?php ++$count; ?>
                                                <?php endforeach; ?></div>
                                             <div class="clearfix"></div>
                                     </td>

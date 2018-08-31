@@ -211,4 +211,38 @@ class SmsRepository extends CommonRepository
 
         return $q->getQuery()->getArrayResult();
     }
+
+    /**
+     * Get amounts of sent and read emails.
+     *
+     * @return array
+     */
+    public function getLast30DaysSmsSentCount($viewOthers=false)
+    {
+        $last30DaysSmsSent = date('Y-m-d', strtotime('-29 days'));
+        $q                 = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('SUM(e.sent_count) as sentcount')
+            ->from(MAUTIC_TABLE_PREFIX.'sms_messages', 'e')
+            ->andWhere($q->expr()->gte('e.date_added', ':date_from'))
+            ->setParameter('date_from', $last30DaysSmsSent);
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results= $q->execute()->fetchAll();
+
+        if (!isset($results['sentcount'])) {
+            $results['sentcount']=0;
+        }
+
+        return $results['sentcount'];
+    }
 }

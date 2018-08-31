@@ -16,7 +16,7 @@ $extraMenu = $view['menu']->render('extra');
     <div style="text-align: center; padding: 0px 0px 0px 0px; ">
         <img style="
     width: 200px;
-    margin-top: 25px;
+    margin-top: 15px;
     padding: 2px;
 " src="<?php echo $view['assets']->getUrl('media/images/leadsengage-new-logo.png') ?>"></div>
     <!--<a class="mautic-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#">-->

@@ -12,6 +12,7 @@
 namespace Mautic\CoreBundle\Controller;
 
 use Mautic\CampaignBundle\Model\CampaignModel;
+use Mautic\CategoryBundle\Entity\Category;
 use Mautic\CoreBundle\Entity\FormEntity;
 use Mautic\CoreBundle\Model\AbstractCommonModel;
 use Mautic\CoreBundle\Model\FormModel;
@@ -512,7 +513,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
                 'modelName'       => $this->getModelName(),
                 'translationBase' => $this->getTranslationBase(),
-                'tmpl'            => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                //'tmpl'            => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                 'items'           => '',
                 'entity'          => $entity,
                 'form'            => $this->getFormView($form, 'edit'),
@@ -1020,9 +1021,15 @@ abstract class AbstractStandardFormController extends AbstractFormController
         }
 
         if ($model instanceof CampaignModel) {
-            $campname = $this->request->get('campaignName', '');
+            $campname  = $this->request->get('campaignName', '');
+            $catId     = $this->request->get('category', '');
+            $catName   = $this->getModel('category')->getEntity($catId);
+
             if ($campname != '') {
                 $entity->setName($campname);
+            }
+            if ($catId != '') {
+                $entity->setCategory($catName);
             }
         }
 
@@ -1157,7 +1164,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
                 'modelName'       => $this->getModelName(),
                 'translationBase' => $this->getTranslationBase(),
-                'tmpl'            => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                //'tmpl'            => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                 'items'           => $items,
                 'entity'          => $entity,
                 'form'            => $this->getFormView($form, 'new'),
@@ -1267,7 +1274,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             'viewParameters' => [
                 $itemName     => $entity,
                 'logs'        => $logs,
-                'tmpl'        => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                //'tmpl'        => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                 'permissions' => $security->isGranted(
                     [
                         $this->getPermissionBase().':view',

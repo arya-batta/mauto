@@ -15,7 +15,7 @@ $isAdmin    =$view['security']->isAdmin();
     <?php /** @var \Mautic\LeadBundle\Entity\Lead $item */ ?>
     <?php $fields = $item->getFields(); ?>
     <tr<?php if (!empty($highlight)): echo ' class="warning"'; endif; ?>>
-        <td>
+        <td class="">
             <?php
             $hasEditAccess = $security->hasEntityAccess(
                 $permissions['lead:leads:editown'],
@@ -77,9 +77,15 @@ $isAdmin    =$view['security']->isAdmin();
             </a>
         </td>
         <td class="visible-md visible-lg">
-            <?php $tags = $item->getTags(); ?>
-            <?php foreach ($tags as $tag): ?>
-                <div class="label label-primary" style="margin-bottom: 2px;"><?php echo $tag->getTag(); ?></div>
+            <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+            <?php $tags   = $item->getTags(); ?>
+            <?php $count  =  0; ?>
+            <?php foreach ($tags as $tag):  ?>
+                <?php if ($count == 5):
+                     $count=0;
+                endif; ?>
+               <div class="label label-primary"  style="margin-bottom: 2px;background-color:<?php echo $colors[$count] ?>;"><?php echo $tag->getTag(); ?></div>
+            <?php ++$count; ?>
             <?php endforeach; ?>
         </td>
         <td class="visible-md visible-lg" style="text-align:center;">
@@ -123,7 +129,7 @@ $isAdmin    =$view['security']->isAdmin();
             <div class="clearfix"></div>
         </td>
         <?php if ($stageaccess)  : ?>
-            <td class="text-center">
+            <td class="hide text-center">
                 <?php
                 $color = $item->getColor();
                 $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
@@ -136,5 +142,33 @@ $isAdmin    =$view['security']->isAdmin();
         <?php  if ($isAdmin): ?>
         <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
         <?php  endif; ?>
+        <td >
+            <?php $hasEditAccess   = $security->hasEntityAccess($permissions['lead:leads:editown'], $permissions['lead:leads:editother'], $item->getPermissionUser());
+                  $hasDeleteAccess = $security->hasEntityAccess($permissions['lead:leads:deleteown'], $permissions['lead:leads:deleteother'], $item->getPermissionUser()); ?>
+
+
+            <div style="position: relative;" class="fab-list-container">
+                <div class="md-fab-wrapper">
+                    <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
+                        <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
+                        <div tabindex="0" class="md-fab-toolbar-actions" id="toolbar-lead">
+                            <?php if ($hasEditAccess): ?>
+                                <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                    <span><i class="material-icons md-color-white">  </i></span></a>
+                            <?php endif; ?>
+                            <?php if ($hasDeleteAccess):?>
+                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                    <span><i class="material-icons md-color-white">  </i></span>
+                                </a>
+                            <?php endif; ?>
+                            <?php if (!empty($fields['core']['email']['value'])) : ?>
+                                <a title="<?php echo $view['translator']->trans('mautic.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
+                                    <span><i class="material-icons md-color-white">  </i></span></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
     </tr>
 <?php endforeach; ?>

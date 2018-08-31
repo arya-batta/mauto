@@ -23,8 +23,11 @@ if (isset($isMobile) && $isMobile) {
     $videostyle = 'margin-right: 48%;';
     $closestyle = 'padding: 8px 10px 8px 10px;margin-top:1.8%;';
 }
+$enableHeader=true;
+if (!empty($tmpl)) {
+    $enableHeader = (($tmpl == 'index') ? false : true);
+}
 ?>
-
 <?php if (!$modalView): ?>
 <div class="content-body">
     <?php if ($view['slots']->get('mauticContent', '') == 'dashboard' && $showvideo): ?>
@@ -63,7 +66,24 @@ if (isset($isMobile) && $isMobile) {
             </div>
         </div>
     <?php endif; ?>
-    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php'); ?>
+</div>
+<?php if (!empty($campaignBlocks)): ?>
+        <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.campaigns.root'); ?></h3></div>
+        <div style="padding-top: 15px;">
+        <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
+            <div class="info-box" id="leads-info-box-container">
+                <span class="info-box-icon" style="background-color:<?php echo $segmentBlock[0]; ?>;>">
+                    <i class="<?php echo $segmentBlock[1]; ?>" id="icon-class-leads"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"><?php echo $segmentBlock[2]; ?></span>
+                    <span class="info-box-number"><?php echo $segmentBlock[3]; ?></span>
+                </div>
+
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
 	<?php $view['slots']->output('_content'); ?>
 </div>
 

@@ -2097,4 +2097,70 @@ class LeadListRepository extends CommonRepository
         // Return only unique contacts
         $q->groupBy("$leadTablePrefix.id");
     }
+
+    public function getTotalSegmentCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as totalsegment')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['totalsegment'];
+    }
+
+    public function getTotalActiveSegmentCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activesegment')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
+            ->andWhere('l.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['activesegment'];
+    }
+
+    public function getTotalInactiveSegmentCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as inactivesegment')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
+            ->andWhere('l.is_published != 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactivesegment'];
+    }
 }

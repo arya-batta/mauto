@@ -14,7 +14,7 @@ $overlayTarget  = (empty($overlayTarget)) ? $target : $overlayTarget;
 $overlayEnabled = (!empty($overlayDisabled)) ? 'false' : 'true';
 $id             = (empty($searchId)) ? 'list-search' : $searchId;
 $tmpl           = (empty($tmpl)) ? 'list' : $tmpl;
-$widthstyle     = (empty($merge_search)) ? 'width: 40%;' : 'width: 100;';
+$widthstyle     = (empty($merge_search)) ? 'width: 45%;' : 'width: 100;';
 $isAdmin        = $view['security']->isAdmin();
 $isMobile       = $view['security']->isMobile();
 ?>
@@ -28,12 +28,12 @@ $isMobile       = $view['security']->isMobile();
                 </button>
             </div>
         <?php endif; ?>
-        <input  type="search" class="form-control search" id="<?php echo $id; ?>" name="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($searchValue); ?>" autocomplete="false" data-toggle="livesearch" data-target="<?php echo $target; ?>" data-tmpl="<?php echo $tmpl; ?>" data-action="<?php echo $action; ?>" data-overlay="<?php echo $overlayEnabled; ?>" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" data-overlay-target="<?php echo $overlayTarget; ?>" />
+        <input  type="search" class="form-control search le-filters-button" id="<?php echo $id; ?>" name="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($searchValue); ?>" autocomplete="false" data-toggle="livesearch" data-target="<?php echo $target; ?>" data-tmpl="<?php echo $tmpl; ?>" data-action="<?php echo $action; ?>" data-overlay="<?php echo $overlayEnabled; ?>" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" data-overlay-target="<?php echo $overlayTarget; ?>" />
     <?php else:?>
-        <input type="search" class="form-control search" id="<?php echo $id; ?>" name="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($searchValue); ?>" autocomplete="false" data-toggle="livesearch" data-target="<?php echo $target; ?>" data-tmpl="<?php echo $tmpl; ?>" data-action="<?php echo $action; ?>" data-overlay="<?php echo $overlayEnabled; ?>" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" data-overlay-target="<?php echo $overlayTarget; ?>" />
+        <input type="search" class="form-control search le-filters-button" id="<?php echo $id; ?>" name="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($searchValue); ?>" autocomplete="false" data-toggle="livesearch" data-target="<?php echo $target; ?>" data-tmpl="<?php echo $tmpl; ?>" data-action="<?php echo $action; ?>" data-overlay="<?php echo $overlayEnabled; ?>" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" data-overlay-target="<?php echo $overlayTarget; ?>" />
     <?php endif; ?>
-    <div class="input-group-btn">
-        <button type="button" class="btn btn-default btn-search btn-nospin" id="btn-filter" data-livesearch-parent="<?php echo $id; ?>">
+    <div class="input-group-btn" style="padding-bottom: 29px;">
+        <button type="button" class="btn btn-default btn-search btn-nospin le-filters-button-search" id="btn-filter" data-livesearch-parent="<?php echo $id; ?>">
             <i class="fa fa-search fa-fw"></i>
         </button>
     </div>

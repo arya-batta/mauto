@@ -902,4 +902,24 @@ class FormModel extends CommonFormModel
 
         return $results;
     }
+
+    public function getFormDisplayBlocks()
+    {
+        $totalForms =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa fa-edit',
+            $this->translator->trans('mautic.form.forms.all'),
+            $this->getRepository()->getTotalFormCount($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
+        ];
+        $activeForm = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa fa-edit', $this->translator->trans('mautic.form.forms.active'),
+            $this->getRepository()->getTotalActiveForms($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
+        ];
+        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa fa-edit', $this->translator->trans('le.index.blocks.conversion'),
+            $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
+        ];
+
+        $allBlockDetails[] = $totalForms;
+        $allBlockDetails[] = $activeForm;
+        $allBlockDetails[] = $conversion;
+
+        return $allBlockDetails;
+    }
 }

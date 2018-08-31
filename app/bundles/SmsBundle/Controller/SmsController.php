@@ -55,6 +55,14 @@ class SmsController extends FormController
         if ($this->request->getMethod() == 'POST') {
             $this->setListFilters();
         }
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'multiple'    => true,
+            ],
+        ];
+        // Reset available groups
+        $listFilters['filters']['groups'] = [];
 
         $session = $this->get('session');
 
@@ -68,7 +76,7 @@ class SmsController extends FormController
         $search = $this->request->get('search', $session->get('mautic.sms.filter', ''));
         $session->set('mautic.sms.filter', $search);
 
-        $filter = ['string' => $search];
+        $filter = ['string' => $search, 'force' => []];
 
         if (!$permissions['sms:smses:viewother']) {
             $filter['force'][] =
@@ -78,7 +86,57 @@ class SmsController extends FormController
                     'value'  => $this->user->getId(),
                 ];
         }
+        $listFilters['filters']['groups']['mautic.core.filter.category'] = [
+            'options' => $this->getModel('category.category')->getLookupResults('sms'),
+            'prefix'  => 'category',
+        ];
+        $updatedFilters = $this->request->get('filters', false);
 
+        if ($updatedFilters) {
+            // Filters have been updated
+
+            // Parse the selected values
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    list($clmn, $fltr) = explode(':', $updatedFilter);
+
+                    $newFilters[$clmn][] = $fltr;
+                }
+
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+        $this->get('session')->set('mautic.form.filter', []);
+
+        if (!empty($currentFilters)) {
+            $catIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                switch ($type) {
+                    case 'category':
+                        $key = 'categories';
+                        break;
+                }
+
+                $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
+
+                foreach ($typeFilters as $fltr) {
+                    switch ($type) {
+                        case 'category':
+                            $catIds[] = (int) $fltr;
+                            break;
+                    }
+                }
+            }
+
+            if (!empty($catIds)) {
+                $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
+            }
+        }
         $orderBy    = $session->get('mautic.sms.orderby', 'e.name');
         $orderByDir = $session->get('mautic.sms.orderbydir', 'DESC');
 
@@ -114,21 +172,24 @@ class SmsController extends FormController
         }
         $session->set('mautic.sms.page', $page);
 
-        $integration = $this->get('mautic.helper.integration')->getIntegrationObject('SolutionInfinity');
+        $integration       = $this->get('mautic.helper.integration')->getIntegrationObject('SolutionInfinity');
+        $last30DaysSmsSent = $model->getRepository()->getLast30DaysSmsSentCount($permissions['sms:smses:viewother']);
 
         return $this->delegateView([
             'viewParameters' => [
-                'searchValue' => $search,
-                'items'       => $smss,
-                'totalItems'  => $count,
-                'page'        => $page,
-                'limit'       => $limit,
-                'tmpl'        => $this->request->get('tmpl', 'index'),
-                'permissions' => $permissions,
-                'model'       => $model,
-                'security'    => $this->get('mautic.security'),
-                'configured'  => ($integration && $integration->getIntegrationSettings()->getIsPublished()),
-            ],
+                'searchValue'      => $search,
+                'items'            => $smss,
+                'totalItems'       => $count,
+                'page'             => $page,
+                'limit'            => $limit,
+                'tmpl'             => $this->request->get('tmpl', 'index'),
+                'permissions'      => $permissions,
+                'model'            => $model,
+                'security'         => $this->get('mautic.security'),
+                'configured'       => ($integration && $integration->getIntegrationSettings()->getIsPublished()),
+                'last30DaysSmsSent'=> $last30DaysSmsSent,
+                'filters'          => $listFilters,
+                ],
             'contentTemplate' => 'MauticSmsBundle:Sms:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#mautic_sms_index',

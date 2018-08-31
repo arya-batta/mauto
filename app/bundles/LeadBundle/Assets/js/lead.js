@@ -1,5 +1,6 @@
 //LeadBundle
 Mautic.leadOnLoad = function (container, response) {
+    Mautic.removeActionButtons();
     Mautic.addKeyboardShortcut('a', 'Quick add a New Lead', function(e) {
         if(mQuery('a.quickadd').length) {
             mQuery('a.quickadd').click();
@@ -142,7 +143,6 @@ Mautic.leadOnLoad = function (container, response) {
         mQuery(container + ' .panel-companies .fa-check').tooltip({html: true});
     }
 };
-
 Mautic.leadTimelineOnLoad = function (container, response) {
     mQuery("#contact-timeline a[data-activate-details='all']").on('click', function() {
         if (mQuery(this).find('span').first().hasClass('fa-level-down')) {
@@ -380,6 +380,7 @@ Mautic.leadlistOnLoad = function(container) {
             Mautic.refreshSegmentContacts(segmentContactForm);
         });
     }
+    Mautic.removeActionButtons();
 };
 
 Mautic.reorderSegmentFilters = function() {

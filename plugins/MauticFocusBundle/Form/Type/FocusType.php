@@ -50,7 +50,7 @@ class FocusType extends AbstractType
             [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -60,7 +60,7 @@ class FocusType extends AbstractType
             [
                 'label'      => 'mautic.core.description',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control editor'],
+                'attr'       => ['class' => 'form-control editor le-input'],
                 'required'   => false,
             ]
         );
@@ -72,7 +72,7 @@ class FocusType extends AbstractType
                 'label'      => 'mautic.email.utm_tags',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.email.utm_tags.tooltip',
                 ],
                 'extra_fields_message' => 'popup',
@@ -88,7 +88,7 @@ class FocusType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'data'       => !empty($options['data']->getHtmlMode()) ? $options['data']->getHtmlMode() : 'basic',
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'onchange' => 'Mautic.focusUpdatePreview()',
                     'tooltip'  => 'mautic.focums.html_mode.tooltip',
                 ],
@@ -122,7 +122,7 @@ class FocusType extends AbstractType
                 'label'      => 'mautic.focus.form.html',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'rows'         => 12,
                     'data-show-on' => '{"focus_html_mode_2":"checked"}',
                     'onchange'     => 'Mautic.focusUpdatePreview()',
@@ -138,7 +138,7 @@ class FocusType extends AbstractType
                 'label'      => 'mautic.focus.form.website',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.focus.form.website.tooltip',
                 ],
                 'required' => false,
@@ -179,10 +179,10 @@ class FocusType extends AbstractType
             'datetime',
             [
                 'widget'     => 'single_text',
-                'label'      => 'mautic.core.form.publishup',
+                'label'      => 'mautic.core.form.publishupu',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-btn-primary le-btn-small',
                     'data-toggle' => 'datetime',
                 ],
                 'format'   => 'yyyy-MM-dd HH:mm',
@@ -195,10 +195,10 @@ class FocusType extends AbstractType
             'datetime',
             [
                 'widget'     => 'single_text',
-                'label'      => 'mautic.core.form.publishdown',
+                'label'      => 'mautic.core.form.publishdownd',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-btn-primary le-btn-small',
                     'data-toggle' => 'datetime',
                 ],
                 'format'   => 'yyyy-MM-dd HH:mm',

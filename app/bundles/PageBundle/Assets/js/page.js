@@ -29,6 +29,7 @@ Mautic.pageOnLoad = function (container, response) {
         Mautic.launchBuilder('page');
         Mautic.processBuilderErrors(response);
     }
+    Mautic.removeActionButtons();
 };
 
 Mautic.getPageAbTestWinnerForm = function(abKey) {

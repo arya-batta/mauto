@@ -114,4 +114,49 @@ class FocusRepository extends CommonRepository
 
         return $q->getQuery()->getArrayResult();
     }
+
+    public function getTotalPopupCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as totalcount')
+            ->from(MAUTIC_TABLE_PREFIX.'focus', 'f');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('f.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('f.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['totalcount'];
+    }
+
+    public function getTotalActivePopups($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activefocus')
+            ->from(MAUTIC_TABLE_PREFIX.'focus', 'f')
+            ->andWhere('f.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('f.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('f.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['activefocus'];
+    }
 }

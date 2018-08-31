@@ -21,7 +21,7 @@ $attr['style'] = 'width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;';
             ($child->vars['name'] === '0' ? ' btn-no' : ($child->vars['name'] === '1' ? ' btn-yes' : ' btn-extra')).
             ($child->vars['name'] === '0' && !empty($child->vars['checked']) ? ' btn-danger' : '').
             ($child->vars['name'] === '1' && !empty($child->vars['checked']) ? ' btn-success' : ''); ?>
-        <label class="btn btn-default <?php echo $class; ?>">
+        <label class="btn btn-default le-btn-published le-btn-small <?php echo $class; ?>">
             <?php echo $view['form']->widget($child, ['attr' => $attr]); ?>
             <span><?php echo $view['translator']->trans($child->vars['label']); ?></span>
         </label>

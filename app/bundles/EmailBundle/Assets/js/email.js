@@ -172,6 +172,7 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('.'+d).removeClass('hide');
         }
     };
+    Mautic.removeActionButtons();
 };
 
 Mautic.emailOnUnload = function(id) {

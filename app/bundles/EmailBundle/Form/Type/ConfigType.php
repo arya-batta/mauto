@@ -209,7 +209,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.from.name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'tooltip'  => 'mautic.email.config.mailer.from.name.tooltip',
                     'disabled' => false,
                 ],
@@ -247,7 +247,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.from.email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'tooltip'  => 'mautic.email.config.mailer.from.email.tooltip',
                     'disabled' => $disabled,
                 ],
@@ -278,7 +278,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.return.path',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.email.config.mailer.return.path.tooltip',
                 ],
                 'required' => false,
@@ -293,7 +293,7 @@ class ConfigType extends AbstractType
                 'label'    => 'mautic.email.config.mailer.transport',
                 'required' => false,
                 'attr'     => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.email.config.mailer.transport.tooltip',
                     'onchange'=> 'Mautic.showBounceCallbackURL(this)',
                 ],
@@ -362,7 +362,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.host',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $smtpServiceShowConditions,
                     'tooltip'      => 'mautic.email.config.mailer.host.tooltip',
                 ],
@@ -378,7 +378,7 @@ class ConfigType extends AbstractType
                 'label'    => 'le.email.tranport.header',
                 'required' => false,
                 'attr'     => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'onchange'     => 'Mautic.showBounceCallbackURL(this)',
                 ],
                 'data'        => $datavalue,
@@ -507,7 +507,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.user',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'placeholder'  => 'mautic.user.user.form.passwordplaceholder',
                     'data-show-on' => $mailerLoginUserShowConditions,
                     'data-hide-on' => $mailerLoginUserHideConditions,
@@ -525,7 +525,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.password',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'placeholder'  => 'mautic.user.user.form.passwordplaceholder',
                     'preaddon'     => 'fa fa-lock',
                     'data-show-on' => $mailerLoginPasswordShowConditions,
@@ -548,7 +548,7 @@ class ConfigType extends AbstractType
                 'label'      => 'mautic.email.config.mailer.apikey',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $apiKeyShowConditions,
                     'tooltip'      => 'mautic.email.config.mailer.apikey.tooltop',
                     'autocomplete' => 'off',

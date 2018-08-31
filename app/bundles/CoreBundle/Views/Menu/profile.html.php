@@ -14,7 +14,7 @@ $inline = $view['menu']->render('profile');
 ?>
 <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="margin-right: 4px;">
-        <span class="img-wrapper img-rounded" style="width:32px;"><img src="<?php echo $view['gravatar']->getImage($app->getUser()->getEmail()); ?>"></span>
+        <span class="img-wrapper img-rounded" style="width:18px;"><img src="<?php echo $view['gravatar']->getImage($app->getUser()->getEmail()); ?>"></span>
         <span class="text fw-sb ml-xs hidden-xs"><?php echo $app->getUser()->getName(); ?></span>
         <span class="caret ml-xs"></span>
     </a>

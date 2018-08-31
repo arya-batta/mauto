@@ -23,11 +23,11 @@ if (is_array($item)) {
 
 ?>
 <div class="input-group input-group-sm">
-    <span class="le-input-group-addon">
-        <input type="checkbox" data-target="tbody" data-toggle="selectrow" class="list-checkbox" name="cb<?php echo $id; ?>" value="<?php echo $view->escape($id); ?>"/>
+    <span class="le-input-group-addon" >
+        <input style="float: left;" type="checkbox" data-target="tbody" data-toggle="selectrow" class="list-checkbox" name="cb<?php echo $id; ?>" value="<?php echo $view->escape($id); ?>"/>
     </span>
 
-    <div class="input-group-btn">
+    <div class="input-group-btn hide">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle btn-nospin" data-toggle="dropdown">
             <i class="fa fa-angle-down "></i>
         </button>

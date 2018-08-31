@@ -441,4 +441,23 @@ class FocusModel extends FormModel
             ->andWhere('m.created_by = :userId')
             ->setParameter('userId', $this->userHelper->getUser()->getId());
     }
+
+    public function getFocusDisplayBlocks()
+    {
+        $totalAsset =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-bullseye', $this->translator->trans('mautic.focus.all'),
+            $this->getRepository()->getTotalPopupCount($viewOthers = $this->factory->get('mautic.security')->isGranted('plugin:focus:items:viewother')),
+        ];
+        $activeAsset = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-bullseye', $this->translator->trans('mautic.focus.active'),
+            $this->getRepository()->getTotalActivePopups($viewOthers = $this->factory->get('mautic.security')->isGranted('plugin:focus:items:viewother')),
+        ];
+        // $conversion = [$this->translator->trans('le.form.display.color.blocks.green'),'fa fa-user-plus',$this->translator->trans('le.index.blocks.conversion'),
+        //     $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother'))
+        // ];
+
+        $allBlockDetails[] = $totalAsset;
+        $allBlockDetails[] = $activeAsset;
+        //$allBlockDetails[] = $conversion;
+
+        return $allBlockDetails;
+    }
 }

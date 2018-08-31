@@ -66,6 +66,7 @@ Mautic.smsOnLoad = function (container, response) {
             }
         });
     });
+    Mautic.removeActionButtons();
 };
 
 Mautic.selectSmsType = function(smsType) {

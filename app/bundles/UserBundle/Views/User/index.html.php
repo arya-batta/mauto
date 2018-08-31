@@ -26,7 +26,7 @@ $view['slots']->set(
     )
 );
 ?>
-
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.user.users'); ?></h3></div>
 <?php echo $view->render(
     'MauticCoreBundle:Helper:list_toolbar.html.php',
     [

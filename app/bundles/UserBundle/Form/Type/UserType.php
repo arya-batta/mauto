@@ -100,7 +100,7 @@ class UserType extends AbstractType
                 'label'      => 'mautic.core.username',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'preaddon'     => 'fa fa-user',
                     'autocomplete' => 'off',
                 ],
@@ -113,7 +113,7 @@ class UserType extends AbstractType
             [
                 'label'      => 'mautic.core.firstname',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -123,7 +123,7 @@ class UserType extends AbstractType
             [
                 'label'      => 'mautic.core.lastname',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -135,7 +135,7 @@ class UserType extends AbstractType
                 'label'      => 'mautic.core.position',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-options' => json_encode($positions),
                 ],
                 'required' => false,
@@ -149,7 +149,7 @@ class UserType extends AbstractType
                 'label'      => 'mautic.core.type.email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                 ],
             ]
@@ -168,7 +168,7 @@ class UserType extends AbstractType
                     'label'      => 'mautic.core.password',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'        => 'form-control',
+                        'class'        => 'form-control le-input',
                         'placeholder'  => $placeholder,
                         'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
                         'preaddon'     => 'fa fa-lock',
@@ -182,7 +182,7 @@ class UserType extends AbstractType
                     'label'      => 'mautic.user.user.form.passwordconfirm',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'        => 'form-control',
+                        'class'        => 'form-control le-input',
                         'placeholder'  => $placeholder,
                         'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
                         'preaddon'     => 'fa fa-lock',
@@ -260,7 +260,7 @@ class UserType extends AbstractType
                 'label'      => 'mautic.core.type.mobile',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-mobile',
                 ],
             ]

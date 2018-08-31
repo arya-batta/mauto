@@ -259,4 +259,72 @@ class FormRepository extends CommonRepository
     {
         return 'f';
     }
+
+    public function getTotalFormCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as totalcount')
+            ->from(MAUTIC_TABLE_PREFIX.'forms', 'f');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('f.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('f.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['totalcount'];
+    }
+
+    public function getTotalActiveForms($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activeforms')
+            ->from(MAUTIC_TABLE_PREFIX.'forms', 'f')
+            ->andWhere('f.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('f.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('f.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['activeforms'];
+    }
+
+    public function getConversions($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as conversions')
+            ->from(MAUTIC_TABLE_PREFIX.'form_submissions', 'fs')
+        ->leftJoin('fs', MAUTIC_TABLE_PREFIX.'forms', 'f', 'f.id = fs.form_id');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('f.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('f.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['conversions'];
+    }
 }

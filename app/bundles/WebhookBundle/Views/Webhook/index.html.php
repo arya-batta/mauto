@@ -25,7 +25,7 @@ $view['slots']->set(
     )
 );
 ?>
-
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.webhook.webhooks'); ?></h3></div>
 <div class="panel panel-default bdr-t-wdh-0 mb-0">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',

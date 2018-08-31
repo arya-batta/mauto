@@ -157,7 +157,7 @@ if ($showsetup) {
                     'orderBy'    => 'l.mobile',
                     'text'       => 'mautic.core.type.mobile',
                     'class'      => 'col-lead-email visible-md visible-lg',
-                ]);*/
+                ]);
                 if ($stageaccess) {
                     echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                         'sessionVar' => 'lead',
@@ -165,7 +165,7 @@ if ($showsetup) {
                         'text'       => 'mautic.lead.stage.label',
                         'class'      => 'col-lead-stage',
                     ]);
-                }
+                }*/
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',
@@ -188,6 +188,12 @@ if ($showsetup) {
                     'class'      => 'col-lead-id visible-md visible-lg',
                 ]);
                 endif;
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'lead',
+                    'orderBy'    => '',
+                    'text'       => 'mautic.core.actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                ]);
                 ?>
             </tr>
             </thead>

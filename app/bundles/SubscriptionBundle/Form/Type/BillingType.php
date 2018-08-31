@@ -88,7 +88,7 @@ class BillingType extends AbstractType
                 'label'      => 'leadsengage.billing.companyname',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
                 ],
                 'required'    => false,
@@ -101,7 +101,7 @@ class BillingType extends AbstractType
             [
                 'label'       => 'leadsengage.billing.companyaddress',
                 'label_attr'  => ['class' => 'control-label required'],
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
             ]
         );
@@ -112,7 +112,7 @@ class BillingType extends AbstractType
             [
                 'label'       => 'leadsengage.billing.postalcode',
                 'label_attr'  => ['class' => 'control-label required'],
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
             ]
         );
@@ -123,7 +123,7 @@ class BillingType extends AbstractType
             [
                 'label'       => 'leadsengage.billing.city',
                 'label_attr'  => ['class' => 'control-label required'],
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
             ]
         );
@@ -173,7 +173,7 @@ class BillingType extends AbstractType
                     'class' => 'control-label',
                     'id'    => 'gstnumber_info',
                 ],
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
             ]
         );
@@ -185,7 +185,7 @@ class BillingType extends AbstractType
                 [
                     'label'      => 'leadsengage.billing.accountingemail',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class' => 'form-control'],
+                    'attr'       => ['class' => 'form-control le-input'],
                     'required'   => true,
                 ]
             );

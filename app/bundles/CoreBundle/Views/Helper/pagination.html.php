@@ -35,7 +35,7 @@ if ($page <= 0) {
 $linkType            = !empty($inModal) ? 'ajaxmodal' : 'ajax';
 $pageClass           = (!isset($paginationClass)) ? '' : " pagination-$paginationClass";
 $menuLink            = (!empty($menuLinkId)) ? " data-menu-link=\"$menuLinkId\"" : '';
-$paginationWrapper   = isset($paginationWrapper) ? $paginationWrapper : 'pagination-wrapper ml-md mr-md';
+$paginationWrapper   = isset($paginationWrapper) ? $paginationWrapper : 'le-pagination-wrapper pagination-wrapper ml-md mr-md';
 $queryString         = '?tmpl='.$tmpl.(isset($queryString) ? $queryString : '');
 $formExit            = (!empty($ignoreFormExit)) ? ' data-ignore-formexit="true"' : '';
 $responsiveViewports = ['desktop', 'mobile'];
@@ -94,7 +94,7 @@ foreach ($responsiveViewports as $viewport):
         $responsiveClass   = 'visible-xs hidden-sm hidden-md hidden-lg';
         $paginationWrapper = 'pagination-wrapper pull-left nm';
     else:
-        $responsiveClass = 'hidden-xs visible-sm visible-md visible-lg';
+        $responsiveClass = 'hidden-xs visible-sm visible-md visible-lg le-mb-footer';
     endif;
 
     ?>
@@ -102,7 +102,7 @@ foreach ($responsiveViewports as $viewport):
         <?php if (empty($fixedLimit)): ?>
             <div class="pull-right">
                 <?php $class = (!empty($paginationClass)) ? " input-{$paginationClass}" : ''; ?>
-                <select autocomplete="false" class="form-control not-chosen pagination-limit<?php echo $class; ?>" onchange="Mautic.limitTableData('<?php echo $sessionVar; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
+                <select autocomplete="false" class="le-pagination-limit form-control not-chosen pagination-limit<?php echo $class; ?>" onchange="Mautic.limitTableData('<?php echo $sessionVar; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
                     <?php foreach ($limitOptions as $value => $label): ?>
                         <?php $selected = ($limit === $value) ? ' selected="selected"' : ''; ?>
                         <option<?php echo $selected; ?> value="<?php echo $view->escape($value); ?>">
@@ -187,21 +187,23 @@ foreach ($responsiveViewports as $viewport):
                 </li>
             </ul>
             <div class="clearfix"></div>
-            <small class="text-muted">
-                <?php echo $view['translator']->transChoice(
-                    'mautic.core.pagination.items',
-                    $totalItems,
-                    ['%count%' => $totalItems]
-                ); ?>,
-                <?php echo $view['translator']->transChoice(
-                    'mautic.core.pagination.pages',
-                    $totalPages,
-                    ['%count%' => $totalPages]
-                ); ?>
-                <?php echo $view['translator']->trans(
-                    'mautic.core.pagination.total'
-                ); ?>
-            </small>
+        </div>
+        <div class="le-footer-items">
+        <small class="text-muted">
+            <?php echo $view['translator']->transChoice(
+                'mautic.core.pagination.items',
+                $totalItems,
+                ['%count%' => $totalItems]
+            ); ?>,
+            <?php echo $view['translator']->transChoice(
+                'mautic.core.pagination.pages',
+                $totalPages,
+                ['%count%' => $totalPages]
+            ); ?>
+            <?php echo $view['translator']->trans(
+                'mautic.core.pagination.total'
+            ); ?>
+        </small>
         </div>
     </div>
 <?php endforeach; ?>

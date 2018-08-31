@@ -51,16 +51,16 @@ $isAdmin=$view['security']->isAdmin();
                 </div>
             </div>
         <div class="campaign-custom-button-div">
-        <?php echo $view['form']->end($form); ?>
+            <?php echo $view['form']->end($form); ?>
         <!--<button type="button" class="btn btn-primary btn-close-campaign-builder campaign-custom-close-button"
                 onclick="Mautic.closeCampaignBuilder();">
             <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
         </button>-->
             <button type="button" class="btn btn-primary btn-save-builder campaign-custom-save-button" onclick="Mautic.saveCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('mautic.core.close'); ?>
+                <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
             <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('mautic.core.form.save'); ?>
+                <?php echo $view['translator']->trans('mautic.core.form.apply'); ?>
             </button>
             <div class="custom-fields">
             <button type="button" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
@@ -117,7 +117,10 @@ $isAdmin=$view['security']->isAdmin();
             <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
                 <div class="modal-header campaign-model-header" style="height:50px;">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
-                    <a href="#" onclick="Mautic.CloseStatisticsWidget();"><span aria-hidden="true" id="campaignStatistics" style="float:right;font-size:14px;background-color: #ec407a;padding-left: 3px;padding-right: 5px;" value="open">&gt;</span></a>
+                    <a href="#" onclick="Mautic.CloseStatisticsWidget();">
+                        <span aria-hidden="true" id="campaignStatistics"
+                              style="float: right;font-size: 27px;background-color: #ec407a;padding-left: 8px;padding-right: 8px;margin-top: -11px;margin-right: -10px;" value="open">
+                            <i id="campaginStatClass" style="margin-bottom: 10px;font-size: 21px;" class="fa fa-angle-double-right"></i></span></a>
                 </div>
                 <?php echo $actions; ?>
             </div>

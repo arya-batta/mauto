@@ -127,16 +127,19 @@ class ListController extends FormController
         $listIds    = array_keys($items->getIterator()->getArrayCopy());
         $leadCounts = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds) : [];
 
+        $allBlockDetails   = $model->getSegmentBlocks();
+
         $parameters = [
-            'items'       => $items,
-            'leadCounts'  => $leadCounts,
-            'page'        => $page,
-            'limit'       => $limit,
-            'permissions' => $permissions,
-            'security'    => $this->get('mautic.security'),
-            'tmpl'        => $tmpl,
-            'currentUser' => $this->user,
-            'searchValue' => $search,
+            'items'           => $items,
+            'leadCounts'      => $leadCounts,
+            'page'            => $page,
+            'limit'           => $limit,
+            'permissions'     => $permissions,
+            'security'        => $this->get('mautic.security'),
+            'tmpl'            => $tmpl,
+            'currentUser'     => $this->user,
+            'searchValue'     => $search,
+            'allBlockDetails' => $allBlockDetails,
         ];
 
         return $this->delegateView([

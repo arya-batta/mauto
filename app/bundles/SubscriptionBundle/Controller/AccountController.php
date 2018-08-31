@@ -99,7 +99,7 @@ class AccountController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'               => $tmpl,
+                //'tmpl'               => $tmpl,
                 'form'               => $form->createView(),
                 'security'           => $this->get('mautic.security'),
                 'actionRoute'        => 'mautic_accountinfo_action',
@@ -189,7 +189,7 @@ class AccountController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'               => $tmpl,
+                //'tmpl'               => $tmpl,
                 'form'               => $form->createView(),
                 'security'           => $this->get('mautic.security'),
                 'actionRoute'        => 'mautic_accountinfo_action',

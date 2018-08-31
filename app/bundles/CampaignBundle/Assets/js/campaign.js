@@ -118,6 +118,9 @@ Mautic.campaignOnLoad = function (container, response) {
         }
 
     }
+    mQuery('#campaign_buttons').addClass('hide');
+    mQuery('.chosen-single').css("background","#fff");
+    Mautic.removeActionButtons();
 };
 
 /**
@@ -1406,16 +1409,18 @@ Mautic.registerKeyupCampaignName = function(){
 
 Mautic.CloseStatisticsWidget = function(){
     var value = mQuery('#campaignStatistics').attr("value");
+
     if(value == "close") {
         mQuery('#campaignStatistics').attr("value","open");
         mQuery('.campaign-statistics').addClass('minimized');
         mQuery('.'+value+'Group').addClass('hide');
-        mQuery('#campaignStatistics').html('>');
+        mQuery('#campaginStatClass').addClass('fa fa-angle-double-right');
     } else {
         mQuery('#campaignStatistics').attr("value","close");
         mQuery('.campaign-statistics').removeClass('minimized');
-        mQuery('#campaignStatistics').html('<');
         mQuery('.campaign-event-list').removeClass('hide');
+        mQuery('#campaginStatClass').removeClass('fa fa-angle-double-right');
+        mQuery('#campaginStatClass').addClass('fa fa-angle-double-left');
     }
 };
 

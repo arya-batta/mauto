@@ -255,4 +255,72 @@ class PageRepository extends CommonRepository
 
         $q->execute();
     }
+
+    public function getActivePagesCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activepages')
+            ->from(MAUTIC_TABLE_PREFIX.'pages', 'p')
+            ->andWhere('p.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['activepages'];
+    }
+
+    public function getPageVisitsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('sum(hits) as pagehitscount')
+            ->from(MAUTIC_TABLE_PREFIX.'pages', 'p');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['pagehitscount'];
+    }
+
+    public function getUniqueHitsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('sum(unique_hits) as uniquehits')
+            ->from(MAUTIC_TABLE_PREFIX.'pages', 'p')
+            ->andWhere('p.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['uniquehits'];
+    }
 }

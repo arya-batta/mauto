@@ -215,6 +215,7 @@ Mautic.focusOnLoad = function () {
     } else {
         Mautic.initDateRangePicker();
     }
+    Mautic.removeActionButtons();
 };
 
 Mautic.focusOnUnload = function () {

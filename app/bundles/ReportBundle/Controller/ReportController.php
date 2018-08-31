@@ -680,7 +680,7 @@ class ReportController extends FormController
                     'report'       => $entity,
                     'reportPage'   => $reportPage,
                     'graphs'       => $reportData['graphs'],
-                    'tmpl'         => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                    //'tmpl'         => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                     'limit'        => $reportData['limit'],
                     'permissions'  => $security->isGranted(
                         [

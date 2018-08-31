@@ -1208,4 +1208,23 @@ class PageModel extends FormModel
     public function setTrackByFingerprint($trackByFingerprint)
     {
     }
+
+    public function getPageDisplayBlocks()
+    {
+        $activePages =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa fa-newspaper-o', $this->translator->trans('le.display.page.blocks.active'),
+            $this->getRepository()->getActivePagesCount($viewOthers = $this->factory->get('mautic.security')->isGranted('page:pages:viewother')),
+        ];
+        $pageVisits = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa fa-newspaper-o', $this->translator->trans('le.display.page.blocks.visits'),
+            $this->getRepository()->getPageVisitsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('page:pages:viewother')),
+        ];
+        $uniqueHits = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa fa-newspaper-o', $this->translator->trans('le.display.page.blocks.unique'),
+            $this->getRepository()->getUniqueHitsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('page:pages:viewother')),
+        ];
+
+        $allBlockDetails[] = $activePages;
+        $allBlockDetails[] = $pageVisits;
+        $allBlockDetails[] = $uniqueHits;
+
+        return $allBlockDetails;
+    }
 }

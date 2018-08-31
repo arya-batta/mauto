@@ -265,7 +265,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                         <?php endif; ?>
                                     </div>
                                     <hr class="mnr-md mnl-md" <?php echo $stagehideattr ?>>
-                                    <div class="form-group mb-0">
+                                    <div class="form-group le-mb-footer">
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <?php echo $view['form']->label($form['owner']); ?>

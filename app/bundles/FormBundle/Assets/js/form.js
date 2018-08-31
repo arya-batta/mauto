@@ -51,6 +51,7 @@ Mautic.formOnLoad = function (container) {
         });
 
         Mautic.initFormFieldButtons();
+        Mautic.removeActionButtons();
     }
 
     if (mQuery('#mauticforms_actions')) {

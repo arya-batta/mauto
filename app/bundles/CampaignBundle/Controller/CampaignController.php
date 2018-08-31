@@ -170,7 +170,11 @@ class CampaignController extends AbstractStandardFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $name      = $campaign->getName();
-                    $newaction = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'new', 'campaignName' => $name]);
+                    $catId     = $campaign->getCategory()->getId();
+                    $newaction = $this->generateUrl('mautic_campaign_action',
+                        ['objectAction'    => 'new',
+                            'campaignName' => $name, 'category' => $catId,
+                    ]);
 
                     return $this->delegateRedirect($newaction);
                 }
@@ -502,17 +506,17 @@ class CampaignController extends AbstractStandardFormController
         $sourceLists = $this->getCampaignModel()->getSourceLists();
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.campaign.filter.form.segment.category.placeholder'),
+                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
                 'multiple'    => true,
                 'groups'      => [
-                    'mautic.campaign.leadsource.form' => [
+                  /*  'mautic.campaign.leadsource.form' => [
                         'options' => $sourceLists['forms'],
                         'prefix'  => 'form',
                     ],
                     'mautic.campaign.leadsource.list' => [
                         'options' => $sourceLists['lists'],
                         'prefix'  => 'list',
-                    ],
+                    ],*/
                     'mautic.campaign.leadsource.category' => [
                         'options' => $sourceLists['category'],
                         'prefix'  => 'category',
@@ -716,8 +720,9 @@ class CampaignController extends AbstractStandardFormController
                     'data-target' => '#MauticSharedModal',
                     'data-header' => $this->translator->trans('le.campaign.new.add'),
                 ];
-                $args['viewParameters']['customAttr'] = $customAttr;
-                $args['viewParameters']['filters']    = $this->listFilters;
+                $args['viewParameters']['campaignBlocks'] =  $this->getModel('campaign')->getCampaignsBlocks();
+                $args['viewParameters']['customAttr']     = $customAttr;
+                $args['viewParameters']['filters']        = $this->listFilters;
                 break;
             case 'view':
                 /** @var Campaign $entity */

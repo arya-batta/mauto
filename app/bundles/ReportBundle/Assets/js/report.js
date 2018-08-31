@@ -55,6 +55,7 @@ Mautic.reportOnLoad = function (container) {
         Mautic.schedulePreview($isScheduled, $unitTypeId, $scheduleDay, $scheduleMonthFrequency,$scheduleDate);
     });
     Mautic.scheduleDisplay($isScheduled, $unitTypeId, $scheduleDay, $scheduleMonthFrequency,$scheduleDate);
+    Mautic.removeActionButtons();
 };
 
 Mautic.scheduleDisplay = function ($isScheduled, $unitTypeId, $scheduleDay, $scheduleMonthFrequency, $scheduleDate) {

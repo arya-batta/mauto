@@ -36,7 +36,7 @@ trait EntityFieldsBuildFormTrait
             if ($field['isPublished'] === false || $field['object'] !== $object) {
                 continue;
             }
-            $attr       = ['class' => 'form-control'];
+            $attr       = ['class' => 'form-control le-input'];
             $properties = $field['properties'];
             $type       = $field['type'];
             $required   = ($isObject) ? $field['isRequired'] : false;

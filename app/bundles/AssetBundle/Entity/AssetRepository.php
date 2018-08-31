@@ -216,4 +216,71 @@ class AssetRepository extends CommonRepository
 
         $q->execute();
     }
+
+    public function getTotalAssetCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as totalcount')
+          ->from(MAUTIC_TABLE_PREFIX.'assets', 'a');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('a.created_by', ':currentUserId'))
+                 ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('a.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['totalcount'];
+    }
+
+    public function getTotalActiveAssets($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activeassets')
+            ->from(MAUTIC_TABLE_PREFIX.'assets', 'a')
+            ->andWhere('a.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('a.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('a.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['activeassets'];
+    }
+
+    public function getConversions($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('SUM(a.download_count) as conversions')
+            ->from(MAUTIC_TABLE_PREFIX.'assets', 'a');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('a.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('a.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $result = $q->execute()->fetchAll();
+
+        return $result[0]['conversions'];
+    }
 }

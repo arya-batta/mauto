@@ -30,7 +30,16 @@ if (count($items)):
                         ],
                     ]
                 );
-
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.core.update.heading.status',
+                        'class'      => 'col-status-name',
+                        'default'    => true,
+                    ]
+                );
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -67,6 +76,12 @@ if (count($items)):
                     ]
                 );
                 endif;
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'sms',
+                    'orderBy'    => '',
+                    'text'       => 'mautic.core.actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                ]);
                 ?>
             </tr>
             </thead>
@@ -124,15 +139,17 @@ if (count($items)):
                         ?>
                     </td>
                     <td class="table-description">
+                        <?php if ($type == 'template'): ?>
+                            <?php echo $view->render(
+                                'MauticCoreBundle:Helper:publishstatus_icon.html.php',
+                                ['item' => $item, 'model' => 'sms']
+                            ); ?>
+                        <?php else: ?>
+                            <i class="fa fa-fw fa-lg fa-toggle-on text-muted disabled"></i>
+                        <?php endif; ?>
+                    </td>
+                    <td>
                         <div>
-                            <?php if ($type == 'template'): ?>
-                                <?php echo $view->render(
-                                    'MauticCoreBundle:Helper:publishstatus_icon.html.php',
-                                    ['item' => $item, 'model' => 'sms']
-                                ); ?>
-                            <?php else: ?>
-                                <i class="fa fa-fw fa-lg fa-toggle-on text-muted disabled"></i>
-                            <?php endif; ?>
                             <a href="<?php echo $view['router']->path(
                                 'mautic_sms_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
@@ -166,6 +183,37 @@ if (count($items)):
                     <?php if ($isAdmin): ?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
+                    <td>
+                        <?php $hasEditAccess = $view['security']->hasEntityAccess($permissions['sms:smses:editown'], $permissions['sms:smses:editother'], $item->getCreatedBy());
+                        $hasDeleteAccess     = $view['security']->hasEntityAccess($permissions['sms:smses:deleteown'], $permissions['sms:smses:deleteother'], $item->getCreatedBy());
+                        $hasCloneAccess      = $permissions['sms:smses:create']; ?>
+                        <div style="position: relative;" class="fab-list-container">
+                            <div class="md-fab-wrapper">
+                                <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
+                                    <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
+                                    <div tabindex="0" class="md-fab-toolbar-actions">
+                                        <?php if ($hasEditAccess): ?>
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_sms_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                                <span><i class="material-icons md-color-white">  </i></span></a>
+                                        <?php endif; ?>
+                                        <?php if ($hasCloneAccess) : ?>
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                                <i class="material-icons md-color-white">  </i> </a>
+                                        <?php endif; ?>
+                                        <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
+                                           title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
+                                           href="<?php echo $view['router']->path('mautic_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
+                                            <i class="material-icons md-color-white">  </i> </a>
+                                        <?php if ($hasDeleteAccess):?>
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_sms_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.sms.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                                <span><i class="material-icons md-color-white">  </i></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

@@ -13,7 +13,7 @@ $header = $view['translator']->trans(
     ['%name%' => $view['translator']->trans($report->getName())]
 );
 
-if ($tmpl == 'index') {
+//if ($tmpl == 'index') {
     $showDynamicFilters  = (!empty($report->getSettings()['showDynamicFilters']) === true);
     $hideDateRangeFilter = (!empty($report->getSettings()['hideDateRangeFilter']) === true);
 
@@ -103,7 +103,7 @@ if ($tmpl == 'index') {
         'publishStatus',
         $view->render('MauticCoreBundle:Helper:publishstatus_badge.html.php', ['entity' => $report])
     );
-}
+//}
 ?>
 
 <!-- report detail header -->

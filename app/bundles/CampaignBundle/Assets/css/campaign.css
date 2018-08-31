@@ -312,15 +312,15 @@
 }
 
 .background-pink, .background-pink:hover{
-    color: #000000;
+    color: #fff;
     background: #f22446;
     border: 1px solid #f22446;
 }
 
 .background-orange, .background-orange:hover{
-    color: #000000;
-    background: #ffda24;
-    border: 1px solid #ffda24;
+    color: #fff;
+    background: #00BB5E;
+    border: 1px solid #009A4E;
 }
 
 .background-white{

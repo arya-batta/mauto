@@ -183,6 +183,12 @@ class FieldModel extends FormModel
             'group'    => 'social',
             'object'   => 'lead',
         ],
+        'score' => [
+            'fixed'    => true,
+            'short'    => true,
+            'listable' => true,
+            'object'   => 'lead',
+        ],
     ];
 
     public static $coreCompanyFields = [

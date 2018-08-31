@@ -33,7 +33,7 @@ class EmailUtmTagsType extends AbstractType
                 'data'       => 'leadsengage',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
             ]
@@ -46,7 +46,7 @@ class EmailUtmTagsType extends AbstractType
                 'label'      => 'mautic.email.campaign_medium',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'data'     => isset($options['extra_fields_message']) ? $options['extra_fields_message'] : '',
                 'required' => false,
@@ -60,7 +60,7 @@ class EmailUtmTagsType extends AbstractType
                 'label'      => 'mautic.email.campaign_name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
             ]
@@ -73,7 +73,7 @@ class EmailUtmTagsType extends AbstractType
                 'label'      => 'mautic.email.campaign_content',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
             ]

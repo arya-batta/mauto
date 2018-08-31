@@ -90,7 +90,7 @@ class CategoryType extends AbstractType
             [
                 'label'      => 'mautic.core.title',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -100,7 +100,7 @@ class CategoryType extends AbstractType
             [
                 'label'      => 'mautic.core.description',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
             ]
         );
@@ -112,7 +112,7 @@ class CategoryType extends AbstractType
                 'label'      => 'mautic.core.alias',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.category.form.alias.help',
                 ],
                 'required' => false,
@@ -126,7 +126,7 @@ class CategoryType extends AbstractType
                 'label'      => 'mautic.core.color',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-input',
                     'data-toggle' => 'color',
                 ],
                 'required' => false,

@@ -108,14 +108,14 @@ class AssetType extends AbstractType
         $builder->add('title', 'text', [
             'label'      => 'mautic.core.title',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control'],
+            'attr'       => ['class' => 'form-control le-input'],
         ]);
 
         $builder->add('alias', 'text', [
             'label'      => 'mautic.core.alias',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.asset.asset.help.alias',
             ],
             'required' => false,

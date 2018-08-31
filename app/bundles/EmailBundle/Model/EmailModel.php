@@ -2436,4 +2436,23 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
         return $groupname;
     }
+
+    public function getEmailBlocks()
+    {
+        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-o', $this->translator->trans('le.email.sent.last30days.sent'),
+            $this->getRepository()->getLast30DaysSentCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
+        ];
+        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.opens'),
+            $this->getRepository()->getLast30DaysOpensCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
+        ];
+        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+            $this->getRepository()->getLast30DaysClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
+        ];
+
+        $allBlockDetails[] = $sentCount;
+        $allBlockDetails[] = $openCount;
+        $allBlockDetails[] = $clickCount;
+
+        return $allBlockDetails;
+    }
 }

@@ -104,7 +104,9 @@ if ($indexMode == 'list') {
         'iconClass' => 'fa fa-user-secret',
     ];
 }
+$toolbarButtons = [];
 ?>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.lead.list.thead.leadcount'); ?></h3></div>
 <div style="padding-top: 15px;">
         <div class="info-box" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> '']); ?>" data-toggle="ajax">

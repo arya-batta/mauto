@@ -30,7 +30,16 @@ $isAdmin=$view['security']->isAdmin();
                         ],
                     ]
                 );
-
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.core.update.heading.status',
+                        'class'      => 'col-status-name',
+                        'default'    => true,
+                    ]
+                );
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -41,29 +50,75 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.email.graph.line.stats.sent',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.email.label.list.reads',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.email.report.hits_count',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.email.token.unsubscribes_text',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.email.config.monitored_email.bounce_folder',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.email.spams',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'email',
+                    'orderBy'    => '',
+                    'text'       => 'mautic.core.actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-email-actions',
+                ]);
                 ?>
 
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.graph.line.stats.sent'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.label.list.reads'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.report.hits_count'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.token.unsubscribes_text'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.config.monitored_email.bounce_folder'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('le.email.email.spams'); ?>
-                </th>
-                <th class="visible-sm visible-md visible-lg col-email-stats">
-                    <?php echo $view['translator']->trans('mautic.email.stat.failures'); ?>
-                </th>
                 <?php if ($isAdmin):?>
                 <?php
                 echo $view->render(
@@ -129,9 +184,11 @@ $isAdmin=$view['security']->isAdmin();
                         );
                         ?>
                     </td>
+                    <td>
+                        <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'email']); ?>
+                    </td>
                     <td class="table-description">
                         <div>
-                            <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'email']); ?>
                             <?php $category = $item->getCategory(); ?>
                             <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                             <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
@@ -161,7 +218,7 @@ $isAdmin=$view['security']->isAdmin();
                                 <?php endif; ?>
                                 <?php echo $view['content']->getCustomContent('email.name', $mauticTemplateVars); ?>
                             </a>
-                            <div style="white-space: nowrap;margin-left:25px;">
+                            <div style="white-space: nowrap;">
                             <span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span>
                             </div>
                         </div>
@@ -214,13 +271,13 @@ $isAdmin=$view['security']->isAdmin();
                         </span>
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
-                     <span class="mt-xs has-click-event clickable-stat"
-                              id="failure-count-<?php echo $item->getId(); ?>">
+                      <span class="mt-xs has-click-event clickable-stat"
+                            id="unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_failure').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_unsubscribe').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.failure.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('mautic.email.stat.unsubscribe.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -255,14 +312,14 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
-                      <span class="mt-xs has-click-event clickable-stat"
-                            id="unsubscribe-count-<?php echo $item->getId(); ?>">
+                    <td class="hide" data-stats="<?php echo $item->getId(); ?>">
+                     <span class="mt-xs has-click-event clickable-stat"
+                           id="failure-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_unsubscribe').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_failure').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.unsubscribe.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('mautic.email.stat.failure.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -272,6 +329,33 @@ $isAdmin=$view['security']->isAdmin();
                     <?php if ($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
+                    <td>
+                        <?php $hasEditAccess = $view['security']->hasEntityAccess($permissions['email:emails:editown'], $permissions['email:emails:editother'], $item->getCreatedBy());
+                        $hasDeleteAccess     = $view['security']->hasEntityAccess($permissions['email:emails:deleteown'], $permissions['email:emails:deleteother'], $item->getCreatedBy());
+                        $hasCloneAccess      = $permissions['email:emails:create']; ?>
+                        <div style="position: relative;" class="fab-list-container">
+                            <div class="md-fab-wrapper">
+                                <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
+                                    <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
+                                    <div tabindex="0" class="md-fab-toolbar-actions">
+                                        <?php if ($hasEditAccess): ?>
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_email_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                                <span><i class="material-icons md-color-white">  </i></span></a>
+                                        <?php endif; ?>
+                                        <?php if ($hasCloneAccess) : ?>
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_email_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                                <i class="material-icons md-color-white">  </i> </a>
+                                        <?php endif; ?>
+                                        <?php if ($hasDeleteAccess):?>
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_email_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.email.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                             <span><i class="material-icons md-color-white">  </i></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

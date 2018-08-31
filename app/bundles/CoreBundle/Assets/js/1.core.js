@@ -887,5 +887,19 @@ var Mautic = {
         } catch (e) {
             return false;
         }
+    },
+
+    /**
+     * Removes Action Buttons
+     */
+    removeActionButtons: function() {
+        mQuery('html').click(function() {
+            mQuery('.md-fab-animated').removeClass('md-fab-animated md-fab-active');
+            mQuery('.md-fab-primary').css("width", '28px');
+            mQuery('.md-fab-toolbar-actions').css("display","none");
+        });
+        mQuery('.md-fab-primary').click(function(event){
+            event.stopPropagation();
+        });
     }
 };

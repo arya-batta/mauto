@@ -30,7 +30,7 @@ class BuilderSectionType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'           => 'form-control',
+                'class'           => 'form-control le-input',
                 'data-slot-param' => 'background-color',
                 'data-toggle'     => 'color',
             ],
@@ -41,7 +41,7 @@ class BuilderSectionType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'           => 'form-control',
+                'class'           => 'form-control le-input',
                 'data-slot-param' => 'background-color',
                 'data-toggle'     => 'color',
             ],

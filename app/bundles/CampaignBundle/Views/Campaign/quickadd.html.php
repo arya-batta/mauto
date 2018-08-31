@@ -10,5 +10,5 @@
  */
 
 ?>
-<p><h4><?php echo $view['translator']->trans('le.campaign.new.add.desc'); ?></h4></p>
+<p><h4 style="font-size: 13px;"><?php echo $view['translator']->trans('le.campaign.new.add.desc'); ?></h4></p>
 <?php echo $view['form']->form($form); ?>

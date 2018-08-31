@@ -8,9 +8,9 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if ($tmpl == 'index') {
+//if ($tmpl == 'index') {
     $view->extend('MauticCoreBundle:Default:content.html.php');
-}
+//}
 $view['slots']->set('mauticContent', 'config');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.config.header.index'));
 

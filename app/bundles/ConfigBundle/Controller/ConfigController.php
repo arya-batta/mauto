@@ -216,7 +216,7 @@ class ConfigController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'tmpl'           => $tmpl,
+                    //tmpl'           => $tmpl,
                     'security'       => $this->get('mautic.security'),
                     'form'           => $this->setFormTheme($form, 'MauticConfigBundle:Config:form.html.php', $formThemes),
                     'formConfigs'    => $formConfigs,
@@ -319,7 +319,6 @@ class ConfigController extends FormController
      *
      * @return array
      */
-
     private function mergeParamsWithLocal(&$forms, $doNotChange)
     {
         // Import the current local configuration, $parameters is defined in this file

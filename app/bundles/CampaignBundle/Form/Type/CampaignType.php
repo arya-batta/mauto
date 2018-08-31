@@ -49,8 +49,13 @@ class CampaignType extends AbstractType
             $builder->add('name', 'text', [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => true,
+            ]);
+
+            $builder->add('category', 'category', [
+                'bundle'     => 'campaign',
+                'label_attr' => ['class' => 'control-label', 'style' => 'color:#fff;'],
             ]);
 
             $builder->add(

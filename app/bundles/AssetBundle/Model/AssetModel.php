@@ -700,4 +700,23 @@ class AssetModel extends FormModel
 
         return $results;
     }
+
+    public function getAssetBlocks()
+    {
+        $totalAsset =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-folder-open-o', $this->translator->trans('mautic.asset.all.assets'),
+            $this->getRepository()->getTotalAssetCount($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
+        ];
+        $activeAsset = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-folder-open-o', $this->translator->trans('mautic.asset.active.assets'),
+            $this->getRepository()->getTotalActiveAssets($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
+        ];
+        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-folder-open-o', $this->translator->trans('le.index.blocks.conversion'),
+            $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
+        ];
+
+        $allBlockDetails[] = $totalAsset;
+        $allBlockDetails[] = $activeAsset;
+        $allBlockDetails[] = $conversion;
+
+        return $allBlockDetails;
+    }
 }

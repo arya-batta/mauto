@@ -3,6 +3,7 @@ Mautic.assetOnLoad = function (container) {
     if (typeof mauticAssetUploadEndpoint !== 'undefined' && mQuery('div#dropzone').length) {
         Mautic.initializeDropzone();
     }
+    Mautic.removeActionButtons();
 };
 
 Mautic.assetOnUnload = function(id) {

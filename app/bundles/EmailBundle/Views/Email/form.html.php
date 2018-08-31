@@ -241,7 +241,7 @@ $custombutton = [
             ]); ?>
         </div>
     </div>
-    <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
+    <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
         <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
         <div class="toolbar-form-buttons pull-right">
                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -306,16 +306,16 @@ $custombutton = [
             <?php endif; ?>
             <br>
             <div class="row">
-                <div class="col-md-12" id="unsubscribe_text_div">
-                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
-                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
-                </div>
                 <div class="col-md-12">
                     <br>
                     <?php echo $view['form']->label($form['postal_address']); ?>
                     <?php echo $view['form']->widget($form['postal_address']); ?>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" id="unsubscribe_text_div">
+                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
+                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                </div>
+                <div class="col-md-12 hide">
                     <br>
                     <div class="pull-left">
                         <?php echo $view['form']->label($form['plainText']); ?>

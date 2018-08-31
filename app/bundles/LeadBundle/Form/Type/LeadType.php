@@ -77,7 +77,7 @@ class LeadType extends AbstractType
                     'required'   => true,
                     'multiple'   => false,
                     'attr'       => [
-                        'class' => 'form-control',
+                        'class' => 'form-control tt-input',
                     ],
                 ]
             );
@@ -90,7 +90,7 @@ class LeadType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'attr'       => [
-                        'class' => 'form-control',
+                        'class' => 'form-control le-input',
                     ],
                     'mapped'      => false,
                     'constraints' => [

@@ -84,7 +84,7 @@ class PageType extends AbstractType
             [
                 'label'      => 'mautic.core.title',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -312,7 +312,7 @@ class PageType extends AbstractType
                 'label'      => 'mautic.core.alias',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.page.help.alias',
                 ],
                 'required' => false,

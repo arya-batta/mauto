@@ -1554,4 +1554,23 @@ class ListModel extends FormModel
 
         return $chart->render();
     }
+
+    public function getSegmentBlocks()
+    {
+        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.all'),
+                       $this->getRepository()->getTotalSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
+                       ];
+        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.active'),
+                       $this->getRepository()->getTotalActiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
+                       ];
+        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.inactive'),
+                       $this->getRepository()->getTotalInactiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
+                       ];
+
+        $allBlockDetails[] = $totalSegment;
+        $allBlockDetails[] = $activeSegment;
+        $allBlockDetails[] = $inactiveSegment;
+
+        return $allBlockDetails;
+    }
 }

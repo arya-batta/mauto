@@ -263,7 +263,8 @@ class FocusController extends FormController
 
         switch ($action) {
             case 'index':
-                $args['viewParameters']['filters']    = $listFilters;
+                $args['viewParameters']['filters']              = $listFilters;
+                $args['viewParameters']['focusBlockDetails']    = $this->getModel('focus')->getFocusDisplayBlocks();
                 break;
             case 'view':
                 $args = $this->customizeViewArguments($args, $action);

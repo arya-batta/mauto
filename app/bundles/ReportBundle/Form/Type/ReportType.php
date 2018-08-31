@@ -71,7 +71,7 @@ class ReportType extends AbstractType
                 [
                     'label'      => 'mautic.core.name',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class' => 'form-control'],
+                    'attr'       => ['class' => 'form-control le-input'],
                     'required'   => true,
                 ]
             );

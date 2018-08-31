@@ -800,4 +800,137 @@ class EmailRepository extends CommonRepository
             ->setParameter('email', $newEmailAddress)
             ->setParameter('firstname', $leadName)->execute();
     }
+
+    /**
+     * Get sent counts based on date(Last 30 Days).
+     *
+     * @param array $emailIds
+     *
+     * @return array
+     */
+    public function getLast30DaysSentCounts($viewOthers =false)
+    {
+        $fromdate = date('Y-m-d', strtotime('-29 days'));
+
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(e.id) as sentcount')
+            ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('es.is_failed', ':false')
+                )
+            )->setParameter('false', false, 'boolean');
+
+        if ($fromdate !== null) {
+            $q->andWhere(
+                $q->expr()->gte('es.date_sent', $q->expr()->literal($fromdate))
+            );
+        }
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['sentcount'];
+    }
+
+    /**
+     * Get open counts based on date.
+     *
+     * @param array $emailIds
+     *
+     * @return array
+     */
+    public function getLast30DaysOpensCounts($viewOthers =false)
+    {
+        $fromdate = date('Y-m-d', strtotime('-29 days'));
+
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(e.id) as opencount')
+            ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('es.is_failed', ':false')
+                )
+            )->setParameter('false', false, 'boolean');
+
+        if ($fromdate !== null) {
+            $q->andWhere(
+                $q->expr()->gte('es.date_sent', $q->expr()->literal($fromdate))
+            );
+            $q->andWhere(
+                $q->expr()->eq('es.is_read', 1)
+            );
+        }
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['opencount'];
+    }
+
+    /**
+     * Get open counts based on date.
+     *
+     * @param array $emailIds
+     *
+     * @return array
+     */
+    public function getLast30DaysClickCounts($viewOthers =false)
+    {
+        $dateinterval = date('Y-m-d', strtotime('-29 days'));
+        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $q->select('SUM(t.hits)')
+            ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
+            ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
+                $q->expr()->andX(
+                    $q->expr()->eq('r.id', 't.redirect_id'),
+                    $q->expr()->eq('t.channel', ':channel')
+                )
+            )
+            ->setParameter('channel', 'email')
+            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
+                $q->expr()->andX(
+                    $q->expr()->eq('t.channel_id', 'es.id')
+                ))
+            ->andWhere($q->expr()->gte('r.date_added', ':dateAdded'))
+            ->setParameter('dateAdded', $dateinterval)
+            ->orderBy('r.url');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('r.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
+    }
 }

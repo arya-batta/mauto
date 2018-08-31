@@ -762,4 +762,70 @@ class CampaignRepository extends CommonRepository
 
         return $results;
     }
+
+    public function getTotalCampaignCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as totalcampaigns')
+            ->from(MAUTIC_TABLE_PREFIX.'campaigns', 'c');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('c.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('c.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['totalcampaigns'];
+    }
+
+    public function getTotalActiveCampaignCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activecampaigns')
+            ->from(MAUTIC_TABLE_PREFIX.'campaigns', 'c')
+            ->andWhere('c.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('c.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('c.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['activecampaigns'];
+    }
+
+    public function getTotalInactiveCampaignCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as inactivecampaigns')
+            ->from(MAUTIC_TABLE_PREFIX.'campaigns', 'c')
+            ->andWhere('c.is_published != 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('c.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('c.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactivecampaigns'];
+    }
 }

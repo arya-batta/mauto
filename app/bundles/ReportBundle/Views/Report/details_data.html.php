@@ -8,9 +8,9 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if ($tmpl == 'index') {
+//if ($tmpl == 'index') {
     $view->extend('MauticReportBundle:Report:details.html.php');
-}
+//}
 
 $showGraphsAboveTable = (!empty($report->getSettings()['showGraphsAboveTable']) === true);
 $dataCount            = count($data);

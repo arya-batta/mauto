@@ -210,20 +210,22 @@ class PageController extends FormController
         $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
 
         //retrieve a list of categories
-        $categories = $this->getModel('page.page')->getLookupResults('category', '', 0);
+        $categories       = $this->getModel('page.page')->getLookupResults('category', '', 0);
+        $pageBlockDetails = $model->getPageDisplayBlocks();
 
         return $this->delegateView([
             'viewParameters' => [
-                'searchValue' => $search,
-                'filters'     => $listFilters,
-                'items'       => $pages,
-                'categories'  => $categories,
-                'page'        => $page,
-                'limit'       => $limit,
-                'permissions' => $permissions,
-                'model'       => $model,
-                'tmpl'        => $tmpl,
-                'security'    => $this->get('mautic.security'),
+                'searchValue'     => $search,
+                'filters'         => $listFilters,
+                'items'           => $pages,
+                'categories'      => $categories,
+                'page'            => $page,
+                'limit'           => $limit,
+                'permissions'     => $permissions,
+                'model'           => $model,
+                'tmpl'            => $tmpl,
+                'security'        => $this->get('mautic.security'),
+                'pageBlockDetails'=> $pageBlockDetails,
             ],
             'contentTemplate' => 'MauticPageBundle:Page:list.html.php',
             'passthroughVars' => [

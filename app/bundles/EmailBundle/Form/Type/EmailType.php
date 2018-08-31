@@ -99,7 +99,7 @@ class EmailType extends AbstractType
             [
                 'label'      => $name,
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -111,7 +111,7 @@ class EmailType extends AbstractType
                 [
                     'label'      => 'mautic.email.subject',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class' => 'form-control'],
+                    'attr'       => ['class' => 'form-control le-input'],
                 ]
             )->addModelTransformer($emojiTransformer)
         );
@@ -123,7 +123,7 @@ class EmailType extends AbstractType
                 'label'      => 'mautic.email.from_name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-user',
                     'tooltip'  => 'mautic.email.from_name.tooltip',
                     'disabled' => false,
@@ -142,7 +142,7 @@ class EmailType extends AbstractType
                 'label'      => 'mautic.email.from_email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => $tooltip,
                     'disabled' => $disabled,
@@ -165,7 +165,7 @@ class EmailType extends AbstractType
                 'label'      => 'mautic.email.reply_to_email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => 'mautic.email.reply_to_email.tooltip',
                 ],
@@ -180,7 +180,7 @@ class EmailType extends AbstractType
                 'label'      => 'mautic.email.bcc',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => 'mautic.email.bcc.tooltip',
                 ],
@@ -195,7 +195,7 @@ class EmailType extends AbstractType
                 'label'      => 'mautic.email.utm_tags',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.email.utm_tags.tooltip',
                 ],
                 'extra_fields_message'   => 'email',
@@ -259,7 +259,7 @@ class EmailType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'tooltip'              => 'mautic.email.form.plaintext.help',
-                    'class'                => 'form-control',
+                    'class'                => 'form-control le-input',
                     'rows'                 => '15',
                     'data-token-callback'  => 'email:getBuilderTokens',
                     'data-token-activator' => '{',
@@ -408,7 +408,7 @@ class EmailType extends AbstractType
                 'label'      => 'le.email.previewText',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'tooltip'  => 'le.email.previewText.tooltip',
                 ],
                 'required' => false,

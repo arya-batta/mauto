@@ -172,17 +172,19 @@ class FormController extends CommonFormController
 
         //set what page currently on so that we can return here after form submission/cancellation
         $session->set('mautic.form.page', $page);
+        $formBlockDetails = $this->getModel('form')->getFormDisplayBlocks();
 
         $viewParameters = [
-            'searchValue' => $search,
-            'filters'     => $listFilters,
-            'items'       => $forms,
-            'totalItems'  => $count,
-            'page'        => $page,
-            'limit'       => $limit,
-            'permissions' => $permissions,
-            'security'    => $this->get('mautic.security'),
-            'tmpl'        => $this->request->get('tmpl', 'index'),
+            'searchValue'     => $search,
+            'filters'         => $listFilters,
+            'items'           => $forms,
+            'totalItems'      => $count,
+            'page'            => $page,
+            'limit'           => $limit,
+            'permissions'     => $permissions,
+            'security'        => $this->get('mautic.security'),
+            'tmpl'            => $this->request->get('tmpl', 'index'),
+            'formBlockDetails'=> $formBlockDetails,
         ];
 
         return $this->delegateView(
@@ -528,7 +530,7 @@ class FormController extends CommonFormController
                     'formActions'    => $modifiedActions,
                     'deletedFields'  => $deletedFields,
                     'deletedActions' => $deletedActions,
-                    'tmpl'           => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                    //'tmpl'           => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                     'activeForm'     => $entity,
                     'form'           => $form->createView(),
                     'contactFields'  => $this->getModel('lead.field')->getFieldListWithProperties(),
@@ -907,7 +909,7 @@ class FormController extends CommonFormController
                     'formActions'        => $modifiedActions,
                     'deletedFields'      => $deletedFields,
                     'deletedActions'     => $deletedActions,
-                    'tmpl'               => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                    //'tmpl'               => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                     'activeForm'         => $entity,
                     'form'               => $form->createView(),
                     'forceTypeSelection' => $forceTypeSelection,

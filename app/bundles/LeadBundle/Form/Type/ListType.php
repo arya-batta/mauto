@@ -129,7 +129,7 @@ class ListType extends AbstractType
             [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -140,7 +140,7 @@ class ListType extends AbstractType
                 'label'      => 'mautic.core.alias',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'length'  => 25,
                     'tooltip' => 'mautic.lead.list.help.alias',
                 ],
