@@ -10,7 +10,7 @@ use Mautic\CoreBundle\Doctrine\AbstractMauticMigration;
  * Set all fields listable because this feature was broken
  * and even some core fields are missing in segment filters.
  */
-class Version20180419145934 extends AbstractMauticMigration
+class Version20180831160500 extends AbstractMauticMigration
 {
     /**
      * @param Schema $schema
