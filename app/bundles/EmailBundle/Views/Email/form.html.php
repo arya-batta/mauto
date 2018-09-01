@@ -207,7 +207,7 @@ $custombutton = [
         <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
         <br>
         <br>
-        <div class="uk-float-right <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="margin-top: -5.7%;margin-right: 24.7%;">
+        <div class="uk-float-right <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="margin-top: -5.2%;margin-right: 22.7%;">
             <?php echo $view->render(
                 'MauticCoreBundle:Helper:page_actions.html.php',
                 [

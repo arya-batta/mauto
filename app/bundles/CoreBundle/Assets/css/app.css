@@ -4896,6 +4896,9 @@ figcaption {
   border: 1px solid #f22446;
 
 }
+.page_hit_url{
+  word-wrap: break-word;
+}
 .page_hit_url:hover{
   text-decoration: underline;
 }
@@ -5372,13 +5375,13 @@ figcaption {
   text-decoration: none;
 }
 #cancel-tab-1{
-  margin-left:74%;
+  margin-left:78%;
 }
 #cancel-tab-2{
-  margin-left:0%;
+  margin-left:21%;
 }
 .prev-tab {
-  margin-right: 58%;
+  margin-right: 44%;
 }
 #next-tab-1,#next-tab-2{
   margin-left:0%;
@@ -6158,4 +6161,13 @@ text-align: center;
 }
 .le-mb-footer{
   margin-bottom: 30px;
+}
+.wrap-text{
+  width:100%;
+  word-wrap: break-word;
+}
+.lead_page_hit_url_div{
+  max-height:90px;
+  overflow: auto;
+  max-width: 76%;
 }
