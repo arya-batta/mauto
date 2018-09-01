@@ -1,5 +1,4 @@
-<?php if ($enableHeader): ?>
-<div class="page-header">
+<div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
         <div class="col-xs-5 col-sm-6 col-md-7 va-m">
             <h3 class="pull-left"><?php $view['slots']->output('headerTitle'); ?></h3>
@@ -30,4 +29,3 @@
 
     </div>
 </div>
-<?php endif; ?>

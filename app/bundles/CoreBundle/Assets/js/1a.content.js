@@ -118,7 +118,7 @@ Mautic.generatePageTitle = function(route){
         mQuery('title').html( currentModule[0].toUpperCase() + currentModule.slice(1) + ' | ' + currentModuleItem + ' | LeadsEngage' );
     } else {
         //loading basic title
-        mQuery('title').html( mQuery('.le-header-align h3').html() + ' | LeadsEngage' );
+        mQuery('title').html( mQuery('.page-header h3').html() + ' | LeadsEngage' );
     }
 };
 

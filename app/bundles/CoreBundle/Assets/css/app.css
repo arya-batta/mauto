@@ -6171,3 +6171,6 @@ text-align: center;
   overflow: auto;
   max-width: 76%;
 }
+.leadprofile{
+  min-height: 16px;
+}

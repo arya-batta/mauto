@@ -25,7 +25,7 @@ if (isset($isMobile) && $isMobile) {
 }
 $enableHeader=true;
 if (!empty($tmpl)) {
-    $enableHeader = (($tmpl == 'index') ? false : true);
+    $enableHeader = (($tmpl == 'index') ? 'hide' : '');
 }
 ?>
 <?php if (!$modalView): ?>
