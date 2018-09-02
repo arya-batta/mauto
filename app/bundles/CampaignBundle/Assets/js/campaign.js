@@ -160,6 +160,7 @@ Mautic.campaignOnUnload = function(container) {
  * @param response
  */
 Mautic.campaignEventOnLoad = function (container, response) {
+    Mautic.leadlistOnLoad(container);
     //new action created so append it to the form
     var domEventId = 'CampaignEvent_' + response.eventId;
     var eventId = '#' + domEventId;
@@ -857,29 +858,29 @@ Mautic.campaignEndpointDefinitions = {
     'top': {
         anchors: [0.5, 0, 0, -1, 0, 0],
         isTarget: true,
-        connectorStyle: 'Straight'
+      //  connectorStyle: 'Straight'
     },
     'bottom': {
         anchors: [0.5, 1, 0, 1, 0, 0],
         isTarget: false,
-        connectorStyle: 'Straight'
+      //  connectorStyle: 'Straight'
     },
     'yes': {
         anchors: [0, 1, 0, 1, 30, 0],
         connectorColor:'#d5d4d4' ,//'#00b49c'
         isTarget: false,
-        connectorStyle: 'Straight'
+      //  connectorStyle: 'Straight'
     },
     'no': {
         anchors: [1, 1, 0, 1, -30, 0],
         connectorColor: '#d5d4d4',//'#f86b4f'
         isTarget: false,
-        connectorStyle: 'Straight'
+        // connectorStyle: 'Straight'
     },
     'leadSource': {
         anchors: [0.5, 1, 0, 1, 0, 0],
         isTarget: false,
-        connectorStyle: 'Straight'
+      //  connectorStyle: 'Straight'
     },
     'leadSourceLeft': {
         anchors: [0, 0.5, -1, 0, -1, 0],
@@ -2340,13 +2341,25 @@ Mautic.invokeCampaignSourceNewAction=function(){
    // alert("Path:"+route);
    Mautic.ajaxifyModal(divelement);
 };
-
+Mautic.invokeCampaignDecisionNewAction=function(){
+    var campaignId = mQuery('#campaignId').val();
+    var posturl = mQuery('#campaign-new-request-url').attr('data-href');
+    var route = posturl + "?type=lead.campaign_list_filter"+"&eventType=condition&campaignId=" + campaignId
+    if(Mautic.campaignBuilderAnchorNameClicked){
+        route=route+"&anchor=" + Mautic.campaignBuilderAnchorNameClicked + "&anchorEventType=" + Mautic.campaignBuilderAnchorEventTypeClicked
+    }
+    var divelement = document.createElement("div");
+    divelement.setAttribute('data-target', '#CampaignEventModal');
+    divelement.setAttribute('data-href', route);
+    // alert("Path:"+route);
+    Mautic.ajaxifyModal(divelement);
+};
 Mautic.selectCampaignType=function(eventType){
 Mautic.closeCampaignTypeModel();
     if(eventType == 'Action'){
         Mautic.invokeCampaignEventNewAction();
     }else{
-        Mautic.campaignBuilderUpdateEventList([eventType], false, 'lists', true);
+        Mautic.invokeCampaignDecisionNewAction();
     }
 };
 Mautic.closeCampaignTypeModel=function(){

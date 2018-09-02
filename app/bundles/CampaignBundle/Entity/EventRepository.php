@@ -178,6 +178,7 @@ class EventRepository extends CommonRepository
             ->where(
                 $q->expr()->andX(
                     $q->expr()->eq('IDENTITY(e.campaign)', (int) $id),
+                    $q->expr()->neq('e.eventType', $q->expr()->literal('source')),
                     $q->expr()->isNull('e.parent')
                 )
             );
@@ -324,7 +325,10 @@ class EventRepository extends CommonRepository
         $q->select('e, IDENTITY(e.parent)')
             ->from('MauticCampaignBundle:Event', 'e', 'e.id')
             ->where(
-                $q->expr()->eq('IDENTITY(e.campaign)', (int) $campaignId)
+                $q->expr()->andX(
+                    $q->expr()->eq('IDENTITY(e.campaign)', (int) $campaignId),
+                    $q->expr()->neq('e.eventType', $q->expr()->literal('source'))
+                )
             )
             ->orderBy('e.order', 'ASC');
 

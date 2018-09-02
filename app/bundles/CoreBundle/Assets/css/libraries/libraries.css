@@ -5748,6 +5748,12 @@ button.close {
     width: 900px;
   }
 }
+
+@media (min-width: 892px) {
+  .modal-clg {
+    width: 800px;
+  }
+}
 .tooltip {
   position: absolute;
   z-index: 10000;

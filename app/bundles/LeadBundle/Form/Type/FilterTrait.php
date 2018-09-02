@@ -392,6 +392,17 @@ trait FilterTrait
         );
 
         $form->add(
+            'fieldlabel',
+            'hidden',
+            [
+                'label'          => false,
+                'attr'           => [],
+                'data'           => (isset($data['fieldlabel'])) ? $data['fieldlabel'] : '',
+                'error_bubbling' => false,
+            ]
+        );
+
+        $form->add(
             'operator',
             'choice',
             [

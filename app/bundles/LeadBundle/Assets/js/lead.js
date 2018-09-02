@@ -418,8 +418,15 @@ Mautic.reorderSegmentFilters = function() {
 };
 
 Mautic.convertLeadFilterInput = function(el) {
-    var prefix = 'leadlist';
+     var iscampaignmodel=false;
+    if (mQuery('#CampaignEventModal').length) {
+        iscampaignmodel=true;
+    }
 
+    var prefix = 'leadlist';
+if(iscampaignmodel){
+    prefix = 'campaignevent_properties';
+}
     var parent = mQuery(el).parents('.dynamic-content-filter, .dwc-filter');
     if (parent.length) {
         prefix = parent.attr('id');
@@ -449,8 +456,8 @@ Mautic.convertLeadFilterInput = function(el) {
     var customFilter = (operator == 'today' || operator == 'tomorrow' || operator == 'yesterday' || operator == 'week_last' || operator == 'week_next' || operator == 'week_this' || operator == 'month_last' || operator == 'month_next' || operator == 'month_this' || operator == 'year_last' || operator == 'year_next' || operator == 'year_this');
 
     if (customFilter) {
-        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').prop('tabindex', '-1');
-        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').prop('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').attr('tabindex', '-1');
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').attr('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
         mQuery(filterId).val(operator);
     }
 
@@ -549,10 +556,16 @@ Mautic.addLeadListFilter = function (elId) {
     if (parent.length) {
         prefix = parent.attr('id');
     }
-
-    var filterBase  = prefix + "[filters][" + filterNum + "]";
+    var iscampaignmodel=false;
+    if (mQuery('#CampaignEventModal').length) {
+        iscampaignmodel=true;
+    }
+    var filterBase  = prefix+ "[filters][" + filterNum + "]";
     var filterIdBase = prefix + "_filters_" + filterNum + "_";
-
+if(iscampaignmodel){
+    filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
+    filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
+}
     if (isSpecial) {
         var templateField = fieldType;
         if (fieldType == 'boolean' || fieldType == 'multiselect') {
@@ -591,6 +604,7 @@ Mautic.addLeadListFilter = function (elId) {
     mQuery(prototype).find("input[name='" + filterBase + "[type]']").val(fieldType);
     mQuery(prototype).find("input[name='" + filterBase + "[object]']").val(fieldObject);
     mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").val(customObject);
+    mQuery(prototype).find("input[name='" + filterBase + "[customlabel]']").val(label);
 
     var filterEl = (isSpecial) ? "select[name='" + filterBase + "[filter]']" : "input[name='" + filterBase + "[filter]']";
 

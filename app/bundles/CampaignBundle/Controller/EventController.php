@@ -13,11 +13,13 @@ namespace Mautic\CampaignBundle\Controller;
 
 use Mautic\CampaignBundle\Entity\Event;
 use Mautic\CoreBundle\Controller\FormController as CommonFormController;
+use Mautic\LeadBundle\Entity\OperatorListTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventController extends CommonFormController
 {
     private $supportedEventTypes = ['decision', 'action', 'condition', 'source'];
+    use OperatorListTrait;
 
     /**
      * Generates new form and processes post data.
@@ -99,10 +101,12 @@ class EventController extends CommonFormController
                     $formData       = $form->getData();
                     $event          = array_merge($event, $formData);
                     $event['id']    = $event['tempId']    = $keyId;
-                    //if (empty($event['name'])) {
-                    //set it to the event default
-                    $event['name'] = $this->get('translator')->trans($event['settings']['label']);
-                    // }
+                    if ($event['eventType'] == 'condition') {
+                        //set it to the event default
+                        $event['name'] = $this->getConditionEventLabel($event['properties']['filters']);
+                    } else {
+                        $event['name'] = $this->get('translator')->trans($event['settings']['label']);
+                    }
                     $modifiedEvents[$keyId] = $event;
                     $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
                 } else {
@@ -111,7 +115,7 @@ class EventController extends CommonFormController
             }
         }
 
-        $viewParams = ['type' => $type];
+        $viewParams = ['type' => $type, 'eventType' => $eventType];
         if ($cancelled || $valid) {
             $closeModal = true;
         } else {
@@ -300,11 +304,12 @@ class EventController extends CommonFormController
                         $modifiedEvents = $session->get('mautic.campaign.'.$campaignId.'.events.modified');
                         $formData       = $form->getData();
                         $event          = array_merge($event, $formData);
-
-                        // if (empty($event['name'])) {
-                        //set it to the event default
-                        $event['name'] = $this->get('translator')->trans($event['settings']['label']);
-                        // }
+                        if ($event['eventType'] == 'condition') {
+                            //set it to the event default
+                            $event['name'] = $this->getConditionEventLabel($event['properties']['filters']);
+                        } else {
+                            $event['name'] = $this->get('translator')->trans($event['settings']['label']);
+                        }
                         $modifiedEvents[$objectId] = $event;
 
                         $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
@@ -314,7 +319,7 @@ class EventController extends CommonFormController
                 }
             }
 
-            $viewParams = ['type' => $type];
+            $viewParams = ['type' => $type, 'eventType' => $eventType];
             if ($cancelled || $valid) {
                 $closeModal = true;
             } else {
@@ -549,5 +554,35 @@ class EventController extends CommonFormController
         $response = new JsonResponse($dataArray);
 
         return $response;
+    }
+
+    public function getConditionEventLabel($filters)
+    {
+        $label='';
+        $index=0;
+        foreach ($filters as $key => $data) {
+            $operator   = $data['operator'];
+            $fieldlabel = $data['fieldlabel'];
+            $value      = $data['filter'];
+            $glue       = $data['glue'];
+            $oplabel    = $this->getOperatorLabel($operator);
+            $oplabel    = $this->get('translator')->trans($oplabel);
+            if (is_array($value)) {
+                $value='['.implode(',', $value).']';
+            } else {
+                $value="'".$value."'";
+            }
+            if ($index > 0) {
+                if ($glue == 'or') {
+                    $label .= ',';
+                }
+                $label .= ' '.$glue.' ';
+            }
+            $label .= $fieldlabel.' '.$oplabel.' '.$value;
+            ++$index;
+        }
+        file_put_contents('/var/www/mauto/campaign_tracker.txt', 'Label:'.$label."\n", FILE_APPEND);
+
+        return $label;
     }
 }

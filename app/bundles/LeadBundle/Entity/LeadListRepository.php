@@ -598,7 +598,7 @@ class LeadListRepository extends CommonRepository
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|mixed
      */
-    protected function generateSegmentExpression(array $filters, array &$parameters, QueryBuilder $q, QueryBuilder $parameterQ = null, $listId = null, $isNot = false, $leadTablePrefix = 'l')
+    protected function generateSegmentExpression(array $filters, array &$parameters, QueryBuilder $q, QueryBuilder $parameterQ = null, $listId = null, $isNot = false, $leadTablePrefix = 'l', $leadid=null)
     {
         if (null === $parameterQ) {
             $parameterQ = $q;
@@ -611,7 +611,7 @@ class LeadListRepository extends CommonRepository
             $this->applyCompanyFieldFilters($q, $leadTablePrefix);
         }
 
-        $expr = $this->getListFilterExpr($filters, $parameters, $q, $isNot, null, 'lead', $listId);
+        $expr = $this->getListFilterExpr($filters, $parameters, $q, $isNot, $leadid, 'lead', $listId);
 
         $paramType = null;
         foreach ($parameters as $k => $v) {
@@ -695,6 +695,7 @@ class LeadListRepository extends CommonRepository
             if (!empty($details['customObject'])) {
                 $object = $details['customObject'];
             }
+            $column=false;
             if ($object == 'lead') {
                 $column = isset($this->leadTableSchema[$details['field']]) ? $this->leadTableSchema[$details['field']] : false;
             } elseif ($object == 'company') {
@@ -2162,5 +2163,23 @@ class LeadListRepository extends CommonRepository
         $results = $q->execute()->fetchAll();
 
         return $results[0]['inactivesegment'];
+    }
+
+    public function checkConditionFilter($lead, $filters)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('l.id')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        $q->andWhere(
+            $q->expr()->eq('l.id', $lead->getId()));
+        $parameters=[];
+        $expr      = $this->generateSegmentExpression($filters, $parameters, $q, null, null, false, 'l', $lead->getId());
+        if ($expr->count()) {
+            $q->andWhere($expr);
+        }
+        unset($parameters);
+        $sql=$q->getSql();
+        // file_put_contents("/var/www/mauto/campaign_tracker.txt","SQL:".$sql."\n",FILE_APPEND);
+        return  (bool) $q->execute()->fetchColumn();
     }
 }

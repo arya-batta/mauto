@@ -408,4 +408,14 @@ trait OperatorListTrait
             $type = 'default';
         }
     }
+
+    /**
+     * @param null $operator
+     *
+     * @return string
+     */
+    public function getOperatorLabel($operator = null)
+    {
+        return (isset($this->operatorOptions[$operator])) ? $this->operatorOptions[$operator]['label'] : '';
+    }
 }

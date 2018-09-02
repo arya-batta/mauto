@@ -486,6 +486,20 @@ return [
                 ],
                 'alias' => 'leadlist',
             ],
+            'mautic.form.type.campaign_list_filter' => [
+                'class'     => 'Mautic\LeadBundle\Form\Type\CampaignListFilterType',
+                'arguments' => [
+                    'translator',
+                    'mautic.lead.model.list',
+                    'mautic.email.model.email',
+                    'mautic.security',
+                    'mautic.lead.model.lead',
+                    'mautic.stage.model.stage',
+                    'mautic.category.model.category',
+                    'mautic.helper.user',
+                ],
+                'alias' => 'campaignlistfilter',
+            ],
             'mautic.form.type.leadlist_choices' => [
                 'class'     => 'Mautic\LeadBundle\Form\Type\LeadListType',
                 'arguments' => ['mautic.factory'],

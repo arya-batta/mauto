@@ -37,7 +37,7 @@
                     </div>
                   <div class="col-md-6">
                           <div style="height: 120px;" class="panel panel-success">
-                              <a class="campaign-event-type-anchor" href="javascript: void(0);" onclick="Mautic.selectCampaignType('Decision')">
+                              <a class="campaign-event-type-anchor" href="javascript: void(0);" onclick="Mautic.selectCampaignType('Condition')">
                                   <div class="campaign-event-type-icon" style="background: #ffda24">
                                       <i class="hidden-xs fa fa-random fa-lg campaign-event-type-icon-font"></i>
                                   </div>

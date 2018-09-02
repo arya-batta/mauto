@@ -140,6 +140,7 @@ $isAdmin=$view['security']->isAdmin();
         'header'        => false,
         'footerButtons' => true,
         'dismissible'   => false,
+        'size'          => 'clg',
     ]
 );
 

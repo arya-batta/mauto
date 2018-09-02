@@ -285,6 +285,16 @@ class CampaignSubscriber extends CommonSubscriber
 
         $event->addCondition('lead.campaigns', $trigger);
 
+        $trigger = [
+            'label'       => 'le.lead.lead.events.decision',
+            'description' => 'le.lead.lead.events.decision_descr',
+            'formType'    => 'campaignlistfilter',
+            'formTheme'   => 'MauticLeadBundle:FormTheme\Filter',
+            'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
+            'order'       => 2,
+        ];
+        $event->addCondition('lead.campaign_list_filter', $trigger);
+
         $source = [
             'label'         => 'mautic.campaign.leadsource.lists',
             'description'   => 'mautic.campaign.leadsource.lists.desc',
@@ -610,6 +620,9 @@ class CampaignSubscriber extends CommonSubscriber
             $result = $this->campaignModel->getCampaignLeadRepository()->checkLeadInCampaigns($lead, $event->getConfig());
         } elseif ($event->checkContext('lead.field_value')) {
             $result = $this->leadModel->checkLeadFieldValue($lead, $event->getConfig());
+        } elseif ($event->checkContext('lead.campaign_list_filter')) {
+            $listRepo = $this->listModel->getRepository();
+            $result   =$listRepo->checkConditionFilter($lead, $event->getConfig()['filters']);
         }
 
         return $event->setResult($result);
