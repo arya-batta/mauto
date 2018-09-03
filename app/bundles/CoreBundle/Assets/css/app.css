@@ -4837,6 +4837,7 @@ th.col-id {
   float: right;
   vertical-align: middle;
   margin-right: -10px;
+  width : 0%;
 }
 span.slot-caption {
   font-size: 12px;

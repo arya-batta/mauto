@@ -43,8 +43,15 @@ class TokenSubscriber extends CommonSubscriber
     public function decodeTokens(EmailSendEvent $event)
     {
         // Find and replace encoded tokens for trackable URL conversion
+        $lead   = $event->getLead();
         $content = $event->getContent();
         $content = preg_replace('/(%7B)(.*?)(%7D)/i', '{$2}', $content, -1, $count);
+        $leadowner = $this->factory->getModel('lead')->getRepository()->getLeadOwner($lead['owner_id']);
+        $content = str_replace('{lead_owner_name}',$leadowner['first_name'], $content);
+        $content = str_replace('{lead_owner_mobile}',$leadowner['mobile'], $content);
+        $content = str_replace('{lead_owner_email}', $leadowner['email'], $content);
+
+
         $event->setContent($content);
 
         if ($plainText = $event->getPlainText()) {

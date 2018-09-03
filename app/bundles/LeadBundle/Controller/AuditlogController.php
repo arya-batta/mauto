@@ -164,6 +164,6 @@ class AuditlogController extends CommonController
             ++$loop;
         }
 
-        return $this->exportResultsAs($toExport, $dataType, 'contact_auditlog');
+        return $this->exportResultsAs($toExport, $dataType, 'Lead_auditlog');
     }
 }

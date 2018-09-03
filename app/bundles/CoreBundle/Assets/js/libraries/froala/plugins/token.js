@@ -72,7 +72,7 @@
                         keys.push(k);
                     }
                 }
-                keys.sort();
+                //keys.sort();
                 var options = [];
                 for (var i = 0; i < keys.length; i++) {
                     var val = keys[i];
@@ -91,7 +91,7 @@
                                                                 str.replace(/_BADGE_/,'dwc') : '';
                     var title = tokens[val];
                     if (title.length>18) title = title.substr(0, 18) + '...';
-                    var newOption = '<li role="presentation"><a class="fr-command" tabIndex="-1" role="option" data-cmd="token" data-param1="' + val + '" title="' + title + '">' + title + badge + '</a></li>';
+                    var newOption = '<div style="width :200px" ><li role="presentation"><a class="fr-command" tabIndex="-1"  role="option" data-cmd="token" data-param1="' + val + '" title="' + title + '">' + title + badge + '</a></li></div>';
                     options.push(newOption);
                 }
 

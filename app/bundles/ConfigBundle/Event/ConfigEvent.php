@@ -131,7 +131,7 @@ class ConfigEvent extends CommonEvent
     public function setError($message, $messageVars = [], $key = null, $field = null)
     {
         if (!empty($key) && !empty($field)) {
-            if (!isset($this->errors[$key])) {
+            if (!isset($this->fieldErrors[$key])) {
                 $this->fieldErrors[$key] = [];
             }
 

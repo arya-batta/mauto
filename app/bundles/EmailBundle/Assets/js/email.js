@@ -46,7 +46,14 @@ Mautic.emailOnLoad = function (container, response) {
         mQuery('#Email_Subject').removeClass('has-success has-error');
         mQuery('#Email_TemplateName .help-block').html("");
         mQuery('#Email_Subject .help-block').html("");
-        if(mQuery('#emailform_name').val() == "") {
+        if(mQuery('#emailform_name').val() == "" && mQuery('#emailform_subject').val() == ""){
+            mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
+            mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_Subject .help-block').html("Subject can't be empty");
+            return;
+        }
+        else if(mQuery('#emailform_name').val() == "") {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
             return;
@@ -116,6 +123,9 @@ Mautic.emailOnLoad = function (container, response) {
         tokens['{leadfield=firstname}']   = 'First Name';
         tokens['{leadfield=lastname}']    = 'Last Name';
         tokens['{leadfield=company_new}'] = 'Company';
+        tokens['{lead_owner_name}']       = 'Lead Owner Name';
+        tokens['{lead_owner_mobile}']     = 'Lead Owner Mobile';
+        tokens['{lead_owner_email}']      = 'Lead Owner Email';
 
         var k, keys = [];
         for (k in tokens) {
