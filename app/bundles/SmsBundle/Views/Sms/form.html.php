@@ -25,7 +25,7 @@ $isAdmin    =$view['security']->isAdmin();
 <div class="row">
     <div class="col-md-12">
         <li class="dropdown" style="display: block;">
-            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size: 13px;position:relative;left:86%;margin-bottom:-2%;" data-toggle="dropdown" href="#">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs  " style="font-size: 13px;position:relative;left:86%;margin-bottom:-2%;vertical-align:super;"  data-toggle="dropdown" href="#">
                 <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" style="margin-top:2%;">

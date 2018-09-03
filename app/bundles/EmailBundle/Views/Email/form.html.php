@@ -123,7 +123,7 @@ $custombutton = [
                 </div>
                 <div>
                     <li class="dropdown dropdown-menu-right" style="display: block;">
-                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="position: relative;font-size: 13px;top: 22px;" data-toggle="dropdown" href="#">
+                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
                             <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
