@@ -87,7 +87,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
             </div>
             <?php endif; ?>
 
-            <div class="row  <?php echo $hidebounceurl; ?>">
+            <div class="row">
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_amazon_region', $template); ?>
             </div>
 

@@ -59,8 +59,14 @@ Mautic.smsOnLoad = function (container, response) {
                 if(subValue.includes(value)){
 
                 } else {
-                    subValue+=value;
-                    mQuery("#sms_message").val(subValue);
+                    //subValue+=value;
+                    //mQuery("#sms_message").val(subValue);
+                    var cursorPos = mQuery('#sms_message').prop('selectionStart');
+                    var v = subValue;
+                    var textBefore = v.substring(0,  cursorPos);
+                    var textAfter  = v.substring(cursorPos, v.length);
+
+                    mQuery('#sms_message').val(textBefore + value + textAfter);
                 }
 
             }

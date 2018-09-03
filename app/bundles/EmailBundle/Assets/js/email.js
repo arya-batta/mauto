@@ -160,8 +160,14 @@ Mautic.emailOnLoad = function (container, response) {
                if(subValue.includes(value)){
 
                } else {
-                   subValue+=value;
-                   mQuery("#emailform_subject").val(subValue);
+                   //subValue+=value;
+                   //mQuery("#emailform_subject").html.insert(value);
+                   var cursorPos = mQuery('#emailform_subject').prop('selectionStart');
+                   var v = subValue;
+                   var textBefore = v.substring(0,  cursorPos);
+                   var textAfter  = v.substring(cursorPos, v.length);
+
+                   mQuery('#emailform_subject').val(textBefore + value + textAfter);
                }
 
            }
