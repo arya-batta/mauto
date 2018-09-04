@@ -425,7 +425,7 @@ class InputHelper
                 $value, -1, $needsScriptDecoding);
 
             // Special handling for HTML comments
-            $value = str_replace(['<!--', '-->'], ['<mcomment>', '</mcomment>'], $value, $commentCount);
+            $value = str_replace(['<!-->', '<!--', '-->'], ['[mcomment1_start_tag]', '[mcomment0_start_tag]', '[mcomment0_end_tag]'], $value, $commentCount);
 
             $value = self::getFilter(true)->clean($value, 'html');
 
@@ -444,7 +444,7 @@ class InputHelper
             }
 
             if ($commentCount) {
-                $value = str_replace(['<mcomment>', '</mcomment>'], ['<!--', '-->'], $value);
+                $value = str_replace(['[mcomment1_start_tag]', '[mcomment0_start_tag]', '[mcomment0_end_tag]'], ['<!-->', '<!--', '-->'], $value);
             }
 
             if ($needsDecoding) {

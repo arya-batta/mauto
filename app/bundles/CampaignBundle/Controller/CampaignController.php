@@ -170,7 +170,10 @@ class CampaignController extends AbstractStandardFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $name      = $campaign->getName();
-                    $catId     = $campaign->getCategory()->getId();
+                    $catId     = '';
+                    if (!empty($campaign->getCategory())) {
+                        $catId     = $campaign->getCategory()->getId();
+                    }
                     $newaction = $this->generateUrl('mautic_campaign_action',
                         ['objectAction'    => 'new',
                             'campaignName' => $name, 'category' => $catId,

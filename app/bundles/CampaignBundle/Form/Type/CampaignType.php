@@ -55,7 +55,8 @@ class CampaignType extends AbstractType
 
             $builder->add('category', 'category', [
                 'bundle'     => 'campaign',
-                'label_attr' => ['class' => 'control-label', 'style' => 'color:#fff;'],
+                'label'      => 'mautic.core.category',
+                'label_attr' => ['class' => 'control-label'],
             ]);
 
             $builder->add(
