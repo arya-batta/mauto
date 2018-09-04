@@ -353,6 +353,7 @@ Mautic.selectEmailEditor = function(editorType) {
     if (editorType == 'basic' || editorType == 'code') {
         advance.addClass('hide');
         builderbtn.addClass('hide');
+        mQuery('.fragment-2-buttons').attr("style","margin-left: 60%;");
         var textarea = mQuery('textarea.bee-editor-json');
         textarea.val("");
         activateTab='basic';

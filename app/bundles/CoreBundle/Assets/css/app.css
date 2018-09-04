@@ -5376,16 +5376,29 @@ figcaption {
   text-decoration: none;
 }
 #cancel-tab-1{
-  margin-left:78%;
+  margin-top: -250px;
 }
 #cancel-tab-2{
-  margin-left:21%;
+  margin-top: -250px;
 }
 .prev-tab {
-  margin-right: 44%;
+  margin-top: -250px;
 }
-#next-tab-1,#next-tab-2{
-  margin-left:0%;
+#next-tab-1{
+  margin-top: -250px;
+}
+#previous-3 {
+  margin-left: 518px;
+}
+.le-builder-btn{
+  margin-top: -150px;
+  margin-left: 347px;
+}
+#next-tab-2{
+  margin-top: -250px;
+}
+.fragment-1-buttons{
+  margin-left: 74%;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;

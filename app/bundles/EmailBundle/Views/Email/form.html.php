@@ -104,10 +104,10 @@ $custombutton = [
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
+            <div class="fragment-1-buttons">
             <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
             <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-            <br>
-            <br>
+            </div>
             <div class="row">
                 <div class="col-md-12" id="Email_TemplateName">
                     <?php echo $view['form']->label($form['name']); ?>
@@ -202,12 +202,11 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
+        <div class="fragment-2-buttons" style="margin-left: 50%;">
         <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
         <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-        <br>
-        <br>
-        <div class="uk-float-right <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="margin-top: -5.2%;margin-right: 22.7%;">
+        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+        <div class="le-builder-btn <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>">
             <?php echo $view->render(
                 'MauticCoreBundle:Helper:page_actions.html.php',
                 [
@@ -216,6 +215,7 @@ $custombutton = [
                     'customButtons' => $custombutton,
                 ]
             ); ?>
+        </div>
         </div>
         <div class="<?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:64%;">
             <?php if (!empty($filters)): ?>
@@ -242,8 +242,9 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
-        <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-        <div class="toolbar-form-buttons pull-right">
+        <div class="fragment-3-buttons" style="margin-left: 56%;">
+            <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+            <div class="toolbar-form-buttons" style="margin-top: -149px;margin-left: 128px;">
                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -251,8 +252,7 @@ $custombutton = [
                     <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                 </div>
             </div>
-        <br>
-        <br>
+        </div>
         <div id="email-other-container">
             <div class="row">
                 <div class="col-md-6">
