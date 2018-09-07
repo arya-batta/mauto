@@ -335,10 +335,10 @@
 .minimized{
     min-height: 25px;
     position:relative;
-    right:22%;
+    right:27%;
 }
 .campaign-statistics{
-    width: 25%;
+    width: 30%;
     z-index: 1000000;
     position: relative;
     top: 17%;

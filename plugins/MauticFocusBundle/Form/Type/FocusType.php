@@ -179,10 +179,10 @@ class FocusType extends AbstractType
             'datetime',
             [
                 'widget'     => 'single_text',
-                'label'      => 'mautic.core.form.publishupu',
+                'label'      => 'mautic.core.form.publishup',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control le-btn-primary le-btn-small',
+                    'class'       => 'form-control le-input',
                     'data-toggle' => 'datetime',
                 ],
                 'format'   => 'yyyy-MM-dd HH:mm',
@@ -195,10 +195,10 @@ class FocusType extends AbstractType
             'datetime',
             [
                 'widget'     => 'single_text',
-                'label'      => 'mautic.core.form.publishdownd',
+                'label'      => 'mautic.core.form.publishdown',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control le-btn-primary le-btn-small',
+                    'class'       => 'form-control le-input',
                     'data-toggle' => 'datetime',
                 ],
                 'format'   => 'yyyy-MM-dd HH:mm',

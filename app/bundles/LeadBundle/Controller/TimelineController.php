@@ -273,6 +273,6 @@ class TimelineController extends CommonController
             ++$loop;
         }
 
-        return $this->exportResultsAs($toExport, $dataType, 'contact_timeline');
+        return $this->exportResultsAs($toExport, $dataType, 'Lead_timeline');
     }
 }

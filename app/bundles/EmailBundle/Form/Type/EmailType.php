@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\CoreBundle\Form\Type\DynamicContentTrait;
 use Mautic\CoreBundle\Helper\InputHelper;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Component\Form\AbstractType;
@@ -149,6 +150,11 @@ class EmailType extends AbstractType
                  ],
                 'constraints' => [
                     new EmailVerify(
+                        [
+                            'message' => 'le.email.verification.error',
+                        ]
+                    ),
+                    new EmailDomain(
                         [
                             'message' => 'le.email.verification.error',
                         ]

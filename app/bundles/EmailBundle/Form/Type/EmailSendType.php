@@ -39,18 +39,20 @@ class EmailSendType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $isSendMail=!empty($options['with_email_types']);
+
         $builder->add(
             'email',
             'email_list',
             [
-                'label'      => 'mautic.email.send.selectemails',
+                'label'      => $isSendMail ? 'mautic.email.send.selectemails' : 'mautic.email.send.email.list',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.email.choose.emails_descr',
                     'onchange' => 'Mautic.disabledEmailAction(window, this)',
                 ],
-                'multiple'    => true,
+                'multiple'    => !$isSendMail,
                 'required'    => true,
                 'constraints' => [
                     new NotBlank(

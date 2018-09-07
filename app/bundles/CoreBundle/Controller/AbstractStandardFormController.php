@@ -534,6 +534,10 @@ abstract class AbstractStandardFormController extends AbstractFormController
             'entity'   => $entity,
         ];
 
+        if ($form->getName() == 'focus') {
+            $delegateArgs['viewParameters']['ObjectID'] = '';
+        }
+
         return $this->delegateView(
             $this->getViewArguments($delegateArgs, 'edit')
         );
@@ -1189,9 +1193,12 @@ abstract class AbstractStandardFormController extends AbstractFormController
             $focusitems       = $signuprepository->selectfocusItems();
             //dump($focusitems);
             if (!empty($focusitems)) {
+                $delegateArgs['viewParameters']['ObjectID'] = '';
                 if ($objectId != null && $objectId != 'blank') {
                     $delegateArgs['viewParameters']['entity'] = $objectId;
                     $delegateArgs['entity']                   = $objectId;
+                } elseif ($objectId != null && $objectId == 'blank') {
+                    $delegateArgs['viewParameters']['ObjectID'] = $objectId;
                 }
                 $delegateArgs['viewParameters']['focusTemplates'] = $focusitems;
             }

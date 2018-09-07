@@ -68,10 +68,14 @@ $activateadvanceeditor=($formcontainserror || $isCloneOp || !$isMobile) && !$isb
 $hidebasiceditor      =($formcontainserror || $isCloneOp || !$isMobile) && !$isbasiceditor ? 'hide' : '';
 $hideadvanceeditor    =($formcontainserror || $isCloneOp || $isMobile) && $isbasiceditor ? 'hide' : '';
 $activateotherconfig  ='';
+$infoulactive         = 'ui-tabs-selected ui-state-active';
+$settingsulactive     = '';
 if ($formcontainserror) {
     $activatebasiceditor  ='';
     $activateadvanceeditor='';
     $activateotherconfig  ='active in';
+    $settingsulactive     = 'ui-tabs-selected ui-state-active';
+    $infoulactive         = '';
 }
 $hideawsemailoptions = '';
 $style               ='80%';
@@ -96,14 +100,14 @@ $custombutton = [
 ];
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
-<div class="page-wrap" class="tab-content">
+<div id="page-wrap" class="tab-content">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a class="info_tab">INFO</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>CONTENT</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
         </ul>
-        <div id="fragment-1" class="ui-tabs-panel">
+        <div id="fragment-1" class="ui-tabs-panel <?php echo $formcontainserror ? 'ui-tabs-hide' : ''?>">
             <div class="fragment-1-buttons">
             <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-tab-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
             <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
@@ -116,7 +120,7 @@ $custombutton = [
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10" id="Email_Subject" style="width: 86.888888%">
+                <div class="col-md-11" id="Email_Subject" style="width: 88.11111%">
                     <?php echo $view['form']->label($form['subject']); ?>
                     <?php echo $view['form']->widget($form['subject']); ?>
                     <div class="help-block"></div>
@@ -241,7 +245,7 @@ $custombutton = [
             ]); ?>
         </div>
     </div>
-    <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
+    <div id="fragment-3" class=" ui-tabs-panel  <?php echo $formcontainserror ? '' : 'ui-tabs-hide'?>">
         <div class="fragment-3-buttons" style="margin-left: 56%;">
             <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
             <div class="toolbar-form-buttons" style="margin-top: -149px;margin-left: 128px;">
@@ -259,7 +263,7 @@ $custombutton = [
                     <?php echo $view['form']->row($form['fromName']); ?>
                 </div>
                 <div class="col-md-6">
-                    <div class="pull-left" style="max-width:<?php echo $style; ?>;">
+                    <div class="pull-left" id="email_FromAddress" style="max-width:<?php echo $style; ?>;">
                         <?php echo $view['form']->row($form['fromAddress'],
                             ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
                     </div>
@@ -290,9 +294,8 @@ $custombutton = [
                     <?php echo $view['form']->row($form['bccAddress']); ?>
                 </div>
             </div>
-            <?php if ($isAdmin):?>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="Emailasset_Attachments">
                         <div class="pull-left">
                             <?php echo $view['form']->label($form['assetAttachments']); ?>
                         </div>
@@ -301,9 +304,9 @@ $custombutton = [
                         </div>
                         <div class="clearfix"></div>
                         <?php echo $view['form']->widget($form['assetAttachments']); ?>
+                        <div class="help-block"></div>
                     </div>
                 </div>
-            <?php endif; ?>
             <br>
             <div class="row">
                 <div class="col-md-12">

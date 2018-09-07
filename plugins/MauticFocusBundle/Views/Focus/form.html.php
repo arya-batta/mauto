@@ -25,63 +25,55 @@ echo $view['assets']->includeScript('plugins/MauticFocusBundle/Assets/js/focus.j
 echo $view['assets']->includeStylesheet('plugins/MauticFocusBundle/Assets/css/focus.css');
 $isAdmin=$view['security']->isAdmin();
 echo $view['form']->start($form);
+
 ?>
     <!-- start: box layout -->
     <div class="box-layout">
         <!-- container -->
         <div class="col-md-9 bg-auto height-auto bdr-r pa-md">
             <div class="row">
-                <?php if (!$entity->getId() && isset($focusTemplates)) : ?>
-                <div class="col-md-12">
+                <div class="col-md-12 <?php echo (($entity->getName() == '' && $ObjectID == '') && isset($focusTemplates)) ? 'hide' : 'hide' ?>">
+                    <?php if (isset($focusTemplates)) : ?>
                     <?php echo $view->render('MauticFocusBundle:Focus:focus_template_select.html.php', [
                         'focusTemplates' => $focusTemplates,
                         'focusForm'      => $form,
                         'entity'         => $entity,
                     ]); ?>
+                    <?php endif?>
                 </div>
-                <?php else : ?>
-                        <div class="col-md-6">
-                            <?php echo $view['form']->row($form['name']); ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?php echo $view['form']->row($form['website']); ?>
-                        </div>
-                        <div class="col-md-12">
-                            <?php echo $view['form']->row($form['description']); ?>
-                        </div>
-                <?php endif; ?>
-            </div>
-        </div>
-        <div class="col-md-3 bg-white height-auto">
-            <div class="pr-lg pl-lg pt-md pb-md">
-                <?php if (!$entity->getId()) : ?>
-                    <?php
-                    echo $view['form']->row($form['name']);
-                    echo $view['form']->row($form['website']);
-                    echo $view['form']->row($form['category']);
-                    echo $view['form']->row($form['isPublished']);
-                    ?>
-                <?php else : ?>
-                    <?php
-                    echo $view['form']->row($form['category']);
-                    echo $view['form']->row($form['isPublished']);
-                    ?>
-                <?php endif; ?>
-                <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-                    <?php
-                    echo $view['form']->row($form['publishUp']);
-                    echo $view['form']->row($form['publishDown']);
-                    echo $view['form']->row($form['description']);
-                    ?>
+                <div class="<?php echo ($entity->getName() != '' || $ObjectID == 'blank') ? '' : '' ?>">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['name']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['website']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['category']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['isPublished']); ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?php echo $view['form']->row($form['description']); ?>
+                    </div>
+                    <div class="col-md-6 <?php echo $isAdmin ? '' : 'hide'?>">
+                        <?php echo $view['form']->row($form['publishUp']); ?>
+                    </div>
+                    <div class="col-md-6 <?php echo $isAdmin ? '' : 'hide'?>">
+                        <?php echo $view['form']->row($form['publishDown']); ?>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h5><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
+                        <br />
+                        <?php
+                        foreach ($form['utmTags'] as $i => $utmTag):?>
+                            <div class="col-sm-6"><?php echo $view['form']->row($utmTag); ?></div>
+                        <?php endforeach;
+                        ?>
+                    </div>
                 </div>
-                <hr />
-                <h5><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
-                <br />
-                <?php
-                foreach ($form['utmTags'] as $i => $utmTag):
-                    echo $view['form']->row($utmTag);
-                endforeach;
-                ?>
             </div>
         </div>
     </div>

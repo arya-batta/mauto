@@ -253,7 +253,6 @@ echo $view['form']->end($form); */
         ]
     );
 endif;*/ ?>
-
 <?php echo $view['form']->start($form); ?>
     <div class="page-wrap  tab-content" >
     <div  id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">

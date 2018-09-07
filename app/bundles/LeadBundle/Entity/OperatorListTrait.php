@@ -70,10 +70,6 @@ trait OperatorListTrait
             'exclude' => [
                 'in',
                 '!in',
-                'gt',
-                'gte',
-                'lt',
-                'lte',
                 'like',
                 '!like',
                 'regexp',

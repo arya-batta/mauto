@@ -87,25 +87,33 @@ $isAdmin=$view['security']->isAdmin();
 				</div>
 			</div>
             <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['category']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isPublished']); ?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-xs-12">
                     <?php echo $view['form']->row($form['description']); ?>
                 </div>
             </div>
+            <div class="row <?php echo $isAdmin ? '' : 'hide'?>">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['language']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['publishUp']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['publishDown']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['disallow']); ?>
+                </div>
+            </div>
 		</div>
-	</div>
- 	<div class="col-md-3 bg-white height-auto">
-		<div class="pr-lg pl-lg pt-md pb-md">
-            <?php
-            echo $view['form']->row($form['category']);
-            echo $view['form']->row($form['isPublished']);
-            ?>
-            <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-                <?php
-                echo $view['form']->row($form['language']);
-                echo $view['form']->row($form['publishUp']);
-                echo $view['form']->row($form['publishDown']);
-            echo $view['form']->row($form['disallow']); ?>
-		</div></div>
 	</div>
 </div>
 <?php echo $view['form']->end($form); ?>
