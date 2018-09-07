@@ -33,7 +33,7 @@ Mautic.emailOnLoad = function (container, response) {
         var totalSize = mQuery(".ui-tabs-panel").size() - 1;
         if (i != totalSize) {
             if(i == 0){
-                mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
+                //mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
             }
             next = i + 2;
         }
@@ -396,7 +396,12 @@ Mautic.getTotalAttachmentSize = function() {
             'assets': assets
         };
         Mautic.ajaxActionRequest('email:getAttachmentsSize', assets, function(response) {
-            mQuery('#attachment-size').text(response.size);
+            if(response.size == "failed"){
+                mQuery('#Emailasset_Attachments').removeClass('has-success has-error').addClass('has-error');
+                mQuery('#Emailasset_Attachments .help-block').html("More than 10MB is not Allowed.");
+            } else {
+                mQuery('#attachment-size').text(response.size);
+            }
         });
     } else {
         mQuery('#attachment-size').text('0');

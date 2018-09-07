@@ -13,6 +13,7 @@ namespace Mautic\EmailBundle\Form\Type;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
 use Mautic\EmailBundle\Model\TransportType;
 use Symfony\Component\Form\AbstractType;
@@ -263,6 +264,11 @@ class ConfigType extends AbstractType
                         ]
                     ),
                     new EmailVerify(
+                        [
+                            'message' => 'le.email.verification.error',
+                        ]
+                    ),
+                    new EmailDomain(
                         [
                             'message' => 'le.email.verification.error',
                         ]

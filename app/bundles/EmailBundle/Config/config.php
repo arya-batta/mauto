@@ -645,6 +645,12 @@ return [
                 'tag'       => 'validator.constraint_validator',
                 'alias'     => 'emailses_verify',
             ],
+            'mautic.validator.emaildomain' => [
+                'class'     => 'Mautic\EmailBundle\Form\Validator\Constraints\EmailDomainValidator',
+                'arguments' => ['mautic.factory', 'mautic.validator.email', 'translator'],
+                'tag'       => 'validator.constraint_validator',
+                'alias'     => 'emaildomain_verify',
+            ],
         ],
         'models' => [
             'mautic.email.model.email' => [

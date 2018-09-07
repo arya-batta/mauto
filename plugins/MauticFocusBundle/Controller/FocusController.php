@@ -48,9 +48,9 @@ class FocusController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
      */
-    public function newAction()
+    public function newAction($objectid = '')
     {
-        return parent::newStandard();
+        return parent::newStandard($objectid);
     }
 
     /**

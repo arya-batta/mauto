@@ -13,9 +13,9 @@ $view['slots']->set('mauticContent', 'focus');
 <div class="row">
     <?php
     $isSelected = false;
-    if ($entity->getName() == '') {
-        $isSelected = true;
-    }
+    //if ($entity->getName() == '') {
+    //    $isSelected = true;
+    //}
     ?>
     <div class="col-md-3 theme-list">
         <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : '' ?>" id="focus_select_template">
@@ -24,7 +24,7 @@ $view['slots']->set('mauticContent', 'focus');
                     <div class="panel-body text-center" style="height: 250px">
                         <i class="fa fa-file-image-o fa-5x text-muted" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                     </div>
-                <a href="<?php echo $view['router']->generate('mautic_focus_action', ['objectAction' => 'new']); ?>" type="button" id="focus_select_button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
+                <a href="<?php echo $view['router']->generate('mautic_focus_action', ['objectAction' => 'new', 'objectId' => 'blank']); ?>" type="button" id="focus_select_button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
                     Select
                 </a>
                 <button type="button" id="focus_selected_button" class="select-theme-selected btn btn-default <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled">
