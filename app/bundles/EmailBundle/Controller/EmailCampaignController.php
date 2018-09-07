@@ -519,7 +519,12 @@ class EmailCampaignController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        $region          = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region          = $params['mailer_amazon_region'];
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
         $fromName        = $entity->getFromName();
@@ -732,7 +737,12 @@ class EmailCampaignController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        $region          = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region          = $params['mailer_amazon_region'];
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
         $mailertransport =$params['mailer_transport'];
@@ -1360,7 +1370,12 @@ class EmailCampaignController extends FormController
         $params           = $configurator->getParameters();
         $fromadress       = $entity->getFromAddress();
         $emailuser        = $params['mailer_user'];
-        $region           = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region           = $params['mailer_amazon_region'];
         $emailpassword    = $params['mailer_password'];
         $transport        = $params['mailer_transport'];
         $emailValidator   = $this->factory->get('mautic.validator.email');

@@ -37,6 +37,33 @@ class FormFieldHelper extends AbstractFormFieldHelper
      * @var array
      */
     private $types = [
+        'text'      => [],
+        'textarea'  => [],
+        'email'       => [
+            'filter'      => 'email',
+            'constraints' => [
+                Email::class => ['message' => 'mautic.form.submission.email.invalid'],
+            ],
+        ],
+        'tel'       => [],
+        'number'   => [
+            'filter' => 'float',
+        ],
+        'select'    => [],
+        'radiogrp'  => [],
+        'checkboxgrp' => [],
+        'date'        => [],
+        'datetime'    => [],
+        'file' => [],
+        'url'       => [
+            'filter'      => 'url',
+            'constraints' => [
+                Url::class => ['message' => 'mautic.form.submission.url.invalid'],
+            ],
+        ],
+        'freetext' => [],
+        'freehtml' => [],
+        'country'     => [],
         'captcha' => [
             'constraints' => [
                 NotBlank::class => ['message' => 'mautic.form.submission.captcha.invalid'],
@@ -46,36 +73,26 @@ class FormFieldHelper extends AbstractFormFieldHelper
                 Blank::class => ['message' => 'mautic.form.submission.captcha.invalid'],
             ],
         ],
-        'checkboxgrp' => [],
-        'country'     => [],
-        'date'        => [],
-        'datetime'    => [],
-        'email'       => [
-            'filter'      => 'email',
-            'constraints' => [
-                Email::class => ['message' => 'mautic.form.submission.email.invalid'],
-            ],
-        ],
-        'freetext' => [],
-        'freehtml' => [],
-        'hidden'   => [],
-        'number'   => [
-            'filter' => 'float',
-        ],
         'pagebreak' => [],
         'password'  => [],
-        'radiogrp'  => [],
-        'select'    => [],
-        'tel'       => [],
-        'text'      => [],
-        'textarea'  => [],
-        'url'       => [
-            'filter'      => 'url',
-            'constraints' => [
-                Url::class => ['message' => 'mautic.form.submission.url.invalid'],
-            ],
-        ],
-        'file' => [],
+        'hidden'   => [],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ];
 
     /**

@@ -48,17 +48,24 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
         <div class="row">
             <div class="col-xs-12">
                 <!-- tabs controls -->
-                <ul class="bg-auto nav nav-tabs pr-md pl-md">
-                    <li class="active">
-                        <a href="#theme-container" role="tab" data-toggle="tab">
-                            <?php echo $view['translator']->trans('mautic.core.form.theme'); ?>
-                        </a>
-                    </li>
+                <ul class="bg-auto nav nav-tabs pr-md pl-md ">
+                    <li class="ui-tabs-selected bar-top btn-default" id="ui-tab-page-header2"><a ><?php echo $view['translator']->trans('mautic.core.form.details'); ?></a></li>
+                    <li class="btn-default" id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
                 </ul>
 
                 <!--/ tabs controls -->
-                <div class="tab-content pa-md">
-                    <div class="tab-pane fade in active bdr-w-0" id="theme-container">
+                    <div class="tab-content pa-md tab-pane bdr-w-0 hide" id="theme-container"style="border-width: 10px;border-color: #808080">
+                        <div class="fragment-3-buttons" style="margin-left: 46%;">
+                            <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                            <div class="toolbar-form-buttons" style="margin-top: -150px;margin-left: 122px;">
+                                <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                                <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <?php echo $view['form']->row($form['template']); ?>
@@ -75,50 +82,81 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                             'active'       => $form['template']->vars['value'],
                         ]); ?>
                     </div>
+
+                <div class="pr-lg pl-lg pt-md pb-md  " id="fragment-page-2">
+                    <div class="fragment-1-buttons">
+                        <a href="<?php echo $view['router']->path('mautic_email_index')?>" id="cancel-page-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                        <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo $view['form']->row($form['title']); ?>
+                        </div>
+                            <?php if (!$isVariant): ?>
+                                <div class="col-md-6">
+                                <?php echo $view['form']->row($form['alias']); ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-md-6">
+                                <?php echo $view['form']->row($form['template']); ?>
+                                </div>
+                            <?php endif; ?>
+                    </div>
+
+                    <div class="row">
+                        <?php if ($isVariant): ?>
+                            <div class="col-md-6">
+                            <?php echo $view['form']->row($form['variantSettings']); ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="col-md-6">
+                            <?php echo $view['form']->row($form['category']); ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="col-md-6">
+                        <?php echo $view['form']->row($form['isPublished']); ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                                <?php if (($permissions['page:preference_center:editown'] ||
+                                    $permissions['page:preference_center:editother']) &&
+                                !$activePage->isVariant()): ?>
+                        <div class="col-md-6">
+                               <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
+                        </div>
+                                 <?php endif; ?>
+
+                          <div class="col-md-6">
+                                <?php echo $view['form']->row($form['noIndex']);?>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <?php if (!$isVariant): ?>
+                            <div class="col-md-6">
+                                <?php echo $view['form']->row($form['redirectType']); ?>
+                                <?php echo $view['form']->row($form['redirectUrl']); ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="col-md-6 template-fields<?php echo (!$template) ? ' hide"' : ''; ?>">
+                            <?php echo $view['form']->row($form['metaDescription']); ?>
+                        </div>
+                    </div>
+                    <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>>
+                        <?php if (!$isVariant): ?>
+                            <?php echo $view['form']->row($form['language']); ?>
+                        <?php endif; ?>
+                        <?php echo $view['form']->row($form['publishUp']); ?>
+                        <?php echo $view['form']->row($form['publishDown']); ?>
+                        <?php echo $view['form']->row($form['translationParent']); ?>
+                    </div>
+                    <br>
+                    <div class="hide">
+                        <?php echo $view['form']->rest($form); ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-3 bg-white height-auto bdr-l">
-        <div class="pr-lg pl-lg pt-md pb-md">
-            <?php echo $view['form']->row($form['title']); ?>
-            <?php if (!$isVariant): ?>
-            <?php echo $view['form']->row($form['alias']); ?>
-            <?php else: ?>
-            <?php echo $view['form']->row($form['template']); ?>
-            <?php endif; ?>
-            <?php if ($isVariant): ?>
-            <?php echo $view['form']->row($form['variantSettings']); ?>
-            <?php else: ?>
-            <?php echo $view['form']->row($form['category']); ?>
-            <?php endif; ?>
-            <?php echo $view['form']->row($form['isPublished']); ?>
-            <?php if (($permissions['page:preference_center:editown'] ||
-                    $permissions['page:preference_center:editother']) &&
-                        !$activePage->isVariant()) {
-                            echo $view['form']->row($form['isPreferenceCenter']);
-                        } ?>
-            <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>>
-            <?php if (!$isVariant): ?>
-            <?php echo $view['form']->row($form['language']); ?>
-            <?php endif; ?>
-            <?php echo $view['form']->row($form['publishUp']); ?>
-            <?php echo $view['form']->row($form['publishDown']); ?>
-            <?php echo $view['form']->row($form['translationParent']); ?>
             </div>
-            <?php if (!$isVariant): ?>
-            <?php echo $view['form']->row($form['redirectType']); ?>
-            <?php echo $view['form']->row($form['redirectUrl']); ?>
-            <?php endif;
-            echo $view['form']->row($form['noIndex']);
-            ?>
-
-            <div class="template-fields<?php echo (!$template) ? ' hide"' : ''; ?>">
-                <?php echo $view['form']->row($form['metaDescription']); ?>
-            </div>
-
-            <div class="hide">
-                <?php echo $view['form']->rest($form); ?>
             </div>
         </div>
     </div>

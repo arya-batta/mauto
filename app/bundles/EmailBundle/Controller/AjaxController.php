@@ -425,7 +425,12 @@ class AjaxController extends CommonAjaxController
             $configurator     = $this->factory->get('mautic.configurator');
             $params           = $configurator->getParameters();
             $emailuser        = $params['mailer_user'];
-            $region           = $params['mailer_amazon_region'];
+            if(isset($params['mailer_amazon_region'])){
+                $region                = $params['mailer_amazon_region'];
+            }else{
+                $region='';
+            }
+            //$region           = $params['mailer_amazon_region'];
             $emailpassword    = $params['mailer_password'];
             $emailverifyhelper= $this->factory->get('mautic.validator.email');
 

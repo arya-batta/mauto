@@ -45,6 +45,7 @@ class TokenSubscriber extends CommonSubscriber
         // Find and replace encoded tokens for trackable URL conversion
         $lead    = $event->getLead();
         $content = $event->getContent();
+        $subject = $event->getSubject();
         $content = preg_replace('/(%7B)(.*?)(%7D)/i', '{$2}', $content, -1, $count);
 
         if (!empty($lead) && isset($lead['owner_id'])) {
@@ -52,8 +53,11 @@ class TokenSubscriber extends CommonSubscriber
             $content   = str_replace('{lead_owner_name}', $leadowner['first_name'], $content);
             $content   = str_replace('{lead_owner_mobile}', $leadowner['mobile'], $content);
             $content   = str_replace('{lead_owner_email}', $leadowner['email'], $content);
+            $subject   = str_replace('{lead_owner_name}', $leadowner['first_name'], $subject);
+            $subject   = str_replace('{lead_owner_mobile}', $leadowner['mobile'], $subject);
+            $subject   = str_replace('{lead_owner_email}', $leadowner['email'], $subject);
         }
-
+        $event->setSubject($subject);
         $event->setContent($content);
 
         if ($plainText = $event->getPlainText()) {

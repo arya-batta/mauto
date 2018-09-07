@@ -30,6 +30,21 @@ Mautic.pageOnLoad = function (container, response) {
         Mautic.processBuilderErrors(response);
     }
     Mautic.removeActionButtons();
+
+    mQuery('#ui-tab-page-header1,#next-page-1').click(function(){
+        mQuery('#ui-tab-page-header1').addClass('ui-tabs-selected');
+        mQuery('#ui-tab-page-header2').removeClass('ui-tabs-selected');
+        mQuery('#theme-container').removeClass('hide');
+        mQuery('#fragment-page-2').addClass('hide');
+
+    });
+    mQuery('#ui-tab-page-header2,.prevv-tab').click(function(){
+        mQuery('#ui-tab-page-header2').addClass('ui-tabs-selected');
+        mQuery('#ui-tab-page-header1').removeClass('ui-tabs-selected');
+        mQuery('#fragment-page-2').removeClass('hide');
+        mQuery('#theme-container').addClass('hide');
+
+    });
 };
 
 Mautic.getPageAbTestWinnerForm = function(abKey) {

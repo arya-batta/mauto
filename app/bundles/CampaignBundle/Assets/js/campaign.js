@@ -107,6 +107,21 @@ Mautic.campaignOnLoad = function (container, response) {
                 mQuery('#CampaignEventPanel').addClass('hide');
             }
         });
+        mQuery('#ui-tab-stat-header1').click(function(){
+            mQuery('#ui-tab-stat-header1').addClass('btn-default ui-tabs-selected');
+            mQuery('#ui-tab-stat-header2').removeClass('btn-default ui-tabs-selected');
+            mQuery('#fragment-stat-1').removeClass('hide');
+            mQuery('#fragment-stat-2').addClass('hide');
+
+        });
+        mQuery('#ui-tab-stat-header2').click(function(){
+            mQuery('#ui-tab-stat-header2').addClass('btn-default ui-tabs-selected');
+            mQuery('#ui-tab-stat-header1').removeClass('btn-default ui-tabs-selected');
+            mQuery('#fragment-stat-2').removeClass('hide');
+            mQuery('#fragment-stat-1').addClass('hide');
+
+        });
+
 
         Mautic.prepareCampaignCanvas();
         Mautic.launchCampaignEditor();

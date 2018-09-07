@@ -113,16 +113,31 @@ $isAdmin=$view['security']->isAdmin();
         </div>
     </div>
     <div class="campaign-statistics minimized">
-        <?php if ($actions): ?>
+        <?php if ($actions || $decisions || $conditions): ?>
             <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
                 <div class="modal-header campaign-model-header" style="height:50px;">
+                    <?php if($actions):?>
+                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
+                    </ul>
+                    <?php endif; ?>
+                    <?php if($decisions || $conditions):?>
+                    <ul class=" ui-corner-top btn btn-group <?php if(empty($actions)) {echo 'ui-tabs-selected';}?>" role = "tab" id = "ui-tab-stat-header2">
+                    <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.decisions.stat'); ?></p>
+                    </ul>
+                    <?php endif;?>
                     <a href="#" onclick="Mautic.CloseStatisticsWidget();">
                         <span aria-hidden="true" id="campaignStatistics"
                               style="float: right;font-size: 27px;background-color: #ec407a;padding-left: 8px;padding-right: 8px;margin-top: -11px;margin-right: -10px;" value="open">
                             <i id="campaginStatClass" style="margin-bottom: 10px;font-size: 21px;" class="fa fa-angle-double-right"></i></span></a>
                 </div>
-                <?php echo $actions; ?>
+                <div id="fragment-stat-1" class="ui-tabs-panel">
+                    <?php echo $actions; ?>
+                </div>
+                <div id="fragment-stat-2" class="ui-tabs-panel <?php if(!empty($actions)) {echo 'hide';}?>">
+                    <?php echo $decisions; ?>
+                    <?php echo $conditions;?>
+                </div>
             </div>
         <?php endif; ?>
     </div>
