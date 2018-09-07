@@ -120,7 +120,7 @@ $custombutton = [
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10" id="Email_Subject" style="width: 86.888888%">
+                <div class="col-md-11" id="Email_Subject" style="width: 88.11111%">
                     <?php echo $view['form']->label($form['subject']); ?>
                     <?php echo $view['form']->widget($form['subject']); ?>
                     <div class="help-block"></div>

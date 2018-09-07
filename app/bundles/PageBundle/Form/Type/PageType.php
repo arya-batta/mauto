@@ -344,6 +344,7 @@ class PageType extends AbstractType
         );
 
         $builder->add('buttons', 'form_buttons', [
+            'apply_text' => false,
             'pre_extra_buttons' => [
 //                [
 //                    'name'  => 'builder',

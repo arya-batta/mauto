@@ -270,7 +270,7 @@ class ListModel extends FormModel
             [
                 'filter' => $filter,
 
-                'orderBy' => 'f.object',
+                'orderBy' => 'f.order',
             ]
         );
         foreach ($fields as $field) {

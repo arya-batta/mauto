@@ -37,6 +37,9 @@ endif;
 ?>
 <?php
 $actions    = trim($view->render('MauticCampaignBundle:Campaign:events.html.php', ['events' => $events['action']]));
+$decisions  = trim($view->render('MauticCampaignBundle:Campaign:events.html.php', ['events' => $events['decision']]));
+$conditions = trim($view->render('MauticCampaignBundle:Campaign:events.html.php', ['events' => $events['condition']]));
+
 echo $view->render('MauticCampaignBundle:Campaign:builder.html.php', [
     'campaignId'      => $form['sessionId']->vars['data'],
     'campaignEvents'  => $campaignEvents,
@@ -45,6 +48,8 @@ echo $view->render('MauticCampaignBundle:Campaign:builder.html.php', [
     'canvasSettings'  => $entity->getCanvasSettings(),
     'form'            => $form,
     'actions'         => $actions,
+    'decisions'       => $decisions,
+    'conditions'      => $conditions,
     'actionRoute'     => $actionRoute,
     'entity'          => $entity,
 ]);
