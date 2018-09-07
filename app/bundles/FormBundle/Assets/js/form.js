@@ -54,6 +54,44 @@ Mautic.formOnLoad = function (container) {
         Mautic.removeActionButtons();
     }
 
+    mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
+
+    mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
+        mQuery('#Form_Name').removeClass('has-success has-error');
+        mQuery('#Form_post_action').removeClass('has-success has-error');
+        mQuery('#Form_Name .help-block').html("");
+        mQuery('#Form_post_action .help-block').html("");
+        if(mQuery('#mauticform_name').val() == "" && mQuery('#mauticform_postActionProperty').val() == ""){
+            if(mQuery('.check_required').hasClass('required'))
+            {
+                mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
+                mQuery('#Form_Name .help-block').html("Template name can't be empty");
+                mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
+                mQuery('#Form_post_action .help-block').html("Subject can't be empty ");
+
+            }else {
+                mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
+                mQuery('#Form_Name .help-block').html("Template name can't be empty");
+            }
+
+            return;
+        }
+        else if(mQuery('#mauticform_name').val() == "") {
+            mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Form_Name .help-block').html("Template name can't be empty");
+            return;
+        } else if (mQuery('#mauticform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
+            mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Form_post_action .help-block').html("Subject can't be empty");
+            return;
+        }
+        var selectrel = mQuery(this).attr("rel");
+        mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
+        mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
+        mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+    });
+
     if (mQuery('#mauticforms_actions')) {
         //make the fields sortable
         mQuery('#mauticforms_actions').sortable({

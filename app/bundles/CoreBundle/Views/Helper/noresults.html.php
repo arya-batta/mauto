@@ -13,8 +13,8 @@
     </div>
 </div>
 </div>
-
-<?php if (isset($tip)): ?>
+    
+<?php /** if (isset($tip)): ?>
     <div class="well well col-md-6 col-md-offset-3">
         <div class="row">
             <div class="mautibot-image col-xs-3 text-center">
@@ -26,4 +26,4 @@
             </div>
         </div>
     </div>
-<?php endif; ?>
+<?php endif; */ ?>

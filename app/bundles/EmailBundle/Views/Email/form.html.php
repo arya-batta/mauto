@@ -96,10 +96,10 @@ $custombutton = [
 ];
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
-<div id="page-wrap" class="tab-content">
+<div class="page-wrap" class="tab-content">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a class="info_tab">INFO</a></li>
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>CONTENT</a></li>
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
         </ul>

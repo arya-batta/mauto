@@ -179,7 +179,7 @@ class FormType extends AbstractType
         }
         $builder->add('postActionProperty', $fieldtype, [
             'label'      => 'mautic.form.form.postactionproperty',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label check_required'],
             'attr'       => [
                 'class'    => 'form-control',
                 'onkeyup'  => 'Mautic.onKeyupMaxLength(this.value);',
@@ -191,7 +191,9 @@ class FormType extends AbstractType
             'mapped' => false,
         ]);
 
-        $builder->add('buttons', 'form_buttons');
+        $builder->add('buttons', 'form_buttons',[
+            'apply_text' => false,
+        ]);
         $builder->add('formType', 'hidden', ['empty_data' => 'standalone']);
 
         if (!empty($options['action'])) {

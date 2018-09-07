@@ -519,7 +519,12 @@ class AjaxController extends CommonAjaxController
         $paramater             = $configurator->getParameters();
         $maileruser            = $paramater['mailer_user'];
         $emailpassword         = $paramater['mailer_password'];
-        $region                = $paramater['mailer_amazon_region'];
+        if(isset($paramater['mailer_amazon_region'])){
+            $region                = $paramater['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region                = $paramater['mailer_amazon_region'];
         $fromadress            = $paramater['mailer_from_email'];
         $transport             = $paramater['mailer_transport'];
         $date                  = new \DateTime();

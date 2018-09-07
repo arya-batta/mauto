@@ -65,7 +65,12 @@ class ConfigController extends FormController
         $mailertransport= $paramater['mailer_transport'];
         $maileruser     = $paramater['mailer_user'];
         $emailpassword  = $paramater['mailer_password'];
-        $region         = $paramater['mailer_amazon_region'];
+        if(isset($paramater['mailer_amazon_region'])){
+            $region                = $paramater['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region         = $paramater['mailer_amazon_region'];
 
         $session        = $this->get('session');
         $data           = $this->request->request->get('config');

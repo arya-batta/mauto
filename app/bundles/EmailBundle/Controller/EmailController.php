@@ -527,7 +527,12 @@ class EmailController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        $region          = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region          = $params['mailer_amazon_region'];
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];
@@ -762,7 +767,12 @@ class EmailController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        $region          = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region          = $params['mailer_amazon_region'];
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];

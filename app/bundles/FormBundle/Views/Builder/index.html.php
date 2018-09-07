@@ -41,7 +41,7 @@ if (($activeForm->getName() == '' || $activeForm->getName() == null) && $objectI
 }
 
 ?>
-<?php echo $view['form']->start($form); ?>
+<?php /** echo $view['form']->start($form); ?>
 <div class="box-layout">
     <div class="col-md-9 height-auto bg-white bdr-r pa-md">
         <div class="row">
@@ -227,7 +227,7 @@ if (($activeForm->getName() == '' || $activeForm->getName() == null) && $objectI
 </div>
 <?php
 
-echo $view['form']->end($form);
+echo $view['form']->end($form); */
 
 /*if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($activeForm->getName() == '' || $activeForm->getName() == null) && $objectID == null):
     echo $view->render(
@@ -252,8 +252,228 @@ echo $view['form']->end($form);
             'typeThreeHeader'    => 'mautic.email.editor.codeeditor.header',
         ]
     );
-endif;*/
+endif;*/ ?>
 
+<?php echo $view['form']->start($form); ?>
+    <div class="page-wrap  tab-content" >
+    <div  id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
+        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a class="info_tab">Details</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>Fields</a></li>
+            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>Actions</a></li>
+        </ul>
+        <div id="fragment-1" class="ui-tabs-panel">
+            <div class="fragment-1-buttons">
+            <a href="<?php echo $view['router']->path('mautic_form_index')?>" id="cancel-tab-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+            <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+            </div>
+            <div class="row">
+                <div class="col-md-6" id="Form_Name">
+                    <?php echo $view['form']->label($form['name']); ?>
+                    <?php echo $view['form']->widget($form['name']); ?>
+                    <div class="help-block"></div>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->label($form['isPublished']); ?>
+                    <?php echo $view['form']->widget($form['isPublished']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->label($form['postAction']); ?>
+                    <?php echo $view['form']->widget($form['postAction']); ?>
+                </div>
+                <div class="col-md-6" id="Form_post_action">
+                    <?php echo $view['form']->label($form['postActionProperty']); ?>
+                    <?php echo $view['form']->widget($form['postActionProperty']); ?>
+                    <div class="help-block"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->label($form['inKioskMode']); ?>
+                    <?php echo $view['form']->widget($form['inKioskMode']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->label($form['renderStyle']); ?>
+                    <?php echo $view['form']->widget($form['renderStyle']); ?>
+                </div>
+            <div class="row">
+                <div class="col-md-6">
+                   <?php echo $view['form']->label($form['category']); ?>
+                   <?php echo $view['form']->widget($form['category']); ?>
+                </div>
+                <div class="col-md-6" >
+                    <?php echo $view['form']->label($form['description']); ?>
+                    <?php echo $view['form']->widget($form['description']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $view['form']->label($form['publishUp']); ?>
+                    <?php echo $view['form']->widget($form['publishUp']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $view['form']->label($form['publishDown']); ?>
+                    <?php echo $view['form']->widget($form['publishDown']); ?>
+                </div>
+            </div>
+            </div><div class="row">
+                <div class="col-md-12 <?php echo $isadmin ? '' : 'hide' ?>">
+                    <?php echo $view['form']->label($form['template']); ?>
+                    <?php echo $view['form']->widget($form['template']); ?>
+                </div>
+            </div>
+        </div>
+        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide">
+            <div class="fragment-2-buttons" style="margin-left: 50%;">
+            <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+            <a href="<?php echo $view['router']->path('mautic_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+            <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+            </div>
+            <?php  echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
+            <div id="mauticforms_fields" class="col-md-8">
+                <div class="drop-here">
+                    <?php foreach ($formFields as $field): ?>
+                        <?php if (!in_array($field['id'], $deletedFields)) : ?>
+                            <?php if (!empty($field['isCustom'])):
+                                $params   = $field['customParameters'];
+                                $template = $params['template'];
+                            else:
+                                $template = 'MauticFormBundle:Field:'.$field['type'].'.html.php';
+                            endif; ?>
+                            <?php echo $view->render(
+                                'MauticFormBundle:Builder:fieldwrapper.html.php',
+                                [
+                                    'template'      => $template,
+                                    'field'         => $field,
+                                    'inForm'        => true,
+                                    'id'            => $field['id'],
+                                    'formId'        => $formId,
+                                    'contactFields' => $contactFields,
+                                    'companyFields' => $companyFields,
+                                    'inBuilder'     => $inBuilder,
+                                ]
+                            ); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php if (!count($formFields)): ?>
+                    <div class="alert alert-info" id="form-field-placeholder">
+                        <p><?php echo $view['translator']->trans('mautic.form.form.addfield'); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="col-md-4" >
+                <div class="available-fields"><center>
+                    <div class="form_fragment2_tite" >Add a New Field</div><br></center>
+                   <div style="margin-left: 11px">
+                    <?php foreach ($fields as $fieldType => $field): ?>
+                        <?php if (!$isadmin && ($fieldType == 'captcha' || $fieldType == 'plugin.loginSocial')): continue; endif; ?>
+
+                            <div class="btn form_fragment2_data" data-toggle="ajaxmodal"
+                                 data-target="#formComponentModal"
+                                 data-href="<?php echo $view['router']->path(
+                                     'mautic_formfield_action',
+                                     [
+                                         'objectAction' => 'new',
+                                         'type'         => $fieldType,
+                                         'tmpl'         => 'field',
+                                         'formId'       => $formId,
+                                         'inBuilder'    => $inBuilder,
+                                     ]
+                                 ); ?>" >
+                                <a  style="color:#ffffff">
+                            <?php echo $field; ?>
+                        </a></div>
+                    <?php endforeach; ?>
+                   </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
+            <div class="fragment-2-buttons" style="margin-left: 50%;">
+                <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -152px;margin-left: 128px;">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                    <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mauticforms_actions" class="col-md-8">
+                <?php if (!count($formActions)): ?>
+                    <div class="alert alert-info" id="form-action-placeholder">
+                        <p><?php echo $view['translator']->trans('mautic.form.form.addaction'); ?></p>
+                    </div>
+                <?php endif; ?>
+                <div class="drop-here">
+                    <?php foreach ($formActions as $action): ?>
+                        <?php if (!in_array($action['id'], $deletedActions)) : ?>
+                            <?php $template = (isset($actionSettings[$action['type']]['template']))
+                                ? $actionSettings[$action['type']]['template']
+                                :
+                                'MauticFormBundle:Action:generic.html.php';
+                            $action['settings'] = $actionSettings[$action['type']];
+                            echo $view->render(
+                                $template,
+                                [
+                                    'action' => $action,
+                                    'inForm' => true,
+                                    'id'     => $action['id'],
+                                    'formId' => $formId,
+                                ]
+                            ); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+                <div class="available-actions col-md-4" > <br><br>
+                    <center>
+                        <div class="form_fragment3_tite col-md-11" >Add A New Submit Action</div><br></center>
+                        <?php foreach ($actions as $group => $groupActions): ?>
+                                <?php
+                                $campaignActionFound = false;
+                                $actionOptions       = '';
+                                foreach ($groupActions as $k => $e):
+                                    $actionOptions .= $view->render(
+                                            'MauticFormBundle:Action:option.html.php',
+                                            [
+                                                'action'       => $e,
+                                                'type'         => $k,
+                                                'isStandalone' => $activeForm->isStandalone(),
+                                                'formId'       => $form['sessionId']->vars['data'],
+                                            ]
+                                        )."\n\n";
+                                    if (!empty($e['allowCampaignForm'])) {
+                                        $campaignActionFound = true;
+                                    }
+                                endforeach;
+                                $class = (empty($campaignActionFound)) ? ' action-standalone-only' : '';
+                                if (!$campaignActionFound && !$activeForm->isStandalone()) {
+                                    $class .= ' hide';
+                                }
+                                /**
+                            ?>
+                                <optgroup class=<?php echo $class; ?> label="<?php echo $view['translator']->trans($group);  "></optgroup> */?>
+                                <?php echo $actionOptions; ?>
+                            <?php endforeach; ?>
+                        </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<?php echo $view['form']->end($form); ?>
+<?php
 $view['slots']->append(
     'modal',
     $this->render(

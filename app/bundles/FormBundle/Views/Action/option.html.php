@@ -13,16 +13,20 @@ if (empty($action['allowCampaignForm']) && !$isStandalone):
     $class .= ' hide';
 endif;
 ?>
-
-<option id="action_<?php echo $type; ?>"
-        class="<?php echo $class; ?>"
-        data-toggle="ajaxmodal"
-        data-target="#formComponentModal"
-        data-href="<?php echo $view['router']->path('mautic_formaction_action', [
-            'objectAction' => 'new',
-            'type'         => $type,
-            'tmpl'         => 'action',
-            'formId'       => $formId,
-        ]); ?>">
+<?php if (!empty($action['allowCampaignForm']))  : ?>
+<div
+     id="action_<?php echo $type; ?>"
+     class="<?php echo $class; ?>  col-md-11 form_fragment3_data "
+     data-toggle="ajaxmodal"
+     data-target="#formComponentModal"
+     data-href="<?php echo $view['router']->path('mautic_formaction_action', [
+         'objectAction' => 'new',
+         'type'         => $type,
+         'tmpl'         => 'action',
+         'formId'       => $formId,
+     ]); ?>">
+<a style="color:#ffffff">
     <?php echo $view['translator']->trans($action['label']); ?>
-</option>
+</a>
+</div>
+<?php endif; ?>

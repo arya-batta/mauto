@@ -1554,7 +1554,12 @@ class LeadController extends FormController
         $maileruser     = $params['mailer_user'];
         $mailertransport= $params['mailer_transport'];
         $emailpassword  = $params['mailer_password'];
-        $region         = $params['mailer_amazon_region'];
+        if(isset($params['mailer_amazon_region'])){
+            $region                = $params['mailer_amazon_region'];
+        }else{
+            $region='';
+        }
+        //$region         = $params['mailer_amazon_region'];
 
         $emailValidator = $this->factory->get('mautic.validator.email');
         if ($mailertransport == 'mautic.transport.amazon') {

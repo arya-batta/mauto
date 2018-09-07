@@ -90,7 +90,7 @@ abstract class AbstractFormFieldHelper
             $choices[$v] = $this->translator->trans($f['label']);
         }
 
-        natcasesort($choices);
+        //natcasesort($choices);
 
         return $choices;
     }
