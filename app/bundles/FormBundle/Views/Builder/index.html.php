@@ -297,6 +297,7 @@ endif;*/ ?>
                     <?php echo $view['form']->label($form['renderStyle']); ?>
                     <?php echo $view['form']->widget($form['renderStyle']); ?>
                 </div>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                    <?php echo $view['form']->label($form['category']); ?>
@@ -319,7 +320,7 @@ endif;*/ ?>
                     <?php echo $view['form']->widget($form['publishDown']); ?>
                 </div>
             </div>
-            </div><div class="row">
+            <div class="row">
                 <div class="col-md-12 <?php echo $isadmin ? '' : 'hide' ?>">
                     <?php echo $view['form']->label($form['template']); ?>
                     <?php echo $view['form']->widget($form['template']); ?>
@@ -459,7 +460,7 @@ endif;*/ ?>
                                 if (!$campaignActionFound && !$activeForm->isStandalone()) {
                                     $class .= ' hide';
                                 }
-                                /**
+                                /*
                             ?>
                                 <optgroup class=<?php echo $class; ?> label="<?php echo $view['translator']->trans($group);  "></optgroup> */?>
                                 <?php echo $actionOptions; ?>
