@@ -33,7 +33,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                     <h4><?php echo $view['translator']->trans('mautic.lead.import.inprogress'); ?></h4>
                 <?php else: ?>
                     <h4>
-                        <?php if ($import->getIgnoredCount() == 1) {
+                        <?php if ($import->getIgnoredCount() == 1 || $import->getIgnoredCount() == 0 ) {
     $ignoredCount='0';
 } else {
     $ignoredCount= $import->getIgnoredCount() - 1;
@@ -51,7 +51,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                 <div class="progress mt-md" style="height:50px;">
                     <div class="progress-bar-import progress-bar progress-bar-striped<?php if (!$complete) {
                                echo ' active';
-                           } ?>" role="progressbar" aria-valuenow="<?php echo $progress->getDone(); ?>" aria-valuemin="0" aria-valuemax="<?php echo $progress->getTotal(); ?>" style="width: <?php echo $percent; ?>%; height: 50px;">
+                           } ?>" role="progressbar" aria-valuenow="<?php echo $progress->getDone(); ?>" aria-valuemin="0" aria-valuemax="<?php echo $progress->getTotal(); ?>" style="width: <?php echo $percent; ?>%; height: 50px;background-color: #ec407a">
                         <span class="sr-only"><?php echo $percent; ?>%</span>
                     </div>
                 </div>

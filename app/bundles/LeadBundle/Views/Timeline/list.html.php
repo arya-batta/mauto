@@ -79,7 +79,7 @@ $baseUrl = $view['router']->path(
 
             $rowStripe = ($counter % 2 === 0) ? ' timeline-row-highlighted' : '';
             ?>
-            <tr class="timeline-row<?php echo $rowStripe; ?><?php if (!empty($event['featured'])) {
+            <tr class="timeline-row<?php /** echo $rowStripe; */ ?><?php if (!empty($event['featured'])) {
                 echo ' timeline-featured';
             } ?>">
                 <td class="timeline-icon">
