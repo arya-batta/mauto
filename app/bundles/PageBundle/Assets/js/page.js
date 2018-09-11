@@ -31,19 +31,19 @@ Mautic.pageOnLoad = function (container, response) {
     }
     Mautic.removeActionButtons();
 
-    mQuery('#ui-tab-page-header1,#next-page-1').click(function(){
-        mQuery('#ui-tab-page-header1').addClass('ui-tabs-selected');
-        mQuery('#ui-tab-page-header2').removeClass('ui-tabs-selected');
-        mQuery('#theme-container').removeClass('hide');
-        mQuery('#fragment-page-2').addClass('hide');
-
-    });
-    mQuery('#ui-tab-page-header2,.prevv-tab').click(function(){
-        mQuery('#ui-tab-page-header2').addClass('ui-tabs-selected');
-        mQuery('#ui-tab-page-header1').removeClass('ui-tabs-selected');
-        mQuery('#fragment-page-2').removeClass('hide');
-        mQuery('#theme-container').addClass('hide');
-
+    mQuery('.next-tab, .prevv-tab, .ui-state-default').click(function() {
+        mQuery('#page_Title').removeClass('has-success has-error');
+        mQuery('#page_Title .help-block').html("");
+        if(mQuery('#page_title').val() == "") {
+            mQuery('#page_Title').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#page_Title .help-block').html("Title name can't be empty");
+            return;
+        }
+        var selectrel = mQuery(this).attr("rel");
+        mQuery(".ui-tabs-panel").addClass('hide');
+        mQuery("#fragment-page-"+selectrel).removeClass('hide');
+        mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-page-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
     });
 };
 
