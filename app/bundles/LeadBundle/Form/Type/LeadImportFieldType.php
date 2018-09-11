@@ -142,17 +142,17 @@ class LeadImportFieldType extends AbstractType
             );
         }
 
-        $buttons = ['cancel_icon' => 'fa fa-times'];
+        $buttons = ['cancel_icon' => 'fa fa-times', 'cancel_class' => ' btn  btn-cancel le-btn-default btn-copy'];
 
         if (empty($options['line_count_limit'])) {
             $buttons = array_merge(
                 $buttons,
                 [
                     'apply_text'  => 'mautic.lead.import.in.background',
-                    'apply_class' => 'btn btn-success',
+                    'apply_class' => 'btn le-btn-default ',
                     'apply_icon'  => 'fa fa-history',
                     'save_text'   => 'mautic.lead.import.start',
-                    'save_class'  => 'btn btn-primary',
+                    'save_class'  => 'btn le-btn-default btn-copy import_btn_align',
                     'save_icon'   => 'fa fa-upload',
                 ]
             );
@@ -162,7 +162,7 @@ class LeadImportFieldType extends AbstractType
                 [
                     'apply_text' => false,
                     'save_text'  => 'mautic.lead.import',
-                    'save_class' => 'btn btn-primary',
+                    'save_class' => 'btn le-btn-default btn-copy',
                     'save_icon'  => 'fa fa-upload',
                 ]
             );

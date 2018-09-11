@@ -29,11 +29,7 @@ if (!$isAnonymous) {
     $avatar = '<span class="pull-left img-wrapper img-rounded mr-10" style="width:33px"><img src="'.$img.'" alt="" /></span>';
 }
 
-$view['slots']->set(
-    'headerTitle',
-    $avatar.'<div class="pull-left mt-5"><span class="span-block">'.$leadName.'</span><span class="span-block small ml-sm">'
-    .$lead->getSecondaryIdentifier().'</span></div>'
-);
+$view['slots']->set('headerTitle', $leadActualName);
 
 $groups = array_keys($fields);
 $edit   = $view['security']->hasEntityAccess(
@@ -231,7 +227,7 @@ $view['slots']->set(
             <div class="pa-md">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="panel" style="min-height: 320px;">
+                        <div class="panel" style="padding-bottom: 3%;">
                             <?php if (!$isAnonymous): ?>
                             <div>
                                <img class="le-avatar-panel" src="<?php echo $img; ?>" alt="<?php echo $leadName; ?> "/>
@@ -278,7 +274,36 @@ $view['slots']->set(
                                 </tr>
                                 <tr>
                                     <td style="padding-top: .5em;">
+                                        <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+                                        <?php $tags   = $lead->getTags(); ?>
+                                        <?php $count  =  0; ?>
                                         <h6 class="fw-b">
+                                            <?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
+                                        <div class="leadprofile">
+                                            <?php foreach ($tags as $tag): ?>
+                                                <?php if ($count == 5):
+                                                    $count=0;
+                                                endif; ?>
+                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
+                                                </h5>
+                                                <?php ++$count; ?>
+                                            <?php endforeach; ?></div>
+                                        <div class="clearfix"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="lead-profile-table-col-2">
+                                <tr>
+                                    <td>
+                                        <h6 class="fw-b "><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
+                                        <?php if ($lead->getOwner()) : ?>
+                                            <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="fw-b" ">
                                             <?php echo $view['translator']->trans('mautic.lead.field.address'); ?>
                                         </h6>
                                         <address class="text-primary">
@@ -289,43 +314,13 @@ $view['slots']->set(
                                                 .'<br>'; endif ?>
                                             <?php echo $lead->getLocation(); ?> <?php if (isset($fields['core']['zipcode'])) {
                                                     echo $fields['core']['zipcode']['value'];
-                                                } ?><br>
+                                                } ?>
                                         </address>
                                     </td>
                                 </tr>
-                            </table>
-                            <table class="lead-profile-table-col-2">
                                 <tr>
-                                    <td>
-                                        <?php if ($lead->getOwner()) : ?>
-                                            <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
-                                            <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
-                                        <?php $tags   = $lead->getTags(); ?>
-                                        <?php $count  =  0; ?>
-                                        <h6 class="fw-b">
-                                            <?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
-                                           <div class="leadprofile">
-                                               <?php foreach ($tags as $tag): ?>
-                                                   <?php if ($count == 5):
-                                                       $count=0;
-                                                   endif; ?>
-                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
-                                                </h5>
-                                                   <?php ++$count; ?>
-                                               <?php endforeach; ?></div>
-                                            <div class="clearfix"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: .5em;">
-                                        <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
+                                    <td >
+                                        <h6 class="fw-b" style="margin-top: -7px;"><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
                                        <div class="leadprofile">
                                         <?php foreach ($segmentName as $segment): ?>
                                         <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
@@ -333,26 +328,30 @@ $view['slots']->set(
                                         <div class="clearfix"></div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="padding-top: .5em;">
-                                        <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
-                                        <div class="lead_page_hit_url_div">
-                                        <?php if (!empty($pageHitDetails)): ?>
-                                                <?php foreach ($pageHitDetails as $counter => $event): ?>
-                                                   <?php if ($event['url'] != ''):?>
-                                                    <?php
-                                                    $linkType       = 'target="_new"';
-                                                        $eventLabel = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
-                                                    <h5 class="mt-xs mr-xs">
-                                                        <?php echo $event['pagehits'].'x '.$eventLabel.'<br>'?></h5>
-                                                       <?php endif; ?>
-                                                <?php endforeach; ?>
-                                                <div class="clearfix"></div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </td>
-                                </tr>
                             </table>
+                                <br><br>
+                                <table class="lead-profile-table-col-3" >
+                                    <tr>
+                                        <td >
+                                            <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
+                                            <div class="lead_page_hit_url_div">
+                                                <?php if (!empty($pageHitDetails)): ?>
+                                                    <?php foreach ($pageHitDetails as $counter => $event): ?>
+                                                        <?php if ($event['url'] != ''):?>
+                                                            <?php
+                                                            $linkType       = 'target="_new"';
+                                                            $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$event['url']}</a>"; ?>
+                                                            <h5 class="mt-xs mr-xs">
+                                                                <?php echo $event['pagehits'].'x '.$eventLabel.'<br>'?></h5>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                    <div class="clearfix"></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
                                 <?php if ($doNotContact) : ?>
                                     <div id="bounceLabel<?php echo $doNotContact['id']; ?>">
                                         <h4 class="fw-b">
@@ -437,7 +436,7 @@ $view['slots']->set(
                             <div class="uk-float-right">
                                 <i class="le-lead-dialogue fa fa-clock-o text-warning"></i></div>
                             <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.core.added_first'); ?> </span><br>
-                            <span class="le-lead-card-content"><?php echo $view['date']->toDate($lead->getDateAdded()); ?></span>
+                            <span class="le-lead-card-content"><?php echo $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y'); ?></span>
                         </div>
                     </div>
                 </div>

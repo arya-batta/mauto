@@ -5620,9 +5620,15 @@ figcaption {
 }
 .lead-profile-table-col-2{
   position: absolute;
-  top: 22%;
+  margin-top: -16%;
   left: 63%;
   width: 31%;
+}
+.lead-profile-table-col-3{
+  position: relative;
+  margin-left: 300px;
+  margin-right: auto;
+  max-width: 31%;
 }
 .leads-index-score-alignment {
   margin-top: 2px;
@@ -6258,9 +6264,9 @@ text-align: center;
   word-wrap: break-word;
 }
 .lead_page_hit_url_div{
-  max-height:90px;
+  max-height:150px;
   overflow: auto;
-  max-width: 76%;
+  max-width: 92%;
 }
 .leadprofile{
   min-height: 16px;

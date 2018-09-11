@@ -48,6 +48,7 @@ class DateHelper extends Helper
             'short'    => $dateShortFormat,
             'date'     => $dateOnlyFormat,
             'time'     => $timeOnlyFormat,
+            'cust'     => null,
         ];
 
         $this->helper     = new DateTimeHelper(null, null, 'local');
@@ -119,6 +120,20 @@ class DateHelper extends Helper
     public function toShort($datetime, $timezone = 'local', $fromFormat = 'Y-m-d H:i:s')
     {
         return $this->format('short', $datetime, $timezone, $fromFormat);
+    }
+
+    /**
+     * Returns short date format eg Feb 20 ,2018.
+     *
+     * @param \DateTime|string $datetime
+     * @param string           $timezone
+     * @param string           $fromFormat
+     *
+     * @return string
+     */
+    public function toCustDate($datetime, $timezone = 'local', $fromFormat = 'Y-m-d H:i:s')
+    {
+        return $this->format('cust', $datetime, $timezone, $fromFormat);
     }
 
     /**
