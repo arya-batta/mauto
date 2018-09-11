@@ -439,13 +439,13 @@ class FormModel extends CommonFormModel
         if ($withScript) {
             $cachedHtml = $this->getFormScript($form)."\n\n".$cachedHtml;
         }
-        if (!$ishidepoweredby) {
+        /*if (!$ishidepoweredby) {
             $cachedHtml .= '<div style="text-align: center;padding-bottom:10px">
             Powered By <a href="https://www.leadsengage.com" target="_blank">
             Leadsengage
                 </a>
             </div>';
-        }
+        }*/
 
         return $cachedHtml;
     }

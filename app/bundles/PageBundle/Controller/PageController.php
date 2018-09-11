@@ -463,6 +463,7 @@ class PageController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
+                    $content = $this->replaceTitleinContent($entity, $content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
@@ -614,6 +615,7 @@ class PageController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
+                    $content = $this->replaceTitleinContent($entity, $content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
@@ -1172,5 +1174,14 @@ class PageController extends FormController
         <input type="hidden" id="builder_entity_id" value="<?php echo $entity->getSessionId(); ?>"/>
         <?php
         $slotsHelper->stop();
+    }
+
+    public function replaceTitleinContent(Page $entity, $content)
+    {
+        $title   = $entity->getTitle();
+        $title   = "<title>$title</title>";
+        $content = preg_replace("/(<title>)(.*?)(<\/title>)/i", $title, $content);
+
+        return $content;
     }
 }
