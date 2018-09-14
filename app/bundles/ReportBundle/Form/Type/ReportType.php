@@ -342,7 +342,7 @@ class ReportType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'attr'       => [
-                        'class'    => 'form-control',
+                        'class'    => 'form-control le-input',
                         'preaddon' => 'fa fa-envelope',
                         'tooltip'  => 'mautic.report.schedule.toAddress.tooltip',
                     ],
@@ -369,9 +369,9 @@ class ReportType extends AbstractType
             $builder->add('scheduleDate', 'time', [
                 'required'       => false,
                 'label'          => 'mautic.report.schedule.hour',
-                'label_attr'     => ['class' => 'control-label'],
+                'label_attr'     => ['class' => 'control-label '],
                 'widget'         => 'single_text',
-                'attr'           => ['data-toggle' => 'time', 'class' => 'form-control'],
+                'attr'           => ['data-toggle' => 'time', 'class' => 'form-control le-input'],
                 'input'          => 'string',
                 'html5'          => false,
                 'constraints'    => [],

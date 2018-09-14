@@ -515,6 +515,20 @@ class PageController extends FormController
         $sections    = $model->getBuilderComponents($entity, 'sections');
         $sectionForm = $this->get('form.factory')->create('builder_section');
 
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+        $emailmodel=$this->factory->getModel('email');
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $emailmodel->getTemplateGroupNames(),
+        ];
+
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(
             [
@@ -537,6 +551,7 @@ class PageController extends FormController
                 'sectionForm'        => $sectionForm->createView(),
                 'permissions'        => $permissions,
                 'beetemplates'       => $this->factory->getInstalledBeeTemplates('page'),
+                'filters'            => $groupFilters,
             ],
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
@@ -676,6 +691,19 @@ class PageController extends FormController
         $sections    = $model->getBuilderComponents($entity, 'sections');
         $sectionForm = $this->get('form.factory')->create('builder_section');
 
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+        $emailmodel=$this->factory->getModel('email');
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $emailmodel->getTemplateGroupNames(),
+        ];
+
         return $this->delegateView([
             'viewParameters' => [
                 'form'          => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
@@ -687,6 +715,7 @@ class PageController extends FormController
                 'sections'      => $this->buildSlotForms($sections),
                 'builderAssets' => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
                 'sectionForm'   => $sectionForm->createView(),
+                'filters'            => $groupFilters,
                 'permissions'   => $security->isGranted(
                     [
                         'page:preference_center:editown',

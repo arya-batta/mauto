@@ -45,6 +45,15 @@ Mautic.pageOnLoad = function (container, response) {
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-page-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
     });
+    Mautic.filterBeeTemplates= function () {
+        d = document.getElementById("filters").value;
+        if(d == "all"){
+            mQuery('.bee-template').removeClass('hide');
+        } else {
+            mQuery('.bee-template').addClass('hide');
+            mQuery('.'+d).removeClass('hide');
+        }
+    };
 };
 
 Mautic.getPageAbTestWinnerForm = function(abKey) {

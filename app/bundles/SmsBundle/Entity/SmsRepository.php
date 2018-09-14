@@ -239,8 +239,25 @@ class SmsRepository extends CommonRepository
 
         $results= $q->execute()->fetchAll();
 
-        return $results[0]['sentcount'];
+        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0 ;
     }
+
+    public function getSmsSentCount($viewOthers=false,$id='')
+    {
+        //$last30DaysSmsSent = date('Y-m-d', strtotime('-29 days'));
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('SUM(e.sent_count) as sentcount')
+            ->from(MAUTIC_TABLE_PREFIX.'sms_messages', 'e')
+            ->andWhere($q->expr()->eq('e.id', ':Id'))
+            ->setParameter('Id', $id);
+
+        $results= $q->execute()->fetchAll();
+
+        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0 ;
+    }
+
+
 
     /**
      * Get click counts based on date.
@@ -280,6 +297,33 @@ class SmsRepository extends CommonRepository
             $q->andWhere($q->expr()->neq('r.created_by', ':id'))
                 ->setParameter('id', '1');
         }
+
+        $results = $q->execute()->fetchAll();
+
+        return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
+    }
+
+    public function getSmsClickCounts($viewOthers =false,$id='')
+    {
+       // $dateinterval   = date('Y-m-d', strtotime('-29 days'));
+        $q              = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $currentUserId  = $this->currentUser->getId();
+        $q->select('SUM(t.hits)')
+            ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
+            ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
+                $q->expr()->andX(
+                    $q->expr()->eq('r.id', 't.redirect_id'),
+                    $q->expr()->eq('t.channel', ':channel')
+                )
+            )
+            ->setParameter('channel', 'sms')
+            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'sms_messages', 's',
+                $q->expr()->andX(
+                    $q->expr()->eq('t.channel_id', 's.id')
+                ))
+            ->andWhere($q->expr()->eq('s.id', ':Id'))
+            ->setParameter('Id', $id)
+            ->orderBy('r.url');
 
         $results = $q->execute()->fetchAll();
 
