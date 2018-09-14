@@ -1,0 +1,9 @@
+ {
+  "name": "Single Product 1",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "page"   
+  ],
+ "group" : "Product"
+}

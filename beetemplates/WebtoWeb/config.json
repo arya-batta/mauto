@@ -1,0 +1,9 @@
+ {
+  "name": "Webinar",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "page"   
+  ],
+ "group" : "Webinar"
+}

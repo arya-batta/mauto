@@ -1,0 +1,9 @@
+ {
+  "name": "Welcome 1",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "email"   
+  ],
+ "group" : "Welcome"
+}

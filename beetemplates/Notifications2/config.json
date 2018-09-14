@@ -1,0 +1,9 @@
+ {
+  "name": "Notification 2",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "email"   
+  ],
+ "group" : "Notification"
+}
