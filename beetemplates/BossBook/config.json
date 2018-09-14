@@ -1,0 +1,9 @@
+ {
+  "name": "BossBook",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "page"   
+  ],
+ "group" : "Ebook"
+}

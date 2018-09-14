@@ -1,0 +1,9 @@
+ {
+  "name": "Basic 13",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "email"   
+  ],
+ "group" : "Basic"
+}

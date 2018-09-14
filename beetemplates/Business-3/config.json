@@ -1,0 +1,9 @@
+ {
+  "name": "Business 3",
+  "author": "LeadsEngage team",
+  "authorUrl": "https://leadsengage.com",
+  "features": [
+       "email"   
+  ],
+ "group" : "Business"
+}
