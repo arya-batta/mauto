@@ -6286,7 +6286,6 @@ text-align: center;
 .leadprofile{
   min-height: 16px;
 }
-<<<<<<< Updated upstream
 .le-sidebar-minimizer{
   font-size: 16px;
   margin-top:19px;
@@ -6323,10 +6322,9 @@ text-align: center;
 .modal-header{
   border-bottom: none;
 }
-.modal-footer{
+.modal-footer {
   border-top: none;
-=======
+}
 .b-temp-width{
   width: 20%;
->>>>>>> Stashed changes
 }
