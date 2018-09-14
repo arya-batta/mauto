@@ -272,6 +272,7 @@ body > #app-wrapper {
   white-space: nowrap;
   margin: 3px 3px;
   min-width:45%;
+  cursor: pointer;
 }
 .form_fragment3_tite {
   background: rgba(153,153,153,.2);
@@ -5247,15 +5248,15 @@ figcaption {
 .card-update-btn{
   margin-top: 15px;
   text-transform: uppercase;
-  background: #ff9933;
+  background: #ec407a;
   color: #fff;
-  border: 1px solid #ff9933;
+  border: 1px solid #ec407a;
 }
 .card-update-btn:hover,
 .card-update-btn:focus{
   background: #fff;
-  color: #ff9933;
-  border: 1px solid #ff9933;
+  color: #ec407a;
+  border: 1px solid #ec407a;
 }
 #card-holder-errors{
   color: #fa755a;
@@ -5343,12 +5344,17 @@ figcaption {
   padding: 3px 7px 1.5px 8px;
   white-space: nowrap;
   margin: 3px 0px;
-  width: 110%;
+  width: 122%;
+  color: #ffffff;
+  float: left;
+}
+.segment-filter-badge:hover{
+  color: #ffffff;
 }
 .hr-segment-expand a.arrow {
   background: rgba(153,153,153,.2);
   border: none;
-  margin: 0px 0px 11px 0px;
+  margin: 8px 0px 0px 4px;
   font-size: 16px;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
@@ -5716,6 +5722,9 @@ figcaption {
 .col-email-name{
   width: 60%;
 }
+.col-sms-name{
+  width: 60%;
+}
 .col-page-hits{
   text-align: center;
 }
@@ -5740,7 +5749,6 @@ text-align: center;
   width: 40%;
 }
 .col-asset-actions{
-  width: 12%;
   text-align: start;
 }
 .col-asset-download-count{

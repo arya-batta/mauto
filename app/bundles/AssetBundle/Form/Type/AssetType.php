@@ -101,7 +101,7 @@ class AssetType extends AbstractType
         $builder->add('remotePath', 'text', [
             'label'      => 'mautic.asset.asset.form.remotePath',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control'],
+            'attr'       => ['class' => 'form-control le-input'],
             'required'   => false,
         ]);
 
@@ -149,7 +149,7 @@ class AssetType extends AbstractType
             'label'      => 'mautic.core.form.publishup',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'       => 'form-control',
+                'class'       => 'form-control le-input',
                 'data-toggle' => 'datetime',
             ],
             'format'   => 'yyyy-MM-dd HH:mm',
@@ -161,7 +161,7 @@ class AssetType extends AbstractType
             'label'      => 'mautic.core.form.publishdown',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'       => 'form-control',
+                'class'       => 'form-control le-input',
                 'data-toggle' => 'datetime',
             ],
             'format'   => 'yyyy-MM-dd HH:mm',
