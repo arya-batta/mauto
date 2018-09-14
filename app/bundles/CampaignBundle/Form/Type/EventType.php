@@ -118,7 +118,7 @@ class EventType extends AbstractType
                 [
                     'label' => false,
                     'attr'  => [
-                        'class'       => 'form-control',
+                        'class'       => 'form-control le-input',
                         'preaddon'    => 'fa fa-calendar',
                         'data-toggle' => 'datetime',
                     ],
@@ -134,7 +134,7 @@ class EventType extends AbstractType
                 [
                     'label' => false,
                     'attr'  => [
-                        'class'    => 'form-control',
+                        'class'    => 'form-control le-input',
                         'preaddon' => 'symbol-hashtag',
                     ],
                     'data' => $data,

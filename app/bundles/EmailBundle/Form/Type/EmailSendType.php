@@ -177,7 +177,7 @@ class EmailSendType extends AbstractType
                     [
                         'label' => 'mautic.channel.message.send.attempts',
                         'attr'  => [
-                            'class'        => 'form-control',
+                            'class'        => 'form-control le-input',
                             'tooltip'      => 'mautic.channel.message.send.attempts.tooltip',
                             'data-show-on' => '{"campaignevent_properties_email_type_1":"checked"}',
                         ],

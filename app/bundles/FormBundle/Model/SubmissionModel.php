@@ -356,7 +356,7 @@ class SubmissionModel extends CommonFormModel
 
             //save the result
             if ($f->getSaveResult() !== false) {
-                $results[$alias] = $value;
+                $results[$type] = $value;
             }
         }
 

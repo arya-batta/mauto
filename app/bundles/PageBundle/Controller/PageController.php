@@ -697,7 +697,7 @@ class PageController extends FormController
                 'onchange'    => 'Mautic.filterBeeTemplates()',
             ],
         ];
-        $emailmodel=$this->factory->getModel('email');
+        $emailmodel                        =$this->factory->getModel('email');
         $groupFilters['filters']['groups'] = [];
 
         $groupFilters['filters']['groups']['']  = [
@@ -706,17 +706,17 @@ class PageController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'form'          => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
-                'isVariant'     => $entity->isVariant(true),
-                'tokens'        => $model->getBuilderComponents($entity, 'tokens'),
-                'activePage'    => $entity,
-                'themes'        => $this->factory->getInstalledThemes('page', true),
-                'slots'         => $this->buildSlotForms($slotTypes),
-                'sections'      => $this->buildSlotForms($sections),
-                'builderAssets' => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                'sectionForm'   => $sectionForm->createView(),
+                'form'               => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
+                'isVariant'          => $entity->isVariant(true),
+                'tokens'             => $model->getBuilderComponents($entity, 'tokens'),
+                'activePage'         => $entity,
+                'themes'             => $this->factory->getInstalledThemes('page', true),
+                'slots'              => $this->buildSlotForms($slotTypes),
+                'sections'           => $this->buildSlotForms($sections),
+                'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                'sectionForm'        => $sectionForm->createView(),
                 'filters'            => $groupFilters,
-                'permissions'   => $security->isGranted(
+                'permissions'        => $security->isGranted(
                     [
                         'page:preference_center:editown',
                         'page:preference_center:editother',
@@ -1212,5 +1212,26 @@ class PageController extends FormController
         $content = preg_replace("/(<title>)(.*?)(<\/title>)/i", $title, $content);
 
         return $content;
+    }
+
+    /**
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function pluginAction($objectId)
+    {
+        $cancelUrl = $this->generateUrl('mautic_page_index');
+
+        return $this->delegateView([
+            'viewParameters' => [
+                'typePrefix' => 'page',
+                'cancelUrl'  => $cancelUrl,
+            ],
+            'contentTemplate' => 'MauticPageBundle:Page:model.html.php',
+            'passthroughVars' => [
+                'activeLink'    => '#mautic_page_index',
+                'mauticContent' => 'page',
+                'route'         => $this->generateUrl('mautic_page_index'),
+            ],
+        ]);
     }
 }

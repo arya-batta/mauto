@@ -55,7 +55,7 @@ class SortableListType extends AbstractType
                         'label'    => false,
                         'required' => false,
                         'attr'     => [
-                            'class'         => 'form-control',
+                            'class'         => 'form-control le-input',
                             'preaddon'      => $options['remove_icon'],
                             'preaddon_attr' => [
                                 'onclick' => $options['remove_onclick'],

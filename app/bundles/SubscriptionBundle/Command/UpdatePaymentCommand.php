@@ -85,26 +85,27 @@ class UpdatePaymentCommand extends ModeratedCommand
                             $output->writeln('<info>'.'Actual Record Count:'.$actualrecordcount.'</info>');
                             $multiplx=1;
                             if ($actualrecordcount > 0) {
-                                $multiplx   =ceil($actualrecordcount / 10000);
+                                $multiplx   = ceil($actualrecordcount / 5000);
+                                $multiplx   = $multiplx - 5;
                             }
                             if ($isvalidityexpired) {
-                                $netamount   =$planamount; // * $multiplx;
-                                $netcredits  =$plancredits; // * $multiplx;
-                                $validitytill=date('Y-m-d', strtotime($validitytill.'+'.$monthcount.' months'));
+                                $netamount   = (($planamount) + (10 * $multiplx));
+                                $netcredits  = (($plancredits) + (5000 * $multiplx));
+                                $validitytill=date('Y-m-d', strtotime($validitytill.' +1 months'));
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;
                                 $amtmultiplx=1;
                                 if ($excesscount > 0) {
-                                    $amtmultiplx   =ceil($excesscount / 10000);
+                                    $amtmultiplx   =ceil($excesscount / 5000);
                                 }
-                                $netamount =$planamount * $amtmultiplx;
-                                $netcredits=$plancredits * $multiplx;
-                                $netamount =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
+                                $netamount   = (10 * $amtmultiplx);
+                                $netcredits  = (($plancredits) + (5000 * $multiplx));
+                                $netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
                                 //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
                                 // $output->writeln('<info>'.'Charged Amount:'.$amount2.'</info>');
                                 // $netamount=$amount2 - $amount1;
-                                $output->writeln('<info>'.'Net Amount(Prorata):'.$netamount.'</info>');
+                                $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
                             }
                             if ($netamount > 0) {
                                 $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill);

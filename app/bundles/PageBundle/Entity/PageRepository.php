@@ -78,7 +78,8 @@ class PageRepository extends CommonRepository
             $q->andWhere($q->expr()->like('p.title', ':search'))
                 ->setParameter('search', "{$search}%");
         }
-
+        $q->andWhere($q->expr()->eq('p.isPublished', ':val'))
+            ->setParameter('val', '1');
         if (!$viewOther) {
             $q->andWhere($q->expr()->eq('p.createdBy', ':id'))
                 ->setParameter('id', $this->currentUser->getId());

@@ -134,5 +134,7 @@ class FormSubscriber extends CommonSubscriber
         if (isset($form['email']) && !empty($form['email'])) {
             $this->emailModel->removeDoNotContact($form['email']);
         }
+
+        return true;
     }
 }

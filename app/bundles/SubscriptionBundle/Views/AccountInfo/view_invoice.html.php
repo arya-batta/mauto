@@ -21,7 +21,8 @@ if ($billing->getState() == 'Tamil Nadu') {
 if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
     $showcgst = $showgst = 'hide';
 }
-$planaftercredit = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
+$planaftercredit  = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
+$plancustomcredit = $payment->getNetamount() * 500;
 ?>
 <html>
 <head>
@@ -187,7 +188,8 @@ $planaftercredit = $payment->getAfterCredits() != 'UL' ? number_format($payment-
                     <?php echo $payment->getPlanLabel(); ?>
                 </td>
                 <td class="table_body description_body">
-                    <span><?php echo 'Up To '.$planaftercredit.' leads Credits '; ?></span> <!--Email Credits-->
+                    <span class="<?php echo ($payment->getTaxamount() == 1) ? '' : 'hide'; ?>"><?php echo 'Up To '.$planaftercredit.' leads credits '; ?></span> <!--Email Credits-->
+                    <span class="<?php echo ($payment->getTaxamount() == 0) ? '' : 'hide'; ?>"><?php echo 'Charged for '.$plancustomcredit.' additional lead credits'; ?></span> <!--Email Credits-->
                 </td>
                 <td class="table_body service_body">
                     <?php echo $view['date']->toDate($payment->getcreatedOn()); ?> -<br> <?php echo $view['date']->toDate($payment->getValidityTill()); ?>

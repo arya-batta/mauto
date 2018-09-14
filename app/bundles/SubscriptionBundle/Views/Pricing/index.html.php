@@ -18,11 +18,9 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
         Click Here
     </a> to connect it.</div>
 <br>
-<br>
-<br>
-<br>
-<div class="pricing-plan-holder" data-email-transaport="<?php echo $transport ?>">
-    <div class="col-md-4 pricing-plan-list plan-monthly">
+
+<!-- <div class="pricing-plan-holder" data-email-transaport="<?php echo $transport ?>">
+    <div class="col-md-4 pricing-plan-list plan-monthly hide">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="pricing-plan-header">
@@ -35,7 +33,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 </div>
                 <div class="details-list">
                     <span>Unlimited Contacts</span>
-<!--                    <span>Priority Support Via Email</span>-->
+                   <span>Priority Support Via Email</span>
                     <span>Unlimited Team Members</span>
                     <span>All Leadsengage Features </span>
                 </div>
@@ -46,7 +44,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
         </div>
     </div>
 
-    <div class="col-md-4 pricing-plan-list plan-yearly">
+    <div class="col-md-4 pricing-plan-list plan-yearly hide">
         <div class="panel panel-default">
             <div class="highlight-ribbon">
                 <span class="highlight-ribbon-span">Save 33%</span>
@@ -62,7 +60,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 </div>
                 <div class="details-list">
                     <span>Unlimited Contacts</span>
-                    <!--                    <span>Priority Support Via Email</span>-->
+                                      <span>Priority Support Via Email</span>
                     <span>Unlimited Team Members</span>
                     <span>All Leadsengage Features </span>
                 </div>
@@ -71,6 +69,37 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 </a>
             </div>
         </div>
+    </div>-->
+    <div class="col-md-10 pricing-plan-list plan-monthly pricing_panel" style="margin-left:8%;">
+        <div class="col-sm-6 pricing-plan-header">
+            <div class="sub-plan-header">Up to 25,000 Leads</div>
+            <div class="price">
+                <span>$</span>
+                <span>49</span>
+            </div>
+            <div class="col-sm-6">
+                <a href="#" type="button" data-planname="leplan2" data-plancurrency="$" data-planamount="<?php echo 49; ?>" data-plancredits="25000" data-validity="1" class="btn btn-success plan-btn" style="margin-top:5%;margin-left:60%;">
+                Subscribe
+                </a>
+            </div>
+            <div class="col-sm-6 price-desc">
+                <br>
+                <b>Addtional Leads</b> <br> $10/month per 5,000 additional Leads.
+            </div>
+        </div>
+        <div class="col-sm-6 details-list">
+            <p style="font-size:20px;"><b>Feature Includes</b></p>
+            <span>Send Unlimited Email, SMS Campaigns</span>
+            <!--                    <span>Priority Support Via Email</span>-->
+            <span>Create Unlimited Drip Sequences</span>
+            <span>Create Unlimited Automation Workflows</span>
+            <span>Create Unlimited Landing Pages, Opt-in Pages, Squeeze Pages</span>
+            <span>Create Unlimited Lead Capture Forms, Lead Magnets</span>
+            <span>Track Email/ SMS Opens, Clicks & Website Visits</span>
+            <span>Manage Lead Scoring, Points, Segments, Tags</span>
+            <span>Zapier, API Integrations</span>
+        </div>
+
     </div>
 
 </div>

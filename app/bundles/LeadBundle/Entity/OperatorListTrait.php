@@ -97,6 +97,8 @@ trait OperatorListTrait
                 '!=',
                 'empty',
                 '!empty',
+                'in',
+                '!in',
             ],
         ],
         'pages'     => [
@@ -119,6 +121,14 @@ trait OperatorListTrait
             'include' => [
                 'activity',
                 'inactivity',
+            ],
+        ],
+        'country' => [
+            'include' => [
+                'empty',
+                '!empty',
+                'in',
+                '!in',
             ],
         ],
     ];

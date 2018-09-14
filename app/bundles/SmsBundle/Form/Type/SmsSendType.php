@@ -129,7 +129,7 @@ class SmsSendType extends AbstractType
                 'to_owner',
                 'yesno_button_group',
                 [
-                    'label' => 'mautic.form.action.send.email.to.owner',
+                    'label' => 'le.form.action.send.sms.to.owner',
                     'data'  => isset($options['data']['to_owner']) ? $options['data']['to_owner'] : false,
                 ]
             );

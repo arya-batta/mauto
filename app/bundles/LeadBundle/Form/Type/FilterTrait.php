@@ -53,7 +53,7 @@ trait FilterTrait
 
         $type = 'text';
         $attr = [
-            'class' => 'form-control',
+            'class' => 'form-control le-input',
         ];
         $displayType = 'hidden';
         $displayAttr = [];

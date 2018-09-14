@@ -55,7 +55,8 @@ class AssetRepository extends CommonRepository
             $q->andWhere($q->expr()->like('a.title', ':search'))
                 ->setParameter('search', "{$search}%");
         }
-
+        $q->andWhere($q->expr()->eq('a.isPublished', ':val'))
+            ->setParameter('val', '1');
         if (!$viewOther) {
             $q->andWhere($q->expr()->eq('a.createdBy', ':id'))
                 ->setParameter('id', $this->currentUser->getId());

@@ -112,3 +112,66 @@ Mautic.autoHideRedirectUrl = function(container) {
         input.closest('.form-group').show();
     }
 };
+Mautic.openPluginModel = function(id){
+    mQuery('#'+id).removeClass('hide').addClass('fade in');
+}
+Mautic.closePluginModel = function(id){
+    mQuery('#'+id).removeClass('fade in').addClass('hide');
+}
+Mautic.openFormCreator = function(){
+    Mautic.ajaxActionRequest('page:getFormsList',{}, function(response) {
+        var formlist = response.forms;
+        var tborder= "<select border='1' id='page_formSelect' class='form-control category-select' onclick='Mautic.onFormSelectinPage(this.options[this.selectedIndex].value);'>";
+        var i = 0;
+        var firstValue = "";
+        for (var key in formlist) {
+            var val = key;
+            var title = formlist[key];
+            var value= '<option class="active-result" value="'+key+'" > '+ title +'</option>';
+            tborder+= value;
+            if(i == 0){
+                firstValue = key;
+            }
+            i++;
+        }
+        tborder+= "</select>";
+
+        mQuery('.insert-tokens').html(tborder);
+        Mautic.onFormSelectinPage(firstValue);
+
+    });
+    mQuery('#bee-plugin-model').removeClass('fade in').addClass('hide');
+    mQuery('#bee-plugin-form-creator').removeClass('hide').addClass('fade in');
+
+}
+Mautic.onFormSelectinPage = function(ele){
+    var base_url = window.location.origin+mauticBaseUrl;
+    //var jsurl = base_url+"form/generate.js?="+ele;
+    //var jsInput = '<script type="text/javascript" src="'+jsurl+'"></script>';
+    //mQuery('#javascipt_textarea_page').val(jsInput);
+    var iframeurl = base_url+"form/"+ele;
+    var iframeinput = '<iframe src="'+iframeurl+'" width="300" height="300"><p>Your browser does not support iframes.</p></iframe>';
+    mQuery('#iframe_textarea_page').val(iframeinput);
+}
+Mautic.openVideoEmbedModel = function(){
+    mQuery('#bee-plugin-model').removeClass('fade in').addClass('hide');
+    mQuery('#bee-plugin-video-embed').removeClass('hide').addClass('fade in');
+}
+Mautic.ConvertURLtoEmbed = function (){
+    var url = mQuery('#youtube_url').val();
+    var videoId = this.getYoutubeVideoID(url);
+
+    var iframeMarkup = '<iframe width="560" height="315" src="//www.youtube.com/embed/'
+        + videoId + '?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+    mQuery('#iframe_textarea_videopage').val(iframeMarkup);
+}
+Mautic.getYoutubeVideoID = function(url){
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+
+    if (match && match[2].length == 11) {
+        return match[2];
+    } else {
+        return 'error';
+    }
+}

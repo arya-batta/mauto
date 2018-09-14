@@ -29,9 +29,9 @@ use Mautic\LeadBundle\Event\ListChangeEvent;
 use Mautic\LeadBundle\Event\ListPreProcessListEvent;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
+use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
@@ -50,16 +50,17 @@ class ListModel extends FormModel
      * @var IntegrationHelper
      */
     protected $integrationHelper;
+
     /**
      * ListModel constructor.
      *
      * @param CoreParametersHelper $coreParametersHelper
-     * @param IntegrationHelper $integrationHelper
+     * @param IntegrationHelper    $integrationHelper
      */
-    public function __construct(CoreParametersHelper $coreParametersHelper,IntegrationHelper $integrationHelper)
+    public function __construct(CoreParametersHelper $coreParametersHelper, IntegrationHelper $integrationHelper)
     {
         $this->coreParametersHelper = $coreParametersHelper;
-        $this->integrationHelper = $integrationHelper;
+        $this->integrationHelper    = $integrationHelper;
     }
 
     /**
@@ -274,6 +275,9 @@ class ListModel extends FormModel
             ]
         );
         foreach ($fields as $field) {
+            if ($field->getAlias() == 'points') {
+                continue;
+            }
             $type               = $field->getType();
             $properties         = $field->getProperties();
             $properties['type'] = $type;
@@ -314,8 +318,7 @@ class ListModel extends FormModel
         $integration = $this->integrationHelper->getIntegrationObject('OneSignal');
         if ($integration->getIntegrationSettings()->getIsPublished()) {
             $choices['lead']['notification'] = [
-
-                'label' => $this->translator->trans('mautic.lead.list.filter.notification'),
+                'label'      => $this->translator->trans('mautic.lead.list.filter.notification'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -327,31 +330,6 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ];
         }
-        $choices['lead']['city'] = [
-                'label'      => $this->translator->trans('mautic.lead.lead.thead.city'),
-                'properties' => ['type' => 'text'],
-                'operators'  => $this->getOperatorsForFieldType('default'),
-                'object'     => 'lead',
-            ];
-        $choices['lead']['country'] = [
-                'label'      => $this->translator->trans('mautic.lead.lead.thead.country'),
-                'properties' => ['type' => 'text'],
-                'operators'  => $this->getOperatorsForFieldType('default'),
-                'object'     => 'lead',
-            ];
-        $choices['lead']['state'] = [
-                'label'      => $this->translator->trans('mautic.lead.lead.thead.state'),
-                'properties' => ['type' => 'text'],
-                'operators'  => $this->getOperatorsForFieldType('default'),
-                'object'     => 'lead',
-            ];
-        $choices['lead']['zipcode'] = [
-                'label'      => $this->translator->trans('mautic.company.zipcode'),
-                'properties' => ['type' => 'text'],
-                'operators'  => $this->getOperatorsForFieldType('default'),
-                'object'     => 'lead',
-            ];
-
         $choices['list_points'] = [
             'points' => [
                 'label'      => $this->translator->trans('mautic.lead.lead.event.points'),
@@ -399,7 +377,7 @@ class ListModel extends FormModel
             ],*/
             'date_identified' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.date_identified'),
-                'properties' => ['type' => 'date'],
+                'properties' => ['type' => 'datetime'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
@@ -448,7 +426,7 @@ class ListModel extends FormModel
             ],
             'lead_email_read_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
-                'properties' => ['type' => 'datetime'],
+                'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
@@ -524,7 +502,7 @@ class ListModel extends FormModel
             ],
             'hit_url_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
-                'properties' => ['type' => 'datetime'],
+                'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],

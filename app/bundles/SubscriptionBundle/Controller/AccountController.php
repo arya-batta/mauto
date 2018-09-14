@@ -171,7 +171,7 @@ class AccountController extends FormController
         $emailValidityEndDays = round((strtotime($emailValidityEndDate) - strtotime($currentDate)) / 86400);
         $emailUsage           =$statrepo->getSentCountsByDate($monthStartDate);
         $trialEndDays         =$this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
-        $planType             ='Free';
+        $planType             ='Free Trial';
         $paymentrepository    =$this->get('le.subscription.repository.payment');
         $lastpayment          =$paymentrepository->getLastPayment();
         $validityTill         ='';
@@ -186,6 +186,8 @@ class AccountController extends FormController
                 $planAmount = $lastpayment->getCurrency().$planAmount;
             }
         }
+        $custplanamount = ((($totalContactCredits - 25000) / 5000) * 10) + 49;
+        $custplanamount = $lastpayment->getCurrency().$custplanamount;
 
         return $this->delegateView([
             'viewParameters' => [
@@ -202,6 +204,7 @@ class AccountController extends FormController
                 'trialEndDays'       => $emailValidityEndDays.'',
                 'totalContactCredits'=> $totalContactCredits,
                 'totalEmailCredits'  => $totalEmailCredits,
+                'custplanamount'     => $custplanamount,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [

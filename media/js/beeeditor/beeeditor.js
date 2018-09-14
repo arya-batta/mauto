@@ -202,6 +202,8 @@
                              // try {
                                   themejson=themejson.trim();
                                   bee.start(mQuery.parseJSON(themejson));
+                                  bee.toggleStructure();
+                                  Mautic.setCustomHeader(formName);
                             // } catch(e) {
                               //    alert(e); // error in the above string (in this case, yes)!
                              // }
@@ -215,13 +217,23 @@
                                   function(template) {
                                      // save('template2.json', JSON.stringify(template));
                                       bee.start(mQuery.parseJSON(template));
+                                      bee.toggleStructure();
+                                      Mautic.setCustomHeader(formName);
                                   });
                           }
                       });
                   });
           });
       }
-
+      Mautic.setCustomHeader = function (formName) {
+          var TitleValue = "";
+          if(formName == "pageform"){
+              TitleValue = mQuery('#page_title').val();
+          } else if( formName == "emailform"){
+              TitleValue = mQuery('#emailform_subject').val();
+          }
+          mQuery('#BeeEditor_Header').html(TitleValue);
+      }
       Mautic.closeBeeEditor = function (callback) {
           mQuery('body').css('overflow-y', '');
           mQuery('#bee-plugin-viewpanel').css('height', '');

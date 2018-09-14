@@ -121,4 +121,25 @@ class AjaxController extends CommonAjaxController
 
         return $model->getBuilderComponents(null, ['tokens'], $query);
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function getFormsListAction(Request $request)
+    {
+        $dataArray = ['success' => 1];
+        /** @var \Mautic\FormBundle\Model\FormModel $model */
+        $model     = $this->getModel('form.form');
+        $formslist = $model->getEntities();
+        $formList  = [];
+        foreach ($formslist as $i) {
+            $item                     = $i[0];
+            $formList[$item->getId()] = $item->getName();
+        }
+        $dataArray['forms'] = $formList;
+
+        return $this->sendJsonResponse($dataArray);
+    }
 }

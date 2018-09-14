@@ -381,13 +381,6 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
             $metadata = $this->transport->sendSms($userPhoneNumber, $tokenEvent->getContent());
 
-            if (true !== $metadata) {
-                $sendResult['status'] = $metadata;
-                $sendResultText       = 'Failed';
-            } else {
-                $sendResult['sent'] = true;
-                $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
-            }
             $sendResult = [
                 'sent'        => false,
                 'type'        => 'mautic.sms.sms',
@@ -398,12 +391,40 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                 'errorResult' => $sendResultText,
             ];
 
+            if (true !== $metadata) {
+                $sendResult['status'] = $metadata;
+                $sendResultText       = 'Failed';
+            } else {
+                $sendResult['sent'] = true;
+                $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
+            }
+
             $results[$lead->getId()] = $sendResult;
 
             unset($smsEvent, $tokenEvent, $sendResult, $metadata);
         }
 
         return $results;
+    }
+
+    public function sendSampleSmstoUser(Sms $sms, $users)
+    {
+        $errors        = [];
+        foreach ($users as $user) {
+            $userPhoneNumber = $user['mobile'];
+
+            $metadata = $this->transport->sendSms($userPhoneNumber, $sms->getMessage());
+
+            if (true !== $metadata) {
+                $errors[]       = $metadata;
+            } else {
+                $errors = [];
+            }
+
+            unset($smsEvent, $tokenEvent, $sendResult, $metadata);
+        }
+
+        return $errors;
     }
 
     /**
@@ -606,15 +627,19 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
         return $results;
     }
 
-    public function getSentCount($id){
-        $sentcount=$this->getRepository()->getSmsSentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'),$id);
+    public function getSentCount($id)
+    {
+        $sentcount=$this->getRepository()->getSmsSentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'), $id);
+
         return $sentcount;
     }
-    public function getClickCount($id){
-        $clickcount=$this->getRepository()->getSmsClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'),$id);
+
+    public function getClickCount($id)
+    {
+        $clickcount=$this->getRepository()->getSmsClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'), $id);
+
         return $clickcount;
     }
-
 
     public function getSMSBlocks()
     {

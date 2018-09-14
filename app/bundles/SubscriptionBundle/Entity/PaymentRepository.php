@@ -53,6 +53,11 @@ class PaymentRepository extends CommonRepository
 
     public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser)
     {
+        $currentdate      = date('Y-m-d');
+        $isvalidityexpired=0;
+        if (strtotime($validitytill) < strtotime($currentdate)) {
+            $isvalidityexpired=1;
+        }
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);
         $paymenthistory->setPaymentID($chargeid);
@@ -65,12 +70,12 @@ class PaymentRepository extends CommonRepository
         $paymenthistory->setAfterCredits($netcredits);
         $paymenthistory->setValidityTill($validitytill);
         $paymenthistory->setPlanName($planname);
-        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'Unlimited Leads - Yearly Subscription' : 'Unlimited Leads - Monthly Subscription');
+        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'Unlimited Leads - Yearly Subscription' : 'Pro Edition - Monthly Subscription');
         $paymenthistory->setcreatedBy($createdby);
         $paymenthistory->setcreatedByUser($createdbyuser);
         $paymenthistory->setcreatedOn(new \DateTime());
         $paymenthistory->setNetamount($netamount);
-        $paymenthistory->setTaxamount(0);
+        $paymenthistory->setTaxamount($isvalidityexpired);
         $this->saveEntity($paymenthistory);
 
         return $paymenthistory;

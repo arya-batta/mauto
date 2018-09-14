@@ -482,6 +482,10 @@ if(iscampaignmodel){
         mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').attr('tabindex', '-1');
         mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').attr('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
         mQuery(filterId).val(operator);
+    } else {
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').removeAttr('tabindex', '-1');
+        mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').removeAttr('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
+        mQuery(filterId).val("");
     }
 
     var newName = '';
