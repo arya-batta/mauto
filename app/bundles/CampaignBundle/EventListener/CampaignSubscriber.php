@@ -117,7 +117,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'include_this' => true,
             ],
             'callback'        => '\Mautic\CampaignBundle\Helper\CampaignEventHelper::addRemoveLead',
-            'order'           => 7,
+            'order'           => 5,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('campaign.addremovelead', $addRemoveLeadAction);

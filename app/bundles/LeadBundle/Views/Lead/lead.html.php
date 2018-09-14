@@ -414,7 +414,7 @@ $view['slots']->set(
                         <div class="md-card-content">
                             <div class="">
                                 <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.core.type.score'); ?> </span><br>
-                                <span class="le-lead-card-content"><?php echo  $lead->getScore(); ?></span>
+                                <span class="le-lead-card-content" style="text-transform: capitalize;"><?php echo  $lead->getScore(); ?></span>
                                 <img class="le-lead-card-score-content" src="<?php echo $score; ?>"/>
                             </div>
                         </div>

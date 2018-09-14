@@ -4760,7 +4760,7 @@ label.required:after {
   border: 1px solid #fff;
   position: absolute;
   left: 0px;
-  width: 24px;
+  width: 20px;
   height: 31px;
   padding: 0 0 0 20px;
   margin: 5px 0 0 40px;
@@ -4782,7 +4782,7 @@ label.required:after {
   border: 1px solid #d5d5d5;
 }
 .search-container.active i {
-  color: #375695;
+  color: #000;
 }
 .col-actions {
   width: 100px;
@@ -4972,13 +4972,18 @@ figcaption {
   text-decoration: underline;
 }
 .license-notifiation {
-  background-color: #f9edbe;
+  background-color: #FFDB4E;
   width: 100%;
   text-align: center;
-  padding: 5px;
   max-height: inherit;
   display: block;
   color : #000000;
+  min-height: 50px;
+  padding: 15px;
+  font-family: Sans-Serif;
+  padding-left: 25px;
+  padding-right: 25px;
+  line-height: 6px;
 }
 .login-notifiation {
   background-color: #fef4f6;
@@ -4992,8 +4997,8 @@ figcaption {
 }
 .button-notification{
   position: absolute;
-  top: 0;
   right: 0;
+  top: 54px;
   color: #faebcc;
 }
 #complete_profile{
@@ -5318,7 +5323,6 @@ figcaption {
 .le-btn-published:hover{
   outline: 0;
   text-decoration: none;
-  color: #212121;
   box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 #account-settings {
@@ -5475,7 +5479,7 @@ figcaption {
   margin-top: -250px;
 }
 .fragment-1-buttons{
-  margin-left: 74%;
+  margin-left: 75%;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;
@@ -5645,7 +5649,7 @@ figcaption {
 }
 .le-email-editor-header{
   font-family: ProximaNova-Bold,Arial;
-  margin: 0 0 15px 0;
+  margin: 0 0 10px 0;
   font-size: 22px;
   font-weight: normal;
 }
@@ -5653,7 +5657,7 @@ figcaption {
   font-size: 82px;
 }
 .le-email-editor-desc{
-  font-size: 16px;
+  font-size: 13px;
   color: #666;
   margin-bottom: 15px;
 }
@@ -5881,7 +5885,7 @@ text-align: center;
 }
 .le-new-login-register .new-login-box {
   margin-left: 50%;
-  margin-top: 10%;
+  padding-top: 80px;
   width: 400px;
 }
 .white-box {
@@ -6270,4 +6274,43 @@ text-align: center;
 }
 .leadprofile{
   min-height: 16px;
+}
+.le-sidebar-minimizer{
+  font-size: 16px;
+  margin-top:19px;
+  margin-left: 11px;
+}
+#flash {
+  display: none;
+  background-color: #191616;
+  color: #fff;
+  position: absolute;
+  padding: 10px;
+  margin-left: -280px;
+  margin-top: 58px;
+  border-radius: 5px;
+}
+.le-modal-gradient{
+  background: -webkit-gradient(linear,left top,right bottom,from(#ffda24),to(#f224f2));
+  position: absolute;
+}
+.le-gradient-align{
+  margin-left: 12px;
+  margin-top:0px;
+  margin-bottom: 12px;
+}
+.le-modal-content{
+  box-shadow: none;
+  border-color: #FFF;
+  border-radius:0px;
+}
+.le-modal-box-align{
+  top: 11%;
+  margin-left: 326px;
+}
+.modal-header{
+  border-bottom: none;
+}
+.modal-footer{
+  border-top: none;
 }

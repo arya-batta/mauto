@@ -119,7 +119,7 @@ class CampaignSubscriber extends CommonSubscriber
                         'timelineTemplate' => 'MauticSmsBundle:SubscribedEvents\Timeline:index.html.php',
                         'channel'          => 'sms',
                         'channelIdField'   => 'sms',
-                        'order'            => 17,
+                        'order'            => 14,
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );

@@ -33,8 +33,8 @@
 <div class="row">
     <div class="col-xs-12 mt-lg">
         <div class="mt-3">
-            <?php echo $view['form']->row($form['newEmailButton']); ?>
-            <?php echo $view['form']->row($form['editEmailButton']); ?>
+          <!--  <?php /*echo $view['form']->row($form['newEmailButton']); */?>
+            --><?php /*echo $view['form']->row($form['editEmailButton']); */?>
             <?php echo $view['form']->row($form['previewEmailButton']); ?>
         </div>
     </div>

@@ -13,14 +13,15 @@
 <div class="modal fade campaignevent-type-modal hide" style="display: block; z-index: 9999;">
     <div class="modal-dialog" style="width:600px;margin-top:100px">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="border-bottom:none;margin-left: 100px;margin-top: 20px;">
                 <a href="javascript: void(0);" onclick="Mautic.closeCampaignTypeModel()" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title" style="color: #000;">
                     <?php echo $view['translator']->trans('le.campaignevent.type.header'); ?>
                 </h4>
                 <div class="modal-loading-bar"></div>
             </div>
-            <div class="modal-body form-select-modal">
+            <div class="modal-body form-select-modal" style="padding: 20px;
+">
               <div class="row">
                     <div class="col-md-6">
                         <div style="height: 120px;" class="panel panel-success">

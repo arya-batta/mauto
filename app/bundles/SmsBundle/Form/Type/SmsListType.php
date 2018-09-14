@@ -11,6 +11,7 @@
 
 namespace Mautic\SmsBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\Type\EntityLookupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
@@ -21,16 +22,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SmsListType extends AbstractType
 {
+    protected $factory;
+
+    /**
+     * @param MauticFactory $factory
+     */
+    public function __construct(MauticFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $modelname     = $this->factory->getRequest()->get('_route');
+        $enableNewForm = true;
+        if ($modelname == 'mautic_campaignevent_action') {
+            $enableNewForm = false;
+        }
+
         $resolver->setDefaults(
             [
                 'modal_route'         => 'mautic_sms_action',
                 'modal_header'        => 'mautic.sms.header.new',
                 'model'               => 'sms',
+                'enableNewForm'       => $enableNewForm,
                 'model_lookup_method' => 'getLookupResults',
                 'lookup_arguments'    => function (Options $options) {
                     return [

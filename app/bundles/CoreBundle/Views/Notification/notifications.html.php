@@ -15,11 +15,11 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
 }
 ?>
 <?php if ($isadmin): ?>
-    <li class="dropdown dropdown-custom" id="notificationsDropdown">
+    <li class="dropdown dropdown-custom" id="notificationsDropdown" style="margin-left: 3px;">
         <a href="javascript: void(0);" onclick="Mautic.showNotifications();" class="dropdown-toggle dropdown-notification" data-toggle="dropdown">
             <?php $hideClass = (!empty($updateMessage['isNew']) || !empty($showNewIndicator)) ? '' : ' hide'; ?>
              <span class="label label-danger<?php echo $hideClass; ?>" id="newNotificationIndicator"><i class="fa fa-asterisk"></i></span>
-            <span class="fa fa-bell fs-16"></span>
+            <span class="fa fa-volume-up" style="font-size: 16px;"></span>
         </a>
         <div class="dropdown-menu">
             <div class="panel panel-default">

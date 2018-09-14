@@ -27,7 +27,7 @@ class CampaignSourceFormType extends AbstractType
     {
         $builder->add('forms', 'form_list', [
             'multiple'   => true,
-            'label'      => 'mautic.campaign.leadsource.forms',
+            'label'      => 'mautic.campaign.leadsource.form',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',

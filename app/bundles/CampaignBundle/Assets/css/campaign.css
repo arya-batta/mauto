@@ -132,6 +132,7 @@
 .list-campaign-event .campaign-event-name {
     overflow: hidden;
     white-space: nowrap;
+    text-align: center;
 }
 
 .list-campaign-decision {
@@ -309,12 +310,13 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    text-transform: uppercase;
 }
 
 .background-pink, .background-pink:hover{
     color: #fff;
-    background: #f22446;
-    border: 1px solid #f22446;
+    background: #ec407a;
+    border: 1px solid #ec407a;
 }
 
 .background-orange, .background-orange:hover{
@@ -350,9 +352,11 @@
 }
 .campaign-custom-save-button{
     right:1%;
+    text-transform: uppercase;
 }
 .campaign-custom-apply-button{
     right:2%;
+    text-transform: uppercase;
 }
 .campaign-custom-btn{
     right:3%;

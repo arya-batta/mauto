@@ -44,7 +44,7 @@ $src = $view['mautibot']->getImage($img);
         <div class="mautibot-image col-xs-4 col-md-3">
             <img class="img-responsive mautibot" src="<?php echo $src; ?>" />
         </div>
-        <div class="mautibot-content col-xs-8 col-md-9">
+        <div class="mautibot-content col-xs-8 col-md-9" style="margin-top:30px;">
             <blockquote class="np break-word">
                 <h2><i class="fa fa-quote-left"></i> <strong><?php echo $status_code; ?></strong> <?php echo $status_text; ?><?php echo $exceptionMessage; ?> <i class="fa fa-quote-right"></i></h2>
                 <footer class="text-right">LeadsEngageBot</footer>

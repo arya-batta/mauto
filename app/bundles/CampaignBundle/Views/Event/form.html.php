@@ -9,6 +9,20 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $isCondition=$eventType == 'condition' ? true : false;
+$isSource   =$eventType == 'source' ? true : false;
+$isAction   =$eventType == 'action' ? true : false;
+$header     ='';
+$description='';
+if ($isSource) {
+    $header     =$view['translator']->trans('mautic.point.trigger.header.edit');
+    $description=$view['translator']->trans('le.campaign.source.trigger.desc');
+} elseif ($isCondition) {
+    $header     =$view['translator']->trans('le.campaign.edit.decision');
+    $description=$view['translator']->trans('le.campaign.decision.desc');
+} elseif ($isAction) {
+    $header     =$view['translator']->trans('le.campaign.edit.action');
+    $description=$view['translator']->trans('le.campaign.action.desc');
+}
 if ($isCondition) {
     $fields    = $form['properties']->vars['fields'];
     $index     = count($form['properties']['filters']->vars['value']) ? max(array_keys($form['properties']['filters']->vars['value'])) : 0;
@@ -32,9 +46,9 @@ if ($isCondition) {
 
 <div class="bundle-form">
     <div class="bundle-form-header mb-10">
-        <h3><?php echo $eventHeader; ?></h3>
-        <?php if (!empty($eventDescription)): ?>
-        <h6 class="text-muted"><?php echo $eventDescription; ?></h6>
+        <h3><?php echo $header; ?></h3>
+        <?php if (!empty($description)): ?>
+        <h6 class="text-muted" style="margin-top: 20px;"><?php echo $description; ?></h6>
         <?php endif; ?>
     </div>
 
@@ -43,13 +57,13 @@ if ($isCondition) {
         <div style="width: 30%;">
         <?php echo $view['form']->widget($form['group']); ?>
         </div>
-        <div style="width: 70%;">
+        <div style="width: 70%;margin-bottom: 20px;">
         <?php echo $view['form']->widget($form['subgroup']); ?>
         </div>
     </div>
-    <?php if ($isCondition): ?>
+    <?php if ($isCondition):?>
     <div class="form-group">
-        <div class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['properties']['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
+        <div style="margin-top:18px;" class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['properties']['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
             <select class="chosen form-control" id="available_filters" data-placeholder="Choose filter...">
                 <option value=""></option>
                 <?php
@@ -85,8 +99,7 @@ if ($isCondition) {
         </div>
         <div class="clearfix"></div>
     </div>
-    <div style="margin-bottom: 15px;heigth
-" class="selected-filters" id="leadlist_filters">
+    <div style="margin-bottom: 25px;" class="selected-filters" id="leadlist_filters">
         <?php echo $view['form']->widget($form['properties']['filters']); ?>
     </div>
     <?php endif; ?>

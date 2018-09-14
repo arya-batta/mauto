@@ -67,24 +67,24 @@ if (!empty($tmpl)) {
         </div>
     <?php endif; ?>
 </div>
-<?php if (!empty($campaignBlocks)): ?>
+    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
+    <?php if (!empty($campaignBlocks)): ?>
         <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.campaigns.root'); ?></h3></div>
         <div style="padding-top: 15px;">
-        <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
-            <div class="info-box" id="leads-info-box-container">
+            <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
+                <div class="info-box" id="leads-info-box-container" style="width: 25%;">
                 <span class="info-box-icon" style="background-color:<?php echo $segmentBlock[0]; ?>;>">
                     <i class="<?php echo $segmentBlock[1]; ?>" id="icon-class-leads"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text"><?php echo $segmentBlock[2]; ?></span>
-                    <span class="info-box-number"><?php echo $segmentBlock[3]; ?></span>
-                </div>
+                    <div class="info-box-content">
+                        <span class="info-box-text"><?php echo $segmentBlock[2]; ?></span>
+                        <span class="info-box-number"><?php echo $segmentBlock[3]; ?></span>
+                    </div>
 
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
-	<?php $view['slots']->output('_content'); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <?php $view['slots']->output('_content'); ?>
 </div>
 
 <?php $view['slots']->output('modal'); ?>

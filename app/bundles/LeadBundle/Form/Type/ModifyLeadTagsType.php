@@ -14,6 +14,7 @@ namespace Mautic\LeadBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ModifyLeadTagsType extends AbstractType
 {
@@ -40,8 +41,9 @@ class ModifyLeadTagsType extends AbstractType
             'add_tags',
             'lead_tag',
             [
-                'label' => 'mautic.lead.tags.add',
-                'attr'  => [
+                'label'    => 'mautic.lead.tags.add',
+                'required' => true,
+                'attr'     => [
                     'data-placeholder'     => $this->translator->trans('mautic.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
@@ -49,6 +51,11 @@ class ModifyLeadTagsType extends AbstractType
                 ],
                 'data'            => (isset($options['data']['add_tags'])) ? $options['data']['add_tags'] : null,
                 'add_transformer' => true,
+                'constraints'     => [
+                    new NotBlank(
+                        ['message' => 'mautic.email.chooseemail.notblank']
+                    ),
+                ],
             ]
         );
 

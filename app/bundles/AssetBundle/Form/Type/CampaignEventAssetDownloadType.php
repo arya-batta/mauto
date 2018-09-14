@@ -13,6 +13,7 @@ namespace Mautic\AssetBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class CampaignEventAssetDownloadType.
@@ -31,6 +32,14 @@ class CampaignEventAssetDownloadType extends AbstractType
             'attr'       => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.asset.campaign.event.assets.descr',
+            ],
+            'required'    => true,
+            'constraints' => [
+                new NotBlank(
+                    [
+                        'message' => 'mautic.core.value.required',
+                    ]
+                ),
             ],
         ]);
     }

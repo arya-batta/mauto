@@ -63,8 +63,8 @@ class CampaignType extends AbstractType
                 'buttons',
                 'form_buttons',
                 [
-                    'apply_text' => false,
-                    'save_text'  => 'le.campaign.new.add.create.campaign',
+                    'apply_text' => 'le.campaign.new.add.create.campaign',
+                    'save_text'  => false,
                     'save_attr'  => [
                         'href'         => '#',
                     ],
@@ -142,7 +142,22 @@ class CampaignType extends AbstractType
             if (!empty($options['action'])) {
                 $builder->setAction($options['action']);
             }
-
+            $builder->add(
+                'buttons',
+                'form_buttons',
+                [
+                    'apply_text' => false,
+                    'save_text'  => 'le.campaign.new.add.create.campaign',
+                    'save_attr'  => [
+                        'href'         => '#',
+                    ],
+                    'save_onclick' => 'Mautic.CloseDataModelCampaign()',
+                    'cancel_attr'  => [
+                        'data-dismiss' => 'modal',
+                        'href'         => '#',
+                    ],
+                ]
+            );
             $builder->add('buttons', 'form_buttons', [
                 'pre_extra_buttons' => [
                     [

@@ -31,8 +31,7 @@
 
     <!-- start: app-header -->
    <header id="app-header" class="navbar">
-           <div class="license-notifiation hide" id="licenseclosebutton"><span id="license-alert-message"></span> <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="licenseCloseButton()" width="10" height="10"> </div>
-      <?php echo $view->render('MauticCoreBundle:Default:navbar.html.php'); ?>
+        <?php echo $view->render('MauticCoreBundle:Default:navbar.html.php'); ?>
         <?php echo $view->render('MauticCoreBundle:Notification:flashes.html.php'); ?>
     </header>
     <!--/ end: app-header -->
@@ -82,14 +81,6 @@
         }
     });
     <?php endif; ?>
-    function licenseCloseButton() {
-        var x = document.getElementById("licenseclosebutton");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
 </script>
 <?php $view['assets']->outputScripts('bodyClose'); ?>
 <?php echo $view->render('MauticCoreBundle:Helper:modal.html.php', [

@@ -901,5 +901,18 @@ var Mautic = {
         mQuery('.md-fab-primary').click(function(event){
             event.stopPropagation();
         });
+    },
+
+    /**
+     * License Notification Closes Button
+     */
+    closeLicenseButton: function() {
+        var x = document.getElementById("licenseclosebutton");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
+
 };

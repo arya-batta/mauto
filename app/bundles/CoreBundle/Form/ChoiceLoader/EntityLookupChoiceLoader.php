@@ -141,8 +141,12 @@ class EntityLookupChoiceLoader implements ChoiceLoaderInterface
             $data = $this->selected;
         }
 
-        $modelName  = $this->options['model'];
-        $modalRoute = $this->options['modal_route'];
+        $modelName    = $this->options['model'];
+        $modalRoute   = $this->options['modal_route'];
+        $enableNewForm=true;
+        if (isset($this->options['enableNewForm'])) {
+            $enableNewForm = $this->options['enableNewForm'];
+        }
 
         // Check if we've already f the choices
         if (!isset($this->choices[$modelName]) || count(array_diff($data, array_keys($this->choices[$modelName]))) !== count($data)) {
@@ -194,7 +198,7 @@ class EntityLookupChoiceLoader implements ChoiceLoaderInterface
 
         array_multisort(array_keys($prepped), SORT_NATURAL | SORT_FLAG_CASE, $prepped);
 
-        if ($includeNew && $modalRoute) {
+        if ($includeNew && $modalRoute && $enableNewForm) {
             $prepped = array_replace([$this->translator->trans('mautic.core.createnew') => 'new'], $prepped);
         }
 

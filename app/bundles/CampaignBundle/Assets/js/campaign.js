@@ -135,6 +135,7 @@ Mautic.campaignOnLoad = function (container, response) {
     }
     mQuery('#campaign_buttons').addClass('hide');
     mQuery('.chosen-single').css("background","#fff");
+    mQuery('.le-modal-box-align').css("marginLeft","326px");
     Mautic.removeActionButtons();
 };
 
@@ -413,6 +414,7 @@ Mautic.campaignEventOnLoad = function (container, response) {
     }
 
     Mautic.campaignBuilderInstance.repaintEverything();
+    mQuery('.le-modal-box-align').css("marginLeft","210px");
 };
 Mautic.getFilteredCampaignEventSubgroupOptions=function(groupname){
     var filteroptions = [];
@@ -1414,18 +1416,19 @@ Mautic.registerKeyupCampaignName = function(){
     });*/
     if(mQuery('#campaign_isPublished_1').attr('checked') == "checked"){
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
-        mQuery('#campaignPublishButton').html('Stop Campaign');
+        mQuery('#campaignPublishButton').html('Stop Automation');
         mQuery('#campaignPublishButton').attr("value","unpublish");
+        mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
     } else {
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
-        mQuery('#campaignPublishButton').html('Start Campaign');
+        mQuery('#campaignPublishButton').html('Start Automation');
         mQuery('#campaignPublishButton').attr("value","publish");
+        mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
     }
 };
 
 Mautic.CloseStatisticsWidget = function(){
     var value = mQuery('#campaignStatistics').attr("value");
-
     if(value == "close") {
         mQuery('#campaignStatistics').attr("value","open");
         mQuery('.campaign-statistics').addClass('minimized');
@@ -1442,21 +1445,34 @@ Mautic.CloseStatisticsWidget = function(){
 
 Mautic.publishCampaign = function(){
     var value = mQuery('#campaignPublishButton').attr("value");
+    var campaignname = mQuery('#campaign_name').val();
+    var msg = "Automation workflow"+" "+ campaignname +" "+" successfully";
     if(value == "publish"){
         Mautic.toggleYesNoButtonClass('campaign_isPublished_1');
         mQuery('#campaign_isPublished_1').attr('checked',true);
         mQuery('#campaign_isPublished_0').attr('checked',false);
         mQuery('#campaignPublishButton').attr("value","unpublish");
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
-        mQuery('#campaignPublishButton').html('Stop Campaign');
+        mQuery('#campaignPublishButton').html('Stop Automation');
+        mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
+        mQuery('#flash').css('display','inline-block');
+        mQuery('#flash').html(msg+' started.');
     } else {
         Mautic.toggleYesNoButtonClass('campaign_isPublished_0');
         mQuery('#campaign_isPublished_0').attr('checked',true);
         mQuery('#campaign_isPublished_1').attr('checked',false);
+        mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
         mQuery('#campaignPublishButton').attr("value","publish");
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
-        mQuery('#campaignPublishButton').html('Start Campaign');
+        mQuery('#campaignPublishButton').html('Start Automation');
+        mQuery('#flash').css('display','inline-block');
+        mQuery('#flash').html(msg+' stopped.');
     }
+    mQuery(function() {
+        mQuery('#flash').delay(800).fadeIn('normal', function() {
+            mQuery(this).delay(1500).fadeOut();
+        });
+    });
 
 };
 

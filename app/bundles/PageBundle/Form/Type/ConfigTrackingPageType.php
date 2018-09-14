@@ -59,7 +59,7 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'mautic.page.config.form.facebook.pixel.id',
                 'attr'  => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
             ]
@@ -89,7 +89,7 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'mautic.page.config.form.google.analytics.id',
                 'attr'  => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
             ]
@@ -120,7 +120,7 @@ class ConfigTrackingPageType extends AbstractType
                 'label'      => 'mautic.page.tracking.emailinstructions',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'id'       => 'emailInstructionsto',
                     'tooltip'  => 'mautic.page.tracking.emailinstructions.tooltip',

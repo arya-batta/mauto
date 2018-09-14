@@ -184,6 +184,7 @@ class AccountType extends AbstractType
         if (isset($options['isPoweredBy'])) {
             $ispoweredby = $options['isPoweredBy'];
         }
+
         $builder->add(
             'needpoweredby',
             'yesno_button_group',
@@ -192,7 +193,7 @@ class AccountType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'disabled'   => $ispoweredby,
-                'data'       => true,
+                'data'       => false,
             ]
         );
 

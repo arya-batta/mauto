@@ -21,6 +21,11 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
 <div class="navbar-nocollapse">
     <!-- start: left nav -->
     <ul class="nav navbar-nav navbar-left">
+        <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer">
+            <span class="fa fa-bars w3-xxlarge le-sidebar-minimizer"></span>
+        </a>
+    </ul>
+    <ul class="nav navbar-nav navbar-left">
         <li class="hidden-xs" data-toggle="tooltip" data-placement="right" title="Minimize Sidebar">
             <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer"><span class="arrow fs-14"></span></a>
         </li>

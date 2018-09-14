@@ -111,7 +111,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'mautic.lead.lead.events.changepoints_descr',
             'formType'        => 'leadpoints_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 6,
+            'order'           => 7,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changepoints', $action);
@@ -121,7 +121,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'mautic.lead.lead.events.onscorechange_descr',
             'formType'        => 'leadscore_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 8,
+            'order'           => 6,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.scorechange', $action);
@@ -131,7 +131,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'mautic.lead.lead.events.changelist_descr',
             'formType'        => 'leadlist_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 4,
+            'order'           => 3,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changelist', $action);
@@ -142,7 +142,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'        => 'updatelead_action',
             'formTheme'       => 'MauticLeadBundle:FormTheme\ActionUpdateLead',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 9,
+            'order'           => 8,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.updatelead', $action);
@@ -152,7 +152,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'mautic.lead.lead.events.changetags_descr',
             'formType'        => 'modify_lead_tags',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 5,
+            'order'           => 4,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changetags', $action);
@@ -172,7 +172,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'mautic.lead.lead.events.changeowner_descr',
             'formType'        => ChangeOwnerType::class,
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 10,
+            'order'           => 17,
             'group'           => 'le.campaign.event.group.name.leadsengage',
          ];
         $event->addAction(self::ACTION_LEAD_CHANGE_OWNER, $action);
@@ -198,7 +198,7 @@ class CampaignSubscriber extends CommonSubscriber
                     'condition' => ['none'],
                 ],
             ],
-            'order'                  => 11,
+            'order'                  => 18,
             'group'                  => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.deletecontact', $trigger);
@@ -207,7 +207,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.set.donotcontact',
             'description'     => 'le.lead.lead.events.set.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 18,
+            'order'           => 9,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 
@@ -217,7 +217,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.remove.donotcontact',
             'description'     => 'le.lead.lead.events.remove.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 19,
+            'order'           => 10,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 
@@ -314,10 +314,10 @@ class CampaignSubscriber extends CommonSubscriber
             'order'         => 1,
         ];
 
-        $event->addSources('allleads', $source);
+        //$event->addSources('allleads', $source);
 
         $source = [
-            'label'       => 'mautic.lead.lead.events.tags',
+            'label'       => 'mautic.lead.list.filter.tags',
             'description' => 'le.lead.lead.events.tags_descr',
             'order'       => '4',
             'formType'    => 'campaignevent_lead_tags',

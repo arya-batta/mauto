@@ -69,7 +69,8 @@ class CampaignSubscriber extends CommonSubscriber
 
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-        $event->addAction(
+        if ($this->factory->getUser()->isAdmin()) {
+            $event->addAction(
             'dwc.push_content',
             [
                 'label'                  => 'mautic.dynamicContent.campaign.send_dwc',
@@ -92,10 +93,12 @@ class CampaignSubscriber extends CommonSubscriber
                 ],
                 'channel'         => 'dynamicContent',
                 'channelIdField'  => 'dwc_slot_name',
-                'order'           => 14,
+                'order'           => 19,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
+        }
+
         if ($this->security->isGranted(['dynamiccontent:dynamiccontents:viewown', 'dynamiccontent:dynamiccontents:viewother'], 'MATCH_ONE')) {
             $event->addDecision(
                 'dwc.decision',

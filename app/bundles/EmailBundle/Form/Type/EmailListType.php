@@ -11,6 +11,7 @@
 
 namespace Mautic\EmailBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\Type\EntityLookupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
@@ -21,11 +22,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EmailListType extends AbstractType
 {
+    protected $factory;
+
+    /**
+     * @param MauticFactory $factory
+     */
+    public function __construct(MauticFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $modelname    = $this->factory->getRequest()->get('_route');
+        $enableNewForm=true;
+        if ($modelname == 'mautic_campaignevent_action') {
+            $enableNewForm = false;
+        }
+
         $resolver->setDefaults(
             [
                 'multiple'    => true,
@@ -35,6 +52,7 @@ class EmailListType extends AbstractType
                 'force_popup'        => true,
                 'model'              => 'email',
                 'multiple'           => true,
+                'enableNewForm'      => $enableNewForm,
                 'ajax_lookup_action' => function (Options $options) {
                     $query = [
                         'email_type'     => $options['email_type'],

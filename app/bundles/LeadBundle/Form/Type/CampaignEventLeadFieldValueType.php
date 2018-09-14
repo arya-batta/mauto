@@ -172,7 +172,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                         'label'      => 'mautic.form.field.form.value',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
-                            'class'                => 'form-control',
+                            'class'                => 'form-control le-input',
                             'onchange'             => 'Mautic.updateLeadFieldValueOptions(this)',
                             'data-toggle'          => $fieldType,
                             'data-onload-callback' => 'updateLeadFieldValueOptions',
@@ -188,7 +188,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                 );
             } else {
                 $attr = [
-                    'class'                => 'form-control',
+                    'class'                => 'form-control le-input',
                     'data-toggle'          => $fieldType,
                     'data-onload-callback' => 'updateLeadFieldValueOptions',
                 ];

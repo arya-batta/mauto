@@ -22,9 +22,10 @@ $footerButtonClass = (!isset($footerButtonClass)) ? 'modal-form-buttons' : $foot
 $dismissible       = (!isset($dismissible)) ? true : $dismissible;
 ?>
 
-<div class="modal fade<?php echo $containerClass; ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>-label" aria-hidden="true"<?php echo $containerAttr; ?>>
-    <div class="modal-dialog<?php echo $size; ?>">
-        <div class="modal-content<?php echo $class; ?>">
+<div class="modal fade<?php echo $containerClass; ?> le-modal-box-align"  id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>-label" aria-hidden="true"<?php echo $containerAttr; ?>>
+    <div class="le-modal-gradient">
+        <div class="modal-dialog<?php echo $size; ?> le-gradient-align">
+            <div class="modal-content<?php echo $class; ?> le-modal-content">
             <?php if ($header !== false): ?>
             <div class="modal-header">
                 <?php if ($dismissible): ?>
@@ -71,6 +72,7 @@ $dismissible       = (!isset($dismissible)) ? true : $dismissible;
                 <?php endif; ?>
             </div>
             <?php endif; ?>
+        </div>
         </div>
     </div>
 </div>

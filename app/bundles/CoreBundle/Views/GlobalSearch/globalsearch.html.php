@@ -11,7 +11,7 @@
 ?>
 
 <li class="dropdown dropdown-custom" id="globalSearchDropdown">
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" style="margin-top: 41px;margin-left: 32px;">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">

@@ -36,6 +36,7 @@ class CampaignEventLeadTagsType extends AbstractType
             'tags',
             'lead_tag',
             [
+                'label'           => $this->translator->trans('mautic.lead.campaign.tag'),
                 'add_transformer' => true,
                 'by_reference'    => false,
                 'attr'            => [

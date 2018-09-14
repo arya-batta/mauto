@@ -25,7 +25,7 @@ $isAdmin=$view['security']->isAdmin();
         <!-- start: box layout -->
             <!-- container -->
             <div class="col-md-6 height-auto">
-                    <div class="row">
+                    <div class="row" style="width:130%;">
                         <div class="col-md-6">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
@@ -60,13 +60,15 @@ $isAdmin=$view['security']->isAdmin();
                 <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
             <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('mautic.core.form.apply'); ?>
+                <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
             </button>
             <div class="custom-fields">
-            <button type="button" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
-                <?php echo $view['translator']->trans('Start Campaign'); ?>
+            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
+                <?php echo $view['translator']->trans('Start Automation'); ?>
             </button>
-
+                <div id="flash">
+                    <span></span>
+                </div>
         </div>
         </div>
     </div>
@@ -116,16 +118,18 @@ $isAdmin=$view['security']->isAdmin();
         <?php if ($actions || $decisions || $conditions): ?>
             <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
                 <div class="modal-header campaign-model-header" style="height:50px;">
-                    <?php if($actions):?>
+                    <?php if ($actions):?>
                     <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
                     </ul>
                     <?php endif; ?>
-                    <?php if($decisions || $conditions):?>
-                    <ul class=" ui-corner-top btn btn-group <?php if(empty($actions)) {echo 'ui-tabs-selected';}?>" role = "tab" id = "ui-tab-stat-header2">
+                    <?php if ($decisions || $conditions):?>
+                    <ul class=" ui-corner-top btn btn-group <?php if (empty($actions)) {
+                echo 'ui-tabs-selected';
+            }?>" role = "tab" id = "ui-tab-stat-header2">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.decisions.stat'); ?></p>
                     </ul>
-                    <?php endif;?>
+                    <?php endif; ?>
                     <a href="#" onclick="Mautic.CloseStatisticsWidget();">
                         <span aria-hidden="true" id="campaignStatistics"
                               style="float: right;font-size: 27px;background-color: #ec407a;padding-left: 8px;padding-right: 8px;margin-top: -11px;margin-right: -10px;" value="open">
@@ -134,9 +138,11 @@ $isAdmin=$view['security']->isAdmin();
                 <div id="fragment-stat-1" class="ui-tabs-panel">
                     <?php echo $actions; ?>
                 </div>
-                <div id="fragment-stat-2" class="ui-tabs-panel <?php if(!empty($actions)) {echo 'hide';}?>">
+                <div id="fragment-stat-2" class="ui-tabs-panel <?php if (!empty($actions)) {
+                echo 'hide';
+            }?>">
                     <?php echo $decisions; ?>
-                    <?php echo $conditions;?>
+                    <?php echo $conditions; ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -186,8 +192,8 @@ foreach ($acions as $key => $value) {
 }
      $campaigngroupoptions = [
         ['label'=> 'LeadsEngage', 'order'=> 1],
-        ['label'=> 'Drip', 'order'=> 2],
-        ['label'=> 'Facebook', 'order'=> 3],
+/*        ['label'=> 'Drip', 'order'=> 2],
+        ['label'=> 'Facebook', 'order'=> 3],*/
     ];
     $sources      =$eventSettings['source'];
     $sourceoptions=[];

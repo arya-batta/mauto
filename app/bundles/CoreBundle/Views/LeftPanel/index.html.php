@@ -80,7 +80,7 @@ $extraMenu = $view['menu']->render('extra');
             <?php echo $view['menu']->render('main'); ?>
 
             <!-- start: left nav -->
-            <ul class="nav sidebar-left-dark">
+            <ul class="hide nav sidebar-left-dark">
                 <li class="hidden-xs">
                     <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer"><span class="direction icon pull-left fa"></span><span class="nav-item-name pull-left text"><?php echo $view['translator']->trans('mautic.core.menu.left.collapse'); ?></span></a>
                 </li>

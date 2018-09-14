@@ -297,8 +297,9 @@ return [
                 'alias'     => 'emailvariant',
             ],
             'mautic.form.type.email_list' => [
-                'class' => 'Mautic\EmailBundle\Form\Type\EmailListType',
-                'alias' => 'email_list',
+                'class'     => 'Mautic\EmailBundle\Form\Type\EmailListType',
+                'arguments' => 'mautic.factory',
+                'alias'     => 'email_list',
             ],
             'mautic.form.type.email_click_decision' => [
                 'class' => 'Mautic\EmailBundle\Form\Type\EmailClickDecisionType',

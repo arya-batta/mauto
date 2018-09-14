@@ -28,8 +28,8 @@ class ConfigSubscriber extends CommonSubscriber
     {
         return [
             ConfigEvents::CONFIG_ON_GENERATE => [
-                ['onConfigGenerate', 1],
-                ['onConfigGenerateTracking', 0],
+                ['onConfigGenerate', 2],
+                ['onConfigGenerateTracking', 1],
             ],
             ConfigEvents::CONFIG_PRE_SAVE => ['onConfigSave', 0],
         ];

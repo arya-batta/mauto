@@ -28,7 +28,7 @@ class CampaignEventPageHitType extends AbstractType
             'label'      => 'mautic.page.campaign.event.form.pages',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.page.campaign.event.form.pages.descr',
             ],
         ]);
@@ -38,7 +38,7 @@ class CampaignEventPageHitType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.page.campaign.event.form.url.descr',
             ],
         ]);
@@ -48,7 +48,7 @@ class CampaignEventPageHitType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.page.campaign.event.form.referer.descr',
             ],
         ]);

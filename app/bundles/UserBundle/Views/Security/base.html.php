@@ -5,7 +5,7 @@
     <title><?php echo $view['slots']->get('pageTitle', 'LeadsEngage'); ?></title>
     <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
+    <link rel="icon"  sizes="192x192" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
     <?php $view['assets']->outputSystemStylesheets(); ?>
     <?php echo $view->render('MauticCoreBundle:Default:script.html.php'); ?>

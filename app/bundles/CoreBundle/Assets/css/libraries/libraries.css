@@ -2644,9 +2644,9 @@ select[multiple].input-lg {
   border-color: #843534;
 }
 .has-error .input-group-addon {
-  color: #a94442;
+ /* color: #a94442;
   border-color: #a94442;
-  background-color: #f2dede;
+  background-color: #f2dede;*/
 }
 .has-error .form-control-feedback {
   color: #a94442;
@@ -9195,15 +9195,15 @@ button.close {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
-  background-color: #ebedf0;
-  border: 1px solid #d5d5d5;
+  background-color: #ec407a;
+  border: 1px solid #ec407a;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  color: #3c4650;
+  color: #fff;
   cursor: default;
   line-height: 13px;
   margin: 6px 0 3px 5px;
@@ -19573,7 +19573,7 @@ padding:5px;
     border: 0 solid rgba(0, 0, 0, 0);
 }
 .selectize-control.multi .selectize-input > div.active {
-    background: #428bca;
+    background: #ec407a;
     color: #ffffff;
     border: 0 solid rgba(0, 0, 0, 0);
 }
@@ -19760,7 +19760,7 @@ padding:5px;
     display: none;
 }
 .selectize-input.focus {
-    border-color: #66afe9;
+    border-color: #ec407a;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);

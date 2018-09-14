@@ -53,7 +53,7 @@ class ConfigType extends AbstractType
         $choices    = [];
         $transports = $this->transportChain->getEnabledTransports();
         foreach ($transports as $transportServiceId=>$transport) {
-            if($transportServiceId == 'mautic.sms.transport.solutioninfini') {
+            if ($transportServiceId == 'mautic.sms.transport.solutioninfini') {
                 $choices[$transportServiceId] = $this->translator->trans('mautic.sms.transport.solutioninfini.choice');
             } else {
                 $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
@@ -67,9 +67,9 @@ class ConfigType extends AbstractType
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.sms.config.select_default_transport',
             ],
-            'data'      => $options['data']['sms_transport'],
-            'required'  => false,
-            'choices'   => $choices,
+            'data'        => $options['data']['sms_transport'],
+            'required'    => false,
+            'choices'     => $choices,
             'empty_value' => false,
         ]);
         $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["mautic.sms.transport.solutioninfini"]}';
@@ -81,7 +81,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.name.solutioninfini',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $SolutionShowConditions,
                     'data-hide-on' => $TwilioShowConditions,
                     'disabled'     => false,
@@ -113,7 +113,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.api.solutioninfini',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
@@ -145,7 +145,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.senderid.solutioninfini',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
@@ -162,7 +162,7 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label required'],
                 'required'   => false,
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                 ],

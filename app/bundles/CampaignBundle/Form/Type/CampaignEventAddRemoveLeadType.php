@@ -14,6 +14,7 @@ namespace Mautic\CampaignBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class CampaignEventAddRemoveLeadType.
@@ -32,7 +33,12 @@ class CampaignEventAddRemoveLeadType extends AbstractType
             'attr'       => [
                 'class' => 'form-control',
             ],
-            'required' => false,
+            'required'    => true,
+            'constraints' => [
+                new NotBlank(
+                    ['message' => 'mautic.email.chooseemail.notblank']
+                ),
+            ],
         ]);
 
         $builder->add('removeFrom', 'campaign_list', [

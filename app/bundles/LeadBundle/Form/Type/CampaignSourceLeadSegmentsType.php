@@ -31,7 +31,8 @@ class CampaignSourceLeadSegmentsType extends AbstractType
             [
                 'global_only' => false,
                 'multiple'    => true,
-                'label'       => 'mautic.campaign.leadsource.lists',
+                'required'    => true,
+                'label'       => 'mautic.campaign.leadsource.segment',
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => [
                     'class' => 'form-control',

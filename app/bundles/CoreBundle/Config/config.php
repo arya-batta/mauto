@@ -121,8 +121,8 @@ return [
             ],
              'mautic.core.channels' => [
                  'id'        => 'mautic_channels_root',
-                 'iconClass' => 'fa-rss',
-                 'priority'  => 55,
+                 'iconClass' => 'fa fa-bullhorn',
+                 'priority'  => 80,
              ],
            /*'mautic.segments.root' => [
                 'id'        => 'mautic_segments_root',

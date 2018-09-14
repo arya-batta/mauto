@@ -29,7 +29,7 @@ trait ToBcBccFieldsTrait
                 'label'      => 'mautic.core.send.email.to',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-input',
                     'placeholder' => 'mautic.core.optional',
                     'tooltip'     => 'mautic.core.send.email.to.multiple.addresses',
                 ],
@@ -49,7 +49,7 @@ trait ToBcBccFieldsTrait
                 'label'      => 'mautic.core.send.email.cc',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-input',
                     'placeholder' => 'mautic.core.optional',
                     'tooltip'     => 'mautic.core.send.email.to.multiple.addresses',
                 ],
@@ -69,7 +69,7 @@ trait ToBcBccFieldsTrait
                 'label'      => 'mautic.core.send.email.bcc',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-input',
                     'placeholder' => 'mautic.core.optional',
                     'tooltip'     => 'mautic.core.send.email.to.multiple.addresses',
                 ],

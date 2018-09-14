@@ -181,7 +181,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
-                'order'           => 3,
+                'order'           => 11,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );

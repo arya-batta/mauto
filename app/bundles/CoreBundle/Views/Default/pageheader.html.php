@@ -1,3 +1,6 @@
+<div class="license-notifiation hide" id="licenseclosebutton">
+    <span id="license-alert-message"></span>
+    <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="Mautic.closeLicenseButton()" width="10" height="10"> </div>
 <div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
         <div class="col-xs-5 col-sm-6 col-md-7 va-m">

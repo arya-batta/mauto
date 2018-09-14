@@ -324,7 +324,7 @@ return [
                     'iconClass' => 'fa-pie-chart',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_segment_index',
-                    'priority'  => 60,
+                    'priority'  => 55,
                     //'parent'    => 'mautic.segments.root',
                 ],
                /* 'mautic.point.menu.index' => [

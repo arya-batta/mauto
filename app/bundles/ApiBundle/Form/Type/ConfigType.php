@@ -57,7 +57,7 @@ class ConfigType extends AbstractType
                 'label' => 'mautic.api.config.form.api.oauth2_access_token_lifetime',
                 'attr'  => [
                     'tooltip'      => 'mautic.api.config.form.api.oauth2_access_token_lifetime.tooltip',
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => '{"config_apiconfig_api_enabled_1":"checked"}',
                 ],
                 'constraints' => [
@@ -77,7 +77,7 @@ class ConfigType extends AbstractType
                 'label' => 'mautic.api.config.form.api.oauth2_refresh_token_lifetime',
                 'attr'  => [
                     'tooltip'      => 'mautic.api.config.form.api.oauth2_refresh_token_lifetime.tooltip',
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => '{"config_apiconfig_api_enabled_1":"checked"}',
                 ],
                 'constraints' => [

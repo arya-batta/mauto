@@ -171,7 +171,7 @@ if (count($items)):
                         <span class="mt-xs label label-primary has-click-event clickable-stat"
                               data-toggle="tooltip"
                               title="<?php echo $view['translator']->trans('mautic.channel.stat.leadcount.tooltip'); ?>">
-                            <a href="<?php echo $view['router']->path(
+                            <a style="color:#fff;" href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.sms_sent').':'.$item->getId()]
                             ); ?>"><?php echo $view['translator']->trans(
