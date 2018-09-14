@@ -227,6 +227,7 @@ class EmailCampaignController extends FormController
             );
         }
         $session->set('mautic.email.page', $page);
+        $emailBlockDetails = $model->getEmailBlocks();
 
         return $this->delegateView(
             [
@@ -242,8 +243,9 @@ class EmailCampaignController extends FormController
                     'model'           => $model,
                     'actionRoute'     => 'mautic_email_campaign_action',
                     'indexRoute'      => 'mautic_email_campaign_index',
-                    'headerTitle'     => 'mautic.emailcampaign.emails',
+                    'headerTitle'     => 'mautic.email.emails',
                     'translationBase' => 'mautic.email.broadcast',
+                    'emailBlockDetails'=> $emailBlockDetails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -390,8 +392,7 @@ class EmailCampaignController extends FormController
         } else {
             $includeVariants = (($email->isVariant() && $parent === $email) || ($email->isTranslation() && $translationParent === $email));
         }
-
-        if ($email->getEmailType() == 'template') {
+        //if ($email->getEmailType() == 'template') {
             $stats = $model->getEmailGeneralStats(
                 $email,
                 $includeVariants,
@@ -399,14 +400,14 @@ class EmailCampaignController extends FormController
                 new \DateTime($dateRangeForm->get('date_from')->getData()),
                 new \DateTime($dateRangeForm->get('date_to')->getData())
             );
-        } else {
+        /*} else {
             $stats = $model->getEmailListStats(
                 $email,
                 $includeVariants,
                 new \DateTime($dateRangeForm->get('date_from')->getData()),
                 new \DateTime($dateRangeForm->get('date_to')->getData())
             );
-        }
+        }*/
 
         $statsDevices = $model->getEmailDeviceStats(
             $email,
@@ -554,7 +555,7 @@ class EmailCampaignController extends FormController
             );
         if ($updateSelect) {
             // Force type to template
-            $entity->setEmailType('template');
+            $entity->setEmailType('list');
         } elseif (true) {
             $entity->setEmailType('list');
         }
@@ -678,6 +679,18 @@ class EmailCampaignController extends FormController
             'RETURN_ARRAY'
         );
         $verifiedemail = $model->getVerifiedEmailAddress();
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $model->getTemplateGroupNames(),
+        ];
 
         return $this->delegateView(
             [
@@ -697,6 +710,7 @@ class EmailCampaignController extends FormController
                     'isMobile'           => $ismobile,
                     'verifiedemail'      => $verifiedemail,
                     'mailertransport'    => $mailertransport,
+                    'filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [
@@ -811,7 +825,7 @@ class EmailCampaignController extends FormController
             );
         if ($updateSelect) {
             // Force type to template
-            $entity->setEmailType('template');
+            $entity->setEmailType('list');
         }
         /** @var Form $form */
         $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
@@ -952,6 +966,18 @@ class EmailCampaignController extends FormController
             ],
             'RETURN_ARRAY'
         );
+        $groupFilters = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Mautic.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $model->getTemplateGroupNames(),
+        ];
 
         return $this->delegateView(
             [
@@ -971,6 +997,7 @@ class EmailCampaignController extends FormController
                     'isMobile'           => $ismobile,
                     'verifiedemail'      => $verifiedemail,
                     'mailertransport'    => $mailertransport,
+                    'filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [

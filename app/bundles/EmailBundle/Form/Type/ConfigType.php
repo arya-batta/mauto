@@ -129,6 +129,7 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
+                    'tooltip' => 'mautic.email.config.footer_content.tooltip',
                     'tooltip' => 'mautic.email.config.unsubscribe_message.tooltip',
                 ],
                 'required' => false,

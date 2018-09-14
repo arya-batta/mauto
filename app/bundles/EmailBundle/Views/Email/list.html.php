@@ -298,7 +298,7 @@ $isAdmin=$view['security']->isAdmin();
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats">
                        <span class="mt-xs has-click-event clickable-stat"
-                             id="spam-count-<?php echo $item->getId(); ?>" style="background-color: #ffff;">
+                             id="spam-count-<?php echo $item->getId(); ?>"  >
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_spam').':'.$item->getId()]
@@ -328,6 +328,7 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
+
                         <?php $hasEditAccess = $view['security']->hasEntityAccess($permissions['email:emails:editown'], $permissions['email:emails:editother'], $item->getCreatedBy());
                         $hasDeleteAccess     = $view['security']->hasEntityAccess($permissions['email:emails:deleteown'], $permissions['email:emails:deleteother'], $item->getCreatedBy());
                         $hasCloneAccess      = $permissions['email:emails:create']; ?>

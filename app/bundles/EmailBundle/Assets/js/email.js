@@ -44,13 +44,16 @@ Mautic.emailOnLoad = function (container, response) {
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
         mQuery('#Email_TemplateName').removeClass('has-success has-error');
         mQuery('#Email_Subject').removeClass('has-success has-error');
+        mQuery('#leadlists').removeClass('has-success has-error');
         mQuery('#Email_TemplateName .help-block').html("");
         mQuery('#Email_Subject .help-block').html("");
+        mQuery('#leadlists .help-block').html("");
         if(mQuery('#emailform_name').val() == "" && mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_Subject .help-block').html("Subject can't be empty");
+
             return;
         }
         else if(mQuery('#emailform_name').val() == "") {

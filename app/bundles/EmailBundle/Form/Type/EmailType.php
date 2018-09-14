@@ -430,6 +430,7 @@ class EmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'                => 'form-control editor editor-advanced editor-builder-tokens',
+                        'tooltip'              => 'mautic.email.config.footer_content.tooltip',
                         'data-token-callback'  => 'email:getBuilderTokens',
                         'data-token-activator' => '{',
                     ],
@@ -514,7 +515,7 @@ class EmailType extends AbstractType
                 'leadlist_choices',
                 [
                     'label'      => 'mautic.email.form.list',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'control-label '],
                     'attr'       => [
                         'class'        => 'form-control',
                         'data-show-on' => '{"emailform_segmentTranslationParent":[""]}',
@@ -522,6 +523,7 @@ class EmailType extends AbstractType
                     'multiple' => true,
                     'expanded' => false,
                     'required' => true,
+
                 ]
             )
                 ->addModelTransformer($transformer)

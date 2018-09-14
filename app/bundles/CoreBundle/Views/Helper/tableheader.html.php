@@ -45,7 +45,7 @@ if (!empty($checkall)):
 
     <div class="input-group-btn">
         <button type="button" disabled class="btn btn-default btn-sm dropdown-toggle btn-nospin" data-toggle="dropdown">
-            <i class="fa fa-angle-down "></i>
+            <center><i class="fa fa-angle-down " style="margin-left: -2px;"></i></center>
         </button>
         <ul class="pull-<?php echo $pull; ?> page-list-actions dropdown-menu" role="menu">
             <?php echo $view['buttons']->renderButtons(); ?>
@@ -65,7 +65,7 @@ $dir          = (!empty($dir)) ? $dir : $app->getSession()->get("mautic.{$sessio
 $filters      = (!empty($filters)) ? $filters : $app->getSession()->get("mautic.{$sessionVar}.filters", []);
 $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
 ?>
-<th<?php echo (!empty($class)) ? ' class="'.$class.'"' : ''; ?>>
+<th<?php echo (!empty($class)) ? ' class="'.$class.'"' : ''; ?> >
     <div class="thead-filter">
         <?php if (!empty($orderBy)): ?>
         <a href="javascript: void(0);" onclick="Mautic.reorderTableData('<?php echo $sessionVar; ?>','<?php echo $orderBy; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
@@ -75,7 +75,7 @@ $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
             <?php endif; ?>
         </a>
         <?php else: ?>
-            <span><?php echo $view['translator']->trans($text); ?></span>
+            <span style="color: black;"><?php echo $view['translator']->trans($text); ?></span>
         <?php endif; ?>
 
         <?php if (!empty($filterBy)): ?>

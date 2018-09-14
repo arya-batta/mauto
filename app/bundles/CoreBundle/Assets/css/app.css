@@ -48,6 +48,9 @@ body > #app-wrapper {
   left: -230px;
   right: 230px;
 }
+.m_down{
+  margin-top:101px
+}
 #app-header.navbar {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -6020,7 +6023,7 @@ text-align: center;
   margin-right: 70px !important;
 }
 .le-footer-items {
-  text-align: center !important;
+  margin-left: 42%;
 }
 .pagination >li{
   display: inline-block;
@@ -6139,8 +6142,8 @@ text-align: center;
   height: inherit;
 }
 .fab-list-container .md-fab-toolbar.md-fab-small .md-fab-toolbar-actions .material-icons, .fab-list-container .md-fab.md-fab-primary .material-icons {
-  font-size: 19px;
-  line-height: 27px;
+  font-size: 24px;
+  line-height: 29.5px;
 }
 .md-fab-toolbar.md-fab-animated {
   box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
@@ -6161,7 +6164,6 @@ text-align: center;
   border-width: 0 0 1px;
   border-style: solid;
   border-color: rgba(0,0,0,.12);
-  font: 400 15px/18px Roboto, sans-serif;
   box-shadow: inset 0 -1px 0 transparent;
   box-sizing: border-box;
   padding: 12px 4px;
@@ -6270,6 +6272,7 @@ text-align: center;
 }
 .le-mb-footer{
   margin-bottom: 30px;
+  margin-top: 10px;
 }
 .wrap-text{
   width:100%;
@@ -6283,6 +6286,7 @@ text-align: center;
 .leadprofile{
   min-height: 16px;
 }
+<<<<<<< Updated upstream
 .le-sidebar-minimizer{
   font-size: 16px;
   margin-top:19px;
@@ -6321,4 +6325,8 @@ text-align: center;
 }
 .modal-footer{
   border-top: none;
+=======
+.b-temp-width{
+  width: 20%;
+>>>>>>> Stashed changes
 }

@@ -78,7 +78,7 @@ if ($tmpl == 'index') {
             <td class="visible-md visible-lg">
                 <?php $tags = $item->getTags(); ?>
                 <?php foreach ($tags as $tag): ?>
-                    <div class="label label-primary" style="margin-bottom: 2px;"><?php echo $tag->getTag(); ?></div>
+                    <div class="label label-primary" style="margin-bottom: 2px;color: #000"><?php echo $tag->getTag(); ?></div>
                 <?php endforeach; ?>
             </td>
             <td class="visible-md visible-lg" style="text-align:center;">

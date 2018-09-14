@@ -17,11 +17,11 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'mautic_email_campaign_index' => [
-                'path'       => '/broadcasts/{page}',
+                'path'       => '/email/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'mautic_email_campaign_action' => [
-                'path'       => '/broadcasts/{objectAction}/{objectId}',
+                'path'       => '/email/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'mautic_email_action' => [
@@ -115,7 +115,8 @@ return [
             'items' => [
                 'mautic.email.emails' => [
                     'iconClass'  => 'fa fa-envelope',
-                    'route'      => 'mautic_email_index',
+                   // 'route'      => 'mautic_email_index',
+                    'route'    => 'mautic_email_campaign_index',
                     'access'     => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 300,

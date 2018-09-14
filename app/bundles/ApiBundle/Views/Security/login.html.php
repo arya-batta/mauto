@@ -22,7 +22,8 @@ $view['slots']->set('header', $view['translator']->trans('mautic.api.oauth.heade
                placeholder="<?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?>" />
     </div>
     <div class="input-group mb-md">
-        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+        <span class="
+        input-group-addon"><i class="fa fa-key"></i></span>
         <label for="password" class="sr-only"><?php echo $view['translator']->trans('mautic.core.password'); ?>:</label>
         <input type="password" id="password" name="_password"
                class="form-control input-lg" required

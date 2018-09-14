@@ -158,24 +158,27 @@ return [
             ],
         ],
     ],
+    'categories' => [
+        'sms' => null,
+    ],
     'routes' => [
         'main' => [
             'mautic_sms_index' => [
-                'path'       => '/sms/{page}',
+                'path'       => '/text message/{page}',
                 'controller' => 'MauticSmsBundle:Sms:index',
             ],
             'mautic_sms_action' => [
-                'path'       => '/sms/{objectAction}/{objectId}',
+                'path'       => '/text message/{objectAction}/{objectId}',
                 'controller' => 'MauticSmsBundle:Sms:execute',
             ],
             'mautic_sms_contacts' => [
-                'path'       => '/sms/view/{objectId}/contact/{page}',
+                'path'       => '/text message/view/{objectId}/contact/{page}',
                 'controller' => 'MauticSmsBundle:Sms:contacts',
             ],
         ],
         'public' => [
             'mautic_receive_sms' => [
-                'path'       => '/sms/receive',
+                'path'       => '/text message/receive',
                 'controller' => 'MauticSmsBundle:Api\SmsApi:receive',
             ],
         ],

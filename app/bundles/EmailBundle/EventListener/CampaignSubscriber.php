@@ -27,6 +27,7 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Entity\Hit;
+use Mautic\ChannelBundle\ChannelEvents;
 
 /**
  * Class CampaignSubscriber.

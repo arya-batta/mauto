@@ -497,7 +497,7 @@ Mautic.onPageLoad = function (container, response, inModal) {
                     }
 
                 });
-                if(!location.href.match(/(email|form|page)/i)){
+                if(!location.href.match(/(email|form|page|broadcasts)/i)){
                     mQuery('.toolbar-form-buttons').removeClass('hide');
                 }
             }
@@ -1696,6 +1696,6 @@ Mautic.showActionButtons = function (id) {
     }else if(actioButtons > 3){
         mQuery('#mainClass-'+id).css("width", '100px');
     } else {
-        mQuery('#mainClass-'+id).css("width", '82px');
+        mQuery('#mainClass-'+id).css("width", '89px');
     }
 };

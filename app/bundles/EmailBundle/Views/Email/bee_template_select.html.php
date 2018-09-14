@@ -10,7 +10,7 @@
         $isSelected    = ($active === 'blank');
         ?>
         <?php $thumbnailUrl = $view['assets']->getUrl($themeInfo['themesLocalDir'].'/'.$themeKey.'/'.$thumbnailName); ?>
-        <div class="col-md-3 theme-list">
+        <div class="col-md-3 theme-list b-temp-width" >
             <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : ''; ?>">
                 <div class="panel-body text-center">
                     <h4 style="height: 30px"><?php echo $themeInfo['name']; ?></h4>
@@ -59,7 +59,7 @@
             ?>
             <?php $thumbnailUrl = $view['assets']->getUrl($themeInfo['themesLocalDir'].'/'.$themeKey.'/'.$thumbnailName); ?>
 
-            <div class="col-md-3 theme-list bee-template <?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : ''; ?>">
+            <div class="col-md-3 theme-list bee-template b-temp-width <?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : ''; ?>">
                 <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : ''; ?>">
                     <div class="panel-body text-center">
                         <h4 style="height: 30px"><?php echo $themeInfo['name']; ?></h4>

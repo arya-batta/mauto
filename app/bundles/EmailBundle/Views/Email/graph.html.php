@@ -10,7 +10,7 @@
  */
 if ($emailType == 'list') {
     $label = 'mautic.email.lead.list.comparison';
-    $type  = 'bar';
+    $type  = 'line';
 } else {
     $label = 'mautic.email.stats';
     $type  = 'line';
@@ -56,7 +56,7 @@ $actionRoute = $view['router']->path('mautic_email_action',
                     <div class="col-xs-4 va-m">
                         <h5 class="text-white dark-md fw-sb mb-xs">
                             <span class="fa fa-envelope"></span>
-                            <?php echo $view['translator']->trans($label); ?>
+                            <?php  echo $view['translator']->trans($label); ?>
                         </h5>
                     </div>
                     <div class="col-xs-8 va-m">

@@ -318,7 +318,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
                     $sendResult = [
                         'sent'       => $send,
-                        'type'       => 'mautic.sms.sms',
+                        'type'       => 'mautic.sms.smss',
                         'status'     => 'mautic.sms.timeline.status.delivered',
                         'id'         => $sms->getId(),
                         'name'       => $sms->getName(),
@@ -383,7 +383,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
             $sendResult = [
                 'sent'        => false,
-                'type'        => 'mautic.sms.sms',
+                'type'        => 'mautic.sms.smss',
                 'status'      => 'mautic.sms.timeline.status.delivered',
                 'id'          => $sms->getId(),
                 'name'        => $sms->getName(),

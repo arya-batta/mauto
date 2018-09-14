@@ -31,6 +31,27 @@ $attr['data-submit-callback-async'] = 'clearThemeHtmlBeforeSave';
 $isCodeMode = ($activePage->getTemplate() === 'mautic_code_mode');
 $isAdmin    =$view['security']->isAdmin();
 $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
+$custombuttons = [
+ [
+    'name'  => 'beeeditor',
+    'label' => 'mautic.core.beeeditor',
+    'attr'  => [
+        'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
+        'icon'    => 'fa fa-cube',
+        'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+    ],
+ ],
+];
+$custombutton = [
+    [
+        'name'    => 'beeeditor',
+        'btnText' => 'mautic.core.beeeditor',
+        'attr'    => [
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
+            'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+        ],
+    ],
+];
 ?>
 
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
@@ -122,7 +143,7 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                 <div id="fragment-page-2" class="ui-tabs-panel hide">
                     <!--/ tabs controls -->
                     <div class="tab-content pa-md tab-pane bdr-w-0" id="theme-container"style="border-width: 10px;border-color: #808080">
-                        <div class="fragment-3-buttons" style="margin-left: 46%;">
+                        <div class="fragment-3-buttons" style="margin-left: 60%;">
                             <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -150px;margin-left: 122px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -133,6 +154,7 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="width:50%;margin-left: 20px;">
@@ -143,7 +165,19 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                                             'tmpl'    => (empty($tmpl)) ? null : $tmpl,
                                         ]); ?>
                                     <?php endif; ?>
-                                </div><br>
+                                </div>
+                                <div class="le-builder-btn col-md-6" style="width: 50%;">
+                                    <div style="margin-left: 385px;">
+                                        <?php echo $view->render(
+                                            'MauticCoreBundle:Helper:page_actions.html.php',
+                                            [
+                                                'routeBase'     => 'page',
+                                                'langVar'       => 'page',
+                                                'customButtons' => $custombutton,
+                                            ]
+                                        ); ?>
+                                    </div>
+                                </div>
                                 <?php echo $view['form']->row($form['template']); ?>
                             </div>
                         </div>

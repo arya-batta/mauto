@@ -97,7 +97,7 @@ class EmailSendType extends AbstractType
                 'button',
                 [
                     'attr' => [
-                        'class'   => 'btn btn-primary btn-nospin',
+                        'class'   => 'btn btn-primary btn-nospin hide',
                         'onclick' => 'Mautic.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',

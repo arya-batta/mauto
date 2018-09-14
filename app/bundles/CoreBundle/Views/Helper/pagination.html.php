@@ -155,7 +155,7 @@ foreach ($responsiveViewports as $viewport):
                     $action = $getAction($i, ($page !== (int) $i));
                     $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                     ?>
-                    <li<?php echo $class; ?>>
+                    <li<?php echo $class; ?> style="font-size: 9px;margin-top:5px">
                         <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
                             <span><?php echo $i; ?></span>
                         </a>
