@@ -111,16 +111,7 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                    'sessionVar' => 'email',
-                    'orderBy'    => '',
-                    'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-email-actions',
-                ]);
-                ?>
-
-                <?php if ($isAdmin):?>
-                <?php
+                if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -130,8 +121,15 @@ $isAdmin=$view['security']->isAdmin();
                         'class'      => 'visible-md visible-lg col-email-id',
                     ]
                 );
+                endif;
+
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'email',
+                    'orderBy'    => '',
+                    'text'       => 'mautic.core.actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-email-actions',
+                ]);
                 ?>
-                <?php endif; ?>
             </tr>
             </thead>
             <tbody>

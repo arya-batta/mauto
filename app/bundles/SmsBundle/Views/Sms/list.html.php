@@ -57,12 +57,15 @@ if (count($items)):
                         'sessionVar' => 'sms',
                         'orderBy'    => 'c.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'visible-md visible-lg col-sms-category',
+                        'class'      => 'col-page-category',
                     ]
                 );
-                ?>
 
-                <th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats'); ?></th>
+                ?>
+                <th class="col-email-stats"><?php echo $view['translator']->trans('le.sms.sent_count'); ?></th>
+                <th class="col-email-stats"><?php echo $view['translator']->trans('le.sms.click_count'); ?></th>
+                <?php
+                //<th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats'); ?></th>
 
                 <?php
                 if ($isAdmin):
@@ -165,9 +168,20 @@ if (count($items)):
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
-                        <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
+                        <span style="white-space: nowrap;"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;">
+                    <td class="visible-sm visible-md visible-lg col-stats">
+                        <?php echo $model->getSentCount($item->getId()); ?>
+
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats">
+                        <?php $clickcount = $model->getClickCount($item->getId()); ?>
+                        <?php echo $clickcount ?><br>
+                        <?php $clickpercent=($clickcount/$smsBlockDetails[1][3])*100; ?>
+                        <?php echo "(".$clickpercent."%)" ?>
+
+                    </td>
+                   <?php /** <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;"> ?>
                         <span class="mt-xs label label-primary has-click-event clickable-stat"
                               data-toggle="tooltip"
                               title="<?php echo $view['translator']->trans('mautic.channel.stat.leadcount.tooltip'); ?>">
@@ -179,7 +193,7 @@ if (count($items)):
                                     ['%count%' => $item->getSentCount(true)]
                                 ); ?></a>
                         </span>
-                    </td>
+                    </td> */ ?>
                     <?php if ($isAdmin): ?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>

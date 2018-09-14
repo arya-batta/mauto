@@ -284,6 +284,29 @@ Mautic.leadEmailOnLoad = function(container, response) {
         textarea.val(emailHtml.find('html').get(0).outerHTML);
     });
 }
+ Mautic.addHide= function(){
+    mQuery('#segment_filters').addClass('hide');
+     //mQuery('#segment-filter-block_lead').removeClass('collapse in');
+     //mQuery('#segment-filter-block_lead').addClass('collapse');
+}
+Mautic.removeHide= function(){
+    mQuery('#segment_filters').removeClass('hide');
+    mQuery('#segment-filter-block_lead').removeClass('collapse');
+    mQuery('#segment-filter-block_lead').addClass('collapse in');
+    mQuery('#segment-filter-block_lead').css("height","auto");
+}
+Mautic.closeOnOpen= function(headerid){
+    if (headerid != "") {
+        if (mQuery(headerid).hasClass('collapse in'))
+        {
+            mQuery(headerid).addClass('collapse');
+        }else {
+            mQuery('.close_all').removeClass('collapse in ');
+            mQuery('.close_all').addClass('collapse ');
+            mQuery(headerid).removeClass('collapse');
+        }
+    }
+};
 Mautic.addSegementFilter= function(filterId){
     if (filterId.id != "") {
         Mautic.addLeadListFilter(filterId.id);

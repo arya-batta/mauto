@@ -373,7 +373,7 @@ endif;*/ ?>
                     <?php foreach ($fields as $fieldType => $field): ?>
                         <?php if (!$isadmin && ($fieldType == 'captcha' || $fieldType == 'plugin.loginSocial')): continue; endif; ?>
 
-                            <div class="btn form_fragment2_data" data-toggle="ajaxmodal"
+                            <div class=" form_fragment2_data" data-toggle="ajaxmodal"
                                  data-target="#formComponentModal"
                                  data-href="<?php echo $view['router']->path(
                                      'mautic_formfield_action',
