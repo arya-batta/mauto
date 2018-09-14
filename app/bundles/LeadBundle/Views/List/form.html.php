@@ -44,29 +44,28 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 ?>
 
 <?php echo $view['form']->start($form); ?>
+<ul class="bg-auto nav nav-tabs pr-md pl-md">
+    <li class="active detail" id="detailstab" onclick="Mautic.addHide()">
+        <a href="#details" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
+            <?php echo $view['translator']->trans('mautic.core.details'); ?>
+            <?php if ($mainErrors): ?>
+                <i class="fa fa-warning"></i>
+            <?php endif; ?>
+        </a>
+    </li>
+    <li id="filterstab" data-toggle="tooltip" title="" onclick="Mautic.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.lead.segment.add.help'); ?>">
+        <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
+            <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
+            <?php if ($filterErrors): ?>
+                <i class="fa fa-warning"></i>
+            <?php endif; ?>
+        </a>
+    </li>
+</ul>
 <div class="box-layout">
-    <div class="col-md-9 bg-white height-auto">
+    <div class="col-md-8 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">
-                <ul class="bg-auto nav nav-tabs pr-md pl-md">
-                    <li class="active" id="detailstab">
-                        <a href="#details" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
-                            <?php echo $view['translator']->trans('mautic.core.details'); ?>
-                            <?php if ($mainErrors): ?>
-                                <i class="fa fa-warning"></i>
-                            <?php endif; ?>
-                        </a>
-                    </li>
-                    <li id="filterstab" data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.lead.segment.add.help'); ?>">
-                        <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
-                            <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
-                            <?php if ($filterErrors): ?>
-                                <i class="fa fa-warning"></i>
-                            <?php endif; ?>
-                        </a>
-                    </li>
-                </ul>
-
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
                     <div class="tab-pane fade in active bdr-w-0" id="details">
@@ -130,7 +129,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="selected-filters" id="leadlist_filters">
+                        <div class="selected-filters" style="margin-bottom: 35px;" id="leadlist_filters">
                             <?php echo $view['form']->widget($form['filters']); ?>
                         </div>
                     </div>
@@ -146,8 +145,8 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
     </div>-->
 
 
-<div class="pr-lg pl-lg pt-md pb-md">
-    <div class="available-filters mb-md pl-0 col-md-4" data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
+<div class="pr-lg pl-lg pt-md pb-md hide" id="segment_filters">
+    <div class="available-filters  mb-md pl-0 col-md-4 " data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
         <?php
         foreach ($fields as $object => $field):
             $header = $object;
@@ -170,13 +169,13 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
              else:
                 $icon   = 'fa-user';
              endif;
-
+                $closedata='#segment-filter-block_'.$header;
             ?>
             <div class="hr-segment-expand">
-                <a href="javascript:void(0)"
-                   class="arrow" data-toggle="collapse"  data-target="#segment-filter-block_<?php echo $header ?>">
-                    <span style="font-size:12px" <i class="<?php echo $icon ?>"> </i><?php echo $view['translator']->trans('le.leadlist.'.$header); ?></span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>
-                <div class="collapse" style="padding: 12px;"   id="segment-filter-block_<?php echo $header ?>">
+                <a href="javascript:void(0)" onclick="Mautic.closeOnOpen('<?php echo $closedata ?>')"
+                   class="arrow segment-collapse" data-toggle="collapse"  data-target="#segment-filter-block_<?php echo $header ?>">
+                    <span style="font-size:12px"  <i class="<?php echo $icon ?>"> </i><?php echo $view['translator']->trans('le.leadlist.'.$header); ?></span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>
+                <div class="collapse close_all"  style="padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_<?php echo $header ?>">
                     <?php foreach ($field as $value => $params):
                         $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
 
@@ -185,6 +184,8 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                         $callback  = (!empty($params['properties']['callback'])) ? $params['properties']['callback'] : '';
                         $operators = (!empty($params['operators'])) ? $view->escape(json_encode($params['operators'])) : '{}';
                         ?>
+
+                            <div class="col-md-6">
                         <a  onclick="Mautic.addSegementFilter(this)"
                             value="<?php echo $view->escape($value); ?>"
                             id="<?php echo $value; ?>"
@@ -197,7 +198,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             class="segment-filter-badge fa fa-plus">
 
                             <?php echo $view['translator']->trans($params['label']); ?>
-                        </a>
+                        </a></div>
 
                     <?php endforeach; ?>
                 </div>

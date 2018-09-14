@@ -1,5 +1,4 @@
 <?php
-
 /*
  * @copyright   2014 Mautic Contributors. All rights reserved
  * @author      Mautic
@@ -11,30 +10,24 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'page');
 $isExisting = $activePage->getId();
-
 $variantParent = $activePage->getVariantParent();
 $subheader     = '';
 if ($variantParent) {
     $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.core.variant_of', [
-                    '%name%'   => $activePage->getTitle(),
-                    '%parent%' => $variantParent->getTitle(),
-                ]).'</span></div>';
+            '%name%'   => $activePage->getTitle(),
+            '%parent%' => $variantParent->getTitle(),
+        ]).'</span></div>';
 } elseif ($activePage->isVariant(false)) {
     $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.page.form.has_variants').'</span></div>';
 }
-
 $header = $isExisting ?
     $view['translator']->trans('mautic.page.header.edit',
         ['%name%' => $activePage->getTitle()]) :
     $view['translator']->trans('mautic.page.header.new');
-
 $view['slots']->set('headerTitle', $header.$subheader);
-
 $template = $form['template']->vars['data'];
-
 $attr                               = $form->vars['attr'];
 $attr['data-submit-callback-async'] = 'clearThemeHtmlBeforeSave';
-
 $isCodeMode = ($activePage->getTemplate() === 'mautic_code_mode');
 $isAdmin    =$view['security']->isAdmin();
 $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
@@ -127,7 +120,7 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                     </div>
                 </div>
                 <div id="fragment-page-2" class="ui-tabs-panel hide">
-                <!--/ tabs controls -->
+                    <!--/ tabs controls -->
                     <div class="tab-content pa-md tab-pane bdr-w-0" id="theme-container"style="border-width: 10px;border-color: #808080">
                         <div class="fragment-3-buttons" style="margin-left: 46%;">
                             <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
@@ -142,15 +135,24 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <div style="width:50%;margin-left: 20px;">
+                                    <?php if (!empty($filters)): ?>
+                                        <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                                            'filters' => $filters,
+                                            'target'  => (empty($target)) ? null : $target,
+                                            'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                        ]); ?>
+                                    <?php endif; ?>
+                                </div><br>
                                 <?php echo $view['form']->row($form['template']); ?>
                             </div>
                         </div>
 
-<!--                        --><?php //echo $view->render('MauticCoreBundle:Helper:theme_select.html.php', [
-//                            'type'   => 'page',
-//                            'themes' => $themes,
-//                            'active' => $form['template']->vars['value'],
-//                        ]);?>
+                        <!--                        --><?php //echo $view->render('MauticCoreBundle:Helper:theme_select.html.php', [
+                        //                            'type'   => 'page',
+                        //                            'themes' => $themes,
+                        //                            'active' => $form['template']->vars['value'],
+                        //                        ]);?>
                         <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                             'beetemplates' => $beetemplates,
                             'active'       => $form['template']->vars['value'],
@@ -158,10 +160,10 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 <?php echo $view['form']->row($form['customHtml']); ?>
 <?php echo $view['form']->end($form); ?>

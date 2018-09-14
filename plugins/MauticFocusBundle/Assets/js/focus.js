@@ -455,9 +455,9 @@ Mautic.focusUpdatePreview = function () {
 };
 
 Mautic.setFocusDefaultColors = function () {
-    mQuery('#focus_properties_colors_primary').minicolors('value', '4e5d9d');
+    mQuery('#focus_properties_colors_primary').minicolors('value', 'ec407a');
     mQuery('#focus_properties_colors_text').minicolors('value', (mQuery('#focus_style').val() == 'bar') ? 'ffffff' : '000000');
-    mQuery('#focus_properties_colors_button').minicolors('value', 'fdb933');
+    mQuery('#focus_properties_colors_button').minicolors('value', '4285f4');
     mQuery('#focus_properties_colors_button_text').minicolors('value', 'ffffff');
 };
 

@@ -96,19 +96,19 @@ $view['slots']->set(
                                         <?php echo $view['translator']->trans('mautic.focus.graph.stats'); ?>
                                     </h5>
                                 </div>
-                               <!-- <div class="col-xs-8 va-m">
-                                    <?php /*echo $view->render(
+                                <div class="col-xs-8 va-m">
+                                    <?php echo $view->render(
                                         'MauticCoreBundle:Helper:graph_dateselect.html.php',
                                         ['dateRangeForm' => $dateRangeForm, 'class' => 'pull-right']
-                                    ); */?>
-                                </div>-->
+                                    ); ?>
+                                </div>
                             </div>
-                         <!--   <div class="pt-0 pl-15 pb-10 pr-15">
-                                <?php /*echo $view->render(
+                            <div class="pt-0 pl-15 pb-10 pr-15">
+                                <?php echo $view->render(
                                     'MauticCoreBundle:Helper:chart.html.php',
                                     ['chartData' => $stats, 'chartType' => 'line', 'chartHeight' => 300]
-                                ); */?>
-                            </div>-->
+                                ); ?>
+                            </div>
                         </div>
                     </div>
                 </div>

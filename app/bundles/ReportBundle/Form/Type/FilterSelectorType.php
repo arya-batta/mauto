@@ -64,7 +64,7 @@ class FilterSelectorType extends AbstractType
                     'expanded'    => false,
                     'multiple'    => false,
                     'label'       => 'mautic.report.report.label.filtercondition',
-                    'label_attr'  => ['class' => 'control-label filter-condition'],
+                    'label_attr'  => ['class' => 'control-label  filter-condition'],
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
@@ -112,7 +112,7 @@ class FilterSelectorType extends AbstractType
             [
                 'label'      => 'mautic.report.report.label.filtervalue',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control filter-value'],
+                'attr'       => ['class' => 'form-control le-input filter-value'],
                 'required'   => false,
             ]
         );

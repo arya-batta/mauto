@@ -52,7 +52,6 @@
                 $version->getVersion(); ?>
             </div>
         </div>
-        </div>
     </footer>
     <!--/ end: app-content -->
 

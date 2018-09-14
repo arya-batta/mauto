@@ -131,7 +131,7 @@ class FormType extends AbstractType
             'label'      => 'mautic.core.form.publishup',
             'label_attr' => ['class' => 'control-label', 'style' => $style],
             'attr'       => [
-                'class'       => 'form-control',
+                'class'       => 'form-control le-input',
                 'data-toggle' => 'datetime',
                 'style'       => $style,
             ],
@@ -147,7 +147,7 @@ class FormType extends AbstractType
                 'style' => $style,
             ],
             'attr'       => [
-                'class'       => 'form-control',
+                'class'       => 'form-control le-input',
                 'data-toggle' => 'datetime',
                 'style'       => $style,
             ],
@@ -181,7 +181,7 @@ class FormType extends AbstractType
             'label'      => 'mautic.form.form.postactionproperty',
             'label_attr' => ['class' => 'control-label check_required'],
             'attr'       => [
-                'class'    => 'form-control',
+                'class'    => 'form-control le-input',
                 'onkeyup'  => 'Mautic.onKeyupMaxLength(this.value);',
             ],
             'required'   => $required,

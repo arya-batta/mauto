@@ -57,7 +57,7 @@ class FieldType extends AbstractType
             [
                 'label'      => 'mautic.lead.field.label',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control', 'length' => 50],
+                'attr'       => ['class' => 'form-control le-input', 'length' => 50],
             ]
         );
 
@@ -74,7 +74,7 @@ class FieldType extends AbstractType
                     'professional' => 'mautic.lead.field.group.professional',
                 ],
                 'attr' => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.lead.field.form.group.help',
                 ],
                 'expanded'    => false,
@@ -102,7 +102,7 @@ class FieldType extends AbstractType
                 'empty_value' => false,
                 'disabled'    => ($disabled || !$new),
                 'attr'        => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'onchange' => 'Mautic.updateLeadFieldProperties(this.value);',
                 ],
                 'data'     => $default,
@@ -210,7 +210,7 @@ class FieldType extends AbstractType
                 'label'      => 'mautic.core.defaultvalue',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.lead.field.help.defaultvalue',
                 ],
                 'required' => false,
@@ -438,7 +438,7 @@ class FieldType extends AbstractType
                 'label'      => 'mautic.core.alias',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'length'  => 25,
                     'tooltip' => 'mautic.lead.field.help.alias',
                 ],
@@ -531,7 +531,7 @@ class FieldType extends AbstractType
                 'label'             => 'mautic.lead.field.object',
                 'empty_value'       => false,
                 'attr'              => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required' => false,
                 'disabled' => ($disabled || !$new),
