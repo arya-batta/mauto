@@ -5336,6 +5336,12 @@ figcaption {
   border-radius: cccccccccccc.2em;
   background-color: #ECECEC;
 }
+#BeeEditor_Header {
+  text-overflow: ellipsis;
+  width: 85%;
+  white-space: nowrap;
+  overflow: hidden !important;
+}
 .segment-filter-badge{
   background: #EF6E99;
   border: none;

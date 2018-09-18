@@ -40,7 +40,8 @@ class VariantType extends AbstractType
             'label'      => 'mautic.core.ab_test.form.traffic_weight',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
+                'style'   => 'padding: 3px 12px;',
                 'tooltip' => 'mautic.core.ab_test.form.traffic_weight.help',
             ],
             'constraints' => [

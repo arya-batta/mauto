@@ -31,7 +31,9 @@ class PointActionType extends AbstractType
             'number',
             [
                 'label'       => 'mautic.lead.lead.event.points',
-                'attr'        => ['class' => 'form-control le-input'],
+                'attr'        => ['class' => 'form-control le-input',
+                                  'tooltip'  => 'mautic.campaign.form.type.leadpoints.help',
+                                 ],
                 'label_attr'  => ['class' => 'control-label'],
                 'precision'   => 0,
                 'data'        => (isset($options['data']['points'])) ? $options['data']['points'] : 0,

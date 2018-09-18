@@ -170,7 +170,7 @@ class ContactRequestHelper
             true,
             true
         );
-        if ($foundContact != null && $foundContact->getId() !== $this->trackedContact->getId()) {
+        if ($foundContact != null && $this->trackedContact != null && $foundContact->getId() !== $this->trackedContact->getId()) {
             // A contact was found by a publicly updatable field
             return $foundContact;
         }
@@ -268,32 +268,34 @@ class ContactRequestHelper
 
     private function prepareContactFromRequest()
     {
-        $ipAddress          = $this->ipLookupHelper->getIpAddress();
-        $contactIpAddresses = $this->trackedContact->getIpAddresses();
-        if (!$contactIpAddresses->contains($ipAddress)) {
-            $this->trackedContact->addIpAddress($ipAddress);
-        }
+        if($this->trackedContact != null) {
+            $ipAddress = $this->ipLookupHelper->getIpAddress();
+            $contactIpAddresses = $this->trackedContact->getIpAddresses();
+            if (!$contactIpAddresses->contains($ipAddress)) {
+                $this->trackedContact->addIpAddress($ipAddress);
+            }
 
-        $this->leadModel->setFieldValues(
-            $this->trackedContact,
-            $this->publiclyUpdatableFieldValues,
-            false,
-            true,
-            true
-        );
+            $this->leadModel->setFieldValues(
+                $this->trackedContact,
+                $this->publiclyUpdatableFieldValues,
+                false,
+                true,
+                true
+            );
 
-        // Assume a web request as this is likely a tracking request from DWC or tracking code
-        $this->trackedContact->setManipulator(
-            new LeadManipulator(
-                'page',
-                'hit',
-                null,
-                (isset($this->queryFields['page_url'])) ? $this->queryFields['page_url'] : ''
-            )
-        );
+            // Assume a web request as this is likely a tracking request from DWC or tracking code
+            $this->trackedContact->setManipulator(
+                new LeadManipulator(
+                    'page',
+                    'hit',
+                    null,
+                    (isset($this->queryFields['page_url'])) ? $this->queryFields['page_url'] : ''
+                )
+            );
 
-        if (isset($this->queryFields['tags'])) {
-            $this->leadModel->modifyTags($this->trackedContact, $this->queryFields['tags']);
+            if (isset($this->queryFields['tags'])) {
+                $this->leadModel->modifyTags($this->trackedContact, $this->queryFields['tags']);
+            }
         }
     }
 

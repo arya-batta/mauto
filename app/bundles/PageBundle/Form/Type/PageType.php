@@ -294,7 +294,7 @@ class PageType extends AbstractType
                     'class' => 'control-label',
                 ],
                 'attr' => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'maxlength'    => 200,
                     'tooltip'      => 'mautic.page.form.redirecturl.help',
                     'data-toggle'  => 'field-lookup',

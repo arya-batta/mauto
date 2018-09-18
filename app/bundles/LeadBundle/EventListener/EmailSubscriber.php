@@ -41,7 +41,7 @@ class EmailSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            EmailEvents::EMAIL_ON_BUILD   => ['onEmailBuild', 0],
+            EmailEvents::EMAIL_ON_BUILD   => ['onEmailBuild', 1],
             EmailEvents::EMAIL_ON_SEND    => ['onEmailGenerate', 0],
             EmailEvents::EMAIL_ON_DISPLAY => ['onEmailDisplay', 0],
         ];

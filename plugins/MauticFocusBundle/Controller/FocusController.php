@@ -75,7 +75,7 @@ class FocusController extends FormController
      */
     public function viewAction($objectId)
     {
-        return parent::viewStandard($objectId, 'focus', 'plugin.focus');
+        return parent::viewStandard($objectId, 'focus', 'focus');
     }
 
     /**

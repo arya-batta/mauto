@@ -558,7 +558,7 @@ class AssetModel extends FormModel
 
         $repo = $this->getRepository();
         $size = $repo->getAssetSize($assets);
-        if ($size > 10000) {
+        if ($size > 10485760) {
             return 'failed';
         }
         if ($size) {

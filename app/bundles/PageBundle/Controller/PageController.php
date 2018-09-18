@@ -526,7 +526,7 @@ class PageController extends FormController
         $groupFilters['filters']['groups'] = [];
 
         $groupFilters['filters']['groups']['']  = [
-            'options' => $emailmodel->getTemplateGroupNames(),
+            'options' => $emailmodel->getPageTemplateGroupNames(),
         ];
 
         //set some permissions
@@ -701,7 +701,7 @@ class PageController extends FormController
         $groupFilters['filters']['groups'] = [];
 
         $groupFilters['filters']['groups']['']  = [
-            'options' => $emailmodel->getTemplateGroupNames(),
+            'options' => $emailmodel->getPageTemplateGroupNames(),
         ];
 
         return $this->delegateView([

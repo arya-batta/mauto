@@ -62,9 +62,10 @@ $custombutton = [
         <div class="row">
             <div class="col-xs-12">
                 <!-- tabs controls -->
-                <ul class="bg-auto nav nav-tabs pr-md pl-md ">
-                    <li class="ui-state-default btn-default ui-tabs-selected bar-top" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.details'); ?></a></li>
-                    <li class="ui-state-default btn-default" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
+                <div class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
+                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
+                    <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
+                    <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
                 </ul>
                 <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
                     <div class="fragment-1-buttons">
@@ -102,10 +103,10 @@ $custombutton = [
                             <?php echo $view['form']->row($form['isPublished']); ?>
                         </div>
                     </div>
-                    <div class="row">
                         <?php if (($permissions['page:preference_center:editown'] ||
                                 $permissions['page:preference_center:editother']) &&
                             !$activePage->isVariant()): ?>
+                    <div class="row">
                             <div class="col-md-6">
                                 <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
                             </div>
@@ -114,7 +115,11 @@ $custombutton = [
                         <div class="col-md-6">
                             <?php echo $view['form']->row($form['noIndex']); ?>
                         </div>
+                        <?php if (($permissions['page:preference_center:editown'] ||
+                            $permissions['page:preference_center:editother']) &&
+                        !$activePage->isVariant()): ?>
                     </div>
+                <?php endif; ?>
                     <div class="row">
                         <?php if (!$isVariant): ?>
                             <div class="col-md-6">

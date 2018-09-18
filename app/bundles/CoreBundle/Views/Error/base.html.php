@@ -12,7 +12,9 @@
 $isInline = !empty($inline);
 if (!$app->getRequest()->isXmlHttpRequest()) {
     $view->extend($baseTemplate);
-
+    if ($status_text == "Forbidden"){
+        $status_text .= " | LeadsEngage";
+    }
     if (!$isInline) {
         $view['slots']->set('pageTitle', $status_text);
     }

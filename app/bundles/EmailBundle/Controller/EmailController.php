@@ -705,7 +705,7 @@ class EmailController extends FormController
         $groupFilters['filters']['groups'] = [];
 
         $groupFilters['filters']['groups']['']  = [
-            'options' => $model->getTemplateGroupNames(),
+            'options' => $model->getEmailTemplateGroupNames(),
         ];
 
         return $this->delegateView(
@@ -991,7 +991,7 @@ class EmailController extends FormController
         $groupFilters['filters']['groups'] = [];
 
         $groupFilters['filters']['groups']['']  = [
-            'options' => $model->getTemplateGroupNames(),
+            'options' => $model->getEmailTemplateGroupNames(),
         ];
 
         return $this->delegateView(
