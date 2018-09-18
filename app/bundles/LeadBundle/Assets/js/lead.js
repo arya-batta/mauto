@@ -712,6 +712,12 @@ if(iscampaignmodel){
     } else {
         mQuery(filter).attr('type', fieldType);
     }
+    if(fieldObject == "pages" && fieldType == "number"){
+        mQuery(filter).attr('min', 0);
+    }
+    if(fieldObject == "emails" && fieldType == "number"){
+        mQuery(filter).attr('min', 0);
+    }
 
     var operators = mQuery(filterId).data('field-operators');
     mQuery('#' + filterIdBase + 'operator').html('');

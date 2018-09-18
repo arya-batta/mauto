@@ -42,6 +42,11 @@ trait OperatorListTrait
                 '!=',
             ],
         ],
+        'email_dnc' => [
+            'include' => [
+                '=',
+            ],
+        ],
         'default' => [
             'exclude' => [
                 'in',
@@ -58,6 +63,8 @@ trait OperatorListTrait
             'include' => [
                 'in',
                 '!in',
+                'empty',
+                '!empty',
             ],
         ],
         'date' => [
@@ -93,8 +100,6 @@ trait OperatorListTrait
         ],
         'lookup_id' => [
             'include' => [
-                '=',
-                '!=',
                 'empty',
                 '!empty',
                 'in',
@@ -124,6 +129,14 @@ trait OperatorListTrait
             ],
         ],
         'country' => [
+            'include' => [
+                'empty',
+                '!empty',
+                'in',
+                '!in',
+            ],
+        ],
+        'region' => [
             'include' => [
                 'empty',
                 '!empty',

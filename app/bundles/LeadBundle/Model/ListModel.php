@@ -439,7 +439,7 @@ class ListModel extends FormModel
                         1 => $this->translator->trans('mautic.core.form.yes'),
                     ],
                 ],
-                'operators' => $this->getOperatorsForFieldType('bool'),
+                'operators' => $this->getOperatorsForFieldType('email_dnc'),
                 'object'    => 'lead',
             ],
             'dnc_unsubscribed' => [
@@ -451,7 +451,7 @@ class ListModel extends FormModel
                         1 => $this->translator->trans('mautic.core.form.yes'),
                     ],
                 ],
-                'operators' => $this->getOperatorsForFieldType('bool'),
+                'operators' => $this->getOperatorsForFieldType('email_dnc'),
                 'object'    => 'lead',
             ],
         ];

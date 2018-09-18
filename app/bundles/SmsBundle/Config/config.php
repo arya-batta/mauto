@@ -164,21 +164,21 @@ return [
     'routes' => [
         'main' => [
             'mautic_sms_index' => [
-                'path'       => '/text message/{page}',
+                'path'       => '/textmessage/{page}',
                 'controller' => 'MauticSmsBundle:Sms:index',
             ],
             'mautic_sms_action' => [
-                'path'       => '/text message/{objectAction}/{objectId}',
+                'path'       => '/textmessage/{objectAction}/{objectId}',
                 'controller' => 'MauticSmsBundle:Sms:execute',
             ],
             'mautic_sms_contacts' => [
-                'path'       => '/text message/view/{objectId}/contact/{page}',
+                'path'       => '/textmessage/view/{objectId}/contact/{page}',
                 'controller' => 'MauticSmsBundle:Sms:contacts',
             ],
         ],
         'public' => [
             'mautic_receive_sms' => [
-                'path'       => '/text message/receive',
+                'path'       => '/textmessage/receive',
                 'controller' => 'MauticSmsBundle:Api\SmsApi:receive',
             ],
         ],

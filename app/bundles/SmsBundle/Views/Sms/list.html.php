@@ -93,6 +93,7 @@ if (count($items)):
             /** @var \Mautic\SmsBundle\Entity\Sms $item */
             foreach ($items as $item):
                 $type = $item->getSmsType();
+                $sentcount = 0;
                 ?>
                 <tr>
                     <td>
@@ -171,14 +172,13 @@ if (count($items)):
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats">
-                        <?php echo $model->getSentCount($item->getId()); ?>
+                        <?php echo $sentcount = $model->getSentCount($item->getId()); ?>
 
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats">
-                        <?php $clickcount = $model->getClickCount($item->getId()); ?>
-                        <?php echo $clickcount ?><br>
-                        <?php $clickpercent=($clickcount/$smsBlockDetails[1][3])*100; ?>
-                        <?php echo "(".$clickpercent."%)" ?>
+                        <?php echo $clickcount = $model->getClickCount($item->getId());?><br>
+                        <?php $clickpercent = ($sentcount == 0) ? 0 : ($clickcount/$sentcount)*100;
+                        echo "(".$clickpercent."%)" ?>
 
                     </td>
                    <?php /** <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;"> ?>

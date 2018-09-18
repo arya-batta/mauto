@@ -239,6 +239,17 @@ trait FilterTrait
                 }
 
                 break;
+            case 'number':
+                $type = 'integer';
+                if($fieldName == 'sessions' || $fieldName == 'lead_email_read_count' || $fieldName == 'source_id'){
+                    $attr = array_merge(
+                        $attr,
+                        [
+                            'min' => '0',
+                        ]
+                    );
+                }
+                break;
             case 'select':
             case 'multiselect':
             case 'boolean':
