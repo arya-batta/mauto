@@ -14,6 +14,7 @@ namespace Mautic\CampaignBundle\Controller;
 use Mautic\CampaignBundle\Entity\Event;
 use Mautic\CoreBundle\Controller\FormController as CommonFormController;
 use Mautic\LeadBundle\Entity\OperatorListTrait;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventController extends CommonFormController
@@ -90,7 +91,7 @@ class EventController extends CommonFormController
         //Check for a submitted form and process it
         if ($method == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateEventsSource($type, $form, $eventType) && $this->validateEventsAction($type, $form, $eventType)) {
                     $success = 1;
 
                     //form is valid so process the data
@@ -259,7 +260,6 @@ class EventController extends CommonFormController
         if ($event !== null) {
             $type      = $event['type'];
             $eventType = $event['eventType'];
-            //  file_put_contents("/var/www/mauto/events.txt","Current Event Group:->".$eventType."\n",FILE_APPEND);
             if (!in_array($eventType, $this->supportedEventTypes)) {
                 return $this->modalAccessDenied();
             }
@@ -276,8 +276,6 @@ class EventController extends CommonFormController
             ) {
                 return $this->modalAccessDenied();
             }
-            // file_put_contents("/var/www/mauto/events.txt","Current Event Group111:->".$eventType."\n",FILE_APPEND);
-            //  file_put_contents("/var/www/mauto/events.txt","Current Event Group222:->".$type."\n",FILE_APPEND);
             $event['isnew']=false;
             //fire the builder event
             $events = $this->getModel('campaign')->getEvents();
@@ -289,7 +287,6 @@ class EventController extends CommonFormController
                     'settings' => $events[$eventType][$type],
                 ]
             );
-            // file_put_contents("/var/www/mauto/events.txt","33333333333333333333333".$type."\n",FILE_APPEND);
             $event['settings'] = $events[$eventType][$type];
 
             $form->get('campaignId')->setData($campaignId);
@@ -297,7 +294,7 @@ class EventController extends CommonFormController
             //Check for a submitted form and process it
             if ($method == 'POST') {
                 if (!$cancelled = $this->isFormCancelled($form)) {
-                    if ($valid = $this->isFormValid($form)) {
+                    if ($valid = $this->isFormValid($form) && $this->validateEventsSource($type, $form, $eventType) && $this->validateEventsAction($type, $form, $eventType)) {
                         $success = 1;
 
                         //save the properties to session
@@ -323,7 +320,6 @@ class EventController extends CommonFormController
             if ($cancelled || $valid) {
                 $closeModal = true;
             } else {
-                // file_put_contents("/var/www/mauto/events.txt","2222222222222222222222222222".$type."\n",FILE_APPEND);
                 $closeModal = false;
                 $formThemes = ['MauticCampaignBundle:FormTheme\Event'];
                 if (isset($event['settings']['formTheme'])) {
@@ -335,7 +331,6 @@ class EventController extends CommonFormController
                     $event['settings']['description']
                 ) : '';
             }
-            // file_put_contents("/var/www/mauto/events.txt","111111111111111111111:->".$type."\n",FILE_APPEND);
             $viewParams['hideTriggerMode'] = isset($event['settings']['hideTriggerMode']) && $event['settings']['hideTriggerMode'];
             $viewParams['accessurl']       =$this->generateUrl('mautic_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
             $viewParams['events']          =$event;
@@ -581,8 +576,76 @@ class EventController extends CommonFormController
             $label .= $fieldlabel.' '.$oplabel.' '.$value;
             ++$index;
         }
-        file_put_contents('/var/www/mauto/campaign_tracker.txt', 'Label:'.$label."\n", FILE_APPEND);
 
         return $label;
+    }
+
+    public function validateEventsAction($type, $form, $eventType)
+    {
+        if ($eventType != 'action') {
+            return true;
+        }
+        $formData = $form->getData();
+        if ($eventType == 'action') {
+            $isValidForm =true;
+            if ($type == 'lead.changelist') {
+                if (empty($formData['properties']['addToLists']) && empty($formData['properties']['removeFromLists'])) {
+                    $form['properties']['addToLists']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.segment.add.required', [], 'validators'))
+                );
+                    $form['properties']['removeFromLists']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.segment.remove.required', [], 'validators'))
+                );
+                    $isValidForm =false;
+                }
+            } elseif ($type == 'lead.changetags') {
+                if (empty($formData['properties']['add_tags']) && empty($formData['properties']['remove_tags'])) {
+                    $form['properties']['add_tags']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.tags.add', [], 'validators'))
+                );
+                    $form['properties']['remove_tags']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.tags.remove', [], 'validators'))
+                );
+                    $isValidForm =false;
+                }
+            } elseif ($type == 'campaign.addremovelead') {
+                if (empty($formData['properties']['addTo']) && empty($formData['properties']['removeFrom'])) {
+                    $form['properties']['addTo']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.workflow.add', [], 'validators'))
+                );
+                    $form['properties']['removeFrom']->addError(
+                    new FormError($this->translator->trans('mautic.campaign.workflow.remove', [], 'validators'))
+                );
+                    $isValidForm =false;
+                }
+            }
+
+            return  $isValidForm;
+        }
+    }
+
+    public function validateEventsSource($type, $form, $eventType)
+    {
+        if ($eventType != 'source') {
+            return true;
+        }
+        $isValidForm = true;
+        $formData    = $form->getData();
+        if ($eventType == 'source' && $type == 'pagehit') {
+            if (empty($formData['properties']['pages']) && empty($formData['properties']['url']) && empty($formData['properties']['referer'])) {
+                $form['properties']['pages']->addError(
+                        new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                    );
+                $form['properties']['url']->addError(
+                        new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                    );
+                $form['properties']['referer']->addError(
+                        new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                    );
+                $isValidForm = false;
+            }
+        }
+
+        return $isValidForm;
     }
 }

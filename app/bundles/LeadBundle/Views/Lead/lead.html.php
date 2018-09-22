@@ -97,7 +97,7 @@ if ($view['security']->isGranted('campaign:campaigns:edit')) {
                 ['objectId' => $lead->getId(), 'objectAction' => 'campaign']
             ),
         ],
-        'btnText'   => $view['translator']->trans('mautic.campaign.campaigns'),
+        'btnText'   => $view['translator']->trans('mautic.workflow.workflow'),
         'iconClass' => 'fa fa-clock-o',
     ];
 }

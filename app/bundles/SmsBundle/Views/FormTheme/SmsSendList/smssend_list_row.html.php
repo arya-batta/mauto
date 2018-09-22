@@ -10,6 +10,17 @@
  */
 ?>
 <?php $isAdmin=$view['security']->isAdmin(); ?>
+<?php if (isset($form['user_id'])):?>
+    <div class="row" >
+        <div class="col-md-6">
+            <?php echo $view['form']->row($form['user_id']); ?>
+        </div>
+        <div class="col-md-6">
+            <?php echo $view['form']->row($form['to_owner']); ?>
+        </div>
+
+    </div>
+<?php endif; ?>
 <div class="row">
     <div class="col-xs-8">
         <?php echo $view['form']->row($form['sms']); ?>
@@ -20,14 +31,3 @@
         </div>
     </div>
 </div>
-<?php if (isset($form['user_id'])):?>
-<div class="row" >
-    <div class="col-md-6">
-        <?php echo $view['form']->row($form['user_id']); ?>
-    </div>
-    <div class="col-md-6">
-        <?php echo $view['form']->row($form['to_owner']); ?>
-    </div>
-
-</div>
-<?php endif; ?>

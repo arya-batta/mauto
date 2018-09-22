@@ -13,7 +13,6 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class ListActionType.
@@ -35,11 +34,6 @@ class ListActionType extends AbstractType
             'required'    => true,
             'multiple'    => true,
             'expanded'    => false,
-            'constraints' => [
-                new NotBlank(
-                    ['message' => 'mautic.email.chooseemail.notblank']
-                ),
-            ],
         ]);
 
         $builder->add('removeFromLists', 'leadlist_choices', [

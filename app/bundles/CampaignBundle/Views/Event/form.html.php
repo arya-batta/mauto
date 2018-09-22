@@ -13,12 +13,14 @@ $isSource   =$eventType == 'source' ? true : false;
 $isAction   =$eventType == 'action' ? true : false;
 $header     ='';
 $description='';
+$headerStyle= 'margin-top: 20px;';
 if ($isSource) {
     $header     =$view['translator']->trans('mautic.point.trigger.header.edit');
     $description=$view['translator']->trans('le.campaign.source.trigger.desc');
 } elseif ($isCondition) {
     $header     =$view['translator']->trans('le.campaign.edit.decision');
     $description=$view['translator']->trans('le.campaign.decision.desc');
+    $headerStyle='margin-top: 5px;';
 } elseif ($isAction) {
     $header     =$view['translator']->trans('le.campaign.edit.action');
     $description=$view['translator']->trans('le.campaign.action.desc');
@@ -48,7 +50,7 @@ if ($isCondition) {
     <div class="bundle-form-header mb-10">
         <h3><?php echo $header; ?></h3>
         <?php if (!empty($description)): ?>
-        <h6 class="text-muted" style="margin-top: 20px;"><?php echo $description; ?></h6>
+        <h6 class="info-box-text" style="<?php echo $headerStyle; ?>"><?php echo $description; ?></h6>
         <?php endif; ?>
     </div>
 
@@ -99,7 +101,7 @@ if ($isCondition) {
         </div>
         <div class="clearfix"></div>
     </div>
-    <div style="margin-bottom: 25px;" class="selected-filters" id="leadlist_filters">
+    <div style="margin-bottom: 30px;" class="selected-filters" id="leadlist_filters">
         <?php echo $view['form']->widget($form['properties']['filters']); ?>
     </div>
     <?php endif; ?>

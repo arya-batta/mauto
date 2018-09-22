@@ -22,15 +22,19 @@ class TransportType
         ];
     }
 
-    public function getCustomTransportType()
+    public function getCustomTransportType($needLeTransport)
     {
-        return [
-            'mautic.transport.amazon'       => 'mautic.transport.amazon',
-            'le.transport.vialeadsengage'   => 'le.transport.vialeadsengage',
-            'mautic.transport.elasticemail' => 'mautic.email.config.mailer_transport.elasticemail',
-            'mautic.transport.sendgrid_api' => 'mautic.email.config.mailer_transport.sendgrid_api',
-            'mautic.transport.sparkpost'    => 'mautic.email.config.mailer_transport.sparkpost',
-        ];
+        $leTrans         = ['le.transport.vialeadsengage'   => 'le.transport.vialeadsengage'];
+        $customTransport = ['mautic.transport.amazon'       => 'mautic.transport.amazon',
+            'mautic.transport.elasticemail'                 => 'mautic.email.config.mailer_transport.elasticemail',
+            'mautic.transport.sendgrid_api'                 => 'mautic.email.config.mailer_transport.sendgrid_api',
+            'mautic.transport.sparkpost'                    => 'mautic.email.config.mailer_transport.sparkpost', ];
+
+        if ($needLeTransport) {
+            $customTransport = array_merge($leTrans, $customTransport);
+        }
+
+        return $customTransport;
     }
 
     public function getSmtpService()

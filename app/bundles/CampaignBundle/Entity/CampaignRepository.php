@@ -245,8 +245,9 @@ class CampaignRepository extends CommonRepository
 //            $q->select('DISTINCT cl.leadlist_id');
 //        }
 
-        $lists   = [];
-        $results = $q->execute()->fetchAll();
+        $lists       = [];
+        $publishedIds=[];
+        $results     = $q->execute()->fetchAll();
 
         foreach ($results as $r) {
             $properties = $r['properties'];
@@ -256,11 +257,14 @@ class CampaignRepository extends CommonRepository
             }
             // $lists[] = $r['leadlist_id'];
         }
-        if (!empty($lists)) {
-            $lists=array_unique($lists);
+        $listPublishIds =[];
+        $publishedIds[] = $this->getPublishedSegment($lists);
+
+        if (!empty($publishedIds[0]) && !empty($publishedIds)) {
+            $listPublishIds=array_unique($publishedIds);
         }
 
-        return $lists;
+        return $listPublishIds;
     }
 
     /**
@@ -827,5 +831,22 @@ class CampaignRepository extends CommonRepository
         $results = $q->execute()->fetchAll();
 
         return $results[0]['inactivecampaigns'];
+    }
+
+    public function getPublishedSegment($listId)
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+
+        $qb->select('l.id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
+            ->andWhere('l.id = :lead')
+            ->setParameter('lead', $listId[0]);
+
+        $qb->andWhere($qb->expr()->eq('l.is_published', ':isPublished'))
+            ->setParameter('isPublished', '1');
+
+        $results = $qb->execute()->fetchAll();
+
+        return !empty($results[0]['id']) ? (int) $results[0]['id'] : '';
     }
 }

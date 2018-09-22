@@ -31,8 +31,8 @@ class PointActionType extends AbstractType
             'number',
             [
                 'label'       => 'mautic.lead.lead.event.points',
-                'attr'        => ['class' => 'form-control le-input',
-                                  'tooltip'  => 'mautic.campaign.form.type.leadpoints.help',
+                'attr'        => ['class'  => 'form-control le-input',
+                                  'tooltip'=> 'mautic.lead.lead.event.points.desc',
                                  ],
                 'label_attr'  => ['class' => 'control-label'],
                 'precision'   => 0,

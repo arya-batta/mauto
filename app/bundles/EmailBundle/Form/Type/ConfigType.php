@@ -376,12 +376,16 @@ class ConfigType extends AbstractType
                 'required' => false,
             ]
         );
+        $needLeTransport = true;
+        if ($options['data']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
+            $needLeTransport = false;
+        }
 
         $builder->add(
             'mailer_transport_name',
             'choice',
             [
-                'choices'  => $this->transportType->getCustomTransportType(),
+                'choices'  => $this->transportType->getCustomTransportType($needLeTransport),
                 'label'    => 'le.email.tranport.header',
                 'required' => false,
                 'attr'     => [

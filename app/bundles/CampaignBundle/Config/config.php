@@ -116,7 +116,7 @@ return [
     ],
 
     'categories' => [
-        'campaign' => null,
+        'workflow' => null,
     ],
 
     'services' => [

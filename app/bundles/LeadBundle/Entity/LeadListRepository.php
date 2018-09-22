@@ -946,6 +946,9 @@ class LeadListRepository extends CommonRepository
                         $getDate($filterValue);
                     }
                 } else {
+                    if (\DateTime::createFromFormat('Y-m-d h:m', $details['filter']) !== false) {
+                        $details['filter']= $details['filter'].''.':00';
+                    }
                     $getDate($details['filter']);
                 }
             }

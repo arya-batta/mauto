@@ -1416,12 +1416,12 @@ Mautic.registerKeyupCampaignName = function(){
     });*/
     if(mQuery('#campaign_isPublished_1').attr('checked') == "checked"){
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
-        mQuery('#campaignPublishButton').html('Stop Automation');
+        mQuery('#campaignPublishButton').html('Stop Workflow');
         mQuery('#campaignPublishButton').attr("value","unpublish");
         mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
     } else {
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
-        mQuery('#campaignPublishButton').html('Start Automation');
+        mQuery('#campaignPublishButton').html('Start Workflow');
         mQuery('#campaignPublishButton').attr("value","publish");
         mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
     }
@@ -1446,14 +1446,14 @@ Mautic.CloseStatisticsWidget = function(){
 Mautic.publishCampaign = function(){
     var value = mQuery('#campaignPublishButton').attr("value");
     var campaignname = mQuery('#campaign_name').val();
-    var msg = "Automation workflow"+" "+ campaignname +" "+" successfully";
+    var msg = "Automation workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
     if(value == "publish"){
         Mautic.toggleYesNoButtonClass('campaign_isPublished_1');
         mQuery('#campaign_isPublished_1').attr('checked',true);
         mQuery('#campaign_isPublished_0').attr('checked',false);
         mQuery('#campaignPublishButton').attr("value","unpublish");
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
-        mQuery('#campaignPublishButton').html('Stop Automation');
+        mQuery('#campaignPublishButton').html('Stop Workflow');
         mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
         mQuery('#flash').css('display','inline-block');
         mQuery('#flash').html(msg+' started.');
@@ -1464,7 +1464,7 @@ Mautic.publishCampaign = function(){
         mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
         mQuery('#campaignPublishButton').attr("value","publish");
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
-        mQuery('#campaignPublishButton').html('Start Automation');
+        mQuery('#campaignPublishButton').html('Start Workflow');
         mQuery('#flash').css('display','inline-block');
         mQuery('#flash').html(msg+' stopped.');
     }

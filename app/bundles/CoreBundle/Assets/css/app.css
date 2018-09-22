@@ -1017,7 +1017,7 @@ hr,
   margin-top: 15px;
   margin-bottom: 15px;
   border: 0;
-  border-top: 1px solid #ebedf0;
+  /*border-top: 1px solid #ebedf0;*/
 }
 hr.hr-w-2,
 .hr-expand.hr-w-2 {
@@ -6303,12 +6303,13 @@ text-align: center;
   color: #fff;
   position: absolute;
   padding: 10px;
-  margin-left: -280px;
+  margin-left: -280px !important;
   margin-top: 58px;
   border-radius: 5px;
 }
 .le-modal-gradient{
-  background: -webkit-gradient(linear,left top,right bottom,from(#ffda24),to(#f224f2));
+  /*background: -webkit-gradient(linear,left top,right bottom,from(#ffda24),to(#f224f2));*/
+  background: -webkit-gradient(linear,left top,right bottom,from(#e29dc3),to(#ff1475));
   position: absolute;
 }
 .le-gradient-align{

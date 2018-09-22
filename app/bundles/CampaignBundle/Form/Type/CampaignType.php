@@ -57,7 +57,8 @@ class CampaignType extends AbstractType
                 'bundle'     => 'campaign',
                 'label'      => 'mautic.core.category',
                 'label_attr' => ['class' => 'control-label'],
-            ]);
+                'new_cat'    => false,
+             ]);
 
             $builder->add(
                 'buttons',

@@ -29,6 +29,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class CampaignListFilterType.
@@ -177,6 +178,7 @@ class CampaignListFilterType extends AbstractType
                     'type'    => 'leadlist_filter',
                     'options' => [
                         'label'          => false,
+                        'required'       => true,
                         'timezones'      => $this->timezoneChoices,
                         'countries'      => $this->countryChoices,
                         'regions'        => $this->regionChoices,
@@ -191,7 +193,15 @@ class CampaignListFilterType extends AbstractType
                         'locales'        => $this->localeChoices,
                         'globalcategory' => $this->categoriesChoices,
                     ],
-                    'error_bubbling' => false,
+                    'required'    => true,
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => 'mautic.core.value.required',
+                            ]
+                        ),
+                    ],
+                    'error_bubbling' => true,
                     'mapped'         => true,
                     'allow_add'      => true,
                     'allow_delete'   => true,

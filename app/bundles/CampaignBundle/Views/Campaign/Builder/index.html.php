@@ -11,8 +11,9 @@
 ?>
 <div class="campaignevent-type-modal-backdrop hide"><div class="modal-backdrop fade in"></div></div>
 <div class="modal fade campaignevent-type-modal hide" style="display: block; z-index: 9999;">
-    <div class="modal-dialog" style="width:600px;margin-top:100px">
-        <div class="modal-content">
+    <div class="le-modal-gradient" style="margin-top:100px;margin-left:300px;">
+    <div class="modal-dialog le-gradient-align" style="width:600px;" >
+        <div class="modal-content le-modal-content">
             <div class="modal-header" style="border-bottom:none;margin-left: 100px;margin-top: 20px;">
                 <a href="javascript: void(0);" onclick="Mautic.closeCampaignTypeModel()" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title" style="color: #000;">
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 <div class="hide" id="CampaignEventPanel">

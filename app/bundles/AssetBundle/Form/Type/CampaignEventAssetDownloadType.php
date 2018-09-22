@@ -31,7 +31,7 @@ class CampaignEventAssetDownloadType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',
-                'tooltip' => 'mautic.asset.campaign.event.assets.descr',
+                //'tooltip' => 'mautic.asset.campaign.event.assets.descr',
             ],
             'required'    => true,
             'constraints' => [

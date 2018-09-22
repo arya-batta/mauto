@@ -69,7 +69,9 @@ class CategoryListType extends AbstractType
                 foreach ($categories as $l) {
                     $choices[$l['id']] = $l['title'];
                 }
-                $choices['new'] = $createNew;
+                if ($options['new_cat']) {
+                    $choices['new'] = $createNew;
+                }
 
                 return $choices;
             },
@@ -90,6 +92,7 @@ class CategoryListType extends AbstractType
                     'onchange' => "Mautic.loadAjaxModalBySelectValue(this, 'new', '{$newUrl}', '{$modalHeader}');",
                 ];
             },
+            'new_cat'  => true,
             'required' => false,
         ]);
 

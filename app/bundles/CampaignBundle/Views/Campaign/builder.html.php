@@ -25,11 +25,11 @@ $isAdmin=$view['security']->isAdmin();
         <!-- start: box layout -->
             <!-- container -->
             <div class="col-md-6 height-auto">
-                    <div class="row" style="width:130%;">
+                    <div class="row" style="width:170%;">
                         <div class="col-md-6">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <?php echo $view['form']->row($form['category']); ?>
                         </div>
                     </div>
@@ -64,7 +64,7 @@ $isAdmin=$view['security']->isAdmin();
             </button>
             <div class="custom-fields">
             <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
-                <?php echo $view['translator']->trans('Start Automation'); ?>
+                <?php echo $view['translator']->trans('Start Workflow'); ?>
             </button>
                 <div id="flash">
                     <span></span>
@@ -117,10 +117,14 @@ $isAdmin=$view['security']->isAdmin();
     <div class="campaign-statistics minimized">
         <?php if ($actions || $decisions || $conditions): ?>
             <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
-                <div class="modal-header campaign-model-header" style="height:50px;">
+                <div class="modal-header campaign-model-header" style="height:68px;">
                     <?php if ($actions):?>
+                        <p style="margin-top: -10px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.stats'); ?></p>
                     <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
-                    <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.actions.stat'); ?></p>
+                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.actions'); ?></p>
+                    </ul>
+                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
+                            <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.campaign.event.decisions.header'); ?></p>
                     </ul>
                     <?php endif; ?>
                     <?php if ($decisions || $conditions):?>
