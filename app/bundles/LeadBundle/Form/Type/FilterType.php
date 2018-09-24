@@ -105,6 +105,7 @@ class FilterType extends AbstractType
                 'locales',
                 'globalcategory',
                 'landingpage_list',
+                'users'
             ]
         );
 

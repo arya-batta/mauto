@@ -33,7 +33,7 @@ $view['slots']->set(
                     <i class="<?php echo $pageBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $pageBlock[2]; ?></span>
-                <span class="info-box-number"><?php echo $pageBlock[3]; ?></span>
+                <span class="info-box-number"><?php echo !empty($pageBlock[3]) ? $pageBlock[3] : 0 ; ?></span>
             </div>
 
         </div>

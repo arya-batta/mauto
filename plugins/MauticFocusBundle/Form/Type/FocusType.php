@@ -232,7 +232,7 @@ class FocusType extends AbstractType
         $customButtons = [
             [
                 'name'  => 'builder',
-                'label' => 'mautic.core.builder',
+                'label' => 'mautic.core.popup.builder',
                 'attr'  => [
                     'class'   => 'btn btn-default btn-dnd btn-nospin le-btn-default',
                     'icon'    => 'fa fa-cube',

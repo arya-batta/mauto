@@ -518,11 +518,12 @@ class EmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label '],
                     'attr'       => [
                         'class'        => 'form-control',
+                        'tooltip'      => 'mautic.email.segment.tooltip',
                         'data-show-on' => '{"emailform_segmentTranslationParent":[""]}',
                     ],
                     'multiple' => true,
                     'expanded' => false,
-                    'required' => true,
+                    'required' => false,
 
                 ]
             )

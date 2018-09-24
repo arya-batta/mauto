@@ -56,6 +56,16 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
+                        'text'       => 'mautic.email.graph.line.stats.pending',
+                        'class'      => 'col-email-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
                         'text'       => 'mautic.email.graph.line.stats.sent',
                         'class'      => 'col-email-stats',
                         'default'    => true,
@@ -207,7 +217,7 @@ $isAdmin=$view['security']->isAdmin();
                                     <i class="fa fa-fw fa-language"></i>
                                 </span>
                                 <?php endif; ?>
-                                <?php if ($type == 'list'): ?>
+                                <?php if ($type !== 'list'): ?>
                                     <span data-toggle="tooltip" title="<?php echo $view['translator']->trans(
                                         'mautic.email.icon_tooltip.list_email'
                                     ); ?>">
@@ -225,6 +235,20 @@ $isAdmin=$view['security']->isAdmin();
                                 <small><?php echo $description; ?></small>
                             </div>
                         <?php endif; ?>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs has-click-event clickable-stat"
+                            id="pending-<?php echo $item->getId(); ?>">
+                            <a href="<?php echo $view['router']->path(
+                                'mautic_contact_index',
+                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_pending').':'.$item->getId()]
+                            ); ?>" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
                     </td>
                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
@@ -342,7 +366,7 @@ $isAdmin=$view['security']->isAdmin();
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_email_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>

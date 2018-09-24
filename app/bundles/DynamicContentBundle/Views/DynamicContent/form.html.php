@@ -38,6 +38,7 @@ $templates = [
     'stage'          => 'stage-template',
     'locales'        => 'locale-template',
     'globalcategory' => 'globalcategory-template',
+    'users'          => 'owner_id-template',
 ];
 
 $mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';

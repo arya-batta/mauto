@@ -136,7 +136,9 @@ class AjaxController extends CommonAjaxController
         $formList  = [];
         foreach ($formslist as $i) {
             $item                     = $i[0];
-            $formList[$item->getId()] = $item->getName();
+            if($item->getPublishStatus()== 'published') {
+                $formList[$item->getId()] = $item->getName();
+            }
         }
         $dataArray['forms'] = $formList;
 

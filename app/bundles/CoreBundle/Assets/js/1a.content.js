@@ -1692,9 +1692,9 @@ Mautic.showActionButtons = function (id) {
     mQuery('.md-fab-toolbar-actions').css("display","block");
     var actioButtons = document.getElementsByClassName("md-fab-toolbar-actions")[0].getElementsByTagName("a").length;
     if(actioButtons > 4){
-        mQuery('#mainClass-'+id).css("width", '125px');
+        mQuery('#mainClass-'+id).css("width", '145px');
     }else if(actioButtons > 3){
-        mQuery('#mainClass-'+id).css("width", '100px');
+        mQuery('#mainClass-'+id).css("width", '115px');
     } else {
         mQuery('#mainClass-'+id).css("width", '89px');
     }

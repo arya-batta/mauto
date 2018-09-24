@@ -98,7 +98,7 @@ trait OperatorListTrait
                 'lte',
             ],
         ],
-        'lookup_id' => [
+        'owner_id' => [
             'include' => [
                 'empty',
                 '!empty',

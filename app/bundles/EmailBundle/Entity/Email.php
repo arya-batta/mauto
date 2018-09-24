@@ -501,7 +501,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
 
         $metadata->addConstraint(new Callback([
             'callback' => function (Email $email, ExecutionContextInterface $context) {
-                $type = $email->getEmailType();
+               /* $type = $email->getEmailType();
                 $translationParent = $email->getTranslationParent();
 
                 if ($type == 'list' && null == $translationParent) {
@@ -524,7 +524,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
                                 ->addViolation();
                         }
                     }
-                }
+                }*/
 
                 if ($email->isVariant()) {
                     // Get a summation of weights

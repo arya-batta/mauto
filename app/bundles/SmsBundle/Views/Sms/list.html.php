@@ -46,7 +46,7 @@ if (count($items)):
                         'sessionVar' => 'sms',
                         'orderBy'    => 'e.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-sms-name',
+                        'class'      => 'col-sms-name m_width',
                         'default'    => true,
                     ]
                 );
@@ -62,8 +62,8 @@ if (count($items)):
                 );
 
                 ?>
-                <th class="col-email-stats"><?php echo $view['translator']->trans('le.sms.sent_count'); ?></th>
-                <th class="col-email-stats"><?php echo $view['translator']->trans('le.sms.click_count'); ?></th>
+                <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.sent_count'); ?></th>
+                <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.click_count'); ?></th>
                 <?php
                 //<th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats'); ?></th>
 
@@ -165,7 +165,7 @@ if (count($items)):
                             </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="visible-md visible-lg" style="text-align: center;">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
