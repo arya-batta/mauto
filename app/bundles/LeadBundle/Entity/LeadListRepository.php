@@ -982,6 +982,10 @@ class LeadListRepository extends CommonRepository
                         $column = 'url';
                     }
 
+                    if ($column == 'url_title') {
+                        $column = 'id';
+                    }
+
                     $subqb = $this->getEntityManager()->getConnection()
                         ->createQueryBuilder()
                         ->select('id')

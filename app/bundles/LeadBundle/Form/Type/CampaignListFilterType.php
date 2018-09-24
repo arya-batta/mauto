@@ -23,6 +23,7 @@ use Mautic\LeadBundle\Form\DataTransformer\FieldFilterTransformer;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\PageBundle\Model\PageModel;
 use Mautic\StageBundle\Model\StageModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,6 +51,7 @@ class CampaignListFilterType extends AbstractType
     private $stageChoices        = [];
     private $localeChoices       = [];
     private $categoriesChoices   = [];
+    private $landingpageChoices  = [];
 
     /**
      * ListType constructor.
@@ -62,8 +64,9 @@ class CampaignListFilterType extends AbstractType
      * @param StageModel          $stageModel
      * @param CategoryModel       $categoryModel
      * @param UserHelper          $userHelper
+     * @param PageModel           $pageModel
      */
-    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper)
+    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel)
     {
         $this->translator = $translator;
 
@@ -93,6 +96,15 @@ class CampaignListFilterType extends AbstractType
             $this->emailChoices[$email['language']][$email['id']] = $email['name'];
         }
         ksort($this->emailChoices);
+
+        $pageRepo   = $pageModel->getRepository();
+
+        $pageList = $pageRepo->getPageList('', 0, 0, $viewOther, true);
+
+        foreach ($pageList as $page) {
+            $this->landingpageChoices[$page['language']][$page['id']] = $page['title'];
+        }
+        ksort($this->landingpageChoices);
 
         $tags = $leadModel->getTagList();
         foreach ($tags as $tag) {
@@ -177,21 +189,22 @@ class CampaignListFilterType extends AbstractType
                 [
                     'type'    => 'leadlist_filter',
                     'options' => [
-                        'label'          => false,
-                        'required'       => true,
-                        'timezones'      => $this->timezoneChoices,
-                        'countries'      => $this->countryChoices,
-                        'regions'        => $this->regionChoices,
-                        'fields'         => $this->fieldChoices,
-                        'lists'          => $this->listChoices,
-                        'emails'         => $this->emailChoices,
-                        'deviceTypes'    => $this->deviceTypesChoices,
-                        'deviceBrands'   => $this->deviceBrandsChoices,
-                        'deviceOs'       => $this->deviceOsChoices,
-                        'tags'           => $this->tagChoices,
-                        'stage'          => $this->stageChoices,
-                        'locales'        => $this->localeChoices,
-                        'globalcategory' => $this->categoriesChoices,
+                        'label'            => false,
+                        'required'         => true,
+                        'timezones'        => $this->timezoneChoices,
+                        'countries'        => $this->countryChoices,
+                        'regions'          => $this->regionChoices,
+                        'fields'           => $this->fieldChoices,
+                        'lists'            => $this->listChoices,
+                        'emails'           => $this->emailChoices,
+                        'deviceTypes'      => $this->deviceTypesChoices,
+                        'deviceBrands'     => $this->deviceBrandsChoices,
+                        'deviceOs'         => $this->deviceOsChoices,
+                        'tags'             => $this->tagChoices,
+                        'stage'            => $this->stageChoices,
+                        'locales'          => $this->localeChoices,
+                        'globalcategory'   => $this->categoriesChoices,
+                        'landingpage_list' => $this->landingpageChoices,
                     ],
                     'required'    => true,
                     'constraints' => [
@@ -222,19 +235,20 @@ class CampaignListFilterType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['fields']         = $this->fieldChoices;
-        $view->vars['countries']      = $this->countryChoices;
-        $view->vars['regions']        = $this->regionChoices;
-        $view->vars['timezones']      = $this->timezoneChoices;
-        $view->vars['lists']          = $this->listChoices;
-        $view->vars['emails']         = $this->emailChoices;
-        $view->vars['deviceTypes']    = $this->deviceTypesChoices;
-        $view->vars['deviceBrands']   = $this->deviceBrandsChoices;
-        $view->vars['deviceOs']       = $this->deviceOsChoices;
-        $view->vars['tags']           = $this->tagChoices;
-        $view->vars['stage']          = $this->stageChoices;
-        $view->vars['locales']        = $this->localeChoices;
-        $view->vars['globalcategory'] = $this->categoriesChoices;
+        $view->vars['fields']           = $this->fieldChoices;
+        $view->vars['countries']        = $this->countryChoices;
+        $view->vars['regions']          = $this->regionChoices;
+        $view->vars['timezones']        = $this->timezoneChoices;
+        $view->vars['lists']            = $this->listChoices;
+        $view->vars['emails']           = $this->emailChoices;
+        $view->vars['deviceTypes']      = $this->deviceTypesChoices;
+        $view->vars['deviceBrands']     = $this->deviceBrandsChoices;
+        $view->vars['deviceOs']         = $this->deviceOsChoices;
+        $view->vars['tags']             = $this->tagChoices;
+        $view->vars['stage']            = $this->stageChoices;
+        $view->vars['locales']          = $this->localeChoices;
+        $view->vars['globalcategory']   = $this->categoriesChoices;
+        $view->vars['landingpage_list'] = $this->landingpageChoices;
     }
 
     /**

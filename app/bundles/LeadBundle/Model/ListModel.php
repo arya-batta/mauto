@@ -459,9 +459,9 @@ class ListModel extends FormModel
             'url_title' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.url_title'),
                 'properties' => [
-                    'type' => 'text',
+                    'type' => 'landingpage_list',
                 ],
-                'operators' => $this->getOperatorsForFieldType('pages'),
+                'operators' => $this->getOperatorsForFieldType('landingpage_list'),
                 'object'    => 'lead',
             ],
             'sessions' => [

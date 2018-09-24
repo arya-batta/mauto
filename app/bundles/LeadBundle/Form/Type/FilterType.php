@@ -104,6 +104,7 @@ class FilterType extends AbstractType
                 'stage',
                 'locales',
                 'globalcategory',
+                'landingpage_list',
             ]
         );
 

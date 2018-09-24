@@ -111,6 +111,18 @@ trait FilterTrait
                 $customOptions['choice_translation_domain'] = false;
                 $type                                       = 'choice';
                 break;
+            case 'landingpage_list':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['landingpage_list'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
             case 'device_type':
                 if (!isset($data['filter'])) {
                     $data['filter'] = [];
@@ -241,7 +253,7 @@ trait FilterTrait
                 break;
             case 'number':
                 $type = 'integer';
-                if($fieldName == 'sessions' || $fieldName == 'lead_email_read_count' || $fieldName == 'source_id'){
+                if ($fieldName == 'sessions' || $fieldName == 'lead_email_read_count' || $fieldName == 'source_id') {
                     $attr = array_merge(
                         $attr,
                         [

@@ -144,6 +144,12 @@ trait OperatorListTrait
                 '!in',
             ],
         ],
+        'landingpage_list' => [
+            'include' => [
+                'in',
+                '!in',
+            ],
+        ],
     ];
 
     protected $operatorOptions = [
