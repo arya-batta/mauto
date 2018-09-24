@@ -47,11 +47,14 @@ class EmailDomainValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $regexval = '/^([\w-\.]+(?!@gmail.com)(?!@yahoo.com)(?!@yahoo.co.in)(?!@yahoo.in)(?!@hotmail.com)(?!@yahoo.co.in)(?!@aol.com)(?!@abc.com)(?!@xyz.com)(?!@pqr.com)(?!@rediffmail.com)(?!@live.com)(?!@outlook.com)(?!@me.com)(?!@msn.com)(?!@ymail.com)([\w-])+[\w-]{2,4})?$/';
-        if ($value != '' && preg_match($regexval, $value)) {
-            return;
-        } else {
-            $this->context->addViolation($this->translator->trans('le.email.domain.verification.error'));
-        }
+        $regexval = '/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,4})?$/';
+
+            if ($value != '' && preg_match($regexval, $value)) {
+                return;
+            } else{
+                $this->context->addViolation($this->translator->trans('le.email.domain.verification.error'));
+            }
+
+
     }
 }
