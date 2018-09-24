@@ -15,7 +15,7 @@
                 <?php $view['slots']->output('actions'); ?>
 
                 <div class="toolbar-bundle-buttons pull-left"><?php $view['slots']->output('toolbar'); ?></div>
-                <div class="toolbar-form-buttons hide pull-right">
+                <div class="toolbar-form-buttons hide pull-right" style="margin-left: -35px">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-main"></button>

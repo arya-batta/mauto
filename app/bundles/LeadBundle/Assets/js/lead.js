@@ -143,6 +143,19 @@ Mautic.leadOnLoad = function (container, response) {
         mQuery(container + ' .panel-companies .fa-check').tooltip({html: true});
     }
 };
+Mautic.segment_filter = function(id){
+    if(mQuery('#segment-filter-block_'+id).css("display") != 'none')
+    {
+        mQuery('#segment-filter-block_'+id).css("display","none");
+        mQuery('#'+id).setAttribute('aria-expanded','false');
+    }
+    else
+    {
+        mQuery('.filter_option').css("display","none");
+        mQuery('#segment-filter-block_'+id).css("display","");
+        mQuery('#'+id).setAttribute('aria-expanded','true');
+    }
+}
 Mautic.leadTimelineOnLoad = function (container, response) {
     mQuery("#contact-timeline a[data-activate-details='all']").on('click', function() {
         if (mQuery(this).find('span').first().hasClass('fa-level-down')) {
@@ -291,8 +304,7 @@ Mautic.leadEmailOnLoad = function(container, response) {
 }
 Mautic.removeHide= function(){
     mQuery('#segment_filters').removeClass('hide');
-    mQuery('#segment-filter-block_lead').removeClass('collapse');
-    mQuery('#segment-filter-block_lead').addClass('collapse in');
+    mQuery('#segment-filter-block_lead').css("display","");
     mQuery('#segment-filter-block_lead').css("height","auto");
 }
 Mautic.closeOnOpen= function(headerid){
@@ -570,7 +582,7 @@ Mautic.addLeadListFilter = function (elId) {
     var fieldType = mQuery(filterId).data('field-type');
     var fieldObject = mQuery(filterId).data('field-object');
     var customObject = mQuery(filterId).data('field-customobject');
-    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os', 'lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list']) != -1);
 
     prototype = prototype.replace(/__name__/g, filterNum);
     prototype = prototype.replace(/__label__/g, label);

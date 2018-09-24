@@ -155,6 +155,15 @@ $custombutton = [
                 <div class="col-md-12">
                     <?php echo $view['form']->row($form['previewText']); ?>
                 </div>
+                <?php if (!$isVariant): ?>
+                <div id="leadList " class="col-md-12" <?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                    <div class=" " id="leadlists">
+                        <?php echo $view['form']->label($form['lists']); ?>
+                        <?php echo $view['form']->widget($form['lists']); ?>
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <?php endif;?>
             </div>
             <?php if ($isVariant): ?>
             <div class="row">
@@ -239,7 +248,8 @@ $custombutton = [
         <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
         <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
         </div>
-         <div class=" <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
+        <div style="width: 70%">
+         <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
             <?php if (!empty($filters)): ?>
                 <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                     'filters' => $filters,
@@ -248,7 +258,21 @@ $custombutton = [
                 ]); ?>
             <?php endif; ?>
          </div>
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-4%;"  id="email-basic-container">
+        </div>
+        <div class="le-builder-btn col-md-6<?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width: 57%;">
+            <div style="margin-left: 385px;">
+            <?php echo $view->render(
+                'MauticCoreBundle:Helper:page_actions.html.php',
+                [
+                    'routeBase'     => 'email',
+                    'langVar'       => 'email',
+                    'customButtons' => $custombutton,
+                ]
+            ); ?>
+            </div>
+        </div>
+
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
             <?php echo $view['form']->widget($form['customHtml']); ?>
         </div>
         <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
@@ -264,7 +288,7 @@ $custombutton = [
         </div>
     </div>
     <div id="fragment-3" class=" ui-tabs-panel  <?php echo $formcontainserror ? '' : 'ui-tabs-hide'?>">
-        <div class="fragment-3-buttons" style="margin-left: 57%;float:right;">
+        <div class="fragment-3-buttons" style="margin-left: 60%;float: right;">
             <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
             <div class="toolbar-form-buttons" style="margin-top: -149px;margin-left: 128px;">
                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>

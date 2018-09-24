@@ -266,7 +266,7 @@ class PageType extends AbstractType
             [
                 'label'      => 'mautic.page.form.metadescription',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control', 'maxlength' => 160],
+                'attr'       => ['class' => 'form-control', 'maxlength' => 160,'style' =>"height: 102px"],
                 'required'   => false,
             ]
         );

@@ -20,37 +20,37 @@ $isAdmin    =$view['security']->isAdmin();
     <div class="col-md-6">
         <?php echo $view['form']->row($form['name']); ?>
     </div>
+    <div class="col-md-6">
+        <?php echo $view['form']->row($form['category']); ?>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
         <li class="dropdown" style="display: block;">
-            <a class="btn btn-nospin btn-primary btn-sm hidden-xs  " style="font-size: 13px;position:relative;left:86%;margin-bottom:-2%;vertical-align:super;"  data-toggle="dropdown" href="#">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs  " style="font-size: 13px;position:relative;left:88.7%;margin-bottom:-2%;vertical-align:super;z-index: 10000;"  data-toggle="dropdown" href="#">
                 <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right" style="margin-top:2%;">
+            <ul class="dropdown-menu dropdown-menu-right">
                 <li>
                     <div class="insert-tokens" style="background-color: whitesmoke;overflow-y: scroll;max-height: 154px;">
                     </div>
                 </li>
             </ul>
         </li>
+        <div style="margin-top: -20px">
         <?php echo $view['form']->row($form['message']); ?>
+        </div>
     </div>
-</div>
+    <div  style="width: 97%;margin-left: 1%;"<?php echo $isAdmin ? '' : 'class="hide"' ?>>
+        <?php echo $view['form']->row($form['language']); ?>
+    </div>
+    <div class="hide">
+        <?php echo $view['form']->row($form['isPublished']); ?>
+        <?php echo $view['form']->row($form['publishUp']); ?>
+        <?php echo $view['form']->row($form['publishDown']); ?>
 
-<?php $view['slots']->stop(); ?>
-
-<?php $view['slots']->start('rightFormContent'); ?>
-<?php echo $view['form']->row($form['category']); ?>
-<div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-<?php echo $view['form']->row($form['language']); ?>
-</div>
-<div class="hide">
-    <?php echo $view['form']->row($form['isPublished']); ?>
-    <?php echo $view['form']->row($form['publishUp']); ?>
-    <?php echo $view['form']->row($form['publishDown']); ?>
-
-    <?php echo $view['form']->rest($form); ?>
+        <?php echo $view['form']->rest($form); ?>
+    </div>
 </div>
 <?php $view['slots']->stop(); ?>

@@ -109,7 +109,7 @@ class EmailSendType extends AbstractType
 
             // create button edit email
             $windowUrlEdit = $this->factory->getRouter()->generate(
-                'mautic_email_action',
+                'mautic_email_campaign_action',
                 [
                     'objectAction' => 'edit',
                     'objectId'     => 'emailId',

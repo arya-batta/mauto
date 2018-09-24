@@ -24,6 +24,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Mautic\PageBundle\Model\PageModel;
+use Mautic\UserBundle\Model\UserModel;
 use Mautic\StageBundle\Model\StageModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -52,6 +53,7 @@ class CampaignListFilterType extends AbstractType
     private $localeChoices       = [];
     private $categoriesChoices   = [];
     private $landingpageChoices  = [];
+    private $userchoices         = [];
 
     /**
      * ListType constructor.
@@ -65,8 +67,9 @@ class CampaignListFilterType extends AbstractType
      * @param CategoryModel       $categoryModel
      * @param UserHelper          $userHelper
      * @param PageModel           $pageModel
+     * @param UserModel           $userModel
      */
-    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel)
+    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel,UserModel $userModel)
     {
         $this->translator = $translator;
 
@@ -106,6 +109,44 @@ class CampaignListFilterType extends AbstractType
         }
         ksort($this->landingpageChoices);
 
+        $isadmin=$userModel->getCurrentUserEntity()->isAdmin();
+        $filterarray= [
+            'force' => [
+                [
+                    'column' => 'u.isPublished',
+                    'expr'   => 'eq',
+                    'value'  => true,
+                ],
+                [
+                    'column' => 'u.id',
+                    'expr'   => 'neq',
+                    'value'  => '1',
+                ],
+            ],
+        ];
+        if($isadmin){
+            $filterarray= [
+                'force' => [
+                    [
+                        'column' => 'u.isPublished',
+                        'expr'   => 'eq',
+                        'value'  => true,
+                    ],
+                ],
+            ];
+        }
+        $choices = $userModel->getRepository()->getEntities(
+            [
+                'filter' => $filterarray,
+            ]
+        );
+
+        foreach ($choices as $choice) {
+            $this->userchoices[$choice->getId()] = $choice->getName(true);
+        }
+
+        //sort by language
+        ksort($this->userchoices);
         $tags = $leadModel->getTagList();
         foreach ($tags as $tag) {
             $this->tagChoices[$tag['value']] = $tag['label'];
@@ -189,21 +230,22 @@ class CampaignListFilterType extends AbstractType
                 [
                     'type'    => 'leadlist_filter',
                     'options' => [
-                        'label'            => false,
+                        'label'          => false,
+                        'timezones'      => $this->timezoneChoices,
+                        'countries'      => $this->countryChoices,
+                        'regions'        => $this->regionChoices,
+                        'fields'         => $this->fieldChoices,
+                        'lists'          => $this->listChoices,
+                        'emails'         => $this->emailChoices,
+                        'deviceTypes'    => $this->deviceTypesChoices,
+                        'deviceBrands'   => $this->deviceBrandsChoices,
+                        'deviceOs'       => $this->deviceOsChoices,
+                        'tags'           => $this->tagChoices,
+                        'stage'          => $this->stageChoices,
+                        'locales'        => $this->localeChoices,
+                        'globalcategory' => $this->categoriesChoices,
+                        'users'          => $this->userchoices,
                         'required'         => true,
-                        'timezones'        => $this->timezoneChoices,
-                        'countries'        => $this->countryChoices,
-                        'regions'          => $this->regionChoices,
-                        'fields'           => $this->fieldChoices,
-                        'lists'            => $this->listChoices,
-                        'emails'           => $this->emailChoices,
-                        'deviceTypes'      => $this->deviceTypesChoices,
-                        'deviceBrands'     => $this->deviceBrandsChoices,
-                        'deviceOs'         => $this->deviceOsChoices,
-                        'tags'             => $this->tagChoices,
-                        'stage'            => $this->stageChoices,
-                        'locales'          => $this->localeChoices,
-                        'globalcategory'   => $this->categoriesChoices,
                         'landingpage_list' => $this->landingpageChoices,
                     ],
                     'required'    => true,
@@ -249,6 +291,7 @@ class CampaignListFilterType extends AbstractType
         $view->vars['locales']          = $this->localeChoices;
         $view->vars['globalcategory']   = $this->categoriesChoices;
         $view->vars['landingpage_list'] = $this->landingpageChoices;
+        $view->vars['users']          = $this->userchoices;
     }
 
     /**

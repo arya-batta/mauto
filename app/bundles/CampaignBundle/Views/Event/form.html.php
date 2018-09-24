@@ -42,6 +42,7 @@ if ($isCondition) {
         'stage'          => 'stage-template',
         'locales'        => 'locale-template',
         'globalcategory' => 'globalcategory-template',
+        'users'          => 'owner_id-template'
     ];
 }
 ?>

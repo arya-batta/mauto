@@ -4,7 +4,7 @@ $feedbackClass = ($app->getRequest()->getMethod() == 'POST' && !empty($hasErrors
 
 ?>
 <div class="row">
-    <div class="form-group col-xs-12 <?php echo $feedbackClass; ?>">
+    <div class="form-group col-xs-12 <?php echo $feedbackClass; ?>" style="width: 150%">
         <?php echo $view['form']->label($form, $label) ?>
         <div class="choice-wrapper">
             <?php echo $view['form']->widget($form); ?>

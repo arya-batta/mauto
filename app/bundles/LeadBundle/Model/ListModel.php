@@ -308,10 +308,10 @@ class ListModel extends FormModel
         $choices['lead']['owner_id'] = [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.owner'),
                 'properties' => [
-                    'type'     => 'lookup_id',
+                    'type'     => 'owner_id',
                     'callback' => 'activateSegmentFilterTypeahead1',
                 ],
-                'operators' => $this->getOperatorsForFieldType('lookup_id'),
+                'operators' => $this->getOperatorsForFieldType('owner_id'),
                 'object'    => 'lead',
             ];
         //Check if onesignal plugin is published or not

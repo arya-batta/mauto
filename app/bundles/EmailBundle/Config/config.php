@@ -17,11 +17,11 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'mautic_email_campaign_index' => [
-                'path'       => '/email/{page}',
+                'path'       => '/emails/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'mautic_email_campaign_action' => [
-                'path'       => '/email/{objectAction}/{objectId}',
+                'path'       => '/emails/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'mautic_email_action' => [
@@ -100,7 +100,7 @@ return [
                 'method'     => ['GET', 'POST'],
             ],
             'mautic_email_preview' => [
-                'path'       => '/emailtemplate/preview/{objectId}',
+                'path'       => '/emails/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
             'le_beefree_credentials' => [

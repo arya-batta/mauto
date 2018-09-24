@@ -68,7 +68,7 @@ class FilterSelectorType extends AbstractType
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
-                        'class' => 'form-control not-chosen',
+                        'class' => 'form-control not-chosen le-input',
                     ],
                 ]
             );

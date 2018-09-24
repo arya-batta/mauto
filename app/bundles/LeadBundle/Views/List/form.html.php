@@ -38,6 +38,7 @@ $templates = [
     'locales'          => 'locale-template',
     'globalcategory'   => 'globalcategory-template',
     'landingpage_list' => 'landingpage_list-template',
+    'users'          => 'owner_id-template',
 ];
 
 $mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
@@ -173,10 +174,10 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                 $closedata='#segment-filter-block_'.$header;
             ?>
             <div class="hr-segment-expand">
-                <a href="javascript:void(0)" onclick="Mautic.closeOnOpen('<?php echo $closedata ?>')"
-                   class="arrow segment-collapse" data-toggle="collapse"  data-target="#segment-filter-block_<?php echo $header ?>">
+                <a href="javascript:void(0)" onclick="Mautic.segment_filter(this.id)" id="<?php echo $header; ?>"
+                   class="arrow segment-collapse" >
                     <span style="font-size:12px"  <i class="<?php echo $icon ?>"> </i><?php echo $view['translator']->trans('le.leadlist.'.$header); ?></span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>
-                <div class="collapse close_all"  style="padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_<?php echo $header ?>">
+                <div class=" filter_option"  style="overflow: hidden;height: auto;display:none;padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_<?php echo $header ?>">
                     <?php foreach ($field as $value => $params):
                         $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
 
@@ -196,8 +197,8 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             data-field-callback="<?php echo $callback; ?>"
                             data-field-operators="<?php echo $operators; ?>"
                             data-field-customobject="<?php echo $params['object']; ?>"
-                            class="segment-filter-badge fa fa-plus">
-
+                            class="segment-filter-badge ">
+                        <icon class="fa fa-plus" />
                             <?php echo $view['translator']->trans($params['label']); ?>
                         </a></div>
 

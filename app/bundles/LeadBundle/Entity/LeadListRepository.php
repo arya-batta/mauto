@@ -1513,6 +1513,7 @@ class LeadListRepository extends CommonRepository
                     break;
                 case 'tags':
                 case 'globalcategory':
+                case 'owner_id':
                 case 'lead_email_received':
                 case 'lead_email_sent':
                 case 'device_type':
@@ -1541,6 +1542,10 @@ class LeadListRepository extends CommonRepository
                             $trueParameter                      = $this->generateRandomParameterName();
                             $subQueryFilters[$alias.'.is_read'] = $trueParameter;
                             $parameters[$trueParameter]         = true;
+                            break;
+                        case 'owner_id':
+                            $table  = 'users';
+                            $column = 'id';
                             break;
                         case 'lead_email_sent':
                             $table  = 'email_stats';
@@ -1892,15 +1897,21 @@ class LeadListRepository extends CommonRepository
         $subQb   = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $subExpr = $subQb->expr()->andX();
 
-        if ('leads' !== $table) {
+        if ('leads' !== $table && 'users' !== $table) {
             $subExpr->add(
                 $subQb->expr()->eq($alias.'.lead_id', 'l.id')
             );
         }
 
+        if ('users' == $table) {
+            $subExpr->add(
+                $subQb->expr()->eq($alias.'.id', 'l.owner_id')
+            );
+        }
+
         // Specific lead
         if (!empty($leadId)) {
-            $columnName = ('leads' === $table) ? 'id' : 'lead_id';
+            $columnName = ('leads' === $table || 'users' === $table) ? 'id' : 'lead_id';
             $subExpr->add(
                 $subQb->expr()->eq($alias.'.'.$columnName, $leadId)
             );

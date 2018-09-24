@@ -50,7 +50,7 @@ Mautic.emailOnLoad = function (container, response) {
         mQuery('#leadlists .help-block').html("");
         if(mQuery('#emailform_name').val() == "" && mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
+            mQuery('#Email_TemplateName .help-block').html("Campaign name can't be empty");
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_Subject .help-block').html("Subject can't be empty");
 
@@ -65,7 +65,7 @@ Mautic.emailOnLoad = function (container, response) {
 
          if(mQuery('#emailform_name').val() == "") {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
+            mQuery('#Email_TemplateName .help-block').html("Campaign name can't be empty");
             return;
         }else{
              mQuery('#Email_TemplateName').removeClass('has-success has-error');
@@ -127,16 +127,17 @@ Mautic.emailOnLoad = function (container, response) {
                 {id: id},
                 function (response) {
                     if (response.success && mQuery('#sent-count-' + id + ' div').length) {
-                        if (response.pending) {
+                       /* if (response.pending) {
                             mQuery('#pending-' + id + ' > a').html(response.pending);
                             mQuery('#pending-' + id).removeClass('hide');
-                        }
+                        }*/
 
                         if (response.queued) {
                             mQuery('#queued-' + id + ' > a').html(response.queued);
                             mQuery('#queued-' + id).removeClass('hide');
                         }
 
+                        mQuery('#pending-' + id + ' > a').html(response.pending);
                         mQuery('#sent-count-' + id + ' > a').html(response.sentCount);
                         mQuery('#read-count-' + id + ' > a').html(response.readCount);
                         mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
@@ -462,8 +463,8 @@ Mautic.getTotalAttachmentSize = function() {
 Mautic.standardEmailUrl = function(options) {
     if (options && options.windowUrl && options.origin) {
         var url = options.windowUrl;
-        var editEmailKey = '/emailtemplates/edit/emailId';
-        var previewEmailKey = '/emailtemplate/preview/emailId';
+        var editEmailKey = '/emails/edit/emailId';
+        var previewEmailKey = '/emails/preview/emailId';
         if (url.indexOf(editEmailKey) > -1 ||
             url.indexOf(previewEmailKey) > -1) {
             options.windowUrl = url.replace('emailId', mQuery(options.origin).val());

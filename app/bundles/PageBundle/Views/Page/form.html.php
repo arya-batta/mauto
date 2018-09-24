@@ -119,7 +119,7 @@ $custombutton = [
                         <?php if (($permissions['page:preference_center:editown'] ||
                                 $permissions['page:preference_center:editother']) &&
                             !$activePage->isVariant()): ?>
-                    <div class="row">
+                    <div class="row hide">
                             <div class="col-md-6">
                                 <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
                             </div>

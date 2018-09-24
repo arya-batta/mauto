@@ -5347,7 +5347,7 @@ figcaption {
   border: none;
   border-radius: 8px;
   text-shadow: none;
-  font-size: 11.5px;
+  font-size: 13px;
   line-height: 1.2;
   font-weight: 500;
   padding: 3px 7px 1.5px 8px;
@@ -5356,6 +5356,7 @@ figcaption {
   width: 122%;
   color: #ffffff;
   float: left;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 .segment-filter-badge:hover{
   color: #ffffff;
@@ -5494,7 +5495,8 @@ figcaption {
   margin-top: -250px;
 }
 .fragment-1-buttons{
-  margin-left: 75%;
+  margin-left: 76%;
+  float: right;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;
@@ -5685,6 +5687,7 @@ figcaption {
   border-radius: 6px;
   border-bottom: 2px solid #e3e3e3;
   margin-bottom: 30px;
+  text-align: center;
 }
 .le-btn-primary{
   background: #ec407a;
@@ -6205,7 +6208,6 @@ text-align: center;
 }
 .col-email-actions{
   width:20%;
-  text-align: center;
 }
 .col-form-actions{
   width: 15%;
@@ -6333,5 +6335,8 @@ text-align: center;
   border-top: none;
 }
 .b-temp-width{
+  width: 20%;
+}
+.m_width{
   width: 20%;
 }

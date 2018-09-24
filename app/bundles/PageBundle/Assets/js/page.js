@@ -121,7 +121,7 @@ Mautic.closePluginModel = function(id){
 Mautic.openFormCreator = function(){
     Mautic.ajaxActionRequest('page:getFormsList',{}, function(response) {
         var formlist = response.forms;
-        var tborder= "<select border='1' id='page_formSelect' class='form-control category-select' onclick='Mautic.onFormSelectinPage(this.options[this.selectedIndex].value);'>";
+        var tborder= "<select border='1' id='page_formSelect' class='form-control category-select le-input' onclick='Mautic.onFormSelectinPage(this.options[this.selectedIndex].value);'>";
         var i = 0;
         var firstValue = "";
         for (var key in formlist) {
@@ -158,12 +158,20 @@ Mautic.openVideoEmbedModel = function(){
     mQuery('#bee-plugin-video-embed').removeClass('hide').addClass('fade in');
 }
 Mautic.ConvertURLtoEmbed = function (){
-    var url = mQuery('#youtube_url').val();
-    var videoId = this.getYoutubeVideoID(url);
-
-    var iframeMarkup = '<iframe width="560" height="315" src="//www.youtube.com/embed/'
-        + videoId + '?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-    mQuery('#iframe_textarea_videopage').val(iframeMarkup);
+       var url = mQuery('#youtube_url').val();
+    if(mQuery('#youtube_url').val() == ""){
+        mQuery('#youtube_u').removeClass('has-success has-error').addClass('has-error');
+        mQuery('#youtube_u .help-block').html("The Value Can't be Empty");
+    }
+    else {
+        mQuery('#youtube_u').removeClass('has-error');
+        mQuery('#youtube_u .help-block').html("");
+        var url = mQuery('#youtube_url').val();
+        var videoId = this.getYoutubeVideoID(url);
+       var iframeMarkup = '<iframe width="560" height="315" src="//www.youtube.com/embed/'
+           + videoId + '?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+       mQuery('#iframe_textarea_videopage').val(iframeMarkup);
+   }
 }
 Mautic.getYoutubeVideoID = function(url){
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

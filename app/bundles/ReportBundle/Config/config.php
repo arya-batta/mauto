@@ -41,7 +41,7 @@ return [
                     'scheduleUnit'            => '',
                     'scheduleDay'             => '',
                     'scheduleMonthFrequency'  => '',
-                    'scheduleDate'            => '',
+                    'scheduleDate'            => date('h:i:s'),
                 ],
             ],
             'mautic_report_action' => [
