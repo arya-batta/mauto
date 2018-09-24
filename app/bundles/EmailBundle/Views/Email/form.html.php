@@ -259,18 +259,7 @@ $custombutton = [
             <?php endif; ?>
          </div>
         </div>
-        <div class="le-builder-btn col-md-6<?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width: 57%;">
-            <div style="margin-left: 385px;">
-            <?php echo $view->render(
-                'MauticCoreBundle:Helper:page_actions.html.php',
-                [
-                    'routeBase'     => 'email',
-                    'langVar'       => 'email',
-                    'customButtons' => $custombutton,
-                ]
-            ); ?>
-            </div>
-        </div>
+
 
         <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
             <?php echo $view['form']->widget($form['customHtml']); ?>
