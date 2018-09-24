@@ -56,14 +56,60 @@ Mautic.emailOnLoad = function (container, response) {
 
             return;
         }
-        else if(mQuery('#emailform_name').val() == "") {
+        else{
+            mQuery('#Email_TemplateName').removeClass('has-success has-error');
+            mQuery('#Email_TemplateName .help-block').html("");
+            mQuery('#Email_Subject').removeClass('has-success has-error');
+            mQuery('#Email_Subject .help-block').html("");
+        }
+
+         if(mQuery('#emailform_name').val() == "") {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_TemplateName .help-block').html("Template name can't be empty");
             return;
-        } else if (mQuery('#emailform_subject').val() == ""){
+        }else{
+             mQuery('#Email_TemplateName').removeClass('has-success has-error');
+             mQuery('#Email_TemplateName .help-block').html("");
+         }
+
+        if (mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_Subject .help-block').html("Subject can't be empty");
             return;
+        }else{
+            mQuery('#Email_Subject').removeClass('has-success has-error');
+            mQuery('#Email_Subject .help-block').html("");
+        }
+        if(mQuery('#emailform_variantSettings_weight').val() == "" && mQuery('#emailform_variantSettings_winnerCriteria').val() == ""){
+            mQuery('#Email_trafficweight').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_trafficweight .help-block').html("Traffic Weight can't be empty");
+            mQuery('#Email_winnercriteria').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_winnercriteria .help-block').html("Winner Criteria can't be empty");
+
+            return;
+        }else{
+            mQuery('#Email_trafficweight').removeClass('has-success has-error');
+            mQuery('#Email_trafficweight .help-block').html("");
+            mQuery('#Email_winnercriteria').removeClass('has-success has-error');
+            mQuery('#Email_winnercriteria .help-block').html("");
+        }
+
+        if(mQuery('#emailform_variantSettings_weight').val() == "") {
+            mQuery('#Email_trafficweight').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_trafficweight .help-block').html("Traffic Weight can't be empty");
+            return;
+        }else{
+            mQuery('#Email_trafficweight').removeClass('has-success has-error');
+            mQuery('#Email_trafficweight .help-block').html("");
+        }
+
+        if(mQuery('#emailform_variantSettings_winnerCriteria').val() == "") {
+            mQuery('#Email_winnercriteria').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Email_winnercriteria .help-block').html("Winner Criteria can't be empty");
+            return;
+        }else{
+            mQuery('#Email_winnercriteria').removeClass('has-success has-error');
+            mQuery('#Email_winnercriteria .help-block').html("");
         }
         var selectrel = mQuery(this).attr("rel");
         mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
@@ -401,8 +447,10 @@ Mautic.getTotalAttachmentSize = function() {
         Mautic.ajaxActionRequest('email:getAttachmentsSize', assets, function(response) {
             if(response.size == "failed"){
                 mQuery('#Emailasset_Attachments').removeClass('has-success has-error').addClass('has-error');
-                mQuery('#Emailasset_Attachments .help-block').html("More than 10MB is not Allowed.");
+                mQuery('#Emailasset_Attachments .help-block').html("Allowed attachment file size- Maximum 1000KB.");
             } else {
+                mQuery('#Emailasset_Attachments').removeClass('has-success has-error');
+                mQuery('#Emailasset_Attachments .help-block').html("");
                 mQuery('#attachment-size').text(response.size);
             }
         });

@@ -150,7 +150,7 @@ Mautic.onFormSelectinPage = function(ele){
     //var jsInput = '<script type="text/javascript" src="'+jsurl+'"></script>';
     //mQuery('#javascipt_textarea_page').val(jsInput);
     var iframeurl = base_url+"form/"+ele;
-    var iframeinput = '<iframe src="'+iframeurl+'" width="300" height="300"><p>Your browser does not support iframes.</p></iframe>';
+    var iframeinput = '<iframe src="'+iframeurl+'" width="350" height="350"><p>Your browser does not support iframes.</p></iframe>';
     mQuery('#iframe_textarea_page').val(iframeinput);
 }
 Mautic.openVideoEmbedModel = function(){

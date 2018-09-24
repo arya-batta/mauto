@@ -2428,22 +2428,20 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     {
         $groupname                     = [];
         $groupname['all']              = $this->translator->trans('le.email.form.bee.alltemplate');
-        $groupname['art']              = $this->translator->trans('le.email.form.bee.arttemplate');
-        $groupname['Education']        = $this->translator->trans('le.email.form.bee.educationtemplate');
-        $groupname['food']             = $this->translator->trans('le.email.form.bee.foodtemplate');
-        $groupname['product']          = $this->translator->trans('le.email.form.bee.prodcuttemplate');
-        $groupname['travel']           = $this->translator->trans('le.email.form.bee.traveltemplate');
-        $groupname['Shopping']         = $this->translator->trans('le.email.form.bee.shoppingtemplate');
-        $groupname['Welcome']          = $this->translator->trans('le.email.form.bee.welcometemplate');
-        $groupname['EmailNewsletter']  = $this->translator->trans('le.email.form.bee.email_newslettertemplate');
-        $groupname['Hotel']            = $this->translator->trans('le.email.form.bee.hoteltemplate');
-        $groupname['Deals']            = $this->translator->trans('le.email.form.bee.dealstemplate');
         $groupname['Basic']            = $this->translator->trans('le.email.form.bee.basictemplate');
-        $groupname['Photography']      = $this->translator->trans('le.email.form.bee.photographytemplate');
         $groupname['Business']         = $this->translator->trans('le.email.form.bee.businesstemplate');
+        $groupname['EmailNewsletter']  = $this->translator->trans('le.email.form.bee.email_newslettertemplate');
+        $groupname['Discount']         = $this->translator->trans('le.email.form.bee.discounttemplate');
+        $groupname['Welcome']          = $this->translator->trans('le.email.form.bee.welcometemplate');
         $groupname['Notification']     = $this->translator->trans('le.email.form.bee.notificationtemplate');
-        $groupname['SPA']              = $this->translator->trans('le.email.form.bee.spatemplate');
+        $groupname['Shopping']         = $this->translator->trans('le.email.form.bee.shoppingtemplate');
+        $groupname['Travel']           = $this->translator->trans('le.email.form.bee.traveltemplate');
+        $groupname['Education']        = $this->translator->trans('le.email.form.bee.educationtemplate');
         $groupname['RealEstate']       = $this->translator->trans('le.email.form.bee.realestatetemplate');
+        $groupname['Photography']      = $this->translator->trans('le.email.form.bee.photographytemplate');
+        $groupname['Food']             = $this->translator->trans('le.email.form.bee.foodtemplate');
+        $groupname['SPA']              = $this->translator->trans('le.email.form.bee.spatemplate');
+        $groupname['Deals']            = $this->translator->trans('le.email.form.bee.dealstemplate');
 
         return $groupname;
     }
@@ -2452,20 +2450,18 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     {
         $groupname                  = [];
         $groupname['all']           = $this->translator->trans('le.email.form.bee.alltemplate');
-        $groupname['art']           = $this->translator->trans('le.email.form.bee.arttemplate');
-        $groupname['education']     = $this->translator->trans('le.email.form.bee.educationtemplate');
-        $groupname['food']          = $this->translator->trans('le.email.form.bee.foodtemplate');
-        $groupname['product']       = $this->translator->trans('le.email.form.bee.prodcuttemplate');
-        $groupname['travel']        = $this->translator->trans('le.email.form.bee.traveltemplate');
-        $groupname['Video']         = $this->translator->trans('le.email.form.bee.videotemplate');
         $groupname['Professional']  = $this->translator->trans('le.email.form.bee.professionaltemplate');
+        $groupname['Event']         = $this->translator->trans('le.email.form.bee.eventtemplate');
+        $groupname['Product']       = $this->translator->trans('le.email.form.bee.prodcuttemplate');
         $groupname['Thanks']        = $this->translator->trans('le.email.form.bee.thankstemplate');
-        $groupname['GYMandSPA']     = $this->translator->trans('le.email.form.bee.gymandspatemplate');
+        $groupname['Webinar']       = $this->translator->trans('le.email.form.bee.webinartemplate');
+        $groupname['Video']         = $this->translator->trans('le.email.form.bee.videotemplate');
+        $groupname['Travel']        = $this->translator->trans('le.email.form.bee.traveltemplate');
         $groupname['Ebook']         = $this->translator->trans('le.email.form.bee.ebooktemplate');
+        $groupname['Education']     = $this->translator->trans('le.email.form.bee.educationtemplate');
         $groupname['RealEstate']    = $this->translator->trans('le.email.form.bee.realestatetemplate');
         $groupname['Restaurant']    = $this->translator->trans('le.email.form.bee.restauranttemplate');
-        $groupname['Event']         = $this->translator->trans('le.email.form.bee.eventtemplate');
-        $groupname['Webinar']       = $this->translator->trans('le.email.form.bee.webinartemplate');
+        $groupname['GYMandSPA']     = $this->translator->trans('le.email.form.bee.gymandspatemplate');
 
         return $groupname;
     }

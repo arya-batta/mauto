@@ -13,7 +13,7 @@
         <div class="col-md-3 theme-list b-temp-width" >
             <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : ''; ?>">
                 <div class="panel-body text-center">
-                    <h4 style="height: 30px"><?php echo $themeInfo['name']; ?></h4>
+                    <h5 style="height: 30px"><?php echo $themeInfo['name']; ?></h5>
                     <?php if ($hasThumbnail) : ?>
                         <!-- <a href="#" data-toggle="modal" data-target="#theme-<?php echo $themeKey; ?>">-->
                         <div style="background-image: url(<?php echo $thumbnailUrl ?>);background-repeat:no-repeat;background-size:contain; background-position:center; width: 100%; height: 250px"></div>
@@ -62,7 +62,7 @@
             <div class="col-md-3 theme-list bee-template b-temp-width <?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : ''; ?>">
                 <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : ''; ?>">
                     <div class="panel-body text-center">
-                        <h4 style="height: 30px"><?php echo $themeInfo['name']; ?></h4>
+                        <h5 style="height: 30px"><?php echo $themeInfo['name']; ?></h5>
                         <?php if ($hasThumbnail) : ?>
                           <!-- <a href="#" data-toggle="modal" data-target="#theme-<?php echo $themeKey; ?>">-->
                                 <div style="background-image: url(<?php echo $thumbnailUrl ?>);background-repeat:no-repeat;background-size:contain; background-position:center; width: 100%; height: 250px"></div>

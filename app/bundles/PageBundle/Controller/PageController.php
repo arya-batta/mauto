@@ -464,6 +464,7 @@ class PageController extends FormController
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
                     $content = $this->replaceTitleinContent($entity, $content);
+                    $content = $this->replaceLinkinContent($content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
@@ -631,6 +632,7 @@ class PageController extends FormController
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
                     $content = $this->replaceTitleinContent($entity, $content);
+                    $content = $this->replaceLinkinContent($content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
@@ -1212,6 +1214,39 @@ class PageController extends FormController
         $content = preg_replace("/(<title>)(.*?)(<\/title>)/i", $title, $content);
 
         return $content;
+    }
+
+    public function replaceLinkinContent($content)
+    {
+        $doc                      = new \DOMDocument();
+        $doc->strictErrorChecking = false;
+        libxml_use_internal_errors(true);
+        $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
+        $doc->getElementsByTagName('head');
+        $head=$doc->getElementsByTagName('head');
+
+        $head = $head->item(0);
+
+        $l1 = $doc->createElement('link');
+        $l1->setAttribute('rel', 'icon');
+        $l1->setAttribute('type', 'image/x-icon');
+        $l1->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l2 = $doc->createElement('link');
+        $l2->setAttribute('rel', 'icon');
+        $l2->setAttribute('sizes', '192x192');
+        $l2->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l3 = $doc->createElement('link');
+        $l3->setAttribute('rel', 'apple-touch-icon');
+        $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
+        $head->appendChild($l1);
+        $head->appendChild($l2);
+        $head->appendChild($l3);
+        $headContent=$doc->saveHTML();
+
+        libxml_clear_errors();
+
+        return $headContent;
+
     }
 
     /**

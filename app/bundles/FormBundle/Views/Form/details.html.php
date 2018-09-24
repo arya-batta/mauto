@@ -332,7 +332,7 @@ $isadmin     =$view['security']->isAdmin();
                     <textarea id="iframe_textarea" class="form-control" readonly onclick="Mautic.copytoClipboardforms(this);">&lt;iframe src="<?php echo $view['router']->url(
                             'mautic_form_preview',
                             ['id' => $activeForm->getId()]
-                        ); ?>" width="300" height="300"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
+                        ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
                     <a id="iframe_textarea_atag" onclick="Mautic.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(
                             'leadsengage.subs.clicktocopy'

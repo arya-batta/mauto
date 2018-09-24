@@ -396,6 +396,7 @@ class ThemeHelper
             }
         }
 
+        asort($this->beeTemplateInfo);
         if ($extended) {
             return  $this->beeTemplateInfo;
         } else {

@@ -1,10 +1,10 @@
 {
-  "name": "Cart",
+  "name": "Shopping 7",
   "author": "LeadsEngage team",
   "authorUrl": "https://leadsengage.com",
   "features": [
        "email" ,
 "page"  
   ],
-"group" : "product"
+"group" : "Shopping"
 }

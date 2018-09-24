@@ -49,6 +49,7 @@ $custombutton = [
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
             'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+            'style'   => "color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;"
         ],
     ],
 ];
@@ -66,6 +67,18 @@ $custombutton = [
                 <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
                     <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
                     <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
+                    <div class="le-builder-btn col-md-6" style="width: 50%;float: right;">
+                        <div style="margin-left: 385px;">
+                            <?php echo $view->render(
+                                'MauticCoreBundle:Helper:page_actions.html.php',
+                                [
+                                    'routeBase'     => 'page',
+                                    'langVar'       => 'page',
+                                    'customButtons' => $custombutton,
+                                ]
+                            ); ?>
+                        </div>
+                    </div>
                 </ul>
                 <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
                     <div class="fragment-1-buttons">
@@ -150,7 +163,7 @@ $custombutton = [
                     <div class="tab-content pa-md tab-pane bdr-w-0" id="theme-container"style="border-width: 10px;border-color: #808080">
                         <div class="fragment-3-buttons" style="margin-left: 60%;">
                             <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                            <div class="toolbar-form-buttons" style="margin-top: -150px;margin-left: 122px;">
+                            <div class="toolbar-form-buttons" style="margin-top: -165px;margin-left: 122px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -170,18 +183,6 @@ $custombutton = [
                                             'tmpl'    => (empty($tmpl)) ? null : $tmpl,
                                         ]); ?>
                                     <?php endif; ?>
-                                </div>
-                                <div class="le-builder-btn col-md-6" style="width: 50%;">
-                                    <div style="margin-left: 385px;">
-                                        <?php echo $view->render(
-                                            'MauticCoreBundle:Helper:page_actions.html.php',
-                                            [
-                                                'routeBase'     => 'page',
-                                                'langVar'       => 'page',
-                                                'customButtons' => $custombutton,
-                                            ]
-                                        ); ?>
-                                    </div>
                                 </div>
                                 <?php echo $view['form']->row($form['template']); ?>
                             </div>
