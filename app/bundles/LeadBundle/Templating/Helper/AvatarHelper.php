@@ -85,6 +85,20 @@ class AvatarHelper extends Helper
     }
 
     /**
+     * Get useravatar path.
+     *
+     * @param $absolute
+     *
+     * @return string
+     */
+    public function getUserAvatarPath($absolute = false)
+    {
+        $imageDir = $this->factory->getSystemPath('images', $absolute);
+
+        return $imageDir.'/user_avatars';
+    }
+
+    /**
      * @param bool|false $absolute
      *
      * @return mixed
@@ -94,6 +108,42 @@ class AvatarHelper extends Helper
         $img = $this->factory->getSystemPath('assets').'/images/avatar.png';
 
         return UrlHelper::rel2abs($this->factory->getHelper('template.assets')->getUrl($img));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserAvatar()
+    {
+        $user    = $this->factory->get('security.token_storage')->getToken()->getUser();
+
+        $preferred  = $user->getPreferredProfileImage();
+        $leadEmail  = $user->getEmail();
+
+        if ($preferred == 'custom') {
+            $avatarPath = $this->getUserAvatarPath(true).'/avatar'.$user->getId();
+            if (file_exists($avatarPath) && $fmtime = filemtime($avatarPath)) {
+                // Append file modified time to ensure the latest is used by browser
+                $img = $this->factory->getHelper('template.assets')->getUrl(
+                    $this->getUserAvatarPath().'/avatar'.$user->getId().'?'.$fmtime,
+                    null,
+                    null,
+                    false,
+                    true
+                );
+            }
+        }
+
+        if (empty($img)) {
+            // Default to gravatar if others failed
+            if (!empty($leadEmail)) {
+                $img = $this->factory->getHelper('template.gravatar')->getImage($leadEmail);
+            } else {
+                $img = $this->getDefaultAvatar();
+            }
+        }
+
+        return $img;
     }
 
     /**

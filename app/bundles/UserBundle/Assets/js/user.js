@@ -9,6 +9,15 @@ Mautic.userOnLoad = function (container) {
             Mautic.activateSearchAutocomplete('list-search', 'user.user');
         }
     }
+    if (mQuery('#user_preferred_profile_image').length) {
+        mQuery('#user_preferred_profile_image').on('change', function() {
+            if (mQuery(this).val() == 'custom') {
+                mQuery('#customAvatarContainer').slideDown('fast');
+            } else {
+                mQuery('#customAvatarContainer').slideUp('fast');
+            }
+        })
+    }
 };
 
 Mautic.roleOnLoad = function (container, response) {

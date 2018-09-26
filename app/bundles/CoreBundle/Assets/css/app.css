@@ -1463,12 +1463,11 @@ blockquote > p:after {
   color: #fff;
   margin-left: 3px;
   background-color: #ec407a;
-  border-color: #d81b60;
+  border-color: #ec407a;
 }
 .btn-sm.viewinvoice:hover{
-  background-color: #fff;
+/*  background-color: #fff;*/
   border-color: #d81b60;
-  color: #d81b60;
   font-weight: 700;
 }
 .btn.btn-circle.btn-lg {
@@ -1541,7 +1540,7 @@ blockquote > p:after {
 }
 .alert-growl .close {
   font-size: 13px;
-  color: #fff;
+  color: #000;
   margin-left: 10px;
 }
 .alert .close {
@@ -4957,14 +4956,14 @@ figcaption {
 }
 
 .cancel-subscription{
-  background-color: #f22446;
+  background-color: #ec407a;
   color: #FFFFFF;
   border: 1px solid !important;
   font-size: 13px;
   padding: 10px 10px;
 }
 .cancel-subscription:hover{
-  background-color: #f64623;
+  background-color: #ec407a;
   color: #FFFFFF;
   border: 1px solid #f22446;
 
@@ -5561,7 +5560,6 @@ figcaption {
   margin-left: 16px;
   box-shadow: 2px 2px 8px #353535;
   width: 23%;
-  cursor: pointer;
 }
 #leads-info-box-container:hover {
   background: #fff;
@@ -6310,8 +6308,7 @@ text-align: center;
   border-radius: 5px;
 }
 .le-modal-gradient{
-  /*background: -webkit-gradient(linear,left top,right bottom,from(#ffda24),to(#f224f2));*/
-  background: -webkit-gradient(linear,left top,right bottom,from(#e29dc3),to(#ff1475));
+  background: -webkit-gradient(linear,left top,right bottom,from(#ffda24),to(#f224f2));
   position: absolute;
 }
 .le-gradient-align{
@@ -6336,6 +6333,12 @@ text-align: center;
 }
 .b-temp-width{
   width: 20%;
+}
+#le-publish-success{
+  background-color: #ec407a;
+}
+#le-publish-danger{
+  background-color: #66707c;
 }
 .m_width{
   width: 20%;

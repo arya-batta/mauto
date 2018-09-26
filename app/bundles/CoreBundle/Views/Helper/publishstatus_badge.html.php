@@ -22,4 +22,4 @@
         break;
 } ?>
 <?php $labelText = $view['translator']->trans('mautic.core.form.'.$entity->getPublishStatus()); ?>
-<h4 class="fw-sb"><span class="tt-u label label-<?php echo $labelColor; ?>"><?php echo $labelText; ?></span></h4>
+<h4 class="fw-sb"><span id="le-publish-<?php echo $labelColor; ?>" class="tt-u label label-<?php echo $labelColor; ?>"><?php echo $labelText; ?></span></h4>

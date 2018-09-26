@@ -18,7 +18,7 @@
         </span>
         <?php else: ?>
         <?php $tooltip = (!empty($n['type'])) ? ' data-toggle="tooltip" title="'.$view['translator']->trans('mautic.notifications.type.'.$n['type']).'"' : ''; ?>
-        <i class="fa fa-2x <?php echo (!empty($n['iconClass'])) ? $n['iconClass'] : 'fa-star'; ?>"<?php echo $tooltip; ?>></i>
+        <i class="fa fa-2x <?php echo (!empty($n['iconClass'])) ? $n['iconClass'] : 'fa-star'; ?>"></i>
         <?php endif; ?>
     </span>
     <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right do-not-close" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clear'); ?>" onclick="Mautic.clearNotification(<?php echo $n['id']; ?>);"><i class="fa fa-times do-not-close"></i></a>

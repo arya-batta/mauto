@@ -214,7 +214,7 @@ trait EntityFieldsBuildFormTrait
                             $choices = FormFieldHelper::getRegionChoices();
                             break;
                         case 'timezone':
-                            $choices = FormFieldHelper::getTimezonesChoices();
+                            $choices = FormFieldHelper::getCustomTimezones();
                             break;
                         case 'locale':
                             $choices = FormFieldHelper::getLocaleChoices();

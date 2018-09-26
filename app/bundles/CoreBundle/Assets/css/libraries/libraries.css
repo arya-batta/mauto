@@ -9213,14 +9213,14 @@ button.close {
   position: relative;
 }
 .chosen-container-multi .chosen-choices .search-choice .search-choice-close {
-  background: url("chosen/chosen-sprite.png") right top no-repeat;
+  background: url("chosen/chosen-sprite.png") right no-repeat;
   display: block;
   font-size: 1px;
-  height: 10px;
+  height: 15px;
   position: absolute;
   right: 4px;
   top: 5px;
-  width: 12px;
+  width: 9px;
   cursor: pointer;
 }
 .chosen-container-multi .chosen-choices .search-choice .search-choice-close:hover {
@@ -19140,7 +19140,6 @@ margin-left: -3px;
   width: 100%;
 }
 .payment-history .header{
-  text-transform: uppercase;
   padding:5px;
 }
 

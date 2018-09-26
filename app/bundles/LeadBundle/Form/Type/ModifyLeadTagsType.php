@@ -40,13 +40,15 @@ class ModifyLeadTagsType extends AbstractType
             'add_tags',
             'lead_tag',
             [
-                'label'    => 'mautic.lead.tags.add',
-                'required' => true,
-                'attr'     => [
+                'label'      => 'mautic.lead.tags.add',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => false,
+                'attr'       => [
                     'data-placeholder'     => $this->translator->trans('mautic.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
+                    'class'                => 'form-control',
                 ],
                 'data'            => (isset($options['data']['add_tags'])) ? $options['data']['add_tags'] : null,
                 'add_transformer' => true,
@@ -57,16 +59,18 @@ class ModifyLeadTagsType extends AbstractType
             'remove_tags',
             'lead_tag',
             [
-                'label' => 'mautic.lead.tags.remove',
-                'attr'  => [
+                'label'      => 'mautic.lead.tags.remove',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
                     'data-placeholder'     => $this->translator->trans('mautic.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
+                    'class'                => 'form-control',
                 ],
                 'data'            => (isset($options['data']['remove_tags'])) ? $options['data']['remove_tags'] : null,
                 'add_transformer' => true,
-                'required'        => true,
+                'required'        => false,
             ]
         );
     }

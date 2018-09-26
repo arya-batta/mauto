@@ -135,6 +135,11 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
     private $mobile;
 
     /**
+     * @var string
+     */
+    private $preferredProfileImage = 'gravatar';
+
+    /**
      * User constructor.
      *
      * @param bool $isGuest
@@ -237,6 +242,11 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
             ->build();
 
         $builder->createField('mobile', 'string')
+            ->nullable()
+            ->build();
+
+        $builder->createField('preferredProfileImage', 'string')
+            ->columnName('preferred_profile_image')
             ->nullable()
             ->build();
     }
@@ -959,5 +969,21 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
     public function getMobile()
     {
         return $this->mobile;
+    }
+
+    /**
+     * @param string $source
+     */
+    public function setPreferredProfileImage($source)
+    {
+        $this->preferredProfileImage = $source;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreferredProfileImage()
+    {
+        return $this->preferredProfileImage;
     }
 }

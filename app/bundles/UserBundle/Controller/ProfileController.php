@@ -12,6 +12,7 @@
 namespace Mautic\UserBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class ProfileController.
@@ -159,6 +160,13 @@ class ProfileController extends FormController
                         $me->$func($v);
                     }
 
+                    $image = $form['preferred_profile_image']->getData();
+                    if ($image == 'custom') {
+                        /* @var UploadedFile $file */
+                        //  if ($file = $form['custom_avatar']->getData()) {
+                        $this->uploadAvatar();
+                        //  }
+                    }
                     //form is valid so process the data
                     $model->saveEntity($me);
 
@@ -244,5 +252,25 @@ class ProfileController extends FormController
                 ],
             ]
         );
+    }
+
+    /**
+     * Upload an asset.
+     */
+    private function uploadAvatar()
+    {
+        //get current user
+        $user    = $this->get('security.token_storage')->getToken()->getUser();
+
+        $file      = $this->request->files->get('user[custom_avatar]', null, true);
+        $avatarDir = $this->get('mautic.helper.template.avatar')->getUserAvatarPath(true);
+
+        if (!file_exists($avatarDir)) {
+            mkdir($avatarDir);
+        }
+
+        $file->move($avatarDir, 'avatar'.$user->getId());
+        //remove the file from request
+        $this->request->files->remove('user');
     }
 }

@@ -16,7 +16,7 @@
     </div>
     <div class="panel-body pt-xs">
         <?php if (isset($logs) && $logs) : ?>
-        <ul class="media-list media-list-feed">
+        <ul class="media-list media-list-feed" style="margin-bottom: 30px">
             <?php foreach ($logs as $log) : ?>
             <li class="media">
                 <div class="media-object pull-left">

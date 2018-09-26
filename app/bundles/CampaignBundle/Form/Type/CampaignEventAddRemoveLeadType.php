@@ -32,7 +32,7 @@ class CampaignEventAddRemoveLeadType extends AbstractType
             'attr'       => [
                 'class' => 'form-control',
             ],
-            'required'    => true,
+            'required'    => false,
         ]);
 
         $builder->add('removeFrom', 'campaign_list', [
@@ -41,7 +41,7 @@ class CampaignEventAddRemoveLeadType extends AbstractType
             'attr'       => [
                 'class' => 'form-control',
             ],
-            'required'     => true,
+            'required'     => false,
             'include_this' => $options['include_this'],
         ]);
     }

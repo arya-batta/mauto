@@ -23,6 +23,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Class UserType.
@@ -92,6 +93,52 @@ class UserType extends AbstractType
     {
         $builder->addEventSubscriber(new CleanFormSubscriber());
         $builder->addEventSubscriber(new FormExitSubscriber('user.user', $options));
+
+        $imageChoices = [
+            'gravatar' => 'Gravatar',
+            'custom'   => 'mautic.lead.lead.field.custom_avatar',
+        ];
+
+        $builder->add(
+            'preferred_profile_image',
+            'choice',
+            [
+                'choices'    => $imageChoices,
+                'label'      => 'mautic.lead.lead.field.preferred_profile',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => true,
+                'multiple'   => false,
+                'attr'       => [
+                    'class' => 'form-control tt-input',
+                ],
+            ]
+        );
+
+        $builder->add(
+            'custom_avatar',
+            'file',
+            [
+                'label'      => false,
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => true,
+                'attr'       => [
+                    'class' => 'form-control le-input',
+                ],
+                'mapped'      => false,
+                'constraints' => [
+                    new File(
+                        [
+                            'mimeTypes' => [
+                                'image/gif',
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'mautic.lead.avatar.types_invalid',
+                        ]
+                    ),
+                ],
+            ]
+        );
 
         $builder->add(
             'username',

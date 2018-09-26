@@ -71,11 +71,11 @@ $isAdmin    =$view['security']->isAdmin();
         </div>
         </div>
     </div>
-    <div class="panel-heading" >
+    <div class="panel-heading <?php echo $isAdmin ? '' : 'hide' ?>" >
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.facebook.pixel'); ?></h3>
 
     </div>
-    <div class="panel-body" >
+    <div class="panel-body <?php echo $isAdmin ? '' : 'hide' ?>" >
         <?php echo $view['form']->row($form['facebook_pixel_id']); ?>
         <div class="row">
             <?php foreach ($form->children as $name => $f): ?>
@@ -90,11 +90,11 @@ $isAdmin    =$view['security']->isAdmin();
         </div>
     </div>
 
-    <div class="panel-heading" >
+    <div class="panel-heading <?php echo $isAdmin ? '' : 'hide' ?>" >
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.google.analytics'); ?></h3>
 
     </div>
-    <div class="panel-body">
+    <div class="panel-body <?php echo $isAdmin ? '' : 'hide' ?>">
         <?php echo $view['form']->row($form['google_analytics_id']); ?>
         <div class="row">
             <?php foreach ($form->children as $name => $f): ?>

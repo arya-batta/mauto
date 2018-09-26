@@ -528,7 +528,7 @@ class MailHelper
             } else {
                 $account = new Account();
             }
-            if ($account->getNeedpoweredby()) {
+            if (false) { //$account->getNeedpoweredby()
                 $ptag1->setAttribute('style', 'display:block;padding-top:20px;width:60%;float:left;text-align:right;');
                 $powerspan = $doc->createElement('span');
                 $powerspan->setAttribute('style', 'width:40%;float:right;text-align:left;');
