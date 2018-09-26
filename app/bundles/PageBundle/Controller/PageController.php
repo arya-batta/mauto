@@ -1222,7 +1222,6 @@ class PageController extends FormController
         $doc->strictErrorChecking = false;
         libxml_use_internal_errors(true);
         $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
-        $doc->getElementsByTagName('head');
         $head=$doc->getElementsByTagName('head');
 
         $head = $head->item(0);
@@ -1238,9 +1237,11 @@ class PageController extends FormController
         $l3 = $doc->createElement('link');
         $l3->setAttribute('rel', 'apple-touch-icon');
         $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
-        $head->appendChild($l1);
-        $head->appendChild($l2);
-        $head->appendChild($l3);
+        if($head){
+            $head->appendChild($l1);
+            $head->appendChild($l2);
+            $head->appendChild($l3);
+        }
         $headContent=$doc->saveHTML();
 
         libxml_clear_errors();

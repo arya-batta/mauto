@@ -4944,6 +4944,7 @@ figcaption {
   left: 0;
   width: 100%;
   z-index: 1030;
+  height: 860px;
 }
 .panel-heading-account{
   color: #ffffff;

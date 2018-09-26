@@ -20,12 +20,12 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
          </div>
          <div class="row pull-right" style="margin-right: 2%;">
             <div class="col-xs-12">
-                <a class="btn btn-primary btn-bee-show-preview <?php echo $hideplugin; ?>" onclick="Mautic.openPluginModel('bee-plugin-model');">
-                    <?php echo $view['translator']->trans('Plugins'); ?>
-                </a>
                 <button type="button" class="btn btn-primary btn-bee-show-preview" onclick="javascript:bee.preview();">
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.showpreview'); ?>
                 </button>
+                <a class="btn btn-primary btn-bee-show-preview <?php echo $hideplugin; ?>" onclick="Mautic.openPluginModel('bee-plugin-model');">
+                    <?php echo $view['translator']->trans('Plugins'); ?>
+                </a>
                 <button type="button" class="btn btn-primary btn-bee-show-structure hide" onclick="javascript:bee.toggleStructure();">
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.showstructure'); ?>
                 </button>
@@ -37,13 +37,12 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.downloadhtml'); ?>
                 </button>
                 <?php endif; ?>
-                <button type="button" class="btn btn-primary btn-bee-save" onclick="javascript:bee.save();">
-                    <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
-                </button>
                 <button type="button" class="btn btn-primary btn-bee-close-editor" onclick="Mautic.closeBeeEditor();">
                     <?php echo $view['translator']->trans('mautic.core.form.cancel'); ?>
                 </button>
-
+                <button type="button" class="btn btn-primary btn-bee-save" onclick="javascript:bee.save();">
+                    <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
+                </button>
             </div>
         </div>
     </div>

@@ -134,7 +134,7 @@
           }
 
           mQuery('body').css('overflow-y', 'hidden');
-          mQuery('#bee-plugin-viewpanel').css('height', height+"px");
+         // mQuery('#bee-plugin-viewpanel').css('height', height+"px");
           Mautic.getTokens(actionName+':getBuilderTokens', function(tokens) {
               mergeTags.length=0;
               mQuery.each(tokens, function(k,v){

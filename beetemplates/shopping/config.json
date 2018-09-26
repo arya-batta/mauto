@@ -1,10 +1,9 @@
 {
-  "name": "Shopping",
+  "name": "Shopping 8",
   "author": "LeadsEngage team",
   "authorUrl": "https://leadsengage.com",
   "features": [
-       "email" ,
-"page"  
+       "email"
   ],
 "group" : "Shopping"
 }

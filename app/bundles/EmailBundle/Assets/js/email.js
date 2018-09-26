@@ -116,6 +116,13 @@ Mautic.emailOnLoad = function (container, response) {
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+
+        if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
+        {
+            mQuery('#builder_btn').removeClass('hide');
+        }else {
+            mQuery('#builder_btn').addClass('hide');
+        }
     });
 
     if (mQuery('table.email-list').length) {

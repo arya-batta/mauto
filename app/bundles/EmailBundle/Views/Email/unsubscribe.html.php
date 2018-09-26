@@ -11,7 +11,10 @@
 ?>
 <html>
 <head>
-    <title><?php echo $name; ?></title>
+    <title><?php echo $name.' | LeadsEngage'; ?></title>
+    <link rel="icon" type="image/x-icon" href="/leadsengage/mauto/media/images/favicon.ico" />
+    <link rel="icon" sizes="192x192" href="/leadsengage/mauto/media/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/leadsengage/mauto/media/images/apple-touch-icon.png" />
     <style>
         .unsubscribe-intent{
             margin-bottom: -70px;

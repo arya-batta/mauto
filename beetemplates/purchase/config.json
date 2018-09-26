@@ -1,10 +1,9 @@
 {
-  "name": "Purchase",
+  "name": "Hotel 5",
   "author": "LeadsEngage team",
   "authorUrl": "https://leadsengage.com",
   "features": [
-       "email" ,
-"page"  
+       "email"
   ],
  "group" : "Food"
 }

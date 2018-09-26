@@ -790,15 +790,17 @@ class EmailRepository extends CommonRepository
         return $q;
     }
 
-    public function updateLeadDetails($leadName, $newEmailAddress, $leadId)
+    public function updateLeadDetails($FirstName,$LastName,$newEmailAddress, $leadId)
     {
         $q   = $this->_em->getConnection()->createQueryBuilder();
         $q->update(MAUTIC_TABLE_PREFIX.'leads')
             ->set('email', ':email')
             ->set('firstname', ':firstname')
+            ->set('lastname', ':lastname')
             ->where('id = '.$leadId)
             ->setParameter('email', $newEmailAddress)
-            ->setParameter('firstname', $leadName)->execute();
+            ->setParameter('firstname', $FirstName)
+            ->setParameter('lastname', $LastName)->execute();
     }
 
     /**

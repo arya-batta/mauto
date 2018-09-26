@@ -161,11 +161,12 @@ class PublicController extends CommonFormController
 
         if ($this->request->getMethod() == 'POST') {
             $parameter       = $this->request->request->all();
-            $leadName        = $parameter['leadname'];
+            $firstName       = $parameter['firstname'];
+            $lastName        = $parameter['lastname'];
             $newEmailAddress = $parameter['emailaddress'];
 
-            if (!empty($leadName) && !empty($newEmailAddress)) {
-                $emailRepo->updateLeadDetails($leadName, $newEmailAddress, $leadId);
+            if (!empty($firstName) && !empty($lastName) && !empty($newEmailAddress)) {
+                $emailRepo->updateLeadDetails($firstName,$lastName, $newEmailAddress, $leadId);
             }
             $viewParams['content'] = $formContent;
 
@@ -175,13 +176,14 @@ class PublicController extends CommonFormController
                 'message'     => $message,
                 'actionroute' => $actionRoute,
                 'actionName'  => 'viewlead',
+                'idHash'      => $idHash,
             ];
 
             return $this->render($contentTemplate, $viewParams);
         }
-
-        $emailAddress = preg_replace('/(?:^|.@).\K|..[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '.', $email);
-
+        $arr = explode('@', $email);
+        $emailAddress = preg_replace('/(?:^|.@).\K|..[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '.', $arr[0].'@');
+        $emailAddress=$emailAddress.$arr[1];
         if (empty($message)) {
             $actionName = 'updatelead';
         }
@@ -191,6 +193,7 @@ class PublicController extends CommonFormController
             'message'     => $message,
             'actionroute' => $actionRoute,
             'actionName'  => $actionName,
+            'idHash'      => $idHash,
         ];
 
         $contentTemplate  = 'MauticEmailBundle:Email:updatelead.html.php';

@@ -44,6 +44,13 @@ Mautic.pageOnLoad = function (container, response) {
         mQuery("#fragment-page-"+selectrel).removeClass('hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-page-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+
+        if (mQuery('#ui-tab-page-header2').hasClass('ui-tabs-selected'))
+        {
+            mQuery('#builder_btn').removeClass('hide');
+        }else {
+            mQuery('#builder_btn').addClass('hide');
+        }
     });
     Mautic.filterBeeTemplates= function () {
         d = document.getElementById("filters").value;

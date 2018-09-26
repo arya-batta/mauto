@@ -1,10 +1,9 @@
 {
-  "name": "Nature",
+  "name": "Photography 3",
   "author": "LeadsEngage team",
   "authorUrl": "https://leadsengage.com",
   "features": [
-       "email",
-"page"  
+       "email"
   ],
 "group" : "Photography"
 }
