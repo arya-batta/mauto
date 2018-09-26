@@ -11,7 +11,7 @@
 ?>
 <?php
 $hideclass  = '';
-$modalwidth = '64%';
+$modalwidth = '';
 $formwidth  = '50%';
 if (!isset($typeThreeIconClass)) {
     $hideclass  = 'hide';
@@ -26,9 +26,10 @@ if (!isset($typeThreeIconClass)) {
 </script>
 <div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
 
-<div class="modal fade in <?php echo $typePrefix; ?>-type-modal" style="display: block; z-index: 9999;">
-    <div class="modal-dialog" style="width: <?php echo $modalwidth ?>">
-        <div class="modal-content">
+<div class="modal fade in <?php echo $typePrefix; ?>-type-modal le-modal-box-align" style="display: block; z-index: 9999;margin-left: 235px;">
+    <div class="le-modal-gradient" style="margin-right: 120px;">
+    <div class="modal-dialog le-gradient-align" style="margin-right: 120px;width: <?php echo $modalwidth ?>">
+        <div class="modal-content le-modal-content" style="width: 120%;">
             <div class="modal-header">
                 <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($cancelUrl); ?>');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title">
@@ -77,5 +78,6 @@ if (!isset($typeThreeIconClass)) {
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>

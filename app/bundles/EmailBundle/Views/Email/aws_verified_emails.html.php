@@ -16,9 +16,10 @@
 <table class="payment-history">
     <thead>
     <button id="open-model-btn" type="button" class="btn btn-info" style="margin-left: 200px;" data-toggle="modal" data-target="#emailVerifyModel"><?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
-    <div class="modal fade" id="emailVerifyModel">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal fade le-modal-box-align" id="emailVerifyModel">
+        <div class="le-modal-gradient">
+        <div class="modal-dialog le-gradient-align">
+            <div class="modal-content le-modal-content">
                 <!-- Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">AWS Email Verification</h4>
@@ -27,18 +28,19 @@
                 <div class="modal-body">
                         <div class="form-group" id ="user_email">
                             <label class="control-label required" for="email">E-mail address</label>
-                            <input type="email" class="form-control" id="aws_email_verification" placeholder="Enter valid email" name="email" required="required">
+                            <input type="email" class="form-control le-input" id="aws_email_verification" placeholder="Enter valid email" name="email" required="required">
                             <div class="help-block" id ="errors"></div>
                         </div>
                         <br>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                            <button type="button"  class="btn btn-default aws-verification-btn" id="aws_emailverification-btn"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button"  class="btn btn-success aws-verification-btn" id="aws_emailverification-btn"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                             </div>
                        </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 
