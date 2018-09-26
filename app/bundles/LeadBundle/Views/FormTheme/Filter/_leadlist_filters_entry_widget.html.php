@@ -42,7 +42,6 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
             <?php echo $view['form']->errors($form['filter']); ?>
             <?php echo $view['form']->errors($form['display']); ?>
         </div>
-
         <div class="col-xs-2 col-sm-1">
             <a href="javascript: void(0);" class="remove-selected btn btn-default text-danger pull-right"><i class="fa fa-trash-o"></i></a>
         </div>

@@ -120,6 +120,10 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
                     <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>
             </div>
+            <div class="hidden">
+                <?php echo $view['form']->row($form['preferred_profile_image']); ?>
+                <?php echo $view['form']->row($form['custom_avatar']); ?>
+            </div>
             <?php echo $view['form']->rest($form); ?>
 		</div>
 	</div>

@@ -27,7 +27,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
 
 <div class="number">
     <div class="row">
-        <div class="form-group col-xs-12 col-sm-8 col-md-6">
+        <div class="form-group col-xs-12 col-sm-8 col-md-6" style="width:58%;">
             <label class="control-label"><?php echo $view['translator']->trans('mautic.lead.field.form.properties.numberrounding'); ?></label>
             <div class="input-group">
                 <select class="form-control not-chosen" autocomplete="false" name="leadfield[properties][roundmode]">
@@ -40,7 +40,6 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
 
                 <span class="input-group-addon" data-toggle="tooltip" data-container="body"
                       data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.field.help.numberrounding'); ?>">
-                    <i class="fa fa-question-circle"></i>
                 </span>
             </div>
         </div>

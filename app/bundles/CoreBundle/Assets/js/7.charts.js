@@ -62,9 +62,20 @@ Mautic.renderLineChart = function(canvas) {
             lineTension : 0.2,
             borderWidth: 1,
             scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    gridLines : {
+                        drawOnChartArea: false
+                    }
+                }],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
+                    },
+                    gridLines : {
+                        drawOnChartArea: false
                     }
                 }]
             }

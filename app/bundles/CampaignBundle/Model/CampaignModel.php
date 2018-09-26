@@ -1395,13 +1395,13 @@ class CampaignModel extends CommonFormModel
 
     public function getCampaignsBlocks()
     {
-        $totalCampaigns =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-bullhorn', $this->translator->trans('mautic.campaign.campaigns.all'),
+        $totalCampaigns =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-cogs', $this->translator->trans('mautic.campaign.campaigns.all'),
             $this->getRepository()->getTotalCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
-        $activeCampaigns = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-bullhorn', $this->translator->trans('mautic.campaign.campaigns.activel'),
+        $activeCampaigns = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-cogs', $this->translator->trans('mautic.campaign.campaigns.activel'),
             $this->getRepository()->getTotalActiveCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
-        $inactiveCampaigns = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-bullhorn', $this->translator->trans('mautic.campaign.campaigns.inactive'),
+        $inactiveCampaigns = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-cogs', $this->translator->trans('mautic.campaign.campaigns.inactive'),
             $this->getRepository()->getTotalInactiveCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
 

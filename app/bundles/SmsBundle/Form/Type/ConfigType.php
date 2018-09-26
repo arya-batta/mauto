@@ -97,7 +97,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.name.twilio',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
@@ -129,7 +129,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.auth.token',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control SII le-input',
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
