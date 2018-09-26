@@ -259,4 +259,13 @@ ul.tag-cloud li {
     margin: 0 3px 0 0;
     padding: 0 10px;
 }
+.email-activity-label {
+    border: 1px solid #d5d5d5;
+    padding: 6px;
+    border-radius: 2px;
+    background: #f2f2f2;
+}
+.lead_filter_padding_right{
+    padding-right: 0px;
+}
 
