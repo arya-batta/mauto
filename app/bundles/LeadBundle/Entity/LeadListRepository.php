@@ -1546,6 +1546,7 @@ class LeadListRepository extends CommonRepository
                         case 'owner_id':
                             $table  = 'users';
                             $column = 'id';
+                            $alias  = 'll';
                             break;
                         case 'lead_email_sent':
                             $table  = 'email_stats';
@@ -1911,10 +1912,18 @@ class LeadListRepository extends CommonRepository
 
         // Specific lead
         if (!empty($leadId)) {
-            $columnName = ('leads' === $table || 'users' === $table) ? 'id' : 'lead_id';
-            $subExpr->add(
-                $subQb->expr()->eq($alias.'.'.$columnName, $leadId)
-            );
+            if('users' !== $table) {
+                $columnName = ('leads' === $table) ? 'id' : 'lead_id';
+                $subExpr->add(
+                    $subQb->expr()->eq($alias . '.' . $columnName, $leadId)
+                );
+            }
+            else{
+                $columnName = ('users' === $table) ? 'id' : 'lead_id';
+                $subExpr->add(
+                    $subQb->expr()->eq( 'l.' . $columnName, $leadId)
+                );
+            }
         }
 
         foreach ($subQueryFilters as $subColumn => $subParameter) {
