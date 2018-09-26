@@ -39,7 +39,7 @@ class EmailSendType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $isSendMail=!empty($options['with_email_types']) ? $options['with_email_types'] : true;
+        $isSendMail=!empty($options['with_email_types']) ? $options['with_email_types'] : false;
 
         $builder->add(
             'email',

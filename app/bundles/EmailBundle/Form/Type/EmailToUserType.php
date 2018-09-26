@@ -35,7 +35,8 @@ class EmailToUserType extends AbstractType
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.email.choose.emails_descr',
             ],
-            'update_select' => empty($options['update_select']) ? 'formaction_properties_useremail_email' : $options['update_select'],
+            'update_select'   => empty($options['update_select']) ? 'formaction_properties_useremail_email' : $options['update_select'],
+            'with_email_types'=> !empty($options['with_email_types']) ? $options['with_email_types'] : false,
         ]);
 
         $builder->add('user_id', 'user_list', [
@@ -66,10 +67,11 @@ class EmailToUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'label' => false,
+            'label'            => false,
+            'with_email_types' => false,
         ]);
 
-        $resolver->setDefined(['update_select']);
+        $resolver->setDefined(['update_select', 'with_email_types']);
     }
 
     /**
