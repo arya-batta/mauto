@@ -5630,7 +5630,7 @@ figcaption {
   height: 240px;
   width: 224px;
   padding-left: 8px;
-  padding-top: 39px;
+  padding-top: 18px;
 }
 .lead-profile-table-col-1{
   margin-top: -205px;
@@ -6285,9 +6285,8 @@ text-align: center;
   word-wrap: break-word;
 }
 .lead_page_hit_url_div{
-  max-height:150px;
-  overflow: auto;
-  max-width: 92%;
+  word-break: break-all;
+  max-width: 96%;
 }
 .leadprofile{
   min-height: 16px;

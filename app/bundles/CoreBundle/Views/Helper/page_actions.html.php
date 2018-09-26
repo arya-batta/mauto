@@ -112,7 +112,7 @@ if ($view['buttons']->getButtonCount() > 0) {
 
     $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
         ."\n";
-    $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">'."\n";
+    $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
     echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
 
     echo '</div>';

@@ -46,7 +46,10 @@
         <td class="visible-md visible-lg"><?php
             if ($item->getIgnoredCount() == 1) {
                 echo 'Success!';
-            } else {
+            }elseif($item->getIgnoredCount() == 0){
+                echo 0;
+            }
+            else {
                 echo $item->getIgnoredCount() - 1;
             }
              ?></td>

@@ -38,7 +38,7 @@ if (!isset($typeThreeIconClass)) {
             </div>
             <div class="modal-body form-select-modal" style="background-color: #eee;">
                 <div class="row">
-                    <div class="white-block" style="margin-left:15px;width:94%;">
+                    <div class="white-block" style="margin-left:15px;width:94%;text-align:left">
                         <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                             <div class="panel-primary">
                                 <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
@@ -52,7 +52,7 @@ if (!isset($typeThreeIconClass)) {
                 <div class="row">
                     <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                         <div class="panel panel-success">
-                            <div class="white-block">
+                            <div class="white-block"style="text-align: left">
                                 <div>
                                     <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                     <p class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
@@ -64,7 +64,7 @@ if (!isset($typeThreeIconClass)) {
                     <?php if (isset($typeThreeIconClass)): ?>
                         <div class="col-md-6 <?php echo $hideclass ?>"style="<?php echo $formwidth ?>">
                             <div class="panel panel-success" >
-                                <div class="white-block">
+                                <div class="white-block"style="text-align: left">
                                     <div>
                                         <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeThreeHeader); ?></h3>
                                         <p class="le-email-editor-desc"><?php echo $view['translator']->trans($typeThreeDescription); ?></p>
