@@ -33,7 +33,7 @@
             <div class="panel-title"><?php echo $view['translator']->trans('mautic.lead.import.fields'); ?></div>
         </div>
         <div class="panel-body">
-            <?php echo $view['form']->errors($form); ?>
+            <?php /*echo $view['form']->errors($form); */?>
             <?php $rowCount = 2; ?>
             <?php foreach ($form->children as $key => $child): ?>
                 <?php if ($key != 'properties'): ?>

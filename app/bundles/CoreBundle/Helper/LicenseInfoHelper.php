@@ -1001,4 +1001,69 @@ class LicenseInfoHelper
 
         return $timezone;
     }
+
+    public function intSMSCount($SMSCount)
+    {
+        $data=$this->licenseinfo->findAll();
+
+        if (sizeof($data) > 0 && $data != null) {
+            $entity = $data[0];
+        }
+        if (!$data) {
+            $entity = new LicenseInfo();
+        }
+        if (!isset($SMSCount)) {
+            $SMSCount = 0;
+        }
+
+        $previousValue = $entity->getActualSmsCount();
+        $totalCount    = $previousValue + $SMSCount;
+        $entity->setActualSmsCount($totalCount);
+
+        $this->licenseinfo->saveEntity($entity);
+    }
+
+    public function smsCountExpired()
+    {
+        $data=$this->licenseinfo->findAll();
+
+        if (sizeof($data) > 0 && $data != null) {
+            $entity = $data[0];
+        }
+
+        if (!$data) {
+            $entity = new LicenseInfo();
+        }
+
+        $totalSMSCount  = $entity->getTotalSmsCount();
+        $actualSMSCount = $entity->getActualSmsCount();
+
+        if ($totalSMSCount == 'UL') {
+            return true;
+        } else {
+            if ($totalSMSCount > $actualSMSCount) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function intSMSProvider($smsProvider)
+    {
+        $data=$this->licenseinfo->findAll();
+
+        if (sizeof($data) > 0 && $data != null) {
+            $entity = $data[0];
+        }
+        if (!$data) {
+            $entity = new LicenseInfo();
+        }
+        if (!isset($smsProvider)) {
+            $smsProvider = '';
+        }
+
+        $entity->setSMSProvider($smsProvider);
+        $this->licenseinfo->saveEntity($entity);
+    }
 }

@@ -521,7 +521,7 @@ class Import extends FormEntity
     {
         $processed = $this->getProcessedRows();
 
-        if ($processed && $total = $this->getLineCount()) {
+        if ($processed && $total = $this->getLineCount() - 1) {
             return round(($processed / $total) * 100, 2);
         }
 

@@ -62,7 +62,7 @@ class EmailType extends AbstractType
             [
                 'label'      => 'mautic.email.subject',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
             ]
         );
@@ -80,7 +80,7 @@ class EmailType extends AbstractType
             [
                 'label'      => 'mautic.lead.email.from_name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class'     => 'form-control',
+                'attr'       => ['class'     => 'form-control le-input',
                 'disabled'                   => false,
                 ],
                 'required'   => false,
@@ -100,7 +100,7 @@ class EmailType extends AbstractType
             [
                 'label'       => 'mautic.lead.email.from_email',
                 'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class'   => 'form-control',
+                'attr'        => ['class'   => 'form-control le-input',
                     'disabled'              => $disabled,
                 ],
                 'required'    => false,
@@ -145,7 +145,7 @@ class EmailType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'onchange' => 'Mautic.getLeadEmailContent(this)',
                 ],
                 'multiple' => false,

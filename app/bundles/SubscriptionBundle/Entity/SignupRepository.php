@@ -52,7 +52,7 @@ class SignupRepository
         }
     }
 
-    public function updateSignupInfo($accountData, $billingData, $userData)
+    public function updateSignupInfo($accountData, $billingData, $userData, $appid)
     {
         $qb = $this->getConnection()->createQueryBuilder();
 
@@ -70,6 +70,7 @@ class SignupRepository
 
         $phonenumber    = $accountData['phonenumber'];
         $timezone       = $accountData['timezone'];
+        $website        = $accountData['website'];
 
         $recordid = $this->checkisRecordAvailable($email);
         if (!$recordid) {
@@ -79,10 +80,14 @@ class SignupRepository
                 ->set('city', ':city')
                 ->set('state', ':state')
                 ->set('zipcode', ':zipcode')
-                ->set('timezone', ':timezone')
+                ->set('timezone1', ':timezone')
                 ->set('country', ':country')
                 ->set('gst_no', ':gst_no')
                 ->set('lead_stage', ':stage')
+                ->set('lastname', ':lastname')
+                ->set('mobile', ':mobile')
+                ->set('website', ':website')
+                ->set('app_id', ':appid')
                 ->setParameter('address', $companyaddress)
                 ->setParameter('city', $city)
                 ->setParameter('state', $state)
@@ -90,6 +95,10 @@ class SignupRepository
                 ->setParameter('timezone', $timezone)
                 ->setParameter('country', $country)
                 ->setParameter('gst_no', $gstnumber)
+                ->setParameter('lastname', $lastName)
+                ->setParameter('mobile', $phonenumber)
+                ->setParameter('website', $website)
+                ->setParameter('appid', $appid)
                 ->setParameter('stage', 'Trial- Activated')
                 ->where(
                     $qb->expr()->in('id', $recordid)

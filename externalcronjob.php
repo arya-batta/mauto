@@ -153,6 +153,9 @@ try {
             if (strpos($output, 'exception->') !== false) {
                 $errormsg = $output;
             }
+            if (strpos($a, 'exceeded the timeout') !== false) {
+                $errormsg = '';
+            }
             //	    displayCronlog('general', $domain.'errorinfo:  '.$errormsg);
             if ($errormsg != '') {
                 displayCronlog('general', 'errorinfo:  '.$errormsg);

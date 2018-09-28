@@ -218,9 +218,10 @@ class AjaxController extends CommonAjaxController
             $cacheHelper = $this->get('mautic.helper.cache');
             $cacheHelper->clearContainerFile();
         }
-
+        $dbname          = $this->coreParametersHelper->getParameter('db_name');
+        $appid           = str_replace('leadsengage_apps', '', $dbname);
         $signuprepository=$this->get('le.core.repository.signup');
-        $signuprepository->updateSignupInfo($data, $data, $data);
+        $signuprepository->updateSignupInfo($data, $data, $data, $appid);
         $model->saveEntity($account);
 
         $userentity->setEmail($email);
@@ -519,9 +520,9 @@ class AjaxController extends CommonAjaxController
         $paramater             = $configurator->getParameters();
         $maileruser            = $paramater['mailer_user'];
         $emailpassword         = $paramater['mailer_password'];
-        if(isset($paramater['mailer_amazon_region'])){
+        if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region                = $paramater['mailer_amazon_region'];

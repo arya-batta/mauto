@@ -146,7 +146,11 @@ class CampaignSubscriber extends CommonSubscriber
         if (!$sms) {
             return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
         }
+        $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
 
+        if (!$smsCountExpired) {
+            return $event->setFailed('le.sms.license.expire');
+        }
         $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
         if ($result['errorResult'] != 'Success') {
             $this->notificationhelper->sendNotificationonFailure(false, false, $result['exception']);
@@ -159,6 +163,7 @@ class CampaignSubscriber extends CommonSubscriber
         if (!empty($result['sent'])) {
             $event->setChannel('sms', $sms->getId());
             $event->setResult($result);
+            $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');
         } else {
             $result['failed'] = true;
             $result['reason'] = $result['status'];
@@ -183,9 +188,15 @@ class CampaignSubscriber extends CommonSubscriber
         if (!$sms) {
             return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
         }
+        $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
+
+        if (!$smsCountExpired) {
+            return $event->setFailed('le.sms.license.expire');
+        }
 
         try {
             $event = $this->sendSmstoUser->sendSmsToUsers($event->getConfig(), $lead, $event);
+            $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');
         } catch (SmsCouldNotBeSentException $e) {
             $event->setFailed($e->getMessage());
         }
