@@ -172,7 +172,7 @@ class SmsController extends FormController
             ]);
         }
         $session->set('mautic.sms.page', $page);
-
+        $isPublished       = $this->getSMSProviderStatus();
         $integration       = $this->get('mautic.helper.integration')->getIntegrationObject('SolutionInfinity');
         $smsBlockDetails   = $model->getSMSBlocks();
 
@@ -190,6 +190,7 @@ class SmsController extends FormController
                 'configured'       => ($integration && $integration->getIntegrationSettings()->getIsPublished()),
                 'smsBlockDetails'  => $smsBlockDetails,
                 'filters'          => $listFilters,
+                'isEnabled'        => $isPublished,
                 ],
             'contentTemplate' => 'MauticSmsBundle:Sms:list.html.php',
             'passthroughVars' => [
@@ -262,17 +263,7 @@ class SmsController extends FormController
             ['sms_id' => $sms->getId()]
         );
 
-        $transportChain  = $this->factory->get('mautic.sms.transport_chain');
-        $transportHelper = $this->factory->get('mautic.helper.integration');
-        $transports      = $transportChain->getEnabledTransports();
-        $isEnabled       = false;
-        foreach ($transports as $transportServiceId=>$transport) {
-            $integration = $transportHelper->getIntegrationObject($this->translator->trans($transportServiceId));
-            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-                $isEnabled = true;
-            }
-        }
-
+        $isPublished       = $this->getSMSProviderStatus();
         // Get click through stats
         $trackableLinks = $model->getSmsClickStats($sms->getId());
 
@@ -306,7 +297,7 @@ class SmsController extends FormController
                     ]
                 )->getContent(),
                 'dateRangeForm' => $dateRangeForm->createView(),
-                'isSmsEnabled'  => $isEnabled,
+                'isSmsEnabled'  => $isPublished,
             ],
             'contentTemplate' => 'MauticSmsBundle:Sms:details.html.php',
             'passthroughVars' => [
@@ -925,5 +916,22 @@ class SmsController extends FormController
                 'contentTemplate' => 'MauticSmsBundle:Sms:recipients.html.php',
             ]
         );
+    }
+
+    public function getSMSProviderStatus()
+    {
+        $transportChain  = $this->factory->get('mautic.sms.transport_chain');
+        $transportHelper = $this->factory->get('mautic.helper.integration');
+        $transports      = $transportChain->getEnabledTransports();
+        $isEnabled       = false;
+
+        foreach ($transports as $transportServiceId=>$transport) {
+            $integration = $transportHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+                $isEnabled = true;
+            }
+        }
+
+        return $isEnabled;
     }
 }

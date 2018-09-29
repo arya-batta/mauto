@@ -26,6 +26,10 @@ $view['slots']->set(
 );
 
 ?>
+<div class="sms-notifiation <?php echo $isEnabled ? 'hide' : ''; ?>" id="licenseclosebutton">
+    <span id="license-alert-message">Text Message are currently unpublished in your account settings, publish and configure your text message service provider API credentials to activate the service.</span>
+    <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="Mautic.closeSMSNotification()" width="10" height="10">
+</div>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.sms.smses'); ?></h3></div>
 <div style="padding-top: 15px;">
     <?php foreach ($smsBlockDetails as $key =>  $smsBlock): ?>

@@ -85,7 +85,7 @@ class EmailType extends AbstractType
 
         if (!$currentUser) {
             if ($emailProvider == 'Sparkpost') {
-                $disabled = true;
+                //$disabled = true;
             }
         }
 
@@ -146,7 +146,7 @@ class EmailType extends AbstractType
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => $tooltip,
-                    'disabled' => $disabled,
+                    //'disabled' => $disabled,
                  ],
                 'constraints' => [
                     new EmailVerify(
@@ -524,7 +524,6 @@ class EmailType extends AbstractType
                     'multiple' => true,
                     'expanded' => false,
                     'required' => false,
-
                 ]
             )
                 ->addModelTransformer($transformer)

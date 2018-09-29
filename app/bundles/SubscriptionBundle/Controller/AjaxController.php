@@ -599,20 +599,28 @@ class AjaxController extends CommonAjaxController
         $mailertransport          = $this->get('mautic.helper.licenseinfo')->getEmailProvider();
         $availablerecordcount     = $this->get('mautic.helper.licenseinfo')->getAvailableRecordCount();
         $availableemailcount      =  $this->get('mautic.helper.licenseinfo')->getAvailableEmailCount();
+        $actualrecordcount        =  $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $smsCountExpired          =  $this->get('mautic.helper.licenseinfo')->smsCountExpired();
         $emailUssage              = false;
         $bouceUsage               = false;
         $emailsValidity           = false;
         $recordUsage              = false;
+        $smsUssage                = false;
         $buyCreditRoute           =$this->generateUrl('le_plan_index');
         $pricingplanRoute         =$this->generateUrl('le_pricing_index');
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator          = $this->get('mautic.configurator');
+        $paramater             = $configurator->getParameters();
+        $transport             = $paramater['mailer_transport'];
 
         $accountsuspendmsg  ='';
         $notifymessage      ='';
         $usageMsg           ='';
-        $maxEmailUsage      = 85;
+        $maxEmailUsage      = 80;
         $maxBounceUsage     =3;
         $maxEmailValidity   =7;
-        $maxRecordUsage     =85;
+        $maxRecordUsage     =80;
         $buyNowButon        = 'Buy Now';
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $lastpayment        =$paymentrepository->getLastPayment();
@@ -638,7 +646,7 @@ class AjaxController extends CommonAjaxController
             //$notifymessage .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Subscribe', '%url%' => $pricingplanRoute]);
         }
         if (isset($emailUsageCount) && $emailUsageCount > $maxEmailUsage) {
-            // $emailUssage=true;
+            $emailUssage=true;
         }
         if (isset($bounceUsageCount) && $bounceUsageCount > $maxBounceUsage) {
             // $bouceUsage=true;
@@ -649,10 +657,16 @@ class AjaxController extends CommonAjaxController
         if (isset($totalRecordUsage) && $totalRecordUsage > $maxRecordUsage) {
             $recordUsage=true;
         }
-
+        if (!$smsCountExpired) {
+            $smsUssage=true;
+        }
         if ($emailUssage) {
             if ($emailCountExpired == 0) {
-                $usageMsg=$this->translator->trans('le.emailusage.count.expired');
+                if ($transport != 'le.transport.vialeadsengage') {
+                    $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
+                } else {
+                    $usageMsg=$this->translator->trans('le.emailusage.count.expired');
+                }
             } else {
                 $usageMsg=$this->translator->trans('le.emailusage.count.exceeds', ['%maxEmailUsage%' => $maxEmailUsage]);
             }
@@ -683,23 +697,46 @@ class AjaxController extends CommonAjaxController
 //            }
         }
 
-//        if ($emailUssage || $emailsValidity) {
-//            $usageMsg .= $this->translator->trans('le.buyNow.button', ['%buyNow%' => $buyNowButon, '%url%' => $buyCreditRoute]);
-//        }
-//        if ($recordUsage) {
-//            $usageMsg .= $this->translator->trans('le.record.count.expired', ['%maxRecordUsage%' => $maxRecordUsage]);
-//            if ($lastpayment == null) {
-//                $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
-//            } else {
-//                $usageMsg .= $this->translator->trans('le.plan.renewal.message');
-//            }
-//        }
+        if ($smsUssage) {
+            $usageMsg .= $this->translator->trans('le.sms.count.exceeds');
+        }
+
+        if ($emailUssage || $emailsValidity) {
+            // $usageMsg .= $this->translator->trans('le.buyNow.button', ['%buyNow%' => $buyNowButon, '%url%' => $buyCreditRoute]);
+        }
+        $contactNotification = $availablerecordcount > 0 ? 'le.record.count.about.expired' : 'le.record.count.expired';
+        if ($recordUsage) {
+            $usageMsg .= $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            if ($lastpayment == null) {
+                $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
+            } else {
+                $usageMsg .= $this->translator->trans('le.plan.renewal.message');
+            }
+        }
+
         if ($bouceUsage) {
             $usageMsg .= $this->translator->trans('le.bounce.count.exceeds', ['%bounceUsageCount%' => $bounceUsageCount]);
         }
+        $notificationPriority= false;
+        if (($recordUsage && $emailUssage && $smsUssage) || ($recordUsage && $emailUssage) || ($recordUsage && $smsUssage)) {
+            $leUssageMsg         = $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            $notificationPriority= true;
+        } elseif ($emailUssage && $smsUssage) {
+            $leUssageMsg         = $this->translator->trans('le.emailusage.count.expired.freecredit');
+            $notificationPriority= true;
+        }
+
+        /*if(!empty($leUssageMsg)){
+            if ($lastpayment == null) {
+                $leUssageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
+            } else {
+                $leUssageMsg .= $this->translator->trans('le.plan.renewal.message');
+            }
+        }*/
+        $notificationMsg = $notificationPriority ? $leUssageMsg : $usageMsg;
 
         if ($usageMsg != '') {
-            $notifymessage .= ' '.$usageMsg;
+            $notifymessage .= ' '.$notificationMsg;
         }
         if ($accountsuspendmsg != '') {
             return $accountsuspendmsg;

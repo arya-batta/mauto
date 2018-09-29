@@ -913,6 +913,18 @@ var Mautic = {
         } else {
             x.style.display = "none";
         }
+    },
+    /**
+     * SMS Notification Closes Button
+     */
+    closeSMSNotification: function() {
+        var x = document.getElementById("licenseclosebutton");
+
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            mQuery('.sms-notifiation').addClass('hide');
+        }
     }
 
 };

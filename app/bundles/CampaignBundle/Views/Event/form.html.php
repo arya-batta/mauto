@@ -29,20 +29,21 @@ if ($isCondition) {
     $fields    = $form['properties']->vars['fields'];
     $index     = count($form['properties']['filters']->vars['value']) ? max(array_keys($form['properties']['filters']->vars['value'])) : 0;
     $templates = [
-        'countries'      => 'country-template',
-        'regions'        => 'region-template',
-        'timezones'      => 'timezone-template',
-        'select'         => 'select-template',
-        'lists'          => 'leadlist-template',
-        'deviceTypes'    => 'device_type-template',
-        'deviceBrands'   => 'device_brand-template',
-        'deviceOs'       => 'device_os-template',
-        'emails'         => 'lead_email_received-template',
-        'tags'           => 'tags-template',
-        'stage'          => 'stage-template',
-        'locales'        => 'locale-template',
-        'globalcategory' => 'globalcategory-template',
-        'users'          => 'owner_id-template'
+        'countries'        => 'country-template',
+        'regions'          => 'region-template',
+        'timezones'        => 'timezone-template',
+        'select'           => 'select-template',
+        'lists'            => 'leadlist-template',
+        'deviceTypes'      => 'device_type-template',
+        'deviceBrands'     => 'device_brand-template',
+        'deviceOs'         => 'device_os-template',
+        'emails'           => 'lead_email_received-template',
+        'tags'             => 'tags-template',
+        'stage'            => 'stage-template',
+        'locales'          => 'locale-template',
+        'globalcategory'   => 'globalcategory-template',
+        'landingpage_list' => 'landingpage_list-template',
+        'users'            => 'owner_id-template',
     ];
 }
 ?>

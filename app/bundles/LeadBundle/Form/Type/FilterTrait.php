@@ -444,7 +444,7 @@ trait FilterTrait
                 'label'   => false,
                 'choices' => isset($field['operators']) ? $field['operators'] : [],
                 'attr'    => [
-                    'class'    => 'form-control not-chosen',
+                    'class'    => 'form-control not-chosen le-input',
                     'onchange' => 'Mautic.convertLeadFilterInput(this)',
                 ],
             ]
