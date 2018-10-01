@@ -243,8 +243,8 @@ return [
         'sms_from_number'          => null,
         'publish_account'          => null,
         'sms_status'               => null,
-        'le_account_sender_id'     => 'ENGAGE',
-        'le_account_url'           => 'http://api-alerts.solutionsinfini.com/v3/',
-        'le_account_api_key'       => 'A8fb98435484c3d27ac790091178e7f1b',
+        'le_account_sender_id'     => '',
+        'le_account_url'           => '',
+        'le_account_api_key'       => '',
     ],
 ];
