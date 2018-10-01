@@ -70,7 +70,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                 </ul>
             <?php endif; ?>
             <div class="panel-footer">
-                <p class="small"><span class="imported-count"><?php echo $progress->getDone(); ?></span> / <span class="total-count"><?php echo $progress->getTotal(); ?></span></p>
+                <p class="small"><span class="imported-count"><?php echo empty($progress->getDone()) ? '0' : $progress->getDone() - 1; ?></span> / <span class="total-count"><?php echo $progress->getTotal() - 1; ?></span></p>
                 <?php if (!$complete): ?>
                     <div>
                         <a class="btn btn-danger" href="<?php echo $view['router']->path(
@@ -88,12 +88,13 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                     </div>
                 <?php else: ?>
                     <div>
-                        <a class="btn btn-success" href="<?php echo $view['router']->path($indexRoute); ?>" data-toggle="ajax">
+                        <a class="btn btn-success mb-5" href="<?php echo $view['router']->path($indexRoute); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('mautic.lead.list.view_'.$object); ?>
                         </a>
-                        <a class="btn btn-success" href="<?php echo $view['router']->path('mautic_import_index', ['object' => $object]); ?>" data-toggle="ajax">
+                        <a class="btn btn-success mb-5" href="<?php echo $view['router']->path('mautic_import_index', ['object' => $object]); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('mautic.lead.view.imports'); ?>
                         </a>
+                        <br>
                         <a class="btn btn-success" href="<?php echo $view['router']->path(
                             'mautic_import_action',
                             ['objectAction' => 'view', 'objectId' => $import->getId(), 'object' => $object]

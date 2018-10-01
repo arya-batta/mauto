@@ -23,7 +23,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Class UserType.
@@ -122,21 +121,10 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => true,
                 'attr'       => [
-                    'class' => 'form-control le-input',
+                    'accept' => '.jpg,.png,.jpeg,.gif',
+                    'class'  => 'form-control le-input',
                 ],
                 'mapped'      => false,
-                'constraints' => [
-                    new File(
-                        [
-                            'mimeTypes' => [
-                                'image/gif',
-                                'image/jpeg',
-                                'image/png',
-                            ],
-                            'mimeTypesMessage' => 'mautic.lead.avatar.types_invalid',
-                        ]
-                    ),
-                ],
             ]
         );
 

@@ -56,7 +56,7 @@
     <!--/ end: app-content -->
 
     <!-- start: app-content -->
-    <section id="app-content">
+    <section id="app-content" style="margin-bottom: 5%;">
         <?php $view['slots']->output('_content'); ?>
     </section>
     <!--/ end: app-content -->

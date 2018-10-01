@@ -163,9 +163,7 @@ class ProfileController extends FormController
                     $image = $form['preferred_profile_image']->getData();
                     if ($image == 'custom') {
                         /* @var UploadedFile $file */
-                        //  if ($file = $form['custom_avatar']->getData()) {
                         $this->uploadAvatar();
-                        //  }
                     }
                     //form is valid so process the data
                     $model->saveEntity($me);

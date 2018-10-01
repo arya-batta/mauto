@@ -648,6 +648,12 @@ if(iscampaignmodel){
     var filterEl = (isSpecial) ? "select[name='" + filterBase + "[filter]']" : "input[name='" + filterBase + "[filter]']";
 
     mQuery(prototype).appendTo('#' + prefix + '_filters');
+    if(elId == "lead_email_activity"){
+        mQuery(prototype).find('.email-activity-label').removeClass('hide');
+        mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-5').addClass('col-sm-3 lead_filter_padding_right');
+    } else {
+        mQuery(prototype).find('.email-activity-label').removeClass('hide lead_filter_padding_right').addClass('hide');
+    }
 
     var filter = '#' + filterIdBase + 'filter';
 

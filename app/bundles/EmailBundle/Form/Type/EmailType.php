@@ -524,7 +524,6 @@ class EmailType extends AbstractType
                     'multiple' => true,
                     'expanded' => false,
                     'required' => false,
-
                 ]
             )
                 ->addModelTransformer($transformer)

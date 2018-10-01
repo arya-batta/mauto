@@ -123,7 +123,7 @@ $isAdmin=$view['security']->isAdmin();
                     <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
                      <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.actions'); ?></p>
                     </ul>
-                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
+                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected hide" role = "tab" id = "ui-tab-stat-header1">
                             <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.campaign.event.decisions.header'); ?></p>
                     </ul>
                     <?php endif; ?>

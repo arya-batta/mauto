@@ -116,8 +116,10 @@ class KYCController extends FormController
                     $configurator->write();
                 }
             }
+            $dbname          = $this->coreParametersHelper->getParameter('db_name');
+            $appid           = str_replace('leadsengage_apps', '', $dbname);
             $signuprepository=$this->get('le.core.repository.signup');
-            $signuprepository->updateSignupInfo($accountdata, $data, $userdata);
+            $signuprepository->updateSignupInfo($accountdata, $data, $userdata, $appid);
             $model->saveEntity($account);
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', false);

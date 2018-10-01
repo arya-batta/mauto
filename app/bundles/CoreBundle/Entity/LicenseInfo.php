@@ -117,6 +117,21 @@ class LicenseInfo
     private $canceldate;
 
     /**
+     * @var string
+     */
+    private $totalsmscount;
+
+    /**
+     * @var string
+     */
+    private $actualsmscount;
+
+    /**
+     * @var string
+     */
+    private $smsprovider;
+
+    /**
      * @param ORM\ClassMetadata $metadata
      */
     public static function loadMetadata(ORM\ClassMetadata $metadata)
@@ -222,6 +237,21 @@ class LicenseInfo
 
         $builder->createField('canceldate', 'string')
             ->columnName('cancel_date')
+            ->nullable()
+            ->build();
+
+        $builder->createField('totalsmscount', 'string')
+            ->columnName('total_sms_count')
+            ->nullable()
+            ->build();
+
+        $builder->createField('actualsmscount', 'string')
+            ->columnName('actual_sms_count')
+            ->nullable()
+            ->build();
+
+        $builder->createField('smsprovider', 'string')
+            ->columnName('sms_provider')
             ->nullable()
             ->build();
     }
@@ -550,5 +580,53 @@ class LicenseInfo
     public function setCancelDate($canceldate)
     {
         $this->canceldate = $canceldate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalSmsCount()
+    {
+        return $this->totalsmscount;
+    }
+
+    /**
+     * @param mixed $totalsmscount
+     */
+    public function setTotalSmsCount($totalsmscount)
+    {
+        $this->totalsmscount = $totalsmscount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActualSmsCount()
+    {
+        return $this->actualsmscount;
+    }
+
+    /**
+     * @param mixed $actualsmscount
+     */
+    public function setActualSmsCount($actualsmscount)
+    {
+        $this->actualsmscount = $actualsmscount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSMSProvider()
+    {
+        return $this->smsprovider;
+    }
+
+    /**
+     * @param mixed $smsprovider
+     */
+    public function setSMSProvider($smsprovider)
+    {
+        $this->smsprovider = $smsprovider;
     }
 }

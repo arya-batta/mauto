@@ -784,7 +784,7 @@ class AssetsHelper
 
     public function getImportSampleFilePath()
     {
-        return $this->getUrl('media/sample/Sample_Contact.csv');
+        return $this->getUrl('media/sample/Sample_Lead.csv');
     }
 
     public function getHelpDeskIconPath()

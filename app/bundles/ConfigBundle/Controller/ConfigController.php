@@ -65,9 +65,9 @@ class ConfigController extends FormController
         $mailertransport= $paramater['mailer_transport'];
         $maileruser     = $paramater['mailer_user'];
         $emailpassword  = $paramater['mailer_password'];
-        if(isset($paramater['mailer_amazon_region'])){
+        if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region         = $paramater['mailer_amazon_region'];
@@ -169,13 +169,19 @@ class ConfigController extends FormController
                             $emailTransport='';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
                                 $emailTransport = $formData['emailconfig']['mailer_transport_name'];
+                                $smsTransport   =   $formData['smsconfig']['sms_transport'];
+
                                 //$emailTransport = $params['mailer_transport_name'];
                                 $configurator->mergeParameters(['mailer_transport' => $emailTransport]);
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
+                                $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             } else {
                                 $emailTransport = $params['mailer_transport_name'];
+                                $smsTransport   =  $params['sms_transport'];
+
                                 $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
+                                $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             }
                             $configurator->write();
 

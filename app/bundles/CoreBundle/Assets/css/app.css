@@ -4987,7 +4987,7 @@ figcaption {
   font-family: Sans-Serif;
   padding-left: 25px;
   padding-right: 25px;
-  line-height: 6px;
+  line-height: 14px;
 }
 .login-notifiation {
   background-color: #fef4f6;
@@ -5054,7 +5054,7 @@ figcaption {
   font-family: Arial;
   color: #ffffff;
   font-size: 14px;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 20px 5px 20px;
   text-decoration: none;
   border: 0px;
 }
@@ -6342,4 +6342,18 @@ text-align: center;
 }
 .m_width{
   width: 20%;
+}
+.sms-notifiation {
+  background-color: #FFDB4E;
+  width: 100%;
+  text-align: center;
+  max-height: inherit;
+  display: block;
+  color: #000000;
+  min-height: 50px;
+  padding: 15px;
+  font-family: Sans-Serif;
+  padding-left: 25px;
+  padding-right: 25px;
+  line-height: 14px;
 }

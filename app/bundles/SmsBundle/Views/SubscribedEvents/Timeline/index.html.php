@@ -13,9 +13,9 @@ $errors = false;
 if (!empty($data['errors'])) {
     $errors = (is_array($data['errors'])) ? implode('<br />', $data['errors']) : $data['errors'];
 } elseif (!empty($data['failed'])) {
-   // $errors = (!empty($data['reason'])) ? $data['reason'] : 'mautic.campaign.event.failed.timeline';
-   // $errors = $view['translator']->trans($errors);
-    $errors=$data['exception'];
+    // $errors = (!empty($data['reason'])) ? $data['reason'] : 'mautic.campaign.event.failed.timeline';
+    // $errors = $view['translator']->trans($errors);
+    $errors= !empty($data['exception']) ? $data['exception'] : $view['translator']->trans($data['reason']);
 }
 ?>
 

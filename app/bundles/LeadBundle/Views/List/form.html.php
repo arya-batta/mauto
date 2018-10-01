@@ -38,7 +38,7 @@ $templates = [
     'locales'          => 'locale-template',
     'globalcategory'   => 'globalcategory-template',
     'landingpage_list' => 'landingpage_list-template',
-    'users'          => 'owner_id-template',
+    'users'            => 'owner_id-template',
 ];
 
 $mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';

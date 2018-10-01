@@ -27,7 +27,6 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Entity\Hit;
-use Mautic\ChannelBundle\ChannelEvents;
 
 /**
  * Class CampaignSubscriber.
@@ -178,7 +177,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'mautic.email.campaign.event.send.to.user_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'email_to_user',
-                'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email'],
+                'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email', 'with_email_types' => true],
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',

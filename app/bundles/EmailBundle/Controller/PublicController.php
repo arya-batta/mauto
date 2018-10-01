@@ -166,7 +166,7 @@ class PublicController extends CommonFormController
             $newEmailAddress = $parameter['emailaddress'];
 
             if (!empty($firstName) && !empty($lastName) && !empty($newEmailAddress)) {
-                $emailRepo->updateLeadDetails($firstName,$lastName, $newEmailAddress, $leadId);
+                $emailRepo->updateLeadDetails($firstName, $lastName, $newEmailAddress, $leadId);
             }
             $viewParams['content'] = $formContent;
 
@@ -181,9 +181,9 @@ class PublicController extends CommonFormController
 
             return $this->render($contentTemplate, $viewParams);
         }
-        $arr = explode('@', $email);
+        $arr          = explode('@', $email);
         $emailAddress = preg_replace('/(?:^|.@).\K|..[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '.', $arr[0].'@');
-        $emailAddress=$emailAddress.$arr[1];
+        $emailAddress =$emailAddress.$arr[1];
         if (empty($message)) {
             $actionName = 'updatelead';
         }
@@ -474,17 +474,21 @@ class PublicController extends CommonFormController
         }
 
         $template = ($email !== null && 'mautic_code_mode' !== $email->getTemplate()) ? $email->getTemplate() : $this->coreParametersHelper->getParameter('theme');
+        $theme    = null;
+        if ($template != null) {
+            $theme = $this->factory->getTheme($template);
+        }
 
-        $theme = $this->factory->getTheme($template);
-
-        if ($theme->getTheme() != $template) {
+        if ($theme != null && $theme->getTheme() != $template) {
             $template = $theme->getTheme();
         }
 
         // Ensure template still exists
-        $theme = $this->factory->getTheme($template);
-        if (empty($theme) || $theme->getTheme() !== $template) {
-            $template = $this->coreParametersHelper->getParameter('theme');
+        if ($template != null) {
+            $theme = $this->factory->getTheme($template);
+            if (empty($theme) || $theme->getTheme() !== $template) {
+                $template = $this->coreParametersHelper->getParameter('theme');
+            }
         }
 
         $analytics = $this->factory->getHelper('template.analytics')->getCode();

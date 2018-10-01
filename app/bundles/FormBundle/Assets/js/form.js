@@ -374,3 +374,7 @@ Mautic.openNewFormAction = function(url){
     url = url + "_" + formtype;
     window.location.href = url;
 };
+
+Mautic.updatePlaceholdervalue = function(ele){
+    mQuery('#formfield_properties_placeholder').val(ele);
+}
