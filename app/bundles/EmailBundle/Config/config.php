@@ -71,27 +71,27 @@ return [
                 ],
             ],
             'mautic_email_tracker' => [
-                'path'       => '/email/{idHash}.gif',
+                'path'       => '/emails/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'mautic_email_webview' => [
-                'path'       => '/email/view/{idHash}',
+                'path'       => '/emails/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
             ],
             'mautic_email_unsubscribe' => [
-                'path'       => '/email/unsubscribe/{idHash}',
+                'path'       => '/emails/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'mautic_email_subscribe' => [
-                'path'       => '/email/subscribers/{idHash}',
+                'path'       => '/emails/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
             ],
             'mautic_email_updatelead' => [
-                'path'       => '/email/updatelead/{idHash}',
+                'path'       => '/emails/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
             ],
             'mautic_email_resubscribe' => [
-                'path'       => '/email/resubscribe/{idHash}',
+                'path'       => '/emails/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
             'mautic_mailer_transport_callback' => [
@@ -142,7 +142,6 @@ return [
                     'mautic.core.model.auditlog',
                     'mautic.email.model.email',
                     'mautic.helper.message',
-                    'translator',
                 ],
             ],
             'mautic.email.monitored.bounce.subscriber' => [
@@ -185,6 +184,7 @@ return [
                     'mautic.campaign.model.event',
                     'mautic.channel.model.queue',
                     'mautic.email.model.send_email_to_user',
+                    'translator',
                 ],
             ],
             'mautic.email.campaignbundle.condition_subscriber' => [

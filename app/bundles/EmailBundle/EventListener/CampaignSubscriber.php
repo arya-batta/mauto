@@ -58,6 +58,10 @@ class CampaignSubscriber extends CommonSubscriber
      * @var SendEmailToUser
      */
     private $sendEmailToUser;
+    /**
+     * @var SendEmailToUser
+     */
+    private $translator;
 
     /**
      * @param LeadModel         $leadModel
@@ -65,19 +69,22 @@ class CampaignSubscriber extends CommonSubscriber
      * @param EventModel        $eventModel
      * @param MessageQueueModel $messageQueueModel
      * @param SendEmailToUser   $sendEmailToUser
+     * @param Translator   $translator
      */
     public function __construct(
         LeadModel $leadModel,
         EmailModel $emailModel,
         EventModel $eventModel,
         MessageQueueModel $messageQueueModel,
-        SendEmailToUser $sendEmailToUser
+        SendEmailToUser $sendEmailToUser,
+        Translator  $translator
     ) {
         $this->leadModel          = $leadModel;
         $this->emailModel         = $emailModel;
         $this->campaignEventModel = $eventModel;
         $this->messageQueueModel  = $messageQueueModel;
         $this->sendEmailToUser    = $sendEmailToUser;
+        $this->translator         = $translator;
     }
 
     /**
@@ -174,16 +181,16 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction(
             'email.send.to.user',
             [
-                'label' => 'mautic.email.campaign.event.send.to.user',
-                'description' => 'mautic.email.campaign.event.send.to.user_descr',
-                'eventName' => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-                'formType' => 'email_to_user',
+                'label'           => 'mautic.email.campaign.event.send.to.user',
+                'description'     => 'mautic.email.campaign.event.send.to.user_descr',
+                'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'formType'        => 'email_to_user',
                 'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email'],
-                'formTheme' => 'MauticEmailBundle:FormTheme\EmailSendList',
-                'channel' => 'email',
-                'channelIdField' => 'email',
-                'order' => 11,
-                'group' => 'le.campaign.event.group.name.leadsengage',
+                'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
+                'channel'         => 'email',
+                'channelIdField'  => 'email',
+                'order'           => 11,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
 
@@ -305,11 +312,13 @@ class CampaignSubscriber extends CommonSubscriber
         $config  = $event->getConfig();
         $emailId = (int) $config['email'];
         $email   = $this->emailModel->getEntity($emailId);
-
+        $status = $this->emailModel->mailHelper->emailstatus();
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or published');
         }
-
+        if(!$status){
+            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report"));
+        }
         $emailSent = false;
         $type      = (isset($config['email_type'])) ? $config['email_type'] : 'transactional';
         $options   = [
