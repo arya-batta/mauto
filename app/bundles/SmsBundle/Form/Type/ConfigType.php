@@ -66,14 +66,17 @@ class ConfigType extends AbstractType
             'attr'       => [
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.sms.config.select_default_transport',
+                'onchange'    => 'Mautic.updateEmailStatus()',
             ],
             'data'        => $options['data']['sms_transport'],
             'required'    => false,
             'choices'     => $choices,
             'empty_value' => false,
+
         ]);
         $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["mautic.sms.transport.solutioninfini"]}';
         $TwilioShowConditions    = '{"config_smsconfig_sms_transport":["mautic.sms.transport.twilio"]}';
+        $LeadsEngageShowConditions= '{"config_smsconfig_sms_transport":["mautic.sms.transport.leadsengage"]}';
         $builder->add(
             'account_url',
             'text',
@@ -85,9 +88,11 @@ class ConfigType extends AbstractType
                     'data-show-on' => $SolutionShowConditions,
                     'data-hide-on' => $TwilioShowConditions,
                     'disabled'     => false,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_url'],
+
             ]
         );
         $builder->add(
@@ -101,9 +106,11 @@ class ConfigType extends AbstractType
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_sid'],
+
             ]
         );
         $builder->add(
@@ -117,9 +124,11 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_api_key'],
+
             ]
         );
         $builder->add(
@@ -133,9 +142,11 @@ class ConfigType extends AbstractType
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_auth_token'],
+
             ]
         );
         $builder->add(
@@ -149,9 +160,11 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_sender_id'],
+
             ]
         );
         $builder->add(
@@ -165,8 +178,10 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control le-input',
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
+                    'onkeyup'    => 'Mautic.updateEmailStatus()',
                 ],
                 'data' => $options['data']['sms_from_number'],
+
             ]
         );
         $builder->add(
@@ -181,6 +196,7 @@ class ConfigType extends AbstractType
                     'class' => 'form-control frequency',
                 ],
                 'data' => $options['data']['sms_frequency_number'],
+
             ]
         );
         $builder->add(
@@ -210,11 +226,27 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
+                    'data-hide-on' => $LeadsEngageShowConditions,
                 ],
-                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
+                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : true,
                 'required'   => false,
             ]
         );
+        $builder->add(
+            'sms_status',
+            'text',
+            [
+                'label'      => 'le.sms.config.status',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'        => 'form-control le-input',
+                    'disabled'     => false,
+                ],
+                'required' => false,
+                'data'     => $options['data']['sms_status'],
+            ]
+        );
+
 
         $builder->add(
             'sms_test_connection_button',

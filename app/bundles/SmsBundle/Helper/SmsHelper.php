@@ -18,6 +18,10 @@ use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Model\SmsModel;
+use Mautic\CoreBundle\Helper\CoreParametersHelper;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
+use Mautic\CoreBundle\Factory\MauticFactory;
 
 class SmsHelper
 {
@@ -45,8 +49,19 @@ class SmsHelper
      * @var IntegrationHelper
      */
     protected $integrationHelper;
+    /**
+     * @var CoreParametersHelper
+     */
+    protected $coreParametersHelper;
+    /**
+     * @var MauticFactory
+     */
+    protected $factory;
+
+    protected $configurator;
 
     /**
+     *
      * SmsHelper constructor.
      *
      * @param EntityManager     $em
@@ -54,17 +69,59 @@ class SmsHelper
      * @param PhoneNumberHelper $phoneNumberHelper
      * @param SmsModel          $smsModel
      * @param IntegrationHelper $integrationHelper
+     * @param CoreParametersHelper $coreParametersHelper
+     * @param MauticFactory $factory
      */
-    public function __construct(EntityManager $em, LeadModel $leadModel, PhoneNumberHelper $phoneNumberHelper, SmsModel $smsModel, IntegrationHelper $integrationHelper)
+    public function __construct(EntityManager $em, LeadModel $leadModel, PhoneNumberHelper $phoneNumberHelper, SmsModel $smsModel, IntegrationHelper $integrationHelper,CoreParametersHelper $coreParametersHelper,MauticFactory $factory)
     {
-        $this->em                 = $em;
-        $this->leadModel          = $leadModel;
-        $this->phoneNumberHelper  = $phoneNumberHelper;
-        $this->smsModel           = $smsModel;
-        $this->integrationHelper  = $integrationHelper;
-        $integration              = $integrationHelper->getIntegrationObject('SolutionInfinity');
-        $settings                 = $integration->getIntegrationSettings()->getFeatureSettings();
-        $this->smsFrequencyNumber = $settings['frequency_number'];
+        $this->em                   = $em;
+        $this->leadModel            = $leadModel;
+        $this->phoneNumberHelper    = $phoneNumberHelper;
+        $this->smsModel             = $smsModel;
+        $this->integrationHelper    = $integrationHelper;
+        $integration                = $integrationHelper->getIntegrationObject('SolutionInfinity');
+        $settings                   = $integration->getIntegrationSettings()->getFeatureSettings();
+        $this->smsFrequencyNumber   = $settings['frequency_number'];
+        $this->coreParametersHelper = $coreParametersHelper;
+        $this->factory              = $factory;
+
+    }
+
+    public function getSmsTransportStatus()
+    {
+        $configurator = $this->factory->get('mautic.configurator');
+        $settings[]='';
+        $settings['transport']=$this->coreParametersHelper->getParameter('sms_transport');;
+        $settings['url']=$this->coreParametersHelper->getParameter('account_url');
+        $settings['senderid']=$this->coreParametersHelper->getParameter('account_sender_id');
+        $settings['apiKey']=$this->coreParametersHelper->getParameter('account_api_key');
+        $settings['username']=$this->coreParametersHelper->getParameter('sms_username');
+        $settings['password']=$this->coreParametersHelper->getParameter('sms_password');
+        $settings['fromnumber']=$this->coreParametersHelper->getParameter('sms_sending_phone_number');
+        $sms_status = $this->coreParametersHelper->getParameter('sms_status');
+        if ($sms_status == "Active"){
+            $result = $this->testSmsServerConnection($settings,true);
+            if ($result['success']){
+                return true;
+            }else{
+                $configurator->mergeParameters(['sms_status' => 'InActive']);
+                $configurator->write();
+                $cacheHelper = $this->factory->get('mautic.helper.cache');
+                $cacheHelper->clearContainerFile();
+                return false;
+            }
+        } else {
+            $result = $this->testSmsServerConnection($settings,true);
+            if ($result['success']){
+                $configurator->mergeParameters(['sms_status' => 'Active']);
+                $configurator->write();
+                $cacheHelper = $this->factory->get('mautic.helper.cache');
+                $cacheHelper->clearContainerFile();
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 
     public function unsubscribe($number)
@@ -104,5 +161,106 @@ class SmsHelper
         }
 
         return $this->leadModel->addDncForLead($lead, 'sms', null, DoNotContact::UNSUBSCRIBED);
+    }
+
+    public function testSmsServerConnection($settings,$standardnumber=false){
+        $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
+        $user      = $this->factory->get('mautic.helper.user')->getUser();
+        if($standardnumber){
+            $sendnumber='7092199371';
+        }else {
+            $sendnumber = $user->getMobile();
+        }
+        $transport  = $settings['transport'];
+        $translator = $this->factory->get('translator');
+        $transport  = $translator->trans($transport);
+        $result     = true;
+        $content    = "Hi, \n This is Test Message. \n Team LeadsEngage.";
+        $msgcontent = urlencode($content);
+        switch ($transport) {
+            case 'SolutionInfinity':
+                $result = $this->sendSolutionSMS($settings['url'], $sendnumber, $content, $settings['apiKey'], $settings['senderid']);
+                break;
+            case 'Twilio':
+                $result = $this->sendTwilioSMS($sendnumber, $content, $settings['username'], $settings['password'], $settings['fromnumber']);
+                break;
+        }
+        if ($result == 'success') {
+            $dataArray['success'] = 1;
+            $dataArray['message'] = $translator->trans('le.send.sms.success', ['%mobile%'=>$sendnumber]);
+        } else {
+            $dataArray['success'] = 0;
+            $dataArray['message'] = $translator->trans('le.send.sms.failed');
+        }
+        return $dataArray;
+    }
+
+
+    public function sendSolutionSMS($url, $number, $content, $username, $senderID)
+    {
+        if ($url == '' || $number == '' || $username == '' || $senderID == '') {
+            return 'URL or Sender ID or Api Key or User number Cannot be Empty';
+        }
+
+        try {
+            $url     = $url;
+            $content = urlencode($content);
+            $sendurl = $url;
+            $baseurl = $sendurl.'?method=sms&api_key='.$username.'&sender='.$senderID;
+            $sendurl =$baseurl.'&to='.$number.'&message='.$content;
+            $handle  = curl_init($sendurl);
+            curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($handle);
+            $response = json_decode($response);
+            $status   =$response->{'status'};
+            $message  =$response->{'message'};
+            if ($status == 'OK') {
+                return 'success';
+            } else {
+                return $message;
+            }
+        } catch (NumberParseException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * @param $number
+     *
+     * @return string
+     *
+     * @throws NumberParseException
+     */
+    protected function sanitizeNumber($number)
+    {
+        $util   = PhoneNumberUtil::getInstance();
+        $parsed = $util->parse($number, 'IN');
+
+        return $util->format($parsed, PhoneNumberFormat::E164);
+    }
+
+    protected function sendTwilioSMS($number, $content, $username, $password, $fromnumber)
+    {
+        if ($number === null) {
+            return false;
+        }
+        if ($fromnumber == '' || $username == '' || $password == '') {
+            return 'From number or Account SID or Auth Token Cannot be Empty';
+        }
+        try {
+            $client = new \Services_Twilio($password, $username);
+
+            $message = $client->account->messages->sendMessage(
+                $fromnumber,
+                $this->sanitizeNumber($number),
+                $content
+            );
+
+            return 'success';
+        } catch (\Services_Twilio_RestException $e) {
+            return $e->getMessage();
+        } catch (NumberParseException $e) {
+            return $e->getMessage();
+        }
     }
 }

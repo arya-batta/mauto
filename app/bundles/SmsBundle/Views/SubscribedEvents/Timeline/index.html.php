@@ -16,6 +16,8 @@ if (!empty($data['errors'])) {
     // $errors = (!empty($data['reason'])) ? $data['reason'] : 'mautic.campaign.event.failed.timeline';
     // $errors = $view['translator']->trans($errors);
     $errors= !empty($data['exception']) ? $data['exception'] : $view['translator']->trans($data['reason']);
+    $data['status']='';
+    $data['type']='';
 }
 ?>
 

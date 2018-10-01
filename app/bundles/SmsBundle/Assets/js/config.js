@@ -22,5 +22,15 @@ Mautic.testSmsServerConnection = function(sendSMS) {
             mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass(theClass);
             mQuery('#smsconfig #smsTestButtonContainer .fa-spinner').addClass('hide');
         }
+        if(theClass == 'has-success'){
+            mQuery('#config_smsconfig_sms_status').val('Active');
+        }else if(theClass == 'has-error'){
+            mQuery('#config_smsconfig_sms_status').val('InActive');
+        }
+
     });
 };
+
+Mautic.updateEmailStatus = function(){
+    mQuery('#config_smsconfig_sms_status').val('InActive');
+}

@@ -21,6 +21,7 @@ use Mautic\SmsBundle\Exception\SmsCouldNotBeSentException;
 use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
+use Mautic\SmsBundle\Helper\SmsHelper;
 
 /**
  * Class CampaignSubscriber.
@@ -47,6 +48,11 @@ class CampaignSubscriber extends CommonSubscriber
      */
     protected $sendSmstoUser;
 
+    /*
+    * @var SmsHelper
+    */
+    protected $smsHelper;
+
     /**
      * CampaignSubscriber constructor.
      *
@@ -57,12 +63,15 @@ class CampaignSubscriber extends CommonSubscriber
         IntegrationHelper $integrationHelper,
         SmsModel $smsModel,
         NotificationHelper $notificationhelper,
-        SendSmsToUser $sendSmstoUser
+        SendSmsToUser $sendSmstoUser,
+        SmsHelper $smsHelper
+
     ) {
         $this->integrationHelper  = $integrationHelper;
         $this->smsModel           = $smsModel;
         $this->notificationhelper = $notificationhelper;
         $this->sendSmstoUser      = $sendSmstoUser;
+        $this->smsHelper      = $smsHelper;
     }
 
     /**
@@ -142,18 +151,23 @@ class CampaignSubscriber extends CommonSubscriber
         $lead  = $event->getLead();
         $smsId = (int) $event->getConfig()['sms'];
         $sms   = $this->smsModel->getEntity($smsId);
+        if(!$this->smsHelper->getSmsTransportStatus()){
+            $this->notificationhelper->sendNotificationonFailure(false, false);
+            $event->setFailed($this->translator->trans('Can\'t reach text message provider. Please check the configuration'));
+            return ;
 
-        if (!$sms) {
-            return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
-        }
+        }else {
+
+            if (!$sms) {
+                return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
+            }
         $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
 
         if (!$smsCountExpired) {
             return $event->setFailed('le.sms.license.expire');
-        }
-        $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
+        }$result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
         if ($result['errorResult'] != 'Success') {
-            $this->notificationhelper->sendNotificationonFailure(false, false, $result['exception']);
+            $this->notificationhelper->sendNotificationonFailure(false, false);
         }
         if ('Authenticate' === $result['status']) {
             // Don't fail the event but reschedule it for later
@@ -163,11 +177,10 @@ class CampaignSubscriber extends CommonSubscriber
         if (!empty($result['sent'])) {
             $event->setChannel('sms', $sms->getId());
             $event->setResult($result);
-            $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');
-        } else {
+        $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');} else {
             $result['failed'] = true;
             $result['reason'] = $result['status'];
-            $event->setResult($result);
+            $event->setResult($result);}
         }
     }
 

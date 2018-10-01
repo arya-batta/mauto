@@ -718,6 +718,7 @@ Mautic.onPageLoad = function (container, response, inModal) {
     if (contentSpecific != "invalidDomain") {
         Mautic.loadLicenseUsageInfo();
     }
+    Mautic.CheckSMSStatus();
 };
 
 /**

@@ -171,6 +171,11 @@ class Configurator
      */
     public function mergeParameters($parameters)
     {
+            if (isset($this->parameters['le_account_sender_id']) || isset($this->parameters['le_account_url']) || isset($this->parameters['le_account_api_key'])) {
+                unset($this->parameters['le_account_sender_id']);
+                unset($this->parameters['le_account_url']);
+                unset($this->parameters['le_account_api_key']);
+            }
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
