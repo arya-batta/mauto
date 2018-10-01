@@ -27,6 +27,7 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Entity\Hit;
+use Symfony\Component\Translation\TranslatorInterface;
 use Mautic\ChannelBundle\ChannelEvents;
 
 /**
@@ -59,9 +60,9 @@ class CampaignSubscriber extends CommonSubscriber
      */
     private $sendEmailToUser;
     /**
-     * @var SendEmailToUser
+     * @var TranslatorInterface
      */
-    private $translator;
+    protected $translator;
 
     /**
      * @param LeadModel         $leadModel
@@ -69,7 +70,7 @@ class CampaignSubscriber extends CommonSubscriber
      * @param EventModel        $eventModel
      * @param MessageQueueModel $messageQueueModel
      * @param SendEmailToUser   $sendEmailToUser
-     * @param Translator   $translator
+     * @param TranslatorInterface   $translator
      */
     public function __construct(
         LeadModel $leadModel,
@@ -77,7 +78,7 @@ class CampaignSubscriber extends CommonSubscriber
         EventModel $eventModel,
         MessageQueueModel $messageQueueModel,
         SendEmailToUser $sendEmailToUser,
-        Translator  $translator
+        TranslatorInterface  $translator
     ) {
         $this->leadModel          = $leadModel;
         $this->emailModel         = $emailModel;
