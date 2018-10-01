@@ -205,6 +205,19 @@ class ConfigType extends AbstractType
         );
 
         $builder->add(
+            'email_status',
+            'text',
+            [
+                'label'      => 'mautic.email.config.mailer.status',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'    => 'form-control le-input disable',
+                    'disabled' => false,
+                ],
+                'data'       => $options['data']['email_status'],
+            ]
+        );
+        $builder->add(
             'mailer_from_name',
             'text',
             [
@@ -418,6 +431,7 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control',
                     'data-show-on' => $amazonRegionShowConditions,
                     'tooltip'      => 'mautic.email.config.mailer.amazon_host.tooltip',
+                    'onchange'  => 'Mautic.updateEmailStatus();',
                 ],
                 'empty_value' => false,
             ]
@@ -524,6 +538,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginUserHideConditions,
                     'tooltip'      => 'mautic.email.config.mailer.user.tooltip',
                     'autocomplete' => 'off',
+                    'onkeyup'      => 'Mautic.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -543,6 +558,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginPasswordHideConditions,
                     'tooltip'      => 'mautic.email.config.mailer.password.tooltip',
                     'autocomplete' => 'off',
+                    'onkeyup'      => 'Mautic.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -564,6 +580,7 @@ class ConfigType extends AbstractType
                     'tooltip'      => 'mautic.email.config.mailer.apikey.tooltop',
                     'autocomplete' => 'off',
                     'placeholder'  => 'mautic.email.config.mailer.apikey.placeholder',
+                    'onkeyup'      => 'Mautic.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -584,7 +601,7 @@ class ConfigType extends AbstractType
                     'data-show-on' => $smtpServiceShowConditions,
                     'tooltip'      => 'mautic.email.config.mailer.encryption.tooltip',
                 ],
-                'empty_value' => 'mautic.email.config.mailer_encryption.none',
+                'empty_value'      => 'mautic.email.config.mailer_encryption.none',
             ]
         );
 

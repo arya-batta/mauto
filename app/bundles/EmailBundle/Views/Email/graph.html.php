@@ -17,7 +17,7 @@ if ($emailType == 'list') {
 }
 $dateFrom    = $dateRangeForm->children['date_from']->vars['data'];
 $dateTo      = $dateRangeForm->children['date_to']->vars['data'];
-$actionRoute = $view['router']->path('mautic_email_action',
+$actionRoute = $view['router']->path('mautic_email_campaign_action',
     [
         'objectAction' => 'view',
         'objectId'     => $email->getId(),

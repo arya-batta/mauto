@@ -388,6 +388,7 @@ return [
                     'mautic.lead.model.field',
                     'mautic.lead.model.list',
                     'mautic.campaign.model.campaign',
+                    'mautic.helper.licenseinfo',
                 ],
             ],
             'mautic.lead.reportbundle.subscriber' => [

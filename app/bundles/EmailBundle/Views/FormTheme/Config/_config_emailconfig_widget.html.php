@@ -105,6 +105,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_user', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_password', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_api_key', $template); ?>
+                <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
             </div>
 
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">

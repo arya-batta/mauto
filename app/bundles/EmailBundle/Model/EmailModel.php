@@ -80,7 +80,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     /**
      * @var MailHelper
      */
-    protected $mailHelper;
+    public $mailHelper;
 
     /**
      * @var LeadModel

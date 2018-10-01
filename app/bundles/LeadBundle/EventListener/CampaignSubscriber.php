@@ -17,6 +17,8 @@ use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
+use Mautic\CoreBundle\Helper\licenseinfoHelper;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\PointsChangeLog;
@@ -57,21 +59,26 @@ class CampaignSubscriber extends CommonSubscriber
      * @var CampaignModel
      */
     protected $campaignModel;
-
+    /**
+     * @var LicenseInfoHelper
+     */
+    protected $licenseInfoHelper;
     /**
      * CampaignSubscriber constructor.
      *
      * @param IpLookupHelper $ipLookupHelper
      * @param LeadModel      $leadModel
      * @param FieldModel     $leadFieldModel
+     * @param LicenseInfoHelper  $licenseInfoHelper
      */
-    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel)
+    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel,LicenseInfoHelper  $licenseInfoHelper)
     {
         $this->ipLookupHelper = $ipLookupHelper;
         $this->leadModel      = $leadModel;
         $this->leadFieldModel = $leadFieldModel;
         $this->listModel      = $listModel;
         $this->campaignModel  = $campaignModel;
+        $this->licenseInfoHelper  =  $licenseInfoHelper;
     }
 
     /**
@@ -523,7 +530,12 @@ class CampaignSubscriber extends CommonSubscriber
             return;
         }
 
-        $this->leadModel->deleteEntity($event->getLead());
+        $currentMonth     =date('Y-m');
+
+            $this->leadModel->deleteEntity($event->getLead());
+            $this->licenseInfoHelper->intRecordCount('1', false);
+            $this->licenseInfoHelper->intDeleteCount('1', true);
+            $this->licenseInfoHelper->intDeleteMonth($currentMonth);
 
         return $event->setResult(true);
     }
