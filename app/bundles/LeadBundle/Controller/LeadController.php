@@ -585,6 +585,30 @@ class LeadController extends FormController
             $fields = $this->getModel('lead.field')->getPublishedFieldArrays('lead');
         }
 
+            if(!$isValidRecordAdd) {
+                $inQuickForm = $this->request->get('qf', false);
+                $this->addFlash('mautic.record.count.exceeds');
+                if(!$inQuickForm) {
+                    return $this->indexAction();
+                }else {
+                    $viewParameters = ['page' => $page];
+                    $returnUrl = $this->generateUrl('mautic_contact_index', $viewParameters);
+                    $template = 'MauticLeadBundle:Lead:index';
+                    return $this->postActionRedirect(
+                        [
+                            'returnUrl' => $returnUrl,
+                            'viewParameters' => $viewParameters,
+                            'contentTemplate' => $template,
+                            'passthroughVars' => [
+                                'activeLink' => '#mautic_contact_index',
+                                'mauticContent' => 'lead',
+                                'closeModal' => 1, //just in case in quick form
+                            ],
+                        ]
+                    );
+                }
+            }
+
         $form = $model->createForm($lead, $this->get('form.factory'), $action, ['fields' => $fields, 'isShortForm' => $inQuickForm]);
 
         ///Check for a submitted form and process it
@@ -1531,6 +1555,21 @@ class LeadController extends FormController
             )
         ) {
             return $this->modalAccessDenied();
+        }
+
+
+        if (!$this->get('mautic.helper.mailer')->emailstatus())
+        {
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route' => false,
+                    ],
+                ]
+            );
+
         }
 
         $leadFields       = $lead->getProfileFields();

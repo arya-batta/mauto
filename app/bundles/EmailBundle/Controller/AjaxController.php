@@ -207,118 +207,8 @@ class AjaxController extends CommonAjaxController
 
         if ($user->isAdmin() || $user->isCustomAdmin()) {
             $settings = $request->request->all();
-
-            $transport = $settings['transport'];
-
-            switch ($transport) {
-                case 'gmail':
-                    $mailer = new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
-                    break;
-                case 'smtp':
-                    $mailer = new \Swift_SmtpTransport($settings['host'], $settings['port'], $settings['encryption']);
-                    break;
-                default:
-                    if ($this->container->has($transport)) {
-                        $mailer = $this->container->get($transport);
-
-                        if ('mautic.transport.amazon' == $transport) {
-                            if (!$mailer instanceof AmazonApiTransport) {
-                                $mailer->setHost($settings['amazon_region']);
-                            }
-                        }
-                    }
-            }
-
-            if (method_exists($mailer, 'setMauticFactory')) {
-                $mailer->setMauticFactory($this->factory);
-            }
-
-            if (!empty($mailer)) {
-                try {
-                    if (method_exists($mailer, 'setApiKey')) {
-                        if (empty($settings['api_key'])) {
-                            $settings['api_key'] = $this->get('mautic.helper.core_parameters')->getParameter('mailer_api_key');
-                        }
-                        $mailer->setApiKey($settings['api_key']);
-                    }
-                } catch (\Exception $exception) {
-                    // Transport had magic method defined and threw an exception
-                }
-
-                try {
-                    if (is_callable([$mailer, 'setUsername']) && is_callable([$mailer, 'setPassword'])) {
-                        if (empty($settings['password'])) {
-                            $settings['password'] = $this->get('mautic.helper.core_parameters')->getParameter('mailer_password');
-                        }
-                        $mailer->setUsername($settings['user']);
-                        $mailer->setPassword($settings['password']);
-                    }
-                } catch (\Exception $exception) {
-                    // Transport had magic method defined and threw an exception
-                }
-
-                $logger = new \Swift_Plugins_Loggers_ArrayLogger();
-                $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
-
-                try {
-                    $translator = $this->get('translator');
-
-                    if ($settings['send_test'] == 'true' || $settings['toemail'] != '') {
-                        if ($settings['toemail'] != '') {
-                            $lemailer = $this->container->get('mautic.transport.elasticemail.transactions');
-                            $lemailer->start();
-                            $trackingcode = $settings['trackingcode'];
-                            $mailbody     = $translator->trans('mautic.email.website_tracking.body');
-                            $mailbody     = str_replace('|FROM_EMAIL|', $settings['from_email'], nl2br($mailbody));
-                            $mailbody     = str_replace('|Tracking|', $trackingcode, nl2br($mailbody));
-                            if ($settings['additionalinfo'] != '') {
-                                $additioninfo = $settings['additionalinfo'];
-                                $mailbody     = str_replace('|USER_CONTENT|', $additioninfo, nl2br($mailbody));
-                                //$mailbody .= "$additioninfo<br>";
-                            }
-                            $mailbody .= '</body></html>';
-                            $message = \Swift_Message::newInstance()
-                                ->setSubject($translator->trans('mautic.email.config.mailer.transport.tracking_send.subject'));
-                            $message->setBody($mailbody, 'text/html');
-                            $message->setTo([$settings['toemail']]);
-                            $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);
-                            $lemailer->send($message);
-                        } else {
-                            $mailer->start();
-                            $message = \Swift_Message::newInstance()
-                                ->setSubject($translator->trans('mautic.email.config.mailer.transport.test_send.subject'));
-                            $mailbody =  $translator->trans('mautic.email.config.mailer.transport.test_send.body');
-                            $message->setBody($mailbody, 'text/html');
-                            $userFullName = trim($user->getFirstName().' '.$user->getLastName());
-                            if (empty($userFullName)) {
-                                $userFullName = null;
-                            }
-                            $message->setFrom([$settings['from_email'] => $settings['from_name']]);
-                            if ($settings['toemail'] != '') {
-                                $message->setTo([$settings['toemail']]);
-                            } else {
-                                $message->setTo([$user->getEmail() => $userFullName]);
-                            }
-                            $mailer->send($message);
-                        }
-                        $dataArray['success'] = 1;
-                        if ($settings['send_test'] == 'true') {
-                            $message= $translator->trans('mautic.core.success', ['%email%'=>$user->getEmail()]);
-                        } else {
-                            $message = $translator->trans('mautic.core.success.tracking');
-                        }
-                        $dataArray['message'] =$message;
-                    } else {
-                        $dataArray['success']         = 0;
-                        $dataArray['to_address_empty']=true;
-                        $dataArray['message']         = $translator->trans('mautic.core.failed');
-                    }
-                } catch (\Exception $e) {
-                    $dataArray['success'] = 0;
-                    //$dataArray['message'] = $e->getMessage().'<br />'.$logger->dump();
-                    $dataArray['message'] = $e->getMessage();
-                }
-            }
+            $mailHelper = $this->get('mautic.helper.mailer');
+            $dataArray = $mailHelper->testEmailServerConnection($settings);
         }
 
         return $this->sendJsonResponse($dataArray);
@@ -508,6 +398,19 @@ class AjaxController extends CommonAjaxController
         $dataArray['success']  =true;
         $dataArray['redirect'] =$returnUrl;
 
+        return $this->sendJsonResponse($dataArray);
+    }
+    public function emailstatusAction(){
+        $config= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        if(!$this->get('mautic.helper.mailer')->emailstatus()){
+            $dataArray['success']       =true;
+            $dataArray['info']          = $this->translator->trans('mautic.email.config.mailer.status.app_header',['%config_url%' =>"<a class='url' href=$config>Click Here</a>"]);
+            $dataArray['isalertneeded'] = 'false';
+        }else{
+            $dataArray['success']       =false;
+            $dataArray['info']          = '';
+            $dataArray['isalertneeded'] = 'false';
+        }
         return $this->sendJsonResponse($dataArray);
     }
 }

@@ -1352,7 +1352,14 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-
+        if($this->get('mautic.helper.mailer')->emailstatus()){
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+            return $this->postActionRedirect(
+                [
+                    'returnUrl'=> $this->generateUrl('mautic_email_campaign_index'),
+                ]
+            );
+        }
         //not found
         if ($entity === null) {
             return $this->postActionRedirect(
@@ -1634,7 +1641,18 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-
+        if (!$this->get('mautic.helper.mailer')->emailstatus())
+        {
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route' => false,
+                    ],
+                ]
+            );
+        }
         // Get the quick add form
         $action = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $objectId]);
         $user   = $this->get('mautic.helper.user')->getUser();

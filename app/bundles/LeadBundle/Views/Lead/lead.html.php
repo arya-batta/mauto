@@ -236,7 +236,7 @@ $view['slots']->set(
                             <div class="col-md-9"style="margin-left: 2%">
                               <div>
                                 <div class="row">
-                                    <div  class="col-md-12">
+                                    <div  class="col-md-12"style="margin-top: 13px;" >
                                         <h3 class="text-primary fw-b"><?php echo $fields['core']['title']['value']; ?> <?php echo $fields['core']['firstname']['value']; ?> <?php echo $fields['core']['lastname']['value']; ?></h3>
                                         <br>
                                     </div>
@@ -281,7 +281,7 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6" style="margin-top: -29px">
+                                    <div class="col-md-6" style="margin-top: -31px">
                                         <?php if (isset($fields['core']['phone'])): ?>
                                             <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.type.tel.home'); ?></h6>
                                             <p class="text-primary"><?php echo $fields['core']['phone']['value']; ?></p>
@@ -364,7 +364,7 @@ $view['slots']->set(
                             </span>
 
                                             <?php elseif ($doNotContact['bounced']): ?>
-                                                <span class="label label-warning dnc-alignment" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
+                                                <span class="label label-warning dnc-alignment" data-toggle="tooltip" data-placement="left" title="<?php echo $doNotContact['comments']; ?>">
                                 <?php echo $view['translator']->trans('mautic.lead.do.not.contact_bounced'); ?>
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                                         'mautic.lead.remove_dnc_status'

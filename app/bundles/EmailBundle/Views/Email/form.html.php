@@ -195,13 +195,6 @@ $custombutton = [
                     <?php echo $view['form']->row($form['publishDown']); ?>
                 <?php endif; ?>
                 <?php else: ?>
-                    <div id="leadList "<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
-                    <div class=" " id="leadlists">
-                            <?php echo $view['form']->label($form['lists']); ?>
-                            <?php echo $view['form']->widget($form['lists']); ?>
-                            <div class="help-block"></div>
-                    </div>
-                    </div>
 
                     <div class="hide">
                         <?php echo $view['form']->row($form['language']); ?>

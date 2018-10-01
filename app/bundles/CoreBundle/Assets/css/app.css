@@ -4987,6 +4987,10 @@ figcaption {
   font-family: Sans-Serif;
   padding-left: 25px;
   padding-right: 25px;
+<<<<<<< Updated upstream
+=======
+  line-height: 6px;
+>>>>>>> Stashed changes
 }
 .login-notifiation {
   background-color: #fef4f6;

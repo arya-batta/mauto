@@ -142,6 +142,7 @@ return [
                     'mautic.core.model.auditlog',
                     'mautic.email.model.email',
                     'mautic.helper.message',
+                    'translator',
                 ],
             ],
             'mautic.email.monitored.bounce.subscriber' => [
@@ -614,6 +615,7 @@ return [
                 'arguments' => [
                     'mautic.factory',
                     'mailer',
+                    'mautic.helper.core_parameters',
                 ],
             ],
             'mautic.helper.plain_text_message' => [
@@ -807,5 +809,6 @@ return [
         'mailer_transport_name'                  => null,
         'beeeditor_client_id'                    => '',
         'beeeditor_client_secret'                => '',
+        'email_status'                           => null,
     ],
 ];

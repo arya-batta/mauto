@@ -975,3 +975,16 @@ Mautic.convertDynamicContentFilterInput = function(el, jQueryVariant) {
         Mautic.activateChosenSelect(filterEl, false, mQuery);
     }
 };
+Mautic.checkemailstatus = function(){
+        Mautic.ajaxActionRequest('email:emailstatus', {}, function(response) {
+            if (response.success) {
+                if(response.info != "" && response.isalertneeded != "true"){
+                    mQuery('.license-notifiation').removeClass('hide');
+                    mQuery('.button-notification').addClass('hide');
+                    mQuery('.license-notifiation #license-alert-message').html(response.info);
+                }else{
+                    mQuery('.license-notifiation').addClass('hide');
+                }
+            }
+        });
+   }

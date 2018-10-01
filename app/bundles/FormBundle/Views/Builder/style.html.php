@@ -22,7 +22,7 @@
     .mauticform-label { font-weight: 600; line-height: 18px;font-family: "Open Sans",Helvetica,Arial,sans-serif;margin-bottom: 5px;font-size: 1.1em; display: block;  }
     .mauticform-row.mauticform-required .mauticform-label:after { color: #e32; content: " *"; display: inline; }
     .mauticform-helpmessage { display: block; font-size: 0.9em; margin-bottom: 3px; }
-    .mauticform-errormsg { display: block; color: red; margin-top: 2px; }
+    .mauticform-errormsg { display: block; color: red; margin-top: 0px;margin-bottom: -15px;}
     .mauticform-selectbox, .mauticform-input, .mauticform-textarea { width: 100%; padding: 0.75em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; font-size:14px;  font-family: "Open Sans",Helvetica,Arial,sans-serif;  }
     .mauticform-checkboxgrp-row {}
     .mauticform-checkboxgrp-label { font-weight: normal; }

@@ -95,6 +95,12 @@ Mautic.testEmailServerConnection = function(sendEmail) {
     Mautic.ajaxActionRequest('email:testEmailServerConnection', data, function(response) {
         var theClass = (response.success) ? 'has-success' : 'has-error';
         var theMessage = response.message;
+        if(theClass == 'has-success'){
+            mQuery('#config_emailconfig_email_status').val('Active');
+        }
+        if(theClass == 'has-error'){
+            mQuery('#config_emailconfig_email_status').val('InActive');
+        }
        if(!mQuery('.emailconfig #mailerTestButtonContainer').is(':hidden')){
            mQuery('.emailconfig #mailerTestButtonContainer').removeClass('has-success has-error').addClass(theClass);
            mQuery('.emailconfig #mailerTestButtonContainer .help-block').html(theMessage);
@@ -164,6 +170,7 @@ Mautic.showBounceCallbackURL = function(modeEl) {
         mQuery('#config_emailconfig_mailer_transport').val(mode);
     }
     mQuery('#config_emailconfig_mailer_amazon_region').val('');
+    Mautic.updateEmailStatus();
 };
 
 
@@ -209,4 +216,8 @@ Mautic.configOnLoad = function (container) {
             }
         });
     });
+}
+
+Mautic.updateEmailStatus = function(){
+    mQuery('#config_emailconfig_email_status').val('InActive');
 }
