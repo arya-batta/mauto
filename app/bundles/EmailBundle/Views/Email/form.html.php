@@ -248,8 +248,11 @@ $custombutton = [
         <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
         <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
         </div>
-        <div style="width: 70%">
-         <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
+        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-25px;" id="email-basic-container">
+            <?php echo $view['form']->widget($form['customHtml']); ?>
+        </div>
+        <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
+            <div style="width: 70%">
             <?php if (!empty($filters)): ?>
                 <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                     'filters' => $filters,
@@ -257,13 +260,8 @@ $custombutton = [
                     'tmpl'    => (empty($tmpl)) ? null : $tmpl,
                 ]); ?>
             <?php endif; ?>
+            </div>
          </div>
-        </div>
-
-
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="email-basic-container">
-            <?php echo $view['form']->widget($form['customHtml']); ?>
-        </div>
         <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
             <div class="row">
                 <div class="col-md-12 hide">

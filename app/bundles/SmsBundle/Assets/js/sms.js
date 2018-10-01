@@ -74,6 +74,20 @@ Mautic.smsOnLoad = function (container, response) {
     });
     Mautic.removeActionButtons();
 };
+Mautic.CheckSMSStatus = function () {
+    Mautic.ajaxActionRequest('sms:smsstatus', {}, function(response) {
+        if (response.success) {
+            if(response.info != "" && response.isalertneeded != "true"){
+                mQuery('.license-notifiation').removeClass('hide');
+                mQuery('.license-notifiation #license-alert-message').html(response.info);
+                mQuery('.button-notification').addClass('hide');
+            }else{
+                mQuery('.license-notifiation').addClass('hide');
+            }
+        }
+    });
+
+}
 
 Mautic.selectSmsType = function(smsType) {
     if (smsType == 'list') {

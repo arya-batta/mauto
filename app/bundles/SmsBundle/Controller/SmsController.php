@@ -824,7 +824,17 @@ class SmsController extends FormController
     {
         $model  = $this->getModel('sms');
         $entity = $model->getEntity($objectId);
-
+        if (!$this->get('mautic.helper.sms')->getSmsTransportStatus()){
+            $this->addFlash('mautic.sms.notice.test_sent_multiple.fail');
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
         //not found or not allowed
         if ($entity === null
             || (!$this->get('mautic.security')->hasEntityAccess(
@@ -854,7 +864,8 @@ class SmsController extends FormController
             $isCancelled = $this->isFormCancelled($form);
             $isValid     = $this->isFormValid($form);
             if (!$isCancelled && $isValid) {
-                $mobiles = $form['smss']->getData()['list'];
+                if($this->get('mautic.helper.sms')->getSmsTransportStatus()){
+                    $mobiles = $form['smss']->getData()['list'];
 
                 // Prepare a fake lead
                 /** @var \Mautic\LeadBundle\Model\FieldModel $fieldModel */
@@ -890,9 +901,13 @@ class SmsController extends FormController
                 }
 
                 if (count($errors) != 0) {
-                    $this->addFlash(implode('; ', $errors));
+                    $this->addFlash('mautic.sms.notice.test_sent_multiple.fail');
                 } else {
-                    $this->addFlash('mautic.email.notice.test_sent_multiple.success');
+                    $this->addFlash('mautic.sms.notice.test_sent_multiple.success');
+                }
+                }else{
+                    $this->addFlash('mautic.sms.notice.test_sent_multiple.fail');
+
                 }
             }
 

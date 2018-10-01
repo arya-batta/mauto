@@ -17,6 +17,7 @@ use libphonenumber\PhoneNumberUtil;
 use Mautic\CoreBundle\Helper\PhoneNumberHelper;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
+use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Monolog\Logger;
 
 class SolutionInfinityApi extends AbstractSmsApi
@@ -63,8 +64,9 @@ class SolutionInfinityApi extends AbstractSmsApi
      * @param PhoneNumberHelper $phoneNumberHelper
      * @param IntegrationHelper $integrationHelper
      * @param Logger            $logger
+     * @param CoreParametersHelper $coreParametersHelper
      */
-    public function __construct(TrackableModel $pageTrackableModel, PhoneNumberHelper $phoneNumberHelper, IntegrationHelper $integrationHelper, Logger $logger)
+    public function __construct(TrackableModel $pageTrackableModel, PhoneNumberHelper $phoneNumberHelper, IntegrationHelper $integrationHelper, Logger $logger,CoreParametersHelper $coreParametersHelper)
     {
         $this->logger = $logger;
 
@@ -73,14 +75,21 @@ class SolutionInfinityApi extends AbstractSmsApi
         if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
             //$this->sendingPhoneNumber = $integration->getIntegrationSettings()->getFeatureSettings()['sending_phone_number'];
 
-            $keys           = $integration->getDecryptedApiKeys();
-            $this->username = $keys['apikey'];
-            //$this->password = $keys['password'];
-            $this->senderid = $keys['senderid'];
-            $this->url      = $keys['url'];
-        }
+            $keys = $integration->getDecryptedApiKeys();
+            if ($coreParametersHelper->getParameter('mautic.sms_transport') == 'mautic.sms.transport.leadsengage') {
 
-        parent::__construct($pageTrackableModel);
+                $keys['apikey']         =   $coreParametersHelper->getParameter('le_account_api_key');
+                $keys['senderid']    =   $coreParametersHelper->getParameter('le_account_sender_id');
+                $keys['url']         =   $coreParametersHelper->getParameter('le_account_url');
+            }
+                $this->username = $keys['apikey'];
+                //$this->password = $keys['password'];
+                $this->senderid = $keys['senderid'];
+                $this->url = $keys['url'];
+
+
+            parent::__construct($pageTrackableModel);
+        }
     }
 
     /**

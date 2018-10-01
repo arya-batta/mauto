@@ -19,6 +19,7 @@ return [
                     'mautic.sms.model.sms',
                     'mautic.helper.notification',
                     'mautic.sms.model.send_sms_to_user',
+                    'mautic.helper.sms',
                 ],
             ],
             'mautic.sms.smsbundle.subscriber' => [
@@ -87,6 +88,8 @@ return [
                     'mautic.helper.phone_number',
                     'mautic.sms.model.sms',
                     'mautic.helper.integration',
+                    'mautic.helper.core_parameters',
+                    'mautic.factory',
                 ],
                 'alias' => 'sms_helper',
             ],
@@ -99,6 +102,22 @@ return [
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
                     'monolog.logger.mautic',
+                    'mautic.helper.core_parameters',
+                ],
+                'tag'          => 'mautic.sms_transport',
+                'tagArguments' => [
+                    'integrationAlias' => 'SolutionInfinity',
+                ],
+                'alias' => 'SolutionInfinity',
+            ],
+            'mautic.sms.transport.leadsengage' => [
+                'class'     => \Mautic\SmsBundle\Api\SolutionInfinityApi::class,
+                'arguments' => [
+                    'mautic.page.model.trackable',
+                    'mautic.helper.phone_number',
+                    'mautic.helper.integration',
+                    'monolog.logger.mautic',
+                    'mautic.helper.core_parameters',
                 ],
                 'tag'          => 'mautic.sms_transport',
                 'tagArguments' => [
@@ -223,5 +242,9 @@ return [
         'sms_frequency_time'       => null,
         'sms_from_number'          => null,
         'publish_account'          => null,
+        'sms_status'               => null,
+        'le_account_sender_id'     => 'ENGAGE',
+        'le_account_url'           => 'http://api-alerts.solutionsinfini.com/v3/',
+        'le_account_api_key'       => 'A8fb98435484c3d27ac790091178e7f1b',
     ],
 ];
