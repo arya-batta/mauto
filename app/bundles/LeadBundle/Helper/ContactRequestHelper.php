@@ -202,7 +202,7 @@ class ContactRequestHelper
             throw new ContactNotFoundException();
         }
 
-        if ($stat->getEmail() != null && (int) $stat->getEmail()->getId() !== (int) $clickthrough['channel']['email']) {
+        if ($stat->getEmail() != null && isset($clickthrough['channel']) && (int) $stat->getEmail()->getId() !== (int) $clickthrough['channel']['email']) {
             // Email ID mismatch - fishy so use tracked lead
             throw new ContactNotFoundException();
         }
@@ -268,8 +268,8 @@ class ContactRequestHelper
 
     private function prepareContactFromRequest()
     {
-        if($this->trackedContact != null) {
-            $ipAddress = $this->ipLookupHelper->getIpAddress();
+        if ($this->trackedContact != null) {
+            $ipAddress          = $this->ipLookupHelper->getIpAddress();
             $contactIpAddresses = $this->trackedContact->getIpAddresses();
             if (!$contactIpAddresses->contains($ipAddress)) {
                 $this->trackedContact->addIpAddress($ipAddress);
