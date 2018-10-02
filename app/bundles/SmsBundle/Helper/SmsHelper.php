@@ -101,7 +101,7 @@ class SmsHelper
             if (!$sendsms) {
                 return true;
             }
-            $result = $this->testSmsServerConnection($settings, true);
+            $result = $this->testSmsServerConnection($settings, false);
             if ($result['success']) {
                 return true;
             } else {
@@ -116,7 +116,7 @@ class SmsHelper
             if (!$sendsms) {
                 return false;
             }
-            $result = $this->testSmsServerConnection($settings, true);
+            $result = $this->testSmsServerConnection($settings, false);
             if ($result['success']) {
                 $configurator->mergeParameters(['sms_status' => 'Active']);
                 $configurator->write();
@@ -173,8 +173,8 @@ class SmsHelper
     {
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
-        if ($standardnumber) {
-            $sendnumber='7092199371';
+        if (!$standardnumber) {
+            $sendnumber='';
         } else {
             $sendnumber = $user->getMobile();
         }
@@ -224,6 +224,10 @@ class SmsHelper
             if ($status == 'OK') {
                 return 'success';
             } else {
+                if (strpos($message, 'No Valid mobile numbers found') !== false) {
+                    return 'success';
+                }
+
                 return $message;
             }
         } catch (NumberParseException $e) {

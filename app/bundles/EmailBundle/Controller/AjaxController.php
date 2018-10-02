@@ -207,7 +207,7 @@ class AjaxController extends CommonAjaxController
         if ($user->isAdmin() || $user->isCustomAdmin()) {
             $settings   = $request->request->all();
             $mailHelper = $this->get('mautic.helper.mailer');
-            $dataArray  = $mailHelper->testEmailServerConnection($settings);
+            $dataArray  = $mailHelper->testEmailServerConnection($settings, true);
         }
 
         return $this->sendJsonResponse($dataArray);

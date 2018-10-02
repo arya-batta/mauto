@@ -2198,7 +2198,7 @@ class MailHelper
             if (!$sendEmail) {
                 return true;
             }
-            $result=$this->testEmailServerConnection($settingss, true);
+            $result=$this->testEmailServerConnection($settingss, false);
             if ($result['success']) {
                 return true;
             } else {
@@ -2211,7 +2211,7 @@ class MailHelper
             if (!$sendEmail) {
                 return false;
             }
-            $result=$this->testEmailServerConnection($settingss, true);
+            $result=$this->testEmailServerConnection($settingss, false);
             if ($result['success']) {
                 $configurator->mergeParameters(['email_status' => 'Active']);
                 $configurator->write();
