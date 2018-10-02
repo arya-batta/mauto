@@ -80,14 +80,6 @@ class EmailType extends AbstractType
         $builder->addEventSubscriber(new CleanFormSubscriber(['content' => 'html', 'customHtml' => 'html', 'beeJSON' => 'raw']));
         $builder->addEventSubscriber(new FormExitSubscriber('email.email', $options));
         $emailProvider = $this->licenseHelper->getEmailProvider();
-        $currentUser   = $this->currentUser->isAdmin();
-        $disabled      = false;
-
-        if (!$currentUser) {
-            if ($emailProvider == 'Sparkpost') {
-                $disabled = true;
-            }
-        }
 
         $name = 'leadsengage.email.form.template.name';
         if (!$options['isEmailTemplate']) {
@@ -146,7 +138,6 @@ class EmailType extends AbstractType
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => $tooltip,
-                    'disabled' => $disabled,
                  ],
                 'constraints' => [
                     new EmailVerify(

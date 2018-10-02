@@ -232,19 +232,19 @@ class EmailCampaignController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'searchValue'     => $search,
-                    'filters'         => $listFilters,
-                    'items'           => $emails,
-                    'totalItems'      => $count,
-                    'page'            => $page,
-                    'limit'           => $limit,
-                    'tmpl'            => $this->request->get('tmpl', 'index'),
-                    'permissions'     => $permissions,
-                    'model'           => $model,
-                    'actionRoute'     => 'mautic_email_campaign_action',
-                    'indexRoute'      => 'mautic_email_campaign_index',
-                    'headerTitle'     => 'mautic.email.emails',
-                    'translationBase' => 'mautic.email.broadcast',
+                    'searchValue'      => $search,
+                    'filters'          => $listFilters,
+                    'items'            => $emails,
+                    'totalItems'       => $count,
+                    'page'             => $page,
+                    'limit'            => $limit,
+                    'tmpl'             => $this->request->get('tmpl', 'index'),
+                    'permissions'      => $permissions,
+                    'model'            => $model,
+                    'actionRoute'      => 'mautic_email_campaign_action',
+                    'indexRoute'       => 'mautic_email_campaign_index',
+                    'headerTitle'      => 'mautic.email.emails',
+                    'translationBase'  => 'mautic.email.broadcast',
                     'emailBlockDetails'=> $emailBlockDetails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
@@ -393,7 +393,7 @@ class EmailCampaignController extends FormController
             $includeVariants = (($email->isVariant() && $parent === $email) || ($email->isTranslation() && $translationParent === $email));
         }
         //if ($email->getEmailType() == 'template') {
-            $stats = $model->getEmailGeneralStats(
+        $stats = $model->getEmailGeneralStats(
                 $email,
                 $includeVariants,
                 null,
@@ -521,9 +521,9 @@ class EmailCampaignController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
@@ -688,7 +688,7 @@ class EmailCampaignController extends FormController
             'RETURN_ARRAY'
         );
         $verifiedemail = $model->getVerifiedEmailAddress();
-        $groupFilters = [
+        $groupFilters  = [
             'filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Mautic.filterBeeTemplates()',
@@ -760,9 +760,9 @@ class EmailCampaignController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
@@ -1352,8 +1352,9 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-        if($this->get('mautic.helper.mailer')->emailstatus()){
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+        if ($this->get('mautic.helper.mailer')->emailstatus()) {
+            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report'));
+
             return $this->postActionRedirect(
                 [
                     'returnUrl'=> $this->generateUrl('mautic_email_campaign_index'),
@@ -1413,9 +1414,9 @@ class EmailCampaignController extends FormController
         $params           = $configurator->getParameters();
         $fromadress       = $entity->getFromAddress();
         $emailuser        = $params['mailer_user'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region           = $params['mailer_amazon_region'];
@@ -1532,11 +1533,7 @@ class EmailCampaignController extends FormController
         } else {
             $this->addFlash('mautic.account.suspend');
 
-            return $this->postActionRedirect(
-               [
-                   'returnUrl'=> $this->generateUrl('mautic_email_campaign_index'),
-               ]
-           );
+            return $this->viewAction($objectId);
         }
     }
 
@@ -1641,14 +1638,14 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus())
-        {
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
+            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report'));
+
             return $this->postActionRedirect(
                 [
                     'passthroughVars' => [
                         'closeModal' => 1,
-                        'route' => false,
+                        'route'      => false,
                     ],
                 ]
             );

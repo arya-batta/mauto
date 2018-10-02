@@ -12,11 +12,15 @@ $hideawsemailoptions = '';
 $style               ='86%';
 $tabindex            ='-1';
 $pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
-if ($mailertransport != 'mautic.transport.amazon') {
+if ($mailertransport != 'mautic.transport.amazon' && $mailertransport != 'mautic.transport.sparkpost') {
     $hideawsemailoptions  = 'hide';
     $style                = '';
     $pointereventstyle    ='';
     $tabindex             = '';
+}
+if ($mailertransport != 'mautic.transport.amazon') {
+    $hideawsemailoptions ='hide';
+    $style               ='';
 }
 if ($dnc && $dnc['bounced']) {
     echo '<div class="alert alert-warning">'.$view['translator']->trans('mautic.lead.do.not.contact_bounced').'</div>';
