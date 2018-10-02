@@ -215,7 +215,6 @@ class SmsHelper
             $sendurl = $url;
             $baseurl = $sendurl.'?method=sms&api_key='.$username.'&sender='.$senderID;
             $sendurl =$baseurl.'&to='.$number.'&message='.$content;
-            file_put_contents('/var/www/log.txt', $sendurl."\n", FILE_APPEND);
             $handle  = curl_init($sendurl);
             curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($handle);
