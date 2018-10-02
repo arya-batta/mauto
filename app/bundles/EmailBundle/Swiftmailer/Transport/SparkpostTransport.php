@@ -419,6 +419,7 @@ class SparkpostTransport extends AbstractTokenArrayTransport implements \Swift_T
     {
         switch ($event['type']) {
             case 'bounce':
+                $event['raw_reason']='Email Bounced';
                 $this->transportCallback->addFailureByAddress($email, $event['raw_reason']);
                 break;
             case 'spam_complaint':

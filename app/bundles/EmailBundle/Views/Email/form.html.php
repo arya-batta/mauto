@@ -81,11 +81,15 @@ $hideawsemailoptions = '';
 $style               ='80%';
 $tabindex            ='-1';
 $pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
-if ($mailertransport != 'mautic.transport.amazon') {
+if ($mailertransport != 'mautic.transport.amazon' && $mailertransport != 'mautic.transport.sparkpost') {
     $hideawsemailoptions  = 'hide';
     $style                = '';
     $pointereventstyle    = '';
     $tabindex             = '';
+}
+if ($mailertransport != 'mautic.transport.amazon') {
+    $hideawsemailoptions ='hide';
+    $style               ='';
 }
 $custombutton = [
         [
@@ -94,7 +98,7 @@ $custombutton = [
             'attr'    => [
                 'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
                 'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
-                'style'   => "background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;"
+                'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;',
             ],
         ],
 ];
@@ -163,7 +167,7 @@ $custombutton = [
                         <div class="help-block"></div>
                     </div>
                 </div>
-                <?php endif;?>
+                <?php endif; ?>
             </div>
             <?php if ($isVariant): ?>
             <div class="row">

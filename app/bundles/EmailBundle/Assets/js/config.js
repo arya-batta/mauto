@@ -184,7 +184,12 @@ Mautic.configOnLoad = function (container) {
         e.preventDefault();
         var currentLink = mQuery(this);
         var email = mQuery('#aws_email_verification').val();
-        mQuery('#user_email .help-block').removeClass('hide');
+        var mailformat =/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,4})?$/;
+        if (!email.match(mailformat)) {
+            document.getElementById('errors').innerHTML= "Please provide a valid email";
+            return;
+        }
+       mQuery('#user_email .help-block').removeClass('hide');
        Mautic.activateButtonLoadingIndicator(currentLink);
         Mautic.ajaxActionRequest('email:awsEmailFormValidation', {'email': email}, function(response) {
            Mautic.removeButtonLoadingIndicator(currentLink);

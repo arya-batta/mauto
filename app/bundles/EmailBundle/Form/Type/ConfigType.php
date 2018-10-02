@@ -66,13 +66,6 @@ class ConfigType extends AbstractType
 
         $emailProvider = $this->licenseHelper->getEmailProvider();
         $currentUser   = $this->currentUser->isAdmin();
-        $disabled      = false;
-
-        if (!$currentUser) {
-            if ($emailProvider == 'Sparkpost') {
-                $disabled = true;
-            }
-        }
 
         $builder->add(
             $builder->create(
@@ -226,7 +219,6 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control le-input',
                     'tooltip'  => 'mautic.email.config.mailer.from.name.tooltip',
-                    'disabled' => false,
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -245,11 +237,14 @@ class ConfigType extends AbstractType
         $transport        = $options['data']['mailer_transport'];
         $datavalue        = $transport;
         $disabletransport = false;
+        $tabIndex         ='';
+        $style            ='';
         if ($emailProvider == 'LeadsEngage' && ($transport == 'mautic.transport.elasticemail' || $transport == 'mautic.transport.sendgrid_api') && !$currentUser) {
             $datavalue        = 'le.transport.vialeadsengage';
             $disabletransport = false;
         } elseif ($emailProvider == 'Sparkpost' && !$currentUser) {
-            $disabled = true;
+            $style   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
+            $tabIndex= '-1';
         }
         if ($currentUser) {
             $disabletransport = false;
@@ -263,8 +258,9 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
+                    'tabindex' => $tabIndex,
+                    'style'    => $style,
                     'tooltip'  => 'mautic.email.config.mailer.from.email.tooltip',
-                    'disabled' => $disabled,
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -431,7 +427,7 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control',
                     'data-show-on' => $amazonRegionShowConditions,
                     'tooltip'      => 'mautic.email.config.mailer.amazon_host.tooltip',
-                    'onchange'  => 'Mautic.updateEmailStatus();',
+                    'onchange'     => 'Mautic.updateEmailStatus();',
                 ],
                 'empty_value' => false,
             ]

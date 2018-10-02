@@ -246,6 +246,10 @@ class AmazonApiTransport implements \Swift_Transport, TokenTransportInterface, C
 
         $payload = json_decode($request->getContent(), true);
 
+        if ($payload == null) {
+            $payload['Type']='Notifaction';
+        }
+
         return $this->processJsonPayload($payload);
     }
 

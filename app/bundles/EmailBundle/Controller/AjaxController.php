@@ -18,7 +18,6 @@ use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\AwsVerifiedEmails;
 use Mautic\EmailBundle\Helper\PlainTextHelper;
 use Mautic\EmailBundle\Model\EmailModel;
-use Mautic\EmailBundle\Swiftmailer\Transport\AmazonApiTransport;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -206,9 +205,9 @@ class AjaxController extends CommonAjaxController
         $user      = $this->get('mautic.helper.user')->getUser();
 
         if ($user->isAdmin() || $user->isCustomAdmin()) {
-            $settings = $request->request->all();
+            $settings   = $request->request->all();
             $mailHelper = $this->get('mautic.helper.mailer');
-            $dataArray = $mailHelper->testEmailServerConnection($settings);
+            $dataArray  = $mailHelper->testEmailServerConnection($settings, true);
         }
 
         return $this->sendJsonResponse($dataArray);
@@ -317,7 +316,7 @@ class AjaxController extends CommonAjaxController
             $emailuser        = $params['mailer_user'];
             if(isset($params['mailer_amazon_region'])){
                 $region                = $params['mailer_amazon_region'];
-            }else{
+            } else {
                 $region='';
             }
             //$region           = $params['mailer_amazon_region'];
@@ -400,17 +399,20 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($dataArray);
     }
-    public function emailstatusAction(){
-        $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-        if(!$this->get('mautic.helper.mailer')->emailstatus()){
+
+    public function emailstatusAction()
+    {
+        $configurl= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       =true;
             $dataArray['info']          = $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.app_header",['%url%'=>$configurl]));
             $dataArray['isalertneeded'] = 'false';
-        }else{
+        } else {
             $dataArray['success']       =false;
             $dataArray['info']          = '';
             $dataArray['isalertneeded'] = 'false';
         }
+
         return $this->sendJsonResponse($dataArray);
     }
 }

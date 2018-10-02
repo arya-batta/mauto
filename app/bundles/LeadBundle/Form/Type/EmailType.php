@@ -48,13 +48,6 @@ class EmailType extends AbstractType
         $params        = $configurator->getParameters();
         $fromname      =  $params['mailer_from_name'];
         $fromemail     = $params['mailer_from_email'];
-        $disabled      = false;
-
-        if (!$currentUser) {
-            if ($emailProvider == 'Sparkpost') {
-                $disabled = true;
-            }
-        }
 
         $builder->add(
             'subject',
@@ -100,10 +93,8 @@ class EmailType extends AbstractType
             [
                 'label'       => 'mautic.lead.email.from_email',
                 'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class'   => 'form-control le-input',
-                    'disabled'              => $disabled,
-                ],
-                'required'    => false,
+                'attr'        => ['class'   => 'form-control le-input'],
+                'required'    => true,
                 'data'        => $default,
                 'constraints' => [
                     new NotBlank([

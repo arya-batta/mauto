@@ -67,8 +67,6 @@ class ConfigController extends FormController
         $emailpassword  = $paramater['mailer_password'];
         if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
-        } else {
-            $region='';
         }
         //$region         = $paramater['mailer_amazon_region'];
 
@@ -145,7 +143,7 @@ class ConfigController extends FormController
                                 $object = $this->saveSMSConfig($object);
                             }
                             $object['sms_status']=$formValues['smsconfig']['sms_status'];
-                            $checkThese = array_intersect(array_keys($object), $unsetIfEmpty);
+                            $checkThese          = array_intersect(array_keys($object), $unsetIfEmpty);
                             foreach ($checkThese as $checkMe) {
                                 if (empty($object[$checkMe])) {
                                     unset($object[$checkMe]);
@@ -362,8 +360,7 @@ class ConfigController extends FormController
         $integrationHelper = $this->factory->getHelper('integration');
         if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
             $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans('mautic.sms.transport.solutioninfini'));
-        }
-        else{
+        } else {
             /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
             $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans($objects['sms_transport']));
         }
@@ -374,41 +371,37 @@ class ConfigController extends FormController
         $features['frequency_number'] = $objects['sms_frequency_number'];
         $features['frequency_time']   = $objects['sms_frequency_time'];
         $features['sms_status']       = $objects['sms_status'];
-        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage'){
-            $objects['account_auth_token'] = '';
-            $objects['account_sid']        = '';
-            $objects['sms_from_number']    = '';
+        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
+            $objects['account_auth_token']    = '';
+            $objects['account_sid']           = '';
+            $objects['sms_from_number']       = '';
             $objects['account_url']           = '';
             $objects['account_api_key']       = '';
             $objects['account_sender_id']     = '';
-
-        } else{
-
+        } else {
             if ($objects['sms_transport'] == 'mautic.sms.transport.solutioninfini') {
-
-                    $apikeys['url']                = $objects['account_url'];
-                    $apikeys['apikey']             = $objects['account_api_key'];
-                    $apikeys['senderid']           = $objects['account_sender_id'];
-                    $objects['account_auth_token'] = '';
-                    $objects['account_sid']        = '';
-                    $objects['sms_from_number']    = '';
-                } elseif ($objects['sms_transport'] == 'mautic.sms.transport.twilio') {
-                    $apikeys['username']              = $objects['account_sid'];
-                    $apikeys['password']              = $objects['account_auth_token'];
-                    $features['sending_phone_number'] = $objects['sms_from_number'];
-                    $objects['account_url']           = '';
-                    $objects['account_api_key']       = '';
-                    $objects['account_sender_id']     = '';
+                $apikeys['url']                = $objects['account_url'];
+                $apikeys['apikey']             = $objects['account_api_key'];
+                $apikeys['senderid']           = $objects['account_sender_id'];
+                $objects['account_auth_token'] = '';
+                $objects['account_sid']        = '';
+                $objects['sms_from_number']    = '';
+            } elseif ($objects['sms_transport'] == 'mautic.sms.transport.twilio') {
+                $apikeys['username']              = $objects['account_sid'];
+                $apikeys['password']              = $objects['account_auth_token'];
+                $features['sending_phone_number'] = $objects['sms_from_number'];
+                $objects['account_url']           = '';
+                $objects['account_api_key']       = '';
+                $objects['account_sender_id']     = '';
+            }
         }
-     }
-    if($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
-        $settings->setIsPublished($objects['publish_account']);
-    }
-    else{
-        $settings->setFeatureSettings($features);
-        $settings->setApiKeys($apikeys);
-        $settings->setIsPublished($objects['publish_account']);
-        $integrationObject->encryptAndSetApiKeys($apikeys, $settings);
+        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
+            $settings->setIsPublished($objects['publish_account']);
+        } else {
+            $settings->setFeatureSettings($features);
+            $settings->setApiKeys($apikeys);
+            $settings->setIsPublished($objects['publish_account']);
+            $integrationObject->encryptAndSetApiKeys($apikeys, $settings);
         }
         // Prevent merged keys
         $em = $this->get('doctrine.orm.entity_manager');
@@ -425,10 +418,9 @@ class ConfigController extends FormController
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper  = $this->factory->getHelper('integration');
         foreach ($transports as $transportServiceId=>$transport) {
-            if ($transportServiceId == 'mautic.sms.transport.leadsengage')
-            {
+            if ($transportServiceId == 'mautic.sms.transport.leadsengage') {
                 continue;
-            }else{
+            } else {
                 $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
                 $settings          = $integrationObject->getIntegrationSettings();
                 $settings->setIsPublished(false);
@@ -436,7 +428,6 @@ class ConfigController extends FormController
                 $em->persist($settings);
                 $em->flush();
             }
-
         }
     }
 }
