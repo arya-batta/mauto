@@ -85,7 +85,7 @@ class SmsHelper
         $this->factory              = $factory;
     }
 
-    public function getSmsTransportStatus()
+    public function getSmsTransportStatus($sendsms = true)
     {
         $configurator          = $this->factory->get('mautic.configurator');
         $settings[]            ='';
@@ -98,6 +98,9 @@ class SmsHelper
         $settings['fromnumber']=$this->coreParametersHelper->getParameter('sms_sending_phone_number');
         $sms_status            = $this->coreParametersHelper->getParameter('sms_status');
         if ($sms_status == 'Active') {
+            if (!$sendsms) {
+                return true;
+            }
             $result = $this->testSmsServerConnection($settings, true);
             if ($result['success']) {
                 return true;
@@ -110,6 +113,9 @@ class SmsHelper
                 return false;
             }
         } else {
+            if (!$sendsms) {
+                return false;
+            }
             $result = $this->testSmsServerConnection($settings, true);
             if ($result['success']) {
                 $configurator->mergeParameters(['sms_status' => 'Active']);
@@ -209,6 +215,7 @@ class SmsHelper
             $sendurl = $url;
             $baseurl = $sendurl.'?method=sms&api_key='.$username.'&sender='.$senderID;
             $sendurl =$baseurl.'&to='.$number.'&message='.$content;
+            file_put_contents('/var/www/log.txt', $sendurl."\n", FILE_APPEND);
             $handle  = curl_init($sendurl);
             curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($handle);

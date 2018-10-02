@@ -34,8 +34,8 @@ class AjaxController extends CommonAjaxController
 
         if ($user->isAdmin() || $user->isCustomAdmin()) {
             $settings   = $request->request->all();
-            $smsHelper = $this->get('mautic.helper.sms');
-            $dataArray = $smsHelper->testSmsServerConnection($settings);
+            $smsHelper  = $this->get('mautic.helper.sms');
+            $dataArray  = $smsHelper->testSmsServerConnection($settings);
         }
 
         return $this->sendJsonResponse($dataArray);
@@ -43,13 +43,13 @@ class AjaxController extends CommonAjaxController
 
     public function smsstatusAction()
     {
-        if(!$this->get('mautic.helper.sms')->getSmsTransportStatus()){
-            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        if (!$this->get('mautic.helper.sms')->getSmsTransportStatus(false)) {
+            $configurl                  =$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
             $dataArray['success']       =true;
-            $infotext='mautic.sms.appheader.status.fail';
-            $dataArray['info']          = $this->translator->trans($infotext,['%url%'=>$configurl]);
+            $infotext                   ='mautic.sms.appheader.status.fail';
+            $dataArray['info']          = $this->translator->trans($infotext, ['%url%'=>$configurl]);
             $dataArray['isalertneeded'] = 'false';
-        }else{
+        } else {
             $dataArray['success']       =false;
             $dataArray['info']          = '';
             $dataArray['isalertneeded'] = 'false';
