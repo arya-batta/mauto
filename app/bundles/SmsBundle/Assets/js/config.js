@@ -31,6 +31,6 @@ Mautic.testSmsServerConnection = function(sendSMS) {
     });
 };
 
-Mautic.updateEmailStatus = function(){
+Mautic.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
 }
