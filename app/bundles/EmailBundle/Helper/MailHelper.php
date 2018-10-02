@@ -14,6 +14,7 @@ namespace Mautic\EmailBundle\Helper;
 use Doctrine\ORM\ORMException;
 use Mautic\AssetBundle\Entity\Asset;
 use Mautic\CoreBundle\Factory\MauticFactory;
+use Mautic\coreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\EmojiHelper;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Entity\Email;
@@ -24,7 +25,6 @@ use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
 use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\SubscriptionBundle\Entity\Account;
-use Mautic\coreBundle\Helper\CoreParametersHelper;
 
 /**
  * Class MailHelper.
@@ -254,16 +254,16 @@ class MailHelper
     private $coreParametersHelper;
 
     /**
-     * @param MauticFactory $factory
-     * @param               $mailer
-     * @param null          $from
+     * @param MauticFactory        $factory
+     * @param                      $mailer
+     * @param null                 $from
      * @param CoreParametersHelper $coreParametersHelper
      */
-    public function __construct(MauticFactory $factory, \Swift_Mailer $mailer,CoreParametersHelper $coreParametersHelper, $from = null)
+    public function __construct(MauticFactory $factory, \Swift_Mailer $mailer, CoreParametersHelper $coreParametersHelper, $from = null)
     {
-        $this->factory   = $factory;
-        $this->mailer    = $mailer;
-        $this->transport = $mailer->getTransport();
+        $this->factory              = $factory;
+        $this->mailer               = $mailer;
+        $this->transport            = $mailer->getTransport();
         $this->coreParametersHelper = $coreParametersHelper;
 
         try {
@@ -2173,10 +2173,11 @@ class MailHelper
         }
     }
 
-    public function emailstatus(){
-        $config = $this->coreParametersHelper->getParameter('email_status');
+    public function emailstatus()
+    {
+        $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
-        $settingss = array(
+        $settingss      = [
             'amazon_region'     => $this->coreParametersHelper->getParameter('mailer_amazon_region'),
             'api_key'           => $this->coreParametersHelper->getParameter('mailer_api_key'),
             'authMode'          => $this->coreParametersHelper->getParameter('mailer_auth_mode'),
@@ -2189,38 +2190,35 @@ class MailHelper
             'send_test'         => true,
             'transport'         => $this->coreParametersHelper->getParameter('mailer_transport'),
             'user'              => $this->coreParametersHelper->getParameter('mailer_user'),
-            'toemail'           => "",
-            'trackingcode'      => "",
-            'additionalinfo'    => "",
-        );
+            'toemail'           => '',
+            'trackingcode'      => '',
+            'additionalinfo'    => '',
+        ];
         if ($config == 'Active') {
-            $result=$this->testEmailServerConnection($settingss,true);
-            if($result['success']){
+            $result=$this->testEmailServerConnection($settingss, true);
+            if ($result['success']) {
                 return true;
-            }
-            else{
+            } else {
                 $configurator->mergeParameters(['email_status' => 'InActive']);
                 $configurator->write();
+
                 return false;
             }
-        }
-        else {
-            $result=$this->testEmailServerConnection($settingss,true);
-            if($result['success']){
+        } else {
+            $result=$this->testEmailServerConnection($settingss, true);
+            if ($result['success']) {
                 $configurator->mergeParameters(['email_status' => 'Active']);
                 $configurator->write();
+
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
-
         }
     }
 
-
-    public function testEmailServerConnection($settings,$default=false){
-
+    public function testEmailServerConnection($settings, $default=false)
+    {
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $transport = $settings['transport'];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
@@ -2296,24 +2294,25 @@ class MailHelper
                         $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);
                         $lemailer->send($message);
                     } else {
-                            $mailer->start();
-                            $message = \Swift_Message::newInstance()
+                        $mailer->start();
+                        $message = \Swift_Message::newInstance()
                                 ->setSubject($translator->trans('mautic.email.config.mailer.transport.test_send.subject'));
-                            $mailbody = $translator->trans('mautic.email.config.mailer.transport.test_send.body');
-                            $message->setBody($mailbody, 'text/html');
-                            $userFullName = trim($user->getFirstName() . ' ' . $user->getLastName());
-                            if (empty($userFullName)) {
-                                $userFullName = null;
-                            }
-                            $message->setFrom([$settings['from_email'] => $settings['from_name']]);
-                            if ($settings['toemail'] != '') {
-                                $message->setTo([$settings['toemail']]);
-                            } else {
-                                $message->setTo([$user->getEmail() => $userFullName]);
-
-                            }
+                        $mailbody = $translator->trans('mautic.email.config.mailer.transport.test_send.body');
+                        $message->setBody($mailbody, 'text/html');
+                        $userFullName = trim($user->getFirstName().' '.$user->getLastName());
+                        if (empty($userFullName)) {
+                            $userFullName = null;
+                        }
+                        $message->setFrom([$settings['from_email'] => $settings['from_name']]);
+                        if ($settings['toemail'] != '') {
+                            $message->setTo([$settings['toemail']]);
+                        } else {
+                            $message->setTo([$user->getEmail() => $userFullName]);
+                        }
+                        if (!$default) {
                             $mailer->send($message);
-                   }
+                        }
+                    }
                     $dataArray['success'] = 1;
                     if ($settings['send_test'] == 'true') {
                         $message= $translator->trans('mautic.core.success', ['%email%'=>$user->getEmail()]);
@@ -2329,9 +2328,10 @@ class MailHelper
             } catch (\Exception $e) {
                 $dataArray['success'] = 0;
                 //$dataArray['message'] = $e->getMessage().'<br />'.$logger->dump();
-                $dataArray['message'] = $e->getMessage()."yt6yt6y7t6t6t";
+                $dataArray['message'] = $e->getMessage().'yt6yt6y7t6t6t';
             }
         }
+
         return $dataArray;
     }
 }
