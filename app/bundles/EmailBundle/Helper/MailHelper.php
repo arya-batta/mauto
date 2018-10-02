@@ -2173,7 +2173,7 @@ class MailHelper
         }
     }
 
-    public function emailstatus()
+    public function emailstatus($sendEmail = true)
     {
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
@@ -2195,6 +2195,9 @@ class MailHelper
             'additionalinfo'    => '',
         ];
         if ($config == 'Active') {
+            if (!$sendEmail) {
+                return true;
+            }
             $result=$this->testEmailServerConnection($settingss, true);
             if ($result['success']) {
                 return true;
@@ -2205,6 +2208,9 @@ class MailHelper
                 return false;
             }
         } else {
+            if (!$sendEmail) {
+                return false;
+            }
             $result=$this->testEmailServerConnection($settingss, true);
             if ($result['success']) {
                 $configurator->mergeParameters(['email_status' => 'Active']);
