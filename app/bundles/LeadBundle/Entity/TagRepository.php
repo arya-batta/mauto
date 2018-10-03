@@ -116,6 +116,36 @@ class TagRepository extends CommonRepository
 
         return (bool) $q->execute()->fetchColumn();
     }
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function checkNumericTag($name)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('l.tag')
+          ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
+          ->where($q->expr()->eq('l.tag', ':newtag'))
+            ->setParameter('newtag',$name );
+
+        return (bool) $q->execute()->fetchColumn();
+    }
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function checkForExistingNumericId($name)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('l.id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
+            ->where($q->expr()->eq('l.id', ':newtagid'))
+            ->setParameter('newtagid',$name );
+
+        return (bool) $q->execute()->fetchColumn();
+    }
 
     /**
      * @param string $name

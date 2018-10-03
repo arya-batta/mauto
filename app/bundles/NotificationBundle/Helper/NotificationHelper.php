@@ -267,14 +267,14 @@ JS;
             $messagetext   = 'le.email.send.failed.message';
             $messageheader = 'le.email.send.failed';
         }
-        $message = $this->translator->trans($messagetext);
-       // $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
-       /** if ($errorMessage != '' && $errorMessage != 'Failed') {
+       // $message = $this->translator->trans($messagetext);
+        $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
+        if ($errorMessage != '' && $errorMessage != 'Failed') {
             $message = $errorMessage;
             if(strpos($message, 'Insufficient credits') !== false){
                 $message = "le.sms.configuration.failure.solutioninfini";
             }
-        } */
+        }
         $header                  = $this->translator->trans($messageheader);
         $isRead                  = 0;
         $iconClass               = null;

@@ -13,10 +13,10 @@ $isExisting = $activePage->getId();
 $variantParent = $activePage->getVariantParent();
 $subheader     = '';
 if ($variantParent) {
-    $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.core.variant_of', [
+    $subheader = $view['translator']->trans('mautic.core.variant_of', [
             '%name%'   => $activePage->getTitle(),
             '%parent%' => $variantParent->getTitle(),
-        ]).'</span></div>';
+        ]);
 } elseif ($activePage->isVariant(false)) {
     $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.page.form.has_variants').'</span></div>';
 }
@@ -97,7 +97,8 @@ $custombutton = [
                             </div>
                         <?php else: ?>
                             <div class="col-md-6">
-                                <?php echo $view['form']->row($form['template']); ?>
+                                <?php // echo $view['form']->row($form['template']); ?>
+                                <?php  echo $view['form']->row($form['isPublished']); ?>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -105,16 +106,22 @@ $custombutton = [
                     <div class="row">
                         <?php if ($isVariant): ?>
                             <div class="col-md-6">
-                                <?php echo $view['form']->row($form['variantSettings']); ?>
+                                <?php echo $view['form']->row($form['variantSettings']['weight']); ?>
                             </div>
                         <?php else: ?>
                             <div class="col-md-6">
                                 <?php echo $view['form']->row($form['category']); ?>
                             </div>
                         <?php endif; ?>
+                        <?php if ($isVariant): ?>
+                        <div class="col-md-6">
+                            <?php echo $view['form']->row($form['variantSettings']['winnerCriteria']); ?>
+                        </div>
+                        <?php else: ?>
                         <div class="col-md-6">
                             <?php echo $view['form']->row($form['isPublished']); ?>
                         </div>
+                        <?php endif; ?>
                     </div>
                         <?php if (($permissions['page:preference_center:editown'] ||
                                 $permissions['page:preference_center:editother']) &&
@@ -123,11 +130,10 @@ $custombutton = [
                             <div class="col-md-6">
                                 <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
                             </div>
-                        <?php endif; ?>
-
                         <div class="col-md-6">
                             <?php echo $view['form']->row($form['noIndex']); ?>
                         </div>
+                        <?php endif; ?>
                         <?php if (($permissions['page:preference_center:editown'] ||
                             $permissions['page:preference_center:editother']) &&
                         !$activePage->isVariant()): ?>

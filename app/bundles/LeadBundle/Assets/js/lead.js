@@ -911,7 +911,7 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
         defaultValueField.replaceWith(mQuery(html));
         mQuery('#leadfield_defaultValue').val(defaultVal);
     }
-
+    mQuery('#leadfield_defaultValue').addClass('le-input');
     if (selectedVal === 'datetime' || selectedVal === 'date' || selectedVal === 'time') {
         Mautic.activateDateTimeInputs('#leadfield_defaultValue', selectedVal);
     } else if (isSelect) {
@@ -1337,22 +1337,31 @@ Mautic.createLeadTag = function (el) {
         }
     });
 
-    if (!newFound) {
-        return;
-    }
-
-    Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
-
     var tags = JSON.stringify(mQuery(el).val());
 
-    Mautic.ajaxActionRequest('lead:addLeadTags', {tags: tags}, function(response) {
-        if (response.tags) {
-            mQuery('#' + mQuery(el).attr('id')).html(response.tags);
-            mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
-        }
+    if (!newFound) {
+        Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+        Mautic.ajaxActionRequest('lead:addNumericLeadTags', {tags: tags}, function(response) {
+            if (response.tags) {
+                mQuery('#' + mQuery(el).attr('id')).html(response.tags);
+                mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
+            }
 
-        Mautic.removeLabelLoadingIndicator();
-    });
+            Mautic.removeLabelLoadingIndicator();
+        });
+
+        return
+    }
+
+        Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+        Mautic.ajaxActionRequest('lead:addLeadTags', {tags: tags}, function(response) {
+            if (response.tags) {
+                mQuery('#' + mQuery(el).attr('id')).html(response.tags);
+                mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
+            }
+
+            Mautic.removeLabelLoadingIndicator();
+        });
 };
 
 Mautic.createLeadUtmTag = function (el) {

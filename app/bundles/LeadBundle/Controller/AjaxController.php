@@ -704,6 +704,53 @@ class AjaxController extends CommonAjaxController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
+    protected function addNumericLeadTagsAction(Request $request)
+    {
+        $tags = $request->request->get('tags');
+        $tags = json_decode($tags, true);
+
+        if (is_array($tags)) {
+            $leadModel = $this->getModel('lead');
+            $newTags   = [];
+            $result1=$leadModel->getTagRepository()->checkForExistingNumericId($tags[sizeof($tags) - 1]);
+            if($result1){
+                $data = ['success' => 0];
+                return $this->sendJsonResponse($data) ;
+            }
+
+            $result=$leadModel->getTagRepository()->checkNumericTag($tags[sizeof($tags) - 1]);
+            if (!$result){
+                $newTags[] = $leadModel->getTagRepository()->getTagByNameOrCreateNewOne($tags[sizeof($tags) - 1]);
+            }
+            if (!empty($newTags)) {
+                $leadModel->getTagRepository()->saveEntities($newTags);
+            }
+
+            // Get an updated list of tags
+            $allTags    = $leadModel->getTagRepository()->getSimpleList(null, [], 'tag');
+            $tagOptions = '';
+
+            foreach ($allTags as $tag) {
+                $selected = (in_array($tag['value'], $tags) || in_array($tag['label'], $tags)) ? ' selected="selected"' : '';
+                $tagOptions .= '<option'.$selected.' value="'.$tag['value'].'">'.$tag['label'].'</option>';
+            }
+
+            $data = [
+                'success' => 1,
+                'tags'    => $tagOptions,
+            ];
+        } else {
+            $data = ['success' => 0];
+        }
+
+        return $this->sendJsonResponse($data);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     protected function addLeadUtmTagsAction(Request $request)
     {
         $utmTags = $request->request->get('utmtags');

@@ -135,7 +135,7 @@ class FieldType extends AbstractType
         $listChoices = [
             'country'  => FormFieldHelper::getCountryChoices(),
             'region'   => FormFieldHelper::getRegionChoices(),
-            'timezone' => FormFieldHelper::getTimezonesChoices(),
+            'timezone' => FormFieldHelper::getCustomTimezones(),
             'locale'   => FormFieldHelper::getLocaleChoices(),
             'select'   => [],
         ];
@@ -250,7 +250,7 @@ class FieldType extends AbstractType
                         [
                             'label'      => 'mautic.core.defaultvalue',
                             'label_attr' => ['class' => 'control-label is-chosen'],
-                            'attr'       => ['class' => 'form-control'],
+                            'attr'       => ['class' => 'form-control le-input'],
                             'required'   => false,
                             'choices'    => $list,
                         ]
@@ -267,7 +267,7 @@ class FieldType extends AbstractType
                             'choices'    => $listChoices[$type],
                             'label'      => 'mautic.core.defaultvalue',
                             'label_attr' => ['class' => 'control-label'],
-                            'attr'       => ['class' => 'form-control'],
+                            'attr'       => ['class' => 'form-control le-input'],
                             'required'   => false,
                         ]
                     );
@@ -363,7 +363,7 @@ class FieldType extends AbstractType
                             'label'      => 'mautic.core.defaultvalue',
                             'label_attr' => ['class' => 'control-label'],
                             'attr'       => [
-                                'class'       => 'form-control',
+                                'class'       => 'form-control le-input',
                                 'data-toggle' => $type,
                             ],
                             'required'    => false,
@@ -380,9 +380,9 @@ class FieldType extends AbstractType
                         'text',
                         [
                             'label'      => 'mautic.core.defaultvalue',
-                            'label_attr' => ['class' => 'control-label'],
+                            'label_attr' => ['class' => 'control-label le-input'],
                             'attr'       => [
-                                'class' => 'form-control',
+                                'class' => 'form-control le-input',
                                 'type'  => $type,
                             ],
                             'required' => false,
@@ -418,7 +418,7 @@ class FieldType extends AbstractType
                     'class'         => 'MauticLeadBundle:LeadField',
                     'property'      => 'label',
                     'label_attr'    => ['class' => 'control-label'],
-                    'attr'          => ['class' => 'form-control'],
+                    'attr'          => ['class' => 'form-control le-input'],
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('f')
                             ->orWhere('f.createdBy != :nullcreatedby OR f.isPublished = :isPublished')

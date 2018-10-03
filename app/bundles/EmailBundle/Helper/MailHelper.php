@@ -2315,7 +2315,7 @@ class MailHelper
                         } else {
                             $message->setTo([$user->getEmail() => $userFullName]);
                         }
-                        if (!$default) {
+                        if ($default) {
                             $mailer->send($message);
                         }
                     }

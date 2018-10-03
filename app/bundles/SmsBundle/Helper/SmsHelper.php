@@ -107,8 +107,6 @@ class SmsHelper
             } else {
                 $configurator->mergeParameters(['sms_status' => 'InActive']);
                 $configurator->write();
-                $cacheHelper = $this->factory->get('mautic.helper.cache');
-                $cacheHelper->clearContainerFile();
 
                 return false;
             }
@@ -120,8 +118,6 @@ class SmsHelper
             if ($result['success']) {
                 $configurator->mergeParameters(['sms_status' => 'Active']);
                 $configurator->write();
-                $cacheHelper = $this->factory->get('mautic.helper.cache');
-                $cacheHelper->clearContainerFile();
 
                 return true;
             } else {
@@ -173,11 +169,7 @@ class SmsHelper
     {
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
-        if (!$standardnumber) {
-            $sendnumber='';
-        } else {
-            $sendnumber = $user->getMobile();
-        }
+        $sendnumber = $user->getMobile();
         $transport  = $settings['transport'];
         $translator = $this->factory->get('translator');
         $transport  = $translator->trans($transport);
@@ -207,6 +199,9 @@ class SmsHelper
     {
         if ($url == '' || $number == '' || $username == '' || $senderID == '') {
             return 'URL or Sender ID or Api Key or User number Cannot be Empty';
+        }
+        if(!$standardnumber){
+            $number = "";
         }
 
         try {
