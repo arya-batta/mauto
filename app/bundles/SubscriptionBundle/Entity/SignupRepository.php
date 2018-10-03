@@ -86,7 +86,7 @@ class SignupRepository
                 ->set('lead_stage', ':stage')
                 ->set('lastname', ':lastname')
                 ->set('mobile', ':mobile')
-                ->set('website', ':website')
+                ->set('website1', ':website')
                 ->set('app_id', ':appid')
                 ->setParameter('address', $companyaddress)
                 ->setParameter('city', $city)
