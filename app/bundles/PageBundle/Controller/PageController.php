@@ -632,8 +632,9 @@ class PageController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
-                    $content = $this->replaceTitleinContent($entity, $content);
-                    $content = $this->replaceLinkinContent($content);
+                    $title = $entity->getTitle();
+                    $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
+                    $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
