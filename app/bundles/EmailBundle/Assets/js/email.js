@@ -119,7 +119,11 @@ Mautic.emailOnLoad = function (container, response) {
 
         if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
         {
-            mQuery('#builder_btn').removeClass('hide');
+            if(mQuery('#email-advance-container').hasClass('active')) {
+                mQuery('#builder_btn').removeClass('hide');
+            }else{
+                mQuery('#builder_btn').addClass('hide');
+            }
         }else {
             mQuery('#builder_btn').addClass('hide');
         }
@@ -456,6 +460,7 @@ Mautic.getTotalAttachmentSize = function() {
             if(response.size == "failed"){
                 mQuery('#Emailasset_Attachments').removeClass('has-success has-error').addClass('has-error');
                 mQuery('#Emailasset_Attachments .help-block').html("Allowed attachment file size- Maximum 1000KB.");
+                mQuery('#attachment-size').text(response.size);
             } else {
                 mQuery('#Emailasset_Attachments').removeClass('has-success has-error');
                 mQuery('#Emailasset_Attachments .help-block').html("");

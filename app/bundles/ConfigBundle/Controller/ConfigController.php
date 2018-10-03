@@ -44,7 +44,6 @@ class ConfigController extends FormController
         $formThemes  = $event->getFormThemes();
         $formConfigs = $this->get('mautic.config.mapper')->bindFormConfigsWithRealValues($event->getForms());
         $doNotChange = $this->coreParametersHelper->getParameter('security.restrictedConfigFields');
-
         $this->mergeParamsWithLocal($formConfigs, $doNotChange);
 
         // Create the form
@@ -64,6 +63,7 @@ class ConfigController extends FormController
         $paramater      = $configurator->getParameters();
         $mailertransport= $paramater['mailer_transport'];
         $maileruser     = $paramater['mailer_user'];
+        $emailstatus    = $paramater['email_status'];
         $emailpassword  = $paramater['mailer_password'];
         if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
@@ -106,15 +106,14 @@ class ConfigController extends FormController
                 $isValid = false;
                 if ($isWritabale && $isValid = $this->isFormValid($form)) {
                     // Bind request to the form
-                    $post     = $this->request->request;
+                    $post = $this->request->request;
                     $formData = $form->getData();
-
                     // Dispatch pre-save event. Bundles may need to modify some field values like passwords before save
                     $configEvent = new ConfigEvent($formData, $post);
                     $dispatcher->dispatch(ConfigEvents::CONFIG_PRE_SAVE, $configEvent);
                     $formValues = $configEvent->getConfig();
 
-                    $errors      = $configEvent->getErrors();
+                    $errors = $configEvent->getErrors();
                     $fieldErrors = $configEvent->getFieldErrors();
 
                     if ($errors || $fieldErrors) {
@@ -139,7 +138,7 @@ class ConfigController extends FormController
 
                         // Merge each bundle's updated configuration into the local configuration
                         foreach ($formValues as $key => $object) {
-                            if ($key == 'smsconfig') {
+                            if ($key == 'smsconfig' && !empty($object['sms_transport'])) {
                                 $object = $this->saveSMSConfig($object);
                             }
                             $object['sms_status']=$formValues['smsconfig']['sms_status'];
@@ -159,19 +158,19 @@ class ConfigController extends FormController
                             if (empty($params['secret_key'])) {
                                 $configurator->mergeParameters(['secret_key' => EncryptionHelper::generateKey()]);
                             }
-                            $emailProvider=$this->translator->trans($params['mailer_transport_name']);
+                            $emailProvider = $this->translator->trans($params['mailer_transport_name']);
                             if (empty($params['mailer_user']) && $mailertransport == $params['mailer_transport_name']) {
                                 $configurator->mergeParameters(['mailer_user' => $maileruser]);
                             } else {
                                 $configurator->mergeParameters(['mailer_user' => $params['mailer_user']]);
                             }
-                            $emailTransport='';
+                            $emailTransport = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
                                 $emailTransport = $formData['emailconfig']['mailer_transport_name'];
                                 $smsTransport   =   $formData['smsconfig']['sms_transport'];
 
                                 //$emailTransport = $params['mailer_transport_name'];
-                                $configurator->mergeParameters(['mailer_transport' => $emailTransport]);
+                                $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                                 $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             } else {

@@ -3,7 +3,7 @@
     <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="Mautic.closeLicenseButton()" width="10" height="10"> </div>
 <div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
-        <div class="col-xs-5 col-sm-6 col-md-7 va-m">
+        <div class="col-xs-5 col-sm-6 col-md-6 va-m">
             <h3 class="pull-left"><?php $view['slots']->output('headerTitle'); ?></h3>
             <div class="col-xs-2 text-right pull-left">
                 <?php $view['slots']->output('publishStatus'); ?>

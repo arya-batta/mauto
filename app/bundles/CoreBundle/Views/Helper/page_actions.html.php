@@ -108,7 +108,7 @@ foreach ($templateButtons as $action => $enabled) {
 }
 
 if ($view['buttons']->getButtonCount() > 0) {
-    echo '<div class="std-toolbar btn-group" style="margin-left: -30px;float:right;">';
+    echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
 
     $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
         ."\n";

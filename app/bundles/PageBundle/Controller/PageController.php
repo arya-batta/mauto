@@ -462,9 +462,10 @@ class PageController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
+                    $title=$entity->getTitle();
                     $content = $entity->getCustomHtml();
-                    $content = $this->replaceTitleinContent($entity, $content);
-                    $content = $this->replaceLinkinContent($content);
+                    $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
+                    $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
                     $entity->setCustomHtml($content);
 
                     //form is valid so process the data
@@ -1205,49 +1206,6 @@ class PageController extends FormController
         <input type="hidden" id="builder_entity_id" value="<?php echo $entity->getSessionId(); ?>"/>
         <?php
         $slotsHelper->stop();
-    }
-
-    public function replaceTitleinContent(Page $entity, $content)
-    {
-        $title   = $entity->getTitle();
-        $title   = "<title>$title</title>";
-        $content = preg_replace("/(<title>)(.*?)(<\/title>)/i", $title, $content);
-
-        return $content;
-    }
-
-    public function replaceLinkinContent($content)
-    {
-        $doc                      = new \DOMDocument();
-        $doc->strictErrorChecking = false;
-        libxml_use_internal_errors(true);
-        $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
-        $head=$doc->getElementsByTagName('head');
-
-        $head = $head->item(0);
-
-        $l1 = $doc->createElement('link');
-        $l1->setAttribute('rel', 'icon');
-        $l1->setAttribute('type', 'image/x-icon');
-        $l1->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
-        $l2 = $doc->createElement('link');
-        $l2->setAttribute('rel', 'icon');
-        $l2->setAttribute('sizes', '192x192');
-        $l2->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
-        $l3 = $doc->createElement('link');
-        $l3->setAttribute('rel', 'apple-touch-icon');
-        $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
-        if($head){
-            $head->appendChild($l1);
-            $head->appendChild($l2);
-            $head->appendChild($l3);
-        }
-        $headContent=$doc->saveHTML();
-
-        libxml_clear_errors();
-
-        return $headContent;
-
     }
 
     /**

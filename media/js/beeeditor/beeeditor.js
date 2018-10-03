@@ -161,7 +161,7 @@
                       keys.push(k);
                   }
               }
-              keys.sort();
+              //keys.sort();
               for (var i = 0; i < keys.length; i++) {
                   var val = keys[i];
                   var str = ' (_BADGE_)';

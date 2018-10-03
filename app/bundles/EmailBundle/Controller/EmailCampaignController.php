@@ -1352,10 +1352,9 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-        if ($this->get('mautic.helper.mailer')->emailstatus()) {
-            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report'));
-
-            return $this->postActionRedirect(
+        if(!$this->get('mautic.helper.mailer')->emailstatus()){
+            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));            return $this->postActionRedirect(
                 [
                     'returnUrl'=> $this->generateUrl('mautic_email_campaign_index'),
                 ]
@@ -1638,9 +1637,10 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
-            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report'));
-
+        if (!$this->get('mautic.helper.mailer')->emailstatus())
+        {
+            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
             return $this->postActionRedirect(
                 [
                     'passthroughVars' => [

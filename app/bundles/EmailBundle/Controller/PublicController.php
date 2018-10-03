@@ -229,7 +229,7 @@ class PublicController extends CommonFormController
         }
         $actionRoute = $this->generateUrl('mautic_email_unsubscribe', ['idHash' => $idHash]);
         $viewParams  = [
-            'name'        => 'Subscriptions',
+            'name'        => 'UnSubscribe',
             'email'       => $email,
             'lead'        => $lead,
             'message'     => $message,
@@ -588,7 +588,6 @@ class PublicController extends CommonFormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model       = $this->getModel('email');
         $emailEntity = $model->getEntity($objectId);
-
         if ($emailEntity === null) {
             return $this->notFound();
         }
@@ -609,7 +608,13 @@ class PublicController extends CommonFormController
         $idHash = 'xxxxxxxxxxxxxx';
 
         $BCcontent                = $emailEntity->getContent();
-        $content                  = $emailEntity->getCustomHtml();
+        $title=$emailEntity->getName();
+        $content = $emailEntity->getCustomHtml();
+        $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
+        $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
+        $emailEntity->setCustomHtml($content);
+
+        $model->saveEntity($emailEntity);
         $doc                      = new \DOMDocument();
         $doc->strictErrorChecking = false;
         libxml_use_internal_errors(true);

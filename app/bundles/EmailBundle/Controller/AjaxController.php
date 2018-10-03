@@ -403,9 +403,9 @@ class AjaxController extends CommonAjaxController
     public function emailstatusAction()
     {
         $configurl= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $dataArray['success']       =true;
-            $dataArray['info']          = $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.app_header",['%url%'=>$configurl]));
+            $dataArray['info']          = $this->translator->trans("mautic.email.config.mailer.status.app_header",['%url%'=>$configurl]);
             $dataArray['isalertneeded'] = 'false';
         } else {
             $dataArray['success']       =false;

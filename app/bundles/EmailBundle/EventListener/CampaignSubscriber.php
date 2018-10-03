@@ -28,6 +28,7 @@ use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Entity\Hit;
 use Symfony\Component\Translation\TranslatorInterface;
+use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\ChannelBundle\ChannelEvents;
 
 /**
@@ -63,6 +64,10 @@ class CampaignSubscriber extends CommonSubscriber
      * @var TranslatorInterface
      */
     protected $translator;
+    /*
+     * @var NotificationHelper
+     */
+    protected $notificationhelper;
 
     /**
      * @param LeadModel         $leadModel
@@ -78,7 +83,8 @@ class CampaignSubscriber extends CommonSubscriber
         EventModel $eventModel,
         MessageQueueModel $messageQueueModel,
         SendEmailToUser $sendEmailToUser,
-        TranslatorInterface  $translator
+        TranslatorInterface  $translator,
+        NotificationHelper $notificationhelper
     ) {
         $this->leadModel          = $leadModel;
         $this->emailModel         = $emailModel;
@@ -86,6 +92,8 @@ class CampaignSubscriber extends CommonSubscriber
         $this->messageQueueModel  = $messageQueueModel;
         $this->sendEmailToUser    = $sendEmailToUser;
         $this->translator         = $translator;
+        $this->notificationhelper = $notificationhelper;
+
     }
 
     /**
@@ -318,6 +326,7 @@ class CampaignSubscriber extends CommonSubscriber
             return $event->setFailed('Email not found or published');
         }
         if(!$status){
+            $this->notificationhelper->sendNotificationonFailure(false, false);
             return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report"));
         }
         $emailSent = false;
@@ -379,7 +388,10 @@ class CampaignSubscriber extends CommonSubscriber
 
         $config = $event->getConfig();
         $lead   = $event->getLead();
-
+        $status = $this->emailModel->mailHelper->emailstatus();
+        if(!$status){
+            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report"));
+        }
         try {
             $this->sendEmailToUser->sendEmailToUsers($config, $lead);
             $event->setResult(true);

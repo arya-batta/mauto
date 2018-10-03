@@ -111,13 +111,13 @@ class BuilderSubscriber extends CommonSubscriber
         }
 
         $tokens = [
+            '{lead_owner_name}'       => $this->translator->trans('mautic.email.token.lead_owner_name'),
+            '{lead_owner_mobile}'     => $this->translator->trans('mautic.email.token.lead_owner_mobile'),
+            '{lead_owner_email}'       => $this->translator->trans('mautic.email.token.lead_owner_email'),
             '{from_email}'            => $this->translator->trans('mautic.email.token.from_email'),
             '{postal_address}'        => $this->translator->trans('mautic.email.token.postal_address'),
             '{unsubscribe_link}'      => $this->translator->trans('mautic.email.token.unsubscribe_text'),
             '{updatelead_link}'       => $this->translator->trans('mautic.email.token.updatelead_text'),
-            '{lead_owner_name}'       => $this->translator->trans('mautic.email.token.lead_owner_name'),
-            '{lead_owner_mobile}'     => $this->translator->trans('mautic.email.token.lead_owner_mobile'),
-            '{lead_owner_email}'       => $this->translator->trans('mautic.email.token.lead_owner_email'),
             //'{webview_text}'     => $this->translator->trans('mautic.email.token.webview_text'),
             //'{signature}'        => $this->translator->trans('mautic.email.token.signature'),
             //'{subject}'          => $this->translator->trans('mautic.email.subject'),

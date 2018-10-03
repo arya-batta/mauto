@@ -1560,7 +1560,8 @@ class LeadController extends FormController
 
         if (!$this->get('mautic.helper.mailer')->emailstatus())
         {
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report"));
+            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
             return $this->postActionRedirect(
                 [
                     'passthroughVars' => [

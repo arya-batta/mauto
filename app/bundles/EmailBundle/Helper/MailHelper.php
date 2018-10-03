@@ -2177,7 +2177,7 @@ class MailHelper
     {
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
-        $settingss      = [
+        $settings      = [
             'amazon_region'     => $this->coreParametersHelper->getParameter('mailer_amazon_region'),
             'api_key'           => $this->coreParametersHelper->getParameter('mailer_api_key'),
             'authMode'          => $this->coreParametersHelper->getParameter('mailer_auth_mode'),
@@ -2198,7 +2198,7 @@ class MailHelper
             if (!$sendEmail) {
                 return true;
             }
-            $result=$this->testEmailServerConnection($settingss, false);
+            $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
                 return true;
             } else {
@@ -2211,7 +2211,7 @@ class MailHelper
             if (!$sendEmail) {
                 return false;
             }
-            $result=$this->testEmailServerConnection($settingss, false);
+            $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
                 $configurator->mergeParameters(['email_status' => 'Active']);
                 $configurator->write();
@@ -2334,10 +2334,52 @@ class MailHelper
             } catch (\Exception $e) {
                 $dataArray['success'] = 0;
                 //$dataArray['message'] = $e->getMessage().'<br />'.$logger->dump();
-                $dataArray['message'] = $e->getMessage().'yt6yt6y7t6t6t';
+                $dataArray['message'] = $e->getMessage();
             }
         }
 
         return $dataArray;
+    }
+
+    public function replaceTitleinContent($title, $content)
+    {
+        $title   = "<title>$title</title>";
+        $content = preg_replace("/(<title>)(.*?)(<\/title>)/i", $title, $content);
+
+        return $content;
+    }
+
+    public function replaceLinkinContent($content)
+    {
+        $doc                      = new \DOMDocument();
+        $doc->strictErrorChecking = false;
+        libxml_use_internal_errors(true);
+        $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
+        $head=$doc->getElementsByTagName('head');
+
+        $head = $head->item(0);
+
+        $l1 = $doc->createElement('link');
+        $l1->setAttribute('rel', 'icon');
+        $l1->setAttribute('type', 'image/x-icon');
+        $l1->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l2 = $doc->createElement('link');
+        $l2->setAttribute('rel', 'icon');
+        $l2->setAttribute('sizes', '192x192');
+        $l2->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l3 = $doc->createElement('link');
+        $l3->setAttribute('rel', 'apple-touch-icon');
+        $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
+        if($head){
+            $head->appendChild($l1);
+            $head->appendChild($l2);
+            $head->appendChild($l3);
+        }
+        $headContent=$doc->saveHTML();
+
+        libxml_clear_errors();
+
+        return $headContent;
+
     }
 }
