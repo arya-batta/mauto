@@ -1546,16 +1546,16 @@ solid #f90;background-color:#f90;border-radius:40px;letter-spacing: .6px;padding
 solid #f90;transform:scale(1.03);box-shadow:0 8px 8px rgba(0,0,0,0.24)}.buttonles{margin-top:15px;transition:all .1s ease;color:#FFF;font-weight:500;font-size:16px;font-family:"Proxima Nova Rg",Montserrat,sans-serif;display:inline-block;text-transform:uppercase;border:1px
 solid #26a71f;background-color:#26a71f;border-radius:40px;letter-spacing: .6px;padding:10px
 35px;box-shadow:0 1px 2px rgba(0,0,0,0.36);white-space:nowrap;text-decoration:none}.buttonles:hover{text-decoration:none;background-color:#fff;color:#444;border:1px
-solid #26a71f;transform:scale(1.03);box-shadow:0 8px 8px rgba(0,0,0,0.24)}.pricingtables{display:inline-flex}.pricingtable1{display:inline-flex;width:780px}.pricing-head
+solid #26a71f;transform:scale(1.03);box-shadow:0 8px 8px rgba(0,0,0,0.24)}.pricingtables{display:inline-flex}.pricingtable1{display:inline-flex;width:100%}.pricing-head
 h3{background:#f90;margin:0px;padding:15px
 0px;color:#fff;font-size:22px;font-weight:500;font-family:Montserrat,sans-serif;border-radius:16px 16px 0px 0px}.pricing-heads
 h3{background:#26a71f;margin:0px;padding:15px
 0px;color:#fff;font-size:22px;font-weight:500;font-family:Montserrat,sans-serif;border-radius:16px 16px 0px 0px}.pricing-table{border:1px
-solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:370px;margin:16px}.pricing-table:hover{transform:scale(1.05);border:1px
+solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:390px;margin:16px}.pricing-table:hover{transform:scale(1.05);border:1px
 solid #f90}.pricing-tables{border:1px
-solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:370px;margin:16px}.pricing-tables:hover{transform:scale(1.05);border:1px
+solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:390px;margin:16px}.pricing-tables:hover{transform:scale(1.05);border:1px
 solid #26a71f}.pricing-table1{display:inline-flex;border:1px
-solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:785px;margin:16px}.pricing-table1:hover{transform:scale(1.05);border:1px
+solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:100%;margin:16px}.pricing-table1:hover{transform:scale(1.05);border:1px
 solid #ec407a}.pricing-body{padding:10px
 30px}.pricing-table
 ul{list-style:none;padding:0px;margin-left:0px}.pricing-tables
