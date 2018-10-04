@@ -269,7 +269,9 @@ class EmailCampaignController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model    = $this->getModel('email');
         $security = $this->get('mautic.security');
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         /** @var \Mautic\EmailBundle\Entity\Email $email */
         $email = $model->getEntity($objectId);
         //set the page we came from
@@ -502,7 +504,9 @@ class EmailCampaignController extends FormController
     public function newAction($entity = null, $isClone=false)
     {
         $model = $this->getModel('email');
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         if (!($entity instanceof Email)) {
             /** @var \Mautic\EmailBundle\Entity\Email $entity */
             $entity = $model->getEntity();
@@ -745,7 +749,9 @@ class EmailCampaignController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model  = $this->getModel('email');
         $method = $this->request->getMethod();
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
         $lastsubject=$entity->getSubject();
@@ -1352,9 +1358,11 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-        if(!$this->get('mautic.helper.mailer')->emailstatus()){
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));            return $this->postActionRedirect(
+            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+
+            return $this->postActionRedirect(
                 [
                     'returnUrl'=> $this->generateUrl('mautic_email_campaign_index'),
                 ]
@@ -1637,10 +1645,10 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus())
-        {
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
+            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+
             return $this->postActionRedirect(
                 [
                     'passthroughVars' => [

@@ -471,6 +471,10 @@ class CommonController extends Controller implements MauticController
     public function executeAction($objectAction, $objectId = 0, $objectSubId = 0, $objectModel = '')
     {
         if (method_exists($this, "{$objectAction}Action")) {
+            if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+                return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+            }
+
             return $this->{"{$objectAction}Action"}($objectId, $objectModel);
         }
 

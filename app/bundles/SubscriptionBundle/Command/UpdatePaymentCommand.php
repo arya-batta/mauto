@@ -68,7 +68,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                         $stripecard = $stripecards[0];
                     }
                     $monthcount = 1;
-                    if ($planname == 'leplan1') {
+                    if ($planname == 'leplan2') {
                         $monthcount = 12;
                     }
                     if ($stripecard != null) {
@@ -89,9 +89,9 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $multiplx   = $multiplx - 5;
                             }
                             if ($isvalidityexpired) {
-                                $netamount   = (($planamount) + (10 * $multiplx));
-                                $netcredits  = (($plancredits) + (5000 * $multiplx));
-                                $validitytill=date('Y-m-d', strtotime($validitytill.' +1 months'));
+                                $netamount   = (($planamount)); // + (10 * $multiplx));
+                                $netcredits  = (($plancredits)); // + (5000 * $multiplx));
+                                $validitytill=date('Y-m-d', strtotime($validitytill.'-1 day +'.$monthcount.' months'));
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;
@@ -195,9 +195,10 @@ class UpdatePaymentCommand extends ModeratedCommand
             $failure_code    = $charges->failure_code;
             $failure_message = $charges->failure_message;
             if ($status == 'succeeded') {
+                $todaydate     = date('Y-m-d');
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null);
                 $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateContactCredits($netcredits, $validitytill);
+                $subsrepository->updateContactCredits($netcredits, $validitytill, $todaydate);
                 $output->writeln('<info>'.'Plan Renewed Successfully'.'</info>');
                 $output->writeln('<info>'.'Transaction ID:'.$chargeid.'</info>');
                 $output->writeln('<info>'.'Amount($):'.$netamount.'</info>');

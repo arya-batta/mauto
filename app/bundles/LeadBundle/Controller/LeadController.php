@@ -393,7 +393,9 @@ class LeadController extends FormController
     {
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model = $this->getModel('lead.lead');
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         /** @var \Mautic\LeadBundle\Entity\Lead $lead */
         $lead = $model->getEntity($objectId);
 
@@ -562,7 +564,9 @@ class LeadController extends FormController
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
         $lead  = $model->getEntity();
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
 
         if (!$this->get('mautic.security')->isGranted('lead:leads:create')) {
@@ -585,29 +589,30 @@ class LeadController extends FormController
             $fields = $this->getModel('lead.field')->getPublishedFieldArrays('lead');
         }
 
-            if(!$isValidRecordAdd) {
-                $inQuickForm = $this->request->get('qf', false);
-                $this->addFlash('mautic.record.count.exceeds');
-                if(!$inQuickForm) {
-                    return $this->indexAction();
-                }else {
-                    $viewParameters = ['page' => $page];
-                    $returnUrl = $this->generateUrl('mautic_contact_index', $viewParameters);
-                    $template = 'MauticLeadBundle:Lead:index';
-                    return $this->postActionRedirect(
+        if (!$isValidRecordAdd) {
+            $inQuickForm = $this->request->get('qf', false);
+            $this->addFlash('mautic.record.count.exceeds');
+            if (!$inQuickForm) {
+                return $this->indexAction();
+            } else {
+                $viewParameters = ['page' => $page];
+                $returnUrl      = $this->generateUrl('mautic_contact_index', $viewParameters);
+                $template       = 'MauticLeadBundle:Lead:index';
+
+                return $this->postActionRedirect(
                         [
-                            'returnUrl' => $returnUrl,
-                            'viewParameters' => $viewParameters,
+                            'returnUrl'       => $returnUrl,
+                            'viewParameters'  => $viewParameters,
                             'contentTemplate' => $template,
                             'passthroughVars' => [
-                                'activeLink' => '#mautic_contact_index',
+                                'activeLink'    => '#mautic_contact_index',
                                 'mauticContent' => 'lead',
-                                'closeModal' => 1, //just in case in quick form
+                                'closeModal'    => 1, //just in case in quick form
                             ],
                         ]
                     );
-                }
             }
+        }
 
         $form = $model->createForm($lead, $this->get('form.factory'), $action, ['fields' => $fields, 'isShortForm' => $inQuickForm]);
 
@@ -782,7 +787,9 @@ class LeadController extends FormController
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
         $lead  = $model->getEntity($objectId);
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
         //set the page we came from
         $page = $this->get('session')->get('mautic.lead.page', 1);
 
@@ -1557,20 +1564,18 @@ class LeadController extends FormController
             return $this->modalAccessDenied();
         }
 
-
-        if (!$this->get('mautic.helper.mailer')->emailstatus())
-        {
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-            $this->addFlash($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
+            $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+
             return $this->postActionRedirect(
                 [
                     'passthroughVars' => [
                         'closeModal' => 1,
-                        'route' => false,
+                        'route'      => false,
                     ],
                 ]
             );
-
         }
 
         $leadFields       = $lead->getProfileFields();
@@ -1594,9 +1599,9 @@ class LeadController extends FormController
         $maileruser     = $params['mailer_user'];
         $mailertransport= $params['mailer_transport'];
         $emailpassword  = $params['mailer_password'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region         = $params['mailer_amazon_region'];

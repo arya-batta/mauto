@@ -567,10 +567,28 @@ class AjaxController extends CommonAjaxController
 
     public function licenseusageinfoAction(Request $request)
     {
-        $isClosed                   = $this->factory->get('session')->get('isalert_needed');
-        $dataArray['success']       =true;
-        $dataArray['info']          =$this->getLicenseNotifyMessage();
-        $dataArray['isalertneeded'] = $isClosed;
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $dataArray['success']         = false;
+        $dataArray['info']            = $this->getLicenseNotifyMessage();
+        $dataArray['isalertneeded']   = false;
+        $dataArray['needClosebutton'] = $isClosed;
+        $paymentrepository            = $this->get('le.subscription.repository.payment');
+        $lastpayment                  = $paymentrepository->getLastPayment();
+        $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+
+        if ($licenseinfo->getEmailProvider() == 'LeadsEngage') {
+            $welcomemsg                   = $this->get('translator')->trans('le.account.signup.message');
+            $action                       = $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']);
+            $welcomemsg                   = str_replace('|URL|', $action, $welcomemsg);
+            $actualcount                  = $licenseinfo->getActualEmailCount();
+            $totalcount                   = $licenseinfo->getTotalEmailCount();
+            $welcomemsg                   = str_replace('|ACTUAL|', $actualcount, $welcomemsg);
+            $welcomemsg                   = str_replace('|TOTAL|', $totalcount, $welcomemsg);
+            $dataArray['info']            = $welcomemsg;
+            $dataArray['needClosebutton'] = false;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = true;
+        }
 
         return $this->sendJsonResponse($dataArray);
     }
@@ -939,11 +957,21 @@ class AjaxController extends CommonAjaxController
                         $createdby    =$user->getId();
                         $createdbyuser=$user->getName();
                     }
-                    $validitytill       =date('Y-m-d', strtotime('+'.$planvalidity.' months'));
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
+                    $lastpayment        = $paymentrepository->getLastPayment();
+                    $todaydate          = date('Y-m-d');
+                    if ($lastpayment != null) {
+                        $validityend = $lastpayment->getValidityTill();
+                        if ($todaydate != $validityend) {
+                            $todaydate    = $validityend;
+                            $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
+                        }
+                    } else {
+                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                    }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser);
                     $subsrepository     =$this->get('le.core.repository.subscription');
-                    $subsrepository->updateContactCredits($plancredits, $validitytill);
+                    $subsrepository->updateContactCredits($plancredits, $validitytill, $todaydate);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
                 } else {
                     $errormsg=$failure_message;
@@ -1042,5 +1070,27 @@ class AjaxController extends CommonAjaxController
 </html>";
         $message->setBody($text, 'text/html');
         $mailer->send($message);
+    }
+
+    public function TrialUpgradeAction()
+    {
+        $paymentrepository        = $this->get('le.subscription.repository.payment');
+        $lastpayment              = $paymentrepository->getLastPayment();
+        $trialEndDays             = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+        if ($lastpayment != null) {
+            $dataArray['success'] = false;
+        } else {
+            $dataArray['success'] = true;
+        }
+        $dataArray['error']       = true;
+        $upgradeinfo              = $this->get('translator')->trans('le.upgrade_now.action');
+        $trailinfo                = $this->get('translator')->trans('le.upgrade.trial.period');
+        $action                   = $this->generateUrl('le_pricing_index');
+        $upgradeinfo              = str_replace('|URL|', $action, $upgradeinfo);
+        $trailinfo                = str_replace('|DAYS|', $trialEndDays, $trailinfo);
+        $dataArray['upgradeinfo'] = $upgradeinfo;
+        $dataArray['trailinfo']   = $trailinfo;
+
+        return $this->sendJsonResponse($dataArray);
     }
 }

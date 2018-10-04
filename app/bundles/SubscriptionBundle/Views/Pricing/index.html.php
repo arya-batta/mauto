@@ -18,8 +18,66 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
         Click Here
     </a> to connect it.</div>
 <br>
+<div style="text-align:center;width:100%;">
+    <div style="display:inline-block;">
+        <div class="pricingtables">
 
-<!-- <div class="pricing-plan-holder" data-email-transaport="<?php echo $transport ?>">
+            <div class="pricing-table">
+                <div class="pricing-head">
+                    <h3>Pay Monthly</h3>
+                    <div class="pricing-body">
+                        <ul>
+                            <li class="dollar"><span class="bill">$</span>79<br><span class="billing">Per Month, Billed Monthly</span></li>
+                            <li style="margin-left:55px;">Unlimited Contacts</li>
+                            <li style="margin-left:55px;">Unlimited Features</li>
+                            <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="79" data-plancredits="UL" data-validity="1" class="btn btn-success buttonle plan-btn">
+                                Subscribe
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-tables">
+                <div class="pricing-heads">
+                    <h3>Pay Annually</h3>
+                    <span class="discounted-price--tag">37% Off</span>
+                    <div class="pricing-body">
+                        <ul>
+                            <li class="dollar"><span class="bill">$</span>49<br><span class="billing">Per Month, Billed Annually - <b>$588</b>/Yr</span></li>
+                            <li style="margin-left:55px;">Unlimited Contacts</li>
+                            <li style="margin-left:55px;">Unlimited Features</li>
+                            <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="588" data-plancredits="UL" data-validity="12" class="btn btn-success buttonles plan-btn">
+                                Subscribe
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div></div></div>
+<div style="text-align:center;width:100%;">
+    <div style="display:inline-block;">
+        <div class="pricingtable1">
+            <div class="pricing-table1">
+                <div style="padding-left:15px;">
+                    <img class="pricing-img-responsive" src="https://leadsengage.com/wp-content/uploads/leadsengage/startup.png" alt="/icon/startup.png"><br><h2>All features includes <br>the following</h2></div>
+                <div class="pricing-head1">
+                    <div class="pricing-body1">
+
+                        <ul>
+                            <li style="margin-left:55px;">Send Unlimited Email, SMS Campaigns</li>
+                            <li style="margin-left:55px;">Create Unlimited Automation Workflows</li>
+                            <li style="margin-left:55px;">Create Unlimited Landing Pages & Lead Capture Forms</li>
+                            <li style="margin-left:55px;">Track Unlimited Email Opens, Clicks</li>
+                            <li style="margin-left:55px;">Track Unlimited Website Visits & Events</li>
+                            <li style="margin-left:55px;">Manage Lead Scoring, Points, Segments, Tags</li>
+                            <li style="margin-left:55px;">Zapier, Webhooks & API Integrations (Coming Soon)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div></div></div>
+<div class="pricing-plan-holder " data-email-transaport="<?php echo $transport ?>">
     <div class="col-md-4 pricing-plan-list plan-monthly hide">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -69,10 +127,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 </a>
             </div>
         </div>
-    </div>-->
-    <div class="col-md-10 pricing-plan-list plan-monthly pricing_panel" style="margin-left:8%;">
-        <div class="col-sm-6 pricing-plan-header">
-            <div class="sub-plan-header">Up to 25,000 Leads</div>
+    </div>
+    <div class="col-md-10 pricing-plan-list plan-monthly pricing_panel hide" style="margin-left:8%;">
+        <div class="col-sm-6 details-list">
+            <!--<div class="sub-plan-header">Up to 25,000 Leads</div>
             <div class="price">
                 <span>$</span>
                 <span>49</span>
@@ -85,19 +143,19 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
             <div class="col-sm-6 price-desc">
                 <br>
                 <b>Addtional Leads</b> <br> $10/month per 5,000 additional Leads.
-            </div>
-        </div>
-        <div class="col-sm-6 details-list">
+            </div>-->
             <p style="font-size:20px;"><b>Feature Includes</b></p>
             <span>Send Unlimited Email, SMS Campaigns</span>
             <!--                    <span>Priority Support Via Email</span>-->
-            <span>Create Unlimited Drip Sequences</span>
             <span>Create Unlimited Automation Workflows</span>
-            <span>Create Unlimited Landing Pages, Opt-in Pages, Squeeze Pages</span>
-            <span>Create Unlimited Lead Capture Forms, Lead Magnets</span>
-            <span>Track Email/ SMS Opens, Clicks & Website Visits</span>
-            <span>Manage Lead Scoring, Points, Segments, Tags</span>
-            <span>Zapier, API Integrations</span>
+            <span>Create Unlimited Landing Pages & Lead Capture Forms</span>
+        </div>
+        <div class="col-sm-6 details-list">
+            <span>Track Unlimited Email Opens, Clicks</span>
+            <!--                    <span>Priority Support Via Email</span>-->
+            <span>Track Unlimited Website Visits & Events</span>
+            <span>Manage Lead Scoring, Points, Segments, Tagss</span>
+            <span>Zapier, Webhooks & API Integrations</span>
         </div>
 
     </div>

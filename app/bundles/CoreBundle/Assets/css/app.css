@@ -6342,6 +6342,38 @@ text-align: center;
 .m_width{
   width: 20%;
 }
+#upgrade-now {
+  border: 1px solid;
+  float: left;
+  margin-left: 15px;
+  font-weight: Bold;
+  color: #75A4FA !important;
+  background-color: #fff;
+  border-color: #75A4FA !important;
+  border-radius: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 10px;
+  font-size: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#upgrade-info-trial-info{
+  background: transparent;
+  border-top: 1px solid #75A4FA;
+  border-bottom: 1px solid #75A4FA;
+  border-right: 1px solid #75A4FA;
+  color: #75A4FA;
+  margin-top: 10px;
+  margin-left: -12px;
+  padding-left: 18px;
+  padding-right: 10px;
+  padding-top: 5px;
+  height: 30px;
+  position: relative;
+  top: 17px;
+  padding-bottom: 5px;
+}
 .disable{
   pointer-events: none;
   background-color: #ebedf0;

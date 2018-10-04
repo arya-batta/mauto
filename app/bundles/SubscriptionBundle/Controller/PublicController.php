@@ -33,10 +33,14 @@ class PublicController extends CommonFormController
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $paymenthistory     = $paymentrepository->getEntity($id);
 
+        $licensehelper = $this->get('mautic.helper.licenseinfo');
+        $licenseinfo   = $licensehelper->getLicenseEntity();
+
         return $this->delegateView([
             'viewParameters' => [
                 'billing' => $billing,
                 'payment' => $paymenthistory,
+                'license' => $licenseinfo,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:view_invoice.html.php',
             'passthroughVars' => [

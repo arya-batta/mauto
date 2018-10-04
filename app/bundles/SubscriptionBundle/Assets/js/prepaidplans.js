@@ -206,9 +206,24 @@ Mautic.loadLicenseUsageInfo = function() {
             if(response.info != "" && response.isalertneeded != "true"){
                 mQuery('.license-notifiation').removeClass('hide');
                 mQuery('.license-notifiation #license-alert-message').html(response.info);
+                if(!response.needClosebutton){
+                    mQuery('.button-notification').addClass('hide');
+                }
             }else{
                 mQuery('.license-notifiation').addClass('hide');
             }
+        }
+    });
+
+    Mautic.ajaxActionRequest('subscription:TrialUpgrade', {}, function(response) {
+        if (response.success && !location.href.match(/(pricing)/i)) {
+            mQuery('#upgrade-now').removeClass('hide');
+            mQuery('#upgrade-info-trial-info').removeClass('hide');
+            mQuery('#upgrade-now').html(response.upgradeinfo);
+            mQuery('#upgrade-info-trial-info').html(response.trailinfo);
+        } else {
+            mQuery('#upgrade-now').addClass('hide');
+            mQuery('#upgrade-info-trial-info').addClass('hide');
         }
     });
 };

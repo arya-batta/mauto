@@ -12,6 +12,9 @@ $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
 
+$carderror = $view['translator']->trans('le.payment.failure.oncarderror');
+$carderror = str_replace('|URL|', 'Mautic.openPluginModel("card-error-info")', $carderror);
+
 ?>
 <!-- start: box layout -->
 <div class="box-layout">
@@ -31,17 +34,19 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                 <div class="pt-md pr-md pl-md pb-md">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                        <h3 class="panel-title"><?php echo $view['translator']->trans('leadsengage.cardinfo.history.title'); ?></h3>
+                            <h3 class="panel-title"><?php echo $view['translator']->trans('leadsengage.cardinfo.history.title'); ?></h3>
                         </div>
-                            <div class="cardholder-panel">
-                                <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
-                                <div>
-                                    <div class="card-holder-title">
-                                        Credit Card
-                                    </div>
-                                    <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : ''?>">
-                                        <?php echo 'Card ending in '.$stripecard->getlast4digit().' on file.' ?>
-                                    </div>
+                        <div class="cardholder-panel">
+                            <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
+
+                            <span class="login-notifiation <?php echo $lastpayment->getPaymentStatus() != 'Paid' ? '' : 'hide'; ?>" style="width: 100%;text-align: left;border:1px solid #fef4f6;"><?php echo $carderror; ?></span>
+                            <div>
+                                <div class="card-holder-title">
+                                    Credit Card
+                                </div>
+                                <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : ''?>">
+                                    <?php echo 'Card ending in '.$stripecard->getlast4digit().' on file.' ?>
+                                </div>
 
                                 <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">
                                     <!-- A Stripe Element will be inserted here. -->
@@ -53,10 +58,14 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                                 </button>
                             </div>
 
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
 
+            </div>
         </div>
     </div>
+</div>
+<div class="hide" id="card-error-info">
+    <?php echo $view->render('MauticSubscriptionBundle:AccountInfo:carderror.html.php'); ?>
 </div>

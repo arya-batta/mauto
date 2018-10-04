@@ -133,7 +133,11 @@ class CampaignController extends AbstractStandardFormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
-        return $this->editStandard($objectId, $ignorePost);
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        } else {
+            return $this->editStandard($objectId, $ignorePost);
+        }
     }
 
     /**
@@ -155,11 +159,21 @@ class CampaignController extends AbstractStandardFormController
      */
     public function newAction($objectId = null)
     {
-        return $this->newStandard($objectId);
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        } else {
+            return $this->newStandard($objectId);
+        }
     }
 
     public function quickaddAction()
     {
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        }
         /** @var CampaignModel $model */
         $model     = $this->getModel('campaign');
         $campaign  = $model->getEntity();

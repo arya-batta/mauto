@@ -42,15 +42,17 @@ if ($totalContactCredits != 'UL') {
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> leads. Your free trial ends in <b><?php echo $trialEndDays?></b> days.</span>
-                                <span class='plan-info-lbl2'>Your current usage for the free period  is <b><?php echo $contactUsage?></b> leads <b><?php echo $contactusageper?></b></span>
+                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> Leads & Features. Your free trial ends in <b><?php echo $trialEndDays?></b> days.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
-                                    Subscribe
+                                    Browse Subscription Plans
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planType == 'Free Trial' ? 'hide' : '' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $custplanamount ?></b> per month and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> leads.</span>
-                                <span class='plan-info-lbl2'>Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <b><?php echo $contactUsage?></b> leads <b><?php echo $contactusageper?></b>.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month <?php echo $planname == 'leplan1' ? ' paid monthly' : ' paid annually' ?> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> Leads & Features. </span>
+                                <span class='plan-info-lbl2'>Your next billing date is <b> <?php echo $vallidityTill ?> </b>.</span>
+                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
+                                    Browse Subscription Plans
+                                </a>
                             </div>
                         </div>
                     </div>

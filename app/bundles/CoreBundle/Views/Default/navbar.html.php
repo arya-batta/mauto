@@ -56,6 +56,14 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
             </li>
         <?php endif; ?>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <span id="upgrade-now" class="mailbox-read-time hide">
+
+        </span>
+        <span id="upgrade-info-trial-info" class="mailbox-read-time hide">
+
+        </span>
+    </ul>
     <!-- start: right nav -->
    <!-- <ul class="nav navbar-nav navbar-right">
         <?php /*echo $view->render('MauticCoreBundle:Menu:support.html.php'); */?>

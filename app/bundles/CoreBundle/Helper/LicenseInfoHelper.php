@@ -1066,4 +1066,24 @@ class LicenseInfoHelper
         $entity->setSMSProvider($smsProvider);
         $this->licenseinfo->saveEntity($entity);
     }
+
+    public function redirectToCardinfo()
+    {
+        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
+        if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function redirectToSubscriptionpage()
+    {
+        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
+        if ($lastpayment == null && ($this->getLicenseRemainingDays() == 0 || $this->getLicenseRemainingDays() < 0)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

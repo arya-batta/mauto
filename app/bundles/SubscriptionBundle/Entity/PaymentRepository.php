@@ -70,7 +70,7 @@ class PaymentRepository extends CommonRepository
         $paymenthistory->setAfterCredits($netcredits);
         $paymenthistory->setValidityTill($validitytill);
         $paymenthistory->setPlanName($planname);
-        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'Unlimited Leads - Yearly Subscription' : 'Pro Edition - Monthly Subscription');
+        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'UL- Monthly Subscription' : 'UL- Yearly Subscription');
         $paymenthistory->setcreatedBy($createdby);
         $paymenthistory->setcreatedByUser($createdbyuser);
         $paymenthistory->setcreatedOn(new \DateTime());

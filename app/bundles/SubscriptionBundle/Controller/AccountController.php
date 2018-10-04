@@ -182,13 +182,14 @@ class AccountController extends FormController
             $planType    = $lastpayment->getPlanLabel();
             $validityTill=$datehelper->toDate($lastpayment->getValidityTill());
             $planAmount  =$lastpayment->getCurrency().$lastpayment->getAmount();
-            if ($lastpayment->getPlanName() == 'leplan1') {
+            if ($lastpayment->getPlanName() == 'leplan2') {
                 $planAmount = ($lastpayment->getAmount() / 12);
                 $planAmount = $lastpayment->getCurrency().$planAmount;
             }
             $custplanamount = ((($totalContactCredits - 25000) / 5000) * 10) + 49;
             $custplanamount = $lastpayment->getCurrency().$custplanamount;
         }
+        $planname = $lastpayment->getPlanName();
 
         return $this->delegateView([
             'viewParameters' => [
@@ -206,6 +207,7 @@ class AccountController extends FormController
                 'totalContactCredits'=> $totalContactCredits,
                 'totalEmailCredits'  => $totalEmailCredits,
                 'custplanamount'     => $custplanamount,
+                'planname'           => $planname,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [
@@ -355,6 +357,7 @@ class AccountController extends FormController
                 'stripecard'         => $stripecard,
                 'letoken'            => $paymenthelper->getUUIDv4(),
                 'planType'           => $planType,
+                'lastpayment'        => $lastpayment,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cardinfo.html.php',
             'passthroughVars' => [
