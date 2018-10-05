@@ -139,7 +139,7 @@ class FieldType extends AbstractType
             [
                 'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
                 'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class' => 'form-control', 'onkeyup' => 'Mautic.updatePlaceholdervalue(this.value)'],
+                'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Mautic.updatePlaceholdervalue(this.value)'],
                 'constraints' => [
                     new Assert\NotBlank(
                         ['message' => 'mautic.form.field.label.notblank']
@@ -156,7 +156,7 @@ class FieldType extends AbstractType
                     'label'      => 'mautic.form.field.form.alias',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.form.field.form.alias.tooltip',
                     ],
                     'disabled' => (!empty($options['data']['id']) && strpos($options['data']['id'], 'new') === false) ? true : false,
@@ -184,7 +184,7 @@ class FieldType extends AbstractType
                 [
                     'label'      => 'mautic.core.defaultvalue',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class' => 'form-control'],
+                    'attr'       => ['class' => 'form-control le-input'],
                     'required'   => false,
                 ]
             );
@@ -198,7 +198,7 @@ class FieldType extends AbstractType
                     'label'      => 'mautic.form.field.form.helpmessage',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.form.field.help.helpmessage',
                     ],
                     'required' => false,
@@ -223,7 +223,7 @@ class FieldType extends AbstractType
                 [
                     'label'      => 'mautic.form.field.form.validationmsg',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class' => 'form-control'],
+                    'attr'       => ['class' => 'form-control le-input'],
                     'required'   => false,
                 ]
             );
@@ -237,7 +237,7 @@ class FieldType extends AbstractType
                     'label'      => (!empty($labelAttributesText)) ? $labelAttributesText : 'mautic.form.field.form.labelattr',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'     => 'form-control',
+                        'class'     => 'form-control le-input',
                         'tooltip'   => 'mautic.form.field.help.attr',
                         'maxlength' => '255',
                     ],
@@ -254,7 +254,7 @@ class FieldType extends AbstractType
                     'label'      => (!empty($inputAttributesText)) ? $inputAttributesText : 'mautic.form.field.form.inputattr',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'     => 'form-control',
+                        'class'     => 'form-control le-input',
                         'tooltip'   => 'mautic.form.field.help.attr',
                         'maxlength' => '255',
                     ],
@@ -271,7 +271,7 @@ class FieldType extends AbstractType
                     'label'      => (!empty($containerAttributesText)) ? $containerAttributesText : 'mautic.form.field.form.container_attr',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'     => 'form-control',
+                        'class'     => 'form-control le-input',
                         'tooltip'   => 'mautic.form.field.help.container_attr',
                         'maxlength' => '255',
                     ],
@@ -318,7 +318,7 @@ class FieldType extends AbstractType
                     'label'      => 'mautic.form.field.form.show.after.x.submissions',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.form.field.help.show.after.x.submissions',
                     ],
                     'required' => false,
@@ -380,7 +380,7 @@ class FieldType extends AbstractType
                     'label'      => 'mautic.form.field.form.lead_field',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.form.field.help.lead_field',
                     ],
                     'required' => false,

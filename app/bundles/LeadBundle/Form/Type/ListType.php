@@ -13,19 +13,21 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use DeviceDetector\Parser\Device\DeviceParserAbstract as DeviceParser;
 use DeviceDetector\Parser\OperatingSystem;
+use Mautic\AssetBundle\Model\AssetModel;
 use Mautic\CategoryBundle\Model\CategoryModel;
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\CoreBundle\Helper\UserHelper;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\EmailBundle\Model\EmailModel;
+use Mautic\FormBundle\Model\FormModel;
 use Mautic\LeadBundle\Form\DataTransformer\FieldFilterTransformer;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Model\LeadModel;
-use Mautic\UserBundle\Model\UserModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Mautic\PageBundle\Model\PageModel;
 use Mautic\StageBundle\Model\StageModel;
+use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -54,6 +56,8 @@ class ListType extends AbstractType
     private $categoriesChoices   = [];
     private $landingpageChoices  = [];
     private $userchoices         = [];
+    private $formSubmitChoices   = [];
+    private $assetChoices        = [];
 
     /**
      * ListType constructor.
@@ -68,8 +72,10 @@ class ListType extends AbstractType
      * @param UserHelper          $userHelper
      * @param PageModel           $pageModel
      * @param UserModel           $userModel
+     * @param FormModel           $formModel
+     * @param AssetModel          $assetModel
      */
-    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel)
+    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel, FormModel $formModel, AssetModel $assetModel)
     {
         $this->translator = $translator;
 
@@ -99,7 +105,30 @@ class ListType extends AbstractType
             $this->emailChoices[$email['language']][$email['id']] = $email['name'];
         }
         ksort($this->emailChoices);
-        $isadmin=$userModel->getCurrentUserEntity()->isAdmin();
+
+        $viewOther   = $security->isGranted('form:forms:viewother');
+        $formRepo    = $formModel->getRepository();
+        $formRepo->setCurrentUser($currentUser);
+
+        $forms = $formRepo->getFormList('', 0, 0, true, $viewOther);
+
+        foreach ($forms as $form) {
+            $this->formSubmitChoices[$form['id']] = $form['name'];
+        }
+        ksort($this->formSubmitChoices);
+
+        $viewOther   = $security->isGranted('asset:assets:viewother');
+        $assetRepo   = $assetModel->getRepository();
+        $assetRepo->setCurrentUser($currentUser);
+
+        $assets = $assetRepo->getAssetList('', 0, 0, true, $viewOther);
+
+        foreach ($assets as $asset) {
+            $this->assetChoices[$asset['language']][$asset['id']] = $asset['title'];
+        }
+        ksort($this->assetChoices);
+
+        $isadmin    =$userModel->getCurrentUserEntity()->isAdmin();
         $filterarray= [
             'force' => [
                 [
@@ -114,7 +143,7 @@ class ListType extends AbstractType
                 ],
             ],
         ];
-        if($isadmin){
+        if ($isadmin) {
             $filterarray= [
                 'force' => [
                     [
@@ -230,22 +259,24 @@ class ListType extends AbstractType
                 [
                     'type'    => 'leadlist_filter',
                     'options' => [
-                        'label'          => false,
-                        'timezones'      => $this->timezoneChoices,
-                        'countries'      => $this->countryChoices,
-                        'regions'        => $this->regionChoices,
-                        'fields'         => $this->fieldChoices,
-                        'lists'          => $this->listChoices,
-                        'emails'         => $this->emailChoices,
-                        'deviceTypes'    => $this->deviceTypesChoices,
-                        'deviceBrands'   => $this->deviceBrandsChoices,
-                        'deviceOs'       => $this->deviceOsChoices,
-                        'tags'           => $this->tagChoices,
-                        'stage'          => $this->stageChoices,
-                        'locales'        => $this->localeChoices,
-                        'globalcategory' => $this->categoriesChoices,
-                        'users'          => $this->userchoices,
-                        'landingpage_list' => $this->landingpageChoices,
+                        'label'                => false,
+                        'timezones'            => $this->timezoneChoices,
+                        'countries'            => $this->countryChoices,
+                        'regions'              => $this->regionChoices,
+                        'fields'               => $this->fieldChoices,
+                        'lists'                => $this->listChoices,
+                        'emails'               => $this->emailChoices,
+                        'deviceTypes'          => $this->deviceTypesChoices,
+                        'deviceBrands'         => $this->deviceBrandsChoices,
+                        'deviceOs'             => $this->deviceOsChoices,
+                        'tags'                 => $this->tagChoices,
+                        'stage'                => $this->stageChoices,
+                        'locales'              => $this->localeChoices,
+                        'globalcategory'       => $this->categoriesChoices,
+                        'users'                => $this->userchoices,
+                        'landingpage_list'     => $this->landingpageChoices,
+                        'formsubmit_list'      => $this->formSubmitChoices,
+                        'asset_downloads_list' => $this->assetChoices,
                     ],
                     'error_bubbling' => false,
                     'mapped'         => true,
@@ -294,7 +325,9 @@ class ListType extends AbstractType
         $view->vars['locales']          = $this->localeChoices;
         $view->vars['globalcategory']   = $this->categoriesChoices;
         $view->vars['landingpage_list'] = $this->landingpageChoices;
-        $view->vars['users']          = $this->userchoices;
+        $view->vars['users']            = $this->userchoices;
+        $view->vars['forms']            = $this->formSubmitChoices;
+        $view->vars['assets']           = $this->assetChoices;
     }
 
     /**

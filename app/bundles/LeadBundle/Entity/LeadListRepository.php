@@ -1102,16 +1102,19 @@ class LeadListRepository extends CommonRepository
                     $groupExpr->add(sprintf('%s (%s)', $operand, $subqb->getSQL()));
                     break;
                 case 'hit_url_date':
+                case 'lead_email_click_date':
                 case 'lead_email_read_date':
                     $operand = (in_array($func, ['eq', 'gt', 'lt', 'gte', 'lte', 'between'])) ? 'EXISTS' : 'NOT EXISTS';
                     $table   = 'page_hits';
                     $column  = 'date_hit';
-
+                    $expn    = '';
                     if ($details['field'] == 'lead_email_read_date') {
                         $column = 'date_read';
                         $table  = 'email_stats';
                     }
-
+                   if ($details['field'] == 'lead_email_click_date') {
+                       $expn= $q->expr()->isNotNull($alias.'.email_id');
+                   }
                     $subqb = $this->getEntityManager()->getConnection()
                         ->createQueryBuilder()
                         ->select('id')
@@ -1128,7 +1131,8 @@ class LeadListRepository extends CommonRepository
                                         $q->expr()
                                             ->eq($alias.'.'.$column, $exprParameter),
                                         $q->expr()
-                                            ->eq($alias.'.lead_id', 'l.id')
+                                            ->eq($alias.'.lead_id', 'l.id'),
+                                        $expn
                                     )
                             );
                             break;
@@ -1148,7 +1152,8 @@ class LeadListRepository extends CommonRepository
                                         ->andX(
                                             $q->expr()->gte($alias.'.'.$field, $exprParameter),
                                             $q->expr()->lt($alias.'.'.$field, $exprParameter2),
-                                            $q->expr()->eq($alias.'.lead_id', 'l.id')
+                                            $q->expr()->eq($alias.'.lead_id', 'l.id'),
+                                            $expn
                                         )
                                 );
                             } else {
@@ -1157,7 +1162,8 @@ class LeadListRepository extends CommonRepository
                                         ->andX(
                                             $q->expr()->lt($alias.'.'.$field, $exprParameter),
                                             $q->expr()->gte($alias.'.'.$field, $exprParameter2),
-                                            $q->expr()->eq($alias.'.lead_id', 'l.id')
+                                            $q->expr()->eq($alias.'.lead_id', 'l.id'),
+                                            $expn
                                         )
                                 );
                             }
@@ -1174,7 +1180,8 @@ class LeadListRepository extends CommonRepository
                                                 $exprParameter
                                             ),
                                         $q->expr()
-                                            ->eq($alias.'.lead_id', 'l.id')
+                                            ->eq($alias.'.lead_id', 'l.id'),
+                                        $expn
                                     )
                             );
                             break;
@@ -1183,9 +1190,11 @@ class LeadListRepository extends CommonRepository
                     if (!empty($leadId)) {
                         $subqb->andWhere(
                             $subqb->expr()
-                                ->eq($alias.'.lead_id', $leadId)
+                                ->eq($alias.'.lead_id', $leadId),
+                            $expn
                         );
                     }
+
                     $groupExpr->add(sprintf('%s (%s)', $operand, $subqb->getSQL()));
                     break;
                 case 'page_id':
@@ -1303,28 +1312,34 @@ class LeadListRepository extends CommonRepository
                     $groupExpr->add(sprintf('%s (%s)', $operand, $subqb->getSQL()));
                     break;
                 case 'hit_url_count':
+                case 'lead_email_click_count':
                 case 'lead_email_read_count':
                     $operand = 'EXISTS';
                     $column  = $details['field'];
                     $table   = 'page_hits';
                     $select  = 'COUNT(id)';
-                    if ($details['field'] == 'lead_email_read_count') {
-                        $table  = 'email_stats';
-                        $select = 'COALESCE(SUM(open_count),0)';
-                    }
-                    $subqb = $this->getEntityManager()->getConnection()
-                        ->createQueryBuilder()
-                        ->select($select)
-                        ->from(MAUTIC_TABLE_PREFIX.$table, $alias);
+                    $expn    = '';
+                if ($details['field'] == 'lead_email_read_count') {
+                    $table  = 'email_stats';
+                    $select = 'COALESCE(SUM(open_count),0)';
+                }
+                if ($details['field'] == 'lead_email_click_count') {
+                    $expn= $q->expr()->isNotNull($alias.'.email_id');
+                }
+                $subqb = $this->getEntityManager()->getConnection()
+                    ->createQueryBuilder()
+                    ->select($select)
+                    ->from(MAUTIC_TABLE_PREFIX.$table, $alias);
 
-                    $parameters[$parameter] = $details['filter'];
-                    $subqb->where(
-                        $q->expr()
-                            ->andX(
-                                $q->expr()
-                                    ->eq($alias.'.lead_id', 'l.id')
-                            )
-                    );
+                $parameters[$parameter] = $details['filter'];
+                $subqb->where(
+                    $q->expr()
+                        ->andX(
+                            $q->expr()
+                                ->eq($alias.'.lead_id', 'l.id'),
+                            $expn
+                        )
+                );
 
                     $opr = '';
                     switch ($func) {
@@ -1519,6 +1534,8 @@ class LeadListRepository extends CommonRepository
                 case 'device_type':
                 case 'device_brand':
                 case 'device_os':
+                case 'lead_form_submit':
+                case 'asset_downloads':
                     // Special handling of lead lists and tags
                     $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
 
@@ -1563,6 +1580,14 @@ class LeadListRepository extends CommonRepository
                         case 'device_os':
                             $table  = 'lead_devices';
                             $column = 'device_os_name';
+                            break;
+                        case 'lead_form_submit':
+                            $table  = 'form_submissions';
+                            $column = 'form_id';
+                            break;
+                        case 'asset_downloads':
+                            $table  = 'asset_downloads';
+                            $column = 'asset_id';
                             break;
                     }
 
@@ -1912,16 +1937,15 @@ class LeadListRepository extends CommonRepository
 
         // Specific lead
         if (!empty($leadId)) {
-            if('users' !== $table) {
+            if ('users' !== $table) {
                 $columnName = ('leads' === $table) ? 'id' : 'lead_id';
                 $subExpr->add(
-                    $subQb->expr()->eq($alias . '.' . $columnName, $leadId)
+                    $subQb->expr()->eq($alias.'.'.$columnName, $leadId)
                 );
-            }
-            else{
+            } else {
                 $columnName = ('users' === $table) ? 'id' : 'lead_id';
                 $subExpr->add(
-                    $subQb->expr()->eq( 'l.' . $columnName, $leadId)
+                    $subQb->expr()->eq('l.'.$columnName, $leadId)
                 );
             }
         }

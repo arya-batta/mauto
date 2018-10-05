@@ -364,14 +364,13 @@ endif;*/ ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
-                <?php if (!count($formFields)): ?>
+            </div>
+            <div class="col-md-4" >
+                <div class="available-fields">
                     <div class="alert alert-info" id="form-field-placeholder">
                         <p><?php echo $view['translator']->trans('mautic.form.form.addfield'); ?></p>
                     </div>
-                <?php endif; ?>
-            </div>
-            <div class="col-md-4" >
-                <div class="available-fields"><center>
+                    <center>
                     <div class="form_fragment2_tite" >Add a New Field</div><br></center>
                    <div style="margin-left: 11px">
                     <?php foreach ($fields as $fieldType => $field): ?>
@@ -413,11 +412,6 @@ endif;*/ ?>
             </div>
 
             <div id="mauticforms_actions" class="col-md-8">
-                <?php if (!count($formActions)): ?>
-                    <div class="alert alert-info" id="form-action-placeholder">
-                        <p><?php echo $view['translator']->trans('mautic.form.form.addaction'); ?></p>
-                    </div>
-                <?php endif; ?>
                 <div class="drop-here">
                     <?php foreach ($formActions as $action): ?>
                         <?php if (!in_array($action['id'], $deletedActions)) : ?>
@@ -439,7 +433,10 @@ endif;*/ ?>
                     <?php endforeach; ?>
                 </div>
             </div>
-                <div class="available-actions col-md-4" > <br><br>
+                <div class="available-actions col-md-4" style="margin-top: -35px;"> <br><br>
+                    <div class="alert alert-info" id="form-action-placeholder">
+                        <p><?php echo $view['translator']->trans('mautic.form.form.addaction'); ?></p>
+                    </div>
                     <center>
                         <div class="form_fragment3_tite col-md-11" >Add A New Submit Action</div><br></center>
                         <?php foreach ($actions as $group => $groupActions): ?>

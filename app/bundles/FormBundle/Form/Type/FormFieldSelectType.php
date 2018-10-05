@@ -37,7 +37,7 @@ class FormFieldSelectType extends AbstractType
             [
                 'label'      => 'mautic.form.field.form.emptyvalue',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
             ]
         );

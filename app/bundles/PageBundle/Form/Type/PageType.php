@@ -82,7 +82,7 @@ class PageType extends AbstractType
             'title',
             'text',
             [
-                'label'      => 'mautic.core.title',
+                'label'      => 'mautic.core.landingpage.title',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
             ]
@@ -266,7 +266,7 @@ class PageType extends AbstractType
             [
                 'label'      => 'mautic.page.form.metadescription',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control', 'maxlength' => 160,'style' =>"height: 102px"],
+                'attr'       => ['class' => 'form-control', 'maxlength' => 160, 'style' =>'height: 102px'],
                 'required'   => false,
             ]
         );
@@ -344,7 +344,7 @@ class PageType extends AbstractType
         );
 
         $builder->add('buttons', 'form_buttons', [
-            'apply_text' => false,
+            'apply_text'        => false,
             'pre_extra_buttons' => [
 //                [
 //                    'name'  => 'builder',

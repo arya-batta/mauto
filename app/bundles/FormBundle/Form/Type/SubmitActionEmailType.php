@@ -70,7 +70,7 @@ class SubmitActionEmailType extends AbstractType
             [
                 'label'      => 'mautic.form.action.sendemail.subject',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
                 'data'       => $data,
             ]
@@ -93,7 +93,7 @@ class SubmitActionEmailType extends AbstractType
             [
                 'label'      => 'mautic.form.action.sendemail.message',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control editor editor-basic'],
+                'attr'       => ['class' => 'form-control editor editor-basic le-input'],
                 'required'   => false,
                 'data'       => $message,
             ]
@@ -163,7 +163,7 @@ class SubmitActionEmailType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'onchange' => 'Mautic.getLeadEmailContent(this)',
                 ],
                 'multiple'   => false,

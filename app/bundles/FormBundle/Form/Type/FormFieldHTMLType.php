@@ -28,7 +28,7 @@ class FormFieldHTMLType extends AbstractType
         $builder->add('text', 'textarea', [
             'label'      => 'mautic.form.field.type.freehtml',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control', 'style' => 'min-height:150px'],
+            'attr'       => ['class' => 'form-control le-input', 'style' => 'min-height:150px'],
             'required'   => true,
         ]);
     }

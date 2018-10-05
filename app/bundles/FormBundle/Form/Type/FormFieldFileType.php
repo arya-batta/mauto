@@ -66,7 +66,7 @@ class FormFieldFileType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.form.field.file.tooltip.allowed_extensions',
                     ],
                     'data'        => $options['data'][self::PROPERTY_ALLOWED_FILE_EXTENSIONS],
@@ -84,7 +84,7 @@ class FormFieldFileType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => $this->translator->trans('mautic.form.field.file.tooltip.allowed_size', ['%uploadSize%' => $maxUploadSize]),
                 ],
                 'data'        => $options['data'][self::PROPERTY_ALLOWED_FILE_SIZE],

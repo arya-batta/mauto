@@ -304,8 +304,8 @@ Mautic.leadEmailOnLoad = function(container, response) {
 }
 Mautic.removeHide= function(){
     mQuery('#segment_filters').removeClass('hide');
-    mQuery('#segment-filter-block_lead').css("display","");
-    mQuery('#segment-filter-block_lead').css("height","auto");
+    mQuery('#segment-filter-block_list_leadlist').css("display","");
+    mQuery('#segment-filter-block_list_leadlist').css("height","auto");
 }
 Mautic.closeOnOpen= function(headerid){
     if (headerid != "") {
@@ -582,7 +582,7 @@ Mautic.addLeadListFilter = function (elId) {
     var fieldType = mQuery(filterId).data('field-type');
     var fieldObject = mQuery(filterId).data('field-object');
     var customObject = mQuery(filterId).data('field-customobject');
-    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
 
     prototype = prototype.replace(/__name__/g, filterNum);
     prototype = prototype.replace(/__label__/g, label);

@@ -29,7 +29,7 @@ class PointActionFormSubmitType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.form.point.action.forms.descr',
             ],
         ]);

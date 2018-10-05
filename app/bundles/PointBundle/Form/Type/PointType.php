@@ -54,13 +54,13 @@ class PointType extends AbstractType
         $builder->add('name', 'text', [
             'label'      => 'mautic.core.name',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control'],
+            'attr'       => ['class' => 'form-control le-input'],
         ]);
 
         $builder->add('description', 'textarea', [
             'label'      => 'mautic.core.description',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control editor'],
+            'attr'       => ['class' => 'form-control editor le-input'],
             'required'   => false,
         ]);
 
@@ -70,7 +70,7 @@ class PointType extends AbstractType
             'label'       => 'mautic.point.form.type',
             'label_attr'  => ['class' => 'control-label'],
             'attr'        => [
-                'class'    => 'form-control',
+                'class'    => 'form-control le-input',
                 'onchange' => 'Mautic.getPointActionPropertiesForm(this.value);',
             ],
         ]);
@@ -79,7 +79,7 @@ class PointType extends AbstractType
             'label'      => 'mautic.point.action.delta',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                    'class'   => 'form-control',
+                    'class'   => 'form-control le-input',
                     'tooltip' => 'mautic.point.action.delta.help',
                 ],
             'precision' => 0,

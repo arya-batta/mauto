@@ -76,6 +76,10 @@ trait FilterTrait
             $field = $options['fields']['list_leadlist'][$fieldName];
         } elseif (isset($options['fields']['list_categories'][$fieldName])) {
             $field = $options['fields']['list_categories'][$fieldName];
+        } elseif (isset($options['fields']['forms'][$fieldName])) {
+            $field = $options['fields']['forms'][$fieldName];
+        } elseif (isset($options['fields']['assets'][$fieldName])) {
+            $field = $options['fields']['assets'][$fieldName];
         } /*elseif (isset($options['fields']['company'][$fieldName])) {
             $field = $options['fields']['company'][$fieldName];
         }*/
@@ -131,6 +135,30 @@ trait FilterTrait
                 }
 
                 $customOptions['choices']                   = $options['landingpage_list'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
+            case 'formsubmit_list':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['formsubmit_list'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
+            case 'asset_downloads_list':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['asset_downloads_list'];
                 $customOptions['multiple']                  = true;
                 $customOptions['choice_translation_domain'] = false;
                 $type                                       = 'choice';

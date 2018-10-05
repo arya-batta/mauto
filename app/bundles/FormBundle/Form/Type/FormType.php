@@ -66,7 +66,7 @@ class FormType extends AbstractType
         $builder->add('description', 'textarea', [
             'label'      => 'mautic.core.description',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control editor'],
+            'attr'       => ['class' => 'form-control editor le-input'],
             'required'   => false,
         ]);
 
@@ -79,7 +79,7 @@ class FormType extends AbstractType
             'feature'     => 'form',
             'empty_value' => ' ',
             'attr'        => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.form.form.template.help',
             ],
         ]);
@@ -191,7 +191,7 @@ class FormType extends AbstractType
             'mapped' => false,
         ]);
 
-        $builder->add('buttons', 'form_buttons',[
+        $builder->add('buttons', 'form_buttons', [
             'apply_text' => false,
         ]);
         $builder->add('formType', 'hidden', ['empty_data' => 'standalone']);

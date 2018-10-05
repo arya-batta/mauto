@@ -153,4 +153,70 @@ class PointRepository extends CommonRepository
     {
         return $this->getStandardSearchCommands();
     }
+
+    public function getTotalPointsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as totalpoints')
+            ->from(MAUTIC_TABLE_PREFIX.'points', 'p');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['totalpoints'];
+    }
+
+    public function getTotalActivePointsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activepoints')
+            ->from(MAUTIC_TABLE_PREFIX.'points', 'p')
+            ->andWhere('p.is_published = 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['activepoints'];
+    }
+
+    public function getTotalInactivePointsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as inactivepoints')
+            ->from(MAUTIC_TABLE_PREFIX.'points', 'p')
+            ->andWhere('p.is_published != 1 ');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('p.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('p.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactivepoints'];
+    }
 }

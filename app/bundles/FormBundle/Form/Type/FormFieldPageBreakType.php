@@ -48,7 +48,7 @@ class FormFieldPageBreakType extends AbstractType
                 'label'      => 'mautic.form.field.form.property_pagebreak_nextpage_label',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
                 'required'    => true,
                 'constraints' => [
@@ -67,7 +67,7 @@ class FormFieldPageBreakType extends AbstractType
                 'label'      => 'mautic.form.field.form.property_pagebreak_prevpage_label',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'       => 'form-control',
+                    'class'       => 'form-control le-input',
                     'placeholder' => 'mautic.form.field.form.property_pagebreak_prevpage_placeholder',
                 ],
                 'required' => false,

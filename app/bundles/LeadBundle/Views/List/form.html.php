@@ -39,6 +39,8 @@ $templates = [
     'globalcategory'   => 'globalcategory-template',
     'landingpage_list' => 'landingpage_list-template',
     'users'            => 'owner_id-template',
+    'forms'            => 'formsubmit_list-template',
+    'assets'           => 'asset_downloads_list-template',
 ];
 
 $mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
@@ -168,6 +170,10 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                  $icon   = 'fa fa fa-envelope';
              elseif ($object == 'pages'):
                  $icon   = 'fa fa fa-newspaper-o';
+             elseif ($object == 'forms'):
+                 $icon   = 'fa fa-edit';
+             elseif ($object == 'assets'):
+                 $icon   = 'fa fa-folder-open-o';
              else:
                 $icon   = 'fa-user';
              endif;

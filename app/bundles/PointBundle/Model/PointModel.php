@@ -345,4 +345,23 @@ class PointModel extends CommonFormModel
 
         return $chart->render();
     }
+
+    public function getPointsBlocks()
+    {
+        $totalPoints =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.all'),
+            $this->getRepository()->getTotalPointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
+        ];
+        $activePoints = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.active'),
+            $this->getRepository()->getTotalActivePointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
+        ];
+        $inactivePoints = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.inactive'),
+            $this->getRepository()->getTotalInactivePointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
+        ];
+
+        $allBlockDetails[] = $totalPoints;
+        $allBlockDetails[] = $activePoints;
+        $allBlockDetails[] = $inactivePoints;
+
+        return $allBlockDetails;
+    }
 }

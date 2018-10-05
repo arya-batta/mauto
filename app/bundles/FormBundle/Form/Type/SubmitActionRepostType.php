@@ -36,7 +36,7 @@ class SubmitActionRepostType extends AbstractType
                 'label'      => 'mautic.form.action.repost.post_url',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-globe',
                 ],
                 'constraints' => [
@@ -61,7 +61,7 @@ class SubmitActionRepostType extends AbstractType
                 'label'      => 'mautic.form.action.repost.authorization_header',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'tooltip'  => 'mautic.form.action.repost.authorization_header.tooltip',
                     'preaddon' => 'fa fa-lock',
                 ],
@@ -76,7 +76,7 @@ class SubmitActionRepostType extends AbstractType
                 'label'      => 'mautic.form.action.repost.failure_email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control',
+                    'class'    => 'form-control le-input',
                     'tooltip'  => 'mautic.form.action.repost.failure_email.tooltip',
                     'preaddon' => 'fa fa-envelope',
                 ],
@@ -99,7 +99,7 @@ class SubmitActionRepostType extends AbstractType
                     'label'      => $label." ($alias)",
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class' => 'form-control',
+                        'class' => 'form-control le-input',
                     ],
                     'required' => false,
                 ]

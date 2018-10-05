@@ -90,17 +90,19 @@ class PointController extends AbstractFormController
         $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
 
         //get the list of actions
-        $actions = $this->getModel('point')->getPointActions();
+        $actions            = $this->getModel('point')->getPointActions();
+        $pointsBlockDetails = $this->getModel('point')->getPointsBlocks();
 
         return $this->delegateView([
             'viewParameters' => [
-                'searchValue' => $search,
-                'items'       => $points,
-                'actions'     => $actions['actions'],
-                'page'        => $page,
-                'limit'       => $limit,
-                'permissions' => $permissions,
-                'tmpl'        => $tmpl,
+                'searchValue'        => $search,
+                'items'              => $points,
+                'actions'            => $actions['actions'],
+                'page'               => $page,
+                'limit'              => $limit,
+                'permissions'        => $permissions,
+                'tmpl'               => $tmpl,
+                'pointsBlockDetails' => $pointsBlockDetails,
             ],
             'contentTemplate' => 'MauticPointBundle:Point:list.html.php',
             'passthroughVars' => [
@@ -194,7 +196,7 @@ class PointController extends AbstractFormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'    => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                //'tmpl'    => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                 'entity'  => $entity,
                 'form'    => $this->setFormTheme($form, 'MauticPointBundle:Point:form.html.php', $themes),
                 'actions' => $actions['actions'],
@@ -323,7 +325,7 @@ class PointController extends AbstractFormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'    => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
+                //'tmpl'    => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                 'entity'  => $entity,
                 'form'    => $this->setFormTheme($form, 'MauticPointBundle:Point:form.html.php', $themes),
                 'actions' => $actions['actions'],

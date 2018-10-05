@@ -327,12 +327,13 @@ return [
                     'priority'  => 55,
                     //'parent'    => 'mautic.segments.root',
                 ],
-               /* 'mautic.point.menu.index' => [
-                    'route'    => 'mautic_point_index',
-                    'access'   => 'point:points:view',
-                    'parent'   => 'mautic.segments.root',
+                'mautic.point.menu.index' => [
+                    'iconClass' => 'fa fa-sliders',
+                    'route'     => 'mautic_point_index',
+                    'access'    => 'point:points:view',
+                    'priority'  => 55,
                 ],
-                'mautic.point.trigger.menu.index' => [
+               /* 'mautic.point.trigger.menu.index' => [
                     'route'    => 'mautic_pointtrigger_index',
                     'access'   => 'point:triggers:view',
                     'parent'   => 'mautic.segments.root',
@@ -486,6 +487,8 @@ return [
                     'mautic.helper.user',
                     'mautic.page.model.page',
                     'mautic.user.model.user',
+                    'mautic.form.model.form',
+                    'mautic.asset.model.asset',
                 ],
                 'alias' => 'leadlist',
             ],
@@ -502,6 +505,8 @@ return [
                     'mautic.helper.user',
                     'mautic.page.model.page',
                     'mautic.user.model.user',
+                    'mautic.form.model.form',
+                    'mautic.asset.model.asset',
                 ],
                 'alias' => 'campaignlistfilter',
             ],

@@ -498,19 +498,7 @@ class FormController extends CommonFormController
 
                 //$form->get('sessionId')->setData($sessionId);
 
-                //add a submit button
-                $keyId = 'new'.hash('sha1', uniqid(mt_rand()));
-                $field = new Field();
-
-                $modifiedFields[$keyId]                    = $field->convertToArray();
-                $modifiedFields[$keyId]['label']           = $this->translator->trans('mautic.core.form.submit');
-                $modifiedFields[$keyId]['alias']           = 'submit';
-                $modifiedFields[$keyId]['showLabel']       = 1;
-                $modifiedFields[$keyId]['type']            = 'button';
-                $modifiedFields[$keyId]['id']              = $keyId;
-                $modifiedFields[$keyId]['inputAttributes'] = 'class="btn btn-default"';
-                $modifiedFields[$keyId]['formId']          = $sessionId;
-                unset($modifiedFields[$keyId]['form']);
+                $modifiedFields = $this->createDefaultFields($sessionId);
                 $session->set('mautic.form.'.$sessionId.'.fields.modified', $modifiedFields);
             }
         }
@@ -835,18 +823,8 @@ class FormController extends CommonFormController
             }
             if (!$submitButton) { //means something deleted the submit button from the form
                 //add a submit button
-                $keyId = 'new'.hash('sha1', uniqid(mt_rand()));
-                $field = new Field();
-
-                $modifiedFields[$keyId]                    = $field->convertToArray();
-                $modifiedFields[$keyId]['label']           = $this->translator->trans('mautic.core.form.submit');
-                $modifiedFields[$keyId]['alias']           = 'submit';
-                $modifiedFields[$keyId]['showLabel']       = 1;
-                $modifiedFields[$keyId]['type']            = 'button';
-                $modifiedFields[$keyId]['id']              = $keyId;
-                $modifiedFields[$keyId]['inputAttributes'] = 'class="btn btn-default"';
-                $modifiedFields[$keyId]['formId']          = $objectId;
-                unset($modifiedFields[$keyId]['form']);
+                $modifiedFields = $this->createDefaultFields($sessionId);
+                $session->set('mautic.form.'.$sessionId.'.fields.modified', $modifiedFields);
             }
             $session->set('mautic.form.'.$objectId.'.fields.leadfields', $usedLeadFields);
 
@@ -1348,5 +1326,68 @@ class FormController extends CommonFormController
         $newEntity = clone $entity;
 
         return $this->newAction($newEntity, $sessionId);
+    }
+
+    public function createDefaultFields($sessionId)
+    {
+        //add a text field i.e. Firstname
+        $field = new Field();
+
+        $firstNameId = 'new'.hash('sha1', uniqid(mt_rand()));
+
+        $modifiedFields[$firstNameId]                      = $field->convertToArray();
+        $modifiedFields[$firstNameId]['label']             = $this->translator->trans('mautic.core.firstname');
+        $modifiedFields[$firstNameId]['alias']             = 'firstname';
+        $modifiedFields[$firstNameId]['showLabel']         = 1;
+        $modifiedFields[$firstNameId]['type']              = 'text';
+        $modifiedFields[$firstNameId]['placeholder']       = $this->translator->trans('mautic.core.firstname');
+        $modifiedFields[$firstNameId]['isRequired']        = 1;
+        $modifiedFields[$firstNameId]['validationMessage'] = 'Please fill your First Name';
+        $modifiedFields[$firstNameId]['leadField']         = 'firstname';
+        $modifiedFields[$firstNameId]['id']                = $firstNameId;
+        $modifiedFields[$firstNameId]['formId']            = $sessionId;
+        unset($modifiedFields[$firstNameId]['form']);
+
+        $emailId = 'new'.hash('sha1', uniqid(mt_rand()));
+
+        $modifiedFields[$emailId]                      = $field->convertToArray();
+        $modifiedFields[$emailId]['id']                = $emailId;
+        $modifiedFields[$emailId]['label']             = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['alias']             = 'email';
+        $modifiedFields[$emailId]['type']              = 'email';
+        $modifiedFields[$emailId]['formId']            = $sessionId;
+        $modifiedFields[$emailId]['leadField']         = 'email';
+        $modifiedFields[$emailId]['showLabel']         = 1;
+        $modifiedFields[$emailId]['isRequired']        = 1;
+        $modifiedFields[$emailId]['placeholder']       = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['validationMessage'] = 'Please fill your Email Address';
+        unset($modifiedFields[$emailId]['form']);
+
+        $phoneId = 'new'.hash('sha1', uniqid(mt_rand()));
+
+        $modifiedFields[$phoneId]                    = $field->convertToArray();
+        $modifiedFields[$phoneId]['id']              = $phoneId;
+        $modifiedFields[$phoneId]['label']           = $this->translator->trans('mautic.core.type.tel');
+        $modifiedFields[$phoneId]['alias']           = 'phone';
+        $modifiedFields[$phoneId]['type']            = 'tel';
+        $modifiedFields[$phoneId]['formId']          = $sessionId;
+        $modifiedFields[$phoneId]['leadField']       = 'mobile';
+        $modifiedFields[$phoneId]['showLabel']       = 1;
+        $modifiedFields[$phoneId]['placeholder']     = $this->translator->trans('mautic.core.type.tel');
+        unset($modifiedFields[$phoneId]['form']);
+
+        $submitId = 'new'.hash('sha1', uniqid(mt_rand()));
+
+        $modifiedFields[$submitId]                    = $field->convertToArray();
+        $modifiedFields[$submitId]['label']           = $this->translator->trans('mautic.core.form.submit');
+        $modifiedFields[$submitId]['alias']           = 'submit';
+        $modifiedFields[$submitId]['showLabel']       = 1;
+        $modifiedFields[$submitId]['type']            = 'button';
+        $modifiedFields[$submitId]['id']              = $submitId;
+        $modifiedFields[$submitId]['inputAttributes'] = 'class="btn btn-default"';
+        $modifiedFields[$submitId]['formId']          = $sessionId;
+        unset($modifiedFields[$submitId]['form']);
+
+        return $modifiedFields;
     }
 }

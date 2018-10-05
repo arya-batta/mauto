@@ -29,7 +29,7 @@ class FormSubmitActionUserEmailType extends AbstractType
         $builder->add('useremail', 'emailsend_list', [
             'label' => 'mautic.email.emails',
             'attr'  => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.email.choose.emails_descr',
             ],
             'update_select' => 'formaction_properties_useremail_email',
@@ -39,7 +39,7 @@ class FormSubmitActionUserEmailType extends AbstractType
             'label'      => 'mautic.email.form.users',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.core.help.autocomplete',
             ],
             'required' => false,

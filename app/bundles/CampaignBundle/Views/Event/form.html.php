@@ -44,6 +44,8 @@ if ($isCondition) {
         'globalcategory'   => 'globalcategory-template',
         'landingpage_list' => 'landingpage_list-template',
         'users'            => 'owner_id-template',
+        'forms'            => 'formsubmit_list-template',
+        'assets'           => 'asset_downloads_list-template',
     ];
 }
 ?>

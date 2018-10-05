@@ -22,32 +22,47 @@ echo $view['form']->start($form);
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-r">
+    <div class="col-md-9 bg-auto height-auto bdr-r" id="details">
     	<div class="row">
+            <div class="col-md-12">
+                <div class="pa-md">
+                    <?php
+                    echo $view['form']->row($form['name']);
+                    ?>
+                </div>
+            </div>
     		<div class="col-md-6">
 		        <div class="pa-md">
-				    <?php
-                    echo $view['form']->row($form['name']);
-                    echo $view['form']->row($form['description']);
-                    ?>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="pa-md">
-                    <?php echo $view['form']->row($form['delta']); ?>
-					<?php echo $view['form']->row($form['type']); ?>
-					<div id="pointActionProperties">
+                    <?php echo $view['form']->row($form['type']); ?>
+                    <div id="pointActionProperties">
                         <?php
                         if (isset($form['properties'])):
                             echo $view['form']->row($form['properties']);
                         endif;
                         ?>
-					</div>
+                    </div>
+				     <?php
+                    echo $view['form']->row($form['category']);
+                    ?>
+				</div>
+			</div>
+            <div class="col-md-6">
+                <div class="pa-md">
+                    <?php
+                    echo $view['form']->row($form['delta']);
+                    echo $view['form']->row($form['isPublished']);
+                    ?>
+
+                </div>
+            </div>
+			<div class="col-md-12">
+				<div class="pa-md">
+                    <?php echo $view['form']->row($form['description']); ?>
 				</div>
 			</div>
 		</div>
 	</div>
- 	<div class="col-md-3 bg-white height-auto">
+ 	<div class="hide col-md-3 bg-white height-auto">
 		<div class="pr-lg pl-lg pt-md pb-md">
             <?php  echo $view['form']->row($form['category']);
                    echo $view['form']->row($form['isPublished']); ?>
