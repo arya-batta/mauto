@@ -48,7 +48,7 @@ $isAdmin    =$view['security']->isAdmin();
             <?php foreach ($form->children as $name => $f): ?>
                 <?php if (in_array($name, ['track_contact_by_ip', 'track_by_tracking_url', 'track_by_fingerprint'])) {
                     ?>
-                    <div class="col-md-6">
+                    <div class="col-md-6 <?php echo $isAdmin ? '' : 'hide' ; ?>">
                         <?php echo $view['form']->row($f); ?>
                     </div>
                     <?php

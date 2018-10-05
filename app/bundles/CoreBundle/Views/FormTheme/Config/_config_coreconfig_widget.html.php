@@ -119,7 +119,7 @@ $template  = '<div class="col-md-6">{content}</div>';
         </div>
         <?php endif; ?>
 
-        <?php if (isset($fields['link_shortener_url'])): ?>
+        <?php if (!isset($fields['link_shortener_url'])): ?>
         <hr class="text-muted" />
         <div class="row">
             <?php echo $view['form']->rowIfExists($fields, 'link_shortener_url', $template); ?>

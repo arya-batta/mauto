@@ -327,7 +327,8 @@ class UserType extends AbstractType
                 )
             );
 
-            $builder->add('isPublished', 'yesno_button_group');
+            $builder->add('isPublished', 'yesno_button_group',
+             ['label' => 'le.users.config.form.published']);
 
             $builder->add('buttons', 'form_buttons');
         } else {

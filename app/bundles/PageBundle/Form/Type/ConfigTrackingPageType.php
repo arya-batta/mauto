@@ -37,7 +37,10 @@ class ConfigTrackingPageType extends AbstractType
             ]
         );
 
-        $builder->add('track_by_tracking_url', 'yesno_button_group', [
+        $builder->add(
+            'track_by_tracking_url',
+            'yesno_button_group',
+            [
             'label' => 'mautic.page.config.form.track.by.tracking.url',
             'data'  => (bool) $options['data']['track_by_tracking_url'],
             'attr'  => [
@@ -45,7 +48,10 @@ class ConfigTrackingPageType extends AbstractType
             ],
         ]);
 
-        $builder->add('track_by_fingerprint', 'yesno_button_group', [
+        $builder->add(
+            'track_by_fingerprint',
+            'yesno_button_group',
+            [
             'label' => 'mautic.page.config.form.track.by.fingerprint',
             'data'  => (bool) $options['data']['track_by_fingerprint'],
             'attr'  => [

@@ -246,7 +246,19 @@ class ConfigType extends AbstractType
                 'data'     => $options['data']['sms_status'],
             ]
         );
-
+        $builder->add(
+            'link_shortener_url',
+            'text',
+            [
+                'label'      => 'mautic.core.config.form.link.shortener',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                    'tooltip' => 'mautic.core.config.form.link.shortener.tooltip',
+                ],
+                'required' => false,
+            ]
+        );
 
         $builder->add(
             'sms_test_connection_button',
