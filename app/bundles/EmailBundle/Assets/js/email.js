@@ -119,7 +119,7 @@ Mautic.emailOnLoad = function (container, response) {
 
         if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
         {
-            if(mQuery('#email-advance-container').hasClass('active')) {
+            if(!mQuery('#email-advance-container').hasClass('hide')) {
                 mQuery('#builder_btn').removeClass('hide');
             }else{
                 mQuery('#builder_btn').addClass('hide');
