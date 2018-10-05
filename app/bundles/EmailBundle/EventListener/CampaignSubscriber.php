@@ -321,13 +321,14 @@ class CampaignSubscriber extends CommonSubscriber
         $config  = $event->getConfig();
         $emailId = (int) $config['email'];
         $email   = $this->emailModel->getEntity($emailId);
-        $status = $this->emailModel->mailHelper->emailstatus();
+        $status = $this->emailModel->mailHelper->emailstatus(false);
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or published');
         }
         if(!$status){
             $this->notificationhelper->sendNotificationonFailure(false, false);
-            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report"));
+            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
         }
         $emailSent = false;
         $type      = (isset($config['email_type'])) ? $config['email_type'] : 'transactional';
@@ -390,8 +391,8 @@ class CampaignSubscriber extends CommonSubscriber
         $lead   = $event->getLead();
         $status = $this->emailModel->mailHelper->emailstatus();
         if(!$status){
-            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report"));
-        }
+            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));        }
         try {
             $this->sendEmailToUser->sendEmailToUsers($config, $lead);
             $event->setResult(true);

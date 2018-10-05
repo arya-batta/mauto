@@ -2254,7 +2254,7 @@ class MailHelper
             try {
                 if (method_exists($mailer, 'setApiKey')) {
                     if (empty($settings['api_key'])) {
-                        $settings['api_key'] = $this->get('mautic.helper.core_parameters')->getParameter('mailer_api_key');
+                        $settings['api_key'] = $this->coreParametersHelper->getParameter('mailer_api_key');
                     }
                     $mailer->setApiKey($settings['api_key']);
                 }
@@ -2334,13 +2334,46 @@ class MailHelper
             } catch (\Exception $e) {
                 $dataArray['success'] = 0;
                 //$dataArray['message'] = $e->getMessage().'<br />'.$logger->dump();
-                $dataArray['message'] = $e->getMessage();
+                $geterror = $e->getMessage();
+                $dataArray['message'] = $this->geterrormsg($geterror);
+
             }
         }
 
         return $dataArray;
     }
+   public function geterrormsg($geterror){
+       $translator = $this->factory->get('translator');
+       $errors = [
+            ' with RFC 2822',
+            'Unauthorized',
+            'API key is required',
+            'Forbidden',
+            'Invalid domain',
+            'Failed to authenticate on SMTP',
+            '421 Error:',
+            '530 Authentication required'
+       ];
+       $errormsg = [
+            'le.email.config.invalidemail.error',
+            'le.email.config.IP_Restrcited.error',
+            'le.email.config.API_Key.required.error',
+            'le.email.config.Invalid_API_Key.error',
+            'le.email.config.Invalid_Domain.error',
+            'le.email.config.Invalid_Credentials.error',
+            'le.email.config.Permission_Denied.error',
+            'le.email.config.username.required.error'
+       ];
+       for($i = 0;$i < sizeof($errors); $i++){
+           if(strpos($geterror,$errors[$i]) !== false){
+               $specificerror = $errormsg[$i];
+               $specificerror = $translator->trans($specificerror);
+           }
+       }
+       $message = isset($specificerror) ? $specificerror : $geterror;
+       return $message;
 
+   }
     public function replaceTitleinContent($title, $content)
     {
         $title   = "<title>$title</title>";
