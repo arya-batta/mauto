@@ -28,7 +28,7 @@ $emailentity = $model->getEntity($id);
                                 <strong><h6 class="send-body-detail">Send An Example Before Sending This Campaign</h6></strong>
                             </div>
                         </div>
-                        <br><br>
+                        <br>
                         <div class="send-foot">
                             <a class="btn send-btn"  href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $emailentity->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#MauticSharedModal" >Send Example</a>
                             <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('mautic_email_campaign_index'); ?>" >Cancel</a>
@@ -41,7 +41,6 @@ $emailentity = $model->getEntity($id);
                         <h4>Send This Campaign</h4>
                         <div class="send-body">
                             <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/arrow.png'); ?>" />
-                            </i>
                             <br><br>
                             <div>
                                 <strong><h6 class="send-body-detail"><?php echo $view['translator']->transChoice('le.email.send.instructions', $pending, ['%pending%' => $pending]); ?></h6></strong>
