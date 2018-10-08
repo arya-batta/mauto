@@ -73,7 +73,7 @@
                             </div>
                         <?php endif; ?>
                         <div>
-                          <a class="label label-primary" style="text-transform: capitalize;"><?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : '' ?></a>
+                          <a class="label label-primary hide" style="text-transform: capitalize;"><?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : '' ?></a>
                         </div>
                         <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
                             Select

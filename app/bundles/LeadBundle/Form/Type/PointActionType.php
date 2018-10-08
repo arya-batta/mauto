@@ -13,6 +13,7 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotEqualTo;
 
 /**
@@ -28,7 +29,7 @@ class PointActionType extends AbstractType
     {
         $builder->add(
             'points',
-            'number',
+            'integer',
             [
                 'label'       => 'mautic.lead.lead.event.points',
                 'attr'        => ['class'  => 'form-control le-input',
@@ -41,9 +42,12 @@ class PointActionType extends AbstractType
                     new NotEqualTo(
                         [
                             'value'   => '0',
-                            'message' => 'mautic.core.value.required',
+                            'message' => 'le.core.value.required.points',
                         ]
                     ),
+                    new NotBlank([
+                        'message' => 'mautic.core.title.required',
+                    ]),
                 ],
             ]
         );

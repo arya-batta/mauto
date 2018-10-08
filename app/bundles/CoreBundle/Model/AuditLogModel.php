@@ -36,6 +36,7 @@ class AuditLogModel extends AbstractCommonModel
      */
     public function writeToLog(array $args)
     {
+        return;
         $bundle    = (isset($args['bundle'])) ? $args['bundle'] : '';
         $object    = (isset($args['object'])) ? $args['object'] : '';
         $objectId  = (isset($args['objectId'])) ? $args['objectId'] : '';
@@ -80,10 +81,11 @@ class AuditLogModel extends AbstractCommonModel
      */
     public function getLogForObject($object, $id, $afterDate = null, $limit = 10, $bundle = null)
     {
-        return $this->getRepository()->getLogForObject($object, $id, $limit, $afterDate, $bundle,$this->security->isAdmin());
+        return $this->getRepository()->getLogForObject($object, $id, $limit, $afterDate, $bundle, $this->security->isAdmin());
     }
 
-    public function getCurrentUser(){
+    public function getCurrentUser()
+    {
         return $this->userHelper->getUser();
     }
 }

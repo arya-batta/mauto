@@ -587,6 +587,9 @@ class EmailCampaignController extends FormController
                     $currentsubject=$entity->getSubject();
                     $currentname   =$entity->getName();
 
+                    if (!empty($formData['unsubscribe_text'])) {
+                        $entity->setUnsubscribeText($formData['unsubscribe_text']);
+                    }
                     if (empty($currentutmtags['utmSource'])) {
                         $currentutmtags['utmSource']='leadsengage';
                     }
@@ -855,6 +858,11 @@ class EmailCampaignController extends FormController
                     $currentutmtags=$entity->getUtmTags();
                     $currentsubject=$entity->getSubject();
                     $currentname   =$entity->getName();
+
+                    if (!empty($formData['unsubscribe_text'])) {
+                        $entity->setUnsubscribeText($formData['unsubscribe_text']);
+                    }
+
                     if (empty($currentutmtags['utmSource'])) {
                         $currentutmtags['utmSource']='leadsengage';
                     }
@@ -1358,7 +1366,7 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-        if(!$this->get('mautic.helper.mailer')->emailstatus(false)){
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
             $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
 

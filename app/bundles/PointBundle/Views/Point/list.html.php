@@ -75,6 +75,12 @@ $isAdmin    =$view['security']->isAdmin();
                     ]
                 );
                 endif;
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'lead',
+                    'orderBy'    => '',
+                    'text'       => 'mautic.core.actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                ]);
                 ?>
             </tr>
             </thead>
@@ -137,6 +143,25 @@ $isAdmin    =$view['security']->isAdmin();
                     <?php  if ($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
+                    <td >
+                        <div style="position: relative;" class="fab-list-container">
+                            <div class="md-fab-wrapper">
+                                <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
+                                    <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
+                                    <div tabindex="0" class="md-fab-toolbar-actions" id="toolbar-lead">
+
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_point_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                                <span><i class="material-icons md-color-white">  </i></span></a>
+
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_point_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.point.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                                <span><i class="material-icons md-color-white">  </i></span>
+                                            </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

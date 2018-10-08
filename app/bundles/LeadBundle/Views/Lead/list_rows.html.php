@@ -154,16 +154,16 @@ $isAdmin    =$view['security']->isAdmin();
                         <div tabindex="0" class="md-fab-toolbar-actions" id="toolbar-lead">
                             <?php if ($hasEditAccess): ?>
                                 <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
-                                    <span><i class="material-icons md-color-white">  </i></span></a>
+                                    <span style="background-color: #000;"><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                             <?php if ($hasDeleteAccess):?>
                                 <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
-                                    <span><i class="material-icons md-color-white">  </i></span>
+                                    <span style="background-color: #000;"><i class="material-icons md-color-white">  </i></span>
                                 </a>
                             <?php endif; ?>
                             <?php if (!empty($fields['core']['email']['value'])) : ?>
                                 <a title="<?php echo $view['translator']->trans('mautic.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
-                                    <span><i class="material-icons md-color-white">  </i></span></a>
+                                    <span style="background-color: #000;"><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                         </div>
                     </div>

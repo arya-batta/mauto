@@ -38,6 +38,7 @@ class CampaignEventLeadTagsType extends AbstractType
             'lead_tag',
             [
                 'label'           => $this->translator->trans('mautic.lead.campaign.tag'),
+                'label_attr'      => ['class' => 'control-label'],
                 'add_transformer' => true,
                 'by_reference'    => false,
                 'attr'            => [
@@ -45,6 +46,7 @@ class CampaignEventLeadTagsType extends AbstractType
                     'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
+                    'class'                => 'form-control',
                 ],
                 'required'    => true,
                 'constraints' => [

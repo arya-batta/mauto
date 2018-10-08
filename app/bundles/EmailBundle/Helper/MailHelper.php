@@ -377,7 +377,7 @@ class MailHelper
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
-                    if (strpos($this->body['content'], '{footer_text}') == 0) {
+                    if ((strpos($this->body['content'], '{footer_text}') == 0) && (strpos($this->body['content'], '{unsubscribe_link}') == 0)) {
                         $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                         $this->body['content'] = $bodycontent;
                     }
@@ -2177,7 +2177,7 @@ class MailHelper
     {
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
-        $settings      = [
+        $settings       = [
             'amazon_region'     => $this->coreParametersHelper->getParameter('mailer_amazon_region'),
             'api_key'           => $this->coreParametersHelper->getParameter('mailer_api_key'),
             'authMode'          => $this->coreParametersHelper->getParameter('mailer_auth_mode'),
@@ -2334,17 +2334,18 @@ class MailHelper
             } catch (\Exception $e) {
                 $dataArray['success'] = 0;
                 //$dataArray['message'] = $e->getMessage().'<br />'.$logger->dump();
-                $geterror = $e->getMessage();
+                $geterror             = $e->getMessage();
                 $dataArray['message'] = $this->geterrormsg($geterror);
-
             }
         }
 
         return $dataArray;
     }
-   public function geterrormsg($geterror){
-       $translator = $this->factory->get('translator');
-       $errors = [
+
+    public function geterrormsg($geterror)
+    {
+        $translator = $this->factory->get('translator');
+        $errors     = [
             ' with RFC 2822',
             'Unauthorized',
             'API key is required',
@@ -2352,9 +2353,9 @@ class MailHelper
             'Invalid domain',
             'Failed to authenticate on SMTP',
             '421 Error:',
-            '530 Authentication required'
+            '530 Authentication required',
        ];
-       $errormsg = [
+        $errormsg = [
             'le.email.config.invalidemail.error',
             'le.email.config.IP_Restrcited.error',
             'le.email.config.API_Key.required.error',
@@ -2362,18 +2363,19 @@ class MailHelper
             'le.email.config.Invalid_Domain.error',
             'le.email.config.Invalid_Credentials.error',
             'le.email.config.Permission_Denied.error',
-            'le.email.config.username.required.error'
+            'le.email.config.username.required.error',
        ];
-       for($i = 0;$i < sizeof($errors); $i++){
-           if(strpos($geterror,$errors[$i]) !== false){
-               $specificerror = $errormsg[$i];
-               $specificerror = $translator->trans($specificerror);
-           }
-       }
-       $message = isset($specificerror) ? $specificerror : $geterror;
-       return $message;
+        for ($i = 0; $i < sizeof($errors); ++$i) {
+            if (strpos($geterror, $errors[$i]) !== false) {
+                $specificerror = $errormsg[$i];
+                $specificerror = $translator->trans($specificerror);
+            }
+        }
+        $message = isset($specificerror) ? $specificerror : $geterror;
 
-   }
+        return $message;
+    }
+
     public function replaceTitleinContent($title, $content)
     {
         $title   = "<title>$title</title>";
@@ -2403,7 +2405,7 @@ class MailHelper
         $l3 = $doc->createElement('link');
         $l3->setAttribute('rel', 'apple-touch-icon');
         $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
-        if($head){
+        if ($head) {
             $head->appendChild($l1);
             $head->appendChild($l2);
             $head->appendChild($l3);
@@ -2413,6 +2415,5 @@ class MailHelper
         libxml_clear_errors();
 
         return $headContent;
-
     }
 }

@@ -3,6 +3,7 @@ Mautic.pointOnLoad = function (container) {
     if (mQuery(container + ' #list-search').length) {
         Mautic.activateSearchAutocomplete('list-search', 'point');
     }
+    Mautic.removeActionButtons();
 };
 
 Mautic.pointTriggerOnLoad = function (container) {

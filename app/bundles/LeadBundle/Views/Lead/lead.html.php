@@ -228,11 +228,11 @@ $view['slots']->set(
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel col-md-12" style="padding-bottom: 3%;">
-                            <?php // if (!$isAnonymous): ?>
+                            <?php // if (!$isAnonymous):?>
                             <div class="col-md-3" style="margin-left: -2%;">
-                               <img class="le-avatar-panel" src="<?php echo isset($img) ? $img :  $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>
+                               <img class="le-avatar-panel" src="<?php echo isset($img) ? $img : $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>
                             </div>
-                            <?php // endif; ?>
+                            <?php // endif;?>
                             <div class="col-md-9"style="margin-left: 2%">
                               <div>
                                 <div class="row">
@@ -248,7 +248,7 @@ $view['slots']->set(
                                             <p class="text-primary"><?php echo $fields['core']['company_new']['value']; ?></p>
                                         <?php else: ?>
                                             <br>
-                                        <?php endif;?>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="fw-b "><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
@@ -256,7 +256,7 @@ $view['slots']->set(
                                             <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
                                         <?php else: ?>
                                             <br>
-                                        <?php endif;?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -275,8 +275,8 @@ $view['slots']->set(
                                             <?php if (!empty($fields['core']['address2']['value'])) : echo $fields['core']['address2']['value']
                                                 .'<br>'; endif ?>
                                             <?php echo $lead->getLocation(); ?><br> <?php if (isset($fields['core']['zipcode'])) {
-                                                echo $fields['core']['zipcode']['value'];
-                                            } ?>
+                                                    echo $fields['core']['zipcode']['value'];
+                                                } ?>
                                         </address>
                                     </div>
                                 </div>
@@ -507,7 +507,7 @@ $view['slots']->set(
                     </a>
                 </li>
                 <?php endif; ?>
-                <li class="">
+                <li class="hide">
                     <a href="#auditlog-container" role="tab" data-toggle="tab">
                     <span class="label label-primary mr-sm" id="AuditLogCount">
                         <?php echo $auditlog['total']; ?>

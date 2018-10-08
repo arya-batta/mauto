@@ -2428,7 +2428,6 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     {
         $groupname                     = [];
         $groupname['all']              = $this->translator->trans('le.email.form.bee.alltemplate');
-        $groupname['Basic']            = $this->translator->trans('le.email.form.bee.basictemplate');
         $groupname['Business']         = $this->translator->trans('le.email.form.bee.businesstemplate');
         $groupname['EmailNewsletter']  = $this->translator->trans('le.email.form.bee.email_newslettertemplate');
         $groupname['Discount']         = $this->translator->trans('le.email.form.bee.discounttemplate');
@@ -2442,6 +2441,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $groupname['Food']             = $this->translator->trans('le.email.form.bee.foodtemplate');
         $groupname['SPA']              = $this->translator->trans('le.email.form.bee.spatemplate');
         $groupname['Deals']            = $this->translator->trans('le.email.form.bee.dealstemplate');
+        $groupname['Basic']            = $this->translator->trans('le.email.form.bee.basictemplate');
 
         return $groupname;
     }
