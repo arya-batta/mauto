@@ -111,13 +111,13 @@ class BuilderSubscriber extends CommonSubscriber
         }
 
         $tokens = [
-            '{lead_owner_name}'       => $this->translator->trans('mautic.email.token.lead_owner_name'),
-            '{lead_owner_mobile}'     => $this->translator->trans('mautic.email.token.lead_owner_mobile'),
-            '{lead_owner_email}'       => $this->translator->trans('mautic.email.token.lead_owner_email'),
-            '{from_email}'            => $this->translator->trans('mautic.email.token.from_email'),
-            '{postal_address}'        => $this->translator->trans('mautic.email.token.postal_address'),
-            '{unsubscribe_link}'      => $this->translator->trans('mautic.email.token.unsubscribe_text'),
-            '{updatelead_link}'       => $this->translator->trans('mautic.email.token.updatelead_text'),
+            '{lead_owner_name}'             => $this->translator->trans('mautic.email.token.lead_owner_name'),
+            '{lead_owner_mobile}'           => $this->translator->trans('mautic.email.token.lead_owner_mobile'),
+            '{lead_owner_email}'            => $this->translator->trans('mautic.email.token.lead_owner_email'),
+            '{from_email}'                  => $this->translator->trans('mautic.email.token.from_email'),
+            '{postal_address}'              => $this->translator->trans('mautic.email.token.postal_address'),
+            '{unsubscribe_link}'            => $this->translator->trans('mautic.email.token.unsubscribe_text'),
+            '{update_your_profile_link}'    => $this->translator->trans('mautic.email.token.updatelead_text'),
             //'{webview_text}'     => $this->translator->trans('mautic.email.token.webview_text'),
             //'{signature}'        => $this->translator->trans('mautic.email.token.signature'),
             //'{subject}'          => $this->translator->trans('mautic.email.subject'),
@@ -275,7 +275,7 @@ class BuilderSubscriber extends CommonSubscriber
         }
         $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $updateLead);
 
-        $event->addToken('{updatelead_link}', EmojiHelper::toHtml($updateLead));
+        $event->addToken('{update_your_profile_link}', EmojiHelper::toHtml($updateLead));
 
         $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]));
 
@@ -325,7 +325,7 @@ class BuilderSubscriber extends CommonSubscriber
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]), $footerText);
 
-            $footerText = str_replace('{updatelead_link}', "<a href='|URL|'>change your contact details</a>", $footerText);
+            $footerText = str_replace('{update_your_profile_link}', "<a href='|URL|'>Update Your Profile</a>", $footerText);
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $footerText);
 
             if ($helper != null && !empty($helper->message->getFrom())) {

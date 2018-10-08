@@ -261,6 +261,15 @@ Mautic.emailOnUnload = function(id) {
         delete Mautic.ajaxActionXhrQueue['email:getEmailCountStats'];
     }
 };
+Mautic.opengoogletags = function (id) {
+    if(id == 'emailform_google_tags_1'){
+        mQuery(".gtags").removeClass('hide');
+        Mautic.toggleYesNoButtonClass(id);
+    } else {
+        Mautic.toggleYesNoButtonClass(id);
+        mQuery(".gtags").addClass('hide');
+    }
+};
 
 Mautic.insertEmailBuilderToken = function(editorId, token) {
     var editor = Mautic.getEmailBuilderEditorInstances();
@@ -459,7 +468,7 @@ Mautic.getTotalAttachmentSize = function() {
         Mautic.ajaxActionRequest('email:getAttachmentsSize', assets, function(response) {
             if(response.size == "failed"){
                 mQuery('#Emailasset_Attachments').removeClass('has-success has-error').addClass('has-error');
-                mQuery('#Emailasset_Attachments .help-block').html("Allowed attachment file size- Maximum 1000KB.");
+                mQuery('#Emailasset_Attachments .help-block').html("This attachment exceeds the limit, and you can attach a maximum 1 MB of file size in total.");
                 mQuery('#attachment-size').text(response.size);
             } else {
                 mQuery('#Emailasset_Attachments').removeClass('has-success has-error');

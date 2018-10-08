@@ -757,6 +757,7 @@ class EmailCampaignController extends FormController
         }
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
+        $googletags=$entity->getGoogletags();
         $lastsubject=$entity->getSubject();
         $lastname   =$entity->getName();
         $session    = $this->get('session');
@@ -1021,6 +1022,7 @@ class EmailCampaignController extends FormController
                     'verifiedemail'      => $verifiedemail,
                     'mailertransport'    => $mailertransport,
                     'filters'            => $groupFilters,
+                    'google_tags'         => $googletags,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [

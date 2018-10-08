@@ -214,7 +214,19 @@ class EmailType extends AbstractType
         );
 
         $builder->add('isPublished', 'yesno_button_group');
+        $builder->add(
+            'google_tags',
+            'yesno_button_group',
+            [
 
+                'label'      => 'le.email.config.show.google.analytics',
+                'label_attr' => ['class' => 'control-label '],
+                'attr'       => [
+                    'class'   => 'form-control ',
+                    'onChange' => 'Mautic.opengoogletags(mQuery(this).attr("id"))',
+                ],
+            ]
+        );
         $builder->add(
             'publishUp',
             'datetime',

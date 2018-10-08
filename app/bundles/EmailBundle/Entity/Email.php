@@ -239,6 +239,10 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      * @var string
      */
     private $beeJSON;
+    /**
+     * @var boolean
+     */
+    private $google_tags;
 
     public function __clone()
     {
@@ -447,8 +451,34 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->columnName('postal_address')
             ->nullable()
             ->build();
+        $builder->createField('google_tags','boolean')
+            ->columnName('google_tags')
+            ->build();
     }
 
+    /**
+     * @return bool
+     */
+    public function isGoogleTags()
+    {
+        return $this->google_tags;
+    }
+
+    /**
+     * @param bool $google_tags
+     */
+    public function setGoogleTags($google_tags)
+    {
+        $this->google_tags = $google_tags;
+    }
+
+    /**
+     * @return bool
+     */
+   public function getGoogletags()
+   {
+       return $this->google_tags;
+   }
     /**
      * @param ClassMetadata $metadata
      */
@@ -598,6 +628,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
                     'dynamicContent',
                     'lists',
                     'beeJSON',
+                    'google_tags',
                 ]
             )
             ->build();

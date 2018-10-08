@@ -102,6 +102,7 @@ $custombutton = [
             ],
         ],
 ];
+$isgoogletags= $email->getGoogletags();
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <div id="page-wrap" class="tab-content">
@@ -129,10 +130,13 @@ $custombutton = [
             <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
             </div>
             <div class="row">
-                <div class="col-md-12" id="Email_TemplateName">
+                <div class="col-md-6" id="Email_TemplateName">
                     <?php echo $view['form']->label($form['name']); ?>
                     <?php echo $view['form']->widget($form['name']); ?>
                     <div class="help-block"></div>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['category']); ?>
                 </div>
             </div>
             <div class="row">
@@ -185,10 +189,10 @@ $custombutton = [
             <?php endif; ?>
             <div class="row">
                 <div class="col-md-6">
-                    <?php echo $view['form']->row($form['category']); ?>
+                    <?php echo $view['form']->row($form['isPublished']); ?>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isPublished']); ?>
+                    <?php echo $view['form']->row($form['google_tags']); ?>
                 </div>
             </div>
             <div class="row">
@@ -228,11 +232,11 @@ $custombutton = [
                         <?php echo $view['form']->row($form['isPublished']); ?>
                     <?php endif; ?>
                     <hr />
-                    <h5><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
+                    <h5 class="gtags <?php  echo $isgoogletags ? '': 'hide' ;?> "><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
                     <br />
                     <?php
                     foreach ($form['utmTags'] as $i => $utmTag):?>
-                        <div class="col-sm-6"><?php echo $view['form']->row($utmTag); ?></div>
+                        <div class="col-sm-6 gtags <?php  echo $isgoogletags ? '': 'hide' ;?>" ><?php echo $view['form']->row($utmTag); ?></div>
                     <?php endforeach;
                     ?>
             </div>
