@@ -22,7 +22,7 @@ $emailentity = $model->getEntity($id);
                     <div class="send-head">
                         <h4>Send An Example</h4>
                         <div class="send-body">
-                            <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/tick.png'); ?>" />
+                            <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/emailtick.png'); ?>" />
                             <br><br>
                             <div>
                                 <strong><h6 class="send-body-detail">Send An Example Before Sending This Campaign</h6></strong>
