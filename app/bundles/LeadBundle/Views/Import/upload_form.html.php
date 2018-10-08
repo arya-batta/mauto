@@ -17,7 +17,7 @@ $view['slots']->set(
             'routeBase'       => 'contact_import',
             'langVar'         => 'lead.import',
             'templateButtons' => [
-                'close' => true,
+                'close' => false,
             ],
         ]
     )

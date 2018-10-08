@@ -189,7 +189,7 @@ class SmsHelper
             $dataArray['message'] = $translator->trans('le.send.sms.success', ['%mobile%'=>$sendnumber]);
         } else {
             $dataArray['success'] = 0;
-            $dataArray['message'] = $translator->trans('le.send.sms.failed');
+            $dataArray['message'] = $result.'. '.$translator->trans('le.send.sms.failed');
         }
 
         return $dataArray;

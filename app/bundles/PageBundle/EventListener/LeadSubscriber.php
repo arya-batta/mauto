@@ -176,6 +176,7 @@ class LeadSubscriber extends CommonSubscriber
      */
     public function onTimelineGenerateVideo(LeadTimelineEvent $event)
     {
+        return;
         // Set available event types
         $eventTypeKey  = 'page.videohit';
         $eventTypeName = $this->translator->trans('mautic.page.event.videohit');

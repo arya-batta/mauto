@@ -309,6 +309,52 @@ body > #app-wrapper {
   cursor: pointer;
 
 }
+/*New pricing CSS*/
+.send-head h4 {
+  background: #efeeea;
+  margin: 0px;
+  padding: 15px 0px;
+  color:grey;
+  font-weight: 800;
+}
+.send-btn {
+  background-color:#ec4c9c;
+  color:#ffffff;
+  padding:8px 4px;
+}
+.send-btn:hover {
+  background-color:#ffffff;
+  color:#ec4c9c;
+  border-color:#ec4c9c ;
+}
+.send-foot h3 {
+  background: #ffffff;
+  border-color: #6d6d6d;
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 500;
+  padding: 10px 30px;
+  font-family: Montserrat,sans-serif;
+}
+.send-table {
+  border-right: 1px solid grey;
+  box-shadow: 0 0 16px #e4e3e3;
+  width: 355px;
+
+}
+
+.send-body {
+  padding: 10px 30px;
+}
+.send-body-detail {
+  font-weight: 600;
+}
+.send-table ul {
+  list-style: none;
+  padding: 0px;
+  margin-left:0px;
+}
+
 #app-header.navbar .navbar-nocollapse .navbar-form .form-group,
 #app-header.navbar .navbar-nocollapse .navbar-form .input-group {
   margin-top: 14px;

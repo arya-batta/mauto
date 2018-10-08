@@ -18,8 +18,14 @@ if (!isset($item)) {
 if (!isset($tooltip)) {
     $tooltip = null;
 }
+if(isset($onlyexport))
+{
+    $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_PAGE_ACTIONS, ButtonHelper::TYPE_GROUP, $item);
 
-$view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_PAGE_ACTIONS, ButtonHelper::TYPE_BUTTON_DROPDOWN, $item);
+}else
+{
+    $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_PAGE_ACTIONS, ButtonHelper::TYPE_BUTTON_DROPDOWN, $item);
+}
 include 'action_button_helper.php';
 
 foreach ($templateButtons as $action => $enabled) {
@@ -107,15 +113,28 @@ foreach ($templateButtons as $action => $enabled) {
     }
 }
 
-if ($view['buttons']->getButtonCount() > 0) {
+
+if(isset($onlyexport))
+{
     echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
 
-    $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
-        ."\n";
-    $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
-    echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
+    $dropdownOpenHtml = '<button type="button" class="btn btn-default  le-btn-default"  >';
+
+    echo $view['buttons']->renderButtons($dropdownOpenHtml, '</button>');
 
     echo '</div>';
+}else
+{
+    if ($view['buttons']->getButtonCount() > 0) {
+        echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
+
+        $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
+        ."\n";
+        $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
+        echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
+
+        echo '</div>';
+    }
 }
 
 echo $extraHtml;

@@ -276,8 +276,8 @@ $isgoogletags= $email->getGoogletags();
         </div>
     </div>
     <div id="fragment-3" class=" ui-tabs-panel  <?php echo $formcontainserror ? '' : 'ui-tabs-hide'?>">
-        <div class="fragment-3-buttons" style="margin-left: 60%;float: right;">
-            <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+        <div class="fragment-3-buttons" style="margin-left: 50%;float: right;">
+            <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-left: 3px;" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
             <div class="toolbar-form-buttons" style="margin-top: -149px;margin-left: 128px;">
                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">

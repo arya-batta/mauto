@@ -43,13 +43,13 @@ $apiAccess          =$view['security']->isGranted('api:clients:view');
             </a>
         </li>
       <?php endif; ?>
-      <?php if ($customFieldAccess): ?>
+      <?php /** if ($customFieldAccess): ?>
         <li>
             <a href="<?php echo $view['router']->path('mautic_contactfield_index'); ?>" data-toggle="ajax">
                 <i class="margin-right  fa fa-list"></i><span><?php echo $view['translator']->trans('mautic.lead.field.menu.index'); ?></span>
             </a>
         </li>
-      <?php endif; ?>
+      <?php endif; */ ?>
       <?php if ($apiAccess): ?>
         <li>
             <a href="<?php echo $view['router']->path('mautic_client_index'); ?>" data-toggle="ajax">

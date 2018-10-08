@@ -150,6 +150,7 @@ class LeadSubscriber extends CommonSubscriber
      */
     protected function addEmailReplies(LeadTimelineEvent $event)
     {
+        return;
         $eventTypeKey  = 'email.replied';
         $eventTypeName = $this->translator->trans('mautic.email.replied');
         $event->addSerializerGroup('emailList');

@@ -44,7 +44,7 @@ $query = $event['extra']['hit']['query'];
         </dd>
     <?php endif; ?>
 
-    <dt><?php echo $view['translator']->trans('mautic.core.timeline.device.os'); ?></dt>
+    <dt><?php /** echo $view['translator']->trans('mautic.core.timeline.device.os'); ?></dt>
 
     <?php if (!empty($event['extra']['hit']['deviceOsName'])): ?>
         <dd class="ellipsis">
@@ -88,7 +88,7 @@ $query = $event['extra']['hit']['query'];
             </dd>
         <?php endif; ?>
 
-    <?php endif; ?>
+    <?php  endif; */ ?>
 
     <?php
     if (!empty($query)) {
@@ -141,6 +141,6 @@ $query = $event['extra']['hit']['query'];
     ?>
 </dl>
 <div class="small">
-    <?php echo InputHelper::clean($event['extra']['hit']['userAgent']); ?>
+    <?php //echo InputHelper::clean($event['extra']['hit']['userAgent']); ?>
 </div>
 <?php endif; ?>

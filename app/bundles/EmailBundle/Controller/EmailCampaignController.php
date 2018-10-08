@@ -631,7 +631,9 @@ class EmailCampaignController extends FormController
                         $template  = 'MauticEmailBundle:EmailCampaign:view';
                     } else {
                         //return edit view so that all the session stuff is loaded
-                        return $this->editAction($entity->getId(), true);
+                        //return $this->editAction($entity->getId(), true);
+                        $id=$entity->getId();
+                        return $this->sendTestAction($id);
                     }
                 }
             } else {
@@ -740,6 +742,29 @@ class EmailCampaignController extends FormController
         );
     }
 
+    public function sendTestAction($id)
+    {
+
+        $model  = $this->getModel('email');
+        $entity = $model->getEntity($id);
+        $action = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'sendTest', 'objectId' => $id ]);
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'headerTitle'      => 'Send Test',
+                    'model'            => $model,
+                    'id'               => $id,
+                ],
+                'contentTemplate' => 'MauticEmailBundle:Email:send.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#mautic_email_campaign_index',
+                    'route'         => $action,
+
+                ],
+            ]
+        );
+    }
     /**
      * @param      $objectId
      * @param bool $ignorePost
@@ -945,9 +970,11 @@ class EmailCampaignController extends FormController
                         ]
                     )
                 );
-            } elseif ($valid && $form->get('buttons')->get('apply')->isClicked()) {
+            } else { //if ($valid && $form->get('buttons')->get('apply')->isClicked()) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
-                $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
+                //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
+                $id=$entity->getId();
+                return $this->sendTestAction($id);
             }
         } else {
             //lock the entity

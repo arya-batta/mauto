@@ -109,12 +109,12 @@ return [
                 ],
             ],
             'mautic_import_index' => [
-                'path'       => '/{object}/import/{page}',
-                'controller' => 'MauticLeadBundle:Import:index',
+                'path'       => '/{object}/imports/{page}',
+                'controller' => 'MauticLeadBundle:Import:list',
             ],
             'mautic_import_action' => [
-                'path'       => '/{object}/import/{objectAction}/{objectId}',
-                'controller' => 'MauticLeadBundle:Import:execute',
+                'path'       => '/import/leads',
+                'controller' => 'MauticLeadBundle:Import:index',
             ],
             'mautic_contact_action' => [
                 'path'       => '/leads/{objectAction}/{objectId}',
@@ -311,8 +311,8 @@ return [
                     'iconClass' => 'fa-user',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_contact_index',
-                    'priority'  => 100,
-                    //'parent'    => 'mautic.segments.root',
+                    'priority'  => 60,
+                    'parent'    => 'mautic.core.leads',
                 ],
                 /*   'mautic.companies.menu.index' => [
                       'route'     => 'mautic_company_index',
@@ -325,15 +325,35 @@ return [
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_segment_index',
                     'priority'  => 55,
-                    //'parent'    => 'mautic.segments.root',
+                    'parent'    => 'mautic.core.leads',
                 ],
-                'mautic.point.menu.index' => [
-                    'iconClass' => 'fa fa-sliders',
-                    'route'     => 'mautic_point_index',
-                    'access'    => 'point:points:view',
-                    'priority'  => 55,
+
+               'mautic.lead.field.menu.index' => [
+                    'iconClass'  => 'fa-cog',
+                    'route'      => 'mautic_contactfield_index',
+                    'access'    => 'lead:fields:full',
+                    'priority'  => 45,
+                  'parent'    => 'mautic.core.leads',
+               ],
+
+                'mautic.lead.import.menu.index' => [
+                     'iconClass'  => 'fa-cloud-upload',
+                     'route'      => 'mautic_import_action',
+                     'access'    => 'lead:imports:create',
+                     'priority'  => 40,
+                     'parent'    => 'mautic.core.leads',
                 ],
-               /* 'mautic.point.trigger.menu.index' => [
+
+
+               'mautic.point.menu.index' => [
+                    'route'    => 'mautic_point_index',
+                    'iconClass'  => 'fa fa-sliders',
+                    'access'   => 'point:points:view',
+                    'priority'  => 50,
+                    'parent'   => 'mautic.core.leads',
+                ],
+               /*
+                'mautic.point.trigger.menu.index' => [
                     'route'    => 'mautic_pointtrigger_index',
                     'access'   => 'point:triggers:view',
                     'parent'   => 'mautic.segments.root',
@@ -341,7 +361,7 @@ return [
             ],
         ],
         'admin' => [
-            'priority' => 450,
+         /**   'priority' => 450,
             'items'    => [
                 'mautic.lead.field.menu.index' => [
                     'id'         => 'mautic_lead_field',
@@ -349,7 +369,7 @@ return [
                     'route'      => 'mautic_contactfield_index',
                      'access'    => 'lead:fields:full',
                 ],
-            ],
+            ],   */
         ],
     ],
     'services' => [

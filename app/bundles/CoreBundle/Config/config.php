@@ -124,6 +124,11 @@ return [
                  'iconClass' => 'fa fa-bullhorn',
                  'priority'  => 80,
              ],
+            'mautic.core.leads' => [
+                'id'        => 'mautic_leads_root',
+                'iconClass' => 'fa-users',
+                'priority'  => 100,
+            ],
            /*'mautic.segments.root' => [
                 'id'        => 'mautic_segments_root',
                 'iconClass' => 'icon pull-left fa fa-user',

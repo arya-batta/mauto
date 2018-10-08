@@ -151,7 +151,7 @@ class CampaignSubscriber extends CommonSubscriber
         $lead  = $event->getLead();
         $smsId = (int) $event->getConfig()['sms'];
         $sms   = $this->smsModel->getEntity($smsId);
-        if(!$this->smsHelper->getSmsTransportStatus()){
+        if(!$this->smsHelper->getSmsTransportStatus(false)){
             $this->notificationhelper->sendNotificationonFailure(false, false);
             $event->setFailed($this->translator->trans('Can\'t reach text message provider. Please check the configuration'));
             return ;

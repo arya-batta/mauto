@@ -38,6 +38,11 @@ class ImportController extends FormController
      */
     public function indexAction($page = 1)
     {
+        return $this->newAction();
+    }
+
+    public function listAction($page = 1)
+    {
         $this->get('session')->set('mautic.import.object', $this->getObjectFromRequest());
 
         return $this->indexStandard($page);
@@ -116,7 +121,7 @@ class ImportController extends FormController
 
         $this->resetImport($fullPath);
 
-        return $this->indexAction();
+        return $this->listAction();
     }
 
     /**
@@ -140,7 +145,7 @@ class ImportController extends FormController
 
         $this->resetImport($fullPath, false);
 
-        return $this->indexAction();
+        return $this->listAction();
     }
 
     /**
@@ -440,7 +445,7 @@ class ImportController extends FormController
                                 $this->addFlash('mautic.record.count.exceeds');
                                 $this->resetImport($fullPath);
 
-                                return $this->indexAction();
+                                return $this->listAction();
                             }
 
                             $session->set('mautic.'.$object.'.import.id', $import->getId());
@@ -450,7 +455,7 @@ class ImportController extends FormController
                                 $this->addFlash('mautic.'.$object.'.batch.import.created');
                                 $this->resetImport($fullPath, false);
 
-                                return $this->indexAction();
+                                return $this->listAction();
                             }
 
                             return $this->newAction(0, true);
@@ -489,7 +494,7 @@ class ImportController extends FormController
 
             return new JsonResponse(['success' => 1, 'ignore_wdt' => 1]);
         } else {
-            $activeLink = $object === 'lead' ? '#mautic_contact_index' : '#mautic_company_index';
+            $activeLink = $object === 'lead' ? '#mautic_import_action' : '#mautic_company_index';
 
             return $this->delegateView(
                 [
@@ -498,13 +503,6 @@ class ImportController extends FormController
                     'passthroughVars' => [
                         'activeLink'    => $activeLink,
                         'mauticContent' => 'leadImport',
-                        'route'         => $this->generateUrl(
-                            'mautic_import_action',
-                            [
-                                'object'       => $object === 'lead' ? 'leads' : 'companies',
-                                'objectAction' => 'new',
-                            ]
-                        ),
                         'step'     => $step,
                         'progress' => $progress,
                     ],

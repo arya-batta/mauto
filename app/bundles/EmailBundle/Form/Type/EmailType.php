@@ -601,7 +601,7 @@ class EmailType extends AbstractType
             'buttons',
             'form_buttons',
             [
-                'apply_text' => false,
+                'apply_text' => 'Send',
             ]
         );
         /*$builder->add(

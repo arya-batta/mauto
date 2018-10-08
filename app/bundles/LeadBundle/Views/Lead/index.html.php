@@ -27,7 +27,7 @@ if ($permissions['lead:leads:create']) {
         'primary'   => true,
     ];
 
-    if ($permissions['lead:imports:create']) {
+  /**  if ($permissions['lead:imports:create']) {
         $pageButtons[] = [
             'attr' => [
                 'href' => $view['router']->path('mautic_import_action', ['object' => 'leads', 'objectAction' => 'new']),
@@ -45,7 +45,7 @@ if ($permissions['lead:leads:create']) {
             'iconClass' => 'fa fa-history',
             'btnText'   => 'mautic.lead.lead.import.index',
         ];
-    }
+    } */
 }
 
 // Only show toggle buttons for accessibility
@@ -72,6 +72,7 @@ $view['slots']->set(
             'langVar'       => 'lead.lead',
             'customButtons' => $pageButtons,
             'extraHtml'     => $extraHtml,
+            'onlyexport'    => 'true',
         ]
     )
 );
