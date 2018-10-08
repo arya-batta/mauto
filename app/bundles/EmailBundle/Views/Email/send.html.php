@@ -44,13 +44,13 @@ $emailentity = $model->getEntity($id);
                             </i>
                             <br><br>
                             <div>
-                                <strong><h6 class="send-body-detail">Send An Example Before Sending This Campaign</h6></strong>
+                                <strong><h6 class="send-body-detail"><?php echo $view['translator']->transChoice('le.email.send.instructions', $pending, ['%pending%' => $pending]); ?></h6></strong>
                             </div>
                         </div>
                         <br><br>
                         <div style="border-color:green">
                             <div class="send-foot" style="    margin-bottom:20px;">
-                                <a class="btn send-btn" href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'send', 'objectId' => $emailentity->getId()]); ?>" >send Now</a>
+                                <a class="btn send-btn" href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'send', 'objectId' => $emailentity->getId()]); ?>" >Send Now</a>
                                 <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('mautic_email_campaign_index'); ?>" >Cancel</a>
                             </div>
                         </div>

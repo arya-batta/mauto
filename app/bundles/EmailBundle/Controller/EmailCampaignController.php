@@ -747,6 +747,7 @@ class EmailCampaignController extends FormController
 
         $model  = $this->getModel('email');
         $entity = $model->getEntity($id);
+        $pending       = $model->getPendingLeads($entity, null, true);
         $action = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'sendTest', 'objectId' => $id ]);
 
         return $this->delegateView(
@@ -755,6 +756,7 @@ class EmailCampaignController extends FormController
                     'headerTitle'      => 'Send Test',
                     'model'            => $model,
                     'id'               => $id,
+                    'pending'          => $pending,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:send.html.php',
                 'passthroughVars' => [
