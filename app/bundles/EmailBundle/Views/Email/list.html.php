@@ -137,7 +137,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'email',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-email-actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
                 ]);
                 ?>
             </tr>

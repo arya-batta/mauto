@@ -135,7 +135,7 @@ Mautic.formOnLoad = function (container) {
     }
 
     if (mQuery('#mauticform_formType').length && mQuery('#mauticform_formType').val() == '') {
-        mQuery('body').addClass('noscroll');
+        //mQuery('body').addClass('noscroll');
     }
 
     Mautic.initHideItemButton('#mauticforms_fields');

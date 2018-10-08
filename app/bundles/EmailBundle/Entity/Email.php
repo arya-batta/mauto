@@ -240,9 +240,9 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $beeJSON;
     /**
-     * @var boolean
+     * @var bool
      */
-    private $google_tags;
+    private $google_tags = 1;
 
     public function __clone()
     {
@@ -451,7 +451,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->columnName('postal_address')
             ->nullable()
             ->build();
-        $builder->createField('google_tags','boolean')
+        $builder->createField('google_tags', 'boolean')
             ->columnName('google_tags')
             ->build();
     }
@@ -475,10 +475,11 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     /**
      * @return bool
      */
-   public function getGoogletags()
-   {
-       return $this->google_tags;
-   }
+    public function getGoogletags()
+    {
+        return $this->google_tags;
+    }
+
     /**
      * @param ClassMetadata $metadata
      */
@@ -531,30 +532,30 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
 
         $metadata->addConstraint(new Callback([
             'callback' => function (Email $email, ExecutionContextInterface $context) {
-               /* $type = $email->getEmailType();
-                $translationParent = $email->getTranslationParent();
+                /* $type = $email->getEmailType();
+                 $translationParent = $email->getTranslationParent();
 
-                if ($type == 'list' && null == $translationParent) {
-                    $validator = $context->getValidator();
-                    $violations = $validator->validate(
-                        $email->getLists(),
-                        [
-                            new LeadListAccess(),
-                            new NotBlank(
-                                [
-                                    'message' => 'mautic.lead.lists.required',
-                                ]
-                            ),
-                        ]
-                    );
-                    if (count($violations) > 0) {
-                        foreach ($violations as $violation) {
-                            $context->buildViolation($violation->getMessage())
-                                ->atPath('lists')
-                                ->addViolation();
-                        }
-                    }
-                }*/
+                 if ($type == 'list' && null == $translationParent) {
+                     $validator = $context->getValidator();
+                     $violations = $validator->validate(
+                         $email->getLists(),
+                         [
+                             new LeadListAccess(),
+                             new NotBlank(
+                                 [
+                                     'message' => 'mautic.lead.lists.required',
+                                 ]
+                             ),
+                         ]
+                     );
+                     if (count($violations) > 0) {
+                         foreach ($violations as $violation) {
+                             $context->buildViolation($violation->getMessage())
+                                 ->atPath('lists')
+                                 ->addViolation();
+                         }
+                     }
+                 }*/
 
                 if ($email->isVariant()) {
                     // Get a summation of weights

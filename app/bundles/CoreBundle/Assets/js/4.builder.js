@@ -440,6 +440,7 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
                         return;
                     }
             }
+            mQuery('#builder_url_text').focus();
             // Set the theme field value
             themeField.val(theme);
             // Load the template JSON to the source textarea
@@ -452,6 +453,11 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
             mQuery('.theme-list .select-theme-link').removeClass('hide');
             currentLink.closest('.panel').find('.select-theme-selected').removeClass('hide');
             currentLink.addClass('hide');
+            if(location.href.match(/(emails)/i)) {
+                Mautic.launchBeeEditor('emailform', 'email');
+            } else if (location.href.match(/(pages)/i)){
+                Mautic.launchBeeEditor('pageform', 'page');
+            }
         });
     }
 };
@@ -1265,7 +1271,7 @@ Mautic.initSlotListeners = function() {
                 slot.remove();
                 focus.remove();
             });
-            cloneLink.click(function(e) {   
+            cloneLink.click(function(e) {
                 slot.clone().insertAfter(slot);
                 Mautic.initSlots(slot.closest('[data-slot-container="1"]'));
             });

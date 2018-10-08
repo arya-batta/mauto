@@ -32,9 +32,9 @@ $variantParent = $email->getVariantParent();
 $isExisting    = $email->getId();
 $isCloneOp     =!empty($isClone) && $isClone;
 $subheader     = ($variantParent) ? $view['translator']->trans('mautic.core.variant_of', [
-        '%name%'   => $email->getName(),
-        '%parent%' => $variantParent->getName(),
-    ]) : '';
+    '%name%'   => $email->getName(),
+    '%parent%' => $variantParent->getName(),
+]) : '';
 
 $header = $isExisting ?
     $view['translator']->trans('mautic.email.header.edit',
@@ -74,8 +74,8 @@ if ($formcontainserror) {
     $activatebasiceditor  ='';
     $activateadvanceeditor='';
     $activateotherconfig  ='active in';
-    $settingsulactive     = 'ui-tabs-selected ui-state-active';
-    $infoulactive         = '';
+    //$settingsulactive     = 'ui-tabs-selected ui-state-active';
+    //$infoulactive         = '';
 }
 $hideawsemailoptions = '';
 $style               ='80%';
@@ -92,20 +92,20 @@ if ($mailertransport != 'mautic.transport.amazon') {
     $style               ='';
 }
 $custombutton = [
-        [
-            'name'    => 'beeeditor',
-            'btnText' => 'mautic.core.beeeditor',
-            'attr'    => [
-                'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
-                'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
-                'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;',
-            ],
+    [
+        'name'    => 'beeeditor',
+        'btnText' => 'le.core.edit',
+        'attr'    => [
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
+            'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
+            'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;z-index:499',
         ],
+    ],
 ];
-$isgoogletags= $email->getGoogletags();
+$isgoogletags= false; //$email->getGoogletags();
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
-<div id="page-wrap" class="tab-content">
+<div id="page-wrap" class="tab-content align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
@@ -121,13 +121,26 @@ $isgoogletags= $email->getGoogletags();
                             'customButtons' => $custombutton,
                         ]
                     ); ?>
+                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-top:28%;" data-toggle="ajax">
+                        <span>
+                            <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </ul>
-        <div id="fragment-1" class="ui-tabs-panel <?php echo $formcontainserror ? 'ui-tabs-hide' : ''?>">
-            <div class="fragment-1-buttons">
-            <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-            <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+        <div id="fragment-1" class="ui-tabs-panel">
+            <div class="fragment-1-buttons fixed-header" style="margin-left:56%;">
+                <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 128px;">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                    <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6" id="Email_TemplateName">
@@ -164,28 +177,28 @@ $isgoogletags= $email->getGoogletags();
                     <?php echo $view['form']->row($form['previewText']); ?>
                 </div>
                 <?php if (!$isVariant): ?>
-                <div id="leadList " class="col-md-12" <?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
-                    <div class=" " id="leadlists">
-                        <?php echo $view['form']->label($form['lists']); ?>
-                        <?php echo $view['form']->widget($form['lists']); ?>
-                        <div class="help-block"></div>
+                    <div id="leadList " class="col-md-12" <?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                        <div class=" " id="leadlists">
+                            <?php echo $view['form']->label($form['lists']); ?>
+                            <?php echo $view['form']->widget($form['lists']); ?>
+                            <div class="help-block"></div>
+                        </div>
                     </div>
-                </div>
                 <?php endif; ?>
             </div>
             <?php if ($isVariant): ?>
-            <div class="row">
-                <div class="col-md-6" id="Email_trafficweight">
-                    <?php echo $view['form']->label($form['variantSettings']['weight']); ?>
-                    <?php echo $view['form']->widget($form['variantSettings']['weight']); ?>
-                    <div class="help-block" ></div>
+                <div class="row">
+                    <div class="col-md-6" id="Email_trafficweight">
+                        <?php echo $view['form']->label($form['variantSettings']['weight']); ?>
+                        <?php echo $view['form']->widget($form['variantSettings']['weight']); ?>
+                        <div class="help-block" ></div>
+                    </div>
+                    <div class="col-md-6" id="Email_winnercriteria">
+                        <?php echo $view['form']->label($form['variantSettings']['winnerCriteria']); ?>
+                        <?php echo $view['form']->widget($form['variantSettings']['winnerCriteria']); ?>
+                        <div class="help-block" ></div>
+                    </div>
                 </div>
-                <div class="col-md-6" id="Email_winnercriteria">
-                    <?php echo $view['form']->label($form['variantSettings']['winnerCriteria']); ?>
-                    <?php echo $view['form']->widget($form['variantSettings']['winnerCriteria']); ?>
-                    <div class="help-block" ></div>
-                </div>
-            </div>
             <?php endif; ?>
             <div class="row">
                 <div class="col-md-6">
@@ -197,133 +210,149 @@ $isgoogletags= $email->getGoogletags();
             </div>
             <div class="row">
                 <div class="col-md-12">
-                <?php if ($isVariant): ?>
-                <?php if ($isAdmin): ?>
-                    <?php echo $view['form']->row($form['publishUp']); ?>
-                    <?php echo $view['form']->row($form['publishDown']); ?>
-                <?php endif; ?>
-                <?php else: ?>
+                    <?php if ($isVariant): ?>
+                        <?php if ($isAdmin): ?>
+                            <?php echo $view['form']->row($form['publishUp']); ?>
+                            <?php echo $view['form']->row($form['publishDown']); ?>
+                        <?php endif; ?>
+                    <?php else: ?>
 
-                    <div class="hide">
-                        <?php echo $view['form']->row($form['language']); ?>
-                        <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
-                            <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
+                        <div class="hide">
+                            <?php echo $view['form']->row($form['language']); ?>
+                            <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                                <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
+                            </div>
+                            <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
+                                <?php echo $view['form']->row($form['templateTranslationParent']); ?>
+                            </div>
                         </div>
-                        <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
-                            <?php echo $view['form']->row($form['templateTranslationParent']); ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if ($isAdmin):?>
-                    <?php if (!$isVariant): ?>
-                        <?php echo $view['form']->row($form['isPublished']); ?>
-                        <?php echo $view['form']->row($form['publishUp']); ?>
-                        <?php echo $view['form']->row($form['publishDown']); ?>
                     <?php endif; ?>
 
-                    <?php echo $view['form']->row($form['unsubscribeForm']); ?>
-                    <?php if (!(empty($permissions['page:preference_center:viewown']) &&
-                        empty($permissions['page:preference_center:viewother']))): ?>
-                        <?php echo $view['form']->row($form['preferenceCenter']); ?>
+                    <?php if ($isAdmin):?>
+                        <?php if (!$isVariant): ?>
+                            <?php echo $view['form']->row($form['isPublished']); ?>
+                            <?php echo $view['form']->row($form['publishUp']); ?>
+                            <?php echo $view['form']->row($form['publishDown']); ?>
+                        <?php endif; ?>
+
+                        <?php echo $view['form']->row($form['unsubscribeForm']); ?>
+                        <?php if (!(empty($permissions['page:preference_center:viewown']) &&
+                            empty($permissions['page:preference_center:viewother']))): ?>
+                            <?php echo $view['form']->row($form['preferenceCenter']); ?>
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
                     <?php if (!$isVariant): ?>
                         <?php echo $view['form']->row($form['isPublished']); ?>
                     <?php endif; ?>
                     <hr />
-                    <h5 class="gtags <?php  echo $isgoogletags ? '': 'hide' ;?> "><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
+                    <h5 class="gtags <?php  echo $isgoogletags ? '' : 'hide'; ?> "><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
                     <br />
                     <?php
                     foreach ($form['utmTags'] as $i => $utmTag):?>
-                        <div class="col-sm-6 gtags <?php  echo $isgoogletags ? '': 'hide' ;?>" ><?php echo $view['form']->row($utmTag); ?></div>
+                        <div class="col-sm-6 gtags <?php  echo $isgoogletags ? '' : 'hide'; ?>" ><?php echo $view['form']->row($utmTag); ?></div>
                     <?php endforeach;
                     ?>
-            </div>
+                </div>
 
-        </div>
-    </div>
-    <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
-        <div class="fragment-2-buttons" style="margin-left: 63%;">
-        <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-        <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-        <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-        </div>
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-25px;" id="email-basic-container">
-            <?php echo $view['form']->widget($form['customHtml']); ?>
-        </div>
-        <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
-            <div style="width: 70%">
-            <?php if (!empty($filters)): ?>
-                <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
-                    'filters' => $filters,
-                    'target'  => (empty($target)) ? null : $target,
-                    'tmpl'    => (empty($tmpl)) ? null : $tmpl,
-                ]); ?>
-            <?php endif; ?>
-            </div>
-         </div>
-        <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container">
-            <div class="row">
-                <div class="col-md-12 hide">
-                    <?php echo $view['form']->row($form['template']); ?>
-                </div>
-            </div>
-            <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
-                'beetemplates' => $beetemplates,
-                'active'       => $form['template']->vars['value'],
-            ]); ?>
-        </div>
-    </div>
-    <div id="fragment-3" class=" ui-tabs-panel  <?php echo $formcontainserror ? '' : 'ui-tabs-hide'?>">
-        <div class="fragment-3-buttons" style="margin-left: 50%;float: right;">
-            <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-left: 3px;" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-            <div class="toolbar-form-buttons" style="margin-top: -149px;margin-left: 128px;">
-                <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
-                <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false"><i class="fa fa-caret-down"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
-                </div>
             </div>
         </div>
-        <div id="email-other-container">
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['fromName']); ?>
-                </div>
-                <div class="col-md-6">
-                    <div class="pull-left" id="email_FromAddress" style="max-width:<?php echo $style; ?>;">
-                        <?php echo $view['form']->row($form['fromAddress'],
-                            ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
+        <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
+            <div class="fragment-2-buttons fixed-header" style="margin-left: 46%;">
+                <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 255px;">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                    <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
-                    <?php echo $view['form']->widget($form['fromAddress']); ?>
-                    <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:23px;" data-toggle="dropdown" href="#">
-                            <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
-                            <li>
-                                <?php foreach ($verifiedemail as $key=> $value): ?>
-                            <li >
-                                <a class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>"><?php echo $value; ?></a>
-                            </li>
-                            <?php endforeach; ?>
-                            </li>
-                        </ul>
-                    </li>
                 </div>
             </div>
+            <br>
+            <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-25px;" id="email-basic-container">
+                <?php echo $view['form']->widget($form['customHtml']); ?>
+            </div>
 
-
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['replyToAddress']); ?>
+            <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" id="email-advance-container" style="margin-top:-30px;">
+                <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
+                <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
+                    <div style="width: 70%">
+                        <?php if (!empty($filters)): ?>
+                            <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                                'filters' => $filters,
+                                'target'  => (empty($target)) ? null : $target,
+                                'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                            ]); ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['bccAddress']); ?>
+                <div class="row">
+                    <div class="col-md-12 hide">
+                        <?php echo $view['form']->row($form['template']); ?>
+                    </div>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
+                    'beetemplates' => $beetemplates,
+                    'active'       => $form['template']->vars['value'],
+                ]); ?>
+            </div>
+            <div class="tab-pane fade in bdr-w-0 " style="margin-top:-25px;width:100%;" id="email-preview-container">
+                <div class="hide" id="email-content-preview" style="padding:10px;width:95%;margin-left:3%;border: 1px solid #000000;">
+
                 </div>
             </div>
+        </div>
+        <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
+            <div class="fragment-3-buttons fixed-header" style="margin-left: 56%;float: right;">
+                <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 128px;">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                    <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
+            <div id="email-other-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['fromName']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-left" id="email_FromAddress" style="max-width:<?php echo $style; ?>;">
+                            <?php echo $view['form']->row($form['fromAddress'],
+                                ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
+                        </div>
+                        <?php echo $view['form']->widget($form['fromAddress']); ?>
+                        <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:23px;" data-toggle="dropdown" href="#">
+                                <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
+                                <li>
+                                    <?php foreach ($verifiedemail as $key=> $value): ?>
+                                <li >
+                                    <a class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>"><?php echo $value; ?></a>
+                                </li>
+                                <?php endforeach; ?>
+                                </li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['replyToAddress']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['bccAddress']); ?>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6" id="Emailasset_Attachments">
                         <div class="pull-left">
@@ -337,32 +366,32 @@ $isgoogletags= $email->getGoogletags();
                         <div class="help-block"></div>
                     </div>
                 </div>
-            <br>
-            <div class="row">
-                <div class="col-md-12">
-                    <br>
-                    <?php echo $view['form']->label($form['postal_address']); ?>
-                    <?php echo $view['form']->widget($form['postal_address']); ?>
-                </div>
-                <div class="col-md-12" id="unsubscribe_text_div">
-                    <br>
-                    <br>
-                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
-                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
-                </div>
-                <div class="col-md-12 hide">
-                    <br>
-                    <div class="pull-left">
-                        <?php echo $view['form']->label($form['plainText']); ?>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br>
+                        <?php echo $view['form']->label($form['postal_address']); ?>
+                        <?php echo $view['form']->widget($form['postal_address']); ?>
                     </div>
-                    <div class="text-right pr-10">
-                        <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
-                        <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('mautic.email.plaintext.generate'); ?></a>
+                    <div class="col-md-12" id="unsubscribe_text_div">
+                        <br>
+                        <br>
+                        <?php echo $view['form']->label($form['unsubscribe_text']); ?>
+                        <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
                     </div>
-                    <div class="clearfix"></div>
-                    <?php echo $view['form']->widget($form['plainText']); ?>
+                    <div class="col-md-12 hide">
+                        <br>
+                        <div class="pull-left">
+                            <?php echo $view['form']->label($form['plainText']); ?>
+                        </div>
+                        <div class="text-right pr-10">
+                            <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
+                            <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('mautic.email.plaintext.generate'); ?></a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <?php echo $view['form']->widget($form['plainText']); ?>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="tab-pane fade bdr-w-0 <?php echo $isAdmin ? '' : 'hide'?>" id="dynamic-content-container">
                 <div class="row">
@@ -394,22 +423,22 @@ $isgoogletags= $email->getGoogletags();
             </div>
             <div class="col-md-3 bg-white height-auto bdr-l <?php echo $isAdmin ? '' : 'hide'?> <?php echo ($emailType == 'template') ? 'hide' : ''; ?>">
                 <div class="pr-lg pl-lg pt-md pb-md ">
-                         <div id="leadList"<?php echo ($emailType == 'template') ? ' hide' : ''; ?>>
-                            <?php echo $view['form']->row($form['lists']); ?>
+                    <div id="leadList"<?php echo ($emailType == 'template') ? ' hide' : ''; ?>>
+                        <?php echo $view['form']->row($form['lists']); ?>
+                    </div>
+                    <?php echo $view['form']->row($form['category']); ?>
+                    <div class="hide">
+                        <?php echo $view['form']->row($form['language']); ?>
+                        <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
+                            <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
                         </div>
-                        <?php echo $view['form']->row($form['category']); ?>
-                        <div class="hide">
-                            <?php echo $view['form']->row($form['language']); ?>
-                            <div id="segmentTranslationParent"<?php echo ($emailType == 'template') ? ' class="hide"' : ''; ?>>
-                                <?php echo $view['form']->row($form['segmentTranslationParent']); ?>
-                            </div>
-                            <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
-                                <?php echo $view['form']->row($form['templateTranslationParent']); ?>
-                            </div>
+                        <div id="templateTranslationParent"<?php echo ($emailType == 'list') ? ' class="hide"' : ''; ?>>
+                            <?php echo $view['form']->row($form['templateTranslationParent']); ?>
                         </div>
-                <div class="hide">
-                    <?php echo $view['form']->rest($form); ?>
-                </div>
+                    </div>
+                    <div class="hide">
+                        <?php echo $view['form']->rest($form); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -418,7 +447,7 @@ $isgoogletags= $email->getGoogletags();
 <?php echo $view['form']->end($form); ?>
 
 
-    <div id="dynamicContentPrototype" data-prototype="<?php echo $view->escape($view['form']->widget($dynamicContentPrototype)); ?>"></div>
+<div id="dynamicContentPrototype" data-prototype="<?php echo $view->escape($view['form']->widget($dynamicContentPrototype)); ?>"></div>
 <?php if ($filterBlockPrototype instanceof FormView) : ?>
     <div id="filterBlockPrototype" data-prototype="<?php echo $view->escape($view['form']->widget($filterBlockPrototype)); ?>"></div>
 <?php endif; ?>
@@ -426,31 +455,31 @@ $isgoogletags= $email->getGoogletags();
     <div id="filterSelectPrototype" data-prototype="<?php echo $view->escape($view['form']->widget($filterSelectPrototype)); ?>"></div>
 <?php endif; ?>
 
-    <div class="hide" id="templates">
-        <?php foreach ($templates as $dataKey => $template): ?>
-            <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('mautic.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('mautic.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
-            <select class="form-control not-chosen <?php echo $template; ?>" name="emailform[dynamicContent][__dynamicContentIndex__][filters][__dynamicContentFilterIndex__][filters][__name__][filter]" id="emailform_dynamicContent___dynamicContentIndex___filters___dynamicContentFilterIndex___filters___name___filter"<?php echo $attr; ?>>
-                <?php
-                if (isset($form->vars[$dataKey])):
-                    foreach ($form->vars[$dataKey] as $value => $label):
-                        if (is_array($label)):
-                            echo "<optgroup label=\"$value\">\n";
-                            foreach ($label as $optionValue => $optionLabel):
-                                echo "<option value=\"$optionValue\">$optionLabel</option>\n";
-                            endforeach;
-                            echo "</optgroup>\n";
-                        else:
-                            if ($dataKey == 'lists' && (isset($currentListId) && (int) $value === (int) $currentListId)) {
-                                continue;
-                            }
-                            echo "<option value=\"$value\">$label</option>\n";
-                        endif;
-                    endforeach;
-                endif;
-                ?>
-            </select>
-        <?php endforeach; ?>
-    </div>
+<div class="hide" id="templates">
+    <?php foreach ($templates as $dataKey => $template): ?>
+        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('mautic.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('mautic.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+        <select class="form-control not-chosen <?php echo $template; ?>" name="emailform[dynamicContent][__dynamicContentIndex__][filters][__dynamicContentFilterIndex__][filters][__name__][filter]" id="emailform_dynamicContent___dynamicContentIndex___filters___dynamicContentFilterIndex___filters___name___filter"<?php echo $attr; ?>>
+            <?php
+            if (isset($form->vars[$dataKey])):
+                foreach ($form->vars[$dataKey] as $value => $label):
+                    if (is_array($label)):
+                        echo "<optgroup label=\"$value\">\n";
+                        foreach ($label as $optionValue => $optionLabel):
+                            echo "<option value=\"$optionValue\">$optionLabel</option>\n";
+                        endforeach;
+                        echo "</optgroup>\n";
+                    else:
+                        if ($dataKey == 'lists' && (isset($currentListId) && (int) $value === (int) $currentListId)) {
+                            continue;
+                        }
+                        echo "<option value=\"$value\">$label</option>\n";
+                    endif;
+                endforeach;
+            endif;
+            ?>
+        </select>
+    <?php endforeach; ?>
+</div>
 <?php echo $view->render('MauticEmailBundle:Email:beeeditor.html.php', ['objectId'      => $email->getSessionId(), 'type'          => 'email']); ?>
 <?php //builder disabled due to bee editor
 //echo $view->render('MauticCoreBundle:Helper:builder.html.php', [

@@ -9,14 +9,14 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'page');
-$isExisting = $activePage->getId();
+$isExisting    = $activePage->getId();
 $variantParent = $activePage->getVariantParent();
 $subheader     = '';
 if ($variantParent) {
     $subheader = $view['translator']->trans('mautic.core.variant_of', [
-            '%name%'   => $activePage->getTitle(),
-            '%parent%' => $variantParent->getTitle(),
-        ]);
+        '%name%'   => $activePage->getTitle(),
+        '%parent%' => $variantParent->getTitle(),
+    ]);
 } elseif ($activePage->isVariant(false)) {
     $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.page.form.has_variants').'</span></div>';
 }
@@ -25,31 +25,31 @@ $header = $isExisting ?
         ['%name%' => $activePage->getTitle()]) :
     $view['translator']->trans('mautic.page.header.new');
 $view['slots']->set('headerTitle', $header.$subheader);
-$template = $form['template']->vars['data'];
+$template                           = $form['template']->vars['data'];
 $attr                               = $form->vars['attr'];
 $attr['data-submit-callback-async'] = 'clearThemeHtmlBeforeSave';
-$isCodeMode = ($activePage->getTemplate() === 'mautic_code_mode');
-$isAdmin    =$view['security']->isAdmin();
-$hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
-$custombuttons = [
- [
-    'name'  => 'beeeditor',
-    'label' => 'mautic.core.beeeditor',
-    'attr'  => [
-        'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
-        'icon'    => 'fa fa-cube',
-        'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+$isCodeMode                         = ($activePage->getTemplate() === 'mautic_code_mode');
+$isAdmin                            =$view['security']->isAdmin();
+$hidepanel                          =$view['security']->isAdmin() ? '' : "style='display: none;'";
+$custombuttons                      = [
+    [
+        'name'  => 'beeeditor',
+        'label' => 'mautic.core.beeeditor',
+        'attr'  => [
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
+            'icon'    => 'fa fa-cube',
+            'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+        ],
     ],
- ],
 ];
 $custombutton = [
     [
         'name'    => 'beeeditor',
-        'btnText' => 'mautic.core.beeeditor',
+        'btnText' => 'le.core.edit',
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
             'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
-            'style'   => "color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;"
+            'style'   => 'color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;margin-top:205%;',
         ],
     ],
 ];
@@ -57,119 +57,39 @@ $custombutton = [
 
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <!-- start: box layout -->
-<div class="box-layout">
+<div class="box-layout align-tab-center">
     <!-- container -->
     <div class="col-md-9 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">
                 <!-- tabs controls -->
                 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
-                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
-                    <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
-                    <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
-                    <div class="le-builder-btn col-md-6" style="width: 50%;float: right;">
-                        <div id="builder_btn" class="hide" style="margin-left: 385px;">
-                            <?php echo $view->render(
-                                'MauticCoreBundle:Helper:page_actions.html.php',
-                                [
-                                    'routeBase'     => 'page',
-                                    'langVar'       => 'page',
-                                    'customButtons' => $custombutton,
-                                ]
-                            ); ?>
-                        </div>
-                    </div>
-                </ul>
-                <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
-                    <div class="fragment-1-buttons">
-                        <a href="<?php echo $view['router']->path('mautic_page_index')?>" id="cancel-page-1" class="cancel-tab mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                        <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" id="page_Title">
-                            <?php echo $view['form']->label($form['title']); ?>
-                            <?php echo $view['form']->widget($form['title']); ?>
-                            <div class="help-block"></div>
-                        </div>
-                        <?php if (!$isVariant): ?>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['alias']); ?>
+                    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
+                        <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
+                        <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
+                        <div class="le-builder-btn col-md-6" style="width: 50%;float: right;">
+                            <div id="builder_btn" class="hide" style="margin-left: 385px;">
+                                <?php echo $view->render(
+                                    'MauticCoreBundle:Helper:page_actions.html.php',
+                                    [
+                                        'routeBase'     => 'page',
+                                        'langVar'       => 'page',
+                                        'customButtons' => $custombutton,
+                                    ]
+                                ); ?>
+                                <a class="btn btn-default text-primary btn-beeditor le-btn-default change-template-button" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;border-radius:4px;z-index:1003;margin-right: 42%;margin-top:-22%;" data-toggle="ajax">
+                                <span>
+                                    <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
+                                </span>
+                                </a>
                             </div>
-                        <?php else: ?>
-                            <div class="col-md-6">
-                                <?php // echo $view['form']->row($form['template']); ?>
-                                <?php  echo $view['form']->row($form['isPublished']); ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="row">
-                        <?php if ($isVariant): ?>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['variantSettings']['weight']); ?>
-                            </div>
-                        <?php else: ?>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['category']); ?>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($isVariant): ?>
-                        <div class="col-md-6">
-                            <?php echo $view['form']->row($form['variantSettings']['winnerCriteria']); ?>
                         </div>
-                        <?php else: ?>
-                        <div class="col-md-6">
-                            <?php echo $view['form']->row($form['isPublished']); ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                        <?php if (($permissions['page:preference_center:editown'] ||
-                                $permissions['page:preference_center:editother']) &&
-                            !$activePage->isVariant()): ?>
-                    <div class="row hide">
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
-                            </div>
-                        <div class="col-md-6">
-                            <?php echo $view['form']->row($form['noIndex']); ?>
-                        </div>
-                        <?php endif; ?>
-                        <?php if (($permissions['page:preference_center:editown'] ||
-                            $permissions['page:preference_center:editother']) &&
-                        !$activePage->isVariant()): ?>
-                    </div>
-                <?php endif; ?>
-                    <div class="row">
-                        <?php if (!$isVariant): ?>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['redirectType']); ?>
-                                <?php echo $view['form']->row($form['redirectUrl']); ?>
-                            </div>
-                        <?php endif; ?>
-
-                        <div class="col-md-6 template-fields<?php echo (!$template) ? ' hide"' : ''; ?>">
-                            <?php echo $view['form']->row($form['metaDescription']); ?>
-                        </div>
-                    </div>
-                    <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>>
-                        <?php if (!$isVariant): ?>
-                            <?php echo $view['form']->row($form['language']); ?>
-                        <?php endif; ?>
-                        <?php echo $view['form']->row($form['publishUp']); ?>
-                        <?php echo $view['form']->row($form['publishDown']); ?>
-                        <?php echo $view['form']->row($form['translationParent']); ?>
-                    </div>
-                    <br>
-                    <div class="hide">
-                        <?php echo $view['form']->rest($form); ?>
-                    </div>
-                </div>
-                <div id="fragment-page-2" class="ui-tabs-panel hide">
-                    <!--/ tabs controls -->
-                    <div class="tab-content pa-md tab-pane bdr-w-0" id="theme-container"style="border-width: 10px;border-color: #808080">
-                        <div class="fragment-3-buttons" style="margin-left: 60%;">
-                            <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                            <div class="toolbar-form-buttons" style="margin-top: -165px;margin-left: 122px;">
+                    </ul>
+                    <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
+                        <div class="fragment-1-buttons fixed-header" style="margin-left:62%;">
+                            <a href="<?php echo $view['router']->path('mautic_page_index')?>" id="cancel-page-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                            <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                            <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 130px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -178,37 +98,135 @@ $custombutton = [
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-md-12">
-                                <div style="width:50%;margin-left: 20px;">
-                                    <?php if (!empty($filters)): ?>
-                                        <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
-                                            'filters' => $filters,
-                                            'target'  => (empty($target)) ? null : $target,
-                                            'tmpl'    => (empty($tmpl)) ? null : $tmpl,
-                                        ]); ?>
-                                    <?php endif; ?>
-                                </div>
-                                <?php echo $view['form']->row($form['template']); ?>
+                            <div class="col-md-6" id="page_Title">
+                                <?php echo $view['form']->label($form['title']); ?>
+                                <?php echo $view['form']->widget($form['title']); ?>
+                                <div class="help-block"></div>
                             </div>
+                            <?php if (!$isVariant): ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['alias']); ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-md-6">
+                                    <?php // echo $view['form']->row($form['template']);?>
+                                    <?php  echo $view['form']->row($form['isPublished']); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
-                        <!--                        --><?php //echo $view->render('MauticCoreBundle:Helper:theme_select.html.php', [
-                        //                            'type'   => 'page',
-                        //                            'themes' => $themes,
-                        //                            'active' => $form['template']->vars['value'],
-                        //                        ]);?>
-                        <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
-                            'beetemplates' => $beetemplates,
-                            'active'       => $form['template']->vars['value'],
-                        ]); ?>
+                        <div class="row">
+                            <?php if ($isVariant): ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['variantSettings']['weight']); ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['category']); ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($isVariant): ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['variantSettings']['winnerCriteria']); ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['isPublished']); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if (($permissions['page:preference_center:editown'] ||
+                            $permissions['page:preference_center:editother']) &&
+                        !$activePage->isVariant()): ?>
+                        <div class="row hide">
+                            <div class="col-md-6">
+                                <?php echo $view['form']->row($form['isPreferenceCenter']); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php echo $view['form']->row($form['noIndex']); ?>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (($permissions['page:preference_center:editown'] ||
+                                $permissions['page:preference_center:editother']) &&
+                            !$activePage->isVariant()): ?>
+                        </div>
+                    <?php endif; ?>
+                        <div class="row">
+                            <?php if (!$isVariant): ?>
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['redirectType']); ?>
+                                    <?php echo $view['form']->row($form['redirectUrl']); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="col-md-6 template-fields<?php echo (!$template) ? ' hide"' : ''; ?>">
+                                <?php echo $view['form']->row($form['metaDescription']); ?>
+                            </div>
+                        </div>
+                        <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>>
+                            <?php if (!$isVariant): ?>
+                                <?php echo $view['form']->row($form['language']); ?>
+                            <?php endif; ?>
+                            <?php echo $view['form']->row($form['publishUp']); ?>
+                            <?php echo $view['form']->row($form['publishDown']); ?>
+                            <?php echo $view['form']->row($form['translationParent']); ?>
+                        </div>
+                        <br>
+                        <div class="hide">
+                            <?php echo $view['form']->rest($form); ?>
+                        </div>
+                    </div>
+                    <div id="fragment-page-2" class="ui-tabs-panel hide">
+                        <!--/ tabs controls -->
+                        <div class="fragment-3-buttons fixed-header" style="margin-left: 62%;">
+                            <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                            <div class="toolbar-form-buttons" style="margin-top: -182px;margin-left: 127px;">
+                                <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                                <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content pa-md tab-pane bdr-w-0" id="email-advance-container" style="border-width: 10px;border-color: #808080;margin-top:-30px;">
+                            <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style="width:50%;margin-left: 20px;">
+                                        <?php if (!empty($filters)): ?>
+                                            <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                                                'filters' => $filters,
+                                                'target'  => (empty($target)) ? null : $target,
+                                                'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                            ]); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php echo $view['form']->row($form['template']); ?>
+                                </div>
+                            </div>
+
+                            <!--                        --><?php //echo $view->render('MauticCoreBundle:Helper:theme_select.html.php', [
+                            //                            'type'   => 'page',
+                            //                            'themes' => $themes,
+                            //                            'active' => $form['template']->vars['value'],
+                            //                        ]);?>
+                            <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
+                                'beetemplates' => $beetemplates,
+                                'active'       => $form['template']->vars['value'],
+                            ]); ?>
+                        </div>
+                        <div class="tab-pane fade in bdr-w-0 " style="margin-top:5px;width:100%;" id="email-preview-container">
+                            <div class="hide" id="email-content-preview" style="padding:10px;width:95%;margin-left:3%;border: 1px solid #000000;">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 <?php echo $view['form']->row($form['customHtml']); ?>

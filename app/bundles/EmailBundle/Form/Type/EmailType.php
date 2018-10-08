@@ -218,12 +218,10 @@ class EmailType extends AbstractType
             'google_tags',
             'yesno_button_group',
             [
-
                 'label'      => 'le.email.config.show.google.analytics',
                 'label_attr' => ['class' => 'control-label '],
                 'attr'       => [
                     'class'   => 'form-control ',
-                    'onChange' => 'Mautic.opengoogletags(mQuery(this).attr("id"))',
                 ],
             ]
         );
@@ -596,21 +594,31 @@ class EmailType extends AbstractType
         } else {
             $customButtons = [];
         }
-
-        $builder->add(
+        /*$builder->add(
             'buttons',
             'form_buttons',
             [
                 'apply_text' => 'Send',
             ]
-        );
-        /*$builder->add(
+        );*/
+        $builder->add(
             'buttons',
             'form_buttons',
             [
-                'pre_extra_buttons' => $customButtons,
+                'pre_extra_buttons' => [
+                    [
+                        'name'  => 'sendtest',
+                        'label' => 'Send',
+                        'type'  => 'submit',
+                        'attr'  => [
+                            'class'   => 'btn btn-default pull-right le-btn-default',
+                            'icon'    => 'fa fa-send-o',
+                        ],
+                    ],
+                ],
+                'apply_text' => false,
             ]
-        );*/
+        );
         if (!empty($options['update_select'])) {
             $builder->add(
                 'updateSelect',

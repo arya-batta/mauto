@@ -23,26 +23,28 @@ if (isset($isMobile) && $isMobile) {
     $videostyle = 'margin-right: 48%;';
     $closestyle = 'padding: 8px 10px 8px 10px;margin-top:1.8%;';
 }
-$enableHeader=true;
+$enableHeader     =true;
+$marginforcontent = 'fixed-content';
 if (!empty($tmpl)) {
-    $enableHeader = (($tmpl == 'index') ? 'hide' : '');
+    $enableHeader     = (($tmpl == 'index') ? 'hide' : '');
+    $marginforcontent = (($tmpl == 'index') ? '' : 'fixed-content');
 }
 ?>
 <?php if (!$modalView): ?>
-<div class="content-body">
-    <?php if ($view['slots']->get('mauticContent', '') == 'dashboard' && $showvideo): ?>
-        <div id="dashboard-widgets" class="dashboard-widgets cards">
-            <div class="card-flex widget" style="width:100%;" role="document">
-                <div class="card" style="height:550px;">
-                    <div class="card-header">
-                        <a href="javascript: void(0);" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('mautic_dashboard_index', ['login' => 'CloseVideo']); ?>');" class="dont_show_again close_button" style="<?php echo $closestyle; ?>"><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
-                        <p style="padding:10px 15px;font-size:16px;">
-                            <?php if (!$isMobile) {
+    <div class="content-body">
+        <?php if ($view['slots']->get('mauticContent', '') == 'dashboard' && $showvideo): ?>
+            <div id="dashboard-widgets" class="dashboard-widgets cards">
+                <div class="card-flex widget" style="width:100%;" role="document">
+                    <div class="card" style="height:550px;">
+                        <div class="card-header">
+                            <a href="javascript: void(0);" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('mautic_dashboard_index', ['login' => 'CloseVideo']); ?>');" class="dont_show_again close_button" style="<?php echo $closestyle; ?>"><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
+                            <p style="padding:10px 15px;font-size:16px;">
+                                <?php if (!$isMobile) {
     echo $view['translator']->trans('leadsengage.kyc.video_header');
 }?>
-                        </p>
-                        <div class="dropdown" style="<?php echo $videostyle; ?>">
-                            <!--<span class="dont_show_again">
+                            </p>
+                            <div class="dropdown" style="<?php echo $videostyle; ?>">
+                                <!--<span class="dont_show_again">
                                 <?php /*echo $view->render('MauticCoreBundle:Helper:confirm.html.php', [
                                     'message'         => $view['translator']->trans('le.video.confirm.message'),
                                     'iconClass'       => 'fa fa-eye-slash',
@@ -53,20 +55,20 @@ if (!empty($tmpl)) {
                                 ]);
                                 */?>
                             </span>-->
-                            <a href="javascript: void(0);" class="btn btn-primary btn-send" style="margin-right: 10px;" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('mautic_dashboard_index', ['login' => 'dont_show_again']); ?>');"<span><i class="fa fa-eye-slash"></i><span>Don't Show Again</span></span></a>
+                                <a href="javascript: void(0);" class="btn btn-primary btn-send" style="margin-right: 10px;" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('mautic_dashboard_index', ['login' => 'dont_show_again']); ?>');"<span><i class="fa fa-eye-slash"></i><span>Don't Show Again</span></span></a>
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="card-body" style="margin-left:12%;">
-                        <iframe width="87%" height="450px"
-                                src="<?php echo $videoURL; ?>">
-                        </iframe>
+                        <br>
+                        <div class="card-body" style="margin-left:12%;">
+                            <iframe width="87%" height="450px"
+                                    src="<?php echo $videoURL; ?>">
+                            </iframe>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php endif; ?>
-</div>
+        <?php endif; ?>
+    </div>
     <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
     <?php if (!empty($campaignBlocks)): ?>
         <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.campaigns.root'); ?></h3></div>
@@ -84,11 +86,14 @@ if (!empty($tmpl)) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+    <div id="<?php echo $marginforcontent; ?>">
+
+    </div>
     <?php $view['slots']->output('_content'); ?>
 </div>
 
-<?php $view['slots']->output('modal'); ?>
-<?php echo $view['security']->getAuthenticationContent(); ?>
+    <?php $view['slots']->output('modal'); ?>
+    <?php echo $view['security']->getAuthenticationContent(); ?>
 <?php else: ?>
-<?php $view['slots']->output('_content'); ?>
+    <?php $view['slots']->output('_content'); ?>
 <?php endif; ?>

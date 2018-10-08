@@ -395,8 +395,7 @@ class ThemeHelper
                 }
             }
         }
-
-        asort($this->beeTemplateInfo);
+        krsort($this->beeTemplateInfo);
         if ($extended) {
             return  $this->beeTemplateInfo;
         } else {

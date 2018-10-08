@@ -590,20 +590,22 @@ class EmailCampaignController extends FormController
                     if (!empty($formData['unsubscribe_text'])) {
                         $entity->setUnsubscribeText($formData['unsubscribe_text']);
                     }
-                    if (empty($currentutmtags['utmSource'])) {
-                        $currentutmtags['utmSource']='leadsengage';
-                    }
-                    if (empty($currentutmtags['utmMedium'])) {
-                        $currentutmtags['utmMedium']='email';
-                    }
-                    if (empty($currentutmtags['utmCampaign'])) {
-                        $currentutmtags['utmCampaign']=$currentname;
-                    }
-                    if (empty($currentutmtags['utmContent'])) {
-                        $currentutmtags['utmContent']=$currentsubject;
-                    }
+                    if ($entity->getGoogletags()) {
+                        if (empty($currentutmtags['utmSource'])) {
+                            $currentutmtags['utmSource'] = 'leadsengage';
+                        }
+                        if (empty($currentutmtags['utmMedium'])) {
+                            $currentutmtags['utmMedium'] = 'email';
+                        }
+                        if (empty($currentutmtags['utmCampaign'])) {
+                            $currentutmtags['utmCampaign'] = $currentname;
+                        }
+                        if (empty($currentutmtags['utmContent'])) {
+                            $currentutmtags['utmContent'] = $currentsubject;
+                        }
 
-                    $entity->setUtmTags($currentutmtags);
+                        $entity->setUtmTags($currentutmtags);
+                    }
                     //form is valid so process the data
                     $model->saveEntity($entity);
 
@@ -629,11 +631,12 @@ class EmailCampaignController extends FormController
                         ];
                         $returnUrl = $this->generateUrl('mautic_email_campaign_action', $viewParameters);
                         $template  = 'MauticEmailBundle:EmailCampaign:view';
-                    } else {
+                    } elseif ($valid && $form->get('buttons')->get('sendtest')->isClicked()) {
                         //return edit view so that all the session stuff is loaded
                         //return $this->editAction($entity->getId(), true);
-                        $id=$entity->getId();
-                        return $this->sendTestAction($id);
+                        $id = $entity->getId();
+
+                        return $this->sendAction($id);
                     }
                 }
             } else {
@@ -744,11 +747,10 @@ class EmailCampaignController extends FormController
 
     public function sendTestAction($id)
     {
-
-        $model  = $this->getModel('email');
-        $entity = $model->getEntity($id);
+        $model         = $this->getModel('email');
+        $entity        = $model->getEntity($id);
         $pending       = $model->getPendingLeads($entity, null, true);
-        $action = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'sendTest', 'objectId' => $id ]);
+        $action        = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'sendTest', 'objectId' => $id]);
 
         return $this->delegateView(
             [
@@ -762,11 +764,11 @@ class EmailCampaignController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_email_campaign_index',
                     'route'         => $action,
-
                 ],
             ]
         );
     }
+
     /**
      * @param      $objectId
      * @param bool $ignorePost
@@ -784,7 +786,7 @@ class EmailCampaignController extends FormController
         }
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
-        $googletags=$entity->getGoogletags();
+        $googletags =$entity->getGoogletags();
         $lastsubject=$entity->getSubject();
         $lastname   =$entity->getName();
         $session    = $this->get('session');
@@ -890,24 +892,25 @@ class EmailCampaignController extends FormController
                     if (!empty($formData['unsubscribe_text'])) {
                         $entity->setUnsubscribeText($formData['unsubscribe_text']);
                     }
-
-                    if (empty($currentutmtags['utmSource'])) {
-                        $currentutmtags['utmSource']='leadsengage';
+                    if ($entity->getGoogletags()) {
+                        if (empty($currentutmtags['utmSource'])) {
+                            $currentutmtags['utmSource'] = 'leadsengage';
+                        }
+                        if (empty($currentutmtags['utmMedium'])) {
+                            $currentutmtags['utmMedium'] = 'email';
+                        }
+                        if (empty($currentutmtags['utmCampaign'])) {
+                            $currentutmtags['utmCampaign'] = $currentname;
+                        } elseif ($currentname != $lastname && $currentutmtags['utmCampaign'] == $lastname) {
+                            $currentutmtags['utmCampaign'] = $currentname;
+                        }
+                        if (empty($currentutmtags['utmContent'])) {
+                            $currentutmtags['utmContent'] = $currentsubject;
+                        } elseif ($currentsubject != $lastsubject && $currentutmtags['utmContent'] == $lastsubject) {
+                            $currentutmtags['utmContent'] = $currentsubject;
+                        }
+                        $entity->setUtmTags($currentutmtags);
                     }
-                    if (empty($currentutmtags['utmMedium'])) {
-                        $currentutmtags['utmMedium']='email';
-                    }
-                    if (empty($currentutmtags['utmCampaign'])) {
-                        $currentutmtags['utmCampaign']=$currentname;
-                    } elseif ($currentname != $lastname && $currentutmtags['utmCampaign'] == $lastname) {
-                        $currentutmtags['utmCampaign']= $currentname;
-                    }
-                    if (empty($currentutmtags['utmContent'])) {
-                        $currentutmtags['utmContent']=$currentsubject;
-                    } elseif ($currentsubject != $lastsubject && $currentutmtags['utmContent'] == $lastsubject) {
-                        $currentutmtags['utmContent']= $currentsubject;
-                    }
-                    $entity->setUtmTags($currentutmtags);
 
                     //form is valid so process the data
                     $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
@@ -972,11 +975,12 @@ class EmailCampaignController extends FormController
                         ]
                     )
                 );
-            } else { //if ($valid && $form->get('buttons')->get('apply')->isClicked()) {
+            } elseif ($valid && $form->get('buttons')->get('sendtest')->isClicked()) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
                 //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
-                $id=$entity->getId();
-                return $this->sendTestAction($id);
+                $id = $entity->getId();
+
+                return $this->sendAction($id);
             }
         } else {
             //lock the entity
@@ -1035,22 +1039,22 @@ class EmailCampaignController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'               => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
-                    'isVariant'          => $entity->isVariant(true),
-                    'slots'              => $this->buildSlotForms($slotTypes),
-                    'sections'           => $this->buildSlotForms($sections),
-                    'themes'             => $this->factory->getInstalledThemes('email', true),
-                    'beetemplates'       => $this->factory->getInstalledBeeTemplates('email'),
-                    'email'              => $entity,
-                    'forceTypeSelection' => $forceTypeSelection,
-                    'attachmentSize'     => $attachmentSize,
-                    'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                    'sectionForm'        => $sectionForm->createView(),
-                    'permissions'        => $permissions,
-                    'isMobile'           => $ismobile,
-                    'verifiedemail'      => $verifiedemail,
-                    'mailertransport'    => $mailertransport,
-                    'filters'            => $groupFilters,
+                    'form'                => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
+                    'isVariant'           => $entity->isVariant(true),
+                    'slots'               => $this->buildSlotForms($slotTypes),
+                    'sections'            => $this->buildSlotForms($sections),
+                    'themes'              => $this->factory->getInstalledThemes('email', true),
+                    'beetemplates'        => $this->factory->getInstalledBeeTemplates('email'),
+                    'email'               => $entity,
+                    'forceTypeSelection'  => $forceTypeSelection,
+                    'attachmentSize'      => $attachmentSize,
+                    'builderAssets'       => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                    'sectionForm'         => $sectionForm->createView(),
+                    'permissions'         => $permissions,
+                    'isMobile'            => $ismobile,
+                    'verifiedemail'       => $verifiedemail,
+                    'mailertransport'     => $mailertransport,
+                    'filters'             => $groupFilters,
                     'google_tags'         => $googletags,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',

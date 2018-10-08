@@ -313,7 +313,7 @@ body > #app-wrapper {
 .send-head h4 {
   background: #efeeea;
   margin: 0px;
-  padding: 15px 0px;
+  padding: 15px 0px 15px 90px;
   color:grey;
   font-weight: 800;
 }
@@ -337,16 +337,17 @@ body > #app-wrapper {
   font-family: Montserrat,sans-serif;
 }
 .send-table {
-  border-right: 1px solid grey;
+  border: 1px solid grey;
   box-shadow: 0 0 16px #e4e3e3;
   width: 355px;
 
 }
 
 .send-body {
-  padding: 10px 30px;
+  padding: 10px 30px 0px 65px;
 }
 .send-body-detail {
+  text-align:center;
   font-weight: 600;
 }
 .send-table ul {
@@ -4990,7 +4991,7 @@ figcaption {
   left: 0;
   width: 100%;
   z-index: 1030;
-  height: 860px;
+  height: 550px;
 }
 .panel-heading-account{
   color: #ffffff;
@@ -5449,7 +5450,6 @@ figcaption {
   overflow: hidden;
   top: 10px;
   right: 2px;
-  z-index: 1000;
 }
 .ui-tabs .ui-tabs-nav li {
   position: relative;
@@ -5490,7 +5490,7 @@ figcaption {
   border: 1px solid #ccc;
   border-radius: 2px;
   position: relative;
-  min-height: 800px;
+  min-height: 500px;
 }
 .ui-tabs .ui-tabs-hide {
   display: none !important;
@@ -5498,6 +5498,7 @@ figcaption {
 .next-tab {
   bottom: 0;
   right: 0;
+  z-index:1003;
 }
 .prev-tab, .cancel-tab {
   bottom: 0;
@@ -5509,25 +5510,25 @@ figcaption {
   text-decoration: none;
 }
 #cancel-tab-1{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 #cancel-page-1{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 #cancel-tab-2{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 .prev-tab {
-  margin-top: -250px;
+  margin-top: -305px;
 }
 .prevv-tab {
-  margin-top: -280px;
+  margin-top: -315px;
 }
 #next-tab-1{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 #next-page-1{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 #previous-3 {
   margin-left: 518px;
@@ -5537,10 +5538,10 @@ figcaption {
   margin-left: 347px;
 }
 #next-tab-2{
-  margin-top: -250px;
+  margin-top: -305px;
 }
 .fragment-1-buttons{
-  margin-left: 76%;
+  margin-left: 62%;
   float: right;
 }
 .tab-pane .email_custom_builderbutton{
@@ -6203,7 +6204,7 @@ text-align: center;
   border-radius: 4px;
 }
 .md-fab:active, .md-fab:focus, .md-fab:hover {
-   box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
+  box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
 }
 .md-fab-toolbar-actions {
   white-space: nowrap;
@@ -6437,4 +6438,20 @@ text-align: center;
   font-family: Sans-Serif;
   padding-left: 25px;
   padding-right: 25px;
+}
+#fixed-header{
+  position:fixed;
+  z-index:500;
+  top:51px;
+}
+#fixed-content{
+  margin-top:13%;
+}
+.fixed-header{
+  position:fixed;
+  z-index:1003;
+}
+.align-tab-center{
+  padding-left:2%;
+  padding-right:2%;
 }

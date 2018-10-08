@@ -42,6 +42,16 @@ Mautic.emailOnLoad = function (container, response) {
         }
     });
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
+        var selectrel = mQuery(this).attr("rel");
+        if(!mQuery('#email-advance-container').hasClass('hide')) {
+            if (selectrel == 3) {
+                Mautic.launchBeeEditor('emailform', 'email');
+                return;
+            }
+            if(mQuery('textarea.builder-html').val() != ''){
+                Mautic.showpreviewoftemplate();
+            }
+        }
         mQuery('#Email_TemplateName').removeClass('has-success has-error');
         mQuery('#Email_Subject').removeClass('has-success has-error');
         mQuery('#leadlists').removeClass('has-success has-error');
@@ -63,14 +73,14 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_Subject .help-block').html("");
         }
 
-         if(mQuery('#emailform_name').val() == "") {
+        if(mQuery('#emailform_name').val() == "") {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_TemplateName .help-block').html("Campaign name can't be empty");
             return;
         }else{
-             mQuery('#Email_TemplateName').removeClass('has-success has-error');
-             mQuery('#Email_TemplateName .help-block').html("");
-         }
+            mQuery('#Email_TemplateName').removeClass('has-success has-error');
+            mQuery('#Email_TemplateName .help-block').html("");
+        }
 
         if (mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
@@ -111,7 +121,6 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_winnercriteria').removeClass('has-success has-error');
             mQuery('#Email_winnercriteria .help-block').html("");
         }
-        var selectrel = mQuery(this).attr("rel");
         mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
@@ -119,7 +128,7 @@ Mautic.emailOnLoad = function (container, response) {
 
         if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
         {
-            if(!mQuery('#email-advance-container').hasClass('hide')) {
+            if(!mQuery('#email-content-preview').hasClass('hide')) {
                 mQuery('#builder_btn').removeClass('hide');
             }else{
                 mQuery('#builder_btn').addClass('hide');
@@ -138,10 +147,10 @@ Mautic.emailOnLoad = function (container, response) {
                 {id: id},
                 function (response) {
                     if (response.success && mQuery('#sent-count-' + id + ' div').length) {
-                       /* if (response.pending) {
-                            mQuery('#pending-' + id + ' > a').html(response.pending);
-                            mQuery('#pending-' + id).removeClass('hide');
-                        }*/
+                        /* if (response.pending) {
+                             mQuery('#pending-' + id + ' > a').html(response.pending);
+                             mQuery('#pending-' + id).removeClass('hide');
+                         }*/
 
                         if (response.queued) {
                             mQuery('#queued-' + id + ' > a').html(response.queued);
@@ -166,7 +175,7 @@ Mautic.emailOnLoad = function (container, response) {
     }
 
     Mautic.getTokens('email:getBuilderTokens', function(tokens) {
-      /**  mQuery.each(tokens, function(k,v){
+        /**  mQuery.each(tokens, function(k,v){
             if (k.match(/assetlink=/i) && v.match(/a:/)){
                 delete tokens[k];
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
@@ -423,7 +432,7 @@ Mautic.selectEmailEditor = function(editorType) {
     if (editorType == 'basic' || editorType == 'code') {
         advance.addClass('hide');
         builderbtn.addClass('hide');
-        mQuery('.fragment-2-buttons').attr("style","margin-left: 60%;");
+        mQuery('.fragment-2-buttons').attr("style","margin-left: 46%;");
         var textarea = mQuery('textarea.bee-editor-json');
         textarea.val("");
         activateTab='basic';
@@ -444,12 +453,12 @@ Mautic.selectEmailEditor = function(editorType) {
         activateTab='other';
     }
     if(activateTab == 'basic'){
-       basic.trigger('click');
-       if(editorType == 'code'){
-          var editor = mQuery('.builder-html').data('froala.editor');
-          editor.commands.exec('html');
-       }
-       mQuery('#filters_chosen').addClass('hide');
+        basic.trigger('click');
+        if(editorType == 'code'){
+            var editor = mQuery('.builder-html').data('froala.editor');
+            editor.commands.exec('html');
+        }
+        mQuery('#filters_chosen').addClass('hide');
     } else if(activateTab == 'advance'){
         advance.trigger('click');
     } else{
@@ -990,15 +999,15 @@ Mautic.convertDynamicContentFilterInput = function(el, jQueryVariant) {
     }
 };
 Mautic.checkemailstatus = function(){
-        Mautic.ajaxActionRequest('email:emailstatus', {}, function(response) {
-            if (response.success) {
-                if(response.info != "" && response.isalertneeded != "true"){
-                    mQuery('.license-notifiation').removeClass('hide');
-                    mQuery('.button-notification').addClass('hide');
-                    mQuery('.license-notifiation #license-alert-message').html(response.info);
-                }else{
-                    mQuery('.license-notifiation').addClass('hide');
-                }
+    Mautic.ajaxActionRequest('email:emailstatus', {}, function(response) {
+        if (response.success) {
+            if(response.info != "" && response.isalertneeded != "true"){
+                mQuery('.license-notifiation').removeClass('hide');
+                mQuery('.button-notification').addClass('hide');
+                mQuery('.license-notifiation #license-alert-message').html(response.info);
+            }else{
+                mQuery('.license-notifiation').addClass('hide');
             }
-        });
-   }
+        }
+    });
+}
