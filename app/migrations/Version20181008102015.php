@@ -25,6 +25,7 @@ class Version20181008102015 extends AbstractMauticMigration
         if ($schema->getTable(MAUTIC_TABLE_PREFIX.'emails')->hasColumn('google_tags')) {
             throw new SkipMigrationException('Schema includes this migration');
         }
+
     }
 
     /**
