@@ -321,12 +321,12 @@ class CampaignSubscriber extends CommonSubscriber
         $config  = $event->getConfig();
         $emailId = (int) $config['email'];
         $email   = $this->emailModel->getEntity($emailId);
-        $status = $this->emailModel->mailHelper->emailstatus(false);
+        $status = $this->emailModel->mailHelper->emailstatus();
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or published');
         }
         if(!$status){
-            $this->notificationhelper->sendNotificationonFailure(false, false);
+            $this->notificationhelper->sendNotificationonFailure(true, false);
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
             return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
         }

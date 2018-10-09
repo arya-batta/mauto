@@ -95,19 +95,19 @@ class BuildJsSubscriber extends CommonSubscriber
             var component = m.fingerprintComponents[componentId];
             if (typeof component.key !== 'undefined') {
                 if (component.key === 'resolution') {
-                    params.resolution = component.value[0] + 'x' + component.value[1];
+                  //  params.resolution = component.value[0] + 'x' + component.value[1];
                 } else if (component.key === 'timezone_offset') {
-                    params.timezone_offset = component.value;
+                  //  params.timezone_offset = component.value;
                 } else if (component.key === 'navigator_platform') {
-                    params.platform = component.value;
+                  //  params.platform = component.value;
                 } else if (component.key === 'adblock') {
-                    params.adblock = component.value;
+                  //  params.adblock = component.value;
                 } else if (component.key === 'do_not_track') {
-                    params.do_not_track = component.value;
+                  //  params.do_not_track = component.value;
                 }
             }
         }
-        params.fingerprint = m.fingerprint;
+      //  params.fingerprint = m.fingerprint;
         
         return params;
     }
@@ -213,8 +213,8 @@ class BuildJsSubscriber extends CommonSubscriber
                     page_title: d.title,
                     page_language: n.language,
                     page_referrer: (d.referrer) ? d.referrer.split('/')[2] : '',
-                    page_url: l.href,
-                    counter: m.pageViewCounter
+                    page_url: l.href
+                   // counter: m.pageViewCounter  
                 };
                 
                 params = MauticJS.appendTrackedContact(params);

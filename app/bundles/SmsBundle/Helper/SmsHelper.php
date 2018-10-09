@@ -87,6 +87,8 @@ class SmsHelper
 
     public function getSmsTransportStatus($sendsms = true)
     {
+        $cacheHelper = $this->factory->get('mautic.helper.cache');
+        $cacheHelper->clearContainerFile();
         $configurator          = $this->factory->get('mautic.configurator');
         $settings[]            ='';
         $settings['transport'] =$this->coreParametersHelper->getParameter('sms_transport');
@@ -101,6 +103,8 @@ class SmsHelper
             if (!$sendsms) {
                 return true;
             }
+            $cacheHelper = $this->factory->get('mautic.helper.cache');
+            $cacheHelper->clearContainerFile();
             $result = $this->testSmsServerConnection($settings, false);
             if ($result['success']) {
                 return true;
@@ -114,6 +118,8 @@ class SmsHelper
             if (!$sendsms) {
                 return false;
             }
+            $cacheHelper = $this->factory->get('mautic.helper.cache');
+            $cacheHelper->clearContainerFile();
             $result = $this->testSmsServerConnection($settings, false);
             if ($result['success']) {
                 $configurator->mergeParameters(['sms_status' => 'Active']);
@@ -169,7 +175,13 @@ class SmsHelper
     {
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
-        $sendnumber = $user->getMobile();
+        if ($standardnumber){
+            $sendnumber = $user->getMobile();
+        }
+        else{
+            $sendnumber = '123456789';
+        }
+
         $transport  = $settings['transport'];
         $translator = $this->factory->get('translator');
         $transport  = $translator->trans($transport);

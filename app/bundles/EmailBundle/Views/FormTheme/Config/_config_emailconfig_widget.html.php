@@ -70,13 +70,16 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                             <?php echo $view['form']->row($fields['mailer_transport_name']); ?>
                         <?php endif; ?>
                     </div>
-                    <div class="col-sm-6 pt-lg mt-3" id="mailerTestButtonContainer" data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
-                        <div class="button_container">
-                            <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
-                            <?php echo $view['form']->widget($fields['mailer_test_send_button']); ?>
+                    <div class="col-sm-6"  data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
+                        <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
+                        <div class="button_container" id="mailerTestButtonContainer">
+                            <div class="pt-lg mt-3">
+                                <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
+                                <?php echo $view['form']->widget($fields['mailer_test_send_button']); ?>
+                            </div>
                             <span class="fa fa-spinner fa-spin hide"></span>
+                            <div class="col-md-9 help-block"></div>
                         </div>
-                        <div class="col-md-9 help-block"></div>
                     </div>
                 </div>
             <?php endif; ?>
@@ -105,7 +108,6 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_user', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_password', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_api_key', $template); ?>
-                <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
             </div>
 
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">

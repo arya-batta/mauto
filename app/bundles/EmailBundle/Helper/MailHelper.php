@@ -2175,6 +2175,8 @@ class MailHelper
 
     public function emailstatus($sendEmail = true)
     {
+        $cacheHelper = $this->factory->get('mautic.helper.cache');
+        $cacheHelper->clearContainerFile();
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
         $settings       = [
@@ -2198,6 +2200,8 @@ class MailHelper
             if (!$sendEmail) {
                 return true;
             }
+            $cacheHelper = $this->factory->get('mautic.helper.cache');
+            $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
                 return true;
@@ -2211,6 +2215,8 @@ class MailHelper
             if (!$sendEmail) {
                 return false;
             }
+            $cacheHelper = $this->factory->get('mautic.helper.cache');
+            $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
                 $configurator->mergeParameters(['email_status' => 'Active']);

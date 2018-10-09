@@ -601,7 +601,7 @@ class PageModel extends FormModel
             // timezone_offset holds timezone offset in minutes. Multiply by 60 to get seconds.
             // Multiply by -1 because Firgerprint2 seems to have it the other way around.
             $timezone = (-1 * $query['timezone_offset'] * 60);
-            $lead->setTimezone($this->dateTimeHelper->guessTimezoneFromOffset($timezone));
+          /**  $lead->setTimezone($this->dateTimeHelper->guessTimezoneFromOffset($timezone)); */
         }
 
         // Set info from request
@@ -613,10 +613,10 @@ class PageModel extends FormModel
             $hit->setReferer($query['page_referrer']);
         }
         if (isset($query['page_language'])) {
-            $hit->setPageLanguage($query['page_language']);
+           // $hit->setPageLanguage($query['page_language']);
         }
         if (isset($query['page_title'])) {
-            $hit->setUrlTitle($query['page_title']);
+          // $hit->setUrlTitle($query['page_title']);
         }
 
         // Add entry to contact log table
@@ -723,19 +723,19 @@ class PageModel extends FormModel
                 $utmTags->setLead($lead);
 
                 if (key_exists('utm_campaign', $query)) {
-                    $utmTags->setUtmCampaign($query['utm_campaign']);
+                   // $utmTags->setUtmCampaign($query['utm_campaign']);
                 }
                 if (key_exists('utm_term', $query)) {
-                    $utmTags->setUtmTerm($query['utm_term']);
+                  //  $utmTags->setUtmTerm($query['utm_term']);
                 }
                 if (key_exists('utm_content', $query)) {
-                    $utmTags->setUtmContent($query['utm_content']);
+                   // $utmTags->setUtmContent($query['utm_content']);
                 }
                 if (key_exists('utm_medium', $query)) {
-                    $utmTags->setUtmMedium($query['utm_medium']);
+                  //  $utmTags->setUtmMedium($query['utm_medium']);
                 }
                 if (key_exists('utm_source', $query)) {
-                    $utmTags->setUtmSource($query['utm_source']);
+                   // $utmTags->setUtmSource($query['utm_source']);
                 }
 
                 $repo = $this->em->getRepository('MauticLeadBundle:UtmTag');

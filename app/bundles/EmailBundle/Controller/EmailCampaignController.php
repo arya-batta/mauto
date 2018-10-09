@@ -1401,7 +1401,7 @@ class EmailCampaignController extends FormController
                 'mauticContent' => 'email',
             ],
         ];
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
             $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
 
@@ -1688,7 +1688,7 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
             $this->addFlash($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
 
