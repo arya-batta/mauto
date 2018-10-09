@@ -116,7 +116,7 @@ return [
                 'mautic.email.emails' => [
                     'iconClass'  => 'fa fa-envelope',
                    // 'route'      => 'mautic_email_index',
-                    'route'    => 'mautic_email_campaign_index',
+                    'route'      => 'mautic_email_campaign_index',
                     'access'     => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 300,
@@ -617,6 +617,7 @@ return [
                     'mautic.factory',
                     'mailer',
                     'mautic.helper.core_parameters',
+                    'service_container',
                 ],
             ],
             'mautic.helper.plain_text_message' => [

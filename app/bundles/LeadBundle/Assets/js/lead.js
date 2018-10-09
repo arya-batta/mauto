@@ -474,7 +474,9 @@ if(iscampaignmodel){
     var matches   = regExp.exec(mQuery(el).attr('id'));
     var filterNum = matches[1];
     var filterId  = '#' + prefix + '_filters_' + filterNum + '_filter';
-
+    var typeId  = '#' + prefix + '_filters_' + filterNum + '_type';
+    var fieldtype = mQuery(typeId).val();
+    var isSpecial = (mQuery.inArray(fieldtype, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
     // Reset has-error
     if (mQuery(filterId).parent().hasClass('has-error')) {
         mQuery(filterId).parent().find('div.help-block').hide();
@@ -505,7 +507,7 @@ if(iscampaignmodel){
 
     if (mQuery(filterId).is('select')) {
         var isMultiple  = mQuery(filterId).attr('multiple');
-        var multiple    = (operator == 'in' || operator == '!in');
+        var multiple    = (operator == 'in' || operator == '!in' || operator == 'empty' || operator == '!empty');
         var placeholder = mQuery(filterId).attr('data-placeholder');
 
         if (multiple && !isMultiple) {
@@ -605,7 +607,8 @@ if(iscampaignmodel){
     filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
     filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
 }
-    if (isSpecial) {
+    var operator = mQuery('#' + filterIdBase + 'operator').val();
+    if (isSpecial && (operator != "empty" && operator != "!empty")) {
         var templateField = fieldType;
         if (fieldType == 'boolean' || fieldType == 'multiselect') {
             templateField = 'select';

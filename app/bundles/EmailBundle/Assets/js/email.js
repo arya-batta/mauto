@@ -52,6 +52,11 @@ Mautic.emailOnLoad = function (container, response) {
                 Mautic.showpreviewoftemplate();
             }
         }
+        if(selectrel == 3){
+            mQuery('.sendEmailTest').removeClass('hide');
+        } else {
+            mQuery('.sendEmailTest').addClass('hide');
+        }
         mQuery('#Email_TemplateName').removeClass('has-success has-error');
         mQuery('#Email_Subject').removeClass('has-success has-error');
         mQuery('#leadlists').removeClass('has-success has-error');
@@ -432,7 +437,7 @@ Mautic.selectEmailEditor = function(editorType) {
     if (editorType == 'basic' || editorType == 'code') {
         advance.addClass('hide');
         builderbtn.addClass('hide');
-        mQuery('.fragment-2-buttons').attr("style","margin-left: 46%;");
+        mQuery('.fragment-2-buttons').attr("style","margin-left: 50%;");
         var textarea = mQuery('textarea.bee-editor-json');
         textarea.val("");
         activateTab='basic';

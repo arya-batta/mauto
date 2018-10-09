@@ -459,6 +459,7 @@ class LeadListRepository extends CommonRepository
                             )
                         );
                     }
+                    dump($q->getSQL());
                 } elseif ($nonMembersOnly) {
                     // Only leads that are part of the list that no longer match filters and have not been manually removed
                     $q->join('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll', 'l.id = ll.lead_id');
@@ -1038,6 +1039,13 @@ class LeadListRepository extends CommonRepository
                                     $q->expr()->eq($alias.'.lead_id', 'l.id')
                                 )
                             );
+                        default:
+                            $parameters[$parameter] = implode(',', $details['filter']);
+                            $subqb->where(
+                                $q->expr()->andX(
+                                    $q->expr()->$func($alias.'.'.$column, $exprParameter)
+                                )
+                            );
                             break;
                     }
                     // Specific lead
@@ -1528,7 +1536,6 @@ class LeadListRepository extends CommonRepository
                     break;
                 case 'tags':
                 case 'globalcategory':
-                case 'owner_id':
                 case 'lead_email_received':
                 case 'lead_email_sent':
                 case 'device_type':
@@ -1560,11 +1567,11 @@ class LeadListRepository extends CommonRepository
                             $subQueryFilters[$alias.'.is_read'] = $trueParameter;
                             $parameters[$trueParameter]         = true;
                             break;
-                        case 'owner_id':
+                        /*case 'owner_id':
                             $table  = 'users';
                             $column = 'id';
                             $alias  = 'll';
-                            break;
+                            break;*/
                         case 'lead_email_sent':
                             $table  = 'email_stats';
                             $column = 'email_id';
@@ -1605,6 +1612,40 @@ class LeadListRepository extends CommonRepository
                         sprintf('%s (%s)', $func, $subQb->getSQL())
                     );
                     break;
+                case 'owner_id':
+                    $subQueryFilters = [];
+                    $table           = 'users';
+                    $column          = 'id';
+                    $alias           = 'u';
+                    dump($func);
+                    if ($details['field'] == 'owner_id' && ($func != 'empty' && $func != '!empty')) {
+                        $subQb = $this->createFilterExpressionSubQuery(
+                            $table,
+                            $alias,
+                            $column,
+                            $details['filter'],
+                            $parameters,
+                            $leadId,
+                            $subQueryFilters
+                        );
+                        $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
+                        $groupExpr->add(
+                            sprintf('%s (%s)', $func, $subQb->getSQL())
+                        );
+                    } else {
+                        switch ($func) {
+                            case 'empty':
+                                $groupExpr->add(
+                                    $q->expr()->isNull('l.owner_id')
+                                );
+                                break;
+                            case 'notEmpty':
+                                $groupExpr->add(
+                                    $q->expr()->isNotNull('l.owner_id')
+                                );
+                                break;
+                        }
+                    }
                 case 'stage':
                     // A note here that SQL EXISTS is being used for the eq and neq cases.
                     // I think this code might be inefficient since the sub-query is rerun

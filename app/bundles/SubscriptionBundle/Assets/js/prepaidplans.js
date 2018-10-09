@@ -209,6 +209,8 @@ Mautic.loadLicenseUsageInfo = function() {
                 if(!response.needClosebutton){
                     mQuery('.button-notification').addClass('hide');
                 }
+                mQuery('#fixed-content').attr('style','margin-top:18%;');
+                mQuery('.content-body').attr('style','padding-top:82px;');
             }else{
                 mQuery('.license-notifiation').addClass('hide');
             }

@@ -34,7 +34,7 @@ $img = $view['slots']->get('mautibot', 'wave');
 $src = $view['mautibot']->getImage($img);
 ?>
 
-<div class="pa-20 mautibot-error<?php if ($isInline): echo ' inline'; endif; ?>">
+<div class="pa-20 mautibot-error<?php if ($isInline): echo ' inline'; endif; ?>" style="margin-top:7%;">
     <div class="row">
         <?php if ($isInline): ?>
         <div class="mautibot-content col-xs-12">

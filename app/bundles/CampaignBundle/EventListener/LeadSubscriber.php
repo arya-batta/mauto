@@ -21,6 +21,7 @@ use Mautic\LeadBundle\Event\LeadTimelineEvent;
 use Mautic\LeadBundle\Event\ListChangeEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\PageBundle\Entity\Hit;
 use Mautic\PageBundle\Event\PageHitEvent;
 
 /**
@@ -325,6 +326,8 @@ class LeadSubscriber extends CommonSubscriber
                     list($parent, $children) = $pagehit->getVariants();
                     //use the parent (self or configured parent)
                     $pageHitId = $parent->getId();
+                } elseif ($pagehit instanceof Hit) {
+                    $pageHitId = $pagehit->getPage();
                 } else {
                     $pageHitId = 0;
                 }

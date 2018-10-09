@@ -376,7 +376,7 @@ class SubmissionModel extends CommonFormModel
         $lead = null;
         if (!empty($leadFieldMatches)) {
             if ($isValidRecordAdd) {
-                $this->createLeadFromSubmit($form, $leadFieldMatches, $leadFields);
+                $lead = $this->createLeadFromSubmit($form, $leadFieldMatches, $leadFields);
                 $this->licenseInfoHelper->intRecordCount('1', true);
             } else {
                 return ['errors' => 'InSufficient Record Count Please Contact Support Team'];
@@ -385,7 +385,9 @@ class SubmissionModel extends CommonFormModel
 
         // Get updated lead if applicable with tracking ID
         /** @var Lead $lead */
-        $lead          = $this->leadModel->getCurrentLead();
+        if ($lead == null) {
+            $lead = $this->leadModel->getCurrentLead();
+        }
         $trackedDevice = $this->deviceTrackingService->getTrackedDevice();
         $trackingId    = ($trackedDevice === null ? null : $trackedDevice->getTrackingId());
         //set tracking ID for stats purposes to determine unique hits
@@ -429,7 +431,7 @@ class SubmissionModel extends CommonFormModel
 
         // Now handle post submission actions
         try {
-            $this->executeFormActions($submissionEvent);
+            $this->executeFormActions($submissionEvent, $lead);
         } catch (ValidationException $exception) {
             // The action invalidated the form for whatever reason
             $this->deleteEntity($submission);
@@ -767,10 +769,11 @@ class SubmissionModel extends CommonFormModel
      * Execute a form submit action.
      *
      * @param SubmissionEvent $event
+     * @param Lead            $lead
      *
      * @throws ValidationException
      */
-    protected function executeFormActions(SubmissionEvent $event)
+    protected function executeFormActions(SubmissionEvent $event, Lead $lead)
     {
         $actions          = $event->getSubmission()->getForm()->getActions();
         $availableActions = $this->formModel->getCustomComponents()['actions'];
@@ -809,7 +812,7 @@ class SubmissionModel extends CommonFormModel
                 $args['config'] = $action->getProperties();
 
                 // Set the lead each time in case an action updates it
-                $args['lead'] = $this->leadModel->getCurrentLead();
+                $args['lead'] = ($lead == null) ? $this->leadModel->getCurrentLead() : $lead;
 
                 $callback = $settings['callback'];
                 if (is_callable($callback)) {

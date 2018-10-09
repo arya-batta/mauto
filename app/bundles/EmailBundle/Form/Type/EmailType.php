@@ -611,7 +611,7 @@ class EmailType extends AbstractType
                         'label' => 'Send',
                         'type'  => 'submit',
                         'attr'  => [
-                            'class'   => 'btn btn-default pull-right le-btn-default',
+                            'class'   => 'btn btn-default pull-right le-btn-default hide sendEmailTest',
                             'icon'    => 'fa fa-send-o',
                         ],
                     ],

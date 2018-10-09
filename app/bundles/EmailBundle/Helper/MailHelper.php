@@ -22,9 +22,11 @@ use Mautic\EmailBundle\Entity\Stat;
 use Mautic\EmailBundle\Event\EmailSendEvent;
 use Mautic\EmailBundle\Swiftmailer\Exception\BatchQueueMaxException;
 use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
+use Mautic\EmailBundle\Swiftmailer\Transport\AmazonApiTransport;
 use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\SubscriptionBundle\Entity\Account;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class MailHelper.
@@ -254,17 +256,23 @@ class MailHelper
     private $coreParametersHelper;
 
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * @param MauticFactory        $factory
      * @param                      $mailer
      * @param null                 $from
      * @param CoreParametersHelper $coreParametersHelper
      */
-    public function __construct(MauticFactory $factory, \Swift_Mailer $mailer, CoreParametersHelper $coreParametersHelper, $from = null)
+    public function __construct(MauticFactory $factory, \Swift_Mailer $mailer, CoreParametersHelper $coreParametersHelper, ContainerInterface $container, $from = null)
     {
         $this->factory              = $factory;
         $this->mailer               = $mailer;
         $this->transport            = $mailer->getTransport();
         $this->coreParametersHelper = $coreParametersHelper;
+        $this->container            = $container;
 
         try {
             $this->logger = new \Swift_Plugins_Loggers_ArrayLogger();
@@ -321,7 +329,7 @@ class MailHelper
         // pass to ensure it is set regardless
         $transport  = $this->factory->get('swiftmailer.transport.real');
         $mailer     = new \Swift_Mailer($transport);
-        $mailHelper = new self($this->factory, $mailer, $this->coreParametersHelper, $this->from);
+        $mailHelper = new self($this->factory, $mailer, $this->coreParametersHelper, $this->container, $this->from);
 
         return $mailHelper->getMailer($cleanSlate);
     }
@@ -2192,14 +2200,14 @@ class MailHelper
             'send_test'         => true,
             'transport'         => $this->coreParametersHelper->getParameter('mailer_transport'),
             'user'              => $this->coreParametersHelper->getParameter('mailer_user'),
-            'toemail'           => '',
+            'toemail'           => 'abc@abc.com',
             'trackingcode'      => '',
             'additionalinfo'    => '',
         ];
         if ($config == 'Active') {
-            if (!$sendEmail) {
-                return true;
-            }
+            ///if (!$sendEmail) {
+            //     return true;
+            // }
             $cacheHelper = $this->factory->get('mautic.helper.cache');
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
@@ -2212,9 +2220,9 @@ class MailHelper
                 return false;
             }
         } else {
-            if (!$sendEmail) {
-                return false;
-            }
+            //if (!$sendEmail) {
+            //    return false;
+            //}
             $cacheHelper = $this->factory->get('mautic.helper.cache');
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
@@ -2242,14 +2250,14 @@ class MailHelper
                 $mailer = new \Swift_SmtpTransport($settings['host'], $settings['port'], $settings['encryption']);
                 break;
             default:
-                //if ($this->factory->has($transport)) {
-                    $mailer = $this->factory->get($transport);
+                if ($this->container->has($transport)) {
+                    $mailer = $this->container->get($transport);
                     if ('mautic.transport.amazon' == $transport) {
                         if (!$mailer instanceof AmazonApiTransport) {
                             $mailer->setHost($settings['amazon_region']);
                         }
                     }
-                //}
+                }
         }
 
         if (method_exists($mailer, 'setMauticFactory')) {
@@ -2286,7 +2294,8 @@ class MailHelper
             try {
                 $translator = $this->factory->get('translator');
                 if ($settings['send_test'] == 'true' || $settings['toemail'] != '') {
-                    if ($settings['toemail'] != '') {
+                    $email = '';
+                    if ($settings['toemail'] != '' && $default) {
                         $lemailer = $this->factory->get('mautic.transport.elasticemail.transactions');
                         $lemailer->start();
                         $trackingcode = $settings['trackingcode'];
@@ -2317,17 +2326,17 @@ class MailHelper
                         }
                         $message->setFrom([$settings['from_email'] => $settings['from_name']]);
                         if ($settings['toemail'] != '') {
+                            $email = $settings['toemail'];
                             $message->setTo([$settings['toemail']]);
                         } else {
+                            $email = $user->getEmail();
                             $message->setTo([$user->getEmail() => $userFullName]);
                         }
-                        if ($default) {
-                            $mailer->send($message);
-                        }
+                        $mailer->send($message);
                     }
                     $dataArray['success'] = 1;
                     if ($settings['send_test'] == 'true') {
-                        $message= $translator->trans('mautic.core.success', ['%email%'=>$user->getEmail()]);
+                        $message= $translator->trans('mautic.core.success', ['%email%'=>$email]);
                     } else {
                         $message = $translator->trans('mautic.core.success.tracking');
                     }
