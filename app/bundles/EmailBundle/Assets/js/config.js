@@ -186,7 +186,7 @@ Mautic.configOnLoad = function (container) {
         var email = mQuery('#aws_email_verification').val();
         var mailformat =/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,4})?$/;
         if (!email.match(mailformat)) {
-            document.getElementById('errors').innerHTML= "Please provide a valid email";
+            document.getElementById('errors').innerHTML= "Please provide your business email address, since Gmail/ Googlemail/ Yahoo/ Hotmail/ MSN/ AOL and a few more reject emails that claim to come from them but actually originate from different servers.";
             return;
         }
        mQuery('#user_email .help-block').removeClass('hide');

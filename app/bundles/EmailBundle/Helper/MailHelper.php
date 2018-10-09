@@ -321,7 +321,7 @@ class MailHelper
         // pass to ensure it is set regardless
         $transport  = $this->factory->get('swiftmailer.transport.real');
         $mailer     = new \Swift_Mailer($transport);
-        $mailHelper = new self($this->factory, $mailer, $this->from);
+        $mailHelper = new self($this->factory, $mailer,$this->coreParametersHelper,$this->from);
 
         return $mailHelper->getMailer($cleanSlate);
     }

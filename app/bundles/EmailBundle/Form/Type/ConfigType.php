@@ -206,7 +206,9 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control le-input disable',
                     'disabled' => false,
+                    'tabindex'   => -1,
                 ],
+                'required'   => false,
                 'data'       => $options['data']['email_status'],
             ]
         );
@@ -242,7 +244,7 @@ class ConfigType extends AbstractType
         if ($emailProvider == 'LeadsEngage' && ($transport == 'mautic.transport.elasticemail' || $transport == 'mautic.transport.sendgrid_api') && !$currentUser) {
             $datavalue        = 'le.transport.vialeadsengage';
             $disabletransport = false;
-        } elseif ($emailProvider == 'Sparkpost' && !$currentUser) {
+        } elseif (!$emailProvider == 'Sparkpost' && !$currentUser) {
             $style   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
             $tabIndex= '-1';
         }
@@ -261,6 +263,7 @@ class ConfigType extends AbstractType
                     'tabindex' => $tabIndex,
                     'style'    => $style,
                     'tooltip'  => 'mautic.email.config.mailer.from.email.tooltip',
+                    'onkeyup'      => 'Mautic.updateEmailStatus();',
                 ],
                 'constraints' => [
                     new NotBlank(
