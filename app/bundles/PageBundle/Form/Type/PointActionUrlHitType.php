@@ -32,7 +32,7 @@ class PointActionUrlHitType extends AbstractType
             'label'      => 'mautic.page.point.action.form.page.url',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'       => 'form-control',
+                'class'       => 'form-control le-input',
                 'tooltip'     => 'mautic.page.point.action.form.page.url.descr',
                 'placeholder' => 'http://',
             ],
@@ -52,7 +52,7 @@ class PointActionUrlHitType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
-                'class'   => 'form-control',
+                'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.page.point.action.form.page.hits.descr',
             ],
         ]);
@@ -70,7 +70,7 @@ class PointActionUrlHitType extends AbstractType
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.page.point.action.form.accumulative.time.descr',
                     ],
                     'auto_initialize' => false,
@@ -91,7 +91,7 @@ class PointActionUrlHitType extends AbstractType
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.page.point.action.form.returns.within.descr',
                         'onBlur'  => 'Mautic.EnablesOption(this.id)',
                     ],
@@ -112,7 +112,7 @@ class PointActionUrlHitType extends AbstractType
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control le-input',
                         'tooltip' => 'mautic.page.point.action.form.returns.after.descr',
                         'onBlur'  => 'Mautic.EnablesOption(this.id)',
                     ],

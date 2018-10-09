@@ -1336,11 +1336,11 @@ class FormController extends CommonFormController
         $firstNameId = 'new'.hash('sha1', uniqid(mt_rand()));
 
         $modifiedFields[$firstNameId]                      = $field->convertToArray();
-        $modifiedFields[$firstNameId]['label']             = $this->translator->trans('mautic.core.firstname');
+        $modifiedFields[$firstNameId]['label']             = $this->translator->trans('mautic.integration.LinkedIn.firstName');
         $modifiedFields[$firstNameId]['alias']             = 'firstname';
         $modifiedFields[$firstNameId]['showLabel']         = 1;
         $modifiedFields[$firstNameId]['type']              = 'text';
-        $modifiedFields[$firstNameId]['placeholder']       = $this->translator->trans('mautic.core.firstname');
+        $modifiedFields[$firstNameId]['placeholder']       = $this->translator->trans('mautic.integration.LinkedIn.firstName');
         $modifiedFields[$firstNameId]['isRequired']        = 1;
         $modifiedFields[$firstNameId]['validationMessage'] = 'Please fill your First Name';
         $modifiedFields[$firstNameId]['leadField']         = 'firstname';

@@ -334,6 +334,12 @@ class ListModel extends FormModel
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
+            'lead_email_read_date' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
+                'properties' => ['type' => 'date'],
+                'operators'  => $this->getOperatorsForFieldType('custmdate'),
+                'object'     => 'lead',
+            ],
             'lead_email_click_count' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click_count'),
                 'properties' => ['type' => 'number'],
@@ -342,12 +348,6 @@ class ListModel extends FormModel
             ],
             'lead_email_click_date' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click_date'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType('custmdate'),
-                'object'     => 'lead',
-            ],
-            'lead_email_read_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
                 'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',

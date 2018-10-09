@@ -91,7 +91,8 @@ $query = $event['extra']['hit']['query'];
     <?php  endif; */ ?>
 
     <?php
-    if (!empty($query)) {
+    //set True to enable Utm Medium,Utm Campaign,Utm Content in TimeLine
+    if (!empty($query) && false) {
         $counter = 0;
         foreach ($query as $k => $v) {
             if (in_array($v, ['', null, []])) {
@@ -141,6 +142,6 @@ $query = $event['extra']['hit']['query'];
     ?>
 </dl>
 <div class="small">
-    <?php //echo InputHelper::clean($event['extra']['hit']['userAgent']); ?>
+    <?php //echo InputHelper::clean($event['extra']['hit']['userAgent']);?>
 </div>
 <?php endif; ?>

@@ -6024,7 +6024,7 @@ text-align: center;
 .lg-content-header{
   line-height: 36px;
   font-size: 24px;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .le-content-description {
   padding: 20px 0;

@@ -110,7 +110,7 @@ class ListType extends AbstractType
         $formRepo    = $formModel->getRepository();
         $formRepo->setCurrentUser($currentUser);
 
-        $forms = $formRepo->getFormList('', 0, 0, true, $viewOther);
+        $forms = $formRepo->getFormList('', 0, 0, false, $viewOther);
 
         foreach ($forms as $form) {
             $this->formSubmitChoices[$form['id']] = $form['name'];

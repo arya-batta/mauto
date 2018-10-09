@@ -383,7 +383,7 @@ endif;*/ ?>
             </div>
             <div class="col-md-4" >
                 <div class="available-fields">
-                    <div class="alert alert-info" id="form-field-placeholder">
+                    <div class="alert alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
                         <p><?php echo $view['translator']->trans('mautic.form.form.addfield'); ?></p>
                     </div>
                     <center>
@@ -415,7 +415,7 @@ endif;*/ ?>
             </div>
         </div>
         <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
-            <div class="fragment-2-buttons fixed-header" style="margin-left: 62%;float:right">
+            <div class="fragment-2-buttons" style="margin-left: 60%;float:right">
                 <a href="#" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 128px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -450,7 +450,7 @@ endif;*/ ?>
                 </div>
             </div>
             <div class="available-actions col-md-4" style="margin-top: -35px;"> <br><br>
-                <div class="alert alert-info" id="form-action-placeholder">
+                <div class="alert alert-info" id="form-action-placeholder" style="width: 92%;">
                     <p><?php echo $view['translator']->trans('mautic.form.form.addaction'); ?></p>
                 </div>
                 <center>

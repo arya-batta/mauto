@@ -254,7 +254,7 @@ Mautic.formFieldOnLoad = function (container, response) {
         }
 
         if (mQuery('#form-field-placeholder').length) {
-            mQuery('#form-field-placeholder').remove();
+            //mQuery('#form-field-placeholder').remove();
         }
     }
 };
@@ -318,7 +318,7 @@ Mautic.formActionOnLoad = function (container, response) {
         }
 
         if (mQuery('#form-action-placeholder').length) {
-            mQuery('#form-action-placeholder').remove();
+            //mQuery('#form-action-placeholder').remove();
         }
     }
 };

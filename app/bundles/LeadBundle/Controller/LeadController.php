@@ -2372,6 +2372,6 @@ class LeadController extends FormController
 
         $iterator = new IteratorExportDataModel($model, $args, $resultsCallback);
 
-        return $this->exportResultsAs($iterator, $dataType, 'contacts');
+        return $this->exportResultsAs($iterator, $dataType, 'leads');
     }
 }

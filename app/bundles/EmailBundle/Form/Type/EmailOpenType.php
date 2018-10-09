@@ -33,7 +33,8 @@ class EmailOpenType extends AbstractType
                 'class'   => 'form-control',
                 'tooltip' => 'mautic.email.open.limittoemails_descr',
             ],
-            'required' => false,
+            'enableNewForm'      => false,
+            'required'           => false,
         ];
 
         if (isset($options['list_options'])) {

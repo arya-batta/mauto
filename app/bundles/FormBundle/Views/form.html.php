@@ -12,7 +12,9 @@
 <html>
     <head>
         <title><?php echo $name; ?></title>
-
+        <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
+        <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
+        <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
         <?php echo $view['analytics']->getCode(); ?>
 
         <?php if (isset($stylesheets) && is_array($stylesheets)) : ?>

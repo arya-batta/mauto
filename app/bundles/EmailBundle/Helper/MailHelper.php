@@ -321,7 +321,7 @@ class MailHelper
         // pass to ensure it is set regardless
         $transport  = $this->factory->get('swiftmailer.transport.real');
         $mailer     = new \Swift_Mailer($transport);
-        $mailHelper = new self($this->factory, $mailer,$this->coreParametersHelper,$this->from);
+        $mailHelper = new self($this->factory, $mailer, $this->coreParametersHelper, $this->from);
 
         return $mailHelper->getMailer($cleanSlate);
     }
@@ -2382,6 +2382,24 @@ class MailHelper
         return $message;
     }
 
+    public function appendHeadTag($content)
+    {
+        $finalContent='';
+        $contentarr  = explode('<html>', $content);
+        $headtag     = '<head><title></title></head>';
+
+        if (!empty($contentarr)) {
+            $contentarr[0] .= $headtag;
+            if (sizeof($contentarr) > 1) {
+                $finalContent = $contentarr[0].$contentarr[1];
+            } else {
+                $finalContent = $contentarr[0];
+            }
+        }
+
+        return $finalContent;
+    }
+
     public function replaceTitleinContent($title, $content)
     {
         $title   = "<title>$title</title>";
@@ -2398,19 +2416,20 @@ class MailHelper
         $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
         $head=$doc->getElementsByTagName('head');
 
-        $head = $head->item(0);
+        $favicon = $this->factory->get('templating.helper.assets')->getUrl('media/images/favicon.ico');
+        $head    = $head->item(0);
 
         $l1 = $doc->createElement('link');
         $l1->setAttribute('rel', 'icon');
         $l1->setAttribute('type', 'image/x-icon');
-        $l1->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l1->setAttribute('href', $favicon);
         $l2 = $doc->createElement('link');
         $l2->setAttribute('rel', 'icon');
         $l2->setAttribute('sizes', '192x192');
-        $l2->setAttribute('href', '/leadsengage/mauto/media/images/favicon.ico');
+        $l2->setAttribute('href', $favicon);
         $l3 = $doc->createElement('link');
         $l3->setAttribute('rel', 'apple-touch-icon');
-        $l3->setAttribute('href', '/leadsengage/mauto/media/images/apple-touch-icon.png');
+        $l3->setAttribute('href', $favicon);
         if ($head) {
             $head->appendChild($l1);
             $head->appendChild($l2);

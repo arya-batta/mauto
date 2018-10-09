@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Update Contact Information| LeadsEngage</title>
+    <title>Update Your Profile Information| LeadsEngage</title>
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />

@@ -181,9 +181,7 @@ class PublicController extends CommonFormController
 
             return $this->render($contentTemplate, $viewParams);
         }
-        $arr          = explode('@', $email);
-        $emailAddress = preg_replace('/(?:^|.@).\K|..[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '.', $arr[0].'@');
-        $emailAddress =$emailAddress.$arr[1];
+        $emailAddress = preg_replace('/(?:^|.@).\K|.[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '*', $email);
         if (empty($message)) {
             $actionName = 'updatelead';
         }
@@ -610,8 +608,7 @@ class PublicController extends CommonFormController
         $BCcontent                = $emailEntity->getContent();
         $title                    =$emailEntity->getName();
         $content                  = $emailEntity->getCustomHtml();
-        $content                  = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
-        $content                  = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
+
         $emailEntity->setCustomHtml($content);
 
         $model->saveEntity($emailEntity);
@@ -621,6 +618,8 @@ class PublicController extends CommonFormController
         $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
         // Get body tag.
         $body = $doc->getElementsByTagName('body');
+        $head = $doc->getElementsByTagName('head');
+
         if ($body and $body->length > 0 && (strpos($content, '{unsubscribe_link}') == 0)) {
             $body = $body->item(0);
             //create the div element to append to body element
@@ -635,6 +634,12 @@ class PublicController extends CommonFormController
             $body->appendChild($divelement);
             $content  = $doc->saveHTML();
         }
+        if ($head->length == 0) {
+            $content = $this->get('mautic.helper.mailer')->appendHeadTag($content);
+        }
+        $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
+        $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
+
         if (empty($content) && !empty($BCcontent)) {
             $template = $emailEntity->getTemplate();
             $slots    = $this->factory->getTheme($template)->getSlots('email');

@@ -267,7 +267,10 @@ class ProfileController extends FormController
             mkdir($avatarDir);
         }
 
-        $file->move($avatarDir, 'avatar'.$user->getId());
+        if ($file != null) {
+            $file->move($avatarDir, 'avatar'.$user->getId());
+        }
+
         //remove the file from request
         $this->request->files->remove('user');
     }

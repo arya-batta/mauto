@@ -35,11 +35,37 @@ Mautic.pageOnLoad = function (container, response) {
         var selectrel = mQuery(this).attr("rel");
         mQuery('#page_Title').removeClass('has-success has-error');
         mQuery('#page_Title .help-block').html("");
+        mQuery('#redirectUrl').removeClass('has-success has-error');
+        mQuery('#redirectUrl .help-block').html("");
         if(mQuery('#page_title').val() == "") {
             mQuery('#page_Title').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#page_Title .help-block').html("Title name can't be empty");
+            mQuery('#page_Title .help-block').html("Landing Page Title name can't be empty");
             return;
         }
+        if(mQuery('#page_redirectUrl').is(':visible')) {
+            if(mQuery('#page_redirectUrl').val() == "") {
+                mQuery('#redirectUrl').addClass('has-error');
+                mQuery('#redirectUrl .help-block').html("URL can't be empty");
+                return;
+            }
+        }
+        if(mQuery('#page_variantSettings_weight').val() == "" ){
+            mQuery('#Page_trafficweight').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Page_trafficweight .help-block').html("Traffic Weight can't be empty");
+            return;
+        }else{
+            mQuery('#Page_trafficweight').removeClass('has-success has-error');
+            mQuery('#Page_trafficweight .help-block').html("");
+        }
+        if(mQuery('#page_variantSettings_winnerCriteria').val() == ""){
+            mQuery('#Page_winnercriteria').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#Page_winnercriteria .help-block').html("Winner Criteria can't be empty");
+            return;
+        } else {
+            mQuery('#Page_winnercriteria').removeClass('has-success has-error');
+            mQuery('#Page_winnercriteria .help-block').html("");
+        }
+        var selectrel = mQuery(this).attr("rel");
         mQuery(".ui-tabs-panel").addClass('hide');
         mQuery("#fragment-page-"+selectrel).removeClass('hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');

@@ -118,8 +118,10 @@ $custombutton = [
 
                         <div class="row">
                             <?php if ($isVariant): ?>
-                                <div class="col-md-6">
-                                    <?php echo $view['form']->row($form['variantSettings']['weight']); ?>
+                                <div class="col-md-6" id="Page_trafficweight">
+                                    <?php echo $view['form']->label($form['variantSettings']['weight']); ?>
+                                <?php echo $view['form']->widget($form['variantSettings']['weight']); ?>
+                                <div class="help-block" ></div>
                                 </div>
                             <?php else: ?>
                                 <div class="col-md-6">
@@ -127,8 +129,10 @@ $custombutton = [
                                 </div>
                             <?php endif; ?>
                             <?php if ($isVariant): ?>
-                                <div class="col-md-6">
-                                    <?php echo $view['form']->row($form['variantSettings']['winnerCriteria']); ?>
+                                <div class="col-md-6" id="Page_winnercriteria">
+                                    <?php echo $view['form']->label($form['variantSettings']['winnerCriteria']); ?>
+                            <?php echo $view['form']->widget($form['variantSettings']['winnerCriteria']); ?>
+                            <div class="help-block" ></div>
                                 </div>
                             <?php else: ?>
                                 <div class="col-md-6">
@@ -156,7 +160,11 @@ $custombutton = [
                             <?php if (!$isVariant): ?>
                                 <div class="col-md-6">
                                     <?php echo $view['form']->row($form['redirectType']); ?>
-                                    <?php echo $view['form']->row($form['redirectUrl']); ?>
+                                    <div class="form-group col-xs-12 " style="display: block;" id="redirectUrl">
+                                    <?php echo $view['form']->label($form['redirectUrl']); ?>
+                                    <?php echo $view['form']->widget($form['redirectUrl']); ?>
+                                    <div class="help-block"></div>
+                                </div>
                                 </div>
                             <?php endif; ?>
 

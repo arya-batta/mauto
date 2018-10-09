@@ -31,7 +31,16 @@ $isAdmin    =$view['security']->isAdmin();
                         ],
                     ]
                 );
-
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'point',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.core.update.heading.status',
+                        'class'      => 'col-status-name',
+                        'default'    => true,
+                    ]
+                );
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -104,12 +113,13 @@ $isAdmin    =$view['security']->isAdmin();
                         ?>
                     </td>
                     <td>
+                        <?php echo $view->render(
+                            'MauticCoreBundle:Helper:publishstatus_icon.html.php',
+                            ['item' => $item, 'model' => 'point']
+                        ); ?>
+                    </td>
+                    <td>
                         <div>
-
-                            <?php echo $view->render(
-                                'MauticCoreBundle:Helper:publishstatus_icon.html.php',
-                                ['item' => $item, 'model' => 'point']
-                            ); ?>
                             <a href="<?php echo $view['router']->path(
                                 'mautic_point_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
