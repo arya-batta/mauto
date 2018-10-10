@@ -33,7 +33,7 @@ echo $view['form']->start($form);
             </div>
     		<div class="col-md-6">
 		        <div class="pa-md">
-                    <?php echo $view['form']->row($form['type']); ?>
+                    <?php echo $view['form']->row($form['category']); ?>
                     <div id="pointActionProperties">
                         <?php
                         if (isset($form['properties'])):
@@ -41,18 +41,22 @@ echo $view['form']->start($form);
                         endif;
                         ?>
                     </div>
-				     <?php
-                    echo $view['form']->row($form['category']);
-                    ?>
+                    <?php echo $view['form']->row($form['type']); ?>
 				</div>
 			</div>
             <div class="col-md-6">
                 <div class="pa-md">
                     <?php
-                    echo $view['form']->row($form['delta']);
                     echo $view['form']->row($form['isPublished']);
+                    echo $view['form']->row($form['delta']);
                     ?>
-
+                    <div id="pointActionProperties">
+                        <?php
+                        if (isset($form['properties'])):
+                            echo $view['form']->row($form['properties']);
+                        endif;
+                        ?>
+                    </div>
                 </div>
             </div>
 			<div class="col-md-12">

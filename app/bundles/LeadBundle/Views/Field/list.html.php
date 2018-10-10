@@ -34,10 +34,21 @@ $hideid     = ($isadmin) ? '' : 'hide';
                         ],
                     ]
                 );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.core.update.heading.status',
+                        'class'      => 'col-status-name',
+                        'default'    => true,
+                    ]
+                );
                 ?>
+
                 <th class="col-leadfield-label"><?php echo $view['translator']->trans('mautic.lead.field.label'); ?></th>
                 <th class="visible-md visible-lg col-leadfield-alias"><?php echo $view['translator']->trans('mautic.core.alias'); ?></th>
-                <th class="visible-md visible-lg col-leadfield-group"><?php echo $view['translator']->trans('mautic.lead.field.group'); ?></th>
+                <th class="hide"><?php echo $view['translator']->trans('mautic.lead.field.group'); ?></th>
                 <th class="col-leadfield-type"><?php echo $view['translator']->trans('mautic.lead.field.type'); ?></th>
                 <?php if ($isadmin): ?>
                 <th class="visible-md visible-lg col-leadfield-id"><?php echo $view['translator']->trans('mautic.core.id'); ?></th>
@@ -68,11 +79,14 @@ $hideid     = ($isadmin) ? '' : 'hide';
                         ?>
                     </td>
                     <td>
-                    <span class="ellipsis">
                         <?php echo $view->render(
                             'MauticCoreBundle:Helper:publishstatus_icon.html.php',
                             ['item' => $item, 'model' => 'lead.field', 'disableToggle' => ($isadmin) ? ($item->getAlias() == 'email') : ($item->getIsFixed() == 1)]
                         ); ?>
+                    </td>
+                    <td>
+                    <span class="ellipsis">
+
                         <a href="<?php echo $view['router']->path(
                             'mautic_contactfield_action',
                             ['objectAction' => 'edit', 'objectId' => $item->getId()]
@@ -80,7 +94,7 @@ $hideid     = ($isadmin) ? '' : 'hide';
                     </span>
                     </td>
                     <td class="visible-md visible-lg" <?php echo $hidepanel; ?>><?php echo $item->getAlias(); ?></td>
-                    <td class="visible-md visible-lg"><?php echo $view['translator']->trans('mautic.lead.field.group.'.$item->getGroup()); ?></td>
+                    <td class="hide"><?php echo $view['translator']->trans('mautic.lead.field.group.'.$item->getGroup()); ?></td>
                     <td><?php echo $view['translator']->transConditional(
                             'mautic.core.type.'.$item->getType(),
                             'mautic.lead.field.type.'.$item->getType()

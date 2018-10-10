@@ -13,23 +13,23 @@ return [
     'routes' => [
         'main' => [
             'mautic_pointtriggerevent_action' => [
-                'path'       => '/points/triggers/events/{objectAction}/{objectId}',
+                'path'       => '/leadscoring/triggers/events/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:TriggerEvent:execute',
             ],
             'mautic_pointtrigger_index' => [
-                'path'       => '/points/triggers/{page}',
+                'path'       => '/leadscoring/triggers/{page}',
                 'controller' => 'MauticPointBundle:Trigger:index',
             ],
             'mautic_pointtrigger_action' => [
-                'path'       => '/points/triggers/{objectAction}/{objectId}',
+                'path'       => '/leadscoring/triggers/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:Trigger:execute',
             ],
             'mautic_point_index' => [
-                'path'       => '/points/{page}',
+                'path'       => '/leadscoring/{page}',
                 'controller' => 'MauticPointBundle:Point:index',
             ],
             'mautic_point_action' => [
-                'path'       => '/points/{objectAction}/{objectId}',
+                'path'       => '/leadscoring/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:Point:execute',
             ],
         ],
@@ -37,25 +37,25 @@ return [
             'mautic_api_pointactionsstandard' => [
                 'standard_entity' => true,
                 'name'            => 'points',
-                'path'            => '/points',
+                'path'            => '/leadscoring',
                 'controller'      => 'MauticPointBundle:Api\PointApi',
             ],
             'mautic_api_getpointactiontypes' => [
-                'path'       => '/points/actions/types',
+                'path'       => '/leadscoring/actions/types',
                 'controller' => 'MauticPointBundle:Api\PointApi:getPointActionTypes',
             ],
             'mautic_api_pointtriggersstandard' => [
                 'standard_entity' => true,
                 'name'            => 'triggers',
-                'path'            => '/points/triggers',
+                'path'            => '/leadscoring/triggers',
                 'controller'      => 'MauticPointBundle:Api\TriggerApi',
             ],
             'mautic_api_getpointtriggereventtypes' => [
-                'path'       => '/points/triggers/events/types',
+                'path'       => '/leadscoring/triggers/events/types',
                 'controller' => 'MauticPointBundle:Api\TriggerApi:getPointTriggerEventTypes',
             ],
             'mautic_api_pointtriggerdeleteevents' => [
-                'path'       => '/points/triggers/{triggerId}/events/delete',
+                'path'       => '/leadscoring/triggers/{triggerId}/events/delete',
                 'controller' => 'MauticPointBundle:Api\TriggerApi:deletePointTriggerEvents',
                 'method'     => 'DELETE',
             ],
