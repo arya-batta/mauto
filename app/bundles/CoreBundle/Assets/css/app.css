@@ -4991,7 +4991,7 @@ figcaption {
   left: 0;
   width: 100%;
   z-index: 1030;
-  height: 550px;
+  height: 650px;
 }
 .panel-heading-account{
   color: #ffffff;
@@ -5499,10 +5499,12 @@ figcaption {
   bottom: 0;
   right: 0;
   z-index:1003;
+  margin-left:64%;
 }
 .prev-tab, .cancel-tab {
   bottom: 0;
   left: 0;
+  margin-left: -31%;
 }
 .ui-tabs-panel a.mover {
   position: relative;
@@ -5541,7 +5543,6 @@ figcaption {
   margin-top: -305px;
 }
 .fragment-1-buttons{
-  margin-left: 62%;
   float: right;
 }
 .tab-pane .email_custom_builderbutton{
@@ -6454,4 +6455,10 @@ text-align: center;
 .align-tab-center{
   padding-left:2%;
   padding-right:2%;
+}
+.ui-tabs-panel .fixed-header{
+  right: 0;
+}
+.ui-panel-fixed-button-panel{
+  margin-top: 1%;
 }

@@ -29,11 +29,12 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                         <div class="send-body">
                             <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/emailtick.png'); ?>" />
                             <br><br>
-                            <div>
+                            <div style="padding-right:45px;">
                                 <strong><h6 class="send-body-detail"><?php echo $view['translator']->trans('le.email.send.an.example.desc'); ?></h6></strong>
                             </div>
                         </div>
                         <br><br>
+                        <br>
                         <div class="send-foot" style="margin-left: 25%;">
                             <a class="btn btn-primary"  href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $email->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#MauticSharedModal" >Send Example</a>
                             <a style="margin-left:10px;text-decoration: underline;color:#00bfff;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
@@ -48,7 +49,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                             <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/arrow.png'); ?>" />
                             </i>
                             <br><br>
-                            <div>
+                            <div  style="padding-right:45px;">
                                 <strong><h6 class="send-body-detail"><?php echo $view['translator']->transChoice('le.email.send.instructions', $pending, ['%pending%' => $pending]); ?></h6></strong>
                             </div>
                         </div>

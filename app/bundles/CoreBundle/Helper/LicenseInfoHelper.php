@@ -392,7 +392,7 @@ class LicenseInfoHelper
         if (!$data) {
             $entity = new LicenseInfo();
         }
-        $currentDate   =date('Y-m-d', strtotime('- 1 day'));
+        $currentDate   =date('Y-m-d'); //, strtotime('- 1 day'));
         $licenseEnd    = $entity->getLicenseEnd();
         $licenseRemDays= $entity->getLicensedDays();
 
@@ -1080,7 +1080,7 @@ class LicenseInfoHelper
     public function redirectToSubscriptionpage()
     {
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if ($lastpayment == null && ($this->getLicenseRemainingDays() == 0 || $this->getLicenseRemainingDays() < 0)) {
+        if (($this->getLicenseRemainingDays() == 0 || $this->getLicenseRemainingDays() < 0)) {
             return true;
         } else {
             return false;

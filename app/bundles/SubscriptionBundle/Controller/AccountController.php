@@ -178,6 +178,7 @@ class AccountController extends FormController
         $planAmount           ='';
         $datehelper           =$this->get('mautic.helper.template.date');
         $custplanamount       = '';
+        $planname             = '';
         if ($lastpayment != null) {
             $planType    = $lastpayment->getPlanLabel();
             $validityTill=$datehelper->toDate($lastpayment->getValidityTill());
@@ -188,8 +189,8 @@ class AccountController extends FormController
             }
             $custplanamount = ((($totalContactCredits - 25000) / 5000) * 10) + 49;
             $custplanamount = $lastpayment->getCurrency().$custplanamount;
+            $planname       = $lastpayment->getPlanName();
         }
-        $planname = $lastpayment->getPlanName();
 
         return $this->delegateView([
             'viewParameters' => [

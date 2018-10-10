@@ -21,7 +21,7 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
 <div class="navbar-nocollapse">
     <!-- start: left nav -->
     <ul class="nav navbar-nav navbar-left">
-        <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer">
+        <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer" onclick="Mautic.changeButtonPanelStyle();">
             <span class="fa fa-bars w3-xxlarge le-sidebar-minimizer"></span>
         </a>
     </ul>

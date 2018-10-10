@@ -65,7 +65,7 @@ if (count($items)):
                 <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.sent_count'); ?></th>
                 <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.click_count'); ?></th>
                 <?php
-                //<th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats'); ?></th>
+                //<th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats');?></th>
 
                 <?php
                 if ($isAdmin):
@@ -92,7 +92,7 @@ if (count($items)):
             <?php
             /** @var \Mautic\SmsBundle\Entity\Sms $item */
             foreach ($items as $item):
-                $type = $item->getSmsType();
+                $type      = $item->getSmsType();
                 $sentcount = 0;
                 ?>
                 <tr>
@@ -176,9 +176,9 @@ if (count($items)):
 
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats">
-                        <?php echo $clickcount = $model->getClickCount($item->getId());?><br>
-                        <?php $clickpercent = ($sentcount == 0) ? 0 : ($clickcount/$sentcount)*100;
-                        echo "(".$clickpercent."%)" ?>
+                        <?php echo $clickcount = $model->getClickCount($item->getId()); ?><br>
+                        <?php $clickpercent    = ($sentcount == 0) ? 0 : ($clickcount / $sentcount) * 100;
+                        echo '('.$clickpercent.'%)' ?>
 
                     </td>
                    <?php /** <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;"> ?>
@@ -205,7 +205,7 @@ if (count($items)):
                             <div class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
-                                    <div tabindex="0" class="md-fab-toolbar-actions">
+                                    <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
                                             <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_sms_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>

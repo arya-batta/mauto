@@ -1088,6 +1088,9 @@ class AjaxController extends CommonAjaxController
         $action                   = $this->generateUrl('le_pricing_index');
         $upgradeinfo              = str_replace('|URL|', $action, $upgradeinfo);
         $trailinfo                = str_replace('|DAYS|', $trialEndDays, $trailinfo);
+        if ($trialEndDays < 0) {
+            $trailinfo                = $this->get('translator')->trans('le.upgrade.trial.period.expired');
+        }
         $dataArray['upgradeinfo'] = $upgradeinfo;
         $dataArray['trailinfo']   = $trailinfo;
 

@@ -39,7 +39,7 @@ $carderror = str_replace('|URL|', 'Mautic.openPluginModel("card-error-info")', $
                         <div class="cardholder-panel">
                             <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
 
-                            <span class="login-notifiation <?php echo $lastpayment->getPaymentStatus() != 'Paid' ? '' : 'hide'; ?>" style="width: 100%;text-align: left;border:1px solid #fef4f6;"><?php echo $carderror; ?></span>
+                            <span class="login-notifiation <?php echo($lastpayment != null && $lastpayment->getPaymentStatus()) != 'Paid' ? '' : 'hide'; ?>" style="width: 100%;text-align: left;border:1px solid #fef4f6;"><?php echo $carderror; ?></span>
                             <div>
                                 <div class="card-holder-title">
                                     Credit Card

@@ -1691,7 +1691,7 @@ Mautic.initiateFileDownload = function (link) {
  */
 Mautic.showActionButtons = function (id) {
     mQuery('#mainClass-'+id).addClass('md-fab-animated md-fab-active');
-    mQuery('.md-fab-toolbar-actions').css("display","block");
+    mQuery('.toolbar-actions-'+id).css("display","block");
     var actioButtons = document.getElementsByClassName("md-fab-toolbar-actions")[0].getElementsByTagName("a").length;
     if(actioButtons > 4){
         mQuery('#mainClass-'+id).css("width", '145px');

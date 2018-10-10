@@ -151,7 +151,7 @@ $isAdmin    =$view['security']->isAdmin();
                 <div class="md-fab-wrapper">
                     <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
                         <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
-                        <div tabindex="0" class="md-fab-toolbar-actions" id="toolbar-lead">
+                        <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>" id="toolbar-lead">
                             <?php if ($hasEditAccess): ?>
                                 <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                     <span><i class="material-icons md-color-white">  </i></span></a>

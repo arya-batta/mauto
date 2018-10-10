@@ -86,10 +86,10 @@ $custombutton = [
                         </div>
                     </ul>
                     <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
-                        <div class="fragment-1-buttons fixed-header" style="margin-left:60%;">
+                        <div class="fragment-1-buttons fixed-header">
                             <a href="<?php echo $view['router']->path('mautic_page_index')?>" id="cancel-page-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                             <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                            <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 130px;">
+                            <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -187,8 +187,8 @@ $custombutton = [
                     </div>
                     <div id="fragment-page-2" class="ui-tabs-panel hide">
                         <!--/ tabs controls -->
-                        <div class="fragment-3-buttons fixed-header" style="margin-left: 60%;">
-                            <a href="#" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                        <div class="fragment-3-buttons fixed-header">
+                            <a href="#" style="margin-left:4%;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -182px;margin-left: 127px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
