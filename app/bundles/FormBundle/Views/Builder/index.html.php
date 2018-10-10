@@ -354,6 +354,7 @@ endif;*/ ?>
                 </div>
             </div>
             <?php  echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
+           <div>
             <div id="mauticforms_fields" class="col-md-8">
                 <div class="drop-here">
                     <?php foreach ($formFields as $field): ?>
@@ -409,10 +410,12 @@ endif;*/ ?>
                                 </a></div>
                         <?php endforeach; ?>
                     </div>
-
+                </div>
 
                 </div>
             </div>
+
+
         </div>
         <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">

@@ -31,14 +31,14 @@ class ActionType extends AbstractType
         $builder->add('name', 'text', [
             'label'      => 'mautic.core.name',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control'],
+            'attr'       => ['class' => 'form-control le-input'],
             'required'   => false,
         ]);
 
         $builder->add('description', 'textarea', [
             'label'      => 'mautic.core.description',
             'label_attr' => ['class' => 'control-label'],
-            'attr'       => ['class' => 'form-control editor'],
+            'attr'       => ['class' => 'form-control editor le-input'],
             'required'   => false,
         ]);
 
