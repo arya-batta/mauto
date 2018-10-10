@@ -471,9 +471,11 @@ class CommonController extends Controller implements MauticController
     public function executeAction($objectAction, $objectId = 0, $objectSubId = 0, $objectModel = '')
     {
         if (method_exists($this, "{$objectAction}Action")) {
-            if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-                return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-            }
+            //if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && !$this->request->get('qf', false)) {
+            //    return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+            //} else if($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && $this->request->get('qf', false)){
+            //    $this->redirectToPricing();
+            //}
 
             return $this->{"{$objectAction}Action"}($objectId, $objectModel);
         }
@@ -827,5 +829,25 @@ class CommonController extends Controller implements MauticController
         $data = new DataExporterHelper();
 
         return $data->getDataForExport($start, $model, $args, $resultsCallback);
+    }
+
+    public function redirectToPricing()
+    {
+        $viewParameters = [];
+        $returnUrl      = $this->generateUrl('le_pricing_index', $viewParameters);
+        $template       = 'MauticSubscriptionBundle:Subscription:indexpricing';
+
+        return $this->postActionRedirect(
+            [
+                'returnUrl'       => $returnUrl,
+                'viewParameters'  => $viewParameters,
+                'contentTemplate' => $template,
+                'passthroughVars' => [
+                    'activeLink'    => '#mautic_contact_index',
+                    'mauticContent' => 'lead',
+                    'closeModal'    => 1, //just in case in quick form
+                ],
+            ]
+        );
     }
 }

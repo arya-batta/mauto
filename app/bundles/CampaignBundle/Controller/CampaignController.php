@@ -78,7 +78,11 @@ class CampaignController extends AbstractStandardFormController
      */
     public function batchDeleteAction()
     {
-        return $this->batchDeleteStandard();
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        } else {
+            return $this->batchDeleteStandard();
+        }
     }
 
     /**
@@ -90,7 +94,11 @@ class CampaignController extends AbstractStandardFormController
      */
     public function cloneAction($objectId)
     {
-        return $this->cloneStandard($objectId);
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        } else {
+            return $this->cloneStandard($objectId);
+        }
     }
 
     /**
@@ -122,7 +130,11 @@ class CampaignController extends AbstractStandardFormController
      */
     public function deleteAction($objectId)
     {
-        return $this->deleteStandard($objectId);
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        } else {
+            return $this->deleteStandard($objectId);
+        }
     }
 
     /**
@@ -135,6 +147,8 @@ class CampaignController extends AbstractStandardFormController
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
             return $this->editStandard($objectId, $ignorePost);
         }
@@ -161,6 +175,8 @@ class CampaignController extends AbstractStandardFormController
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
             return $this->newStandard($objectId);
         }
@@ -172,7 +188,7 @@ class CampaignController extends AbstractStandardFormController
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
         }
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+            return $this->redirectToPricing();
         }
         /** @var CampaignModel $model */
         $model     = $this->getModel('campaign');

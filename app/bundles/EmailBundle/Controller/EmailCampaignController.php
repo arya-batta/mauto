@@ -272,6 +272,9 @@ class EmailCampaignController extends FormController
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
         }
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        }
         /** @var \Mautic\EmailBundle\Entity\Email $email */
         $email = $model->getEntity($objectId);
         //set the page we came from
@@ -506,6 +509,9 @@ class EmailCampaignController extends FormController
         $model = $this->getModel('email');
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         }
         if (!($entity instanceof Email)) {
             /** @var \Mautic\EmailBundle\Entity\Email $entity */
@@ -783,6 +789,9 @@ class EmailCampaignController extends FormController
         $method = $this->request->getMethod();
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
             return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         }
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
@@ -1081,7 +1090,9 @@ class EmailCampaignController extends FormController
         $model = $this->getModel('email');
         /** @var Email $entity */
         $entity = $model->getEntity($objectId);
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
                 || !$this->get('mautic.security')->hasEntityAccess(
@@ -1115,7 +1126,9 @@ class EmailCampaignController extends FormController
         $page      = $this->get('session')->get('mautic.email.page', 1);
         $returnUrl = $this->generateUrl('mautic_email_campaign_index', ['page' => $page]);
         $flashes   = [];
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -1388,7 +1401,9 @@ class EmailCampaignController extends FormController
         $actualEmailCount      = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
         $isHavingEmailValidity = $this->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
         $accountStatus         = $this->get('mautic.helper.licenseinfo')->getAccountStatus();
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        }
         //set the return URL
         $returnUrl = $this->generateUrl('mautic_email_campaign_index', ['page' => $page]);
 
@@ -1597,7 +1612,9 @@ class EmailCampaignController extends FormController
         $page      = $this->get('session')->get('mautic.email.page', 1);
         $returnUrl = $this->generateUrl('mautic_email_campaign_index', ['page' => $page]);
         $flashes   = [];
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -1670,7 +1687,9 @@ class EmailCampaignController extends FormController
     {
         $model  = $this->getModel('email');
         $entity = $model->getEntity($objectId);
-
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->redirectToPricing();
+        }
         //not found or not allowed
         if ($entity === null
             || (!$this->get('mautic.security')->hasEntityAccess(
