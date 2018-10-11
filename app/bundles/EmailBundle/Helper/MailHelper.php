@@ -20,6 +20,7 @@ use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Entity\Stat;
 use Mautic\EmailBundle\Event\EmailSendEvent;
+use Mautic\EmailBundle\Swiftmailer\Amazon\SimpleEmailService;
 use Mautic\EmailBundle\Swiftmailer\Exception\BatchQueueMaxException;
 use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
 use Mautic\EmailBundle\Swiftmailer\Transport\AmazonApiTransport;
@@ -2255,6 +2256,12 @@ class MailHelper
                     if ('mautic.transport.amazon' == $transport) {
                         if (!$mailer instanceof AmazonApiTransport) {
                             $mailer->setHost($settings['amazon_region']);
+                        } else if ($mailer instanceof AmazonApiTransport){
+                            if (empty($settings['password'])) {
+                                $settings['password'] = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_password');
+                            }
+                            $sesmailer = new SimpleEmailService($settings['user'],$settings['password'],$settings['amazon_region']);
+                            $mailer->setSimpleemailservice($sesmailer);
                         }
                     }
                 }

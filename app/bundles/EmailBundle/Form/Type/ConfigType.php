@@ -207,6 +207,7 @@ class ConfigType extends AbstractType
                     'class'    => 'form-control le-input disable',
                     'disabled' => false,
                     'tabindex'   => -1,
+                    'style'    => 'width:65px;',
                 ],
                 'required'   => false,
                 'data'       => $options['data']['email_status'],

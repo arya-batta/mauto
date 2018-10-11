@@ -71,7 +71,9 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                         <?php endif; ?>
                     </div>
                     <div class="col-sm-6"  data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
-                        <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
+                        <div class="col-sm-4" >
+                            <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
+                        </div>
                         <div class="button_container" id="mailerTestButtonContainer">
                             <div class="pt-lg mt-3">
                                 <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>

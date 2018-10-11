@@ -243,6 +243,7 @@ return [
         'sms_from_number'          => null,
         'publish_account'          => null,
         'sms_status'               => null,
+        'link_shortener_url'       => null,
         'le_account_sender_id'     => '',
         'le_account_url'           => '',
         'le_account_api_key'       => '',

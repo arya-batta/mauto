@@ -331,4 +331,21 @@ class AmazonApiTransport implements \Swift_Transport, TokenTransportInterface, C
             }
         }
     }
+
+    /**
+     * @return SimpleEmailService
+     */
+    public function getSimpleemailservice()
+    {
+        return $this->simpleemailservice;
+    }
+
+    /**
+     * @param SimpleEmailService $simpleemailservice
+     */
+    public function setSimpleemailservice($simpleemailservice)
+    {
+        $this->simpleemailservice = $simpleemailservice;
+    }
+
 }
