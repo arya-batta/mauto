@@ -1038,6 +1038,11 @@ class LicenseInfoHelper
         $totalSMSCount  = $entity->getTotalSmsCount();
         $actualSMSCount = $entity->getActualSmsCount();
 
+        $smsprovider = $this->factory->get('mautic.helper.core_parameters')->getParameter('sms_transport');
+        if($smsprovider == 'mautic.sms.transport.leadsengage') {
+            $totalSMSCount = 10;
+        }
+
         if ($totalSMSCount == 'UL') {
             return true;
         } else {

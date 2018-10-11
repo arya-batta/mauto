@@ -99,10 +99,11 @@ $custombutton = [
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6" id="page_Title">
+                            <div class="col-md-6 <?php echo (count($form['title']->vars['errors'])) ? ' has-error' : ''; ?>" id="page_Title">
                                 <?php echo $view['form']->label($form['title']); ?>
                                 <?php echo $view['form']->widget($form['title']); ?>
-                                <div class="help-block"></div>
+                                <?php echo $view['form']->errors($form['title']); ?>
+                                <div class="help-block custom-help"></div>
                             </div>
                             <?php if (!$isVariant): ?>
                                 <div class="col-md-6">

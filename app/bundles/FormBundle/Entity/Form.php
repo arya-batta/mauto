@@ -219,7 +219,7 @@ class Form extends FormEntity
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank([
-            'message' => 'mautic.core.name.required',
+            'message' => 'le.core.name.required',
             'groups'  => ['form'],
         ]));
 
@@ -229,12 +229,12 @@ class Form extends FormEntity
         ]));
 
         $metadata->addPropertyConstraint('postActionProperty', new Assert\NotBlank([
-            'message' => 'mautic.form.form.postactionproperty_redirect.notblank',
+            'message' => 'le.form.form.postactionproperty_redirect.notblank',
             'groups'  => ['urlRequired'],
         ]));
 
         $metadata->addPropertyConstraint('postActionProperty', new Assert\Url([
-            'message' => 'mautic.form.form.postactionproperty_redirect.notblank',
+            'message' => 'le.form.form.postactionproperty_redirect.notblank',
             'groups'  => ['urlRequiredPassTwo'],
         ]));
 

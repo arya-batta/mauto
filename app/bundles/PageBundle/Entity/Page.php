@@ -237,7 +237,7 @@ class Page extends FormEntity implements TranslationEntityInterface, VariantEnti
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('title', new NotBlank([
-            'message' => 'mautic.core.title.required',
+            'message' => 'le.core.title.required',
         ]));
 
         $metadata->addConstraint(new Callback([

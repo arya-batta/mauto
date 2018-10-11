@@ -34,12 +34,12 @@ Mautic.pageOnLoad = function (container, response) {
     mQuery('.next-tab, .prevv-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
         mQuery('#page_Title').removeClass('has-success has-error');
-        mQuery('#page_Title .help-block').html("");
+        mQuery('#page_Title .help-block').addClass('hide').html("");
         mQuery('#redirectUrl').removeClass('has-success has-error');
         mQuery('#redirectUrl .help-block').html("");
         if(mQuery('#page_title').val() == "") {
             mQuery('#page_Title').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#page_Title .help-block').html("Landing Page Title name can't be empty");
+            mQuery('#page_Title .custom-help').removeClass('hide').html("Landing Page Title name can't be empty");
             return;
         }
         if(mQuery('#page_redirectUrl').is(':visible')) {

@@ -275,10 +275,11 @@ endif;*/ ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6" id="Form_Name">
+                <div class="col-md-6 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="Form_Name">
                     <?php echo $view['form']->label($form['name']); ?>
                     <?php echo $view['form']->widget($form['name']); ?>
-                    <div class="help-block"></div>
+                    <?php echo $view['form']->errors($form['name']); ?>
+                    <div class="help-block custom-help"></div>
                 </div>
                 <div class="col-md-6">
                     <?php echo $view['form']->label($form['isPublished']); ?>
