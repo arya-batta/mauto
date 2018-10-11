@@ -339,7 +339,7 @@ endif;*/ ?>
                 </div>
             </div>
         </div>
-        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide">
+        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="overflow: hidden;">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('mautic_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>

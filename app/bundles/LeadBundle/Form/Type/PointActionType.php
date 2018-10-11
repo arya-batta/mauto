@@ -46,7 +46,7 @@ class PointActionType extends AbstractType
                         ]
                     ),
                     new NotBlank([
-                        'message' => 'mautic.core.title.required',
+                        'message' => 'mautic.core.value.required',
                     ]),
                 ],
             ]
