@@ -11,6 +11,7 @@
 
 namespace Mautic\LeadBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -19,19 +20,34 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ListActionType extends AbstractType
 {
+    private $modelName;
+
+    /**
+     * @param MauticFactory $factory
+     */
+    public function __construct(MauticFactory $factory)
+    {
+        $this->modelName =  $factory->getRequest()->getPathInfo();
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $isRequired=true;
+        if (strpos($this->modelName, 'forms') !== false) {
+            $isRequired= false;
+        }
+
         $builder->add('addToLists', 'leadlist_choices', [
             'label'      => 'mautic.lead.lead.events.addtolists',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',
             ],
-            'required'    => true,
+            'required'    => $isRequired,
             'multiple'    => true,
             'expanded'    => false,
         ]);

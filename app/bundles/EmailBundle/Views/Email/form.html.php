@@ -358,7 +358,7 @@ $isgoogletags= false; //$email->getGoogletags();
                         <div class="pull-left">
                             <?php echo $view['form']->label($form['assetAttachments']); ?>
                         </div>
-                        <div class="text-right pr-10 hide">
+                        <div class="text-right pr-10">
                             <span class="label label-info" id="attachment-size"><?php echo $attachmentSize; ?></span>
                         </div>
                         <div class="clearfix"></div>

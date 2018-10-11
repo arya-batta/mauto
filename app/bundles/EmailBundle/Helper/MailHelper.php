@@ -2369,6 +2369,10 @@ class MailHelper
             'Failed to authenticate on SMTP',
             '421 Error:',
             '530 Authentication required',
+            'invalid, expired, or revoked',
+            'Email address is not verified',
+            ' in the request is invalid',
+            'AWS Secret Access Key',
        ];
         $errormsg = [
             'le.email.config.invalidemail.error',
@@ -2379,6 +2383,10 @@ class MailHelper
             'le.email.config.Invalid_Credentials.error',
             'le.email.config.Permission_Denied.error',
             'le.email.config.username.required.error',
+            'le.email.config.sendgrid.invalid.error',
+            'le.email.config.aws.not.verified.error',
+            'le.email.config.aws.username.invalid.error',
+            'le.email.config.aws.passwd.invalid.error',
        ];
         for ($i = 0; $i < sizeof($errors); ++$i) {
             if (strpos($geterror, $errors[$i]) !== false) {

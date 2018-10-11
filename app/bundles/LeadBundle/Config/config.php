@@ -331,26 +331,25 @@ return [
                'mautic.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
                     'route'      => 'mautic_contactfield_index',
-                    'access'    => 'lead:fields:full',
-                    'priority'  => 45,
-                  'parent'    => 'mautic.core.leads',
+                    'access'     => 'lead:fields:full',
+                    'priority'   => 45,
+                  'parent'       => 'mautic.core.leads',
                ],
 
                 'mautic.lead.import.menu.index' => [
                      'iconClass'  => 'fa-cloud-upload',
                      'route'      => 'mautic_import_action',
-                     'access'    => 'lead:imports:create',
-                     'priority'  => 40,
-                     'parent'    => 'mautic.core.leads',
+                     'access'     => 'lead:imports:create',
+                     'priority'   => 40,
+                     'parent'     => 'mautic.core.leads',
                 ],
 
-
                'mautic.point.menu.index' => [
-                    'route'    => 'mautic_point_index',
+                    'route'      => 'mautic_point_index',
                     'iconClass'  => 'fa fa-sliders',
-                    'access'   => 'point:points:view',
-                    'priority'  => 50,
-                    'parent'   => 'mautic.core.leads',
+                    'access'     => 'point:points:view',
+                    'priority'   => 50,
+                    'parent'     => 'mautic.core.leads',
                 ],
                /*
                 'mautic.point.trigger.menu.index' => [
@@ -361,7 +360,7 @@ return [
             ],
         ],
         'admin' => [
-         /**   'priority' => 450,
+         /*   'priority' => 450,
             'items'    => [
                 'mautic.lead.field.menu.index' => [
                     'id'         => 'mautic_lead_field',
@@ -587,8 +586,9 @@ return [
                 'alias' => 'leadlist_trigger',
             ],
             'mautic.form.type.leadlist_action' => [
-                'class' => 'Mautic\LeadBundle\Form\Type\ListActionType',
-                'alias' => 'leadlist_action',
+                'class'     => 'Mautic\LeadBundle\Form\Type\ListActionType',
+                'alias'     => 'leadlist_action',
+                'arguments' => ['mautic.factory'],
             ],
             'mautic.form.type.updatelead_action' => [
                 'class'     => 'Mautic\LeadBundle\Form\Type\UpdateLeadActionType',

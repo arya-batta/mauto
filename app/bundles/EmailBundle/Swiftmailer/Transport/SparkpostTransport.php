@@ -214,7 +214,7 @@ class SparkpostTransport extends AbstractTokenArrayTransport implements \Swift_T
             // CC and BCC fields need to be included as a normal TO address with token duplication
             // https://www.sparkpost.com/docs/faq/cc-bcc-with-rest-api/ - token duplication is not mentioned here
             // See test for CC and BCC too
-            $substitution_data = $recipient['substitution_data'];
+            $substitution_data = isset($recipient['substitution_data']) ? $recipient['substitution_data'] : [];
             if (!empty($message['recipients']['cc'])) {
                 foreach ($message['recipients']['cc'] as $cc => $content) {
                     $recipient    = [
