@@ -1005,21 +1005,23 @@ Mautic.convertDynamicContentFilterInput = function(el, jQueryVariant) {
     }
 };
 Mautic.checkemailstatus = function(){
-    Mautic.ajaxActionRequest('email:emailstatus', {}, function(response) {
-        if (response.success) {
-            if(response.info != "" && response.isalertneeded != "true"){
-                if(mQuery('.license-notifiation').hasClass('hide')) {
-                    mQuery('.license-notifiation').removeClass('hide');
-                    mQuery('.button-notification').addClass('hide');
-                    mQuery('.license-notifiation #license-alert-message').html(response.info);
-                    mQuery('#fixed-content').attr('style', 'margin-top:16%;');
-                    mQuery('.content-body').attr('style', 'padding-top:82px;');
+    if(mQuery('.license-notifiation').hasClass('hide')) {
+        Mautic.ajaxActionRequest('email:emailstatus', {}, function (response) {
+            if (response.success) {
+                if (response.info != "" && response.isalertneeded != "true") {
+                    if (mQuery('.license-notifiation').hasClass('hide')) {
+                        mQuery('.license-notifiation').removeClass('hide');
+                        mQuery('.button-notification').addClass('hide');
+                        mQuery('.license-notifiation #license-alert-message').html(response.info);
+                        mQuery('#fixed-content').attr('style', 'margin-top:16%;');
+                        mQuery('.content-body').attr('style', 'padding-top:82px;');
+                    }
+                } else {
+                    mQuery('.license-notifiation').addClass('hide');
                 }
-            }else{
-                mQuery('.license-notifiation').addClass('hide');
             }
-        }
-    });
+        });
+    }
 }
 
 Mautic.changeButtonPanelStyle = function (){
