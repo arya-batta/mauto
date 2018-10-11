@@ -489,7 +489,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'name',
             new NotBlank(
                 [
-                    'message' => 'mautic.core.name.required',
+                    'message' => 'mautic.email.name.notblank',
                 ]
             )
         );
@@ -498,7 +498,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'subject',
             new NotBlank(
                 [
-                    'message' => 'mautic.core.subject.required',
+                    'message' => 'mautic.email.subject.notblank',
                 ]
             )
         );

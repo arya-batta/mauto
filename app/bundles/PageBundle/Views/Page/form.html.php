@@ -188,8 +188,8 @@ $custombutton = [
                     <div id="fragment-page-2" class="ui-tabs-panel hide">
                         <!--/ tabs controls -->
                         <div class="fragment-3-buttons fixed-header">
-                            <a href="#" style="margin-left:4%;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                            <div class="toolbar-form-buttons" style="margin-top: -182px;margin-left: 127px;">
+                            <a href="#" style="margin-left:-112px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                            <div class="toolbar-form-buttons" style="margin-top: -182px;margin-right: 30px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"

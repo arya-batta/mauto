@@ -70,12 +70,18 @@ $hideadvanceeditor    =($formcontainserror || $isCloneOp || $isMobile) && $isbas
 $activateotherconfig  ='';
 $infoulactive         = 'ui-tabs-selected ui-state-active';
 $settingsulactive     = '';
+$infohide             = '';
+$settingshide         = 'ui-tabs-hide';
 if ($formcontainserror) {
     $activatebasiceditor  ='';
     $activateadvanceeditor='';
     $activateotherconfig  ='active in';
-    //$settingsulactive     = 'ui-tabs-selected ui-state-active';
-    //$infoulactive         = '';
+    if ((!count($form['name']->vars['errors'])) && !(count($form['subject']->vars['errors'])) && (count($form['fromAddress']->vars['errors']))) {
+        $settingsulactive = 'ui-tabs-selected ui-state-active';
+        $infoulactive     = '';
+        $settingshide     = '';
+        $infohide         = 'ui-tabs-hide';
+    }
 }
 $hideawsemailoptions = '';
 $style               ='80%';
@@ -129,7 +135,7 @@ $isgoogletags= false; //$email->getGoogletags();
                 </div>
             </div>
         </ul>
-        <div id="fragment-1" class="ui-tabs-panel">
+        <div id="fragment-1" class="ui-tabs-panel <?php echo $infohide?>">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
@@ -143,20 +149,22 @@ $isgoogletags= false; //$email->getGoogletags();
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6" id="Email_TemplateName">
+                <div class="col-md-6 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_TemplateName">
                     <?php echo $view['form']->label($form['name']); ?>
                     <?php echo $view['form']->widget($form['name']); ?>
-                    <div class="help-block"></div>
+                    <?php echo $view['form']->errors($form['name']); ?>
+                    <div class="help-block custom-help"></div>
                 </div>
                 <div class="col-md-6">
                     <?php echo $view['form']->row($form['category']); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-11" id="Email_Subject" style="width: 88.11111%">
+                <div class="col-md-11 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_Subject" style="width: 88.11111%">
                     <?php echo $view['form']->label($form['subject']); ?>
                     <?php echo $view['form']->widget($form['subject']); ?>
-                    <div class="help-block"></div>
+                    <?php echo $view['form']->errors($form['subject']); ?>
+                    <div class="help-block custom-help"></div>
                 </div>
                 <div>
                     <li class="dropdown dropdown-menu-right" style="display: block;">
@@ -271,7 +279,7 @@ $isgoogletags= false; //$email->getGoogletags();
                 </div>
             </div>
             <br>
-            <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-25px;" id="email-basic-container">
+            <div class="tab-pane fade in bdr-w-0 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" style="margin-top:-8px;" id="email-basic-container">
                 <?php echo $view['form']->widget($form['customHtml']); ?>
             </div>
 
@@ -304,10 +312,10 @@ $isgoogletags= false; //$email->getGoogletags();
                 </div>
             </div>
         </div>
-        <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
+        <div id="fragment-3" class="ui-tabs-panel <?php echo $settingshide?>">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:4%;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-left: 128px;">
+                <a href="#" style="margin-left:-112px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 30px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
