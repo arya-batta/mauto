@@ -1580,7 +1580,7 @@ class LeadController extends FormController
     {
         $valid = $cancelled = false;
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+            return $this->redirectToPricing();
         }
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model = $this->getModel('lead');
