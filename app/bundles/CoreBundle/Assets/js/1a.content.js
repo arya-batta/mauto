@@ -1701,3 +1701,13 @@ Mautic.showActionButtons = function (id) {
         mQuery('#mainClass-'+id).css("width", '89px');
     }
 };
+/**
+ * Hide Flash message manually
+ */
+Mautic.hideFlashMessage = function () {
+    mQuery(function() {
+        mQuery('#flashes').delay(800).fadeIn('normal', function() {
+            mQuery(this).delay(1500).fadeOut();
+        });
+    });
+};

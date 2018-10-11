@@ -157,7 +157,7 @@ if (count($items)):
                             <a href="<?php echo $view['router']->path(
                                 'mautic_sms_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
-                            ); ?>">
+                            ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
                                 <?php if ($type == 'list'): ?>
                                     <span data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.sms.icon_tooltip.list_sms'); ?>"><i class="fa fa-fw fa-list"></i></span>

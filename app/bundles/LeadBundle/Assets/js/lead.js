@@ -142,6 +142,13 @@ Mautic.leadOnLoad = function (container, response) {
     if (mQuery(container + ' .panel-companies').length) {
         mQuery(container + ' .panel-companies .fa-check').tooltip({html: true});
     }
+    mQuery(function() {
+        mQuery('#flashes').delay(2000).fadeIn('normal', function() {
+            mQuery(this).delay(1500).fadeOut();
+            mQuery('#flashes').addClass('hide');
+        });
+    });
+
 };
 Mautic.segment_filter = function(id){
     if(mQuery('#segment-filter-block_'+id).css("display") != 'none')

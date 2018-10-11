@@ -223,6 +223,7 @@ Mautic.configOnLoad = function (container) {
             }
         });
     });
+    Mautic.hideFlashMessage();
 }
 
 Mautic.updateEmailStatus = function(){
