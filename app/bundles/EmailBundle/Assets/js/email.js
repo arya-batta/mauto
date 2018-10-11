@@ -60,10 +60,8 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_TemplateName .custom-help').removeClass('hide').html("Campaign name can't be empty");
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_Subject .custom-help').removeClass('hide').html("Subject can't be empty");
-
             return;
-        }
-        else{
+        } else{
             mQuery('#Email_TemplateName').removeClass('has-success has-error');
             mQuery('#Email_TemplateName .custom-help').html("");
             mQuery('#Email_Subject').removeClass('has-success has-error');
@@ -74,7 +72,7 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_TemplateName .custom-help').removeClass('hide').html("Campaign name can't be empty");
             return;
-        }else{
+        } else{
             mQuery('#Email_TemplateName').removeClass('has-success has-error');
             mQuery('#Email_TemplateName .custom-help').html("");
         }
@@ -83,7 +81,7 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_Subject .custom-help').removeClass('hide').html("Subject can't be empty");
             return;
-        }else{
+        } else{
             mQuery('#Email_Subject').removeClass('has-success has-error');
             mQuery('#Email_Subject .custom-help').html("");
         }
@@ -92,9 +90,8 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_trafficweight .help-block').html("Traffic Weight can't be empty");
             mQuery('#Email_winnercriteria').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_winnercriteria .help-block').html("Winner Criteria can't be empty");
-
             return;
-        }else{
+        } else {
             mQuery('#Email_trafficweight').removeClass('has-success has-error');
             mQuery('#Email_trafficweight .help-block').html("");
             mQuery('#Email_winnercriteria').removeClass('has-success has-error');
@@ -114,7 +111,7 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_winnercriteria').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Email_winnercriteria .help-block').html("Winner Criteria can't be empty");
             return;
-        }else{
+        } else {
             mQuery('#Email_winnercriteria').removeClass('has-success has-error');
             mQuery('#Email_winnercriteria .help-block').html("");
         }
@@ -123,7 +120,7 @@ Mautic.emailOnLoad = function (container, response) {
                 Mautic.launchBeeEditor('emailform', 'email');
                 return;
             }
-            if (mQuery('textarea.builder-html').val() != '') {
+            if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val() != '') {
                 Mautic.showpreviewoftemplate();
             }
         }

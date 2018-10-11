@@ -127,7 +127,7 @@ $isgoogletags= false; //$email->getGoogletags();
                             'customButtons' => $custombutton,
                         ]
                     ); ?>
-                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 140px;margin-top: -40px" data-toggle="ajax">
+                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 40px;margin-top: 105px" data-toggle="ajax">
                         <span>
                             <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                         </span>

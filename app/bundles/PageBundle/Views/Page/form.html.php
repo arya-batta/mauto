@@ -49,7 +49,7 @@ $custombutton = [
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
             'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
-            'style'   => 'color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;margin-top:105px;',
+            'style'   => 'color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;top:40px;',
         ],
     ],
 ];
@@ -77,7 +77,7 @@ $custombutton = [
                                         'customButtons' => $custombutton,
                                     ]
                                 ); ?>
-                                <a class="btn btn-default text-primary btn-beeditor le-btn-default change-template-button" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;border-radius:4px;z-index:1003;margin-right: 140px;margin-top: -40px;" data-toggle="ajax">
+                                <a class="btn btn-default text-primary btn-beeditor le-btn-default change-template-button" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
                                 <span>
                                     <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                                 </span>
@@ -187,6 +187,7 @@ $custombutton = [
                     </div>
                     <div id="fragment-page-2" class="ui-tabs-panel hide">
                         <!--/ tabs controls -->
+                        <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
                         <div class="fragment-3-buttons fixed-header">
                             <a href="#" style="margin-left:-112px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -182px;margin-right: 30px;">
@@ -199,7 +200,6 @@ $custombutton = [
                             </div>
                         </div>
                         <div class="tab-content pa-md tab-pane bdr-w-0" id="email-advance-container" style="border-width: 10px;border-color: #808080;margin-top:-30px;">
-                            <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
                             <div class="row">
                                 <div class="col-md-12">
                                     <div style="width:50%;margin-left: 20px;">
@@ -222,7 +222,7 @@ $custombutton = [
                             //                        ]);?>
                             <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                                 'beetemplates' => $beetemplates,
-                                'active'       => $form['template']->vars['value'],
+                                'active'       => '',
                             ]); ?>
                         </div>
                         <div class="tab-pane fade in bdr-w-0 " style="margin-top:5px;width:100%;" id="email-preview-container">
