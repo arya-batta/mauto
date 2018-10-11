@@ -2380,6 +2380,7 @@ class MailHelper
             'Email address is not verified',
             ' in the request is invalid',
             'AWS Secret Access Key',
+            'is not authorized to perform',
        ];
         $errormsg = [
             'le.email.config.invalidemail.error',
@@ -2394,6 +2395,7 @@ class MailHelper
             'le.email.config.aws.not.verified.error',
             'le.email.config.aws.username.invalid.error',
             'le.email.config.aws.passwd.invalid.error',
+            'le.email.config.aws.permission.denie.error',
        ];
         for ($i = 0; $i < sizeof($errors); ++$i) {
             if (strpos($geterror, $errors[$i]) !== false) {
