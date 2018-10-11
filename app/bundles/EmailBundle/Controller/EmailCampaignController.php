@@ -612,6 +612,18 @@ class EmailCampaignController extends FormController
 
                         $entity->setUtmTags($currentutmtags);
                     }
+                    $assets         = $form['assetAttachments']->getData();
+                    $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
+                    if($attachmentSize == 'failed') {
+                        $delassets=$assets;
+                        foreach ($assets as $asset) {
+                            $entity->removeAssetAttachment($asset);
+                        }
+                        $assets = $this->getassets($delassets);
+                        foreach ($assets as $asset) {
+                            $entity->addAssetAttachment($asset);
+                        }
+                    }
                     //form is valid so process the data
                     $model->saveEntity($entity);
 
@@ -919,6 +931,18 @@ class EmailCampaignController extends FormController
                             $currentutmtags['utmContent'] = $currentsubject;
                         }
                         $entity->setUtmTags($currentutmtags);
+                    }
+                    $assets         = $form['assetAttachments']->getData();
+                    $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
+                    if($attachmentSize == 'failed') {
+                        $tmpassets=$assets;
+                        foreach ($assets as $asset) {
+                            $entity->removeAssetAttachment($asset);
+                        }
+                        $assets = $this->getassets($tmpassets);
+                        foreach ($assets as $asset) {
+                            $entity->addAssetAttachment($asset);
+                        }
                     }
 
                     //form is valid so process the data
@@ -1960,5 +1984,18 @@ class EmailCampaignController extends FormController
             'email',
             'email_id'
         );
+    }
+    public function getassets($assets){
+        $last = sizeof($assets);
+        for($i = 0;$i < $last-1;$i++)
+        {
+            $correctassets[] = $assets[$i];
+        }
+        $attachmentSize = $this->getModel('asset')->getTotalFilesize($correctassets);
+        if($attachmentSize == 'failed'){
+            $correctassets = $this->getassets($correctassets);
+        }
+        return $correctassets;
+
     }
 }
