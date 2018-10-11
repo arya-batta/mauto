@@ -6139,6 +6139,7 @@ text-align: center;
   width: 40px;
   margin: 0 auto;
   float: right;
+  z-index: 1;
 }
 .md-fab-wrapper {
   position: absolute;
