@@ -41,54 +41,51 @@ Mautic.emailOnLoad = function (container, response) {
             prev = i;
         }
     });
+    if(!mQuery("#fragment-3").hasClass('ui-tabs-hide')){
+        mQuery('.sendEmailTest').removeClass('hide');
+    } else {
+        mQuery('.sendEmailTest').addClass('hide');
+    }
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
-        if(!mQuery('#email-advance-container').hasClass('hide') && !mQuery(this).hasClass('ui-state-default')) {
-            if (selectrel == 3) {
-                Mautic.launchBeeEditor('emailform', 'email');
-                return;
-            }
-            if(mQuery('textarea.builder-html').val() != ''){
-                Mautic.showpreviewoftemplate();
-            }
-        }
+
         mQuery('#Email_TemplateName').removeClass('has-success has-error');
         mQuery('#Email_Subject').removeClass('has-success has-error');
         mQuery('#leadlists').removeClass('has-success has-error');
-        mQuery('#Email_TemplateName .help-block').html("");
-        mQuery('#Email_Subject .help-block').html("");
-        mQuery('#leadlists .help-block').html("");
+        mQuery('#Email_TemplateName .help-block').addClass('hide').html("");
+        mQuery('#Email_Subject .help-block').addClass('hide').html("");
+        mQuery('#leadlists .help-block').addClass('hide').html("");
         if(mQuery('#emailform_name').val() == "" && mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_TemplateName .help-block').html("Campaign name can't be empty");
+            mQuery('#Email_TemplateName .custom-help').removeClass('hide').html("Campaign name can't be empty");
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_Subject .help-block').html("Subject can't be empty");
+            mQuery('#Email_Subject .custom-help').removeClass('hide').html("Subject can't be empty");
 
             return;
         }
         else{
             mQuery('#Email_TemplateName').removeClass('has-success has-error');
-            mQuery('#Email_TemplateName .help-block').html("");
+            mQuery('#Email_TemplateName .custom-help').html("");
             mQuery('#Email_Subject').removeClass('has-success has-error');
-            mQuery('#Email_Subject .help-block').html("");
+            mQuery('#Email_Subject .custom-help').html("");
         }
 
         if(mQuery('#emailform_name').val() == "") {
             mQuery('#Email_TemplateName').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_TemplateName .help-block').html("Campaign name can't be empty");
+            mQuery('#Email_TemplateName .custom-help').removeClass('hide').html("Campaign name can't be empty");
             return;
         }else{
             mQuery('#Email_TemplateName').removeClass('has-success has-error');
-            mQuery('#Email_TemplateName .help-block').html("");
+            mQuery('#Email_TemplateName .custom-help').html("");
         }
 
         if (mQuery('#emailform_subject').val() == ""){
             mQuery('#Email_Subject').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Email_Subject .help-block').html("Subject can't be empty");
+            mQuery('#Email_Subject .custom-help').removeClass('hide').html("Subject can't be empty");
             return;
         }else{
             mQuery('#Email_Subject').removeClass('has-success has-error');
-            mQuery('#Email_Subject .help-block').html("");
+            mQuery('#Email_Subject .custom-help').html("");
         }
         if(mQuery('#emailform_variantSettings_weight').val() == "" && mQuery('#emailform_variantSettings_winnerCriteria').val() == ""){
             mQuery('#Email_trafficweight').removeClass('has-success has-error').addClass('has-error');
@@ -121,6 +118,15 @@ Mautic.emailOnLoad = function (container, response) {
             mQuery('#Email_winnercriteria').removeClass('has-success has-error');
             mQuery('#Email_winnercriteria .help-block').html("");
         }
+        if(!mQuery('#email-advance-container').hasClass('hide')) {
+            if (selectrel == 3 && !mQuery(this).hasClass('ui-state-default')) {
+                Mautic.launchBeeEditor('emailform', 'email');
+                return;
+            }
+            if (mQuery('textarea.builder-html').val() != '') {
+                Mautic.showpreviewoftemplate();
+            }
+        }
         mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
@@ -130,7 +136,6 @@ Mautic.emailOnLoad = function (container, response) {
         } else {
             mQuery('.sendEmailTest').addClass('hide');
         }
-
         if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
         {
             if(!mQuery('#email-content-preview').hasClass('hide')) {
