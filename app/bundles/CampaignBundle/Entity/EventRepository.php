@@ -315,6 +315,56 @@ class EventRepository extends CommonRepository
     }
 
     /**
+     * Get a list of completed events.
+     *
+     * @param      $campaignId
+     * @param      $leadId
+     * @param bool $count
+     * @param int  $limit
+     *
+     * @return array|bool
+     */
+    public function getCompletedEvents($campaignId, $leadId, $specificevents, $count = true, $limit = 0)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->from('MauticCampaignBundle:LeadEventLog', 'o');
+
+        $q->where(
+            $q->expr()->andX(
+                $q->expr()->eq('IDENTITY(o.campaign)', (int) $campaignId),
+                $q->expr()->eq('IDENTITY(o.lead)', (int) $leadId)
+            )
+        );
+        if (sizeof($specificevents) > 0) {
+            $q->andWhere($q->expr()->in('o.event', $specificevents));
+        }
+        if ($count) {
+            $q->select('COUNT(o) as event_count');
+
+            $results = $q->getQuery()->getArrayResult();
+            $count   = $results[0]['event_count'];
+
+            return $count;
+        }
+
+        $q->select('IDENTITY(o.event),o.isScheduled')
+            ->orderBy('o.triggerDate', 'DESC');
+
+        if ($limit) {
+            $q->setFirstResult(0)
+                ->setMaxResults($limit);
+        }
+        $results = $q->getQuery()->getArrayResult();
+        $events  = [];
+        foreach ($results as $r) {
+            $events[$r[1]] = $r['isScheduled'];
+        }
+        unset($results);
+
+        return $events;
+    }
+
+    /**
      * @param $campaignId
      *
      * @return array
@@ -520,6 +570,26 @@ class EventRepository extends CommonRepository
             ->setParameter('null', null)
             ->where(
                 $qb->expr()->in('parent_id', $events)
+            )
+            ->execute();
+    }
+
+    /** update scheduled events as unscheduled
+     * @param   $campaignId
+     * @param   $leadId
+     */
+    public function unScheduleAllEvents($campaignId, $leadId)
+    {
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $qb->update(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log')
+            ->set('is_scheduled', ':is_scheduled')
+            ->setParameter('is_scheduled', 0)
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('campaign_id', (int) $campaignId),
+                    $qb->expr()->eq('lead_id', (int) $leadId),
+                    $qb->expr()->eq('is_scheduled', 1)
+                )
             )
             ->execute();
     }

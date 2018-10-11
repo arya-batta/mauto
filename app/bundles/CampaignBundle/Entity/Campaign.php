@@ -71,17 +71,17 @@ class Campaign extends FormEntity
     /**
      * @var ArrayCollection
      */
-    private $lists;
+    // private $lists;
 
     /**
      * @var ArrayCollection
      */
-    private $forms;
+    //  private $forms;
 
     /**
-     * @var array
+     * @var string
      */
-    private $canvasSettings = [];
+    private $canvasSettings;
 
     /**
      * @var int
@@ -95,16 +95,16 @@ class Campaign extends FormEntity
     {
         $this->events = new ArrayCollection();
         $this->leads  = new ArrayCollection();
-        $this->lists  = new ArrayCollection();
-        $this->forms  = new ArrayCollection();
+        // $this->lists  = new ArrayCollection();
+       // $this->forms  = new ArrayCollection();
     }
 
     public function __clone()
     {
         $this->leads  = new ArrayCollection();
         $this->events = new ArrayCollection();
-        $this->lists  = new ArrayCollection();
-        $this->forms  = new ArrayCollection();
+        // $this->lists  = new ArrayCollection();
+        //  $this->forms  = new ArrayCollection();
         $this->id     = null;
 
         parent::__clone();
@@ -140,21 +140,21 @@ class Campaign extends FormEntity
             ->fetchExtraLazy()
             ->build();
 
-        $builder->createManyToMany('lists', 'Mautic\LeadBundle\Entity\LeadList')
-            ->setJoinTable('campaign_leadlist_xref')
-            ->setIndexBy('id')
-            ->addInverseJoinColumn('leadlist_id', 'id', false, false, 'CASCADE')
-            ->addJoinColumn('campaign_id', 'id', true, false, 'CASCADE')
-            ->build();
+//        $builder->createManyToMany('lists', 'Mautic\LeadBundle\Entity\LeadList')
+//            ->setJoinTable('campaign_leadlist_xref')
+//            ->setIndexBy('id')
+//            ->addInverseJoinColumn('leadlist_id', 'id', false, false, 'CASCADE')
+//            ->addJoinColumn('campaign_id', 'id', true, false, 'CASCADE')
+//            ->build();
+//
+//        $builder->createManyToMany('forms', 'Mautic\FormBundle\Entity\Form')
+//            ->setJoinTable('campaign_form_xref')
+//            ->setIndexBy('id')
+//            ->addInverseJoinColumn('form_id', 'id', false, false, 'CASCADE')
+//            ->addJoinColumn('campaign_id', 'id', true, false, 'CASCADE')
+//            ->build();
 
-        $builder->createManyToMany('forms', 'Mautic\FormBundle\Entity\Form')
-            ->setJoinTable('campaign_form_xref')
-            ->setIndexBy('id')
-            ->addInverseJoinColumn('form_id', 'id', false, false, 'CASCADE')
-            ->addJoinColumn('campaign_id', 'id', true, false, 'CASCADE')
-            ->build();
-
-        $builder->createField('canvasSettings', 'array')
+        $builder->createField('canvasSettings', 'text')
             ->columnName('canvas_settings')
             ->nullable()
             ->build();
@@ -196,8 +196,8 @@ class Campaign extends FormEntity
                     'publishUp',
                     'publishDown',
                     'events',
-                    'forms',
-                    'lists', // @deprecated, will be renamed to 'segments' in 3.0.0
+                   // 'forms',
+                   // 'lists', // @deprecated, will be renamed to 'segments' in 3.0.0
                     'canvasSettings',
                 ]
             )
@@ -453,10 +453,10 @@ class Campaign extends FormEntity
     /**
      * @return ArrayCollection
      */
-    public function getLists()
-    {
-        return $this->lists;
-    }
+//    public function getLists()
+//    {
+//        return $this->lists;
+//    }
 
     /**
      * Add list.
@@ -465,33 +465,33 @@ class Campaign extends FormEntity
      *
      * @return Campaign
      */
-    public function addList(LeadList $list)
-    {
-        $this->lists[$list->getId()] = $list;
-
-        $this->changes['lists']['added'][$list->getId()] = $list->getName();
-
-        return $this;
-    }
+//    public function addList(LeadList $list)
+//    {
+//        $this->lists[$list->getId()] = $list;
+//
+//        $this->changes['lists']['added'][$list->getId()] = $list->getName();
+//
+//        return $this;
+//    }
 
     /**
      * Remove list.
      *
      * @param LeadList $list
      */
-    public function removeList(LeadList $list)
-    {
-        $this->changes['lists']['removed'][$list->getId()] = $list->getName();
-        $this->lists->removeElement($list);
-    }
+//    public function removeList(LeadList $list)
+//    {
+//        $this->changes['lists']['removed'][$list->getId()] = $list->getName();
+//        $this->lists->removeElement($list);
+//    }
 
     /**
      * @return ArrayCollection
      */
-    public function getForms()
-    {
-        return $this->forms;
-    }
+//    public function getForms()
+//    {
+//        return $this->forms;
+//    }
 
     /**
      * Add form.
@@ -500,25 +500,25 @@ class Campaign extends FormEntity
      *
      * @return Campaign
      */
-    public function addForm(Form $form)
-    {
-        $this->forms[] = $form;
-
-        $this->changes['forms']['added'][$form->getId()] = $form->getName();
-
-        return $this;
-    }
+//    public function addForm(Form $form)
+//    {
+//        $this->forms[] = $form;
+//
+//        $this->changes['forms']['added'][$form->getId()] = $form->getName();
+//
+//        return $this;
+//    }
 
     /**
      * Remove form.
      *
      * @param Form $form
      */
-    public function removeForm(Form $form)
-    {
-        $this->changes['forms']['removed'][$form->getId()] = $form->getName();
-        $this->forms->removeElement($form);
-    }
+//    public function removeForm(Form $form)
+//    {
+//        $this->changes['forms']['removed'][$form->getId()] = $form->getName();
+//        $this->forms->removeElement($form);
+//    }
 
     /**
      * @return mixed
@@ -529,9 +529,9 @@ class Campaign extends FormEntity
     }
 
     /**
-     * @param array $canvasSettings
+     * @param $canvasSettings
      */
-    public function setCanvasSettings(array $canvasSettings)
+    public function setCanvasSettings($canvasSettings)
     {
         $this->canvasSettings = $canvasSettings;
     }

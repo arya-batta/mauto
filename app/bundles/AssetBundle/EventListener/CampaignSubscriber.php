@@ -72,7 +72,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'          => 'mautic.asset.campaign.event.download',
             'description'    => 'mautic.asset.campaign.event.download_descr',
             'formType'       => 'campaignevent_assetdownload',
-            'group'          => 'LeadsEngage',
+            'group'          => 'le.campaign.source.group.name',
             'sourcetype'     => 'assertDownload',
             'order'          => '3',
         ];

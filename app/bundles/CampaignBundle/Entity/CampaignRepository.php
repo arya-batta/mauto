@@ -82,11 +82,11 @@ class CampaignRepository extends CommonRepository
             ->from('MauticCampaignBundle:Campaign', 'c', 'c.id');
 
         if ($forList && $leadId) {
-            $q->select('partial c.{id, name}, partial l.{campaign, lead, dateAdded, manuallyAdded, manuallyRemoved}, partial ll.{id}');
+            $q->select('partial c.{id, name}, partial l.{campaign, lead, dateAdded, manuallyAdded, manuallyRemoved}'); //, partial ll.{id}
         } elseif ($forList) {
-            $q->select('partial c.{id, name}, partial ll.{id}');
+            $q->select('partial c.{id, name}'); //, partial ll.{id}
         } else {
-            $q->select('c, l, partial ll.{id}')
+            $q->select('c, l')//, partial ll.{id}
                 ->leftJoin('c.events', 'e')
                 ->leftJoin('e.log', 'o');
         }
@@ -95,8 +95,8 @@ class CampaignRepository extends CommonRepository
             $q->leftJoin('c.leads', 'l');
         }
 
-        $q->leftJoin('c.lists', 'll')
-            ->where($this->getPublishedByDateExpression($q));
+//        $q->leftJoin('c.lists', 'll')
+//            ->where($this->getPublishedByDateExpression($q));
 
         if (!empty($specificId)) {
             $q->andWhere(
@@ -181,7 +181,7 @@ class CampaignRepository extends CommonRepository
             ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'ce')
             ->join('ce', MAUTIC_TABLE_PREFIX.'campaigns', 'c', 'c.id = ce.campaign_id');
 
-        $q->select('ce.campaign_id as id, ce.properties as properties')
+        $q->select('ce.campaign_id as id, ce.properties as properties, ce.trigger_mode as goal,ce.id as eventid')
             ->where($q->expr()->andX(
                 $q->expr()->eq('ce.event_type', ':event_type'),
                 $q->expr()->eq('c.is_published', ':is_published'),
@@ -195,11 +195,12 @@ class CampaignRepository extends CommonRepository
         $campaigns = [];
         foreach ($results as $result) {
             if (!isset($campaigns[$result['id']])) {
-                $campaigns[$result['id']] = [
-                    'id'         => $result['id'],
-                    'properties' => $result['properties'],
-                ];
+                $campaigns[$result['id']] = [];
             }
+            $campaigns[$result['id']][]=['id'         => $result['id'],
+                'properties'                          => $result['properties'],
+                'goal'                                => $result['goal'],
+                'eventid'                             => $result['eventid'], ];
         }
 
         return $campaigns;
@@ -221,6 +222,7 @@ class CampaignRepository extends CommonRepository
                 ->where($q->expr()->andX(
                     $q->expr()->eq('ce.campaign_id', $id),
                     $q->expr()->eq('ce.event_type', ':event_type'),
+                    $q->expr()->isNull('ce.trigger_mode'),
                     $q->expr()->eq('ce.type', ':type'))
                 )->setParameter('event_type', 'source', 'string')
                 ->setParameter('type', 'lists', 'string');
@@ -228,6 +230,7 @@ class CampaignRepository extends CommonRepository
             $q->select('ce.properties')
                 ->where($q->expr()->andX(
                     $q->expr()->eq('ce.event_type', ':event_type'),
+                    $q->expr()->isNull('ce.trigger_mode'),
                     $q->expr()->eq('ce.type', ':type'))
                 )->setParameter('event_type', 'source', 'string')
                 ->setParameter('type', 'lists', 'string');
@@ -655,7 +658,8 @@ class CampaignRepository extends CommonRepository
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
-                        $sq->expr()->in('e.event_id', $pendingEvents)
+                       // $sq->expr()->in('e.event_id', $pendingEvents)
+                        $sq->expr()->eq('e.campaign_id', (int) $campaignId)
                     )
                 );
 

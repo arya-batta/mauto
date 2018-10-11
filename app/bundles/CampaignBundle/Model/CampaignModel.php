@@ -16,6 +16,7 @@ use Mautic\CampaignBundle\CampaignEvents;
 use Mautic\CampaignBundle\Entity\Campaign;
 use Mautic\CampaignBundle\Entity\Event;
 use Mautic\CampaignBundle\Entity\Lead as CampaignLead;
+use Mautic\CampaignBundle\Entity\LeadEventLog;
 use Mautic\CampaignBundle\Event as Events;
 use Mautic\CategoryBundle\Model\CategoryModel;
 use Mautic\CoreBundle\Helper\Chart\ChartQuery;
@@ -27,7 +28,6 @@ use Mautic\CoreBundle\Model\FormModel as CommonFormModel;
 use Mautic\FormBundle\Entity\Form;
 use Mautic\FormBundle\Model\FormModel;
 use Mautic\LeadBundle\Entity\Lead;
-use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -296,80 +296,17 @@ class CampaignModel extends CommonFormModel
                     $parent->removeChild($existingEvents[$deleteMe]);
                     $existingEvents[$deleteMe]->removeParent();
                 }
-
                 $entity->removeEvent($existingEvents[$deleteMe]);
-
                 unset($events[$deleteMe]);
             }
         }
-
-        $relationships = [];
-
-        if (isset($sessionConnections['connections'])) {
-            foreach ($sessionConnections['connections'] as $connection) {
-                $source = $connection['sourceId'];
-                $target = $connection['targetId'];
-
-                if (in_array($source, ['lists', 'forms'])) {
-                    // Only concerned with events and not sources
-                    continue;
-                }
-
-                if (isset($connection['anchors']['source'])) {
-                    $sourceDecision = $connection['anchors']['source'];
-                } else {
-                    $sourceDecision = (!empty($connection['anchors'][0])) ? $connection['anchors'][0]['endpoint'] : null;
-                }
-
-                if ($sourceDecision == 'leadsource') {
-                    // Lead source connection that does not matter
-                    continue;
-                }
-
-                $relationships[$target] = [
-                    'parent'   => $source,
-                    'decision' => $sourceDecision,
-                ];
-            }
-        }
-
         // Assign parent/child relationships
         foreach ($events as $id => $e) {
-            if (isset($relationships[$id])) {
-                // Has a parent
-                $anchor = in_array($relationships[$id]['decision'], ['yes', 'no']) ? $relationships[$id]['decision'] : null;
-                $events[$id]->setDecisionPath($anchor);
-
-                $parentId = $relationships[$id]['parent'];
-                $events[$id]->setParent($events[$parentId]);
-
-                $hierarchy[$id] = $parentId;
-            } elseif ($events[$id]->getParent()) {
-                // No longer has a parent so null it out
-
-                // Remove decision so that it doesn't affect execution
-                $events[$id]->setDecisionPath(null);
-
-                // Remove child from parent
-                $parent = $events[$id]->getParent();
-                $parent->removeChild($events[$id]);
-
-                // Remove parent from child
-                $events[$id]->removeParent();
-                $hierarchy[$id] = 'null';
-            } else {
-                // Is a parent
-                $hierarchy[$id] = 'null';
-
-                // Remove decision so that it doesn't affect execution
-                $events[$id]->setDecisionPath(null);
-            }
-
             $entity->addEvent($id, $events[$id]);
         }
 
         //set event order used when querying the events
-        $this->buildOrder($hierarchy, $events, $entity);
+        // $this->buildOrder($hierarchy, $events, $entity);
 
         uasort($events, function ($a, $b) {
             $aOrder = $a->getOrder();
@@ -435,7 +372,6 @@ class CampaignModel extends CommonFormModel
         }
 
         $tempIds = [];
-
         foreach ($events as $e) {
             if ($e instanceof Event) {
                 $tempIds[$e->getTempId()] = $e->getId();
@@ -443,54 +379,106 @@ class CampaignModel extends CommonFormModel
                 $tempIds[$e['tempId']] = $e['id'];
             }
         }
-
-        if (!isset($settings['nodes'])) {
-            $settings['nodes'] = [];
-        }
-
-        foreach ($settings['nodes'] as &$node) {
-            if (strpos($node['id'], 'new') !== false) {
-                // Find the real one and update the node
-                $node['id'] = str_replace($node['id'], $tempIds[$node['id']], $node['id']);
-            }
-        }
-
-        if (!isset($settings['connections'])) {
-            $settings['connections'] = [];
-        }
-
-        foreach ($settings['connections'] as &$connection) {
-            // Check source
-            if (strpos($connection['sourceId'], 'new') !== false) {
-                // Find the real one and update the node
-                $connection['sourceId'] = str_replace($connection['sourceId'], $tempIds[$connection['sourceId']], $connection['sourceId']);
-            }
-
-            // Check target
-            if (strpos($connection['targetId'], 'new') !== false) {
-                // Find the real one and update the node
-                $connection['targetId'] = str_replace($connection['targetId'], $tempIds[$connection['targetId']], $connection['targetId']);
-            }
-
-            // Rebuild anchors
-            if (!isset($connection['anchors']['source'])) {
-                $anchors = [];
-                foreach ($connection['anchors'] as $k => $anchor) {
-                    $type           = ($k === 0) ? 'source' : 'target';
-                    $anchors[$type] = $anchor['endpoint'];
-                }
-
-                $connection['anchors'] = $anchors;
-            }
-        }
-
+        $settings=json_decode($settings);
+        $this->replaceAllTempIDS($settings, $tempIds);
+        $settings=json_encode($settings);
         $entity->setCanvasSettings($settings);
-
         if ($persist) {
             $this->getRepository()->saveEntity($entity);
         }
 
         return $settings;
+    }
+
+    public function replaceAllTempIDS($data, $tempIds)
+    {
+        $type=$data->type;
+        $id  =$data->id;
+        if ($type == 'path') {
+            $triggers=$data->triggers;
+            $steps   =$data->steps;
+            foreach ($triggers as $key => $trigger) {
+                if (isset($tempIds[$trigger->id])) {
+                    $trigger->id=$tempIds[$trigger->id];
+                }
+            }
+            foreach ($steps as $key => $step) {
+                $this->replaceAllTempIDS($step, $tempIds);
+            }
+        } elseif ($type == 'action' && isset($tempIds[$id])) {
+            $data->id=$tempIds[$id];
+        } elseif ($type == 'decision') {
+            if (isset($tempIds[$id])) {
+                $data->id=$tempIds[$id];
+            }
+            $this->replaceAllTempIDS($data->true_path, $tempIds);
+            $this->replaceAllTempIDS($data->false_path, $tempIds);
+        } elseif ($type == 'exit' && isset($tempIds[$id])) {
+            $data->id=$tempIds[$id];
+        } elseif ($type == 'delay' && isset($tempIds[$id])) {
+            $data->id=$tempIds[$id];
+        } elseif ($type == 'fork') {
+            $paths=$data->paths;
+            foreach ($paths as $key => $path) {
+                $this->replaceAllTempIDS($path, $tempIds);
+            }
+        } elseif ($type == 'interrupt') {
+            $triggers=$data->triggers;
+            foreach ($triggers as $key => $trigger) {
+                if (isset($tempIds[$trigger->id])) {
+                    $trigger->id=$tempIds[$trigger->id];
+                }
+            }
+        }
+    }
+
+    public function getAllParellalGoals($data, $eventid, $matched)
+    {
+        $type         =$data->type;
+        $matchnotfound=sizeof($matched) == 0;
+        if ($type == 'path' && $matchnotfound) {
+            $steps=$data->steps;
+            foreach ($steps as $key => $step) {
+                $matched=$this->getAllParellalGoals($step, $eventid, $matched);
+            }
+        } elseif ($type == 'decision' && $matchnotfound) {
+            $matched=$this->getAllParellalGoals($data->true_path, $eventid, $matched);
+            $matched=$this->getAllParellalGoals($data->false_path, $eventid, $matched);
+        } elseif ($type == 'fork' && $matchnotfound) {
+            $paths=$data->paths;
+            foreach ($paths as $key => $path) {
+                $matched=$this->getAllParellalGoals($path, $eventid, $matched);
+            }
+        } elseif ($type == 'interrupt' && $matchnotfound) {
+            $triggers=$data->triggers;
+            $found   =false;
+            foreach ($triggers as $key => $trigger) {
+                $matched[]= $trigger->id;
+                if ($eventid == $trigger->id) {
+                    $found=true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $matched=[];
+            }
+        }
+
+        return $matched;
+    }
+
+    public function getExitEvent($data)
+    {
+        $type=$data->type;
+        if ($type == 'path') {
+            $steps=$data->steps;
+            $step =$steps[sizeof($steps) - 1];
+            if ($step->type == 'exit') {
+                return [$step->id];
+            }
+        }
+
+        return [];
     }
 
     /**
@@ -515,65 +503,7 @@ class CampaignModel extends CommonFormModel
             $events['action']    = $event->getActions();
             $events['source']    = $event->getSources();
 
-            $connectionRestrictions = ['anchor' => []];
-
-            $eventTypes = array_fill_keys(array_keys($events), []);
-            foreach ($events as $eventType => $typeEvents) {
-                foreach ($typeEvents as $key => $event) {
-                    if (!isset($connectionRestrictions[$key])) {
-                        $connectionRestrictions[$key] = [
-                            'source' => $eventTypes,
-                            'target' => $eventTypes,
-                        ];
-                    }
-                    if (!isset($connectionRestrictions[$key])) {
-                        $connectionRestrictions['anchor'][$key] = [];
-                    }
-
-                    // @deprecated 2.6.0 to be removed in 3.0
-                    switch ($eventType) {
-                        case 'decision':
-                            if (isset($event['associatedActions'])) {
-                                $connectionRestrictions[$key]['target']['action'] += $event['associatedActions'];
-                            }
-                            break;
-                        case 'action':
-                            if (isset($event['associatedDecisions'])) {
-                                $connectionRestrictions[$key]['source']['decision'] += $event['associatedDecisions'];
-                            }
-                            break;
-                    }
-
-                    if (isset($event['anchorRestrictions'])) {
-                        foreach ($event['anchorRestrictions'] as $restriction) {
-                            list($group, $anchor)                             = explode('.', $restriction);
-                            $connectionRestrictions['anchor'][$key][$group][] = $anchor;
-                        }
-                    }
-                    // end deprecation
-
-                    if (isset($event['connectionRestrictions'])) {
-                        foreach ($event['connectionRestrictions'] as $restrictionType => $restrictions) {
-                            switch ($restrictionType) {
-                                    case 'source':
-                                    case 'target':
-                                        foreach ($restrictions as $groupType => $groupRestrictions) {
-                                            $connectionRestrictions[$key][$restrictionType][$groupType] += $groupRestrictions;
-                                        }
-                                        break;
-                                    case 'anchor':
-                                        foreach ($restrictions as $anchor) {
-                                            list($group, $anchor)                                     = explode('.', $anchor);
-                                            $connectionRestrictions[$restrictionType][$group][$key][] = $anchor;
-                                        }
-
-                                        break;
-                            }
-                        }
-                    }
-                }
-            }
-
+            $connectionRestrictions           = ['anchor' => []];
             $events['connectionRestrictions'] = $connectionRestrictions;
             self::$events                     = $events;
         }
@@ -859,6 +789,41 @@ class CampaignModel extends CommonFormModel
         }
 
         unset($leadModel, $campaign, $leads);
+    }
+
+    /**
+     * Check goal achieved by lead.
+     *
+     * @param Campaign $campaign
+     * @param Lead     $leads
+     * @param          $eventid
+     *
+     * @return bool
+     */
+    public function checkGoalAchievedByLead($campaign, $lead, $eventid)
+    {
+        $achieved       =false;
+        $completedevents=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
+        if ($completedevents > 0) {
+            $canvassettings=json_decode($campaign->getCanvasSettings());
+            $exitevents    =$this->getExitEvent($canvassettings);
+            $isLeadExited  =$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $exitevents);
+            if (!$isLeadExited) {
+                $parellalgoals=$this->getAllParellalGoals($canvassettings, $eventid, []);
+                if (sizeof($parellalgoals) > 0) {
+                    $achievedgoals=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $parellalgoals);
+                    if ($achievedgoals == 0) {
+                        $this->getEventRepository()->unScheduleAllEvents($campaign->getId(), $lead->getId());
+                        $log=$this->getLogEntity($eventid, $campaign, $lead);
+                        $log->setTriggerDate(new \DateTime());
+                        $this->getCampaignLeadEventLogRepository()->saveEntity($log);
+                        $achieved=true;
+                    }
+                }
+            }
+        }
+
+        return $achieved;
     }
 
     /**
@@ -1410,5 +1375,49 @@ class CampaignModel extends CommonFormModel
         $allBlockDetails[] = $inactiveCampaigns;
 
         return $allBlockDetails;
+    }
+
+    /**
+     * @param Event|int                                $event
+     * @param Campaign                                 $campaign
+     * @param \Mautic\LeadBundle\Entity\Lead|null      $lead
+     * @param \Mautic\CoreBundle\Entity\IpAddress|null $ipAddress
+     * @param bool                                     $systemTriggered
+     *
+     * @return LeadEventLog
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function getLogEntity($event, $campaign, $lead = null, $ipAddress = null, $systemTriggered = false)
+    {
+        $log = new LeadEventLog();
+
+        if ($ipAddress == null) {
+            // Lead triggered from system IP
+            $ipAddress = $this->ipLookupHelper->getIpAddress();
+        }
+        $log->setIpAddress($ipAddress);
+
+        if (!$event instanceof Event) {
+            $event = $this->em->getReference('MauticCampaignBundle:Event', $event);
+        }
+        $log->setEvent($event);
+
+        if (!$campaign instanceof Campaign) {
+            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $campaign);
+        }
+        $log->setCampaign($campaign);
+
+        if ($lead == null) {
+            $lead = $this->leadModel->getCurrentLead();
+        }
+        $log->setLead($lead);
+        $log->setDateTriggered(new \DateTime());
+        $log->setSystemTriggered($systemTriggered);
+
+        // Save some RAM for batch processing
+        unset($event, $campaign, $lead);
+
+        return $log;
     }
 }

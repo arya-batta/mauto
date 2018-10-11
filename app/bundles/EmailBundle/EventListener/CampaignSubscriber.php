@@ -26,10 +26,9 @@ use Mautic\EmailBundle\Helper\UrlMatcher;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PageBundle\Entity\Hit;
 use Symfony\Component\Translation\TranslatorInterface;
-use Mautic\NotificationBundle\Helper\NotificationHelper;
-use Mautic\ChannelBundle\ChannelEvents;
 
 /**
  * Class CampaignSubscriber.
@@ -70,12 +69,12 @@ class CampaignSubscriber extends CommonSubscriber
     protected $notificationhelper;
 
     /**
-     * @param LeadModel         $leadModel
-     * @param EmailModel        $emailModel
-     * @param EventModel        $eventModel
-     * @param MessageQueueModel $messageQueueModel
-     * @param SendEmailToUser   $sendEmailToUser
-     * @param TranslatorInterface   $translator
+     * @param LeadModel           $leadModel
+     * @param EmailModel          $emailModel
+     * @param EventModel          $eventModel
+     * @param MessageQueueModel   $messageQueueModel
+     * @param SendEmailToUser     $sendEmailToUser
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         LeadModel $leadModel,
@@ -93,7 +92,6 @@ class CampaignSubscriber extends CommonSubscriber
         $this->sendEmailToUser    = $sendEmailToUser;
         $this->translator         = $translator;
         $this->notificationhelper = $notificationhelper;
-
     }
 
     /**
@@ -211,7 +209,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'sourcetype'      => 'openEmail',
                 'formType'        => 'emailsend_list',
                 'order'           => '7',
-                'group'           => 'LeadsEngage',
+                'group'           => 'le.campaign.source.group.name',
             ]
         );
 
@@ -223,7 +221,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'sourcetype'      => 'clickEmail',
                 'formType'        => 'emailsend_list',
                 'order'           => '8',
-                'group'           => 'LeadsEngage',
+                'group'           => 'le.campaign.source.group.name',
             ]
         );
     }
@@ -321,14 +319,15 @@ class CampaignSubscriber extends CommonSubscriber
         $config  = $event->getConfig();
         $emailId = (int) $config['email'];
         $email   = $this->emailModel->getEntity($emailId);
-        $status = $this->emailModel->mailHelper->emailstatus();
+        $status  = $this->emailModel->mailHelper->emailstatus();
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or published');
         }
-        if(!$status){
+        if (!$status) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));
+
+            return $event->setFailed($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
         $emailSent = false;
         $type      = (isset($config['email_type'])) ? $config['email_type'] : 'transactional';
@@ -390,9 +389,10 @@ class CampaignSubscriber extends CommonSubscriber
         $config = $event->getConfig();
         $lead   = $event->getLead();
         $status = $this->emailModel->mailHelper->emailstatus();
-        if(!$status){
+        if (!$status) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-            return $event->setFailed($this->translator->trans("mautic.email.config.mailer.status.report",['%url%'=>$configurl]));        }
+            return $event->setFailed($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+        }
         try {
             $this->sendEmailToUser->sendEmailToUsers($config, $lead);
             $event->setResult(true);

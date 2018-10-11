@@ -653,7 +653,7 @@ if(iscampaignmodel){
     mQuery(prototype).find("input[name='" + filterBase + "[type]']").val(fieldType);
     mQuery(prototype).find("input[name='" + filterBase + "[object]']").val(fieldObject);
     mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").val(customObject);
-    mQuery(prototype).find("input[name='" + filterBase + "[customlabel]']").val(label);
+    mQuery(prototype).find("input[name='" + filterBase + "[fieldlabel]']").val(label);
 
     var filterEl = (isSpecial) ? "select[name='" + filterBase + "[filter]']" : "input[name='" + filterBase + "[filter]']";
 

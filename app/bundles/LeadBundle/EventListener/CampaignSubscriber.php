@@ -18,7 +18,6 @@ use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Helper\licenseinfoHelper;
-use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\PointsChangeLog;
@@ -63,21 +62,22 @@ class CampaignSubscriber extends CommonSubscriber
      * @var LicenseInfoHelper
      */
     protected $licenseInfoHelper;
+
     /**
      * CampaignSubscriber constructor.
      *
-     * @param IpLookupHelper $ipLookupHelper
-     * @param LeadModel      $leadModel
-     * @param FieldModel     $leadFieldModel
-     * @param LicenseInfoHelper  $licenseInfoHelper
+     * @param IpLookupHelper    $ipLookupHelper
+     * @param LeadModel         $leadModel
+     * @param FieldModel        $leadFieldModel
+     * @param LicenseInfoHelper $licenseInfoHelper
      */
-    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel,LicenseInfoHelper  $licenseInfoHelper)
+    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel, LicenseInfoHelper  $licenseInfoHelper)
     {
-        $this->ipLookupHelper = $ipLookupHelper;
-        $this->leadModel      = $leadModel;
-        $this->leadFieldModel = $leadFieldModel;
-        $this->listModel      = $listModel;
-        $this->campaignModel  = $campaignModel;
+        $this->ipLookupHelper     = $ipLookupHelper;
+        $this->leadModel          = $leadModel;
+        $this->leadFieldModel     = $leadFieldModel;
+        $this->listModel          = $listModel;
+        $this->campaignModel      = $campaignModel;
         $this->licenseInfoHelper  =  $licenseInfoHelper;
     }
 
@@ -307,7 +307,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'   => 'mautic.campaign.leadsource.lists.desc',
             'formType'      => 'campaignsource_lists',
             'sourcetype'    => 'lists',
-            'group'         => 'LeadsEngage',
+            'group'         => 'le.campaign.source.group.name',
             'order'         => 2,
         ];
 
@@ -317,7 +317,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'         => 'le.campaign.leadsource.allleads',
             'description'   => 'le.campaign.leadsource.allleads.desc',
             'sourcetype'    => 'allleads',
-            'group'         => 'LeadsEngage',
+            'group'         => 'le.campaign.source.group.name',
             'order'         => 1,
         ];
 
@@ -328,7 +328,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description' => 'le.lead.lead.events.tags_descr',
             'order'       => '4',
             'formType'    => 'campaignevent_lead_tags',
-            'group'       => 'LeadsEngage',
+            'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'leadtags',
         ];
 
@@ -340,7 +340,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'    => 'campaignevent_lead_field_value',
             'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
             'order'       => '6',
-            'group'       => 'LeadsEngage',
+            'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'fieldvalue',
         ];
 
@@ -532,10 +532,10 @@ class CampaignSubscriber extends CommonSubscriber
 
         $currentMonth     =date('Y-m');
 
-            $this->leadModel->deleteEntity($event->getLead());
-            $this->licenseInfoHelper->intRecordCount('1', false);
-            $this->licenseInfoHelper->intDeleteCount('1', true);
-            $this->licenseInfoHelper->intDeleteMonth($currentMonth);
+        $this->leadModel->deleteEntity($event->getLead());
+        $this->licenseInfoHelper->intRecordCount('1', false);
+        $this->licenseInfoHelper->intDeleteCount('1', true);
+        $this->licenseInfoHelper->intDeleteMonth($currentMonth);
 
         return $event->setResult(true);
     }

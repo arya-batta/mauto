@@ -2015,7 +2015,7 @@ class LeadModel extends FormModel
             }
         }
 
-        if (count($segments)) {
+        if (count($segments) > 0) {
             foreach ($segments as $leadSegment => $leadlist) {
                 $this->addToLists($lead, [$leadlist]);
             }

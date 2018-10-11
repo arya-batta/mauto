@@ -139,7 +139,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'          => 'le.page.campaign.event.pagehit',
             'description'    => 'le.page.campaign.event.pagehit_descr',
             'formType'       => 'campaignevent_pagehit',
-            'group'          => 'LeadsEngage',
+            'group'          => 'le.campaign.source.group.name',
             'sourcetype'     => 'pagehit',
             'order'          => '9',
         ];

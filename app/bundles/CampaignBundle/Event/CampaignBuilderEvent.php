@@ -157,16 +157,16 @@ class CampaignBuilderEvent extends Event
         if (array_key_exists($key, $this->conditions)) {
             throw new InvalidArgumentException("The key, '$key' is already used by another contact action. Please use a different key.");
         }
-
-        //check for required keys and that given functions are callable
-        $this->verifyComponent(
-            ['label', ['eventName', 'callback']],
-            $event,
-            ['callback']
-        );
-
+        if ($key != 'campaign.defaultcondition') {
+            //check for required keys and that given functions are callable
+            $this->verifyComponent(
+                ['label', ['eventName', 'callback']],
+                $event,
+                ['callback']
+            );
+        }
         $event['label']       = $this->translator->trans($event['label']);
-        $event['description'] = (isset($event['description'])) ? $this->translator->trans($event['description']) : '';
+        $event['description'] = (isset($event['description']) && $event['description'] != '') ? $this->translator->trans($event['description']) : '';
 
         $this->conditions[$key] = $event;
     }
@@ -177,17 +177,19 @@ class CampaignBuilderEvent extends Event
             throw new InvalidArgumentException("The key, '$key' is already used by another contact action. Please use a different key.");
         }
 
-        //check for required keys and that given functions are callable
-        $this->verifyComponent(
-            ['label', 'sourcetype'],
-            $event,
-            []
-        );
+        if ($key != 'campaign.defaultsource') {
+            //check for required keys and that given functions are callable
+            $this->verifyComponent(
+               ['label', 'sourcetype'],
+               $event,
+               []
+           );
+        }
 
         $event['label']       = $this->translator->trans($event['label']);
-        $event['description'] = (isset($event['description'])) ? $this->translator->trans($event['description']) : '';
-
-        $this->sources[$key] = $event;
+        $event['description'] = (isset($event['description']) && $event['description'] != '') ? $this->translator->trans($event['description']) : '';
+        $event['group']       = (isset($event['group']) && $event['group'] != '') ? $this->translator->trans($event['group']) : '';
+        $this->sources[$key]  = $event;
     }
 
     /**
@@ -267,8 +269,8 @@ class CampaignBuilderEvent extends Event
 
         //translate the group
         $action['label']       = $this->translator->trans($action['label']);
-        $action['description'] = (isset($action['description'])) ? $this->translator->trans($action['description']) : '';
-        $action['group']       = $this->translator->trans($action['group']);
+        $action['description'] = (isset($action['description']) && $action['description'] != '') ? $this->translator->trans($action['description']) : '';
+        $action['group']       = (isset($action['group']) && $action['group'] != '') ? $this->translator->trans($action['group']) : '';
         $this->actions[$key]   = $action;
     }
 
