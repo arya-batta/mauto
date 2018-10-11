@@ -214,7 +214,9 @@ Mautic.configOnLoad = function (container) {
         Mautic.ajaxActionRequest('email:deleteAwsVerifiedEmails', {'email': email}, function(response) {
             Mautic.removeButtonLoadingIndicator(currentLink);
             if(response.success) {
-                Mautic.redirectWithBackdrop(response.redirect);
+                currentLink.addClass('hide');
+                spans.addClass('hide');
+               // Mautic.redirectWithBackdrop(response.redirect);
             } else {
                 document.getElementById('errors').innerHTML=response.message;
                 return;
