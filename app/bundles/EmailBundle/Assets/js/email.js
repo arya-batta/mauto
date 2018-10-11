@@ -52,11 +52,6 @@ Mautic.emailOnLoad = function (container, response) {
                 Mautic.showpreviewoftemplate();
             }
         }
-        if(selectrel == 3){
-            mQuery('.sendEmailTest').removeClass('hide');
-        } else {
-            mQuery('.sendEmailTest').addClass('hide');
-        }
         mQuery('#Email_TemplateName').removeClass('has-success has-error');
         mQuery('#Email_Subject').removeClass('has-success has-error');
         mQuery('#leadlists').removeClass('has-success has-error');
@@ -130,6 +125,11 @@ Mautic.emailOnLoad = function (container, response) {
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+        if(selectrel == 3){
+            mQuery('.sendEmailTest').removeClass('hide');
+        } else {
+            mQuery('.sendEmailTest').addClass('hide');
+        }
 
         if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
         {
@@ -1013,7 +1013,7 @@ Mautic.checkemailstatus = function(){
                         mQuery('.license-notifiation').removeClass('hide');
                         mQuery('.button-notification').addClass('hide');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
-                        mQuery('#fixed-content').attr('style', 'margin-top:16%;');
+                        mQuery('#fixed-content').attr('style', 'margin-top:215px;');
                         mQuery('.content-body').attr('style', 'padding-top:82px;');
                     }
                 } else {
@@ -1027,13 +1027,17 @@ Mautic.checkemailstatus = function(){
 Mautic.changeButtonPanelStyle = function (){
     if(!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')){
         mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
-        mQuery('#fixed-content').attr('style', 'margin-top:19%;');
+        if(mQuery('.license-notifiation').hasClass('hide')) {
+            mQuery('#fixed-content').attr('style', 'margin-top:145px;');
+        } else {
+            mQuery('#fixed-content').attr('style', 'margin-top:205px;');
+        }
     } else {
         mQuery('.ui-tabs-panel .fixed-header').removeClass('ui-panel-fixed-button-panel');
         if(mQuery('.license-notifiation').hasClass('hide')) {
-            mQuery('#fixed-content').attr('style', 'margin-top:13%;');
+            mQuery('#fixed-content').attr('style', 'margin-top:155px;');
         } else {
-            mQuery('#fixed-content').attr('style', 'margin-top:16%;');
+            mQuery('#fixed-content').attr('style', 'margin-top:215px;');
         }
     }
 }
