@@ -54,6 +54,7 @@
         </div>
     </div>
 </div>
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.core.config.form.link.shortener');?></h3>
