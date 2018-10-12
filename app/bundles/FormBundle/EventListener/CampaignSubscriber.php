@@ -103,7 +103,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'   => 'mautic.campaign.leadsource.forms.desc',
             'formType'      => 'campaignsource_forms',
             'sourcetype'    => 'forms',
-            'group'         => 'LeadsEngage',
+            'group'         => 'le.campaign.source.group.name',
             'order'         => '2',
         ];
 

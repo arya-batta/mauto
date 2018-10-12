@@ -121,5 +121,49 @@ class CampaignSubscriber extends CommonSubscriber
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('campaign.addremovelead', $addRemoveLeadAction);
+
+        $defaultsource=[
+            'label'           => 'le.campaign.event.defaultsource',
+            'description'     => '',
+            'order'           => 104,
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+        ];
+        $event->addSources('campaign.defaultsource', $defaultsource);
+
+        $defaultaction=[
+            'label'           => 'le.campaign.event.defaultaction',
+            'description'     => '',
+            'eventName'       => '',
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+            'order'           => 100,
+        ];
+        $event->addAction('campaign.defaultaction', $defaultaction);
+
+        $defaultdelay=[
+            'label'           => 'le.campaign.event.defaultdelay',
+            'description'     => '',
+            'eventName'       => '',
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+            'order'           => 101,
+        ];
+        $event->addAction('campaign.defaultdelay', $defaultdelay);
+
+        $defaultexit=[
+            'label'           => 'le.campaign.event.defaultexit',
+            'description'     => '',
+            'eventName'       => '',
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+            'order'           => 102,
+        ];
+        $event->addAction('campaign.defaultexit', $defaultexit);
+
+        $defaultcondition=[
+            'label'           => 'le.campaign.event.defaultcondition',
+            'description'     => '',
+            'eventName'       => '',
+            'order'           => 103,
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+        ];
+        $event->addCondition('campaign.defaultcondition', $defaultcondition);
     }
 }

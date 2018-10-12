@@ -70,7 +70,7 @@ class EventType extends AbstractType
             ]
         );
 
-        if (in_array($options['data']['eventType'], ['action', 'condition'])) {
+        if (in_array($options['data']['type'], ['campaign.defaultdelay'])) {
             $label = 'mautic.campaign.form.type';
 
             $choices = [
@@ -79,16 +79,15 @@ class EventType extends AbstractType
                 'date'      => 'mautic.campaign.form.type.date',
             ];
 
-            if ('no' == $options['data']['anchor'] && 'condition' != $options['data']['anchorEventType']
-                && 'condition' != $options['data']['eventType']
-            ) {
-                $label .= '_inaction';
-
-                unset($choices['immediate']);
-                $choices['interval'] = $choices['interval'].'_inaction';
-                $choices['date']     = $choices['date'].'_inaction';
-            }
-
+//            if ('no' == $options['data']['anchor'] && 'condition' != $options['data']['anchorEventType']
+//                && 'condition' != $options['data']['eventType']
+//            ) {
+//                $label .= '_inaction';
+//                unset($choices['immediate']);
+//                $choices['interval'] = $choices['interval'].'_inaction';
+//                $choices['date']     = $choices['date'].'_inaction';
+//            }
+            unset($choices['immediate']);
             reset($choices);
             $default = key($choices);
 
@@ -214,6 +213,13 @@ class EventType extends AbstractType
 
         $builder->add(
             'campaignId',
+            'hidden',
+            [
+                'mapped' => false,
+            ]
+        );
+        $builder->add(
+            'eventId',
             'hidden',
             [
                 'mapped' => false,

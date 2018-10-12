@@ -73,45 +73,14 @@ $isAdmin=$view['security']->isAdmin();
         </div>
     </div>
     <div id="builder-errors" class="alert alert-danger" role="alert" style="display: none;">test</div>
-    <div  id='campaign-new-request-url' data-href="<?php echo $view['router']->path(
+    <div  id='campaign-request-url' data-href="<?php echo $view['router']->path(
         'mautic_campaignevent_action',
         [
-            'objectAction' => 'new',
+            'objectAction' => 'objectAction',
         ]
     ); ?>"></div>
     <div class="builder-content">
-        <div id="CampaignCanvas">
-            <div id="CampaignEvent_newsource<?php if ($sourcefound) {
-        echo '_hide';
-    } ?>" class="text-center list-campaign-source list-campaign-leadsource">
-                <div class="campaign-event-content">
-                    <div>
-                        <span class="campaign-event-name ellipsis">
-                            <i class="mr-sm fa fa-users"></i> <?php echo $view['translator']->trans('mautic.campaign.add_new_source'); ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <?php
-//            foreach ($campaignSources as $source):
-//                echo $view->render('MauticCampaignBundle:Source:index.html.php', $source);
-//            endforeach;
-
-            foreach ($campaignEvents as $event):
-                echo $view->render('MauticCampaignBundle:Event:generic.html.php',
-                    ['event' => $event, 'campaignId' => $campaignId]);
-            endforeach;
-
-            echo $view->render('MauticCampaignBundle:Campaign\Builder:index.html.php',
-                [
-                    'campaignSources' => $campaignSources,
-                    'eventSettings'   => $eventSettings,
-                    'campaignId'      => $campaignId,
-                ]
-            );
-            ?>
-
+        <div class="workflow-canvas">
         </div>
     </div>
     <div class="campaign-statistics minimized">
@@ -129,8 +98,8 @@ $isAdmin=$view['security']->isAdmin();
                     <?php endif; ?>
                     <?php if ($decisions || $conditions):?>
                     <ul class=" ui-corner-top btn btn-group <?php if (empty($actions)) {
-                echo 'ui-tabs-selected';
-            }?>" role = "tab" id = "ui-tab-stat-header2">
+        echo 'ui-tabs-selected';
+    }?>" role = "tab" id = "ui-tab-stat-header2">
                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.decisions.stat'); ?></p>
                     </ul>
                     <?php endif; ?>
@@ -143,8 +112,8 @@ $isAdmin=$view['security']->isAdmin();
                     <?php echo $actions; ?>
                 </div>
                 <div id="fragment-stat-2" class="ui-tabs-panel <?php if (!empty($actions)) {
-                echo 'hide';
-            }?>">
+        echo 'hide';
+    }?>">
                     <?php echo $decisions; ?>
                     <?php echo $conditions; ?>
                 </div>
@@ -168,31 +137,30 @@ $isAdmin=$view['security']->isAdmin();
         'size'          => 'clg',
     ]
 );
-
+echo $view->render('MauticCampaignBundle:Campaign\Builder:steps_model.html.php',
+    []
+);
 ?>
 <script>
+
     <?php if (!empty($canvasSettings)): ?>
     Mautic.campaignBuilderCanvasSettings =
-    <?php echo json_encode($canvasSettings, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderCanvasSources =
-    <?php echo json_encode($campaignSources, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderCanvasEvents =
-    <?php echo json_encode($campaignEvents, JSON_PRETTY_PRINT); ?>;
+    <?php echo $canvasSettings ?>;//json_encode($canvasSettings, JSON_PRETTY_PRINT);
     <?php endif; ?>
-    Mautic.campaignBuilderConnectionRestrictions =
-    <?php echo json_encode($eventSettings['connectionRestrictions'], JSON_PRETTY_PRINT); ?>;
     <?php
 $acions      =$eventSettings['action'];
 $eventoptions=[];
 foreach ($acions as $key => $value) {
-    $options             =[];
-    $options['label']    =$value['label'];
-    $options['desc']     =$value['description'];
-    $options['eventtype']='action';
-    $options['category'] =$key;
-    $options['order']    =$value['order'];
-    $options['group']    =$value['group'];
-    $eventoptions[]      =$options;
+    if ($key != 'campaign.defaultaction' && $key != 'campaign.defaultdelay' && $key != 'campaign.defaultexit') {
+        $options             =[];
+        $options['label']    =$value['label'];
+        $options['desc']     =$value['description'];
+        $options['eventtype']='action';
+        $options['category'] =$key;
+        $options['order']    =$value['order'];
+        $options['group']    =$value['group'];
+        $eventoptions[]      =$options;
+    }
 }
      $campaigngroupoptions = [
         ['label'=> 'LeadsEngage', 'order'=> 1],
@@ -202,14 +170,16 @@ foreach ($acions as $key => $value) {
     $sources      =$eventSettings['source'];
     $sourceoptions=[];
     foreach ($sources as $key => $value) {
-        $options             =[];
-        $options['label']    =$value['label'];
-        $options['desc']     =$value['description'];
-        $options['eventtype']='source';
-        $options['category'] =$key;
-        $options['order']    =$value['order'];
-        $options['group']    =$value['group'];
-        $sourceoptions[]     =$options;
+        if ($key != 'campaign.defaultsource') {
+            $options             =[];
+            $options['label']    =$value['label'];
+            $options['desc']     =$value['description'];
+            $options['eventtype']='source';
+            $options['category'] =$key;
+            $options['order']    =$value['order'];
+            $options['group']    =$value['group'];
+            $sourceoptions[]     =$options;
+        }
     }
 
 ?>

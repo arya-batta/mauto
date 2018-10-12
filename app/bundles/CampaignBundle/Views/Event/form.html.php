@@ -8,12 +8,13 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$isCondition=$eventType == 'condition' ? true : false;
-$isSource   =$eventType == 'source' ? true : false;
-$isAction   =$eventType == 'action' ? true : false;
-$header     ='';
-$description='';
-$headerStyle= 'margin-top: 20px;';
+$isCondition =$eventType == 'condition' ? true : false;
+$isSource    =$eventType == 'source' ? true : false;
+$isAction    =$eventType == 'action' ? true : false;
+$isDelayEvent= ($type == 'campaign.defaultdelay') ? true : false;
+$header      ='';
+$description ='';
+$headerStyle = 'margin-top: 20px;';
 if ($isSource) {
     $header     =$view['translator']->trans('mautic.point.trigger.header.edit');
     $description=$view['translator']->trans('le.campaign.source.trigger.desc');
@@ -21,9 +22,11 @@ if ($isSource) {
     $header     =$view['translator']->trans('le.campaign.edit.decision');
     $description=$view['translator']->trans('le.campaign.decision.desc');
     $headerStyle='margin-top: 5px;';
-} elseif ($isAction) {
+} elseif ($isAction && !$isDelayEvent) {
     $header     =$view['translator']->trans('le.campaign.edit.action');
     $description=$view['translator']->trans('le.campaign.action.desc');
+} elseif ($isDelayEvent) {
+    $header=$view['translator']->trans('le.campaign.edit.delay');
 }
 if ($isCondition) {
     $fields    = $form['properties']->vars['fields'];
@@ -59,7 +62,7 @@ if ($isCondition) {
     </div>
 
     <?php echo $view['form']->start($form); ?>
-    <div <?php echo $isCondition ? 'class="hide"' : ''?> id="campaigneventgroup" style="display: flex" data-href="<?php echo $accessurl?>">
+    <div <?php echo ($isCondition || $isDelayEvent) ? 'class="hide"' : ''?> id="campaigneventgroup" style="display: flex" data-href="<?php echo $accessurl?>">
         <div style="width: 30%;">
         <?php echo $view['form']->widget($form['group']); ?>
         </div>

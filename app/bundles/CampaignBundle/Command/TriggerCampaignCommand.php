@@ -46,7 +46,7 @@ class TriggerCampaignCommand extends ModeratedCommand
                 null
             )
             ->addOption('--scheduled-only', null, InputOption::VALUE_NONE, 'Trigger only scheduled events')
-            ->addOption('--negative-only', null, InputOption::VALUE_NONE, 'Trigger only negative events, i.e. with a "no" decision path.')
+            //->addOption('--negative-only', null, InputOption::VALUE_NONE, 'Trigger only negative events, i.e. with a "no" decision path.')
             ->addOption('--batch-limit', '-l', InputOption::VALUE_OPTIONAL, 'Set batch size of contacts to process per round. Defaults to 100.', 100)
             ->addOption(
                 '--max-events',
@@ -77,7 +77,7 @@ class TriggerCampaignCommand extends ModeratedCommand
             $em               = $container->get('doctrine')->getManager();
             $id               = $input->getOption('campaign-id');
             $scheduleOnly     = $input->getOption('scheduled-only');
-            $negativeOnly     = $input->getOption('negative-only');
+            //  $negativeOnly     = $input->getOption('negative-only');
             $batch            = $input->getOption('batch-limit');
             $max              = $input->getOption('max-events');
 
@@ -97,7 +97,7 @@ class TriggerCampaignCommand extends ModeratedCommand
                     $totalProcessed = 0;
                     $output->writeln('<info>'.$translator->trans('mautic.campaign.trigger.triggering', ['%id%' => $id]).'</info>');
 
-                    if (!$negativeOnly && !$scheduleOnly) {
+                    if (!$scheduleOnly) {
                         //trigger starting action events for newly added contacts
                         $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.starting').'</comment>');
                         $processed = $model->triggerStartingEvents($campaign, $totalProcessed, $batch, $max, $output);
@@ -106,19 +106,10 @@ class TriggerCampaignCommand extends ModeratedCommand
                     );
                     }
 
-                    if ((!$max || $totalProcessed < $max) && !$negativeOnly) {
+                    if ((!$max || $totalProcessed < $max)) {
                         //trigger scheduled events
                         $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.scheduled').'</comment>');
                         $processed = $model->triggerScheduledEvents($campaign, $totalProcessed, $batch, $max, $output);
-                        $output->writeln(
-                        '<comment>'.$translator->trans('mautic.campaign.trigger.events_executed', ['%events%' => $processed]).'</comment>'."\n"
-                    );
-                    }
-
-                    if ((!$max || $totalProcessed < $max) && !$scheduleOnly) {
-                        //find and trigger "no" path events
-                        $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.negative').'</comment>');
-                        $processed = $model->triggerNegativeEvents($campaign, $totalProcessed, $batch, $max, $output);
                         $output->writeln(
                         '<comment>'.$translator->trans('mautic.campaign.trigger.events_executed', ['%events%' => $processed]).'</comment>'."\n"
                     );
@@ -145,7 +136,7 @@ class TriggerCampaignCommand extends ModeratedCommand
                         }
 
                         $output->writeln('<info>'.$translator->trans('mautic.campaign.trigger.triggering', ['%id%' => $c->getId()]).'</info>');
-                        if (!$negativeOnly && !$scheduleOnly) {
+                        if (!$scheduleOnly) {
                             //trigger starting action events for newly added contacts
                             $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.starting').'</comment>');
                             $processed = $model->triggerStartingEvents($c, $totalProcessed, $batch, $max, $output);
@@ -158,30 +149,13 @@ class TriggerCampaignCommand extends ModeratedCommand
                         if ($max && $totalProcessed >= $max) {
                             continue;
                         }
-
-                        if (!$negativeOnly) {
-                            //trigger scheduled events
-                            $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.scheduled').'</comment>');
-                            $processed = $model->triggerScheduledEvents($c, $totalProcessed, $batch, $max, $output);
-                            $output->writeln(
+                        //trigger scheduled events
+                        $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.scheduled').'</comment>');
+                        $processed = $model->triggerScheduledEvents($c, $totalProcessed, $batch, $max, $output);
+                        $output->writeln(
                             '<comment>'.$translator->trans('mautic.campaign.trigger.events_executed', ['%events%' => $processed]).'</comment>'
                             ."\n"
                         );
-                        }
-
-                        if ($max && $totalProcessed >= $max) {
-                            continue;
-                        }
-
-                        if (!$scheduleOnly) {
-                            //find and trigger "no" path events
-                            $output->writeln('<comment>'.$translator->trans('mautic.campaign.trigger.negative').'</comment>');
-                            $processed = $model->triggerNegativeEvents($c, $totalProcessed, $batch, $max, $output);
-                            $output->writeln(
-                            '<comment>'.$translator->trans('mautic.campaign.trigger.events_executed', ['%events%' => $processed]).'</comment>'
-                            ."\n"
-                        );
-                        }
                     }
 
                     $em->detach($c);

@@ -1,137 +1,230 @@
-//CampaignBundle
-/**
- * Setup the campaign view
- *
- * @param container
- */
+
+Mautic.SVGNAMESPACEURI="http://www.w3.org/2000/svg";
+Mautic.WF_TRIGGER_NODE_WIDTH_ADJUST=32;
+Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST=49;
+Mautic.WF_FORK_NODE_HEIGHT_ADJUST=40;
+Mautic.WF_STEP_NODE_HEIGHT_ADJUST=20;
+Mautic.WF_FORK_NODE_PATH_HEIGHT_ADJUST=150;
+Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST=159;
+Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT=90;
+Mautic.WF_TRIGGER_NODE_PATH_HEIGHT_CONSTANT=70;
+Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT=16;
+
+Mautic.getActionNodeJSON=function(){
+var json={
+    "id":Mautic.randomString(32),
+    "type":"action",
+    "category":"action",
+    "subcategory":"campaign.defaultaction",
+    "view":{
+        "label":"Define your action...",
+        "incomplete":true
+    }
+};
+return json;
+};
+Mautic.getDelayNodeJSON=function(){
+    var json={
+        "id":Mautic.randomString(32),
+        "type":"delay",
+        "category":"action",
+        "subcategory":"campaign.defaultdelay",
+        "view":{
+            "label":"Define your delay...",
+            "incomplete":true
+        },
+    };
+    return json;
+};
+Mautic.getExitNodeJSON=function(){
+    var json={
+        "id":Mautic.randomString(32),
+        "type":"exit",
+        "category":"action",
+        "subcategory":"campaign.defaultexit",
+    };
+    return json;
+};
+Mautic.getForkNodeJSON=function(){
+    var json={
+        "id":Mautic.randomString(32),
+        "type":"fork",
+        "paths":[
+            {
+                "id":Mautic.randomString(32),
+                "type":"path",
+                "triggers":[
+                ],
+                "steps":[
+                ]
+            },
+            {
+                "id":Mautic.randomString(32),
+                "type":"path",
+                "triggers":[
+                ],
+                "steps":[
+                ]
+            }
+        ]
+    };
+    return json;
+};
+Mautic.getDecisionNodeJSON=function(){
+    var json={
+        "id":Mautic.randomString(32),
+        "type":"decision",
+        "view":{
+            "label":"Define your condition...",
+            "incomplete":true
+        },
+        "category":"condition",
+        "subcategory":"lead.campaign_list_filter",
+        "true_path":{
+            "id":Mautic.randomString(32),
+            "type":"path",
+            "triggers":[
+
+            ],
+            "steps":[
+
+            ]
+        },
+        "false_path":{
+            "id":Mautic.randomString(32),
+            "type":"path",
+            "triggers":[
+
+            ],
+            "steps":[
+
+            ]
+        },
+    };
+    return json;
+};
+Mautic.getInterruptNodeJSON=function(){
+    var json={
+        "id":Mautic.randomString(32),
+        "type":"interrupt",
+        "triggers":[
+            {
+                "id":Mautic.randomString(32),
+                "type":"trigger",
+                "category":"source",
+                "subcategory":"campaign.defaultsource",
+                "entry_point":false,
+                "view":{
+                    "label":"Define your trigger...",
+                    "incomplete":true
+                }
+            }
+        ]
+    };
+    return json;
+};
+Mautic.getNewWorkFlowJSON=function(){
+  var json={
+      "id":Mautic.randomString(32),
+      "type":"path",
+      "triggers":[
+          {
+              "id":Mautic.randomString(32),
+              "type":"trigger",
+              "category":"source",
+              "subcategory":"campaign.defaultsource",
+              "entry_point":true,
+              "view":{
+                  "label":"Define your trigger...",
+                  "incomplete":true
+              }
+          }
+      ],
+      "steps":[
+          {
+              "id":Mautic.randomString(32),
+              "type":"exit",
+              "category":"action",
+              "subcategory":"campaign.defaultexit",
+          }
+      ]
+  };
+  return json;
+};
+Mautic.getNewPathJSON=function(){
+var json= {
+    "id":Mautic.randomString(32),
+    "type":"path",
+    "triggers":[
+
+    ],
+    "steps":[
+
+    ]
+};
+return json;
+};
+Mautic.getNewTriggerNodeJSON=function(){
+    var json=  {
+        "id":Mautic.randomString(32),
+        "type":"trigger",
+        "category":"source",
+        "subcategory":"campaign.defaultsource",
+        "entry_point":true,
+         "view":{
+            "label":"Define your trigger...",
+            "incomplete":true
+        }
+    };
+    return json;
+};
+Mautic.getJSONByEventType=function(type){
+if(type == 'action'){
+ return Mautic.getActionNodeJSON();
+}else if(type == 'decision'){
+    return Mautic.getDecisionNodeJSON();
+}else if(type == 'fork'){
+    return Mautic.getForkNodeJSON();
+}else if(type == 'goal'){
+    return Mautic.getInterruptNodeJSON();
+}else if(type == 'delay'){
+    return Mautic.getDelayNodeJSON();
+}else if(type == 'exit'){
+    return Mautic.getExitNodeJSON();
+}else {
+    return {};
+}
+};
+Mautic.campaignupdatedjson = {};
+Mautic.lastclickedinsertpoint = {
+    "id":'',
+    "insertat":-1,
+};
+Mautic.lastclickedwfnode = {
+    "id":'',
+    "type":'',
+    "eventType":'',
+};
 Mautic.campaignOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
         Mautic.activateSearchAutocomplete('list-search', 'campaign');
     }
+    mQuery('#ui-tab-stat-header1').click(function(){
+        mQuery('#ui-tab-stat-header1').addClass('btn-default ui-tabs-selected');
+        mQuery('#ui-tab-stat-header2').removeClass('btn-default ui-tabs-selected');
+        mQuery('#fragment-stat-1').removeClass('hide');
+        mQuery('#fragment-stat-2').addClass('hide');
 
-    if (mQuery('#CampaignEventPanel').length) {
-        // setup button clicks
-        mQuery('#CampaignEventPanelGroups button').on('click', function() {
-            var eventType = mQuery(this).data('type');
-           //alert("Clicked Event-->"+eventType);
-            if(eventType == 'Action'){
-                Mautic.invokeCampaignEventNewAction();
-            }else{
-                Mautic.campaignBuilderUpdateEventList([eventType], false, 'lists', true);
-            }
-        });
+    });
+    mQuery('#ui-tab-stat-header2').click(function(){
+        mQuery('#ui-tab-stat-header2').addClass('btn-default ui-tabs-selected');
+        mQuery('#ui-tab-stat-header1').removeClass('btn-default ui-tabs-selected');
+        mQuery('#fragment-stat-2').removeClass('hide');
+        mQuery('#fragment-stat-1').addClass('hide');
 
-        mQuery('#CampaignEventPanelLists button').on('click', function() {
-            Mautic.campaignBuilderUpdateEventList(Mautic.campaignBuilderAnchorClickedAllowedEvents, true, 'groups', true);
-        });
-
-        // set hover and double click functions for the event buttons
-        if (!(mQuery('.preview').length)) {
-            mQuery('#CampaignCanvas .list-campaign-event, #CampaignCanvas .list-campaign-source').off('.eventbuttons')
-                .on('mouseover.eventbuttons', function() {
-                    mQuery(this).find('.campaign-event-buttons').removeClass('hide');
-                })
-                .on('mouseout.eventbuttons', function() {
-                    mQuery(this).find('.campaign-event-buttons').addClass('hide');
-                })
-                .on('dblclick.eventbuttons', function(event) {
-                    event.preventDefault();
-                    mQuery(this).find('.btn-edit').first().click();
-                });
-        } else {
-            mQuery("#CampaignCanvas div.list-campaign-event").each(function () {
-                var thisId = mQuery(this).attr('id');
-                var option  = mQuery('#'+thisId+' option[value="' + mQuery(this).val() + '"]');
-            });
-        }
-
-        // setup chosen
-        mQuery('.campaign-event-selector').on('chosen:showing_dropdown', function (event) {
-            // Disable canvas scrolling
-            mQuery('.builder-content').css('overflow', 'hidden');
-
-            var thisSelect = mQuery(event.target).attr('id');
-            Mautic.campaignBuilderUpdateEventListTooltips(thisSelect, false);
-
-            mQuery('#'+thisSelect+'_chosen .chosen-search input').on('keydown.toolip', function () {
-                // Destroy tooltips that are filtered out
-                Mautic.campaignBuilderUpdateEventListTooltips(thisSelect, true);
-            }).on('keyup.tooltip', function() {
-                // Recreate tooltips for those left
-                Mautic.campaignBuilderUpdateEventListTooltips(thisSelect, false);
-            });
-        });
-
-        mQuery('.campaign-event-selector').on('chosen:hiding_dropdown', function (event) {
-            // Re-enable canvas scrolling
-            mQuery('.builder-content').css('overflow', 'auto');
-
-            var thisSelect = mQuery(event.target).attr('id');
-            Mautic.campaignBuilderUpdateEventListTooltips(thisSelect, true);
-
-            mQuery('#'+thisSelect+'_chosen .chosen-search input').off('keyup.toolip')
-                .off('keydown.tooltip');
-        });
-
-        mQuery('.campaign-event-selector').on('change', function() {
-            // Hide events list
-
-            if (!mQuery('#CampaignEvent_newsource').length) {
-                // Hide the CampaignEventPanel if visible
-                mQuery('#CampaignEventPanel').addClass('hide');
-            }
-
-            // Get the option clicked
-            var thisId = mQuery(this).attr('id');
-            var option  = mQuery('#'+thisId+' option[value="' + mQuery(this).val() + '"]');
-
-            if (option.attr('data-href') && Mautic.campaignBuilderAnchorNameClicked) {
-                var updatedUrl = option.attr('data-href').replace(/anchor=(.*?)$/, "anchor=" + Mautic.campaignBuilderAnchorNameClicked + "&anchorEventType=" + Mautic.campaignBuilderAnchorEventTypeClicked);
-                // Replace the anchor in the URL with that clicked
-                option.attr('data-href', updatedUrl);
-            }
-
-            // Deactivate chosen to kill tooltips
-            mQuery('#'+thisId).trigger('chosen:close');
-            // Display the modal with form
-             Mautic.ajaxifyModal(option);
-
-            // Reset the dropdown
-            mQuery(this).val('');
-            mQuery(this).trigger('chosen:updated');
-        });
-
-        mQuery('#CampaignCanvas').on('click', function(event) {
-            if (!mQuery(event.target).parents('#CampaignCanvas').length && !mQuery('#CampaignEvent_newsource').length) {
-                // Hide the CampaignEventPanel if visible
-                mQuery('#CampaignEventPanel').addClass('hide');
-            }
-        });
-        mQuery('#ui-tab-stat-header1').click(function(){
-            mQuery('#ui-tab-stat-header1').addClass('btn-default ui-tabs-selected');
-            mQuery('#ui-tab-stat-header2').removeClass('btn-default ui-tabs-selected');
-            mQuery('#fragment-stat-1').removeClass('hide');
-            mQuery('#fragment-stat-2').addClass('hide');
-
-        });
-        mQuery('#ui-tab-stat-header2').click(function(){
-            mQuery('#ui-tab-stat-header2').addClass('btn-default ui-tabs-selected');
-            mQuery('#ui-tab-stat-header1').removeClass('btn-default ui-tabs-selected');
-            mQuery('#fragment-stat-2').removeClass('hide');
-            mQuery('#fragment-stat-1').addClass('hide');
-
-        });
-
-
-        Mautic.prepareCampaignCanvas();
+    });
+    if (mQuery('.workflow-canvas').length) {
         Mautic.launchCampaignEditor();
-        Mautic.registerKeyupCampaignName();
-        // Open the builder directly when saved from the builder
-        if (response && response.inBuilder) {
-            Mautic.launchCampaignEditor();
-            //Mautic.processBuilderErrors(response);
-        }
-
     }
     mQuery('#campaign_buttons').addClass('hide');
     mQuery('.chosen-single').css("background","#fff");
@@ -139,1273 +232,963 @@ Mautic.campaignOnLoad = function (container, response) {
     Mautic.removeActionButtons();
 };
 
-/**
- * Update chosen tooltips
- *
- * @param theSelect
- * @param destroy
- */
-Mautic.campaignBuilderUpdateEventListTooltips = function(theSelect, destroy)
-{
-    mQuery('#'+theSelect+' option').each(function () {
-        if (mQuery(this).attr('id')) {
-            // Initiate a tooltip on each option since chosen doesn't copy over the data attributes
-            var chosenOption = '#' + theSelect + '_chosen .option_' + mQuery(this).attr('id');
-
-            if (destroy) {
-                mQuery(chosenOption).tooltip('destroy');
-            } else {
-                mQuery(chosenOption).tooltip({html: true, container: 'body', placement: 'left'});
-            }
+Mautic.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
+var gelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+if(incomplete){
+    label='Define your '+type+'...';
+    gelement.setAttributeNS(null, "class", 'wf-'+type+' incomplete');
+}else{
+    gelement.setAttributeNS(null, "class", 'wf-'+type);
+}
+gelement.setAttributeNS(null, "id", type+'-'+ id);
+gelement.setAttributeNS(null, "width", width);
+if(type != 'interrupt'){
+    var gelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    gelement1.setAttributeNS(null, "class", 'wf-node-labels');
+    var gelement2 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    gelement2.setAttributeNS(null, "class", 'wf-'+type+'-primary-label wf-node-primary-label');
+    gelement2.setAttributeNS(null, "transform", 'translate(0,0)');
+    var gelement3 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    gelement3.setAttributeNS(null, "class", 'wf-label-wrap');
+    if(type == 'fork'){
+        gelement3.setAttributeNS(null, "transform", 'translate(10,10)');
+    }else{
+        gelement3.setAttributeNS(null, "transform", 'translate(16,16)');
+    }
+    var textelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"text");
+    textelement.setAttributeNS(null, "class", 'wf-label');
+    textelement.setAttributeNS(null, "y", '12');
+    textelement.setAttributeNS(null, "dy", '0');
+    var rectwidth=40;
+    var rectheight=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
+    if(type == 'fork'){
+        rectheight=Mautic.WF_FORK_NODE_HEIGHT_ADJUST;
+        gelement3.appendChild(textelement);
+        var forkpathelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
+        forkpathelement.setAttributeNS(null, "class", 'wf-fork-icon');
+        forkpathelement.setAttributeNS(null, "d", 'M19.9,15.7L17.1,16C16.9,9.5,14.4,7.5,13,5.6C11.6,3.7,11.7,0,11.7,0h0H8.3h0c0,0,0.1,3.7-1.3,5.6C5.6,7.5,3.1,9.5,2.9,16 l-2.7-0.2C0,15.7,0,15.8,0,15.9l2.2,2l2.2,2c0.1,0.1,0.2,0.1,0.3,0l2.2-2l2.2-2c0.1-0.1,0-0.2-0.1-0.2L6.2,16 c0.2-5.9,2.4-7.2,3.8-8.9c1.4,1.6,3.6,3,3.8,8.9l-2.9-0.3c-0.1,0-0.2,0.1-0.1,0.2l2.2,2l2.2,2c0.1,0.1,0.2,0.1,0.3,0l2.2-2l2.2-2 C20,15.8,20,15.7,19.9,15.7z');
+        forkpathelement.setAttributeNS(null, "fill-rule", 'evenodd');
+        gelement3.appendChild(forkpathelement);
+    }else{
+        var tspanelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"tspan");
+        tspanelement.setAttributeNS(null, "x", '0');
+        tspanelement.setAttributeNS(null, "y", '12');
+        tspanelement.setAttributeNS(null, "dy", '0em');
+        tspanelement.textContent=label;
+        textelement.appendChild(tspanelement);
+        gelement3.appendChild(textelement);
+        rootelement.appendChild(gelement3);
+        var bcr = gelement3.getBoundingClientRect();
+        rectwidth=bcr.width+Mautic.WF_TRIGGER_NODE_WIDTH_ADJUST;
+        gelement3.parentNode.removeChild(gelement3);
+    }
+    var rectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
+    rectelement.setAttributeNS(null, "class", 'wf-enclosure');
+    rectelement.setAttributeNS(null, "x", '0');
+    rectelement.setAttributeNS(null, "y", '0');
+    rectelement.setAttributeNS(null, "rx", '4');
+    rectelement.setAttributeNS(null, "ry", '4');
+    rectelement.setAttributeNS(null, "width", rectwidth);
+    rectelement.setAttributeNS(null, "height", rectheight);
+        gelement.setAttributeNS(null, "width", rectwidth);
+        gelement1.setAttributeNS(null, "width", rectwidth);
+    gelement2.appendChild(rectelement);
+    gelement2.appendChild(gelement3);
+    gelement2.appendChild(gelement3);
+    gelement1.appendChild(gelement2);
+    var removenodexposition=0;
+    if(type != 'trigger'){
+        rootelement.appendChild(gelement1);
+        var bcr = gelement1.getBoundingClientRect();
+        var xposition=(width-bcr.width)/2;
+        removenodexposition=(xposition + +rectwidth)-8;
+        gelement1.setAttributeNS(null, "transform", 'translate('+xposition+',20)');
+        gelement1.parentNode.removeChild(gelement1);
+    }
+    if(type != 'exit' && type != 'fork'){
+        Mautic.registerClickListener(gelement1);
+    }
+    Mautic.registerMouseListener(gelement1);
+    gelement.appendChild(gelement1);
+    var needremove=false;
+    if(type == 'exit'){
+        var rootparentel=rootelement.parentNode.parentNode;
+        var rootparenttag=rootparentel.tagName;
+        if(rootparenttag == 'svg' && lastnode){
+            needremove=true;
         }
-    });
+    }
+    if(type != 'exit' || (type == 'exit' && !needremove)){
+        var removeelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+        removeelement.setAttributeNS(null, "class", 'wf-remove-button wf-remove-node-button');
+        removeelement.setAttributeNS(null, "transform", 'translate('+(removenodexposition)+',12)');
+        var circlelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"circle");
+        circlelement.setAttributeNS(null, "class", 'wf-remove-button-enclosure');
+        circlelement.setAttributeNS(null, "r", '8');
+        circlelement.setAttributeNS(null, "cx", '8');
+        circlelement.setAttributeNS(null, "cy", '8');
+        var lineelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+        lineelement1.setAttributeNS(null, "class", 'wf-x-bar');
+        lineelement1.setAttributeNS(null, "x1", '5');
+        lineelement1.setAttributeNS(null, "y1", '5');
+        lineelement1.setAttributeNS(null, "x2", '11');
+        lineelement1.setAttributeNS(null, "y2", '11');
+        var lineelement2 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+        lineelement2.setAttributeNS(null, "class", 'wf-x-bar');
+        lineelement2.setAttributeNS(null, "x1", '11');
+        lineelement2.setAttributeNS(null, "y1", '5');
+        lineelement2.setAttributeNS(null, "x2", '5');
+        lineelement2.setAttributeNS(null, "y2", '11');
+        removeelement.appendChild(circlelement);
+        removeelement.appendChild(lineelement1);
+        removeelement.appendChild(lineelement2);
+        Mautic.registerClickListener(removeelement);
+        Mautic.registerMouseListener(removeelement);
+        gelement.appendChild(removeelement);
+    }
+    if(type == 'fork'){
+        var finsertionpoint=Mautic.getTriggerInsertionPointNode(id,'fork');
+        finsertionpoint.setAttributeNS(null,'transform','translate('+(removenodexposition + +18 )+',32)')
+        gelement.appendChild(finsertionpoint);
+    }
+}
+return gelement;
+}
+Mautic.updateTriggerPath=function (rootelement) {
+    var rootfixedwidth=rootelement.getAttributeNS(null,'width');
+    var childrens=rootelement.children;
+    var totalwidth=0;
+    for(var ch=0;ch<childrens.length;ch++){
+    var child=childrens[ch];
+    var bcr=child.getBoundingClientRect();
+    totalwidth+=bcr.width;
+    }
+    var posistionadjust=8;
+    if(childrens.length > 1){
+        posistionadjust=posistionadjust+(Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT*(childrens.length-1));
+    }
+    totalwidth=totalwidth+ +posistionadjust;
+    var startposition=(rootfixedwidth-totalwidth)/2;
+    var nextposition=startposition;
+    for(var ch=0;ch<childrens.length;ch++){
+        var child=childrens[ch];
+        var bcr=child.getBoundingClientRect();
+        child.setAttributeNS(null, "transform", 'translate('+nextposition+',0)');
+        var removenode=child.children[1];
+        removenode.setAttributeNS(null, "transform", 'translate('+(bcr.width-8)+',-8)');
+        nextposition=(+nextposition + +bcr.width);
+        nextposition=nextposition + +Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT;
+    }
+    var insertnode=rootelement.parentNode.children[rootelement.parentNode.children.length-1];
+    var rootnodematrix=rootelement.transform.baseVal[0].matrix;
+    insertnode.setAttributeNS(null, "transform", 'translate('+nextposition+','+(rootnodematrix.f + +14)+')');
+    var paths=[];
+    for(var ch=0;ch<childrens.length;ch++){
+        var child=childrens[ch];
+        var matrix=child.transform.baseVal[0].matrix;
+        var bcr=child.getBoundingClientRect();
+        var xposition=matrix.e;
+        //alert("X:"+xposition+",Width:"+(bcr.width));
+        var mx=((+(bcr.width)/2) + +xposition);
+        var x1=mx;
+        var x2=rootfixedwidth/2;
+        var x=x2;
+        var my=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
+        var y= +my + +Mautic.WF_TRIGGER_NODE_PATH_HEIGHT_CONSTANT;
+        var y1=(+my + +y)/2;
+        var y2=y1;
+        var dimension="M"+mx+","+my+"C"+x1+","+y1+" "+x2+","+y2+" "+x+","+y;
+        var pathelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
+        pathelement.setAttributeNS(null, "class", 'wf-link');
+        pathelement.setAttributeNS(null, "d", dimension);
+        paths.push(pathelement);
+    }
+    for(var p=0;p<paths.length;p++){
+        rootelement.appendChild(paths[p]);
+    }
+}
+Mautic.removeAllByTags=function(element,tag){
+    var tags=element.getElementsByTagName(tag);
+    while(tags.length > 0){
+        element.removeChild(tags[0]);
+        tags=element.getElementsByTagName(tag);
+    }
+}
+Mautic.randomString=function (length) {
+    return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
 }
 
-/**
- * Delete the builder instance so it's regenerated when reopening the campaign event builder
- */
-Mautic.campaignOnUnload = function(container) {
-    delete Mautic.campaignBuilderInstance;
-    delete Mautic.campaignBuilderLabels;
-}
-
-/**
- * Setup the campaign event view
- *
- * @param container
- * @param response
- */
-Mautic.campaignEventOnLoad = function (container, response) {
-    Mautic.leadlistOnLoad(container);
-    //new action created so append it to the form
-    var domEventId = 'CampaignEvent_' + response.eventId;
-    var eventId = '#' + domEventId;
-    var eventType=response.eventType;
-   if(!response.closeModal && !response.deleted){
-    var cegselctize = mQuery('#campaignevent_group').selectize({
-        persist: true,
-        maxItems: 1,
-        openOnFocus: false,
-        valueField: 'label',
-        labelField: 'label',
-        searchField: ['label'],
-        sortField: [
-            {field: 'order', direction: 'asc'},
-        ],
-        options: Mautic.campaignBuilderGroupOptions,
-        render: {
-            item: function (item, escape) {
-                return '<div>' + escape(item.label) + '</div>';
-            },
-            option: function (item, escape) {
-                return '<div style="display: block;color:#47535f;font-weight: 600">' + escape(item.label) + '</div>';
-            }
-        },
-    })[0].selectize;
-    var cesgselectize = mQuery('#campaignevent_subgroup').selectize({
-        persist: true,
-        maxItems: 1,
-        openOnFocus: false,
-        placeholder: 'Choose a action..',
-        valueField: 'category',
-        labelField: 'label',
-        searchField: ['label', 'desc'],
-        sortField: [
-            {field: 'order', direction: 'asc'},
-        ],
-        options: [],
-        render: {
-            item: function (item, escape) {
-                return '<div>' + escape(item.label) + '</div>';
-            },
-            option: function (item, escape) {
-
-                return '<div>' +
-                    '<div style="display: block;color:#47535f;font-weight: 600";>' + escape(item.label) + '</div>' +
-                    '<div style="display: block;color: #666;">' + escape(item.desc) + '</div>' +
-                    '</div>';
-            }
-        },
-
-    })[0].selectize;
-    cegselctize.on('change', function (value) {
-        var groupname = this.options[value].label;
-        var suboptions=[];
-        if(eventType == 'source'){
-            suboptions = Mautic.getFilteredCampaignSourceSubgroupOptions(groupname);
+Mautic.iterateJSONOBJECT = function(data,width,parent,tracker,lastnode){
+    var id=data.id;
+    var type=data.type;
+    if(type == 'path'){
+        var triggers=data.triggers;
+        var steps=data.steps;
+        var pathnode=Mautic.getPathNode(id,width);
+        var triggernode=Mautic.getTriggersNode(id,width);
+        var stepsnode=Mautic.getStepsNode(id,width);
+        parent.appendChild(pathnode);
+        pathnode.appendChild(triggernode);
+        pathnode.appendChild(stepsnode);
+        if(triggers.length > 0){
+            pathnode.appendChild(Mautic.getTriggerInsertionPointNode(id,'trigger'));
+        }
+        Mautic.setTransformAttr(triggernode,0,mQuery.isEmptyObject(triggers) ? 0: Mautic.WF_STEP_NODE_HEIGHT_ADJUST);
+        if(!mQuery.isEmptyObject(triggers)){
+            mQuery.each(triggers, function (index, trigger) {
+                triggernode.appendChild(Mautic.getNodeElement(pathnode,trigger.type,trigger.id,width,trigger.view.label,trigger.view.incomplete,(index == triggers.length-1)));
+            });
+            Mautic.updateTriggerPath(triggernode);
+        }
+        var triggerbcr=triggernode.getBoundingClientRect();
+        Mautic.setTransformAttr(stepsnode,0,mQuery.isEmptyObject(triggers) ? 0:(triggerbcr.height + +12));
+        if(!mQuery.isEmptyObject(steps)){
+            var stepsindex=0;
+            mQuery.each(steps, function (index, event) {
+                    stepsnode.appendChild(Mautic.getStepNode(stepsnode,Mautic.randomString(32),width,'insertion-point','',false,lastnode));
+                    tracker=Mautic.iterateJSONOBJECT(event,width,stepsnode,tracker,(index == steps.length-1));
+                    if(event.type != 'exit' && stepsindex == steps.length-1 ){
+                        stepsnode.appendChild(Mautic.getStepNode(stepsnode,Mautic.randomString(32),width,'insertion-point','',false,lastnode));
+                    }
+                stepsindex++;
+            });
+            Mautic.updateStepsPosition(stepsnode);
         }else{
-            suboptions = Mautic.getFilteredCampaignEventSubgroupOptions(groupname);
+            tracker+="insert point alone"+"----->"+width+"\n";
+            stepsnode.appendChild(Mautic.getStepNode(stepsnode,Mautic.randomString(32),width,'insertion-point','',false,lastnode));
         }
-        try{
-            cesgselectize.clearOptions();
-        }catch(err){
-            //alert(err.message);
+    }else if(type == 'action'){
+        tracker+=data.view.label+"----->"+width+"\n";
+        parent.appendChild(Mautic.getStepNode(parent,id,width,type,data.view.label,data.view.incomplete,lastnode));
+    }else if(type == 'decision'){
+        tracker+=data.description+"----->"+width+"\n";
+        var stepnode=Mautic.getStepNode(parent,id,width,type,data.view.label,data.view.incomplete,lastnode);
+        var decisionnode=stepnode.children[0];
+        parent.appendChild(stepnode);
+        var decisionnodewidth=width/2;
+        var truepath=data.true_path;
+        var falsepath=data.false_path;
+        var truepathnode=Mautic.getWfPathNode(truepath.id,decisionnodewidth,'true');
+        var falsepathnode=Mautic.getWfPathNode(falsepath.id,decisionnodewidth,'false');
+        Mautic.setTransformAttr(truepathnode,0,Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST);
+        Mautic.setTransformAttr(falsepathnode,decisionnodewidth,Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST);
+        decisionnode.appendChild(truepathnode);
+        decisionnode.appendChild(falsepathnode);
+        tracker= Mautic.iterateJSONOBJECT(truepath,decisionnodewidth,truepathnode,tracker,lastnode);
+        tracker=Mautic.iterateJSONOBJECT(falsepath,decisionnodewidth,falsepathnode,tracker,lastnode);
+    }else if(type == 'delay'){
+        tracker+=data.description+"----->"+width+"\n";
+        parent.appendChild(Mautic.getStepNode(parent,id,width,type,data.view.label,data.view.incomplete,lastnode));
+    }else if(type == 'exit'){
+        tracker+="exit called"+"----->"+width+"\n";
+        parent.appendChild(Mautic.getStepNode(parent,id,width,type,'Exit',false,lastnode));
+    }else if(type == 'fork'){
+        tracker+="fork called"+"----->"+width+"\n";
+        var stepnode=Mautic.getStepNode(parent,id,width,type,'Fork',false,lastnode);
+        var forknode=stepnode.children[0];
+        parent.appendChild(stepnode);
+        var paths=data.paths;
+        var forkxposition=0;
+        mQuery.each(paths, function (index, value) {
+            var forknodewidth=width/paths.length;
+            var forkpathnode=Mautic.getWfPathNode(value.id,forknodewidth,'fork');
+            Mautic.setTransformAttr(forkpathnode,forkxposition,Mautic.WF_FORK_NODE_PATH_HEIGHT_ADJUST);
+            forkxposition=forkxposition+forknodewidth;
+            forknode.appendChild(forkpathnode);
+            tracker=Mautic.iterateJSONOBJECT(value,forknodewidth,forkpathnode,tracker,lastnode);
+        });
+    }else if(type == 'interrupt'){
+        tracker+="interrupt called"+"----->"+width+"\n";
+        var stepnode=Mautic.getStepNode(parent,id,width,type,'',false,lastnode);
+        parent.appendChild(stepnode);
+        var interruptnode=stepnode.children[0];
+        var triggernode=Mautic.getTriggersNode(id,width);
+        Mautic.setTransformAttr(triggernode,0,Mautic.WF_STEP_NODE_HEIGHT_ADJUST + +20);
+        interruptnode.appendChild(triggernode);
+        var triggers=data.triggers;
+        if(triggers.length > 0){
+            interruptnode.appendChild(Mautic.getTriggerInsertionPointNode(id,'trigger'));
         }
-            for (var index = 0; index < suboptions.length; index++) {
-                cesgselectize.addOption(suboptions[index]);
-                //cesgselectize.addItem(suboptions[index].category,true);
-            }
-            cesgselectize.refreshOptions();
-           // cesgselectize.refreshItems();
-            if (cesgselectize.isOpen) {
-                cesgselectize.close();
-            }
-
-
-    });
-    cesgselectize.on('change', function (value) {
-        var category = this.options[value].category;
-        var campaignId = mQuery('#campaignId').val();
-        var anchor = mQuery('#campaignevent_anchor').val();
-        var anchortype = mQuery('#campaignevent_anchorEventType').val();
-        var posturl = mQuery('#campaigneventgroup').attr('data-href');
-        var route = posturl + "?type=" + category + "&eventType="+eventType+"&campaignId=" + campaignId + "&anchor=" + anchor + "&anchorEventType=" + anchortype;
-        var divelement = document.createElement("div");
-        divelement.setAttribute('data-target', '#CampaignEventModal');
-        divelement.setAttribute('data-href', route);
-        //divelement.setAttribute('data-prevent-dismiss',true);
-        Mautic.updateAjaxModal('#CampaignEventModal', route, 'GET');
-    });
-    var campaignEventType = mQuery('#campaignevent_type').val();
-    if(eventType == 'source') {
-        cegselctize.setValue(Mautic.getCampaignSourceGroupName(campaignEventType), false);
+        if(!mQuery.isEmptyObject(triggers)){
+            mQuery.each(triggers, function (index, trigger) {
+                triggernode.appendChild(Mautic.getNodeElement(interruptnode,trigger.type,trigger.id,width,trigger.view.label,trigger.view.incomplete,(index == triggers.length-1)));
+            });
+            Mautic.updateTriggerPath(triggernode);
+        }
     }
-    else{
-        cegselctize.setValue(Mautic.getCampaignEventGroupName(campaignEventType), false);
+   // if(id == '0496a4807ec10136a81512a5241a0474'){
+  //alert(tracker);
+    // }
+    return tracker;
+}
+Mautic.getPathNode = function(id,width){
+    var path = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    path.setAttributeNS(null, "class", 'path');
+    path.setAttributeNS(null, "id", 'path'+'-'+id);
+    path.setAttributeNS(null, "width", width);
+    return path;
+}
+Mautic.getWfPathNode = function(id,width,type){
+    var path = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    path.setAttributeNS(null, "class", 'wf-'+type+'-path');
+    path.setAttributeNS(null, "id", type+'-path'+'-'+id);
+    path.setAttributeNS(null, "width", width);
+    return path;
+}
+Mautic.getStepsNode = function(id,width){
+    var steps = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    steps.setAttributeNS(null, "class", 'steps');
+    steps.setAttributeNS(null, "id", 'steps'+'-'+id);
+    steps.setAttributeNS(null, "width", width);
+    return steps;
+}
+Mautic.getTriggersNode = function(id,width){
+    var triggers = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    triggers.setAttributeNS(null, "class", 'triggers');
+    triggers.setAttributeNS(null, "id", 'triggers'+'-'+id);
+    triggers.setAttributeNS(null, "width", width);
+    return triggers;
+}
+Mautic.getStepNode = function(parent,id,width,type,label,incomplete,lastnode){
+    var step = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    step.setAttributeNS(null, "class", 'step');
+    step.setAttributeNS(null, "id", 'step'+'-'+id);
+    step.setAttributeNS(null, "width", width);
+    var child=null;
+    if(type == 'insertion-point'){
+        child=Mautic.getInsertionPointNode(id,width,label);
+    }else{
+        child=Mautic.getNodeElement(parent,type,id,width,label,incomplete,lastnode);
     }
+    step.appendChild(child);
+    return step;
+}
+Mautic.getInsertionPointNode=function(id,width){
+    var xposition=width/2;
+    xposition=xposition - 8;
+    var ip = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    ip.setAttributeNS(null, "class", 'wf-insertion-point');
+    ip.setAttributeNS(null, "id", 'insertion-point'+'-'+id);
+    ip.setAttributeNS(null, "width", width);
+    ip.setAttributeNS(null, "transform", 'translate('+xposition+',0)');
+    var circlelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"circle");
+    circlelement.setAttributeNS(null, "class", 'wf-insert-button');
+    circlelement.setAttributeNS(null, "r", '8');
+    circlelement.setAttributeNS(null, "cx", '8');
+    circlelement.setAttributeNS(null, "cy", '8');
+    var lineelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+    lineelement1.setAttributeNS(null, "class", 'wf-plus-bar');
+    lineelement1.setAttributeNS(null, "x1", '4');
+    lineelement1.setAttributeNS(null, "y1", '8');
+    lineelement1.setAttributeNS(null, "x2", '12');
+    lineelement1.setAttributeNS(null, "y2", '8');
+    var lineelement2 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+    lineelement2.setAttributeNS(null, "class", 'wf-plus-bar');
+    lineelement2.setAttributeNS(null, "x1", '8');
+    lineelement2.setAttributeNS(null, "y1", '4');
+    lineelement2.setAttributeNS(null, "x2", '8');
+    lineelement2.setAttributeNS(null, "y2", '12');
+    ip.appendChild(circlelement);
+    ip.appendChild(lineelement1);
+    ip.appendChild(lineelement2);
+    Mautic.registerClickListener(ip);
+    return ip;
+}
+Mautic.getTriggerInsertionPointNode=function(id,type){
+    var ip = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    ip.setAttributeNS(null, "class", type+'-insertion-point insertion-point');
+    ip.setAttributeNS(null, "id", type+'-insertion-point'+'-'+id);
+    ip.setAttributeNS(null, "transform", 'translate(0,0)');
+    var circlelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"circle");
+    circlelement.setAttributeNS(null, "class", 'wf-insert-button');
+    circlelement.setAttributeNS(null, "r", '8');
+    circlelement.setAttributeNS(null, "cx", '8');
+    circlelement.setAttributeNS(null, "cy", '8');
+    var lineelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+    lineelement1.setAttributeNS(null, "class", 'wf-plus-bar');
+    lineelement1.setAttributeNS(null, "x1", '4');
+    lineelement1.setAttributeNS(null, "y1", '8');
+    lineelement1.setAttributeNS(null, "x2", '12');
+    lineelement1.setAttributeNS(null, "y2", '8');
+    var lineelement2 = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+    lineelement2.setAttributeNS(null, "class", 'wf-plus-bar');
+    lineelement2.setAttributeNS(null, "x1", '8');
+    lineelement2.setAttributeNS(null, "y1", '4');
+    lineelement2.setAttributeNS(null, "x2", '8');
+    lineelement2.setAttributeNS(null, "y2", '12');
+    ip.appendChild(circlelement);
+    ip.appendChild(lineelement1);
+    ip.appendChild(lineelement2);
+    Mautic.registerClickListener(ip);
+    return ip;
+}
 
-    cesgselectize.setValue(campaignEventType, true);
-    }
-    Mautic.campaignBuilderLabels[domEventId] = (response.label) ? response.label : '';
+Mautic.setTransformAttr=function(node,x,y){
+    node.setAttributeNS(null, "transform", 'translate('+x+','+y+')');
+}
 
-    if (!response.success && Mautic.campaignBuilderConnectionRequiresUpdate) {
-        // Modal exited - check to see if a connection needs to be removed
-        Mautic.campaignBuilderInstance.detach(Mautic.campaignBuilderLastConnection);
-    }
-    Mautic.campaignBuilderConnectionRequiresUpdate = false;
-
-    Mautic.campaignBuilderUpdateLabel(domEventId);
-
-    if (response.deleted) {
-        Mautic.campaignBuilderInstance.remove(document.getElementById(domEventId));
-        delete Mautic.campaignBuilderEventPositions[domEventId];
-
-    } else if (response.updateHtml) {
-        mQuery(eventId + " .campaign-event-content").html(response.updateHtml);
-    } else if (response.eventHtml) {
-        var newHtml = response.eventHtml;
-        var x=0;
-        var y=0;
-        var autoConnect = false;
-        if(response.eventType == 'source'){
-            if (mQuery('#CampaignEvent_newsource').length) {
-                x = mQuery('#CampaignEvent_newsource').position().left;
-                y = mQuery('#CampaignEvent_newsource').position().top;
-                mQuery('#CampaignEvent_newsource').attr('id', 'CampaignEvent_newsource_hide');
-                mQuery('#CampaignEventPanel').addClass('hide');
+Mautic.updateStepsPosition=function(steps){
+    var childrens=steps.children;
+    var yposition=0;
+    mQuery.each(childrens, function (index, child) {
+        var wfnode=child.children[0];
+        var classname=wfnode.getAttributeNS(null,'class');
+        if(classname != 'wf-insertion-point'){
+            var id=wfnode.getAttributeNS(null,'id');
+            var response=id.split('-');
+            var type=response[0];
+            var width=child.getAttributeNS(null,'width');
+            var lastchild=(index == childrens.length-1);
+            var xposition=width/2;
+            if(type != 'interrupt'){
+                var pathsplit=Mautic.getPathConnectorNode('split','M'+xposition+',0C'+xposition+',10 '+xposition+',10 '+xposition+',20');
+                child.appendChild(pathsplit);
+                if((type != 'decision' && type != 'fork' && type != 'exit') || (type == 'exit' && !lastchild)){
+                    var my=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST + +Mautic.WF_STEP_NODE_HEIGHT_ADJUST;
+                    var y=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST + +(Mautic.WF_STEP_NODE_HEIGHT_ADJUST*2);
+                    var y1=(my+ +y)/2;
+                    var y2=y1;
+                    var pathlink=Mautic.getPathConnectorNode('link','M'+xposition+','+my+'C'+xposition+','+y1+' '+xposition+','+y2+' '+xposition+','+y+'');
+                    child.appendChild(pathlink);
+                }else if(type == 'decision'){
+                    Mautic.updateDecisionPath(child);
+                }else if(type == 'fork'){
+                    Mautic.updateForkPath(child);
+                }
             }else{
-                //append content
-                x = parseInt(mQuery('#droppedX').val());
-                y = parseInt(mQuery('#droppedY').val());
-                autoConnect = true;
+                var wfnode=child.children[0];
+            var horizontalbar=Mautic.getLineConnectorNode('break-bar',xposition-10,20,(xposition + +10),20);
+            var verticalbar=Mautic.getLineConnectorNode('break-bar',xposition,0,xposition,20);
+                wfnode.appendChild(verticalbar);
+                wfnode.appendChild(horizontalbar);
             }
-        }else{
-            //append content
-             x = parseInt(mQuery('#droppedX').val());
-             y = parseInt(mQuery('#droppedY').val());
+
         }
+        Mautic.setTransformAttr(child,0,yposition);
+        var bcr=child.getBoundingClientRect();
+        yposition=yposition+bcr.height;
+    });
+}
+Mautic.updateDecisionPath=function(stepnode){
+    var wfnode=stepnode.children[0];
+    var width=stepnode.getAttributeNS(null,'width');
+    var avgwidth=width/4;
+    var wfnodes=Mautic.filterWfNodeByClass(wfnode,'wf-true-path');
+    var truepathnode=wfnodes[0];
+    var wfnodes=Mautic.filterWfNodeByClass(wfnode,'wf-false-path');
+    var falsepathnode=wfnodes[0];
+    var tpbcr=truepathnode.getBoundingClientRect();
+    var fpbcr=falsepathnode.getBoundingClientRect();
+   var tpheight=tpbcr.height;
+   var fpheight=fpbcr.height;
+   var maxheight=Math.max(tpheight, fpheight);
+
+    var tpmy=tpheight+ +Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST;
+    var tpy=maxheight+ +(Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST + +Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT);
+    var tpy1=(tpmy + +tpy)/2;
+    var tpy2=tpy1;
+
+    var fpmy=fpheight+ +Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST;
+    var fpy=tpy;
+    var fpy1=(fpmy + +fpy)/2;
+    var fpy2=fpy1;
+
+    var tpmx=avgwidth;
+    var tpx1=tpmx;
+    var tpx2=avgwidth*2;
+    var tpx=tpx2;
+
+    var fpmx=avgwidth*3;
+    var fpx1=fpmx;
+    var fpx2=avgwidth*2;
+    var fpx=fpx2;
 
 
-
-        Mautic.campaignBuilderEventPositions[domEventId] = {
-            'left': x,
-            'top': y
-        };
-
-        mQuery(newHtml).appendTo('#CampaignCanvas');
-
-        mQuery(eventId).css({'left': x + 'px', 'top': y + 'px'});
-
-        if (response.eventType == 'source') {
-            Mautic.campaignBuilderRegisterAnchors(['leadSource', 'leadSourceLeft', 'leadSourceRight'], eventId);
-        }else if (response.eventType == 'decision' || response.eventType == 'condition') {
-            Mautic.campaignBuilderRegisterAnchors(['top', 'yes', 'no'], eventId);
-        } else {
-            Mautic.campaignBuilderRegisterAnchors(['top', 'bottom'], eventId);
-        }
-
-        Mautic.campaignBuilderInstance.draggable(domEventId, Mautic.campaignDragOptions);
-
-        //activate new stuff
-        mQuery(eventId + " a[data-toggle='ajax']").click(function (event) {
-            event.preventDefault();
-            return Mautic.ajaxifyLink(this, event);
-        });
-
-        //initialize ajax'd modals
-        mQuery(eventId + " a[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
-            event.preventDefault();
-
-            Mautic.ajaxifyModal(this, event);
-        });
-
-        mQuery(eventId).off('.eventbuttons')
-            .on('mouseover.eventbuttons', function() {
-                mQuery(this).find('.campaign-event-buttons').removeClass('hide');
-            })
-            .on('mouseout.eventbuttons', function() {
-                mQuery(this).find('.campaign-event-buttons').addClass('hide');
-            })
-            .on('dblclick.eventbuttons', function(event) {
-                event.preventDefault();
-                mQuery(this).find('.btn-edit').first().click();
-            });
-
-        //initialize tooltips
-        mQuery(eventId + " *[data-toggle='tooltip']").tooltip({html: true});
-
-        if(response.eventType != 'source'){
-// Connect into last anchor clicked
-            Mautic.campaignBuilderInstance.connect({
-                uuids: [
-                    Mautic.campaignBuilderAnchorClicked,
-                    domEventId+'_top'
-                ]
-            });
-        }
-
-        if (autoConnect) {
-           // alert("Last end point clicked--->"+Mautic.campaignBuilderAnchorClicked);
-            // Connect into last anchor clicked
-            var lastSourceId='';
-            if (Mautic.campaignBuilderAnchorClicked.search('left') !== -1) {
-                lastSourceId=Mautic.campaignBuilderAnchorClicked.replace('_leadsourceleft', '');
-                //  var source = domEventId + '_leadsourceright';
-                // var target = Mautic.campaignBuilderAnchorClicked;
-            } else {
-                lastSourceId=Mautic.campaignBuilderAnchorClicked.replace('_leadsourceright', '');
-                //  var source = Mautic.campaignBuilderAnchorClicked;
-                //  var target = domEventId + '_leadsourceleft';
-            }
-            //alert('Last Source ID--->'+lastSourceId);
-            var currentConnections = Mautic.campaignBuilderInstance.select({
-                source: lastSourceId
-            })
-
-            currentConnections.each(function (conn) {
-                // alert("Source ID-->"+conn.sourceId+">>>Target ID-->"+conn.targetId);
-                var source = domEventId + '_leadsource';
-                var target = conn.targetId+'_top';
-                Mautic.campaignBuilderInstance.connect({
-                    uuids: [
-                        source,
-                        target
-                    ]
-                });
-            });
-
-            // Mautic.campaignBuilderInstance.connect({
-            //     uuids: [
-            //         source,
-            //         target
-            //     ]
-            // });
-        }
+if(Mautic.isLinkPathRequired(truepathnode)){
+    var tpathlink=Mautic.getPathConnectorNode('link','M'+tpmx+','+tpmy+'C'+tpx1+','+tpy1+' '+tpx2+','+tpy2+' '+tpx+','+tpy+'');
+    wfnode.appendChild(tpathlink);
+}
+    if(Mautic.isLinkPathRequired(falsepathnode)){
+        var fpathlink=Mautic.getPathConnectorNode('link','M'+fpmx+','+fpmy+'C'+fpx1+','+fpy1+' '+fpx2+','+fpy2+' '+fpx+','+fpy+'');
+        wfnode.appendChild(fpathlink);
     }
+    var splitystart=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST + +Mautic.WF_STEP_NODE_HEIGHT_ADJUST;
+    var splityend=splitystart + +Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT;
+    var splitymid=(splitystart + +splityend)/2;
+    var tpathsplit=Mautic.getPathConnectorNode('split','M'+tpx+','+splitystart+'C'+tpx2+','+splitymid+' '+tpx1+','+splitymid+' '+tpmx+','+splityend+'');
+    wfnode.appendChild(tpathsplit);
+    var fpathsplit=Mautic.getPathConnectorNode('split','M'+fpx+','+splitystart+'C'+fpx2+','+splitymid+' '+fpx1+','+splitymid+' '+fpmx+','+splityend+'');
+    wfnode.appendChild(fpathsplit);
+    var yesx=((tpmx + +tpx)/2)-30;
+    var yesy=splitymid-10;
+    wfnode.appendChild(Mautic.getDecisionIndicatorNode(wfnode,"Yes",yesx,yesy));
 
-    Mautic.campaignBuilderInstance.repaintEverything();
-    mQuery('.le-modal-box-align').css("marginLeft","210px");
-};
-Mautic.getFilteredCampaignEventSubgroupOptions=function(groupname){
-    var filteroptions = [];
-    for(var index=0;index < Mautic.campaignBuilderEventOptions.length;index++){
-        var options=Mautic.campaignBuilderEventOptions[index];
-        if(options.group == groupname){
-                filteroptions.push(options);
+    var nox=(fpmx + +fpx)/2;
+    var noy=splitymid-10;
+    wfnode.appendChild(Mautic.getDecisionIndicatorNode(wfnode,"No",nox,noy));
+}
+Mautic.updateForkPath=function(stepnode){
+    var wfnode=stepnode.children[0];
+    var width=stepnode.getAttributeNS(null,'width');
+    var wfnodes=Mautic.filterWfNodeByClass(wfnode,'wf-fork-path');
+    var avgwidth=width/(wfnodes.length*2);
+    var maxheight=0;
+    for(var n=0;n<wfnodes.length;n++){
+       var node= wfnodes[n];
+       var nbcr=node.getBoundingClientRect();
+       maxheight=Math.max(maxheight, nbcr.height);
+    }
+    var xposmultiply=1;
+    for(var n=0;n<wfnodes.length;n++){
+        var node= wfnodes[n];
+        var nbcr=node.getBoundingClientRect();
+        var mx=avgwidth*xposmultiply;
+        var x1=mx;
+        var x2=avgwidth* wfnodes.length;
+        var x=x2;
+        var my=nbcr.height + +Mautic.WF_FORK_NODE_PATH_HEIGHT_ADJUST;
+        var y=maxheight + +(Mautic.WF_FORK_NODE_PATH_HEIGHT_ADJUST + +Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT);
+        var y1=(my+ +y)/2;
+        var y2=y1;
+        if(Mautic.isLinkPathRequired(node)){
+            var fpathlink=Mautic.getPathConnectorNode('link','M'+mx+','+my+'C'+x1+','+y1+' '+x2+','+y2+' '+x+','+y+'');
+            wfnode.appendChild(fpathlink);
+        }
+        var splitystart=Mautic.WF_FORK_NODE_HEIGHT_ADJUST+ +Mautic.WF_STEP_NODE_HEIGHT_ADJUST;
+        var splityend=splitystart+Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT;
+        var splitymid=(splitystart + +splityend)/2;
+        var fpathsplit=Mautic.getPathConnectorNode('split','M'+x+','+splitystart+'C'+x2+','+splitymid+' '+x1+','+splitymid+' '+mx+','+splityend+'');
+        wfnode.appendChild(fpathsplit);
+        xposmultiply=xposmultiply+2;
+    }
+}
+Mautic.isLinkPathRequired=function(wfnode){
+    var pathnode=wfnode.children[0];
+    var steps=pathnode.children[1];
+    if(steps.children.length % 2 == 0){
+       return false;
+    }else{
+        return true;
+    }
+}
+Mautic.filterWfNodeByClass=function(parent,classname){
+    var childrens=parent.children;
+    var wfnodes=[];
+    for(var ch=0;ch<childrens.length;ch++){
+var child=childrens[ch];
+if(child.getAttributeNS(null,'class') == classname){
+    wfnodes.push(child);
+}
+}
+    return wfnodes;
+}
+Mautic.getPathConnectorNode=function(classname,dimension){
+    var path = document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
+    path.setAttributeNS(null, "class", 'wf-'+classname);
+    path.setAttributeNS(null, "d", dimension);
+    return path;
+}
+Mautic.getDecisionIndicatorNode=function(parent,indicator,x,y){
+    try{
+        var gelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+        gelement.setAttributeNS(null,'class','wf-decision-path-label wf-'+indicator.toLowerCase()+'-label');
+        var gelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+        gelement1.setAttributeNS(null,'class','wf-label-wrap');
+        gelement1.setAttributeNS(null,'transform','translate(6,6)');
+        var textelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"text");
+        textelement.setAttributeNS(null, "class", 'wf-label');
+        textelement.setAttributeNS(null, "y", '12');
+        textelement.setAttributeNS(null, "dy", '0');
+        textelement.textContent=indicator;
+        gelement1.appendChild(textelement);
+        parent.appendChild(gelement1);
+        var bcr=gelement1.getBoundingClientRect();
+        var labelwidth=bcr.width + +10;
+        gelement1.parentNode.removeChild(gelement1);
+        var rectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
+        rectelement.setAttributeNS(null, "class", 'wf-enclosure');
+        rectelement.setAttributeNS(null, "x", '0');
+        rectelement.setAttributeNS(null, "y", '0');
+        rectelement.setAttributeNS(null, "rx", '3');
+        rectelement.setAttributeNS(null, "ry", '3');
+        rectelement.setAttributeNS(null, "width", labelwidth);
+        rectelement.setAttributeNS(null, "height", '29');
+        gelement.appendChild(rectelement);
+        gelement.appendChild(gelement1);
+        Mautic.setTransformAttr(gelement,x,y);
+    }catch(err){
+    alert(err);
+    }
+    return gelement;
+}
+Mautic.getLineConnectorNode=function(classname,x1,y1,x2,y2){
+    var line = document.createElementNS(Mautic.SVGNAMESPACEURI,"line");
+    line.setAttributeNS(null, "class", 'wf-'+classname);
+    line.setAttributeNS(null, "x1", x1);
+    line.setAttributeNS(null, "y1", y1);
+    line.setAttributeNS(null, "x2", x2);
+    line.setAttributeNS(null, "y2", y2);
+    return line;
+}
+
+Mautic.registerMouseListener = function(wfnode){
+     wfnode.addEventListener("mouseover", function (event) {
+        event.stopPropagation();
+        try{
+            var el=this;
+            el.parentNode.classList.add("node-active");
+        }catch(error){
+            alert(error);
         }
 
-    }
-    return filteroptions;
-};
-Mautic.getFilteredCampaignSourceSubgroupOptions=function(groupname){
-    var filteroptions = [];
-    for(var index=0;index < Mautic.campaignBuilderSourceOptions.length;index++){
-        var options=Mautic.campaignBuilderSourceOptions[index];
-        if(options.group == groupname){
-            filteroptions.push(options);
+    });
+    wfnode.addEventListener("mouseout", function (event) {
+        event.stopPropagation();
+        try{
+            var el=this;
+            el.parentNode.classList.remove("node-active");
+        }catch(error){
+            alert(error);
         }
-    }
-    return filteroptions;
-};
-Mautic.getCampaignEventGroupName=function(subgroup){
-   // alert('Sub Group Matched-->'+subgroup);
-    for(var index=0;index < Mautic.campaignBuilderEventOptions.length;index++){
-        var options=Mautic.campaignBuilderEventOptions[index];
-        if(options.category == subgroup){
-           // alert('Group Matched-->'+options.group);
-           return options.group;
-           break;
-        }
-    }
-    return '';
-};
-Mautic.getCampaignSourceGroupName=function(subgroup){
-    // alert('Sub Group Matched-->'+subgroup);
-    for(var index=0;index < Mautic.campaignBuilderSourceOptions.length;index++){
-        var options=Mautic.campaignBuilderSourceOptions[index];
-        if(options.category == subgroup){
-            // alert('Group Matched-->'+options.group);
-            return options.group;
-            break;
-        }
-    }
-    return '';
-};
-/**
- * Setup the campaign source view
- *
- * @param container
- * @param response
- */
-Mautic.campaignSourceOnLoad = function (container, response) {
-    //new action created so append it to the form
-    var domEventId = 'CampaignEvent_' + response.sourceType;
-    var eventId = '#' + domEventId;
-    var sourceType=response.sourceType;
-   // alert("Dom Event ID-->"+domEventId);
-    if(!response.closeModal && !response.deleted){
-        var cegselctize = mQuery('#campaign_leadsource_group').selectize({
-            persist: true,
-            maxItems: 1,
-            openOnFocus: false,
-            valueField: 'label',
-            labelField: 'label',
-            searchField: ['label'],
-            sortField: [
-                {field: 'order', direction: 'asc'},
-            ],
-            options: Mautic.campaignBuilderGroupOptions,
-            render: {
-                item: function (item, escape) {
-                    return '<div>' + escape(item.label) + '</div>';
-                },
-                option: function (item, escape) {
-                    return '<div style="display: block;color:#47535f;font-weight: 600">' + escape(item.label) + '</div>';
+
+    });
+
+}
+Mautic.registerClickListener = function(element){
+    element.addEventListener("click", function (event) {
+        event.stopPropagation();
+        try{
+            var el=this;
+            var classlist=el.classList;
+            var classname=classlist[0];
+            if(classname == 'wf-insertion-point'){
+                Mautic.showCampaignTypeModel();
+                var stepnode=el.parentNode;
+                var stepsnode=stepnode.parentNode;
+                var childindex=Array.from(stepsnode.children).indexOf(stepnode);
+                var id=stepsnode.getAttributeNS(null,'id');
+                var response=id.split('-');
+                var findid=response[1];
+                Mautic.lastclickedinsertpoint.id=findid;
+                Mautic.lastclickedinsertpoint.insertat=childindex/2;
+            }else if(classname == 'trigger-insertion-point'){
+                var parentnode=el.parentNode;
+                var id=parentnode.getAttributeNS(null,'id');
+                var response=id.split('-');
+                var findtype=response[0];
+                var findid=response[1];
+                var added=Mautic.findAndAddObjectIntoJson(Mautic.campaignupdatedjson,findtype,findid,-1,false);
+                if(added){
+                    // alert("added successfully");
+                    Mautic.refreshWorkFlowCanvas();
                 }
-            },
-        })[0].selectize;
-        var cesgselectize = mQuery('#campaign_leadsource_subgroup').selectize({
-            persist: true,
-            maxItems: 1,
-            openOnFocus: false,
-            placeholder: 'Choose a trigger..',
-            valueField: 'category',
-            labelField: 'label',
-            searchField: ['label', 'desc'],
-            sortField: [
-                {field: 'order', direction: 'asc'},
-            ],
-            options: [],
-            render: {
-                item: function (item, escape) {
-                    return '<div>' + escape(item.label) + '</div>';
-                },
-                option: function (item, escape) {
-
-                    return '<div>' +
-                        '<div style="display: block;color:#47535f;font-weight: 600";>' + escape(item.label) + '</div>' +
-                        '<div style="display: block;color: #666;">' + escape(item.desc) + '</div>' +
-                        '</div>';
+            }else if(classname == 'fork-insertion-point'){
+                var forknode=el.parentNode;
+                var id=forknode.getAttributeNS(null,'id');
+                var response=id.split('-');
+                var findid=response[1];
+                var added=Mautic.findAndAddObjectIntoJson(Mautic.campaignupdatedjson,'fork',findid,-1,false);
+                if(added){
+                    // alert("added successfully");
+                    Mautic.refreshWorkFlowCanvas();
                 }
-            },
-
-        })[0].selectize;
-        cegselctize.on('change', function (value) {
-            var groupname = this.options[value].label;
-            var suboptions = Mautic.getFilteredCampaignSourceSubgroupOptions(groupname);
-            try{
-                cesgselectize.clearOptions();
-            }catch(err){
-                //alert(err.message);
+            }else if(classname == 'wf-remove-button'){
+                Mautic.removeWfNode(el.parentNode);
+            }else if(classname == 'wf-node-labels'){
+                var id=el.parentNode.getAttributeNS(null,'id');
+                var response=id.split('-');
+                var findtype=response[0];
+                var findid=response[1];
+                var matchobj=Mautic.findAndGetObjectFromJSON(Mautic.campaignupdatedjson,findtype,findid,[]);
+                // alert("Find Type:"+findtype+",Find ID:"+findid+",Length:"+matchobj.length);
+                if(matchobj.length > 0){
+                    Mautic.invokeCampaignEventEditAction(matchobj[0])
+                }
             }
-            for (var index = 0; index < suboptions.length; index++) {
-                cesgselectize.addOption(suboptions[index]);
-                //cesgselectize.addItem(suboptions[index].category,true);
-            }
-            cesgselectize.refreshOptions();
-            // cesgselectize.refreshItems();
-            if (cesgselectize.isOpen) {
-                cesgselectize.close();
-            }
-        });
-        cesgselectize.on('change', function (value) {
-             Mautic.campaignBuilderPrevSourceClicked=sourceType;
-             var sourcetype = this.options[value].category;
-             var posturl = mQuery('#campaignsourcegroup').attr('data-href');
-              var route = posturl + "?sourceType=" + sourcetype;
-             var divelement = document.createElement("div");
-             divelement.setAttribute('data-target', '#CampaignEventModal');
-            divelement.setAttribute('data-href', route);
-            Mautic.updateAjaxModal('#CampaignEventModal', route, 'GET');
-        });
-        var campaignSourceType = mQuery('#campaign_leadsource_sourceType').val();
-        cegselctize.setValue(Mautic.getCampaignSourceGroupName(campaignSourceType), false);
-        cesgselectize.setValue(campaignSourceType , true);
-    }
-    if (response.deleted) {
-        Mautic.campaignBuilderInstance.remove(document.getElementById(domEventId));
-        delete Mautic.campaignBuilderEventPositions[domEventId];
-
-        mQuery('#campaignLeadSource_' + response.sourceType).prop('disabled', false);
-        mQuery('#SourceList').trigger('chosen:updated');
-
-        // Check to see if all sources have been deleted
-        if (!mQuery('.list-campaign-source:not(#CampaignEvent_newsource_hide)').length) {
-            mQuery('#CampaignEvent_newsource_hide').attr('id', 'CampaignEvent_newsource');
-            Mautic.campaignBuilderPrepareNewSource();
+        }catch(error){
+            alert(error);
         }
-
-    } else if (response.updateHtml) {
-      // alert("Previous source-->"+Mautic.campaignBuilderPrevSourceClicked+"-->Current source-->"+sourceType);
-        if(Mautic.campaignBuilderPrevSourceClicked && Mautic.campaignBuilderPrevSourceClicked != sourceType){
-         //  alert('coming inside-->');
-            var prevdomEventId = 'CampaignEvent_' + Mautic.campaignBuilderPrevSourceClicked;
-            var preveventId = '#' + prevdomEventId;
-            var updateHtml = response.updateHtml;
-            var currentConnections = Mautic.campaignBuilderInstance.select({
-                source: prevdomEventId
-            })
-            var prevsourceposition=Mautic.campaignBuilderEventPositions[prevdomEventId];
-            Mautic.campaignBuilderInstance.remove(document.getElementById(prevdomEventId));
-            delete Mautic.campaignBuilderEventPositions[prevdomEventId];
-            mQuery(updateHtml).appendTo('#CampaignCanvas');
-            Mautic.registerNewCampaignSource(prevsourceposition.left,prevsourceposition.top,domEventId,eventId);
-          //  alert("Last anchor clicked--->"+Mautic.campaignBuilderPrevSourceClicked+"-->Connection Length-->"+currentConnections.length);
-            currentConnections.each(function (conn) {
-          //  alert("Source ID-->"+conn.sourceId+">>>Target ID-->"+conn.targetId);
-                var source = domEventId + '_leadsource';
-                var target = conn.targetId+'_top';
-                Mautic.campaignBuilderInstance.connect({
-                    uuids: [
-                        source,
-                        target
-                    ]
-                });
-            });
-       }else{
-            mQuery(eventId + " .campaign-event-content").html(response.updateContentHtml);
-             }
-    } else if (response.sourceHtml) {
-        mQuery('#campaignLeadSource_' + response.sourceType).prop('disabled', true);
-        mQuery('#SourceList').trigger('chosen:updated');
-
-        var newHtml = response.sourceHtml;
-
-        if (mQuery('#CampaignEvent_newsource').length) {
-            var x = mQuery('#CampaignEvent_newsource').position().left;
-            var y = mQuery('#CampaignEvent_newsource').position().top;
-
-            mQuery('#CampaignEvent_newsource').attr('id', 'CampaignEvent_newsource_hide');
-            mQuery('#CampaignEventPanel').addClass('hide');
-            var autoConnect = false;
-        } else {
-            //append content
-            var x = parseInt(mQuery('#droppedX').val());
-            var y = parseInt(mQuery('#droppedY').val());
-            var autoConnect = true;
-        }
-
-        mQuery(newHtml).appendTo('#CampaignCanvas');
-        Mautic.registerNewCampaignSource(x,y,domEventId,eventId);
-        if (autoConnect) {
-           // alert("Last end point clicked--->"+Mautic.campaignBuilderAnchorClicked);
-            // Connect into last anchor clicked
-            var lastSourceId='';
-            if (Mautic.campaignBuilderAnchorClicked.search('left') !== -1) {
-                lastSourceId=Mautic.campaignBuilderAnchorClicked.replace('_leadsourceleft', '');
-              //  var source = domEventId + '_leadsourceright';
-               // var target = Mautic.campaignBuilderAnchorClicked;
-            } else {
-                lastSourceId=Mautic.campaignBuilderAnchorClicked.replace('_leadsourceright', '');
-              //  var source = Mautic.campaignBuilderAnchorClicked;
-              //  var target = domEventId + '_leadsourceleft';
-            }
-          //  alert('Last Source ID--->'+lastSourceId);
-            var currentConnections = Mautic.campaignBuilderInstance.select({
-                source: lastSourceId
-            })
-
-            currentConnections.each(function (conn) {
-               // alert("Source ID-->"+conn.sourceId+">>>Target ID-->"+conn.targetId);
-                var source = domEventId + '_leadsource';
-                var target = conn.targetId+'_top';
-                Mautic.campaignBuilderInstance.connect({
-                    uuids: [
-                        source,
-                        target
-                    ]
-                });
-            });
-
-            // Mautic.campaignBuilderInstance.connect({
-            //     uuids: [
-            //         source,
-            //         target
-            //     ]
-            // });
-        }
-
-        // If there are no other events, auto click add action
-        if (!mQuery('.list-campaign-event').length) {
-            mQuery('.jtk-endpoint_anchor_leadsource.'+domEventId).trigger('click');
-        }
-    }
-
-    Mautic.campaignBuilderInstance.repaintEverything();
+    });
 };
 
-Mautic.registerNewCampaignSource=function(x,y,domEventId,eventId){
-    Mautic.campaignBuilderEventPositions[domEventId] = {
-        'left': x,
-        'top': y
-    };
-    mQuery(eventId).css({'left': x + 'px', 'top': y + 'px'});
-
-    Mautic.campaignBuilderRegisterAnchors(['leadSource', 'leadSourceLeft', 'leadSourceRight'], eventId);
-    Mautic.campaignBuilderInstance.draggable(domEventId, Mautic.campaignDragOptions);
-
-    //activate new stuff
-    mQuery(eventId + " a[data-toggle='ajax']").click(function (event) {
-        event.preventDefault();
-        return Mautic.ajaxifyLink(this, event);
-    });
-
-    //initialize ajax'd modals
-    mQuery(eventId + " a[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
-        event.preventDefault();
-
-        Mautic.ajaxifyModal(this, event);
-    });
-
-    mQuery(eventId).off('.eventbuttons')
-        .on('mouseover.eventbuttons', function() {
-            mQuery(this).find('.campaign-event-buttons').removeClass('hide');
-        })
-        .on('mouseout.eventbuttons', function() {
-            mQuery(this).find('.campaign-event-buttons').addClass('hide');
-        })
-        .on('dblclick.eventbuttons', function(event) {
-            event.preventDefault();
-            mQuery(this).find('.btn-edit').first().click();
+Mautic.removeWfNode=function(wfnode){
+    var id=wfnode.getAttributeNS(null,'id');
+    var response=id.split('-');
+    var findtype=response[0];
+    var findid=response[1];
+   // alert("Find Type-->"+findtype+"-->Find ID:"+findid);
+    if(findtype == 'trigger'){
+    var triggerschilds=wfnode.parentNode.children;
+    if(triggerschilds.length == 2){
+        var triggersparent=wfnode.parentNode.parentNode;
+        var tpclassname=triggersparent.getAttributeNS(null,'class');
+        var tpid=triggersparent.getAttributeNS(null,'id');
+       if(tpclassname == 'wf-interrupt'){
+            response=tpid.split('-');
+            findtype=response[0];
+            findid=response[1];
+       }
+    }
+    }
+    var deleted=Mautic.findAndRemoveObjectFromJson(Mautic.campaignupdatedjson,findtype,findid,false);
+    if(deleted){
+        Mautic.invokeCampaignEventDeleteAction(findid,function(err){
+if(!err){
+    Mautic.refreshWorkFlowCanvas();
+}
         });
 
-    //initialize tooltipslist-campaign-event
-    mQuery(eventId + " *[data-toggle='tooltip']").tooltip({html: true});
+    }
+}
+var save = function(filename, content) {
+    saveAs(
+        new Blob([content], {type: 'text/plain;charset=utf-8'}),
+        filename
+    );
 };
-/**
- * Update a connectors label
- *
- * @param domEventId
- */
-Mautic.campaignBuilderUpdateLabel = function (domEventId) {
-    var theLabel = typeof Mautic.campaignBuilderLabels[domEventId] == 'undefined' ? '' : Mautic.campaignBuilderLabels[domEventId];
-    var currentConnections = Mautic.campaignBuilderInstance.select({
-        target: domEventId
-    });
-
-    if (currentConnections.length > 0) {
-        currentConnections.each(function(conn) {
-
-            //remove current label
-            var overlays = conn.getOverlays();
-            if (overlays.length > 0) {
-                for (var i = 0; i <= overlays.length; i++ ) {
-                    if ( typeof overlays[i] != 'undefined' && overlays[i].type == 'Label') {
-                        conn.removeOverlay(overlays[i].id);
+Mautic.findAndRemoveObjectFromJson = function(data,findtype,findid,deleted){
+    var type=data.type;
+    if(type == 'path' && !deleted){
+        var triggers=data.triggers;
+        var steps=data.steps;
+        if(!mQuery.isEmptyObject(triggers)){
+            mQuery.each(triggers, function (index,trigger) {
+                if(trigger.type == findtype && trigger.id == findid){
+                    if(triggers.length > 1){
+                        triggers.splice(index,1);
+                        deleted=true;
+                        return false;
                     }
                 }
-            }
-
-            if (theLabel) {
-                conn.addOverlay(["Label", {
-                    label: theLabel,
-                    location: 0.65,
-                    cssClass: "jtk-label",
-                    id: conn.sourceId + "_" + conn.targetId + "_connectionLabel"
-                }]);
-            }
-        });
-    }
-};
-
-/**
- * Launch campaign builder modal
- */
-Mautic.launchCampaignEditor = function() {
-    Mautic.stopIconSpinPostEvent();
-    mQuery('body').css('overflow-y', 'hidden');
-
-    mQuery('.builder').addClass('builder-active').removeClass('hide');
-
-    // Center new source
-    if (mQuery('#CampaignEvent_newsource').length) {
-        Mautic.campaignBuilderPrepareNewSource();
-    }
-
-    if (Mautic.campaignBuilderCanvasSettings) {
-        Mautic.campaignBuilderInstance.setSuspendDrawing(true);
-        Mautic.campaignBuilderReconnectEndpoints();
-        Mautic.campaignBuilderInstance.setSuspendDrawing(false, true);
-    }
-    Mautic.campaignBuilderInstance.repaintEverything();
-};
-
-/**
- * Launch campaign preview view
- */
-Mautic.launchCampaignPreview = function() {
-    Mautic.stopIconSpinPostEvent();
-
-    if (Mautic.campaignBuilderCanvasSettings) {
-        Mautic.campaignBuilderInstance.setSuspendDrawing(true);
-        Mautic.campaignBuilderReconnectEndpoints();
-        Mautic.campaignBuilderInstance.setSuspendDrawing(false, true);
-    }
-    Mautic.campaignBuilderInstance.repaintEverything();
-};
-
-/**
- * Close Name Model
- */
-Mautic.CloseDataModelCampaign = function(){
-    if(mQuery('#campaign_name').val() != ""){
-        mQuery('#MauticSharedModal').modal('hide');
-    } else {
-        mQuery('#campaign_name .help-block').html("A name is required");
-    }
-};
-
-/**
- *
- * @type {{source: {leadsource: {source: Array, action: [*], condition: [*], decision: [*]}, leadsourceleft: {source: [*], action: Array, condition: Array, decision: Array}, leadsourceright: {source: [*], action: Array, condition: Array, decision: Array}}, action: {top: {source: [*], action: Array, condition: [*], decision: [*]}, bottom: {source: Array, action: Array, condition: [*], decision: [*]}}, condition: {top: {source: [*], action: [*], condition: [*], decision: [*]}, yes: {source: Array, action: [*], condition: [*], decision: [*]}, no: {source: Array, action: [*], condition: [*], decision: [*]}}, decision: {top: {action: [*], source: [*], condition: [*], decision: Array}, yes: {source: Array, action: [*], condition: [*], decision: Array}, no: {source: Array, action: [*], condition: [*], decision: Array}}}}
- */
-Mautic.campaignBuilderConnectionsMap = {
-    // source
-    'source': {
-        // source anchors
-        'leadsource': {
-            // target
-            'source': [],
-            'action': ['top'], // target anchors
-            'condition': ['top'],
-            'decision': ['top'],
-        },
-        'leadsourceleft': {
-            'source': ['leadsourceright'],
-            'action': [],
-            'condition': [],
-            'decision': []
-        },
-        'leadsourceright': {
-            'source': ['leadsourceleft'],
-            'action': [],
-            'condition': [],
-            'decision': []
+            });
         }
-    },
-    'action': {
-        'top': {
-            'source': ['leadsource'],
-            'action': [],
-            'condition': ['yes', 'no'],
-            'decision': ['yes', 'no']
-        },
-        'bottom': {
-            'source': [],
-            'action': [],
-            'condition': ['top'],
-            'decision': ['top']
-        }
-    },
-    'condition': {
-        'top': {
-            'source': ['leadsource'],
-            'action': ['bottom'],
-            'condition': ['yes', 'no'],
-            'decision': ['yes', 'no']
-        },
-        'yes': {
-            'source': [],
-            'action': ['top'],
-            'condition': ['top'],
-            'decision': ['top']
-        },
-        'no': {
-            'source': [],
-            'action': ['top'],
-            'condition': ['top'],
-            'decision': ['top']
-        }
-    },
-    'decision': {
-        'top': {
-            'action': ['bottom'],
-            'source': ['leadsource'],
-            'condition': ['yes', 'no'],
-            'decision': [],
-        },
-        'yes': {
-            'source': [],
-            'action': ['top'],
-            'condition': ['top'],
-            'decision': [],
-        },
-        'no': {
-            'source': [],
-            'action': ['top'],
-            'condition': ['top'],
-            'decision': [],
-        }
-    }
-};
-
-Mautic.campaignBuilderAnchorDefaultColor = '#d5d4d4';
-
-Mautic.campaignEndpointDefinitions = {
-    'top': {
-        anchors: [0.5, 0, 0, -1, 0, 0],
-        isTarget: true,
-      //  connectorStyle: 'Straight'
-    },
-    'bottom': {
-        anchors: [0.5, 1, 0, 1, 0, 0],
-        isTarget: false,
-      //  connectorStyle: 'Straight'
-    },
-    'yes': {
-        anchors: [0, 1, 0, 1, 30, 0],
-        connectorColor:'#d5d4d4' ,//'#00b49c'
-        isTarget: false,
-      //  connectorStyle: 'Straight'
-    },
-    'no': {
-        anchors: [1, 1, 0, 1, -30, 0],
-        connectorColor: '#d5d4d4',//'#f86b4f'
-        isTarget: false,
-        // connectorStyle: 'Straight'
-    },
-    'leadSource': {
-        anchors: [0.5, 1, 0, 1, 0, 0],
-        isTarget: false,
-      //  connectorStyle: 'Straight'
-    },
-    'leadSourceLeft': {
-        anchors: [0, 0.5, -1, 0, -1, 0],
-        connectorColor: '#fdb933',
-        isTarget: true,
-        connectorStyle: 'Straight'
-    },
-    'leadSourceRight': {
-        anchors: [1, 0.5, 1, 0, 1, 0],
-        connectorColor: '#fdb933',
-        isTarget: false,
-        connectorStyle: 'Straight'
-    }
-};
-
-/**
- * Push callbacks to these events
- *
- * @type {{connection: Array, connectionDetached: Array, connectionMoved: Array, beforeDrop: Array}}
- */
-Mautic.campaignConnectionCallbacks = {
-    // sourceEndpoint, targetEndpoint, connection
-    'beforeDetach': [],
-    // sourceEndpoint, targetEndpoint, endpoint, source, sourceId
-    'beforeDrag': [],
-    // sourceEndpoint, targetEndpoint, endpoint, source, sourceId
-    'beforeStartDetach': [],
-    // sourceEndpoint, targetEndpoint, endpoint, source, sourceId, connection
-    'beforeDrop': [],
-    //sourceEndpoint, endpoint, event
-    'onHover': [],
-    // no arguments
-    'beforeAnchorsRegistered': [],
-    'afterAnchorsRegistered': [],
-    'beforeEndpointsRegistered': [],
-    'beforeEndpointsReconnected': [],
-    'afterEndpointsReconnected': []
-};
-
-Mautic.campaignBuilderAnchorClicked = false;
-Mautic.campaignBuilderEventPositions = {};
-Mautic.campaignBuilderPrevSourceClicked = false;
-
-Mautic.prepareCampaignCanvas = function() {
-    if (typeof Mautic.campaignBuilderInstance == 'undefined') {
-        Mautic.campaignBuilderInstance = jsPlumb.getInstance({
-            Container: document.querySelector("#CampaignCanvas")
-        });
-
-        Mautic.campaignEndpoints = {};
-
-        var startingPosition;
-        Mautic.campaignDragOptions = {
-            start: function (params) {
-                //double clicking activates the stop function so add a catch to prevent unnecessary ajax calls
-                startingPosition =
-                    {
-                        top: params.el.offsetTop,
-                        left: params.el.offsetLeft,
-                    };
-
-            },
-            stop: function (params) {
-                var endingPosition =
-                    {
-                        top: params.finalPos[0],
-                        left: params.finalPos[1]
-                    };
-
-                if (startingPosition.left !== endingPosition.left || startingPosition.top !== endingPosition.top) {
-                    //update coordinates
-                    Mautic.campaignBuilderEventPositions[mQuery(params.el).attr('id')] = {
-                        'left': parseInt(endingPosition.left),
-                        'top': parseInt(endingPosition.top)
-                    };
-
-                    // var campaignId = mQuery('#campaignId').val();
-                    // var query = "action=campaign:updateCoordinates&campaignId=" + campaignId + "&droppedX=" + endingPosition.top + "&droppedY=" + endingPosition.left + "&eventId=" + mQuery(params.el).attr('id');
-                    // mQuery.ajax({
-                    //     url: mauticAjaxUrl,
-                    //     type: "POST",
-                    //     data: query,
-                    //     dataType: "json",
-                    //     error: function (request, textStatus, errorThrown) {
-                    //         Mautic.processAjaxError(request, textStatus, errorThrown);
-                    //     }
-                    // });
+        if(!mQuery.isEmptyObject(steps)){
+            mQuery.each(steps, function (index, event) {
+                if(event.type == findtype && event.id == findid){
+            //    alert("Match Found:"+index+"-->id:"+event.id+"-->type:"+findtype);
+                    steps.splice(index,1);
+                    deleted=true;
+                    return false;
+                }else{
+                    deleted=Mautic.findAndRemoveObjectFromJson(event,findtype,findid,deleted);
                 }
-            },
-            containment:true
-        };
-
-        Mautic.campaignBuilderEventDimensions = {
-            'width': 200,
-            'height': 45,
-            'anchor': 10,
-            'wiggleWidth': 30,
-            'wiggleHeight': 50
-        };
-
-        // Store labels
-        Mautic.campaignBuilderLabels = {};
-
-        // Update the labels on connection/disconnection
-        Mautic.campaignBuilderInstance.bind("connection", function (info, originalEvent) {
-            //alert("Connection bind called-->");
-            // Mark the connection so it can be removed if the form is cancelled
-            Mautic.campaignBuilderConnectionRequiresUpdate = false;
-            Mautic.campaignBuilderLastConnection           = info.connection;
-
-            // If there is a switch between active/inactive anchors, reload the form
-            var epDetails          = Mautic.campaignBuilderGetEndpointDetails(info.sourceEndpoint);
-            var targetElementId    = info.targetEndpoint.elementId;
-
-            var previousConnection = mQuery('#'+targetElementId).attr('data-connected');
-            var editButton         = mQuery('#'+targetElementId).find('a.btn-edit');
-            var editUrl            = editButton.attr('href');
-
-            if (editUrl) {
-                var anchorQueryParams = 'anchor=' + epDetails.anchorName + "&anchorEventType=" + epDetails.eventType;
-                if (editUrl.search('anchor=') !== -1) {
-                    editUrl.replace(/anchor=(.*?)$/, anchorQueryParams);
-                } else {
-                    var delimiter = (editUrl.indexOf('?') === -1) ? '?' : '&';
-                    editUrl = editUrl + delimiter + anchorQueryParams;
+            });
+        }
+    }if(type == 'decision' && !deleted){
+        var truepath=data.true_path;
+        var falsepath=data.false_path;
+        deleted=Mautic.findAndRemoveObjectFromJson(truepath,findtype,findid,deleted);
+        deleted=Mautic.findAndRemoveObjectFromJson(falsepath,findtype,findid,deleted);
+    }else if(type == 'fork' && !deleted){
+        var paths=data.paths;
+        mQuery.each(paths, function (index, value) {
+            deleted=Mautic.findAndRemoveObjectFromJson(value,findtype,findid,deleted);
+        });
+    }else if(type == 'interrupt'){
+        var triggers=data.triggers;
+        if(!mQuery.isEmptyObject(triggers)){
+            mQuery.each(triggers, function (index, trigger) {
+                if(trigger.type == findtype && trigger.id == findid){
+                    if(triggers.length > 1){
+                        triggers.splice(index,1);
+                        deleted=true;
+                        return false;
+                    }
                 }
-                editButton.attr('data-href', editUrl);
-
-                if (previousConnection && previousConnection != epDetails.anchorName && (previousConnection == 'no' || epDetails.anchorName == 'no')) {
-                    editButton.attr('data-prevent-dismiss', true);
-                    Mautic.campaignBuilderConnectionRequiresUpdate = true;
-
-                    editButton.trigger('click');
+            });
+        }
+    }
+    return deleted;
+}
+Mautic.findAndAddObjectIntoJson = function(data,findtype,findid,insertat,added){
+    var type=data.type;
+    var id=data.id;
+    if(type == 'path' && !added){
+        var triggers=data.triggers;
+        var steps=data.steps;
+        if(insertat == -1 && id == findid){
+            var newjson=Mautic.getNewTriggerNodeJSON();
+            triggers.push(newjson);
+            added=true;
+            Mautic.invokeCampaignEventAddAction(newjson,function(response) {
+                if (!response) {
                 }
             }
-
-            mQuery('#'+targetElementId).attr('data-connected', epDetails.anchorName);
-
-            Mautic.campaignBuilderUpdateLabel(info.connection.targetId);
-            info.targetEndpoint.setPaintStyle(
-                {
-                    fill: info.connection.getPaintStyle().stroke
-                }
             );
-            info.sourceEndpoint.setPaintStyle(
-                {
-                    fill: info.connection.getPaintStyle().stroke
-                }
-            );
-        });
-
-        Mautic.campaignBuilderInstance.bind("connectionDetached", function (info, originalEvent) {
-            Mautic.campaignBuilderUpdateLabel(info.connection.targetId);
-
-            info.targetEndpoint.setPaintStyle(
-                {
-                    fill: "#d5d4d4"
-                }
-            );
-
-            var currentConnections = info.sourceEndpoint.connections.length;
-            // JavaScript counts index which still accounts for old connection
-            currentConnections -= 1;
-            if (!currentConnections) {
-                info.sourceEndpoint.setPaintStyle(
-                    {
-                        fill: "#d5d4d4"
+        }else if(insertat >= 0 && id == findid){
+            var newjson=Mautic.getJSONByEventType(findtype);
+            if(findtype == 'fork'){
+                steps.splice(insertat, 0,newjson);
+                added=true;
+            }else{
+                steps.splice(insertat, 0,newjson);
+                added=true;
+                Mautic.invokeCampaignEventAddAction(newjson,function(response) {
+                        if (!response) {
+                        }
                     }
                 );
             }
-        });
-
-        Mautic.campaignBuilderInstance.bind("connectionMoved", function (info, originalEvent) {
-            Mautic.campaignBuilderUpdateLabel(info.connection.originalTargetId);
-
-            info.originalTargetEndpoint.setPaintStyle(
-                {
-                    fill: "#d5d4d4"
-                }
-            );
-
-            Mautic.campaignBuilderUpdateLabel(info.connection.newTargetId);
-
-            info.newTargetEndpoint.setPaintStyle(
-                {
-                    fill: info.newSourceEndpoint.getPaintStyle().fill
-                }
-            );
-        });
-
-        mQuery('.builder-content').scroll(function () {
-            Mautic.campaignBuilderInstance.repaintEverything();
-        });
-
-        mQuery.each(Mautic.campaignConnectionCallbacks.beforeEndpointsRegistered, function (index, callback) {
-            callback();
-        });
-        mQuery.each(Mautic.campaignEndpointDefinitions, function (ep, definition) {
-            Mautic.campaignBuilderRegisterEndpoint(ep, definition);
-        });
-
-        //manually loop through each so a UUID can be set for reconnecting connections
-        mQuery.each(Mautic.campaignConnectionCallbacks.beforeAnchorsRegistered, function (index, callback) {
-            callback();
-        });
-
-        mQuery("#CampaignCanvas div.list-campaign-event").not('#CampaignCanvas div.list-campaign-event.list-campaign-source').each(function () {
-            Mautic.campaignBuilderRegisterAnchors(['top'], this);
-        });
-
-        mQuery("#CampaignCanvas div.list-campaign-event.list-campaign-action,#CampaignCanvas div.list-campaign-event.list-campaign-source").not('#CampaignEvent_newsource').not('#CampaignEvent_newsource_hide').each(function () {
-            Mautic.campaignBuilderRegisterAnchors(['bottom'], this);
-        });
-
-        mQuery("#CampaignCanvas div.list-campaign-decision, #CampaignCanvas div.list-campaign-condition").each(function () {
-           Mautic.campaignBuilderRegisterAnchors(['yes', 'no'], this);
-        });
-
-        mQuery("#CampaignCanvas div.list-campaign-event.list-campaign-source").not('#CampaignEvent_newsource').not('#CampaignEvent_newsource_hide').each(function () {
-          Mautic.campaignBuilderRegisterAnchors(['leadSource', 'leadSourceLeft', 'leadSourceRight'], this);
-        });
-
-        mQuery.each(Mautic.campaignConnectionCallbacks.afterAnchorsRegistered, function (index, callback) {
-            callback();
-        });
-
-        if (mQuery('.preview').length) {
-            Mautic.launchCampaignPreview();
-        } else {
-            //enable drag and drop
-            Mautic.campaignBuilderInstance.draggable(
-                document.querySelectorAll("#CampaignCanvas .draggable"),
-                Mautic.campaignDragOptions
-            );
-        }
-    }
-};
-
-/**
- * Validate a connection before it can be made
- *
- * @param params
- * @returns {boolean}
- */
-Mautic.campaignBeforeDropCallback = function(params) {
-    var sourceEndpoint = Mautic.campaignBuilderGetEndpointDetails(params.connection.endpoints[0]);
-    var targetEndpoint = Mautic.campaignBuilderGetEndpointDetails(params.dropEndpoint);
-
-    var callbackAllowed = null;
-    mQuery.each(Mautic.campaignConnectionCallbacks.beforeDrop, function(index, callback) {
-        var result = callback(sourceEndpoint, targetEndpoint, params);
-        if (null !== result) {
-            callbackAllowed = result;
-
-            return false;
-        }
-    });
-    if (null !== callbackAllowed) {
-        return callbackAllowed;
-    }
-
-    if (!Mautic.campaignBuilderValidateConnection(sourceEndpoint, targetEndpoint.eventType, targetEndpoint.event)){
-
-        return false;
-    }
-
-    if (mQuery.inArray(targetEndpoint.anchorName, ['top', 'leadsourceleft', 'leadsourceright'])) {
-        //ensure two events aren't looping
-        var sourceConnections = Mautic.campaignBuilderInstance.select({
-            source: params.targetId
-        });
-
-        var loopDetected = false;
-        sourceConnections.each(function (conn) {
-
-            if (conn.sourceId == targetEndpoint.elementId && conn.targetId == sourceEndpoint.elementId) {
-                loopDetected = true;
-
-                return false;
+        }else{
+            if(!mQuery.isEmptyObject(steps)){
+                mQuery.each(steps, function (index, event) {
+                    added=Mautic.findAndAddObjectIntoJson(event,findtype,findid,insertat,added);
+                });
             }
-        });
+        }
+    }if(type == 'decision' && !added){
+        var truepath=data.true_path;
+        var falsepath=data.false_path;
+        added=Mautic.findAndAddObjectIntoJson(truepath,findtype,findid,insertat,added);
+        added=Mautic.findAndAddObjectIntoJson(falsepath,findtype,findid,insertat,added);
+    }else if(type == 'fork' && !added){
+        var paths=data.paths;
+        if(findtype == type && id == findid){
+            paths.push(Mautic.getNewPathJSON());
+            added=true;
+        }else {
+            mQuery.each(paths, function (index, value) {
+                added=Mautic.findAndAddObjectIntoJson(value,findtype,findid,insertat,added);
+            });
+        }
+
+    }else if(type == 'interrupt'){
+        var triggers=data.triggers;
+        if(findtype == type && id == findid){
+            var newjson=Mautic.getNewTriggerNodeJSON();
+            newjson.entry_point=false;
+            triggers.push(newjson);
+            added=true;
+            Mautic.invokeCampaignEventAddAction(newjson,function(response) {
+                    if (!response) {
+                    }
+                }
+            );
+        }
     }
+    return added;
+}
+Mautic.findAndGetObjectFromJSON = function(data,findtype,findid,matchobj){
+    var type=data.type;
+    if(type == 'path' && matchobj.length == 0){
+        var triggers=data.triggers;
+        var steps=data.steps;
 
-    //ensure that the connections are not looping back into the same event
-    if (params.sourceId == params.targetId) {
+            if(!mQuery.isEmptyObject(triggers)){
+                mQuery.each(triggers, function (index, trigger) {
+                    if(trigger.id == findid){
+                        matchobj.push(trigger);
+                        return false;
+                    }
+                });
+            }
 
-        return false;
-    }
+            if(!mQuery.isEmptyObject(steps) && matchobj.length == 0){
+                mQuery.each(steps, function (index, event) {
+                    if(event.id == findid){
+                        matchobj.push(event);
+                        return false;
+                    }else{
+                        matchobj=Mautic.findAndGetObjectFromJSON(event,findtype,findid,matchobj);
+                    }
+                });
+            }
 
-    // ensure the map allows this connection
-    var allowedConnections = Mautic.campaignBuilderConnectionsMap[sourceEndpoint.eventType][sourceEndpoint.anchorName][targetEndpoint.eventType];
 
-    var allowed = mQuery.inArray(targetEndpoint.anchorName, allowedConnections) !== -1;
-
-    if (allowed) {
-        //ensure that a top only has one connection at a time unless connected from a source
-        if (params.dropEndpoint.connections.length > 0) {
-
-            // Replace the connection
-            mQuery.each(params.dropEndpoint.connections, function(key, conn) {
-                Mautic.campaignBuilderInstance.detach(conn);
+    }if(type == 'decision' && matchobj.length == 0){
+        var truepath=data.true_path;
+        var falsepath=data.false_path;
+        matchobj=Mautic.findAndGetObjectFromJSON(truepath,findtype,findid,matchobj);
+        matchobj=Mautic.findAndGetObjectFromJSON(falsepath,findtype,findid,matchobj);
+    }else if(type == 'fork' && matchobj.length == 0){
+        var paths=data.paths;
+            mQuery.each(paths, function (index, value) {
+                matchobj=Mautic.findAndGetObjectFromJSON(value,findtype,findid,matchobj);
+                if(matchobj.length > 0){
+                   return false;
+                }
+            });
+    }else if(type == 'interrupt' && matchobj.length == 0){
+        var triggers=data.triggers;
+        if(!mQuery.isEmptyObject(triggers)){
+            mQuery.each(triggers, function (index, trigger) {
+                if(trigger.id == findid){
+                    matchobj.push(trigger);
+                    return false;
+                }
             });
         }
     }
-
-    return allowed;
-
-};
-
-/**
- * Process beforeDetach event callbacks
- *
- * @param connection
- * @returns {*}
- */
-Mautic.campaignBeforeDetachCallback = function(connection) {
-    var sourceEndpoint = Mautic.campaignBuilderGetEndpointDetails(connection.sourceId);
-    var targetEndpoint = Mautic.campaignBuilderGetEndpointDetails(connection.targetId);
-
-    var callbackAllowed = null;
-    mQuery.each(Mautic.campaignConnectionCallbacks.beforeDetach, function (index, callback) {
-        var result = callback(sourceEndpoint, targetEndpoint, connection);
-        if (null !== result) {
-            callbackAllowed = result;
-
-            return false;
+    return matchobj;
+}
+Mautic.findAndUpdateObjectIntoJson = function(data,findtype,findid,info,updated){
+    var type=data.type;
+    var id=data.id;
+    if(type == 'path' && !updated){
+        var triggers=data.triggers;
+        var steps=data.steps;
+        if(findtype == 'source'){
+            mQuery.each(triggers, function (index, value) {
+                if(value.id == findid){
+                    value.view.label=info.label;
+                    value.view.incomplete=info.incomplete;
+                    value.category=info.category;
+                    value.subcategory=info.subcategory;
+                    updated=true;
+                    return false;
+                }
+            });
         }
-    });
-
-    if (null !== callbackAllowed) {
-        return callbackAllowed;
-    }
-
-    return true;
-};
-
-/**
- * Process beforeDetach event callbacks
- *
- * @param connection
- */
-Mautic.campaignBeforeDragCallback = function(endpoint, source, sourceId) {
-    var sourceEndpoint = Mautic.campaignBuilderGetEndpointDetails(sourceId);
-    var targetEndpoint = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-
-    var callbackAllowed = null;
-    mQuery.each(Mautic.campaignConnectionCallbacks.beforeDrag, function (index, callback) {
-        var result = callback(sourceEndpoint, targetEndpoint, endpoint, source, sourceId);
-        if (null !== result) {
-            callbackAllowed = result;
-
-            return false;
-        }
-    });
-
-    if (null !== callbackAllowed) {
-        return callbackAllowed;
-    }
-
-    return true;
-};
-
-/**
- * Process beforeDetach event callbacks
- *
- * @param endpoint
- * @param source
- * @param sourceId
- * @param connection
- * @returns {*}
- */
-Mautic.campaignBeforeStartDetachCallback = function(endpoint, source, sourceId, connection) {
-    var sourceEndpoint = Mautic.campaignBuilderGetEndpointDetails(sourceId);
-    var targetEndpoint = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-
-    var callbackAllowed = null;
-    mQuery.each(Mautic.campaignConnectionCallbacks.beforeStartDetach, function (index, callback) {
-        var result = callback(sourceEndpoint, targetEndpoint, endpoint, source, sourceId, connection);
-        if (null !== result) {
-            callbackAllowed = result;
-
-            return false;
-        }
-    });
-
-    if (null !== callbackAllowed) {
-        return callbackAllowed;
-    }
-
-    return true;
-};
-
-/**
- * Process beforeDetach event callbacks
- *
- * @param connection
- */
-Mautic.campaignHoverCallback = function(sourceEndpoint, endpoint, event) {
-    var callbackAllowed = null;
-    mQuery.each(Mautic.campaignConnectionCallbacks.onHover, function (index, callback) {
-        var result = callback(sourceEndpoint, endpoint, event);
-        if (null !== result) {
-            callbackAllowed = result;
-
-            return false;
-        }
-    });
-
-    if (null !== callbackAllowed) {
-        return callbackAllowed;
-    }
-
-    return true;
-};
-
-/**
- * Enable/Disable timeframe settings if the toggle for immediate trigger is changed
- */
-Mautic.campaignToggleTimeframes = function() {
-    if (mQuery('#campaignevent_triggerMode_2').length) {
-        var immediateChecked = mQuery('#campaignevent_triggerMode_0').prop('checked');
-        var intervalChecked = mQuery('#campaignevent_triggerMode_1').prop('checked');
-        var dateChecked = mQuery('#campaignevent_triggerMode_2').prop('checked');
-    } else {
-        var immediateChecked = false;
-        var intervalChecked = mQuery('#campaignevent_triggerMode_0').prop('checked');
-        var dateChecked = mQuery('#campaignevent_triggerMode_1').prop('checked');
-    }
-
-    if (mQuery('#campaignevent_triggerInterval').length) {
-        if (immediateChecked) {
-            mQuery('#triggerInterval').addClass('hide');
-            mQuery('#triggerDate').addClass('hide');
-        } else if (intervalChecked) {
-            mQuery('#triggerInterval').removeClass('hide');
-            mQuery('#triggerDate').addClass('hide');
-        } else if (dateChecked) {
-            mQuery('#triggerInterval').addClass('hide');
-            mQuery('#triggerDate').removeClass('hide');
-        }
-    }
-};
-
-/**
- * Close campaign builder
- */
-Mautic.closeCampaignBuilder = function() {
-    var builderCss = {
-        margin: "0",
-        padding: "0",
-        border: "none",
-        width: "100%",
-        height: "100%"
-    };
-
-    var panelHeight = (mQuery('.builder-content').css('right') == '0px') ? mQuery('.builder-panel').height() : 0,
-        panelWidth = (mQuery('.builder-content').css('right') == '0px') ? 0 : mQuery('.builder-panel').width(),
-        spinnerLeft = (mQuery(window).width() - panelWidth - 60) / 2,
-        spinnerTop = (mQuery(window).height() - panelHeight - 60) / 2;
-
-    var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade in"><div style="position: absolute; top:' + spinnerTop + 'px; left:' + spinnerLeft + 'px" class=".builder-spinner"><i class="fa fa-spinner fa-spin fa-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
-    mQuery('.btn-close-builder').prop('disabled', true);
-
-    Mautic.removeButtonLoadingIndicator(mQuery('.btn-apply-builder'));
-    mQuery('#builder-errors').hide('fast').text('');
-
-    Mautic.updateConnections(function(err, response) {
-        //mQuery('body').css('overflow-y', '');
-
-        if (!err) {
-            mQuery('#builder-overlay').remove();
-            //mQuery('body').css('overflow-y', '');
-            if (response.success) {
-                //mQuery('.builder').addClass('hide').removeClass('builder-active');
+            if(!mQuery.isEmptyObject(steps) && !updated){
+                mQuery.each(steps, function (index, event) {
+                        updated=Mautic.findAndUpdateObjectIntoJson(event,findtype,findid,info,updated);
+                });
             }
-            mQuery('.btn-close-builder').prop('disabled', false);
-            var cancelBtn = mQuery('.btn-cancel');
-            Mautic.inBuilderSubmissionOn(cancelBtn.closest('form'));
-            cancelBtn.trigger('click');
-            Mautic.inBuilderSubmissionOff();
-        }
-    });
-};
 
-Mautic.saveCampaignFromBuilder = function() {
-    Mautic.activateButtonLoadingIndicator(mQuery('.btn-save-builder'));
-    Mautic.updateConnections(function(err) {
-        if (!err) {
-            mQuery('body').css('overflow-y', '');
-            var saveBtn = mQuery('.btn-save');
-            Mautic.inBuilderSubmissionOn(saveBtn.closest('form'));
-            saveBtn.trigger('click');
-            Mautic.inBuilderSubmissionOff();
+    }else if(type == 'fork' && !updated){
+        var paths=data.paths;
+            mQuery.each(paths, function (index, value) {
+                updated=Mautic.findAndUpdateObjectIntoJson(value,findtype,findid,info,updated);
+            });
+    }else if(type == 'interrupt' && !updated){
+        var triggers=data.triggers;
+        if(findtype == 'source'){
+            mQuery.each(triggers, function (index, value) {
+if(value.id == findid){
+    value.view.label=info.label;
+    value.view.incomplete=info.incomplete;
+    value.category=info.category;
+    value.subcategory=info.subcategory;
+    updated=true;
+    return false;
+}
+            });
         }
-    });
-};
-
-Mautic.applyCampaignFromBuilder = function() {
-    Mautic.activateButtonLoadingIndicator(mQuery('.btn-apply-builder'));
-    Mautic.updateConnections(function(err) {
-        if (!err) {
-            var applyBtn = mQuery('.btn-apply');
-            Mautic.inBuilderSubmissionOn(applyBtn.closest('form'));
-            applyBtn.trigger('click');
-            Mautic.inBuilderSubmissionOff();
-        }
-    });
-};
+    }else if(!updated && (type == 'decision' || type == 'action' || type == 'delay')){
+      if(id == findid){
+          data.view.label=info.label;
+          data.view.incomplete=info.incomplete;
+          data.category=info.category;
+          data.subcategory=info.subcategory;
+          updated=true;
+      }else if(type == 'decision'){
+          var truepath=data.true_path;
+          var falsepath=data.false_path;
+          updated=Mautic.findAndUpdateObjectIntoJson(truepath,findtype,findid,info,updated);
+          updated=Mautic.findAndUpdateObjectIntoJson(falsepath,findtype,findid,info,updated);
+      }
+    }
+    return updated;
+}
+Mautic.refreshWorkFlowCanvas=function(){
+    var svgelements=mQuery('.workflow-canvas').children();
+    var oldsvg=svgelements[0];
+    var newsvg=oldsvg.cloneNode(false);
+    oldsvg.parentNode.replaceChild(newsvg, oldsvg);
+    //alert(newsvg.getAttributeNS(null,'id'));
+    Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,1300,newsvg,'',false);
+    //save('inserted.txt',JSON.stringify(Mautic.campaignupdatedjson));
+}
 
 Mautic.registerKeyupCampaignName = function(){
     /*var campaignname = mQuery("#campaign_name").val();
@@ -1476,48 +1259,34 @@ Mautic.publishCampaign = function(){
 
 };
 
+Mautic.applyCampaignFromBuilder = function() {
+    Mautic.activateButtonLoadingIndicator(mQuery('.btn-apply-builder'));
+    Mautic.updateConnections(function(err) {
+        if (!err) {
+            var applyBtn = mQuery('.btn-apply');
+            Mautic.inBuilderSubmissionOn(applyBtn.closest('form'));
+            applyBtn.trigger('click');
+            Mautic.inBuilderSubmissionOff();
+        }
+    });
+};
+
+Mautic.saveCampaignFromBuilder = function() {
+    Mautic.activateButtonLoadingIndicator(mQuery('.btn-save-builder'));
+    Mautic.updateConnections(function(err) {
+        if (!err) {
+            mQuery('body').css('overflow-y', '');
+            var saveBtn = mQuery('.btn-save');
+            Mautic.inBuilderSubmissionOn(saveBtn.closest('form'));
+            saveBtn.trigger('click');
+            Mautic.inBuilderSubmissionOff();
+        }
+    });
+};
 Mautic.updateConnections = function(callback) {
-    var nodes = [];
-
-    mQuery("#CampaignCanvas .list-campaign-event").each(function (idx, elem) {
-        nodes.push({
-            id:        mQuery(elem).attr('id').replace('CampaignEvent_', ''),
-            positionX: parseInt(mQuery(elem).css('left'), 10),
-            positionY: parseInt(mQuery(elem).css('top'), 10)
-        });
-    });
-
-    // mQuery("#CampaignCanvas .list-campaign-source").not('#CampaignEvent_newsource').not('#CampaignEvent_newsource_hide').each(function (idx, elem) {
-    //     nodes.push({
-    //         id:        mQuery(elem).attr('id').replace('CampaignEvent_', ''),
-    //         positionX: parseInt(mQuery(elem).css('left'), 10),
-    //         positionY: parseInt(mQuery(elem).css('top'), 10)
-    //     });
-    // });
-
-    var connections = [];
-    mQuery.each(Mautic.campaignBuilderInstance.getConnections(), function (idx, connection) {
-        connections.push({
-            sourceId:     connection.sourceId.replace('CampaignEvent_', ''),
-            targetId:     connection.targetId.replace('CampaignEvent_', ''),
-            anchors:      mQuery.map(connection.endpoints, function (endpoint) {
-                var anchor = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-                return {
-                    'endpoint': anchor.anchorName,
-                    'eventId':  anchor.eventId
-                };
-            })
-        });
-    });
-
-    var chart          = {};
-    chart.nodes        = nodes;
-    chart.connections  = connections;
-    var canvasSettings = {canvasSettings: chart};
-
     var campaignId     = mQuery('#campaignId').val();
     var query          = "action=campaign:updateConnections&campaignId=" + campaignId;
-
+    var canvasSettings = {canvasSettings: JSON.stringify(Mautic.campaignupdatedjson)};
     mQuery.ajax({
         url: mauticAjaxUrl + '?' + query,
         type: "POST",
@@ -1532,6 +1301,360 @@ Mautic.updateConnections = function(callback) {
         }
     });
 };
+/**
+ * Close campaign builder
+ */
+Mautic.closeCampaignBuilder = function() {
+    var builderCss = {
+        margin: "0",
+        padding: "0",
+        border: "none",
+        width: "100%",
+        height: "100%"
+    };
+
+    var panelHeight = (mQuery('.builder-content').css('right') == '0px') ? mQuery('.builder-panel').height() : 0,
+        panelWidth = (mQuery('.builder-content').css('right') == '0px') ? 0 : mQuery('.builder-panel').width(),
+        spinnerLeft = (mQuery(window).width() - panelWidth - 60) / 2,
+        spinnerTop = (mQuery(window).height() - panelHeight - 60) / 2;
+
+    var overlay = mQuery('<div id="builder-overlay" class="modal-backdrop fade in"><div style="position: absolute; top:' + spinnerTop + 'px; left:' + spinnerLeft + 'px" class=".builder-spinner"><i class="fa fa-spinner fa-spin fa-5x"></i></div></div>').css(builderCss).appendTo('.builder-content');
+    mQuery('.btn-close-builder').prop('disabled', true);
+
+    Mautic.removeButtonLoadingIndicator(mQuery('.btn-apply-builder'));
+    mQuery('#builder-errors').hide('fast').text('');
+
+    Mautic.updateConnections(function(err, response) {
+        //mQuery('body').css('overflow-y', '');
+
+        if (!err) {
+            mQuery('#builder-overlay').remove();
+            //mQuery('body').css('overflow-y', '');
+            if (response.success) {
+                //mQuery('.builder').addClass('hide').removeClass('builder-active');
+            }
+            mQuery('.btn-close-builder').prop('disabled', false);
+            var cancelBtn = mQuery('.btn-cancel');
+            Mautic.inBuilderSubmissionOn(cancelBtn.closest('form'));
+            cancelBtn.trigger('click');
+            Mautic.inBuilderSubmissionOff();
+        }
+    });
+};
+
+/**
+ * Enable/Disable timeframe settings if the toggle for immediate trigger is changed
+ */
+Mautic.campaignToggleTimeframes = function() {
+    if (mQuery('#campaignevent_triggerMode_2').length) {
+        var immediateChecked = mQuery('#campaignevent_triggerMode_0').prop('checked');
+        var intervalChecked = mQuery('#campaignevent_triggerMode_1').prop('checked');
+        var dateChecked = mQuery('#campaignevent_triggerMode_2').prop('checked');
+    } else {
+        var immediateChecked = false;
+        var intervalChecked = mQuery('#campaignevent_triggerMode_0').prop('checked');
+        var dateChecked = mQuery('#campaignevent_triggerMode_1').prop('checked');
+    }
+
+    if (mQuery('#campaignevent_triggerInterval').length) {
+        if (immediateChecked) {
+            mQuery('#triggerInterval').addClass('hide');
+            mQuery('#triggerDate').addClass('hide');
+        } else if (intervalChecked) {
+            mQuery('#triggerInterval').removeClass('hide');
+            mQuery('#triggerDate').addClass('hide');
+        } else if (dateChecked) {
+            mQuery('#triggerInterval').addClass('hide');
+            mQuery('#triggerDate').removeClass('hide');
+        }
+    }
+};
+
+/**
+ * Close Name Model
+ */
+Mautic.CloseDataModelCampaign = function(){
+    if(mQuery('#campaign_name').val() != ""){
+        mQuery('#MauticSharedModal').modal('hide');
+    } else {
+        mQuery('#campaign_name .help-block').html("A name is required");
+    }
+};
+
+/**
+ * Launch campaign builder modal
+ */
+Mautic.launchCampaignEditor = function() {
+    Mautic.stopIconSpinPostEvent();
+    mQuery('body').css('overflow-y', 'hidden');
+    mQuery('.builder').addClass('builder-active').removeClass('hide');
+    try{
+        //save('text.txt',JSON.stringify(Mautic.campaignBuilderCanvasSettings));
+        Mautic.campaignupdatedjson=Mautic.campaignBuilderCanvasSettings;
+        var svgelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"svg");
+        svgelement.setAttributeNS(null, "id", 'workflow'+'-'+ Mautic.randomString(8));
+        svgelement.setAttributeNS(null, "width", '1300');
+        svgelement.setAttributeNS(null, "height", '4000');
+        mQuery('.workflow-canvas').append(svgelement);
+       Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,1300,svgelement,'',false);
+    }catch(error){
+        alert(error);
+    }
+};
+
+Mautic.selectCampaignType=function(eventType){
+    Mautic.closeCampaignTypeModel();
+    var added=Mautic.findAndAddObjectIntoJson(Mautic.campaignupdatedjson,eventType,Mautic.lastclickedinsertpoint.id,Mautic.lastclickedinsertpoint.insertat,false);
+    if(added){
+        Mautic.refreshWorkFlowCanvas();
+    }
+};
+Mautic.closeCampaignTypeModel=function(){
+    mQuery('.campaignevent-type-modal-backdrop').addClass('hide');
+    mQuery('.campaignevent-type-modal').addClass('hide');
+    mQuery('.campaignevent-type-modal').removeClass('in');
+};
+
+Mautic.showCampaignTypeModel=function(){
+    mQuery('.campaignevent-type-modal').addClass('in');
+    mQuery('.campaignevent-type-modal-backdrop').removeClass('hide');
+    mQuery('.campaignevent-type-modal').removeClass('hide');
+
+};
+Mautic.invokeCampaignEventEditAction=function(lastclickednode){
+    var campaignId = mQuery('#campaignId').val();
+    var posturl = mQuery('#campaign-request-url').attr('data-href');
+    posturl = posturl.replace("objectAction", 'edit');
+    posturl = posturl+"/"+lastclickednode.id;
+    var route = posturl + "?campaignId=" + campaignId+"&type="+lastclickednode.subcategory+"&eventType="+lastclickednode.category;
+    var divelement = document.createElement("div");
+    divelement.setAttribute('data-target', '#CampaignEventModal');
+    divelement.setAttribute('data-href', route);
+    //alert("Path:"+route);
+    Mautic.ajaxifyModal(divelement);
+};
+Mautic.invokeCampaignEventAddAction=function(wfjson,callback){
+    var wfnodetype=wfjson.type;
+    if(wfjson.type == 'interrupt'){
+      wfjson=wfjson.triggers[0];
+    }
+    if(wfjson.type == 'trigger' && !wfjson.entry_point){
+        wfnodetype='interrupt';
+    }
+    var campaignId = mQuery('#campaignId').val();
+    //  alert(mQuery('#campaign-new-request-url').attr('data-href'));
+    var posturl = mQuery('#campaign-request-url').attr('data-href');
+    posturl = posturl.replace("objectAction", 'new');
+    var route = posturl + "?campaignId=" + campaignId;
+    //alert(route);
+   // alert(wfjson.subcategory);
+   // callback(false, {});
+    var data = {campaignId:campaignId,type:wfjson.subcategory,eventType:wfjson.category,keyId:wfjson.id,wfnodetype:wfnodetype};
+    mQuery.ajax({
+        url: route,
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function (response) {
+           if (typeof callback === 'function') callback(false, response);
+        },
+        error: function (response, textStatus, errorThrown) {
+            Mautic.processAjaxError(response, textStatus, errorThrown);
+            if (typeof callback === 'function') callback(true, response);
+        }
+    });
+};
+Mautic.invokeCampaignEventDeleteAction=function(id,callback){
+    var campaignId = mQuery('#campaignId').val();
+    var posturl = mQuery('#campaign-request-url').attr('data-href');
+    posturl = posturl.replace("objectAction", 'delete');
+    posturl = posturl+"/"+id;
+    var route = posturl + "?campaignId=" + campaignId;
+    mQuery.ajax({
+        url: route,
+        type: "POST",
+        data: {},
+        dataType: "json",
+        success: function (response) {
+            if (typeof callback === 'function') callback(false, response);
+        },
+        error: function (response, textStatus, errorThrown) {
+            Mautic.processAjaxError(response, textStatus, errorThrown);
+            if (typeof callback === 'function') callback(true, response);
+        }
+    });
+};
+/**
+ * Setup the campaign event view
+ *
+ * @param container
+ * @param response
+ */
+
+Mautic.campaignEventOnLoad = function (container, response) {
+    Mautic.leadlistOnLoad(container);
+    var eventType=response.eventType;
+    if(!response.closeModal && !response.deleted){
+        var cegselctize = mQuery('#campaignevent_group').selectize({
+            persist: true,
+            maxItems: 1,
+            valueField: 'label',
+            labelField: 'label',
+            searchField: ['label'],
+            sortField: [
+                {field: 'order', direction: 'asc'},
+            ],
+            options: Mautic.campaignBuilderGroupOptions,
+            render: {
+                item: function (item, escape) {
+                    return '<div>' + escape(item.label) + '</div>';
+                },
+                option: function (item, escape) {
+                    return '<div style="display: block;color:#47535f;font-weight: 600">' + escape(item.label) + '</div>';
+                }
+            },
+        })[0].selectize;
+        var cesgselectize = mQuery('#campaignevent_subgroup').selectize({
+            persist: true,
+            maxItems: 1,
+            placeholder: eventType == 'source' ? 'Choose a trigger..' :'Choose a action..',
+            valueField: 'category',
+            labelField: 'label',
+            searchField: ['label', 'desc'],
+            sortField: [
+                {field: 'order', direction: 'asc'},
+            ],
+            options: [],
+            render: {
+                item: function (item, escape) {
+                    return '<div>' + escape(item.label) + '</div>';
+                },
+                option: function (item, escape) {
+
+                    return '<div>' +
+                        '<div style="display: block;color:#47535f;font-weight: 600";>' + escape(item.label) + '</div>' +
+                        '<div style="display: block;color: #666;">' + escape(item.desc) + '</div>' +
+                        '</div>';
+                }
+            },
+
+        })[0].selectize;
+        cegselctize.on('change', function (value) {
+            var groupname = this.options[value].label;
+            var suboptions=[];
+            if(eventType == 'source'){
+                suboptions = Mautic.getFilteredCampaignSourceSubgroupOptions(groupname);
+            }else{
+                suboptions = Mautic.getFilteredCampaignEventSubgroupOptions(groupname);
+            }
+            try{
+                cesgselectize.clearOptions();
+            }catch(err){
+                //alert(err.message);
+            }
+            for (var index = 0; index < suboptions.length; index++) {
+                cesgselectize.addOption(suboptions[index]);
+                //cesgselectize.addItem(suboptions[index].category,true);
+            }
+            cesgselectize.refreshOptions(false);
+            // cesgselectize.refreshItems();
+            if (cesgselectize.isOpen) {
+                cesgselectize.close();
+            }
+
+
+        });
+        cesgselectize.on('change', function (value) {
+            var category = this.options[value].category;
+            var campaignId = mQuery('#campaignId').val();
+            var posturl = mQuery('#campaigneventgroup').attr('data-href');
+            var route = posturl + "?type=" + category + "&eventType="+eventType+"&campaignId=" + campaignId + "&keyId=" + Mautic.lastclickedwfnode.id;
+            var divelement = document.createElement("div");
+            divelement.setAttribute('data-target', '#CampaignEventModal');
+            divelement.setAttribute('data-href', route);
+            //divelement.setAttribute('data-prevent-dismiss',true);
+            Mautic.updateAjaxModal('#CampaignEventModal', route, 'GET');
+        });
+        var campaignEventType = mQuery('#campaignevent_type').val();
+        if(eventType == 'source') {
+            cegselctize.setValue(Mautic.getCampaignSourceGroupName(campaignEventType), false);
+        }
+        else{
+            cegselctize.setValue(Mautic.getCampaignEventGroupName(campaignEventType), false);
+        }
+        if(campaignEventType != 'campaign.defaultsource' && campaignEventType != 'campaign.defaultaction'){
+            cesgselectize.setValue(campaignEventType, true);
+        }
+    }
+    if (response.deleted) {
+    } else if (response.success) {
+        try{
+            var eventId=response.eventId;
+            var eventName=response.eventName;
+            var type=response.type;
+            var info={
+                'label': eventName,
+                'category': eventType,
+                'subcategory':type,
+                'incomplete': (type != 'campaign.defaultdelay' && type.includes("campaign.default")) ? true :false
+            };
+            //alert("Eventype:"+eventType+",Event ID:"+eventId+",Eventname:"+eventName+",Type:"+type);
+            var updated = Mautic.findAndUpdateObjectIntoJson(Mautic.campaignupdatedjson,eventType,eventId,info,false);
+            if(updated){
+                Mautic.refreshWorkFlowCanvas();
+            }
+        }catch(err){
+            alert(err);
+        }
+    }
+       //mQuery('.le-modal-box-align').css("marginLeft","210px");
+};
+Mautic.getFilteredCampaignEventSubgroupOptions=function(groupname){
+    var filteroptions = [];
+    for(var index=0;index < Mautic.campaignBuilderEventOptions.length;index++){
+        var options=Mautic.campaignBuilderEventOptions[index];
+        if(options.group == groupname){
+            filteroptions.push(options);
+        }
+
+    }
+    return filteroptions;
+};
+Mautic.getFilteredCampaignSourceSubgroupOptions=function(groupname){
+    var filteroptions = [];
+    for(var index=0;index < Mautic.campaignBuilderSourceOptions.length;index++){
+        var options=Mautic.campaignBuilderSourceOptions[index];
+        if(options.group == groupname){
+            filteroptions.push(options);
+        }
+    }
+    return filteroptions;
+};
+Mautic.getCampaignEventGroupName=function(subgroup){
+    // alert('Sub Group Matched-->'+subgroup);
+    for(var index=0;index < Mautic.campaignBuilderEventOptions.length;index++){
+        var options=Mautic.campaignBuilderEventOptions[index];
+        if(options.category == subgroup){
+            // alert('Group Matched-->'+options.group);
+            return options.group;
+            break;
+        }
+    }
+    return Mautic.campaignBuilderGroupOptions[0].label;
+};
+Mautic.getCampaignSourceGroupName=function(subgroup){
+    // alert('Sub Group Matched-->'+subgroup);
+    for(var index=0;index < Mautic.campaignBuilderSourceOptions.length;index++){
+        var options=Mautic.campaignBuilderSourceOptions[index];
+        if(options.category == subgroup){
+            //alert('Group Matched-->'+options.group);
+            return options.group;
+            break;
+        }
+    }
+    return Mautic.campaignBuilderGroupOptions[0].label;
+};
+
 
 /**
  * Submit the campaign event form
@@ -1539,869 +1662,8 @@ Mautic.updateConnections = function(callback) {
  */
 Mautic.submitCampaignEvent = function(e) {
     e.preventDefault();
-
     mQuery('#campaignevent_canvasSettings_droppedX').val(mQuery('#droppedX').val());
     mQuery('#campaignevent_canvasSettings_droppedY').val(mQuery('#droppedY').val());
 
     mQuery('form[name="campaignevent"]').submit();
 };
-
-/**
- * Submit source form
- * @param e
- */
-Mautic.submitCampaignSource = function(e) {
-    e.preventDefault();
-
-    mQuery('#campaign_leadsource_droppedX').val(mQuery('#droppedX').val());
-    mQuery('#campaign_leadsource_droppedY').val(mQuery('#droppedY').val());
-
-    mQuery('form[name="campaign_leadsource"]').submit();
-};
-
-/**
- * Reconnect jsplumb connections
- */
-Mautic.campaignBuilderReconnectEndpoints = function () {
-
-    mQuery.each(Mautic.campaignConnectionCallbacks.beforeEndpointsReconnected, function (index, callback) {
-        callback();
-    });
-
-    if (typeof Mautic.campaignBuilderCanvasSettings == 'undefined') {
-        return;
-    }
-
-    // Reposition events
-  //  var sourceFound = false;
-    mQuery.each(Mautic.campaignBuilderCanvasSettings.nodes, function (key, node) {
-        // if (typeof Mautic.campaignBuilderCanvasSources[node.id] !== 'undefined') {
-        //     sourceFound = true;
-        // }
-
-        mQuery('#CampaignEvent_' + node.id).css({
-            position: 'absolute',
-            left: node.positionX + 'px',
-            top: node.positionY + 'px'
-        });
-
-        Mautic.campaignBuilderEventPositions['CampaignEvent_' + node.id] = {
-            left: parseInt(node.positionX),
-            top: parseInt(node.positionY)
-        };
-    });
-
-    // Recreate jsPlumb connections and labels
-    mQuery.each(Mautic.campaignBuilderCanvasSettings.connections, function (key, connection) {
-        if (typeof Mautic.campaignBuilderCanvasEvents[connection.targetId] !== 'undefined') {
-            var targetEvent = Mautic.campaignBuilderCanvasEvents[connection.targetId];
-        } else if (typeof Mautic.campaignBuilderCanvasSources[connection.targetId] !== 'undefined') {
-            var targetEvent = Mautic.campaignBuilderCanvasSources[connection.targetId];
-        }
-
-        if (targetEvent && targetEvent.label) {
-            Mautic.campaignBuilderLabels["CampaignEvent_"+connection.targetId] = targetEvent.label;
-        }
-      //  var tracker="111111111Source-->"+"CampaignEvent_" + connection.sourceId + '_' + connection.anchors.source+"\n"+"Target-->"+"CampaignEvent_" + connection.targetId + '_' + connection.anchors.target;
-       // alert(tracker);
-        Mautic.campaignBuilderInstance.connect({
-            uuids: [
-                "CampaignEvent_" + connection.sourceId + '_' + connection.anchors.source,
-                "CampaignEvent_" + connection.targetId + '_' + connection.anchors.target
-            ]
-        });
-    });
-
-    // if (!sourceFound) {
-    //     var topOffset = 25;
-    //     mQuery.each(Mautic.campaignBuilderCanvasSources, function (type, source) {
-    //         mQuery('#CampaignEvent_' + type).css({
-    //             position: 'absolute',
-    //             left: '20px',
-    //             top: topOffset + 'px'
-    //         });
-    //     });
-    //
-    //     topOffset += 45;
-    // }
-
-    mQuery.each(Mautic.campaignConnectionCallbacks.afterEndpointsReconnected, function (index, callback) {
-        callback();
-    });
-
-    delete Mautic.campaignBuilderCanvasSettings;
-};
-
-/**
- * Register an endpoint with JsPlumb
- *
- * @param name
- * @param params
- */
-Mautic.campaignBuilderRegisterEndpoint = function (name, params) {
-    var isTarget, isSource, color, connectorColor, connectorStyle;
-    if (params.color) {
-        color = params.color;
-    } else {
-        color = Mautic.campaignBuilderAnchorDefaultColor;
-    }
-
-    if (params.connectorColor) {
-        connectorColor = params.connectorColor;
-    } else {
-        connectorColor = color;
-    }
-
-    if (params.connectorStyle) {
-        connectorStyle = params.connectorStyle;
-    } else {
-        connectorStyle = ["Bezier", {curviness: 25}];
-    }
-
-    isTarget = params.isTarget;
-    isSource = true;
-    if (isTarget === null) {
-        // Both are allowed
-        isTarget = true;
-    } else {
-        if (typeof isTarget == 'undefined') {
-            isTarget = false;
-        }
-        if (isTarget) {
-            isSource = false;
-        }
-    }
-
-    Mautic.campaignEndpoints[name] = {
-        endpoint: ["Dot", { radius: 10 }],
-        paintStyle: {
-            fill: color
-        },
-        endpointStyle: {
-          fill: color
-        },
-        connectorStyle: {
-            stroke: connectorColor,
-            strokeWidth: 1
-        },
-        connector: connectorStyle,
-        connectorOverlays: [["Arrow", {width: 8, length: 8, location: 0.5}]],
-        maxConnections: -1,
-        isTarget: isTarget,
-        isSource: isSource,
-        beforeDrop: Mautic.campaignBeforeDropCallback,
-        beforeDetach: Mautic.campaignBeforeDetachCallback,
-        beforeStartDetach: Mautic.campaignBeforeStartDetachCallback,
-        beforeDrag: Mautic.campaignBeforeDragCallback
-    }
-};
-
-/**
- * Register an anchor with JsPlumb
- *
- * @param names
- * @param el
- */
-Mautic.campaignBuilderRegisterAnchors = function(names, el) {
-    var id = mQuery(el).attr('id');
-
-    mQuery(names).each(function(key, anchorName) {
-        var theAnchor = Mautic.campaignEndpointDefinitions[anchorName]['anchors'];
-        theAnchor[6] = anchorName.toLowerCase() + ' ' + id;
-        var ep = Mautic.campaignBuilderInstance.addEndpoint(
-            id,
-            {
-                anchor: theAnchor,
-                uuid: id + "_" + anchorName.toLowerCase()
-            },
-            Mautic.campaignEndpoints[anchorName]
-        );
-
-        ep.bind("mouseover", function (endpoint, event) {
-            var epDetails = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-
-            if (!Mautic.campaignHoverCallback(epDetails, endpoint, event)) {
-                return;
-            }
-
-            if (epDetails.anchorName == 'top') {
-                // Don't add a plus sign to a top anchor
-                return;
-            }
-            if(epDetails.anchorName == 'leadsource'){
-                var currentConnections = Mautic.campaignBuilderInstance.select({
-                    source: endpoint.elementId
-                })
-                if(currentConnections.length > 0){
-                    return;
-                }
-            }
-            // // If this is a leadsourceleft or leadsourceright anchor - ensure there are source options available before allowing to add a new
-            // if (epDetails.anchorName == 'leadsourceleft' || epDetails.anchorName == 'leadsourceright') {
-            //     if (mQuery('#SourceList option:enabled').length === 1) {
-            //         // Accounts for empty option
-            //
-            //         return;
-            //     }
-            // }
-
-            // Set color style
-            endpoint.setPaintStyle(
-                {
-                    fill: endpoint.connectorStyle.stroke
-                }
-            );
-
-            var dot = mQuery(endpoint.canvas);
-            dot.addClass('jtk-clickable_anchor');
-
-            if (!dot.find('svg text').length) {
-                // Add a plus sign to SVG
-                var svg = dot.find('svg')[0];
-
-                var textElement = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-                textElement.setAttributeNS(null, 'x', '50%');
-                textElement.setAttributeNS(null, 'y', '50%');
-                textElement.setAttributeNS(null, 'text-anchor', 'middle');
-                textElement.setAttributeNS(null, 'stroke-width', '2px');
-                textElement.setAttributeNS(null, 'stroke', '#ffffff');
-                textElement.setAttributeNS(null, 'dy', '.3em');
-
-                var textNode = document.createTextNode('+');
-                textElement.appendChild(textNode);
-                svg.appendChild(textElement);
-            }
-        });
-
-        ep.bind("mouseout", function (endpoint) {
-            var dot = mQuery(endpoint.canvas);
-            dot.removeClass('jtk-clickable_anchor');
-
-            if (!endpoint.connections.length) {
-                // Set color style
-                endpoint.setPaintStyle(
-                    {
-                        fill: Mautic.campaignBuilderAnchorDefaultColor
-                    }
-                );
-
-            }
-        });
-
-        ep.bind("click", function (endpoint, event) {
-            if (mQuery('#CampaignEvent_newsource').length) {
-                // Can't do anything until a new source is added
-
-                return;
-            }
-
-            var epDetails = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-            if (epDetails.anchorName == 'top') {
-                // Don't do anything for top anchors
-
-                return;
-            }
-
-            // // If this is a leadsourceleft or leadsourceright anchor - ensure there are source options available before allowing to add a new
-            // if (epDetails.anchorName == 'leadsourceleft' || epDetails.anchorName == 'leadsourceright') {
-            //     if (mQuery('#SourceList option:enabled').length === 1) {
-            //         // Accounts for empty option
-            //
-            //         return;
-            //     }
-            // }
-if(epDetails.anchorName == 'leadsource'){
-    var currentConnections = Mautic.campaignBuilderInstance.select({
-        source: endpoint.elementId
-    })
-    if(currentConnections.length > 0){
-return;
-    }
-}
-            // Note the anchor so it can be auto attached after the event is created
-            var epDetails = Mautic.campaignBuilderGetEndpointDetails(endpoint);
-            var clickedAnchorName = epDetails.anchorName;
-            Mautic.campaignBuilderAnchorClicked = endpoint.elementId+'_'+clickedAnchorName;
-            Mautic.campaignBuilderAnchorNameClicked = clickedAnchorName;
-            Mautic.campaignBuilderAnchorEventTypeClicked = epDetails.eventType;
-
-
-            // Get the position of the event
-            var elPos = Mautic.campaignBuilderGetEventPosition(endpoint.element);
-            var spotFound = false,
-                putLeft = elPos.left,
-                putTop = elPos.top,
-                direction = '', // xl, xr, yu, yd
-                fullWidth = Mautic.campaignBuilderEventDimensions.width + Mautic.campaignBuilderEventDimensions.anchor,
-                wiggleWidth = fullWidth + Mautic.campaignBuilderEventDimensions.wiggleWidth,
-                fullHeight = Mautic.campaignBuilderEventDimensions.height + Mautic.campaignBuilderEventDimensions.anchor,
-                wiggleHeight = fullHeight + Mautic.campaignBuilderEventDimensions.wiggleHeight,
-                debug = false;
-
-            if (debug) {
-                console.log(Mautic.campaignBuilderEventPositions);
-                console.log(clickedAnchorName+' - starting with: x = '+ putLeft+', y = '+putTop);
-            }
-            switch (clickedAnchorName) {
-                case 'leadsourceleft':
-                    direction = 'xl';
-                    putLeft -= wiggleWidth;
-                    break;
-                case 'leadsourceright':
-                    direction = 'xr';
-                    putLeft += wiggleWidth;
-                    break;
-                case 'bottom':
-                    direction = 'yd';
-                    putTop += wiggleHeight;
-                    break;
-                case 'yes':
-                case 'leadsource':
-                    // Place slightly to the left of the anchor
-                    putLeft -= Mautic.campaignBuilderEventDimensions.width/2;
-                    putTop  += wiggleHeight;
-                    direction = 'xl';
-                    break;
-                case 'no':
-                    // Place slightly to the left of the anchor
-                    putLeft += Mautic.campaignBuilderEventDimensions.width/2;
-                    putTop  += wiggleHeight;
-                    direction = 'xr';
-                    break;
-                case 'top':
-                    directon = 'yu';
-                    putTop -= wiggleHeight;
-                    break;
-            }
-
-            if (debug) {
-                console.log('Going direction: '+direction);
-                console.log('Start test with: x = '+ putLeft+', y = '+putTop);
-
-            }
-
-            var counter = 0;
-            var windowWidth = mQuery(window).width();
-            while (!spotFound) {
-                // Find out if spot is taken
-                var isOccupied = false;
-                mQuery.each(Mautic.campaignBuilderEventPositions, function (id, pos) {
-                    var l = Math.max(putLeft, pos.left);
-                    var r = Math.min(putLeft + fullWidth, pos.left + fullWidth);
-                    var b = Math.max(putTop, pos.top);
-                    var t = Math.min(putTop + fullHeight, pos.top + fullHeight);
-                    var h = t-b;
-                    var w = r-l;
-                    if (debug) {
-                        console.log('Checking ' + id);
-                        console.log(putLeft, putTop, l,r,b,t,h,w);
-                    }
-
-                    if (h > 0 && w > 0) {
-                        if (debug) {
-                            console.log('Slot occupied by '+id);
-                        }
-
-                        isOccupied = true;
-
-                        // xl, xr, yu, yd
-                        switch (direction) {
-                            case 'xl':
-                                putLeft -= (w + Mautic.campaignBuilderEventDimensions.wiggleWidth);
-                                if (putLeft <= 0) {
-                                    putLeft = 0;
-                                    // Ran out of room so go down
-                                    direction = 'yd';
-                                    putTop += fullHeight + Mautic.campaignBuilderEventDimensions.wiggleHeight;
-                                }
-                                break;
-                            case 'xr':
-                                if (putLeft + w + Mautic.campaignBuilderEventDimensions.wiggleWidth > windowWidth) {
-                                    // Hit right canvas so start going down by default
-                                    direction = 'yd';
-                                    putLeft -= Mautic.campaignBuilderEventDimensions.wiggleWidth;
-                                    putTop += fullHeight + Mautic.campaignBuilderEventDimensions.wiggleHeight;
-                                } else {
-                                    putLeft += (w + Mautic.campaignBuilderEventDimensions.wiggleWidth);
-                                }
-                                break;
-                            case 'yu':
-                                putTop -= (h - Mautic.campaignBuilderEventDimensions.wiggleHeight);
-                                if (putTop <= 0) {
-                                    putTop = 0;
-                                    // Ran out of room going up so try the right
-                                    direction = 'xr';
-                                }
-                                break;
-                            case 'yd':
-                                putTop += (h + Mautic.campaignBuilderEventDimensions.wiggleHeight);
-                                break;
-                        }
-
-                        return false
-                    }
-                });
-
-                if (!isOccupied) {
-                    if (debug) {
-                       console.log('It fits!');
-                    }
-
-                    spotFound = true;
-                }
-
-                counter++;
-                if (counter >= 100) {
-                    putTop = 10;
-                    putLeft = 10;
-                    if (debug) {
-                        console.log('Too many loops');
-                    }
-                    spotFound = true;
-                }
-            }
-
-            if (debug) {
-                console.log('To be placed at: x = '+ putLeft+', y = '+putTop);
-            }
-
-            if (putLeft <= 0) {
-                putLeft = 10;
-            }
-            if (putTop <= 0) {
-                putTop = 10;
-            }
-
-            // Mark the spot
-            mQuery('#droppedX').val(putLeft);
-            mQuery('#droppedY').val(putTop);
-            // Update the event selector
-            var allowedEvents = [];
-            mQuery.each(Mautic.campaignBuilderConnectionsMap[epDetails.eventType][epDetails.anchorName], function (group, eventTypes) {
-                if (eventTypes.length) {
-                    allowedEvents[allowedEvents.length] = group.charAt(0).toUpperCase() + group.substr(1);
-                }
-            });
-            Mautic.campaignBuilderAnchorClickedAllowedEvents = allowedEvents;
-
-            if (!(mQuery('.preview').length)) {
-                var el = (mQuery(event.target).hasClass('jtk-endpoint')) ? event.target : mQuery(event.target).parents('.jtk-endpoint')[0];
-                Mautic.campaignBuilderAnchorClickedPosition = Mautic.campaignBuilderGetEventPosition(el);
-                //Mautic.campaignBuilderUpdateEventList(allowedEvents, false, 'groups');
-            }
-            // Disable the list items not allowed
-            mQuery('.campaign-event-selector:not(#SourceList) option').prop('disabled', false);
-            if ('source' == epDetails.eventType) {
-                var checkSelects = ['action', 'decision', 'condition'];
-            } else {
-                var primaryType       = (epDetails.eventType === 'decision') ? 'action': 'decision';
-                var checkSelects = [primaryType, 'condition'];
-            }
-
-            mQuery.each(checkSelects, function(key, targetType) {
-                var selectId = '#' + targetType.charAt(0).toUpperCase() + targetType.slice(1) + 'List';
-                mQuery(selectId + ' option').each(function () {
-                    var optionVal = mQuery(this).val();
-                    if (optionVal) {
-                        if (!Mautic.campaignBuilderValidateConnection(epDetails, targetType, optionVal)) {
-                            mQuery(this).prop('disabled', true);
-                        }
-                    }
-                });
-                mQuery(selectId).trigger('chosen:updated');
-            })
-            if (epDetails.anchorName != 'leadsourceleft' && epDetails.anchorName != 'leadsourceright') {
-                Mautic.showCampaignTypeModel();
-            }else{
-                Mautic.invokeCampaignSourceNewAction();
-            }
-        });
-    });
-};
-
-/**
- * Extract information about an event/endpoint from element
- *
- * @param el
- * @returns {{left: Number, top: Number}}
- */
-Mautic.campaignBuilderGetEventPosition = function(el) {
-    return {
-        'left': parseInt(mQuery(el).css('left')),
-        'top': parseInt(mQuery(el).css('top'))
-    }
-};
-
-/**
- * Update the event select list
- *
- * @param groups
- * @param hidden
- * @param view
- * @param active
- * @param forcePosition
- */
-Mautic.campaignBuilderUpdateEventList = function (groups, hidden, view, active, forcePosition) {
-    var groupsEnabled = 0;
-    var inGroupsView = ('groups' == view);
-
-    if (groups.length === 1 && mQuery.inArray('Source', groups) !== -1 && !hidden) {
-        // Force groups mode
-        inGroupsView = false;
-    }
-    mQuery.each(['Source', 'Action', 'Decision', 'Condition'], function (key, theGroup) {
-        if (mQuery.inArray(theGroup, groups) !== -1) {
-            if (inGroupsView) {
-                mQuery('#' + theGroup + 'GroupSelector').removeClass('hide');
-
-                if ('source' != theGroup) {
-                    groupsEnabled++;
-                }
-            } else {
-                mQuery('#' + theGroup + 'GroupList').removeClass('hide');
-            }
-        } else {
-            if (inGroupsView) {
-                mQuery('#' + theGroup + 'GroupSelector').addClass('hide');
-            } else {
-                mQuery('#' + theGroup + 'GroupList').addClass('hide');
-            }
-        }
-    });
-
-    if (inGroupsView) {
-        mQuery.each(groups, function (key, theGroup) {
-            mQuery('#'+theGroup+'GroupSelector').removeClass(
-                function (index, css) {
-                    return (css.match(/col-(\S+)/g) || []).join(' ');
-                }
-            ).addClass('col-md-' + (12 / groupsEnabled));
-        });
-
-        var newWidth = (500 / 3) * groupsEnabled;
-        if (newWidth >= mQuery(window).width()) {
-            newWidth = mQuery(window).width() - 10;
-        }
-
-        var leftPos = (forcePosition) ? forcePosition.left : Mautic.campaignBuilderAnchorClickedPosition.left - (newWidth / 2 - 10);
-        var topPos  = (forcePosition) ? forcePosition.top : Mautic.campaignBuilderAnchorClickedPosition.top + 25;
-        mQuery('#CampaignEventPanel').css({
-                left: (leftPos >=0 ) ? leftPos : 10,
-                top: topPos,
-                width: newWidth,
-                height: 280
-            });
-
-        mQuery('#CampaignEventPanel').removeClass('hide');
-        mQuery('#CampaignEventPanelGroups').removeClass('hide');
-        mQuery('#CampaignEventPanelLists').addClass('hide');
-    } else {
-
-        mQuery('#CampaignEventPanelGroups').addClass('hide');
-
-       if (groups.length === 1 && groups[0] != 'Source') {
-
-                var leftPos = (forcePosition) ? forcePosition.left : Mautic.campaignBuilderAnchorClickedPosition.left - 125;
-                var topPos  = (forcePosition) ? forcePosition.top : Mautic.campaignBuilderAnchorClickedPosition.top + 25;
-                mQuery('#CampaignEventPanel').css({
-                    left: (leftPos >= 0) ? leftPos : 10,
-                    top: topPos,
-                    width: 300,
-                    height: 80,
-                });
-                mQuery('#CampaignEventPanelLists').removeClass('hide');
-                mQuery('#CampaignEventPanel').removeClass('hide');
-                setTimeout(function () {
-                    // Activate chosen
-                    mQuery('#CampaignEventPanelLists #' + groups[0] + 'List').trigger('chosen:open');
-                }, 10);
-
-
-        }else if (groups.length === 1 && groups[0] == 'Source'){
-            Mautic.invokeCampaignSourceNewAction();
-        }
-    }
-};
-
-/**
- *
- * @param endpoint
- * @param nameOnly
- * @returns {{endpointName: *, elementId: *}}
- */
-Mautic.campaignBuilderGetEndpointDetails = function(endpoint) {
-    var anchorName, eventId;
-
-    if (typeof endpoint === 'string') {
-        eventId = endpoint;
-    } else {
-        var parts = endpoint.anchor.cssClass.split(' ');
-        if (parts.length > 1) {
-            anchorName = parts[0];
-            eventId = parts[1];
-        } else {
-            anchorName = parts[0];
-            eventId = endpoint.elementId
-        }
-    }
-
-    return {
-        'anchorName': anchorName,
-        'eventId': eventId.replace('CampaignEvent_', ''),
-        'elementId' : eventId,
-        'eventType': mQuery('#'+eventId).data('type'),
-        'event': mQuery('#'+eventId).data('event')
-    };
-};
-
-/**
- * Display new source when required
- */
-Mautic.campaignBuilderPrepareNewSource = function () {
-    var newSourcePos = {
-        left: mQuery(window).width()/2 - 100,
-        top: 50
-    };
-
-    mQuery('#CampaignEvent_newsource').css(newSourcePos);
-    mQuery('#CampaignEvent_newsource').off('.eventbuttons')
-        .on('dblclick.eventbuttons', function(event) {
-            event.preventDefault();
-            Mautic.invokeCampaignSourceNewAction();
-        });
-
-    // Mautic.campaignBuilderUpdateEventList(['Source'], false, 'list', false, {
-    //     left: newSourcePos.left - 50,
-    //     top: newSourcePos.top + 35
-    // });
-    // mQuery('#SourceList').trigger('chosen:open');
-};
-
-/**
- *
- * @param epDetails
- * @param optionVal
- * @returns {boolean}
- */
-Mautic.campaignBuilderValidateConnection = function (epDetails, targetType, targetEvent) {
-    var valid = true;
-    var sourceType  = epDetails.eventType;
-    var sourceEvent = 'source' === sourceType ? sourceType : epDetails.event;
-
-    if (typeof Mautic.campaignBuilderConnectionRestrictions[targetEvent] !== 'undefined') {
-        if ('source' === sourceEvent) {
-            // If there are any restrictions, then don't allow it to be the target of the campaign source
-            mQuery.each(Mautic.campaignBuilderConnectionRestrictions[targetEvent]['source'], function(eventType, events) {
-                if (events.length) {
-                    valid = false;
-
-                    // break the loop
-                    return false;
-                }
-            });
-
-            return valid;
-        }
-
-        if (
-            typeof Mautic.campaignBuilderConnectionRestrictions[targetEvent]['source'][sourceType] !== 'undefined' &&
-            Mautic.campaignBuilderConnectionRestrictions[targetEvent]['source'][sourceType].length &&
-            mQuery.inArray(sourceEvent, Mautic.campaignBuilderConnectionRestrictions[targetEvent]['source'][sourceType]) === -1
-        ) {
-            // If the source event is not included in the source list of the target event, then don't allow it
-            valid = false;
-        }
-    }
-
-    if (
-        typeof Mautic.campaignBuilderConnectionRestrictions[sourceEvent] !== 'undefined' &&
-        typeof Mautic.campaignBuilderConnectionRestrictions[sourceEvent]['target'][targetType] !== 'undefined' &&
-        Mautic.campaignBuilderConnectionRestrictions[sourceEvent]['target'][targetType].length
-    ) {
-        // If the target event is defined in the target list of the source event, then allow it; otherwise don't allow it
-        valid = (mQuery.inArray(targetEvent, Mautic.campaignBuilderConnectionRestrictions[sourceEvent]['target'][targetType]) !== -1);
-    }
-
-    if (
-        typeof Mautic.campaignBuilderConnectionRestrictions['anchor'][sourceType] !== 'undefined' &&
-        typeof Mautic.campaignBuilderConnectionRestrictions['anchor'][sourceType][targetEvent] !== 'undefined'
-    ) {
-        mQuery(Mautic.campaignBuilderConnectionRestrictions['anchor'][sourceType][targetEvent]).each(
-            function(key, anchor) {
-                switch (anchor) {
-                    case 'inaction':
-                        anchor = 'no';
-                        break;
-                    case 'action':
-                        anchor = 'yes';
-                        break;
-                }
-
-                if (anchor == epDetails.anchorName) {
-                    valid = false;
-
-                    // Break form the loop
-                    return false;
-                }
-            }
-        );
-    }
-
-    return valid;
-};
-
-/**
- *
- * @param eventId
- * @param contactId
- */
-Mautic.updateScheduledCampaignEvent = function(eventId, contactId) {
-    // Convert scheduled date/time to an input
-    mQuery('#timeline-campaign-event-'+eventId+' .btn-edit').prop('disabled', true).addClass('disabled');
-
-    var converting = false;
-    var eventWrapper = '#timeline-campaign-event-'+eventId;
-    var eventSpan = '.timeline-campaign-event-date-'+eventId;
-    var eventText = '#timeline-campaign-event-text-'+eventId;
-    var originalDate = mQuery(eventWrapper+' '+eventSpan).first().text();
-    var revertInput = function(input) {
-        converting = true;
-        mQuery(input).datetimepicker('destroy');
-        mQuery(eventSpan).text(originalDate);
-        mQuery(eventWrapper+' .btn').prop('disabled', false).removeClass('disabled');
-    };
-
-    var date = mQuery(eventSpan).attr('data-date');
-    var input = mQuery('<input type="text" id="timeline-reschedule"/>')
-        .css('height', '20px')
-        .css('color', '#000000')
-        .val(date)
-        .on('keyup', function(e) {
-            var code = e.keyCode || e.which;
-            if (code == 13) {
-                e.preventDefault();
-                converting = true
-                mQuery(input).prop('readonly', true);
-                mQuery(input).datetimepicker('destroy');
-                Mautic.ajaxActionRequest('campaign:updateScheduledCampaignEvent',
-                    {
-                        eventId: eventId,
-                        contactId: contactId,
-                        date: mQuery(this).val(),
-                        originalDate: date
-                    }, function (response) {
-                        mQuery(eventSpan).text(response.formattedDate);
-                        mQuery(eventSpan).attr('data-data', response.date);
-                        mQuery(eventWrapper+' .btn').prop('disabled', false).removeClass('disabled');
-
-                        if (response.success) {
-                            mQuery(eventText).removeClass('text-warning').addClass('text-info');
-                            mQuery(eventSpan).css('textDecoration', 'inherit');
-                            mQuery('.fa.timeline-campaign-event-cancelled-'+eventId).remove();
-                            mQuery('.timeline-campaign-event-scheduled-'+eventId).removeClass('hide');
-                            mQuery('.timeline-campaign-event-cancelled-'+eventId).addClass('hide');
-                        }
-                    }, false
-                );
-            } else if (code == 27) {
-                e.preventDefault();
-                revertInput(input);
-            }
-        })
-        .on('blur', function (e) {
-            if (!converting) {
-                revertInput(input);
-            }
-        });
-    mQuery('#timeline-campaign-event-'+eventId+' '+eventSpan).html(input);
-    Mautic.activateDateTimeInputs('#timeline-reschedule');
-};
-
-/**
- *
- * @param eventId
- * @param contactId
- */
-Mautic.cancelScheduledCampaignEvent = function(eventId, contactId) {
-    mQuery('#timeline-campaign-event-'+eventId+' .btn').prop('disabled', true).addClass('disabled');
-    var eventWrapper = '#timeline-campaign-event-'+eventId;
-    var eventSpan = '.timeline-campaign-event-date-' + eventId;
-    var eventText = '#timeline-campaign-event-text-' + eventId;
-    Mautic.ajaxActionRequest('campaign:cancelScheduledCampaignEvent',
-        {
-            eventId: eventId,
-            contactId: contactId,
-        }, function (response) {
-            if (response.success) {
-                mQuery(eventText).removeClass('text-info').addClass('text-warning');
-                mQuery(eventWrapper+' .btn-edit').prop('disabled', false).removeClass('disabled');
-                mQuery('.timeline-campaign-event-scheduled-'+eventId).addClass('hide');
-                mQuery('.timeline-campaign-event-cancelled-'+eventId).removeClass('hide');
-            } else {
-                mQuery(eventWrapper+' .btn').prop('disabled', false).removeClass('disabled');
-            }
-        }, false
-    );
-};
-Mautic.invokeCampaignEventNewAction=function(){
-    var actionListEl=mQuery('#ActionGroupList #ActionList');
-    var firstactionEl=actionListEl.children().eq(1);
-    if(typeof firstactionEl != 'undefined'){
-        if (firstactionEl.attr('data-href') && Mautic.campaignBuilderAnchorNameClicked) {
-            var updatedUrl = firstactionEl.attr('data-href').replace(/anchor=(.*?)$/, "anchor=" + Mautic.campaignBuilderAnchorNameClicked + "&anchorEventType=" + Mautic.campaignBuilderAnchorEventTypeClicked);
-            // Replace the anchor in the URL with that clicked
-            firstactionEl.attr('data-href', updatedUrl);
-        }
-        if (!mQuery('#CampaignEvent_newsource').length) {
-            // Hide the CampaignEventPanel if visible
-            mQuery('#CampaignEventPanel').addClass('hide');
-        }
-        //  alert("Action Url-->"+firstactionEl.attr('data-href'));
-        // Display the modal with form
-        Mautic.ajaxifyModal(firstactionEl);
-    }
-};
-
-Mautic.invokeCampaignSourceNewAction=function(){
-    var campaignId = mQuery('#campaignId').val();
-    var posturl = mQuery('#campaign-new-request-url').attr('data-href');
-    var route = posturl + "?type=lists"+"&eventType=source&campaignId=" + campaignId
-    var divelement = document.createElement("div");
-    divelement.setAttribute('data-target', '#CampaignEventModal');
-    divelement.setAttribute('data-href', route);
-   // alert("Path:"+route);
-   Mautic.ajaxifyModal(divelement);
-};
-Mautic.invokeCampaignDecisionNewAction=function(){
-    var campaignId = mQuery('#campaignId').val();
-    var posturl = mQuery('#campaign-new-request-url').attr('data-href');
-    var route = posturl + "?type=lead.campaign_list_filter"+"&eventType=condition&campaignId=" + campaignId
-    if(Mautic.campaignBuilderAnchorNameClicked){
-        route=route+"&anchor=" + Mautic.campaignBuilderAnchorNameClicked + "&anchorEventType=" + Mautic.campaignBuilderAnchorEventTypeClicked
-    }
-    var divelement = document.createElement("div");
-    divelement.setAttribute('data-target', '#CampaignEventModal');
-    divelement.setAttribute('data-href', route);
-    // alert("Path:"+route);
-    Mautic.ajaxifyModal(divelement);
-};
-Mautic.selectCampaignType=function(eventType){
-Mautic.closeCampaignTypeModel();
-    if(eventType == 'Action'){
-        Mautic.invokeCampaignEventNewAction();
-    }else{
-        Mautic.invokeCampaignDecisionNewAction();
-    }
-};
-Mautic.closeCampaignTypeModel=function(){
-    mQuery('.campaignevent-type-modal-backdrop').addClass('hide');
-    mQuery('.campaignevent-type-modal').addClass('hide');
-    mQuery('.campaignevent-type-modal').removeClass('in');
-}
-
-Mautic.showCampaignTypeModel=function(){
-    mQuery('.campaignevent-type-modal').addClass('in');
-    mQuery('.campaignevent-type-modal-backdrop').removeClass('hide');
-    mQuery('.campaignevent-type-modal').removeClass('hide');
-
-}

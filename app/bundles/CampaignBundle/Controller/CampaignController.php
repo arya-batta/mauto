@@ -18,7 +18,6 @@ use Mautic\CampaignBundle\Model\EventModel;
 use Mautic\CoreBundle\Controller\AbstractStandardFormController;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -275,38 +274,12 @@ class CampaignController extends AbstractStandardFormController
             $campaign->addEvent($tempEventId, $clone);
         }
 
-        // Update canvas settings with new event ids
+//        // Update canvas settings with new event ids
         $canvasSettings = $campaign->getCanvasSettings();
-        if (isset($canvasSettings['nodes'])) {
-            foreach ($canvasSettings['nodes'] as &$node) {
-                // Only events and not lead sources
-                if (is_numeric($node['id'])) {
-                    $node['id'] = 'new'.$node['id'];
-                }
-            }
-        }
-
-        if (isset($canvasSettings['connections'])) {
-            foreach ($canvasSettings['connections'] as &$c) {
-                // Only events and not lead sources
-                if (is_numeric($c['sourceId'])) {
-                    $c['sourceId'] = 'new'.$c['sourceId'];
-                }
-
-                // Only events and not lead sources
-                if (is_numeric($c['targetId'])) {
-                    $c['targetId'] = 'new'.$c['targetId'];
-                }
-            }
-        }
 
         // Simulate edit
         $campaign->setCanvasSettings($canvasSettings);
         $this->setSessionCanvasSettings($tempId, $canvasSettings);
-        $tempId = $this->getCampaignSessionId($campaign, 'clone', $tempId);
-
-        $campaignSources = $this->getCampaignModel()->getLeadSources($objectId);
-        $this->prepareCampaignSourcesForEdit($tempId, $campaignSources);
     }
 
     /**
@@ -358,13 +331,10 @@ class CampaignController extends AbstractStandardFormController
         //set added/updated events
         list($this->modifiedEvents, $this->deletedEvents, $this->campaignEvents) = $this->getSessionEvents($sessionId);
 
-        //set added/updated sources
-        //list($this->addedSources, $this->deletedSources, $campaignSources) = $this->getSessionSources($sessionId, $isClone);
         $this->connections                                                 = $this->getSessionCanvasSettings($sessionId);
 
         if ($isPost) {
             $this->getCampaignModel()->setCanvasSettings($entity, $this->connections, false, $this->modifiedEvents);
-        //  $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources, true);
         } else {
             if (!$isClone) {
                 //clear out existing fields in case the form was refreshed, browser closed, etc
@@ -372,9 +342,6 @@ class CampaignController extends AbstractStandardFormController
                 $this->modifiedEvents = $this->campaignSources = [];
 
                 if ($entity->getId()) {
-                    //   $campaignSources = $this->getCampaignModel()->getLeadSources($entity->getId());
-                    //     $this->prepareCampaignSourcesForEdit($sessionId, $campaignSources);
-
                     $this->setSessionCanvasSettings($sessionId, $entity->getCanvasSettings());
                 }
             }
@@ -382,8 +349,11 @@ class CampaignController extends AbstractStandardFormController
             $this->deletedEvents = [];
 
             $form->get('sessionId')->setData($sessionId);
-
-            $this->prepareCampaignEventsForEdit($entity, $sessionId, $isClone);
+            if ($action == 'new') {
+                $this->prepareCampaignEventsForNew($entity, $sessionId);
+            } else {
+                $this->prepareCampaignEventsForEdit($entity, $sessionId, $isClone);
+            }
         }
     }
 
@@ -398,28 +368,6 @@ class CampaignController extends AbstractStandardFormController
      */
     protected function beforeEntitySave($entity, Form $form, $action, $objectId = null, $isClone = false)
     {
-        if (!$this->checkCampaignSourceExists($this->campaignEvents)) {
-            //set the error
-            $form->addError(
-                new FormError(
-                    $this->get('translator')->trans('mautic.campaign.form.sources.notempty', [], 'validators')
-                )
-            );
-
-            return true; //not validating campaign events
-        }
-
-        if (empty($this->campaignEvents)) {
-            //set the error
-            $form->addError(
-                new FormError(
-                    $this->get('translator')->trans('mautic.campaign.form.events.notempty', [], 'validators')
-                )
-            );
-
-            return true; //not validating campaign sources.
-        }
-
         if ($isClone) {
             // If this is a clone, we need to save the entity first to properly build the events, sources and canvas settings
             $this->getCampaignModel()->getRepository()->saveEntity($entity);
@@ -427,9 +375,6 @@ class CampaignController extends AbstractStandardFormController
             $entity->setNew();
             $this->sessionId = $entity->getId();
         }
-
-        // Set lead sources
-        // $this->getCampaignModel()->setLeadSources($entity, $this->addedSources, $this->deletedSources);
 
         // Build and set Event entities
         $this->getCampaignModel()->setEvents($entity, $this->campaignEvents, $this->connections, $this->deletedEvents);
@@ -443,19 +388,6 @@ class CampaignController extends AbstractStandardFormController
         }
 
         return true;
-    }
-
-    private function checkCampaignSourceExists($campaignEvents)
-    {
-        $isExists=false;
-        foreach ($campaignEvents as $key => $event) {
-            if ($event['eventType'] == 'source') {
-                $isExists=true;
-                break;
-            }
-        }
-
-        return $isExists;
     }
 
     /**
@@ -879,14 +811,12 @@ class CampaignController extends AbstractStandardFormController
         $dateHelper     = $this->get('mautic.helper.template.date');
         foreach ($existingEvents as $e) {
             $event = $e->convertToArray();
-
             if ($isClone) {
                 $id          = $e->getTempId();
                 $event['id'] = $id;
             } else {
-                $id = $e->getId();
+                $id =$e->getId();
             }
-
             unset($event['campaign']);
             unset($event['children']);
             unset($event['parent']);
@@ -972,5 +902,60 @@ class CampaignController extends AbstractStandardFormController
     protected function getSessionCanvasSettings($sessionId)
     {
         return $this->get('session')->get('mautic.campaign.'.$sessionId.'.events.canvassettings');
+    }
+
+    /**
+     * @param   $events
+     */
+    protected function prepareCampaignEventsForNew($entity, $objectId)
+    {
+        $events              =$this->getModel('campaign')->getEvents();
+        $tempsourceid        =hash('sha1', uniqid(mt_rand()));
+        $defaultdrigger      = [
+            'id'              => $tempsourceid,
+            'tempId'          => $tempsourceid,
+            'type'            => 'campaign.defaultsource',
+            'eventType'       => 'source',
+            'campaignId'      => $objectId,
+            'anchor'          => '',
+            'anchorEventType' => '',
+            'settings'        => $events['source']['campaign.defaultsource'],
+            'name'            => $this->get('translator')->trans($events['source']['campaign.defaultsource']['label']),
+        ];
+        $campaignEvents[$tempsourceid]=$defaultdrigger;
+        $tempactionid                 =hash('sha1', uniqid(mt_rand()));
+        $defaultaction                = [
+            'id'              => $tempactionid,
+            'tempId'          => $tempactionid,
+            'type'            => 'campaign.defaultexit',
+            'eventType'       => 'action',
+            'campaignId'      => $objectId,
+            'anchor'          => '',
+            'anchorEventType' => '',
+            'settings'        => $events['action']['campaign.defaultexit'],
+            'name'            => $this->get('translator')->trans($events['action']['campaign.defaultexit']['label']),
+        ];
+        $campaignEvents[$tempactionid]=$defaultaction;
+        $this->modifiedEvents         = $this->campaignEvents         = $campaignEvents;
+        $this->get('session')->set('mautic.campaign.'.$objectId.'.events.modified', $campaignEvents);
+        $defaultcanvassettings            =[];
+        $defaultcanvassettings['id']      =hash('sha1', uniqid(mt_rand()));
+        $defaultcanvassettings['type']    ='path';
+        $defaulttriggers                  =[];
+        $defaulttriggers['id']            =$tempsourceid;
+        $defaulttriggers['type']          ='trigger';
+        $defaulttriggers['category']      ='source';
+        $defaulttriggers['subcategory']   ='campaign.defaultsource';
+        $defaulttriggers['entry_point']   =true;
+        $defaulttriggers['view']          =['label'=> 'Define your trigger...', 'incomplete'=>true];
+        $defaultaction                    =[];
+        $defaultaction['id']              =$tempactionid;
+        $defaultaction['type']            ='exit';
+        $defaultaction['category']        ='action';
+        $defaultaction['subcategory']     ='campaign.defaultexit';
+        $defaultsteps                     =[$defaultaction];
+        $defaultcanvassettings['triggers']=[$defaulttriggers];
+        $defaultcanvassettings['steps']   =$defaultsteps;
+        $entity->setCanvasSettings(json_encode($defaultcanvassettings));
     }
 }

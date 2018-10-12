@@ -140,36 +140,45 @@ class LeadSubscriber extends CommonSubscriber
         $repo   = $this->campaignModel->getRepository();
 
         //get campaigns for the list
-        $listCampaigns = $repo->getPublishedCampaignsByLeadLists($list->getId());
+        //$listCampaigns = $repo->getPublishedCampaignsByLeadLists($list->getId());
+        $listCampaigns = $repo->getPublishedCampaignbySourceType('lists');
 
-        $leadLists   = $this->leadModel->getLists($lead, true);
-        $leadListIds = array_keys($leadLists);
+        //$leadLists   = $this->leadModel->getLists($lead, true);
+        // $leadListIds = array_keys($leadLists);
 
         // If the lead was removed then don't count it
-        if ($action == 'removed') {
-            $key = array_search($list->getId(), $leadListIds);
-            unset($leadListIds[$key]);
-        }
-
+        // if ($action == 'removed') {
+        // $key = array_search($list->getId(), $leadListIds);
+        // unset($leadListIds[$key]);
+        // }
         if (!empty($listCampaigns)) {
             foreach ($listCampaigns as $c) {
-                $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    //                if (!isset($campaignLists[$c['id']])) {
+//                    $campaignLists[$c['id']] = array_keys($properties['lists']);
+//                }
 
-                if (!isset($campaignLists[$c['id']])) {
-                    $campaignLists[$c['id']] = array_keys($c['lists']);
-                }
-
-                if ($action == 'added') {
-                    $this->campaignModel->addLead($campaign, $lead);
-                } else {
-                    if (array_intersect($leadListIds, $campaignLists[$c['id']])) {
-                        continue;
+                    if ($action == 'added') {
+                        if (in_array($list->getId(), $properties['lists'])) {
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                        }
                     }
+//                else {
+//                    if (array_intersect($leadListIds, $campaignLists[$c['id']])) {
+//                        continue;
+//                    }
+//
+//                    $this->campaignModel->removeLead($campaign, $lead);
+//                }
 
-                    $this->campaignModel->removeLead($campaign, $lead);
+                    unset($campaign);
                 }
-
-                unset($campaign);
             }
         }
     }
@@ -183,11 +192,15 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-
-                $this->campaignModel->addLead($campaign, $lead);
-
-                unset($campaign);
+                foreach ($c as $event) {
+                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    if ($event['goal'] != 'interrupt') {
+                        $this->campaignModel->addLead($campaign, $lead);
+                    } else {
+                        $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                    }
+                    unset($campaign);
+                }
             }
         }
     }
@@ -198,21 +211,25 @@ class LeadSubscriber extends CommonSubscriber
         //get campaigns for the list
         $repo              = $this->campaignModel->getRepository();
         $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('leadtags');
-
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-
-                if (!empty($lead->getTags())) {
-                    foreach ($lead->getTags() as $tag) {
-                        if (in_array($tag->getTag(), $properties['tags'])) {
-                            $this->campaignModel->addLead($campaign, $lead);
-
-                            unset($campaign);
-                            break;
-                        } else {
-                            $this->campaignModel->removeLead($campaign, $lead);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    if (!empty($lead->getTags())) {
+                        foreach ($lead->getTags() as $tag) {
+                            if (in_array($tag->getTag(), $properties['tags'])) {
+                                if ($event['goal'] != 'interrupt') {
+                                    $this->campaignModel->addLead($campaign, $lead);
+                                } else {
+                                    $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                                }
+                                unset($campaign);
+                                break;
+                            }
+//                            else {
+//                                $this->campaignModel->removeLead($campaign, $lead);
+//                            }
                         }
                     }
                 }
@@ -229,13 +246,17 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
-                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-
-                    $this->campaignModel->addLead($campaign, $lead);
-
-                    unset($campaign);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
+                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
                 }
             }
         }
@@ -252,12 +273,17 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                if (in_array($asset->getId(), $properties['assets'])) {
-                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-                    $this->campaignModel->addLead($campaign, $lead);
-
-                    unset($campaign);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    if (in_array($asset->getId(), $properties['assets'])) {
+                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
                 }
             }
         }
@@ -273,14 +299,20 @@ class LeadSubscriber extends CommonSubscriber
         $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('openEmail');
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-                if ($email != null && in_array($email->getId(), $properties['email'])) {
-                    $this->campaignModel->addLead($campaign, $lead);
-
-                    unset($campaign);
-                } else {
-                    $this->campaignModel->removeLead($campaign, $lead);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    if ($email != null && in_array($email->getId(), $properties['email'])) {
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
+//                    else {
+//                        $this->campaignModel->removeLead($campaign, $lead);
+//                    }
                 }
             }
         }
@@ -297,14 +329,20 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
-                if ($email != null && in_array($email->getId(), $properties['email'])) {
-                    $this->campaignModel->addLead($campaign, $lead);
-
-                    unset($campaign);
-                } else {
-                    $this->campaignModel->removeLead($campaign, $lead);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    if ($email != null && in_array($email->getId(), $properties['email'])) {
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
+//                    else {
+//                        $this->campaignModel->removeLead($campaign, $lead);
+//                    }
                 }
             }
         }
@@ -320,68 +358,72 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
-                $properties = unserialize($c['properties']);
-                $result     = false;
-                if ($pagehit instanceof Page) {
-                    list($parent, $children) = $pagehit->getVariants();
-                    //use the parent (self or configured parent)
-                    $pageHitId = $parent->getId();
-                } elseif ($pagehit instanceof Hit) {
-                    $pageHitId = $pagehit->getPage();
-                } else {
-                    $pageHitId = 0;
-                }
-
-                $limitToPages = (isset($properties['pages'])) ? $properties['pages'] : [];
-
-                $urlMatches = [];
-
-                // Check Landing Pages URL or Tracing Pixel URL
-                if (isset($properties['url']) && $properties['url']) {
-                    $pageUrl     = $pagehit->getUrl();
-                    $limitToUrls = explode(',', $properties['url']);
-
-                    foreach ($limitToUrls as $url) {
-                        $url              = trim($url);
-                        $urlMatches[$url] = fnmatch($url, $pageUrl);
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $result     = false;
+                    if ($pagehit instanceof Page) {
+                        list($parent, $children) = $pagehit->getVariants();
+                        //use the parent (self or configured parent)
+                        $pageHitId = $parent->getId();
+                    } elseif ($pagehit instanceof Hit) {
+                        $pageHitId = $pagehit->getPage();
+                    } else {
+                        $pageHitId = 0;
                     }
-                }
 
-                $refererMatches = [];
+                    $limitToPages = (isset($properties['pages'])) ? $properties['pages'] : [];
 
-                // Check Landing Pages URL or Tracing Pixel URL
-                if (isset($properties['referer']) && $properties['referer']) {
-                    $refererUrl      = $pagehit->getReferer();
-                    $limitToReferers = explode(',', $properties['referer']);
+                    $urlMatches = [];
 
-                    foreach ($limitToReferers as $referer) {
-                        $referer                  = trim($referer);
-                        $refererMatches[$referer] = fnmatch($referer, $refererUrl);
+                    // Check Landing Pages URL or Tracing Pixel URL
+                    if (isset($properties['url']) && $properties['url']) {
+                        $pageUrl     = $pagehit->getUrl();
+                        $limitToUrls = explode(',', $properties['url']);
+
+                        foreach ($limitToUrls as $url) {
+                            $url              = trim($url);
+                            $urlMatches[$url] = fnmatch($url, $pageUrl);
+                        }
                     }
-                }
 
-                // **Page hit is true if:**
-                // 1. no landing page is set and no URL rule is set
-                $applyToAny = (empty($properties['url']) && empty($properties['referer']) && empty($limitToPages));
+                    $refererMatches = [];
 
-                // 2. some landing pages are set and page ID match
-                $langingPageIsHit = (!empty($limitToPages) && in_array($pageHitId, $limitToPages));
+                    // Check Landing Pages URL or Tracing Pixel URL
+                    if (isset($properties['referer']) && $properties['referer']) {
+                        $refererUrl      = $pagehit->getReferer();
+                        $limitToReferers = explode(',', $properties['referer']);
 
-                // 3. URL rule is set and match with URL hit
-                $urlIsHit = (!empty($properties['url']) && in_array(true, $urlMatches));
+                        foreach ($limitToReferers as $referer) {
+                            $referer                  = trim($referer);
+                            $refererMatches[$referer] = fnmatch($referer, $refererUrl);
+                        }
+                    }
 
-                // 3. URL rule is set and match with URL hit
-                $refererIsHit = (!empty($properties['referer']) && in_array(true, $refererMatches));
+                    // **Page hit is true if:**
+                    // 1. no landing page is set and no URL rule is set
+                    $applyToAny = (empty($properties['url']) && empty($properties['referer']) && empty($limitToPages));
 
-                if ($langingPageIsHit || $urlIsHit || $refererIsHit) {
-                    $result = true;
-                }
-                if ($result) {
-                    $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $c['id']);
+                    // 2. some landing pages are set and page ID match
+                    $langingPageIsHit = (!empty($limitToPages) && in_array($pageHitId, $limitToPages));
 
-                    $this->campaignModel->addLead($campaign, $lead);
+                    // 3. URL rule is set and match with URL hit
+                    $urlIsHit = (!empty($properties['url']) && in_array(true, $urlMatches));
 
-                    unset($campaign);
+                    // 3. URL rule is set and match with URL hit
+                    $refererIsHit = (!empty($properties['referer']) && in_array(true, $refererMatches));
+
+                    if ($langingPageIsHit || $urlIsHit || $refererIsHit) {
+                        $result = true;
+                    }
+                    if ($result) {
+                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
                 }
             }
         }
