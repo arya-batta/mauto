@@ -215,6 +215,7 @@ if (count($items)):
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
+                                           data-header="<?php echo $item->getName() ?> Preview"
                                            title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
                                            href="<?php echo $view['router']->path('mautic_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                             <i class="material-icons md-color-white">  </i> </a>

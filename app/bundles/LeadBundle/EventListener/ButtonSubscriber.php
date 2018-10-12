@@ -61,7 +61,7 @@ class ButtonSubscriber extends CommonSubscriber
                         'data-toggle' => null,
                     ],
                     'btnText'   => $this->translator->trans('mautic.core.export'),
-                    'iconClass' => 'fa fa-download',
+                    'iconClass' => 'fa fa-download btn-nospin',
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );

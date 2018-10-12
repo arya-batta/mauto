@@ -66,6 +66,7 @@ if (!empty($fields['core']['email']['value'])) {
 if ($edit) {
     $buttons[] = [
         'attr' => [
+            'class'       => $security->isAdmin() ? '' : 'hide',
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
@@ -85,6 +86,7 @@ if ($edit) {
 if ($view['security']->isGranted('campaign:campaigns:edit')) {
     $buttons[] = [
         'attr' => [
+            'class'       => $security->isAdmin() ? '' : 'hide',
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
