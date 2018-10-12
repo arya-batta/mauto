@@ -614,7 +614,7 @@ class EmailCampaignController extends FormController
                     }
                     $assets         = $form['assetAttachments']->getData();
                     $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
-                    if($attachmentSize == 'failed') {
+                    if ($attachmentSize != 0 && $attachmentSize == 'failed') {
                         $delassets=$assets;
                         foreach ($assets as $asset) {
                             $entity->removeAssetAttachment($asset);
@@ -934,7 +934,7 @@ class EmailCampaignController extends FormController
                     }
                     $assets         = $form['assetAttachments']->getData();
                     $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
-                    if($attachmentSize == 'failed') {
+                    if ($attachmentSize != 0 && $attachmentSize == 'failed') {
                         $tmpassets=$assets;
                         foreach ($assets as $asset) {
                             $entity->removeAssetAttachment($asset);
@@ -1985,17 +1985,18 @@ class EmailCampaignController extends FormController
             'email_id'
         );
     }
-    public function getassets($assets){
+
+    public function getassets($assets)
+    {
         $last = sizeof($assets);
-        for($i = 0;$i < $last-1;$i++)
-        {
+        for ($i = 0; $i < $last - 1; ++$i) {
             $correctassets[] = $assets[$i];
         }
         $attachmentSize = $this->getModel('asset')->getTotalFilesize($correctassets);
-        if($attachmentSize == 'failed'){
+        if ($attachmentSize == 'failed') {
             $correctassets = $this->getassets($correctassets);
         }
-        return $correctassets;
 
+        return $correctassets;
     }
 }
