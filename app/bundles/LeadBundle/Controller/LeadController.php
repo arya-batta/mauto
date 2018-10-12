@@ -588,7 +588,7 @@ class LeadController extends FormController
             $fields      =$this->getQuickAddFields();
             $formtemplate='quickadd';
             if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-                $this->redirectToPricing();
+                return $this->redirectToPricing();
             }
         } else {
             if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
@@ -621,26 +621,7 @@ class LeadController extends FormController
                     ]
                 );
             }
-        } elseif ($inQuickForm) {
-            $viewParameters = ['page' => $page];
-            $returnUrl      = $this->generateUrl('mautic_contact_index', $viewParameters);
-            $template       = 'MauticLeadBundle:Lead:index';
-            $this->addFlash('mautic.record.count.exceeds');
-
-            return $this->postActionRedirect(
-                [
-                    'returnUrl'       => $returnUrl,
-                    'viewParameters'  => $viewParameters,
-                    'contentTemplate' => $template,
-                    'passthroughVars' => [
-                        'activeLink'    => '#mautic_contact_index',
-                        'mauticContent' => 'lead',
-                        'closeModal'    => 1, //just in case in quick form
-                    ],
-                ]
-            );
         }
-
         $form = $model->createForm($lead, $this->get('form.factory'), $action, ['fields' => $fields, 'isShortForm' => $inQuickForm]);
 
         ///Check for a submitted form and process it
