@@ -104,7 +104,7 @@ $custombutton = [
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
             'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
-            'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;z-index:499;margin-top:105px;',
+            'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;z-index:499;top:40px;',
         ],
     ],
 ];
@@ -118,7 +118,7 @@ $isgoogletags= false; //$email->getGoogletags();
             <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>CONTENT</a></li>
             <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
             <div class="le-builder-btn col-md-6<?php  echo $hideadvanceeditor; ?>" style="width: 65%;float: right;">
-                <div id="builder_btn" class="hide" style="margin-left: 385px;">
+                <div id="builder_btn" class="hide" style="margin-left: 385px;position: absolute;top: -37px;right: 0;">
                     <?php echo $view->render(
                         'MauticCoreBundle:Helper:page_actions.html.php',
                         [
@@ -127,7 +127,7 @@ $isgoogletags= false; //$email->getGoogletags();
                             'customButtons' => $custombutton,
                         ]
                     ); ?>
-                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 40px;margin-top: 105px" data-toggle="ajax">
+                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
                         <span>
                             <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                         </span>

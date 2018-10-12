@@ -67,7 +67,7 @@ $custombutton = [
                     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
                         <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
                         <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
-                        <div class="le-builder-btn col-md-6" style="width: 50%;float: right;">
+                        <div class="le-builder-btn col-md-6" style="width: 50%;float: right;position: absolute;top: 5px;right: 0;">
                             <div id="builder_btn" class="hide" style="margin-left: 385px;">
                                 <?php echo $view->render(
                                     'MauticCoreBundle:Helper:page_actions.html.php',
