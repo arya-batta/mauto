@@ -262,7 +262,7 @@ class CampaignController extends AbstractStandardFormController
 
         // Clone the campaign's events
         foreach ($events as $event) {
-            $tempEventId = 'new'.$event->getId();
+            $tempEventId = $event->getId();
 
             $clone = clone $event;
             $clone->setCampaign($campaign);

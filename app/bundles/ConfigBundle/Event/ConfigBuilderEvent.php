@@ -47,7 +47,7 @@ class ConfigBuilderEvent extends Event
      */
     protected $encodedFields   = [];
     private $allowedformsalias = [
-        'emailconfig', 'trackingconfig', 'apiconfig', 'smsconfig', 'pageconfig',
+        'emailconfig', 'trackingconfig', 'apiconfig', 'smsconfig', 'pageconfig', 'campaignconfig',
     ];
     private $Is_Admin=false;
 

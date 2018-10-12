@@ -185,6 +185,7 @@ class CampaignExecutionEvent extends Event
     public function setFailed($reason = null)
     {
         $this->result = [
+            'result' => false,
             'failed' => 1,
             'reason' => $reason,
         ];
