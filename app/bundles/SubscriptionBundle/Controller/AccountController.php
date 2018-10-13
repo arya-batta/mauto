@@ -204,7 +204,7 @@ class AccountController extends FormController
                 'planType'           => $planType,
                 'vallidityTill'      => $validityTill,
                 'planAmount'         => $planAmount,
-                'trialEndDays'       => $emailValidityEndDays.'',
+                'trialEndDays'       => $trialEndDays.'',
                 'totalContactCredits'=> $totalContactCredits,
                 'totalEmailCredits'  => $totalEmailCredits,
                 'custplanamount'     => $custplanamount,

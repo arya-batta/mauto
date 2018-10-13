@@ -42,7 +42,7 @@ if ($totalContactCredits != 'UL') {
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> Leads & Features. Your free trial ends in <b><?php echo $trialEndDays?></b> days.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> Leads & Features.  Your free trial <?php echo $trialEndDays < 0 ? 'is <b>Expired</b>':'ends in <b>'.$trialEndDays.'</b> days '?></span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
