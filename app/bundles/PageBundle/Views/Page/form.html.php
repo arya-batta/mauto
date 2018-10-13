@@ -161,10 +161,11 @@ $custombutton = [
                             <?php if (!$isVariant): ?>
                                 <div class="col-md-6">
                                     <?php echo $view['form']->row($form['redirectType']); ?>
-                                    <div class="form-group col-xs-12 " style="display: block;" id="redirectUrl">
+                                    <div class="form-group col-xs-12 <?php echo (count($form['redirectUrl']->vars['errors'])) ? ' has-error' : ''; ?>" style="display: block;" id="redirectUrl">
                                     <?php echo $view['form']->label($form['redirectUrl']); ?>
                                     <?php echo $view['form']->widget($form['redirectUrl']); ?>
-                                    <div class="help-block"></div>
+                                    <?php echo $view['form']->errors($form['redirectUrl']); ?>
+                                    <div class="help-block custom-help"></div>
                                 </div>
                                 </div>
                             <?php endif; ?>

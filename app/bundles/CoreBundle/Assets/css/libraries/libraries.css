@@ -5548,8 +5548,8 @@ a.list-group-item-danger.active:focus {
   font-weight: bold;
   line-height: 1;
   color: #000000;
-  text-shadow: 0 1px 0 #ffffff;
-  opacity: 0.2;
+ /* text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;*/
   filter: alpha(opacity=20);
 }
 .close:hover,

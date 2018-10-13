@@ -228,11 +228,11 @@ Mautic.campaignOnLoad = function (container, response) {
     }
     mQuery('#campaign_buttons').addClass('hide');
     mQuery('.chosen-single').css("background","#fff");
-    mQuery('.le-modal-box-align').css("marginLeft","326px");
     Mautic.removeActionButtons();
 };
 
 Mautic.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
+    mQuery('.le-modal-box-align').attr("style","margin-left:200px");
 var gelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
 if(incomplete){
     label='Define your '+type+'...';

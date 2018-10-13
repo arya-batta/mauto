@@ -1542,6 +1542,7 @@ class LeadListRepository extends CommonRepository
                 case 'device_os':
                 case 'lead_form_submit':
                 case 'asset_downloads':
+                case 'lead_email_click':
                     // Special handling of lead lists and tags
                     $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
 
@@ -1595,6 +1596,10 @@ class LeadListRepository extends CommonRepository
                             $table  = 'asset_downloads';
                             $column = 'asset_id';
                             break;
+                        case 'lead_email_click':
+                            $table  = 'page_hits';
+                            $column = 'email_id';
+                            break;
                     }
 
                     $subQb = $this->createFilterExpressionSubQuery(
@@ -1616,6 +1621,7 @@ class LeadListRepository extends CommonRepository
                     $table           = 'users';
                     $column          = 'id';
                     $alias           = 'u';
+
                     if ($details['field'] == 'owner_id' && ($func != 'empty' && $func != '!empty')) {
                         $subQb = $this->createFilterExpressionSubQuery(
                             $table,
