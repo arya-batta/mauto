@@ -459,7 +459,6 @@ class LeadListRepository extends CommonRepository
                             )
                         );
                     }
-                    dump($q->getSQL());
                 } elseif ($nonMembersOnly) {
                     // Only leads that are part of the list that no longer match filters and have not been manually removed
                     $q->join('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll', 'l.id = ll.lead_id');
@@ -1617,7 +1616,6 @@ class LeadListRepository extends CommonRepository
                     $table           = 'users';
                     $column          = 'id';
                     $alias           = 'u';
-                    dump($func);
                     if ($details['field'] == 'owner_id' && ($func != 'empty' && $func != '!empty')) {
                         $subQb = $this->createFilterExpressionSubQuery(
                             $table,
