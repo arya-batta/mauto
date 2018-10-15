@@ -3,14 +3,16 @@
 
     <div class="row">
         <?php
-        $themeKey      ='blank';
-        $themeInfo     =$beetemplates['blank'];
+        $isPageTemplate= !empty($beetemplates['zblank']) ? 'hide' : '';
+        $themeKey      = 'blank';
+        $themeInfo     = !empty($beetemplates['zblank']) ? $beetemplates['zblank'] : $beetemplates['blank'];
         $thumbnailName = 'thumbnail.png';
         $hasThumbnail  = file_exists($themeInfo['dir'].'/'.$thumbnailName);
         $isSelected    = ($active === 'blank');
+
         ?>
         <?php $thumbnailUrl = $view['assets']->getUrl($themeInfo['themesLocalDir'].'/'.$themeKey.'/'.$thumbnailName); ?>
-        <div class="col-md-3 theme-list b-temp-width" >
+        <div class="col-md-3 theme-list b-temp-width <?php echo $isPageTemplate; ?>" >
             <div class="panel panel-default <?php echo $isSelected ? 'theme-selected' : ''; ?>">
                 <div class="panel-body text-center">
                     <h5 style="height: 30px"><?php echo $themeInfo['name']; ?></h5>
