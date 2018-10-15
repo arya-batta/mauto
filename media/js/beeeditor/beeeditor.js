@@ -80,7 +80,7 @@ var beeConfig = {
             var bgApplyBtn = mQuery('.btn-apply');
             bgApplyBtn.trigger('click');
         });
-        Mautic.showpreviewoftemplate();
+        Mautic.showpreviewoftemplate(htmlFile);
 
        // save('newsletter.html', htmlFile);
         // save('newsletter.json', jsonFile);
@@ -245,12 +245,12 @@ Mautic.closeBeeEditor = function (callback) {
     viewpanel.html("");
     callback();
 }
-Mautic.showpreviewoftemplate = function () {
+Mautic.showpreviewoftemplate = function (htmlFile) {
     if(!mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').addClass('hide');
         mQuery('#change-template-span').html('Change Template');
         mQuery("#email-content-preview").removeClass('hide');
-        mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
+        mQuery("#email-content-preview").html(htmlFile);
         mQuery('#builder_btn').removeClass('hide');
     }
 }
