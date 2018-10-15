@@ -232,17 +232,20 @@ class ConfigType extends AbstractType
                 'required'   => false,
             ]
         );
+        $sms_status = $options['data']['sms_status'];
+        if($sms_status == 'Active'){
+            $class = 'status_success';
+        }else{
+            $class = 'status_fail';
+        }
         $builder->add(
             'sms_status',
             'text',
             [
-                'label'      => 'le.sms.config.status',
-                'label_attr' => ['class' => 'control-label'],
+                'label'     => false,
                 'attr'       => [
-                    'class'        => 'form-control le-input',
-                    'disabled'     => false,
+                    'class'        => 'form-control btn btn-primary '.$class,
                 ],
-                'required' => false,
                 'data'     => $options['data']['sms_status'],
             ]
         );

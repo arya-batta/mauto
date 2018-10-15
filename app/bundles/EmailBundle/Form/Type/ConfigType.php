@@ -196,20 +196,21 @@ class ConfigType extends AbstractType
                     ),
             ]
         );
+        $email_status = $options['data']['email_status'];
+        if($email_status == 'Active'){
+            $class = 'status_success';
+        }else{
+            $class = 'status_fail';
+        }
 
         $builder->add(
             'email_status',
             'text',
             [
-                'label'      => 'mautic.email.config.mailer.status',
-                'label_attr' => ['class' => 'control-label'],
+                'label'      => false,
                 'attr'       => [
-                    'class'    => 'form-control le-input disable',
-                    'disabled' => false,
-                    'tabindex'   => -1,
-                    'style'    => 'width:65px;',
+                    'class'    => 'form-control btn btn-primary '.$class,
                 ],
-                'required'   => false,
                 'data'       => $options['data']['email_status'],
             ]
         );

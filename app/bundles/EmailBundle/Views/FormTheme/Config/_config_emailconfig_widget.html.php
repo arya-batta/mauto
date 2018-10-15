@@ -70,17 +70,17 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                             <?php echo $view['form']->row($fields['mailer_transport_name']); ?>
                         <?php endif; ?>
                     </div>
-                    <div class="col-sm-6"  data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
-                        <div class="col-sm-4" >
-                            <?php echo $view['form']->rowIfExists($fields, 'email_status', $template); ?>
+                    <div data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
+                        <div class="col-md-2 pt-lg mt-3">
+                            <?php echo $view['form']->widget($fields['email_status'],['attr' => ['tabindex' => '-1']]); ?>
                         </div>
                         <div class="button_container" id="mailerTestButtonContainer">
-                            <div class="pt-lg mt-3">
+                            <div class="col-sm-3 pt-lg mt-3">
                                 <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
-                                <?php echo $view['form']->widget($fields['mailer_test_send_button']); ?>
+                                <?php /** echo $view['form']->widget($fields['mailer_test_send_button']); */ ?>
+                                <span class="fa fa-spinner fa-spin hide"></span>
+                                <div class="col-md-9 help-block"></div>
                             </div>
-                            <span class="fa fa-spinner fa-spin hide"></span>
-                            <div class="col-md-9 help-block"></div>
                         </div>
                     </div>
                 </div>
@@ -111,12 +111,13 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_password', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_api_key', $template); ?>
             </div>
-
+            <?php if($isadmin): ?>
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">
                 <div class="col-sm-12">
                     <a target="_blank" id = "notificationHelpURL"href="<?php echo $helpurl; ?>"><?php echo $view['translator']->trans('le.email.callback.setup.help'); ?></a>
                 </div>
             </div>
+            <?php endif; ?>
             <br>
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">
                 <div class="col-sm-12">
