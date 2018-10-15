@@ -81,6 +81,7 @@ $isAdmin=$view['security']->isAdmin();
                     'orderBy'    => 'r.name',
                     'text'       => 'mautic.user.role',
                     'class'      => 'visible-md visible-lg col-user-role',
+                    'tooltip'    => 'le.users.table.header.role',
                 ]
             );
             if ($isAdmin):

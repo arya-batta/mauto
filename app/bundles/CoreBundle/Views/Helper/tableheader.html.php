@@ -68,7 +68,7 @@ $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
 <th<?php echo (!empty($class)) ? ' class="'.$class.'"' : ''; ?> >
     <div class="thead-filter">
         <?php if (!empty($orderBy)): ?>
-        <a href="javascript: void(0);" onclick="Mautic.reorderTableData('<?php echo $sessionVar; ?>','<?php echo $orderBy; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
+        <a <?php echo (!empty($tooltip)) ? 'data-placement="top" title="" data-toggle="tooltip" data-original-title="'.$view['translator']->trans($tooltip).'"' : ''; ?> href="javascript: void(0);"   onclick="Mautic.reorderTableData('<?php echo $sessionVar; ?>','<?php echo $orderBy; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
             <span><?php echo $view['translator']->trans($text); ?></span>
             <?php if ($order == $orderBy): ?>
             <i class="fa fa-sort-amount-<?php echo strtolower($dir); ?>"></i>

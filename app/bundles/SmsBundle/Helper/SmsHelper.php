@@ -185,11 +185,17 @@ class SmsHelper
         $transport  = $settings['transport'];
         $translator = $this->factory->get('translator');
         $transport  = $translator->trans($transport);
+        if ($transport == 'LeadsEngage'){
+            $settings['url']        = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_url');
+            $settings['apiKey']     = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_api_key');
+            $settings['senderid']   = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_sender_id');
+        }
         $result     = true;
         $content    = "Hi, \n This is Test Message. \n Team LeadsEngage.";
         $msgcontent = urlencode($content);
         switch ($transport) {
             case 'SolutionInfinity':
+            case 'LeadsEngage':
                 $result = $this->sendSolutionSMS($settings['url'], $sendnumber, $content, $settings['apiKey'], $settings['senderid'], $standardnumber);
                 break;
             case 'Twilio':

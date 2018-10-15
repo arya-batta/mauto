@@ -5555,6 +5555,15 @@ figcaption {
   top: -63px;
   left: 2%;
 }
+.status_success{
+  background-color:#008000;
+  border-color:#008000;
+  pointer-events: none;
+}.status_fail{
+   background-color:#ff0000;
+   border-color:#ff0000;
+   pointer-events: none;
+}
 .info-box{
   display: block;
   min-height: 51px;

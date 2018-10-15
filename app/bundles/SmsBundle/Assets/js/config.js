@@ -24,8 +24,13 @@ Mautic.testSmsServerConnection = function(sendSMS) {
         }
         if(theClass == 'has-success'){
             mQuery('#config_smsconfig_sms_status').val('Active');
+            mQuery('#config_smsconfig_sms_status').css('background-color','#008000');
+            mQuery('#config_smsconfig_sms_status').css('border-color','#008000');
         }else if(theClass == 'has-error'){
             mQuery('#config_smsconfig_sms_status').val('InActive');
+            mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
+            mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
+
         }
 
     });
@@ -33,4 +38,7 @@ Mautic.testSmsServerConnection = function(sendSMS) {
 
 Mautic.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
+    mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
+    mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
+
 }
