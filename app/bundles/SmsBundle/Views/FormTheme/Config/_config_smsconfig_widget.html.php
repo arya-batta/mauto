@@ -18,9 +18,10 @@
         <div class="row">
             <div class="col-md-6">
                 <?php echo $view['form']->row($form['sms_transport']); ?>
-            </div><div>
-                <div class="col-md-3">
-                    <?php echo $view['form']->row($form['sms_status'],['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
+            </div>
+            <div>
+                <div class="col-md-2 pt-lg mt-3">
+                    <?php echo $view['form']->row($form['sms_status'],['attr' => ['tabindex' => '-1']]); ?>
                 </div>
                 <div class="col-sm-3 pt-lg mt-3" >
                     <div class="button_container">

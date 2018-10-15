@@ -199,16 +199,6 @@ trait OperatorListTrait
             'expr'        => 'lte',
             'negate_expr' => 'gt',
         ],
-        'empty' => [
-            'label'       => 'mautic.lead.list.form.operator.isempty',
-            'expr'        => 'empty', //special case
-            'negate_expr' => 'notEmpty',
-        ],
-        '!empty' => [
-            'label'       => 'mautic.lead.list.form.operator.isnotempty',
-            'expr'        => 'notEmpty', //special case
-            'negate_expr' => 'empty',
-        ],
         'like' => [
             'label'       => 'le.lead.list.form.operator.contains',
             'expr'        => 'like',
@@ -343,6 +333,16 @@ trait OperatorListTrait
             'label'       => 'le.core.operator.year_this',
             'expr'        => 'eq',
             'negate_expr' => 'neq',
+        ],
+        'empty' => [
+            'label'       => 'mautic.lead.list.form.operator.isempty',
+            'expr'        => 'empty', //special case
+            'negate_expr' => 'notEmpty',
+        ],
+        '!empty' => [
+            'label'       => 'mautic.lead.list.form.operator.isnotempty',
+            'expr'        => 'notEmpty', //special case
+            'negate_expr' => 'empty',
         ],
     ];
 

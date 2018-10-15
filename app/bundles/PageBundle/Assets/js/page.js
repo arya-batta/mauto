@@ -45,7 +45,7 @@ Mautic.pageOnLoad = function (container, response) {
         if(mQuery('#page_redirectUrl').is(':visible')) {
             if(mQuery('#page_redirectUrl').val() == "") {
                 mQuery('#redirectUrl').addClass('has-error');
-                mQuery('#redirectUrl .help-block').html("URL can't be empty");
+                mQuery('#redirectUrl .custom-help').html("Redirect URL can't be empty.");
                 return;
             }
         }

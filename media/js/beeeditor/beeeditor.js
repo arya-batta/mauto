@@ -248,6 +248,7 @@ Mautic.closeBeeEditor = function (callback) {
 Mautic.showpreviewoftemplate = function () {
     if(!mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').addClass('hide');
+        mQuery('#change-template-span').html('Change Template');
         mQuery("#email-content-preview").removeClass('hide');
         mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
         mQuery('#builder_btn').removeClass('hide');

@@ -252,10 +252,9 @@ class Page extends FormEntity implements TranslationEntityInterface, VariantEnti
                             ]
                         ),
                     ]);
-
-                    if (count($violations) > 0) {
+                    if (count($violations) > 0 || empty($page->getRedirectUrl())) {
                         $string = (string) $violations;
-                        $context->buildViolation($string)
+                        $context->buildViolation('le.redirect.url.empty')
                             ->atPath('redirectUrl')
                             ->addViolation();
                     }

@@ -97,9 +97,14 @@ Mautic.testEmailServerConnection = function(sendEmail) {
         var theMessage = response.message;
         if(theClass == 'has-success'){
             mQuery('#config_emailconfig_email_status').val('Active');
+            mQuery('#config_emailconfig_email_status').css('background-color','#008000');
+            mQuery('#config_emailconfig_email_status').css('border-color','#008000');
         }
         if(theClass == 'has-error'){
             mQuery('#config_emailconfig_email_status').val('InActive');
+            mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
+            mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');
+
         }
        if(!mQuery('.emailconfig #mailerTestButtonContainer').is(':hidden')){
            mQuery('.emailconfig #mailerTestButtonContainer').removeClass('has-success has-error').addClass(theClass);
@@ -228,4 +233,6 @@ Mautic.configOnLoad = function (container) {
 
 Mautic.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
+    mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
+    mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');
 }

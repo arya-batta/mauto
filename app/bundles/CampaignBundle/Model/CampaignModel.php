@@ -1394,7 +1394,7 @@ class CampaignModel extends CommonFormModel
 
         if ($ipAddress == null) {
             // Lead triggered from system IP
-            $ipAddress = $this->ipLookupHelper->getIpAddress();
+            $ipAddress = $this->leadModel->getIpLookUpHelper()->getIpAddress();
         }
         $log->setIpAddress($ipAddress);
 

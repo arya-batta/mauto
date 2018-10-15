@@ -340,6 +340,12 @@ class ListModel extends FormModel
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
+            'lead_email_click' => [
+                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click'),
+                'properties' => ['type' => 'lead_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
             'lead_email_click_count' => [
                 'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click_count'),
                 'properties' => ['type' => 'number'],

@@ -2915,4 +2915,12 @@ class LeadModel extends FormModel
 
         return $result;
     }
+
+    /**
+     * Get ip looup helper.
+     */
+    public function getIpLookUpHelper()
+    {
+        return $this->ipLookupHelper;
+    }
 }
