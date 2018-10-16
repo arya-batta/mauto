@@ -2381,6 +2381,7 @@ class MailHelper
             ' in the request is invalid',
             'AWS Secret Access Key',
             'is not authorized to perform',
+            'Request is missing Authentication Token',
        ];
         $errormsg = [
             'le.email.config.invalidemail.error',
@@ -2396,6 +2397,7 @@ class MailHelper
             'le.email.config.aws.username.invalid.error',
             'le.email.config.aws.passwd.invalid.error',
             'le.email.config.aws.permission.denie.error',
+            'le.email.config.aws.missing.error',
        ];
         for ($i = 0; $i < sizeof($errors); ++$i) {
             if (strpos($geterror, $errors[$i]) !== false) {

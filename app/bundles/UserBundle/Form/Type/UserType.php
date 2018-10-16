@@ -159,6 +159,7 @@ class UserType extends AbstractType
                 'label'      => 'mautic.core.lastname',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
+                'required'   => false,
             ]
         );
 

@@ -260,7 +260,7 @@ window.Modernizr = (function( window, document, undefined ) {
     };
 
     tests['sidebar-minimized'] = function () {
-        return testProps('sidebar-minimized')
+        return !testProps('sidebar-minimized')
     };
     tests['flexboxlegacy'] = function() {
         return testPropsAll('boxDirection');

@@ -198,7 +198,7 @@ Mautic.validateKYCForm = function() {
     }
     if(companyname == ""){
         mQuery('#billing_Company').removeClass('has-success has-error').addClass(theClass);
-        mQuery('#billing_Company .help-block').html("Company can't be empty");
+        mQuery('#billing_Company .help-block').html("Company Name can't be empty");
         isvalid = false;
     }
     if(website == ""){

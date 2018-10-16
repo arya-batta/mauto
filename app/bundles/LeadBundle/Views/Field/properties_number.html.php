@@ -30,7 +30,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
         <div class="form-group col-xs-12 col-sm-8 col-md-6" style="width:58%;">
             <label class="control-label"><?php echo $view['translator']->trans('mautic.lead.field.form.properties.numberrounding'); ?></label>
             <div class="input-group">
-                <select class="form-control not-chosen" autocomplete="false" name="leadfield[properties][roundmode]">
+                <select class="form-control le-input not-chosen" autocomplete="false" name="leadfield[properties][roundmode]">
                     <?php foreach ($options as $v => $l): ?>
                     <option value="<?php echo $view->escape($v); ?>"<?php if ($roundMode == $v) {
     echo ' selected="selected"';
