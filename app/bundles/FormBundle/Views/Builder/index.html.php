@@ -292,7 +292,7 @@ endif;*/ ?>
                     <?php echo $view['form']->label($form['postAction']); ?>
                     <?php echo $view['form']->widget($form['postAction']); ?>
                 </div>
-                <div class="col-md-6" id="Form_post_action">
+                <div class="col-md-6 hide" id="Form_post_action">
                     <?php echo $view['form']->label($form['postActionProperty']); ?>
                     <?php echo $view['form']->widget($form['postActionProperty']); ?>
                     <div class="help-block"></div>

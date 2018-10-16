@@ -335,11 +335,15 @@ Mautic.onPostSubmitActionChange = function(value) {
         //remove required class
         mQuery('#mauticform_postActionProperty').attr('type','text');
         mQuery('#mauticform_postActionProperty').prev().removeClass('required');
+        mQuery('#Form_post_action').addClass('hide');
+        mQuery('#mauticform_postActionProperty').val('');
     } else {
         if(value == 'redirect'){
             mQuery('#mauticform_postActionProperty').attr('type','url');
+            mQuery('#Form_post_action').removeClass('hide');
         } else {
             mQuery('#mauticform_postActionProperty').attr('type','text');
+            mQuery('#Form_post_action').removeClass('hide');
         }
         mQuery('#mauticform_postActionProperty').prev().addClass('required');
     }
