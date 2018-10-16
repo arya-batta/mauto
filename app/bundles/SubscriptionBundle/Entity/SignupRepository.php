@@ -88,6 +88,7 @@ class SignupRepository
                 ->set('mobile', ':mobile')
                 ->set('website1', ':website')
                 ->set('app_id', ':appid')
+                ->set('company_new', ':company')
                 ->setParameter('address', $companyaddress)
                 ->setParameter('city', $city)
                 ->setParameter('state', $state)
@@ -99,6 +100,7 @@ class SignupRepository
                 ->setParameter('mobile', $phonenumber)
                 ->setParameter('website', $website)
                 ->setParameter('appid', $appid)
+                ->setParameter('company', $companyname)
                 ->setParameter('stage', 'Trial- Activated')
                 ->where(
                     $qb->expr()->in('id', $recordid)

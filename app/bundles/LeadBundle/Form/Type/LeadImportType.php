@@ -42,6 +42,9 @@ class LeadImportType extends AbstractType
                             'mimeTypesMessage' => 'mautic.core.invalid_file_type',
                         ]
                     ),
+                    new \Symfony\Component\Validator\Constraints\NotBlank(
+                        ['message' => 'mautic.lead.import.upload']
+                    ),
                 ],
                 'error_bubbling' => true,
             ]

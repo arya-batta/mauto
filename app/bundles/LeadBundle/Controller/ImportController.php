@@ -320,7 +320,7 @@ class ImportController extends FormController
                                             });
 
                                             $session->set('mautic.'.$object.'.import.headers', $headers);
-                                            sort($headers);
+                                            //sort($headers);
 
                                             $importFields = [];
 
@@ -398,14 +398,20 @@ class ImportController extends FormController
                                 $matchedFields[$k] = trim($matchedFields[$k]);
                             }
                         }
-                        if (empty($list)) {
+
+                        if (empty($matchedFields['email'])) {
                             $form->addError(
                                 new FormError(
-                                    $this->get('translator')->trans('mautic.lead.import.matchfields.list', [], 'validators')
-                                )
+                                    $this->get('translator')->trans('mautic.lead.import.matchfields.email', [], 'validators')
+                               )
                             );
                             break;
                         }
+
+                        if (empty($list)) {
+                            break;
+                        }
+
                         if (empty($matchedFields) && !empty($list)) {
                             $form->addError(
                                 new FormError(
@@ -503,8 +509,8 @@ class ImportController extends FormController
                     'passthroughVars' => [
                         'activeLink'    => $activeLink,
                         'mauticContent' => 'leadImport',
-                        'step'     => $step,
-                        'progress' => $progress,
+                        'step'          => $step,
+                        'progress'      => $progress,
                     ],
                 ]
             );

@@ -112,7 +112,6 @@ class CampaignListFilterType extends AbstractType
         $forms = $formRepo->getFormList('', 0, 0, true, $viewOther);
 
         foreach ($forms as $form) {
-            file_put_contents('/var/www/mauto/app/cache/log.txt', 'Content Valuess '.$form['name']."\n", FILE_APPEND);
             $this->formSubmitChoices[$form['id']] = $form['name'];
         }
         ksort($this->formSubmitChoices);

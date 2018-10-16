@@ -50,12 +50,11 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
                         <?php echo $view['form']->widget($form['mobile'], ['attr' => ['placeholder' => $form['mobile']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['mobile']); ?>
                     </div>
-			        <div class="col-sm-6<?php echo (count($form['role']->vars['errors'])) ? ' has-error' : ''; ?>">
-			        	<label class="control-label mb-xs"><?php echo $view['form']->label($form['role']); ?></label>
-			            <?php echo $view['form']->widget($form['role'], ['attr' => ['placeholder' => $form['role']->vars['label']]]); ?>
+			        <div class="col-sm-6<?php echo (count($form['role']->vars['errors'])) ? ' has-error' : ''; ?>" style="margin-top: 5px;">
+			        	<label class="control-label mb-xs hide"><?php echo $view['form']->label($form['role']); ?></label>
+			            <?php echo $view['form']->row($form['role'], ['attr' => ['placeholder' => $form['role']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['role']); ?>
 			        </div>
-
 			    </div>
 			</div>
 			<hr class="mnr-md mnl-md">

@@ -5065,12 +5065,12 @@ figcaption {
 }
 
 .signup_next {
-  background: #375695;
-  background-image: -webkit-linear-gradient(top, #375695, #375695);
+  background: #ec407a;
+/*  background-image: -webkit-linear-gradient(top, #375695, #375695);
   background-image: -moz-linear-gradient(top, #375695, #375695);
   background-image: -ms-linear-gradient(top, #375695, #375695);
   background-image: -o-linear-gradient(top, #375695, #375695);
-  background-image: linear-gradient(to bottom, #375695, #375695);
+  background-image: linear-gradient(to bottom, #375695, #375695);*/
   -webkit-border-radius: 4;
   -moz-border-radius: 4;
   border-radius: 4px;
@@ -5083,12 +5083,12 @@ figcaption {
 }
 
 .signup_next:hover {
-  background: #41609c;
-  background-image: -webkit-linear-gradient(top, #41609c, #42619e);
+  background: #ec407a;
+/*  background-image: -webkit-linear-gradient(top, #41609c, #42619e);
   background-image: -moz-linear-gradient(top, #41609c, #42619e);
   background-image: -ms-linear-gradient(top, #41609c, #42619e);
   background-image: -o-linear-gradient(top, #41609c, #42619e);
-  background-image: linear-gradient(to bottom, #41609c, #42619e);
+  background-image: linear-gradient(to bottom, #41609c, #42619e);*/
   text-decoration: none;
 }
 

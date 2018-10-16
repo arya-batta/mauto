@@ -309,7 +309,8 @@ class UserType extends AbstractType
                         'label'      => 'mautic.user.role',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
-                            'class' => 'form-control',
+                            'tooltip'=> 'le.users.user.form.help.role',
+                            'class'  => 'form-control',
                         ],
                         'class'         => 'MauticUserBundle:Role',
                         'property'      => 'name',
