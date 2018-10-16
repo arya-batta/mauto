@@ -63,8 +63,8 @@ $isAdmin=$view['security']->isAdmin();
                 <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
             </button>
             <div class="custom-fields">
-            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn background-orange" value="publish" onclick="Mautic.publishCampaign();">
-                <?php echo $view['translator']->trans('Start Workflow'); ?>
+            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn <?php echo $entity->isPublished() ? 'background-pink':'background-orange'?>"  onclick="Mautic.publishCampaign();">
+                <?php echo $view['translator']->trans($entity->isPublished()?'Stop Workflow':'Start Workflow'); ?>
             </button>
                 <div id="flash">
                     <span></span>
@@ -86,7 +86,7 @@ $isAdmin=$view['security']->isAdmin();
     <div class="campaign-statistics minimized">
         <?php if ($actions || $decisions || $conditions): ?>
             <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
-                <div class="modal-header campaign-model-header" style="height:68px;">
+                <div class="modal-header campaign-model-header" style="height:68px;background-color: #ffffff">
                     <?php if ($actions):?>
                         <p style="margin-top: -10px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.stats'); ?></p>
                     <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
@@ -108,7 +108,8 @@ $isAdmin=$view['security']->isAdmin();
                               style="float: right;font-size: 27px;background-color: #ec407a;padding-left: 8px;padding-right: 8px;margin-top: -11px;margin-right: -10px;" value="open">
                             <i id="campaginStatClass" style="margin-bottom: 10px;font-size: 21px;" class="fa fa-angle-double-right"></i></span></a>
                 </div>
-                <div id="fragment-stat-1" class="ui-tabs-panel">
+                <div class="status-body hide">
+                <div id="fragment-stat-1" class="ui-tabs-panel ">
                     <?php echo $actions; ?>
                 </div>
                 <div id="fragment-stat-2" class="ui-tabs-panel <?php if (!empty($actions)) {
@@ -116,6 +117,7 @@ $isAdmin=$view['security']->isAdmin();
     }?>">
                     <?php echo $decisions; ?>
                     <?php echo $conditions; ?>
+                </div>
                 </div>
             </div>
         <?php endif; ?>

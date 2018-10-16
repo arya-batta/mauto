@@ -1217,12 +1217,15 @@ Mautic.CloseStatisticsWidget = function(){
         mQuery('.campaign-statistics').addClass('minimized');
         mQuery('.'+value+'Group').addClass('hide');
         mQuery('#campaginStatClass').addClass('fa fa-angle-double-right');
+        mQuery('.status-body').addClass('hide');
+
     } else {
         mQuery('#campaignStatistics').attr("value","close");
         mQuery('.campaign-statistics').removeClass('minimized');
         mQuery('.campaign-event-list').removeClass('hide');
         mQuery('#campaginStatClass').removeClass('fa fa-angle-double-right');
         mQuery('#campaginStatClass').addClass('fa fa-angle-double-left');
+        mQuery('.status-body').removeClass('hide');
     }
 };
 
