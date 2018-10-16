@@ -121,7 +121,7 @@ Mautic.emailOnLoad = function (container, response) {
                 return;
             }
             if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val() != '') {
-                Mautic.showpreviewoftemplate();
+                Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
             }
         }
         mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');

@@ -346,6 +346,37 @@ if(type != 'interrupt'){
         Mautic.registerMouseListener(removeelement);
         gelement.appendChild(removeelement);
     }
+    if(type != 'fork'){
+        var icontype=type;
+        if(type == 'trigger'){
+          var rootclass=rootelement.getAttributeNS(null,'class');
+          if(rootclass == 'wf-interrupt'){
+              icontype='goal';
+          }
+        }
+        var inforectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
+        inforectelement.setAttributeNS(null, "class", 'wf-enclosure');
+        inforectelement.setAttributeNS(null, "x", '-2');
+        inforectelement.setAttributeNS(null, "y", '-2');
+        inforectelement.setAttributeNS(null, "rx", '0');
+        inforectelement.setAttributeNS(null, "ry", '0');
+        inforectelement.setAttributeNS(null, "width", '20');
+        inforectelement.setAttributeNS(null, "height", '20');
+        var infoelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+        infoelement.setAttributeNS(null, "class", 'wf-info-button wf-'+type+'-info-node-button');
+        var infox=-10;
+        var infoy=18;
+        if(xposition > 0){
+            infox=xposition-10;
+            infoy=36;
+        }
+        infoelement.setAttributeNS(null, "transform", 'translate('+infox+','+infoy+')');
+        var infopathelement=document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
+        infopathelement.setAttributeNS(null,'d',Mautic.getIconPathDimensionByType(icontype));
+        infoelement.appendChild(inforectelement);
+        infoelement.appendChild(infopathelement);
+        gelement.appendChild(infoelement);
+    }
     if(type == 'fork'){
         var finsertionpoint=Mautic.getTriggerInsertionPointNode(id,'fork');
         finsertionpoint.setAttributeNS(null,'transform','translate('+(removenodexposition + +18 )+',32)')
@@ -353,6 +384,22 @@ if(type != 'interrupt'){
     }
 }
 return gelement;
+}
+
+Mautic.getIconPathDimensionByType=function(type){
+    if(type == 'trigger'){
+     return 'M9.25 7c0 0.133-0.055 0.258-0.148 0.352l-4.25 4.25c-0.094 0.094-0.219 0.148-0.352 0.148-0.273 0-0.5-0.227-0.5-0.5v-2.25h-3.5c-0.273 0-0.5-0.227-0.5-0.5v-3c0-0.273 0.227-0.5 0.5-0.5h3.5v-2.25c0-0.273 0.227-0.5 0.5-0.5 0.133 0 0.258 0.055 0.352 0.148l4.25 4.25c0.094 0.094 0.148 0.219 0.148 0.352zM12 4.25v5.5c0 1.242-1.008 2.25-2.25 2.25h-2.5c-0.133 0-0.25-0.117-0.25-0.25 0-0.219-0.102-0.75 0.25-0.75h2.5c0.688 0 1.25-0.563 1.25-1.25v-5.5c0-0.688-0.563-1.25-1.25-1.25h-2.25c-0.195 0-0.5 0.039-0.5-0.25 0-0.219-0.102-0.75 0.25-0.75h2.5c1.242 0 2.25 1.008 2.25 2.25z';
+    }else if(type == 'action'){
+        return 'M10.914 4.422c0.086 0.094 0.109 0.227 0.055 0.344l-4.219 9.039c-0.062 0.117-0.187 0.195-0.328 0.195-0.031 0-0.070-0.008-0.109-0.016-0.172-0.055-0.273-0.219-0.234-0.383l1.539-6.312-3.172 0.789c-0.031 0.008-0.062 0.008-0.094 0.008-0.086 0-0.18-0.031-0.242-0.086-0.094-0.078-0.125-0.195-0.102-0.305l1.57-6.445c0.039-0.148 0.18-0.25 0.344-0.25h2.563c0.195 0 0.352 0.148 0.352 0.328 0 0.047-0.016 0.094-0.039 0.141l-1.336 3.617 3.094-0.766c0.031-0.008 0.062-0.016 0.094-0.016 0.102 0 0.195 0.047 0.266 0.117z';
+    }else if(type == 'decision'){
+        return 'M7 11h2v2h-2zM11 4c0.552 0 1 0.448 1 1v3l-3 2h-2v-1l3-2v-1h-5v-2h6zM8 1.5c-1.736 0-3.369 0.676-4.596 1.904s-1.904 2.86-1.904 4.596c0 1.736 0.676 3.369 1.904 4.596s2.86 1.904 4.596 1.904c1.736 0 3.369-0.676 4.596-1.904s1.904-2.86 1.904-4.596c0-1.736-0.676-3.369-1.904-4.596s-2.86-1.904-4.596-1.904zM8 0v0c4.418 0 8 3.582 8 8s-3.582 8-8 8c-4.418 0-8-3.582-8-8s3.582-8 8-8z';
+    }else if(type == 'delay'){
+        return 'M10.293 11.707l-3.293-3.293v-4.414h2v3.586l2.707 2.707zM8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14c-3.314 0-6-2.686-6-6s2.686-6 6-6c3.314 0 6 2.686 6 6s-2.686 6-6 6z';
+    }else if(type == 'exit'){
+        return 'M5 11.25c0 0.219 0.102 0.75-0.25 0.75h-2.5c-1.242 0-2.25-1.008-2.25-2.25v-5.5c0-1.242 1.008-2.25 2.25-2.25h2.5c0.133 0 0.25 0.117 0.25 0.25 0 0.219 0.102 0.75-0.25 0.75h-2.5c-0.688 0-1.25 0.563-1.25 1.25v5.5c0 0.688 0.563 1.25 1.25 1.25h2.25c0.195 0 0.5-0.039 0.5 0.25zM12.25 7c0 0.133-0.055 0.258-0.148 0.352l-4.25 4.25c-0.094 0.094-0.219 0.148-0.352 0.148-0.273 0-0.5-0.227-0.5-0.5v-2.25h-3.5c-0.273 0-0.5-0.227-0.5-0.5v-3c0-0.273 0.227-0.5 0.5-0.5h3.5v-2.25c0-0.273 0.227-0.5 0.5-0.5 0.133 0 0.258 0.055 0.352 0.148l4.25 4.25c0.094 0.094 0.148 0.219 0.148 0.352z';
+    }else if(type == 'goal'){
+        return 'M13 3v-2h-10v2h-3v2c0 1.657 1.343 3 3 3 0.314 0 0.616-0.048 0.9-0.138 0.721 1.031 1.822 1.778 3.1 2.037v3.1h-1c-1.105 0-2 0.895-2 2h8c0-1.105-0.895-2-2-2h-1v-3.1c1.278-0.259 2.378-1.006 3.1-2.037 0.284 0.089 0.587 0.138 0.9 0.138 1.657 0 3-1.343 3-3v-2h-3zM3 6.813c-0.999 0-1.813-0.813-1.813-1.813v-1h1.813v1c0 0.628 0.116 1.229 0.327 1.782-0.106 0.019-0.216 0.030-0.327 0.030zM14.813 5c0 0.999-0.813 1.813-1.813 1.813-0.112 0-0.221-0.011-0.327-0.030 0.211-0.554 0.327-1.154 0.327-1.782v-1h1.813v1z';
+    }
 }
 Mautic.updateTriggerPath=function (rootelement) {
     var rootfixedwidth=rootelement.getAttributeNS(null,'width');
@@ -363,7 +410,7 @@ Mautic.updateTriggerPath=function (rootelement) {
     var bcr=child.getBoundingClientRect();
     totalwidth+=bcr.width;
     }
-    var posistionadjust=8;
+    var posistionadjust=-4;
     if(childrens.length > 1){
         posistionadjust=posistionadjust+(Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT*(childrens.length-1));
     }
@@ -375,7 +422,7 @@ Mautic.updateTriggerPath=function (rootelement) {
         var bcr=child.getBoundingClientRect();
         child.setAttributeNS(null, "transform", 'translate('+nextposition+',0)');
         var removenode=child.children[1];
-        removenode.setAttributeNS(null, "transform", 'translate('+(bcr.width-8)+',-8)');
+        removenode.setAttributeNS(null, "transform", 'translate('+(bcr.width-20)+',-8)');
         nextposition=(+nextposition + +bcr.width);
         nextposition=nextposition + +Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT;
     }
@@ -390,6 +437,7 @@ Mautic.updateTriggerPath=function (rootelement) {
         var xposition=matrix.e;
         //alert("X:"+xposition+",Width:"+(bcr.width));
         var mx=((+(bcr.width)/2) + +xposition);
+        mx=mx-6;
         var x1=mx;
         var x2=rootfixedwidth/2;
         var x=x2;
@@ -794,9 +842,9 @@ Mautic.getDecisionIndicatorNode=function(parent,indicator,x,y){
         gelement.setAttributeNS(null,'class','wf-decision-path-label wf-'+indicator.toLowerCase()+'-label');
         var gelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
         gelement1.setAttributeNS(null,'class','wf-label-wrap');
-        gelement1.setAttributeNS(null,'transform','translate(6,6)');
+        gelement1.setAttributeNS(null,'transform','translate(5,2)');
         var textelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"text");
-        textelement.setAttributeNS(null, "class", 'wf-label');
+       // textelement.setAttributeNS(null, "class", 'wf-label');
         textelement.setAttributeNS(null, "y", '12');
         textelement.setAttributeNS(null, "dy", '0');
         textelement.textContent=indicator;
@@ -812,7 +860,7 @@ Mautic.getDecisionIndicatorNode=function(parent,indicator,x,y){
         rectelement.setAttributeNS(null, "rx", '3');
         rectelement.setAttributeNS(null, "ry", '3');
         rectelement.setAttributeNS(null, "width", labelwidth);
-        rectelement.setAttributeNS(null, "height", '29');
+        rectelement.setAttributeNS(null, "height", '20');
         gelement.appendChild(rectelement);
         gelement.appendChild(gelement1);
         Mautic.setTransformAttr(gelement,x,y);

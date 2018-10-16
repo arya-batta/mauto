@@ -192,7 +192,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'mautic.email.campaign.event.send.to.user_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'email_to_user',
-                'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email'],
+                'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email', 'with_email_types' => true],
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
@@ -391,6 +391,7 @@ class CampaignSubscriber extends CommonSubscriber
         $status = $this->emailModel->mailHelper->emailstatus();
         if (!$status) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+
             return $event->setFailed($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
         try {

@@ -402,7 +402,7 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
     var isNew = Mautic.isNewEntity('#page_sessionId, #emailform_sessionId');
     Mautic.showChangeThemeWarning = true;
     Mautic.beeTemplate = themeField.val();
-
+    Mautic.setBeeTemplateJSON(Mautic.beeTemplate);
     if (isNew) {
         Mautic.showChangeThemeWarning = false;
         if(!mQuery('.sidebar-content').is(':visible') && formname=='email') {

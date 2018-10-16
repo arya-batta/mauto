@@ -82,7 +82,7 @@ Mautic.pageOnLoad = function (container, response) {
         if(!mQuery('#email-advance-container').hasClass('hide')) {
             if(mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val() != ''){
                 mQuery('#builder_btn').removeClass('hide');
-                Mautic.showpreviewoftemplate();
+                Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
             }
         }
 
