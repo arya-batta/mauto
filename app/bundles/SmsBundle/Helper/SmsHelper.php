@@ -95,9 +95,9 @@ class SmsHelper
         $settings['url']       =$this->coreParametersHelper->getParameter('account_url');
         $settings['senderid']  =$this->coreParametersHelper->getParameter('account_sender_id');
         $settings['apiKey']    =$this->coreParametersHelper->getParameter('account_api_key');
-        $settings['username']  =$this->coreParametersHelper->getParameter('sms_username');
-        $settings['password']  =$this->coreParametersHelper->getParameter('sms_password');
-        $settings['fromnumber']=$this->coreParametersHelper->getParameter('sms_sending_phone_number');
+        $settings['username']  =$this->coreParametersHelper->getParameter('account_sid');
+        $settings['password']  =$this->coreParametersHelper->getParameter('account_auth_token');
+        $settings['fromnumber']=$this->coreParametersHelper->getParameter('sms_from_number');
         $sms_status            = $this->coreParametersHelper->getParameter('sms_status');
         if ($sms_status == 'Active') {
             if (!$sendsms) {
@@ -207,7 +207,11 @@ class SmsHelper
             $dataArray['message'] = $translator->trans('le.send.sms.success', ['%mobile%'=>$sendnumber]);
         } else {
             $dataArray['success'] = 0;
-            $dataArray['message'] = $result.'. '.$translator->trans('le.send.sms.failed');
+            if($result == ''){
+                $dataArray['message'] = 'Invalid URL.'.$translator->trans('le.send.sms.failed');
+            }else{
+                $dataArray['message'] = $result.'. '.$translator->trans('le.send.sms.failed');
+            }
         }
 
         return $dataArray;
@@ -273,7 +277,7 @@ class SmsHelper
         }
         try {
             $client = new \Services_Twilio($password, $username);
-            if (!$standardnumber) {
+            if ($standardnumber) {
                 $message = $client->account->messages->sendMessage(
                     $fromnumber,
                     $this->sanitizeNumber($number),

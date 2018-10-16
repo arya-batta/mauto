@@ -1335,45 +1335,45 @@ class FormController extends CommonFormController
 
         $firstNameId = 'new'.hash('sha1', uniqid(mt_rand()));
 
-        $modifiedFields[$firstNameId]                      = $field->convertToArray();
-        $modifiedFields[$firstNameId]['label']             = $this->translator->trans('mautic.integration.LinkedIn.firstName');
-        $modifiedFields[$firstNameId]['alias']             = 'firstname';
-        $modifiedFields[$firstNameId]['showLabel']         = 1;
-        $modifiedFields[$firstNameId]['type']              = 'text';
-        $modifiedFields[$firstNameId]['placeholder']       = $this->translator->trans('mautic.integration.LinkedIn.firstName');
-        $modifiedFields[$firstNameId]['isRequired']        = 1;
-        $modifiedFields[$firstNameId]['validationMessage'] = 'Please fill your First Name';
-        $modifiedFields[$firstNameId]['leadField']         = 'firstname';
-        $modifiedFields[$firstNameId]['id']                = $firstNameId;
-        $modifiedFields[$firstNameId]['formId']            = $sessionId;
+        $modifiedFields[$firstNameId]                              = $field->convertToArray();
+        $modifiedFields[$firstNameId]['label']                     = $this->translator->trans('mautic.integration.LinkedIn.firstName');
+        $modifiedFields[$firstNameId]['alias']                     = 'firstname';
+        $modifiedFields[$firstNameId]['showLabel']                 = 0;
+        $modifiedFields[$firstNameId]['type']                      = 'text';
+        $modifiedFields[$firstNameId]['properties']['placeholder'] = $this->translator->trans('mautic.integration.LinkedIn.firstName');
+        $modifiedFields[$firstNameId]['isRequired']                = 1;
+        $modifiedFields[$firstNameId]['validationMessage']         = 'Please fill your First Name';
+        $modifiedFields[$firstNameId]['leadField']                 = 'firstname';
+        $modifiedFields[$firstNameId]['id']                        = $firstNameId;
+        $modifiedFields[$firstNameId]['formId']                    = $sessionId;
         unset($modifiedFields[$firstNameId]['form']);
 
         $emailId = 'new'.hash('sha1', uniqid(mt_rand()));
 
-        $modifiedFields[$emailId]                      = $field->convertToArray();
-        $modifiedFields[$emailId]['id']                = $emailId;
-        $modifiedFields[$emailId]['label']             = $this->translator->trans('mautic.email.email');
-        $modifiedFields[$emailId]['alias']             = 'email';
-        $modifiedFields[$emailId]['type']              = 'email';
-        $modifiedFields[$emailId]['formId']            = $sessionId;
-        $modifiedFields[$emailId]['leadField']         = 'email';
-        $modifiedFields[$emailId]['showLabel']         = 1;
-        $modifiedFields[$emailId]['isRequired']        = 1;
-        $modifiedFields[$emailId]['placeholder']       = $this->translator->trans('mautic.email.email');
-        $modifiedFields[$emailId]['validationMessage'] = 'Please fill your Email Address';
+        $modifiedFields[$emailId]                              = $field->convertToArray();
+        $modifiedFields[$emailId]['id']                        = $emailId;
+        $modifiedFields[$emailId]['label']                     = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['alias']                     = 'email';
+        $modifiedFields[$emailId]['type']                      = 'email';
+        $modifiedFields[$emailId]['formId']                    = $sessionId;
+        $modifiedFields[$emailId]['leadField']                 = 'email';
+        $modifiedFields[$emailId]['showLabel']                 = 0;
+        $modifiedFields[$emailId]['isRequired']                = 1;
+        $modifiedFields[$emailId]['properties']['placeholder'] = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['validationMessage']         = 'Please fill your Email Address';
         unset($modifiedFields[$emailId]['form']);
 
         $phoneId = 'new'.hash('sha1', uniqid(mt_rand()));
 
-        $modifiedFields[$phoneId]                    = $field->convertToArray();
-        $modifiedFields[$phoneId]['id']              = $phoneId;
-        $modifiedFields[$phoneId]['label']           = $this->translator->trans('mautic.core.type.tel');
-        $modifiedFields[$phoneId]['alias']           = 'phone';
-        $modifiedFields[$phoneId]['type']            = 'tel';
-        $modifiedFields[$phoneId]['formId']          = $sessionId;
-        $modifiedFields[$phoneId]['leadField']       = 'mobile';
-        $modifiedFields[$phoneId]['showLabel']       = 1;
-        $modifiedFields[$phoneId]['placeholder']     = $this->translator->trans('mautic.core.type.tel');
+        $modifiedFields[$phoneId]                              = $field->convertToArray();
+        $modifiedFields[$phoneId]['id']                        = $phoneId;
+        $modifiedFields[$phoneId]['label']                     = $this->translator->trans('mautic.core.type.tel');
+        $modifiedFields[$phoneId]['alias']                     = 'phone';
+        $modifiedFields[$phoneId]['type']                      = 'tel';
+        $modifiedFields[$phoneId]['formId']                    = $sessionId;
+        $modifiedFields[$phoneId]['leadField']                 = 'mobile';
+        $modifiedFields[$phoneId]['showLabel']                 = 0;
+        $modifiedFields[$phoneId]['properties']['placeholder'] = $this->translator->trans('mautic.core.type.tel');
         unset($modifiedFields[$phoneId]['form']);
 
         $submitId = 'new'.hash('sha1', uniqid(mt_rand()));
@@ -1381,7 +1381,7 @@ class FormController extends CommonFormController
         $modifiedFields[$submitId]                    = $field->convertToArray();
         $modifiedFields[$submitId]['label']           = $this->translator->trans('mautic.core.form.submit');
         $modifiedFields[$submitId]['alias']           = 'submit';
-        $modifiedFields[$submitId]['showLabel']       = 1;
+        $modifiedFields[$submitId]['showLabel']       = 0;
         $modifiedFields[$submitId]['type']            = 'button';
         $modifiedFields[$submitId]['id']              = $submitId;
         $modifiedFields[$submitId]['inputAttributes'] = 'class="btn btn-default"';

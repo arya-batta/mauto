@@ -53,7 +53,7 @@ if ($lastpayment == null) {
                                     <?php echo 'Card ending in '.$stripecard->getlast4digit().' on file.' ?>
                                 </div>
 
-                                <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">
+                                <div id="card-holder-widget" data-le-token="<?php echo $letoken; ?>">
                                     <!-- A Stripe Element will be inserted here. -->
                                 </div>
                                 <!-- Used to display form errors. -->

@@ -109,12 +109,12 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'      => 'leadsengage.subs.website',
-                'label_attr' => ['class' => 'control-label required'],
+                'label_attr' => ['class' => 'control-label '],
                 'attr'       => [
                     'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
                 ],
-                'required'    => false,
+                'required'    => true,
             ]
         );
 
@@ -134,9 +134,9 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'       => 'leadsengage.subs.accountmobile',
-                'label_attr'  => ['class' => 'control-label required'],
+                'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control le-input', 'type'  => 'number'],
-                'required'    => false,
+                'required'    => true,
             ]
         );
 
@@ -158,7 +158,7 @@ class AccountType extends AbstractType
             [
                 'choices'    => $timezones,
                 'label'      => 'leadsengage.subs.accounttimezone',
-                'label_attr' => ['class' => 'control-label required'],
+                'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control accountTimezone',
                     'tooltip' => 'mautic.core.config.form.default.timezone.tooltip',
@@ -167,7 +167,7 @@ class AccountType extends AbstractType
                 'empty_value' => '(GMT+05:30)-Asia/Kolkata',
                 'empty_data'  => '',
                 'data'        => $options['data']->getTimezone(),
-                'required'    => false,
+                'required'    => true,
             ]
         );
 

@@ -14,6 +14,8 @@ namespace Mautic\SubscriptionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 use Mautic\CoreBundle\Entity\FormEntity;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * Class Billing.
@@ -289,4 +291,76 @@ class Billing extends FormEntity
 
         return $this;
     }
+
+    /**
+     * @param ClassMetadata $metadata
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint(
+            'companyname',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.companyname.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'companyaddress',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.companyaddress.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'accountingemail',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.accountingemail.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'postalcode',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.postalcode.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'city',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.city.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'state',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.state.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'country',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.billing.country.notblank',
+                ]
+            )
+        );
+
+    }
+
+
 }

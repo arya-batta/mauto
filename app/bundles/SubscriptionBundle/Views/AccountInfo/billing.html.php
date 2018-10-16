@@ -69,46 +69,53 @@ if ($totalContactCredits != 'UL') {
                             <br>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 <?php echo (count($form['companyname']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['companyname']); ?>
                                 <?php echo $view['form']->widget($form['companyname']); ?>
+                                <?php echo $view['form']->errors($form['companyname']); ?>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 <?php echo (count($form['accountingemail']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['accountingemail']); ?>
                                 <?php echo $view['form']->widget($form['accountingemail']); ?>
+                                <?php echo $view['form']->errors($form['accountingemail']); ?>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 <?php echo (count($form['companyaddress']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['companyaddress']); ?>
                                 <?php echo $view['form']->widget($form['companyaddress']); ?>
+                                <?php echo $view['form']->errors($form['companyaddress']); ?>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 <?php echo (count($form['city']->vars['errors'])) ? ' has-error' : ''; ?>">
                                     <?php echo $view['form']->label($form['city']); ?>
                                     <?php echo $view['form']->widget($form['city']); ?>
+                                    <?php echo $view['form']->errors($form['city']); ?>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 <?php echo (count($form['state']->vars['errors'])) ? ' has-error' : ''; ?>">
                                     <?php echo $view['form']->label($form['state']); ?>
                                     <?php echo $view['form']->widget($form['state']); ?>
+                                    <?php echo $view['form']->errors($form['state']); ?>
                                 </div>
 
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 <?php echo (count($form['postalcode']->vars['errors'])) ? ' has-error' : ''; ?>">
                                     <?php echo $view['form']->label($form['postalcode']); ?>
                                     <?php echo $view['form']->widget($form['postalcode']); ?>
+                                    <?php echo $view['form']->errors($form['postalcode']); ?>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 <?php echo (count($form['country']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['country']); ?>
                                 <?php echo $view['form']->widget($form['country']); ?>
+                                <?php echo $view['form']->errors($form['country']); ?>
                                 </div>
                             </div>
                             <br>

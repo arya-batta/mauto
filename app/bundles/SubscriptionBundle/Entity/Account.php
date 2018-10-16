@@ -14,6 +14,8 @@ namespace Mautic\SubscriptionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 use Mautic\CoreBundle\Entity\FormEntity;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * Class Account.
@@ -347,5 +349,47 @@ class Account extends FormEntity
         $this->mobileverified = $mobileverified;
 
         return $this;
+    }
+
+    /**
+     * @param ClassMetadata $metadata
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint(
+            'phonenumber',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.account.phone.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'domainname',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.account.domain.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'timezone',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.account.timezone.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'website',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.account.website.notblank',
+                ]
+            )
+        );
     }
 }

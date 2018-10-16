@@ -1074,6 +1074,10 @@ class LicenseInfoHelper
 
     public function redirectToCardinfo()
     {
+        $currentuser = $this->factory->getUser();
+        if($currentuser->isAdmin()){
+            return false;
+        }
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
             return true;
@@ -1084,6 +1088,10 @@ class LicenseInfoHelper
 
     public function redirectToSubscriptionpage()
     {
+        $currentuser = $this->factory->getUser();
+        if($currentuser->isAdmin()){
+            return false;
+        }
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
         if (($this->getLicenseRemainingDays() == 0 || $this->getLicenseRemainingDays() < 0)) {
             return true;

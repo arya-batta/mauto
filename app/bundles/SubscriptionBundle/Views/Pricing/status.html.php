@@ -33,17 +33,45 @@ $validitytill =date('d-M-y', strtotime($validitytill));
             <td>
                 <div class="transaction-details">
                     <span class="payment-status-header">Transaction Details</span>
-                    <span style="display: block"><span class="payment-status-lbl-left">Amount:</span><?php echo $currency.$amount ?></span>
-                    <span style="display: block"><span class="payment-status-lbl-left">Payment ID:</span><?php echo $paymentid ?></span>
-                    <span style="display: block"><span class="payment-status-lbl-left">Order ID:</span><?php echo $orderid ?></span>
                 </div>
             </td>
             <td>
                 <div class="transaction-details">
                     <span class="payment-status-header">Order Details</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="transaction-details">
+                    <span style="display: block"><span class="payment-status-lbl-left">Amount:</span><?php echo $currency.$amount ?></span>
+                     </div>
+            </td>
+            <td>
+                <div class="transaction-details">
                     <span style="display: block"><span class="payment-status-lbl-left">Plan:</span><?php echo $plan ?></span>
-                    <span style="display: block"><span class="payment-status-lbl-left">Available Contacts:</span><?php echo $creditsafter ?></span>
+                     </div>
+            </td>
+        </tr> <tr>
+            <td>
+                <div class="transaction-details">
+                    <span style="display: block"><span class="payment-status-lbl-left">Payment ID:</span><?php echo $paymentid ?></span>
+                </div>
+            </td>
+            <td>
+                <div class="transaction-details">
                     <span style="display: block"><span class="payment-status-lbl-left">Valid Till:</span><?php echo $validitytill ?></span>
+                </div>
+            </td>
+        </tr> <tr>
+            <td>
+                <div class="transaction-details">
+                   <span style="display: block"><span class="payment-status-lbl-left">Order ID:</span><?php echo $orderid ?></span>
+                </div>
+            </td>
+            <td>
+                <div class="transaction-details">
+                    <span class="hide" style="display: block"><span class="payment-status-lbl-left">Available Contacts:</span><?php echo $creditsafter ?></span>
                 </div>
             </td>
         </tr>
