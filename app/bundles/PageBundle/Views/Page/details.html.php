@@ -254,7 +254,7 @@ $view['slots']->set(
             </div>
         </div>
         <?php endif; ?>
-        <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0">
+        <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0 hide">
             <div class="panel-heading">
                 <div class="panel-title"><?php echo $view['translator']->trans('mautic.page.preview.url'); ?></div>
             </div>

@@ -2206,9 +2206,9 @@ class MailHelper
             'additionalinfo'    => '',
         ];
         if ($config == 'Active') {
-            ///if (!$sendEmail) {
-            //     return true;
-            // }
+            if (!$sendEmail) {
+                return true;
+            }
             $cacheHelper = $this->factory->get('mautic.helper.cache');
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
@@ -2221,9 +2221,9 @@ class MailHelper
                 return false;
             }
         } else {
-            //if (!$sendEmail) {
-            //    return false;
-            //}
+            if (!$sendEmail) {
+                return false;
+            }
             $cacheHelper = $this->factory->get('mautic.helper.cache');
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
@@ -2256,11 +2256,11 @@ class MailHelper
                     if ('mautic.transport.amazon' == $transport) {
                         if (!$mailer instanceof AmazonApiTransport) {
                             $mailer->setHost($settings['amazon_region']);
-                        } else if ($mailer instanceof AmazonApiTransport){
+                        } elseif ($mailer instanceof AmazonApiTransport) {
                             if (empty($settings['password'])) {
                                 $settings['password'] = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_password');
                             }
-                            $sesmailer = new SimpleEmailService($settings['user'],$settings['password'],$settings['amazon_region']);
+                            $sesmailer = new SimpleEmailService($settings['user'], $settings['password'], $settings['amazon_region']);
                             $mailer->setSimpleemailservice($sesmailer);
                         }
                     }

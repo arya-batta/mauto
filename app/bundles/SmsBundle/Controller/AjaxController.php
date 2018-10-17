@@ -44,7 +44,7 @@ class AjaxController extends CommonAjaxController
     public function smsstatusAction()
     {
         if ($this->factory->getParameter('publish_account')) {
-            if (!$this->get('mautic.helper.sms')->getSmsTransportStatus()) {
+            if (!$this->get('mautic.helper.sms')->getSmsTransportStatus(false)) {
                 $configurl                  =$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
                 $dataArray['success']       =true;
                 $infotext                   ='mautic.sms.appheader.status.fail';

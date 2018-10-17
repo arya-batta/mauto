@@ -671,7 +671,7 @@ class LeadController extends FormController
                     if (!empty($segment)) {
                         $model->modifySegments($lead, $segment);
                     }
-
+                    $model->isTagsChanged($lead);
                     // Upload avatar if applicable
                     $image =  'gravatar';
                     if (!$inQuickForm) {
@@ -885,6 +885,7 @@ class LeadController extends FormController
                     $model->saveEntity($lead, $form->get('buttons')->get('save')->isClicked());
                     $model->modifyCompanies($lead, $companies);
                     $model->modifySegments($lead, $segment);
+                    $model->isTagsChanged($lead);
                     // Upload avatar if applicable
                     $image = $form['preferred_profile_image']->getData();
                     if ($image == 'custom') {

@@ -314,7 +314,7 @@ class AjaxController extends CommonAjaxController
             $configurator     = $this->factory->get('mautic.configurator');
             $params           = $configurator->getParameters();
             $emailuser        = $params['mailer_user'];
-            if(isset($params['mailer_amazon_region'])){
+            if (isset($params['mailer_amazon_region'])) {
                 $region                = $params['mailer_amazon_region'];
             } else {
                 $region='';
@@ -403,12 +403,12 @@ class AjaxController extends CommonAjaxController
     public function emailstatusAction()
     {
         $configurl= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
-        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
-            $dataArray['success']       =true;
-            $dataArray['info']          = $this->translator->trans("mautic.email.config.mailer.status.app_header",['%url%'=>$configurl]);
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+            $dataArray['success']       = true;
+            $dataArray['info']          = $this->translator->trans('mautic.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
             $dataArray['isalertneeded'] = 'false';
         } else {
-            $dataArray['success']       =false;
+            $dataArray['success']       = false;
             $dataArray['info']          = '';
             $dataArray['isalertneeded'] = 'false';
         }

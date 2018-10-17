@@ -120,7 +120,7 @@ Mautic.emailOnLoad = function (container, response) {
                 Mautic.launchBeeEditor('emailform', 'email');
                 return;
             }
-            if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val() != '') {
+            if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
                 Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
             }
         }

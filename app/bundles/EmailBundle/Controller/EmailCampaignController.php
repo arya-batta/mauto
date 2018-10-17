@@ -218,7 +218,7 @@ class EmailCampaignController extends FormController
                 [
                     'returnUrl'       => $returnUrl,
                     'viewParameters'  => ['page' => $lastPage],
-                    'contentTemplate' => 'MauticEmailBundle:Email:index',
+                    'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_email_campaign_index',
                         'mauticContent' => 'email',
@@ -293,7 +293,7 @@ class EmailCampaignController extends FormController
                 [
                     'returnUrl'       => $returnUrl,
                     'viewParameters'  => ['page' => $page],
-                    'contentTemplate' => 'MauticEmailBundle:Email:index',
+                    'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_email_campaign_index',
                         'mauticContent' => 'email',
@@ -848,7 +848,7 @@ class EmailCampaignController extends FormController
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
-            'contentTemplate' => 'MauticEmailBundle:Email:index',
+            'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
             'passthroughVars' => [
                 'activeLink'    => 'mautic_email_campaign_index',
                 'mauticContent' => 'email',
@@ -1769,12 +1769,12 @@ class EmailCampaignController extends FormController
                 );
                 $fields['id'] = 0;
 
-                $errors = [];
+                $errors  = [];
                 $isempty = true;
                 foreach ($emails as $email) {
                     if (!empty($email)) {
                         $isempty = false;
-                        $users = [
+                        $users   = [
                             [
                                 // Setting the id, firstname and lastname to null as this is a unknown user
                                 'id'        => '',
@@ -1795,7 +1795,7 @@ class EmailCampaignController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash(implode('; ', $errors));
                 } else {
-                    if(!$isempty) {
+                    if (!$isempty) {
                         $this->addFlash('mautic.email.notice.test_sent_multiple.success');
                     }
                 }

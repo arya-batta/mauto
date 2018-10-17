@@ -534,13 +534,6 @@ class LeadModel extends FormModel
             $this->setPrimaryCompany($companyEntity->getId(), $entity->getId());
         }
 
-        if (($this->dispatcher->hasListeners(LeadEvents::MODIFY_TAG_EVENT))) {
-            $event = new LeadEvent($entity, true);
-            $this->dispatcher->dispatch(LeadEvents::MODIFY_TAG_EVENT, $event);
-
-            unset($event);
-        }
-
         if (($this->dispatcher->hasListeners(LeadEvents::ADD_LEAD_WITH_CAMPAIGN))) {
             $event = new LeadEvent($entity, true);
             $this->dispatcher->dispatch(LeadEvents::ADD_LEAD_WITH_CAMPAIGN, $event);
@@ -1968,6 +1961,7 @@ class LeadModel extends FormModel
         if ($persist) {
             $this->saveEntity($lead);
         }
+        $this->isTagsChanged($lead);
 
         return $tagsModified;
     }
@@ -2018,6 +2012,25 @@ class LeadModel extends FormModel
         if (count($segments) > 0) {
             foreach ($segments as $leadSegment => $leadlist) {
                 $this->addToLists($lead, [$leadlist]);
+            }
+        }
+    }
+
+    /**
+     * Modify Tags for lead.
+     *
+     * @param Lead $lead
+     */
+    public function isTagsChanged(Lead $lead)
+    {
+        $changes = $lead->getChanges(true);
+
+        if (!empty($changes['tags'])) {
+            if (($this->dispatcher->hasListeners(LeadEvents::MODIFY_TAG_EVENT))) {
+                $event = new LeadEvent($lead, true);
+                $this->dispatcher->dispatch(LeadEvents::MODIFY_TAG_EVENT, $event);
+
+                unset($event);
             }
         }
     }

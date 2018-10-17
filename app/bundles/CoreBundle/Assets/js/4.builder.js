@@ -402,7 +402,11 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
     var isNew = Mautic.isNewEntity('#page_sessionId, #emailform_sessionId');
     Mautic.showChangeThemeWarning = true;
     Mautic.beeTemplate = themeField.val();
-    Mautic.setBeeTemplateJSON(Mautic.beeTemplate);
+    var templateJSON = mQuery('textarea.bee-editor-json');
+    // Populate default content
+    if (!templateJSON.length || !templateJSON.val().length) {
+        Mautic.setBeeTemplateJSON(Mautic.beeTemplate);
+    }
     if (isNew) {
         Mautic.showChangeThemeWarning = false;
         if(!mQuery('.sidebar-content').is(':visible') && formname=='email') {
