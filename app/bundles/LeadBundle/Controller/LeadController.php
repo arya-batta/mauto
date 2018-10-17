@@ -1882,6 +1882,7 @@ class LeadController extends FormController
                             [
                                 'items'  => $items,
                                 'action' => $route,
+                                'label'  => 'list',
                             ]
                         )->createView(),
                     ],
@@ -2010,6 +2011,7 @@ class LeadController extends FormController
                             [
                                 'items'  => $items,
                                 'action' => $route,
+                                'label'  => 'campaign',
                             ]
                         )->createView(),
                     ],
