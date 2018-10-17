@@ -9,7 +9,9 @@ Mautic.WF_DECISION_NODE_PATH_HEIGHT_ADJUST=159;
 Mautic.WF_FORK_DECISION_NODE_PATH_HEIGHT_CONSTANT=90;
 Mautic.WF_TRIGGER_NODE_PATH_HEIGHT_CONSTANT=70;
 Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT=16;
-
+Mautic.WF_COUNT_NODE_HEIGHT_ADJUST=27;
+Mautic.WF_NODE_PATH_HEIGHT_ADJUST=49;
+Mautic.WF_SHOW_STATSTICS=true;
 Mautic.getActionNodeJSON=function(){
 var json={
     "id":Mautic.randomString(32),
@@ -296,6 +298,9 @@ if(type != 'interrupt'){
     gelement2.appendChild(gelement3);
     gelement2.appendChild(gelement3);
     gelement1.appendChild(gelement2);
+    if(type != 'fork' && type != 'decision' && Mautic.WF_SHOW_STATSTICS){
+       gelement1.appendChild(Mautic.getCountNode(rootelement,rectwidth,type,id));
+    }
     var removenodexposition=0;
     if(type != 'trigger'){
         rootelement.appendChild(gelement1);
@@ -347,35 +352,7 @@ if(type != 'interrupt'){
         gelement.appendChild(removeelement);
     }
     if(type != 'fork'){
-        var icontype=type;
-        if(type == 'trigger'){
-          var rootclass=rootelement.getAttributeNS(null,'class');
-          if(rootclass == 'wf-interrupt'){
-              icontype='goal';
-          }
-        }
-        var inforectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
-        inforectelement.setAttributeNS(null, "class", 'wf-enclosure');
-        inforectelement.setAttributeNS(null, "x", '-2');
-        inforectelement.setAttributeNS(null, "y", '-2');
-        inforectelement.setAttributeNS(null, "rx", '0');
-        inforectelement.setAttributeNS(null, "ry", '0');
-        inforectelement.setAttributeNS(null, "width", '20');
-        inforectelement.setAttributeNS(null, "height", '20');
-        var infoelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
-        infoelement.setAttributeNS(null, "class", 'wf-info-button wf-'+type+'-info-node-button');
-        var infox=-10;
-        var infoy=18;
-        if(xposition > 0){
-            infox=xposition-10;
-            infoy=36;
-        }
-        infoelement.setAttributeNS(null, "transform", 'translate('+infox+','+infoy+')');
-        var infopathelement=document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
-        infopathelement.setAttributeNS(null,'d',Mautic.getIconPathDimensionByType(icontype));
-        infoelement.appendChild(inforectelement);
-        infoelement.appendChild(infopathelement);
-        gelement.appendChild(infoelement);
+        gelement.appendChild(Mautic.getInfoNode(rootelement,type,xposition));
     }
     if(type == 'fork'){
         var finsertionpoint=Mautic.getTriggerInsertionPointNode(id,'fork');
@@ -385,7 +362,99 @@ if(type != 'interrupt'){
 }
 return gelement;
 }
+Mautic.getInfoNode=function(rootelement,type,xposition){
+    var icontype=type;
+    if(type == 'trigger'){
+        var rootclass=rootelement.getAttributeNS(null,'class');
+        if(rootclass == 'wf-interrupt'){
+            icontype='goal';
+        }
+    }
+    var inforectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
+    inforectelement.setAttributeNS(null, "class", 'wf-enclosure');
+    inforectelement.setAttributeNS(null, "x", '-2');
+    inforectelement.setAttributeNS(null, "y", '-2');
+    inforectelement.setAttributeNS(null, "rx", '0');
+    inforectelement.setAttributeNS(null, "ry", '0');
+    inforectelement.setAttributeNS(null, "width", '20');
+    inforectelement.setAttributeNS(null, "height", '20');
+    var infoelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    infoelement.setAttributeNS(null, "class", 'wf-info-button wf-'+type+'-info-node-button');
+    var infox=-10;
+    var infoy=18;
+    if(xposition > 0){
+        infox=xposition-10;
+        infoy=36;
+    }
+    infoelement.setAttributeNS(null, "transform", 'translate('+infox+','+infoy+')');
+    var infopathelement=document.createElementNS(Mautic.SVGNAMESPACEURI,"path");
+    infopathelement.setAttributeNS(null,'d',Mautic.getIconPathDimensionByType(icontype));
+    infoelement.appendChild(inforectelement);
+    infoelement.appendChild(infopathelement);
+    return infoelement;
+}
 
+Mautic.getCountNode=function(rootelement,nodewidth,type,id){
+    var label='0 done';
+    if(type == 'trigger'){
+    if(Mautic.campaignBuilderStatistics[id]){
+         label=Mautic.campaignBuilderStatistics[id].total;
+    }else{
+        label='0';
+    }
+    var rootclass=rootelement.getAttributeNS(null,'class');
+            if(rootclass == 'wf-interrupt'){
+                label=label + ' achieved';
+            }else{
+                label=label + ' triggered';
+            }
+    }else{
+        var current=0;
+        var done=0;
+        if(Mautic.campaignBuilderStatistics[id]){
+            current=Mautic.campaignBuilderStatistics[id].current;
+            done=Mautic.campaignBuilderStatistics[id].done;
+        }
+        if(type == 'delay'){
+            label=current+' scheduled / '+done+' done';
+        }else{
+            label=done+' done';
+        }
+    }
+    var textelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"text");
+    textelement.setAttributeNS(null, "class", 'wf-label');
+    textelement.setAttributeNS(null, "y", '12');
+    textelement.setAttributeNS(null, "dy", '0');
+    var tspanelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"tspan");
+    tspanelement.setAttributeNS(null, "x", '0');
+    tspanelement.setAttributeNS(null, "y", '12');
+    tspanelement.setAttributeNS(null, "dy", '0em');
+    tspanelement.textContent=label;
+    textelement.appendChild(tspanelement);
+    var gelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    gelement.setAttributeNS(null, "class", 'wf-label-wrap');
+    gelement.setAttributeNS(null, "transform", 'translate(6,6)');
+    gelement.appendChild(textelement);
+    rootelement.appendChild(gelement);
+    var bcr = gelement.getBoundingClientRect();
+    var rectwidth=bcr.width;
+    gelement.parentNode.removeChild(gelement);
+    var rectelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"rect");
+    rectelement.setAttributeNS(null, "class", 'wf-enclosure');
+    rectelement.setAttributeNS(null, "x", '0');
+    rectelement.setAttributeNS(null, "y", '0');
+    rectelement.setAttributeNS(null, "rx", '4');
+    rectelement.setAttributeNS(null, "ry", '4');
+    rectelement.setAttributeNS(null, "width", rectwidth);
+    rectelement.setAttributeNS(null, "height", Mautic.WF_COUNT_NODE_HEIGHT_ADJUST);
+    var gelement1 = document.createElementNS(Mautic.SVGNAMESPACEURI,"g");
+    gelement1.setAttributeNS(null, "class", 'wf-node-count-label');
+    gelement1.appendChild(rectelement);
+    gelement1.appendChild(gelement);
+    var xposition=(nodewidth-rectwidth)/2;
+    gelement1.setAttributeNS(null, "transform", 'translate('+xposition+',51)');
+    return gelement1;
+}
 Mautic.getIconPathDimensionByType=function(type){
     if(type == 'trigger'){
      return 'M9.25 7c0 0.133-0.055 0.258-0.148 0.352l-4.25 4.25c-0.094 0.094-0.219 0.148-0.352 0.148-0.273 0-0.5-0.227-0.5-0.5v-2.25h-3.5c-0.273 0-0.5-0.227-0.5-0.5v-3c0-0.273 0.227-0.5 0.5-0.5h3.5v-2.25c0-0.273 0.227-0.5 0.5-0.5 0.133 0 0.258 0.055 0.352 0.148l4.25 4.25c0.094 0.094 0.148 0.219 0.148 0.352zM12 4.25v5.5c0 1.242-1.008 2.25-2.25 2.25h-2.5c-0.133 0-0.25-0.117-0.25-0.25 0-0.219-0.102-0.75 0.25-0.75h2.5c0.688 0 1.25-0.563 1.25-1.25v-5.5c0-0.688-0.563-1.25-1.25-1.25h-2.25c-0.195 0-0.5 0.039-0.5-0.25 0-0.219-0.102-0.75 0.25-0.75h2.5c1.242 0 2.25 1.008 2.25 2.25z';
@@ -441,7 +510,7 @@ Mautic.updateTriggerPath=function (rootelement) {
         var x1=mx;
         var x2=rootfixedwidth/2;
         var x=x2;
-        var my=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
+        var my=Mautic.WF_NODE_PATH_HEIGHT_ADJUST;
         var y= +my + +Mautic.WF_TRIGGER_NODE_PATH_HEIGHT_CONSTANT;
         var y1=(+my + +y)/2;
         var y2=y1;
@@ -692,8 +761,8 @@ Mautic.updateStepsPosition=function(steps){
                 var pathsplit=Mautic.getPathConnectorNode('split','M'+xposition+',0C'+xposition+',10 '+xposition+',10 '+xposition+',20');
                 child.appendChild(pathsplit);
                 if((type != 'decision' && type != 'fork' && type != 'exit') || (type == 'exit' && !lastchild)){
-                    var my=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST + +Mautic.WF_STEP_NODE_HEIGHT_ADJUST;
-                    var y=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST + +(Mautic.WF_STEP_NODE_HEIGHT_ADJUST*2);
+                    var my=Mautic.WF_NODE_PATH_HEIGHT_ADJUST + +Mautic.WF_STEP_NODE_HEIGHT_ADJUST;
+                    var y=Mautic.WF_NODE_PATH_HEIGHT_ADJUST + +(Mautic.WF_STEP_NODE_HEIGHT_ADJUST*2);
                     var y1=(my+ +y)/2;
                     var y2=y1;
                     var pathlink=Mautic.getPathConnectorNode('link','M'+xposition+','+my+'C'+xposition+','+y1+' '+xposition+','+y2+' '+xposition+','+y+'');
@@ -980,11 +1049,12 @@ Mautic.removeWfNode=function(wfnode){
     }
     var deleted=Mautic.findAndRemoveObjectFromJson(Mautic.campaignupdatedjson,findtype,findid,false);
     if(deleted){
-        Mautic.invokeCampaignEventDeleteAction(findid,function(err){
-if(!err){
-    Mautic.refreshWorkFlowCanvas();
-}
-        });
+        Mautic.refreshWorkFlowCanvas();
+//         Mautic.invokeCampaignEventDeleteAction(findid,function(err){
+// if(!err){
+//     Mautic.refreshWorkFlowCanvas();
+// }
+//         });
 
     }
 }
@@ -1229,6 +1299,10 @@ if(value.id == findid){
     return updated;
 }
 Mautic.refreshWorkFlowCanvas=function(){
+    Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
+    if(Mautic.WF_SHOW_STATSTICS){
+        Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_NODE_PATH_HEIGHT_ADJUST+ +Mautic.WF_COUNT_NODE_HEIGHT_ADJUST;
+    }
     var svgelements=mQuery('.workflow-canvas').children();
     var oldsvg=svgelements[0];
     var newsvg=oldsvg.cloneNode(false);
@@ -1447,6 +1521,10 @@ Mautic.launchCampaignEditor = function() {
         svgelement.setAttributeNS(null, "width", '1300');
         svgelement.setAttributeNS(null, "height", '4000');
         mQuery('.workflow-canvas').append(svgelement);
+        Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
+        if(Mautic.WF_SHOW_STATSTICS){
+            Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_NODE_PATH_HEIGHT_ADJUST+ +Mautic.WF_COUNT_NODE_HEIGHT_ADJUST;
+        }
        Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,1300,svgelement,'',false);
     }catch(error){
         alert(error);
@@ -1718,3 +1796,8 @@ Mautic.submitCampaignEvent = function(e) {
 
     mQuery('form[name="campaignevent"]').submit();
 };
+
+Mautic.showStatistics=function(show){
+ Mautic.WF_SHOW_STATSTICS=show;
+ Mautic.refreshWorkFlowCanvas();
+}

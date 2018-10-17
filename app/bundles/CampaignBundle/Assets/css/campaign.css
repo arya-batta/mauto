@@ -430,10 +430,11 @@
 }
 .campaign-event-type-anchor h3{
     font-weight: 600;
+    margin-left: 5px;
 }
 .campaign-event-type-description{
     margin-left: 5px;
-    background: white;
+    /*background: white;*/
     height: 74px;
     margin-right: 5px;
     margin-top: 5px;
@@ -542,7 +543,10 @@
 .workflow-canvas [class*="insertion-point"] {
     cursor: pointer;
 }
-
+.wf-node-count-label{
+    fill:#fff;
+    pointer-events: none;
+}
 .workflow-canvas [class*="insertion-point"] .wf-insert-button {
     fill: #f1749e;
     -webkit-transition: fill 150ms, stroke 150ms;

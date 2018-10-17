@@ -369,19 +369,19 @@ class EventRepository extends CommonRepository
      *
      * @return array
      */
-    public function getCampaignEvents($campaignId)
+    public function getCampaignEvents($campaignId, $includeSource=false)
     {
         $q = $this->getEntityManager()->createQueryBuilder();
         $q->select('e, IDENTITY(e.parent)')
             ->from('MauticCampaignBundle:Event', 'e', 'e.id')
             ->where(
-                $q->expr()->andX(
-                    $q->expr()->eq('IDENTITY(e.campaign)', (int) $campaignId),
-                    $q->expr()->neq('e.eventType', $q->expr()->literal('source'))
-                )
-            )
-            ->orderBy('e.order', 'ASC');
+                $q->expr()->eq('IDENTITY(e.campaign)', (int) $campaignId)
+            );
 
+        if (!$includeSource) {
+            $q->andWhere($q->expr()->neq('e.eventType', $q->expr()->literal('source')));
+        }
+        $q->orderBy('e.order', 'ASC');
         $results = $q->getQuery()->getArrayResult();
 
         // Fix the parent ID
@@ -588,7 +588,8 @@ class EventRepository extends CommonRepository
                 $qb->expr()->andX(
                     $qb->expr()->eq('campaign_id', (int) $campaignId),
                     $qb->expr()->eq('lead_id', (int) $leadId),
-                    $qb->expr()->eq('is_scheduled', 1)
+                    $qb->expr()->eq('is_scheduled', 1),
+                    $qb->expr()->eq('system_triggered', 0)
                 )
             )
             ->execute();
