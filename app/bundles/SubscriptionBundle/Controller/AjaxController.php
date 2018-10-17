@@ -969,7 +969,7 @@ class AjaxController extends CommonAjaxController
                     } else {
                         $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     }
-                    $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser);
+                    $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
                     $subsrepository->updateContactCredits($plancredits, $validitytill, $todaydate);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);

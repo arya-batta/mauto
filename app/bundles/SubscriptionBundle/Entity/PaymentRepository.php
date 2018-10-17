@@ -51,7 +51,7 @@ class PaymentRepository extends CommonRepository
         }
     }
 
-    public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser)
+    public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser, $status = 'Paid')
     {
         $currentdate      = date('Y-m-d');
         $isvalidityexpired=0;
@@ -61,7 +61,7 @@ class PaymentRepository extends CommonRepository
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);
         $paymenthistory->setPaymentID($chargeid);
-        $paymenthistory->setPaymentStatus('Paid');
+        $paymenthistory->setPaymentStatus($status);
         $paymenthistory->setProvider('stripe');
         $paymenthistory->setCurrency('$');
         $paymenthistory->setAmount($planamount);

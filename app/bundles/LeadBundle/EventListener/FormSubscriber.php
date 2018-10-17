@@ -133,7 +133,15 @@ class FormSubscriber extends CommonSubscriber
     {
         $form = $event->getResults();
         if (isset($form['email']) && !empty($form['email'])) {
-            $this->emailModel->removeDoNotContact($form['email']);
+            $stat = $this->emailModel->getStatRepository()->findOneBy(
+                [
+                    'emailAddress' => $form['email'],
+                ],
+                ['dateSent' => 'DESC']
+            );
+            if (!empty($stat)) {
+                $this->emailModel->removeDoNotContact($stat);
+            }
         }
 
         return true;
