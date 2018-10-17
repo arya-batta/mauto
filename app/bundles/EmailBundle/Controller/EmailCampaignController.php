@@ -1797,6 +1797,9 @@ class EmailCampaignController extends FormController
                 } else {
                     if (!$isempty) {
                         $this->addFlash('mautic.email.notice.test_sent_multiple.success');
+                    } else{
+                        $this->addFlash('mautic.email.notice.test_sent_multiple.success');
+
                     }
                 }
             }

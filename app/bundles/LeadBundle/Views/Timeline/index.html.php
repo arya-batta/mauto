@@ -37,9 +37,9 @@
                 </select>
             </div>
             <div class="col-sm-2">
-                <a class="btn btn-default btn-block" href="<?php echo $view['router']->generate('mautic_contact_timeline_export_action', ['leadId' => $lead->getId()]); ?>" data-toggle="download">
+                <a class="btn btn-default btn-block btn-nospin" href="<?php echo $view['router']->generate('mautic_contact_timeline_export_action', ['leadId' => $lead->getId()]); ?>" data-toggle="download">
                     <span>
-                        <i class="fa fa-download"></i> <span class="hidden-xs hidden-sm"><?php echo $view['translator']->trans('mautic.core.export'); ?></span>
+                        <i class="fa fa-download btn-nospin"></i> <span class="hidden-xs hidden-sm"><?php echo $view['translator']->trans('mautic.core.export'); ?></span>
                     </span>
                 </a>
             </div>
