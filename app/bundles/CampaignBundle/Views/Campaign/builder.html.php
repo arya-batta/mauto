@@ -26,14 +26,28 @@ $isAdmin=$view['security']->isAdmin();
             <!-- container -->
             <div class="col-md-6 height-auto">
                     <div class="row" style="width:170%;">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
                         <div class="col-md-4">
                             <?php echo $view['form']->row($form['category']); ?>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group col-xs-12">
+                                <label class="control-label" style="color:#fff;">Show Analytics</label>        <div class="choice-wrapper">
+                                    <div class="btn-group btn-block" data-toggle="buttons">
+                                        <label class="btn btn-default le-btn-published le-btn-small  btn-no">
+                                            <input type="radio" onchange="Mautic.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                        </label>
+                                        <label class="btn btn-default le-btn-published le-btn-small active btn-yes btn-success">
+                                            <input type="radio" onchange="Mautic.showStatistics(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                              </div>
+                        </div>
                     </div>
-                    <div class="row hide">
+                    <div class="hide row">
                         <div class="col-md-12">
                             <?php echo $view['form']->row($form['description']); ?>
                         </div>
@@ -63,8 +77,8 @@ $isAdmin=$view['security']->isAdmin();
                 <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
             </button>
             <div class="custom-fields">
-            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn <?php echo $entity->isPublished() ? 'background-pink':'background-orange'?>"  onclick="Mautic.publishCampaign();">
-                <?php echo $view['translator']->trans($entity->isPublished()?'Stop Workflow':'Start Workflow'); ?>
+            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn <?php echo $entity->isPublished() ? 'background-pink' : 'background-orange'?>"  onclick="Mautic.publishCampaign();">
+                <?php echo $view['translator']->trans($entity->isPublished() ? 'Stop Workflow' : 'Start Workflow'); ?>
             </button>
                 <div id="flash">
                     <span></span>
@@ -83,46 +97,6 @@ $isAdmin=$view['security']->isAdmin();
         <div class="workflow-canvas">
         </div>
     </div>
-    <div class="campaign-statistics minimized">
-        <?php if ($actions || $decisions || $conditions): ?>
-            <div class="active tab-pane fade in bdr-w-0" id="actions-container" style="">
-                <div class="modal-header campaign-model-header" style="height:68px;background-color: #ffffff">
-                    <?php if ($actions):?>
-                        <p style="margin-top: -10px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.stats'); ?></p>
-                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected" role = "tab" id = "ui-tab-stat-header1">
-                     <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.core.actions'); ?></p>
-                    </ul>
-                    <ul class=" ui-corner-top btn btn-default btn-group ui-tabs-selected hide" role = "tab" id = "ui-tab-stat-header1">
-                            <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('mautic.campaign.event.decisions.header'); ?></p>
-                    </ul>
-                    <?php endif; ?>
-                    <?php if ($decisions || $conditions):?>
-                    <ul class=" ui-corner-top btn btn-group <?php if (empty($actions)) {
-        echo 'ui-tabs-selected';
-    }?>" role = "tab" id = "ui-tab-stat-header2">
-                    <p style="float:left;font-size:14px;font-weight: bold;"><?php echo $view['translator']->trans('le.campaign.decisions.stat'); ?></p>
-                    </ul>
-                    <?php endif; ?>
-                    <a href="#" onclick="Mautic.CloseStatisticsWidget();">
-                        <span aria-hidden="true" id="campaignStatistics"
-                              style="float: right;font-size: 27px;background-color: #ec407a;padding-left: 8px;padding-right: 8px;margin-top: -11px;margin-right: -10px;" value="open">
-                            <i id="campaginStatClass" style="margin-bottom: 10px;font-size: 21px;" class="fa fa-angle-double-right"></i></span></a>
-                </div>
-                <div class="status-body hide">
-                <div id="fragment-stat-1" class="ui-tabs-panel ">
-                    <?php echo $actions; ?>
-                </div>
-                <div id="fragment-stat-2" class="ui-tabs-panel <?php if (!empty($actions)) {
-        echo 'hide';
-    }?>">
-                    <?php echo $decisions; ?>
-                    <?php echo $conditions; ?>
-                </div>
-                </div>
-            </div>
-        <?php endif; ?>
-    </div>
-
 </div>
 <!-- dropped coordinates -->
 <input type="hidden" value="" id="droppedX"/>
@@ -185,6 +159,8 @@ foreach ($acions as $key => $value) {
     }
 
 ?>
+    Mautic.campaignBuilderStatistics =
+    <?php echo json_encode($statistics, JSON_PRETTY_PRINT); ?>;
     Mautic.campaignBuilderEventOptions =
     <?php echo json_encode($eventoptions, JSON_PRETTY_PRINT); ?>;
     Mautic.campaignBuilderSourceOptions =

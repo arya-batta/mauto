@@ -379,10 +379,19 @@ class CampaignModel extends CommonFormModel
                 $tempIds[$e['tempId']] = $e['id'];
             }
         }
-        $settings=json_decode($settings);
-        $this->replaceAllTempIDS($settings, $tempIds);
+        $availableevents=[];
+        $settings       =json_decode($settings);
+        $this->replaceAllTempIDS($settings, $tempIds, $availableevents);
         $settings=json_encode($settings);
         $entity->setCanvasSettings($settings);
+        if (sizeof($availableevents) > 0) {
+            foreach ($events as $e) {
+                if (!in_array($e->getId(), $availableevents)) {
+                    $entity->removeEvent($e);
+                    $this->getEventRepository()->deleteEntity($e);
+                }
+            }
+        }
         if ($persist) {
             $this->getRepository()->saveEntity($entity);
         }
@@ -390,7 +399,7 @@ class CampaignModel extends CommonFormModel
         return $settings;
     }
 
-    public function replaceAllTempIDS($data, $tempIds)
+    public function replaceAllTempIDS($data, $tempIds, &$availableevents)
     {
         $type=$data->type;
         $id  =$data->id;
@@ -401,26 +410,27 @@ class CampaignModel extends CommonFormModel
                 if (isset($tempIds[$trigger->id])) {
                     $trigger->id=$tempIds[$trigger->id];
                 }
+                $availableevents[]=$trigger->id;
             }
             foreach ($steps as $key => $step) {
-                $this->replaceAllTempIDS($step, $tempIds);
+                $this->replaceAllTempIDS($step, $tempIds, $availableevents);
             }
-        } elseif ($type == 'action' && isset($tempIds[$id])) {
-            $data->id=$tempIds[$id];
+        } elseif ($type == 'action' || $type == 'exit' || $type == 'delay') {
+            if (isset($tempIds[$id])) {
+                $data->id=$tempIds[$id];
+            }
+            $availableevents[]=$data->id;
         } elseif ($type == 'decision') {
             if (isset($tempIds[$id])) {
                 $data->id=$tempIds[$id];
             }
-            $this->replaceAllTempIDS($data->true_path, $tempIds);
-            $this->replaceAllTempIDS($data->false_path, $tempIds);
-        } elseif ($type == 'exit' && isset($tempIds[$id])) {
-            $data->id=$tempIds[$id];
-        } elseif ($type == 'delay' && isset($tempIds[$id])) {
-            $data->id=$tempIds[$id];
+            $availableevents[]=$data->id;
+            $this->replaceAllTempIDS($data->true_path, $tempIds, $availableevents);
+            $this->replaceAllTempIDS($data->false_path, $tempIds, $availableevents);
         } elseif ($type == 'fork') {
             $paths=$data->paths;
             foreach ($paths as $key => $path) {
-                $this->replaceAllTempIDS($path, $tempIds);
+                $this->replaceAllTempIDS($path, $tempIds, $availableevents);
             }
         } elseif ($type == 'interrupt') {
             $triggers=$data->triggers;
@@ -428,6 +438,7 @@ class CampaignModel extends CommonFormModel
                 if (isset($tempIds[$trigger->id])) {
                     $trigger->id=$tempIds[$trigger->id];
                 }
+                $availableevents[]=$trigger->id;
             }
         }
     }
@@ -816,6 +827,7 @@ class CampaignModel extends CommonFormModel
                         $this->getEventRepository()->unScheduleAllEvents($campaign->getId(), $lead->getId());
                         $log=$this->getLogEntity($eventid, $campaign, $lead);
                         $log->setTriggerDate(new \DateTime());
+                        $log->setSystemTriggered(true);
                         $this->getCampaignLeadEventLogRepository()->saveEntity($log);
                         $achieved=true;
                     }
@@ -1419,5 +1431,29 @@ class CampaignModel extends CommonFormModel
         unset($event, $campaign, $lead);
 
         return $log;
+    }
+
+    /**
+     * put new campaign event log.
+     *
+     * @param $eventid
+     * @param $campaign
+     * @param $lead
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function putCampaignEventLog($eventid, $campaign, $lead)
+    {
+        $event            = $this->em->getReference('MauticCampaignBundle:Event', $eventid);
+        $campaignEventLog = $this->getCampaignLeadEventLogRepository()->findOneBy([
+            'lead'     => $lead,
+            'campaign' => $campaign,
+            'event'    => $event,
+        ]);
+        if ($campaignEventLog == null) {
+            $log=$this->getLogEntity($event, $campaign, $lead);
+            $log->setTriggerDate(new \DateTime());
+            $this->getCampaignLeadEventLogRepository()->saveEntity($log);
+        }
     }
 }

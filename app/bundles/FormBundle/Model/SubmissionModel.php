@@ -454,6 +454,7 @@ class SubmissionModel extends CommonFormModel
                         $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
                         if ($event['goal'] != 'interrupt') {
                             $this->campaignModel->addLead($campaign, $lead);
+                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
                         } else {
                             $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
                         }

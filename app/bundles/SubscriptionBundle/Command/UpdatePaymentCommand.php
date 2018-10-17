@@ -141,7 +141,9 @@ class UpdatePaymentCommand extends ModeratedCommand
             // param is '' in this case
             //  print('Param is:' . $err['param'] . "\n");
             // print('Message is:' . $err['message'] . "\n");
-            $errormsg='Card Error:'.$err['message'];
+            $errormsg      ='Card Error:'.$err['message'];
+            $payment       =$paymentrepository->captureStripePayment('', '', $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $errormsg);
+
             $licenseinfohelper->suspendApplication();
         } catch (\Stripe\Error\RateLimit $e) {
             $errormsg= 'Too many requests made to the API too quickly';
@@ -196,7 +198,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             $failure_message = $charges->failure_message;
             if ($status == 'succeeded') {
                 $todaydate     = date('Y-m-d');
-                $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null);
+                $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
                 $subsrepository=$container->get('le.core.repository.subscription');
                 $subsrepository->updateContactCredits($netcredits, $validitytill, $todaydate);
                 $output->writeln('<info>'.'Plan Renewed Successfully'.'</info>');
@@ -217,6 +219,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                     $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
                 }
             } else {
+                $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');
                 $output->writeln('<error>'.'Failure Message:'.$failure_message.'</error>');

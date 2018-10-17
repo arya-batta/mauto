@@ -217,7 +217,7 @@ class LeadEventLogRepository extends CommonRepository
      *
      * @return array
      */
-    public function getCampaignLogCounts($campaignId, $excludeScheduled = false, $excludeNegative = true)
+    public function getCampaignLogCounts($campaignId)
     {
         $q = $this->_em->getConnection()->createQueryBuilder()
                        ->from(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log', 'o')
@@ -227,31 +227,11 @@ class LeadEventLogRepository extends CommonRepository
                            'l',
                            'l.campaign_id = '.(int) $campaignId.' and l.manually_removed = 0 and o.lead_id = l.lead_id and l.rotation = o.rotation'
                        );
-
         $expr = $q->expr()->andX(
             $q->expr()->eq('o.campaign_id', (int) $campaignId)
         );
-
-        $groupBy = 'o.event_id';
-        if ($excludeNegative) {
-            $q->select('o.event_id, count(o.lead_id) as lead_count');
-            $expr->add(
-                $q->expr()->orX(
-                    $q->expr()->isNull('o.non_action_path_taken'),
-                    $q->expr()->eq('o.non_action_path_taken', ':false')
-                )
-            );
-        } else {
-            $q->select('o.event_id, count(o.lead_id) as lead_count, o.non_action_path_taken');
-            $groupBy .= ', o.non_action_path_taken';
-        }
-
-        if ($excludeScheduled) {
-            $expr->add(
-                $q->expr()->eq('o.is_scheduled', ':false')
-            );
-        }
-
+        $groupBy = 'o.event_id, o.is_scheduled';
+        $q->select('o.event_id, count(o.lead_id) as lead_count, o.is_scheduled');
         // Exclude failed events
         $failedSq = $this->_em->getConnection()->createQueryBuilder();
         $failedSq->select('null')
@@ -262,30 +242,21 @@ class LeadEventLogRepository extends CommonRepository
         $expr->add(
             sprintf('NOT EXISTS (%s)', $failedSq->getSQL())
         );
-
-        $q->where($expr)
-          ->setParameter('false', false, 'boolean')
-          ->groupBy($groupBy);
-
+        $q->groupBy($groupBy);
         $results = $q->execute()->fetchAll();
-
-        $return = [];
+        $return  = [];
 
         //group by event id
         foreach ($results as $l) {
-            if (!$excludeNegative) {
-                if (!isset($return[$l['event_id']])) {
-                    $return[$l['event_id']] = [
+            if (!isset($return[$l['event_id']])) {
+                $return[$l['event_id']] = [
                         0 => 0,
                         1 => 0,
                     ];
-                }
-
-                $key                          = (int) $l['non_action_path_taken'] ? 0 : 1;
-                $return[$l['event_id']][$key] = (int) $l['lead_count'];
-            } else {
-                $return[$l['event_id']] = (int) $l['lead_count'];
             }
+
+            $key                          = (int) $l['is_scheduled'] ? 1 : 0;
+            $return[$l['event_id']][$key] = (int) $l['lead_count'];
         }
 
         return $return;
