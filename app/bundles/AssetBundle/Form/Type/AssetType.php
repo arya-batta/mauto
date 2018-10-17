@@ -102,7 +102,7 @@ class AssetType extends AbstractType
             'label'      => 'mautic.asset.asset.form.remotePath',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control le-input'],
-            'required'   => false,
+            'required'   => true,
         ]);
 
         $builder->add('title', 'text', [

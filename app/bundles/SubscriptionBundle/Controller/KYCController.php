@@ -80,6 +80,7 @@ class KYCController extends FormController
             $userentity->setEmail($email);
             $userentity->setFirstName($firstName);
             $userentity->setLastName($lastName);
+            $userentity->setTimezone($accountdata['timezone']);
             $usermodel->saveEntity($userentity);
 
             $companyname    = $data['companyname'];

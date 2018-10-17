@@ -164,7 +164,6 @@ class AccountType extends AbstractType
                     'tooltip' => 'mautic.core.config.form.default.timezone.tooltip',
                 ],
                 'multiple'    => false,
-                'empty_value' => '(GMT+05:30)-Asia/Kolkata',
                 'empty_data'  => '',
                 'data'        => $options['data']->getTimezone(),
                 'required'    => true,
