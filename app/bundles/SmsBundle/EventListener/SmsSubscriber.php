@@ -22,6 +22,7 @@ use Mautic\PageBundle\Helper\TokenHelper as PageTokenHelper;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\SmsBundle\Event\SmsEvent;
 use Mautic\SmsBundle\SmsEvents;
+use Mautic\UserBundle\Entity\User;
 
 /**
  * Class CampaignSubscriber.
@@ -151,10 +152,11 @@ class SmsSubscriber extends CommonSubscriber
             }
 
             $content = str_replace(array_keys($tokens), array_values($tokens), $content);
-            $content = str_replace('{lead_owner_name}',$lead->getOwner()->getName(), $content);
-            $content = str_replace('{lead_owner_mobile}',$lead->getOwner()->getMobile(), $content);
-            $content = str_replace('{lead_owner_email}', $lead->getOwner()->getEmail(), $content);
-
+            if ($lead->getOwner() instanceof  User) {
+                $content = str_replace('{lead_owner_name}', $lead->getOwner()->getName(), $content);
+                $content = str_replace('{lead_owner_mobile}', $lead->getOwner()->getMobile(), $content);
+                $content = str_replace('{lead_owner_email}', $lead->getOwner()->getEmail(), $content);
+            }
             $event->setContent($content);
         }
     }
