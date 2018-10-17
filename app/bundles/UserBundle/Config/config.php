@@ -297,6 +297,12 @@ return [
                     '%mautic.saml_idp_default_role%',
                 ],
             ],
+            'mautic.validator.passwordreset' => [
+                'class'     => 'Mautic\UserBundle\Form\Validator\Constraints\PasswordResetValidator',
+                'arguments' => ['mautic.factory', 'mautic.user.model.user', 'translator'],
+                'tag'       => 'validator.constraint_validator',
+                'alias'     => 'passwordreset_verify',
+            ],
         ],
         'models' => [
             'mautic.user.model.role' => [

@@ -35,19 +35,31 @@ class PublicController extends FormController
                 $data = $form->getData();
                 $user = $model->getRepository()->findByIdentifier($data['identifier']);
 
-                if ($user == null) {
-                    $form['identifier']->addError(new FormError($this->translator->trans('mautic.user.user.passwordreset.nouserfound', [], 'validators')));
-                } else {
-                    try {
-                        $mailer = $this->container->get('mautic.transport.elasticemail.transactions');
-                        $model->sendResetEmail($user, $mailer);
-                        $this->addFlash('mautic.user.user.notice.passwordreset', [], 'notice', null, false);
-                    } catch (\Exception $exception) {
-                        $this->addFlash('mautic.user.user.notice.passwordreset.error', [], 'error', null, false);
-                    }
-
-                    return $this->redirect($this->generateUrl('login'));
+                //if ($user == null) {
+                //    $form['identifier']->addError(new FormError($this->translator->trans('mautic.user.user.passwordreset.nouserfound', [], 'validators')));
+                //} else {
+                try {
+                    $mailer = $this->container->get('mautic.transport.elasticemail.transactions');
+                    $model->sendResetEmail($user, $mailer);
+                    $this->addFlash('mautic.user.user.notice.passwordreset', [], 'notice', null, false);
+                } catch (\Exception $exception) {
+                    $this->addFlash('mautic.user.user.notice.passwordreset.error', [], 'error', null, false);
                 }
+
+                return $this->redirect($this->generateUrl('login'));
+            //}
+            } else {
+                $this->addFlash($this->translator->trans('mautic.user.user.passwordreset.nouserfound', [], 'validators'), [], 'error', null, false);
+
+                return $this->postActionRedirect(
+                    [
+                        'returnUrl'       => $action,
+                        'viewParameters'  => [
+                            'form' => $form->createView(),
+                        ],
+                        'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
+                    ]
+                );
             }
         }
 
@@ -57,7 +69,9 @@ class PublicController extends FormController
             ],
             'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
             'passthroughVars' => [
-                'route' => $action,
+                'activeLink'    => '#mautic_contact_index',
+                'mauticContent' => 'lead',
+                'route'         => $action,
             ],
         ]);
     }

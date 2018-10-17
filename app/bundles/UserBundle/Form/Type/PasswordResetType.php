@@ -12,6 +12,7 @@
 namespace Mautic\UserBundle\Form\Type;
 
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
+use Mautic\UserBundle\Form\Validator\Constraints\PasswordReset;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,6 +38,11 @@ class PasswordResetType extends AbstractType
             ],
             'constraints' => [
                 new Assert\NotBlank(['message' => 'mautic.user.user.passwordreset.notblank']),
+                new PasswordReset(
+                    [
+                        'message' => 'mautic.user.user.passwordreset.nouserfound',
+                    ]
+                ),
             ],
         ]);
 
