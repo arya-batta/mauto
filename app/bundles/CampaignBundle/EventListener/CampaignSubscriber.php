@@ -120,7 +120,7 @@ class CampaignSubscriber extends CommonSubscriber
             'order'           => 5,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
-        $event->addAction('campaign.addremovelead', $addRemoveLeadAction);
+        //$event->addAction('campaign.addremovelead', $addRemoveLeadAction);
 
         $defaultsource=[
             'label'           => 'le.campaign.event.defaultsource',

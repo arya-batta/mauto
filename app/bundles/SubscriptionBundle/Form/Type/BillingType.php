@@ -86,12 +86,12 @@ class BillingType extends AbstractType
             'text',
             [
                 'label'      => 'leadsengage.billing.companyname',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
                 ],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -100,9 +100,9 @@ class BillingType extends AbstractType
             'text',
             [
                 'label'       => 'leadsengage.billing.companyaddress',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control le-input'],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -111,9 +111,9 @@ class BillingType extends AbstractType
             'number',
             [
                 'label'       => 'leadsengage.billing.postalcode',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control le-input'],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -122,9 +122,9 @@ class BillingType extends AbstractType
             'text',
             [
                 'label'       => 'leadsengage.billing.city',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control le-input'],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -134,11 +134,11 @@ class BillingType extends AbstractType
             [
                 'choices'     => $choices,
                 'label'       => 'leadsengage.billing.state',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control'],
                 'empty_value' => '',
                 'data'        => $options['data']->getState(),
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -148,14 +148,14 @@ class BillingType extends AbstractType
             [
                 'choices'     => FormFieldHelper::getCountryChoices(),
                 'label'       => 'leadsengage.billing.country',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => [
                     'class'    => 'form-control',
                     'onchange' => 'Mautic.showGSTNumber(this.value);',
                 ],
                 'empty_value' => '',
                 'data'        => $options['data']->getCountry(),
-                'required'    => true,
+                'required'    => false,
             ]
         );
         /*  $country = $options['data']->getCountry();

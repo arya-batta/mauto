@@ -403,9 +403,12 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
     Mautic.showChangeThemeWarning = true;
     Mautic.beeTemplate = themeField.val();
     var templateJSON = mQuery('textarea.bee-editor-json');
+    var templateHTML = mQuery('textarea.builder-html');
     // Populate default content
     if (!templateJSON.length || !templateJSON.val().length) {
-        Mautic.setBeeTemplateJSON(Mautic.beeTemplate);
+        if(!templateHTML.length || !templateHTML.val().length) {
+            Mautic.setBeeTemplateJSON(Mautic.beeTemplate);
+        }
     }
     if (isNew) {
         Mautic.showChangeThemeWarning = false;

@@ -311,6 +311,8 @@ $isgoogletags= false; //$email->getGoogletags();
 
                 </div>
             </div>
+            <br>
+            <br>
         </div>
         <div id="fragment-3" class="ui-tabs-panel <?php echo $settingshide?>">
             <div class="fragment-3-buttons fixed-header">
@@ -386,6 +388,18 @@ $isgoogletags= false; //$email->getGoogletags();
                         <br>
                         <?php echo $view['form']->label($form['unsubscribe_text']); ?>
                         <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
                     </div>
                     <div class="col-md-12 hide">
                         <br>
