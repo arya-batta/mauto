@@ -1452,7 +1452,7 @@ class CampaignModel extends CommonFormModel
         ]);
         if ($campaignEventLog == null) {
             $log=$this->getLogEntity($event, $campaign, $lead);
-            $log->setTriggerDate(new \DateTime());
+            $log->setDateTriggered(new \DateTime());
             $this->getCampaignLeadEventLogRepository()->saveEntity($log);
         }
     }
