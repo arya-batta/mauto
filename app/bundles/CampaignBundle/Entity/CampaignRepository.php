@@ -655,18 +655,19 @@ class CampaignRepository extends CommonRepository
             $sq = $this->getEntityManager()->getConnection()->createQueryBuilder();
             $sq->select('null')
                 ->from(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log', 'e')
+                ->leftJoin('e', MAUTIC_TABLE_PREFIX.'campaign_events', 'ce', 'e.event_id = ce.id')
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
                        // $sq->expr()->in('e.event_id', $pendingEvents)
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
-                        $sq->expr()->eq('e.system_triggered', 0)
+                        $sq->expr()->neq('ce.event_type', ':source')
                     )
                 );
 
             $q->andWhere(
                 sprintf('NOT EXISTS (%s)', $sq->getSQL())
-            );
+            )->setParameter('source', 'source', 'string');
         }
 
         $results = $q->execute()->fetchAll();
@@ -705,17 +706,17 @@ class CampaignRepository extends CommonRepository
 
             $sq->select('null')
                 ->from(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log', 'e')
+                ->leftJoin('e', MAUTIC_TABLE_PREFIX.'campaign_events', 'ce', 'e.event_id = ce.id')
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
-                        $sq->expr()->eq('e.system_triggered', 0)
+                        $sq->expr()->neq('ce.event_type', ':source')
                     )
                 );
-
             $q->andWhere(
                 sprintf('NOT EXISTS (%s)', $sq->getSQL())
-            );
+            )->setParameter('source', 'source', 'string');
         }
 
         if (!empty($limit)) {
