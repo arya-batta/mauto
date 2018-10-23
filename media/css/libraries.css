@@ -1555,11 +1555,10 @@ solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:390px;margin:
 solid #f90}.pricing-tables{border:1px
 solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:390px;margin:16px}.pricing-tables:hover{transform:scale(1.05);border:1px
 solid #26a71f}.pricing-table1{display:inline-flex;border:1px
-solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:100%;margin:16px}.pricing-table1:hover{transform:scale(1.05);border:1px
-solid #ec407a}.pricing-body{padding:10px
+solid #e9ecef;border-radius:16px;box-shadow:0 0 16px #e4e3e3;width:100%;margin:16px}.pricing-body{padding:10px
 30px}.pricing-table
 ul{list-style:none;padding:0px;margin-left:0px}.pricing-tables
-ul{list-style:none;padding:0px;margin-left:0px}.pricing-body1{padding:10px
+ul{list-style:none;padding:0px;margin-left:0px}.pricing-body1{padding:30px
 30px;margin-left:-45px}.pricing-table1
 ul{list-style:none;padding:0px;margin-left:0px}ol,ul{margin-top:0;margin-bottom:10px}.pricing-table ul
 li{border-bottom:1px dashed #E9ECEF;padding:5px
@@ -1567,7 +1566,10 @@ li{border-bottom:1px dashed #E9ECEF;padding:5px
 35px;line-height:30px;text-align:left;background:url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick-orange.png) no-repeat top left;font-weight:500;font-family:Montserrat,sans-serif}.pricing-tables ul
 li{border-bottom:1px dashed #E9ECEF;padding:5px
 0px;font-size:15px;list-style:none;padding:3px
-35px;line-height:30px;text-align:left;background:url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick-green.png) no-repeat top left;font-weight:500;font-family:Montserrat,sans-serif}.pricing-table1 ul
+35px;line-height:30px;text-align:left;background:url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick-green.png) no-repeat top left;font-weight:500;font-family:Montserrat,sans-serif}.pricing-body ul
+li{border-bottom:1px dashed #E9ECEF;padding:5px
+0px;font-size:15px;list-style:none;padding:3px
+35px;line-height:30px;text-align:left;font-weight:600;font-family:Montserrat,sans-serif}.pricing-body1 ul
 li{border-bottom:1px dashed #E9ECEF;padding:5px
 0px;font-size:15px;list-style:none;padding:3px
 35px;line-height:30px;text-align:left;background:url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick.png) no-repeat top left;font-weight:600;font-family:Montserrat,sans-serif}.pricing-tabs__tab span.discounted-price--tag{position:absolute;right:-5px}.pricing-tabs__tab span.discounted-price--tag{font-size:12px;border-top-left-radius:12px;border-bottom-left-radius:12px;width:auto;box-shadow:0 0 8px 0 rgba(51,71,91,0.2), 0 0 20px 0 rgba(51,71,91,0.19)}.discounted-price--tag{display:-webkit-inline-box;float:right;font-size:12px;font-weight:bold;text-align:center;margin-top:-50px;background-color:#f90;width:auto;height:24px;color:#fff;line-height:0.5em;border-radius:24px;padding:10px}.pricing-img-responsive{margin-top:60px}
