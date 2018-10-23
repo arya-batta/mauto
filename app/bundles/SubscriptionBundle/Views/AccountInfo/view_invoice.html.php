@@ -23,7 +23,7 @@ if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
 }
 $planaftercredit  = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
 $plancustomcredit = $payment->getNetamount() * 500;
-$planinfo         = $payment->getPlanName() == 'leplan1' ? ' per month' : ' per year';
+$planinfo         = $payment->getPlanName() == 'leplan1' ? 'LeadsEngage Subscription Charges, $49 per Month.' : 'LeadsEngage Subscription Charges, $49 for first 90 days.';
 ?>
 <html>
 <head>
@@ -191,7 +191,7 @@ $planinfo         = $payment->getPlanName() == 'leplan1' ? ' per month' : ' per 
                 <td class="table_body description_body">
                     <span class="<?php echo ($payment->getTaxamount() == 1) ? 'hide' : 'hide'; ?>"><?php echo 'Up To '.$planaftercredit.' leads credits '; ?></span> <!--Email Credits-->
                     <span class="<?php echo ($payment->getTaxamount() == 0) ? 'hide' : 'hide'; ?>"><?php echo 'Charged for '.$plancustomcredit.' additional lead credits'; ?></span> <!--Email Credits-->
-                    <span><?php echo 'LeadsEngage Subscription Membership:  '.$payment->getCurrency().$payment->getNetamount().$planinfo; ?></span> <!--Email Credits-->
+                    <span><?php echo $planinfo ?></span> <!--Email Credits-->
                 </td>
                 <td class="table_body service_body">
                     <?php echo $view['date']->toDate($license->getLicenseStart()); ?> -<br> <?php echo $view['date']->toDate($payment->getValidityTill()); ?>

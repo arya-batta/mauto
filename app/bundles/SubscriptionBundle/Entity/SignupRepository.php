@@ -239,4 +239,173 @@ class SignupRepository
 
         return $qb->execute()->fetchAll();
     }
+
+    public function getSignupLeadinfo($appid)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $qb->select('l.id')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        $qb->andWhere('l.app_id = :app_id')
+            ->setParameter('app_id', $appid);
+
+        return $qb->execute()->fetchAll();
+    }
+
+    public function getTagIdbyName($tagname)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('t.id as tagid')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 't', 't.tag')
+            ->andWhere($qb->expr()->eq('t.tag', ':tagName'))
+            ->setParameter('tagName', $tagname);
+
+        return $qb->execute()->fetchAll();
+    }
+
+    public function updateLeadwithTag($tagname, $leadid)
+    {
+        $tagdetails = $this->getTagIdbyName($tagname);
+        if (!empty($tagdetails)) {
+            $tagid = $tagdetails[0]['tagid'];
+            $this->linkLeadwithTag($tagid, $leadid);
+        } else {
+            $this->createNewTag($tagname);
+            $tagdetails = $this->getTagIdbyName($tagname);
+            if (!empty($tagdetails)) {
+                $tagid = $tagdetails[0]['tagid'];
+                $this->linkLeadwithTag($tagid, $leadid);
+            }
+        }
+    }
+
+    public function createNewTag($tagname)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->insert(MAUTIC_TABLE_PREFIX.'lead_tags')
+            ->values([
+                'tag' => ':tagName',
+            ])
+            ->setParameter('tagName', $tagname)
+            ->execute();
+    }
+
+    public function linkLeadwithTag($tagid, $leadid)
+    {
+        $qb      = $this->getConnection()->createQueryBuilder();
+        $taglist = $this->isLeadAlreadyLinkedwithTag($leadid, $tagid);
+        if (empty($taglist)) {
+            $qb->insert(MAUTIC_TABLE_PREFIX.'lead_tags_xref')
+                ->values([
+                    'lead_id' => ':leadId',
+                    'tag_id'  => ':tagId',
+                ])
+                ->setParameter('tagId', $tagid)
+                ->setParameter('leadId', $leadid)
+                ->execute();
+        }
+    }
+
+    public function isLeadAlreadyLinkedwithTag($leadId, $tagId)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('t.tag_id as tagid')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref', 't', 't.tag_id')
+            ->andWhere($qb->expr()->eq('t.tag_id', $tagId))
+            ->andWhere($qb->expr()->eq('t.lead_id', $leadId));
+
+        return $qb->execute()->fetchAll();
+    }
+
+    public function isLeadAlreadyLinkedwithCampaign($campaignId, $leadId)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('c.campaign_id as campaignId')
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_leads', 'c', 't.campaign_id')
+            ->andWhere($qb->expr()->eq('c.campaign_id', $campaignId))
+            ->andWhere($qb->expr()->eq('c.lead_id', $leadId));
+
+        return $qb->execute()->fetchAll();
+    }
+
+    public function unScheduleAllLeadsforCampaign($campaignId)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->update(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log')
+            ->set('is_scheduled', 0)
+            ->where(
+                $qb->expr()->in('campaign_id', $campaignId)
+            )
+            ->execute();
+    }
+
+    public function addLeadinCampaignLog($campaignId, $leadId, $eventId, $isScheduled)
+    {
+        $qb              = $this->getConnection()->createQueryBuilder();
+        $campaignDetails = $this->isCampaignEventAvailable($eventId);
+        if (!empty($campaignDetails)) {
+            $currenttime = date('Y-m-d H:i:s');
+            $qb->insert(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log')
+                ->values([
+                    'campaign_id'      => ':campaignId',
+                    'lead_id'          => ':leadId',
+                    'event_id'         => ':eventId',
+                    'date_triggered'   => ':dateTriggered',
+                    'is_scheduled'     => ':isScheduled',
+                ])
+                ->setParameter('campaignId', $campaignId)
+                ->setParameter('leadId', $leadId)
+                ->setParameter('eventId', $eventId)
+                ->setParameter('dateTriggered', $currenttime)
+                ->setParameter('isScheduled', $isScheduled)
+                ->execute();
+        }
+    }
+
+    public function linkLeadwithCampaign($campaignId, $leadId)
+    {
+        $qb              = $this->getConnection()->createQueryBuilder();
+        $campaignDetails = $this->isCampaignAvailable($campaignId);
+        $campaignLink    = $this->isLeadAlreadyLinkedwithCampaign($campaignId, $leadId);
+        if (!empty($campaignDetails)) {
+            if (empty($campaignLink)) {
+                $currenttime = date('Y-m-d H:i:s');
+                $qb->insert(MAUTIC_TABLE_PREFIX.'campaign_leads')
+                    ->values([
+                        'campaign_id'      => ':campaignId',
+                        'lead_id'          => ':leadId',
+                        'date_added'       => ':dateAdded',
+                        'manually_removed' => 0,
+                        'manually_added'   => 1,
+                        'date_last_exited' => ':dateLast',
+                        'rotation'         => 1,
+                    ])
+                    ->setParameter('campaignId', $campaignId)
+                    ->setParameter('leadId', $leadId)
+                    ->setParameter('dateAdded', $currenttime)
+                    ->setParameter('dateLast', null)
+                    ->execute();
+            }
+        }
+    }
+
+    public function isCampaignAvailable($campaignId)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('c.id as campaignId')
+            ->from(MAUTIC_TABLE_PREFIX.'campaigns', 'c', 'c.id')
+            ->andWhere($qb->expr()->eq('c.id', $campaignId));
+
+        return $qb->execute()->fetchAll();
+    }
+
+    public function isCampaignEventAvailable($eventId)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('e.id as eventId')
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'e', 'e.id')
+            ->andWhere($qb->expr()->eq('e.id', $eventId));
+
+        return $qb->execute()->fetchAll();
+    }
 }

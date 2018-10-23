@@ -18,16 +18,16 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
         Click Here
     </a> to connect it.</div>
 <br>
-<div style="text-align:center;width:100%;">
+<div class="hide" style="text-align:center;width:100%;">
     <div style="display:inline-block;">
         <div class="pricingtables">
 
-            <div class="pricing-table">
+            <div class="pricing-table hide">
                 <div class="pricing-head">
                     <h3>Pay Monthly</h3>
                     <div class="pricing-body">
                         <ul>
-                            <li class="dollar"><span class="bill">$</span>79<br><span class="billing">Per Month, Billed Monthly</span></li>
+                            <li class="dollar"><span class="bill">$</span>49<br><span class="billing">Per Month, Billed Monthly</span></li>
                             <li style="margin-left:55px;">Unlimited Contacts</li>
                             <li style="margin-left:55px;">Unlimited Features</li>
                             <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="79" data-plancredits="UL" data-validity="1" class="btn btn-success buttonle plan-btn">
@@ -38,7 +38,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 </div>
             </div>
 
-            <div class="pricing-tables">
+            <div class="pricing-tables hide">
                 <div class="pricing-heads">
                     <h3>Pay Annually</h3>
                     <span class="discounted-price--tag">37% Off</span>
@@ -59,12 +59,24 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
     <div style="display:inline-block;">
         <div class="pricingtable1">
             <div class="pricing-table1">
-                <div style="padding-left:15px;">
-                    <img class="pricing-img-responsive" src="https://leadsengage.com/wp-content/uploads/leadsengage/startup.png" alt="/icon/startup.png"><br><h2>All features includes <br>the following</h2></div>
+                <div class="pricing-head1" style="padding-top:50px;">
+                    <h3><b>Special Limited Time Offer</b></h3>
+                    <div class="pricing-body">
+                        <ul>
+
+                            <li class="dollar"><span class="bill">$</span>49<br><span class="billing">for first 90 days (Save $98)</span></li>
+                            <li class="dollars" style="margin-top:0px;line-height: 15px;"><span class="billing">then $49/ month, paid month on month.</span></li>
+                            <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="49" data-plancredits="UL" data-validity="1" class="btn btn-success buttonles plan-btn">
+                                Subscribe
+                            </a>
+                        </ul>
+                    </div>
+                </div>
                 <div class="pricing-head1">
                     <div class="pricing-body1">
 
                         <ul>
+                            <li style="margin-left:55px;">Add Unlimited Contacts</li>
                             <li style="margin-left:55px;">Send Unlimited Email, SMS Campaigns</li>
                             <li style="margin-left:55px;">Create Unlimited Automation Workflows</li>
                             <li style="margin-left:55px;">Create Unlimited Landing Pages & Lead Capture Forms</li>
