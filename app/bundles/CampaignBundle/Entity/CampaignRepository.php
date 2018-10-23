@@ -659,7 +659,8 @@ class CampaignRepository extends CommonRepository
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
                        // $sq->expr()->in('e.event_id', $pendingEvents)
-                        $sq->expr()->eq('e.campaign_id', (int) $campaignId)
+                        $sq->expr()->eq('e.campaign_id', (int) $campaignId),
+                        $sq->expr()->eq('e.system_triggered', 0)
                     )
                 );
 
@@ -707,7 +708,8 @@ class CampaignRepository extends CommonRepository
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
-                        $sq->expr()->eq('e.campaign_id', (int) $campaignId)
+                        $sq->expr()->eq('e.campaign_id', (int) $campaignId),
+                        $sq->expr()->eq('e.system_triggered', 0)
                     )
                 );
 

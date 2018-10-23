@@ -1402,7 +1402,7 @@ class EventModel extends CommonFormModel
             }
         }
         if (empty($log)) {
-            $log = $this->getLogEntity($event['id'], $campaign, $lead, null, !defined('MAUTIC_CAMPAIGN_NOT_SYSTEM_TRIGGERED'));
+            $log = $this->getLogEntity($event['id'], $campaign, $lead, null, false); //!defined('MAUTIC_CAMPAIGN_NOT_SYSTEM_TRIGGERED')
         }
         if ($eventTriggerDate instanceof \DateTime) {
             $wasScheduled=true;
