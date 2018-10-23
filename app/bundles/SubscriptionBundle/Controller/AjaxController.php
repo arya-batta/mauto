@@ -224,6 +224,21 @@ class AjaxController extends CommonAjaxController
         $signuprepository->updateSignupInfo($data, $data, $data, $appid);
         $model->saveEntity($account);
 
+        $signuplead = $signuprepository->getSignupLeadinfo($appid);
+        if (!empty($signuplead)) {
+            $signupleadid = $signuplead[0]['id'];
+            $signuprepository->updateLeadwithTag($this->translator->trans('le.profile.updated.tag.name'), $signupleadid);
+            $campaignid   = $this->coreParametersHelper->getParameter('campaign_id');
+            $sourceId     = $this->coreParametersHelper->getParameter('source_event_id');
+            $goalId       = $this->coreParametersHelper->getParameter('goal_event_id');
+            if ($campaignid != null) {
+                $signuprepository->linkLeadwithCampaign($campaignid, $signupleadid);
+            }
+            if ($campaignid != null && $sourceId != null) {
+                $signuprepository->addLeadinCampaignLog($campaignid, $signupleadid, $sourceId, 0);
+            }
+        }
+
         $userentity->setEmail($email);
         $userentity->setFirstName($firstName);
         $userentity->setLastName($lastName);
@@ -264,7 +279,7 @@ class AjaxController extends CommonAjaxController
         }
         $dataArray                = ['success' => true];
         $dataArray['otp']         = $otp;
-        $dataArray['otpsend']     = $otpsend;
+        $dataArray['otpsend']     = false;
         $dataArray['mobile']      = $phonenumber;
         $url                      = $this->generateUrl('mautic_contact_index');
         $dataArray['redirecturl'] = $url;
@@ -967,12 +982,28 @@ class AjaxController extends CommonAjaxController
                             $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
                         }
                     } else {
-                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                        $planname     = '90 Days Success Offer';
+                        $validitytill = date('Y-m-d', strtotime('-1 day +90 days'));
                     }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
                     $subsrepository->updateContactCredits($plancredits, $validitytill, $todaydate);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
+                    $signuprepository     =$this->get('le.core.repository.signup');
+                    $dbname               = $this->coreParametersHelper->getParameter('db_name');
+                    $appid                = str_replace('leadsengage_apps', '', $dbname);
+                    $signuplead           = $signuprepository->getSignupLeadinfo($appid);
+                    if (!empty($signuplead)) {
+                        $signupleadid = $signuplead[0]['id'];
+                        $signuprepository->updateLeadwithTag($this->translator->trans('le.payment.done.tag.name'), $signupleadid);
+                        $campaignid   = $this->coreParametersHelper->getParameter('campaign_id');
+                        $sourceId     = $this->coreParametersHelper->getParameter('source_event_id');
+                        $goalId       = $this->coreParametersHelper->getParameter('goal_event_id');
+                        if ($campaignid != null && $goalId != null) {
+                            $signuprepository->unScheduleAllLeadsforCampaign($campaignid);
+                            $signuprepository->addLeadinCampaignLog($campaignid, $signupleadid, $goalId, 1);
+                        }
+                    }
                 } else {
                     $errormsg=$failure_message;
                 }

@@ -19935,10 +19935,7 @@ padding:5px;
   width: 100%;
   margin: 16px;
 }
-.pricing-table1:hover{
-  transform: scale(1.05);
-  border: 1px solid #ec407a;
-}
+
 .pricing-body {
   padding: 10px 30px;
 }
@@ -19953,7 +19950,7 @@ padding:5px;
   margin-left:0px;
 }
 .pricing-body1 {
-  padding: 10px 30px;
+  padding: 30px 30px;
   margin-left: -45px;
 }
 .pricing-table1 ul {
@@ -19990,7 +19987,18 @@ ol, ul {
   font-weight: 500;
   font-family: Montserrat,sans-serif;
 }
-.pricing-table1 ul li {
+.pricing-body ul li {
+  border-bottom: 1px dashed #E9ECEF;
+  padding: 5px 0px;
+  font-size: 15px;
+  list-style: none;
+  padding: 3px 35px;
+  line-height: 30px;
+  text-align:left;
+  font-weight: 600;
+  font-family: Montserrat,sans-serif;
+}
+.pricing-body1 ul li {
   border-bottom: 1px dashed #E9ECEF;
   padding: 5px 0px;
   font-size: 15px;

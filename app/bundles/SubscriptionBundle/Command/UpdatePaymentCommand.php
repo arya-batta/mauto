@@ -68,6 +68,9 @@ class UpdatePaymentCommand extends ModeratedCommand
                         $stripecard = $stripecards[0];
                     }
                     $monthcount = 1;
+                    if ($planname != 'leplan1') {
+                        $planname = 'leplan1';
+                    }
                     if ($planname == 'leplan2') {
                         $monthcount = 12;
                     }
