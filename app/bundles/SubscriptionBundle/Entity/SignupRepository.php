@@ -344,6 +344,7 @@ class SignupRepository
         $qb              = $this->getConnection()->createQueryBuilder();
         $campaignDetails = $this->isCampaignEventAvailable($eventId);
         if (!empty($campaignDetails)) {
+            date_default_timezone_set('UTC');
             $currenttime = date('Y-m-d H:i:s');
             $qb->insert(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log')
                 ->values([
@@ -369,6 +370,7 @@ class SignupRepository
         $campaignLink    = $this->isLeadAlreadyLinkedwithCampaign($campaignId, $leadId);
         if (!empty($campaignDetails)) {
             if (empty($campaignLink)) {
+                date_default_timezone_set('UTC');
                 $currenttime = date('Y-m-d H:i:s');
                 $qb->insert(MAUTIC_TABLE_PREFIX.'campaign_leads')
                     ->values([
