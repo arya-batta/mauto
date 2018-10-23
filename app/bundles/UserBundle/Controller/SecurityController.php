@@ -12,6 +12,7 @@
 namespace Mautic\UserBundle\Controller;
 
 use Mautic\CoreBundle\Controller\CommonController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\Security\Core\Exception as Exception;
@@ -50,6 +51,9 @@ class SecurityController extends CommonController
     {
         // A way to keep the upgrade from failing if the session is lost after
         // the cache is cleared by upgrade.php
+        if (InputHelper::isMobile()) {
+            return $this->delegateRedirect('https://leadsengage.com/login/');
+        }
         if ($this->request->cookies->has('mautic_update')) {
             $step = $this->request->cookies->get('mautic_update');
             if ($step == 'clearCache') {
