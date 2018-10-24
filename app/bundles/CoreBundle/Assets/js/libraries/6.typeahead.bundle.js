@@ -1680,7 +1680,8 @@
             $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
             $hint.val("").removeData().addClass("tt-hint").removeAttr("id name placeholder").prop("disabled", true).attr({
                 autocomplete: "off",
-                spellcheck: "false"
+                spellcheck: "false",
+                type:"hidden"
             });
             $input.data(attrsKey, {
                 dir: $input.attr("dir"),

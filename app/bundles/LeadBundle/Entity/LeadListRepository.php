@@ -395,21 +395,24 @@ class LeadListRepository extends CommonRepository
 
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
                     $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
+                    for($i=0;$i<sizeof($filters);$i++) {
+                        if ($filters[$i]['operator'] != 'empty' && $filters[$i]['operator'] != '!empty' ) {
+                            if (!$this->hasCompanyFilter && !$expr->count()) {
+                                // Treat this as if it has no filters since all the filters are now invalid (fields were deleted)
+                                $return[$id] = [];
+                                if ($countOnly) {
+                                    $return[$id] = [
+                                        'count' => 0,
+                                        'maxId' => 0,
+                                    ];
+                                    if ($withMinId) {
+                                        $return[$id]['minId'] = 0;
+                                    }
+                                }
 
-                    if (!$this->hasCompanyFilter && !$expr->count()) {
-                        // Treat this as if it has no filters since all the filters are now invalid (fields were deleted)
-                        $return[$id] = [];
-                        if ($countOnly) {
-                            $return[$id] = [
-                                'count' => 0,
-                                'maxId' => 0,
-                            ];
-                            if ($withMinId) {
-                                $return[$id]['minId'] = 0;
+                                continue;
                             }
                         }
-
-                        continue;
                     }
 
                     // Leads that do not have any record in the lead_lists_leads table for this lead list
