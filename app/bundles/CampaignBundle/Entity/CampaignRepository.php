@@ -661,13 +661,13 @@ class CampaignRepository extends CommonRepository
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
                        // $sq->expr()->in('e.event_id', $pendingEvents)
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
-                        $sq->expr()->neq('ce.event_type', ':source')
+                        $sq->expr()->andX($sq->expr()->orX($sq->expr()->neq('ce.event_type', ':event_type'), $sq->expr()->andX($sq->expr()->eq('ce.event_type', ':event_type'), $sq->expr()->eq('ce.trigger_mode', ':trigger_mode'))))
                     )
                 );
-
             $q->andWhere(
                 sprintf('NOT EXISTS (%s)', $sq->getSQL())
-            )->setParameter('source', 'source', 'string');
+            )->setParameter('event_type', 'source', 'string')
+                ->setParameter('trigger_mode', 'interrupt', 'string');
         }
 
         $results = $q->execute()->fetchAll();
@@ -711,12 +711,13 @@ class CampaignRepository extends CommonRepository
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
-                        $sq->expr()->neq('ce.event_type', ':source')
+                        $sq->expr()->andX($sq->expr()->orX($sq->expr()->neq('ce.event_type', ':event_type'), $sq->expr()->andX($sq->expr()->eq('ce.event_type', ':event_type'), $sq->expr()->eq('ce.trigger_mode', ':trigger_mode'))))
                     )
                 );
             $q->andWhere(
                 sprintf('NOT EXISTS (%s)', $sq->getSQL())
-            )->setParameter('source', 'source', 'string');
+            )->setParameter('event_type', 'source', 'string')
+                ->setParameter('trigger_mode', 'interrupt', 'string');
         }
 
         if (!empty($limit)) {
