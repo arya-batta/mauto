@@ -1280,9 +1280,17 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
-        if ($this->currentUser->getId() != 1) {
+        if ($this->currentUser->getId() != 1 && $viewOthers) {
+            $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere("l.owner_id  IS NULL");
+            $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
+               ->setParameter('dateAdded', $last7daysAddedLeads);
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere("l.created_by  IS NULL");
+            $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
+                ->setParameter('dateAdded', $last7daysAddedLeads);
         }
 
         $results = $q->execute()->fetchAll();
@@ -1302,9 +1310,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+        if ($this->currentUser->getId() != 1&& $viewOthers) {
+            $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+
         }
 
         $results = $q->execute()->fetchAll();
@@ -1329,7 +1340,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         }
 
         if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+            $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
                 ->setParameter('id', '1');
         }
 

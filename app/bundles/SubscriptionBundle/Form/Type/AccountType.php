@@ -84,7 +84,7 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'      => 'leadsengage.subs.accountname',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
@@ -109,12 +109,12 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'      => 'leadsengage.subs.website',
-                'label_attr' => ['class' => 'control-label '],
+                'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
                 ],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 
@@ -134,9 +134,9 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'       => 'leadsengage.subs.accountmobile',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control le-input', 'type'  => 'number'],
-                'required'    => true,
+                'required'    => false,
             ]
         );
 

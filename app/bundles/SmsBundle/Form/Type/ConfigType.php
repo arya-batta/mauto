@@ -246,7 +246,7 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'        => 'form-control btn btn-primary '.$class,
                 ],
-                'data'     => (isset($options['data']['sms_status'])) ? $options['data']['sms_status'] : 'InActive',
+                'data'     => (isset($options['data']['sms_status'])) ? $options['data']['sms_status'] : 'Active',
             ]
         );
         $builder->add(

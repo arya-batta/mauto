@@ -49,7 +49,7 @@ if ($lastpayment == null) {
                                 <div class="card-holder-title">
                                     Credit Card
                                 </div>
-                                <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : ''?>">
+                                <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : '';?>">
                                     <?php echo 'Card ending in '.$stripecard->getlast4digit().' on file.' ?>
                                 </div>
 

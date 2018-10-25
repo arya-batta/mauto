@@ -407,6 +407,8 @@ class FormController extends CommonFormController
 
                             // Set timestamps
                             $model->setTimestamps($entity, true, false);
+                            // Save and trigger listeners
+                            $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
 
                             // Save the form first and new actions so that new fields are available to actions.
                             // Using the repository function to not trigger the listeners twice.
@@ -418,9 +420,6 @@ class FormController extends CommonFormController
 
                             // Set and persist actions
                             $model->setActions($entity, $actions);
-
-                            // Save and trigger listeners
-                            $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
 
                             $this->addFlash(
                                 'mautic.core.notice.created',

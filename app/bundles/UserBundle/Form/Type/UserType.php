@@ -147,8 +147,9 @@ class UserType extends AbstractType
             'text',
             [
                 'label'      => 'mautic.core.firstname',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label required'],
                 'attr'       => ['class' => 'form-control le-input'],
+                'required'   => false,
             ]
         );
 
@@ -157,7 +158,7 @@ class UserType extends AbstractType
             'text',
             [
                 'label'      => 'mautic.core.lastname',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label required'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
             ]
