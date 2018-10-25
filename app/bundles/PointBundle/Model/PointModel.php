@@ -198,9 +198,9 @@ class PointModel extends CommonFormModel
     public function triggerAction($type, $eventDetails = null, $typeId = null, Lead $lead = null)
     {
         //only trigger actions for anonymous users
-        if (!$this->security->isAnonymous()) {
-            return;
-        }
+        //if (!$this->security->isAnonymous()) {
+        //    return;
+        //}
 
         if ($typeId !== null && MAUTIC_ENV === 'prod') {
             //let's prevent some unnecessary DB calls

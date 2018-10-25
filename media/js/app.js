@@ -1,5 +1,5 @@
 var MauticVars={};var mQuery=jQuery.noConflict(true);window.jQuery=mQuery;if(!String.prototype.startsWith){String.prototype.startsWith=function(searchString,position){position=position||0;return this.substr(position,searchString.length)===searchString;};}
-MauticVars.activeRequests=0;mQuery.ajaxSetup({beforeSend:function(request,settings){if(settings.showLoadingBar){mQuery('.loading-bar').addClass('active');MauticVars.activeRequests++;}
+MauticVars.activeRequests=0;mQuery(function(){mQuery('#flashes').delay(800).fadeIn('normal',function(){mQuery(this).delay(1500).fadeOut();});});mQuery.ajaxSetup({beforeSend:function(request,settings){if(settings.showLoadingBar){mQuery('.loading-bar').addClass('active');MauticVars.activeRequests++;}
 if(typeof IdleTimer!='undefined'){var userLastActive=IdleTimer.getLastActive();var queryGlue=(settings.url.indexOf("?")==-1)?'?':'&';settings.url=settings.url+queryGlue+'mauticUserLastActive='+userLastActive;}
 if(mQuery('#mauticLastNotificationId').length){var queryGlue=(settings.url.indexOf("?")==-1)?'?':'&';settings.url=settings.url+queryGlue+'mauticLastNotificationId='+mQuery('#mauticLastNotificationId').val();}
 if(settings.type=='POST'){request.setRequestHeader('X-CSRF-Token',mauticAjaxCsrf);}
