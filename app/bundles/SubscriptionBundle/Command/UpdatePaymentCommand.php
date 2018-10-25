@@ -94,7 +94,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                             if ($isvalidityexpired) {
                                 $netamount   = (($planamount)); // + (10 * $multiplx));
                                 $netcredits  = (($plancredits)); // + (5000 * $multiplx));
-                                $validitytill=date('Y-m-d', strtotime($validitytill.'-1 day +'.$monthcount.' months'));
+                                $validitytill=date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;

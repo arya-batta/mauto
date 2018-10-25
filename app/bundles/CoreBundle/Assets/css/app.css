@@ -6455,6 +6455,7 @@ text-align: center;
   position:fixed;
   z-index:500;
   top:51px;
+  width:100%;
 }
 #fixed-content{
   margin-top:155px;

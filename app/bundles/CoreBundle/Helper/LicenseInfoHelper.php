@@ -982,8 +982,11 @@ class LicenseInfoHelper
         $countrydetails                = [];
         $countrydetails['countryname'] = $countrycode;
         $timezone                      = '';
-        if ($lat != null && $lon != null) {
-            $timezone = $this->getTimeZone($lat, $lon);
+        $ipInfo                        = file_get_contents('http://ip-api.com/json/'.$clientip);
+        $ipInfo                        = json_decode($ipInfo);
+        $timezone                      = $ipInfo->timezone;
+        if ($timezone == 'Asia/Kolkata') {
+            $timezone = 'Asia/Calcutta';
         }
         $countrydetails['timezone']    = $timezone;
 
@@ -1039,7 +1042,7 @@ class LicenseInfoHelper
         $actualSMSCount = $entity->getActualSmsCount();
 
         $smsprovider = $this->factory->get('mautic.helper.core_parameters')->getParameter('sms_transport');
-        if($smsprovider == 'mautic.sms.transport.leadsengage') {
+        if ($smsprovider == 'mautic.sms.transport.leadsengage') {
             $totalSMSCount = 10;
         }
 
@@ -1075,7 +1078,7 @@ class LicenseInfoHelper
     public function redirectToCardinfo()
     {
         $currentuser = $this->factory->getUser();
-        if($currentuser->isAdmin()){
+        if ($currentuser->isAdmin()) {
             return false;
         }
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
@@ -1089,7 +1092,7 @@ class LicenseInfoHelper
     public function redirectToSubscriptionpage()
     {
         $currentuser = $this->factory->getUser();
-        if($currentuser->isAdmin()){
+        if ($currentuser->isAdmin()) {
             return false;
         }
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();

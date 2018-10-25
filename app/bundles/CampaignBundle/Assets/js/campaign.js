@@ -1359,6 +1359,10 @@ Mautic.publishCampaign = function(){
         Mautic.toggleYesNoButtonClass('campaign_isPublished_1');
         mQuery('#campaign_isPublished_1').attr('checked',true);
         mQuery('#campaign_isPublished_0').attr('checked',false);
+        var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
+        mQuery(potherLabel).addClass('active');
+        var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
+        mQuery(uotherLabel).removeClass('active');
         mQuery('#campaignPublishButton').attr("value","unpublish");
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
         mQuery('#campaignPublishButton').html('Stop Workflow');
@@ -1368,7 +1372,10 @@ Mautic.publishCampaign = function(){
     } else {
         Mautic.toggleYesNoButtonClass('campaign_isPublished_0');
         mQuery('#campaign_isPublished_0').attr('checked',true);
-        mQuery('#campaign_isPublished_1').attr('checked',false);
+        var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
+        mQuery(uotherLabel).addClass('active');
+        var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
+        mQuery(potherLabel).removeClass('active');
         mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
         mQuery('#campaignPublishButton').attr("value","publish");
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');

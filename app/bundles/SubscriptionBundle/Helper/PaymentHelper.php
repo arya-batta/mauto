@@ -123,7 +123,7 @@ class PaymentHelper
 	<body aria-disabled='false' style='min-height: 300px;margin:0px;'>
 		<div style='background-color:#eff2f7'>
 			<div style='padding-top: 55px;'>
-				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #0071ff;'>
+				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #ec407a;'>
 
 					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leadsengage/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
 					<br>
@@ -133,7 +133,7 @@ class PaymentHelper
 							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Dear ".$billing->getCompanyname().",</p>
 
 							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Payment of <b>$".$paymenthistory->getNetamount().'</b> has been processed on <b>'.$processedat."</b> for LeadsEngage's Monthly Subscription.You can download the Invoice in your account.
-</p><a href=\"$invoicelink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #0071ff;border: #0071ff;'>View Invoice</a>
+</p><a href=\"$invoicelink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #ec407a;border: #0071ff;'>View Invoice</a>
 							<br>
 
 							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Contact <a href='mailto:support@leadsengage.com'>support@leadsengage.com</a> for any clarification</p>

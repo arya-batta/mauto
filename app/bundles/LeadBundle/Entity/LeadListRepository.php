@@ -395,8 +395,8 @@ class LeadListRepository extends CommonRepository
 
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
                     $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
-                    for($i=0;$i<sizeof($filters);$i++) {
-                        if ($filters[$i]['operator'] != 'empty' && $filters[$i]['operator'] != '!empty' ) {
+                    for ($i=0; $i < sizeof($filters); ++$i) {
+                        if ($filters[$i]['operator'] != 'empty' && $filters[$i]['operator'] != '!empty') {
                             if (!$this->hasCompanyFilter && !$expr->count()) {
                                 // Treat this as if it has no filters since all the filters are now invalid (fields were deleted)
                                 $return[$id] = [];
@@ -1134,17 +1134,29 @@ class LeadListRepository extends CommonRepository
                         case 'eq':
                         case 'neq':
                             $parameters[$parameter] = $details['filter'];
-
-                            $subqb->where(
-                                $q->expr()
-                                    ->andX(
-                                        $q->expr()
-                                            ->eq($alias.'.'.$column, $exprParameter),
-                                        $q->expr()
-                                            ->eq($alias.'.lead_id', 'l.id'),
-                                        $expn
-                                    )
-                            );
+                            if ($details['type'] == 'date') {
+                                $subqb->where(
+                                    $q->expr()
+                                        ->andX(
+                                            $q->expr()
+                                                ->gte($alias.'.'.$column, $exprParameter),
+                                            $q->expr()
+                                                ->eq($alias.'.lead_id', 'l.id'),
+                                            $expn
+                                        )
+                                );
+                            } else {
+                                $subqb->where(
+                                    $q->expr()
+                                        ->andX(
+                                            $q->expr()
+                                                ->eq($alias.'.'.$column, $exprParameter),
+                                            $q->expr()
+                                                ->eq($alias.'.lead_id', 'l.id'),
+                                            $expn
+                                        )
+                                );
+                            }
                             break;
                         case 'between':
                         case 'notBetween':

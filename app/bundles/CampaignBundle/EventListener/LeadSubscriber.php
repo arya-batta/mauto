@@ -373,7 +373,7 @@ class LeadSubscriber extends CommonSubscriber
                         //use the parent (self or configured parent)
                         $pageHitId = $parent->getId();
                     } elseif ($pagehit instanceof Hit) {
-                        $pageHitId = $pagehit->getPage();
+                        $pageHitId = $pagehit->getPage()->getId();
                     } else {
                         $pageHitId = 0;
                     }
