@@ -123,22 +123,13 @@ Mautic.subscriptionOnLoad = function (container) {
     });
 }
 
-Mautic.validateKYCForm = function() {
+Mautic.validatePersonalInfo = function(){
+    var theClass = "has-error";
+    var isvalid = true;
     var firstName = mQuery('#user_firstName').val();
     var lastName = mQuery('#user_lastName').val();
     var phonenumber = mQuery('#accountinfo_phonenumber').val();
     var email = mQuery('#user_email').val();
-    var companyname = mQuery('#billinginfo_companyname').val();
-    var domain = mQuery('#accountinfo_domainname').val();
-    var website = mQuery('#accountinfo_website').val();
-    var companyaddress = mQuery('#billinginfo_companyaddress').val();
-    var postalcode = mQuery('#billinginfo_postalcode').val();
-    var state = mQuery('#billinginfo_state').val();
-    var city = mQuery('#billinginfo_city').val();
-    var country = mQuery('#billinginfo_country').val();
-    var timezone = mQuery('#accountinfo_timezone').val();
-    var gstnumber = mQuery('#billinginfo_gstnumber').val();
-    var isvalid = true;
     mQuery('#user_Firstname').removeClass('has-success has-error');
     mQuery('#user_Firstname .help-block').html("");
     mQuery('#user_Lastname').removeClass('has-success has-error');
@@ -147,29 +138,6 @@ Mautic.validateKYCForm = function() {
     mQuery('#account_Mobile .help-block').html("");
     mQuery('#user_Email').removeClass('has-success has-error');
     mQuery('#user_Email .help-block').html("");
-    mQuery('#billing_Company').removeClass('has-success has-error');
-    mQuery('#billing_Company .help-block').html("");
-    mQuery('#account_Website').removeClass('has-success has-error');
-    mQuery('#account_Website .help-block').html("");
-    mQuery('#billing_Address').removeClass('has-success has-error');
-    mQuery('#billing_Address .help-block').html("");
-    mQuery('#billing_City').removeClass('has-success has-error');
-    mQuery('#billing_City .help-block').html("");
-    mQuery('#billing_Postal').removeClass('has-success has-error');
-    mQuery('#billing_Postal .help-block').html("");
-    mQuery('#billing_state').removeClass('has-success has-error');
-    mQuery('#billing_state .help-block').html("");
-    mQuery('#billing_country').removeClass('has-success has-error');
-    mQuery('#billing_country .help-block').html("");
-    mQuery('#account_timezone').removeClass('has-success has-error');
-    mQuery('#account_timezone .help-block').html("");
-    mQuery('#billing_GST').removeClass('has-success has-error');
-    mQuery('#billing_GST .help-block').html("");
-    mQuery('#condition_Agree').removeClass('has-success has-error label_control_error');
-    mQuery('#condition_Agree .help-block').html("");
-    mQuery('#spam_Agree').removeClass('has-success has-error label_control_error');
-    mQuery('#spam_Agree .help-block').html("");
-    var theClass = "has-error";
     if(firstName == ""){
         mQuery('#user_Firstname').removeClass('has-success has-error').addClass(theClass);
         mQuery('#user_Firstname .help-block').html("Firstname can't be empty");
@@ -196,6 +164,82 @@ Mautic.validateKYCForm = function() {
         mQuery('#user_Email .help-block').html("Email can't be empty");
         isvalid = false;
     }
+    return isvalid;
+}
+
+Mautic.validateKYCForm = function() {
+    /*var firstName = mQuery('#user_firstName').val();
+    var lastName = mQuery('#user_lastName').val();
+    var phonenumber = mQuery('#accountinfo_phonenumber').val();
+    var email = mQuery('#user_email').val();*/
+    var companyname = mQuery('#billinginfo_companyname').val();
+    var domain = mQuery('#accountinfo_domainname').val();
+    var website = mQuery('#accountinfo_website').val();
+    var companyaddress = mQuery('#billinginfo_companyaddress').val();
+    var postalcode = mQuery('#billinginfo_postalcode').val();
+    var state = mQuery('#billinginfo_state').val();
+    var city = mQuery('#billinginfo_city').val();
+    var country = mQuery('#billinginfo_country').val();
+    var timezone = mQuery('#accountinfo_timezone').val();
+    var gstnumber = mQuery('#billinginfo_gstnumber').val();
+    var isvalid = true;
+    /*mQuery('#user_Firstname').removeClass('has-success has-error');
+    mQuery('#user_Firstname .help-block').html("");
+    mQuery('#user_Lastname').removeClass('has-success has-error');
+    mQuery('#user_Lastname .help-block').html("");
+    mQuery('#account_Mobile').removeClass('has-success has-error');
+    mQuery('#account_Mobile .help-block').html("");
+    mQuery('#user_Email').removeClass('has-success has-error');
+    mQuery('#user_Email .help-block').html("");*/
+    mQuery('#billing_Company').removeClass('has-success has-error');
+    mQuery('#billing_Company .help-block').html("");
+    mQuery('#account_Website').removeClass('has-success has-error');
+    mQuery('#account_Website .help-block').html("");
+    mQuery('#billing_Address').removeClass('has-success has-error');
+    mQuery('#billing_Address .help-block').html("");
+    mQuery('#billing_City').removeClass('has-success has-error');
+    mQuery('#billing_City .help-block').html("");
+    mQuery('#billing_Postal').removeClass('has-success has-error');
+    mQuery('#billing_Postal .help-block').html("");
+    mQuery('#billing_state').removeClass('has-success has-error');
+    mQuery('#billing_state .help-block').html("");
+    mQuery('#billing_country').removeClass('has-success has-error');
+    mQuery('#billing_country .help-block').html("");
+    mQuery('#account_timezone').removeClass('has-success has-error');
+    mQuery('#account_timezone .help-block').html("");
+    mQuery('#billing_GST').removeClass('has-success has-error');
+    mQuery('#billing_GST .help-block').html("");
+    mQuery('#condition_Agree').removeClass('has-success has-error label_control_error');
+    mQuery('#condition_Agree .help-block').html("");
+    mQuery('#spam_Agree').removeClass('has-success has-error label_control_error');
+    mQuery('#spam_Agree .help-block').html("");
+    var theClass = "has-error";
+    /*if(firstName == ""){
+        mQuery('#user_Firstname').removeClass('has-success has-error').addClass(theClass);
+        mQuery('#user_Firstname .help-block').html("Firstname can't be empty");
+        isvalid = false;
+    }
+    if(lastName == ""){
+        mQuery('#user_Lastname').removeClass('has-success has-error').addClass(theClass);
+        mQuery('#user_Lastname .help-block').html("Lastname can't be empty");
+        isvalid = false;
+    }
+    if (phonenumber == ""){
+        mQuery('#account_Mobile').removeClass('has-success has-error').addClass(theClass);
+        mQuery('#account_Mobile .help-block').html("Mobile can't be empty");
+        isvalid = false;
+    } else if(phonenumber != ""){
+        if (phonenumber.length < 10 || isNaN(phonenumber)){
+            mQuery('#account_Mobile').removeClass('has-success has-error').addClass(theClass);
+            mQuery('#account_Mobile .help-block').html("Mobile doesn't look right. Use the Valid one");
+            isvalid = false;
+        }
+    }
+    if(email == ""){
+        mQuery('#user_Email').removeClass('has-success has-error').addClass(theClass);
+        mQuery('#user_Email .help-block').html("Email can't be empty");
+        isvalid = false;
+    }*/
     if(companyname == ""){
         mQuery('#billing_Company').removeClass('has-success has-error').addClass(theClass);
         mQuery('#billing_Company .help-block').html("Company Name can't be empty");
@@ -261,31 +305,48 @@ Mautic.validateKYCForm = function() {
 };
 var timeInterval = 0;
 
-Mautic.SendOTPConnection = function() {
-    var firstName = mQuery('#user_firstName').val();
-    var lastName = mQuery('#user_lastName').val();
+Mautic.savePersonalInfo = function(){
+    var firstName   = mQuery('#user_firstName').val();
+    var lastName    = mQuery('#user_lastName').val();
     var phonenumber = mQuery('#accountinfo_phonenumber').val();
-    var email = mQuery('#user_email').val();
-    var company = mQuery('#billinginfo_companyname').val();
-    var domain = mQuery('#accountinfo_domainname').val();
-    var website = mQuery('#accountinfo_website').val();
-    var address = mQuery('#billinginfo_companyaddress').val();
-    var postalcode = mQuery('#billinginfo_postalcode').val();
-    var state = mQuery('#billinginfo_state').val();
-    var city = mQuery('#billinginfo_city').val();
-    var country = mQuery('#billinginfo_country').val();
-    var timezone = mQuery('#accountinfo_timezone').val();
-    var gstnumber = mQuery('#billinginfo_gstnumber').val();
-    mQuery('#billinginfo_state').prop('required',false);
-    mQuery('#billinginfo_country').prop('required',false);
-    mQuery('#billinginfo_gstnumber').prop('required',false);
-    var theClass = "has-error";
-    var isvalid = true;
-    isvalid = Mautic.validateKYCForm();
+    var email       = mQuery('#user_email').val();
+    var isvalid     = Mautic.validatePersonalInfo();
     if(!isvalid){
         return isvalid;
     }
-    var otp = Mautic.getCookie('MobileVerificationOTP');
+    mQuery('#step2_firstname').val(firstName);
+    mQuery('#step2_lastname').val(lastName);
+    mQuery('#step2_mobile').val(phonenumber);
+    mQuery('#step2_email').val(email);
+    mQuery(".kyc_step2").css("display", "block");
+    mQuery(".kyc").css("display", "none");
+}
+
+Mautic.SendOTPConnection = function() {
+    var firstName   = mQuery('#step2_firstname').val();
+    var lastName    = mQuery('#step2_lastname').val();
+    var phonenumber = mQuery('#step2_mobile').val();
+    var email       = mQuery('#step2_email').val();
+    var company     = mQuery('#billinginfo_companyname').val();
+    var domain      = mQuery('#accountinfo_domainname').val();
+    var website     = mQuery('#accountinfo_website').val();
+    var address     = mQuery('#billinginfo_companyaddress').val();
+    var postalcode  = mQuery('#billinginfo_postalcode').val();
+    var state       = mQuery('#billinginfo_state').val();
+    var city        = mQuery('#billinginfo_city').val();
+    var country     = mQuery('#billinginfo_country').val();
+    var timezone    = mQuery('#accountinfo_timezone').val();
+    var gstnumber   = mQuery('#billinginfo_gstnumber').val();
+    mQuery('#billinginfo_state').prop('required',false);
+    mQuery('#billinginfo_country').prop('required',false);
+    mQuery('#billinginfo_gstnumber').prop('required',false);
+    var theClass    = "has-error";
+    var isvalid     = true;
+    isvalid         = Mautic.validateKYCForm();
+    if(!isvalid){
+        return isvalid;
+    }
+    var otp         = Mautic.getCookie('MobileVerificationOTP');
     if(isvalid) {
         var data = {
             firstName: firstName,

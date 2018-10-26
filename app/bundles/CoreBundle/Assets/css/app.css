@@ -5076,8 +5076,8 @@ figcaption {
   border-radius: 4px;
   font-family: Arial;
   color: #ffffff;
-  font-size: 16px;
-  padding: 10px 20px 10px 20px;
+  font-size: 14px;
+  padding: 5px 10px 5px 10px;
   text-decoration: none;
   border: 0px;
 }
@@ -6472,4 +6472,8 @@ text-align: center;
 }
 .ui-panel-fixed-button-panel{
   margin-top: 1%;
+}
+.kyc-border{
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  text-align: center;
 }

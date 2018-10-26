@@ -706,7 +706,6 @@ var Mautic = {
      * @param flashes
      */
     setFlashes: function (flashes) {
-        alert("Test: "+flashes);
         mQuery('#flashes').append(flashes);
 
         mQuery('#flashes .alert-new').each(function () {
