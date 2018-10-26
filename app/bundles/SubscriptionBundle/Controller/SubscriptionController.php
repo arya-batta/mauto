@@ -297,11 +297,20 @@ class SubscriptionController extends CommonController
             if ($licenseinfo->getEmailProvider() != 'LeadsEngage') {
                 $emailProvider = true;
             }
-
+            /** @var \Mautic\PageBundle\Model\PageModel $model */
             $pagemodel = $this->getModel('page.page');
-            $pages     = $pagemodel->getEntities(
+            $hitrepo   = $pagemodel->getHitRepository();
+            $pages     = $hitrepo->getEntities(
                 [
-                    'filter'           => [],
+                    'filter'           => [
+                        'force' => [
+                            [
+                                'column' => 'h.organization',
+                                'expr'   => 'neq',
+                                'value'  => 'sampletracking',
+                            ],
+                        ],
+                    ],
                     'ignore_paginator' => true,
                 ]
             );

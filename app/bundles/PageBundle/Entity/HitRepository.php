@@ -588,4 +588,12 @@ class HitRepository extends CommonRepository
             ->where('lead_id = '.(int) $fromLeadId)
             ->execute();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTableAlias()
+    {
+        return 'h';
+    }
 }

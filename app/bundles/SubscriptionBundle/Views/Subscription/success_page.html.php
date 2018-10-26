@@ -25,25 +25,25 @@ if ($showsetup) {
             'isMobile'   => $isMobile,
         ]);
 }
-$emailproviderimg   = 'check-tick1.png';
-$websitetrackingimg = 'check-tick1.png';
-$segmentcreatedimg  = 'check-tick1.png';
-$importimg          = 'check-tick1.png';
-$campaignimg        = 'check-tick1.png';
+$emailproviderimg   = 'redtick.png';
+$websitetrackingimg = 'redtick.png';
+$segmentcreatedimg  = 'redtick.png';
+$importimg          = 'redtick.png';
+$campaignimg        = 'redtick.png';
 if ($isProviderChanged) {
-    $emailproviderimg = 'check-tick2.png';
+    $emailproviderimg = 'greentick.png';
 }
 if ($isWebsiteTracking) {
-    $websitetrackingimg = 'check-tick2.png';
+    $websitetrackingimg = 'greentick.png';
 }
 if ($isSegmentCreated) {
-    $segmentcreatedimg = 'check-tick2.png';
+    $segmentcreatedimg = 'greentick.png';
 }
 if ($isCampaignCreated) {
-    $campaignimg = 'check-tick2.png';
+    $campaignimg = 'greentick.png';
 }
 if ($isImportDone) {
-    $importimg = 'check-tick2.png';
+    $importimg = 'greentick.png';
 }
 ?>
 
@@ -348,11 +348,11 @@ if ($isImportDone) {
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 30px; padding-top: 20px; padding-bottom: 18px;"><![endif]-->
                                         <div style="color:#555555;font-family:Open Sans, Helvetica, Roboto, Arial;line-height:150%; padding-right: 10px; padding-left: 0px; padding-top: 10px; padding-bottom: 24px;">
                                             <div style="font-size:12px;line-height:18px;font-family:Open Sans, Helvetica, Roboto, Arial;color:#555555;text-align:left;"><ul style="list-style: none;">
-                                                    <li style="font-size: 14px; line-height: 21px; text-align: left;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/<?php echo $emailproviderimg?>) no-repeat top left;padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Configure your email services provider</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span><span style="font-size: 14px; line-height: 21px;"></span></li>
-                                                    <li style="font-size: 14px; line-height: 21px; text-align: left;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/<?php echo $websitetrackingimg?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Configure your website tracking</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
-                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(https://leadsengage.com/wp-content/uploads/leadsengage/<?php echo $segmentcreatedimg?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Create your lead segments (List)</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
-                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(https://leadsengage.com/wp-content/uploads/leadsengage/<?php echo $importimg?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Import all of your contacts </span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
-                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(https://leadsengage.com/wp-content/uploads/leadsengage/<?php echo $campaignimg?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Create &amp; send your first campaign.</span><br /><br /></li>
+                                                    <li style="font-size: 14px; line-height: 21px; text-align: left;background: url(<?php echo $view['assets']->getUrl('media/images/'.$emailproviderimg); ?>) no-repeat top left;padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Configure your email services provider</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span><span style="font-size: 14px; line-height: 21px;"></span></li>
+                                                    <li style="font-size: 14px; line-height: 21px; text-align: left;background: url(<?php echo $view['assets']->getUrl('media/images/'.$websitetrackingimg); ?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Configure your website tracking</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
+                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(<?php echo $view['assets']->getUrl('media/images/'.$segmentcreatedimg); ?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Create your lead segments (List)</span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
+                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(<?php echo $view['assets']->getUrl('media/images/'.$importimg); ?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Import all of your contacts </span><br /><br /><span style="font-size: 14px; line-height: 21px;"></span></li>
+                                                    <li style="font-size: 14px; line-height: 21px; text-align: left; background: url(<?php echo $view['assets']->getUrl('media/images/'.$campaignimg); ?>) no-repeat top left; padding: 5px 0px 0px 30px;"><span style="font-size: 14px; line-height: 21px;">Create &amp; send your first campaign.</span><br /><br /></li>
                                                 </ul></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
@@ -415,21 +415,21 @@ if ($isImportDone) {
 
                     <div class="box2">
                         <div style="font-size:12px;line-height:24px;font-family:Open Sans, Helvetica, Roboto, Arial;color:#555555;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 24px;text-align: center"><span style="font-size: 17px; line-height: 34px;"><strong><span style="line-height: 34px; font-size: 17px;">Deal Includes-</span></strong></span><br /><span style="font-size: 16px; line-height: 32px;"></span></p><ul style="list-style: none;">
-                                <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">3 MONTHS subscription with unlimited contacts &amp; all features (Normally cost you $49 * 3= $149). You save $100 in this.</span></strong><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li><br>
-                                <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">Detailed Implementation, Technical Configuration &amp; Initial Setup- Our team will configure all the required configurations on your behalf. Which includes...</span></strong></span><br />
+                                <li style="font-size: 12px; line-height: 24px;background: url(<?php echo $view['assets']->getUrl('media/images/redtick.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">3 MONTHS subscription with unlimited contacts &amp; all features (Normally cost you $49 * 3= $149). You save $100 in this.</span></strong><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li><br>
+                                <li style="font-size: 12px; line-height: 24px;background: url(<?php echo $view['assets']->getUrl('media/images/redtick.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">Detailed Implementation, Technical Configuration &amp; Initial Setup- Our team will configure all the required configurations on your behalf. Which includes...</span></strong></span><br />
                                     <ul style="list-style: none;">
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Email service provider configuration as you choose (Sendgrid, Sparkpost, Elastic Email or Amazon SES)</span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Email deliverability settings include Domain verification, DKIM, &#160;SPF, DMARC settings.</span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">SMS service provider configuration as you choose (Solution Infini or Twilio)</span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Setting up website tracking code, web forms &amp; other custom marketing tracking codes as required. </span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Configuring segments, lead scoring &amp; other lead qualification rules as required.</span></li><br>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Email service provider configuration as you choose (Sendgrid, Sparkpost, Elastic Email or Amazon SES)</span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Email deliverability settings include Domain verification, DKIM, &#160;SPF, DMARC settings.</span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">SMS service provider configuration as you choose (Solution Infini or Twilio)</span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Setting up website tracking code, web forms &amp; other custom marketing tracking codes as required. </span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Configuring segments, lead scoring &amp; other lead qualification rules as required.</span></li><br>
                                     </ul>
                                 </li>
-                                <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-tick1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">Premium Support which includes </span></strong></span><br>
+                                <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/redtick.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;"><strong><span style="line-height: 28px; font-size: 14px;">Premium Support which includes </span></strong></span><br>
                                     <ul style="list-style: none;">
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">One on One personalized consulting for your first campaign.</span><br /><span style="font-size: 14px; line-height: 28px;"></span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Customized product training session as per your need.</span><br /><span style="font-size: 14px; line-height: 28px;"></span></li>
-                                        <li style="font-size: 14px; line-height: 28px;background: url(https://leadsengage.com/wp-content/uploads/leadsengage/check-arr1.png) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Phone &amp; Email support on business hours throughout the success period.</span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">One on One personalized consulting for your first campaign.</span><br /><span style="font-size: 14px; line-height: 28px;"></span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Customized product training session as per your need.</span><br /><span style="font-size: 14px; line-height: 28px;"></span></li>
+                                        <li style="font-size: 14px; line-height: 28px;background: url(<?php echo $view['assets']->getUrl('media/images/checkarrow.png'); ?>) no-repeat top left; padding: 1px 0px 0px 30px;"><span style="font-size: 14px; line-height: 28px;">Phone &amp; Email support on business hours throughout the success period.</span></li>
                                     </ul>
                                 </li>
                             </ul></div>
