@@ -281,7 +281,7 @@ class AjaxController extends CommonAjaxController
         $dataArray['otp']         = $otp;
         $dataArray['otpsend']     = false;
         $dataArray['mobile']      = $phonenumber;
-        $url                      = $this->generateUrl('mautic_contact_index');
+        $url                      = $this->generateUrl('le_success_action');
         $dataArray['redirecturl'] = $url;
 
         return $this->sendJsonResponse($dataArray);

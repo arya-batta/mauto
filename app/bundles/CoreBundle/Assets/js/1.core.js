@@ -13,8 +13,8 @@ if (!String.prototype.startsWith) {
 //set default ajax options
 MauticVars.activeRequests = 0;
 mQuery(function() {
-    mQuery('#flashes').delay(800).fadeIn('normal', function() {
-        mQuery(this).delay(1500).fadeOut();
+    mQuery('#flashes').delay(10000).fadeIn('normal', function() {
+        mQuery(this).delay(10000).fadeOut();
     });
 });
 mQuery.ajaxSetup({
@@ -706,6 +706,7 @@ var Mautic = {
      * @param flashes
      */
     setFlashes: function (flashes) {
+        alert("Test: "+flashes);
         mQuery('#flashes').append(flashes);
 
         mQuery('#flashes .alert-new').each(function () {

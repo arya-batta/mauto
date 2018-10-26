@@ -3,6 +3,7 @@
 namespace Mautic\SubscriptionBundle\Controller;
 
 use Mautic\CoreBundle\Controller\CommonController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\SubscriptionBundle\Entity\Billing;
 use PayPal\Api\Agreement;
 use PayPal\Api\Payment;
@@ -255,5 +256,128 @@ class SubscriptionController extends CommonController
         }
 
         return $isIndianCurrency;
+    }
+
+    public function offerAction()
+    {
+        $paymentrepository = $this->get('le.subscription.repository.payment');
+        $lastpayment       = $paymentrepository->getLastPayment();
+        if ($lastpayment == null) {
+            $videoarg       = $this->request->get('login');
+            $loginsession   = $this->get('session');
+            $loginarg       = $loginsession->get('isLogin');
+            $dbhost         = $this->coreParametersHelper->getParameter('le_db_host');
+            $showsetup      = false;
+            $billformview   = '';
+            $accformview    = '';
+            $userformview   = '';
+            $videoURL       = '';
+            $showvideo      = false;
+            $kycview        = $this->get('mautic.helper.licenseinfo')->getFirstTimeSetup($dbhost, $loginarg);
+
+            $ismobile = InputHelper::isMobile();
+            if (sizeof($kycview) > 0) {
+                $showsetup      = true;
+                $billformview   = $kycview[0];
+                $accformview    = $kycview[1];
+                $userformview   = $kycview[2];
+                $videoURL       = '';
+                $showvideo      = false;
+            } else {
+                $loginsession->set('isLogin', false);
+            }
+
+            $emailProvider          = false;
+            $websiteTrackingEnabled = false;
+            $isSegmentCreated       = false;
+            $isImportDone           = false;
+            $isCampaignCreated      = false;
+
+            $licenseinfo   = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+            if ($licenseinfo->getEmailProvider() != 'LeadsEngage') {
+                $emailProvider = true;
+            }
+
+            $pagemodel = $this->getModel('page.page');
+            $pages     = $pagemodel->getEntities(
+                [
+                    'filter'           => [],
+                    'ignore_paginator' => true,
+                ]
+            );
+            if (!empty($pages)) {
+                $websiteTrackingEnabled = true;
+            }
+
+            $listmodel       = $this->getModel('lead.list');
+            $currentUser     = $this->get('security.context')->getToken()->getUser();
+            $lists           = $listmodel->getEntities([
+                'filter' => [
+                    'force' => [
+                        [
+                            'column' => 'l.createdBy',
+                            'expr'   => 'eq',
+                            'value'  => $currentUser->getId(),
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]);
+
+            if (!empty($lists)) {
+                $isSegmentCreated = true;
+            }
+
+            $importmodel       = $this->getModel('lead.import');
+            $Importlists       = $importmodel->getEntities(
+                [
+                    'filter'           => [],
+                    'ignore_paginator' => true,
+                ]
+            );
+
+            if (!empty($Importlists)) {
+                $isImportDone = true;
+            }
+
+            $campaignmodel     = $this->getModel('campaign');
+            $campaignList      = $campaignmodel->getEntities(
+                [
+                    'filter'           => [],
+                    'ignore_paginator' => true,
+                ]
+            );
+            if (!empty($campaignList)) {
+                $isCampaignCreated = true;
+            }
+
+            return $this->delegateView(
+                [
+                    'viewParameters' => [
+                        'showvideo'            => $showvideo,
+                        'videoURL'             => $videoURL,
+                        'showsetup'            => $showsetup,
+                        'billingform'          => $billformview,
+                        'accountform'          => $accformview,
+                        'userform'             => $userformview,
+                        'isMobile'             => $ismobile,
+                        'isProviderChanged'    => $emailProvider,
+                        'isWebsiteTracking'    => $websiteTrackingEnabled,
+                        'isSegmentCreated'     => $isSegmentCreated,
+                        'isCampaignCreated'    => $isCampaignCreated,
+                        'isImportDone'         => $isImportDone,
+                        'pricingUrl'           => $this->generateUrl('le_pricing_index'),
+                    ],
+                    'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
+                    'passthroughVars' => [
+                        'activeLink'    => '#mautic_contact_index',
+                        'mauticContent' => 'subscription',
+                        'route'         => $this->generateUrl('mautic_contact_index'),
+                    ],
+                ]
+            );
+        } else {
+            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+        }
     }
 }

@@ -897,7 +897,7 @@ class LicenseInfoHelper
 
     public function getFirstTimeSetup($dbhost = 'localhost', $islogin = false)
     {
-        if ($dbhost != 'localhost' && $islogin) {
+        if ($dbhost == 'localhost' && $islogin) {
             $billformview = '';
             $accformview  = '';
             $userformview = '';
@@ -981,12 +981,14 @@ class LicenseInfoHelper
         $lon                           = $dataArray->{'geoplugin_longitude'};
         $countrydetails                = [];
         $countrydetails['countryname'] = $countrycode;
-        $timezone                      = '';
+        $timezone                      = 'Asia/Calcutta';
         $ipInfo                        = file_get_contents('http://ip-api.com/json/'.$clientip);
         $ipInfo                        = json_decode($ipInfo);
-        $timezone                      = $ipInfo->timezone;
-        if ($timezone == 'Asia/Kolkata') {
-            $timezone = 'Asia/Calcutta';
+        if ($ipInfo->status != 'fail') {
+            $timezone = $ipInfo->timezone;
+            if ($timezone == 'Asia/Kolkata') {
+                $timezone = 'Asia/Calcutta';
+            }
         }
         $countrydetails['timezone']    = $timezone;
 

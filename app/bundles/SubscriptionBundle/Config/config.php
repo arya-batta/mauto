@@ -35,6 +35,10 @@ return [
                 'path'       => '/viewinvoice/{id}',
                 'controller' => 'MauticSubscriptionBundle:Public:viewinvoice',
             ],
+            'le_success_action' => [
+                'path'       => '/success',
+                'controller' => 'MauticSubscriptionBundle:Subscription:offer',
+            ],
         ],
         'public' => [
         ],
