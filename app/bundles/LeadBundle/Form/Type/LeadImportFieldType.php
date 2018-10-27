@@ -117,7 +117,6 @@ class LeadImportFieldType extends AbstractType
                         'attr'       => [
                             'class' => 'form-control',
                         ],
-                        'constraints' => $constraints,
                         'required'    => false,
                         'multiple'    => false,
                     ]
