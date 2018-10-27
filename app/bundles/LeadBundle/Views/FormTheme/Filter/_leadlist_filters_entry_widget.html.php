@@ -36,13 +36,13 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
         </div>
 
         <?php $hasErrors = count($form['filter']->vars['errors']) || count($form['display']->vars['errors']); ?>
-        <div class="col-xs-10 col-sm-5 padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
+        <div class="col-xs-10 <?php echo $filterType == "lead_email_activity" ? 'col-sm-3 lead_filter_padding_right' : 'col-sm-5'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
             <?php echo $view['form']->widget($form['filter']); ?>
             <?php echo $view['form']->widget($form['display']); ?>
             <?php echo $view['form']->errors($form['filter']); ?>
             <?php echo $view['form']->errors($form['display']); ?>
         </div>
-        <div class="col-xs-6 col-sm-2 email-activity hide email-activity-label">
+        <div class="col-xs-6 col-sm-2 email-activity email-activity-label <?php echo $filterType == "lead_email_activity" ? '' : 'hide'; ?>">
             <span>emails</span>
         </div>
         <div class="col-xs-2 col-sm-1">
