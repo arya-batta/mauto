@@ -182,6 +182,7 @@ class FormType extends AbstractType
             'label_attr' => ['class' => 'control-label check_required'],
             'attr'       => [
                 'class'    => 'form-control le-input',
+                'data-hide-on' => '{"mauticform_postAction":["return"]}',
                 'onkeyup'  => 'Mautic.onKeyupMaxLength(this.value);',
             ],
             'required'   => $required,

@@ -120,8 +120,11 @@ Mautic.emailOnLoad = function (container, response) {
                 Mautic.launchBeeEditor('emailform', 'email');
                 return;
             }
-            if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
-                Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
+            var url = window.location.href;
+            if (url.indexOf('emails/new') == -1) {
+                if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
+                    Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
+                }
             }
         }
         mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
@@ -1013,6 +1016,8 @@ Mautic.checkemailstatus = function(){
                 if (response.info != "" && response.isalertneeded != "true") {
                     if (mQuery('.license-notifiation').hasClass('hide')) {
                         mQuery('.license-notifiation').removeClass('hide');
+                        mQuery('.license-notifiation').css('display','table');
+                        mQuery('.license-notifiation').css('table-layout','fixed');
                         mQuery('.button-notification').addClass('hide');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('#fixed-content').attr('style', 'margin-top:215px;');

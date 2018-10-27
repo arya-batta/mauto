@@ -246,13 +246,13 @@ Mautic.closeBeeEditor = function (callback) {
     callback();
 }
 Mautic.showpreviewoftemplate = function (htmlFile) {
-    if(!mQuery('#email-advance-container').hasClass('hide')) {
+   // if(!mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').addClass('hide');
         mQuery('#change-template-span').html('Change Template');
         mQuery("#email-content-preview").removeClass('hide');
         mQuery("#email-content-preview").html(htmlFile);
         mQuery('#builder_btn').removeClass('hide');
-    }
+   // }
 }
 Mautic.showTemplateview = function () {
     if(mQuery('#email-advance-container').hasClass('hide')) {

@@ -81,6 +81,8 @@ Mautic.CheckSMSStatus = function () {
                 if (response.info != "" && response.isalertneeded != "true") {
                     if (mQuery('.license-notifiation').hasClass('hide')) {
                         mQuery('.license-notifiation').removeClass('hide');
+                        mQuery('.license-notifiation').css('display','table');
+                        mQuery('.license-notifiation').css('table-layout','fixed');
                         mQuery('.license-notifiation #license-alert-message').html('');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('.button-notification').addClass('hide');
