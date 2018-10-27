@@ -128,7 +128,7 @@ class PageType extends AbstractType
                     'tooltip' => 'mautic.page.form.template.help',
                 ],
                 'empty_value' => 'mautic.core.none',
-                'data'        => $options['data']->getTemplate() ? $options['data']->getTemplate() : 'blank',
+                'data'        => $options['data']->getTemplate() ? $options['data']->getTemplate() : 'zblank',
             ]
         );
 

@@ -60,14 +60,14 @@ Mautic.formOnLoad = function (container) {
         mQuery('#Form_Name').removeClass('has-success has-error');
         mQuery('#Form_post_action').removeClass('has-success has-error');
         mQuery('#Form_Name .help-block').addClass('hide').html("");
-        mQuery('#Form_post_action .help-block').html("");
+        mQuery('#Form_post_action .help-block').addClass('hide').html("");
         if(mQuery('#mauticform_name').val() == "" && mQuery('#mauticform_postActionProperty').val() == ""){
             if(mQuery('.check_required').hasClass('required'))
             {
                 mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
                 mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty");
                 mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
-                mQuery('#Form_post_action .help-block').html("Redirect URL/Message can't be empty ");
+                mQuery('#Form_post_action .custom-help').removeClass('hide').html("Redirect URL/Message can't be empty ");
 
             }else {
                 mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
@@ -82,7 +82,7 @@ Mautic.formOnLoad = function (container) {
             return;
         } else if (mQuery('#mauticform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
             mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Form_post_action .help-block').html("Redirect URL/Message can't be empty");
+            mQuery('#Form_post_action .help-block').removeClass('hide').html("Redirect URL/Message can't be empty");
             return;
         }
         var selectrel = mQuery(this).attr("rel");
@@ -140,6 +140,9 @@ Mautic.formOnLoad = function (container) {
 
     Mautic.initHideItemButton('#mauticforms_fields');
     Mautic.initHideItemButton('#mauticforms_actions');
+    if(mQuery('#Form_post_action').hasClass('has-error')){
+        mQuery('.check_required').addClass('required');
+    }
 };
 
 Mautic.updateFormFields = function () {

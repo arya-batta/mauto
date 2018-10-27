@@ -13,15 +13,15 @@
 
 <div class="modal fade in email-type-modal" style="display: block; z-index: 9999;margin-top:10%;">
     <div class="le-modal-gradient " style="margin-left: 25%;">
-    <div class="modal-dialog le-gradient-align" >
-        <div class="modal-content le-modal-content" style="height: 260px">
-            <div class="modal-header">
+    <div class="modal-dialog le-gradient-align" style="width: 700px;height: 321px;" >
+        <div class="modal-content le-modal-content" style="height: 320px;">
+            <div class="modal-header" style="padding: 25px;">
                 <a href="javascript: void(0);" onclick="Mautic.closePluginModel('card-error-info');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <b>There are a few reasons why we might be having a problem renewing your account.</b>
 
                 <div class="modal-loading-bar"></div>
             </div>
-            <div class="modal-body form-select-modal" style="background-color: #eee;height: 207px;">
+            <div class="modal-body form-select-modal" style="background-color: #eee;height: 250px;padding: 25px;padding-bottom: 50px;">
                 <div>
                     <p>Normally the problem is either that your bank declined the purchase for some reason. It could be that you canceled the card you signed up with or something else has changed which prevented us from renewing your plan.</p>
                     <p>Please check your billing information to be sure it isn't a problem with what you entered. If this information is correct, please try another payment option if you can or speak to your bank to be sure there are no problems you need to address. Don't worry, we'll wait.</p>
