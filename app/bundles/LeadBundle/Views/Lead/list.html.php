@@ -30,7 +30,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
             ],
             [
                 'attr' => [
-                    'class'       => 'btn btn-default btn-sm btn-nospin',
+                    'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin ' : 'hide',
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchCampaigns']),

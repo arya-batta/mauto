@@ -1648,8 +1648,9 @@ class LeadController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $email = $form->getData();
-
-                    $bodyCheck = trim(strip_tags($email['body']));
+                    //This line is commented because img and single tags are deleted
+                    //$bodyCheck = trim(strip_tags($email['body']));
+                    $bodyCheck= trim($email['body']);
                     if (!empty($bodyCheck)) {
                         $mailer = $this->get('mautic.helper.mailer')->getMailer();
 

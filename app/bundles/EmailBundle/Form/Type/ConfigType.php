@@ -196,10 +196,9 @@ class ConfigType extends AbstractType
                     ),
             ]
         );
-        $email_status = $options['data']['email_status'];
-        if($email_status == 'Active'){
-            $class = 'status_success';
-        }else{
+        $class = 'status_success';
+        $emailStatus = $options['data']['email_status'];
+        if($emailStatus == "InActive"){
             $class = 'status_fail';
         }
 
@@ -211,7 +210,7 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control btn btn-primary '.$class,
                 ],
-                'data'       => (isset($options['data']['email_status'])) ? $options['data']['email_status'] : 'InActive',
+                'data'       => (isset($options['data']['email_status'])) ? $options['data']['email_status'] : 'Active',
             ]
         );
         $builder->add(

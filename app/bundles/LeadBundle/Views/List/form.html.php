@@ -150,6 +150,9 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 
 
 <div class="pr-lg pl-lg pt-md pb-md hide" id="segment_filters">
+    <div class="alert alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
+        <p><?php echo $view['translator']->trans('le.lead.list.filter.notes'); ?></p>
+    </div>
     <div class="available-filters  mb-md pl-0 col-md-4 " data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
         <?php
         foreach ($fields as $object => $field):

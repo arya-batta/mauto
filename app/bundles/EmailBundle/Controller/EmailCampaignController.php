@@ -1770,10 +1770,10 @@ class EmailCampaignController extends FormController
                 $fields['id'] = 0;
 
                 $errors  = [];
-                $isempty = true;
+                $isempty = false;
                 foreach ($emails as $email) {
                     if (!empty($email)) {
-                        $isempty = false;
+                        $isempty = true;
                         $users   = [
                             [
                                 // Setting the id, firstname and lastname to null as this is a unknown user
@@ -1795,7 +1795,7 @@ class EmailCampaignController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash(implode('; ', $errors));
                 } else {
-                    if (!$isempty) {
+                    if ($isempty) {
                         $this->addFlash('mautic.email.notice.test_sent_multiple.success');
                     } else{
                         $this->addFlash('mautic.email.notice.test_sent.address.required');
