@@ -86,8 +86,8 @@ var beeConfig = {
         // save('newsletter.json', jsonFile);
       },
       onSaveAsTemplate: function(jsonFile) { // + thumbnail?
-          save('template.json', jsonFile);
-         // alert("Feature not supported.");
+         // save('template.json', jsonFile);
+          alert("Feature not supported.");
         //save('newsletter-template.json', jsonFile);
       },
       onAutoSave: function(jsonFile) {
@@ -97,8 +97,8 @@ var beeConfig = {
        // window.localStorage.setItem('newsletter.autosave', jsonFile);
       },
       onSend: function(htmlFile) {
-          save('template.html', htmlFile);
-         // alert("Feature not supported.");
+         // save('template.html', htmlFile);
+         alert("Feature not supported.");
         //write your send test function here
       },
       onError: function(errorMessage) {

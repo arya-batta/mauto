@@ -18,7 +18,7 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
          <div class="row pull-left" style="margin-left: 2%;width: 40%">
              <h3 id = "BeeEditor_Header"></h3>
          </div>
-         <div class="row pull-right" style="margin-right: 2%;">
+         <div class="row pull-right hide" style="margin-right: 2%;">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-primary btn-bee-show-preview" onclick="javascript:bee.preview();">
                     <?php echo $view['translator']->trans('mautic.email.beeeditor.showpreview'); ?>
