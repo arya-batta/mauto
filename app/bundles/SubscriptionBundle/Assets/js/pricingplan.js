@@ -11,7 +11,8 @@ Mautic.accountinfoOnLoad = function (container) {
                     Mautic.deactivateBackgroup();
                     // Inform the user if there was an error.
                     var errorElement = document.getElementById('card-holder-errors');
-                    errorElement.textContent = result.error.message;
+                    var message=Mautic.showerror(result.error.message);
+                    errorElement.textContent = message;
                 } else {
                     // Send the token to your server.
                     stripeTokenHandler(card,result.token,".cardholder-panel",null);
@@ -179,4 +180,26 @@ function setInfoText(info){
     var infoElement = mQuery("#card-holder-info");
     infoElement.html(info);
     infoElement.removeClass('hide');
+}
+Mautic.showerror= function (error){
+    var keys=[
+        "Your card was declined",
+        "insufficient funds",
+        " security code is incorrect"];
+    var errors=[
+        "Your card was declined. Please use a vaild credit card.",
+        "Your card has insufficient funds.",
+        " Incorrect CVV or expiry date of the card. Please retry with correct details."];
+    for (var i = 0; i < keys.length; i++) {
+        if (error.includes(keys[i]) == true) {
+            var message = errors[i];
+            mQuery("#card-holder-widget").addClass("StripeElement--invalid");
+        }
+    }
+    if (message !== undefined && message !== null){
+        message = message;
+    }else{
+        message = error;
+    }
+    return message;
 }

@@ -70,7 +70,7 @@ $planinfo         = $payment->getPlanName() == 'leplan1' ? 'LeadsEngage Subscrip
         }
         #customer_info{
             float:right;
-            max-width: 50%;
+            max-width: 35%;
             padding-left:8px;
             margin-right: 20px;
             position:relative;

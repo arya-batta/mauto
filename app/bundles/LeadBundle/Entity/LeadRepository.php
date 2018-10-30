@@ -1229,7 +1229,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
         if ($contactId !== null) {
             $q->andWhere(
-                $q->expr()->gte('p.lead_id', $contactId)
+                $q->expr()->eq('p.lead_id', $contactId)
             );
             $q->groupBy('p.url');
         }
@@ -1315,7 +1315,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('id', '1');
             $q->orWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-
+            $q->orWhere("l.created_by  IS NULL");
         }
 
         $results = $q->execute()->fetchAll();
