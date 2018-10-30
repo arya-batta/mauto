@@ -220,7 +220,7 @@ class SmsHelper
     public function sendSolutionSMS($url, $number, $content, $username, $senderID, $standardnumber = false)
     {
         if ($url == '' || $number == '' || $username == '' || $senderID == '') {
-            return 'URL or Sender ID or Api Key cannot be empty';
+            return '<strong>URL</strong> or <strong>Sender ID</strong> or <strong>Api Key</strong> cannot be empty';
         }
         if(!$standardnumber){
             $number = "";
@@ -273,7 +273,7 @@ class SmsHelper
             return false;
         }
         if ($fromnumber == '' || $username == '' || $password == '') {
-            return 'Sending Phone Number or Account SID or Authentication Token cannot be empty';
+            return '<strong>Sending Phone Number</strong> or <strong>Account SID</strong> or <strong>Authentication Token</strong> cannot be empty';
         }
         try {
             $client = new \Services_Twilio($password, $username);

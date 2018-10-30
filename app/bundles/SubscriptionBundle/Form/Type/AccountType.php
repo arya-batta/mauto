@@ -89,7 +89,7 @@ class AccountType extends AbstractType
                     'class'        => 'form-control le-input',
                     'autocomplete' => 'off',
                 ],
-                'required'    => false,
+                'required'    => true,
             ]
         );
 

@@ -65,24 +65,24 @@ Mautic.formOnLoad = function (container) {
             if(mQuery('.check_required').hasClass('required'))
             {
                 mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
-                mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty");
+                mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty.");
                 mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
                 mQuery('#Form_post_action .custom-help').removeClass('hide').html("Redirect URL/Message can't be empty ");
 
             }else {
                 mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
-                mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty");
+                mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty.");
             }
 
             return;
         }
         else if(mQuery('#mauticform_name').val() == "") {
             mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty");
+            mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty.");
             return;
         } else if (mQuery('#mauticform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
             mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
-            mQuery('#Form_post_action .help-block').removeClass('hide').html("Redirect URL/Message can't be empty");
+            mQuery('#Form_post_action .custom-help').removeClass('hide').html("Redirect URL/Message can't be empty");
             return;
         }
         var selectrel = mQuery(this).attr("rel");
@@ -334,6 +334,7 @@ Mautic.initHideItemButton = function(container) {
 }
 
 Mautic.onPostSubmitActionChange = function(value) {
+    mQuery('#Form_post_action .custom-help').html("");
     if (value == 'return') {
         //remove required class
         mQuery('#mauticform_postActionProperty').attr('type','text');

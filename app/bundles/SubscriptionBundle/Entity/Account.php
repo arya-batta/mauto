@@ -366,6 +366,15 @@ class Account extends FormEntity
         );
 
         $metadata->addPropertyConstraint(
+            'accountname',
+            new NotBlank(
+                [
+                    'message' => 'le.subscription.account.account.notblank',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
             'domainname',
             new NotBlank(
                 [

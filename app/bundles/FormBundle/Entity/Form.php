@@ -224,7 +224,7 @@ class Form extends FormEntity
         ]));
 
         $metadata->addPropertyConstraint('postActionProperty', new Assert\NotBlank([
-            'message' => 'mautic.form.form.postactionproperty_message.notblank',
+            'message' => 'le.form.form.postactionproperty_redirect.notblank',
             'groups'  => ['messageRequired'],
         ]));
 

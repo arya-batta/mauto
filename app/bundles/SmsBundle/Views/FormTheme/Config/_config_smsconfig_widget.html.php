@@ -50,7 +50,7 @@
                 <?php echo $view['form']->row($form['publish_account']); ?>
             </div>
             <div id="smsTestButtonContainer">
-                <div class="col-md-9 help-block"></div>
+                <div class="col-md-12 help-block"></div>
             </div>
         </div>
     </div>

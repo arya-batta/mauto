@@ -37,15 +37,18 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6"><div class="row"><div class="form-group col-xs-12 ">
+                            <div class="row form-group col-xs-12" >
+                            <div class="col-md-6 <?php echo (count($form['accountname']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['accountname']); ?>
                                 <?php echo $view['form']->widget($form['accountname']); ?>
-                            </div></div></div>
-                            <div class="col-md-6 <?php echo (count($form['domainname']->vars['errors'])) ? ' has-error' : ''; ?>"><div class="row"><div class="form-group col-xs-12 ">
+                                <?php echo $view['form']->errors($form['accountname']); ?>
+                            </div>
+                            <div class="col-md-6 <?php echo (count($form['domainname']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['domainname']); ?>
                                 <?php echo $view['form']->widget($form['domainname']); ?>
                                 <?php echo $view['form']->errors($form['domainname']); ?>
-                            </div></div></div>
+                            </div>
+                            </div>
                             <div class="col-md-6"><div class="row"><div class="form-group col-xs-12 ">
                                 <?php echo $view['form']->label($form['email']); ?>
                                 <?php echo $view['form']->widget($form['email']); ?>
