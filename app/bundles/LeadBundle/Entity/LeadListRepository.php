@@ -394,9 +394,49 @@ class LeadListRepository extends CommonRepository
                 }
 
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
-                    $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
-                    for ($i=0; $i < sizeof($filters); ++$i) {
-                        if ($filters[$i]['operator'] != 'empty' && $filters[$i]['operator'] != '!empty') {
+                    foreach($filters as  $key => $filter) {
+                        if ($filter['field'] == 'leadlist' ||  $filter['field'] == 'tags') {
+                            unset($q);
+                            if($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
+
+                                $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+                                $q->select($select)
+                                    ->from('leads','l');
+                                    if($filter['operator'] == 'empty'){
+                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id'),$q->expr()->lte('ll.date_added',':dateadded')));
+                                    }else{
+                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->neq('ll.lead_id','l.id'),$q->expr()->lte('ll.date_added',':dateadded')));
+                                    }
+                                $q->andwhere(
+                                    $q->expr()->orX(
+                                        $q->expr()->eq('ll.lead_id','NULL'),
+                                        $q->expr()->isNull('ll.leadlist_id')
+                                    ),
+                                    $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
+                                );
+
+                                $q->setParameter(':dateadded','2018-10-31 09:29:56');
+                            }else if($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
+
+                            $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+                            $q->select($select)
+                                ->from('leads','l');
+                                if($filter['operator'] == 'empty'){
+                                    $q->leftJoin('l','lead_tags_xref','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id')));
+                                }else{
+                                    $q->leftJoin('l','lead_tags_xref','ll',$q->expr()->andX($q->expr()->neq('ll.tag_id','l.id')));
+                                }
+                                $q->andwhere($q->expr()->orX(
+                                    $q->expr()->eq('ll.lead_id','NULL'),
+                                    $q->expr()->isNull('ll.tag_id')
+                                ),
+                                $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
+                                );
+                            }
+                            //  SELECT l.id FROM leads l LEFT JOIN lead_lists_leads ll  ON (ll.lead_id != l.id) AND (ll.date_added <= '2018-10-31 09:29:56') WHERE ((ll.lead_id = NULL) OR (ll.leadlist_id IS NULL)) AND (ll.lead_id IS NULL);
+                        } else {
+                            $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
+
                             if (!$this->hasCompanyFilter && !$expr->count()) {
                                 // Treat this as if it has no filters since all the filters are now invalid (fields were deleted)
                                 $return[$id] = [];
@@ -412,55 +452,55 @@ class LeadListRepository extends CommonRepository
 
                                 continue;
                             }
+
+                            // Leads that do not have any record in the lead_lists_leads table for this lead list
+                            // For non null fields - it's apparently better to use left join over not exists due to not using nullable
+                            // fields - https://explainextended.com/2009/09/18/not-in-vs-not-exists-vs-left-join-is-null-mysql/
+                            $listOnExpr = $q->expr()->andX(
+                                $q->expr()->eq('ll.leadlist_id', $id),
+                                $q->expr()->eq('ll.lead_id', 'l.id')
+                            );
+
+                            if (!empty($batchLimiters['dateTime'])) {
+                                // Only leads in the list at the time of count
+                                $listOnExpr->add(
+                                    $q->expr()->lte('ll.date_added', $q->expr()->literal($batchLimiters['dateTime']))
+                                );
+                            }
+
+                            $q->leftJoin(
+                                'l',
+                                MAUTIC_TABLE_PREFIX . 'lead_lists_leads',
+                                'll',
+                                $listOnExpr
+                            );
+
+                            if ($newOnly) {
+                                $expr->add($q->expr()->isNull('ll.lead_id'));
+                            }
+
+                            if ($batchExpr->count()) {
+                                $expr->add($batchExpr);
+                            }
+
+                            if ($expr->count()) {
+                                $q->andWhere($expr);
+                            }
+
+                            if (!$newOnly) { // live count
+                                // Include manually added
+                                $q->orWhere(
+                                    $q->expr()->eq('ll.manually_added', 1)
+                                );
+
+                                $q->andWhere(
+                                    $q->expr()->orX(
+                                        $q->expr()->isNull('ll.manually_removed'), // account for those not in a list yet
+                                        $q->expr()->eq('ll.manually_removed', 0) //exclude manually removed
+                                    )
+                                );
+                            }
                         }
-                    }
-
-                    // Leads that do not have any record in the lead_lists_leads table for this lead list
-                    // For non null fields - it's apparently better to use left join over not exists due to not using nullable
-                    // fields - https://explainextended.com/2009/09/18/not-in-vs-not-exists-vs-left-join-is-null-mysql/
-                    $listOnExpr = $q->expr()->andX(
-                        $q->expr()->eq('ll.leadlist_id', $id),
-                        $q->expr()->eq('ll.lead_id', 'l.id')
-                    );
-
-                    if (!empty($batchLimiters['dateTime'])) {
-                        // Only leads in the list at the time of count
-                        $listOnExpr->add(
-                            $q->expr()->lte('ll.date_added', $q->expr()->literal($batchLimiters['dateTime']))
-                        );
-                    }
-
-                    $q->leftJoin(
-                        'l',
-                        MAUTIC_TABLE_PREFIX.'lead_lists_leads',
-                        'll',
-                        $listOnExpr
-                    );
-
-                    if ($newOnly) {
-                        $expr->add($q->expr()->isNull('ll.lead_id'));
-                    }
-
-                    if ($batchExpr->count()) {
-                        $expr->add($batchExpr);
-                    }
-
-                    if ($expr->count()) {
-                        $q->andWhere($expr);
-                    }
-
-                    if (!$newOnly) { // live count
-                        // Include manually added
-                        $q->orWhere(
-                            $q->expr()->eq('ll.manually_added', 1)
-                        );
-
-                        $q->andWhere(
-                            $q->expr()->orX(
-                                $q->expr()->isNull('ll.manually_removed'), // account for those not in a list yet
-                                $q->expr()->eq('ll.manually_removed', 0) //exclude manually removed
-                            )
-                        );
                     }
                 } elseif ($nonMembersOnly) {
                     // Only leads that are part of the list that no longer match filters and have not been manually removed
@@ -1042,13 +1082,37 @@ class LeadListRepository extends CommonRepository
                                 )
                             );
                         default:
-                            $parameters[$parameter] = implode(',', $details['filter']);
-                            $subqb->where(
-                                $q->expr()->andX(
-                                    $q->expr()->$func($alias.'.'.$column, $exprParameter)
-                                )
-                            );
-                            break;
+                            if($details['field'] == 'url_title'){
+                                $table = 'page_hits';
+                                $column = 'page_id';
+                                $subQueryFilters =[];
+                                $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
+                                $ignoreAutoFilter = true;
+                                $specific = true;
+                                $subQb = $this->createFilterExpressionSubQuery(
+                                    $table,
+                                    $alias,
+                                    $column,
+                                    $details['filter'],
+                                    $parameters,
+                                    $leadId,
+                                    $subQueryFilters,
+                                    $specific
+                                );
+                                    $groupExpr->add(
+                                        sprintf('%s (%s)', $func, $subQb->getSQL())
+                                    );
+
+                                break;
+                            }else{
+                                $parameters[$parameter] = implode(',', $details['filter']);
+                                $subqb->where(
+                                    $q->expr()->andX(
+                                        $q->expr()->$func($alias.'.'.$column, $exprParameter)
+                                    )
+                                );
+                                break;
+                            }
                     }
                     // Specific lead
                     if (!empty($leadId)) {
@@ -1057,8 +1121,9 @@ class LeadListRepository extends CommonRepository
                                 ->eq($alias.'.lead_id', $leadId)
                         );
                     }
-
+                if($details['field'] != 'url_title') {
                     $groupExpr->add(sprintf('%s (%s)', $operand, $subqb->getSQL()));
+                }
                     break;
                 case 'device_model':
                     $ignoreAutoFilter = true;
@@ -1135,11 +1200,17 @@ class LeadListRepository extends CommonRepository
                         case 'neq':
                             $parameters[$parameter] = $details['filter'];
                             if ($details['type'] == 'date') {
+                                $parameter2  = $this->generateRandomParameterName();
+                                $parameters[$parameter] = $details['filter'].' 00:00:00';
+                                $parameters[$parameter2] = $details['filter'].' 23:59:59';
+                                $exprParameter2          = ":$parameter2";
+                                $ignoreAutoFilter        = true;
+                                $field                   = $column;
                                 $subqb->where(
                                     $q->expr()
                                         ->andX(
-                                            $q->expr()
-                                                ->gte($alias.'.'.$column, $exprParameter),
+                                            $q->expr()->gte($alias.'.'.$field, $exprParameter),
+                                            $q->expr()->lt($alias.'.'.$field, $exprParameter2),
                                             $q->expr()
                                                 ->eq($alias.'.lead_id', 'l.id'),
                                             $expn
@@ -1529,6 +1600,7 @@ class LeadListRepository extends CommonRepository
                     $select                  = 'id';
                     $table                   = 'email_stats';
                     $isexist                 = 'EXISTS';
+                    $ignoreAutoFilter        = true;
                     $parameters[$parameter]  = $func;
                     $subqb                   = $this->getEntityManager()->getConnection()
                         ->createQueryBuilder()
