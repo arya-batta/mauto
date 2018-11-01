@@ -413,10 +413,10 @@ class ImportController extends FormController
                             );
                             break;
                         }
-
-                        if (empty($list)) {
+                        //Remove the segment field is mandatory
+                        /*if (empty($list)) {
                             break;
-                        }
+                        }*/
 
                         if (empty($matchedFields) && !empty($list)) {
                             $form->addError(

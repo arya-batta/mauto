@@ -12,11 +12,11 @@ if (!String.prototype.startsWith) {
 
 //set default ajax options
 MauticVars.activeRequests = 0;
-mQuery(function() {
+/*mQuery(function() {
     mQuery('#flashes').delay(10000).fadeIn('normal', function() {
-        mQuery(this).delay(10000).fadeOut();
+        mQuery(this).delay(50000).fadeOut();
     });
-});
+});*/
 mQuery.ajaxSetup({
     beforeSend: function (request, settings) {
         if (settings.showLoadingBar) {

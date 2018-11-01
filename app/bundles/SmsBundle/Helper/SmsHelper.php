@@ -80,7 +80,7 @@ class SmsHelper
         $this->integrationHelper    = $integrationHelper;
         $integration                = $integrationHelper->getIntegrationObject('SolutionInfinity');
         $settings                   = $integration->getIntegrationSettings()->getFeatureSettings();
-        $this->smsFrequencyNumber   = $settings['frequency_number'];
+        $this->smsFrequencyNumber   = isset($settings['frequency_number'])? $settings['frequency_number'] : "";
         $this->coreParametersHelper = $coreParametersHelper;
         $this->factory              = $factory;
     }
