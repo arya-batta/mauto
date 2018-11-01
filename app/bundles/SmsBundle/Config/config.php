@@ -243,9 +243,9 @@ return [
         'sms_from_number'          => null,
         'publish_account'          => null,
         'sms_status'               => null,
-        'link_shortener_url'       => "https://api-ssl.bitly.com/v3/shorten?access_token=e3639b529aefbb5d05d20470cde8f453741a1e2b&format=txt&longUrl=",
-        'le_account_sender_id'     => 'CRMSMS',
-        'le_account_url'           => 'http://api-alerts.solutionsinfini.com/v3/',
-        'le_account_api_key'       => 'A8831e8733a5cbeb605c1d3e2931d0357',
+        'link_shortener_url'       => '',
+        'le_account_sender_id'     => '',
+        'le_account_url'           => '',
+        'le_account_api_key'       => '',
     ],
 ];
