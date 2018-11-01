@@ -196,15 +196,15 @@ $isgoogletags= false; //$email->getGoogletags();
             </div>
             <?php if ($isVariant): ?>
                 <div class="row">
-                    <div class="col-md-6" id="Email_trafficweight">
+                    <div class="col-md-6 <?php echo (count($form['variantSettings']['weight']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_trafficweight">
                         <?php echo $view['form']->label($form['variantSettings']['weight']); ?>
                         <?php echo $view['form']->widget($form['variantSettings']['weight']); ?>
-                        <div class="help-block" ></div>
+                        <div class="help-block " ><?php echo (count($form['variantSettings']['weight']->vars['errors'])) ? ' Traffic Weight can\'t be empty' : ''; ?></div>
                     </div>
-                    <div class="col-md-6" id="Email_winnercriteria">
+                    <div class="col-md-6 <?php echo (count($form['variantSettings']['winnerCriteria']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_winnercriteria">
                         <?php echo $view['form']->label($form['variantSettings']['winnerCriteria']); ?>
                         <?php echo $view['form']->widget($form['variantSettings']['winnerCriteria']); ?>
-                        <div class="help-block" ></div>
+                        <div class="help-block" ><?php echo (count($form['variantSettings']['weight']->vars['errors'])) ? ' Winner Criteria can\'t be empty' : ''; ?></div>
                     </div>
                 </div>
             <?php endif; ?>
