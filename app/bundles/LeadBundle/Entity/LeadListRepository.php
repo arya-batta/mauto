@@ -396,9 +396,9 @@ class LeadListRepository extends CommonRepository
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
                     foreach($filters as  $key => $filter) {
                         if ($filter['field'] == 'leadlist' ||  $filter['field'] == 'tags') {
-                            unset($q);
-                            if($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
 
+                            if($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
+                                unset($q);
                                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                                 $q->select($select)
                                     ->from('leads','l');
@@ -415,9 +415,9 @@ class LeadListRepository extends CommonRepository
                                     $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
                                 );
 
-                                $q->setParameter(':dateadded','2018-10-31 09:29:56');
+                                $q->setParameter(':dateadded',$q->expr()->literal($batchLimiters['dateTime']));
                             }else if($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
-
+                                unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                             $q->select($select)
                                 ->from('leads','l');
