@@ -147,7 +147,7 @@ class EventController extends CommonFormController
                         } elseif ($type == 'campaign.defaultdelay') {
                             $event['name']=$this->getDelayEventLabel($event);
                         } else {
-                            $event['name'] = $this->get('translator')->trans($event['settings']['label']);
+                            $event['name'] = $this->getEventLabelName($event, $form);
                         }
                         $modifiedEvents[$objectId] = $event;
                         $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
@@ -341,6 +341,124 @@ class EventController extends CommonFormController
         $response = new JsonResponse($dataArray);
 
         return $response;
+    }
+
+    public function getEventLabelName($event, $form)
+    {
+        $formView = $form->createView();
+        $label    =$this->get('translator')->trans($event['settings']['label']);
+        if ($event['type'] == 'pagehit') {
+            $choices=$formView->children['properties']->children['pages']->vars['choices'];
+            $pages  =$event['properties']['pages'];
+            $label  =$this->getFormattedEventLabel($label, $pages, $choices['en']);
+        } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail' || $event['type'] == 'email.send') {
+            $choices=$formView->children['properties']->children['email']->vars['choices'];
+            $emails =$event['properties']['email'];
+            $label  =$this->getFormattedEventLabel($label, $emails, $choices['en']);
+        } elseif ($event['type'] == 'leadtags') {
+            $choices=$formView->children['properties']->children['tags']->vars['choices'];
+            $tags   =$event['properties']['tags'];
+            $label  =$this->getFormattedEventLabel($label, $tags, $choices);
+        } elseif ($event['type'] == 'assertDownload') {
+            $choices=$formView->children['properties']->children['assets']->vars['choices'];
+            $assets =$event['properties']['assets'];
+            $label  =$this->getFormattedEventLabel($label, $assets, $choices['en']);
+        } elseif ($event['type'] == 'forms') {
+            $choices=$formView->children['properties']->children['forms']->vars['choices'];
+            $forms  =$event['properties']['forms'];
+            $label  =$this->getFormattedEventLabel($label, $forms, $choices);
+        } elseif ($event['type'] == 'lists') {
+            $choices=$formView->children['properties']->children['lists']->vars['choices'];
+            $lists  =$event['properties']['lists'];
+            $label  =$this->getFormattedEventLabel($label, $lists, $choices);
+        } elseif ($event['type'] == 'lead.changeowner') {
+            $choices=$formView->children['properties']->children['owner']->vars['choices'];
+            $owner  =$event['properties']['owner'];
+            $label  =$this->getFormattedEventLabel($label, [$owner], $choices);
+        } elseif ($event['type'] == 'lead.scorechange') {
+            $choices=$formView->children['properties']->children['score']->vars['choices'];
+            $score  =$event['properties']['score'];
+            $label  =$this->getFormattedEventLabel($label, [$score], $choices);
+        } elseif ($event['type'] == 'sms.send_text_sms') {
+            $choices=$formView->children['properties']->children['sms']->vars['choices'];
+            $sms    =$event['properties']['sms'];
+            $label  =$this->getFormattedEventLabel($label, $sms, $choices['en']);
+        } elseif ($event['type'] == 'lead.changelist') {
+            $addToListschoices     =$formView->children['properties']->children['addToLists']->vars['choices'];
+            $addToLists            =$event['properties']['addToLists'];
+            $removeFromListschoices=$formView->children['properties']->children['removeFromLists']->vars['choices'];
+            $removeFromLists       =$event['properties']['removeFromLists'];
+            $label                 =$this->getLabelFromMultiChoices($label, $addToListschoices, $removeFromListschoices, $addToLists, $removeFromLists);
+        } elseif ($event['type'] == 'lead.changetags') {
+            $addTagschoices   =$formView->children['properties']->children['add_tags']->vars['choices'];
+            $addToTags        =$event['properties']['add_tags'];
+            $removeTagschoices=$formView->children['properties']->children['remove_tags']->vars['choices'];
+            $removeToTags     =$event['properties']['remove_tags'];
+            $label            =$this->getLabelFromMultiChoices($label, $addTagschoices, $removeTagschoices, $addToTags, $removeToTags);
+        } elseif ($event['type'] == 'lead.changepoints') {
+            $points=$event['properties']['points'];
+            $label =$label.'['.$points.']';
+        } elseif ($event['type'] == 'email.send.to.user' || $event['type'] == 'sms.send_text_sms.to.user') {
+            $choices=$formView->children['properties']->children['user_id']->vars['choices'];
+            $user   =$event['properties']['user_id'];
+            $label  =$this->getFormattedEventLabel($label, $user, $choices);
+        }
+
+        return $label;
+    }
+
+    public function getChoiceLabel($choices, $value)
+    {
+        // if(is_numeric($value)){
+        foreach ($choices as $key => $choice) {
+            if ($choice->value == $value) {
+                $value=$this->get('translator')->trans($choice->label);
+                break;
+            }
+        }
+
+        return $value;
+//        }else{
+//            return $value;
+//        }
+    }
+
+    public function getFormattedEventLabel($label, $data, $choices)
+    {
+        $line='';
+        for ($index=0; $index < sizeof($data); ++$index) {
+            $line .= $this->getChoiceLabel($choices, $data[$index]);
+            if (sizeof($data) - 1 != $index) {
+                $line .= ',';
+            }
+        }
+        if ($line != '') {
+            $label=$label.' ['.$line.']';
+        }
+
+        return $label;
+    }
+
+    public function getLabelFromMultiChoices($label, $choice1, $choice2, $data1, $data2)
+    {
+        $label1='';
+        if (sizeof($data1) > 0) {
+            $label1=$this->getFormattedEventLabel('Added', $data1, $choice1);
+        }
+        $label2='';
+        if (sizeof($data2) > 0) {
+            $label2=$this->getFormattedEventLabel('Removed', $data2, $choice2);
+        }
+        if ($label1 != '') {
+            $label=$label.'-'.$label1;
+        }
+        if ($label2 != '' && $label1 != '') {
+            $label=$label.','.$label2;
+        } elseif ($label2 != '') {
+            $label=$label.'-'.$label2;
+        }
+
+        return $label;
     }
 
     public function getDelayEventLabel($event)

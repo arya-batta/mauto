@@ -87,7 +87,9 @@ class LeadEventLogRepository extends CommonRepository
                     ll.trigger_date as triggerDate,
                     ll.channel,
                     ll.channel_id as channel_id,
-                    ll.lead_id
+                    ll.lead_id,
+                    e.trigger_mode AS trigger_mode,
+                    e.event_type AS event_type
                     '
                       )
                       ->from(MAUTIC_TABLE_PREFIX.'campaign_lead_event_log', 'll')
@@ -225,7 +227,7 @@ class LeadEventLogRepository extends CommonRepository
                            'o',
                            MAUTIC_TABLE_PREFIX.'campaign_leads',
                            'l',
-                           'l.campaign_id = '.(int) $campaignId.' and l.manually_removed = 0 and o.lead_id = l.lead_id and l.rotation = o.rotation'
+                           'l.campaign_id = '.(int) $campaignId.' and l.manually_removed = 0 and o.lead_id = l.lead_id '//and l.rotation = o.rotation
                        );
         $expr = $q->expr()->andX(
             $q->expr()->eq('o.campaign_id', (int) $campaignId)

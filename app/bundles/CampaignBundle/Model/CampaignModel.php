@@ -399,6 +399,11 @@ class CampaignModel extends CommonFormModel
         return $settings;
     }
 
+    /**
+     * @param $data
+     * @param $tempIds
+     * @param $availableevents
+     */
     public function replaceAllTempIDS($data, $tempIds, &$availableevents)
     {
         $type=$data->type;
@@ -443,6 +448,13 @@ class CampaignModel extends CommonFormModel
         }
     }
 
+    /**
+     * @param $data
+     * @param $eventid
+     * @param $matched
+     *
+     * @return array
+     */
     public function getAllParellalGoals($data, $eventid, $matched)
     {
         $type         =$data->type;
@@ -478,6 +490,11 @@ class CampaignModel extends CommonFormModel
         return $matched;
     }
 
+    /**
+     * @param $data
+     *
+     * @return array
+     */
     public function getExitEvent($data)
     {
         $type=$data->type;
@@ -817,8 +834,7 @@ class CampaignModel extends CommonFormModel
         $completedevents=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
         if ($completedevents > 0) {
             $canvassettings=json_decode($campaign->getCanvasSettings());
-            $exitevents    =$this->getExitEvent($canvassettings);
-            $isLeadExited  =$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $exitevents);
+            $isLeadExited  =$this->checkCampaignLeadExited($campaign, $lead);
             if (!$isLeadExited) {
                 $parellalgoals=$this->getAllParellalGoals($canvassettings, $eventid, []);
                 if (sizeof($parellalgoals) > 0) {
@@ -1365,11 +1381,17 @@ class CampaignModel extends CommonFormModel
         }
     }
 
+    /**
+     * @return \Mautic\UserBundle\Entity\User|null
+     */
     public function getCurrentUserEntity()
     {
         return $this->userHelper->getUser();
     }
 
+    /**
+     * @return array
+     */
     public function getCampaignsBlocks()
     {
         $totalCampaigns =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-cogs', $this->translator->trans('mautic.campaign.campaigns.all'),
@@ -1423,6 +1445,11 @@ class CampaignModel extends CommonFormModel
         if ($lead == null) {
             $lead = $this->leadModel->getCurrentLead();
         }
+        $campaignlead=$this->em->getReference('MauticCampaignBundle:Lead', [
+            'lead'     => $lead->getId(),
+            'campaign' => $campaign->getId(),
+        ]);
+        $log->setRotation($campaignlead->getRotation());
         $log->setLead($lead);
         $log->setDateTriggered(new \DateTime());
         $log->setSystemTriggered($systemTriggered);
@@ -1445,16 +1472,88 @@ class CampaignModel extends CommonFormModel
     public function putCampaignEventLog($eventid, $campaign, $lead)
     {
         $event            = $this->em->getReference('MauticCampaignBundle:Event', $eventid);
+        $campaignlead     =$this->em->getReference('MauticCampaignBundle:Lead', [
+            'lead'     => $lead->getId(),
+            'campaign' => $campaign->getId(),
+        ]);
+        $leadrotation     =      $campaignlead->getRotation();
         $campaignEventLog = $this->getCampaignLeadEventLogRepository()->findOneBy([
             'lead'     => $lead,
             'campaign' => $campaign,
-            'event'    => $event,
+          //  'event'    => $event,
+            'rotation'=> $leadrotation,
         ]);
+        $isLogCreated=false;
         if ($campaignEventLog == null) {
+            $isLogCreated=true;
+        }
+        if (!$isLogCreated) {
+            if ($this->checkCampaignLeadExited($campaign, $lead)) {
+                $leadrotation=$leadrotation + 1;
+                $this->updateCampaignLeadRotation($lead, $campaign, $leadrotation);
+                $isLogCreated=true;
+            }
+        }
+        if ($isLogCreated) {
             $log=$this->getLogEntity($event, $campaign, $lead);
             $log->setDateTriggered(new \DateTime());
             $log->setSystemTriggered(true);
+            $log->setRotation($leadrotation);
             $this->getCampaignLeadEventLogRepository()->saveEntity($log);
         }
+    }
+
+    /**
+     * @param $campaign
+     * @param $event
+     *
+     * @return bool
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function isWorkFlowCompleteEvent($campaign, $event)
+    {
+        if (!$campaign instanceof Campaign) {
+            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $campaign);
+        }
+        $canvassettings=json_decode($campaign->getCanvasSettings());
+        $exitevents    =$this->getExitEvent($canvassettings);
+        if (sizeof($exitevents) > 0 && $exitevents[0] == $event) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $lead
+     * @param $campaign
+     * @param $rotation
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function updateCampaignLeadRotation($lead, $campaign, $rotation)
+    {
+        $campaignlead=$this->em->getReference('MauticCampaignBundle:Lead', [
+            'lead'     => $lead->getId(),
+            'campaign' => $campaign->getId(),
+        ]);
+        $campaignlead->setRotation($rotation);
+        $this->getCampaignLeadRepository()->saveEntity($campaignlead);
+    }
+
+    /**
+     * @param $campaign
+     * @param $lead
+     *
+     * @return array|bool
+     */
+    public function checkCampaignLeadExited($campaign, $lead)
+    {
+        $canvassettings=json_decode($campaign->getCanvasSettings());
+        $exitevents    =$this->getExitEvent($canvassettings);
+        $isLeadExited  =$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $exitevents);
+
+        return $isLeadExited;
     }
 }

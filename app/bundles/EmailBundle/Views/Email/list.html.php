@@ -150,7 +150,7 @@ $isAdmin=$view['security']->isAdmin();
                 $type                       = $item->getEmailType();
                 $mauticTemplateVars['item'] = $item;
                 ?>
-                <tr>
+                <tr class="email-row-stats" data-stats="<?php echo $item->getId(); ?>">
                     <td>
                         <?php
                         $edit = $view['security']->hasEntityAccess(

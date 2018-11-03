@@ -87,7 +87,7 @@ class CampaignRepository extends CommonRepository
             $q->select('partial c.{id, name}'); //, partial ll.{id}
         } else {
             $q->select('c, l')//, partial ll.{id}
-                ->leftJoin('c.events', 'e')
+            ->leftJoin('c.events', 'e')
                 ->leftJoin('e.log', 'o');
         }
 
@@ -659,7 +659,8 @@ class CampaignRepository extends CommonRepository
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
-                       // $sq->expr()->in('e.event_id', $pendingEvents)
+                        $sq->expr()->eq('cl.rotation', 'e.rotation'),
+                        // $sq->expr()->in('e.event_id', $pendingEvents)
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
                         $sq->expr()->andX($sq->expr()->orX($sq->expr()->neq('ce.event_type', ':event_type'), $sq->expr()->andX($sq->expr()->eq('ce.event_type', ':event_type'), $sq->expr()->eq('ce.trigger_mode', ':trigger_mode'))))
                     )
@@ -710,6 +711,7 @@ class CampaignRepository extends CommonRepository
                 ->where(
                     $sq->expr()->andX(
                         $sq->expr()->eq('cl.lead_id', 'e.lead_id'),
+                        $sq->expr()->eq('cl.rotation', 'e.rotation'),
                         $sq->expr()->eq('e.campaign_id', (int) $campaignId),
                         $sq->expr()->andX($sq->expr()->orX($sq->expr()->neq('ce.event_type', ':event_type'), $sq->expr()->andX($sq->expr()->eq('ce.event_type', ':event_type'), $sq->expr()->eq('ce.trigger_mode', ':trigger_mode'))))
                     )
@@ -841,6 +843,11 @@ class CampaignRepository extends CommonRepository
         return $results[0]['inactivecampaigns'];
     }
 
+    /**
+     * @param $listId
+     *
+     * @return int|string
+     */
     public function getPublishedSegment($listId)
     {
         $qb = $this->_em->getConnection()->createQueryBuilder();
@@ -856,5 +863,69 @@ class CampaignRepository extends CommonRepository
         $results = $qb->execute()->fetchAll();
 
         return !empty($results[0]['id']) ? (int) $results[0]['id'] : '';
+    }
+
+    public function getWfProgressLeadsCount($campaign, $exitevents)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->from('MauticCampaignBundle:LeadEventLog', 'o');
+        $q->where(
+            $q->expr()->eq('IDENTITY(o.campaign)', (int) $campaign->getId())
+        );
+        if (sizeof($exitevents) > 0) {
+            $sq = $this->getEntityManager()->createQueryBuilder()
+                ->from('MauticCampaignBundle:LeadEventLog', 'o1')
+                ->select('IDENTITY(o1.lead) as lead_id');
+            $sq->where(
+                $sq->expr()->andX($sq->expr()->eq('IDENTITY(o1.campaign)', (int) $campaign->getId()),
+                    $sq->expr()->In('IDENTITY(o1.event)', $exitevents)));
+            $results       = $sq->getQuery()->getArrayResult();
+            $completedleads=[];
+            foreach ($results as $index => $row) {
+                $completedleads[]= $row['lead_id'];
+            }
+            if (sizeof($completedleads) > 0) {
+                $q->andWhere($q->expr()->notIn('IDENTITY(o.lead)', $completedleads));
+            }
+        }
+        $q->select($q->expr()->countDistinct('IDENTITY(o.lead)').' as lead_count');
+        $results = $q->getQuery()->getArrayResult();
+        $count   = $results[0]['lead_count'];
+
+        return $count;
+    }
+
+    public function getWfCompletedLeadsCount($campaign, $exitevents)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->from('MauticCampaignBundle:LeadEventLog', 'o');
+
+        $q->where(
+            $q->expr()->eq('IDENTITY(o.campaign)', (int) $campaign->getId())
+        );
+        if (sizeof($exitevents) > 0) {
+            $q->andWhere($q->expr()->In('IDENTITY(o.event)', $exitevents));
+        }
+        $q->select($q->expr()->countDistinct('IDENTITY(o.lead)').' as lead_count');
+        $results = $q->getQuery()->getArrayResult();
+        $count   = $results[0]['lead_count'];
+
+        return $count;
+    }
+
+    public function getWfGoalAchievedLeadsCount($campaign)
+    {
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->from('MauticCampaignBundle:LeadEventLog', 'o')
+            ->leftJoin('o.event', 'ce');
+        $q->where(
+            $q->expr()->andX($q->expr()->eq('IDENTITY(o.campaign)', (int) $campaign->getId()),
+                $q->expr()->eq('ce.triggerMode', ':trigger_mode')));
+        $q->select($q->expr()->countDistinct('IDENTITY(o.lead)').' as lead_count');
+        $q->setParameter('trigger_mode', 'interrupt');
+        $results = $q->getQuery()->getArrayResult();
+        $count   = $results[0]['lead_count'];
+
+        return $count;
     }
 }

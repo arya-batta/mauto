@@ -149,7 +149,7 @@ Mautic.emailOnLoad = function (container, response) {
     });
 
     if (mQuery('table.email-list').length) {
-        mQuery('td.col-stats').each(function () {
+        mQuery('tr.email-row-stats').each(function () {
             var id = mQuery(this).attr('data-stats');
             // Process the request one at a time or the xhr will cancel the previous
             Mautic.ajaxActionRequest(

@@ -12,10 +12,11 @@
 namespace Mautic\CampaignBundle\Controller;
 
 use Mautic\CampaignBundle\Entity\LeadEventLog;
+use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CampaignBundle\Model\EventLogModel;
 use Mautic\CoreBundle\Controller\AjaxController as CommonAjaxController;
 use Mautic\CoreBundle\Helper\InputHelper;
-use Mautic\LeadBundle\Entity\Lead;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -137,5 +138,30 @@ class AjaxController extends CommonAjaxController
         }
 
         return null;
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function getWorkFlowCountStatsAction(Request $request)
+    {
+        /** @var CampaignModel $model */
+        $model = $this->getModel('campaign');
+
+        $data = [];
+        if ($id = $request->get('id')) {
+            if ($campaign = $model->getEntity($id)) {
+                $canvassettings=json_decode($campaign->getCanvasSettings());
+                $exitevents    =$model->getExitEvent($canvassettings);
+                $data          = [
+                    'success'  => 1,
+                    'progress' => $model->getRepository()->getWfProgressLeadsCount($campaign, $exitevents),
+                    'completed'=> $model->getRepository()->getWfCompletedLeadsCount($campaign, $exitevents),
+                    'goals'    => $model->getRepository()->getWfGoalAchievedLeadsCount($campaign),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
     }
 }

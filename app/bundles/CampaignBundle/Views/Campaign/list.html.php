@@ -62,6 +62,36 @@ $isAdmin=$view['security']->isAdmin();
                         'class'      => 'visible-md visible-lg col-campaign-category',
                     ]
                 );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'workflow',
+                        'orderBy'    => '',
+                        'text'       => 'le.workflow.stats.progress',
+                        'class'      => 'col-workflow-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'workflow',
+                        'orderBy'    => '',
+                        'text'       => 'le.workflow.stats.completed',
+                        'class'      => 'col-workflow-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'workflow',
+                        'orderBy'    => '',
+                        'text'       => 'le.workflow.stats.goal.achieved',
+                        'class'      => 'col-workflow-stats',
+                        'default'    => true,
+                    ]
+                );
                 if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -85,7 +115,7 @@ $isAdmin=$view['security']->isAdmin();
             <tbody>
             <?php foreach ($items as $item): ?>
             <?php $mauticTemplateVars['item'] = $item; ?>
-                <tr>
+                <tr class="wf-row-stats" data-stats="<?php echo $item->getId(); ?>">
                     <td>
                         <?php
                         echo $view->render(
@@ -132,6 +162,39 @@ $isAdmin=$view['security']->isAdmin();
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs"
+                            id="wf-progress-<?php echo $item->getId(); ?>">
+                            <a href="javascript:void(0);" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('le.workflow.stats.progress.tooltip'); ?>">
+                                <div class="wf-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs"
+                            id="wf-completed-<?php echo $item->getId(); ?>">
+                            <a href="javascript:void(0);" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('le.workflow.stats.completed.tooltip'); ?>">
+                                <div class="wf-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs"
+                            id="wf-goal-<?php echo $item->getId(); ?>">
+                            <a href="javascript:void(0);" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('le.workflow.stats.goal.tooltip'); ?>">
+                                <div class="wf-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
                     </td>
                     <?php if ($isAdmin): ?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>

@@ -351,11 +351,13 @@
     float:right;
 }
 .campaign-custom-save-button{
-    right:1%;
+    /*right:1%;*/
+    margin-top: 8px;
     text-transform: uppercase;
 }
 .campaign-custom-apply-button{
-    right:2%;
+    margin-right: 5px;
+    margin-top: 8px;
     text-transform: uppercase;
 }
 .campaign-custom-btn{
@@ -364,6 +366,7 @@
 .campaign-custom-button-div{
     position:relative;
     top:15px;
+    float: left;
 }
 .custom-campaign-builder .help-block{
     color: #ffffff !important;

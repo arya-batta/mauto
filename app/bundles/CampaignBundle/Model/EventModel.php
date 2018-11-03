@@ -843,9 +843,9 @@ class EventModel extends CommonFormModel
                         ];
                         $this->logger->debug('CAMPAIGN: Counts - '.var_export($counts, true));
 
-                        return ($returnCounts) ? $counts : $executedEventCount;
+                        return ($returnCounts) ? $counts : $scheduledExecutedCount;
                     } elseif ($output && isset($progress)) {
-                        $currentCount = ($max) ? $totalEventCount : $evaluatedEventCount;
+                        $currentCount = ($max) ? $totalEventCount : $scheduledEvaluatedCount;
                         $progress->setProgress($currentCount);
                     }
                 }
@@ -878,7 +878,7 @@ class EventModel extends CommonFormModel
         ];
         $this->logger->debug('CAMPAIGN: Counts - '.var_export($counts, true));
 
-        return ($returnCounts) ? $counts : $executedEventCount;
+        return ($returnCounts) ? $counts : $scheduledExecutedCount;
     }
 
     /**
@@ -1793,6 +1793,11 @@ class EventModel extends CommonFormModel
         if ($lead == null) {
             $lead = $this->leadModel->getCurrentLead();
         }
+        $campaignlead=$this->em->getReference('MauticCampaignBundle:Lead', [
+            'lead'     => $lead->getId(),
+            'campaign' => $campaign->getId(),
+        ]);
+        $log->setRotation($campaignlead->getRotation());
         $log->setLead($lead);
         $log->setDateTriggered(new \DateTime());
         $log->setSystemTriggered($systemTriggered);

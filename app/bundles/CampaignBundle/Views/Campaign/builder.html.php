@@ -24,16 +24,16 @@ $isAdmin=$view['security']->isAdmin();
         <?php echo $view['form']->start($form); ?>
         <!-- start: box layout -->
             <!-- container -->
-            <div class="col-md-6 height-auto">
-                    <div class="row" style="width:170%;">
-                        <div class="col-md-4">
+            <div style="width: 82%;float: left;">
+                    <div class="row">
+                        <div style="width: 50%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
-                        <div class="col-md-4">
+                        <div style="width: 20%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['category']); ?>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group col-xs-12">
+                        <div style="float: left;margin-left: 15px;">
+                            <div class="form-group">
                                 <label class="control-label" style="color:#fff;">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-no">
@@ -45,6 +45,20 @@ $isAdmin=$view['security']->isAdmin();
                                     </div>
                                 </div>
                                               </div>
+                        </div>
+                        <div style="float: left;margin-left: 15px;">
+                            <div class="form-group">
+                                <label class="control-label" style="color:#fff;">Start Workflow</label>        <div class="choice-wrapper">
+                                    <div class="btn-group btn-block" data-toggle="buttons">
+                                        <label class="btn btn-default le-btn-published le-btn-small  btn-no <?php echo !$entity->isPublished() ? 'active ' : ''?>">
+                                            <input type="radio" onchange="Mautic.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                        </label>
+                                        <label class="btn btn-default le-btn-published le-btn-small <?php echo $entity->isPublished() ? 'active ' : ''?> btn-success btn-yes">
+                                            <input type="radio" onchange="Mautic.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="hide row">
@@ -76,14 +90,14 @@ $isAdmin=$view['security']->isAdmin();
             <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
                 <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
             </button>
-            <div class="custom-fields">
-            <button type="button"  data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.campaign.startcampaign.tooltip'); ?>" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn <?php echo $entity->isPublished() ? 'background-pink' : 'background-orange'?>"  onclick="Mautic.publishCampaign();">
-                <?php echo $view['translator']->trans($entity->isPublished() ? 'Stop Workflow' : 'Start Workflow'); ?>
-            </button>
+<!--            <div class="custom-fields">-->
+<!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Mautic.publishCampaign();">-->
+<!--                --><?php //echo $view['translator']->trans($entity->isPublished() ? 'Stop Workflow' : 'Start Workflow');?>
+<!--            </button>-->
                 <div id="flash">
                     <span></span>
                 </div>
-        </div>
+<!--        </div>-->
         </div>
     </div>
     <div id="builder-errors" class="alert alert-danger" role="alert" style="display: none;">test</div>

@@ -467,13 +467,12 @@ class LeadSubscriber extends CommonSubscriber
      */
     protected function addTimelineEvents(LeadTimelineEvent $event, $eventTypeKey, $eventTypeName)
     {
-        $event->addEventType($eventTypeKey, $eventTypeName);
         $event->addSerializerGroup('campaignList');
 
         // Decide if those events are filtered
-        if (!$event->isApplicable($eventTypeKey)) {
-            return;
-        }
+        //if (!$event->isApplicable($eventTypeKey)) {
+        // return;
+        //}
 
         /** @var \Mautic\CampaignBundle\Entity\LeadEventLogRepository $logRepository */
         $logRepository             = $this->em->getRepository('MauticCampaignBundle:LeadEventLog');
@@ -483,7 +482,7 @@ class LeadSubscriber extends CommonSubscriber
         $eventSettings             = $this->campaignModel->getEvents();
 
         // Add total number to counter
-        $event->addToCounter($eventTypeKey, $logs);
+        // $event->addToCounter($eventTypeKey, $logs);
 
         if (!$event->isEngagementCount()) {
             foreach ($logs['results'] as $log) {
@@ -510,11 +509,53 @@ class LeadSubscriber extends CommonSubscriber
                 if ($event->isForTimeline()) {
                     $extra['campaignEventSettings'] = $eventSettings;
                 }
-
+                $type            =$log['type'];
+                $eventtype       =$log['event_type'];
+                $modeofsource    =$log['trigger_mode'];
+                $campaignid      =$log['campaign_id'];
+                $eventid         =$log['event_id'];
+                $subeventTypeKey =$eventTypeKey;
+                $subeventTypeName=$eventTypeName;
+                $subeventTypeIcon='fa-clock-o';
+                if ($eventtype == 'source') {
+                    if ($modeofsource == 'interrupt') {
+                        $subeventTypeKey ='campaign.event.goal';
+                        $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.goal.acheived');
+                        $subeventTypeIcon='fa-trophy';
+                    } else {
+                        $subeventTypeKey ='campaign.event.started';
+                        $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.started');
+                        $subeventTypeIcon='fa-sign-in';
+                    }
+                    $event->addEventType($subeventTypeKey, $subeventTypeName);
+                } elseif ($eventtype == 'condition') {
+                    $subeventTypeKey ='campaign.event.condition';
+                    $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.condition');
+                    $subeventTypeIcon='fa-hourglass';
+                    $event->addEventType($subeventTypeKey, $subeventTypeName);
+                } elseif ($type == 'campaign.defaultexit') {
+                    if ($this->campaignModel->isWorkFlowCompleteEvent($campaignid, $eventid)) {
+                        $subeventTypeKey ='campaign.event.completed';
+                        $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.completed');
+                    }
+                    $subeventTypeIcon='fa-sign-out';
+                    $event->addEventType($subeventTypeKey, $subeventTypeName);
+                } else {
+                    if ($type == 'campaign.defaultdelay') {
+                        $subeventTypeIcon='fa-hourglass';
+                    } else {
+                        $subeventTypeIcon='fa-bolt';
+                    }
+                    $event->addEventType($subeventTypeKey, $subeventTypeName);
+                }
+                if (!$event->isApplicable($subeventTypeKey)) {
+                    continue;
+                }
+                $event->addToCounter($subeventTypeKey, 1);
                 $event->addEvent(
                     [
-                        'event'      => $eventTypeKey,
-                        'eventId'    => $eventTypeKey.$log['log_id'],
+                        'event'      => $subeventTypeKey,
+                        'eventId'    => $subeventTypeKey.$log['log_id'],
                         'eventLabel' => [
                             'label' => $label,
                             'href'  => $this->router->generate(
@@ -522,11 +563,11 @@ class LeadSubscriber extends CommonSubscriber
                                 ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]
                             ),
                         ],
-                        'eventType'       => $eventTypeName,
+                        'eventType'       => $subeventTypeName,
                         'timestamp'       => $log['dateTriggered'],
                         'extra'           => $extra,
                         'contentTemplate' => $template,
-                        'icon'            => 'fa-clock-o',
+                        'icon'            => $subeventTypeIcon,
                         'contactId'       => $log['lead_id'],
                     ]
                 );

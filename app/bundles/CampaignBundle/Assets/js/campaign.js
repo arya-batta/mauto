@@ -11,6 +11,7 @@ Mautic.WF_TRIGGER_NODE_PATH_HEIGHT_CONSTANT=70;
 Mautic.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT=16;
 Mautic.WF_COUNT_NODE_HEIGHT_ADJUST=27;
 Mautic.WF_NODE_PATH_HEIGHT_ADJUST=49;
+Mautic.SVG_NODE_HEIGHT_ADJUST=200;
 Mautic.WF_SHOW_STATSTICS=true;
 Mautic.getActionNodeJSON=function(){
 var json={
@@ -231,6 +232,25 @@ Mautic.campaignOnLoad = function (container, response) {
     mQuery('#campaign_buttons').addClass('hide');
     mQuery('.chosen-single').css("background","#fff");
     Mautic.removeActionButtons();
+    if (mQuery('table.campaign-list').length) {
+        mQuery('tr.wf-row-stats').each(function () {
+            var id = mQuery(this).attr('data-stats');
+            // Process the request one at a time or the xhr will cancel the previous
+            Mautic.ajaxActionRequest(
+                'campaign:getWorkFlowCountStats',
+                {id: id},
+                function (response) {
+                    if (response.success && mQuery('#wf-progress-' + id + ' div').length) {
+                        mQuery('#wf-progress-' + id + ' > a').html(response.progress);
+                        mQuery('#wf-completed-' + id + ' > a').html(response.completed);
+                        mQuery('#wf-goal-' + id + ' > a').html(response.goals);
+                    }
+                },
+                false,
+                true
+            );
+        });
+    }
 };
 
 Mautic.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
@@ -305,7 +325,7 @@ if(type != 'interrupt'){
     if(type != 'trigger'){
         rootelement.appendChild(gelement1);
         var bcr = gelement1.getBoundingClientRect();
-        var xposition=(width-bcr.width)/2;
+        var xposition=(width-(bcr.width))/2;
         removenodexposition=(xposition + +rectwidth)-8;
         gelement1.setAttributeNS(null, "transform", 'translate('+xposition+',20)');
         gelement1.parentNode.removeChild(gelement1);
@@ -569,7 +589,10 @@ Mautic.iterateJSONOBJECT = function(data,width,parent,tracker,lastnode){
                     }
                 stepsindex++;
             });
-            Mautic.updateStepsPosition(stepsnode);
+            var yposition=Mautic.updateStepsPosition(stepsnode);
+            if(parent.tagName == 'svg'){
+                Mautic.adjustSizeforSVG(parent,stepsnode,yposition);
+            }
         }else{
             tracker+="insert point alone"+"----->"+width+"\n";
             stepsnode.appendChild(Mautic.getStepNode(stepsnode,Mautic.randomString(32),width,'insertion-point','',false,lastnode));
@@ -785,6 +808,7 @@ Mautic.updateStepsPosition=function(steps){
         var bcr=child.getBoundingClientRect();
         yposition=yposition+bcr.height;
     });
+    return yposition;
 }
 Mautic.updateDecisionPath=function(stepnode){
     var wfnode=stepnode.children[0];
@@ -1308,7 +1332,14 @@ Mautic.refreshWorkFlowCanvas=function(){
     var newsvg=oldsvg.cloneNode(false);
     oldsvg.parentNode.replaceChild(newsvg, oldsvg);
     //alert(newsvg.getAttributeNS(null,'id'));
-    Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,1300,newsvg,'',false);
+    var svgwidth=mQuery(window).width();
+    if(svgwidth > 0){
+        svgwidth=svgwidth-20;
+    }
+    if(Mautic.campaignupdatedjson.width > svgwidth){
+        svgwidth=Mautic.campaignupdatedjson.width;
+    }
+    Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,svgwidth,newsvg,'',false);
     //save('inserted.txt',JSON.stringify(Mautic.campaignupdatedjson));
 }
 
@@ -1350,8 +1381,37 @@ Mautic.CloseStatisticsWidget = function(){
         mQuery('.status-body').removeClass('hide');
     }
 };
-
-Mautic.publishCampaign = function(){
+Mautic.publishCampaign = function(flag){
+    var campaignname = mQuery('#campaign_name').val();
+    var msg = "Automation workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
+  if(flag){
+      Mautic.toggleYesNoButtonClass('campaign_isPublished_1');
+      mQuery('#campaign_isPublished_1').attr('checked',true);
+      mQuery('#campaign_isPublished_0').attr('checked',false);
+      var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
+      mQuery(potherLabel).addClass('active');
+      var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
+      mQuery(uotherLabel).removeClass('active');
+      mQuery('#flash').css('display','inline-block');
+      mQuery('#flash').html(msg+' started.');
+  }else{
+      Mautic.toggleYesNoButtonClass('campaign_isPublished_0');
+      mQuery('#campaign_isPublished_0').attr('checked',true);
+      mQuery('#campaign_isPublished_1').attr('checked',false);
+      var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
+      mQuery(uotherLabel).addClass('active');
+      var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
+      mQuery(potherLabel).removeClass('active');
+      mQuery('#flash').css('display','inline-block');
+      mQuery('#flash').html(msg+' stopped.');
+  }
+    mQuery(function() {
+        mQuery('#flash').delay(800).fadeIn('normal', function() {
+            mQuery(this).delay(1500).fadeOut();
+        });
+    });
+}
+Mautic.publishCampaign_old = function(){
     var value = mQuery('#campaignPublishButton').attr("value");
     var campaignname = mQuery('#campaign_name').val();
     var msg = "Automation workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
@@ -1523,16 +1583,25 @@ Mautic.launchCampaignEditor = function() {
     try{
         //save('text.txt',JSON.stringify(Mautic.campaignBuilderCanvasSettings));
         Mautic.campaignupdatedjson=Mautic.campaignBuilderCanvasSettings;
+        var svgwidth=mQuery(window).width();
+        if(svgwidth > 0){
+            svgwidth=svgwidth-20;
+        }
+        if(typeof Mautic.campaignupdatedjson.width != 'undefined'){
+            Mautic.campaignupdatedjson['width']=svgwidth;
+        }
+        if(Mautic.campaignupdatedjson.width > svgwidth){
+            svgwidth=Mautic.campaignupdatedjson.width;
+        }
         var svgelement = document.createElementNS(Mautic.SVGNAMESPACEURI,"svg");
         svgelement.setAttributeNS(null, "id", 'workflow'+'-'+ Mautic.randomString(8));
-        svgelement.setAttributeNS(null, "width", '1300');
-        svgelement.setAttributeNS(null, "height", '4000');
+        svgelement.setAttributeNS(null, "width", svgwidth);
         mQuery('.workflow-canvas').append(svgelement);
         Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_TRIGGER_NODE_HEIGHT_ADJUST;
         if(Mautic.WF_SHOW_STATSTICS){
             Mautic.WF_NODE_PATH_HEIGHT_ADJUST=Mautic.WF_NODE_PATH_HEIGHT_ADJUST+ +Mautic.WF_COUNT_NODE_HEIGHT_ADJUST;
         }
-       Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,1300,svgelement,'',false);
+       Mautic.iterateJSONOBJECT(Mautic.campaignupdatedjson,svgwidth,svgelement,'',false);
     }catch(error){
         alert(error);
     }
@@ -1807,4 +1876,16 @@ Mautic.submitCampaignEvent = function(e) {
 Mautic.showStatistics=function(show){
  Mautic.WF_SHOW_STATSTICS=show;
  Mautic.refreshWorkFlowCanvas();
+}
+Mautic.adjustSizeforSVG=function(svgnode,stepsnode,yposition){
+    var bcr=stepsnode.parentNode.getBoundingClientRect();
+    var svgwidth=mQuery(window).width();
+    if(svgwidth < bcr.width){
+        svgwidth=bcr.width + +100;
+    }else{
+        svgwidth=svgwidth-20;
+    }
+    Mautic.campaignupdatedjson.width=svgwidth;
+    svgnode.setAttributeNS(null,"height",yposition + +Mautic.SVG_NODE_HEIGHT_ADJUST);
+    svgnode.setAttributeNS(null,"width",svgwidth);
 }

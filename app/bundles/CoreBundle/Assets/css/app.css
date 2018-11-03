@@ -4986,13 +4986,13 @@ figcaption {
 #bee-plugin-viewpanel {
   background-color: #fff;
   position: absolute;
-  top: 50px;
+  /*top: 50px;*/
   bottom: 0;
   right: 0;
   left: 0;
   width: 100%;
   z-index: 1030;
-  height: 580px;
+  height: 100vh;
 }
 .panel-heading-account{
   color: #ffffff;
@@ -5778,7 +5778,7 @@ figcaption {
   min-width: 14px;
   font-size: 12px!important;
 }
-.col-email-stats{
+.col-email-stats,.col-workflow-stats{
   text-align: center;
 }
 .col-page-title{
@@ -5799,8 +5799,8 @@ figcaption {
 .col-stats {
 text-align: center;
 }
-.email-spinner-alignment{
-  width: 50px;
+.email-spinner-alignment,.wf-spinner-alignment{
+  /*width: 50px;*/
   text-align: center;
 }
 .noresult-alert-image{

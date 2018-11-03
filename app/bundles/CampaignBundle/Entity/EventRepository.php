@@ -326,13 +326,18 @@ class EventRepository extends CommonRepository
      */
     public function getCompletedEvents($campaignId, $leadId, $specificevents, $count = true, $limit = 0)
     {
+        $campaignlead=$this->getEntityManager()->getReference('MauticCampaignBundle:Lead', [
+            'lead'     => $leadId,
+            'campaign' => $campaignId,
+        ]);
         $q = $this->getEntityManager()->createQueryBuilder()
             ->from('MauticCampaignBundle:LeadEventLog', 'o');
 
         $q->where(
             $q->expr()->andX(
                 $q->expr()->eq('IDENTITY(o.campaign)', (int) $campaignId),
-                $q->expr()->eq('IDENTITY(o.lead)', (int) $leadId)
+                $q->expr()->eq('IDENTITY(o.lead)', (int) $leadId),
+                $q->expr()->eq('o.rotation', (int) $campaignlead->getRotation())
             )
         );
         if (sizeof($specificevents) > 0) {
