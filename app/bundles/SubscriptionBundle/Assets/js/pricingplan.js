@@ -77,7 +77,8 @@ Mautic.pricingplansOnLoad = function (container) {
                 Mautic.removeButtonLoadingIndicator(currentLink);
                 // Inform the user if there was an error.
                 var errorElement = document.getElementById('card-holder-errors');
-                errorElement.textContent = result.error.message;
+                var message=Mautic.showerror(result.error.message);
+                errorElement.textContent = message;
             } else {
                 // Send the token to your server.
                 stripeTokenHandler(card,result.token,'.pricing-type-modal',currentLink);
@@ -167,7 +168,9 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
         }
         else{
             // Inform the user if there was an error.
-            setInfoText(response.errormsg);
+            var errors=response.errormsg;
+            var error=Mautic.showerror(errors);
+            setInfoText(error);
         }
     });
 }

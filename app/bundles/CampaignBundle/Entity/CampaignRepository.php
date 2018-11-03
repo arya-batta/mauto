@@ -855,7 +855,7 @@ class CampaignRepository extends CommonRepository
         $qb->select('l.id')
             ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
             ->andWhere('l.id = :lead')
-            ->setParameter('lead', $listId[0]);
+            ->setParameter('lead', isset($listId[0]) ? (int) $listId[0] : '');
 
         $qb->andWhere($qb->expr()->eq('l.is_published', ':isPublished'))
             ->setParameter('isPublished', '1');

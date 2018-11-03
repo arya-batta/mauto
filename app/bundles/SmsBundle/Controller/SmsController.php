@@ -899,6 +899,8 @@ class SmsController extends FormController
                         if (count($error)) {
                             array_push($errors, $error[0]);
                         }
+                    }else{
+                        $this->addFlash('mautic.sms.notice.test_sent.number.required');
                     }
                 }
 
