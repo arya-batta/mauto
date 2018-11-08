@@ -53,7 +53,10 @@ class LeadController extends FormController
             ],
             'RETURN_ARRAY'
         );
-
+        $isempty=$this->request->get('leadcount');
+        if($isempty){
+            $this->addFlash("Leads is Empty");
+        }
         $videoarg       = $this->request->get('login');
         $loginsession   = $this->get('session');
         $loginarg       = $loginsession->get('isLogin');
@@ -2361,6 +2364,11 @@ class LeadController extends FormController
 
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model      = $this->getModel('lead');
+        $leadcount  = count($model->getEntities());
+        if($leadcount == 0){
+            return $this->redirectToRoute('mautic_contact_index', ['leadcount' => "true"]);
+
+        }
         $session    = $this->get('session');
         $search     = $session->get('mautic.lead.filter', '');
         $orderBy    = $session->get('mautic.lead.orderby', 'l.last_active');
