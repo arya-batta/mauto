@@ -403,9 +403,9 @@ class LeadListRepository extends CommonRepository
                                 $q->select($select)
                                     ->from('leads','l');
                                     if($filter['operator'] == 'empty'){
-                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id'),$q->expr()->lte('ll.date_added',':dateadded')));
+                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id')));
                                     }else{
-                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->neq('ll.lead_id','l.id'),$q->expr()->lte('ll.date_added',':dateadded')));
+                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->neq('ll.lead_id','l.id')));
                                     }
                                 $q->andwhere(
                                     $q->expr()->orX(
@@ -415,7 +415,6 @@ class LeadListRepository extends CommonRepository
                                     $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
                                 );
 
-                                $q->setParameter(':dateadded',$q->expr()->literal($batchLimiters['dateTime']));
                             }else if($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
                                 unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
@@ -556,7 +555,7 @@ class LeadListRepository extends CommonRepository
                     // remove any possible group by
                     $q->resetQueryPart('groupBy');
                 }
-
+                dump($q->execute());
                 $results = $q->execute()->fetchAll();
 
                 foreach ($results as $r) {
