@@ -880,10 +880,8 @@ class SmsController extends FormController
                 $fields['id'] = 0;
 
                 $errors = [];
-                $isempty= false;
                 foreach ($mobiles as $mobile) {
                     if (!empty($mobile)) {
-                        $isempty = true;
                         $users = [
                             [
                                 // Setting the id, firstname and lastname to null as this is a unknown user
@@ -907,11 +905,7 @@ class SmsController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash('mautic.sms.notice.test_sent_multiple.fail');
                 } else {
-                    if($isempty) {
                         $this->addFlash('mautic.sms.notice.test_sent_multiple.success');
-                    } else{
-                        $this->addFlash('mautic.sms.notice.test_sent.number.required');
-                    }
                 }
                 }else{
                     $this->addFlash('mautic.sms.notice.test_sent_multiple.fail');
