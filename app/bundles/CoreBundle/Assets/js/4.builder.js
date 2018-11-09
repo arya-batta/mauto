@@ -464,6 +464,8 @@ Mautic.initSelectBeeTemplate = function(themeField,formname) {
                 Mautic.launchBeeEditor('emailform', 'email');
             } else if (location.href.match(/(pages)/i)){
                 Mautic.launchBeeEditor('pageform', 'page');
+            } else if (location.href.match(/(dripemail)/i)){
+                Mautic.launchBeeEditor('dripemail', 'email');
             }
         });
     }

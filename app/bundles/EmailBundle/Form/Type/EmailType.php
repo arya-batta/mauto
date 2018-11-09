@@ -21,7 +21,9 @@ use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
+use Mautic\ReportBundle\Scheduler\Enum\SchedulerEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -197,6 +199,24 @@ class EmailType extends AbstractType
                 ],
                 'extra_fields_message'   => 'email',
                  'required'              => false,
+            ]
+        );
+
+        $builder->add(
+            'scheduleTime',
+            ChoiceType::class,
+            [
+                'choices'     => SchedulerEnum::getUnitEnumForSelect(),
+                'expanded'    => false,
+                'multiple'    => false,
+                'label'       => 'mautic.report.schedule.every',
+                'label_attr'  => ['class' => 'control-label'],
+                'empty_value' => false,
+                'required'    => false,
+                'attr'        => [
+                    'class'                => 'form-control',
+                    'data-report-schedule' => 'scheduleUnit',
+                ],
             ]
         );
 

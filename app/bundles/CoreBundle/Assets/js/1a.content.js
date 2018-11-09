@@ -1690,16 +1690,18 @@ Mautic.initiateFileDownload = function (link) {
  * @param action
  */
 Mautic.showActionButtons = function (id) {
-    mQuery('#mainClass-'+id).addClass('md-fab-animated md-fab-active');
-    mQuery('.toolbar-actions-'+id).css("display","block");
-    var actioButtons = document.getElementsByClassName("md-fab-toolbar-actions")[0].getElementsByTagName("a").length;
-    if(actioButtons > 4){
-        mQuery('#mainClass-'+id).css("width", '145px');
-    }else if(actioButtons > 3){
-        mQuery('#mainClass-'+id).css("width", '115px');
-    } else {
-        mQuery('#mainClass-'+id).css("width", '89px');
-    }
+    setTimeout(function(){
+        mQuery('#mainClass-'+id).addClass('md-fab-animated md-fab-active');
+        mQuery('.toolbar-actions-'+id).css("display","block");
+        var actioButtons = document.getElementsByClassName("md-fab-toolbar-actions")[0].getElementsByTagName("a").length;
+        if(actioButtons > 4){
+            mQuery('#mainClass-'+id).css("width", '145px');
+        }else if(actioButtons > 3){
+            mQuery('#mainClass-'+id).css("width", '115px');
+        } else {
+            mQuery('#mainClass-'+id).css("width", '89px');
+        }
+    }, 750);
 };
 /**
  * Hide Flash message manually

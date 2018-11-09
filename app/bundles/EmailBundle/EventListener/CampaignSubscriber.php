@@ -23,6 +23,7 @@ use Mautic\EmailBundle\Event\EmailOpenEvent;
 use Mautic\EmailBundle\Event\EmailReplyEvent;
 use Mautic\EmailBundle\Exception\EmailCouldNotBeSentException;
 use Mautic\EmailBundle\Helper\UrlMatcher;
+use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
@@ -67,6 +68,10 @@ class CampaignSubscriber extends CommonSubscriber
      * @var NotificationHelper
      */
     protected $notificationhelper;
+    /*
+     * @var DripEmailModel
+     */
+    protected $dripEmailModel;
 
     /**
      * @param LeadModel           $leadModel
@@ -83,7 +88,8 @@ class CampaignSubscriber extends CommonSubscriber
         MessageQueueModel $messageQueueModel,
         SendEmailToUser $sendEmailToUser,
         TranslatorInterface  $translator,
-        NotificationHelper $notificationhelper
+        NotificationHelper $notificationhelper,
+        DripEmailModel $dripEmailModel
     ) {
         $this->leadModel          = $leadModel;
         $this->emailModel         = $emailModel;
@@ -92,6 +98,7 @@ class CampaignSubscriber extends CommonSubscriber
         $this->sendEmailToUser    = $sendEmailToUser;
         $this->translator         = $translator;
         $this->notificationhelper = $notificationhelper;
+        $this->dripEmailModel     = $dripEmailModel;
     }
 
     /**
@@ -105,6 +112,7 @@ class CampaignSubscriber extends CommonSubscriber
             EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION => [
                 ['onCampaignTriggerActionSendEmailToContact', 0],
                 ['onCampaignTriggerActionSendEmailToUser', 1],
+                ['onCampaignTriggerActionSendDripEmailToLead', 2],
             ],
             EmailEvents::ON_CAMPAIGN_TRIGGER_DECISION => ['onCampaignTriggerDecision', 0],
             EmailEvents::EMAIL_ON_REPLY               => ['onEmailReply', 0],
@@ -163,6 +171,18 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
+                'order'           => 1,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
+            ]
+        );
+
+        $event->addAction(
+            'email.send.to.dripcampaign',
+            [
+                'label'           => 'mautic.email.campaign.event.send.to.dripcampaign',
+                'description'     => 'mautic.email.campaign.event.send.to.dripcampaign_descr',
+                'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'formType'        => 'dripemailsend_list',
                 'order'           => 1,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
@@ -400,6 +420,48 @@ class CampaignSubscriber extends CommonSubscriber
         } catch (EmailCouldNotBeSentException $e) {
             $event->setFailed($e->getMessage());
         }
+
+        return $event;
+    }
+
+    /**
+     * Triggers the action which sends email to user, contact owner or specified email addresses.
+     *
+     * @param CampaignExecutionEvent $event
+     *
+     * @return CampaignExecutionEvent|null
+     */
+    public function onCampaignTriggerActionSendDripEmailToLead(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('email.send.to.dripcampaign')) {
+            return;
+        }
+
+        $config    = $event->getConfig();
+        $lead      = $event->getLead();
+        $dripEmail = $config['dripemail'];
+        $entity    = $this->dripEmailModel->getEntity($dripEmail);
+        $this->dripEmailModel->addLead($entity, $lead);
+
+        $items     = $this->emailModel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $this->dripEmailModel->scheduleEmail($items, $entity, $lead);
+        $event->setResult(true);
 
         return $event;
     }

@@ -16,7 +16,8 @@ $apiAccess          =$view['security']->isGranted('api:clients:view');
         <span class="fa fa-cog fs-16 fa-border" id="account-settings"></span>
         <span class="text fw-sb ml-xs hidden-xs"><?php echo $view['translator']->trans('mautic.core.settings'); ?></span>
         <span class="caret ml-xs"></span>
-    </a>  <ul class="le-settings-dropdown-menu dropdown-menu">
+    </a>
+    <ul class="le-settings-dropdown-menu dropdown-menu">
         <li>
             <a href="<?php echo $view['router']->path('mautic_accountinfo_action', ['objectAction' => 'edit']); ?>" data-toggle="ajax">
                 <i class="margin-right  fa fa-address-book-o"></i><span><?php echo $view['translator']->trans('leadsengage.subs.account.menu.index'); ?></span>

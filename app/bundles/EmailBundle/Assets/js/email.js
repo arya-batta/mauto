@@ -148,41 +148,7 @@ Mautic.emailOnLoad = function (container, response) {
         }
     });
 
-    if (mQuery('table.email-list').length) {
-        mQuery('tr.email-row-stats').each(function () {
-            var id = mQuery(this).attr('data-stats');
-            // Process the request one at a time or the xhr will cancel the previous
-            Mautic.ajaxActionRequest(
-                'email:getEmailCountStats',
-                {id: id},
-                function (response) {
-                    if (response.success && mQuery('#sent-count-' + id + ' div').length) {
-                        /* if (response.pending) {
-                             mQuery('#pending-' + id + ' > a').html(response.pending);
-                             mQuery('#pending-' + id).removeClass('hide');
-                         }*/
-
-                        if (response.queued) {
-                            mQuery('#queued-' + id + ' > a').html(response.queued);
-                            mQuery('#queued-' + id).removeClass('hide');
-                        }
-
-                        mQuery('#pending-' + id + ' > a').html(response.pending);
-                        mQuery('#sent-count-' + id + ' > a').html(response.sentCount);
-                        mQuery('#read-count-' + id + ' > a').html(response.readCount);
-                        mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
-                        mQuery('#failure-count-' + id + ' > a').html(response.failureCount);
-                        mQuery('#unsubscribe-count-' + id + ' > a').html(response.unsubscribeCount);
-                        mQuery('#bounce-count-' + id + ' > a').html(response.bounceCount);
-                        mQuery('#spam-count-' + id + ' > a').html(response.spamCount);
-                    }
-                },
-                false,
-                true
-            );
-
-        });
-    }
+    Mautic.loadEmailStatCounts();
 
     Mautic.getTokens('email:getBuilderTokens', function(tokens) {
         /**  mQuery.each(tokens, function(k,v){
@@ -271,6 +237,282 @@ Mautic.emailOnLoad = function (container, response) {
     Mautic.removeActionButtons();
 };
 
+Mautic.dripemailOnLoad = function (container, response) {
+    Mautic.initSelectBeeTemplate(mQuery('#emailform_template'),'email');
+    Mautic.initEmailDynamicContent();
+    mQuery('#unsubscribe_text_div').find('.fr-element').attr('style','min-height:100px;');
+    /*mQuery(".ui-tabs-panel").each(function(i){
+        var totalSize = mQuery(".ui-tabs-panel").size() - 1;
+        if (i != totalSize) {
+            if(i == 0){
+                //mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
+            }
+            next = i + 2;
+        }
+        if (i != 0) {
+            prev = i;
+        }
+    });*/
+    mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
+        var selectrel = mQuery(this).attr("rel");
+
+        mQuery('#dripEmail_PublicName').removeClass('has-success has-error');
+        if(mQuery('#dripemailform_name').val() == "") {
+            mQuery('#dripEmail_PublicName').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#dripEmail_PublicName .custom-help').removeClass('hide').html("Campaign name can't be empty");
+            return;
+        } else{
+            mQuery('#dripEmail_PublicName').removeClass('has-success has-error');
+            mQuery('#dripEmail_PublicName .custom-help').html("");
+        }
+        if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
+            if (selectrel == 3 && !mQuery(this).hasClass('ui-state-default')) {
+                Mautic.launchBeeEditor('dripemail', 'email');
+                return;
+            }
+        }
+        mQuery(".ui-tabs-panel").addClass('ui-tabs-hide');
+        mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
+        mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
+
+    });
+    Mautic.loadEmailStatCounts();
+    Mautic.reorderEmailsData(container);
+    Mautic.getTokens('email:getBuilderTokens', function(tokens) {
+        /**  mQuery.each(tokens, function(k,v){
+            if (k.match(/assetlink=/i) && v.match(/a:/)){
+                delete tokens[k];
+            } else if (k.match(/pagelink=/i) && v.match(/a:/)){
+                delete tokens[k];
+            }
+            if(tokens[k]=='Title' || tokens[k]=='First Name' || tokens[k]=='Last Name' || tokens[k]=='Company'){
+
+            } else {
+                delete tokens[k];
+            }
+        }); */
+
+        tokens = [];
+        tokens['{leadfield=title}']       = 'Title';
+        tokens['{leadfield=firstname}']   = 'First Name';
+        tokens['{leadfield=lastname}']    = 'Last Name';
+        tokens['{leadfield=company_new}'] = 'Company';
+        tokens['{lead_owner_name}']       = 'Lead Owner Name';
+        tokens['{lead_owner_mobile}']     = 'Lead Owner Mobile';
+        tokens['{lead_owner_email}']      = 'Lead Owner Email';
+
+        var k, keys = [];
+        for (k in tokens) {
+            if (tokens.hasOwnProperty(k)) {
+                keys.push(k);
+            }
+        }
+        //keys.sort();
+        //var tborder= "<table border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
+        var tborder= "<div border='1' class='email-subject-table' ><tbody style='background-color:whitesmoke;'><tr>";
+        for (var i = 0; i < keys.length; i++) {
+            var val = keys[i];
+            var title = tokens[val];
+            if(i % 3 == 0 && i  !=0 ){
+                tborder+= "</tr><tr>";
+            }
+            var value= '<li class="email-subject-table-border"><a class="email-subject-token" id="insert-value" data-cmd="inserttoken" data-email-token="' + val + '" title="' + title + '">' + title +'</a></li>';
+            tborder+= value;
+        }
+        tborder+= "</div>";
+
+
+        mQuery('.insert-tokens').html(tborder);
+        mQuery('[data-email-token]').click(function(e) {
+            e.preventDefault();
+            var currentLink = mQuery(this);
+            var value = currentLink.attr('data-email-token');
+            var subValue= mQuery('#emailform_subject').val();
+            if(subValue == ''){
+                mQuery("#emailform_subject").val(value);
+            } else {
+                if(subValue.includes(value)){
+
+                } else {
+                    //subValue+=value;
+                    //mQuery("#emailform_subject").html.insert(value);
+                    var cursorPos = mQuery('#emailform_subject').prop('selectionStart');
+                    var v = subValue;
+                    var textBefore = v.substring(0,  cursorPos);
+                    var textAfter  = v.substring(cursorPos, v.length);
+
+                    mQuery('#emailform_subject').val(textBefore + value + textAfter);
+                }
+
+            }
+        });
+    });
+    mQuery('[data-verified-emails]').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var value = currentLink.attr('data-verified-emails');
+        mQuery("#emailform_fromAddress").val(value);
+    });
+    Mautic.filterBeeTemplates= function () {
+        d = document.getElementById("filters").value;
+        if(d == "all"){
+            mQuery('.bee-template').removeClass('hide');
+        } else {
+            mQuery('.bee-template').addClass('hide');
+            mQuery('.'+d).removeClass('hide');
+        }
+    };
+    Mautic.removeActionButtons();
+    if(mQuery('#drip-email-delay').length){
+        mQuery('#drip-email-delay .chosen-single').addClass('chosen-dripemail-single');
+    }
+    Mautic.loadDripEmailScheduledStatCounts();
+    Mautic.loadDripEmailStatCounts();
+};
+
+Mautic.loadDripEmailScheduledStatCounts = function(){
+    if (mQuery('table.email-list').length) {
+        mQuery('td.drip-col-stats').each(function () {
+            var id = mQuery(this).attr('data-stats');
+            // Process the request one at a time or the xhr will cancel the previous
+            Mautic.ajaxActionRequest(
+                'email:getDripEmailScheduledCountStats',
+                {id: id},
+                function (response) {
+                    if (response.success && mQuery('#scheduled-count-' + id + ' div').length) {
+                        mQuery('#scheduled-count-' + id + ' > a').html(response.scheduledcount);
+                    }
+                },
+                false,
+                true
+            );
+
+        });
+    }
+}
+
+Mautic.loadDripEmailStatCounts = function(){
+    if (mQuery('table.email-list').length) {
+        mQuery('td.drip-email-col-stats').each(function () {
+            var id = mQuery(this).attr('data-stats');
+            // Process the request one at a time or the xhr will cancel the previous
+            Mautic.ajaxActionRequest(
+                'email:getDripEmailStats',
+                {id: id},
+                function (response) {
+                    if (response.success && mQuery('#drip-sent-count-' + id + ' div').length) {
+                        mQuery('#drip-sent-count-' + id + ' > a').html(response.sentcount);
+                        mQuery('#drip-read-count-' + id + ' > a').html(response.readcount);
+                        mQuery('#drip-click-count-' + id + ' > a').html(response.clickcount);
+                        mQuery('#drip-unsubscribe-count-' + id + ' > a').html(response.unsubscribe);
+                        mQuery('#drip-lead-count-' + id + ' > a').html(response.leadcount);
+                    }
+                },
+                false,
+                true
+            );
+
+        });
+    }
+}
+
+Mautic.reorderEmailsData = function(container){
+    if (mQuery(container + ' .dripemail-list').length) {
+        var bodyOverflow = {};
+        mQuery(container + ' .dripemail-list tbody').sortable({
+            handle: '.fa-ellipsis-v',
+            helper: function(e, ui) {
+                ui.children().each(function() {
+                    mQuery(this).width(mQuery(this).width());
+                });
+
+                // Fix body overflow that messes sortable up
+                bodyOverflow.overflowX = mQuery('body').css('overflow-x');
+                bodyOverflow.overflowY = mQuery('body').css('overflow-y');
+                mQuery('body').css({
+                    overflowX: 'visible',
+                    overflowY: 'visible'
+                });
+
+                return ui;
+            },
+            scroll: false,
+            axis: 'y',
+            containment: container + ' .dripemail-list',
+            stop: function(e, ui) {
+                // Restore original overflow
+                mQuery('body').css(bodyOverflow);
+                var order = 0;
+                mQuery('tr.drip-emailcol-stats').each(function () {
+                    var id = mQuery(this).attr('data-stats');
+                    order = order + 1;
+                    //alert(order);
+                    //alert(id);
+                    // Process the request one at a time or the xhr will cancel the previous
+                    Mautic.ajaxActionRequest(
+                        'email:reorderEmails',
+                        {
+                            id: id,
+                            order:order
+                        },
+                        function (response) {
+                            if (response.success) {
+
+                            }
+                        },
+                        false,
+                        true
+                    );
+
+                });
+                // Get the page and limit
+                /*mQuery.ajax({
+                    type: "POST",
+                    url: mauticAjaxUrl + "?action=lead:reorder&limit=" + mQuery('.pagination-limit').val() + '&page=' + mQuery('.pagination li.active a span').first().text(),
+                    data: mQuery(container + ' .leadfield-list tbody').sortable("serialize")});*/
+            }
+        });
+    }
+}
+
+Mautic.loadEmailStatCounts = function(){
+    if (mQuery('table.email-list').length) {
+        mQuery('td.col-stats').each(function () {
+            var id = mQuery(this).attr('data-stats');
+            // Process the request one at a time or the xhr will cancel the previous
+            Mautic.ajaxActionRequest(
+                'email:getEmailCountStats',
+                {id: id},
+                function (response) {
+                    if (response.success && mQuery('#sent-count-' + id + ' div').length) {
+                        /* if (response.pending) {
+                             mQuery('#pending-' + id + ' > a').html(response.pending);
+                             mQuery('#pending-' + id).removeClass('hide');
+                         }*/
+
+                        if (response.queued) {
+                            mQuery('#queued-' + id + ' > a').html(response.queued);
+                            mQuery('#queued-' + id).removeClass('hide');
+                        }
+
+                        mQuery('#pending-' + id + ' > a').html(response.pending);
+                        mQuery('#sent-count-' + id + ' > a').html(response.sentCount);
+                        mQuery('#read-count-' + id + ' > a').html(response.readCount);
+                        mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
+                        mQuery('#failure-count-' + id + ' > a').html(response.failureCount);
+                        mQuery('#unsubscribe-count-' + id + ' > a').html(response.unsubscribeCount);
+                        mQuery('#bounce-count-' + id + ' > a').html(response.bounceCount);
+                        mQuery('#spam-count-' + id + ' > a').html(response.spamCount);
+                    }
+                },
+                false,
+                true
+            );
+
+        });
+    }
+}
 Mautic.emailOnUnload = function(id) {
     if (id === '#app-content') {
         delete Mautic.listCompareChart;
@@ -1047,4 +1289,205 @@ Mautic.changeButtonPanelStyle = function (){
             mQuery('#fixed-content').attr('style', 'margin-top:215px;');
         }
     }
+}
+
+Mautic.setValueforNewButton = function (value,ele){
+    mQuery('#new-drip-email').attr('value',value);
+    mQuery('.editor_select').addClass('editor_layout').removeClass('editor_select');
+    mQuery(ele).addClass('editor_select').removeClass('editor_layout');
+}
+
+Mautic.openDripEmailEditor = function (){
+    var editorname = mQuery('#new-drip-email').attr('value');
+    editorname = "dripemail_"+editorname;
+    mQuery('#drip-email-container').removeClass('hide');
+    mQuery('#drip-email-list-container').addClass('hide');
+    mQuery('.dripemail_content').addClass('hide');
+    mQuery('#'+editorname).removeClass('hide');
+    mQuery('.newbutton-container').addClass('hide');
+    mQuery('.saveclose-container').removeClass('hide');
+}
+
+Mautic.saveDripEmail = function (dripEntity) {
+    var subject     = mQuery('#emailform_subject').val();
+    var previewText = mQuery('#emailform_previewText').val();
+    var customHtml  = mQuery('#emailform_customHtml').val();
+    var beeJson     = mQuery('#emailform_beeJSON').val();
+    if(!Mautic.isValidEmailSave()){
+        return false;
+    }
+    var editorname = mQuery('#new-drip-email').attr('value');
+    if(editorname == "basic_editor") {
+        beeJson = "";
+    }
+    var data = {
+        subject     : subject,
+        previewText : previewText,
+        customHtml  : customHtml,
+        beeJson     : beeJson,
+        dripEntity  : dripEntity,
+    };
+    Mautic.ajaxActionRequest('email:createDripEmails', data, function (response) {
+        if (response.success){
+            Mautic.refreshDripEmailList(response.content);
+            mQuery('#emailform_subject').val('');
+            mQuery('#emailform_previewText').val('');
+            mQuery('#emailform_customHtml').val('');
+        }
+    });
+}
+
+Mautic.updateDripEmail = function () {
+    var Emailid = mQuery('#update-drip-email').attr('value');
+    if(Emailid == ""){
+        return false;
+    }
+    var subject     = mQuery('#emailform_subject').val();
+    var previewText = mQuery('#emailform_previewText').val();
+    var customHtml  = mQuery('#emailform_customHtml').val();
+    var beeJson     = mQuery('#emailform_beeJSON').val();
+    if(!Mautic.isValidEmailSave()){
+        return false;
+    }
+    var data = {
+        subject     : subject,
+        previewText : previewText,
+        customHtml  : customHtml,
+        Emailid     : Emailid,
+    };
+    Mautic.ajaxActionRequest('email:updateDripEmails', data, function (response) {
+        if (response.success){
+            Mautic.refreshDripEmailList(response.content);
+            mQuery('#emailform_subject').val('');
+            mQuery('#emailform_previewText').val('');
+            mQuery('#emailform_customHtml').val('');
+        }
+    });
+}
+
+Mautic.isValidEmailSave = function(){
+    var subject     = mQuery('#emailform_subject').val();
+    if(subject == ''){
+        mQuery('#DripEmail_Subject').removeClass('has-success has-error').addClass('has-error');
+        mQuery('#DripEmail_Subject .custom-help').removeClass('hide').html("Subject can't be empty");
+        return false;
+    }
+    return true;
+}
+
+Mautic.removeEmailfromDrip = function(Emailid, DripEmail){
+    var data = {
+        emailId   : Emailid,
+        dripEmail : DripEmail
+    };
+    Mautic.ajaxActionRequest('email:deleteDripEmails', data, function (response) {
+        if (response.success){
+            Mautic.refreshDripEmailList(response.content);
+        }
+    });
+}
+
+Mautic.refreshDripEmailList = function(content){
+    mQuery('.newbutton-container').removeClass('hide');
+    mQuery('.saveclose-container').addClass('hide');
+    mQuery('.update-container').addClass('hide');
+    mQuery('#drip-email-container').addClass('hide');
+    mQuery('#drip-email-list-container').removeClass('hide');
+    mQuery('#drip-email-list-container').html('');
+    mQuery('#drip-email-list-container').html(content);
+    Mautic.activateChosenSelect(mQuery('.dripemail_form_scheduleTime'),true);
+    if(mQuery('#drip-email-delay').length){
+        mQuery('#drip-email-delay .chosen-single').addClass('chosen-dripemail-single')
+    }
+    Mautic.loadEmailStatCounts();
+    Mautic.loadDripEmailScheduledStatCounts();
+    Mautic.loadDripEmailStatCounts();
+}
+
+Mautic.editSelectedEmail = function(){
+    mQuery('.newbutton-container').addClass('hide');
+    mQuery('.saveclose-container').addClass('hide');
+    mQuery('.update-container').removeClass('hide');
+    mQuery('#drip-email-container').removeClass('hide');
+    mQuery('#drip-email-list-container').addClass('hide');
+    mQuery('#drip-email-list-container').html('');
+    /*Mautic.activateChosenSelect(mQuery('.dripemail_form_scheduleTime'),true);
+    if(mQuery('#drip-email-delay').length){
+        mQuery('#drip-email-delay .chosen-single').addClass('chosen-dripemail-single')
+    }
+    Mautic.loadEmailStatCounts();*/
+}
+Mautic.updateFrequencyValue = function(EmailId){
+    var frequencyUnit = mQuery('#drip_emailform_scheduleTime').val();
+    Mautic.updateDripEmailFrequency(frequencyUnit,EmailId);
+}
+
+Mautic.updateDripEmailFrequency = function(frequencyUnit, EmailId){
+    var frequencyValue = mQuery('#drip-email-frequency-value-'+EmailId).val();
+    var data = {
+        frequencyUnit   : frequencyUnit,
+        frequencyValue  : frequencyValue,
+        EmailId         : EmailId
+    };
+    Mautic.ajaxActionRequest('email:updateDripEmailFrequency', data, function (response) {
+        if (response.success){
+            /*mQuery('.newbutton-container').removeClass('hide');
+            mQuery('.saveclose-container').addClass('hide');
+            mQuery('#drip-email-container').addClass('hide');
+            mQuery('#drip-email-list-container').removeClass('hide');
+            mQuery('#drip-email-list-container').html('');
+            mQuery('#drip-email-list-container').html(response.content);
+            Mautic.loadEmailStatCounts();*/
+        }
+    });
+}
+
+Mautic.allowEditEmailfromDrip = function (emailId){
+    var data = {
+        Emailid    : emailId
+    };
+    Mautic.ajaxActionRequest('email:getEmailDetails', data, function (response) {
+        if (response.success){
+            Mautic.editSelectedEmail();
+            mQuery('#update-drip-email').attr('value',response.Emailid);
+            mQuery('#emailform_subject').val(response.subject);
+            mQuery('#emailform_previewText').val(response.preview);
+            mQuery('#emailform_customHtml').val(response.emailcontent);
+            mQuery('.dripemail_content .fr-element').html(response.emailcontent);
+            mQuery('#emailform_beeJSON').val(response.beeJSON);
+            if(!response.isBeeEditor){
+                mQuery('#dripemail_basic_editor').removeClass('hide');
+                mQuery('#dripemail_advance_editor').addClass('hide');
+            } else {
+                Mautic.showdripEmailpreviewoftemplate(response.emailcontent);
+                mQuery('#dripemail_basic_editor').addClass('hide');
+               // mQuery('#dripemail_advance_editor').removeClass('hide');
+            }
+        }
+    });
+}
+
+Mautic.openBluePrintPage = function(){
+    mQuery('.drip-blue-prints').removeClass('hide');
+    mQuery('.dripemail-body').addClass('hide');
+}
+
+Mautic.closeBluePrintPage = function(){
+    mQuery('.drip-blue-prints').addClass('hide');
+    mQuery('.dripemail-body').removeClass('hide');
+}
+Mautic.useBluePrintDrip = function(ele){
+    var dripId = mQuery(ele).attr('value');
+    var currentId = mQuery(ele).attr('dripvalue');
+    //alert('dripId: '+dripId);
+    var data = {
+        dripId    : dripId,
+        currentId : currentId
+    };
+    Mautic.ajaxActionRequest('email:createBlueprintEmails', data, function (response) {
+        if (response.success){
+            Mautic.closeBluePrintPage();
+            Mautic.refreshDripEmailList(response.content);
+        }
+    });
 }

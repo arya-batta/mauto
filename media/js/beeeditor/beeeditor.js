@@ -80,7 +80,11 @@ var beeConfig = {
             var bgApplyBtn = mQuery('.btn-apply');
             bgApplyBtn.trigger('click');
         });
-        Mautic.showpreviewoftemplate(htmlFile);
+        if(!location.href.match(/(dripemail)/i)) {
+            Mautic.showpreviewoftemplate(htmlFile);
+        } else {
+            Mautic.showdripEmailpreviewoftemplate(htmlFile);
+        }
 
        // save('newsletter.html', htmlFile);
         // save('newsletter.json', jsonFile);
@@ -267,3 +271,29 @@ Mautic.showTemplateview = function () {
         mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
     }
 }
+Mautic.showdripEmailpreviewoftemplate = function (htmlFile) {
+    if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
+        mQuery('#dripemail_advance_editor').addClass('hide');
+        //mQuery('#change-template-span').html('Change Template');
+        mQuery("#email-content-preview").removeClass('hide');
+        mQuery("#email-preview-container").removeClass('hide');
+        mQuery("#email-content-preview").html(htmlFile);
+        //mQuery('#builder_btn').removeClass('hide');
+    }
+}
+Mautic.showDripEmailTemplateview = function () {
+    if(mQuery('#dripemail_advance_editor').hasClass('hide')) {
+        mQuery('#dripemail_advance_editor').removeClass('hide');
+        mQuery("#email-content-preview").addClass('hide');
+        mQuery("#email-preview-container").addClass('hide');
+        // mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
+       // mQuery('#change-template-span').html('Preview');
+    } else {
+        //mQuery('#change-template-span').html('Change Template');
+        mQuery('#dripemail_advance_editor').addClass('hide');
+        mQuery("#email-content-preview").removeClass('hide');
+        mQuery("#email-preview-container").removeClass('hide');
+        mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
+    }
+}
+

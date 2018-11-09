@@ -244,6 +244,21 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $google_tags = 1;
 
+    /**
+     * @var string
+     */
+    private $scheduleTime;
+
+    /**
+     * @var string
+     */
+    private $dripEmailOrder;
+
+    /**
+     * @var \Mautic\EmailBundle\Entity\DripEmail
+     */
+    private $dripEmail;
+
     public function __clone()
     {
         $this->id                      = null;
@@ -453,6 +468,22 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->build();
         $builder->createField('google_tags', 'boolean')
             ->columnName('google_tags')
+            ->build();
+
+        $builder->createField('scheduleTime', 'text')
+            ->columnName('scheduleTime')
+            ->nullable()
+            ->build();
+
+        $builder->createField('dripEmailOrder', 'text')
+            ->columnName('dripEmailOrder')
+            ->nullable()
+            ->build();
+
+        $builder->createManyToOne('dripEmail', 'DripEmail')
+            ->cascadeMerge()
+            ->cascadeDetach()
+            ->addJoinColumn('dripemail_id', 'id', true, false, 'SET NULL')
             ->build();
     }
 
@@ -1456,6 +1487,54 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public function setPostalAddress($postalAddress)
     {
         $this->postalAddress = $postalAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheduleTime()
+    {
+        return $this->scheduleTime;
+    }
+
+    /**
+     * @param string $scheduleTime
+     */
+    public function setScheduleTime($scheduleTime)
+    {
+        $this->scheduleTime = $scheduleTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDripEmailOrder()
+    {
+        return $this->dripEmailOrder;
+    }
+
+    /**
+     * @param string $dripEmailOrder
+     */
+    public function setDripEmailOrder($dripEmailOrder)
+    {
+        $this->dripEmailOrder = $dripEmailOrder;
+    }
+
+    /**
+     * @return DripEmail
+     */
+    public function getDripEmail()
+    {
+        return $this->dripEmail;
+    }
+
+    /**
+     * @param DripEmail $dripEmail
+     */
+    public function setDripEmail($dripEmail)
+    {
+        $this->dripEmail = $dripEmail;
     }
 
     /**

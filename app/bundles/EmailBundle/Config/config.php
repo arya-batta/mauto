@@ -36,6 +36,14 @@ return [
                 'path'       => '/emailsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',
             ],
+            'le_dripemail_index' => [
+                'path'       => '/dripemail/{page}',
+                'controller' => 'MauticEmailBundle:DripEmail:index',
+            ],
+            'le_dripemail_campaign_action' => [
+                'path'       => '/dripemail/{objectAction}/{objectId}',
+                'controller' => 'MauticEmailBundle:DripEmail:execute',
+            ],
         ],
         'api' => [
             'mautic_api_emailstandard' => [
@@ -121,6 +129,14 @@ return [
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 300,
                 ],
+                'le.email.drip.email' => [
+                    'iconClass'  => 'fa fa-envelope',
+                    // 'route'      => 'mautic_email_index',
+                    'route'      => 'le_dripemail_index',
+                    'access'     => ['dripemail:emails:viewown', 'dripemail:emails:viewother'],
+                    'parent'     => 'mautic.core.channels',
+                    'priority'   => 400,
+                ],
                 /*'mautic.emailcampaign.emails' => [
                     'route'    => 'mautic_email_campaign_index',
                     'access'   => ['email:emails:viewown', 'email:emails:viewother'],
@@ -186,6 +202,7 @@ return [
                     'mautic.email.model.send_email_to_user',
                     'translator',
                     'mautic.helper.notification',
+                    'mautic.email.model.dripemail',
                 ],
             ],
             'mautic.email.campaignbundle.condition_subscriber' => [
@@ -290,6 +307,11 @@ return [
                 'arguments' => 'mautic.factory',
                 'alias'     => 'emailform',
             ],
+            'le.form.type.dripemail' => [
+                'class'     => 'Mautic\EmailBundle\Form\Type\DripEmailType',
+                'arguments' => 'mautic.factory',
+                'alias'     => 'dripemailform',
+            ],
             'mautic.form.type.email.utm_tags' => [
                 'class' => 'Mautic\EmailBundle\Form\Type\EmailUtmTagsType',
                 'alias' => 'utm_tags',
@@ -316,6 +338,16 @@ return [
                 'class'     => 'Mautic\EmailBundle\Form\Type\EmailSendType',
                 'arguments' => 'mautic.factory',
                 'alias'     => 'emailsend_list',
+            ],
+            'mautic.form.type.dripemail_list' => [
+                'class'     => 'Mautic\EmailBundle\Form\Type\DripEmailListType',
+                'arguments' => 'mautic.email.model.dripemail',
+                'alias'     => 'dripemail_list',
+            ],
+            'mautic.form.type.dripemailsend_list' => [
+                'class'     => 'Mautic\EmailBundle\Form\Type\DripEmailSendType',
+                'arguments' => 'router',
+                'alias'     => 'dripemailsend_list',
             ],
             'mautic.form.type.formsubmit_sendemail_admin' => [
                 'class' => 'Mautic\EmailBundle\Form\Type\FormSubmitActionUserEmailType',
@@ -555,6 +587,20 @@ return [
                     \Mautic\EmailBundle\Entity\Stat::class,
                 ],
             ],
+            'mautic.email.repository.leadEventLog' => [
+                'class'     => Doctrine\ORM\EntityRepository::class,
+                'factory'   => ['@doctrine.orm.entity_manager', 'getRepository'],
+                'arguments' => [
+                    \Mautic\EmailBundle\Entity\LeadEventLog::class,
+                ],
+            ],
+            'mautic.email.repository.lead' => [
+                'class'     => Doctrine\ORM\EntityRepository::class,
+                'factory'   => ['@doctrine.orm.entity_manager', 'getRepository'],
+                'arguments' => [
+                    \Mautic\EmailBundle\Entity\Lead::class,
+                ],
+            ],
             'mautic.message.search.contact' => [
                 'class'     => \Mautic\EmailBundle\MonitoredEmail\Search\ContactFinder::class,
                 'arguments' => [
@@ -673,6 +719,23 @@ return [
                     'mautic.channel.model.queue',
                     'mautic.email.model.send_email_to_contacts',
                     'mautic.helper.licenseinfo',
+                ],
+            ],
+            'mautic.email.model.dripemail' => [
+                'class'     => 'Mautic\EmailBundle\Model\DripEmailModel',
+                'arguments' => [
+                    'mautic.helper.ip_lookup',
+                    'mautic.helper.theme',
+                    'mautic.helper.mailbox',
+                    'mautic.helper.mailer',
+                    'mautic.lead.model.lead',
+                    'mautic.lead.model.company',
+                    'mautic.page.model.trackable',
+                    'mautic.user.model.user',
+                    'mautic.channel.model.queue',
+                    'mautic.email.model.send_email_to_contacts',
+                    'mautic.helper.licenseinfo',
+                    'mautic.email.model.email',
                 ],
             ],
             'mautic.email.model.send_email_to_user' => [

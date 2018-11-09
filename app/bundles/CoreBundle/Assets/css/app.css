@@ -6263,6 +6263,14 @@ text-align: center;
   -webkit-box-shadow: none;
   border-radius: 0;
 }
+.chosen-container-single .chosen-dripemail-single{
+  border: none;
+  border: 1px solid #d5d5d5;
+  background: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border-radius: 2px;
+}
 .col-email-actions{
   width:20%;
 }
@@ -6476,4 +6484,35 @@ text-align: center;
 .kyc-border{
   border-bottom: 1px solid rgba(0,0,0,.12);
   text-align: center;
+}
+.drip-col-stats{
+  text-align:center;
+}
+.drip-email-stats{
+  width:50px;
+}
+.editor_layout{
+  text-align: center;
+  cursor: pointer;
+  box-shadow: -3px 3px 0 0 #cccccc, 0 0 0 1px #cccccc;
+  width:42%;
+}
+.editor_select{
+  text-align: center;
+  cursor: pointer;
+  box-shadow: -3px 3px 0 0 #ec407a, 0 0 0 1px #ec407a;
+  width:42%;
+}
+.text-start{
+  text-align: start;
+}
+.custom-preview-button{
+  text-transform: capitalize;
+  padding: 0px 10px 0px 10px;
+}
+.custom-preview-button > span{
+  font-size:12px;
+}
+.custom-use-button{
+  padding: 0px 8px 0px 10px;
 }

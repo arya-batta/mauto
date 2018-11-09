@@ -253,11 +253,11 @@ class ListModel extends FormModel
         $choices=[];
 
         // Add custom choices
-        if ($this->dispatcher->hasListeners(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE)) {
+        /*if ($this->dispatcher->hasListeners(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE)) {
             $event = new LeadListFiltersChoicesEvent($choices, $this->getOperatorsForFieldType(), $this->translator);
             $this->dispatcher->dispatch(LeadEvents::LIST_FILTERS_CHOICES_ON_GENERATE, $event);
             $choices = $event->getChoices();
-        }
+        }*/
         $filter['force']=[
             ['column' => 'f.isPublished', 'expr' => 'eq', 'value' => '1'],
             ['column' => 'f.isListable', 'expr' => 'eq', 'value' => '1'],

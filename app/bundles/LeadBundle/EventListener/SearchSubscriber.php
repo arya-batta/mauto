@@ -196,6 +196,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('mautic.lead.lead.searchcommand.mobile_sent', [], null, 'en_US'):
                     $this->buildMobileSentQuery($event);
                 break;
+            /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
+            case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
+                $this->buildDripEmailSentQuery($event);
+                break;*/
         }
     }
 
@@ -451,6 +455,65 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $this->buildJoinQuery($event, $tables, $config);
+    }
+
+    /**
+     * @param LeadBuildSearchEvent $event
+     */
+    private function buildDripEmailSentQuery(LeadBuildSearchEvent $event)
+    {
+        $qb = $this->emailRepository->getEntityManager()->createQueryBuilder();
+        //$qb->select('es.lead_id');*/
+        $dripModel  = $this->factory->get('mautic.email.model.dripemail');
+        $dripId     = (int) $event->getString();
+        $dripEntity = $dripModel->getEntity($dripId);
+        $entities   = $this->emailRepository->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        /*$nq->select('l.id'); // select only id
+        $nsql = $nq->getSQL();
+        foreach ($nq->getParameters() as $pk => $pv) { // replace all parameters
+            $nsql = preg_replace('/:'.$pk.'/', is_bool($pv) ? (int) $pv : $pv, $nsql);
+        }
+        $query = $q->expr()->in('l.id', sprintf('(%s)', $nsql));*/
+        //$event->setSubQuery($query);
+        $ids   = [];
+        foreach ($entities as $email) {
+            $ids[] = $email->getId();
+        }
+        $q        = $event->getQueryBuilder();
+        $joinType = 'join';
+        $q->$joinType(
+            'l',
+            MAUTIC_TABLE_PREFIX.'email_stats',
+            'es',
+            'l.id = es.lead_id'
+        );
+        $qb->select('l.id');
+        $qb->andWhere($qb->expr()->in('es.email_id', $ids));
+        $query = $q->expr()->in('l.id', sprintf('(%s)', $qb));
+        $event->setSubQuery($query);
+        file_put_contents('/var/www/log.txt', $query."\n", FILE_APPEND);
+        $config = [
+            'column' => 'es.email_id',
+            'params' => [
+                'es.is_failed' => 0,
+            ],
+        ];
+        //$this->buildJoinQuery($event, $tables, $config);
     }
 
     /**

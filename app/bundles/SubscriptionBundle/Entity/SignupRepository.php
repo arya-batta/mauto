@@ -410,4 +410,81 @@ class SignupRepository
 
         return $qb->execute()->fetchAll();
     }
+
+    public function getBluePrintCampaigns()
+    {
+        $driemails = $this->getDripEmailsForBluePrint();
+
+        $resultArr = [];
+        foreach ($driemails as $dripemail) {
+            //file_put_contents("/var/www/log.txt",$dripemail['id']."\n",FILE_APPEND);
+            $emails = $this->getEmailsByDripId($dripemail['id']);
+            //dump($emails);
+            if (!empty($emails)) {
+                $resultArr[$dripemail['id']] = $emails;
+            }
+        }
+
+        return $resultArr;
+    }
+
+    public function getDripEmailsForBluePrint()
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('d.id')
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
+            ->andWhere($qb->expr()->eq('d.is_published', 0))
+            ->andWhere($qb->expr()->eq('d.created_by', 1))
+            ->orderBy('d.templateorder', 'asc');
+
+        return $dripemails = $qb->execute()->fetchAll();
+    }
+
+    /**
+     * Get a list of entities.
+     *
+     * @return Paginator
+     */
+    public function getEmailsByDripId($dripId)
+    {
+        $q = $this->getConnection()->createQueryBuilder()
+            ->select('e.*')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id');
+        $q->andWhere('e.dripemail_id = :dripEmail')
+            ->setParameter('dripEmail', $dripId)
+            ->orderBy('e.dripEmailOrder', 'asc');
+
+        return $emails = $q->execute()->fetchAll();
+    }
+
+    /**
+     * Get a list of entities.
+     *
+     * @return Paginator
+     */
+    public function getDripEmails()
+    {
+        $q = $this->getConnection()
+            ->createQueryBuilder()
+            ->select('d.*')
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'd.id');
+        /*$q->andWhere('e.dripEmail = :dripEmail')
+            ->setParameter('dripEmail', $dripId);*/
+
+        /*$args = [
+            'filter' => [
+
+            ],
+            'ignore_paginator' => true,
+        ];
+        $args['qb'] = $q;*/
+        $dripemails = $q->execute()->fetchAll();
+
+        $drips = [];
+        foreach ($dripemails as $key => $item) {
+            $drips[$item['id']] = $item;
+        }
+
+        return $drips;
+    }
 }

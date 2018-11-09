@@ -16,7 +16,10 @@ use Mautic\CoreBundle\Controller\AjaxLookupControllerTrait;
 use Mautic\CoreBundle\Controller\VariantAjaxControllerTrait;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\AwsVerifiedEmails;
+use Mautic\EmailBundle\Entity\LeadEventLogRepository;
+use Mautic\EmailBundle\Entity\LeadRepository;
 use Mautic\EmailBundle\Helper\PlainTextHelper;
+use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -226,11 +229,11 @@ class AjaxController extends CommonAjaxController
             if ($email = $model->getEntity($id)) {
                 $pending     = $model->getPendingLeads($email, null, true);
                 $queued      = $model->getQueuedCounts($email);
-                $sentCount   =$email->getSentCount(true);
+                $sentCount   = $email->getSentCount(true);
                 $failureCount= $email->getFailureCount(true);
                 $unsubCount  = $email->getUnsubscribeCount(true);
-                $bounceCount =$email->getBounceCount(true);
-                $spamCount   =$email->getSpamCount(true);
+                $bounceCount = $email->getBounceCount(true);
+                $spamCount   = $email->getSpamCount(true);
                 $totalCount  = $pending + $sentCount;
 
                 $clickCount = $model->getEmailClickCount($email->getId());
@@ -414,5 +417,620 @@ class AjaxController extends CommonAjaxController
         }
 
         return $this->sendJsonResponse($dataArray);
+    }
+
+    public function createDripEmailsAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
+        $usermodel     = $this->getModel('user.user');
+        $userentity    = $usermodel->getCurrentUserEntity();
+
+        /** @var DripEmailModel $dripModel */
+        $dripModel     = $this->getModel('email.dripemail');
+
+        $subject      = $data['subject'];
+        $previewText  = $data['previewText'];
+        $customHtml   = $data['customHtml'];
+        $beeJson      = $data['beeJson'];
+        $dripEmail    = $data['dripEntity'];
+
+        $dripEntity    = $dripModel->getEntity($dripEmail);
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+
+        /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+        $emailentity = $emailmodel->getEntity();
+
+        $emailentity->setName('DripEmail - '.$subject);
+        $emailentity->setSubject($subject);
+        $emailentity->setPreviewText($previewText);
+        $emailentity->setCustomHtml($customHtml);
+        $emailentity->setBeeJSON($beeJson);
+        $emailentity->setDripEmail($dripEntity);
+        $emailentity->setCreatedBy($userentity);
+        $emailentity->setIsPublished(true);
+        $emailentity->setGoogleTags(true);
+        $emailentity->setEmailType('dripemail');
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator= $this->get('mautic.configurator');
+
+        $params          = $configurator->getParameters();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $emailentity->setFromName($fromname);
+        $emailentity->setFromAddress($fromadress);
+
+        $totalitems = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $emailentity->setDripEmailOrder(sizeof($totalitems) + 1);
+        $scheduleTime = '0 days';
+        if (sizeof($totalitems) > 0) {
+            $scheduleTime = '1 days';
+        }
+        $emailentity->setScheduleTime($scheduleTime);
+        $emailmodel->saveEntity($emailentity);
+
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $htmlContent = $this->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
+            'items'             => $items,
+            'permissions'       => $permissions,
+            'actionRoute'       => 'le_dripemail_campaign_action',
+            'translationBase'   => 'mautic.email.broadcast',
+            'entity'            => $dripEntity,
+        ]);
+        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+        $responseArr['content']  = $htmlContent;
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    public function deleteDripEmailsAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        $emailId      = $data['emailId'];
+        $dripEmail    = $data['dripEmail'];
+
+        /** @var DripEmailModel $dripModel */
+        $dripModel     = $this->getModel('email.dripemail');
+        $dripEntity    = $dripModel->getEntity($dripEmail);
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        $entity     = $emailmodel->getEntity($emailId);
+        /** @var LeadEventLogRepository $leadEventLog */
+        $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
+        $leadEvents    = $leadEventLog->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'dle.email',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+        foreach ($leadEvents as $event) {
+            $leadEventLog->deleteEntity($event);
+        }
+        $emailmodel->deleteEntity($entity);
+
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $emailOrder = 0;
+        foreach ($items as $item) {
+            $item->setDripEmailOrder($emailOrder + 1);
+            $emailmodel->saveEntity($item);
+        }
+
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $htmlContent = $this->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
+            'items'             => $items,
+            'permissions'       => $permissions,
+            'actionRoute'       => 'le_dripemail_campaign_action',
+            'translationBase'   => 'mautic.email.broadcast',
+            'entity'            => $dripEntity,
+        ]);
+
+        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+        $responseArr['content']  = $htmlContent;
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    public function updateDripEmailFrequencyAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        $frequencyUnit   = $data['frequencyUnit'];
+        $frequencyValue  = $data['frequencyValue'];
+        $emailId         = $data['EmailId'];
+        $scheduleTime    = $frequencyValue.' '.$frequencyUnit;
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        $entity     = $emailmodel->getEntity($emailId);
+        $entity->setScheduleTime($scheduleTime);
+        $emailmodel->saveEntity($entity);
+
+        /** @var DripEmailModel $dripModel */
+        $dripModel     = $this->getModel('email.dripemail');
+
+        $dripEntity    = $dripModel->getEntity($entity->getDripEmail()->getId());
+
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $htmlContent = $this->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
+            'items'             => $items,
+            'permissions'       => $permissions,
+            'actionRoute'       => 'le_dripemail_campaign_action',
+            'translationBase'   => 'mautic.email.broadcast',
+            'entity'            => $dripEntity,
+        ]);
+
+        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+        $responseArr['content']  = $htmlContent;
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function getDripEmailScheduledCountStatsAction(Request $request)
+    {
+        /** @var EmailModel $model */
+        $emailmodel = $this->getModel('email');
+
+        /** @var DripEmailModel $model */
+        $model = $this->getModel('email.dripemail');
+
+        $data = [];
+        if ($id = $request->get('id')) {
+            if ($email = $emailmodel->getEntity($id)) {
+                $eventLogRepo  = $model->getCampaignLeadEventRepository();
+                $events        = $eventLogRepo->getScheduledEventsbyDripEmail($email);
+                $scheduledlead = sizeof($events);
+                $data          = [
+                    'success'        => 1,
+                    'scheduledcount' => $this->translator->trans('le.drip.email.stat.scheduledcount', ['%count%' =>$scheduledlead]),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function getDripEmailStatsAction(Request $request)
+    {
+        /** @var DripEmailModel $model */
+        $model = $this->getModel('email.dripemail');
+
+        /** @var EmailModel $model */
+        $emailmodel = $this->getModel('email');
+
+        /** @var LeadRepository $leadRepo */
+        $leadRepo   = $this->factory->get('mautic.email.repository.lead');
+
+        $data = [];
+        if ($id = $request->get('id')) {
+            if ($dripemail = $model->getEntity($id)) {
+                $emailEntities = $emailmodel->getEntities(
+                    [
+                        'filter'           => [
+                            'force' => [
+                                [
+                                    'column' => 'e.dripEmail',
+                                    'expr'   => 'eq',
+                                    'value'  => $dripemail,
+                                ],
+                            ],
+                        ],
+                        'orderBy'          => 'e.dripEmailOrder',
+                        'orderByDir'       => 'asc',
+                        'ignore_paginator' => true,
+                    ]
+                );
+                $leads = $leadRepo->getEntities(
+                    [
+                        'filter'           => [
+                            'force' => [
+                                [
+                                    'column' => 'le.campaign',
+                                    'expr'   => 'eq',
+                                    'value'  => $dripemail,
+                                ],
+                            ],
+                        ],
+                        'ignore_paginator' => true,
+                    ]
+                );
+                $dripSentCount  = 0;
+                $dripReadCount  = 0;
+                $dripClickCount = 0;
+                $dripUnsubCount = 0;
+                foreach ($emailEntities as $email) {
+                    $sentCount       = $email->getSentCount(true);
+                    $readCount       = $email->getReadCount(true);
+                    $clickCount      = $emailmodel->getEmailClickCount($email->getId());
+                    $unsubCount      = $email->getUnsubscribeCount(true);
+                    $dripSentCount += $sentCount;
+                    $dripReadCount += $readCount;
+                    $dripClickCount += $clickCount;
+                    $dripUnsubCount += $unsubCount;
+                }
+                $dripclickCountPercentage  = 0;
+                $dripreadCountPercentage   = 0;
+                $dripunsubsCountPercentage = 0;
+                if ($dripClickCount > 0 && $dripSentCount > 0) {
+                    $dripclickCountPercentage  = round($dripClickCount / $dripSentCount * 100);
+                }
+                if ($dripReadCount > 0 && $dripSentCount > 0) {
+                    $dripreadCountPercentage   = round($dripReadCount / $dripSentCount * 100);
+                }
+                if ($dripUnsubCount > 0 && $dripSentCount > 0) {
+                    $dripunsubsCountPercentage = round($dripUnsubCount / $dripSentCount * 100);
+                }
+                $data = [
+                    'success'     => 1,
+                    'sentcount'   => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
+                    'readcount'   => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
+                    'clickcount'  => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' =>$dripClickCount, '%percentage%' => $dripclickCountPercentage]),
+                    'unsubscribe' => $this->translator->trans('le.drip.email.stat.unsubscribe', ['%count%' =>$dripUnsubCount, '%percentage%' => $dripunsubsCountPercentage]),
+                    'leadcount'   => $this->translator->trans('le.drip.email.stat.leadcount', ['%count%'  => sizeof($leads)]),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
+    }
+
+    public function updateDripEmailsAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        /** @var DripEmailModel $dripModel */
+        $dripModel     = $this->getModel('email.dripemail');
+
+        $subject      = $data['subject'];
+        $previewText  = $data['previewText'];
+        $customHtml   = $data['customHtml'];
+        $Emailid      = $data['Emailid'];
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+
+        /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+        $emailentity = $emailmodel->getEntity($Emailid);
+
+        $emailentity->setSubject($subject);
+        $emailentity->setPreviewText($previewText);
+        $emailentity->setCustomHtml($customHtml);
+        $dripEntity = $emailentity->getDripEmail();
+        $emailmodel->saveEntity($emailentity);
+
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripEntity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $htmlContent = $this->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
+            'items'             => $items,
+            'permissions'       => $permissions,
+            'actionRoute'       => 'le_dripemail_campaign_action',
+            'translationBase'   => 'mautic.email.broadcast',
+            'entity'            => $dripEntity,
+        ]);
+        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+        $responseArr['content']  = $htmlContent;
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    public function getEmailDetailsAction(Request $request)
+    {
+        $data     = $request->request->all();
+        $Emailid  = $data['Emailid'];
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+
+        /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+        $emailentity = $emailmodel->getEntity($Emailid);
+        if (!empty($emailentity)) {
+            $responseArr                 = [];
+            $responseArr['success']      = true;
+            $responseArr['subject']      = $emailentity->getSubject();
+            $responseArr['emailcontent'] = $emailentity->getCustomHtml();
+            $responseArr['beeJSON']      = $emailentity->getBeeJSON();
+            $responseArr['preview']      = $emailentity->getPreviewText();
+            $responseArr['Emailid']      = $emailentity->getId();
+            $responseArr['isBeeEditor']  = empty($emailentity->getBeeJSON()) ? false : true;
+        } else {
+            $responseArr             = [];
+            $responseArr['success']  = false;
+        }
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    public function createBlueprintEmailsAction(Request $request)
+    {
+        $data        = $request->request->all();
+        $dripId      = $data['dripId'];
+        $currentId   = $data['currentId'];
+        $driprepo    = $this->get('le.core.repository.signup');
+
+        /** @var DripEmailModel $dripmodel */
+        $dripmodel = $this->getModel('email.dripemail');
+        $dripemail = $dripmodel->getEntity($currentId);
+        $items     = $driprepo->getEmailsByDripId($dripId);
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
+        $usermodel     = $this->getModel('user.user');
+        $userentity    = $usermodel->getCurrentUserEntity();
+
+        $dripOrder = 0;
+        foreach ($items as $item) {
+            $dripOrder = $dripOrder + 1;
+            $newEntity = $emailmodel->getEntity();
+            //file_put_contents("/var/www/log.txt",$item->getName()."\n",FILE_APPEND);
+            $newEntity->setName($item['name']);
+            $newEntity->setSubject($item['subject']);
+            $newEntity->setPreviewText($item['preview_text']);
+            $newEntity->setCustomHtml($item['custom_html']);
+            $newEntity->setBeeJSON($item['bee_json']);
+            $newEntity->setDripEmail($dripemail);
+            $newEntity->setCreatedBy($userentity);
+            $newEntity->setIsPublished(true);
+            $newEntity->setGoogleTags(true);
+            $newEntity->setEmailType('dripemail');
+            /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+            $configurator= $this->get('mautic.configurator');
+
+            $params          = $configurator->getParameters();
+            $fromname        = $params['mailer_from_name'];
+            $fromadress      = $params['mailer_from_email'];
+            $newEntity->setFromName($fromname);
+            $newEntity->setFromAddress($fromadress);
+            $newEntity->setDripEmailOrder($dripOrder);
+            $newEntity->setScheduleTime($item['scheduleTime']);
+            $emailmodel->saveEntity($newEntity);
+        }
+        $items = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripemail,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $htmlContent = $this->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
+            'items'             => $items,
+            'permissions'       => $permissions,
+            'actionRoute'       => 'le_dripemail_campaign_action',
+            'translationBase'   => 'mautic.email.broadcast',
+            'entity'            => $dripemail,
+        ]);
+        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+        $responseArr['content']  = $htmlContent;
+
+        return $this->sendJsonResponse($responseArr);
+    }
+
+    public function reorderEmailsAction(Request $request)
+    {
+        $data     = $request->request->all();
+        $emailId  = $data['id'];
+        $order    = $data['order'];
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        $entity     = $emailmodel->getEntity($emailId);
+        $entity->setDripEmailOrder($order);
+        $emailmodel->saveEntity($entity);
+
+        $responseArr             = [];
+        $responseArr['success']  = true;
+
+        return $this->sendJsonResponse($responseArr);
     }
 }
