@@ -3,6 +3,7 @@
 namespace Mautic\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Migrations\SkipMigrationException;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -10,6 +11,16 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class Version20181109114125 extends AbstractMigration
 {
+    /**
+     * @param Schema $schema
+     */
+    public function preUp(Schema $schema)
+    {
+        if ($schema->hasTable(MAUTIC_TABLE_PREFIX.'dripemail')) {
+            throw new SkipMigrationException('Schema includes this migration');
+        }
+    }
+
     /**
      * @param Schema $schema
      */
@@ -33,13 +44,13 @@ class Version20181109114125 extends AbstractMigration
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E852E68E88E5 FOREIGN KEY (dripemail_id) REFERENCES dripemail (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_4C81E852E68E88E5 ON emails (dripemail_id)');
         $this->addSql('ALTER TABLE email_stats CHANGE is_spam is_spam TINYINT(1) NOT NULL');
-        $this->addSql('DROP INDEX tracking_id ON lead_devices');
+        //$this->addSql('DROP INDEX tracking_id ON lead_devices');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_48C912F47D05ABBE ON lead_devices (tracking_id)');
         $this->addSql('ALTER TABLE user_tokens DROP FOREIGN KEY user_tokens_ibfk_1');
         $this->addSql('ALTER TABLE user_tokens CHANGE id id INT AUTO_INCREMENT NOT NULL');
-        $this->addSql('DROP INDEX secret ON user_tokens');
+        //$this->addSql('DROP INDEX secret ON user_tokens');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CF080AB35CA2E8E5 ON user_tokens (secret)');
-        $this->addSql('DROP INDEX user_id ON user_tokens');
+        // $this->addSql('DROP INDEX user_id ON user_tokens');
         $this->addSql('CREATE INDEX IDX_CF080AB3A76ED395 ON user_tokens (user_id)');
         $this->addSql('ALTER TABLE user_tokens ADD CONSTRAINT user_tokens_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE webhook_queue CHANGE payload payload INT NOT NULL');
