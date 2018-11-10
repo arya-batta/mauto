@@ -829,23 +829,46 @@ class ListModel extends FormModel
                     // Somehow ran out of leads so break out
                     break;
                 }
+                $list_id=false;
+                if(isset($newLeadList[$id]['list_id'])){
+                    $list_id = $newLeadList[$id]['list_id'];
+                    unset($newLeadList[$id]['list_id']);
+                }
 
                 $processedLeads = [];
                 foreach ($newLeadList[$id] as $l) {
-                    $this->addLead($l, $entity, false, true, -1, $localDateTime);
-                    $processedLeads[] = $l;
-                    unset($l);
+                    if($list_id){
+                        $already_not_inserted = $this->getRepository()->isAlreadyInserted($l, $list_id);
+                        if ($already_not_inserted) {
+                            $this->addLead($l, $entity, false, true, -1, $localDateTime);
+                            $processedLeads[] = $l;
+                            unset($l);
 
-                    ++$leadsProcessed;
-                    if ($output && $leadsProcessed < $maxCount) {
-                        $progress->setProgress($leadsProcessed);
+                            ++$leadsProcessed;
+                            if ($output && $leadsProcessed < $maxCount) {
+                                $progress->setProgress($leadsProcessed);
+                            }
+
+                            if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                                break;
+                            }
+                        }
+                    }else{
+                        $this->addLead($l, $entity, false, true, -1, $localDateTime);
+                        $processedLeads[] = $l;
+                        unset($l);
+
+                        ++$leadsProcessed;
+                        if ($output && $leadsProcessed < $maxCount) {
+                            $progress->setProgress($leadsProcessed);
+                        }
+
+                        if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                            break;
+                        }
                     }
 
-                    if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                        break;
-                    }
                 }
-
                 $start += $limit;
 
                 // Dispatch batch event

@@ -317,6 +317,22 @@ class LeadListRepository extends CommonRepository
         return ($returnArray) ? $return : $return[$listIds[0]];
     }
 
+    public function isAlreadyInserted($leadid=null,$listid=null){
+
+         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+         $q->select('l.lead_id')
+             ->from('lead_lists_leads','l')
+             ->where($q->expr()->eq('l.lead_id',$leadid),
+                 $q->expr()->eq('l.leadlist_id',$listid)
+                 );
+         $row = $q->execute()->rowCount();
+         if ($row){
+             return false;
+         }else{
+             return true;
+         }
+    }
+
     /**
      * @param       $lists
      * @param array $args
@@ -361,7 +377,7 @@ class LeadListRepository extends CommonRepository
             }
 
             $parameters = [];
-
+            $customcreated = false;
             if ($dynamic && count($filters)) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                 if ($countOnly) {
@@ -395,44 +411,42 @@ class LeadListRepository extends CommonRepository
 
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
                     foreach($filters as  $key => $filter) {
-                        if ($filter['field'] == 'leadlist' ||  $filter['field'] == 'tags') {
-
-                            if($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
-                                unset($q);
-                                $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
-                                $q->select($select)
-                                    ->from('leads','l');
-                                    if($filter['operator'] == 'empty'){
-                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id')));
-                                    }else{
-                                        $q->leftJoin('l','lead_lists_leads','ll',$q->expr()->andX($q->expr()->neq('ll.lead_id','l.id')));
-                                    }
-                                $q->andwhere(
-                                    $q->expr()->orX(
-                                        $q->expr()->eq('ll.lead_id','NULL'),
-                                        $q->expr()->isNull('ll.leadlist_id')
-                                    ),
-                                    $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
-                                );
-
-                            }else if($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')){
-                                unset($q);
+                        $customcreated = false;
+                        if ($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
+                            unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                             $q->select($select)
-                                ->from('leads','l');
-                                if($filter['operator'] == 'empty'){
-                                    $q->leftJoin('l','lead_tags_xref','ll',$q->expr()->andX($q->expr()->eq('ll.lead_id','l.id')));
-                                }else{
-                                    $q->leftJoin('l','lead_tags_xref','ll',$q->expr()->andX($q->expr()->neq('ll.tag_id','l.id')));
-                                }
-                                $q->andwhere($q->expr()->orX(
-                                    $q->expr()->eq('ll.lead_id','NULL'),
-                                    $q->expr()->isNull('ll.tag_id')
+                                ->from('leads', 'l');
+                            if ($filter['operator'] == 'empty') {
+                                $q->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->andX($q->expr()->eq('ll.lead_id', 'l.id')));
+                            } else {
+                                $q->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->andX($q->expr()->neq('ll.lead_id', 'l.id')));
+                            }
+                            $q->andwhere(
+                                $q->expr()->orX(
+                                    $q->expr()->eq('ll.lead_id', 'NULL'),
+                                    $q->expr()->isNull('ll.leadlist_id')
                                 ),
                                 $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
-                                );
+                            );
+                            $customcreated = true;
+                        } else if ($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
+                            unset($q);
+                            $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+                            $q->select($select)
+                                ->from('leads', 'l');
+                            if ($filter['operator'] == 'empty') {
+                                $q->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->andX($q->expr()->eq('ll.lead_id', 'l.id')));
+                            } else {
+                                $q->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->andX($q->expr()->neq('ll.lead_id', 'l.id')));
                             }
-                            //  SELECT l.id FROM leads l LEFT JOIN lead_lists_leads ll  ON (ll.lead_id != l.id) AND (ll.date_added <= '2018-10-31 09:29:56') WHERE ((ll.lead_id = NULL) OR (ll.leadlist_id IS NULL)) AND (ll.lead_id IS NULL);
+                            $q->andwhere($q->expr()->orX(
+                                $q->expr()->eq('ll.lead_id', 'NULL'),
+                                $q->expr()->isNull('ll.tag_id')
+                            ),
+                                $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
+                            );
+                            $customcreated = true;
                         } else {
                             $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
 
@@ -555,7 +569,7 @@ class LeadListRepository extends CommonRepository
                     // remove any possible group by
                     $q->resetQueryPart('groupBy');
                 }
-                dump($q->execute());
+
                 $results = $q->execute()->fetchAll();
 
                 foreach ($results as $r) {
@@ -573,6 +587,11 @@ class LeadListRepository extends CommonRepository
                         $leads[$r['id']] = $r;
                     }
                 }
+
+                if($customcreated){
+                    $leads['list_id']=$id;
+                }
+
             } elseif (!$dynamic) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                 if ($countOnly) {
