@@ -31,7 +31,7 @@
         </form>
 	</div>
 	<div>
-		<a class="btn btn-primary btn-leadnote-add pull-right" style="background-color: #ec407a;border-color: #E62163;"href="<?php echo $view['router']->path('mautic_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.note.header.new'); ?>"><i class="fa fa-plus fa-lg"></i> <?php echo $view['translator']->trans('mautic.lead.add.note'); ?></a>
+		<a class="btn btn-primary btn-leadnote-add pull-right" style="background-color: #ec407a;border-color: #E62163;"href="<?php echo $view['router']->path('mautic_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.new'); ?>"><i class="fa fa-plus fa-lg"></i> <?php echo $view['translator']->trans('le.lead.add.note'); ?></a>
 	</div>
 </div>
 

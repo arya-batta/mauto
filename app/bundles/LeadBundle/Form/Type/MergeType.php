@@ -32,13 +32,13 @@ class MergeType extends AbstractType
             'choice',
             [
                 'choices'     => $options['leads'],
-                'label'       => 'mautic.lead.merge.select',
+                'label'       => 'le.lead.merge.select',
                 'label_attr'  => ['class' => 'control-label'],
                 'multiple'    => false,
                 'empty_value' => '',
                 'attr'        => [
                     'class'   => 'form-control',
-                    'tooltip' => 'mautic.lead.merge.select.modal.tooltip',
+                    'tooltip' => 'le.lead.merge.select.modal.tooltip',
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -55,7 +55,7 @@ class MergeType extends AbstractType
             'form_buttons',
             [
                 'apply_text' => false,
-                'save_text'  => 'mautic.lead.merge',
+                'save_text'  => 'le.lead.merge',
                 'save_icon'  => 'fa fa-user',
             ]
         );

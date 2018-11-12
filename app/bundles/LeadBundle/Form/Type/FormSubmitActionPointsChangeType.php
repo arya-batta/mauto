@@ -37,20 +37,20 @@ class FormSubmitActionPointsChangeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('operator', 'choice', [
-            'label'      => 'mautic.lead.lead.submitaction.operator',
+            'label'      => 'le.lead.lead.submitaction.operator',
             'attr'       => ['class' => 'form-control'],
             'label_attr' => ['class' => 'control-label'],
             'choices'    => [
-                'plus'   => 'mautic.lead.lead.submitaction.operator_plus',
-                'minus'  => 'mautic.lead.lead.submitaction.operator_minus',
-                'times'  => 'mautic.lead.lead.submitaction.operator_times',
-                'divide' => 'mautic.lead.lead.submitaction.operator_divide',
+                'plus'   => 'le.lead.lead.submitaction.operator_plus',
+                'minus'  => 'le.lead.lead.submitaction.operator_minus',
+                'times'  => 'le.lead.lead.submitaction.operator_times',
+                'divide' => 'le.lead.lead.submitaction.operator_divide',
             ],
         ]);
 
         $default = (empty($options['data']['points'])) ? 0 : (int) $options['data']['points'];
         $builder->add('points', 'number', [
-            'label'      => 'mautic.lead.lead.submitaction.points',
+            'label'      => 'le.lead.lead.submitaction.points',
             'attr'       => ['class' => 'form-control'],
             'label_attr' => ['class' => 'control-label'],
             'precision'  => 0,

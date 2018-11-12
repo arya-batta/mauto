@@ -224,7 +224,7 @@ class ListType extends AbstractType
                 'attr'       => [
                     'class'   => 'form-control le-input',
                     'length'  => 25,
-                    'tooltip' => 'mautic.lead.list.help.alias',
+                    'tooltip' => 'le.lead.list.help.alias',
                 ],
                 'required' => false,
             ]
@@ -245,7 +245,7 @@ class ListType extends AbstractType
             'isGlobal',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.list.form.isglobal',
+                'label' => 'le.lead.list.form.isglobal',
             ]
         );
 

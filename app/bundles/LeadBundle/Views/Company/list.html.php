@@ -35,7 +35,7 @@ if ($tmpl == 'index') {
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'company',
-                        'text'       => 'mautic.company.name',
+                        'text'       => 'le.company.name',
                         'class'      => 'col-company-name',
                         'orderBy'    => 'comp.companyname',
                     ]
@@ -44,7 +44,7 @@ if ($tmpl == 'index') {
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'company',
-                        'text'       => 'mautic.company.email',
+                        'text'       => 'le.company.email',
                         'class'      => 'visible-md visible-lg col-company-category',
                         'orderBy'    => 'comp.companyemail',
                     ]
@@ -53,7 +53,7 @@ if ($tmpl == 'index') {
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'company',
-                        'text'       => 'mautic.company.website',
+                        'text'       => 'le.company.website',
                         'class'      => 'visible-md visible-lg col-company-website',
                         'orderBy'    => 'comp.companywebsite',
                     ]
@@ -62,7 +62,7 @@ if ($tmpl == 'index') {
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'company',
-                        'text'       => 'mautic.company.score',
+                        'text'       => 'le.company.score',
                         'class'      => 'visible-md visible-lg col-company-score',
                         'orderBy'    => 'comp.score',
                     ]
@@ -70,7 +70,7 @@ if ($tmpl == 'index') {
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'company',
-                        'text'       => 'mautic.lead.list.thead.leadcount',
+                        'text'       => 'le.lead.list.thead.leadcount',
                         'class'      => 'visible-md visible-lg col-leadlist-leadcount',
                     ]
                 );
@@ -141,12 +141,12 @@ if ($tmpl == 'index') {
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'mautic_contact_index',
                             [
-                                'search' => $view['translator']->trans('mautic.lead.lead.searchcommand.company').':"'
+                                'search' => $view['translator']->trans('le.lead.lead.searchcommand.company').':"'
                                     .$fields['core']['companyname']['value'].'"',
                             ]
                         ); ?>" data-toggle="ajax"<?php echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
-                                'mautic.lead.company.viewleads_count',
+                                'le.lead.company.viewleads_count',
                                 $leadCounts[$item->getId()],
                                 ['%count%' => $leadCounts[$item->getId()]]
                             ); ?>
@@ -174,6 +174,6 @@ if ($tmpl == 'index') {
 <?php else: ?>
     <?php echo $view->render(
         'MauticCoreBundle:Helper:noresults.html.php',
-        ['tip' => 'mautic.company.action.noresults.tip']
+        ['tip' => 'le.company.action.noresults.tip']
     ); ?>
 <?php endif; ?>

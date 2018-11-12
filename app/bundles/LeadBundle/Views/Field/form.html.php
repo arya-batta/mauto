@@ -14,10 +14,10 @@ $userId = $form->vars['data']->getId();
 if (!empty($userId)) {
     $isNew  = false;
     $field  = $form->vars['data']->getLabel();
-    $header = $view['translator']->trans('mautic.lead.field.header.edit', ['%name%' => $field]);
+    $header = $view['translator']->trans('le.lead.field.header.edit', ['%name%' => $field]);
 } else {
     $isNew  = true;
-    $header = $view['translator']->trans('mautic.lead.field.header.new');
+    $header = $view['translator']->trans('le.lead.field.header.new');
 }
 $view['slots']->set('headerTitle', $header);
 
@@ -151,7 +151,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
             <div class="row unique-identifier-warning" style="<?php if (!$form['isUniqueIdentifer']->vars['data']): echo 'display:none;'; endif; ?>">
                 <div class="col-md-12">
                     <div class="alert alert-danger">
-                        <?php echo $view['translator']->trans('mautic.lead.field.form.isuniqueidentifer.warning'); ?>
+                        <?php echo $view['translator']->trans('le.lead.field.form.isuniqueidentifer.warning'); ?>
                     </div>
                 </div>
             </div>

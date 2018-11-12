@@ -827,42 +827,42 @@ class FormModel extends CommonFormModel
     {
         $operatorOptions = [
             '=' => [
-                'label'       => 'mautic.lead.list.form.operator.equals',
+                'label'       => 'le.lead.list.form.operator.equals',
                 'expr'        => 'eq',
                 'negate_expr' => 'neq',
             ],
             '!=' => [
-                'label'       => 'mautic.lead.list.form.operator.notequals',
+                'label'       => 'le.lead.list.form.operator.notequals',
                 'expr'        => 'neq',
                 'negate_expr' => 'eq',
             ],
             'gt' => [
-                'label'       => 'mautic.lead.list.form.operator.greaterthan',
+                'label'       => 'le.lead.list.form.operator.greaterthan',
                 'expr'        => 'gt',
                 'negate_expr' => 'lt',
             ],
             'gte' => [
-                'label'       => 'mautic.lead.list.form.operator.greaterthanequals',
+                'label'       => 'le.lead.list.form.operator.greaterthanequals',
                 'expr'        => 'gte',
                 'negate_expr' => 'lt',
             ],
             'lt' => [
-                'label'       => 'mautic.lead.list.form.operator.lessthan',
+                'label'       => 'le.lead.list.form.operator.lessthan',
                 'expr'        => 'lt',
                 'negate_expr' => 'gt',
             ],
             'lte' => [
-                'label'       => 'mautic.lead.list.form.operator.lessthanequals',
+                'label'       => 'le.lead.list.form.operator.lessthanequals',
                 'expr'        => 'lte',
                 'negate_expr' => 'gt',
             ],
             'like' => [
-                'label'       => 'mautic.lead.list.form.operator.islike',
+                'label'       => 'le.lead.list.form.operator.islike',
                 'expr'        => 'like',
                 'negate_expr' => 'notLike',
             ],
             '!like' => [
-                'label'       => 'mautic.lead.list.form.operator.isnotlike',
+                'label'       => 'le.lead.list.form.operator.isnotlike',
                 'expr'        => 'notLike',
                 'negate_expr' => 'like',
             ],

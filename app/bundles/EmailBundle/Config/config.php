@@ -140,7 +140,7 @@ return [
                 /*'mautic.emailcampaign.emails' => [
                     'route'    => 'mautic_email_campaign_index',
                     'access'   => ['email:emails:viewown', 'email:emails:viewother'],
-                    'parent'   => 'mautic.campaigns.root',
+                    'parent'   => 'le.campaigns.root',
                     'priority' => 100,
                 ],*/
             ],

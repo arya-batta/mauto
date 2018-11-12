@@ -30,7 +30,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
             'properties' => [
                 'list' => [
                     'required'  => true,
-                    'error_msg' => 'mautic.lead.field.select.listmissing',
+                    'error_msg' => 'le.lead.field.select.listmissing',
                 ],
             ],
         ],
@@ -38,7 +38,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
             'properties' => [
                 'list' => [
                     'required'  => true,
-                    'error_msg' => 'mautic.lead.field.select.listmissing',
+                    'error_msg' => 'le.lead.field.select.listmissing',
                 ],
             ],
         ],
@@ -46,11 +46,11 @@ class FormFieldHelper extends AbstractFormFieldHelper
             'properties' => [
                 'yes' => [
                     'required'  => true,
-                    'error_msg' => 'mautic.lead.field.boolean.yesmissing',
+                    'error_msg' => 'le.lead.field.boolean.yesmissing',
                 ],
                 'no' => [
                     'required'  => true,
-                    'error_msg' => 'mautic.lead.field.boolean.nomissing',
+                    'error_msg' => 'le.lead.field.boolean.nomissing',
                 ],
             ],
         ],
@@ -135,7 +135,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
     {
         if (!array_key_exists($type, self::$types)) {
             //ensure the field type is supported
-            return [false, 'mautic.lead.field.typenotrecognized'];
+            return [false, 'le.lead.field.typenotrecognized'];
         }
 
         $fieldType = self::$types[$type];

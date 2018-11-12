@@ -96,8 +96,8 @@ class PointApiController extends CommonApiController
     {
         $trans      = $this->get('translator');
         $ip         = $this->get('mautic.helper.ip_lookup')->getIpAddress();
-        $eventName  = InputHelper::clean($this->request->request->get('eventName', $trans->trans('mautic.lead.lead.submitaction.operator_'.$operator)));
-        $actionName = InputHelper::clean($this->request->request->get('actionName', $trans->trans('mautic.lead.event.api')));
+        $eventName  = InputHelper::clean($this->request->request->get('eventName', $trans->trans('le.lead.lead.submitaction.operator_'.$operator)));
+        $actionName = InputHelper::clean($this->request->request->get('actionName', $trans->trans('le.lead.event.api')));
 
         $lead->adjustPoints($delta, $operator);
         $lead->addPointsChangeLogEntry('API', $eventName, $actionName, $delta, $ip);

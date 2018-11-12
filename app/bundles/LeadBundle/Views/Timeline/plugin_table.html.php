@@ -20,12 +20,12 @@ $baseUrl = isset($lead) ? $view['router']->path(
 ?>
 <div class="table-responsive">
     <div class="tl-header">
-        <?php echo $view['translator']->trans('mautic.lead.timeline.displaying_events', ['%total%' => $events['total']]); ?>
+        <?php echo $view['translator']->trans('le.lead.timeline.displaying_events', ['%total%' => $events['total']]); ?>
         <?php if (isset($lead)) {
-    echo $view['translator']->trans('mautic.lead.timeline.displaying_events_for_contact', ['%contact%' => $lead->getName(), '%id%' => $lead->getId()]);
+    echo $view['translator']->trans('le.lead.timeline.displaying_events_for_contact', ['%contact%' => $lead->getName(), '%id%' => $lead->getId()]);
 } ?>
         (<span class="tl-new"><?php echo $newCount; ?></span> <?php echo $view['translator']->trans(
-            'mautic.lead.timeline.events_new'
+            'le.lead.timeline.events_new'
         ); ?>)
     </div>
     <table class="table table-hover table-bordered" id="contact-timeline">
@@ -33,7 +33,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
         <tr>
             <th class="timeline-icon">
                 <a class="btn btn-sm btn-nospin btn-default" data-activate-details="all" data-toggle="tooltip" title="<?php echo $view['translator']->trans(
-                    'mautic.lead.timeline.toggle_all_details'
+                    'le.lead.timeline.toggle_all_details'
                 ); ?>">
                     <span class="fa fa-fw fa-level-down"></span>
                 </a>
@@ -41,7 +41,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
             <?php
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'eventLabel',
-                'text'       => 'mautic.lead.timeline.event_name',
+                'text'       => 'le.lead.timeline.event_name',
                 'class'      => 'timeline-name',
                 'sessionVar' => 'lead.'.$leadId.'.timeline',
                 'baseUrl'    => $baseUrl,
@@ -50,7 +50,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'eventType',
-                'text'       => 'mautic.lead.timeline.event_type',
+                'text'       => 'le.lead.timeline.event_type',
                 'class'      => 'visible-md visible-lg timeline-type',
                 'sessionVar' => 'lead.'.$leadId.'.timeline',
                 'baseUrl'    => $baseUrl,
@@ -59,7 +59,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'timestamp',
-                'text'       => 'mautic.lead.timeline.event_timestamp',
+                'text'       => 'le.lead.timeline.event_timestamp',
                 'class'      => 'visible-md visible-lg timeline-timestamp',
                 'sessionVar' => 'lead.'.$leadId.'.timeline',
                 'baseUrl'    => $baseUrl,
@@ -91,7 +91,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
                 <td class="timeline-icon">
                     <a data-activate-details="<?php echo $counter; ?>" class="btn btn-sm btn-nospin btn-default<?php if (empty($details)) {
                 echo ' disabled';
-            } ?>" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.lead.timeline.toggle_details'); ?>" data-target="timeline-details-<?php echo $counter; ?>">
+            } ?>" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.timeline.toggle_details'); ?>" data-target="timeline-details-<?php echo $counter; ?>">
                         <span class="fa fa-fw <?php echo $icon ?>"></span>
                     </a>
                 </td>

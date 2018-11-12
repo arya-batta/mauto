@@ -91,7 +91,7 @@ class ClearbitController extends FormController
                 try {
                     $this->get('mautic.plugin.clearbit.lookup_helper')->lookupContact($lead, array_key_exists('notify', $data));
                     $this->addFlash(
-                        'mautic.lead.batch_leads_affected',
+                        'le.lead.batch_leads_affected',
                         [
                             'pluralCount' => 1,
                             '%count%'     => 1,
@@ -253,7 +253,7 @@ class ClearbitController extends FormController
 
                 if ($count) {
                     $this->addFlash(
-                            'mautic.lead.batch_leads_affected',
+                            'le.lead.batch_leads_affected',
                             [
                                 'pluralCount' => $count,
                                 '%count%'     => $count,

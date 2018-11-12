@@ -61,8 +61,8 @@ class TimelineEventLogSubscriber implements EventSubscriberInterface
      */
     public function onTimelineGenerate(LeadTimelineEvent $event)
     {
-      //  $this->addEvents($event, 'lead.source.created', 'mautic.lead.timeline.created_source');
-      //  $this->addEvents($event, 'lead.source.identified', 'mautic.lead.timeline.identified_source');
+      //  $this->addEvents($event, 'lead.source.created', 'le.lead.timeline.created_source');
+      //  $this->addEvents($event, 'lead.source.identified', 'le.lead.timeline.identified_source');
     }
 
     /**

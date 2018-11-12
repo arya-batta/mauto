@@ -13,11 +13,11 @@ $view->extend('MauticCoreBundle:Default:content.html.php');
 $object = $app->getRequest()->get('object', 'leads');
 
 $view['slots']->set('mauticContent', 'leadImport');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.lead.import.leads', ['%object%' => $object]));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.leads', ['%object%' => $object]));
 
 $percent    = $progress->toPercent();
 $id         = ($complete) ? 'leadImportProgressComplete' : 'leadImportProgress';
-$header     = ($complete) ? 'mautic.lead.import.success' : 'mautic.lead.import.donotleave';
+$header     = ($complete) ? 'le.lead.import.success' : 'le.lead.import.donotleave';
 $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_index';
 ?>
 
@@ -30,7 +30,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
             </div>
             <div class="panel-body">
                 <?php if (!$complete): ?>
-                    <h4><?php echo $view['translator']->trans('mautic.lead.import.inprogress'); ?></h4>
+                    <h4><?php echo $view['translator']->trans('le.lead.import.inprogress'); ?></h4>
                 <?php else: ?>
                     <h4>
                         <?php if ($import->getIgnoredCount() == 1 || $import->getIgnoredCount() == 0) {
@@ -39,7 +39,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
     $ignoredCount= $import->getIgnoredCount() - 1;
 }
                            echo $view['translator']->trans(
-                               'mautic.lead.import.stats',
+                               'le.lead.import.stats',
                                 [
                                '%merged%'  => $import->getUpdatedCount(),
                                '%created%' => $import->getInsertedCount(),
@@ -83,7 +83,7 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                             'mautic_contact_import_action',
                             ['objectAction' => 'queue']
                         ); ?>" data-toggle="ajax">
-                            <?php echo $view['translator']->trans('mautic.lead.import.queue.btn'); ?>
+                            <?php echo $view['translator']->trans('le.lead.import.queue.btn'); ?>
                         </a>
                     </div>
                 <?php else: ?>
@@ -92,14 +92,14 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                             <?php echo $view['translator']->trans('mautic.lead.list.view_'.$object); ?>
                         </a>
                         <a class="btn btn-success mb-5" href="<?php echo $view['router']->path('mautic_import_index', ['object' => $object]); ?>" data-toggle="ajax">
-                            <?php echo $view['translator']->trans('mautic.lead.view.imports'); ?>
+                            <?php echo $view['translator']->trans('le.lead.view.imports'); ?>
                         </a>
                         <br>
                         <a class="btn btn-success" href="<?php echo $view['router']->path(
                             'mautic_import_action',
                             ['objectAction' => 'view', 'objectId' => $import->getId(), 'object' => $object]
                         ); ?>" data-toggle="ajax">
-                            <?php echo $view['translator']->trans('mautic.lead.import.result.info', ['%import%' => $import->getName()]); ?>
+                            <?php echo $view['translator']->trans('le.lead.import.result.info', ['%import%' => $import->getName()]); ?>
                         </a>
                     </div>
                 <?php endif; ?>

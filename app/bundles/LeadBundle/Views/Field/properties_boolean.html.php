@@ -13,7 +13,7 @@ $no  = (isset($no)) ? $no : $view['translator']->trans('mautic.core.form.no');
 ?>
 
 <div class="boolean">
-    <label class="control-label"><?php echo $view['translator']->trans('mautic.lead.field.form.properties.boolean'); ?></label>
+    <label class="control-label"><?php echo $view['translator']->trans('le.lead.field.form.properties.boolean'); ?></label>
     <div class="row">
         <div class="form-group col-xs-12 col-sm-8 col-md-6">
             <div class="input-group">

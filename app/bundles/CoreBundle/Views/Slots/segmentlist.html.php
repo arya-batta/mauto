@@ -14,7 +14,7 @@
     <?php if ($showContactSegments && count($form['lead_lists'])):?>
         <div class="contact-segments">
             <div class="text-left">
-                <label class="control-label"><?php echo isset($label_text) ? $label_text : $view['translator']->trans('mautic.lead.form.list'); ?></label>
+                <label class="control-label"><?php echo isset($label_text) ? $label_text : $view['translator']->trans('le.lead.form.list'); ?></label>
             </div>
             <?php
             $segmentNumber = count($form['lead_lists']->vars['choices']);
@@ -35,11 +35,11 @@ else :
     ?>
     <div class="contact-segments">
         <div class="text-left">
-            <label class="control-label"><?php echo  $view['translator']->trans('mautic.lead.form.list'); ?></label>
+            <label class="control-label"><?php echo  $view['translator']->trans('le.lead.form.list'); ?></label>
         </div>
         <div id="segment-1" class="text-left">
             <input type="checkbox" id="lead_contact_frequency_rules_lead_lists_1" name="lead_contact_frequency_rules[lead_lists][]" autocomplete="false" value="2" checked="checked">
-            <label for="lead_contact_frequency_rules_lead_lists_1"><?php echo  $view['translator']->trans('mautic.lead.lead.field.list'); ?></label>
+            <label for="lead_contact_frequency_rules_lead_lists_1"><?php echo  $view['translator']->trans('le.lead.lead.field.list'); ?></label>
         </div>
     </div>
 <?php endif; ?>

@@ -76,6 +76,6 @@ class MaintenanceSubscriber extends CommonSubscriber
                 ->execute();
         }
 
-        $event->setStat($this->translator->trans('mautic.maintenance.visitors'), $rows, $qb->getSQL(), $qb->getParameters());
+        $event->setStat($this->translator->trans('le.maintenance.visitors'), $rows, $qb->getSQL(), $qb->getParameters());
     }
 }

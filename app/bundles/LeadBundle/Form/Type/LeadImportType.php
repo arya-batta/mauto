@@ -30,7 +30,7 @@ class LeadImportType extends AbstractType
             'file',
             'file',
             [
-                'label' => 'mautic.lead.import.file',
+                'label' => 'le.lead.import.file',
                 'attr'  => [
                     'accept' => '.csv',
                     'class'  => 'form-control',
@@ -43,7 +43,7 @@ class LeadImportType extends AbstractType
                         ]
                     ),
                     new \Symfony\Component\Validator\Constraints\NotBlank(
-                        ['message' => 'mautic.lead.import.upload']
+                        ['message' => 'le.lead.import.upload']
                     ),
                 ],
                 'error_bubbling' => true,
@@ -61,7 +61,7 @@ class LeadImportType extends AbstractType
             'delimiter',
             'text',
             [
-                'label' => 'mautic.lead.import.delimiter',
+                'label' => 'le.lead.import.delimiter',
                 'attr'  => [
                     'class' => 'form-control',
                 ],
@@ -75,7 +75,7 @@ class LeadImportType extends AbstractType
             'enclosure',
             'text',
             [
-                'label' => 'mautic.lead.import.enclosure',
+                'label' => 'le.lead.import.enclosure',
                 'attr'  => [
                     'class' => 'form-control',
                 ],
@@ -89,7 +89,7 @@ class LeadImportType extends AbstractType
             'escape',
             'text',
             [
-                'label' => 'mautic.lead.import.escape',
+                'label' => 'le.lead.import.escape',
                 'attr'  => [
                     'class' => 'form-control',
                 ],
@@ -103,10 +103,10 @@ class LeadImportType extends AbstractType
             'batchlimit',
             'text',
             [
-                'label' => 'mautic.lead.import.batchlimit',
+                'label' => 'le.lead.import.batchlimit',
                 'attr'  => [
                     'class'   => 'form-control',
-                    'tooltip' => 'mautic.lead.import.batchlimit_tooltip',
+                    'tooltip' => 'le.lead.import.batchlimit_tooltip',
                 ],
                 'data'        => $default,
                 'constraints' => $constraints,
@@ -122,7 +122,7 @@ class LeadImportType extends AbstractType
                     'icon'    => 'fa fa-upload',
                     'onclick' => "mQuery(this).prop('disabled', true); mQuery('form[name=\'lead_import\']').submit();",
                 ],
-                'label' => 'mautic.lead.import.upload',
+                'label' => 'le.lead.import.upload',
             ]
         );
 

@@ -47,7 +47,7 @@ $apiAccess          =$view['security']->isGranted('api:clients:view');
       <?php /** if ($customFieldAccess): ?>
         <li>
             <a href="<?php echo $view['router']->path('mautic_contactfield_index'); ?>" data-toggle="ajax">
-                <i class="margin-right  fa fa-list"></i><span><?php echo $view['translator']->trans('mautic.lead.field.menu.index'); ?></span>
+                <i class="margin-right  fa fa-list"></i><span><?php echo $view['translator']->trans('le.lead.field.menu.index'); ?></span>
             </a>
         </li>
       <?php endif; */ ?>

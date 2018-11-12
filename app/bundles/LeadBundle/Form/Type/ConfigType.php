@@ -26,11 +26,11 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('background_import_if_more_rows_than', 'number', [
-            'label'      => 'mautic.lead.background.import.if.more.rows.than',
+            'label'      => 'le.lead.background.import.if.more.rows.than',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',
-                'tooltip' => 'mautic.lead.background.import.if.more.rows.than.tooltip',
+                'tooltip' => 'le.lead.background.import.if.more.rows.than.tooltip',
             ],
         ]);
     }

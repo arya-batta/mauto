@@ -159,7 +159,7 @@ class SubmitActionEmailType extends AbstractType
             'templates',
             EmailListType::class,
             [
-                'label'      => 'mautic.lead.email.template',
+                'label'      => 'le.lead.email.template',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [

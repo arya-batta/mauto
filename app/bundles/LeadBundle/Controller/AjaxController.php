@@ -66,7 +66,7 @@ class AjaxController extends CommonAjaxController
         if ($field && $value) {
             $repo                       = $this->getModel('lead.lead')->getRepository();
             $leads                      = $repo->getLeadsByFieldValue($field, $value, $ignore);
-            $dataArray['existsMessage'] = $this->translator->trans('mautic.lead.exists.by.field').': ';
+            $dataArray['existsMessage'] = $this->translator->trans('le.lead.exists.by.field').': ';
 
             foreach ($leads as $lead) {
                 $fields = $repo->getFieldValues($lead->getId());
@@ -78,7 +78,7 @@ class AjaxController extends CommonAjaxController
                 }
 
                 if (!$name) {
-                    $name = $this->translator->trans('mautic.lead.lead.anonymous');
+                    $name = $this->translator->trans('le.lead.lead.anonymous');
                 }
 
                 $leadLink = $this->generateUrl('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $lead->getId()]);
@@ -427,7 +427,7 @@ class AjaxController extends CommonAjaxController
 
         if ($this->get('mautic.security')->isGranted('lead:leads:create')) {
             $session               = $this->get('session');
-            $dataArray['progress'] = $session->get('mautic.lead.import.progress', [0, 0]);
+            $dataArray['progress'] = $session->get('le.lead.import.progress', [0, 0]);
             $dataArray['percent']  = ($dataArray['progress'][1]) ? ceil(($dataArray['progress'][0] / $dataArray['progress'][1]) * 100) : 100;
         }
 
@@ -527,7 +527,7 @@ class AjaxController extends CommonAjaxController
 
             $filter     = ['string' => $search, 'force' => []];
             $translator = $this->translator;
-            $anonymous  = $translator->trans('mautic.lead.lead.searchcommand.isanonymous');
+            $anonymous  = $translator->trans('le.lead.lead.searchcommand.isanonymous');
             $mine       = $translator->trans('mautic.core.searchcommand.ismine');
             $indexMode  = $session->get('mautic.lead.indexmode', 'list');
 

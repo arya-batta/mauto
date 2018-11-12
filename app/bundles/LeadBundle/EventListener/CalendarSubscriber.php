@@ -61,7 +61,7 @@ class CalendarSubscriber extends CommonSubscriber
             if ($object['firstname'] || $object['lastname']) {
                 $leadName = $object['firstname'].' '.$object['lastname'];
             } else {
-                $leadName = $this->translator->trans('mautic.lead.lead.anonymous');
+                $leadName = $this->translator->trans('le.lead.lead.anonymous');
             }
             $date                  = new DateTimeHelper($object['start']);
             $object['start']       = $date->toLocalString(\DateTime::ISO8601);

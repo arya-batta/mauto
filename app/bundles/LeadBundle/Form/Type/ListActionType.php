@@ -42,7 +42,7 @@ class ListActionType extends AbstractType
         }
 
         $builder->add('addToLists', 'leadlist_choices', [
-            'label'      => 'mautic.lead.lead.events.addtolists',
+            'label'      => 'le.lead.lead.events.addtolists',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',
@@ -53,7 +53,7 @@ class ListActionType extends AbstractType
         ]);
 
         $builder->add('removeFromLists', 'leadlist_choices', [
-            'label'      => 'mautic.lead.lead.events.removefromlists',
+            'label'      => 'le.lead.lead.events.removefromlists',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',

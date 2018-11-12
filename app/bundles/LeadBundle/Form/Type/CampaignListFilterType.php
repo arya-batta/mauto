@@ -222,7 +222,7 @@ class CampaignListFilterType extends AbstractType
 //                'attr'       => [
 //                    'class'   => 'form-control',
 //                    'length'  => 25,
-//                    'tooltip' => 'mautic.lead.list.help.alias',
+//                    'tooltip' => 'le.lead.list.help.alias',
 //                ],
 //                'required' => false,
 //            ]
@@ -243,7 +243,7 @@ class CampaignListFilterType extends AbstractType
 //            'isGlobal',
 //            'yesno_button_group',
 //            [
-//                'label' => 'mautic.lead.list.form.isglobal',
+//                'label' => 'le.lead.list.form.isglobal',
 //            ]
 //        );
 //

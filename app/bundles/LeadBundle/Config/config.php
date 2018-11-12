@@ -307,41 +307,41 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'mautic.lead.leads' => [
+                'le.lead.leads' => [
                     'iconClass' => 'fa-user',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_contact_index',
                     'priority'  => 60,
-                    'parent'    => 'mautic.core.leads',
+                    'parent'    => 'le.core.leads',
                 ],
-                /*   'mautic.companies.menu.index' => [
+                /*   'le.companies.menu.index' => [
                       'route'     => 'mautic_company_index',
                       'iconClass' => 'fa-building-o',
                       'access'    => ['lead:leads:viewother'],
                       'priority'  => 75,
                   ],*/
-                'mautic.lead.list.menu.index' => [
+                'le.lead.list.menu.index' => [
                     'iconClass' => 'fa-pie-chart',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'mautic_segment_index',
                     'priority'  => 55,
-                    'parent'    => 'mautic.core.leads',
+                    'parent'    => 'le.core.leads',
                 ],
 
-               'mautic.lead.field.menu.index' => [
+               'le.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
                     'route'      => 'mautic_contactfield_index',
                     'access'     => 'lead:fields:full',
                     'priority'   => 45,
-                  'parent'       => 'mautic.core.leads',
+                  'parent'       => 'le.core.leads',
                ],
 
-                'mautic.lead.import.menu.index' => [
+                'le.lead.import.menu.index' => [
                      'iconClass'  => 'fa-cloud-upload',
                      'route'      => 'mautic_import_action',
                      'access'     => 'lead:imports:create',
                      'priority'   => 40,
-                     'parent'     => 'mautic.core.leads',
+                     'parent'     => 'le.core.leads',
                 ],
 
                'mautic.point.menu.index' => [
@@ -349,20 +349,20 @@ return [
                     'iconClass'  => 'fa fa-sliders',
                     'access'     => 'point:points:view',
                     'priority'   => 50,
-                    'parent'     => 'mautic.core.leads',
+                    'parent'     => 'le.core.leads',
                 ],
                /*
                 'mautic.point.trigger.menu.index' => [
                     'route'    => 'mautic_pointtrigger_index',
                     'access'   => 'point:triggers:view',
-                    'parent'   => 'mautic.segments.root',
+                    'parent'   => 'le.segments.root',
                 ],*/
             ],
         ],
         'admin' => [
          /*   'priority' => 450,
             'items'    => [
-                'mautic.lead.field.menu.index' => [
+                'le.lead.field.menu.index' => [
                     'id'         => 'mautic_lead_field',
                     'iconClass'  => 'fa-list',
                     'route'      => 'mautic_contactfield_index',

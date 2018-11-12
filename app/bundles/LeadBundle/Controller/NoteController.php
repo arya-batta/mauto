@@ -79,10 +79,10 @@ class NoteController extends FormController
         $session->set('mautic.lead.'.$lead->getId().'.notetype.filter', $noteType);
 
         $noteTypes = [
-            'general' => 'mautic.lead.note.type.general',
-            'email'   => 'mautic.lead.note.type.email',
-            'call'    => 'mautic.lead.note.type.call',
-            'meeting' => 'mautic.lead.note.type.meeting',
+            'general' => 'le.lead.note.type.general',
+            'email'   => 'le.lead.note.type.email',
+            'call'    => 'le.lead.note.type.call',
+            'meeting' => 'le.lead.note.type.meeting',
         ];
 
         if (!empty($noteType)) {

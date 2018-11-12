@@ -193,12 +193,12 @@ class Sms extends FormEntity
                         [
                             new LeadListAccess(
                                 [
-                                    'message' => 'mautic.lead.lists.required',
+                                    'message' => 'le.lead.lists.required',
                                 ]
                             ),
                             new NotBlank(
                                 [
-                                    'message' => 'mautic.lead.lists.required',
+                                    'message' => 'le.lead.lists.required',
                                 ]
                             ),
                         ]

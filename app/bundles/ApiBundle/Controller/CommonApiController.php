@@ -697,7 +697,7 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function postActionRedirect($args = [])
     {
-        return $this->notFound('mautic.contact.error.notfound');
+        return $this->notFound('le.contact.error.notfound');
     }
 
     /**

@@ -14,7 +14,7 @@
     <?php echo $view['form']->start($form); ?>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="panel-title"><?php echo $view['translator']->trans('mautic.lead.import.default.owner'); ?></div>
+            <div class="panel-title"><?php echo $view['translator']->trans('le.lead.import.default.owner'); ?></div>
         </div>
         <div class="panel-body">
             <div class="col-xs-4">
@@ -30,7 +30,7 @@
     </div>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="panel-title"><?php echo $view['translator']->trans('mautic.lead.import.fields'); ?></div>
+            <div class="panel-title"><?php echo $view['translator']->trans('le.lead.import.fields'); ?></div>
         </div>
         <div class="panel-body">
             <?php /*echo $view['form']->errors($form); */?>

@@ -144,7 +144,7 @@ if (!$isEmbedded) {
                 </li>
                 <li class="">
                     <a href="#contacts-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.lead.leads'); ?>
+                        <?php echo $view['translator']->trans('le.lead.leads'); ?>
                     </a>
                 </li>
             </ul>

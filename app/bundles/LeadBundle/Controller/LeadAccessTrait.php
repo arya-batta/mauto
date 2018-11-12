@@ -57,14 +57,14 @@ trait LeadAccessTrait
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.lead.lead.error.notfound',
+                                'msg'     => 'le.lead.lead.error.notfound',
                                 'msgVars' => ['%id%' => $leadId],
                             ],
                         ],
                     ]
                 );
             } else {
-                return $this->notFound('mautic.contact.error.notfound');
+                return $this->notFound('le.contact.error.notfound');
             }
         } elseif (!$this->get('mautic.security')->hasEntityAccess(
             'lead:leads:'.$action.'own',

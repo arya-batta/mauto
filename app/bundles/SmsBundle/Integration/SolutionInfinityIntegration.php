@@ -116,7 +116,7 @@ class SolutionInfinityIntegration extends AbstractIntegration
                         'WEEK'  => 'week',
                         'MONTH' => 'month',
                     ],
-                    'label'      => 'mautic.lead.list.frequency.times',
+                    'label'      => 'le.lead.list.frequency.times',
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'multiple'   => false,

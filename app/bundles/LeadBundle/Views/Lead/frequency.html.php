@@ -14,9 +14,9 @@ $leadName = $lead->getPrimaryIdentifier();
 
     <?php echo $view['form']->start($form); ?>
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#channels"><?php echo $view['translator']->trans('mautic.lead.contact.channels'); ?></a></li>
-    <li><a data-toggle="tab" href="#categories"><?php echo $view['translator']->trans('mautic.lead.preferred.categories'); ?></a></li>
-    <li><a data-toggle="tab" href="#segments"><?php echo $view['translator']->trans('mautic.lead.preferred.segments'); ?></a></li>
+    <li class="active"><a data-toggle="tab" href="#channels"><?php echo $view['translator']->trans('le.lead.contact.channels'); ?></a></li>
+    <li><a data-toggle="tab" href="#categories"><?php echo $view['translator']->trans('le.lead.preferred.categories'); ?></a></li>
+    <li><a data-toggle="tab" href="#segments"><?php echo $view['translator']->trans('le.lead.preferred.segments'); ?></a></li>
 </ul>
 
 <div class="tab-content">
@@ -29,10 +29,10 @@ $leadName = $lead->getPrimaryIdentifier();
                            onclick="Mautic.togglePreferredChannel('all');" value="all">
                 </th>
                 <th>
-                    <?php echo $view['translator']->trans('mautic.lead.contact.channels'); ?>
+                    <?php echo $view['translator']->trans('le.lead.contact.channels'); ?>
                 </th>
-                <th><?php echo $view['translator']->trans('mautic.lead.preferred.frequency'); ?></th>
-                <th><?php echo $view['translator']->trans('mautic.lead.preferred.channels'); ?></th>
+                <th><?php echo $view['translator']->trans('le.lead.preferred.frequency'); ?></th>
+                <th><?php echo $view['translator']->trans('le.lead.preferred.channels'); ?></th>
             </tr>
             </thead>
             <tbody >
@@ -85,7 +85,7 @@ $leadName = $lead->getPrimaryIdentifier();
                     <td colspan="2" style="border-top:none">
                         <div id="frequency_<?php echo $channel->value; ?>" <?php if (!empty($hidden)) :?>class="<?php echo $hidden; ?>"<?php endif; ?> >
                             <div>
-                                <label class="text-muted fw-n"><?php echo $view['translator']->trans('mautic.lead.frequency.dates.label'); ?></label>
+                                <label class="text-muted fw-n"><?php echo $view['translator']->trans('le.lead.frequency.dates.label'); ?></label>
                             </div>
                             <div>
                                 <?php echo $view['form']->widget($form['contact_pause_start_date_'.$channel->value]); ?>

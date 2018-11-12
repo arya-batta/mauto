@@ -20,7 +20,7 @@
     echo 'active';
 } ?>">
                         <a href="#company-<?php echo $g; ?>" class="steps" data-toggle="tab">
-                            <?php echo $view['translator']->trans('mautic.lead.field.group.'.$g); ?>
+                            <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
                         </a>
                     </li>
                     <?php ++$step; ?>

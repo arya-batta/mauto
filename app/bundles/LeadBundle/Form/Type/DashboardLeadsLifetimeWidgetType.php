@@ -40,13 +40,13 @@ class DashboardLeadsLifetimeWidgetType extends AbstractType
 
         $lists       = $model->getUserLists();
         $segments    = [];
-        $segments[0] = $this->factory->getTranslator()->trans('mautic.lead.all.leads');
+        $segments[0] = $this->factory->getTranslator()->trans('le.lead.all.leads');
         foreach ($lists as $list) {
             $segments[$list['id']] = $list['name'];
         }
 
         $builder->add('flag', 'choice', [
-                'label'      => 'mautic.lead.list.filter',
+                'label'      => 'le.lead.list.filter',
                 'multiple'   => true,
                 'choices'    => $segments,
                 'label_attr' => ['class' => 'control-label'],

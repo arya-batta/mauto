@@ -42,7 +42,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'l.id' => [
-                'label' => 'mautic.lead.report.contact_id',
+                'label' => 'le.lead.report.contact_id',
                 'type'  => 'int',
                 'link'  => 'mautic_contact_action',
             ],
@@ -51,25 +51,25 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
                 'type'  => 'text',
             ],
             'l.date_identified' => [
-                'label'          => 'mautic.lead.report.date_identified',
+                'label'          => 'le.lead.report.date_identified',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(l.date_identified)',
             ],
             'l.points' => [
-                'label' => 'mautic.lead.points',
+                'label' => 'le.lead.points',
                 'type'  => 'int',
             ],
             'l.owner_id' => [
-                'label' => 'mautic.lead.report.owner_id',
+                'label' => 'le.lead.report.owner_id',
                 'type'  => 'int',
                 'link'  => 'mautic_user_action',
             ],
             'u.first_name' => [
-                'label' => 'mautic.lead.report.owner_firstname',
+                'label' => 'le.lead.report.owner_firstname',
                 'type'  => 'string',
             ],
             'u.last_name' => [
-                'label' => 'mautic.lead.report.owner_lastname',
+                'label' => 'le.lead.report.owner_lastname',
                 'type'  => 'string',
             ],
             'x.title' => [
@@ -158,7 +158,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'l.id' => [
-                'label' => 'mautic.lead.report.contact_id',
+                'label' => 'le.lead.report.contact_id',
                 'type'  => 'int',
                 'link'  => 'mautic_contact_action',
             ],
@@ -167,25 +167,25 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
                 'type'  => 'text',
             ],
             'l.date_identified' => [
-                'label'          => 'mautic.lead.report.date_identified',
+                'label'          => 'le.lead.report.date_identified',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(l.date_identified)',
             ],
             'l.points' => [
-                'label' => 'mautic.lead.points',
+                'label' => 'le.lead.points',
                 'type'  => 'int',
             ],
             'l.owner_id' => [
-                'label' => 'mautic.lead.report.owner_id',
+                'label' => 'le.lead.report.owner_id',
                 'type'  => 'int',
                 'link'  => 'mautic_user_action',
             ],
             'u.first_name' => [
-                'label' => 'mautic.lead.report.owner_firstname',
+                'label' => 'le.lead.report.owner_firstname',
                 'type'  => 'string',
             ],
             'u.last_name' => [
-                'label' => 'mautic.lead.report.owner_lastname',
+                'label' => 'le.lead.report.owner_lastname',
                 'type'  => 'string',
             ],
             'x.title' => [
@@ -226,7 +226,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'x.owner_id' => [
-                'label' => 'mautic.lead.list.filter.owner',
+                'label' => 'le.lead.list.filter.owner',
                 'type'  => 'select',
                 'list'  => [
                     0 => 'John',
@@ -262,7 +262,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'comp.id' => [
-                'label' => 'mautic.lead.report.company.company_id',
+                'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
                 'link'  => 'mautic_company_action',
             ],

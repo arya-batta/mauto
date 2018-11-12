@@ -54,50 +54,50 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                             <tbody>
                                 <?php echo $view->render('MauticCoreBundle:Helper:details.html.php', ['entity' => $item]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.source.file',
+                                    'label' => 'le.lead.import.source.file',
                                     'value' => $item->getOriginalFile(),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.status',
+                                    'label' => 'le.lead.import.status',
                                     'value' => $view->render('MauticCoreBundle:Helper:label.html.php', [
-                                        'text' => 'mautic.lead.import.status.'.$item->getStatus(),
+                                        'text' => 'le.lead.import.status.'.$item->getStatus(),
                                         'type' => $item->getSatusLabelClass(),
                                     ]),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.status.info',
+                                    'label' => 'le.lead.import.status.info',
                                     'value' => $item->getStatusInfo(),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.line.count',
+                                    'label' => 'le.lead.import.line.count',
                                     'value' => $item->getLineCount(),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.date.started',
+                                    'label' => 'le.lead.import.date.started',
                                     'value' => $view['date']->toFull($item->getDateStarted()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.date.ended',
+                                    'label' => 'le.lead.import.date.ended',
                                     'value' => $view['date']->toFull($item->getDateEnded()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.runtime',
+                                    'label' => 'le.lead.import.runtime',
                                     'value' => $item->getRunTime() ? $view['date']->formatRange($item->getRunTime()) : '',
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.speed',
-                                    'value' => $view['translator']->trans('mautic.lead.import.speed.value', ['%speed%' => $item->getSpeed()]),
+                                    'label' => 'le.lead.import.speed',
+                                    'value' => $view['translator']->trans('le.lead.import.speed.value', ['%speed%' => $item->getSpeed()]),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.progress',
+                                    'label' => 'le.lead.import.progress',
                                     'value' => $item->getProgressPercentage().'%',
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.mapped.fields',
+                                    'label' => 'le.lead.import.mapped.fields',
                                     'value' => $view['formatter']->arrayToString($item->getMatchedFields()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.default.options',
+                                    'label' => 'le.lead.import.default.options',
                                     'value' => $view['formatter']->arrayToString($item->getDefaults()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
@@ -105,7 +105,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                                     'value' => $view['formatter']->arrayToString($item->getHeaders()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.csv.parser.config',
+                                    'label' => 'le.lead.import.csv.parser.config',
                                     'value' => $view['formatter']->arrayToString($item->getParserConfig()),
                                 ]); ?>
                             </tbody>
@@ -138,7 +138,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                                 <div class="va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa fa-row-statuses"></span>
-                                        <?php echo $view['translator']->trans('mautic.lead.import.row.statuses'); ?>
+                                        <?php echo $view['translator']->trans('le.lead.import.row.statuses'); ?>
                                     </h5>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                                 <div class="va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa fa-row-statuses"></span>
-                                        <?php echo $view['translator']->trans('mautic.lead.import.processed.rows.minute'); ?>
+                                        <?php echo $view['translator']->trans('le.lead.import.processed.rows.minute'); ?>
                                     </h5>
                                 </div>
                             </div>
@@ -185,11 +185,11 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
         <!-- start: tab-content -->
         <div class="tab-content pa-md preview-detail">
         <?php if (!empty($failedRows) && count($failedRows)) : ?>
-        <h3><?php echo $view['translator']->trans('mautic.lead.import.failed.rows'); ?></h3>
+        <h3><?php echo $view['translator']->trans('le.lead.import.failed.rows'); ?></h3>
             <table class="table">
                 <thead>
                     <tr>
-                    <?php foreach (['mautic.lead.import.csv.line.number', 'mautic.core.error.message'] as $headItem) : ?>
+                    <?php foreach (['le.lead.import.csv.line.number', 'mautic.core.error.message'] as $headItem) : ?>
                         <th><?php echo $view['translator']->trans($headItem); ?></th>
                     <?php endforeach; ?>
                     </tr>
@@ -210,7 +210,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                 </tbody>
             </table>
         <?php else : ?>
-            <i><?php echo $view['translator']->trans('mautic.lead.import.no.failed.rows'); ?></i>
+            <i><?php echo $view['translator']->trans('le.lead.import.no.failed.rows'); ?></i>
         <?php endif; ?>
         </div>
         <!--/ end: tab-content -->

@@ -12,7 +12,7 @@
 if ($tmpl == 'index'):
     $view->extend('MauticLeadBundle:List:index.html.php');
 endif;
-$listCommand = $view['translator']->trans('mautic.lead.lead.searchcommand.list');
+$listCommand = $view['translator']->trans('le.lead.lead.searchcommand.list');
 $isAdmin     =$view['security']->isAdmin();
 ?>
 
@@ -58,7 +58,7 @@ $isAdmin     =$view['security']->isAdmin();
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'segment',
-                        'text'       => 'mautic.lead.list.thead.leadcount',
+                        'text'       => 'le.lead.list.thead.leadcount',
                         'class'      => 'visible-md visible-lg col-leadlist-leadcount',
                     ]
                 );
@@ -110,7 +110,7 @@ $isAdmin     =$view['security']->isAdmin();
                                             ),
                                         ],
                                         'icon'  => 'fa-users',
-                                        'label' => 'mautic.lead.list.view_leads',
+                                        'label' => 'le.lead.list.view_leads',
                                     ],
                                 ],
                             ]
@@ -141,7 +141,7 @@ $isAdmin     =$view['security']->isAdmin();
                             <?php endif; ?>
                             <?php if ($item->isGlobal()): ?>
                             <span data-toggle="tooltip" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.list.form.isglobal'
+                                'le.lead.list.form.isglobal'
                             ); ?>"><i class="fa fa-fw fa-globe"></i></span>
                             <?php endif; ?>
                         </div>
@@ -154,10 +154,10 @@ $isAdmin     =$view['security']->isAdmin();
                     <td class="visible-md visible-lg" style="width: 30%;">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'mautic_contact_index',
-                            ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.list').':'.$item->getAlias()]
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list').':'.$item->getAlias()]
                         ); ?>" data-toggle="ajax"<?php echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
-                                'mautic.lead.list.viewleads_count',
+                                'le.lead.list.viewleads_count',
                                 $leadCounts[$item->getId()],
                                 ['%count%' => $leadCounts[$item->getId()]]
                             ); ?>
@@ -184,7 +184,7 @@ $isAdmin     =$view['security']->isAdmin();
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_segment_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.lead.list.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_segment_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.list.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
 

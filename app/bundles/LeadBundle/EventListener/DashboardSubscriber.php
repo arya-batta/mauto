@@ -187,7 +187,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $event->setTemplateData([
                     'headItems' => [
                         'mautic.dashboard.label.title',
-                        'mautic.lead.leads',
+                        'le.lead.leads',
                     ],
                     'bodyItems' => $items,
                     'raw'       => $lists,
@@ -225,7 +225,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $lists[] = [
                     'leads' => 0,
                     'id'    => 0,
-                    'name'  => $event->getTranslator()->trans('mautic.lead.all.leads'),
+                    'name'  => $event->getTranslator()->trans('le.lead.all.leads'),
                     'alias' => '',
                 ];
             }
@@ -340,7 +340,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $event->setTemplateData([
                     'headItems' => [
                         'mautic.user.account.permissions.editname',
-                        'mautic.lead.leads',
+                        'le.lead.leads',
                     ],
                     'bodyItems' => $items,
                     'raw'       => $owners,
@@ -395,7 +395,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $event->setTemplateData([
                     'headItems' => [
                         'mautic.user.account.permissions.editname',
-                        'mautic.lead.leads',
+                        'le.lead.leads',
                     ],
                     'bodyItems' => $items,
                     'raw'       => $creators,

@@ -34,14 +34,14 @@ class SlotChannelFrequencyType extends SlotType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label-text', 'text', [
-            'label'      => 'mautic.lead.field.label',
+            'label'      => 'le.lead.field.label',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text',
             ],
-            'data' => $this->translator->trans('mautic.lead.contact.me.label'),
+            'data' => $this->translator->trans('le.lead.contact.me.label'),
         ]);
 
         $builder->add('label-text1', 'text', [
@@ -52,7 +52,7 @@ class SlotChannelFrequencyType extends SlotType
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text1',
             ],
-            'data' => $this->translator->trans('mautic.lead.list.frequency.number'),
+            'data' => $this->translator->trans('le.lead.list.frequency.number'),
         ]);
 
         $builder->add('label-text2', 'text', [
@@ -63,7 +63,7 @@ class SlotChannelFrequencyType extends SlotType
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text2',
             ],
-            'data' => $this->translator->trans('mautic.lead.list.frequency.times'),
+            'data' => $this->translator->trans('le.lead.list.frequency.times'),
         ]);
 
         $builder->add('label-text3', 'text', [
@@ -74,7 +74,7 @@ class SlotChannelFrequencyType extends SlotType
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text3',
             ],
-            'data' => $this->translator->trans('mautic.lead.frequency.dates.label'),
+            'data' => $this->translator->trans('le.lead.frequency.dates.label'),
         ]);
 
         $builder->add('label-text4', 'text', [
@@ -85,7 +85,7 @@ class SlotChannelFrequencyType extends SlotType
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text4',
             ],
-            'data' => $this->translator->trans('mautic.lead.frequency.contact.end.date'),
+            'data' => $this->translator->trans('le.lead.frequency.contact.end.date'),
         ]);
 
         parent::buildForm($builder, $options);

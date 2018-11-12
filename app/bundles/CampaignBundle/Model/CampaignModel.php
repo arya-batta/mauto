@@ -1132,7 +1132,7 @@ class CampaignModel extends CommonFormModel
         $batchLimiters['maxId'] = $removeLeadCount['maxId'];
 
         if ($output) {
-            $output->writeln($this->translator->trans('mautic.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
+            $output->writeln($this->translator->trans('le.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
         }
 
         if ($leadCount) {

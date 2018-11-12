@@ -124,17 +124,17 @@ return [
                  'iconClass' => 'fa fa-bullhorn',
                  'priority'  => 80,
              ],
-            'mautic.core.leads' => [
+            'le.core.leads' => [
                 'id'        => 'mautic_leads_root',
                 'iconClass' => 'fa-users',
                 'priority'  => 100,
             ],
-           /*'mautic.segments.root' => [
+           /*'le.segments.root' => [
                 'id'        => 'mautic_segments_root',
                 'iconClass' => 'icon pull-left fa fa-user',
                 'priority'  => 35,
             ],*/
-           /* 'mautic.campaigns.root' => [
+           /* 'le.campaigns.root' => [
                 'id'        => 'mautic_campaigns_root',
                 'iconClass' => 'fa-clock-o',
                 'priority'  => 70,

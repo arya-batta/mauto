@@ -22,52 +22,52 @@ endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.status',
-                    'text'       => 'mautic.lead.import.status',
+                    'text'       => 'le.lead.import.status',
                     'class'      => 'col-status',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.originalFile',
-                    'text'       => 'mautic.lead.import.source.file',
+                    'text'       => 'le.lead.import.source.file',
                     'class'      => 'col-original-file',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                    'text'  => 'mautic.lead.import.runtime',
+                    'text'  => 'le.lead.import.runtime',
                     'class' => 'col-runtime',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                    'text'  => 'mautic.lead.import.progress',
+                    'text'  => 'le.lead.import.progress',
                     'class' => 'col-progress',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.lineCount',
-                    'text'       => 'mautic.lead.import.line.count',
+                    'text'       => 'le.lead.import.line.count',
                     'class'      => 'col-line-count',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.insertedCount',
-                    'text'       => 'mautic.lead.import.inserted.count',
+                    'text'       => 'le.lead.import.inserted.count',
                     'class'      => 'col-inserted-count',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.updatedCount',
-                    'text'       => 'mautic.lead.import.updated.count',
+                    'text'       => 'le.lead.import.updated.count',
                     'class'      => 'col-updated-count',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.ignoredCount',
-                    'text'       => 'mautic.lead.import.ignored.count',
+                    'text'       => 'le.lead.import.ignored.count',
                     'class'      => 'col-ignored-count',
                 ]);
 

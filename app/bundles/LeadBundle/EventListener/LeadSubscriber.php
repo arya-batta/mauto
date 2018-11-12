@@ -303,17 +303,17 @@ class LeadSubscriber extends CommonSubscriber
     public function onTimelineGenerate(Events\LeadTimelineEvent $event)
     {
         $eventTypes = [
-            //'lead.utmtagsadded' => 'mautic.lead.event.utmtagsadded',
-            'lead.donotcontact' => 'mautic.lead.event.donotcontact',
-            'lead.imported'     => 'mautic.lead.event.imported',
+            //'lead.utmtagsadded' => 'le.lead.event.utmtagsadded',
+            'lead.donotcontact' => 'le.lead.event.donotcontact',
+            'lead.imported'     => 'le.lead.event.imported',
         ];
 
         // Following events takes the event from the lead itself, so not applicable for API
         // where we are getting events for all leads.
         if ($event->isForTimeline()) {
-            $eventTypes['lead.create']     = 'mautic.lead.event.create';
-            //$eventTypes['lead.identified'] = 'mautic.lead.event.identified';
-            //$eventTypes['lead.ipadded']    = 'mautic.lead.event.ipadded';
+            $eventTypes['lead.create']     = 'le.lead.event.create';
+            //$eventTypes['lead.identified'] = 'le.lead.event.identified';
+            //$eventTypes['lead.ipadded']    = 'le.lead.event.ipadded';
         }
 
         $filters = $event->getEventFilters();
@@ -549,16 +549,16 @@ class LeadSubscriber extends CommonSubscriber
             foreach ($rows['results'] as $row) {
                 switch ($row['reason']) {
                     case DoNotContact::UNSUBSCRIBED:
-                        $row['reason'] = $this->translator->trans('mautic.lead.event.donotcontact_unsubscribed');
+                        $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_unsubscribed');
                         break;
                     case DoNotContact::BOUNCED:
-                        $row['reason'] = $this->translator->trans('mautic.lead.event.donotcontact_bounce');
+                        $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_bounce');
                         break;
                     case DoNotContact::SPAM:
-                        $row['reason'] = $this->translator->trans('mautic.lead.event.donotcontact_spam');
+                        $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_spam');
                         break;
                     case DoNotContact::MANUAL:
-                        $row['reason'] = $this->translator->trans('mautic.lead.event.donotcontact_manual');
+                        $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_manual');
                         break;
                 }
 

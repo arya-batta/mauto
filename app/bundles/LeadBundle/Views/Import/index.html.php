@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', $mauticContent);
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.lead.import.list'));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.list'));
 $view['slots']->set(
     'actions',
     $view->render(
@@ -36,7 +36,7 @@ $view['slots']->set(
     //     'MauticCoreBundle:Helper:list_toolbar.html.php',
     //     [
     //         'searchValue'   => $searchValue,
-    //         'searchHelp'    => 'mautic.lead.lead.help.searchcommands',
+    //         'searchHelp'    => 'le.lead.lead.help.searchcommands',
     //         'action'        => $currentRoute,
     //     ]
     // );

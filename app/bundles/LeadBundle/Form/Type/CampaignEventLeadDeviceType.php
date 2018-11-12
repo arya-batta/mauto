@@ -30,7 +30,7 @@ class CampaignEventLeadDeviceType extends AbstractType
             'device_type',
             'choice',
             [
-                'label'      => 'mautic.lead.campaign.event.device_type',
+                'label'      => 'le.lead.campaign.event.device_type',
                 'label_attr' => ['class' => 'control-label'],
                 'multiple'   => true,
                 'choices'    => array_combine((DeviceParser::getAvailableDeviceTypeNames()), (DeviceParser::getAvailableDeviceTypeNames())),
@@ -45,7 +45,7 @@ class CampaignEventLeadDeviceType extends AbstractType
             'device_brand',
             'choice',
             [
-                'label'      => 'mautic.lead.campaign.event.device_brand',
+                'label'      => 'le.lead.campaign.event.device_brand',
                 'label_attr' => ['class' => 'control-label'],
                 'multiple'   => true,
                 'choices'    => DeviceParser::$deviceBrands,
@@ -60,7 +60,7 @@ class CampaignEventLeadDeviceType extends AbstractType
             'device_os',
             'choice',
             [
-                'label'      => 'mautic.lead.campaign.event.device_os',
+                'label'      => 'le.lead.campaign.event.device_os',
                 'label_attr' => ['class' => 'control-label'],
                 'multiple'   => true,
                 'choices'    => array_combine((array_keys(OperatingSystem::getAvailableOperatingSystemFamilies())), array_keys(OperatingSystem::getAvailableOperatingSystemFamilies())),

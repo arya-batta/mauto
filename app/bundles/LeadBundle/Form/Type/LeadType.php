@@ -57,7 +57,7 @@ class LeadType extends AbstractType
         if (!$options['isShortForm']) {
             $imageChoices = [
                 'gravatar' => 'Gravatar',
-                'custom'   => 'mautic.lead.lead.field.custom_avatar',
+                'custom'   => 'le.lead.lead.field.custom_avatar',
             ];
 
             $cache = $options['data']->getSocialCache();
@@ -72,7 +72,7 @@ class LeadType extends AbstractType
                 'choice',
                 [
                     'choices'    => $imageChoices,
-                    'label'      => 'mautic.lead.lead.field.preferred_profile',
+                    'label'      => 'le.lead.lead.field.preferred_profile',
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => true,
                     'multiple'   => false,
@@ -101,7 +101,7 @@ class LeadType extends AbstractType
                                     'image/jpeg',
                                     'image/png',
                                 ],
-                                'mimeTypesMessage' => 'mautic.lead.avatar.types_invalid',
+                                'mimeTypesMessage' => 'le.lead.avatar.types_invalid',
                             ]
                         ),
                     ],
@@ -117,8 +117,8 @@ class LeadType extends AbstractType
             [
                 'by_reference' => false,
                 'attr'         => [
-                    'data-placeholder'     => $this->factory->getTranslator()->trans('mautic.lead.tags.select_or_create'),
-                    'data-no-results-text' => $this->factory->getTranslator()->trans('mautic.lead.tags.enter_to_create'),
+                    'data-placeholder'     => $this->factory->getTranslator()->trans('le.lead.tags.select_or_create'),
+                    'data-no-results-text' => $this->factory->getTranslator()->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
                 ],
@@ -136,7 +136,7 @@ class LeadType extends AbstractType
                 'companies',
                 'company_list',
                 [
-                    'label'      => 'mautic.company.selectcompany',
+                    'label'      => 'le.company.selectcompany',
                     'label_attr' => ['class' => 'control-label'],
                     'multiple'   => true,
                     'required'   => false,
@@ -156,7 +156,7 @@ class LeadType extends AbstractType
             'leadlist_choices',
             [
                 'by_reference' => false,
-                'label'        => 'mautic.lead.form.list',
+                'label'        => 'le.lead.form.list',
                 'label_attr'   => ['class' => 'control-label'],
                 'multiple'     => true,
                 'required'     => false,
@@ -174,7 +174,7 @@ class LeadType extends AbstractType
                 'owner',
                 'user_list',
                 [
-                    'label'      => 'mautic.lead.lead.field.owner',
+                    'label'      => 'le.lead.lead.field.owner',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class' => 'form-control',
@@ -196,7 +196,7 @@ class LeadType extends AbstractType
                     'stage',
                     'stage_list',
                     [
-                        'label'      => 'mautic.lead.lead.field.stage',
+                        'label'      => 'le.lead.lead.field.stage',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class' => 'form-control',

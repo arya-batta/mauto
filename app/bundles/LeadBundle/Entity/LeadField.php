@@ -198,12 +198,12 @@ class LeadField extends FormEntity
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('label', new Assert\NotBlank(
-            ['message' => 'mautic.lead.field.label.notblank']
+            ['message' => 'le.lead.field.label.notblank']
         ));
 
         $metadata->addConstraint(new UniqueEntity([
             'fields'  => ['alias'],
-            'message' => 'mautic.lead.field.alias.unique',
+            'message' => 'le.lead.field.alias.unique',
         ]));
 
         $metadata->addConstraint(new Assert\Callback([

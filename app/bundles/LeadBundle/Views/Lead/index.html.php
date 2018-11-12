@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'lead');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.lead.leads'));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.lead.leads'));
 
 $pageButtons = [];
 if ($permissions['lead:leads:create']) {
@@ -20,10 +20,10 @@ if ($permissions['lead:leads:create']) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'new', 'qf' => 1]),
-            'data-header' => $view['translator']->trans('mautic.lead.lead.menu.quickadd'),
+            'data-header' => $view['translator']->trans('le.lead.lead.menu.quickadd'),
         ],
         'iconClass' => 'fa fa-bolt',
-        'btnText'   => 'mautic.lead.lead.menu.quickadd',
+        'btnText'   => 'le.lead.lead.menu.quickadd',
         'primary'   => true,
     ];
 
@@ -33,7 +33,7 @@ if ($permissions['lead:leads:create']) {
                 'href' => $view['router']->path('mautic_import_action', ['object' => 'leads', 'objectAction' => 'new']),
             ],
             'iconClass' => 'fa fa-upload',
-            'btnText'   => 'mautic.lead.lead.import',
+            'btnText'   => 'le.lead.lead.import',
         ];
     }
 
@@ -43,7 +43,7 @@ if ($permissions['lead:leads:create']) {
                 'href' => $view['router']->path('mautic_import_index', ['object' => 'leads']),
             ],
             'iconClass' => 'fa fa-history',
-            'btnText'   => 'mautic.lead.lead.import.index',
+            'btnText'   => 'le.lead.lead.import.index',
         ];
     } */
 }
@@ -52,10 +52,10 @@ if ($permissions['lead:leads:create']) {
 $extraHtml = <<<button
 <div class="btn-group ml-5 sr-only ">
     <span data-toggle="tooltip" title="{$view['translator']->trans(
-    'mautic.lead.tooltip.list'
+    'le.lead.tooltip.list'
 )}" data-placement="left"><a id="table-view" href="{$view['router']->path('mautic_contact_index', ['page' => $page, 'view' => 'list'])}" data-toggle="ajax" class="btn btn-default"><i class="fa fa-fw fa-table"></i></span></a>
     <span data-toggle="tooltip" title="{$view['translator']->trans(
-    'mautic.lead.tooltip.grid'
+    'le.lead.tooltip.grid'
 )}" data-placement="left"><a id="card-view" href="{$view['router']->path('mautic_contact_index', ['page' => $page, 'view' => 'grid'])}" data-toggle="ajax" class="btn btn-default"><i class="fa fa-fw fa-th-large"></i></span></a>
 </div>
 button;
@@ -87,7 +87,7 @@ $toolbarButtons = [
             'data-toggle' => false,
             'data-max-id' => $maxLeadId,
         ],
-        'tooltip'   => $view['translator']->trans('mautic.lead.lead.live_update'),
+        'tooltip'   => $view['translator']->trans('le.lead.lead.live_update'),
         'iconClass' => 'fa fa-bolt',
     ],
 ];
@@ -99,22 +99,22 @@ if ($indexMode == 'list') {
             'href'           => 'javascript: void(0)',
             'onclick'        => 'Mautic.toggleAnonymousLeads();',
             'id'             => 'anonymousLeadButton',
-            'data-anonymous' => $view['translator']->trans('mautic.lead.lead.searchcommand.isanonymous'),
+            'data-anonymous' => $view['translator']->trans('le.lead.lead.searchcommand.isanonymous'),
         ],
-        'tooltip'   => $view['translator']->trans('mautic.lead.lead.anonymous_leads'),
+        'tooltip'   => $view['translator']->trans('le.lead.lead.anonymous_leads'),
         'iconClass' => 'fa fa-user-secret',
     ];
 }
 $toolbarButtons = [];
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.lead.list.thead.leadcount'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.list.thead.leadcount'); ?></h3></div>
 <div style="padding-top: 15px;">
         <div class="info-box" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('mautic_contact_index', ['search'=> '']); ?>" data-toggle="ajax">
                 <span class="info-box-icon" style="background-color:#00c0ef;>">
                     <i class="fa fa-users" id="icon-class-leads"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.lifecycle.graph.pie.all.lists'); ?></span>
+                    <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.lifecycle.graph.pie.all.lists'); ?></span>
                     <span class="info-box-number"><?php echo $totalLeadsCount; ?></span>
                 </div>
             </a>
@@ -124,7 +124,7 @@ $toolbarButtons = [];
                 <span class="info-box-icon" style="background-color: #f39c12;>">
                      <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.recently.added'); ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.recently.added'); ?></span>
                 <span class="info-box-number"><?php echo $recentlyAdded; ?></span>
             </div>
         </a>
@@ -134,7 +134,7 @@ $toolbarButtons = [];
                 <span class="info-box-icon" style="background-color: #42CC39;>">
                     <i class="fa fa-history" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.active.leads'); ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.active.leads'); ?></span>
                 <span class="info-box-number"><?php echo $activeLeads; ?></span>
             </div>
         </a>
@@ -145,7 +145,7 @@ $toolbarButtons = [];
             <span class="info-box-icon" style="background-color:#FF0000;>">
                   <i class="fa fa-user-times" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('mautic.lead.list.churn.leads'); ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.churn.leads'); ?></span>
                 <span class="info-box-number"><?php echo $donotContact; ?></span>
             </div>
             </a>
@@ -158,7 +158,7 @@ $toolbarButtons = [];
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [
             'searchValue'   => $searchValue,
-            'searchHelp'    => 'mautic.lead.lead.help.searchcommands',
+            'searchHelp'    => 'le.lead.lead.help.searchcommands',
             'action'        => $currentRoute,
             'customButtons' => $toolbarButtons,
             'filters'       => $filters,

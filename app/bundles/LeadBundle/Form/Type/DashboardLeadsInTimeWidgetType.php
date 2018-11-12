@@ -26,14 +26,14 @@ class DashboardLeadsInTimeWidgetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('flag', 'choice', [
-                'label'   => 'mautic.lead.list.filter',
+                'label'   => 'le.lead.list.filter',
                 'choices' => [
-                    ''                         => 'mautic.lead.show.all',
-                    'identified'               => 'mautic.lead.show.identified',
-                    'anonymous'                => 'mautic.lead.show.anonymous',
-                    'identifiedVsAnonymous'    => 'mautic.lead.show.identified.vs.anonymous',
-                    'top'                      => 'mautic.lead.show.top',
-                    'topIdentifiedVsAnonymous' => 'mautic.lead.show.top.leads.identified.vs.anonymous',
+                    ''                         => 'le.lead.show.all',
+                    'identified'               => 'le.lead.show.identified',
+                    'anonymous'                => 'le.lead.show.anonymous',
+                    'identifiedVsAnonymous'    => 'le.lead.show.identified.vs.anonymous',
+                    'top'                      => 'le.lead.show.top',
+                    'topIdentifiedVsAnonymous' => 'le.lead.show.top.leads.identified.vs.anonymous',
                 ],
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control'],

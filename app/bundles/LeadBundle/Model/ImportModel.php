@@ -173,18 +173,18 @@ class ImportModel extends FormModel
 
         foreach ($imports as $import) {
             $import->setStatus($import::FAILED)
-                ->setStatusInfo($this->translator->trans('mautic.lead.import.ghost.limit.hit', ['%limit%' => $ghostDelay]))
+                ->setStatusInfo($this->translator->trans('le.lead.import.ghost.limit.hit', ['%limit%' => $ghostDelay]))
                 ->removeFile();
 
             if ($import->getCreatedBy()) {
                 $this->notificationModel->addNotification(
                     $this->translator->trans(
-                        'mautic.lead.import.result.info',
+                        'le.lead.import.result.info',
                         ['%import%' => $this->generateLink($import)]
                     ),
                     'info',
                     false,
-                    $this->translator->trans('mautic.lead.import.failed'),
+                    $this->translator->trans('le.lead.import.failed'),
                     'fa-download',
                     null,
                     $this->em->getReference('MauticUserBundle:User', $import->getCreatedBy())
@@ -248,7 +248,7 @@ class ImportModel extends FormModel
 
         if (!$this->checkParallelImportLimit()) {
             $info = $this->translator->trans(
-                'mautic.lead.import.parallel.limit.hit',
+                'le.lead.import.parallel.limit.hit',
                 ['%limit%' => $this->getParallelImportLimit()]
             );
             $import->setStatus($import::DELAYED)->setStatusInfo($info);
@@ -283,7 +283,7 @@ class ImportModel extends FormModel
         } catch (ORMException $e) {
             // The EntityManager is probably closed. The entity cannot be saved.
             $info = $this->translator->trans(
-                'mautic.lead.import.database.exception',
+                'le.lead.import.database.exception',
                 ['%message%' => $e->getMessage()]
             );
 
@@ -301,12 +301,12 @@ class ImportModel extends FormModel
         if ($import->getCreatedBy()) {
             $this->notificationModel->addNotification(
                 $this->translator->trans(
-                    'mautic.lead.import.result.info',
+                    'le.lead.import.result.info',
                     ['%import%' => $this->generateLink($import)]
                 ),
                 'info',
                 false,
-                $this->translator->trans('mautic.lead.import.completed'),
+                $this->translator->trans('le.lead.import.completed'),
                 'fa-download',
                 null,
                 $this->em->getReference('MauticUserBundle:User', $import->getCreatedBy())
@@ -380,12 +380,12 @@ class ImportModel extends FormModel
             if ($this->isEmptyCsvRow($data)) {
                 ++$emptyRowCount;
                 if ($emptyRowCount > 1) {
-                    $errorMessage = 'mautic.lead.import.error.line_empty';
+                    $errorMessage = 'le.lead.import.error.line_empty';
                 }
             }
 
             if ($this->hasMoreValuesThanColumns($data, $headerCount)) {
-                $errorMessage = 'mautic.lead.import.error.header_mismatch';
+                $errorMessage = 'le.lead.import.error.header_mismatch';
             }
 
             if (!$errorMessage) {
@@ -602,7 +602,7 @@ class ImportModel extends FormModel
         $chart = new LineChart($unit, $dateFrom, $dateTo, $dateFormat);
         $data  = $query->fetchTimeData('lead_event_log', 'date_added', $filter);
 
-        $chart->setDataset($this->translator->trans('mautic.lead.import.processed.rows'), $data);
+        $chart->setDataset($this->translator->trans('le.lead.import.processed.rows'), $data);
 
         return $chart->render();
     }

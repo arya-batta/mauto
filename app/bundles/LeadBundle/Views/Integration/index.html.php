@@ -11,7 +11,7 @@
 ?>
 <?php if (empty($integrations)): ?>
 <div class="alert alert-warning col-md-6 col-md-offset-3 mt-md">
-    <h4><?php echo $view['translator']->trans('mautic.lead.integrations.header'); ?></h4>
+    <h4><?php echo $view['translator']->trans('le.lead.integrations.header'); ?></h4>
 </div>
 <?php else: ?>
 <?php $count = 0; ?>

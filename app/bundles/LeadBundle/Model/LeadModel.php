@@ -1544,8 +1544,8 @@ class LeadModel extends FormModel
             $log->setDelta($data[$fields['points']]);
             $log->setLead($lead);
             $log->setType('lead');
-            $log->setEventName($this->translator->trans('mautic.lead.import.event.name'));
-            $log->setActionName($this->translator->trans('mautic.lead.import.action.name', [
+            $log->setEventName($this->translator->trans('le.lead.import.event.name'));
+            $log->setActionName($this->translator->trans('le.lead.import.action.name', [
                 '%name%' => $this->userHelper->getUser()->getUsername(),
             ]));
             $log->setIpAddress($this->ipLookupHelper->getIpAddress());
@@ -1593,7 +1593,7 @@ class LeadModel extends FormModel
         if (!empty($fields['doNotEmail']) && !empty($data[$fields['doNotEmail']]) && (!empty($fields['email']) && !empty($data[$fields['email']]))) {
             $doNotEmail = filter_var($data[$fields['doNotEmail']], FILTER_VALIDATE_BOOLEAN);
             if ($doNotEmail) {
-                $reason = $this->translator->trans('mautic.lead.import.by.user', [
+                $reason = $this->translator->trans('le.lead.import.by.user', [
                     '%user%' => $this->userHelper->getUser()->getUsername(),
                 ]);
 
@@ -2059,9 +2059,9 @@ class LeadModel extends FormModel
     {
         $flag        = null;
         $topLists    = null;
-        $allLeadsT   = $this->translator->trans('mautic.lead.all.leads');
-        $identifiedT = $this->translator->trans('mautic.lead.identified');
-        $anonymousT  = $this->translator->trans('mautic.lead.lead.anonymous');
+        $allLeadsT   = $this->translator->trans('le.lead.all.leads');
+        $identifiedT = $this->translator->trans('le.lead.identified');
+        $anonymousT  = $this->translator->trans('le.lead.lead.anonymous');
 
         if (isset($filter['flag'])) {
             $flag = $filter['flag'];
@@ -2153,8 +2153,8 @@ class LeadModel extends FormModel
 
         $identified = $query->count('leads', 'date_identified', 'date_added', $filters);
         $all        = $query->count('leads', 'id', 'date_added', $filters);
-        $chart->setDataset($this->translator->trans('mautic.lead.identified'), $identified);
-        $chart->setDataset($this->translator->trans('mautic.lead.lead.anonymous'), ($all - $identified));
+        $chart->setDataset($this->translator->trans('le.lead.identified'), $identified);
+        $chart->setDataset($this->translator->trans('le.lead.lead.anonymous'), ($all - $identified));
 
         return $chart->render();
     }

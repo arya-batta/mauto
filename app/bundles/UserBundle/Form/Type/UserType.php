@@ -95,7 +95,7 @@ class UserType extends AbstractType
 
         $imageChoices = [
             'gravatar' => 'Gravatar',
-            'custom'   => 'mautic.lead.lead.field.custom_avatar',
+            'custom'   => 'le.lead.lead.field.custom_avatar',
         ];
 
         $builder->add(
@@ -103,7 +103,7 @@ class UserType extends AbstractType
             'choice',
             [
                 'choices'    => $imageChoices,
-                'label'      => 'mautic.lead.lead.field.preferred_profile',
+                'label'      => 'le.lead.lead.field.preferred_profile',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => true,
                 'multiple'   => false,

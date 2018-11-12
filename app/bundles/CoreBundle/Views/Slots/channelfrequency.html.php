@@ -26,7 +26,7 @@ $channelNumber = 0;
                            onclick="togglePreferredChannel(this.value);"
                            value="<?php echo $view->escape($channel->value) ?>" <?php echo $checked; ?>>
                     <label for="<?php echo $channel->value ?>" id="is-contactable-<?php echo $channel->value ?>" data-channel="<?php echo $channelName; ?>">
-                        <?php echo $view['translator']->trans('mautic.lead.contact.me.label', ['%channel%' => $channelName]); ?>
+                        <?php echo $view['translator']->trans('le.lead.contact.me.label', ['%channel%' => $channelName]); ?>
                     </label>
                 </div>
             </td>
@@ -48,7 +48,7 @@ $channelNumber = 0;
                     endif; ?>
                     <?php if ($showContactPauseDates):?>
                         <div class="col-md-6">
-                            <label class="text-muted label3"><?php echo $view['translator']->trans('mautic.lead.frequency.dates.label'); ?></label>
+                            <label class="text-muted label3"><?php echo $view['translator']->trans('le.lead.frequency.dates.label'); ?></label>
                             <?php echo $view['form']->widget($form['contact_pause_start_date_'.$channel->value]); ?>
                             <?php echo $view['form']->label($form['contact_pause_end_date_'.$channel->value]); ?>
                             <?php echo $view['form']->widget($form['contact_pause_end_date_'.$channel->value]); ?>
@@ -71,7 +71,7 @@ $channelNumber = 0;
             <div class="text-left">
                 <input type="checkbox" checked="">
                 <label class="control-label">
-                    <?php echo $view['translator']->trans('mautic.lead.contact.me.label'); ?></label>
+                    <?php echo $view['translator']->trans('le.lead.contact.me.label'); ?></label>
             </div>
         </td>
     </tr>
@@ -79,16 +79,16 @@ $channelNumber = 0;
         <td>
             <div id="frequency_email" class="text-left">
                 <div class="col-xs-6">
-                    <label class="text-muted label1"><?php echo $view['translator']->trans('mautic.lead.list.frequency.number'); ?></label>
+                    <label class="text-muted label1"><?php echo $view['translator']->trans('le.lead.list.frequency.number'); ?></label>
                     <input type="text" class="frequency form-control">
-                    <label class="text-muted fw-n frequency-label label2"><?php echo $view['translator']->trans('mautic.lead.list.frequency.times'); ?></label>
+                    <label class="text-muted fw-n frequency-label label2"><?php echo $view['translator']->trans('le.lead.list.frequency.times'); ?></label>
                     <select class="form-control">
                         <option value="" selected="selected"></option>
                     </select></div>
                 <div class="col-xs-6">
-                    <label class="text-muted label3"><?php echo  $view['translator']->trans('mautic.lead.frequency.dates.label'); ?></label>
+                    <label class="text-muted label3"><?php echo  $view['translator']->trans('le.lead.frequency.dates.label'); ?></label>
                     <input type="date" class="form-control">
-                    <label class="frequency-label text-muted fw-n label4"><?php echo  $view['translator']->trans('mautic.lead.frequency.contact.end.date'); ?></label>
+                    <label class="frequency-label text-muted fw-n label4"><?php echo  $view['translator']->trans('le.lead.frequency.contact.end.date'); ?></label>
                     <input type="date" class="form-control">
                 </div>
             </div>

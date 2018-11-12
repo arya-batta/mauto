@@ -117,26 +117,26 @@ class LeadNoteRepository extends CommonRepository
         list($expr, $parameters) = parent::addSearchCommandWhereClause($q, $filter);
 
         switch ($command) {
-            case $this->translator->trans('mautic.lead.note.searchcommand.type'):
-            case $this->translator->trans('mautic.lead.note.searchcommand.type', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.note.searchcommand.type'):
+            case $this->translator->trans('le.lead.note.searchcommand.type', [], null, 'en_US'):
                 switch ($string) {
-                    case $this->translator->trans('mautic.lead.note.searchcommand.general'):
-                    case $this->translator->trans('mautic.lead.note.searchcommand.general', [], null, 'en_US'):
+                    case $this->translator->trans('le.lead.note.searchcommand.general'):
+                    case $this->translator->trans('le.lead.note.searchcommand.general', [], null, 'en_US'):
                         $filter->string  = 'general';
                         $returnParameter = true;
                         break;
-                    case $this->translator->trans('mautic.lead.note.searchcommand.call'):
-                    case $this->translator->trans('mautic.lead.note.searchcommand.call', [], null, 'en_US'):
+                    case $this->translator->trans('le.lead.note.searchcommand.call'):
+                    case $this->translator->trans('le.lead.note.searchcommand.call', [], null, 'en_US'):
                         $filter->string  = 'call';
                         $returnParameter = true;
                         break;
-                    case $this->translator->trans('mautic.lead.note.searchcommand.email'):
-                    case $this->translator->trans('mautic.lead.note.searchcommand.email', [], null, 'en_US'):
+                    case $this->translator->trans('le.lead.note.searchcommand.email'):
+                    case $this->translator->trans('le.lead.note.searchcommand.email', [], null, 'en_US'):
                         $filter->string  = 'email';
                         $returnParameter = true;
                         break;
-                    case $this->translator->trans('mautic.lead.note.searchcommand.meeting'):
-                    case $this->translator->trans('mautic.lead.note.searchcommand.meeting', [], null, 'en_US'):
+                    case $this->translator->trans('le.lead.note.searchcommand.meeting'):
+                    case $this->translator->trans('le.lead.note.searchcommand.meeting', [], null, 'en_US'):
                         $filter->string  = 'meeting';
                         $returnParameter = true;
                         break;
@@ -167,11 +167,11 @@ class LeadNoteRepository extends CommonRepository
     public function getSearchCommands()
     {
         $commands = [
-            'mautic.lead.note.searchcommand.type' => [
-                'mautic.lead.note.searchcommand.general',
-                'mautic.lead.note.searchcommand.call',
-                'mautic.lead.note.searchcommand.email',
-                'mautic.lead.note.searchcommand.meeting',
+            'le.lead.note.searchcommand.type' => [
+                'le.lead.note.searchcommand.general',
+                'le.lead.note.searchcommand.call',
+                'le.lead.note.searchcommand.email',
+                'le.lead.note.searchcommand.meeting',
             ],
         ];
 

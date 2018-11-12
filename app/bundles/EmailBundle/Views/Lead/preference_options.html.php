@@ -58,7 +58,7 @@ JS;
                                        onclick="togglePreferredChannel(this.value);"
                                        value="<?php echo $view->escape($channel->value) ?>" <?php echo $checked; ?>>
                                 <label for="<?php echo $channel->value ?>" id="is-contactable-<?php echo $channel->value ?>">
-                                    <?php echo $view['translator']->trans('mautic.lead.contact.me.label', ['%channel%' => $channelName]); ?>
+                                    <?php echo $view['translator']->trans('le.lead.contact.me.label', ['%channel%' => $channelName]); ?>
                                 </label>
                             </div>
                         </td>
@@ -80,7 +80,7 @@ JS;
                                 endif; ?>
                                 <?php if ($showContactPauseDates):?>
                                     <div class="col-md-6">
-                                        <label class="text-muted"><?php echo $view['translator']->trans('mautic.lead.frequency.dates.label'); ?></label>
+                                        <label class="text-muted"><?php echo $view['translator']->trans('le.lead.frequency.dates.label'); ?></label>
                                         <?php echo $view['form']->widget($form['contact_pause_start_date_'.$channel->value]); ?>
                                         <?php echo $view['form']->label($form['contact_pause_end_date_'.$channel->value]); ?>
                                         <?php echo $view['form']->widget($form['contact_pause_end_date_'.$channel->value]); ?>

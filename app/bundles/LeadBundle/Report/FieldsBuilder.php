@@ -88,7 +88,7 @@ class FieldsBuilder
 
         $ownerPrefix           = $prefix.'owner_id';
         $filters[$ownerPrefix] = [
-            'label' => 'mautic.lead.list.filter.owner',
+            'label' => 'le.lead.list.filter.owner',
             'type'  => 'select',
             'list'  => $this->userModel->getUserList('', 0),
         ];
@@ -117,7 +117,7 @@ class FieldsBuilder
     {
         $columns = [
             'l.id' => [
-                'label' => 'mautic.lead.report.contact_id',
+                'label' => 'le.lead.report.contact_id',
                 'type'  => 'int',
                 'link'  => 'mautic_contact_action',
             ],
@@ -126,25 +126,25 @@ class FieldsBuilder
                 'type'  => 'text',
             ],
             'l.date_identified' => [
-                'label'          => 'mautic.lead.report.date_identified',
+                'label'          => 'le.lead.report.date_identified',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(l.date_identified)',
             ],
             'l.points' => [
-                'label' => 'mautic.lead.points',
+                'label' => 'le.lead.points',
                 'type'  => 'int',
             ],
             'l.owner_id' => [
-                'label' => 'mautic.lead.report.owner_id',
+                'label' => 'le.lead.report.owner_id',
                 'type'  => 'int',
                 'link'  => 'mautic_user_action',
             ],
             'u.first_name' => [
-                'label' => 'mautic.lead.report.owner_firstname',
+                'label' => 'le.lead.report.owner_firstname',
                 'type'  => 'string',
             ],
             'u.last_name' => [
-                'label' => 'mautic.lead.report.owner_lastname',
+                'label' => 'le.lead.report.owner_lastname',
                 'type'  => 'string',
             ],
         ];
@@ -159,7 +159,7 @@ class FieldsBuilder
     {
         $columns = [
             'comp.id' => [
-                'label' => 'mautic.lead.report.company.company_id',
+                'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
                 'link'  => 'mautic_company_action',
             ],

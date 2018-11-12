@@ -15,7 +15,7 @@
     <tr>
         <td class="col-actions text-center">
             <span class="label label-<?php echo $item->getSatusLabelClass(); ?>">
-                <?php echo $view['translator']->trans('mautic.lead.import.status.'.$item->getStatus()); ?>
+                <?php echo $view['translator']->trans('le.lead.import.status.'.$item->getStatus()); ?>
             </span>
         </td>
         <td>

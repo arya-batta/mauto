@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class LeadListAccess extends Constraint
 {
-    public $message = 'mautic.lead.lists.failed';
+    public $message = 'le.lead.lists.failed';
 
     public function validatedBy()
     {

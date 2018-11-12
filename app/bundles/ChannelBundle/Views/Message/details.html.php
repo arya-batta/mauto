@@ -98,7 +98,7 @@ $view['slots']->set(
                     <?php foreach ($messagedLeads as $channel => $contacts): ?>
                     <li class="<?php echo $active; ?>">
                         <a href="#contacts-<?php echo $channel; ?>" role="tab" data-toggle="tab">
-                            <?php echo ('all' !== $channel) ? $channels[$channel]['label'] : $view['translator']->trans('mautic.lead.leads'); ?>
+                            <?php echo ('all' !== $channel) ? $channels[$channel]['label'] : $view['translator']->trans('le.lead.leads'); ?>
                         </a>
                     </li>
                     <?php $active = ''; ?>

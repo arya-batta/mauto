@@ -33,7 +33,7 @@ class ChangeOwnerType extends AbstractType
             'owner',
             ChoiceType::class,
             [
-                'label'      => 'mautic.lead.batch.add_to',
+                'label'      => 'le.lead.batch.add_to',
                 'multiple'   => false,
                 'choices'    => $this->userModel->getOwnerListChoices(),
                 'required'   => true,

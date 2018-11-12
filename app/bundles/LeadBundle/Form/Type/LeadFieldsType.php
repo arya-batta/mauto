@@ -42,7 +42,7 @@ class LeadFieldsType extends AbstractType
             'choices' => function (Options $options) use ($model) {
                 $fieldList = $model->getFieldList();
                 if ($options['with_tags']) {
-                    $fieldList['Core']['tags'] = 'mautic.lead.field.tags';
+                    $fieldList['Core']['tags'] = 'le  .lead.field.tags';
                 }
 
                 return $fieldList;

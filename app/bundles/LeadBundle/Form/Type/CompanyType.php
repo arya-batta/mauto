@@ -74,7 +74,7 @@ class CompanyType extends AbstractType
                 'owner',
                 'user_list',
                 [
-                    'label'      => 'mautic.lead.company.field.owner',
+                    'label'      => 'le.lead.company.field.owner',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class' => 'form-control',
@@ -89,7 +89,7 @@ class CompanyType extends AbstractType
         $builder->add('score',
             'number',
             [
-                'label'      => 'mautic.company.score',
+                'label'      => 'le.company.score',
                 'attr'       => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'control-label'],
                 'precision'  => 0,
@@ -124,13 +124,13 @@ class CompanyType extends AbstractType
             'post_extra_buttons' => [
                 [
                     'name'  => 'merge',
-                    'label' => 'mautic.lead.merge',
+                    'label' => 'le.lead.merge',
                     'attr'  => [
                         'class'       => 'btn btn-default btn-dnd',
                         'icon'        => 'fa fa-building',
                         'data-toggle' => 'ajaxmodal',
                         'data-target' => '#MauticSharedModal',
-                        'data-header' => $this->translator->trans('mautic.lead.company.header.merge'),
+                        'data-header' => $this->translator->trans('le.lead.company.header.merge'),
                         'href'        => $this->router->generate(
                             'mautic_company_action',
                             [

@@ -1,7 +1,7 @@
 <?php $isAdmin=$view['security']->isAdmin(); ?>
 <div class="row">
     <div class="col-xs-12">
-        <h4 class="mb-sm"><?php echo $view['translator']->trans('mautic.lead.lead.update.action.help'); ?></h4>
+        <h4 class="mb-sm"><?php echo $view['translator']->trans('le.lead.lead.update.action.help'); ?></h4>
     </div>
     <?php foreach ($form->children as $child): ?>
         <?php  if (!$isAdmin): ?>

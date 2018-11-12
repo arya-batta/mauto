@@ -11,9 +11,9 @@
 $view['slots']->set('mauticContent', 'leadnote');
 $userId = $form->vars['data']->getId();
 if (!empty($userId)) {
-    $header = $view['translator']->trans('mautic.lead.note.header.edit');
+    $header = $view['translator']->trans('le.lead.note.header.edit');
 } else {
-    $header = $view['translator']->trans('mautic.lead.note.header.new');
+    $header = $view['translator']->trans('le.lead.note.header.new');
 }
 ?>
 <?php echo $view['form']->start($form); ?>

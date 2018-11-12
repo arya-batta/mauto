@@ -268,7 +268,7 @@ class ListModel extends FormModel
         }
         $choices['list_leadlist'] = [
             'leadlist' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lists'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lists'),
                 'properties' => [
                     'type' => 'leadlist',
                 ],
@@ -278,7 +278,7 @@ class ListModel extends FormModel
         ];
         $choices['list_tags'] = [
             'tags' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.tags'),
+                'label'      => $this->translator->trans('le.lead.list.filter.tags'),
                 'properties' => [
                     'type' => 'tags',
                 ],
@@ -288,7 +288,7 @@ class ListModel extends FormModel
         ];
         $choices['list_points'] = [
             'points' => [
-                'label'      => $this->translator->trans('mautic.lead.lead.event.points'),
+                'label'      => $this->translator->trans('le.lead.lead.event.points'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
@@ -296,7 +296,7 @@ class ListModel extends FormModel
         ];
         $choices['list_categories']=[
             'globalcategory' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.categories'),
+                'label'      => $this->translator->trans('le.lead.list.filter.categories'),
                 'properties' => [
                     'type' => 'globalcategory',
                 ],
@@ -306,7 +306,7 @@ class ListModel extends FormModel
         ];
         $choices['emails']= [
             'lead_email_sent' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_sent'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_sent'),
                 'properties' => ['type' => 'lead_email_received'],
                 'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
@@ -321,7 +321,7 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],
             'lead_email_received' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_received'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_received'),
                 'properties' => [
                     'type' => 'lead_email_received',
                 ],
@@ -329,37 +329,37 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
             'lead_email_read_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_count'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_read_count'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
             'lead_email_read_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_read_date'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_read_date'),
                 'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
             'lead_email_click' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click'),
                 'properties' => ['type' => 'lead_email_received'],
                 'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
             ],
             'lead_email_click_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click_count'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click_count'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
             'lead_email_click_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_email_click_date'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click_date'),
                 'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
             'dnc_bounced' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_bounced'),
+                'label'      => $this->translator->trans('le.lead.list.filter.dnc_bounced'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -371,7 +371,7 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
             'dnc_unsubscribed' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.dnc_unsubscribed'),
+                'label'      => $this->translator->trans('le.lead.list.filter.dnc_unsubscribed'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -385,7 +385,7 @@ class ListModel extends FormModel
         ];
         $choices['forms']= [
             'lead_form_submit' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.lead_form_submit'),
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_form_submit'),
                 'properties' => [
                     'type' => 'formsubmit_list',
                 ],
@@ -405,7 +405,7 @@ class ListModel extends FormModel
         ];
         $choices['pages']= [
             'url_title' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.url_title'),
+                'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
                 'properties' => [
                     'type' => 'landingpage_list',
                 ],
@@ -413,13 +413,13 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
             'sessions' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.session'),
+                'label'      => $this->translator->trans('le.lead.list.filter.session'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
             'source' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.source'),
+                'label'      => $this->translator->trans('le.lead.list.filter.source'),
                 'properties' => [
                     'type' => 'text',
                 ],
@@ -427,7 +427,7 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
             'source_id' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.source.id'),
+                'label'      => $this->translator->trans('le.lead.list.filter.source.id'),
                 'properties' => [
                     'type' => 'number',
                 ],
@@ -435,7 +435,7 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],
             'hit_url' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url'),
+                'label'      => $this->translator->trans('le.lead.list.filter.visited_url'),
                 'properties' => [
                     'type' => 'text',
                 ],
@@ -443,19 +443,19 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
             'hit_url_count' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_count'),
+                'label'      => $this->translator->trans('le.lead.list.filter.visited_url_count'),
                 'properties' => ['type' => 'number'],
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
             'hit_url_date' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.visited_url_date'),
+                'label'      => $this->translator->trans('le.lead.list.filter.visited_url_date'),
                 'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
             'referer' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.referer'),
+                'label'      => $this->translator->trans('le.lead.list.filter.referer'),
                 'properties' => [
                     'type' => 'text',
                 ],
@@ -472,19 +472,19 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],*/
             'date_identified' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.date_identified'),
+                'label'      => $this->translator->trans('le.lead.list.filter.date_identified'),
                 'properties' => ['type' => 'datetime'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
             'last_active' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.last_active'),
+                'label'      => $this->translator->trans('le.lead.list.filter.last_active'),
                 'properties' => ['type' => 'datetime'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
             'date_modified' => [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.date_modified'),
+                'label'      => $this->translator->trans('le.lead.list.filter.date_modified'),
                 'properties' => ['type' => 'datetime'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
@@ -531,7 +531,7 @@ class ListModel extends FormModel
         }
 
         $choices['lead']['owner_id'] = [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.owner'),
+                'label'      => $this->translator->trans('le.lead.list.filter.owner'),
                 'properties' => [
                     'type'     => 'owner_id',
                     'callback' => 'activateSegmentFilterTypeahead1',
@@ -543,7 +543,7 @@ class ListModel extends FormModel
         $integration = $this->integrationHelper->getIntegrationObject('OneSignal');
         if ($integration->getIntegrationSettings()->getIsPublished()) {
             $choices['lead']['notification'] = [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.notification'),
+                'label'      => $this->translator->trans('le.lead.list.filter.notification'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -559,7 +559,7 @@ class ListModel extends FormModel
         //Device Filter Hided not in used as of now
         /*  $choices['device_activity'] =[
               'device_type' => [
-                  'label'      => $this->translator->trans('mautic.lead.list.filter.device_type'),
+                  'label'      => $this->translator->trans('le.lead.list.filter.device_type'),
                   'properties' => [
                       'type' => 'device_type',
                   ],
@@ -567,7 +567,7 @@ class ListModel extends FormModel
                   'object'    => 'lead',
               ],
               'device_brand' => [
-                  'label'      => $this->translator->trans('mautic.lead.list.filter.device_brand'),
+                  'label'      => $this->translator->trans('le.lead.list.filter.device_brand'),
                   'properties' => [
                       'type' => 'device_brand',
                   ],
@@ -575,7 +575,7 @@ class ListModel extends FormModel
                   'object'    => 'lead',
               ],
               'device_os' => [
-                  'label'      => $this->translator->trans('mautic.lead.list.filter.device_os'),
+                  'label'      => $this->translator->trans('le.lead.list.filter.device_os'),
                   'properties' => [
                       'type' => 'device_os',
                   ],
@@ -583,7 +583,7 @@ class ListModel extends FormModel
                   'object'    => 'lead',
               ],
               'device_model' => [
-                  'label'      => $this->translator->trans('mautic.lead.list.filter.device_model'),
+                  'label'      => $this->translator->trans('le.lead.list.filter.device_model'),
                   'properties' => [
                       'type' => 'text',
                   ],
@@ -601,7 +601,7 @@ class ListModel extends FormModel
           ];*/
         if ($this->security->isAdmin()) {
             $choices['lead']['page_id']= [
-                'label'      => $this->translator->trans('mautic.lead.list.filter.page_id'),
+                'label'      => $this->translator->trans('le.lead.list.filter.page_id'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -613,7 +613,7 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ];
             $choices['lead']['email_id']=[
-                'label'      => $this->translator->trans('mautic.lead.list.filter.email_id'),
+                'label'      => $this->translator->trans('le.lead.list.filter.email_id'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -625,7 +625,7 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ];
             $choices['lead']['redirect_id']=[
-                'label'      => $this->translator->trans('mautic.lead.list.filter.redirect_id'),
+                'label'      => $this->translator->trans('le.lead.list.filter.redirect_id'),
                 'properties' => [
                     'type' => 'boolean',
                     'list' => [
@@ -637,7 +637,7 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ];
             $choices['lead']['stage'] = [
-                'label'      => $this->translator->trans('mautic.lead.lead.field.stage'),
+                'label'      => $this->translator->trans('le.lead.lead.field.stage'),
                 'properties' => [
                     'type' => 'stage',
                 ],
@@ -792,7 +792,7 @@ class ListModel extends FormModel
         $leadCount = (int) $newLeadsCount[$id]['count'];
 
         if ($output) {
-            $output->writeln($this->translator->trans('mautic.lead.list.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit]));
+            $output->writeln($this->translator->trans('le.lead.list.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit]));
         }
 
         // Handle by batches
@@ -922,7 +922,7 @@ class ListModel extends FormModel
         $leadCount = $removeLeadCount[$id]['count'];
 
         if ($output) {
-            $output->writeln($this->translator->trans('mautic.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
+            $output->writeln($this->translator->trans('le.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
         }
 
         if ($leadCount) {
@@ -1436,7 +1436,7 @@ class ListModel extends FormModel
 
         if (isset($filter['leadlist_id']['value'])) {
             $chart->setDataset(
-                $this->translator->trans('mautic.lead.lifecycle.graph.pie.all.lists'),
+                $this->translator->trans('le.lead.lifecycle.graph.pie.all.lists'),
                 $all
             );
         }
@@ -1495,7 +1495,7 @@ class ListModel extends FormModel
         $data['yAxes'][] = ['display' => true];
 
         $baseData = [
-            'label' => $this->translator->trans('mautic.lead.leads'),
+            'label' => $this->translator->trans('le.lead.leads'),
             'data'  => $data['values'],
         ];
 
@@ -1603,20 +1603,20 @@ class ListModel extends FormModel
         $chart    = new LineChart($unit, $dateFrom, $dateTo, $dateFormat);
         $query    = new ChartQuery($this->em->getConnection(), $dateFrom, $dateTo);
         $contacts = $query->fetchTimeData('lead_lists_leads', 'date_added', $filter);
-        $chart->setDataset($this->translator->trans('mautic.lead.segments.contacts'), $contacts);
+        $chart->setDataset($this->translator->trans('le.lead.segments.contacts'), $contacts);
 
         return $chart->render();
     }
 
     public function getSegmentBlocks()
     {
-        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.all'),
+        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.all'),
                        $this->getRepository()->getTotalSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
-        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.active'),
+        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.active'),
                        $this->getRepository()->getTotalActiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
-        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-pie-chart', $this->translator->trans('mautic.lead.lead.lists.inactive'),
+        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.inactive'),
                        $this->getRepository()->getTotalInactiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
 

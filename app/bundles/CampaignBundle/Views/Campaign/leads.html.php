@@ -49,7 +49,7 @@
                                             elseif (!empty($item['email'])):
                                                 echo $item['email'];
                                             else:
-                                                echo $view['translator']->trans('mautic.lead.lead.anonymous');
+                                                echo $view['translator']->trans('le.lead.lead.anonymous');
                                             endif;
                                             ?>
                                         </span>

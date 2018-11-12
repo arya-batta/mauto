@@ -40,18 +40,18 @@ class NoteType extends AbstractType
         $builder->addEventSubscriber(new FormExitSubscriber('lead.note', $options));
 
         $builder->add('text', 'textarea', [
-            'label'      => 'mautic.lead.note.form.text',
+            'label'      => 'le.lead.note.form.text',
             'label_attr' => ['class' => 'control-label sr-only'],
             'attr'       => ['class' => 'mousetrap form-control editor', 'rows' => 10, 'autofocus' => 'autofocus'],
         ]);
 
         $builder->add('type', 'choice', [
-            'label'   => 'mautic.lead.note.form.type',
+            'label'   => 'le.lead.note.form.type',
             'choices' => [
-                'general' => 'mautic.lead.note.type.general',
-                'email'   => 'mautic.lead.note.type.email',
-                'call'    => 'mautic.lead.note.type.call',
-                'meeting' => 'mautic.lead.note.type.meeting',
+                'general' => 'le.lead.note.type.general',
+                'email'   => 'le.lead.note.type.email',
+                'call'    => 'le.lead.note.type.call',
+                'meeting' => 'le.lead.note.type.meeting',
             ],
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control'],

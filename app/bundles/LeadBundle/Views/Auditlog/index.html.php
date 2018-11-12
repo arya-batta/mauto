@@ -19,7 +19,7 @@
     <?php if (isset($events['types']) && is_array($events['types'])) : ?>
         <div class="history-search panel-footer text-muted hidden-xs">
             <div class="col-sm-5">
-                <select name="includeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('mautic.lead.lead.filter.bundles.include.placeholder'); ?>">
+                <select name="includeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('le.lead.lead.filter.bundles.include.placeholder'); ?>">
                     <?php foreach ($events['types'] as $typeKey => $typeName) : ?>
                         <option value="<?php echo $view->escape($typeKey); ?>"<?php echo in_array($typeKey, $events['filters']['includeEvents']) ? ' selected' : ''; ?> >
                             <?php echo $typeName; ?>
@@ -28,7 +28,7 @@
                 </select>
             </div>
             <div class="col-sm-5">
-                <select name="excludeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('mautic.lead.lead.filter.bundles.exclude.placeholder'); ?>">
+                <select name="excludeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('le.lead.lead.filter.bundles.exclude.placeholder'); ?>">
                     <?php foreach ($events['types'] as $typeKey => $typeName) : ?>
                         <option value="<?php echo $view->escape($typeKey); ?>"<?php echo in_array($typeKey, $events['filters']['excludeEvents']) ? ' selected' : ''; ?> >
                             <?php echo $typeName; ?>

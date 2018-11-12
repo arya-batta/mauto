@@ -20,16 +20,16 @@ $getChannelOutput = function ($channel) use ($view, $event, $log, $extra, $event
     if (!empty($log['metadata']['dnc'])) {
         switch ($log['metadata']['dnc']) {
             case \Mautic\LeadBundle\Entity\DoNotContact::BOUNCED:
-                $msg = 'mautic.lead.event.donotcontact_bounce';
+                $msg = 'le.lead.event.donotcontact_bounce';
                 break;
             case \Mautic\LeadBundle\Entity\DoNotContact::UNSUBSCRIBED:
-                $msg = 'mautic.lead.event.donotcontact_unsubscribed';
+                $msg = 'le.lead.event.donotcontact_unsubscribed';
                 break;
             case \Mautic\LeadBundle\Entity\DoNotContact::SPAM:
-                $msg = 'mautic.lead.event.donotcontact_spam';
+                $msg = 'le.lead.event.donotcontact_spam';
                 break;
             case \Mautic\LeadBundle\Entity\DoNotContact::MANUAL:
-                $msg = 'mautic.lead.event.donotcontact_manual';
+                $msg = 'le.lead.event.donotcontact_manual';
                 break;
         }
 

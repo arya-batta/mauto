@@ -14,11 +14,11 @@ $view['slots']->set('mauticContent', 'company');
 $header = ($entity->getId())
     ?
     $view['translator']->trans(
-        'mautic.company.menu.edit',
+        'le.company.menu.edit',
         ['%name%' => $entity->getName()]
     )
     :
-    $view['translator']->trans('mautic.company.menu.new');
+    $view['translator']->trans('le.company.menu.new');
 $view['slots']->set('headerTitle', $header);
 
 $view['slots']->set(
@@ -45,7 +45,7 @@ echo $view['form']->start($form);
     echo ' active';
 } ?>">
                                 <a href="#company-<?php echo $g; ?>" class="steps" data-toggle="tab">
-                                    <?php echo $view['translator']->trans('mautic.lead.field.group.'.$g); ?>
+                                    <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
                                 </a>
                             </li>
                             <?php ++$step; ?>

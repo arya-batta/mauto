@@ -115,7 +115,7 @@ class SegmentReportSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'segment.membership' => [
-                'display_name' => 'mautic.lead.report.segment.membership',
+                'display_name' => 'le.lead.report.segment.membership',
                 'columns'      => [
                     'xx.yyy' => [
                         'label' => null,

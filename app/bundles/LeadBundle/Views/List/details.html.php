@@ -105,7 +105,7 @@ $view['slots']->set(
                                 <div class="col-md-3 va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa fa-line-chart"></span>
-                                        <?php echo $view['translator']->trans('mautic.segment.stats'); ?>
+                                        <?php echo $view['translator']->trans('le.segment.stats'); ?>
                                     </h5>
                                 </div>
                                 <div class="col-md-9 va-m">
@@ -131,7 +131,7 @@ $view['slots']->set(
                 <?php if (isset($events['types']) && is_array($events['types'])) : ?>
                     <div class="history-search panel-footer text-muted hidden-xs">
                         <div class="col-sm-5">
-                            <select name="includeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('mautic.lead.lead.filter.bundles.include.placeholder'); ?>">
+                            <select name="includeEvents[]" multiple="multiple" class="form-control bdr-w-0" data-placeholder="<?php echo $view['translator']->trans('le.lead.lead.filter.bundles.include.placeholder'); ?>">
                                 <?php foreach ($events['types'] as $typeKey => $typeName) : ?>
                                     <option value="<?php echo $view->escape($typeKey); ?>">
                                         <?php echo $typeName; ?>
@@ -147,7 +147,7 @@ $view['slots']->set(
             <ul class="nav nav-tabs pr-md pl-md">
                 <li class="active">
                     <a href="#contacts-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.lead.leads'); ?>
+                        <?php echo $view['translator']->trans('le.lead.leads'); ?>
                     </a>
                 </li>
             </ul>

@@ -106,7 +106,7 @@ class LeadList extends FormEntity
 
         $metadata->addConstraint(new UniqueUserAlias([
             'field'   => 'alias',
-            'message' => 'mautic.lead.list.alias.unique',
+            'message' => 'le.lead.list.alias.unique',
         ]));
     }
 

@@ -42,13 +42,13 @@ if ($tmpl == 'index') {
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.points',
-                    'text'       => 'mautic.lead.points',
+                    'text'       => 'le.lead.points',
                     'class'      => 'visible-md visible-lg col-lead-points',
                 ]);
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',
-                    'text'       => 'mautic.lead.lastactive',
+                    'text'       => 'le.lead.lastactive',
                     'class'      => 'col-lead-lastactive visible-md visible-lg',
                     'default'    => true,
                 ]);
@@ -56,7 +56,7 @@ if ($tmpl == 'index') {
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.city, l.state',
-                    'text'       => 'mautic.lead.lead.thead.location',
+                    'text'       => 'le.lead.lead.thead.location',
                     'class'      => 'col-lead-location visible-md visible-lg',
                 ]); ?>
                 </tr>
@@ -128,7 +128,7 @@ if ($tmpl == 'index') {
         </div>
 
     <?php else: ?>
-        <?php echo $view->render('MauticCoreBundle:Helper:noresults.html.php', ['header' => 'mautic.lead.grid.noresults.header', 'message' => 'mautic.lead.grid.noresults.message']); ?>
+        <?php echo $view->render('MauticCoreBundle:Helper:noresults.html.php', ['header' => 'le.lead.grid.noresults.header', 'message' => 'le.lead.grid.noresults.message']); ?>
         <div class="clearfix"></div>
     <?php endif; ?>
 </div>

@@ -26,7 +26,7 @@ class PointTriggerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('points', 'number', [
-            'label'      => 'mautic.lead.lead.event.pointtrigger',
+            'label'      => 'le.lead.lead.event.pointtrigger',
             'attr'       => ['class' => 'form-control'],
             'label_attr' => ['class' => 'control-label'],
             'precision'  => 0,

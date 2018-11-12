@@ -90,12 +90,12 @@ $baseUrl = isset($lead) ? $view['router']->path(
 
 </style>
 <div class="tl-header">
-    <?php echo $view['translator']->trans('mautic.lead.timeline.displaying_events', ['%total%' => $events['total']]); ?>
+    <?php echo $view['translator']->trans('le.lead.timeline.displaying_events', ['%total%' => $events['total']]); ?>
     <?php if (isset($lead)) {
-    echo $view['translator']->trans('mautic.lead.timeline.displaying_events_for_contact', ['%contact%' => $lead->getName(), '%id%' => $lead->getId()]);
+    echo $view['translator']->trans('le.lead.timeline.displaying_events_for_contact', ['%contact%' => $lead->getName(), '%id%' => $lead->getId()]);
 } ?>
     (<span class="tl-new"><?php echo $newCount; ?></span> <?php echo $view['translator']->trans(
-        'mautic.lead.timeline.events_new'
+        'le.lead.timeline.events_new'
     ); ?>)
 </div>
 <!-- timeline -->
@@ -141,7 +141,7 @@ $baseUrl = isset($lead) ? $view['router']->path(
                        class="btn btn-xs btn-nospin btn-default<?php if (empty($details)) {
             echo ' disabled';
         } ?>" data-toggle="tooltip"
-                       title="<?php echo $view['translator']->trans('mautic.lead.timeline.toggle_details'); ?>">
+                       title="<?php echo $view['translator']->trans('le.lead.timeline.toggle_details'); ?>">
                         <span class="fa fa-fw <?php echo $icon ?>"></span>
                     </a>
                 </span>

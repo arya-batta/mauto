@@ -44,7 +44,7 @@ class FieldAliasKeywordValidatorTest extends \PHPUnit_Framework_TestCase
                             'object'     => 'lead',
                         ],
                         'date_identified' => [
-                            'label'      => 'mautic.lead.list.filter.date_identified',
+                            'label'      => 'le.lead.list.filter.date_identified',
                             'properties' => ['type' => 'date'],
                             'operators'  => 'default',
                             'object'     => 'lead',
@@ -63,7 +63,7 @@ class FieldAliasKeywordValidatorTest extends \PHPUnit_Framework_TestCase
         $field->setObject('lead');
         $field->setAlias('date_added');
 
-        $this->executionContextMock->expects($this->once())->method('addViolation')->with('mautic.lead.field.keyword.invalid');
+        $this->executionContextMock->expects($this->once())->method('addViolation')->with('le.lead.field.keyword.invalid');
 
         $this->validator->validate($field, new FieldAliasKeyword());
     }

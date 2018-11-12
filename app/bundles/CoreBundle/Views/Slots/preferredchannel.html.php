@@ -23,7 +23,7 @@ else :
     <div class="row">
         <div class="form-group col-xs-12 ">
             <label class="control-label">
-                <?php echo $view['translator']->trans('mautic.lead.list.frequency.preferred.channel'); ?>
+                <?php echo $view['translator']->trans('le.lead.list.frequency.preferred.channel'); ?>
             </label>
             <div class="choice-wrapper">
                 <select class="form-control">

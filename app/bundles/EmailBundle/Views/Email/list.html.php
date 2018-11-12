@@ -241,7 +241,7 @@ $isAdmin=$view['security']->isAdmin();
                             id="pending-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_pending').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_pending').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -255,7 +255,7 @@ $isAdmin=$view['security']->isAdmin();
                           id="sent-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_sent').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_sent').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -269,7 +269,7 @@ $isAdmin=$view['security']->isAdmin();
                            id="read-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_read').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.read.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -283,7 +283,7 @@ $isAdmin=$view['security']->isAdmin();
                             id="read-percent-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_read').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -297,7 +297,7 @@ $isAdmin=$view['security']->isAdmin();
                             id="unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_unsubscribe').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_unsubscribe').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.unsubscribe.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -311,7 +311,7 @@ $isAdmin=$view['security']->isAdmin();
                                  id="bounce-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_bounce').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_bounce').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.bounce.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -325,7 +325,7 @@ $isAdmin=$view['security']->isAdmin();
                              id="spam-count-<?php echo $item->getId(); ?>"  >
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_spam').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_spam').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.spam.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -339,7 +339,7 @@ $isAdmin=$view['security']->isAdmin();
                            id="failure-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.email_failure').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_failure').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('mautic.email.stat.failure.tooltip'); ?>">
                                 <div class="email-spinner-alignment">

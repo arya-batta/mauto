@@ -42,7 +42,7 @@ class CampaignEventLeadCampaignsType extends AbstractType
     {
         $builder->add('campaigns',
             'campaign_list', [
-            'label'      => 'mautic.lead.lead.events.campaigns.membership',
+            'label'      => 'le.lead.lead.events.campaigns.membership',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',
@@ -54,7 +54,7 @@ class CampaignEventLeadCampaignsType extends AbstractType
             'dataAddedLimit',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.lead.events.campaigns.date.added.filter',
+                'label' => 'le.lead.lead.events.campaigns.date.added.filter',
                 'data'  => (isset($options['data']['dataAddedLimit'])) ? $options['data']['dataAddedLimit'] : false,
             ]
         );
@@ -63,7 +63,7 @@ class CampaignEventLeadCampaignsType extends AbstractType
             'expr',
             'choice',
             [
-                'label'    => 'mautic.lead.lead.events.campaigns.expression',
+                'label'    => 'le.lead.lead.events.campaigns.expression',
                 'multiple' => false,
                 'choices'  => $this->listModel->getOperatorsForFieldType(
                     [
@@ -82,7 +82,7 @@ class CampaignEventLeadCampaignsType extends AbstractType
         );
 
         $builder->add('dateAdded', 'text', [
-            'label'      => 'mautic.lead.lead.events.campaigns.date',
+            'label'      => 'le.lead.lead.events.campaigns.date',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'        => 'form-control',

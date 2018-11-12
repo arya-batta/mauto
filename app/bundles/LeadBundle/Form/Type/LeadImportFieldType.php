@@ -38,32 +38,32 @@ class LeadImportFieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $propertieFields = [
-            'dateAdded'      => 'mautic.lead.import.label.dateAdded',
-            'createdByUser'  => 'mautic.lead.import.label.createdByUser',
-            'dateModified'   => 'mautic.lead.import.label.dateModified',
-            'modifiedByUser' => 'mautic.lead.import.label.modifiedByUser',
-            'lastActive'     => 'mautic.lead.import.label.lastActive',
-            'dateIdentified' => 'mautic.lead.import.label.dateIdentified',
-            'ip'             => 'mautic.lead.import.label.ip',
-            'points'         => 'mautic.lead.import.label.points',
-            'stage'          => 'mautic.lead.import.label.stage',
-            'ownerusername'  => 'mautic.lead.import.label.ownerusername',
+            'dateAdded'      => 'le.lead.import.label.dateAdded',
+            'createdByUser'  => 'le.lead.import.label.createdByUser',
+            'dateModified'   => 'le.lead.import.label.dateModified',
+            'modifiedByUser' => 'le.lead.import.label.modifiedByUser',
+            'lastActive'     => 'le.lead.import.label.lastActive',
+            'dateIdentified' => 'le.lead.import.label.dateIdentified',
+            'ip'             => 'le.lead.import.label.ip',
+            'points'         => 'le.lead.import.label.points',
+            'stage'          => 'le.lead.import.label.stage',
+            'ownerusername'  => 'le.lead.import.label.ownerusername',
         ];
 
         if ($this->factory->getUser()->isAdmin()) {
-            $specialFields =array_merge($propertieFields, ['doNotEmail'=> 'mautic.lead.import.label.doNotEmail']);
+            $specialFields =array_merge($propertieFields, ['doNotEmail'=> 'le.lead.import.label.doNotEmail']);
         } else {
             $specialFields =['doNotEmail'=> 'mautic.lead.import.label.doNotEmail'];
         }
 
         $importChoiceFields = [
-            'mautic.lead.contact'        => $options['lead_fields'],
-            'mautic.lead.company'        => $options['company_fields'],
-            'mautic.lead.special_fields' => $specialFields,
+            'le.lead.contact'        => $options['lead_fields'],
+            'le.lead.company'        => $options['company_fields'],
+            'le.lead.special_fields' => $specialFields,
         ];
 
         if ($options['object'] !== 'lead') {
-            unset($importChoiceFields['mautic.lead.contact']);
+            unset($importChoiceFields['le.lead.contact']);
         }
 
         foreach ($options['import_fields'] as $field => $label) {
@@ -91,7 +91,7 @@ class LeadImportFieldType extends AbstractType
                 'owner',
                 'user_list',
                 [
-                    'label'      => 'mautic.lead.lead.field.owner',
+                    'label'      => 'le.lead.lead.field.owner',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class' => 'form-control',
@@ -112,7 +112,7 @@ class LeadImportFieldType extends AbstractType
                     'list',
                     'leadlist_choices',
                     [
-                        'label'      => 'mautic.lead.lead.field.list',
+                        'label'      => 'le.lead.lead.field.list',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class' => 'form-control',
@@ -128,13 +128,13 @@ class LeadImportFieldType extends AbstractType
                 'tags',
                 'lead_tag',
                 [
-                    'label'      => 'mautic.lead.tags',
+                    'label'      => 'le.lead.tags',
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'                => 'form-control',
-                        'data-placeholder'     => $this->factory->getTranslator()->trans('mautic.lead.tags.select_or_create'),
-                        'data-no-results-text' => $this->factory->getTranslator()->trans('mautic.lead.tags.enter_to_create'),
+                        'data-placeholder'     => $this->factory->getTranslator()->trans('le.lead.tags.select_or_create'),
+                        'data-no-results-text' => $this->factory->getTranslator()->trans('le.lead.tags.enter_to_create'),
                         'data-allow-add'       => 'true',
                         'onchange'             => 'Mautic.createLeadTag(this)',
                     ],
@@ -148,10 +148,10 @@ class LeadImportFieldType extends AbstractType
             $buttons = array_merge(
                 $buttons,
                 [
-                    'apply_text'  => 'mautic.lead.import.in.background',
+                    'apply_text'  => 'le.lead.import.in.background',
                     'apply_class' => 'btn le-btn-default ',
                     'apply_icon'  => 'fa fa-history',
-                    'save_text'   => 'mautic.lead.import.start',
+                    'save_text'   => 'le.lead.import.start',
                     'save_class'  => 'btn le-btn-default btn-copy import_btn_align',
                     'save_icon'   => 'fa fa-upload',
                 ]

@@ -75,8 +75,8 @@ class DashboardSubscriber extends MainDashboardSubscriber
                             if (method_exists($item, $model->getNameGetter())) {
                                 $log['objectName'] = $item->{$model->getNameGetter()}();
 
-                                if ($log['bundle'] == 'lead' && $log['objectName'] == 'mautic.lead.lead.anonymous') {
-                                    $log['objectName'] = $this->translator->trans('mautic.lead.lead.anonymous');
+                                if ($log['bundle'] == 'lead' && $log['objectName'] == 'le.lead.lead.anonymous') {
+                                    $log['objectName'] = $this->translator->trans('le.lead.lead.anonymous');
                                 }
                             } else {
                                 $log['objectName'] = '';

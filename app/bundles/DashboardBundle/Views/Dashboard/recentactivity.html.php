@@ -44,7 +44,7 @@
                 <?php echo $log['objectName']; ?>
                 <?php endif; ?>
                 <?php if ($log['object'] == 'campaign'): ?>
-                  <?php  $log['object']= $view['translator']->trans('mautic.lead.preferred.automation') ?>
+                  <?php  $log['object']= $view['translator']->trans('le.lead.preferred.automation') ?>
                 <?php endif; ?>
                 <?php echo $log['object']; ?>
                 <p class="fs-12 dark-sm"><small> <?php echo $view['date']->toFull($log['dateAdded']); ?></small></p>

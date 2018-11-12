@@ -46,10 +46,10 @@ $hideid     = ($isadmin) ? '' : 'hide';
                 );
                 ?>
 
-                <th class="col-leadfield-label"><?php echo $view['translator']->trans('mautic.lead.field.label'); ?></th>
+                <th class="col-leadfield-label"><?php echo $view['translator']->trans('le.lead.field.label'); ?></th>
                 <th class="visible-md visible-lg col-leadfield-alias"><?php echo $view['translator']->trans('mautic.core.alias'); ?></th>
-                <th class="hide"><?php echo $view['translator']->trans('mautic.lead.field.group'); ?></th>
-                <th class="col-leadfield-type"><?php echo $view['translator']->trans('mautic.lead.field.type'); ?></th>
+                <th class="hide"><?php echo $view['translator']->trans('le.lead.field.group'); ?></th>
+                <th class="col-leadfield-type"><?php echo $view['translator']->trans('le.lead.field.type'); ?></th>
                 <?php if ($isadmin): ?>
                 <th class="visible-md visible-lg col-leadfield-id"><?php echo $view['translator']->trans('mautic.core.id'); ?></th>
                 <?php endif; ?>
@@ -94,10 +94,10 @@ $hideid     = ($isadmin) ? '' : 'hide';
                     </span>
                     </td>
                     <td class="visible-md visible-lg" <?php echo $hidepanel; ?>><?php echo $item->getAlias(); ?></td>
-                    <td class="hide"><?php echo $view['translator']->trans('mautic.lead.field.group.'.$item->getGroup()); ?></td>
+                    <td class="hide"><?php echo $view['translator']->trans('le.lead.field.group.'.$item->getGroup()); ?></td>
                     <td><?php echo $view['translator']->transConditional(
                             'mautic.core.type.'.$item->getType(),
-                            'mautic.lead.field.type.'.$item->getType()
+                            'le.lead.field.type.'.$item->getType()
                         ); ?></td>
                     <?php if ($isadmin): ?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
@@ -105,33 +105,33 @@ $hideid     = ($isadmin) ? '' : 'hide';
                     <td class="visible-sm visible-md visible-lg">
                         <?php if ($item->isRequired()): ?>
                             <i class="fa fa-asterisk" data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.required'
+                                'le.lead.field.tooltip.required'
                             ); ?>"></i>
                         <?php endif; ?>
                         <?php if (!$item->isVisible()): ?>
                             <i class="fa fa-eye-slash" data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.invisible'
+                                'le.lead.field.tooltip.invisible'
                             ); ?>"></i>
                         <?php endif; ?>
                         <?php if ($item->isFixed()): ?>
                             <i class="fa fa-lock" data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.fixed'
+                                'le.lead.field.tooltip.fixed'
                             ); ?>"></i>
                         <?php endif; ?>
                         <?php if ($item->isListable()): ?>
                             <i class="fa fa-list " data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.listable'
+                                'le.lead.field.tooltip.listable'
                             ); ?>"></i>
                         <?php endif; ?>
                         <?php if ($item->isPubliclyUpdatable()): ?>
                             <i class="fa fa-globe text-danger " data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.public'
+                                'le.lead.field.tooltip.public'
                             ); ?>"></i>
                         <?php endif; ?>
 
                         <?php if ($item->isUniqueIdentifer()): ?>
                             <i class="fa fa-key " data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans(
-                                'mautic.lead.field.tooltip.isuniqueidentifer'
+                                'le.lead.field.tooltip.isuniqueidentifer'
                             ); ?>"></i>
                         <?php endif; ?>
                     </td>

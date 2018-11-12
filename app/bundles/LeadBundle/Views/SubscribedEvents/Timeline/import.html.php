@@ -25,7 +25,7 @@ $import = $event['extra'];
 <?php endif; ?>
 <?php if (!empty($import['properties']['file'])) : ?>
     <dt>
-        <?php echo $view['translator']->trans('mautic.lead.import.source.file'); ?>
+        <?php echo $view['translator']->trans('le.lead.import.source.file'); ?>
     </dt>
     <dd>
         <?php echo $import['properties']['file']; ?>
@@ -33,7 +33,7 @@ $import = $event['extra'];
 <?php endif; ?>
 <?php if (!empty($import['properties']['line'])) : ?>
     <dt>
-        <?php echo $view['translator']->trans('mautic.lead.import.csv.line.number'); ?>
+        <?php echo $view['translator']->trans('le.lead.import.csv.line.number'); ?>
     </dt>
     <dd>
         <?php echo $import['properties']['line']; ?>

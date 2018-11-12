@@ -782,7 +782,7 @@ class FieldModel extends FormModel
 
         foreach ($fields as $f) {
             if ($byGroup) {
-                $fieldName                              = $this->translator->trans('mautic.lead.field.group.'.$f->getGroup());
+                $fieldName                              = $this->translator->trans('le.lead.field.group.'.$f->getGroup());
                 $leadFields[$fieldName][$f->getAlias()] = $f->getLabel();
             } else {
                 $leadFields[$f->getAlias()] = $f->getLabel();
@@ -869,7 +869,7 @@ class FieldModel extends FormModel
                 'alias'        => $contactField['alias'],
                 'type'         => $contactField['type'],
                 'group'        => $contactField['group'],
-                'group_label'  => $this->translator->trans('mautic.lead.field.group.'.$contactField['group']),
+                'group_label'  => $this->translator->trans('le.lead.field.group.'.$contactField['group']),
                 'defaultValue' => $contactField['defaultValue'],
                 'properties'   => $contactField['properties'],
             ];

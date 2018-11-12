@@ -24,7 +24,7 @@ foreach ($groups as $key => $group):
                 <?php if (empty($embedded)): ?>
                     <div class="pa-md bg-auto bg-light-xs bdr-b">
                         <h4 class="fw-sb">
-                            <?php echo $view['translator']->trans('mautic.lead.field.group.'.$group); ?>
+                            <?php echo $view['translator']->trans('le.lead.field.group.'.$group); ?>
                         </h4>
                     </div>
                 <?php endif; ?>
@@ -52,7 +52,7 @@ foreach ($groups as $key => $group):
                         ): ?>
                             <div class="form-group mb-0">
                                 <label
-                                    class="control-label mb-xs"><?php echo $view['translator']->trans('mautic.company.field.address'); ?></label>
+                                    class="control-label mb-xs"><?php echo $view['translator']->trans('le.company.field.address'); ?></label>
                                 <?php if (isset($form['companyaddress1'])): ?>
                                     <div class="row mb-xs">
                                         <div class="col-sm-<?php echo $fullSize; ?>">

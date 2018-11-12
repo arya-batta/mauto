@@ -795,7 +795,7 @@ class ConfigType extends AbstractType
             'number',
             [
                 'precision'  => 0,
-                'label'      => 'mautic.lead.list.frequency.number',
+                'label'      => 'le.lead.list.frequency.number',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
@@ -812,7 +812,7 @@ class ConfigType extends AbstractType
                     'WEEK'  => 'week',
                     'MONTH' => 'month',
                 ],
-                'label'      => 'mautic.lead.list.frequency.times',
+                'label'      => 'le.lead.list.frequency.times',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'multiple'   => false,

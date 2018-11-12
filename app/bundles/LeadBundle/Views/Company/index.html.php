@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'company');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.companies.menu.root'));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.companies.menu.root'));
 
 $pageButtons = [];
 if ($permissions['lead:leads:create']) {
@@ -19,7 +19,7 @@ if ($permissions['lead:leads:create']) {
             'href' => $view['router']->path('mautic_import_action', ['object' => 'companies', 'objectAction' => 'new']),
         ],
         'iconClass' => 'fa fa-upload',
-        'btnText'   => 'mautic.lead.lead.import',
+        'btnText'   => 'le.lead.lead.import',
     ];
 
     $pageButtons[] = [
@@ -27,7 +27,7 @@ if ($permissions['lead:leads:create']) {
             'href' => $view['router']->path('mautic_import_index', ['object' => 'companies']),
         ],
         'iconClass' => 'fa fa-history',
-        'btnText'   => 'mautic.lead.lead.import.index',
+        'btnText'   => 'le.lead.lead.import.index',
     ];
 }
 

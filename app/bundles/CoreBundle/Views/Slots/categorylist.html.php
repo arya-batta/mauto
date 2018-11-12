@@ -14,7 +14,7 @@
     <?php if ($showContactCategories && count($form['global_categories'])):?>
 <div class="global-categories text-left">
     <div>
-        <label class="control-label"><?php echo $view['translator']->trans('mautic.lead.form.categories'); ?></label>
+        <label class="control-label"><?php echo $view['translator']->trans('le.lead.form.categories'); ?></label>
     </div>
         <?php $categoryNumber = count($form['global_categories']->vars['choices']);
         for ($i = ($categoryNumber - 1); $i >= 0; --$i): ?>
@@ -34,7 +34,7 @@ else :
 ?>
     <div class="global-categories text-left">
         <div>
-            <label class="control-label"><?php echo $view['translator']->trans('mautic.lead.form.categories'); ?></label>
+            <label class="control-label"><?php echo $view['translator']->trans('le.lead.form.categories'); ?></label>
         </div>
         <div id="category-1" class="text-left">
             <input type="checkbox" id="lead_contact_frequency_rules_global_categories_1" name="lead_contact_frequency_rules[global_categories][]" autocomplete="false" value="1" checked="checked">

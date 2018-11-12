@@ -208,8 +208,8 @@ trait FilterTrait
                 $attr                                       = array_merge(
                     $attr,
                     [
-                        'data-placeholder'     => $translator->trans('mautic.lead.tags.select_or_create'),
-                        'data-no-results-text' => $translator->trans('mautic.lead.tags.enter_to_create'),
+                        'data-placeholder'     => $translator->trans('le.lead.tags.select_or_create'),
+                        'data-no-results-text' => $translator->trans('le.lead.tags.enter_to_create'),
                         'data-allow-add'       => 'true',
                         'onchange'             => 'Mautic.createLeadTag(this)',
                     ]
@@ -281,7 +281,7 @@ trait FilterTrait
                         'data-action'          => 'lead:fieldList',
                         'data-lookup-callback' => 'updateLookupListFilter',
                         'placeholder'          => $translator->trans(
-                            'mautic.lead.list.form.filtervalue'
+                            'le.lead.list.form.filtervalue'
                         ),
                     ]
                 );
@@ -309,7 +309,7 @@ trait FilterTrait
                 $attr = array_merge(
                     $attr,
                     [
-                        'placeholder' => $translator->trans('mautic.lead.list.form.filtervalue'),
+                        'placeholder' => $translator->trans('le.lead.list.form.filtervalue'),
                     ]
                 );
 
@@ -347,7 +347,7 @@ trait FilterTrait
                             'data-toggle' => 'field-lookup',
                             'data-target' => $data['field'],
                             'data-action' => 'lead:fieldList',
-                            'placeholder' => $translator->trans('mautic.lead.list.form.filtervalue'),
+                            'placeholder' => $translator->trans('le.lead.list.form.filtervalue'),
                         ]
                     );
 

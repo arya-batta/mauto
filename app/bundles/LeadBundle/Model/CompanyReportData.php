@@ -95,12 +95,12 @@ class CompanyReportData
     {
         return [
             'comp.id' => [
-                'label' => 'mautic.lead.report.company.company_id',
+                'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
                 'link'  => 'mautic_company_action',
             ],
             'companies_lead.is_primary' => [
-                'label' => 'mautic.lead.report.company.is_primary',
+                'label' => 'le.lead.report.company.is_primary',
                 'type'  => 'bool',
             ],
         ];
@@ -143,7 +143,7 @@ class CompanyReportData
                     break;
             }
             $columns[$prefix.$f->getAlias()] = [
-                'label' => $this->translator->trans('mautic.report.field.company.label', ['%field%' => $f->getLabel()]),
+                'label' => $this->translator->trans('le.report.field.company.label', ['%field%' => $f->getLabel()]),
                 'type'  => $type,
             ];
         }

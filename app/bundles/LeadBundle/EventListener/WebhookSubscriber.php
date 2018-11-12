@@ -52,8 +52,8 @@ class WebhookSubscriber extends CommonSubscriber
         $event->addEvent(
             LeadEvents::LEAD_POST_SAVE.'_new',
             [
-                'label'       => 'mautic.lead.webhook.event.lead.new',
-                'description' => 'mautic.lead.webhook.event.lead.new_desc',
+                'label'       => 'le.lead.webhook.event.lead.new',
+                'description' => 'le.lead.webhook.event.lead.new_desc',
             ]
         );
 
@@ -61,8 +61,8 @@ class WebhookSubscriber extends CommonSubscriber
         $event->addEvent(
             LeadEvents::LEAD_POST_SAVE.'_update',
             [
-                'label'       => 'mautic.lead.webhook.event.lead.update',
-                'description' => 'mautic.lead.webhook.event.lead.update_desc',
+                'label'       => 'le.lead.webhook.event.lead.update',
+                'description' => 'le.lead.webhook.event.lead.update_desc',
             ]
         );
 
@@ -70,8 +70,8 @@ class WebhookSubscriber extends CommonSubscriber
         $event->addEvent(
             LeadEvents::LEAD_POINTS_CHANGE,
             [
-                'label'       => 'mautic.lead.webhook.event.lead.points',
-                'description' => 'mautic.lead.webhook.event.lead.points_desc',
+                'label'       => 'le.lead.webhook.event.lead.points',
+                'description' => 'le.lead.webhook.event.lead.points_desc',
             ]
         );
 
@@ -79,8 +79,8 @@ class WebhookSubscriber extends CommonSubscriber
         $event->addEvent(
             LeadEvents::LEAD_POST_DELETE,
             [
-                'label'       => 'mautic.lead.webhook.event.lead.deleted',
-                'description' => 'mautic.lead.webhook.event.lead.deleted_desc',
+                'label'       => 'le.lead.webhook.event.lead.deleted',
+                'description' => 'le.lead.webhook.event.lead.deleted_desc',
             ]
         );
 
@@ -88,8 +88,8 @@ class WebhookSubscriber extends CommonSubscriber
         $event->addEvent(
             LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED,
             [
-                'label'       => 'mautic.lead.webhook.event.lead.dnc',
-                'description' => 'mautic.lead.webhook.event.lead.dnc_desc',
+                'label'       => 'le.lead.webhook.event.lead.dnc',
+                'description' => 'le.lead.webhook.event.lead.dnc_desc',
             ]
         );
     }

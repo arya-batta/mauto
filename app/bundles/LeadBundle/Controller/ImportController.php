@@ -347,15 +347,15 @@ class ImportController extends FormController
                                     }
                                 } catch (FileException $e) {
                                     if (strpos($e->getMessage(), 'upload_max_filesize') !== false) {
-                                        $errorMessage    = 'mautic.lead.import.filetoolarge';
+                                        $errorMessage    = 'le.lead.import.filetoolarge';
                                         $errorParameters = [
                                             '%upload_max_filesize%' => ini_get('upload_max_filesize'),
                                         ];
                                     } else {
-                                        $errorMessage = 'mautic.lead.import.filenotreadable';
+                                        $errorMessage = 'le.lead.import.filenotreadable';
                                     }
                                 } catch (\Exception $e) {
-                                    $errorMessage = 'mautic.lead.import.filenotreadable';
+                                    $errorMessage = 'le.lead.import.filenotreadable';
                                 } finally {
                                     if (!is_null($errorMessage)) {
                                         $form->addError(
@@ -408,7 +408,7 @@ class ImportController extends FormController
                         if (empty($matchedFields['email'])) {
                             $form->addError(
                                 new FormError(
-                                    $this->get('translator')->trans('mautic.lead.import.matchfields.email', [], 'validators')
+                                    $this->get('translator')->trans('le.lead.import.matchfields.email', [], 'validators')
                                )
                             );
                             break;
@@ -421,7 +421,7 @@ class ImportController extends FormController
                         if (empty($matchedFields) && !empty($list)) {
                             $form->addError(
                                 new FormError(
-                                    $this->get('translator')->trans('mautic.lead.import.matchfields', [], 'validators')
+                                    $this->get('translator')->trans('le.lead.import.matchfields', [], 'validators')
                                 )
                             );
                         } else {

@@ -155,7 +155,7 @@ class ReportSubscriber extends CommonSubscriber
             );
 
             $data = [
-                'display_name' => 'mautic.lead.leads',
+                'display_name' => 'le.lead.leads',
                 'columns'      => $columns,
                 'filters'      => $filters,
             ];
@@ -182,8 +182,8 @@ class ReportSubscriber extends CommonSubscriber
 
             if ($event->checkContext([self::CONTEXT_LEADS, self::CONTEXT_LEAD_POINT_LOG])) {
                 // Add shared graphs
-                $event->addGraph(self::CONTEXT_LEADS, 'line', 'mautic.lead.graph.line.leads');
-                $event->addGraph(self::CONTEXT_LEAD_POINT_LOG, 'line', 'mautic.lead.graph.line.leads');
+                $event->addGraph(self::CONTEXT_LEADS, 'line', 'le.lead.graph.line.leads');
+                $event->addGraph(self::CONTEXT_LEAD_POINT_LOG, 'line', 'le.lead.graph.line.leads');
 
                 if ($event->checkContext(self::CONTEXT_LEAD_POINT_LOG)) {
                     $this->injectPointsReportData($event, $columns, $filters);
@@ -201,17 +201,17 @@ class ReportSubscriber extends CommonSubscriber
             $companyFilters = $companyColumns;
 
             $data = [
-                'display_name' => 'mautic.lead.lead.companies',
+                'display_name' => 'le.lead.lead.companies',
                 'columns'      => $companyColumns,
                 'filters'      => $companyFilters,
             ];
 
             foreach ($this->companyContexts as $context) {
                 $event->addTable($context, $data, self::CONTEXT_COMPANIES);
-                $event->addGraph($context, 'line', 'mautic.lead.graph.line.companies');
-                $event->addGraph($context, 'pie', 'mautic.lead.graph.pie.companies.industry');
-                $event->addGraph($context, 'pie', 'mautic.lead.table.pie.company.country');
-                $event->addGraph($context, 'table', 'mautic.lead.company.table.top.cities');
+                $event->addGraph($context, 'line', 'le.lead.graph.line.companies');
+                $event->addGraph($context, 'pie', 'le.lead.graph.pie.companies.industry');
+                $event->addGraph($context, 'pie', 'le.lead.table.pie.company.country');
+                $event->addGraph($context, 'table', 'le.lead.company.table.top.cities');
             }
         }
     }
@@ -412,10 +412,10 @@ class ReportSubscriber extends CommonSubscriber
             $chartQuery->applyDateFilters($queryBuilder, 'date_added', 'l');
 
             switch ($g) {
-                case 'mautic.lead.graph.pie.attribution_stages':
-                case 'mautic.lead.graph.pie.attribution_campaigns':
-                case 'mautic.lead.graph.pie.attribution_actions':
-                case 'mautic.lead.graph.pie.attribution_channels':
+                case 'le.lead.graph.pie.attribution_stages':
+                case 'le.lead.graph.pie.attribution_campaigns':
+                case 'le.lead.graph.pie.attribution_actions':
+                case 'le.lead.graph.pie.attribution_channels':
                     $attributionQb->resetQueryParts(['select', 'orderBy']);
                     $outerQb = clone $attributionQb;
                     $outerQb->resetQueryParts()
@@ -477,30 +477,30 @@ class ReportSubscriber extends CommonSubscriber
                     );
                     break;
 
-                case 'mautic.lead.graph.line.leads':
+                case 'le.lead.graph.line.leads':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $chartQuery->modifyTimeDataQuery($queryBuilder, 'date_added', 'l');
                     $leads = $chartQuery->loadAndBuildTimeData($queryBuilder);
-                    $chart->setDataset($options['translator']->trans('mautic.lead.all.leads'), $leads);
+                    $chart->setDataset($options['translator']->trans('le.lead.all.leads'), $leads);
                     $queryBuilder->andwhere($qb->expr()->isNotNull('l.date_identified'));
                     $identified = $chartQuery->loadAndBuildTimeData($queryBuilder);
-                    $chart->setDataset($options['translator']->trans('mautic.lead.identified'), $identified);
+                    $chart->setDataset($options['translator']->trans('le.lead.identified'), $identified);
                     $data         = $chart->render();
                     $data['name'] = $g;
                     $event->setGraph($g, $data);
                     break;
 
-                case 'mautic.lead.graph.line.points':
+                case 'le.lead.graph.line.points':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $chartQuery->modifyTimeDataQuery($queryBuilder, 'date_added', 'lp');
                     $leads = $chartQuery->loadAndBuildTimeData($queryBuilder);
-                    $chart->setDataset($options['translator']->trans('mautic.lead.graph.line.points'), $leads);
+                    $chart->setDataset($options['translator']->trans('le.lead.graph.line.points'), $leads);
                     $data         = $chart->render();
                     $data['name'] = $g;
                     $event->setGraph($g, $data);
                     break;
 
-                case 'mautic.lead.table.most.points':
+                case 'le.lead.table.most.points':
                     $queryBuilder->select('l.id, l.email as title, sum(lp.delta) as points')
                         ->groupBy('l.id, l.email')
                         ->orderBy('points', 'DESC');
@@ -516,7 +516,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.lead.table.most.points' => [
+                            'le.lead.table.most.points' => [
                                 'value' => $item['points'],
                             ],
                         ];
@@ -529,7 +529,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.lead.table.top.countries':
+                case 'le.lead.table.top.countries':
                     $queryBuilder->select('l.id as id,l.country as title, count(l.country) as quantity')
                         ->groupBy('l.country')
                         ->orderBy('quantity', 'DESC');
@@ -546,7 +546,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.lead.table.top.countries' => [
+                            'le.lead.table.top.countries' => [
                                 'value' => $item['quantity'],
                             ],
                         ];
@@ -558,7 +558,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.lead.table.top.cities':
+                case 'le.lead.table.top.cities':
                     $queryBuilder->select('l.id as id,l.city as title, count(l.city) as quantity')
                         ->groupBy('l.city')
                         ->orderBy('quantity', 'DESC');
@@ -575,7 +575,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.lead.table.top.cities' => [
+                            'le.lead.table.top.cities' => [
                                 'value' => $item['quantity'],
                             ],
                         ];
@@ -587,7 +587,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.lead.table.top.events':
+                case 'le.lead.table.top.events':
                     $queryBuilder->select('lp.id as id,lp.event_name as title, count(lp.event_name) as events')
                         ->groupBy('lp.event_name')
                         ->orderBy('events', 'DESC');
@@ -615,7 +615,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.lead.table.top.actions':
+                case 'le.lead.table.top.actions':
                     $queryBuilder->select('lp.id as id,lp.action_name as title, count(lp.action_name) as actions')
                         ->groupBy('lp.action_name')
                         ->orderBy('actions', 'DESC');
@@ -631,7 +631,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.lead.table.top.actions' => [
+                            'le.lead.table.top.actions' => [
                                 'value' => $item['actions'],
                             ],
                         ];
@@ -643,7 +643,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.lead.table.pie.company.country':
+                case 'le.lead.table.pie.company.country':
                     $counts       = $companyRepo->getCompaniesByGroup($queryBuilder, 'companycountry');
                     $chart        = new PieChart();
                     $companyCount = 0;
@@ -653,7 +653,7 @@ class ReportSubscriber extends CommonSubscriber
                         }
                         $companyCount += $count['companies'];
                     }
-                    $chart->setDataset($options['translator']->trans('mautic.lead.all.companies'), $companyCount);
+                    $chart->setDataset($options['translator']->trans('le.lead.all.companies'), $companyCount);
                     $event->setGraph(
                         $g,
                         [
@@ -663,16 +663,16 @@ class ReportSubscriber extends CommonSubscriber
                         ]
                     );
                     break;
-                case 'mautic.lead.graph.line.companies':
+                case 'le.lead.graph.line.companies':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $chartQuery->modifyTimeDataQuery($queryBuilder, 'date_added', 'comp');
                     $companies = $chartQuery->loadAndBuildTimeData($queryBuilder);
-                    $chart->setDataset($options['translator']->trans('mautic.lead.all.companies'), $companies);
+                    $chart->setDataset($options['translator']->trans('le.lead.all.companies'), $companies);
                     $data         = $chart->render();
                     $data['name'] = $g;
                     $event->setGraph($g, $data);
                     break;
-                case 'mautic.lead.graph.pie.companies.industry':
+                case 'le.lead.graph.pie.companies.industry':
                     $counts       = $companyRepo->getCompaniesByGroup($queryBuilder, 'companyindustry');
                     $chart        = new PieChart();
                     $companyCount = 0;
@@ -682,7 +682,7 @@ class ReportSubscriber extends CommonSubscriber
                         }
                         $companyCount += $count['companies'];
                     }
-                    $chart->setDataset($options['translator']->trans('mautic.lead.all.companies'), $companyCount);
+                    $chart->setDataset($options['translator']->trans('le.lead.all.companies'), $companyCount);
                     $event->setGraph(
                         $g,
                         [
@@ -692,7 +692,7 @@ class ReportSubscriber extends CommonSubscriber
                         ]
                     );
                     break;
-                case 'mautic.lead.company.table.top.cities':
+                case 'le.lead.company.table.top.cities':
                     $queryBuilder->select('comp.companycity as title, count(comp.companycity) as quantity')
                         ->groupBy('comp.companycity')
                         ->andWhere(
@@ -726,29 +726,29 @@ class ReportSubscriber extends CommonSubscriber
     {
         $pointColumns = [
             'lp.type' => [
-                'label' => 'mautic.lead.report.points.type',
+                'label' => 'le.lead.report.points.type',
                 'type'  => 'string',
             ],
             'lp.event_name' => [
-                'label' => 'mautic.lead.report.points.event_name',
+                'label' => 'le.lead.report.points.event_name',
                 'type'  => 'string',
             ],
             'lp.action_name' => [
-                'label' => 'mautic.lead.report.points.action_name',
+                'label' => 'le.lead.report.points.action_name',
                 'type'  => 'string',
             ],
             'lp.delta' => [
-                'label' => 'mautic.lead.report.points.delta',
+                'label' => 'le.lead.report.points.delta',
                 'type'  => 'int',
             ],
             'lp.date_added' => [
-                'label'          => 'mautic.lead.report.points.date_added',
+                'label'          => 'le.lead.report.points.date_added',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(lp.date_added)',
             ],
         ];
         $data = [
-            'display_name' => 'mautic.lead.report.points.table',
+            'display_name' => 'le.lead.report.points.table',
             'columns'      => array_merge($columns, $pointColumns, $event->getIpColumn()),
             'filters'      => array_merge($filters, $pointColumns),
         ];
@@ -756,12 +756,12 @@ class ReportSubscriber extends CommonSubscriber
 
         // Register graphs
         $context = self::CONTEXT_LEAD_POINT_LOG;
-        $event->addGraph($context, 'line', 'mautic.lead.graph.line.points')
-            ->addGraph($context, 'table', 'mautic.lead.table.most.points')
-            ->addGraph($context, 'table', 'mautic.lead.table.top.countries')
-            ->addGraph($context, 'table', 'mautic.lead.table.top.cities')
-            ->addGraph($context, 'table', 'mautic.lead.table.top.events')
-            ->addGraph($context, 'table', 'mautic.lead.table.top.actions');
+        $event->addGraph($context, 'line', 'le.lead.graph.line.points')
+            ->addGraph($context, 'table', 'le.lead.table.most.points')
+            ->addGraph($context, 'table', 'le.lead.table.top.countries')
+            ->addGraph($context, 'table', 'le.lead.table.top.cities')
+            ->addGraph($context, 'table', 'le.lead.table.top.events')
+            ->addGraph($context, 'table', 'le.lead.table.top.actions');
     }
 
     /**
@@ -773,37 +773,37 @@ class ReportSubscriber extends CommonSubscriber
     {
         $frequencyColumns = [
             'lf.frequency_number' => [
-                'label' => 'mautic.lead.report.frequency.frequency_number',
+                'label' => 'le.lead.report.frequency.frequency_number',
                 'type'  => 'int',
             ],
             'lf.frequency_time' => [
-                'label' => 'mautic.lead.report.frequency.frequency_time',
+                'label' => 'le.lead.report.frequency.frequency_time',
                 'type'  => 'string',
             ],
             'lf.channel' => [
-                'label' => 'mautic.lead.report.frequency.channel',
+                'label' => 'le.lead.report.frequency.channel',
                 'type'  => 'string',
             ],
             'lf.preferred_channel' => [
-                'label' => 'mautic.lead.report.frequency.preferred_channel',
+                'label' => 'le.lead.report.frequency.preferred_channel',
                 'type'  => 'boolean',
             ],
             'lf.pause_from_date' => [
-                'label' => 'mautic.lead.report.frequency.pause_from_date',
+                'label' => 'le.lead.report.frequency.pause_from_date',
                 'type'  => 'datetime',
             ],
             'lf.pause_to_date' => [
-                'label' => 'mautic.lead.report.frequency.pause_to_date',
+                'label' => 'le.lead.report.frequency.pause_to_date',
                 'type'  => 'datetime',
             ],
             'lf.date_added' => [
-                'label'          => 'mautic.lead.report.frequency.date_added',
+                'label'          => 'le.lead.report.frequency.date_added',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(lf.date_added)',
             ],
         ];
         $data = [
-            'display_name' => 'mautic.lead.report.frequency.messages',
+            'display_name' => 'le.lead.report.frequency.messages',
             'columns'      => array_merge($columns, $frequencyColumns),
             'filters'      => array_merge($filters, $frequencyColumns),
         ];
@@ -820,45 +820,45 @@ class ReportSubscriber extends CommonSubscriber
     {
         $attributionColumns = [
             'log.campaign_id' => [
-                'label' => 'mautic.lead.report.attribution.campaign_id',
+                'label' => 'le.lead.report.attribution.campaign_id',
                 'type'  => 'int',
                 'link'  => 'mautic_campaign_action',
             ],
             'log.date_triggered' => [
-                'label'          => 'mautic.lead.report.attribution.action_date',
+                'label'          => 'le.lead.report.attribution.action_date',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE(log.date_triggered)',
             ],
             'c.name' => [
                 'alias' => 'campaign_name',
-                'label' => 'mautic.lead.report.attribution.campaign_name',
+                'label' => 'le.lead.report.attribution.campaign_name',
                 'type'  => 'string',
             ],
             'l.stage_id' => [
-                'label' => 'mautic.lead.report.attribution.stage_id',
+                'label' => 'le.lead.report.attribution.stage_id',
                 'type'  => 'int',
                 'link'  => 'mautic_stage_action',
             ],
             's.name' => [
                 'alias' => 'stage_name',
-                'label' => 'mautic.lead.report.attribution.stage_name',
+                'label' => 'le.lead.report.attribution.stage_name',
                 'type'  => 'string',
             ],
             'channel' => [
                 'alias'   => 'channel',
                 'formula' => 'SUBSTRING_INDEX(e.type, \'.\', 1)',
-                'label'   => 'mautic.lead.report.attribution.channel',
+                'label'   => 'le.lead.report.attribution.channel',
                 'type'    => 'string',
             ],
             'channel_action' => [
                 'alias'   => 'channel_action',
                 'formula' => 'SUBSTRING_INDEX(e.type, \'.\', -1)',
-                'label'   => 'mautic.lead.report.attribution.channel_action',
+                'label'   => 'le.lead.report.attribution.channel_action',
                 'type'    => 'string',
             ],
             'e.name' => [
                 'alias' => 'action_name',
-                'label' => 'mautic.lead.report.attribution.action_name',
+                'label' => 'le.lead.report.attribution.action_name',
                 'type'  => 'string',
             ],
         ];
@@ -889,12 +889,12 @@ class ReportSubscriber extends CommonSubscriber
             $channelActions[$actionValue] = $actionName;
         }
         $filters['channel'] = [
-            'label' => 'mautic.lead.report.attribution.channel',
+            'label' => 'le.lead.report.attribution.channel',
             'type'  => 'select',
             'list'  => $channels,
         ];
         $filters['channel_action'] = [
-            'label' => 'mautic.lead.report.attribution.channel_action',
+            'label' => 'le.lead.report.attribution.channel_action',
             'type'  => 'select',
             'list'  => $channelActions,
         ];
@@ -905,7 +905,7 @@ class ReportSubscriber extends CommonSubscriber
         // Setup available channels
         $campaigns                  = $this->campaignModel->getRepository()->getSimpleList();
         $filters['log.campaign_id'] = [
-            'label' => 'mautic.lead.report.attribution.filter.campaign',
+            'label' => 'le.lead.report.attribution.filter.campaign',
             'type'  => 'select',
             'list'  => $campaigns,
         ];
@@ -918,7 +918,7 @@ class ReportSubscriber extends CommonSubscriber
             $stages[$stage['id']] = $stage['name'];
         }
         $filters['l.stage_id'] = [
-            'label' => 'mautic.lead.report.attribution.filter.stage',
+            'label' => 'le.lead.report.attribution.filter.stage',
             'type'  => 'select',
             'list'  => $stages,
         ];
@@ -926,10 +926,10 @@ class ReportSubscriber extends CommonSubscriber
 
         $context = "contact.attribution.$type";
         $event
-            ->addGraph($context, 'pie', 'mautic.lead.graph.pie.attribution_stages')
-            ->addGraph($context, 'pie', 'mautic.lead.graph.pie.attribution_campaigns')
-            ->addGraph($context, 'pie', 'mautic.lead.graph.pie.attribution_actions')
-            ->addGraph($context, 'pie', 'mautic.lead.graph.pie.attribution_channels');
+            ->addGraph($context, 'pie', 'le.lead.graph.pie.attribution_stages')
+            ->addGraph($context, 'pie', 'le.lead.graph.pie.attribution_campaigns')
+            ->addGraph($context, 'pie', 'le.lead.graph.pie.attribution_actions')
+            ->addGraph($context, 'pie', 'le.lead.graph.pie.attribution_channels');
 
         $data = [
             'display_name' => 'mautic.lead.report.attribution.'.$type,

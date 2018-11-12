@@ -90,7 +90,7 @@ echo $view['assets']->includeScript('plugins/MauticSocialBundle/Assets/js/social
             <ul class="nav nav-tabs pr-md pl-md">
                 <li class="active">
                     <a href="#leads-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.lead.leads'); ?>
+                        <?php echo $view['translator']->trans('le.lead.leads'); ?>
                     </a>
                 </li>
             </ul>

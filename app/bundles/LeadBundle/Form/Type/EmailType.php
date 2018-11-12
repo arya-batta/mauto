@@ -91,7 +91,7 @@ class EmailType extends AbstractType
             'from',
             'text',
             [
-                'label'       => 'mautic.lead.email.from_email',
+                'label'       => 'le.lead.email.from_email',
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class'   => 'form-control le-input'],
                 'required'    => true,
@@ -132,7 +132,7 @@ class EmailType extends AbstractType
             'templates',
             'email_list',
             [
-                'label'      => 'mautic.lead.email.template',
+                'label'      => 'le.lead.email.template',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [

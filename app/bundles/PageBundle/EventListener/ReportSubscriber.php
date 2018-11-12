@@ -214,31 +214,31 @@ class ReportSubscriber extends CommonSubscriber
                     'type'  => 'string',
                 ],
                 'ds.device' => [
-                    'label' => 'mautic.lead.device',
+                    'label' => 'le.lead.device',
                     'type'  => 'string',
                 ],
                 'ds.device_brand' => [
-                    'label' => 'mautic.lead.device_brand',
+                    'label' => 'le.lead.device_brand',
                     'type'  => 'string',
                 ],
                 'ds.device_model' => [
-                    'label' => 'mautic.lead.device_model',
+                    'label' => 'le.lead.device_model',
                     'type'  => 'string',
                 ],
                 'ds.device_os_name' => [
-                    'label' => 'mautic.lead.device_os_name',
+                    'label' => 'le.lead.device_os_name',
                     'type'  => 'string',
                 ],
                 'ds.device_os_shortname' => [
-                    'label' => 'mautic.lead.device_os_shortname',
+                    'label' => 'le.lead.device_os_shortname',
                     'type'  => 'string',
                 ],
                 'ds.device_os_version' => [
-                    'label' => 'mautic.lead.device_os_version',
+                    'label' => 'le.lead.device_os_version',
                     'type'  => 'string',
                 ],
                 'ds.device_os_platform' => [
-                    'label' => 'mautic.lead.device_os_platform',
+                    'label' => 'le.lead.device_os_platform',
                     'type'  => 'string',
                 ],
             ];

@@ -10,9 +10,9 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $header = ($lead->getId()) ?
-    $view['translator']->trans('mautic.lead.lead.header.edit',
+    $view['translator']->trans('le.lead.lead.header.edit',
         ['%name%' => $view['translator']->trans($lead->getPrimaryIdentifier())]) :
-    $view['translator']->trans('mautic.lead.lead.header.new');
+    $view['translator']->trans('le.lead.lead.header.new');
 $view['slots']->set('headerTitle', $header);
 $view['slots']->set('mauticContent', 'lead');
 $stagehideattr= $view['security']->isGranted('stage:stages:view') ? '' : "style='display: none;'";
@@ -63,7 +63,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
     echo 'active';
 } ?>">
                             <a href="#<?php echo $g; ?>" class="steps" data-toggle="tab">
-                                <?php echo $view['translator']->trans('mautic.lead.field.group.'.$g); ?>
+                                <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
                             </a>
                         </li>
                         <?php endif; ?>
@@ -87,7 +87,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                         <div class="tab-pane fade<?php if ($key === 0): echo ' in active'; endif; ?> bdr-rds-0 bdr-w-0"
                              id="<?php echo $group; ?>">
                             <div class="pa-md bg-auto bg-light-xs bdr-b">
-                                <h4 class="fw-sb"><?php echo $view['translator']->trans('mautic.lead.field.group.'.$group); ?></h4>
+                                <h4 class="fw-sb"><?php echo $view['translator']->trans('le.lead.field.group.'.$group); ?></h4>
                             </div>
                             <div class="pa-md" style="width: 150%;">
                                 <?php if ($group == 'core'): ?>
@@ -159,7 +159,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                     </div>
                                     <hr class="mnr-md mnl-md" >
                                     <div class="form-group mb-0" <?php echo $stagehideattr ?>>
-                                        <label><?php echo $view['translator']->trans('mautic.company.company'); ?></label>
+                                        <label><?php echo $view['translator']->trans('le.company.company'); ?></label>
                                         <div class="row">
                                             <?php if (isset($form['companies'])): ?>
                                                 <div class="col-sm-4">
@@ -178,7 +178,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                     <?php if (isset($form['address1']) || isset($form['address2']) || isset($form['city']) || isset($form['state']) || isset($form['zipcode']) || isset($form['country'])): ?>
                                         <div class="form-group mb-0">
                                             <label
-                                                    class="control-label mb-xs"><?php echo $view['translator']->trans('mautic.lead.field.address'); ?></label>
+                                                    class="control-label mb-xs"><?php echo $view['translator']->trans('le.lead.field.address'); ?></label>
                                             <?php if (isset($form['address1'])): ?>
                                                 <div class="row mb-xs">
                                                     <div class="col-sm-8">
@@ -223,7 +223,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                     <?php if (isset($form['attribution']) && isset($form['attribution_date'])): ?>
                                         <div class="form-group mb-0">
                                             <label
-                                                    class="control-label mb-xs"><?php echo $view['translator']->trans('mautic.lead.attribution'); ?></label>
+                                                    class="control-label mb-xs"><?php echo $view['translator']->trans('le.lead.attribution'); ?></label>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <?php echo $view['form']->widget($form['attribution'], ['attr' => ['placeholder' => $form['attribution']->vars['label'], 'preaddon' => 'fa fa-money']]); ?>

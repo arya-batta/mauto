@@ -205,10 +205,10 @@ trait LeadDetailsTrait
         /** @var LeadModel $model */
         $model       = $this->getModel('lead');
         $engagements = $model->getEngagementCount($lead, $fromDate, $toDate, 'm', $chartQuery);
-        $lineChart->setDataset($translator->trans('mautic.lead.graph.line.all_engagements'), $engagements['byUnit']);
+        $lineChart->setDataset($translator->trans('le.lead.graph.line.all_engagements'), $engagements['byUnit']);
 
         $pointStats = $chartQuery->fetchTimeData('lead_points_change_log', 'date_added', ['lead_id' => $lead->getId()]);
-        $lineChart->setDataset($translator->trans('mautic.lead.graph.line.points'), $pointStats);
+        $lineChart->setDataset($translator->trans('le.lead.graph.line.points'), $pointStats);
 
         return $lineChart->render();
     }
@@ -269,14 +269,14 @@ trait LeadDetailsTrait
         }, $logs);
 
         $types = [
-                'create'     => $this->translator->trans('mautic.lead.event.create'),
-                'identified' => $this->translator->trans('mautic.lead.event.identified'),
-                'ipadded'    => $this->translator->trans('mautic.lead.event.ipadded'),
-                'merge'      => $this->translator->trans('mautic.lead.event.merge'),
-                'update'     => $this->translator->trans('mautic.lead.event.update'),
+                'create'     => $this->translator->trans('le.lead.event.create'),
+                'identified' => $this->translator->trans('le.lead.event.identified'),
+                'ipadded'    => $this->translator->trans('le.lead.event.ipadded'),
+                'merge'      => $this->translator->trans('le.lead.event.merge'),
+                'update'     => $this->translator->trans('le.lead.event.update'),
             ];
 
-        $deltype = ['delete'=> $this->translator->trans('mautic.lead.event.delete')];
+        $deltype = ['delete'=> $this->translator->trans('le.lead.event.delete')];
 
         if ($auditlogModel->getCurrentUser()->isAdmin()) {
             $types = array_merge($types, $deltype);

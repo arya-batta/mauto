@@ -151,10 +151,10 @@ if (count($items)):
                     <td class="visible-sm visible-md visible-lg col-stats">
                         <span class="mt-xs label label-warning has-click-event clickable-stat"
                               data-toggle="tooltip"
-                              title="<?php echo $view['translator']->trans('mautic.channel.stat.leadcount.tooltip'); ?>">
+                              title="<?php echo $view['translator']->trans('le.channel.stat.leadcount.tooltip'); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'mautic_contact_index',
-                                ['search' => $view['translator']->trans('mautic.lead.lead.searchcommand.mobile_sent').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.mobile_sent').':'.$item->getId()]
                             ); ?>"><?php echo $view['translator']->trans(
                                     'mautic.notification.stat.sentcount',
                                     ['%count%' => $item->getSentCount(true)]

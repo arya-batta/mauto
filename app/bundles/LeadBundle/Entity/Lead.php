@@ -764,7 +764,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
         } elseif (count($ips = $this->getIpAddresses())) {
             return $ips->first()->getIpAddress();
         } else {
-            return 'mautic.lead.lead.anonymous';
+            return 'le.lead.lead.anonymous';
         }
     }
 

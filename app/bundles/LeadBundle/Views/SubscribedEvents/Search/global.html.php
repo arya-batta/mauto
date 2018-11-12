@@ -24,7 +24,7 @@
         $color = $lead->getColor();
         $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
         ?>
-        <span class="label label-default pull-right"<?php echo $style; ?> data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans('mautic.lead.lead.pointscount'); ?>"><?php echo $lead->getPoints(); ?></span>
+        <span class="label label-default pull-right"<?php echo $style; ?> data-toggle="tooltip" data-placement="left" title="<?php echo $view['translator']->trans('le.lead.lead.pointscount'); ?>"><?php echo $lead->getPoints(); ?></span>
     </a>
     <div class="clearfix"></div>
 <?php endif; ?>

@@ -27,7 +27,7 @@ $baseUrl = $view['router']->path(
         <tr>
             <th class="timeline-icon">
                 <a class="btn btn-sm btn-nospin btn-default" data-activate-details="all" data-toggle="tooltip" title="<?php echo $view['translator']->trans(
-                    'mautic.lead.timeline.toggle_all_details'
+                    'le.lead.timeline.toggle_all_details'
                 ); ?>">
                     <span class="fa fa-fw fa-level-down"></span>
                 </a>
@@ -35,7 +35,7 @@ $baseUrl = $view['router']->path(
             <?php
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'userName',
-                'text'       => 'mautic.lead.timeline.user_name',
+                'text'       => 'le.lead.timeline.user_name',
                 'class'      => 'timeline-name',
                 'sessionVar' => 'lead.'.$lead->getId().'.auditlog',
                 'baseUrl'    => $baseUrl,
@@ -44,7 +44,7 @@ $baseUrl = $view['router']->path(
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'action',
-                'text'       => 'mautic.lead.timeline.event_type',
+                'text'       => 'le.lead.timeline.event_type',
                 'class'      => 'visible-md visible-lg timeline-type',
                 'sessionVar' => 'lead.'.$lead->getId().'.auditlog',
                 'baseUrl'    => $baseUrl,
@@ -53,7 +53,7 @@ $baseUrl = $view['router']->path(
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'orderBy'    => 'dateAdded',
-                'text'       => 'mautic.lead.timeline.event_timestamp',
+                'text'       => 'le.lead.timeline.event_timestamp',
                 'class'      => 'visible-md visible-lg timeline-timestamp',
                 'sessionVar' => 'lead.'.$lead->getId().'.auditlog',
                 'baseUrl'    => $baseUrl,
@@ -85,7 +85,7 @@ $baseUrl = $view['router']->path(
                 <td class="timeline-icon">
                     <a href="javascript:void(0);" data-activate-details="<?php echo $counter; ?>" class="btn btn-sm btn-nospin btn-default<?php if (empty($details)) {
                 echo ' disabled';
-            } ?>" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.lead.timeline.toggle_details'); ?>">
+            } ?>" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.timeline.toggle_details'); ?>">
                         <span class="fa fa-fw <?php echo $icon ?>"></span>
                     </a>
                 </td>

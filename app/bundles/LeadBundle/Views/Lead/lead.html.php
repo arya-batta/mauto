@@ -47,7 +47,7 @@ if (!empty($fields['core']['email']['value'])) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
-                'mautic.lead.email.send_email.header',
+                'le.lead.email.send_email.header',
                 ['%email%' => $fields['core']['email']['value']]
             ),
             'href' => $view['router']->path(
@@ -55,7 +55,7 @@ if (!empty($fields['core']['email']['value'])) {
                 ['objectId' => $lead->getId(), 'objectAction' => 'email']
             ),
         ],
-        'btnText'   => $view['translator']->trans('mautic.lead.email.send_email'),
+        'btnText'   => $view['translator']->trans('le.lead.email.send_email'),
         'iconClass' => 'fa fa-send',
         'primary'   => true,
     ];
@@ -70,7 +70,7 @@ if ($edit) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
-                'mautic.lead.lead.header.contact.frequency',
+                'le.lead.lead.header.contact.frequency',
                 ['%name%' => $lead->getPrimaryIdentifier()]
             ),
             'href' => $view['router']->path(
@@ -78,7 +78,7 @@ if ($edit) {
                 ['objectId' => $lead->getId(), 'objectAction' => 'contactFrequency']
             ),
         ],
-        'btnText'   => $view['translator']->trans('mautic.lead.contact.frequency'),
+        'btnText'   => $view['translator']->trans('le.lead.contact.frequency'),
         'iconClass' => 'fa fa-signal',
     ];
 }
@@ -90,7 +90,7 @@ if ($view['security']->isGranted('campaign:campaigns:edit')) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
-                'mautic.lead.lead.header.campaigns',
+                'le.lead.lead.header.campaigns',
                 ['%name%' => $lead->getPrimaryIdentifier()]
             ),
             'data-footer' => 'false',
@@ -116,7 +116,7 @@ if (($view['security']->hasEntityAccess(
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'data-header' => $view['translator']->trans(
-                'mautic.lead.lead.header.merge',
+                'le.lead.lead.header.merge',
                 ['%name%' => $lead->getPrimaryIdentifier()]
             ),
             'href' => $view['router']->path(
@@ -124,7 +124,7 @@ if (($view['security']->hasEntityAccess(
                 ['objectId' => $lead->getId(), 'objectAction' => 'merge']
             ),
         ],
-        'btnText'   => $view['translator']->trans('mautic.lead.merge'),
+        'btnText'   => $view['translator']->trans('le.lead.merge'),
         'iconClass' => 'fa fa-user',
     ];
 }
@@ -173,7 +173,7 @@ $view['slots']->set(
     echo 'active';
 } ?>">
                                 <a href="#<?php echo $g; ?>" class="group" data-toggle="tab">
-                                    <?php echo $view['translator']->trans('mautic.lead.field.group.'.$g); ?>
+                                    <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
                                 </a>
                             </li>
                             <?php ++$step; ?>
@@ -253,7 +253,7 @@ $view['slots']->set(
                                         <?php endif; ?>
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="fw-b "><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
+                                        <h6 class="fw-b "><?php echo $view['translator']->trans('le.lead.lead.field.owner'); ?></h6>
                                         <?php if ($lead->getOwner()) : ?>
                                             <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
                                         <?php else: ?>
@@ -268,7 +268,7 @@ $view['slots']->set(
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="fw-b" ">
-                                        <?php echo $view['translator']->trans('mautic.lead.field.address'); ?>
+                                        <?php echo $view['translator']->trans('le.lead.field.address'); ?>
                                         </h6>
                                         <address class="text-primary">
                                             <?php if (isset($fields['core']['address1'])): ?>
@@ -285,12 +285,12 @@ $view['slots']->set(
                                 <div class="row">
                                     <div class="col-md-6" style="margin-top: -31px">
                                         <?php if (isset($fields['core']['phone'])): ?>
-                                            <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.type.tel.home'); ?></h6>
+                                            <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.home'); ?></h6>
                                             <p class="text-primary"><?php echo $fields['core']['phone']['value']; ?></p>
                                         <?php endif; ?>
 
                                         <?php if (isset($fields['core']['mobile'])): ?>
-                                            <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.type.tel.mobile'); ?></h6>
+                                            <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.mobile'); ?></h6>
                                             <p class="text-primary mb-0"><?php echo $fields['core']['mobile']['value']; ?></p>
                                         <?php endif; ?>
                                         <br>
@@ -302,7 +302,7 @@ $view['slots']->set(
                                        <?php $tags   = $lead->getTags(); ?>
                                        <?php $count  =  0; ?>
                                        <h6 class="fw-b">
-                                           <?php echo $view['translator']->trans('mautic.lead.field.tags.applied'); ?></h6>
+                                           <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
                                        <div class="leadprofile">
                                            <?php foreach ($tags as $tag): ?>
                                                <?php if ($count == 5):
@@ -315,7 +315,7 @@ $view['slots']->set(
                                        <div class="clearfix"></div>
                                    </div>
                                     <div class="col-md-6">
-                                        <h6 class="fw-b" ><?php echo $view['translator']->trans('mautic.lead.field.segments.belongsto'); ?></h6>
+                                        <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
                                         <div class="leadprofile">
                                             <?php foreach ($segmentName as $segment): ?>
                                                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
@@ -326,7 +326,7 @@ $view['slots']->set(
                                 <div class="row" >
                                     <br>
                                     <div class="col-md-12">
-                                            <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span><br>
+                                            <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
                                             <div class="lead_page_hit_url_div">
                                                 <?php if (!empty($pageHitDetails)): ?>
                                                     <?php foreach ($pageHitDetails as $counter => $event): ?>
@@ -353,14 +353,14 @@ $view['slots']->set(
                                         <h4 class="fw-b">
                                             <?php if ($doNotContact['unsubscribed']): ?>
                                                 <span class="label le-label-danger dnc-alignment" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact'); ?>
                             </span>
 
                                             <?php elseif ($doNotContact['manual']): ?>
                                                 <span class="label le-label-danger dnc-alignment" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact'); ?>
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                                        'mautic.lead.remove_dnc_status'
+                                                        'le.lead.remove_dnc_status'
                                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
@@ -368,18 +368,18 @@ $view['slots']->set(
 
                                             <?php elseif ($doNotContact['bounced']): ?>
                                                 <span class="label label-warning dnc-alignment" data-toggle="tooltip" data-placement="left" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact_bounced'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact_bounced'); ?>
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                                        'mautic.lead.remove_dnc_status'
+                                                        'le.lead.remove_dnc_status'
                                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                                             <?php elseif ($doNotContact['spam']): ?>
                                                 <span class="label label-warning dnc-alignment" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact_spam'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact_spam'); ?>
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                                        'mautic.lead.remove_dnc_status'
+                                                        'le.lead.remove_dnc_status'
                                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
@@ -399,7 +399,7 @@ $view['slots']->set(
                     <div class="md-card-content">
                         <div class="uk-float-right">
                             <i class="le-lead-dialogue material-icons le-text-primary" style="margin-right: -215px;">exposure plus 1</i></div>
-                        <span class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.lead.points'); ?> </span><br>
+                        <span class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.points'); ?> </span><br>
                        <span class="le-lead-card-content"><?php echo  $lead->getPoints(); ?></span>
                     </div>
                 </div>
@@ -421,7 +421,7 @@ $view['slots']->set(
                         <div class="md-card-content">
                             <div class="uk-float-right">
                                 <i class="le-lead-dialogue fa fa-history  le-text-danger"></i></div>
-                            <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.lead.lastactive'); ?> </span><br>
+                            <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.lastactive'); ?> </span><br>
                             <span class="le-lead-card-content"><?php echo $lastacitve = !empty($lead->getLastActive()) ? $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y') : 'N/A'?> </span>
                         </div>
                     </div>
@@ -431,7 +431,7 @@ $view['slots']->set(
                         <div class="md-card-content">
                             <div class="uk-float-right">
                                 <i class="le-lead-dialogue fa fa-clock-o text-warning"></i></div>
-                            <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.core.added_first'); ?> </span><br>
+                            <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('le.core.added_first'); ?> </span><br>
                             <span class="le-lead-card-content"><?php echo $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y'); ?></span>
                         </div>
                     </div>
@@ -456,7 +456,7 @@ $view['slots']->set(
                                 <div class="panel-body box-layout">
                                     <div class="col-xs-8 va-m">
                                         <h5 class="text-white dark-md fw-b mb-xs">
-                                            <?php echo $view['translator']->trans('mautic.lead.field.header.engagements'); ?>
+                                            <?php echo $view['translator']->trans('le.lead.field.header.engagements'); ?>
                                         </h5>
                                     </div>
                                     <div class="col-xs-4 va-t text-right">
@@ -479,7 +479,7 @@ $view['slots']->set(
                         <span class="label label-primary mr-sm" id="TimelineCount">
                             <?php echo $events['total']; ?>
                         </span>
-                        <?php echo $view['translator']->trans('mautic.lead.lead.tab.history'); ?>
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.history'); ?>
                     </a>
                 </li>
                 <li class="">
@@ -487,7 +487,7 @@ $view['slots']->set(
                         <span class="label label-primary mr-sm" id="NoteCount">
                             <?php echo $noteCount; ?>
                         </span>
-                        <?php echo $view['translator']->trans('mautic.lead.lead.tab.notes'); ?>
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
                     </a>
                 </li>
                 <?php if (!$isAnonymous && $security->isAdmin()): ?>
@@ -496,7 +496,7 @@ $view['slots']->set(
                         <span class="label label-primary mr-sm" id="SocialCount">
                             <?php echo count($socialProfiles); ?>
                         </span>
-                            <?php echo $view['translator']->trans('mautic.lead.lead.tab.social'); ?>
+                            <?php echo $view['translator']->trans('le.lead.lead.tab.social'); ?>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -506,7 +506,7 @@ $view['slots']->set(
                     <span class="label label-primary mr-sm" id="IntegrationCount">
                         <?php echo count($integrations); ?>
                     </span>
-                        <?php echo $view['translator']->trans('mautic.lead.lead.tab.integration'); ?>
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.integration'); ?>
                     </a>
                 </li>
                 <?php endif; ?>
@@ -515,7 +515,7 @@ $view['slots']->set(
                     <span class="label label-primary mr-sm" id="AuditLogCount">
                         <?php echo $auditlog['total']; ?>
                     </span>
-                        <?php echo $view['translator']->trans('mautic.lead.lead.tab.auditlog'); ?>
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.auditlog'); ?>
                     </a>
                 </li>
                 <?php if ($places): ?>
@@ -524,7 +524,7 @@ $view['slots']->set(
                         <span class="label label-primary mr-sm" id="PlaceCount">
                             <?php echo count($places); ?>
                         </span>
-                            <?php echo $view['translator']->trans('mautic.lead.lead.tab.places'); ?>
+                            <?php echo $view['translator']->trans('le.lead.lead.tab.places'); ?>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -641,7 +641,7 @@ $view['slots']->set(
 
                     <img src="<?php echo $score; ?>" style="max-height: 25px;vertical-align: baseline;" />
                     <?php echo $view['translator']->transChoice(
-                        'mautic.lead.points.count',
+                        'le.lead.points.count',
                         $lead->getPoints(),
                         ['%points%' => $lead->getPoints()]
                     ); ?>
@@ -658,14 +658,14 @@ $view['slots']->set(
                         <h4 class="fw-b">
                             <?php if ($doNotContact['unsubscribed']): ?>
                                 <span class="label label-danger" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact'); ?>
                             </span>
 
                             <?php elseif ($doNotContact['manual']): ?>
                                 <span class="label label-danger" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact'); ?>
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                        'mautic.lead.remove_dnc_status'
+                                        'le.lead.remove_dnc_status'
                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
@@ -673,18 +673,18 @@ $view['slots']->set(
 
                             <?php elseif ($doNotContact['bounced']): ?>
                                 <span class="label label-warning" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact_bounced'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact_bounced'); ?>
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                        'mautic.lead.remove_dnc_status'
+                                        'le.lead.remove_dnc_status'
                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                             <?php elseif ($doNotContact['spam']): ?>
                                 <span class="label label-warning" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
-                                <?php echo $view['translator']->trans('mautic.lead.do.not.contact_spam'); ?>
+                                <?php echo $view['translator']->trans('le.lead.do.not.contact_spam'); ?>
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
-                                        'mautic.lead.remove_dnc_status'
+                                        'le.lead.remove_dnc_status'
                                     ); ?>">
                                     <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
@@ -697,7 +697,7 @@ $view['slots']->set(
             <?php endif; ?>
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.header.contact'); ?></h6>
+                    <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.header.contact'); ?></h6>
                     <p class="text-muted"><?php echo $fields['core']['title']['value']; ?> <?php echo $fields['core']['firstname']['value']; ?> <?php echo $fields['core']['lastname']['value']; ?></p>
                 </div>
             </div>
@@ -708,12 +708,12 @@ $view['slots']->set(
                 <?php endif; ?>
 
             <?php if ($lead->getOwner()) : ?>
-                <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.lead.field.owner'); ?></h6>
+                <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.lead.field.owner'); ?></h6>
                 <p class="text-muted"><?php echo $lead->getOwner()->getName(); ?></p>
             <?php endif; ?>
 
                 <h6 class="fw-b">
-                    <?php echo $view['translator']->trans('mautic.lead.field.address'); ?>
+                    <?php echo $view['translator']->trans('le.lead.field.address'); ?>
                 </h6>
                 <address class="text-muted">
                     <?php if (isset($fields['core']['address1'])): ?>
@@ -730,12 +730,12 @@ $view['slots']->set(
                 <p class="text-muted"><?php echo $fields['core']['email']['value']; ?></p>
 
                 <?php if (isset($fields['core']['phone'])): ?>
-                    <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.type.tel.home'); ?></h6>
+                    <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.home'); ?></h6>
                     <p class="text-muted"><?php echo $fields['core']['phone']['value']; ?></p>
                 <?php endif; ?>
 
                 <?php if (isset($fields['core']['mobile'])): ?>
-                    <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.lead.field.type.tel.mobile'); ?></h6>
+                    <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.mobile'); ?></h6>
                     <p class="text-muted mb-0"><?php echo $fields['core']['mobile']['value']; ?></p>
                 <?php endif; ?>
             </div>
@@ -747,7 +747,7 @@ $view['slots']->set(
 
             <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0">
                 <div class="panel-heading">
-                    <div class="panel-title"><?php echo $view['translator']->trans('mautic.lead.lead.upcoming.events'); ?></div>
+                    <div class="panel-title"><?php echo $view['translator']->trans('le.lead.lead.upcoming.events'); ?></div>
                 </div>
                 <div class="panel-body pt-sm">
                     <ul class="media-list media-list-feed">
@@ -769,7 +769,7 @@ $view['slots']->set(
                                             ['objectAction' => 'view', 'objectId' => $event['campaign_id']]
                                         ).'" data-toggle="ajax">'.$event['campaign_name'].'</a>'; ?>
                                     <?php echo $view['translator']->trans(
-                                        'mautic.lead.lead.upcoming.event.triggered.at',
+                                        'le.lead.lead.upcoming.event.triggered.at',
                                         ['%event%' => $event['event_name'], '%link%' => $link]
                                     ); ?>
                                     <?php if (!empty($errors)): ?>
@@ -793,7 +793,7 @@ $view['slots']->set(
         </div>
         <div class="pa-sm">
             <?php if (!empty($pageHitDetails)): ?>
-                <span class="fw-b"><?php echo $view['translator']->trans('leadsenage.lead.view.visited.pages'); ?></span>
+                <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span>
             <?php foreach ($pageHitDetails as $counter => $event): ?>
             <?php
                $linkType   = 'target="_new"';
@@ -807,10 +807,10 @@ $view['slots']->set(
 
         <!-- <div class="pa-sm panel-companies">
             <div class="panel-title">  <?php echo $view['translator']->trans(
-                    'mautic.lead.lead.companies'); ?></div>
+                    'le.lead.lead.companies'); ?></div>
            <?php foreach ($companies as $key => $company): ?>
                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-success" >
-                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('mautic.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('mautic_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
+                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('le.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('mautic_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
                     </span>
                 </h5>
             <?php endforeach; ?>

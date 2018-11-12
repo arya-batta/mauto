@@ -79,7 +79,7 @@ class SearchSubscriber extends CommonSubscriber
             return;
         }
 
-        $anonymous = $this->translator->trans('mautic.lead.lead.searchcommand.isanonymous');
+        $anonymous = $this->translator->trans('le.lead.lead.searchcommand.isanonymous');
         $mine      = $this->translator->trans('mautic.core.searchcommand.ismine');
         $filter    = ['string' => $str, 'force' => ''];
 
@@ -130,7 +130,7 @@ class SearchSubscriber extends CommonSubscriber
                     )->getContent();
                 }
                 $leadResults['count'] = $results['count'];
-                $event->addResults('mautic.lead.leads', $leadResults);
+                $event->addResults('le.lead.leads', $leadResults);
             }
         }
     }
@@ -142,7 +142,7 @@ class SearchSubscriber extends CommonSubscriber
     {
         if ($this->security->isGranted(['lead:leads:viewown', 'lead:leads:viewother'], 'MATCH_ONE')) {
             $event->addCommands(
-                'mautic.lead.leads',
+                'le.lead.leads',
                 $this->leadModel->getCommandList()
             );
         }
@@ -156,44 +156,44 @@ class SearchSubscriber extends CommonSubscriber
     public function onBuildSearchCommands(LeadBuildSearchEvent $event)
     {
         switch ($event->getCommand()) {
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_read'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_read', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_read'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_read', [], null, 'en_US'):
                     $this->buildEmailReadQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_failure'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_failure', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_failure'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_failure', [], null, 'en_US'):
                 $this->buildEmailFailureQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_unsubscribe'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_unsubscribe', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_unsubscribe'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_unsubscribe', [], null, 'en_US'):
                 $this->buildEmailUnsubscribeQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_bounce'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_bounce', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_bounce'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_bounce', [], null, 'en_US'):
                 $this->buildEmailBounceQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_sent'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_sent', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_sent'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_sent', [], null, 'en_US'):
                     $this->buildEmailSentQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_queued'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_queued', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_queued'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_queued', [], null, 'en_US'):
                     $this->buildEmailQueuedQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_pending'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.email_pending', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_pending'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_pending', [], null, 'en_US'):
                     $this->buildEmailPendingQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.sms_sent'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.sms_sent', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.sms_sent'):
+            case $this->translator->trans('le.lead.lead.searchcommand.sms_sent', [], null, 'en_US'):
                     $this->buildSmsSentQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.web_sent'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.web_sent', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.web_sent'):
+            case $this->translator->trans('le.lead.lead.searchcommand.web_sent', [], null, 'en_US'):
                     $this->buildWebSentQuery($event);
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.mobile_sent'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.mobile_sent', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.mobile_sent'):
+            case $this->translator->trans('le.lead.lead.searchcommand.mobile_sent', [], null, 'en_US'):
                     $this->buildMobileSentQuery($event);
                 break;
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):

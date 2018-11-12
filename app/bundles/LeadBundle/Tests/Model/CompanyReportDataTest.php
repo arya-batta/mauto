@@ -73,20 +73,20 @@ class CompanyReportDataTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'comp.id' => [
-                'label' => 'mautic.lead.report.company.company_id',
+                'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
                 'link'  => 'mautic_company_action',
             ],
             'companies_lead.is_primary' => [
-                'label' => 'mautic.lead.report.company.is_primary',
+                'label' => 'le.lead.report.company.is_primary',
                 'type'  => 'bool',
             ],
             'comp.boolField' => [
-                'label' => 'mautic.report.field.company.label',
+                'label' => 'le.report.field.company.label',
                 'type'  => 'bool',
             ],
             'comp.emailField' => [
-                'label' => 'mautic.report.field.company.label',
+                'label' => 'le.report.field.company.label',
                 'type'  => 'email',
             ],
         ];

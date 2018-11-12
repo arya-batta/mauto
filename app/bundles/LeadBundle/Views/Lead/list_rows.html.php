@@ -36,7 +36,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'data-toggle' => 'ajax',
                         'data-method' => 'POST',
                     ],
-                    'btnText'   => 'mautic.lead.lead.remove.fromlist',
+                    'btnText'   => 'le.lead.lead.remove.fromlist',
                     'iconClass' => 'fa fa-remove',
                 ];
             }
@@ -46,10 +46,10 @@ $isAdmin    =$view['security']->isAdmin();
                     'attr' => [
                         'data-toggle' => 'ajaxmodal',
                         'data-target' => '#MauticSharedModal',
-                        'data-header' => $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]),
+                        'data-header' => $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]),
                         'href'        => $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]),
                     ],
-                    'btnText'   => 'mautic.lead.email.send_email',
+                    'btnText'   => 'le.lead.email.send_email',
                     'iconClass' => 'fa fa-send',
                 ];
             }
@@ -157,12 +157,12 @@ $isAdmin    =$view['security']->isAdmin();
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                             <?php if ($hasDeleteAccess):?>
-                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                     <span><i class="material-icons md-color-white">  </i></span>
                                 </a>
                             <?php endif; ?>
                             <?php if (!empty($fields['core']['email']['value'])) : ?>
-                                <a title="<?php echo $view['translator']->trans('mautic.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
+                                <a title="<?php echo $view['translator']->trans('le.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                         </div>

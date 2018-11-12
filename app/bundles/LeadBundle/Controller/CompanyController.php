@@ -310,7 +310,7 @@ class CompanyController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.company.error.notfound',
+                                'msg'     => 'le.company.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -520,7 +520,7 @@ class CompanyController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.company.error.notfound',
+                    'msg'     => 'le.company.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->isGranted('lead:leads:deleteother')) {
@@ -584,7 +584,7 @@ class CompanyController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.company.error.notfound',
+                        'msg'     => 'le.company.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->isGranted('lead:leads:deleteother')) {
@@ -601,7 +601,7 @@ class CompanyController extends FormController
                 $entities = $model->deleteEntities($deleteIds);
                 $deleted  = count($entities);
                 $this->addFlash(
-                    'mautic.company.notice.batch_deleted',
+                    'le.company.notice.batch_deleted',
                     [
                         'pluralCount' => $deleted,
                         '%count%'     => $deleted,
@@ -665,7 +665,7 @@ class CompanyController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.lead.company.error.notfound',
+                                'msg'     => 'le.lead.company.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -701,7 +701,7 @@ class CompanyController extends FormController
                                     'flashes' => [
                                         [
                                             'type'    => 'error',
-                                            'msg'     => 'mautic.lead.company.error.notfound',
+                                            'msg'     => 'le.lead.company.error.notfound',
                                             'msgVars' => ['%id%' => $primaryCompany->getId()],
                                         ],
                                     ],

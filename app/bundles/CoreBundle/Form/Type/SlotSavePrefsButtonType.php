@@ -42,7 +42,7 @@ class SlotSavePrefsButtonType extends SlotType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('link-text', 'text', [
-            'label'      => 'mautic.lead.field.label',
+            'label'      => 'le.lead.field.label',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [

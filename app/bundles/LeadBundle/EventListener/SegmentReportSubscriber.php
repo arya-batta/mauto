@@ -62,17 +62,17 @@ class SegmentReportSubscriber extends CommonSubscriber
 
         $segmentColumns = [
             'lll.manually_removed' => [
-                'label' => 'mautic.lead.report.segment.manually_removed',
+                'label' => 'le.lead.report.segment.manually_removed',
                 'type'  => 'bool',
             ],
             'lll.manually_added' => [
-                'label' => 'mautic.lead.report.segment.manually_added',
+                'label' => 'le.lead.report.segment.manually_added',
                 'type'  => 'bool',
             ],
         ];
 
         $data = [
-            'display_name' => 'mautic.lead.report.segment.membership',
+            'display_name' => 'le.lead.report.segment.membership',
             'columns'      => array_merge($columns, $segmentColumns, $event->getStandardColumns('s.', ['publish_up', 'publish_down'])),
             'filters'      => $filters,
         ];

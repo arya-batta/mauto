@@ -2171,8 +2171,8 @@ class LeadListRepository extends CommonRepository
             case $this->translator->trans('mautic.core.searchcommand.ismine', [], null, 'en_US'):
                 $expr = $q->expr()->eq('l.createdBy', $this->currentUser->getId());
                 break;
-            case $this->translator->trans('mautic.lead.list.searchcommand.isglobal'):
-            case $this->translator->trans('mautic.lead.list.searchcommand.isglobal', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.list.searchcommand.isglobal'):
+            case $this->translator->trans('le.lead.list.searchcommand.isglobal', [], null, 'en_US'):
                 $expr            = $q->expr()->eq('l.isGlobal', ":$unique");
                 $forceParameters = [$unique => true];
                 break;
@@ -2212,7 +2212,7 @@ class LeadListRepository extends CommonRepository
     public function getSearchCommands()
     {
         $commands = [
-            'mautic.lead.list.searchcommand.isglobal',
+            'le.lead.list.searchcommand.isglobal',
             'mautic.core.searchcommand.ismine',
             'mautic.core.searchcommand.ispublished',
             'mautic.core.searchcommand.isinactive',
@@ -2243,19 +2243,19 @@ class LeadListRepository extends CommonRepository
     public static function getRelativeDateTranslationKeys()
     {
         return [
-            'mautic.lead.list.month_last',
-            'mautic.lead.list.month_next',
-            'mautic.lead.list.month_this',
-            'mautic.lead.list.today',
-            'mautic.lead.list.tomorrow',
-            'mautic.lead.list.yesterday',
-            'mautic.lead.list.week_last',
-            'mautic.lead.list.week_next',
-            'mautic.lead.list.week_this',
-            'mautic.lead.list.year_last',
-            'mautic.lead.list.year_next',
-            'mautic.lead.list.year_this',
-            'mautic.lead.list.anniversary',
+            'le.lead.list.month_last',
+            'le.lead.list.month_next',
+            'le.lead.list.month_this',
+            'le.lead.list.today',
+            'le.lead.list.tomorrow',
+            'le.lead.list.yesterday',
+            'le.lead.list.week_last',
+            'le.lead.list.week_next',
+            'le.lead.list.week_this',
+            'le.lead.list.year_last',
+            'le.lead.list.year_next',
+            'le.lead.list.year_this',
+            'le.lead.list.anniversary',
         ];
     }
 

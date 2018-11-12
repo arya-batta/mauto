@@ -720,23 +720,23 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         $xExpr    = $operators['x'][$exprType];
 
         switch ($command) {
-            case $this->translator->trans('mautic.lead.lead.searchcommand.isanonymous'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.isanonymous', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.isanonymous'):
+            case $this->translator->trans('le.lead.lead.searchcommand.isanonymous', [], null, 'en_US'):
                 $expr = $q->expr()->$nullExpr('l.date_identified');
                 break;
             case $this->translator->trans('mautic.core.searchcommand.ismine'):
             case $this->translator->trans('mautic.core.searchcommand.ismine', [], null, 'en_US'):
                 $expr = $q->expr()->$eqExpr('l.owner_id', $this->currentUser->getId());
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.isunowned'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.isunowned', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.isunowned'):
+            case $this->translator->trans('le.lead.lead.searchcommand.isunowned', [], null, 'en_US'):
                 $expr = $q->expr()->orX(
                     $q->expr()->$eqExpr('l.owner_id', 0),
                     $q->expr()->$nullExpr('l.owner_id')
                 );
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.owner'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.owner', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.owner'):
+            case $this->translator->trans('le.lead.lead.searchcommand.owner', [], null, 'en_US'):
                 $expr = $q->expr()->orX(
                     $q->expr()->$likeExpr('u.first_name', ':'.$unique),
                     $q->expr()->$likeExpr('u.last_name', ':'.$unique)
@@ -756,8 +756,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $expr            = $q->expr()->$likeExpr('l.email', ":$unique");
                 $returnParameter = true;
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.list'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.list', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
                     $q,
                     [
@@ -812,8 +812,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.duplicate'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.duplicate', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.duplicate'):
+            case $this->translator->trans('le.lead.lead.searchcommand.duplicate', [], null, 'en_US'):
                 $prateek  = explode('+', $string);
                 $imploder = [];
 
@@ -842,8 +842,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.tag'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.tag', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.tag'):
+            case $this->translator->trans('le.lead.lead.searchcommand.tag', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
                     $q,
                     [
@@ -865,8 +865,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 );
                 $returnParameter = true;
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.company'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.company', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.company'):
+            case $this->translator->trans('le.lead.lead.searchcommand.company', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
                     $q,
                     [
@@ -888,8 +888,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 );
                 $returnParameter = true;
                 break;
-            case $this->translator->trans('mautic.lead.lead.searchcommand.stage'):
-            case $this->translator->trans('mautic.lead.lead.searchcommand.stage', [], null, 'en_US'):
+            case $this->translator->trans('le.lead.lead.searchcommand.stage'):
+            case $this->translator->trans('le.lead.lead.searchcommand.stage', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
                     $q,
                     [
@@ -943,29 +943,29 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
     public function getSearchCommands()
     {
         $commands = [
-            'mautic.lead.lead.searchcommand.isanonymous',
+            'le.lead.lead.searchcommand.isanonymous',
             'mautic.core.searchcommand.ismine',
-            'mautic.lead.lead.searchcommand.isunowned',
-            'mautic.lead.lead.searchcommand.list',
+            'le.lead.lead.searchcommand.isunowned',
+            'le.lead.lead.searchcommand.list',
             'mautic.core.searchcommand.name',
             'mautic.lead.lead.searchcommand.company_new',
             'mautic.core.searchcommand.email',
-            'mautic.lead.lead.searchcommand.owner',
+            'le.lead.lead.searchcommand.owner',
             'mautic.core.searchcommand.ip',
-            'mautic.lead.lead.searchcommand.tag',
-            'mautic.lead.lead.searchcommand.stage',
-            'mautic.lead.lead.searchcommand.duplicate',
-            'mautic.lead.lead.searchcommand.email_sent',
-            'mautic.lead.lead.searchcommand.email_read',
-            'mautic.lead.lead.searchcommand.email_queued',
-            'mautic.lead.lead.searchcommand.email_pending',
-            'mautic.lead.lead.searchcommand.email_failure',
-            'mautic.lead.lead.searchcommand.email_unsubscribe',
-            'mautic.lead.lead.searchcommand.email_bounce',
-            'mautic.lead.lead.searchcommand.email_spam',
-            'mautic.lead.lead.searchcommand.sms_sent',
-            'mautic.lead.lead.searchcommand.web_sent',
-            'mautic.lead.lead.searchcommand.mobile_sent',
+            'le.lead.lead.searchcommand.tag',
+            'le.lead.lead.searchcommand.stage',
+            'le.lead.lead.searchcommand.duplicate',
+            'le.lead.lead.searchcommand.email_sent',
+            'le.lead.lead.searchcommand.email_read',
+            'le.lead.lead.searchcommand.email_queued',
+            'le.lead.lead.searchcommand.email_pending',
+            'le.lead.lead.searchcommand.email_failure',
+            'le.lead.lead.searchcommand.email_unsubscribe',
+            'le.lead.lead.searchcommand.email_bounce',
+            'le.lead.lead.searchcommand.email_spam',
+            'le.lead.lead.searchcommand.sms_sent',
+            'le.lead.lead.searchcommand.web_sent',
+            'le.lead.lead.searchcommand.mobile_sent',
         ];
 
         if (!empty($this->availableSearchFields)) {

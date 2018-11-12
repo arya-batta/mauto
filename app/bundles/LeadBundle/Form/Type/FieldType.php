@@ -55,7 +55,7 @@ class FieldType extends AbstractType
             'label',
             'text',
             [
-                'label'      => 'mautic.lead.field.label',
+                'label'      => 'le.lead.field.label',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input', 'length' => 50],
             ]
@@ -68,18 +68,18 @@ class FieldType extends AbstractType
             'choice',
             [
                 'choices' => [
-                    'core'         => 'mautic.lead.field.group.core',
-                    'social'       => 'mautic.lead.field.group.social',
-                    'personal'     => 'mautic.lead.field.group.personal',
-                    'professional' => 'mautic.lead.field.group.professional',
+                    'core'         => 'le.lead.field.group.core',
+                    'social'       => 'le.lead.field.group.social',
+                    'personal'     => 'le.lead.field.group.personal',
+                    'professional' => 'le.lead.field.group.professional',
                 ],
                 'attr' => [
                     'class'   => 'form-control le-input',
-                    'tooltip' => 'mautic.lead.field.form.group.help',
+                    'tooltip' => 'le.lead.field.form.group.help',
                 ],
                 'expanded'    => false,
                 'multiple'    => false,
-                'label'       => 'mautic.lead.field.group',
+                'label'       => 'le.lead.field.group',
                 'empty_value' => false,
                 'required'    => false,
                 'disabled'    => $disabled,
@@ -98,7 +98,7 @@ class FieldType extends AbstractType
                 'choices'     => $fieldHelper->getChoiceList(),
                 'expanded'    => false,
                 'multiple'    => false,
-                'label'       => 'mautic.lead.field.type',
+                'label'       => 'le.lead.field.type',
                 'empty_value' => false,
                 'disabled'    => ($disabled || !$new),
                 'attr'        => [
@@ -115,7 +115,7 @@ class FieldType extends AbstractType
             'sortablelist',
             [
                 'mapped'          => false,
-                'label'           => 'mautic.lead.field.form.properties.select',
+                'label'           => 'le.lead.field.form.properties.select',
                 'option_required' => false,
                 'with_labels'     => true,
             ]
@@ -126,7 +126,7 @@ class FieldType extends AbstractType
             'sortablelist',
             [
                 'mapped'          => false,
-                'label'           => 'mautic.lead.field.form.properties.select',
+                'label'           => 'le.lead.field.form.properties.select',
                 'option_required' => false,
                 'with_labels'     => false,
             ]
@@ -211,7 +211,7 @@ class FieldType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control le-input',
-                    'tooltip' => 'mautic.lead.field.help.defaultvalue',
+                    'tooltip' => 'le.lead.field.help.defaultvalue',
                 ],
                 'required' => false,
             ]
@@ -237,7 +237,7 @@ class FieldType extends AbstractType
                         'sortablelist',
                         [
                             'required'    => false,
-                            'label'       => 'mautic.lead.field.form.properties.select',
+                            'label'       => 'le.lead.field.form.properties.select',
                             'data'        => $properties,
                             'with_labels' => ('lookup' !== $type),
                         ]
@@ -313,7 +313,7 @@ class FieldType extends AbstractType
                                 new Assert\Callback(
                                     function ($object, ExecutionContextInterface $context) {
                                         if (!empty($object) && \DateTime::createFromFormat('Y-m-d H:i', $object) === false) {
-                                            $context->buildViolation('mautic.lead.datetime.invalid')->addViolation();
+                                            $context->buildViolation('le.lead.datetime.invalid')->addViolation();
                                         }
                                     }
                                 ),
@@ -328,7 +328,7 @@ class FieldType extends AbstractType
                                             $violations = $validator->validateValue($object, new Assert\Date());
 
                                             if (count($violations) > 0) {
-                                                $context->buildViolation('mautic.lead.date.invalid')->addViolation();
+                                                $context->buildViolation('le.lead.date.invalid')->addViolation();
                                             }
                                         }
                                     }
@@ -347,7 +347,7 @@ class FieldType extends AbstractType
                                             );
 
                                             if (count($violations) > 0) {
-                                                $context->buildViolation('mautic.lead.time.invalid')->addViolation();
+                                                $context->buildViolation('le.lead.time.invalid')->addViolation();
                                             }
                                         }
                                     }
@@ -440,7 +440,7 @@ class FieldType extends AbstractType
                 'attr'       => [
                     'class'   => 'form-control le-input',
                     'length'  => 25,
-                    'tooltip' => 'mautic.lead.field.help.alias',
+                    'tooltip' => 'le.lead.field.help.alias',
                 ],
                 'required' => false,
                 'disabled' => ($disabled || !$new),
@@ -468,7 +468,7 @@ class FieldType extends AbstractType
             'isVisible',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.field.form.isvisible',
+                'label' => 'le.lead.field.form.isvisible',
             ]
         );
 
@@ -476,9 +476,9 @@ class FieldType extends AbstractType
             'isShortVisible',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.field.form.isshortvisible',
+                'label' => 'le.lead.field.form.isshortvisible',
                 'attr'  => [
-                    'tooltip' => 'mautic.lead.field.form.isshortvisible.tooltip',
+                    'tooltip' => 'le.lead.field.form.isshortvisible.tooltip',
                 ],
             ]
         );
@@ -487,7 +487,7 @@ class FieldType extends AbstractType
             'isListable',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.field.form.islistable',
+                'label' => 'le.lead.field.form.islistable',
             ]
         );
 
@@ -496,9 +496,9 @@ class FieldType extends AbstractType
             'isUniqueIdentifer',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.field.form.isuniqueidentifer',
+                'label' => 'le.lead.field.form.isuniqueidentifer',
                 'attr'  => [
-                    'tooltip'  => 'mautic.lead.field.form.isuniqueidentifer.tooltip',
+                    'tooltip'  => 'le.lead.field.form.isuniqueidentifer.tooltip',
                     'onchange' => 'Mautic.displayUniqueIdentifierWarning(this)',
                 ],
                 'disabled' => ($options['data']->getAlias() == 'email'),
@@ -510,9 +510,9 @@ class FieldType extends AbstractType
             'isPubliclyUpdatable',
             'yesno_button_group',
             [
-                'label' => 'mautic.lead.field.form.ispubliclyupdatable',
+                'label' => 'le.lead.field.form.ispubliclyupdatable',
                 'attr'  => [
-                    'tooltip' => 'mautic.lead.field.form.ispubliclyupdatable.tooltip',
+                    'tooltip' => 'le.lead.field.form.ispubliclyupdatable.tooltip',
                 ],
             ]
         );
@@ -522,13 +522,13 @@ class FieldType extends AbstractType
             'choice',
             [
                 'choices' => [
-                    'mautic.lead.contact'    => 'lead',
-                    'mautic.company.company' => 'company',
+                    'le.lead.contact'    => 'lead',
+                    'le.company.company' => 'company',
                 ],
                 'choices_as_values' => true,
                 'expanded'          => false,
                 'multiple'          => false,
-                'label'             => 'mautic.lead.field.object',
+                'label'             => 'le.lead.field.object',
                 'empty_value'       => false,
                 'attr'              => [
                     'class' => 'form-control le-input',

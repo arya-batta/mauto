@@ -80,7 +80,7 @@ EOT
             }
 
             $output->writeln('<info>'.$translator->trans(
-                'mautic.lead.import.is.starting',
+                'le.lead.import.is.starting',
                 [
                     '%id%'    => $import->getId(),
                     '%lines%' => $import->getLineCount(),
@@ -91,7 +91,7 @@ EOT
                 $model->beginImport($import, $progress, $limit);
             } catch (ImportFailedException $e) {
                 $output->writeln('<error>'.$translator->trans(
-                'mautic.lead.import.failed',
+                'le.lead.import.failed',
                 [
                     '%reason%' => $import->getStatusInfo(),
                 ]
@@ -100,7 +100,7 @@ EOT
                 return 1;
             } catch (ImportDelayedException $e) {
                 $output->writeln('<info>'.$translator->trans(
-                'mautic.lead.import.delayed',
+                'le.lead.import.delayed',
                 [
                     '%reason%' => $import->getStatusInfo(),
                 ]
@@ -111,7 +111,7 @@ EOT
 
             // Success
             $output->writeln('<info>'.$translator->trans(
-                'mautic.lead.import.result',
+                'le.lead.import.result',
                 [
                     '%lines%'   => $import->getProcessedRows(),
                     '%created%' => $import->getInsertedCount(),

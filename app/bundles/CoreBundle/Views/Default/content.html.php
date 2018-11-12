@@ -71,7 +71,7 @@ if (!empty($tmpl)) {
     </div>
     <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
     <?php if (!empty($campaignBlocks)): ?>
-        <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.campaigns.root'); ?></h3></div>
+        <div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaigns.root'); ?></h3></div>
         <div style="padding-top: 15px;">
             <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
                 <div class="info-box" id="leads-info-box-container" style="width: 25%;">

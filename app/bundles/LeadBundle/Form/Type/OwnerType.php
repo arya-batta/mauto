@@ -27,7 +27,7 @@ class OwnerType extends AbstractType
             'addowner',
             'choice',
             [
-                'label'      => 'mautic.lead.batch.add_to',
+                'label'      => 'le.lead.batch.add_to',
                 'multiple'   => false,
                 'choices'    => $options['items'],
                 'required'   => false,

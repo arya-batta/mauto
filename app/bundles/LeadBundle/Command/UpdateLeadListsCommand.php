@@ -58,13 +58,13 @@ class UpdateLeadListsCommand extends ModeratedCommand
             if ($id) {
                 $list = $listModel->getEntity($id);
                 if ($list !== null) {
-                    $output->writeln('<info>'.$translator->trans('mautic.lead.list.rebuild.rebuilding', ['%id%' => $id]).'</info>');
+                    $output->writeln('<info>'.$translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $id]).'</info>');
                     $processed = $listModel->rebuildListLeads($list, $batch, $max, $output);
                     $output->writeln(
-                    '<comment>'.$translator->trans('mautic.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'
+                    '<comment>'.$translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'
                 );
                 } else {
-                    $output->writeln('<error>'.$translator->trans('mautic.lead.list.rebuild.not_found', ['%id%' => $id]).'</error>');
+                    $output->writeln('<error>'.$translator->trans('le.lead.list.rebuild.not_found', ['%id%' => $id]).'</error>');
                 }
             } else {
                 $lists = $listModel->getEntities(
@@ -77,11 +77,11 @@ class UpdateLeadListsCommand extends ModeratedCommand
                     // Get first item; using reset as the key will be the ID and not 0
                     $l = reset($l);
 
-                    $output->writeln('<info>'.$translator->trans('mautic.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]).'</info>');
+                    $output->writeln('<info>'.$translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]).'</info>');
 
                     $processed = $listModel->rebuildListLeads($l, $batch, $max, $output);
                     $output->writeln(
-                    '<comment>'.$translator->trans('mautic.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
+                    '<comment>'.$translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
                 );
 
                     unset($l);

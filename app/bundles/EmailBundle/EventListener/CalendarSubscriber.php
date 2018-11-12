@@ -74,7 +74,7 @@ class CalendarSubscriber extends CommonSubscriber
                 } elseif ($object['email']) {
                     $contactName = $object['email'];
                 } else {
-                    $contactName = $this->translator->trans('mautic.lead.lead.anonymous');
+                    $contactName = $this->translator->trans('le.lead.lead.anonymous');
                 }
                 $details               = $this->translator->trans('mautic.email.event.sent.direct', ['%contact%' => $contactName]);
                 $object['url']         = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);

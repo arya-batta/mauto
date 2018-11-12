@@ -36,7 +36,7 @@ if (!$isAdmin) {
         <div class="ml-lg mr-lg mt-md pa-lg">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title"><?php echo $view['translator']->trans('mautic.lead.import.start.instructions'); ?></div>
+                    <div class="panel-title"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
                 </div>
                 <div class="panel-body">
                     <?php echo $view['form']->start($form); ?>
@@ -44,7 +44,7 @@ if (!$isAdmin) {
                         <div class="pull-left col-xs-3">
                             <a href="<?php echo $view['assets']->getImportSampleFilePath() ?>" download>
                             <span class="input-group-btn download_sample">
-                                <i class="fa fa-download"></i> <b><?php echo $view['translator']->trans('leadsengage.lead.import.download.sample'); ?></b>
+                                <i class="fa fa-download"></i> <b><?php echo $view['translator']->trans('le.lead.import.download.sample'); ?></b>
                             </span>
                             </a>
                         </div>

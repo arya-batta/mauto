@@ -40,12 +40,12 @@ class ModifyLeadTagsType extends AbstractType
             'add_tags',
             'lead_tag',
             [
-                'label'      => 'mautic.lead.tags.add',
+                'label'      => 'le.lead.tags.add',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
-                    'data-placeholder'     => $this->translator->trans('mautic.lead.tags.select_or_create'),
-                    'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
+                    'data-placeholder'     => $this->translator->trans('le.lead.tags.select_or_create'),
+                    'data-no-results-text' => $this->translator->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
                     'class'                => 'form-control',
@@ -59,11 +59,11 @@ class ModifyLeadTagsType extends AbstractType
             'remove_tags',
             'lead_tag',
             [
-                'label'      => 'mautic.lead.tags.remove',
+                'label'      => 'le.lead.tags.remove',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'data-placeholder'     => $this->translator->trans('mautic.lead.tags.select_or_create'),
-                    'data-no-results-text' => $this->translator->trans('mautic.lead.tags.enter_to_create'),
+                    'data-placeholder'     => $this->translator->trans('le.lead.tags.select_or_create'),
+                    'data-no-results-text' => $this->translator->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
                     'onchange'             => 'Mautic.createLeadTag(this)',
                     'class'                => 'form-control',

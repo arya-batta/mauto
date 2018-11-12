@@ -171,7 +171,7 @@ class FieldController extends FormController
                         } catch (\Exception $e) {
                             $form['alias']->addError(
                                     new FormError(
-                                        $this->get('translator')->trans('mautic.lead.field.failed', ['%error%' => $e->getMessage()], 'validators')
+                                        $this->get('translator')->trans('le.lead.field.failed', ['%error%' => $e->getMessage()], 'validators')
                                     )
                                 );
                             $valid = false;
@@ -267,7 +267,7 @@ class FieldController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.lead.field.error.notfound',
+                            'msg'     => 'le.lead.field.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -413,7 +413,7 @@ class FieldController extends FormController
             if ($field === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.field.error.notfound',
+                    'msg'     => 'le.lead.field.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif ($model->isLocked($field)) {
@@ -477,7 +477,7 @@ class FieldController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.lead.field.error.notfound',
+                        'msg'     => 'le.lead.field.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif ($entity->isFixed()) {
@@ -495,7 +495,7 @@ class FieldController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'mautic.lead.field.notice.batch_deleted',
+                    'msg'     => 'le.lead.field.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],

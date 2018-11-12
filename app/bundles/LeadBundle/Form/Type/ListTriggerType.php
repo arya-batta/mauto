@@ -26,7 +26,7 @@ class ListTriggerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('addedTo', 'leadlist_choices', [
-            'label'      => 'mautic.lead.lead.events.listtrigger.added',
+            'label'      => 'le.lead.lead.events.listtrigger.added',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',
@@ -36,7 +36,7 @@ class ListTriggerType extends AbstractType
         ]);
 
         $builder->add('removedFrom', 'leadlist_choices', [
-            'label'      => 'mautic.lead.lead.events.listtrigger.removed',
+            'label'      => 'le.lead.lead.events.listtrigger.removed',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',

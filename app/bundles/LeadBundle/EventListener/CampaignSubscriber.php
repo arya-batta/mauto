@@ -114,8 +114,8 @@ class CampaignSubscriber extends CommonSubscriber
     {
         //Add actions
         $action = [
-            'label'           => 'mautic.lead.lead.events.changepoints',
-            'description'     => 'mautic.lead.lead.events.changepoints_descr',
+            'label'           => 'le.lead.lead.events.changepoints',
+            'description'     => 'le.lead.lead.events.changepoints_descr',
             'formType'        => 'leadpoints_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 7,
@@ -124,8 +124,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.changepoints', $action);
 
         $action = [
-            'label'           => 'mautic.lead.lead.events.onscorechange',
-            'description'     => 'mautic.lead.lead.events.onscorechange_descr',
+            'label'           => 'le.lead.lead.events.onscorechange',
+            'description'     => 'le.lead.lead.events.onscorechange_descr',
             'formType'        => 'leadscore_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 6,
@@ -134,8 +134,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.scorechange', $action);
 
         $action = [
-            'label'           => 'mautic.lead.lead.events.changelist',
-            'description'     => 'mautic.lead.lead.events.changelist_descr',
+            'label'           => 'le.lead.lead.events.changelist',
+            'description'     => 'le.lead.lead.events.changelist_descr',
             'formType'        => 'leadlist_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 3,
@@ -144,8 +144,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.changelist', $action);
 
         $action = [
-            'label'           => 'mautic.lead.lead.events.updatelead',
-            'description'     => 'mautic.lead.lead.events.updatelead_descr',
+            'label'           => 'le.lead.lead.events.updatelead',
+            'description'     => 'le.lead.lead.events.updatelead_descr',
             'formType'        => 'updatelead_action',
             'formTheme'       => 'MauticLeadBundle:FormTheme\ActionUpdateLead',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
@@ -155,8 +155,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.updatelead', $action);
 
         $action = [
-            'label'           => 'mautic.lead.lead.events.changetags',
-            'description'     => 'mautic.lead.lead.events.changetags_descr',
+            'label'           => 'le.lead.lead.events.changetags',
+            'description'     => 'le.lead.lead.events.changetags_descr',
             'formType'        => 'modify_lead_tags',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 4,
@@ -165,8 +165,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.changetags', $action);
         if ($this->security->isGranted('stage:stages:view')) {
             $action = [
-                'label'           => 'mautic.lead.lead.events.addtocompany',
-                'description'     => 'mautic.lead.lead.events.addtocompany_descr',
+                'label'           => 'le.lead.lead.events.addtocompany',
+                'description'     => 'le.lead.lead.events.addtocompany_descr',
                 'formType'        => 'addtocompany_action',
                 'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'order'           => 15,
@@ -175,8 +175,8 @@ class CampaignSubscriber extends CommonSubscriber
             $event->addAction('lead.addtocompany', $action);
         }
         $action = [
-            'label'           => 'mautic.lead.lead.events.changeowner',
-            'description'     => 'mautic.lead.lead.events.changeowner_descr',
+            'label'           => 'le.lead.lead.events.changeowner',
+            'description'     => 'le.lead.lead.events.changeowner_descr',
             'formType'        => ChangeOwnerType::class,
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 17,
@@ -185,8 +185,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction(self::ACTION_LEAD_CHANGE_OWNER, $action);
         if ($this->security->isGranted('stage:stages:view')) {
             $action = [
-                'label'       => 'mautic.lead.lead.events.changecompanyscore',
-                'description' => 'mautic.lead.lead.events.changecompanyscore_descr',
+                'label'       => 'le.lead.lead.events.changecompanyscore',
+                'description' => 'le.lead.lead.events.changecompanyscore_descr',
                 'formType'    => 'scorecontactscompanies_action',
                 'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'order'       => 16,
@@ -195,8 +195,8 @@ class CampaignSubscriber extends CommonSubscriber
             $event->addAction('lead.scorecontactscompanies', $action);
         }
         $trigger = [
-            'label'                  => 'mautic.lead.lead.events.delete',
-            'description'            => 'mautic.lead.lead.events.delete_descr',
+            'label'                  => 'le.lead.lead.events.delete',
+            'description'            => 'le.lead.lead.events.delete_descr',
             'eventName'              => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'connectionRestrictions' => [
                 'target' => [
@@ -231,8 +231,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction('lead.removedonotcontact', $trigger);
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.field_value',
-            'description' => 'mautic.lead.lead.events.field_value_descr',
+            'label'       => 'le.lead.lead.events.field_value',
+            'description' => 'le.lead.lead.events.field_value_descr',
             'formType'    => 'campaignevent_lead_field_value',
             'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
@@ -241,8 +241,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addCondition('lead.field_value', $trigger);
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.device',
-            'description' => 'mautic.lead.lead.events.device_descr',
+            'label'       => 'le.lead.lead.events.device',
+            'description' => 'le.lead.lead.events.device_descr',
             'formType'    => 'campaignevent_lead_device',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
             'order'       => 8,
@@ -253,8 +253,8 @@ class CampaignSubscriber extends CommonSubscriber
         }
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.tags',
-            'description' => 'mautic.lead.lead.events.tags_descr',
+            'label'       => 'le.lead.lead.events.tags',
+            'description' => 'le.lead.lead.events.tags_descr',
             'formType'    => 'campaignevent_lead_tags',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
             'order'       => 2,
@@ -262,8 +262,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addCondition('lead.tags', $trigger);
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.segments',
-            'description' => 'mautic.lead.lead.events.segments_descr',
+            'label'       => 'le.lead.lead.events.segments',
+            'description' => 'le.lead.lead.events.segments_descr',
             'formType'    => 'campaignevent_lead_segments',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
             'order'       => 1,
@@ -272,8 +272,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addCondition('lead.segments', $trigger);
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.owner',
-            'description' => 'mautic.lead.lead.events.owner_descr',
+            'label'       => 'le.lead.lead.events.owner',
+            'description' => 'le.lead.lead.events.owner_descr',
             'formType'    => 'campaignevent_lead_owner',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
             'order'       => 5,
@@ -282,8 +282,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addCondition('lead.owner', $trigger);
 
         $trigger = [
-            'label'       => 'mautic.lead.lead.events.campaigns',
-            'description' => 'mautic.lead.lead.events.campaigns_descr',
+            'label'       => 'le.lead.lead.events.campaigns',
+            'description' => 'le.lead.lead.events.campaigns_descr',
             'formType'    => 'campaignevent_lead_campaigns',
             'formTheme'   => 'MauticLeadBundle:FormTheme\ContactCampaignsCondition',
             'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
@@ -324,7 +324,7 @@ class CampaignSubscriber extends CommonSubscriber
         //$event->addSources('allleads', $source);
 
         $source = [
-            'label'       => 'mautic.lead.list.filter.tags',
+            'label'       => 'le.lead.list.filter.tags',
             'description' => 'le.lead.lead.events.tags_descr',
             'order'       => '4',
             'formType'    => 'campaignevent_lead_tags',
@@ -335,7 +335,7 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addSources('leadtags', $source);
 
         $source = [
-            'label'       => 'mautic.lead.lead.events.field_value',
+            'label'       => 'le.lead.lead.events.field_value',
             'description' => 'le.lead.lead.events.field_value_descr',
             'formType'    => 'campaignevent_lead_field_value',
             'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
@@ -515,7 +515,7 @@ class CampaignSubscriber extends CommonSubscriber
         $lead  = $event->getLead();
 
         if (!$this->leadModel->scoreContactsCompany($lead, $score)) {
-            return $event->setFailed('mautic.lead.no_company');
+            return $event->setFailed('le.lead.no_company');
         } else {
             return $event->setResult(true);
         }

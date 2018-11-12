@@ -50,8 +50,8 @@ class DynamicContentFilterEntryFiltersType extends AbstractType
             [
                 'label'   => false,
                 'choices' => [
-                    'and' => 'mautic.lead.list.form.glue.and',
-                    'or'  => 'mautic.lead.list.form.glue.or',
+                    'and' => 'le.lead.list.form.glue.and',
+                    'or'  => 'le.lead.list.form.glue.or',
                 ],
                 'attr' => [
                     'class'    => 'form-control not-chosen glue-select',

@@ -26,7 +26,7 @@ class UploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('file', 'file', [
-            'label' => 'mautic.lead.import.file',
+            'label' => 'le.lead.import.file',
             'attr'  => [
                 'accept' => '.json',
                 'class'  => 'form-control',
@@ -43,7 +43,7 @@ class UploadType extends AbstractType
                 'icon'    => 'fa fa-upload',
                 'onclick' => "mQuery(this).prop('disabled', true); mQuery('form[name=\'dashboard_upload\']').submit();",
             ],
-            'label' => 'mautic.lead.import.upload',
+            'label' => 'le.lead.import.upload',
         ]);
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

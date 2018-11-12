@@ -956,9 +956,9 @@ class Import extends FormEntity
     public function getRowStatusesPieChart(TranslatorHelper $translator)
     {
         $chart = new PieChart();
-        $chart->setDataset($translator->trans('mautic.lead.import.inserted.count'), $this->getInsertedCount());
-        $chart->setDataset($translator->trans('mautic.lead.import.updated.count'), $this->getUpdatedCount());
-        $chart->setDataset($translator->trans('mautic.lead.import.ignored.count'), $this->getIgnoredCount());
+        $chart->setDataset($translator->trans('le.lead.import.inserted.count'), $this->getInsertedCount());
+        $chart->setDataset($translator->trans('le.lead.import.updated.count'), $this->getUpdatedCount());
+        $chart->setDataset($translator->trans('le.lead.import.ignored.count'), $this->getIgnoredCount());
 
         return $chart->render();
     }

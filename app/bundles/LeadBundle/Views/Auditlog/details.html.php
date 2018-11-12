@@ -48,7 +48,7 @@ switch ($type) {
         $text .= '</table>';
         break;
     case 'delete':
-        $text = $view['translator']->trans('mautic.lead.audit.deleted');
+        $text = $view['translator']->trans('le.lead.audit.deleted');
         break;
     case 'update':
         $text = '<table class="table">';
@@ -75,10 +75,10 @@ switch ($type) {
         $text .= '</table>';
         break;
     case 'identified':
-        $text = $view['translator']->trans('mautic.lead.audit.identified');
+        $text = $view['translator']->trans('le.lead.audit.identified');
         break;
     case 'ipadded':
-        $text = $view['translator']->trans('mautic.lead.audit.accessed').' '.implode(',', array_splice($details, 1));
+        $text = $view['translator']->trans('le.lead.audit.accessed').' '.implode(',', array_splice($details, 1));
         break;
     case 'merge':
         $text = '<table class="table">';

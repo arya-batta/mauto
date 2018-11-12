@@ -49,7 +49,7 @@ class AddToCompanyActionType extends AbstractType
                 'modal_route' => false,
                 'constraints' => [
                     new NotBlank(
-                        ['message' => 'mautic.company.choosecompany.notblank']
+                        ['message' => 'le.company.choosecompany.notblank']
                     ),
                 ],
             ]
@@ -73,7 +73,7 @@ class AddToCompanyActionType extends AbstractType
                     'onclick' => 'Mautic.loadNewWindow({"windowUrl": "'.$windowUrl.'"})',
                     'icon'    => 'fa fa-plus',
                 ],
-                'label' => 'mautic.company.new.company',
+                'label' => 'le.company.new.company',
             ]
         );
     }

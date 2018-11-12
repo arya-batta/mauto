@@ -23,9 +23,9 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchLists']),
-                    'data-header' => $view['translator']->trans('mautic.lead.batch.lists'),
+                    'data-header' => $view['translator']->trans('le.lead.batch.lists'),
                 ],
-                'btnText'   => $view['translator']->trans('mautic.lead.batch.lists'),
+                'btnText'   => $view['translator']->trans('le.lead.batch.lists'),
                 'iconClass' => 'fa fa-pie-chart',
             ],
             [
@@ -34,9 +34,9 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchCampaigns']),
-                    'data-header' => $view['translator']->trans('mautic.lead.batch.campaigns'),
+                    'data-header' => $view['translator']->trans('le.lead.batch.campaigns'),
                 ],
-                'btnText'   => $view['translator']->trans('mautic.lead.batch.campaigns'),
+                'btnText'   => $view['translator']->trans('le.lead.batch.campaigns'),
                 'iconClass' => 'fa fa-clock-o',
             ],
             [
@@ -45,9 +45,9 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchOwners']),
-                    'data-header' => $view['translator']->trans('mautic.lead.batch.owner'),
+                    'data-header' => $view['translator']->trans('le.lead.batch.owner'),
                 ],
-                'btnText'   => $view['translator']->trans('mautic.lead.batch.owner'),
+                'btnText'   => $view['translator']->trans('le.lead.batch.owner'),
                 'iconClass' => 'fa fa-user',
             ],
             [
@@ -56,9 +56,9 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchDnc']),
-                    'data-header' => $view['translator']->trans('mautic.lead.batch.dnc'),
+                    'data-header' => $view['translator']->trans('le.lead.batch.dnc'),
                 ],
-                'btnText'   => $view['translator']->trans('mautic.lead.batch.dnc'),
+                'btnText'   => $view['translator']->trans('le.lead.batch.dnc'),
                 'iconClass' => 'fa fa-ban text-danger',
             ],
         ];
@@ -70,9 +70,9 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#MauticSharedModal',
                     'href'        => $view['router']->path('mautic_contact_action', ['objectAction' => 'batchStages']),
-                    'data-header' => $view['translator']->trans('mautic.lead.batch.stages'),
+                    'data-header' => $view['translator']->trans('le.lead.batch.stages'),
                 ],
-                'btnText'   => $view['translator']->trans('mautic.lead.batch.stages'),
+                'btnText'   => $view['translator']->trans('le.lead.batch.stages'),
                 'iconClass' => 'fa fa-tachometer',
                ],
             ];
@@ -112,7 +112,7 @@ if ($showsetup) {
                     'customButtons' => $customButtons,
                     'langVar'       => 'lead.lead',
                     'routeBase'     => 'contact',
-                    'tooltip'       => $view['translator']->trans('mautic.lead.list.checkall.help'),
+                    'tooltip'       => $view['translator']->trans('le.lead.list.checkall.help'),
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
@@ -149,7 +149,7 @@ if ($showsetup) {
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.points',
-                    'text'       => 'mautic.lead.points',
+                    'text'       => 'le.lead.points',
                     'class'      => 'visible-md visible-lg col-lead-points',
                 ]);
                /* echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
@@ -162,14 +162,14 @@ if ($showsetup) {
                     echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                         'sessionVar' => 'lead',
                         'orderBy'    => 'l.stage_id',
-                        'text'       => 'mautic.lead.stage.label',
+                        'text'       => 'le.lead.stage.label',
                         'class'      => 'col-lead-stage',
                     ]);
                 }*/
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',
-                    'text'       => 'mautic.lead.lastactive',
+                    'text'       => 'le.lead.lastactive',
                     'class'      => 'col-lead-lastactive visible-md visible-lg',
                     'default'    => true,
                 ]);
@@ -177,7 +177,7 @@ if ($showsetup) {
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.city, l.state',
-                    'text'       => 'mautic.lead.lead.thead.location',
+                    'text'       => 'le.lead.lead.thead.location',
                     'class'      => 'col-lead-location visible-md visible-lg',
                 ]);
                 if ($isAdmin):

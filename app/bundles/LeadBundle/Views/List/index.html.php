@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'leadlist');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.lead.list.header.index'));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.lead.list.header.index'));
 
 $view['slots']->set(
     'actions',
@@ -22,12 +22,12 @@ $view['slots']->set(
             ],
             'routeBase' => 'segment',
             'langVar'   => 'lead.list',
-            'tooltip'   => 'mautic.lead.lead.segment.add.help',
+            'tooltip'   => 'le.lead.lead.segment.add.help',
         ]
     )
 );
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.campaign.lead.segments'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaign.lead.segments'); ?></h3></div>
 <div style="padding-top: 15px;">
     <?php foreach ($allBlockDetails as $key => $segmentBlock): ?>
     <div class="info-box" id="leads-info-box-container">
@@ -46,7 +46,7 @@ $view['slots']->set(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [
             'searchValue' => $searchValue,
-            'searchHelp'  => 'mautic.lead.list.help.searchcommands',
+            'searchHelp'  => 'le.lead.list.help.searchcommands',
             'action'      => $currentRoute,
         ]
     ); ?>

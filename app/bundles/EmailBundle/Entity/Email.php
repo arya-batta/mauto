@@ -574,7 +574,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
                              new LeadListAccess(),
                              new NotBlank(
                                  [
-                                     'message' => 'mautic.lead.lists.required',
+                                     'message' => 'le.lead.lists.required',
                                  ]
                              ),
                          ]

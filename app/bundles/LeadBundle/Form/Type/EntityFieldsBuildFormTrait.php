@@ -57,7 +57,7 @@ trait EntityFieldsBuildFormTrait
             $constraints = [];
             if ($required && empty($options['ignore_required_constraints'])) {
                 $constraints[] = new NotBlank(
-                    ['message' => 'mautic.lead.customfield.notblank']
+                    ['message' => 'le.lead.customfield.notblank']
                 );
             }
 

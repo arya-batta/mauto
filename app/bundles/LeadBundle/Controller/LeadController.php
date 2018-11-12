@@ -108,13 +108,13 @@ class LeadController extends FormController
 
         $filter      = ['string' => $search, 'force' => ''];
         $translator  = $this->get('translator');
-        $anonymous   = $translator->trans('mautic.lead.lead.searchcommand.isanonymous');
-        $listCommand = $translator->trans('mautic.lead.lead.searchcommand.list');
+        $anonymous   = $translator->trans('le.lead.lead.searchcommand.isanonymous');
+        $listCommand = $translator->trans('le.lead.lead.searchcommand.list');
         $mine        = $translator->trans('mautic.core.searchcommand.ismine');
         $indexMode   = $this->request->get('view', $session->get('mautic.lead.indexmode', 'list'));
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.lead.lead.filter.placeholder'),
+                'placeholder' => $this->get('translator')->trans('le.lead.lead.filter.placeholder'),
                 'multiple'    => true,
             ],
         ];
@@ -438,7 +438,7 @@ class LeadController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.lead.lead.error.notfound',
+                            'msg'     => 'le.lead.lead.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -828,7 +828,7 @@ class LeadController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.lead.lead.error.notfound',
+                                'msg'     => 'le.lead.lead.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -1028,7 +1028,7 @@ class LeadController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.lead.lead.error.notfound',
+                                'msg'     => 'le.lead.lead.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -1103,7 +1103,7 @@ class LeadController extends FormController
                                     'flashes' => [
                                         [
                                             'type'    => 'error',
-                                            'msg'     => 'mautic.lead.lead.error.notfound',
+                                            'msg'     => 'le.lead.lead.error.notfound',
                                             'msgVars' => ['%id%' => $secLead->getId()],
                                         ],
                                     ],
@@ -1285,7 +1285,7 @@ class LeadController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.lead.error.notfound',
+                    'msg'     => 'le.lead.lead.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1370,7 +1370,7 @@ class LeadController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.lead.lead.error.notfound',
+                        'msg'     => 'le.lead.lead.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1402,9 +1402,9 @@ class LeadController extends FormController
                     $this->get('mautic.helper.licenseinfo')->intRecordCount($deleteCounts, false);
                     $this->get('mautic.helper.licenseinfo')->intDeleteCount($deleteCounts, true);
                     $this->get('mautic.helper.licenseinfo')->intDeleteMonth($currentMonth);
-                    $flashMsg= 'mautic.lead.lead.notice.batch_deleted';
+                    $flashMsg= 'le.lead.lead.notice.batch_deleted';
                 } else {
-                    $flashMsg= 'mautic.lead.lead.notice.batch_deleted.restrict';
+                    $flashMsg= 'le.lead.lead.notice.batch_deleted.restrict';
                 }
 
                 $flashes[] = [
@@ -1698,7 +1698,7 @@ class LeadController extends FormController
                                     $mailer->createEmailStat();
                                     $this->get('mautic.helper.licenseinfo')->intEmailCount('1');
                                     $this->addFlash(
-                                'mautic.lead.email.notice.sent',
+                                'le.lead.email.notice.sent',
                                 [
                                     '%subject%' => $subject,
                                     '%email%'   => $leadEmail,
@@ -1715,7 +1715,7 @@ class LeadController extends FormController
                                     $form->addError(
                                 new FormError(
                                     $this->get('translator')->trans(
-                                        'mautic.lead.email.error.failed',
+                                        'le.lead.email.error.failed',
                                         [
                                             '%subject%' => $subject,
                                             '%email%'   => $leadEmail,
@@ -1740,7 +1740,7 @@ class LeadController extends FormController
                     } else {
                         $form['body']->addError(
                             new FormError(
-                                $this->get('translator')->trans('mautic.lead.email.body.required', [], 'validators')
+                                $this->get('translator')->trans('le.lead.email.body.required', [], 'validators')
                             )
                         );
                         $valid = false;
@@ -1847,7 +1847,7 @@ class LeadController extends FormController
             }
 
             $this->addFlash(
-                'mautic.lead.batch_leads_affected',
+                'le.lead.batch_leads_affected',
                 [
                     'pluralCount' => $count,
                     '%count%'     => $count,
@@ -1978,7 +1978,7 @@ class LeadController extends FormController
             }
 
             $this->addFlash(
-                'mautic.lead.batch_leads_affected',
+                'le.lead.batch_leads_affected',
                 [
                     'pluralCount' => $count,
                     '%count%'     => $count,
@@ -2081,7 +2081,7 @@ class LeadController extends FormController
             }
 
             $this->addFlash(
-                'mautic.lead.batch_leads_affected',
+                'le.lead.batch_leads_affected',
                 [
                     'pluralCount' => $count,
                     '%count%'     => $count,
@@ -2181,7 +2181,7 @@ class LeadController extends FormController
             // Save entities
             $model->saveEntities($entities);
             $this->addFlash(
-                'mautic.lead.batch_leads_affected',
+                'le.lead.batch_leads_affected',
                 [
                     'pluralCount' => $count,
                     '%count%'     => $count,
@@ -2284,7 +2284,7 @@ class LeadController extends FormController
             // Save entities
             $model->saveEntities($entities);
             $this->addFlash(
-                'mautic.lead.batch_leads_affected',
+                'le.lead.batch_leads_affected',
                 [
                     'pluralCount' => $count,
                     '%count%'     => $count,
@@ -2377,7 +2377,7 @@ class LeadController extends FormController
 
         $filter     = ['string' => $search, 'force' => ''];
         $translator = $this->get('translator');
-        $anonymous  = $translator->trans('mautic.lead.lead.searchcommand.isanonymous');
+        $anonymous  = $translator->trans('le.lead.lead.searchcommand.isanonymous');
         $mine       = $translator->trans('mautic.core.searchcommand.ismine');
         $indexMode  = $session->get('mautic.lead.indexmode', 'list');
         $dataType   = $this->request->get('filetype', 'csv');

@@ -34,14 +34,14 @@ class SlotCategoryListType extends SlotType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label-text', 'text', [
-            'label'      => 'mautic.lead.field.label',
+            'label'      => 'le.lead.field.label',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
                 'class'           => 'form-control',
                 'data-slot-param' => 'label-text',
             ],
-            'data' => $this->translator->trans('mautic.lead.form.categories'),
+            'data' => $this->translator->trans('le.lead.form.categories'),
         ]);
 
         parent::buildForm($builder, $options);

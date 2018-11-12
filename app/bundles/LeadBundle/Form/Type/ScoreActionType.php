@@ -30,11 +30,11 @@ class ScoreActionType extends AbstractType
             'choice',
             [
                 'choices' => [
-                    'hot'      => 'mautic.lead.lead.scoretype.hot',
-                    'warm'     => 'mautic.lead.lead.scoretype.warm',
-                    'cold'     => 'mautic.lead.lead.scoretype.cold',
+                    'hot'      => 'le.lead.lead.scoretype.hot',
+                    'warm'     => 'le.lead.lead.scoretype.warm',
+                    'cold'     => 'le.lead.lead.scoretype.cold',
                 ],
-                'label'       => 'mautic.campaign.lead.event.score',
+                'label'       => 'le.campaign.lead.event.score',
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control'],
                 'data'        => (isset($options['data']['score'])) ? $options['data']['score'] : 'Cold',

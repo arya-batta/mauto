@@ -81,7 +81,7 @@ class ListController extends FormController
         if (!$permissions['lead:lists:viewother']) {
             $translator      = $this->get('translator');
             $mine            = $translator->trans('mautic.core.searchcommand.ismine');
-            $global          = $translator->trans('mautic.lead.list.searchcommand.isglobal');
+            $global          = $translator->trans('le.lead.list.searchcommand.isglobal');
             //$filter['force'] = " ($mine or $global)";
             $filter['force'] = " $mine or $global";
         }
@@ -254,7 +254,7 @@ class ListController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.lead.list.error.notfound',
+                            'msg'     => 'le.lead.list.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -292,7 +292,7 @@ class ListController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.lead.list.error.notfound',
+                            'msg'     => 'le.lead.list.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -475,7 +475,7 @@ class ListController extends FormController
             if ($list === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.list.error.notfound',
+                    'msg'     => 'le.lead.list.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -540,7 +540,7 @@ class ListController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.lead.list.error.notfound',
+                        'msg'     => 'le.lead.list.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -560,7 +560,7 @@ class ListController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'mautic.lead.list.notice.batch_deleted',
+                    'msg'     => 'le.lead.list.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],
@@ -630,7 +630,7 @@ class ListController extends FormController
             if ($lead === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.lead.error.notfound',
+                    'msg'     => 'le.lead.lead.error.notfound',
                     'msgVars' => ['%id%' => $listId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -640,7 +640,7 @@ class ListController extends FormController
             } elseif ($list === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.lead.list.error.notfound',
+                    'msg'     => 'le.lead.list.error.notfound',
                     'msgVars' => ['%id%' => $list->getId()],
                 ];
             } elseif (!$list->isGlobal() && !$this->get('mautic.security')->hasEntityAccess(
@@ -656,8 +656,8 @@ class ListController extends FormController
                 $identifier = $this->get('translator')->trans($lead->getPrimaryIdentifier());
                 $flashes[]  = [
                     'type' => 'notice',
-                    'msg'  => ($action == 'remove') ? 'mautic.lead.lead.notice.removedfromlists' :
-                        'mautic.lead.lead.notice.addedtolists',
+                    'msg'  => ($action == 'remove') ? 'le.lead.lead.notice.removedfromlists' :
+                        'le.lead.lead.notice.addedtolists',
                     'msgVars' => [
                         '%name%' => $identifier,
                         '%id%'   => $leadId,
@@ -763,9 +763,9 @@ class ListController extends FormController
                 'events'        => [
                     'filters' => $filters,
                     'types'   => [
-                        'manually_added'   => $translator->trans('mautic.segment.contact.manually.added'),
-                        'manually_removed' => $translator->trans('mautic.segment.contact.manually.removed'),
-                        'filter_added'     => $translator->trans('mautic.segment.contact.filter.added'),
+                        'manually_added'   => $translator->trans('le.segment.contact.manually.added'),
+                        'manually_removed' => $translator->trans('le.segment.contact.manually.removed'),
+                        'filter_added'     => $translator->trans('le.segment.contact.filter.added'),
                     ],
                 ],
                 'contacts' => $this->forward(

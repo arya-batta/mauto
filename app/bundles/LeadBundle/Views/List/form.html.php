@@ -17,9 +17,9 @@ $index  = count($form['filters']->vars['value']) ? max(array_keys($form['filters
 
 if (!empty($id)) {
     $name   = $form->vars['data']->getName();
-    $header = $view['translator']->trans('mautic.lead.list.header.edit', ['%name%' => $name]);
+    $header = $view['translator']->trans('le.lead.list.header.edit', ['%name%' => $name]);
 } else {
-    $header = $view['translator']->trans('mautic.lead.list.header.new');
+    $header = $view['translator']->trans('le.lead.list.header.new');
 }
 $view['slots']->set('headerTitle', $header);
 
@@ -57,7 +57,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
             <?php endif; ?>
         </a>
     </li>
-    <li id="filterstab" data-toggle="tooltip" title="" onclick="Mautic.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.lead.lead.segment.add.help'); ?>">
+    <li id="filterstab" data-toggle="tooltip" title="" onclick="Mautic.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
         <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
             <?php if ($filterErrors): ?>
@@ -222,7 +222,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
-        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('mautic.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('mautic.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
         <select class="form-control not-chosen <?php echo $template; ?>" name="leadlist[filters][__name__][filter]" id="leadlist_filters___name___filter"<?php echo $attr; ?>>
             <?php
             if (isset($form->vars[$dataKey])):

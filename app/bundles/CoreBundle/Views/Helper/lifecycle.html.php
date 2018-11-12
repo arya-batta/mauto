@@ -35,7 +35,7 @@ foreach ($chartItems as $key => $chartData) :
     <?php if ($stages[$key]) : ?>
         <div class="chart-wrapper">
                 <div>
-                    <div class="chart-legend pt-sd pr-md pb-md pl-md"><h5><?php echo $view['translator']->trans('mautic.lead.lifecycle.graph.stage.cycle'); ?></h5></div>
+                    <div class="chart-legend pt-sd pr-md pb-md pl-md"><h5><?php echo $view['translator']->trans('le.lead.lifecycle.graph.stage.cycle'); ?></h5></div>
                     <div class="clearfix"></div>
                     <div style="height:<?php echo $chartHeight / 2.3; ?>px;">
                      <canvas class="chart liefechart-bar-chart" style="font-size: 9px!important;"><?php echo json_encode($stages[$key]); ?></canvas>
@@ -47,7 +47,7 @@ foreach ($chartItems as $key => $chartData) :
         <?php if ($devices[$key]) : ?>
             <div class="chart-wrapper">
                 <div>
-                    <div class="chart-legend pt-sd pr-md pb-md pl-md"><h5><?php echo $view['translator']->trans('mautic.lead.lifecycle.graph.device.granularity'); ?></h5></div>
+                    <div class="chart-legend pt-sd pr-md pb-md pl-md"><h5><?php echo $view['translator']->trans('le.lead.lifecycle.graph.device.granularity'); ?></h5></div>
                     <div class="clearfix"></div>
                     <div style="height:<?php echo $chartHeight / 5; ?>px;">
                         <canvas class="chart horizontal-bar-chart" style="font-size: 9px!important;"><?php echo json_encode($devices[$key]); ?></canvas>

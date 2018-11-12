@@ -23,7 +23,7 @@ if ($mailertransport != 'mautic.transport.amazon') {
     $style               ='';
 }
 if ($dnc && $dnc['bounced']) {
-    echo '<div class="alert alert-warning">'.$view['translator']->trans('mautic.lead.do.not.contact_bounced').'</div>';
+    echo '<div class="alert alert-warning">'.$view['translator']->trans('le.lead.do.not.contact_bounced').'</div>';
 } else {
     echo $view['form']->start($form);
     echo $view['form']->row($form['fromname']); ?>
