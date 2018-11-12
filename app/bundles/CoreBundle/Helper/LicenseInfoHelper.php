@@ -874,7 +874,7 @@ class LicenseInfoHelper
         $result     = curl_exec($ch);
         $dataresult = json_decode($result, true);
 
-        return $dataresult['data'];
+        return isset($dataresult['data']) ? $dataresult['data'] : [];
     }
 
     public function getSendGridStatus($subusername)

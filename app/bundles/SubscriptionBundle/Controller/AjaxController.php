@@ -565,7 +565,7 @@ class AjaxController extends CommonAjaxController
         if ($transport == 'mautic.transport.elasticemail' && !empty($maileruser) && !empty($emailpassword)) {
             $accountstatus              = $this->get('mautic.helper.licenseinfo')->getElasticAccountDetails($emailpassword, 'load');
             $dataArray['credits']       = $contactUsage;
-            $dataArray['accountstatus'] = $accountstatus['statusformatted'];
+            $dataArray['accountstatus'] = isset($accountstatus['statusformatted']) ? $accountstatus['statusformatted'] : '';
             $dataArray['daysavailable'] = $mailsent24hrs;
         }
         if ($transport == 'mautic.transport.sendgrid_api' && !empty($maileruser) && !empty($emailpassword)) {
@@ -604,8 +604,8 @@ class AjaxController extends CommonAjaxController
             $dataArray['success']         = true;
             $dataArray['isalertneeded']   = true;
         }
-        if($lastpayment!= null && $lastpayment->getPaymentStatus()!= 'Paid'){
-            $configurl = $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']);
+        if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
+            $configurl                    = $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']);
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
