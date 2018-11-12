@@ -45,7 +45,7 @@ class SlotChannelFrequencyType extends SlotType
         ]);
 
         $builder->add('label-text1', 'text', [
-            'label'      => 'mautic.page.form.frequency.label1',
+            'label'      => 'le.page.form.frequency.label1',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
@@ -56,7 +56,7 @@ class SlotChannelFrequencyType extends SlotType
         ]);
 
         $builder->add('label-text2', 'text', [
-            'label'      => 'mautic.page.form.frequency.label2',
+            'label'      => 'le.page.form.frequency.label2',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
@@ -67,7 +67,7 @@ class SlotChannelFrequencyType extends SlotType
         ]);
 
         $builder->add('label-text3', 'text', [
-            'label'      => 'mautic.page.form.pause.label1',
+            'label'      => 'le.page.form.pause.label1',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
@@ -78,7 +78,7 @@ class SlotChannelFrequencyType extends SlotType
         ]);
 
         $builder->add('label-text4', 'text', [
-            'label'      => 'mautic.page.form.pause.label2',
+            'label'      => 'le.page.form.pause.label2',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [

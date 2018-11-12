@@ -18,7 +18,7 @@ if (isset($form)) {
        class="button btn btn-default btn-save"
        <?php if (isset($form)) : ?>onclick="saveUnsubscribePreferences('<?php echo $form->vars['id']; ?>')"<?php endif; ?>
        style="display:inline-block;text-decoration:none;border-color:#4e5d9d;border-width: 10px 20px;border-style:solid; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #4e5d9d; display: inline-block;font-size: 16px; color: #ffffff; ">
-        <?php echo $view['translator']->trans('mautic.page.form.saveprefs'); ?>
+        <?php echo $view['translator']->trans('le.page.form.saveprefs'); ?>
     </a>
     <div style="clear:both"></div>
 <?php

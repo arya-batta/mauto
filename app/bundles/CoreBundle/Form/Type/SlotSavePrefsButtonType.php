@@ -49,7 +49,7 @@ class SlotSavePrefsButtonType extends SlotType
                 'class'           => 'form-control',
                 'data-slot-param' => 'link-text',
             ],
-            'data' => $this->translator->trans('mautic.page.form.saveprefs'),
+            'data' => $this->translator->trans('le.page.form.saveprefs'),
         ]);
 
         parent::buildForm($builder, $options);

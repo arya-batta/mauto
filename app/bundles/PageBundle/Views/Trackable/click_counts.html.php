@@ -3,10 +3,10 @@
         <table class="table table-hover table-striped table-bordered click-list">
             <thead>
             <tr>
-                <td><?php echo $view['translator']->trans('mautic.trackable.click_url'); ?></td>
-                <td><?php echo $view['translator']->trans('mautic.trackable.click_count'); ?></td>
-                <td><?php echo $view['translator']->trans('mautic.trackable.click_unique_count'); ?></td>
-                <td><?php echo $view['translator']->trans('mautic.trackable.click_track_id'); ?></td>
+                <td><?php echo $view['translator']->trans('le.trackable.click_url'); ?></td>
+                <td><?php echo $view['translator']->trans('le.trackable.click_count'); ?></td>
+                <td><?php echo $view['translator']->trans('le.trackable.click_unique_count'); ?></td>
+                <td><?php echo $view['translator']->trans('le.trackable.click_track_id'); ?></td>
             </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
                 <?php endforeach; ?>
 
                 <tr>
-                    <td class="long-text"><?php echo $view['translator']->trans('mautic.trackable.total_clicks'); ?></td>
+                    <td class="long-text"><?php echo $view['translator']->trans('le.trackable.total_clicks'); ?></td>
                     <td class="text-center"><?php echo $totalClicks; ?></td>
                     <td class="text-center"><?php echo $totalUniqueClicks; ?></td>
                     <td></td>
@@ -39,8 +39,8 @@
     <?php echo $view->render(
         'MauticCoreBundle:Helper:noresults.html.php',
         [
-            'header'  => 'mautic.trackable.click_counts.header_none',
-            'message' => 'mautic.trackable.click_counts.none',
+            'header'  => 'le.trackable.click_counts.header_none',
+            'message' => 'le.trackable.click_counts.none',
         ]
     ); ?>
     <div class="clearfix"></div>

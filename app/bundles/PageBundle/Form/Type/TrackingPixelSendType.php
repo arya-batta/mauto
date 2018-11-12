@@ -45,7 +45,7 @@ class TrackingPixelSendType extends AbstractType
         $trackingServices = $this->trackingHelper->getEnabledServices();
 
         $builder->add('services', 'choice', [
-            'label'      => 'mautic.page.tracking.form.services',
+            'label'      => 'le.page.tracking.form.services',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class' => 'form-control',
@@ -65,11 +65,11 @@ class TrackingPixelSendType extends AbstractType
             'category',
             'text',
             [
-                'label'      => 'mautic.page.tracking.form.category',
+                'label'      => 'le.page.tracking.form.category',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
-                    'tooltip' => 'mautic.page.tracking.form.category.tooltip',
+                    'tooltip' => 'le.page.tracking.form.category.tooltip',
                 ],
                 'required'    => true,
                 'constraints' => [
@@ -82,7 +82,7 @@ class TrackingPixelSendType extends AbstractType
             'action',
             'text',
             [
-                'label'      => 'mautic.page.tracking.form.action',
+                'label'      => 'le.page.tracking.form.action',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control',
@@ -98,7 +98,7 @@ class TrackingPixelSendType extends AbstractType
             'label',
             'text',
             [
-                'label'      => 'mautic.page.tracking.form.label',
+                'label'      => 'le.page.tracking.form.label',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control',

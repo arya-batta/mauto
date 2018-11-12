@@ -74,7 +74,7 @@ class LeadSubscriber extends CommonSubscriber
     {
         // Set available event types
         $eventTypeKey  = 'page.hit';
-        $eventTypeName = $this->translator->trans('mautic.page.event.hit');
+        $eventTypeName = $this->translator->trans('le.page.event.hit');
         $event->addEventType($eventTypeKey, $eventTypeName);
         $event->addSerializerGroup('pageList', 'hitDetails');
 
@@ -179,7 +179,7 @@ class LeadSubscriber extends CommonSubscriber
         return;
         // Set available event types
         $eventTypeKey  = 'page.videohit';
-        $eventTypeName = $this->translator->trans('mautic.page.event.videohit');
+        $eventTypeName = $this->translator->trans('le.page.event.videohit');
         $event->addEventType($eventTypeKey, $eventTypeName);
         $event->addSerializerGroup('pageList', 'hitDetails');
 

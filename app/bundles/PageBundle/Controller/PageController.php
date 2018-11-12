@@ -190,7 +190,7 @@ class PageController extends FormController
         if ($count && $count < ($start + 1)) {
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
-            $this->get('session')->set('mautic.page.page', $lastPage);
+            $this->get('session')->set('le.page.page', $lastPage);
             $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
@@ -205,7 +205,7 @@ class PageController extends FormController
         }
 
         //set what page currently on so that we can return here after form submission/cancellation
-        $this->get('session')->set('mautic.page.page', $page);
+        $this->get('session')->set('le.page.page', $page);
 
         $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
 
@@ -251,7 +251,7 @@ class PageController extends FormController
         $security   = $this->get('mautic.security');
         $activePage = $model->getEntity($objectId);
         //set the page we came from
-        $page = $this->get('session')->get('mautic.page.page', 1);
+        $page = $this->get('session')->get('le.page.page', 1);
 
         if ($activePage === null) {
             //set the return URL
@@ -268,7 +268,7 @@ class PageController extends FormController
                 'flashes' => [
                     [
                         'type'    => 'error',
-                        'msg'     => 'mautic.page.error.notfound',
+                        'msg'     => 'le.page.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ],
                 ],
@@ -451,7 +451,7 @@ class PageController extends FormController
         }
 
         //set the page we came from
-        $page   = $session->get('mautic.page.page', 1);
+        $page   = $session->get('le.page.page', 1);
         $action = $this->generateUrl('mautic_page_action', ['objectAction' => 'new']);
 
         //create the form
@@ -582,7 +582,7 @@ class PageController extends FormController
         $security = $this->get('mautic.security');
         $entity   = $model->getEntity($objectId);
         $session  = $this->get('session');
-        $page     = $this->get('session')->get('mautic.page.page', 1);
+        $page     = $this->get('session')->get('le.page.page', 1);
 
         //set the return URL
         $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
@@ -604,7 +604,7 @@ class PageController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.page.error.notfound',
+                            'msg'     => 'le.page.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -791,7 +791,7 @@ class PageController extends FormController
      */
     public function deleteAction($objectId)
     {
-        $page      = $this->get('session')->get('mautic.page.page', 1);
+        $page      = $this->get('session')->get('le.page.page', 1);
         $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
         $flashes   = [];
 
@@ -813,7 +813,7 @@ class PageController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.page.error.notfound',
+                    'msg'     => 'le.page.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -852,7 +852,7 @@ class PageController extends FormController
      */
     public function batchDeleteAction()
     {
-        $page      = $this->get('session')->get('mautic.page.page', 1);
+        $page      = $this->get('session')->get('le.page.page', 1);
         $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
         $flashes   = [];
 
@@ -879,7 +879,7 @@ class PageController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.page.error.notfound',
+                        'msg'     => 'le.page.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -899,7 +899,7 @@ class PageController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'mautic.page.notice.batch_deleted',
+                    'msg'     => 'le.page.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],
@@ -1031,7 +1031,7 @@ class PageController extends FormController
     public function winnerAction($objectId)
     {
         //todo - add confirmation to button click
-        $page      = $this->get('session')->get('mautic.page.page', 1);
+        $page      = $this->get('session')->get('le.page.page', 1);
         $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
         $flashes   = [];
 
@@ -1053,7 +1053,7 @@ class PageController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.page.error.notfound',
+                    'msg'     => 'le.page.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1070,7 +1070,7 @@ class PageController extends FormController
 
             $flashes[] = [
                 'type'    => 'notice',
-                'msg'     => 'mautic.page.notice.activated',
+                'msg'     => 'le.page.notice.activated',
                 'msgVars' => [
                     '%name%' => $entity->getTitle(),
                     '%id%'   => $objectId,
@@ -1123,7 +1123,7 @@ class PageController extends FormController
             }
 
             if (!isset($slotConfig['placeholder'])) {
-                $slotConfig['placeholder'] = 'mautic.page.builder.addcontent';
+                $slotConfig['placeholder'] = 'le.page.builder.addcontent';
             }
 
             $value = isset($content[$slot]) ? $content[$slot] : '';

@@ -26,11 +26,11 @@ class DashboardHitsInTimeWidgetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('flag', 'choice', [
-                'label'   => 'mautic.page.visit.flag.filter',
+                'label'   => 'le.page.visit.flag.filter',
                 'choices' => [
-                    ''                 => 'mautic.page.show.total.visits',
-                    'unique'           => 'mautic.page.show.unique.visits',
-                    'total_and_unique' => 'mautic.page.show.unique.and.total.visits',
+                    ''                 => 'le.page.show.total.visits',
+                    'unique'           => 'le.page.show.unique.visits',
+                    'total_and_unique' => 'le.page.show.unique.and.total.visits',
                 ],
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control'],

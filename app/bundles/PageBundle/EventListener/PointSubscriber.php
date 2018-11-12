@@ -63,9 +63,9 @@ class PointSubscriber extends CommonSubscriber
     public function onPointBuild(PointBuilderEvent $event)
     {
         $action = [
-            'group'       => 'mautic.page.point.action',
-            'label'       => 'mautic.page.point.action.pagehit',
-            'description' => 'mautic.page.point.action.pagehit_descr',
+            'group'       => 'le.page.point.action',
+            'label'       => 'le.page.point.action.pagehit',
+            'description' => 'le.page.point.action.pagehit_descr',
             'callback'    => ['\\Mautic\\PageBundle\\Helper\\PointActionHelper', 'validatePageHit'],
             'formType'    => 'pointaction_pagehit',
         ];
@@ -73,9 +73,9 @@ class PointSubscriber extends CommonSubscriber
         $event->addAction('page.hit', $action);
 
         $action = [
-            'group'       => 'mautic.page.point.action',
-            'label'       => 'mautic.page.point.action.urlhit',
-            'description' => 'mautic.page.point.action.urlhit_descr',
+            'group'       => 'le.page.point.action',
+            'label'       => 'le.page.point.action.urlhit',
+            'description' => 'le.page.point.action.urlhit_descr',
             'callback'    => ['\\Mautic\\PageBundle\\Helper\\PointActionHelper', 'validateUrlHit'],
             'formType'    => 'pointaction_urlhit',
             'formTheme'   => 'MauticPageBundle:FormTheme\Point',

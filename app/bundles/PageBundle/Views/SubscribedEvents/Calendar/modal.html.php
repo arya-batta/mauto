@@ -20,7 +20,7 @@
 	<a href="<?php echo $view['router']->path('mautic_page_action',
         ['objectAction' => 'edit', 'objectId' => $entity->getId()]); ?>"
 	    data-toggle="ajax">
-	    <?php echo $view['translator']->trans('mautic.page.menu.edit'); ?>
+	    <?php echo $view['translator']->trans('le.page.menu.edit'); ?>
 	</a>
 	|
 	<a href="<?php echo $view['router']->path('mautic_page_action',
@@ -30,6 +30,6 @@
 	</a>
 	|
 	<a href="<?php echo $model->generateUrl($entity); ?>" target="_blank">
-	    <?php echo $view['translator']->trans('mautic.page.menu.view'); ?>
+	    <?php echo $view['translator']->trans('le.page.menu.view'); ?>
 	</a>
 </div>

@@ -34,7 +34,7 @@ $configKeys = array_keys($form->children);
                 <li role="presentation" class="list-group-item <?php echo $i === 0 ? 'in active' : ''; ?>">
                     <?php $containsErrors = ($view['form']->containsErrors($form[$key])) ? ' text-danger' : ''; ?>
                     <a href="#<?php echo $key; ?>" aria-controls="<?php echo $key; ?>" role="tab" data-toggle="tab" class="steps<?php echo $containsErrors; ?>">
-                        <?php echo $view['translator']->trans('mautic.config.tab.'.$key); ?>
+                        <?php echo $view['translator']->trans('le.config.tab.'.$key); ?>
                         <?php if ($containsErrors): ?>
                             <i class="fa fa-warning"></i>
                         <?php endif; ?>

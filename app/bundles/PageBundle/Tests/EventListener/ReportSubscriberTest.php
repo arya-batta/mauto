@@ -320,15 +320,15 @@ class ReportSubscriberTest extends WebTestCase
             ->method('getRequestedGraphs')
             ->willReturn(
                 [
-                    'mautic.page.graph.line.hits',
-                    'mautic.page.graph.line.time.on.site',
-                    'mautic.page.graph.pie.time.on.site',
-                    'mautic.page.graph.pie.new.vs.returning',
-                    'mautic.page.graph.pie.languages',
-                    'mautic.page.graph.pie.devices',
-                    'mautic.page.table.referrers',
-                    'mautic.page.table.most.visited',
-                    'mautic.page.table.most.visited.unique',
+                    'le.page.graph.line.hits',
+                    'le.page.graph.line.time.on.site',
+                    'le.page.graph.pie.time.on.site',
+                    'le.page.graph.pie.new.vs.returning',
+                    'le.page.graph.pie.languages',
+                    'le.page.graph.pie.devices',
+                    'le.page.table.referrers',
+                    'le.page.table.most.visited',
+                    'le.page.table.most.visited.unique',
                 ]
             );
 

@@ -79,31 +79,31 @@ class ReportSubscriber extends CommonSubscriber
                 'type'  => 'string',
             ],
             $prefix.'revision' => [
-                'label' => 'mautic.page.report.revision',
+                'label' => 'le.page.report.revision',
                 'type'  => 'string',
             ],
             $prefix.'hits' => [
-                'label' => 'mautic.page.field.hits',
+                'label' => 'le.page.field.hits',
                 'type'  => 'int',
             ],
             $prefix.'unique_hits' => [
-                'label' => 'mautic.page.field.unique_hits',
+                'label' => 'le.page.field.unique_hits',
                 'type'  => 'int',
             ],
             $translationPrefix.'id' => [
-                'label' => 'mautic.page.report.translation_parent_id',
+                'label' => 'le.page.report.translation_parent_id',
                 'type'  => 'int',
             ],
             $translationPrefix.'title' => [
-                'label' => 'mautic.page.report.translation_parent_title',
+                'label' => 'le.page.report.translation_parent_title',
                 'type'  => 'string',
             ],
             $variantPrefix.'id' => [
-                'label' => 'mautic.page.report.variant_parent_id',
+                'label' => 'le.page.report.variant_parent_id',
                 'type'  => 'string',
             ],
             $variantPrefix.'title' => [
-                'label' => 'mautic.page.report.variant_parent_title',
+                'label' => 'le.page.report.variant_parent_title',
                 'type'  => 'string',
             ],
             $prefix.'lang' => [
@@ -111,12 +111,12 @@ class ReportSubscriber extends CommonSubscriber
                 'type'  => 'string',
             ],
             $prefix.'variant_start_date' => [
-                'label'          => 'mautic.page.report.variant_start_date',
+                'label'          => 'le.page.report.variant_start_date',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE('.$prefix.'variant_start_date)',
             ],
             $prefix.'variant_hits' => [
-                'label' => 'mautic.page.report.variant_hits',
+                'label' => 'le.page.report.variant_hits',
                 'type'  => 'int',
             ],
         ];
@@ -126,7 +126,7 @@ class ReportSubscriber extends CommonSubscriber
             $event->getCategoryColumns()
         );
         $data = [
-            'display_name' => 'mautic.page.pages',
+            'display_name' => 'le.page.pages',
             'columns'      => $columns,
         ];
         $event->addTable(self::CONTEXT_PAGES, $data);
@@ -136,61 +136,61 @@ class ReportSubscriber extends CommonSubscriber
             $redirectHit = 'r.';
             $hitColumns  = [
                 $hitPrefix.'date_hit' => [
-                    'label'          => 'mautic.page.report.hits.date_hit',
+                    'label'          => 'le.page.report.hits.date_hit',
                     'type'           => 'datetime',
                     'groupByFormula' => 'DATE('.$hitPrefix.'date_hit)',
                 ],
                 $hitPrefix.'date_left' => [
-                    'label'          => 'mautic.page.report.hits.date_left',
+                    'label'          => 'le.page.report.hits.date_left',
                     'type'           => 'datetime',
                     'groupByFormula' => 'DATE('.$hitPrefix.'date_left)',
                 ],
                 $hitPrefix.'country' => [
-                    'label' => 'mautic.page.report.hits.country',
+                    'label' => 'le.page.report.hits.country',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'region' => [
-                    'label' => 'mautic.page.report.hits.region',
+                    'label' => 'le.page.report.hits.region',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'city' => [
-                    'label' => 'mautic.page.report.hits.city',
+                    'label' => 'le.page.report.hits.city',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'isp' => [
-                    'label' => 'mautic.page.report.hits.isp',
+                    'label' => 'le.page.report.hits.isp',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'organization' => [
-                    'label' => 'mautic.page.report.hits.organization',
+                    'label' => 'le.page.report.hits.organization',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'code' => [
-                    'label' => 'mautic.page.report.hits.code',
+                    'label' => 'le.page.report.hits.code',
                     'type'  => 'int',
                 ],
                 $hitPrefix.'referer' => [
-                    'label' => 'mautic.page.report.hits.referer',
+                    'label' => 'le.page.report.hits.referer',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'url' => [
-                    'label' => 'mautic.page.report.hits.url',
+                    'label' => 'le.page.report.hits.url',
                     'type'  => 'url',
                 ],
                 $hitPrefix.'url_title' => [
-                    'label' => 'mautic.page.report.hits.url_title',
+                    'label' => 'le.page.report.hits.url_title',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'user_agent' => [
-                    'label' => 'mautic.page.report.hits.user_agent',
+                    'label' => 'le.page.report.hits.user_agent',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'remote_host' => [
-                    'label' => 'mautic.page.report.hits.remote_host',
+                    'label' => 'le.page.report.hits.remote_host',
                     'type'  => 'string',
                 ],
                 $hitPrefix.'browser_languages' => [
-                    'label' => 'mautic.page.report.hits.browser_languages',
+                    'label' => 'le.page.report.hits.browser_languages',
                     'type'  => 'array',
                 ],
                 $hitPrefix.'source' => [
@@ -202,15 +202,15 @@ class ReportSubscriber extends CommonSubscriber
                     'type'  => 'int',
                 ],
                 $redirectHit.'url' => [
-                    'label' => 'mautic.page.report.hits.redirect_url',
+                    'label' => 'le.page.report.hits.redirect_url',
                     'type'  => 'url',
                 ],
                 $redirectHit.'hits' => [
-                    'label' => 'mautic.page.report.hits.redirect_hit_count',
+                    'label' => 'le.page.report.hits.redirect_hit_count',
                     'type'  => 'int',
                 ],
                 $redirectHit.'unique_hits' => [
-                    'label' => 'mautic.page.report.hits.redirect_unique_hits',
+                    'label' => 'le.page.report.hits.redirect_unique_hits',
                     'type'  => 'string',
                 ],
                 'ds.device' => [
@@ -255,22 +255,22 @@ class ReportSubscriber extends CommonSubscriber
             );
 
             $data = [
-                'display_name' => 'mautic.page.hits',
+                'display_name' => 'le.page.hits',
                 'columns'      => $pageHitsColumns,
             ];
             $event->addTable(self::CONTEXT_PAGE_HITS, $data, self::CONTEXT_PAGES);
 
             // Register graphs
             $context = self::CONTEXT_PAGE_HITS;
-            $event->addGraph($context, 'line', 'mautic.page.graph.line.hits');
-            $event->addGraph($context, 'line', 'mautic.page.graph.line.time.on.site');
-            $event->addGraph($context, 'pie', 'mautic.page.graph.pie.time.on.site', ['translate' => false]);
-            $event->addGraph($context, 'pie', 'mautic.page.graph.pie.new.vs.returning');
-            $event->addGraph($context, 'pie', 'mautic.page.graph.pie.devices');
-            $event->addGraph($context, 'pie', 'mautic.page.graph.pie.languages', ['translate' => false]);
-            $event->addGraph($context, 'table', 'mautic.page.table.referrers');
-            $event->addGraph($context, 'table', 'mautic.page.table.most.visited');
-            $event->addGraph($context, 'table', 'mautic.page.table.most.visited.unique');
+            $event->addGraph($context, 'line', 'le.page.graph.line.hits');
+            $event->addGraph($context, 'line', 'le.page.graph.line.time.on.site');
+            $event->addGraph($context, 'pie', 'le.page.graph.pie.time.on.site', ['translate' => false]);
+            $event->addGraph($context, 'pie', 'le.page.graph.pie.new.vs.returning');
+            $event->addGraph($context, 'pie', 'le.page.graph.pie.devices');
+            $event->addGraph($context, 'pie', 'le.page.graph.pie.languages', ['translate' => false]);
+            $event->addGraph($context, 'table', 'le.page.table.referrers');
+            $event->addGraph($context, 'table', 'le.page.table.most.visited');
+            $event->addGraph($context, 'table', 'le.page.table.most.visited.unique');
         }
     }
 
@@ -341,7 +341,7 @@ class ReportSubscriber extends CommonSubscriber
             $chartQuery->applyDateFilters($queryBuilder, 'date_hit', 'ph');
 
             switch ($g) {
-                case 'mautic.page.graph.line.hits':
+                case 'le.page.graph.line.hits':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $chartQuery->modifyTimeDataQuery($queryBuilder, 'date_hit', 'ph');
                     $hits = $chartQuery->loadAndBuildTimeData($queryBuilder);
@@ -352,7 +352,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $data);
                     break;
 
-                case 'mautic.page.graph.line.time.on.site':
+                case 'le.page.graph.line.time.on.site':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $queryBuilder->select('TIMESTAMPDIFF(SECOND, ph.date_hit, ph.date_left) as data, ph.date_hit as date');
                     $queryBuilder->andWhere($qb->expr()->isNotNull('ph.date_left'));
@@ -365,7 +365,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $data);
                     break;
 
-                case 'mautic.page.graph.pie.time.on.site':
+                case 'le.page.graph.pie.time.on.site':
                     $timesOnSite = $hitRepo->getDwellTimeLabels();
                     $chart       = new PieChart();
 
@@ -386,7 +386,7 @@ class ReportSubscriber extends CommonSubscriber
                     );
                     break;
 
-                case 'mautic.page.graph.pie.new.vs.returning':
+                case 'le.page.graph.pie.new.vs.returning':
                     $chart   = new PieChart();
                     $allQ    = clone $queryBuilder;
                     $uniqueQ = clone $queryBuilder;
@@ -395,8 +395,8 @@ class ReportSubscriber extends CommonSubscriber
                     $all       = $chartQuery->fetchCount($allQ);
                     $unique    = $chartQuery->fetchCount($uniqueQ);
                     $returning = $all - $unique;
-                    $chart->setDataset($this->translator->trans('mautic.page.unique'), $unique);
-                    $chart->setDataset($this->translator->trans('mautic.page.graph.pie.new.vs.returning.returning'), $returning);
+                    $chart->setDataset($this->translator->trans('le.page.unique'), $unique);
+                    $chart->setDataset($this->translator->trans('le.page.graph.pie.new.vs.returning.returning'), $returning);
 
                     $event->setGraph(
                         $g,
@@ -408,7 +408,7 @@ class ReportSubscriber extends CommonSubscriber
                     );
                     break;
 
-                case 'mautic.page.graph.pie.languages':
+                case 'le.page.graph.pie.languages':
                     $queryBuilder->select('ph.page_language, COUNT(distinct(ph.id)) as the_count')
                         ->groupBy('ph.page_language')
                         ->andWhere($qb->expr()->isNotNull('ph.page_language'));
@@ -428,7 +428,7 @@ class ReportSubscriber extends CommonSubscriber
                         ]
                     );
                     break;
-                case 'mautic.page.graph.pie.devices':
+                case 'le.page.graph.pie.devices':
                     $queryBuilder->select('ds.device, COUNT(distinct(ph.id)) as the_count')
                         ->groupBy('ds.device');
                     $data  = $queryBuilder->execute()->fetchAll();
@@ -448,7 +448,7 @@ class ReportSubscriber extends CommonSubscriber
                         ]
                     );
                     break;
-                case 'mautic.page.table.referrers':
+                case 'le.page.table.referrers':
                     $limit                  = 10;
                     $offset                 = 0;
                     $items                  = $hitRepo->getReferers($queryBuilder, $limit, $offset);
@@ -459,7 +459,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.page.table.most.visited':
+                case 'le.page.table.most.visited':
                     $limit                  = 10;
                     $offset                 = 0;
                     $items                  = $hitRepo->getMostVisited($queryBuilder, $limit, $offset);
@@ -471,7 +471,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.page.table.most.visited.unique':
+                case 'le.page.table.most.visited.unique':
                     $limit                  = 10;
                     $offset                 = 0;
                     $items                  = $hitRepo->getMostVisited($queryBuilder, $limit, $offset, 'p.unique_hits', 'sessions');

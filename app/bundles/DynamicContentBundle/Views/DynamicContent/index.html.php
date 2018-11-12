@@ -32,7 +32,7 @@ $view['slots']->set(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [
             'searchValue' => $searchValue,
-            'searchHelp'  => 'mautic.page.help.searchcommands',
+            'searchHelp'  => 'le.page.help.searchcommands',
             'action'      => $currentRoute,
         ]
     ); ?>

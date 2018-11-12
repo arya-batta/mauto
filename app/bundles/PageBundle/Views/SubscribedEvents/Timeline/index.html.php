@@ -30,11 +30,11 @@ $query = $event['extra']['hit']['query'];
 
 <?php if (isset($event['extra'])) : ?>
 <dl class="dl-horizontal">
-    <dt><?php echo $view['translator']->trans('mautic.page.time.on.page'); ?>:</dt>
+    <dt><?php echo $view['translator']->trans('le.page.time.on.page'); ?>:</dt>
     <dd><?php echo $timeOnPage; ?></dd>
-    <dt><?php echo $view['translator']->trans('mautic.page.referrer'); ?>:</dt>
+    <dt><?php echo $view['translator']->trans('le.page.referrer'); ?>:</dt>
     <dd><?php echo $event['extra']['hit']['referer'] ? $view['assets']->makeLinks($event['extra']['hit']['referer']) : $view['translator']->trans('mautic.core.unknown'); ?></dd>
-    <dt><?php echo $view['translator']->trans('mautic.page.url'); ?>:</dt>
+    <dt><?php echo $view['translator']->trans('le.page.url'); ?>:</dt>
     <dd><?php echo $event['extra']['hit']['url'] ? $view['assets']->makeLinks($event['extra']['hit']['url']) : $view['translator']->trans('mautic.core.unknown'); ?></dd>
 
     <?php if (isset($event['extra']['hit']['device']) and !empty($event['extra']['hit']['device'])): ?>

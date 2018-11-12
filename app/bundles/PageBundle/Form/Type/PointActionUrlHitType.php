@@ -29,31 +29,31 @@ class PointActionUrlHitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('page_url', 'text', [
-            'label'      => 'mautic.page.point.action.form.page.url',
+            'label'      => 'le.page.point.action.form.page.url',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'       => 'form-control le-input',
-                'tooltip'     => 'mautic.page.point.action.form.page.url.descr',
+                'tooltip'     => 'le.page.point.action.form.page.url.descr',
                 'placeholder' => 'http://',
             ],
         ]);
 
         // $default = (isset($options['data']) && isset($options['data']['first_time'])) ? $options['data']['first_time'] : false;
         // $builder->add('first_time', 'yesno_button_group', array(
-        //     'label'       => 'mautic.page.point.action.form.first.time.only',
+        //     'label'       => 'le.page.point.action.form.first.time.only',
         //     'attr'        => array(
-        //         'tooltip' => 'mautic.page.point.action.form.first.time.only.descr'
+        //         'tooltip' => 'le.page.point.action.form.first.time.only.descr'
         //     ),
         //     'data'        => $default
         // ));
 
         $builder->add('page_hits', 'integer', [
-            'label'      => 'mautic.page.hits',
+            'label'      => 'le.page.hits',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
                 'class'   => 'form-control le-input',
-                'tooltip' => 'mautic.page.point.action.form.page.hits.descr',
+                'tooltip' => 'le.page.point.action.form.page.hits.descr',
             ],
         ]);
 
@@ -66,12 +66,12 @@ class PointActionUrlHitType extends AbstractType
             $secondsTransformer = new SecondsConversionTransformer($unit);
             $form->add(
                 $builder->create('accumulative_time', 'text', [
-                    'label'      => 'mautic.page.point.action.form.accumulative.time',
+                    'label'      => 'le.page.point.action.form.accumulative.time',
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control le-input',
-                        'tooltip' => 'mautic.page.point.action.form.accumulative.time.descr',
+                        'tooltip' => 'le.page.point.action.form.accumulative.time.descr',
                     ],
                     'auto_initialize' => false,
                 ])
@@ -87,12 +87,12 @@ class PointActionUrlHitType extends AbstractType
 
             $form->add(
                 $builder->create('returns_within', 'text', [
-                    'label'      => 'mautic.page.point.action.form.returns.within',
+                    'label'      => 'le.page.point.action.form.returns.within',
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control le-input',
-                        'tooltip' => 'mautic.page.point.action.form.returns.within.descr',
+                        'tooltip' => 'le.page.point.action.form.returns.within.descr',
                         'onBlur'  => 'Mautic.EnablesOption(this.id)',
                     ],
                     'auto_initialize' => false,
@@ -108,12 +108,12 @@ class PointActionUrlHitType extends AbstractType
             ]);
             $form->add(
                 $builder->create('returns_after', 'text', [
-                    'label'      => 'mautic.page.point.action.form.returns.after',
+                    'label'      => 'le.page.point.action.form.returns.after',
                     'required'   => false,
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control le-input',
-                        'tooltip' => 'mautic.page.point.action.form.returns.after.descr',
+                        'tooltip' => 'le.page.point.action.form.returns.after.descr',
                         'onBlur'  => 'Mautic.EnablesOption(this.id)',
                     ],
                     'auto_initialize' => false,

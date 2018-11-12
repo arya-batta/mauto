@@ -29,10 +29,10 @@ class ConfigTrackingPageType extends AbstractType
             'track_contact_by_ip',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.form.track_contact_by_ip',
+                'label' => 'le.page.config.form.track_contact_by_ip',
                 'data'  => (bool) $options['data']['track_contact_by_ip'],
                 'attr'  => [
-                    'tooltip' => 'mautic.page.config.form.track_contact_by_ip.tooltip',
+                    'tooltip' => 'le.page.config.form.track_contact_by_ip.tooltip',
                 ],
             ]
         );
@@ -41,10 +41,10 @@ class ConfigTrackingPageType extends AbstractType
             'track_by_tracking_url',
             'yesno_button_group',
             [
-            'label' => 'mautic.page.config.form.track.by.tracking.url',
+            'label' => 'le.page.config.form.track.by.tracking.url',
             'data'  => (bool) $options['data']['track_by_tracking_url'],
             'attr'  => [
-                'tooltip' => 'mautic.page.config.form.track.by.tracking.url.tooltip',
+                'tooltip' => 'le.page.config.form.track.by.tracking.url.tooltip',
             ],
         ]);
 
@@ -52,10 +52,10 @@ class ConfigTrackingPageType extends AbstractType
             'track_by_fingerprint',
             'yesno_button_group',
             [
-            'label' => 'mautic.page.config.form.track.by.fingerprint',
+            'label' => 'le.page.config.form.track.by.fingerprint',
             'data'  => (bool) $options['data']['track_by_fingerprint'],
             'attr'  => [
-                'tooltip' => 'mautic.page.config.form.track.by.fingerprint.tooltip',
+                'tooltip' => 'le.page.config.form.track.by.fingerprint.tooltip',
             ],
         ]);
 
@@ -63,7 +63,7 @@ class ConfigTrackingPageType extends AbstractType
             'facebook_pixel_id',
             'text',
             [
-                'label' => 'mautic.page.config.form.facebook.pixel.id',
+                'label' => 'le.page.config.form.facebook.pixel.id',
                 'attr'  => [
                     'class' => 'form-control le-input',
                 ],
@@ -75,7 +75,7 @@ class ConfigTrackingPageType extends AbstractType
             'facebook_pixel_trackingpage_enabled',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.form.tracking.trackingpage.enabled',
+                'label' => 'le.page.config.form.tracking.trackingpage.enabled',
                 'data'  => (bool) $options['data']['facebook_pixel_trackingpage_enabled'],
             ]
         );
@@ -84,7 +84,7 @@ class ConfigTrackingPageType extends AbstractType
             'facebook_pixel_landingpage_enabled',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.form.tracking.landingpage.enabled',
+                'label' => 'le.page.config.form.tracking.landingpage.enabled',
                 'data'  => (bool) $options['data']['facebook_pixel_landingpage_enabled'],
             ]
         );
@@ -93,7 +93,7 @@ class ConfigTrackingPageType extends AbstractType
             'google_analytics_id',
             'text',
             [
-                'label' => 'mautic.page.config.form.google.analytics.id',
+                'label' => 'le.page.config.form.google.analytics.id',
                 'attr'  => [
                     'class' => 'form-control le-input',
                 ],
@@ -105,7 +105,7 @@ class ConfigTrackingPageType extends AbstractType
             'google_analytics_trackingpage_enabled',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.form.tracking.trackingpage.enabled',
+                'label' => 'le.page.config.form.tracking.trackingpage.enabled',
                 'data'  => (bool) $options['data']['google_analytics_trackingpage_enabled'],
             ]
         );
@@ -114,7 +114,7 @@ class ConfigTrackingPageType extends AbstractType
             'google_analytics_landingpage_enabled',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.form.tracking.landingpage.enabled',
+                'label' => 'le.page.config.form.tracking.landingpage.enabled',
                 'data'  => (bool) $options['data']['google_analytics_landingpage_enabled'],
             ]
         );
@@ -123,13 +123,13 @@ class ConfigTrackingPageType extends AbstractType
             'emailInstructionsto',
             'text',
             [
-                'label'      => 'mautic.page.tracking.emailinstructions',
+                'label'      => 'le.page.tracking.emailinstructions',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
                     'id'       => 'emailInstructionsto',
-                    'tooltip'  => 'mautic.page.tracking.emailinstructions.tooltip',
+                    'tooltip'  => 'le.page.tracking.emailinstructions.tooltip',
                 ],
                 'required' => false,
                 'data'     => (array_key_exists('emailInstructionsto', $options['data']) && !empty($options['data']['emailInstructionsto']))
@@ -142,11 +142,11 @@ class ConfigTrackingPageType extends AbstractType
             'emailAdditionainfo',
             'textarea',
             [
-                'label' => 'mautic.page.tracking.emailAdditioninfo',
+                'label' => 'le.page.tracking.emailAdditioninfo',
                 'attr'  => [
                     'class'    => 'form-control',
                     'id'       => 'emailAdditionainfo',
-                    'tooltip'  => 'mautic.page.tracking.emailAdditioninfo.tooltip',
+                    'tooltip'  => 'le.page.tracking.emailAdditioninfo.tooltip',
                 ],
                 'required' => false,
             ]

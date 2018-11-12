@@ -31,7 +31,7 @@ class RedirectListType extends AbstractType
             'choices'     => $factory->getParameter('redirect_list_types'),
             'expanded'    => false,
             'multiple'    => false,
-            'label'       => 'mautic.page.form.redirecttype',
+            'label'       => 'le.page.form.redirecttype',
             'label_attr'  => ['class' => 'control-label'],
             'empty_value' => false,
             'required'    => false,

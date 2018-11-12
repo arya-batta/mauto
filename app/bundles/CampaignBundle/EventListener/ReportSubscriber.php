@@ -172,7 +172,7 @@ class ReportSubscriber extends CommonSubscriber
         $event->addTable(self::CONTEXT_CAMPAIGN_LEAD_EVENT_LOG, $data);
 
         // Register graphs
-        //$event->addGraph($context, 'line', 'mautic.page.graph.line.hits');
+        //$event->addGraph($context, 'line', 'le.page.graph.line.hits');
     }
 
     /**
@@ -229,7 +229,7 @@ class ReportSubscriber extends CommonSubscriber
 
             switch ($g) {
                 /*
-                case 'mautic.page.graph.line.hits':
+                case 'le.page.graph.line.hits':
                     $chart = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $chartQuery->modifyTimeDataQuery($queryBuilder, 'date_hit', 'ph');
                     $hits = $chartQuery->loadAndBuildTimeData($queryBuilder);

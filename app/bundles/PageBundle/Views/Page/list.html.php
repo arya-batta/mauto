@@ -67,7 +67,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'page',
                         'orderBy'    => 'p.hits',
-                        'text'       => 'mautic.page.thead.hits',
+                        'text'       => 'le.page.thead.hits',
                         'class'      => 'col-page-hits visible-md visible-lg',
                     ]
                 );
@@ -191,7 +191,7 @@ $isAdmin=$view['security']->isAdmin();
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.page.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.page.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>

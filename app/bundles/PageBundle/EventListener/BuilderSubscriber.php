@@ -101,15 +101,15 @@ class BuilderSubscriber extends CommonSubscriber
         if ($event->abTestWinnerCriteriaRequested()) {
             //add AB Test Winner Criteria
             $bounceRate = [
-                'group'    => 'mautic.page.abtest.criteria',
-                'label'    => 'mautic.page.abtest.criteria.bounce',
+                'group'    => 'le.page.abtest.criteria',
+                'label'    => 'le.page.abtest.criteria.bounce',
                 'callback' => '\Mautic\PageBundle\Helper\AbTestHelper::determineBounceTestWinner',
             ];
             $event->addAbTestWinnerCriteria('page.bouncerate', $bounceRate);
 
             $dwellTime = [
-                'group'    => 'mautic.page.abtest.criteria',
-                'label'    => 'mautic.page.abtest.criteria.dwelltime',
+                'group'    => 'le.page.abtest.criteria',
+                'label'    => 'le.page.abtest.criteria.dwelltime',
                 'callback' => '\Mautic\PageBundle\Helper\AbTestHelper::determineDwellTimeTestWinner',
             ];
             $event->addAbTestWinnerCriteria('page.dwelltime', $dwellTime);
@@ -133,16 +133,16 @@ class BuilderSubscriber extends CommonSubscriber
             $event->addTokens(
                 $event->filterTokens(
                     [
-                        //$this->langBarRegex      => $this->translator->trans('mautic.page.token.lang'),
-                        //$this->shareButtonsRegex => $this->translator->trans('mautic.page.token.share'),
+                        //$this->langBarRegex      => $this->translator->trans('le.page.token.lang'),
+                        //$this->shareButtonsRegex => $this->translator->trans('le.page.token.share'),
                         //$this->titleRegex        => $this->translator->trans('mautic.core.title'),
-                        //$this->descriptionRegex  => $this->translator->trans('mautic.page.form.metadescription'),
-                        //self::segmentListRegex   => $this->translator->trans('mautic.page.form.segmentlist'),
-                        //self::categoryListRegex  => $this->translator->trans('mautic.page.form.categorylist'),
-                        //self::preferredchannel   => $this->translator->trans('mautic.page.form.preferredchannel'),
-                        //self::channelfrequency   => $this->translator->trans('mautic.page.form.channelfrequency'),
-                        //self::saveprefsRegex     => $this->translator->trans('mautic.page.form.saveprefs'),
-                        //self::identifierToken    => $this->translator->trans('mautic.page.form.leadidentifier'),
+                        //$this->descriptionRegex  => $this->translator->trans('le.page.form.metadescription'),
+                        //self::segmentListRegex   => $this->translator->trans('le.page.form.segmentlist'),
+                        //self::categoryListRegex  => $this->translator->trans('le.page.form.categorylist'),
+                        //self::preferredchannel   => $this->translator->trans('le.page.form.preferredchannel'),
+                        //self::channelfrequency   => $this->translator->trans('le.page.form.channelfrequency'),
+                        //self::saveprefsRegex     => $this->translator->trans('le.page.form.saveprefs'),
+                        //self::identifierToken    => $this->translator->trans('le.page.form.leadidentifier'),
                     ]
                 )
             );

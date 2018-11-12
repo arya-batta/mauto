@@ -18,12 +18,12 @@ if ($variantParent) {
         '%parent%' => $variantParent->getTitle(),
     ]);
 } elseif ($activePage->isVariant(false)) {
-    $subheader = '<div><span class="small">'.$view['translator']->trans('mautic.page.form.has_variants').'</span></div>';
+    $subheader = '<div><span class="small">'.$view['translator']->trans('le.page.form.has_variants').'</span></div>';
 }
 $header = $isExisting ?
-    $view['translator']->trans('mautic.page.header.edit',
+    $view['translator']->trans('le.page.header.edit',
         ['%name%' => $activePage->getTitle()]) :
-    $view['translator']->trans('mautic.page.header.new');
+    $view['translator']->trans('le.page.header.new');
 $view['slots']->set('headerTitle', $header.$subheader);
 $template                           = $form['template']->vars['data'];
 $attr                               = $form->vars['attr'];

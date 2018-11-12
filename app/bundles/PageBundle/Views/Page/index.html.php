@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('mauticContent', 'page');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.page.pages'));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.page.pages'));
 
 $view['slots']->set(
     'actions',
@@ -25,7 +25,7 @@ $view['slots']->set(
     )
 );
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.report.group.pages'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.report.group.pages'); ?></h3></div>
 <div style="padding-top: 15px;">
     <?php foreach ($pageBlockDetails as $key => $pageBlock): ?>
         <div class="info-box" id="leads-info-box-container">
@@ -44,7 +44,7 @@ $view['slots']->set(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [
             'searchValue' => $searchValue,
-            'searchHelp'  => 'mautic.page.help.searchcommands',
+            'searchHelp'  => 'le.page.help.searchcommands',
             'action'      => $currentRoute,
             'filters'     => $filters,
         ]

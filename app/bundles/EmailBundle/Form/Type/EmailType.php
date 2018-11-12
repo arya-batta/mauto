@@ -352,11 +352,11 @@ class EmailType extends AbstractType
                 'preferenceCenter',
                 'preference_center_list',
                 [
-                    'label'      => 'mautic.email.form.preference_center',
+                    'label'      => 'le.email.form.preference_center',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'            => 'form-control',
-                        'tooltip'          => 'mautic.email.form.preference_center.tooltip',
+                        'tooltip'          => 'le.email.form.preference_center.tooltip',
                         'data-placeholder' => $this->translator->trans('mautic.core.form.chooseone'),
                     ],
                     'required'    => false,

@@ -106,7 +106,7 @@ class SearchSubscriber extends CommonSubscriber
                     )->getContent();
                 }
                 $pageResults['count'] = count($pages);
-                $event->addResults('mautic.page.pages', $pageResults);
+                $event->addResults('le.page.pages', $pageResults);
             }
         }
     }
@@ -118,7 +118,7 @@ class SearchSubscriber extends CommonSubscriber
     {
         if ($this->security->isGranted(['page:pages:viewown', 'page:pages:viewother'], 'MATCH_ONE')) {
             $event->addCommands(
-                'mautic.page.pages',
+                'le.page.pages',
                 $this->pageModel->getCommandList()
             );
         }

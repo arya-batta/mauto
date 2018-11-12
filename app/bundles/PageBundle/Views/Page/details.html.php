@@ -149,7 +149,7 @@ $view['slots']->set(
                                 <div class="col-md-3 va-m">
                                     <h5 class="text-white dark-md fw-sb mb-xs">
                                         <span class="fa fa-line-chart"></span>
-                                        <?php echo $view['translator']->trans('mautic.page.pageviews'); ?>
+                                        <?php echo $view['translator']->trans('le.page.pageviews'); ?>
                                     </h5>
                                 </div>
                                 <div class="col-md-9 va-m">
@@ -232,7 +232,7 @@ $view['slots']->set(
         <?php if (!$activePage->getIsPreferenceCenter()) : ?>
         <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0">
             <div class="panel-heading">
-                <div class="panel-title"><?php echo $view['translator']->trans('mautic.page.url'); ?></div>
+                <div class="panel-title"><?php echo $view['translator']->trans('le.page.url'); ?></div>
             </div>
             <div class="panel-body pt-xs">
                 <div class="input-group">
@@ -256,7 +256,7 @@ $view['slots']->set(
         <?php endif; ?>
         <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0 hide">
             <div class="panel-heading">
-                <div class="panel-title"><?php echo $view['translator']->trans('mautic.page.preview.url'); ?></div>
+                <div class="panel-title"><?php echo $view['translator']->trans('le.page.preview.url'); ?></div>
             </div>
             <div class="panel-body pt-xs">
                 <div class="input-group">

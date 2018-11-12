@@ -139,7 +139,7 @@ if (!$isEmbedded) {
             <ul class="nav nav-tabs pr-md pl-md">
                 <li class="active">
                     <a href="#clicks-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.trackable.click_counts'); ?>
+                        <?php echo $view['translator']->trans('le.trackable.click_counts'); ?>
                     </a>
                 </li>
                 <li class="">

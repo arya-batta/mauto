@@ -77,7 +77,7 @@ class AbTestHelper
                 $rates             = [];
                 $support['data']   = [];
                 $support['labels'] = [];
-                $bounceLabel       = $factory->getTranslator()->trans('mautic.page.abtest.label.bounces');
+                $bounceLabel       = $factory->getTranslator()->trans('le.page.abtest.label.bounces');
 
                 foreach ($combined as $pid => $stats) {
                     $rates[$pid]                     = $stats['rate'];
@@ -137,7 +137,7 @@ class AbTestHelper
                 $support['labels'] = [];
                 foreach ($counts as $pid => $stats) {
                     $avgs[$pid]                                                                          = $stats['average'];
-                    $support['data'][$translator->trans('mautic.page.abtest.label.dewlltime.average')][] = $stats['average'];
+                    $support['data'][$translator->trans('le.page.abtest.label.dewlltime.average')][] = $stats['average'];
                     $support['labels'][]                                                                 = $pid.':'.$stats['title'];
                 }
 

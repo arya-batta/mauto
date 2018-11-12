@@ -14,11 +14,11 @@ $isAdmin    =$view['security']->isAdmin();
 
 <div class="panel panel-primary trackingconfig">
     <div class="panel-heading">
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.pagetracking'); ?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.pagetracking'); ?></h3>
     </div>
     <div class="panel-body">
         <div class="form-group">
-            <p><?php echo $view['translator']->trans('mautic.config.tab.pagetracking.info'); ?></p>
+            <p><?php echo $view['translator']->trans('le.config.tab.pagetracking.info'); ?></p>
             <pre id="script_preTag" style="display:none;">&lt;script&gt;
     (function(w,d,t,u,n,a,m){w['LeadsEngageTrackingObject']=n;
         w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
@@ -72,7 +72,7 @@ $isAdmin    =$view['security']->isAdmin();
         </div>
     </div>
     <div class="panel-heading <?php echo $isAdmin ? '' : 'hide' ?>" >
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.facebook.pixel'); ?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.tracking.facebook.pixel'); ?></h3>
 
     </div>
     <div class="panel-body <?php echo $isAdmin ? '' : 'hide' ?>" >
@@ -91,7 +91,7 @@ $isAdmin    =$view['security']->isAdmin();
     </div>
 
     <div class="panel-heading <?php echo $isAdmin ? '' : 'hide' ?>" >
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.tracking.google.analytics'); ?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.tracking.google.analytics'); ?></h3>
 
     </div>
     <div class="panel-body <?php echo $isAdmin ? '' : 'hide' ?>">

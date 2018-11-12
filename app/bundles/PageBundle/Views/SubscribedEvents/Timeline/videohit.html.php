@@ -47,11 +47,11 @@ $icon = (isset($event['icon'])) ? $event['icon'] : '';
 
 ?>
 <dl class="dl-horizontal">
-    <dt><?php echo $view['translator']->trans('mautic.page.time.on.video'); ?>:</dt>
-    <dd class="ellipsis"><?php echo $view['translator']->trans('mautic.page.time.on.video.value', ['%time_watched%' => $viewTime, '%duration%' => $duration, '%percentage%' => $percentage]); ?></dd>
-    <dt><?php echo $view['translator']->trans('mautic.page.referrer'); ?>:</dt>
+    <dt><?php echo $view['translator']->trans('le.page.time.on.video'); ?>:</dt>
+    <dd class="ellipsis"><?php echo $view['translator']->trans('le.page.time.on.video.value', ['%time_watched%' => $viewTime, '%duration%' => $duration, '%percentage%' => $percentage]); ?></dd>
+    <dt><?php echo $view['translator']->trans('le.page.referrer'); ?>:</dt>
     <dd class="ellipsis"><?php echo $event['extra']['hit']['referer'] ? $view['assets']->makeLinks($event['extra']['hit']['referer']) : $view['translator']->trans('mautic.core.unknown'); ?></dd>
-    <dt><?php echo $view['translator']->trans('mautic.video.url'); ?>:</dt>
+    <dt><?php echo $view['translator']->trans('le.video.url'); ?>:</dt>
     <dd class="ellipsis"><?php echo $event['extra']['hit']['url'] ? $view['assets']->makeLinks($event['extra']['hit']['url']) : $view['translator']->trans('mautic.core.unknown'); ?></dd>
 </dl>
 <div class="small">

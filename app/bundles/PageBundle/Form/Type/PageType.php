@@ -92,7 +92,7 @@ class PageType extends AbstractType
             'customHtml',
             'textarea',
             [
-                'label'    => 'mautic.page.form.customhtml',
+                'label'    => 'le.page.form.customhtml',
                 'required' => false,
                 'attr'     => [
                     'class'                => 'form-control editor-builder-tokens builder-html',
@@ -125,7 +125,7 @@ class PageType extends AbstractType
                 'data'    => $template,
                 'attr'    => [
                     'class'   => 'form-control not-chosen hidden',
-                    'tooltip' => 'mautic.page.form.template.help',
+                    'tooltip' => 'le.page.form.template.help',
                 ],
                 'empty_value' => 'mautic.core.none',
                 'data'        => $options['data']->getTemplate() ? $options['data']->getTemplate() : 'zblank',
@@ -138,7 +138,7 @@ class PageType extends AbstractType
             'isPreferenceCenter',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.preference_center',
+                'label' => 'le.page.config.preference_center',
                 'data'  => $options['data']->isPreferenceCenter() ? $options['data']->isPreferenceCenter() : false,
             ]
         );
@@ -147,7 +147,7 @@ class PageType extends AbstractType
             'noIndex',
             'yesno_button_group',
             [
-                'label' => 'mautic.page.config.no_index',
+                'label' => 'le.page.config.no_index',
                 'data'  => $options['data']->getNoIndex() ? $options['data']->getNoIndex() : false,
             ]
         );
@@ -264,7 +264,7 @@ class PageType extends AbstractType
             'metaDescription',
             'textarea',
             [
-                'label'      => 'mautic.page.form.metadescription',
+                'label'      => 'le.page.form.metadescription',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control', 'maxlength' => 160, 'style' =>'height: 102px'],
                 'required'   => false,
@@ -278,9 +278,9 @@ class PageType extends AbstractType
               'feature' => 'page',
               'attr'    => [
                   'class'   => 'form-control',
-                  'tooltip' => 'mautic.page.form.redirecttype.help',
+                  'tooltip' => 'le.page.form.redirecttype.help',
               ],
-              'empty_value' => 'mautic.page.form.redirecttype.none',
+              'empty_value' => 'le.page.form.redirecttype.none',
           ]
         );
 
@@ -289,14 +289,14 @@ class PageType extends AbstractType
             'url',
             [
                 'required'   => true,
-                'label'      => 'mautic.page.form.redirecturl',
+                'label'      => 'le.page.form.redirecturl',
                 'label_attr' => [
                     'class' => 'control-label',
                 ],
                 'attr' => [
                     'class'        => 'form-control le-input',
                     'maxlength'    => 200,
-                    'tooltip'      => 'mautic.page.form.redirecturl.help',
+                    'tooltip'      => 'le.page.form.redirecturl.help',
                     'data-toggle'  => 'field-lookup',
                     'data-action'  => 'page:fieldList',
                     'data-target'  => 'redirectUrl',
@@ -313,7 +313,7 @@ class PageType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control le-input',
-                    'tooltip' => 'mautic.page.help.alias',
+                    'tooltip' => 'le.page.help.alias',
                 ],
                 'required' => false,
             ]
@@ -336,7 +336,7 @@ class PageType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
-                    'tooltip' => 'mautic.page.form.language.help',
+                    'tooltip' => 'le.page.form.language.help',
                 ],
                 'required'   => false,
                 'empty_data' => 'en',

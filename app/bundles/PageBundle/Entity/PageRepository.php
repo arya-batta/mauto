@@ -150,8 +150,8 @@ class PageRepository extends CommonRepository
                 );
                 $returnParameter = true;
                 break;
-            case $this->translator->trans('mautic.page.searchcommand.isprefcenter'):
-            case $this->translator->trans('mautic.page.searchcommand.isprefcenter', [], null, 'en_US'):
+            case $this->translator->trans('le.page.searchcommand.isprefcenter'):
+            case $this->translator->trans('le.page.searchcommand.isprefcenter', [], null, 'en_US'):
                 $expr            = $q->expr()->eq('p.isPreferenceCenter', ":$unique");
                 $forceParameters = [$unique => true];
                 break;
@@ -183,7 +183,7 @@ class PageRepository extends CommonRepository
             'mautic.core.searchcommand.ismine',
             'mautic.core.searchcommand.category',
             'mautic.core.searchcommand.lang',
-            'mautic.page.searchcommand.isprefcenter',
+            'le.page.searchcommand.isprefcenter',
         ];
 
         return array_merge($commands, parent::getSearchCommands());

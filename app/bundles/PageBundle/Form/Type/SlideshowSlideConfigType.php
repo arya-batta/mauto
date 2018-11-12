@@ -25,7 +25,7 @@ class SlideshowSlideConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('slides:'.$options['data']['key'].':remove', 'checkbox', [
-            'label' => 'mautic.page.slideshow.remove',
+            'label' => 'le.page.slideshow.remove',
             'attr'  => [
                 'data-slot-config'  => $options['data']['slot'],
                 'data-remove-slide' => $options['data']['key'],
@@ -34,11 +34,11 @@ class SlideshowSlideConfigType extends AbstractType
         ]);
 
         $builder->add('slides:'.$options['data']['key'].':captionheader', 'text', [
-            'label'      => 'mautic.page.slideshow.caption.header',
+            'label'      => 'le.page.slideshow.caption.header',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'            => 'form-control',
-                'tooltip'          => 'mautic.page.slideshow.caption.header.desc',
+                'tooltip'          => 'le.page.slideshow.caption.header.desc',
                 'data-slot-config' => $options['data']['slot'],
             ],
             'required' => false,
@@ -46,11 +46,11 @@ class SlideshowSlideConfigType extends AbstractType
         ]);
 
         $builder->add('slides:'.$options['data']['key'].':captionbody', 'text', [
-            'label'      => 'mautic.page.slideshow.caption.body',
+            'label'      => 'le.page.slideshow.caption.body',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'            => 'form-control',
-                'tooltip'          => 'mautic.page.slideshow.caption.body.desc',
+                'tooltip'          => 'le.page.slideshow.caption.body.desc',
                 'data-slot-config' => $options['data']['slot'],
             ],
             'required' => false,
@@ -58,11 +58,11 @@ class SlideshowSlideConfigType extends AbstractType
         ]);
 
         $builder->add('slides:'.$options['data']['key'].':background-image', 'text', [
-            'label'      => 'mautic.page.slideshow.background',
+            'label'      => 'le.page.slideshow.background',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'            => 'form-control background-image',
-                'tooltip'          => 'mautic.page.slideshow.background.desc',
+                'tooltip'          => 'le.page.slideshow.background.desc',
                 'data-slot-config' => $options['data']['slot'],
             ],
             'required' => false,

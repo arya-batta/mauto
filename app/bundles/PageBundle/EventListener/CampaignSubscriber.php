@@ -89,8 +89,8 @@ class CampaignSubscriber extends CommonSubscriber
     {
         //Add trigger
         $pageHitTrigger = [
-            'label'          => 'mautic.page.campaign.event.pagehit',
-            'description'    => 'mautic.page.campaign.event.pagehit_descr',
+            'label'          => 'le.page.campaign.event.pagehit',
+            'description'    => 'le.page.campaign.event.pagehit_descr',
             'formType'       => 'campaignevent_pagehit',
             'eventName'      => PageEvents::ON_CAMPAIGN_TRIGGER_DECISION,
             'channel'        => 'page',
@@ -101,8 +101,8 @@ class CampaignSubscriber extends CommonSubscriber
 
         //Add trigger
         $deviceHitTrigger = [
-            'label'          => 'mautic.page.campaign.event.devicehit',
-            'description'    => 'mautic.page.campaign.event.devicehit_descr',
+            'label'          => 'le.page.campaign.event.devicehit',
+            'description'    => 'le.page.campaign.event.devicehit_descr',
             'formType'       => 'Mautic\LeadBundle\Form\Type\CampaignEventLeadDeviceType',
             'eventName'      => PageEvents::ON_CAMPAIGN_TRIGGER_DECISION,
             'channel'        => 'page',
@@ -115,8 +115,8 @@ class CampaignSubscriber extends CommonSubscriber
         $trackingServices = $this->trackingHelper->getEnabledServices();
         if (!empty($trackingServices)) {
             $action = [
-                'label'                  => 'mautic.page.tracking.pixel.event.send',
-                'description'            => 'mautic.page.tracking.pixel.event.send_desc',
+                'label'                  => 'le.page.tracking.pixel.event.send',
+                'description'            => 'le.page.tracking.pixel.event.send_desc',
                 'eventName'              => PageEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'               => 'tracking_pixel_send_action',
                 'connectionRestrictions' => [
@@ -136,8 +136,8 @@ class CampaignSubscriber extends CommonSubscriber
         }
 
         $source = [
-            'label'          => 'le.page.campaign.event.pagehit',
-            'description'    => 'le.page.campaign.event.pagehit_descr',
+            'label'          => 'le.page.campaign.event.pagehited',
+            'description'    => 'le.page.campaign.event.pagehited_descr',
             'formType'       => 'campaignevent_pagehit',
             'group'          => 'le.campaign.source.group.name',
             'sourcetype'     => 'pagehit',

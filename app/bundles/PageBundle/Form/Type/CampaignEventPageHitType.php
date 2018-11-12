@@ -25,32 +25,32 @@ class CampaignEventPageHitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('pages', 'page_list', [
-            'label'      => 'mautic.page.campaign.event.form.pages',
+            'label'      => 'le.page.campaign.event.form.pages',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control le-input',
-                'tooltip' => 'mautic.page.campaign.event.form.pages.descr',
+                'tooltip' => 'le.page.campaign.event.form.pages.descr',
             ],
             'required'   => false,
         ]);
 
         $builder->add('url', 'text', [
-            'label'      => 'mautic.page.campaign.event.form.url',
+            'label'      => 'le.page.campaign.event.form.url',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
                 'class'   => 'form-control le-input',
-                'tooltip' => 'mautic.page.campaign.event.form.url.descr',
+                'tooltip' => 'le.page.campaign.event.form.url.descr',
             ],
         ]);
 
         $builder->add('referer', 'text', [
-            'label'      => 'mautic.page.campaign.event.form.referer',
+            'label'      => 'le.page.campaign.event.form.referer',
             'label_attr' => ['class' => 'control-label'],
             'required'   => false,
             'attr'       => [
                 'class'   => 'form-control le-input',
-                'tooltip' => 'mautic.page.campaign.event.form.referer.descr',
+                'tooltip' => 'le.page.campaign.event.form.referer.descr',
             ],
         ]);
     }
