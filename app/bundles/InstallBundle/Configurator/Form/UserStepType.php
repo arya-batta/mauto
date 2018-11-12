@@ -99,7 +99,7 @@ class UserStepType extends AbstractType
                     ),
                     new Assert\Email(
                         [
-                            'message' => 'mautic.core.email.required',
+                            'message' => 'le.core.email.required',
                         ]
                     ),
                 ],

@@ -121,7 +121,7 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'mautic.email.emails' => [
+                'le.email.emails' => [
                     'iconClass'  => 'fa fa-envelope',
                    // 'route'      => 'mautic_email_index',
                     'route'      => 'mautic_email_campaign_index',
@@ -137,7 +137,7 @@ return [
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 400,
                 ],
-                /*'mautic.emailcampaign.emails' => [
+                /*'le.emailcampaign.emails' => [
                     'route'    => 'mautic_email_campaign_index',
                     'access'   => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'   => 'le.campaigns.root',

@@ -63,7 +63,7 @@ class ProcessUnsubscribeSubscriber implements EventSubscriberInterface
      */
     public function onEmailConfig(MonitoredEmailEvent $event)
     {
-        $event->addFolder(self::BUNDLE, self::FOLDER_KEY, 'mautic.email.config.monitored_email.unsubscribe_folder');
+        $event->addFolder(self::BUNDLE, self::FOLDER_KEY, 'le.email.config.monitored_email.unsubscribe_folder');
     }
 
     /**

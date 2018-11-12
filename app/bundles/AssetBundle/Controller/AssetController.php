@@ -52,7 +52,7 @@ class AssetController extends FormController
         }
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),
                 'multiple'    => true,
             ],
         ];

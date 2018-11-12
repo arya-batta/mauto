@@ -40,9 +40,9 @@ class FormSubscriber extends CommonSubscriber
         // Add form submit actions
         // Send email to user
         $action = [
-            'group'             => 'mautic.email.actions',
-            'label'             => 'mautic.email.form.action.sendemail.admin',
-            'description'       => 'mautic.email.form.action.sendemail.admin.descr',
+            'group'             => 'le.email.actions',
+            'label'             => 'le.email.form.action.sendemail.admin',
+            'description'       => 'le.email.form.action.sendemail.admin.descr',
             'formType'          => 'email_submitaction_useremail',
             'formTheme'         => 'MauticEmailBundle:FormTheme\EmailSendList',
             'callback'          => '\Mautic\EmailBundle\Helper\FormSubmitHelper::sendEmail',
@@ -53,9 +53,9 @@ class FormSubscriber extends CommonSubscriber
 
         // Send email to lead
         $action = [
-            'group'           => 'mautic.email.actions',
-            'label'           => 'mautic.email.form.action.sendemail.lead',
-            'description'     => 'mautic.email.form.action.sendemail.lead.descr',
+            'group'           => 'le.email.actions',
+            'label'           => 'le.email.form.action.sendemail.lead',
+            'description'     => 'le.email.form.action.sendemail.lead.descr',
             'formType'        => 'emailsend_list',
             'formTypeOptions' => ['update_select' => 'formaction_properties_email'],
             'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',

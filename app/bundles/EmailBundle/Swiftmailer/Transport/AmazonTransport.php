@@ -159,19 +159,19 @@ class AmazonTransport extends \Swift_SmtpTransport implements CallbackTransportI
                         // http://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object
                         switch ($message['complaint']['complaintFeedbackType']) {
                             case 'abuse':
-                                $reason = $this->translator->trans('mautic.email.complaint.reason.abuse');
+                                $reason = $this->translator->trans('le.email.complaint.reason.abuse');
                                 break;
                             case 'fraud':
-                                $reason = $this->translator->trans('mautic.email.complaint.reason.fraud');
+                                $reason = $this->translator->trans('le.email.complaint.reason.fraud');
                                 break;
                             case 'virus':
-                                $reason = $this->translator->trans('mautic.email.complaint.reason.virus');
+                                $reason = $this->translator->trans('le.email.complaint.reason.virus');
                                 break;
                         }
                     }
 
                     if ($reason == null) {
-                        $reason = $this->translator->trans('mautic.email.complaint.reason.unknown');
+                        $reason = $this->translator->trans('le.email.complaint.reason.unknown');
                     }
 
                     $this->transportCallback->addFailureByAddress($complainedRecipient['emailAddress'], $reason, DoNotContact::SPAM);

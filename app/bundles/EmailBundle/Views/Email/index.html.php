@@ -45,7 +45,7 @@ $view['slots']->set(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [
             'searchValue' => $searchValue,
-            'searchHelp'  => 'mautic.email.help.searchcommands',
+            'searchHelp'  => 'le.email.help.searchcommands',
             'action'      => $currentRoute,
             'filters'     => $filters,
         ]

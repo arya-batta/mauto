@@ -96,31 +96,31 @@ class BuilderSubscriber extends CommonSubscriber
         if ($event->abTestWinnerCriteriaRequested()) {
             //add AB Test Winner Criteria
             $openRate = [
-                'group'    => 'mautic.email.stats',
-                'label'    => 'mautic.email.abtest.criteria.open',
+                'group'    => 'le.email.stats',
+                'label'    => 'le.email.abtest.criteria.open',
                 'callback' => '\Mautic\EmailBundle\Helper\AbTestHelper::determineOpenRateWinner',
             ];
             $event->addAbTestWinnerCriteria('email.openrate', $openRate);
 
             $clickThrough = [
-                'group'    => 'mautic.email.stats',
-                'label'    => 'mautic.email.abtest.criteria.clickthrough',
+                'group'    => 'le.email.stats',
+                'label'    => 'le.email.abtest.criteria.clickthrough',
                 'callback' => '\Mautic\EmailBundle\Helper\AbTestHelper::determineClickthroughRateWinner',
             ];
             $event->addAbTestWinnerCriteria('email.clickthrough', $clickThrough);
         }
 
         $tokens = [
-            '{lead_owner_name}'             => $this->translator->trans('mautic.email.token.lead_owner_name'),
-            '{lead_owner_mobile}'           => $this->translator->trans('mautic.email.token.lead_owner_mobile'),
-            '{lead_owner_email}'            => $this->translator->trans('mautic.email.token.lead_owner_email'),
-            '{from_email}'                  => $this->translator->trans('mautic.email.token.from_email'),
-            '{postal_address}'              => $this->translator->trans('mautic.email.token.postal_address'),
-            '{unsubscribe_link}'            => $this->translator->trans('mautic.email.token.unsubscribe_text'),
-            '{update_your_profile_link}'    => $this->translator->trans('mautic.email.token.updatelead_text'),
-            //'{webview_text}'     => $this->translator->trans('mautic.email.token.webview_text'),
-            //'{signature}'        => $this->translator->trans('mautic.email.token.signature'),
-            //'{subject}'          => $this->translator->trans('mautic.email.subject'),
+            '{lead_owner_name}'             => $this->translator->trans('le.email.token.lead_owner_name'),
+            '{lead_owner_mobile}'           => $this->translator->trans('le.email.token.lead_owner_mobile'),
+            '{lead_owner_email}'            => $this->translator->trans('le.email.token.lead_owner_email'),
+            '{from_email}'                  => $this->translator->trans('le.email.token.from_email'),
+            '{postal_address}'              => $this->translator->trans('le.email.token.postal_address'),
+            '{unsubscribe_link}'            => $this->translator->trans('le.email.token.unsubscribe_text'),
+            '{update_your_profile_link}'    => $this->translator->trans('le.email.token.updatelead_text'),
+            //'{webview_text}'     => $this->translator->trans('le.email.token.webview_text'),
+            //'{signature}'        => $this->translator->trans('le.email.token.signature'),
+            //'{subject}'          => $this->translator->trans('le.email.subject'),
         ];
 
         if ($event->tokensRequested(array_keys($tokens))) {
@@ -132,8 +132,8 @@ class BuilderSubscriber extends CommonSubscriber
 
         // these should not allow visual tokens
         //$tokens = [
-        //    '{unsubscribe_url}' => $this->translator->trans('mautic.email.token.unsubscribe_url'),
-        //    '{webview_url}'     => $this->translator->trans('mautic.email.token.webview_url'),
+        //    '{unsubscribe_url}' => $this->translator->trans('le.email.token.unsubscribe_url'),
+        //    '{webview_url}'     => $this->translator->trans('le.email.token.webview_url'),
         //];
         if ($event->tokensRequested(array_keys($tokens))) {
             $event->addTokens(
@@ -262,7 +262,7 @@ class BuilderSubscriber extends CommonSubscriber
 
         $unsubscribeText = $this->coreParametersHelper->getParameter('unsubscribe');
         if (!$unsubscribeText) {
-            $unsubscribeText = $this->translator->trans('mautic.email.unsubscribe.text', ['%link%' => '|URL|']);
+            $unsubscribeText = $this->translator->trans('le.email.unsubscribe.text', ['%link%' => '|URL|']);
         }
         $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
         $event->addToken('{unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
@@ -271,7 +271,7 @@ class BuilderSubscriber extends CommonSubscriber
 
         $updateLead = $this->coreParametersHelper->getParameter('updatelead');
         if (!$updateLead) {
-            $updateLead = $this->translator->trans('mautic.email.updatelead.text', ['%link%' => '|URL|']);
+            $updateLead = $this->translator->trans('le.email.updatelead.text', ['%link%' => '|URL|']);
         }
         $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $updateLead);
 
@@ -281,7 +281,7 @@ class BuilderSubscriber extends CommonSubscriber
 
         $webviewText = $this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
-            $webviewText = $this->translator->trans('mautic.email.webview.text', ['%link%' => '|URL|']);
+            $webviewText = $this->translator->trans('le.email.webview.text', ['%link%' => '|URL|']);
         }
         $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_webview', ['idHash' => $idHash]), $webviewText);
         $event->addToken('{webview_text}', EmojiHelper::toHtml($webviewText));
@@ -316,7 +316,7 @@ class BuilderSubscriber extends CommonSubscriber
 
         $footerText = $this->coreParametersHelper->getParameter('footer_text');
         if (!$footerText) {
-            $footerText = $this->translator->trans('leadsengage.email.default.footer');
+            $footerText = $this->translator->trans('le.email.default.footer');
         }
         if ($email != null && $email->getUnsubscribeText() != '') {
             $footerText = $email->getUnsubscribeText();

@@ -90,7 +90,7 @@ class Fetcher
         $organizer->organize();
 
         if (!$containers = $organizer->getContainers()) {
-            $this->log[] = $this->translator->trans('mautic.email.fetch.no_mailboxes_configured');
+            $this->log[] = $this->translator->trans('le.email.fetch.no_mailboxes_configured');
 
             return;
         }
@@ -115,7 +115,7 @@ class Fetcher
                     }
 
                     $this->log[] = $this->translator->transChoice(
-                        'mautic.email.fetch.processed',
+                        'le.email.fetch.processed',
                         $processed,
                         ['%processed%' => $processed, '%imapPath%' => $path, '%criteria%' => $criteria]
                     );

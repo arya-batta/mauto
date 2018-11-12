@@ -520,7 +520,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'name',
             new NotBlank(
                 [
-                    'message' => 'mautic.email.name.notblank',
+                    'message' => 'le.email.name.notblank',
                 ]
             )
         );
@@ -529,7 +529,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'subject',
             new NotBlank(
                 [
-                    'message' => 'mautic.email.subject.notblank',
+                    'message' => 'le.email.subject.notblank',
                 ]
             )
         );
@@ -538,7 +538,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'fromAddress',
             new \Symfony\Component\Validator\Constraints\Email(
                 [
-                    'message' => 'mautic.core.email.required',
+                    'message' => 'le.core.email.required',
                 ]
             )
         );
@@ -547,7 +547,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'replyToAddress',
             new \Symfony\Component\Validator\Constraints\Email(
                 [
-                    'message' => 'mautic.core.email.required',
+                    'message' => 'le.core.email.required',
                 ]
             )
         );
@@ -556,7 +556,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             'bccAddress',
             new \Symfony\Component\Validator\Constraints\Email(
                 [
-                    'message' => 'mautic.core.email.required',
+                    'message' => 'le.core.email.required',
                 ]
             )
         );

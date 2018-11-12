@@ -68,7 +68,7 @@ class AjaxController extends CommonAjaxController
             $dataArray['success'] = 1;
             $session              = $this->container->get('session');
             $progress             = $session->get('mautic.email.send.progress', [0, (int) $pending]);
-            $stats                = $session->get('mautic.email.send.stats', ['sent' => 0, 'failed' => 0, 'failedRecipients' => []]);
+            $stats                = $session->get('le.email.send.stats', ['sent' => 0, 'failed' => 0, 'failedRecipients' => []]);
             $inProgress           = $session->get('mautic.email.send.active', false);
 
             if ($pending && !$inProgress && $entity->isPublished()) {
@@ -84,7 +84,7 @@ class AjaxController extends CommonAjaxController
                 }
 
                 $session->set('mautic.email.send.progress', $progress);
-                $session->set('mautic.email.send.stats', $stats);
+                $session->set('le.email.send.stats', $stats);
                 $session->set('mautic.email.send.active', false);
             }
 
@@ -272,17 +272,17 @@ class AjaxController extends CommonAjaxController
                 $data = [
                     'success' => 1,
                     'pending' => 'list' === $email->getEmailType() && $pending ? $this->translator->trans(
-                        'mautic.email.stat.leadcount',
+                        'le.email.stat.leadcount',
                         ['%count%' => $pending]
                     ) : 0,
-                    'queued'           => ($queued) ? $this->translator->trans('mautic.email.stat.queued', ['%count%' => $queued]) : 0,
-                    'sentCount'        => $this->translator->trans('mautic.email.stat.sentcount', ['%count%' =>$sentCount, '%percentage%'=>$totalSentPec]),
-                    'readCount'        => $this->translator->trans('mautic.email.stat.readcount', ['%count%' => $email->getReadCount(true), '%percentage%' => round($email->getReadPercentage(true))]),
-                    'readPercent'      => $this->translator->trans('mautic.email.stat.readpercent', ['%count%' => $clickCount, '%percentage%'=>$clickCountPercentage]),
-                    'failureCount'     => $this->translator->trans('mautic.email.stat.failurecount', ['%count%' => $failureCount, '%percentage%'=>$failurePercentage]),
-                    'unsubscribeCount' => $this->translator->trans('mautic.email.stat.unsubscribecount', ['%count%' =>$unsubCount, '%percentage%'=>$unSubPercentage]),
-                    'bounceCount'      => $this->translator->trans('mautic.email.stat.bouncecount', ['%count%' => $bounceCount, '%percentage%' => $bouncePercentage]),
-                    'spamCount'        => $this->translator->trans('mautic.email.stat.spamcount', ['%count%' => $spamCount, '%percentage%' => $spamPercentage]),
+                    'queued'           => ($queued) ? $this->translator->trans('le.email.stat.queued', ['%count%' => $queued]) : 0,
+                    'sentCount'        => $this->translator->trans('le.email.stat.sentcount', ['%count%' =>$sentCount, '%percentage%'=>$totalSentPec]),
+                    'readCount'        => $this->translator->trans('le.email.stat.readcount', ['%count%' => $email->getReadCount(true), '%percentage%' => round($email->getReadPercentage(true))]),
+                    'readPercent'      => $this->translator->trans('le.email.stat.readpercent', ['%count%' => $clickCount, '%percentage%'=>$clickCountPercentage]),
+                    'failureCount'     => $this->translator->trans('le.email.stat.failurecount', ['%count%' => $failureCount, '%percentage%'=>$failurePercentage]),
+                    'unsubscribeCount' => $this->translator->trans('le.email.stat.unsubscribecount', ['%count%' =>$unsubCount, '%percentage%'=>$unSubPercentage]),
+                    'bounceCount'      => $this->translator->trans('le.email.stat.bouncecount', ['%count%' => $bounceCount, '%percentage%' => $bouncePercentage]),
+                    'spamCount'        => $this->translator->trans('le.email.stat.spamcount', ['%count%' => $spamCount, '%percentage%' => $spamPercentage]),
                 ];
             }
         }
@@ -304,7 +304,7 @@ class AjaxController extends CommonAjaxController
         if (count($error) > 0) {
             $errors[]            = $error;
             $dataArray['success']=false;
-            $dataArray['message']=$this->translator->trans('mautic.core.email.required');
+            $dataArray['message']=$this->translator->trans('le.core.email.required');
         } else {
             /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
             $emailModel       = $this->factory->getModel('email');
@@ -408,7 +408,7 @@ class AjaxController extends CommonAjaxController
         $configurl= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
-            $dataArray['info']          = $this->translator->trans('mautic.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
+            $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
             $dataArray['isalertneeded'] = 'false';
         } else {
             $dataArray['success']       = false;

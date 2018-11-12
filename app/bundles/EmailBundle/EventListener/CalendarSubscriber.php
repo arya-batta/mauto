@@ -67,7 +67,7 @@ class CalendarSubscriber extends CommonSubscriber
                 $object['url']         = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $object['email_id']], true);
                 $object['attr']        = 'data-toggle="ajax"';
                 $object['description'] = html_entity_decode($object['description']);
-                $object['title']       = $this->translator->trans('mautic.email.event.sent', ['%email%' => $object['title'], '%x%' => $object['quantity']]);
+                $object['title']       = $this->translator->trans('le.email.event.sent', ['%email%' => $object['title'], '%x%' => $object['quantity']]);
             } else {
                 if ($object['firstname'] || $object['lastname']) {
                     $contactName = trim($object['firstname'].' '.$object['lastname']);
@@ -76,7 +76,7 @@ class CalendarSubscriber extends CommonSubscriber
                 } else {
                     $contactName = $this->translator->trans('le.lead.lead.anonymous');
                 }
-                $details               = $this->translator->trans('mautic.email.event.sent.direct', ['%contact%' => $contactName]);
+                $details               = $this->translator->trans('le.email.event.sent.direct', ['%contact%' => $contactName]);
                 $object['url']         = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);
                 $object['attr']        = 'data-toggle="ajax"';
                 $object['title']       = $details;

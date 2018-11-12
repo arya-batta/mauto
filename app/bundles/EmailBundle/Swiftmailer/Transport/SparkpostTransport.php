@@ -76,7 +76,7 @@ class SparkpostTransport extends AbstractTokenArrayTransport implements \Swift_T
     public function start()
     {
         if (empty($this->apiKey)) {
-            $this->throwException($this->translator->trans('mautic.email.api_key_required', [], 'validators'));
+            $this->throwException($this->translator->trans('le.email.api_key_required', [], 'validators'));
         }
 
         $this->started = true;
@@ -174,7 +174,7 @@ class SparkpostTransport extends AbstractTokenArrayTransport implements \Swift_T
 
         // Sparkpost requires a subject
         if (empty($message['subject'])) {
-            throw new \Exception($this->translator->trans('mautic.email.subject.notblank', [], 'validators'));
+            throw new \Exception($this->translator->trans('le.email.subject.notblank', [], 'validators'));
         }
 
         if (isset($message['headers']['X-MC-InlineCSS'])) {

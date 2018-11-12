@@ -259,7 +259,7 @@ trait EntityFieldsBuildFormTrait
                             $attr['data-encoding'] = 'email';
                             $constraints[]         = new Email(
                                 [
-                                    'message' => 'mautic.core.email.required',
+                                    'message' => 'le.core.email.required',
                                 ]
                             );
                             break;

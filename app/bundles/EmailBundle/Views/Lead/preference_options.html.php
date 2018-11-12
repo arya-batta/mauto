@@ -36,13 +36,13 @@ JS;
     <div class="col-xs-12 col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h1 class="panel-title"><?php echo $view['translator']->trans('mautic.lead.message.preferences'); ?></h1>
+                <h1 class="panel-title"><?php echo $view['translator']->trans('le.lead.message.preferences'); ?></h1>
             </div>
             <div class="panel-body">
                 <div class="the-price">
                     <h4> <?php echo $leadName?></h4>
                     <small> <?php
-                        echo $view['translator']->trans('mautic.lead.message.preferences.descr'); ?></small>
+                        echo $view['translator']->trans('le.lead.message.preferences.descr'); ?></small>
                 </div>
                 <table class="table table-striped">
                     <?php foreach ($form['subscribed_channels']->vars['choices'] as $channel):

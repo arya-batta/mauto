@@ -156,13 +156,13 @@ class DripEmailType extends AbstractType
                     'attr'       => [
                         'class'    => 'form-control le-input',
                         'preaddon' => 'fa fa-user',
-                        'tooltip'  => 'mautic.email.from_name.tooltip',
+                        'tooltip'  => 'le.email.from_name.tooltip',
                         'disabled' => false,
                     ],
                     'required' => false,
                 ]
             );
-            $tooltip = 'mautic.email.from_email.tooltip';
+            $tooltip = 'le.email.from_email.tooltip';
             if ($emailProvider == $this->translator->trans('mautic.transport.amazon')) {
                 $tooltip = 'le.email.amazon.fromaddress.tooltip';
             }
@@ -190,7 +190,7 @@ class DripEmailType extends AbstractType
                     'attr'       => [
                         'class'    => 'form-control le-input',
                         'preaddon' => 'fa fa-envelope',
-                        'tooltip'  => 'mautic.email.reply_to_email.tooltip',
+                        'tooltip'  => 'le.email.reply_to_email.tooltip',
                     ],
                     'required' => false,
                 ]
@@ -205,7 +205,7 @@ class DripEmailType extends AbstractType
                     'attr'       => [
                         'class'    => 'form-control le-input',
                         'preaddon' => 'fa fa-envelope',
-                        'tooltip'  => 'mautic.email.bcc.tooltip',
+                        'tooltip'  => 'le.email.bcc.tooltip',
                     ],
                     'required' => false,
                 ]
@@ -247,7 +247,7 @@ class DripEmailType extends AbstractType
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class'                => 'form-control editor editor-advanced editor-builder-tokens',
-                            'tooltip'              => 'mautic.email.config.footer_content.tooltip',
+                            'tooltip'              => 'le.email.config.footer_content.tooltip',
                             'data-token-callback'  => 'email:getBuilderTokens',
                             'data-token-activator' => '{',
                         ],
@@ -264,7 +264,7 @@ class DripEmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control',
-                        'tooltip' => 'mautic.email.config.postal_address.tooltip',
+                        'tooltip' => 'le.email.config.postal_address.tooltip',
                         'style'   => 'height:100px;',
                     ],
                     'required' => false,

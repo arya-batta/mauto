@@ -89,7 +89,7 @@ class ReportSubscriber extends CommonSubscriber
         $doNotContact         = 'dnc.';
         $columns              = [
             $prefix.'subject' => [
-                'label' => 'mautic.email.subject',
+                'label' => 'le.email.subject',
                 'type'  => 'string',
             ],
             $prefix.'lang' => [
@@ -97,90 +97,90 @@ class ReportSubscriber extends CommonSubscriber
                 'type'  => 'string',
             ],
             $prefix.'read_count' => [
-                'label' => 'mautic.email.report.read_count',
+                'label' => 'le.email.report.read_count',
                 'type'  => 'int',
             ],
             'read_ratio' => [
                 'alias'   => 'read_ratio',
-                'label'   => 'mautic.email.report.read_ratio',
+                'label'   => 'le.email.report.read_ratio',
                 'type'    => 'string',
                 'formula' => 'CONCAT(ROUND(('.$prefix.'read_count/'.$prefix.'sent_count)*100, 1),\'%\')',
             ],
             $prefix.'sent_count' => [
-                'label' => 'mautic.email.report.sent_count',
+                'label' => 'le.email.report.sent_count',
                 'type'  => 'int',
             ],
             'hits' => [
                 'alias'   => 'hits',
-                'label'   => 'mautic.email.report.hits_count',
+                'label'   => 'le.email.report.hits_count',
                 'type'    => 'string',
                 'formula' => $channelUrlTrackables.'hits',
             ],
             'unique_hits' => [
                 'alias'   => 'unique_hits',
-                'label'   => 'mautic.email.report.unique_hits_count',
+                'label'   => 'le.email.report.unique_hits_count',
                 'type'    => 'string',
                 'formula' => $channelUrlTrackables.'unique_hits',
             ],
             'hits_ratio' => [
                 'alias'   => 'hits_ratio',
-                'label'   => 'mautic.email.report.hits_ratio',
+                'label'   => 'le.email.report.hits_ratio',
                 'type'    => 'string',
                 'formula' => 'CONCAT(ROUND('.$channelUrlTrackables.'hits/('.$prefix.'sent_count)*100, 1),\'%\')',
             ],
             'unique_ratio' => [
                 'alias'   => 'unique_ratio',
-                'label'   => 'mautic.email.report.unique_ratio',
+                'label'   => 'le.email.report.unique_ratio',
                 'type'    => 'string',
                 'formula' => 'CONCAT(ROUND('.$channelUrlTrackables.'unique_hits/('.$prefix.'sent_count)*100, 1),\'%\')',
             ],
             'unsubscribed' => [
                 'alias'   => 'unsubscribed',
-                'label'   => 'mautic.email.report.unsubscribed',
+                'label'   => 'le.email.report.unsubscribed',
                 'type'    => 'string',
                 'formula' => 'SUM(IF('.$doNotContact.'id IS NOT NULL AND dnc.reason='.DoNotContact::UNSUBSCRIBED.' , 1, 0))',
             ],
             'unsubscribed_ratio' => [
                 'alias'   => 'unsubscribed_ratio',
-                'label'   => 'mautic.email.report.unsubscribed_ratio',
+                'label'   => 'le.email.report.unsubscribed_ratio',
                 'type'    => 'string',
                 'formula' => 'CONCAT(ROUND((SUM(IF('.$doNotContact.'id IS NOT NULL AND dnc.reason='.DoNotContact::UNSUBSCRIBED.' , 1, 0))/'.$prefix.'sent_count)*100, 1),\'%\')',
             ],
             'bounced' => [
                 'alias'   => 'bounced',
-                'label'   => 'mautic.email.report.bounced',
+                'label'   => 'le.email.report.bounced',
                 'type'    => 'string',
                 'formula' => 'SUM(IF('.$doNotContact.'id IS NOT NULL AND dnc.reason='.DoNotContact::BOUNCED.' , 1, 0))',
             ],
             'bounced_ratio' => [
                 'alias'   => 'bounced_ratio',
-                'label'   => 'mautic.email.report.bounced_ratio',
+                'label'   => 'le.email.report.bounced_ratio',
                 'type'    => 'string',
                 'formula' => 'CONCAT(ROUND((SUM(IF('.$doNotContact.'id IS NOT NULL AND dnc.reason='.DoNotContact::BOUNCED.' , 1, 0))/'.$prefix.'sent_count)*100, 1),\'%\')',
             ],
             $prefix.'revision' => [
-                'label' => 'mautic.email.report.revision',
+                'label' => 'le.email.report.revision',
                 'type'  => 'int',
             ],
             $variantParent.'id' => [
-                'label' => 'mautic.email.report.variant_parent_id',
+                'label' => 'le.email.report.variant_parent_id',
                 'type'  => 'int',
             ],
             $variantParent.'subject' => [
-                'label' => 'mautic.email.report.variant_parent_subject',
+                'label' => 'le.email.report.variant_parent_subject',
                 'type'  => 'string',
             ],
             $prefix.'variant_start_date' => [
-                'label'          => 'mautic.email.report.variant_start_date',
+                'label'          => 'le.email.report.variant_start_date',
                 'type'           => 'datetime',
                 'groupByFormula' => 'DATE('.$prefix.'variant_start_date)',
             ],
             $prefix.'variant_sent_count' => [
-                'label' => 'mautic.email.report.variant_sent_count',
+                'label' => 'le.email.report.variant_sent_count',
                 'type'  => 'int',
             ],
             $prefix.'variant_read_count' => [
-                'label' => 'mautic.email.report.variant_read_count',
+                'label' => 'le.email.report.variant_read_count',
                 'type'  => 'int',
             ],
         ];
@@ -191,12 +191,12 @@ class ReportSubscriber extends CommonSubscriber
             $event->getCategoryColumns()
         );
         $data = [
-            'display_name' => 'mautic.email.emails',
+            'display_name' => 'le.email.emails',
             'columns'      => $columns,
         ];
         $event->addTable(self::CONTEXT_EMAILS, $data);
         $context = self::CONTEXT_EMAILS;
-        $event->addGraph($context, 'pie', 'mautic.email.graph.pie.read.ingored.unsubscribed.bounced');
+        $event->addGraph($context, 'pie', 'le.email.graph.pie.read.ingored.unsubscribed.bounced');
 
         if ($event->checkContext(self::CONTEXT_EMAIL_STATS)) {
             // Ratios are not applicable for individual stats
@@ -215,7 +215,7 @@ class ReportSubscriber extends CommonSubscriber
             // clicked column for individual stats
             $columns['is_hit'] = [
                 'alias'   => 'is_hit',
-                'label'   => 'mautic.email.report.is_hit',
+                'label'   => 'le.email.report.is_hit',
                 'type'    => 'bool',
                 'formula' => 'IF('.$channelUrlTrackables.'hits is NULL, 0, 1)',
             ];
@@ -223,7 +223,7 @@ class ReportSubscriber extends CommonSubscriber
             // time between sent and read
             $columns['read_delay'] = [
                 'alias'   => 'read_delay',
-                'label'   => 'mautic.email.report.read.delay',
+                'label'   => 'le.email.report.read.delay',
                 'type'    => 'string',
                 'formula' => 'IF(es.date_read IS NOT NULL, TIMEDIFF(es.date_read, es.date_sent), \'-\')',
             ];
@@ -231,33 +231,33 @@ class ReportSubscriber extends CommonSubscriber
             $statPrefix  = 'es.';
             $statColumns = [
                 $statPrefix.'email_address' => [
-                    'label' => 'mautic.email.report.stat.email_address',
+                    'label' => 'le.email.report.stat.email_address',
                     'type'  => 'email',
                 ],
                 $statPrefix.'date_sent' => [
-                    'label'          => 'mautic.email.report.stat.date_sent',
+                    'label'          => 'le.email.report.stat.date_sent',
                     'type'           => 'datetime',
                     'groupByFormula' => 'DATE('.$statPrefix.'date_sent)',
                 ],
                 $statPrefix.'is_read' => [
-                    'label' => 'mautic.email.report.stat.is_read',
+                    'label' => 'le.email.report.stat.is_read',
                     'type'  => 'bool',
                 ],
                 $statPrefix.'is_failed' => [
-                    'label' => 'mautic.email.report.stat.is_failed',
+                    'label' => 'le.email.report.stat.is_failed',
                     'type'  => 'bool',
                 ],
                 $statPrefix.'viewed_in_browser' => [
-                    'label' => 'mautic.email.report.stat.viewed_in_browser',
+                    'label' => 'le.email.report.stat.viewed_in_browser',
                     'type'  => 'bool',
                 ],
                 $statPrefix.'date_read' => [
-                    'label'          => 'mautic.email.report.stat.date_read',
+                    'label'          => 'le.email.report.stat.date_read',
                     'type'           => 'datetime',
                     'groupByFormula' => 'DATE('.$statPrefix.'date_read)',
                 ],
                 $statPrefix.'retry_count' => [
-                    'label' => 'mautic.email.report.stat.retry_count',
+                    'label' => 'le.email.report.stat.retry_count',
                     'type'  => 'int',
                 ],
                 $statPrefix.'source' => [
@@ -273,7 +273,7 @@ class ReportSubscriber extends CommonSubscriber
             $companyColumns = $this->companyReportData->getCompanyData();
 
             $data = [
-                'display_name' => 'mautic.email.stats.report.table',
+                'display_name' => 'le.email.stats.report.table',
                 'columns'      => array_merge(
                     $columns,
                     $statColumns,
@@ -287,14 +287,14 @@ class ReportSubscriber extends CommonSubscriber
 
             // Register Graphs
             $context = self::CONTEXT_EMAIL_STATS;
-            $event->addGraph($context, 'line', 'mautic.email.graph.line.stats');
-            $event->addGraph($context, 'pie', 'mautic.email.graph.pie.ignored.read.failed');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.sent');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.read');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.read.percent');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.unsubscribed');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.bounced');
-            $event->addGraph($context, 'table', 'mautic.email.table.most.emails.failed');
+            $event->addGraph($context, 'line', 'le.email.graph.line.stats');
+            $event->addGraph($context, 'pie', 'le.email.graph.pie.ignored.read.failed');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.sent');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.read');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.read.percent');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.unsubscribed');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.bounced');
+            $event->addGraph($context, 'table', 'le.email.table.most.emails.failed');
         }
     }
 
@@ -406,7 +406,7 @@ class ReportSubscriber extends CommonSubscriber
         $dncColumns   = ['unsubscribed', 'unsubscribed_ratio', 'bounced', 'bounced_ratio'];
         $graphs       = $event->getRequestedGraphs();
 
-        if (!$event->checkContext(self::CONTEXT_EMAIL_STATS) || ($event->checkContext(self::CONTEXT_EMAILS) && !in_array('mautic.email.graph.pie.read.ingored.unsubscribed.bounced', $graphs))) {
+        if (!$event->checkContext(self::CONTEXT_EMAIL_STATS) || ($event->checkContext(self::CONTEXT_EMAILS) && !in_array('le.email.graph.pie.read.ingored.unsubscribed.bounced', $graphs))) {
             return;
         }
 
@@ -427,7 +427,7 @@ class ReportSubscriber extends CommonSubscriber
             }
 
             switch ($g) {
-                case 'mautic.email.graph.line.stats':
+                case 'le.email.graph.line.stats':
                     $chart     = new LineChart(null, $options['dateFrom'], $options['dateTo']);
                     $sendQuery = clone $queryBuilder;
                     $readQuery = clone $origQuery;
@@ -442,22 +442,22 @@ class ReportSubscriber extends CommonSubscriber
                     $sends  = $chartQuery->loadAndBuildTimeData($sendQuery);
                     $reads  = $chartQuery->loadAndBuildTimeData($readQuery);
                     $failes = $chartQuery->loadAndBuildTimeData($failedQuery);
-                    $chart->setDataset($options['translator']->trans('mautic.email.sent.emails'), $sends);
-                    $chart->setDataset($options['translator']->trans('mautic.email.read.emails'), $reads);
-                    $chart->setDataset($options['translator']->trans('mautic.email.failed.emails'), $failes);
+                    $chart->setDataset($options['translator']->trans('le.email.sent.emails'), $sends);
+                    $chart->setDataset($options['translator']->trans('le.email.read.emails'), $reads);
+                    $chart->setDataset($options['translator']->trans('le.email.failed.emails'), $failes);
                     $data         = $chart->render();
                     $data['name'] = $g;
 
                     $event->setGraph($g, $data);
                     break;
 
-                case 'mautic.email.graph.pie.ignored.read.failed':
+                case 'le.email.graph.pie.ignored.read.failed':
                     $counts = $statRepo->getIgnoredReadFailed($queryBuilder);
                     $chart  = new PieChart();
-                    $chart->setDataset($options['translator']->trans('mautic.email.read.emails'), $counts['read']);
-                    $chart->setDataset($options['translator']->trans('mautic.email.failed.emails'), $counts['failed']);
+                    $chart->setDataset($options['translator']->trans('le.email.read.emails'), $counts['read']);
+                    $chart->setDataset($options['translator']->trans('le.email.failed.emails'), $counts['failed']);
                     $chart->setDataset(
-                        $options['translator']->trans('mautic.email.ignored.emails'),
+                        $options['translator']->trans('le.email.ignored.emails'),
                         $counts['ignored']
                     );
 
@@ -470,23 +470,23 @@ class ReportSubscriber extends CommonSubscriber
 
                     break;
 
-                case 'mautic.email.graph.pie.read.ingored.unsubscribed.bounced':
+                case 'le.email.graph.pie.read.ingored.unsubscribed.bounced':
                     $queryBuilder->select(
                         'SUM(DISTINCT e.sent_count) as sent_count, SUM(DISTINCT e.read_count) as read_count, count(CASE WHEN dnc.id  and dnc.reason = '.DoNotContact::UNSUBSCRIBED.' THEN 1 ELSE null END) as unsubscribed, count(CASE WHEN dnc.id  and dnc.reason = '.DoNotContact::BOUNCED.' THEN 1 ELSE null END) as bounced'
                     );
                     $queryBuilder->resetQueryPart('groupBy');
                     $counts = $queryBuilder->execute()->fetch();
                     $chart  = new PieChart();
-                    $chart->setDataset($options['translator']->trans('mautic.email.stat.read'), $counts['read_count']);
+                    $chart->setDataset($options['translator']->trans('le.email.stat.read'), $counts['read_count']);
                     $chart->setDataset(
-                        $options['translator']->trans('mautic.email.graph.pie.ignored.read.failed.ignored'),
+                        $options['translator']->trans('le.email.graph.pie.ignored.read.failed.ignored'),
                         ($counts['sent_count'] - $counts['read_count'])
                     );
                     $chart->setDataset(
-                        $options['translator']->trans('mautic.email.unsubscribed'),
+                        $options['translator']->trans('le.email.unsubscribed'),
                         $counts['unsubscribed']
                     );
-                    $chart->setDataset($options['translator']->trans('mautic.email.bounced'), $counts['bounced']);
+                    $chart->setDataset($options['translator']->trans('le.email.bounced'), $counts['bounced']);
 
                     $event->setGraph(
                         $g,
@@ -498,7 +498,7 @@ class ReportSubscriber extends CommonSubscriber
                     );
                     break;
 
-                case 'mautic.email.table.most.emails.sent':
+                case 'le.email.table.most.emails.sent':
                     $queryBuilder->select('e.id as id,e.subject as title, SUM(DISTINCT e. sent_count) as sent')
                         ->groupBy('e.id, e.subject')
                         ->orderBy('sent', 'DESC');
@@ -515,7 +515,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.email.table.most.emails.sent' => [
+                            'le.email.table.most.emails.sent' => [
                                 'value' => $item['sent'],
                             ],
                         ];
@@ -528,7 +528,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.email.table.most.emails.read':
+                case 'le.email.table.most.emails.read':
                     $queryBuilder->select('e.id as id,e.subject as title, SUM(DISTINCT e. read_count) as opens')
                         ->groupBy('e.id, e.subject')
                         ->orderBy('opens', 'DESC');
@@ -544,7 +544,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.email.table.most.emails.read' => [
+                            'le.email.table.most.emails.read' => [
                                 'value' => $item['opens'],
                             ],
                         ];
@@ -557,7 +557,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.email.table.most.emails.failed':
+                case 'le.email.table.most.emails.failed':
                     $queryBuilder->select(
                         'e.id as id,e.subject as title, count(CASE WHEN es.is_failed THEN 1 ELSE null END) as failed'
                     )
@@ -576,7 +576,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.email.table.most.emails.failed'=> [
+                            'le.email.table.most.emails.failed'=> [
                                 'value' => $item['failed'],
                             ],
                         ];
@@ -589,7 +589,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.email.table.most.emails.unsubscribed':
+                case 'le.email.table.most.emails.unsubscribed':
                    // $this->addDNCTable($queryBuilder);
                     $queryBuilder->select(
                         'e.id, e.subject as title, count(CASE WHEN dnc.id  and dnc.reason = '.DoNotContact::UNSUBSCRIBED.' THEN 1 ELSE null END) as unsubscribed'
@@ -611,7 +611,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.email.table.most.emails.bounced':
+                case 'le.email.table.most.emails.bounced':
                   //  $this->addDNCTable($queryBuilder);
                     $queryBuilder->select(
                         'e.id, e.subject as title, count(CASE WHEN dnc.id  and dnc.reason = '.DoNotContact::BOUNCED.' THEN 1 ELSE null END) as bounced'
@@ -632,7 +632,7 @@ class ReportSubscriber extends CommonSubscriber
                     $event->setGraph($g, $graphData);
                     break;
 
-                case 'mautic.email.table.most.emails.read.percent':
+                case 'le.email.table.most.emails.read.percent':
                     $queryBuilder->select('e.id as id,e.subject as title, round(e.read_count / e.sent_count * 100) as ratio')
                         ->groupBy('e.id, e.subject')
                         ->orderBy('ratio', 'DESC');
@@ -648,7 +648,7 @@ class ReportSubscriber extends CommonSubscriber
                                 'type'  => 'link',
                                 'link'  => $formUrl,
                             ],
-                            'mautic.email.table.most.emails.read.percent' => [
+                            'le.email.table.most.emails.read.percent' => [
                                 'value' => $item['ratio'],
                             ],
                         ];

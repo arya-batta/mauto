@@ -134,7 +134,7 @@ class ElasticemailTransportTest extends \PHPUnit_Framework_TestCase
             ->method('addFailureByAddress')
             ->with(
                 'test@test.com',
-                'mautic.email.complaint.reason.unknown',
+                'le.email.complaint.reason.unknown',
                 DoNotContact::BOUNCED
             );
 

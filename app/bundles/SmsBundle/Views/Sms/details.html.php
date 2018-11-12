@@ -26,10 +26,10 @@ if ($isSmsEnabled) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'href'        => $view['router']->path($actionRoute, ['objectAction' => 'sendExample', 'objectId' => $sms->getId()]),
-            'data-header' => $view['translator']->trans('mautic.email.send.example'),
+            'data-header' => $view['translator']->trans('le.email.send.example'),
         ],
         'iconClass' => 'fa fa-send',
-        'btnText'   => 'mautic.email.send.example',
+        'btnText'   => 'le.email.send.example',
         'primary'   => true,
     ];
 }

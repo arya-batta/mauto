@@ -102,9 +102,9 @@ class LeadSubscriber extends CommonSubscriber
                 if (!empty($stat['email_name'])) {
                     $label = $stat['email_name'];
                 } elseif (!empty($stat['storedSubject'])) {
-                    $label = $this->translator->trans('mautic.email.timeline.event.custom_email').': '.$stat['storedSubject'];
+                    $label = $this->translator->trans('le.email.timeline.event.custom_email').': '.$stat['storedSubject'];
                 } else {
-                    $label = $this->translator->trans('mautic.email.timeline.event.custom_email');
+                    $label = $this->translator->trans('le.email.timeline.event.custom_email');
                 }
 
                 if (!empty($stat['idHash'])) {
@@ -152,14 +152,14 @@ class LeadSubscriber extends CommonSubscriber
     {
         return;
         $eventTypeKey  = 'email.replied';
-        $eventTypeName = $this->translator->trans('mautic.email.replied');
+        $eventTypeName = $this->translator->trans('le.email.replied');
         $event->addSerializerGroup('emailList');
         $event->addEventType($eventTypeKey, $eventTypeName);
         $options          = $event->getQueryOptions();
         $replies          = $this->emailReplyRepository->getByLeadIdForTimeline($event->getLeadId(), $options);
         if (!$event->isEngagementCount()) {
             foreach ($replies['results'] as $reply) {
-                $label = $this->translator->trans('mautic.email.timeline.event.email_reply');
+                $label = $this->translator->trans('le.email.timeline.event.email_reply');
                 if (!empty($reply['email_name'])) {
                     $label .= ': '.$reply['email_name'];
                 } elseif (!empty($reply['storedSubject'])) {

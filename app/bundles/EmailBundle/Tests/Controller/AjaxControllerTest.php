@@ -90,7 +90,7 @@ class AjaxControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->sessionMock->expects($this->at(1))
             ->method('get')
-            ->with('mautic.email.send.stats')
+            ->with('le.email.send.stats')
             ->willReturn(['sent' => 0, 'failed' => 0, 'failedRecipients' => []]);
 
         $this->sessionMock->expects($this->at(2))
@@ -141,7 +141,7 @@ class AjaxControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->sessionMock->expects($this->at(1))
             ->method('get')
-            ->with('mautic.email.send.stats')
+            ->with('le.email.send.stats')
             ->willReturn(['sent' => 0, 'failed' => 0, 'failedRecipients' => []]);
 
         $this->sessionMock->expects($this->at(2))

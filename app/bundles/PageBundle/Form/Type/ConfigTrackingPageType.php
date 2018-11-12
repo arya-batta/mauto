@@ -156,7 +156,7 @@ class ConfigTrackingPageType extends AbstractType
             'send_tracking_instruction',
             'standalone_button',
             [
-                'label'    => 'mautic.email.config.mailer.transport.send_tracking',
+                'label'    => 'le.email.config.mailer.transport.send_tracking',
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-success',

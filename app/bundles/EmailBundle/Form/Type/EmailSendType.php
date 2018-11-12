@@ -45,11 +45,11 @@ class EmailSendType extends AbstractType
             'email',
             'email_list',
             [
-                'label'      => 'mautic.email.send.email.list',
+                'label'      => 'le.email.send.email.list',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control',
-                    //'tooltip'  => 'mautic.email.choose.emails_descr',
+                    //'tooltip'  => 'le.email.choose.emails_descr',
                     'onchange' => 'Mautic.disabledEmailAction(window, this)',
                 ],
                 'multiple'    => !$isSendMail,
@@ -68,14 +68,14 @@ class EmailSendType extends AbstractType
                 'button_group',
                 [
                     'choices' => [
-                        'transactional' => 'mautic.email.send.emailtype.transactional',
-                        'marketing'     => 'mautic.email.send.emailtype.marketing',
+                        'transactional' => 'le.email.send.emailtype.transactional',
+                        'marketing'     => 'le.email.send.emailtype.marketing',
                     ],
-                    'label'      => 'mautic.email.send.emailtype',
+                    'label'      => 'le.email.send.emailtype',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control email-type',
-                        'tooltip' => 'mautic.email.send.emailtype.tooltip',
+                        'tooltip' => 'le.email.send.emailtype.tooltip',
                     ],
                     'data' => (!isset($options['data']['email_type'])) ? 'transactional' : $options['data']['email_type'],
                 ]
@@ -103,7 +103,7 @@ class EmailSendType extends AbstractType
                     })',
                         'icon' => 'fa fa-plus',
                     ],
-                    'label' => 'mautic.email.send.new.email',
+                    'label' => 'le.email.send.new.email',
                 ]
             );
 
@@ -128,7 +128,7 @@ class EmailSendType extends AbstractType
                         'disabled' => !isset($options['data']['email']),
                         'icon'     => 'fa fa-edit',
                     ],
-                    'label' => 'mautic.email.send.edit.email',
+                    'label' => 'le.email.send.edit.email',
                 ]
             );
 
@@ -145,7 +145,7 @@ class EmailSendType extends AbstractType
                         'disabled' => !isset($options['data']['email']),
                         'icon'     => 'fa fa-external-link',
                     ],
-                    'label' => 'mautic.email.send.preview.email',
+                    'label' => 'le.email.send.preview.email',
                 ]
             );
             if (!empty($options['with_email_types'])) {

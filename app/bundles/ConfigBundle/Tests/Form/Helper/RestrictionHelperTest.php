@@ -215,7 +215,7 @@ class RestrictionHelperTest extends TypeTestCase
         $this->assertEquals(
             [
                 'class'        => 'form-control',
-                'tooltip'      => 'mautic.email.config.monitored_email_address.tooltip',
+                'tooltip'      => 'le.email.config.monitored_email_address.tooltip',
                 'data-show-on' => '{"config_emailconfig_monitored_email_EmailBundle_unsubscribes_override_settings_1": "checked"}',
                 'placeholder'  => 'mautic.config.restricted',
                 'readonly'     => true,

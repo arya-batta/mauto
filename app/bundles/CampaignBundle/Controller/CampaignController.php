@@ -471,7 +471,7 @@ class CampaignController extends AbstractStandardFormController
         $sourceLists = $this->getCampaignModel()->getSourceLists();
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),
                 'multiple'    => true,
                 'groups'      => [
                   /*  'mautic.campaign.leadsource.form' => [

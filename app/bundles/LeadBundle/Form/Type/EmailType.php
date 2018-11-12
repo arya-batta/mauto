@@ -53,7 +53,7 @@ class EmailType extends AbstractType
             'subject',
             'text',
             [
-                'label'      => 'mautic.email.subject',
+                'label'      => 'le.email.subject',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
@@ -98,10 +98,10 @@ class EmailType extends AbstractType
                 'data'        => $default,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'mautic.core.email.required',
+                        'message' => 'le.core.email.required',
                     ]),
                     new Email([
-                        'message' => 'mautic.core.email.required',
+                        'message' => 'le.core.email.required',
                     ]),
                     new EmailVerify(
                         [
@@ -116,7 +116,7 @@ class EmailType extends AbstractType
             'body',
             'textarea',
             [
-                'label'      => 'mautic.email.form.body',
+                'label'      => 'le.email.form.body',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'                => 'form-control editor editor-basic-fullpage editor-builder-tokens editor-email',
@@ -145,7 +145,7 @@ class EmailType extends AbstractType
 
         $builder->add('buttons', 'form_buttons', [
             'apply_text'  => false,
-            'save_text'   => 'mautic.email.send',
+            'save_text'   => 'le.email.send',
             'save_class'  => 'le-btn-default',
             'save_icon'   => 'fa fa-send',
             'cancel_icon' => 'fa fa-times',

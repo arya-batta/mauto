@@ -116,7 +116,7 @@ class ElasticemailTransport extends \Swift_SmtpTransport implements CallbackTran
             // just hard bounces https://elasticemail.com/support/user-interface/activity/bounced-category-filters
             $this->transportCallback->addFailureByAddress($email, $category);
         } elseif ($status == 'Error') {
-            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('mautic.email.complaint.reason.unknown'));
+            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('le.email.complaint.reason.unknown'));
         }
     }
 

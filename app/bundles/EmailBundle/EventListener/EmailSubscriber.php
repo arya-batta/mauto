@@ -124,7 +124,7 @@ class EmailSubscriber extends CommonSubscriber
             $stat = $this->emailModel->getEmailStatus($message->leadIdHash);
 
             if ($stat !== null) {
-                $reason = $this->translator->trans('mautic.email.dnc.failed', [
+                $reason = $this->translator->trans('le.email.dnc.failed', [
                     '%subject%' => EmojiHelper::toShort($message->getSubject()),
                 ]);
                 $this->emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE);
@@ -149,7 +149,7 @@ class EmailSubscriber extends CommonSubscriber
                 $retries = $stat->getRetryCount();
                 if (true || $retries > 3) {
                     //tried too many times so just fail
-                    $reason = $this->translator->trans('mautic.email.dnc.retries', [
+                    $reason = $this->translator->trans('le.email.dnc.retries', [
                         '%subject%' => EmojiHelper::toShort($message->getSubject()),
                     ]);
                     //$this->emailModel->setDoNotContact($stat, $reason);

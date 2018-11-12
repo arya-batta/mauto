@@ -69,7 +69,7 @@ class FocusType extends AbstractType
             'utmTags',
             'utm_tags',
             [
-                'label'      => 'mautic.email.utm_tags',
+                'label'      => 'le.email.utm_tags',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control le-input',

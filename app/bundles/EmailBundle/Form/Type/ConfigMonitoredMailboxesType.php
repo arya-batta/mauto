@@ -52,17 +52,17 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'address',
             'text',
             [
-                'label'      => 'mautic.email.config.monitored_email_address',
+                'label'      => 'le.email.config.monitored_email_address',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'tooltip'      => 'mautic.email.config.monitored_email_address.tooltip',
+                    'tooltip'      => 'le.email.config.monitored_email_address.tooltip',
                     'data-show-on' => $monitoredShowOn,
                 ],
                 'constraints' => [
                     new Email(
                         [
-                            'message' => 'mautic.core.email.required',
+                            'message' => 'le.core.email.required',
                         ]
                     ),
                 ],
@@ -74,11 +74,11 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'host',
             'text',
             [
-                'label'      => 'mautic.email.config.monitored_email_host',
+                'label'      => 'le.email.config.monitored_email_host',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'tooltip'      => 'mautic.email.config.monitored_email_host.tooltip',
+                    'tooltip'      => 'le.email.config.monitored_email_host.tooltip',
                     'data-show-on' => $monitoredShowOn,
                 ],
                 'required' => false,
@@ -89,11 +89,11 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'port',
             'text',
             [
-                'label'      => 'mautic.email.config.monitored_email_port',
+                'label'      => 'le.email.config.monitored_email_port',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'tooltip'      => 'mautic.email.config.monitored_email_port.tooltip',
+                    'tooltip'      => 'le.email.config.monitored_email_port.tooltip',
                     'data-show-on' => $monitoredShowOn,
                 ],
                 'required' => false,
@@ -108,19 +108,19 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 'choice',
                 [
                     'choices' => [
-                        '/ssl'                 => 'mautic.email.config.mailer_encryption.ssl',
-                        '/ssl/novalidate-cert' => 'mautic.email.config.monitored_email_encryption.ssl_novalidate',
-                        '/tls'                 => 'mautic.email.config.mailer_encryption.tls',
-                        '/tls/novalidate-cert' => 'mautic.email.config.monitored_email_encryption.tls_novalidate',
+                        '/ssl'                 => 'le.email.config.mailer_encryption.ssl',
+                        '/ssl/novalidate-cert' => 'le.email.config.monitored_email_encryption.ssl_novalidate',
+                        '/tls'                 => 'le.email.config.mailer_encryption.tls',
+                        '/tls/novalidate-cert' => 'le.email.config.monitored_email_encryption.tls_novalidate',
                     ],
-                    'label'    => 'mautic.email.config.monitored_email_encryption',
+                    'label'    => 'le.email.config.monitored_email_encryption',
                     'required' => false,
                     'attr'     => [
                         'class'        => 'form-control',
                         'data-show-on' => $monitoredShowOn,
-                        'tooltip'      => 'mautic.email.config.monitored_email_encryption.tooltip',
+                        'tooltip'      => 'le.email.config.monitored_email_encryption.tooltip',
                     ],
-                    'empty_value' => 'mautic.email.config.mailer_encryption.none',
+                    'empty_value' => 'le.email.config.mailer_encryption.none',
                     'data'        => (isset($options['data']['encryption'])) ? $options['data']['encryption'] : '/ssl',
                 ]
             );
@@ -130,11 +130,11 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'user',
             'text',
             [
-                'label'      => 'mautic.email.config.monitored_email_user',
+                'label'      => 'le.email.config.monitored_email_user',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'tooltip'      => 'mautic.email.config.monitored_email_user.tooltip',
+                    'tooltip'      => 'le.email.config.monitored_email_user.tooltip',
                     'autocomplete' => 'off',
                     'data-show-on' => $monitoredShowOn,
                 ],
@@ -146,13 +146,13 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'password',
             'password',
             [
-                'label'      => 'mautic.email.config.monitored_email_password',
+                'label'      => 'le.email.config.monitored_email_password',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
                     'placeholder'  => 'mautic.user.user.form.passwordplaceholder',
                     'preaddon'     => 'fa fa-lock',
-                    'tooltip'      => 'mautic.email.config.monitored_email_password.tooltip',
+                    'tooltip'      => 'le.email.config.monitored_email_password.tooltip',
                     'autocomplete' => 'off',
                     'data-show-on' => $monitoredShowOn,
                 ],
@@ -165,12 +165,12 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 'override_settings',
                 'yesno_button_group',
                 [
-                    'label'      => 'mautic.email.config.monitored_email_override_settings',
+                    'label'      => 'le.email.config.monitored_email_override_settings',
                     'label_attr' => ['class' => 'control-label'],
                     'data'       => (array_key_exists('override_settings', $options['data']) && !empty($options['data']['override_settings'])) ? true : false,
                     'attr'       => [
                         'class'   => 'form-control',
-                        'tooltip' => 'mautic.email.config.monitored_email_override_settings.tooltip',
+                        'tooltip' => 'le.email.config.monitored_email_override_settings.tooltip',
                     ],
                     'required' => false,
                 ]
@@ -203,12 +203,12 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 'choice',
                 [
                     'choices'    => $choices,
-                    'label'      => 'mautic.email.config.monitored_email_folder',
+                    'label'      => 'le.email.config.monitored_email_folder',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => array_merge(
                         [
                             'class'             => 'form-control',
-                            'tooltip'           => 'mautic.email.config.monitored_email_folder.tooltip',
+                            'tooltip'           => 'le.email.config.monitored_email_folder.tooltip',
                             'data-imap-folders' => $options['mailbox'],
                         ]
                     ),
@@ -223,7 +223,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
             'test_connection_button',
             'standalone_button',
             [
-                'label'    => 'mautic.email.config.monitored_email.test_connection',
+                'label'    => 'le.email.config.monitored_email.test_connection',
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-success',

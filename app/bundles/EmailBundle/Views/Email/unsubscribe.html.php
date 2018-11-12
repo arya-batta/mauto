@@ -92,8 +92,8 @@
     <?php if ($message == '') : ?>
         <div class="unsubscribe-intent">
             <div class="inner">
-                <h3><?php echo $view['translator']->trans('mautic.email.subscriptions.title'); ?></h3>
-                <p><?php echo $view['translator']->trans('mautic.email.subscriptions.content'); ?></p>
+                <h3><?php echo $view['translator']->trans('le.email.subscriptions.title'); ?></h3>
+                <p><?php echo $view['translator']->trans('le.email.subscriptions.content'); ?></p>
             </div>
         </div>
         <div class="main-content">

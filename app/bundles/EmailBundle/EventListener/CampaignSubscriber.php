@@ -128,8 +128,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addDecision(
             'email.open',
             [
-                'label'                  => 'mautic.email.campaign.event.open',
-                'description'            => 'mautic.email.campaign.event.open_descr',
+                'label'                  => 'le.email.campaign.event.open',
+                'description'            => 'le.email.campaign.event.open_descr',
                 'eventName'              => EmailEvents::ON_CAMPAIGN_TRIGGER_DECISION,
                 'connectionRestrictions' => [
                     'source' => [
@@ -145,8 +145,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addDecision(
             'email.click',
             [
-                'label'                  => 'mautic.email.campaign.event.click',
-                'description'            => 'mautic.email.campaign.event.click_descr',
+                'label'                  => 'le.email.campaign.event.click',
+                'description'            => 'le.email.campaign.event.click_descr',
                 'eventName'              => EmailEvents::ON_CAMPAIGN_TRIGGER_DECISION,
                 'formType'               => 'email_click_decision',
                 'connectionRestrictions' => [
@@ -163,8 +163,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction(
             'email.send',
             [
-                'label'           => 'mautic.email.campaign.event.send',
-                'description'     => 'mautic.email.campaign.event.send_descr',
+                'label'           => 'le.email.campaign.event.send',
+                'description'     => 'le.email.campaign.event.send_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'emailsend_list',
                 'formTypeOptions' => ['update_select' => 'campaignevent_properties_email', 'with_email_types' => true],
@@ -179,8 +179,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction(
             'email.send.to.dripcampaign',
             [
-                'label'           => 'mautic.email.campaign.event.send.to.dripcampaign',
-                'description'     => 'mautic.email.campaign.event.send.to.dripcampaign_descr',
+                'label'           => 'le.email.campaign.event.send.to.dripcampaign',
+                'description'     => 'le.email.campaign.event.send.to.dripcampaign_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'dripemailsend_list',
                 'order'           => 1,
@@ -191,8 +191,8 @@ class CampaignSubscriber extends CommonSubscriber
             $event->addDecision(
                 'email.reply',
                 [
-                    'label'                  => 'mautic.email.campaign.event.reply',
-                    'description'            => 'mautic.email.campaign.event.reply_descr',
+                    'label'                  => 'le.email.campaign.event.reply',
+                    'description'            => 'le.email.campaign.event.reply_descr',
                     'eventName'              => EmailEvents::ON_CAMPAIGN_TRIGGER_DECISION,
                     'connectionRestrictions' => [
                         'source' => [
@@ -208,8 +208,8 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addAction(
             'email.send.to.user',
             [
-                'label'           => 'mautic.email.campaign.event.send.to.user',
-                'description'     => 'mautic.email.campaign.event.send.to.user_descr',
+                'label'           => 'le.email.campaign.event.send.to.user',
+                'description'     => 'le.email.campaign.event.send.to.user_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'email_to_user',
                 'formTypeOptions' => ['update_select' => 'campaignevent_properties_useremail_email', 'with_email_types' => true],
@@ -347,7 +347,7 @@ class CampaignSubscriber extends CommonSubscriber
             $this->notificationhelper->sendNotificationonFailure(true, false);
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
 
-            return $event->setFailed($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+            return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
         $emailSent = false;
         $type      = (isset($config['email_type'])) ? $config['email_type'] : 'transactional';
@@ -412,7 +412,7 @@ class CampaignSubscriber extends CommonSubscriber
         if (!$status) {
             $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
 
-            return $event->setFailed($this->translator->trans('mautic.email.config.mailer.status.report', ['%url%'=>$configurl]));
+            return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
         try {
             $this->sendEmailToUser->sendEmailToUsers($config, $lead);

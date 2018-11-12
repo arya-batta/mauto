@@ -21,8 +21,8 @@ class CampaignBuilderEventTest extends CampaignTestAbstract
     {
         $decisionKey = 'email.open';
         $decision    = [
-            'label'                  => 'mautic.email.campaign.event.open',
-            'description'            => 'mautic.email.campaign.event.open_descr',
+            'label'                  => 'le.email.campaign.event.open',
+            'description'            => 'le.email.campaign.event.open_descr',
             'eventName'              => 'mautic.email.on_campaign_trigger_decision',
             'connectionRestrictions' => [
                 'source' => [
@@ -46,8 +46,8 @@ class CampaignBuilderEventTest extends CampaignTestAbstract
     {
         $decisionKey = 'email.open';
         $decision    = [
-            'label'                  => 'mautic.email.campaign.event.open',
-            'description'            => 'mautic.email.campaign.event.open_descr',
+            'label'                  => 'le.email.campaign.event.open',
+            'description'            => 'le.email.campaign.event.open_descr',
             'eventName'              => 'mautic.email.on_campaign_trigger_decision',
             'connectionRestrictions' => [
                 'source' => [

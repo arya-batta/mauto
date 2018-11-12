@@ -20,17 +20,17 @@ delete if it is not require
             <div class="text-right small">
                 <span>
                     <?php if ($isVariant): ?>
-                    <span data-chart="variant"><?php echo $view['translator']->trans('mautic.email.variant.graph.variant'); ?></span>
+                    <span data-chart="variant"><?php echo $view['translator']->trans('le.email.variant.graph.variant'); ?></span>
                     <?php else: ?>
-                    <a data-chart="variant" href="javascript:void(0)"><?php echo $view['translator']->trans('mautic.email.variant.graph.variant'); ?></a>
+                    <a data-chart="variant" href="javascript:void(0)"><?php echo $view['translator']->trans('le.email.variant.graph.variant'); ?></a>
                     <?php endif; ?>
                 </span>
                 </span> | </span>
                 <span>
                     <?php if ($isVariant): ?>
-                    <a data-chart="all" href="javascript:void(0)"><?php echo $view['translator']->trans('mautic.email.variant.graph.all'); ?></a>
+                    <a data-chart="all" href="javascript:void(0)"><?php echo $view['translator']->trans('le.email.variant.graph.all'); ?></a>
                     <?php else: ?>
-                    <span data-chart="all"><?php echo $view['translator']->trans('mautic.email.variant.graph.all'); ?></span>
+                    <span data-chart="all"><?php echo $view['translator']->trans('le.email.variant.graph.all'); ?></span>
                     <?php endif; ?>
                 </span>
             </div>
@@ -40,7 +40,7 @@ delete if it is not require
                     <div class="col-xs-4 va-m">
                         <h5 class="text-white dark-md fw-sb mb-xs">
                             <span class="fa fa-envelope"></span>
-                            <?php echo $view['translator']->trans('mautic.email.stats'); ?>
+                            <?php echo $view['translator']->trans('le.email.stats'); ?>
                         </h5>
                     </div>
                     <div class="col-xs-8 va-m">

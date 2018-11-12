@@ -125,12 +125,12 @@ $isAdmin              = $view['security']->isAdmin();
                                     <div class="row">
                                         <div class="col-md-6 editor_layout" onclick="Mautic.setValueforNewButton('advance_editor',this);" style="margin-left:10px;">
                                             <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
-                                            <h4><?php echo $view['translator']->trans('mautic.email.editor.advance.header')?></h4>
+                                            <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
                                             <br>
                                         </div>
                                         <div class="col-md-6 editor_layout editor_select" onclick="Mautic.setValueforNewButton('basic_editor',this);" style="margin-left:20px;">
                                             <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
-                                            <h4><?php echo $view['translator']->trans('mautic.email.editor.basic.header')?></h4>
+                                            <h4><?php echo $view['translator']->trans('le.email.editor.basic.header')?></h4>
                                             <br>
                                         </div>
                                     </div>

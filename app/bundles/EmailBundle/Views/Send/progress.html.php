@@ -11,7 +11,7 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
 $view['slots']->set('mauticContent', 'emailSend');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.email.send.list', ['%name%' => $email->getName()]));
+$view['slots']->set('headerTitle', $view['translator']->trans('le.email.send.list', ['%name%' => $email->getName()]));
 
 $percent = ($progress[1]) ? ceil(($progress[0] / $progress[1]) * 100) : 100;
 $id      = ($status != 'inprogress') ? 'emailSendProgressComplete' : 'emailSendProgress';
@@ -21,11 +21,11 @@ $id      = ($status != 'inprogress') ? 'emailSendProgressComplete' : 'emailSendP
     <div class="col-sm-offset-3 col-sm-6 text-center">
         <div class="panel panel-<?php echo ($status != 'inprogress') ? 'success' : 'danger'; ?>">
             <div class="panel-heading">
-                <h4 class="panel-title"><?php echo $view['translator']->trans('mautic.email.send.'.$status, ['%subject%' => \Mautic\CoreBundle\Helper\EmojiHelper::toHtml($email->getSubject(), 'short')]); ?></h4>
+                <h4 class="panel-title"><?php echo $view['translator']->trans('le.email.send.'.$status, ['%subject%' => \Mautic\CoreBundle\Helper\EmojiHelper::toHtml($email->getSubject(), 'short')]); ?></h4>
             </div>
             <div class="panel-body">
                 <?php if ($status != 'inprogress'): ?>
-                <h4><?php echo $view['translator']->trans('mautic.email.send.stats', ['%sent%' => $stats['sent'], '%failed%' => $stats['failed']]); ?></h4>
+                <h4><?php echo $view['translator']->trans('le.email.send.stats', ['%sent%' => $stats['sent'], '%failed%' => $stats['failed']]); ?></h4>
                 <?php endif; ?>
                 <div class="progress mt-md" style="height:50px;">
                     <div class="progress-bar-send progress-bar progress-bar-striped<?php if ($status == 'inprogress') {

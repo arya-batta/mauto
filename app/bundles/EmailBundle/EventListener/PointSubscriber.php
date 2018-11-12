@@ -60,8 +60,8 @@ class PointSubscriber extends CommonSubscriber
     public function onPointBuild(PointBuilderEvent $event)
     {
         $action = [
-            'group'    => 'mautic.email.actions',
-            'label'    => 'mautic.email.point.action.open',
+            'group'    => 'le.email.actions',
+            'label'    => 'le.email.point.action.open',
             'callback' => ['\\Mautic\\EmailBundle\\Helper\\PointEventHelper', 'validateEmail'],
             'formType' => 'emailopen_list',
         ];
@@ -69,8 +69,8 @@ class PointSubscriber extends CommonSubscriber
         $event->addAction('email.open', $action);
 
         $action = [
-            'group'    => 'mautic.email.actions',
-            'label'    => 'mautic.email.point.action.send',
+            'group'    => 'le.email.actions',
+            'label'    => 'le.email.point.action.send',
             'callback' => ['\\Mautic\\EmailBundle\\Helper\\PointEventHelper', 'validateEmail'],
             'formType' => 'emailopen_list',
         ];
@@ -84,8 +84,8 @@ class PointSubscriber extends CommonSubscriber
     public function onTriggerBuild(TriggerBuilderEvent $event)
     {
         $sendEvent = [
-            'group'           => 'mautic.email.point.trigger',
-            'label'           => 'mautic.email.point.trigger.sendemail',
+            'group'           => 'le.email.point.trigger',
+            'label'           => 'le.email.point.trigger.sendemail',
             'callback'        => ['\\Mautic\\EmailBundle\\Helper\\PointEventHelper', 'sendEmail'],
             'formType'        => 'emailsend_list',
             'formTypeOptions' => ['update_select' => 'pointtriggerevent_properties_email'],
@@ -95,8 +95,8 @@ class PointSubscriber extends CommonSubscriber
         $event->addEvent('email.send', $sendEvent);
 
         $sendToOwnerEvent = [
-          'group'           => 'mautic.email.point.trigger',
-          'label'           => 'mautic.email.point.trigger.send_email_to_user',
+          'group'           => 'le.email.point.trigger',
+          'label'           => 'le.email.point.trigger.send_email_to_user',
           'formType'        => EmailToUserType::class,
           'formTypeOptions' => ['update_select' => 'pointtriggerevent_properties_email'],
           'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',

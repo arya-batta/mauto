@@ -37,9 +37,9 @@ $subheader     = ($variantParent) ? $view['translator']->trans('mautic.core.vari
 ]) : '';
 
 $header = $isExisting ?
-    $view['translator']->trans('mautic.email.header.edit',
+    $view['translator']->trans('le.email.header.edit',
         ['%name%' => $email->getName()]) :
-    $view['translator']->trans('mautic.email.header.new');
+    $view['translator']->trans('le.email.header.new');
 
 $view['slots']->set('headerTitle', $header.$subheader);
 
@@ -253,7 +253,7 @@ $isgoogletags= false; //$email->getGoogletags();
                         <?php echo $view['form']->row($form['isPublished']); ?>
                     <?php endif; ?>
                     <hr />
-                    <h5 class="gtags <?php  echo $isgoogletags ? '' : 'hide'; ?> "><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
+                    <h5 class="gtags <?php  echo $isgoogletags ? '' : 'hide'; ?> "><?php echo $view['translator']->trans('le.email.utm_tags'); ?></h5>
                     <br />
                     <?php
                     foreach ($form['utmTags'] as $i => $utmTag):?>
@@ -408,7 +408,7 @@ $isgoogletags= false; //$email->getGoogletags();
                         </div>
                         <div class="text-right pr-10">
                             <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
-                            <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('mautic.email.plaintext.generate'); ?></a>
+                            <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('le.email.plaintext.generate'); ?></a>
                         </div>
                         <div class="clearfix"></div>
                         <?php echo $view['form']->widget($form['plainText']); ?>
@@ -520,24 +520,24 @@ if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantPar
         [
             'item'       => $email,
             'mauticLang' => [
-                'newListEmail'     => 'mautic.email.type.list.header',
-                'newTemplateEmail' => 'mautic.email.type.template.header',
+                'newListEmail'     => 'le.email.type.list.header',
+                'newTemplateEmail' => 'le.email.type.template.header',
             ],
             'typePrefix'          => 'email',
             'cancelUrl'           => $type == 'template' ? 'mautic_email_index' : 'mautic_email_campaign_index',
-            'header'              => 'mautic.email.type.header',
-            'typeOneHeader'       => 'mautic.email.type.template.header',
+            'header'              => 'le.email.type.header',
+            'typeOneHeader'       => 'le.email.type.template.header',
             'typeOneIconClass'    => 'fa-cube',
-            'typeOneDescription'  => 'mautic.email.type.template.description',
+            'typeOneDescription'  => 'le.email.type.template.description',
             'typeOneOnClick'      => "Mautic.selectEmailType('template');",
-            'typeTwoHeader'       => 'mautic.email.type.list.header',
+            'typeTwoHeader'       => 'le.email.type.list.header',
             'typeTwoIconClass'    => 'fa-pie-chart',
-            'typeTwoDescription'  => 'mautic.email.type.list.description',
+            'typeTwoDescription'  => 'le.email.type.list.description',
             'typeTwoOnClick'      => "Mautic.selectEmailType('list');",
-            'typeThreeHeader'     => 'mautic.email.editor.codeeditor.header',
+            'typeThreeHeader'     => 'le.email.editor.codeeditor.header',
             'typeThreeIconClass'  => 'fas fa-code',
             'typeThreeOnClick'    => "Mautic.selectEmailEditor('code');",
-            'typeThreeDescription'=> 'mautic.email.editor.codeeditor.description',
+            'typeThreeDescription'=> 'le.email.editor.codeeditor.description',
         ]);
 endif;
 ?>
@@ -550,19 +550,19 @@ if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror &
             'mauticLang'          => [],
             'typePrefix'          => 'email',
             'cancelUrl'           => $type == 'template' ? 'mautic_email_index' : 'mautic_email_campaign_index',
-            'header'              => 'mautic.email.editor.header',
-            'typeOneHeader'       => 'mautic.email.editor.basic.header',
+            'header'              => 'le.email.editor.header',
+            'typeOneHeader'       => 'le.email.editor.basic.header',
             'typeOneIconClass'    => 'fa-cube',
-            'typeOneDescription'  => 'mautic.email.editor.basic.description',
+            'typeOneDescription'  => 'le.email.editor.basic.description',
             'typeOneOnClick'      => "Mautic.selectEmailEditor('basic');",
-            'typeTwoHeader'       => 'mautic.email.editor.advance.header',
+            'typeTwoHeader'       => 'le.email.editor.advance.header',
             'typeTwoIconClass'    => 'fa-pie-chart',
-            'typeTwoDescription'  => 'mautic.email.editor.advance.description',
+            'typeTwoDescription'  => 'le.email.editor.advance.description',
             'typeTwoOnClick'      => "Mautic.selectEmailEditor('advance');",
-            'typeThreeHeader'     => 'mautic.email.editor.codeeditor.header',
+            'typeThreeHeader'     => 'le.email.editor.codeeditor.header',
             'typeThreeIconClass'  => 'fas fa-code',
             'typeThreeOnClick'    => "Mautic.selectEmailEditor('code');",
-            'typeThreeDescription'=> 'mautic.email.editor.codeeditor.description',
+            'typeThreeDescription'=> 'le.email.editor.codeeditor.description',
         ]);
 endif;
 ?>

@@ -68,7 +68,7 @@ class EmailStepType extends AbstractType
                     ),
                     new Email(
                         [
-                            'message' => 'mautic.core.email.required',
+                            'message' => 'le.core.email.required',
                         ]
                     ),
                 ],
@@ -80,15 +80,15 @@ class EmailStepType extends AbstractType
             'choice',
             [
                 'choices' => [
-                    'mail'                      => 'mautic.email.config.mailer_transport.mail',
-                    'mautic.transport.mandrill' => 'mautic.email.config.mailer_transport.mandrill',
-                    'mautic.transport.mailjet'  => 'mautic.email.config.mailer_transport.mailjet',
-                    'mautic.transport.sendgrid' => 'mautic.email.config.mailer_transport.sendgrid',
-                    'mautic.transport.amazon'   => 'mautic.email.config.mailer_transport.amazon',
-                    'mautic.transport.postmark' => 'mautic.email.config.mailer_transport.postmark',
-                    'gmail'                     => 'mautic.email.config.mailer_transport.gmail',
-                    'smtp'                      => 'mautic.email.config.mailer_transport.smtp',
-                    'sendmail'                  => 'mautic.email.config.mailer_transport.sendmail',
+                    'mail'                      => 'le.email.config.mailer_transport.mail',
+                    'mautic.transport.mandrill' => 'le.email.config.mailer_transport.mandrill',
+                    'mautic.transport.mailjet'  => 'le.email.config.mailer_transport.mailjet',
+                    'mautic.transport.sendgrid' => 'le.email.config.mailer_transport.sendgrid',
+                    'mautic.transport.amazon'   => 'le.email.config.mailer_transport.amazon',
+                    'mautic.transport.postmark' => 'le.email.config.mailer_transport.postmark',
+                    'gmail'                     => 'le.email.config.mailer_transport.gmail',
+                    'smtp'                      => 'le.email.config.mailer_transport.smtp',
+                    'sendmail'                  => 'le.email.config.mailer_transport.sendmail',
                 ],
                 'label'       => 'mautic.install.form.email.transport',
                 'label_attr'  => ['class' => 'control-label'],
@@ -156,7 +156,7 @@ class EmailStepType extends AbstractType
             [
                 'choice_list' => new ChoiceList(
                     ['tls', 'ssl'],
-                    ['mautic.email.config.mailer_encryption.tls', 'mautic.email.config.mailer_encryption.ssl']
+                    ['le.email.config.mailer_encryption.tls', 'le.email.config.mailer_encryption.ssl']
                 ),
                 'label'       => 'mautic.install.form.email.encryption',
                 'expanded'    => true,
@@ -175,9 +175,9 @@ class EmailStepType extends AbstractType
                         'cram-md5',
                     ],
                     [
-                        'mautic.email.config.mailer_auth_mode.plain',
-                        'mautic.email.config.mailer_auth_mode.login',
-                        'mautic.email.config.mailer_auth_mode.cram-md5',
+                        'le.email.config.mailer_auth_mode.plain',
+                        'le.email.config.mailer_auth_mode.login',
+                        'le.email.config.mailer_auth_mode.cram-md5',
                     ]
                 ),
                 'label'       => 'mautic.install.form.email.auth_mode',
@@ -197,8 +197,8 @@ class EmailStepType extends AbstractType
                 'choice_list' => new ChoiceList(
                     ['memory', 'file'],
                     [
-                        'mautic.email.config.mailer_spool_type.memory',
-                        'mautic.email.config.mailer_spool_type.file',
+                        'le.email.config.mailer_spool_type.memory',
+                        'le.email.config.mailer_spool_type.file',
                     ]
                 ),
                 'label'       => 'mautic.install.form.email.spool_type',

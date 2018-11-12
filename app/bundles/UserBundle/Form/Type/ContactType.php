@@ -28,7 +28,7 @@ class ContactType extends AbstractType
     {
         $builder
             ->add('msg_subject', 'text', [
-                'label'       => 'mautic.email.subject',
+                'label'       => 'le.email.subject',
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control'],
                 'constraints' => [

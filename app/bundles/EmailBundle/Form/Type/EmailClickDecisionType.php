@@ -29,7 +29,7 @@ class EmailClickDecisionType extends AbstractType
             'urls',
             'sortablelist',
             [
-                'label'           => 'mautic.email.click.urls.contains',
+                'label'           => 'le.email.click.urls.contains',
                 'option_required' => false,
                 'with_labels'     => false,
                 'required'        => false,

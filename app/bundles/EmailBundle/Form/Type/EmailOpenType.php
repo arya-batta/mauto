@@ -27,11 +27,11 @@ class EmailOpenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $defaultOptions = [
-            'label'      => 'mautic.email.open.limittoemails',
+            'label'      => 'le.email.open.limittoemails',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',
-                'tooltip' => 'mautic.email.open.limittoemails_descr',
+                'tooltip' => 'le.email.open.limittoemails_descr',
             ],
             'enableNewForm'      => false,
             'required'           => false,

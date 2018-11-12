@@ -439,7 +439,7 @@ class SendEmailToContact
                     $contactId,
                     ['email' => $this->emailEntityId],
                     DNC::BOUNCED,
-                    $this->translator->trans('mautic.email.bounce.reason.bad_email'),
+                    $this->translator->trans('le.email.bounce.reason.bad_email'),
                     true,
                     false
                 );

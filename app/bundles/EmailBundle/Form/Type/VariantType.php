@@ -46,7 +46,7 @@ class VariantType extends AbstractType
             ],
             'constraints' => [
                 new NotBlank(
-                    ['message' => 'mautic.email.variant.weight.notblank']
+                    ['message' => 'le.email.variant.weight.notblank']
                 ),
             ],
         ]);

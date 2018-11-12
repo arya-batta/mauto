@@ -75,7 +75,7 @@ class EmailValidator
             throw new InvalidEmailException(
                 $address,
                 $this->translator->trans(
-                    'mautic.email.address.invalid_format',
+                    'le.email.address.invalid_format',
                     [
                         '%email%' => $address ?: '?',
                     ]
@@ -86,14 +86,14 @@ class EmailValidator
         if ($this->hasValidCharacters($address)) {
             throw new InvalidEmailException(
                 $address,
-                $this->translator->trans('mautic.email.address.invalid_characters', ['%email%' => $address])
+                $this->translator->trans('le.email.address.invalid_characters', ['%email%' => $address])
             );
         }
 
         if ($doDnsCheck && !$this->hasValidDomain($address)) {
             throw new InvalidEmailException(
                 $address,
-                $this->translator->trans('mautic.email.address.invalid_domain', ['%email%' => $address])
+                $this->translator->trans('le.email.address.invalid_domain', ['%email%' => $address])
             );
         }
 

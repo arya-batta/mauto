@@ -2306,7 +2306,7 @@ class MailHelper
                         $lemailer = $this->factory->get('mautic.transport.elasticemail.transactions');
                         $lemailer->start();
                         $trackingcode = $settings['trackingcode'];
-                        $mailbody     = $translator->trans('mautic.email.website_tracking.body');
+                        $mailbody     = $translator->trans('le.email.website_tracking.body');
                         $mailbody     = str_replace('|FROM_EMAIL|', $settings['from_email'], nl2br($mailbody));
                         $mailbody     = str_replace('|Tracking|', $trackingcode, nl2br($mailbody));
                         if ($settings['additionalinfo'] != '') {
@@ -2316,7 +2316,7 @@ class MailHelper
                         }
                         $mailbody .= '</body></html>';
                         $message = \Swift_Message::newInstance()
-                            ->setSubject($translator->trans('mautic.email.config.mailer.transport.tracking_send.subject'));
+                            ->setSubject($translator->trans('le.email.config.mailer.transport.tracking_send.subject'));
                         $message->setBody($mailbody, 'text/html');
                         $message->setTo([$settings['toemail']]);
                         $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);
@@ -2324,8 +2324,8 @@ class MailHelper
                     } else {
                         $mailer->start();
                         $message = \Swift_Message::newInstance()
-                                ->setSubject($translator->trans('mautic.email.config.mailer.transport.test_send.subject'));
-                        $mailbody = $translator->trans('mautic.email.config.mailer.transport.test_send.body');
+                                ->setSubject($translator->trans('le.email.config.mailer.transport.test_send.subject'));
+                        $mailbody = $translator->trans('le.email.config.mailer.transport.test_send.body');
                         $message->setBody($mailbody, 'text/html');
                         $userFullName = trim($user->getFirstName().' '.$user->getLastName());
                         if (empty($userFullName)) {

@@ -30,10 +30,10 @@ class EmailToUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('useremail', 'emailsend_list', [
-            'label' => 'mautic.email.emails',
+            'label' => 'le.email.emails',
             'attr'  => [
                 'class'   => 'form-control',
-                'tooltip' => 'mautic.email.choose.emails_descr',
+                'tooltip' => 'le.email.choose.emails_descr',
             ],
             'update_select'   => empty($options['update_select']) ? 'formaction_properties_useremail_email' : $options['update_select'],
             'with_email_types'=> !empty($options['with_email_types']) ? $options['with_email_types'] : false,
@@ -53,7 +53,7 @@ class EmailToUserType extends AbstractType
             'to_owner',
             'yesno_button_group',
             [
-                'label' => 'mautic.form.action.send.email.to.owner',
+                'label' => 'le.form.action.send.email.to.owner',
                 'data'  => isset($options['data']['to_owner']) ? $options['data']['to_owner'] : false,
             ]
         );

@@ -88,7 +88,7 @@ $isAdmin=$view['security']->isAdmin();
                 <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
             <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('mautic.email.beeeditor.save'); ?>
+                <?php echo $view['translator']->trans('le.email.beeeditor.save'); ?>
             </button>
 <!--            <div class="custom-fields">-->
 <!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Mautic.publishCampaign();">-->

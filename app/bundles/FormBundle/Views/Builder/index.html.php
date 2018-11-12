@@ -249,7 +249,7 @@ echo $view['form']->end($form); */
             'typeTwoIconClass'   => 'fa-list',
             'typeTwoDescription' => 'mautic.form.type.standalone.description',
             'typeTwoOnClick'     => "Mautic.selectFormType('standalone');",
-            'typeThreeHeader'    => 'mautic.email.editor.codeeditor.header',
+            'typeThreeHeader'    => 'le.email.editor.codeeditor.header',
         ]
     );
 endif;*/ ?>

@@ -149,12 +149,12 @@ class PublicController extends CommonFormController
                 if (!empty($lead)) {
                     $leadId = $lead->getId();
                 } else {
-                    $message = $this->translator->trans('mautic.email.stat_record.not_found');
+                    $message = $this->translator->trans('le.email.stat_record.not_found');
                 }
             }
             $formContent = '';
         } else {
-            $message = $this->translator->trans('mautic.email.stat_record.not_found');
+            $message = $this->translator->trans('le.email.stat_record.not_found');
         }
 
         $actionRoute = $this->generateUrl('mautic_email_updatelead', ['idHash' => $idHash]);
@@ -223,7 +223,7 @@ class PublicController extends CommonFormController
             }
             $formContent = '';
         } else {
-            $message = $this->translator->trans('mautic.email.stat_record.not_found');
+            $message = $this->translator->trans('le.email.stat_record.not_found');
         }
         $actionRoute = $this->generateUrl('mautic_email_unsubscribe', ['idHash' => $idHash]);
         $viewParams  = [
@@ -384,7 +384,7 @@ class PublicController extends CommonFormController
                 $message = $html;
             }
         } else {
-            $message = $translator->trans('mautic.email.stat_record.not_found');
+            $message = $translator->trans('le.email.stat_record.not_found');
         }
 
         $config = $theme->getConfig();
@@ -406,7 +406,7 @@ class PublicController extends CommonFormController
         }
         $viewParams['name']              = 'Unsubscribed';
         $viewParams['actionName']        = 'unsubscribe';
-        $viewParams['subscriptiontitle'] = 'mautic.email.unsubscribe.title';
+        $viewParams['subscriptiontitle'] = 'le.email.unsubscribe.title';
         $contentTemplate                 = 'MauticEmailBundle:Email:unsubscribe.html.php';
 
         return $this->render($contentTemplate, $viewParams);
@@ -448,7 +448,7 @@ class PublicController extends CommonFormController
             $message = false;
             if (!$message) {
                 $message = $this->translator->trans(
-                    'mautic.email.resubscribed.success',
+                    'le.email.resubscribed.success',
                     [
                         '%unsubscribeUrl%' => '|URL|',
                         '%email%'          => '|EMAIL|',
@@ -468,7 +468,7 @@ class PublicController extends CommonFormController
             );
         } else {
             $email   = $lead   = false;
-            $message = $this->translator->trans('mautic.email.stat_record.not_found');
+            $message = $this->translator->trans('le.email.stat_record.not_found');
         }
 
         $template = ($email !== null && 'mautic_code_mode' !== $email->getTemplate()) ? $email->getTemplate() : $this->coreParametersHelper->getParameter('theme');
@@ -515,7 +515,7 @@ class PublicController extends CommonFormController
         );*/
         $viewParams['name']              = 'Subscrptions';
         $viewParams['actionName']        = 'resubscribe';
-        $viewParams['subscriptiontitle'] = 'mautic.email.resubscribe.title';
+        $viewParams['subscriptiontitle'] = 'le.email.resubscribe.title';
         $contentTemplate                 = 'MauticEmailBundle:Email:unsubscribe.html.php';
 
         return $this->render($contentTemplate, $viewParams);
@@ -914,13 +914,13 @@ class PublicController extends CommonFormController
      */
     public function getUnsubscribeMessage($idHash, $model, $stat, $translator)
     {
-        $model->setDoNotContact($stat, $translator->trans('mautic.email.dnc.unsubscribed'), DoNotContact::UNSUBSCRIBED);
+        $model->setDoNotContact($stat, $translator->trans('le.email.dnc.unsubscribed'), DoNotContact::UNSUBSCRIBED);
 
         //$message = $this->coreParametersHelper->getParameter('unsubscribe_message');
         $message = false;
         if (!$message) {
             $message = $translator->trans(
-                'mautic.email.unsubscribed.success',
+                'le.email.unsubscribed.success',
                 [
                     '%resubscribeUrl%' => '|URL|',
                     '%email%'          => '|EMAIL|',

@@ -45,7 +45,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
 <?php if (count(array_intersect($fieldKeys, ['mailer_from_name', 'mailer_from_email', 'mailer_transport', 'mailer_spool_type']))): ?>
     <div class="panel panel-primary emailconfig">
         <div class="panel-heading emailconfig">
-            <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.email.config.header.mail'); ?></h3>
+            <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.mail'); ?></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -172,7 +172,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
         </div>
         <div class="panel panel-primary emailconfig">
             <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.email.config.footer.mail'); ?></h3>
+                <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.footer.mail'); ?></h3>
             </div>
             <div class="panel-body">
         <?php if (isset($fields['mailer_transport'])): ?>
@@ -231,13 +231,13 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
 <?php if (isset($fields['monitored_email'])): ?>
     <div class="panel panel-primary" <?php echo $hidepanel ?>>
         <div class="panel-heading">
-            <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.email.config.header.monitored_email'); ?></h3>
+            <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.monitored_email'); ?></h3>
         </div>
         <div class="panel-body">
             <?php if (function_exists('imap_open')): ?>
                 <?php echo $view['form']->widget($form['monitored_email']); ?>
             <?php else: ?>
-                <div class="alert alert-info"><?php echo $view['translator']->trans('mautic.email.imap_extension_missing'); ?></div>
+                <div class="alert alert-info"><?php echo $view['translator']->trans('le.email.imap_extension_missing'); ?></div>
             <?php endif; ?>
         </div>
     </div>
@@ -245,7 +245,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
 
 <div class="panel panel-primary" <?php echo $hidepanel ?> >
     <div class="panel-heading">
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.email.config.header.message'); ?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.message'); ?></h3>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -261,7 +261,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
 </div>
 <div class="panel panel-primary" <?php echo $hidepanel ?>>
     <div class="panel-heading">
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.email.config.header.unsubscribe'); ?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.unsubscribe'); ?></h3>
     </div>
     <div class="panel-body">
         <div class="row">

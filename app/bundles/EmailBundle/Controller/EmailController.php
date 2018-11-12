@@ -69,7 +69,7 @@ class EmailController extends FormController
 
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),
                 'multiple'    => true,
             ],
         ];
@@ -244,7 +244,7 @@ class EmailController extends FormController
                     'model'            => $model,
                     'actionRoute'      => 'mautic_email_action',
                     'indexRoute'       => 'mautic_email_index',
-                    'headerTitle'      => 'mautic.email.emails',
+                    'headerTitle'      => 'le.email.emails',
                     'translationBase'  => 'mautic.email',
                     'emailBlockDetails'=> $emailBlockDetails,
                 ],
@@ -298,7 +298,7 @@ class EmailController extends FormController
                     'flashes' => [
                         [
                             'type'    => 'error',
-                            'msg'     => 'mautic.email.error.notfound',
+                            'msg'     => 'le.email.error.notfound',
                             'msgVars' => ['%id%' => $objectId],
                         ],
                     ],
@@ -812,7 +812,7 @@ class EmailController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.email.error.notfound',
+                                'msg'     => 'le.email.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -1090,7 +1090,7 @@ class EmailController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.email.error.notfound',
+                    'msg'     => 'le.email.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1284,7 +1284,7 @@ class EmailController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'mautic.email.error.notfound',
+                    'msg'     => 'le.email.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1302,7 +1302,7 @@ class EmailController extends FormController
 
             $flashes[] = [
                 'type'    => 'notice',
-                'msg'     => 'mautic.email.notice.activated',
+                'msg'     => 'le.email.notice.activated',
                 'msgVars' => [
                     '%name%' => $entity->getName(),
                     '%id%'   => $objectId,
@@ -1364,7 +1364,7 @@ class EmailController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.email.error.notfound',
+                                'msg'     => 'le.email.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -1381,7 +1381,7 @@ class EmailController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'mautic.email.error.send.unpublished',
+                                'msg'     => 'le.email.error.send.unpublished',
                                 'msgVars' => [
                                     '%id%'   => $objectId,
                                     '%name%' => $entity->getName(),
@@ -1433,14 +1433,14 @@ class EmailController extends FormController
                 $session->set('mautic.email.send.progress', $progress);
 
                 $stats = ['sent' => 0, 'failed' => 0, 'failedRecipients' => []];
-                $session->set('mautic.email.send.stats', $stats);
+                $session->set('le.email.send.stats', $stats);
 
                 $status     = 'inprogress';
                 $batchlimit = $form['batchlimit']->getData();
 
                 $session->set('mautic.email.send.active', false);
             } else {
-                $stats      = $session->get('mautic.email.send.stats');
+                $stats      = $session->get('le.email.send.stats');
                 $progress   = $session->get('mautic.email.send.progress');
                 $batchlimit = 100;
                 $status     = (!empty($stats['failed'])) ? 'with_errors' : 'success';
@@ -1512,7 +1512,7 @@ class EmailController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'mautic.email.error.notfound',
+                        'msg'     => 'le.email.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -1535,7 +1535,7 @@ class EmailController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'mautic.email.notice.batch_deleted',
+                    'msg'     => 'le.email.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],
@@ -1629,7 +1629,7 @@ class EmailController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash(implode('; ', $errors));
                 } else {
-                    $this->addFlash('mautic.email.notice.test_sent_multiple.success');
+                    $this->addFlash('le.email.notice.test_sent_multiple.success');
                 }
             }
 
@@ -1709,7 +1709,7 @@ class EmailController extends FormController
         if (count($errors)) {
             $this->addFlash(implode('; ', $errors));
         } else {
-            $this->addFlash('mautic.email.notice.test_sent.success');
+            $this->addFlash('le.email.notice.test_sent.success');
         }
 
         return $this->viewAction($objectId);

@@ -67,7 +67,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.graph.line.stats.sent',
+                        'text'       => 'le.email.graph.line.stats.sent',
                         'class'      => 'col-email-stats drip-col-stats',
                         'default'    => true,
                     ]
@@ -77,7 +77,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.label.list.reads',
+                        'text'       => 'le.email.label.list.reads',
                         'class'      => 'col-email-stats drip-col-stats',
                         'default'    => true,
                     ]
@@ -87,7 +87,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.report.hits_count',
+                        'text'       => 'le.email.report.hits_count',
                         'class'      => 'col-email-stats drip-col-stats',
                         'default'    => true,
                     ]
@@ -97,7 +97,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.token.unsubscribes_text',
+                        'text'       => 'le.email.token.unsubscribes_text',
                         'class'      => 'col-email-stats drip-col-stats',
                         'default'    => true,
                     ]
@@ -179,7 +179,7 @@ $isAdmin=$view['security']->isAdmin();
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-lead-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -190,7 +190,7 @@ $isAdmin=$view['security']->isAdmin();
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-sent-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -201,7 +201,7 @@ $isAdmin=$view['security']->isAdmin();
                      <span class="mt-xs has-click-event clickable-stat"
                            id="drip-read-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.read.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.read.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -212,7 +212,7 @@ $isAdmin=$view['security']->isAdmin();
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-click-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -223,7 +223,7 @@ $isAdmin=$view['security']->isAdmin();
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>

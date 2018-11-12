@@ -58,7 +58,7 @@ class FormController extends CommonFormController
 
         $listFilters = [
             'filters' => [
-                'placeholder' => $this->get('translator')->trans('mautic.category.filter.placeholder'),
+                'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),
                 'multiple'    => true,
             ],
         ];
@@ -1351,14 +1351,14 @@ class FormController extends CommonFormController
 
         $modifiedFields[$emailId]                              = $field->convertToArray();
         $modifiedFields[$emailId]['id']                        = $emailId;
-        $modifiedFields[$emailId]['label']                     = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['label']                     = $this->translator->trans('le.email.email');
         $modifiedFields[$emailId]['alias']                     = 'email';
         $modifiedFields[$emailId]['type']                      = 'email';
         $modifiedFields[$emailId]['formId']                    = $sessionId;
         $modifiedFields[$emailId]['leadField']                 = 'email';
         $modifiedFields[$emailId]['showLabel']                 = 0;
         $modifiedFields[$emailId]['isRequired']                = 1;
-        $modifiedFields[$emailId]['properties']['placeholder'] = $this->translator->trans('mautic.email.email');
+        $modifiedFields[$emailId]['properties']['placeholder'] = $this->translator->trans('le.email.email');
         $modifiedFields[$emailId]['validationMessage']         = 'Please fill your Email Address';
         unset($modifiedFields[$emailId]['form']);
 

@@ -231,7 +231,7 @@ class DripEmailController extends FormController
                         'flashes' => [
                             [
                                 'type'    => 'error',
-                                'msg'     => 'le.email.error.notfound',
+                                'msg'     => 'le.drip.email.error.notfound',
                                 'msgVars' => ['%id%' => $objectId],
                             ],
                         ],
@@ -474,7 +474,7 @@ class DripEmailController extends FormController
                 if ($entity === null) {
                     $flashes[] = [
                         'type'    => 'error',
-                        'msg'     => 'le.email.error.notfound',
+                        'msg'     => 'le.drip.email.error.notfound',
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif (!$this->get('mautic.security')->hasEntityAccess(
@@ -547,7 +547,7 @@ class DripEmailController extends FormController
             if ($entity === null) {
                 $flashes[] = [
                     'type'    => 'error',
-                    'msg'     => 'le.email.error.notfound',
+                    'msg'     => 'le.drip.email.error.notfound',
                     'msgVars' => ['%id%' => $objectId],
                 ];
             } elseif (!$this->get('mautic.security')->hasEntityAccess(

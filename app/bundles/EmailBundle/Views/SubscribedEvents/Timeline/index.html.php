@@ -13,14 +13,14 @@ if ($item = ((isset($event['extra'])) ? $event['extra']['stat'] : false)): ?>
         <?php if (!empty($item['isFailed'])) : ?>
 
             <?php if (isset($item['openDetails']['bounces'])): ?>
-                <span class="label label-warning" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.email.timeline.event.bounced'); ?>">
-                    <?php echo $view['translator']->trans('mautic.email.timeline.event.bounced'); ?>
+                <span class="label label-warning" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.email.timeline.event.bounced'); ?>">
+                    <?php echo $view['translator']->trans('le.email.timeline.event.bounced'); ?>
                 </span>
                 <?php else : ?>
-                <?php echo $view['translator']->trans('mautic.email.timeline.event.failed'); ?>
+                <?php echo $view['translator']->trans('le.email.timeline.event.failed'); ?>
             <?php endif; ?>
         <?php elseif (empty($item['dateRead'])) : ?>
-            <?php echo $view['translator']->trans('mautic.email.timeline.event.not.read'); ?>
+            <?php echo $view['translator']->trans('le.email.timeline.event.not.read'); ?>
         <?php else : ?>
             <?php echo $view['translator']->trans(
                 'mautic.email.timeline.event.'.$event['extra']['type'],
@@ -32,17 +32,17 @@ if ($item = ((isset($event['extra'])) ? $event['extra']['stat'] : false)): ?>
             ); ?>
         <?php endif; ?>
         <?php if (!empty($item['viewedInBrowser'])) : ?>
-            <?php echo $view['translator']->trans('mautic.email.timeline.event.viewed.in.browser'); ?>
+            <?php echo $view['translator']->trans('le.email.timeline.event.viewed.in.browser'); ?>
         <?php endif; ?>
         <?php if (!empty($item['retryCount'])) : ?>
             <?php echo $view['translator']->transChoice(
-                'mautic.email.timeline.event.retried',
+                'le.email.timeline.event.retried',
                 $item['retryCount'],
                 ['%count%' => $item['retryCount']]
             ); ?>
         <?php endif; ?>
         <?php if (!empty($item['list_name'])) : ?>
-            <?php echo $view['translator']->trans('mautic.email.timeline.event.list', ['%list%' => $item['list_name']]); ?>
+            <?php echo $view['translator']->trans('le.email.timeline.event.list', ['%list%' => $item['list_name']]); ?>
         <?php endif; ?>
     </p>
     <div class="small">
@@ -53,7 +53,7 @@ if ($item = ((isset($event['extra'])) ? $event['extra']['stat'] : false)): ?>
     ?>
 
     <?php if (!empty($item['openDetails'])): ?>
-    <h6 class="mt-lg mb-sm"><strong><?php echo $view['translator']->trans('mautic.email.timeline.open_details'); ?></strong></h6>
+    <h6 class="mt-lg mb-sm"><strong><?php echo $view['translator']->trans('le.email.timeline.open_details'); ?></strong></h6>
     <?php
     $counter = 1;
         foreach ($item['openDetails'] as $detail):

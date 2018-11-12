@@ -83,9 +83,9 @@ class EmailType extends AbstractType
         $builder->addEventSubscriber(new FormExitSubscriber('email.email', $options));
         $emailProvider = $this->licenseHelper->getEmailProvider();
 
-        $name = 'leadsengage.email.form.template.name';
+        $name = 'le.email.form.template.name';
         if (!$options['isEmailTemplate']) {
-            $name = 'leadsengage.email.form.campaign.name';
+            $name = 'le.email.form.campaign.name';
         }
 
         $builder->add(
@@ -104,7 +104,7 @@ class EmailType extends AbstractType
                 'subject',
                 'text',
                 [
-                    'label'      => 'mautic.email.subject',
+                    'label'      => 'le.email.subject',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => ['class' => 'form-control le-input'],
                 ]
@@ -115,18 +115,18 @@ class EmailType extends AbstractType
             'fromName',
             'text',
             [
-                'label'      => 'mautic.email.from_name',
+                'label'      => 'le.email.from_name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-user',
-                    'tooltip'  => 'mautic.email.from_name.tooltip',
+                    'tooltip'  => 'le.email.from_name.tooltip',
                     'disabled' => false,
                 ],
                 'required' => false,
             ]
         );
-        $tooltip = 'mautic.email.from_email.tooltip';
+        $tooltip = 'le.email.from_email.tooltip';
         if ($emailProvider == $this->translator->trans('mautic.transport.amazon')) {
             $tooltip = 'le.email.amazon.fromaddress.tooltip';
         }
@@ -134,7 +134,7 @@ class EmailType extends AbstractType
             'fromAddress',
             'text',
             [
-                'label'      => 'mautic.email.from_email',
+                'label'      => 'le.email.from_email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
@@ -161,12 +161,12 @@ class EmailType extends AbstractType
             'replyToAddress',
             'text',
             [
-                'label'      => 'mautic.email.reply_to_email',
+                'label'      => 'le.email.reply_to_email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
-                    'tooltip'  => 'mautic.email.reply_to_email.tooltip',
+                    'tooltip'  => 'le.email.reply_to_email.tooltip',
                 ],
                 'required' => false,
             ]
@@ -176,12 +176,12 @@ class EmailType extends AbstractType
             'bccAddress',
             'text',
             [
-                'label'      => 'mautic.email.bcc',
+                'label'      => 'le.email.bcc',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-envelope',
-                    'tooltip'  => 'mautic.email.bcc.tooltip',
+                    'tooltip'  => 'le.email.bcc.tooltip',
                 ],
                 'required' => false,
             ]
@@ -191,11 +191,11 @@ class EmailType extends AbstractType
             'utmTags',
             'utm_tags',
             [
-                'label'      => 'mautic.email.utm_tags',
+                'label'      => 'le.email.utm_tags',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control le-input',
-                    'tooltip' => 'mautic.email.utm_tags.tooltip',
+                    'tooltip' => 'le.email.utm_tags.tooltip',
                 ],
                 'extra_fields_message'   => 'email',
                  'required'              => false,
@@ -227,7 +227,7 @@ class EmailType extends AbstractType
                 'feature' => 'email',
                 'attr'    => [
                     'class'   => 'form-control hide not-chosen hidden',
-                    'tooltip' => 'mautic.email.form.template.help',
+                    'tooltip' => 'le.email.form.template.help',
                 ],
                 'data' => $options['data']->getTemplate() ? $options['data']->getTemplate() : 'blank',
             ]
@@ -271,7 +271,7 @@ class EmailType extends AbstractType
                 'attr'       => [
                     'class'       => 'form-control',
                     'data-toggle' => 'datetime',
-                    'tooltip'     => 'mautic.email.form.publishdown.help',
+                    'tooltip'     => 'le.email.form.publishdown.help',
                 ],
                 'format'   => 'yyyy-MM-dd HH:mm',
                 'required' => false,
@@ -282,10 +282,10 @@ class EmailType extends AbstractType
             'plainText',
             'textarea',
             [
-                'label'      => 'mautic.email.form.plaintext',
+                'label'      => 'le.email.form.plaintext',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'tooltip'              => 'mautic.email.form.plaintext.help',
+                    'tooltip'              => 'le.email.form.plaintext.help',
                     'class'                => 'form-control le-input',
                     'rows'                 => '15',
                     'data-token-callback'  => 'email:getBuilderTokens',
@@ -301,7 +301,7 @@ class EmailType extends AbstractType
                 'customHtml',
                 'textarea',
                 [
-                    'label'      => 'mautic.email.form.body',
+                    'label'      => 'le.email.form.body',
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'attr'       => [
@@ -316,7 +316,7 @@ class EmailType extends AbstractType
             'beeJSON',
             'textarea',
             [
-                'label'      => 'mautic.email.form.beejson',
+                'label'      => 'le.email.form.beejson',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
@@ -331,11 +331,11 @@ class EmailType extends AbstractType
                 'unsubscribeForm',
                 'form_list',
                 [
-                    'label'      => 'mautic.email.form.unsubscribeform',
+                    'label'      => 'le.email.form.unsubscribeform',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'            => 'form-control',
-                        'tooltip'          => 'mautic.email.form.unsubscribeform.tooltip',
+                        'tooltip'          => 'le.email.form.unsubscribeform.tooltip',
                         'data-placeholder' => $this->translator->trans('mautic.core.form.chooseone'),
                     ],
                     'required'    => false,
@@ -451,7 +451,7 @@ class EmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'                => 'form-control editor editor-advanced editor-builder-tokens',
-                        'tooltip'              => 'mautic.email.config.footer_content.tooltip',
+                        'tooltip'              => 'le.email.config.footer_content.tooltip',
                         'data-token-callback'  => 'email:getBuilderTokens',
                         'data-token-activator' => '{',
                     ],
@@ -468,7 +468,7 @@ class EmailType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
-                    'tooltip' => 'mautic.email.config.postal_address.tooltip',
+                    'tooltip' => 'le.email.config.postal_address.tooltip',
                     'style'   => 'height:100px;',
                 ],
                 'required' => false,
@@ -535,11 +535,11 @@ class EmailType extends AbstractType
                 'lists',
                 'leadlist_choices',
                 [
-                    'label'      => 'mautic.email.form.list',
+                    'label'      => 'le.email.form.list',
                     'label_attr' => ['class' => 'control-label '],
                     'attr'       => [
                         'class'        => 'form-control',
-                        'tooltip'      => 'mautic.email.segment.tooltip',
+                        'tooltip'      => 'le.email.segment.tooltip',
                         'data-show-on' => '{"emailform_segmentTranslationParent":[""]}',
                     ],
                     'multiple' => true,
@@ -575,7 +575,7 @@ class EmailType extends AbstractType
                 'assetAttachments',
                 'asset_list',
                 [
-                    'label'      => 'mautic.email.attachments',
+                    'label'      => 'le.email.attachments',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'    => 'form-control',

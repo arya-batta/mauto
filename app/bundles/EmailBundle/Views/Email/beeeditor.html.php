@@ -21,20 +21,20 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
          <div class="row pull-right" style="margin-right: 2%;">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-primary btn-bee-show-preview" onclick="javascript:bee.preview();">
-                    <?php echo $view['translator']->trans('mautic.email.beeeditor.showpreview'); ?>
+                    <?php echo $view['translator']->trans('le.email.beeeditor.showpreview'); ?>
                 </button>
                 <a class="btn btn-primary btn-bee-show-preview <?php echo $hideplugin; ?>" onclick="Mautic.openPluginModel('bee-plugin-model');">
                     <?php echo $view['translator']->trans('Plugins'); ?>
                 </a>
                 <button type="button" class="btn btn-primary btn-bee-show-structure hide" onclick="javascript:bee.toggleStructure();">
-                    <?php echo $view['translator']->trans('mautic.email.beeeditor.showstructure'); ?>
+                    <?php echo $view['translator']->trans('le.email.beeeditor.showstructure'); ?>
                 </button>
                 <?php if ($isAdmin):?>
                 <button type="button" class="btn btn-primary btn-bee-close-downloadjson" onclick="javascript:bee.saveAsTemplate();">
-                    <?php echo $view['translator']->trans('mautic.email.beeeditor.downloadjson'); ?>
+                    <?php echo $view['translator']->trans('le.email.beeeditor.downloadjson'); ?>
                 </button>
                 <button type="button" class="btn btn-primary btn-bee-close-downloadhtml" onclick="javascript:bee.send();">
-                    <?php echo $view['translator']->trans('mautic.email.beeeditor.downloadhtml'); ?>
+                    <?php echo $view['translator']->trans('le.email.beeeditor.downloadhtml'); ?>
                 </button>
                 <?php endif; ?>
                 <button type="button" class="btn btn-primary btn-bee-close-editor" onclick="Mautic.closeBeeEditor();">

@@ -176,7 +176,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $event->setTemplateData([
                     'headItems' => [
                         'mautic.dashboard.label.title',
-                        'mautic.email.label.sends',
+                        'le.email.label.sends',
                     ],
                     'bodyItems' => $items,
                     'raw'       => $emails,
@@ -228,7 +228,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 $event->setTemplateData([
                     'headItems' => [
                         'mautic.dashboard.label.title',
-                        'mautic.email.label.reads',
+                        'le.email.label.reads',
                     ],
                     'bodyItems' => $items,
                     'raw'       => $emails,

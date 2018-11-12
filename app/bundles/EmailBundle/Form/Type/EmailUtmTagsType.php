@@ -29,7 +29,7 @@ class EmailUtmTagsType extends AbstractType
             'utmSource',
             'text',
             [
-                'label'      => 'mautic.email.campaign_source',
+                'label'      => 'le.email.campaign_source',
                 'data'       => 'leadsengage',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
@@ -43,7 +43,7 @@ class EmailUtmTagsType extends AbstractType
             'utmMedium',
             'text',
             [
-                'label'      => 'mautic.email.campaign_medium',
+                'label'      => 'le.email.campaign_medium',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control le-input',
@@ -57,7 +57,7 @@ class EmailUtmTagsType extends AbstractType
             'utmCampaign',
             'text',
             [
-                'label'      => 'mautic.email.campaign_name',
+                'label'      => 'le.email.campaign_name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control le-input',
@@ -70,7 +70,7 @@ class EmailUtmTagsType extends AbstractType
             'utmContent',
             'text',
                 [
-                'label'      => 'mautic.email.campaign_content',
+                'label'      => 'le.email.campaign_content',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control le-input',

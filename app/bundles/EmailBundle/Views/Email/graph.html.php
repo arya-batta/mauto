@@ -9,10 +9,10 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 if ($emailType == 'list') {
-    $label = 'mautic.email.lead.list.comparison';
+    $label = 'le.email.lead.list.comparison';
     $type  = 'line';
 } else {
-    $label = 'mautic.email.stats';
+    $label = 'le.email.stats';
     $type  = 'line';
 }
 $dateFrom    = $dateRangeForm->children['date_from']->vars['data'];
@@ -38,7 +38,7 @@ $actionRoute = $view['router']->path('mautic_email_campaign_action',
                     <a data-toggle="ajax" class="btn btn-xs<?php if (!$showAllStats) {
     echo ' disabled';
 } ?>" href="<?php echo $actionRoute.'&stats=variant'; ?>">
-                        <?php echo $view['translator']->trans('mautic.email.variant.graph.variant'); ?>
+                        <?php echo $view['translator']->trans('le.email.variant.graph.variant'); ?>
                     </a>
                 </span>
                 </span> | </span>
@@ -46,7 +46,7 @@ $actionRoute = $view['router']->path('mautic_email_campaign_action',
                     <a data-toggle="ajax" class="btn btn-xs<?php  if ($showAllStats) {
     echo ' disabled';
 } ?>" href="<?php echo $actionRoute.'&stats=all'; ?>">
-                        <?php echo $view['translator']->trans('mautic.email.variant.graph.all'); ?>
+                        <?php echo $view['translator']->trans('le.email.variant.graph.all'); ?>
                     </a>
                 </span>
             </div>

@@ -633,12 +633,12 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $listCount = count($lists);
         $chart     = new BarChart(
             [
-                $this->translator->trans('mautic.email.sent'),
-                $this->translator->trans('mautic.email.read'),
-                $this->translator->trans('mautic.email.failed'),
-                $this->translator->trans('mautic.email.clicked'),
-                $this->translator->trans('mautic.email.unsubscribed'),
-                $this->translator->trans('mautic.email.bounced'),
+                $this->translator->trans('le.email.sent'),
+                $this->translator->trans('le.email.read'),
+                $this->translator->trans('le.email.failed'),
+                $this->translator->trans('le.email.clicked'),
+                $this->translator->trans('le.email.unsubscribed'),
+                $this->translator->trans('le.email.bounced'),
             ]
         );
 
@@ -697,7 +697,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
             if ($listCount > 1) {
                 $chart->setDataset(
-                    $this->translator->trans('mautic.email.lists.combined'),
+                    $this->translator->trans('le.email.lists.combined'),
                     $combined,
                     0
                 );
@@ -801,7 +801,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
             if ($listCount > 1) {
                 $chart->setDataset(
-                    $this->translator->trans('mautic.email.lists.combined'),
+                    $this->translator->trans('le.email.lists.combined'),
                     array_values($combined),
                     0
                 );
@@ -1242,7 +1242,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             if (!empty($dnc)) {
                 foreach ($dnc as $removeMeId => $removeMeEmail) {
                     if ($dncAsError) {
-                        $errors[$removeMeId] = $this->translator->trans('mautic.email.dnc');
+                        $errors[$removeMeId] = $this->translator->trans('le.email.dnc');
                     }
                     unset($sendTo[$removeMeId]);
                     unset($leadIds[$removeMeId]);
@@ -1488,7 +1488,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $mailer->setIdHash($idHash, $saveStat);
 
             if (!$mailer->addTo($toAddress)) {
-                $errors[] = "{$toAddress}: ".$this->translator->trans('mautic.email.bounce.reason.bad_email');
+                $errors[] = "{$toAddress}: ".$this->translator->trans('le.email.bounce.reason.bad_email');
             } else {
                 if (!$mailer->queue(true)) {
                     $errorArray = $mailer->getErrors();
@@ -1525,7 +1525,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
 
             if (!$mailer->setTo($user['email'], $user['firstname'].' '.$user['lastname'])) {
-                $errors[] = "{$user['email']}: ".$this->translator->trans('mautic.email.bounce.reason.bad_email');
+                $errors[] = "{$user['email']}: ".$this->translator->trans('le.email.bounce.reason.bad_email');
             } else {
                 if (!$mailer->queue(true)) {
                     $errorArray = $mailer->getErrors();
@@ -1837,7 +1837,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $this->limitQueryToCreator($q);
             }
             $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('mautic.email.sent.emails'), $data);
+            $chart->setDataset($this->translator->trans('le.email.sent.emails'), $data);
         }
 
         if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'sent_and_opened' || $flag == 'opened') {
@@ -1846,7 +1846,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $this->limitQueryToCreator($q);
             }
             $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('mautic.email.read.emails'), $data);
+            $chart->setDataset($this->translator->trans('le.email.read.emails'), $data);
         }
 
         if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
@@ -1857,7 +1857,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $q->andWhere($q->expr()->eq('t.is_failed', ':true'))
                 ->setParameter('true', true, 'boolean');
             $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('mautic.email.failed.emails'), $data);
+            $chart->setDataset($this->translator->trans('le.email.failed.emails'), $data);
         }
 
         if ($flag == 'all' || $flag == 'clicked') {
@@ -1880,17 +1880,17 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
             $data = $query->loadAndBuildTimeData($q);
 
-            $chart->setDataset($this->translator->trans('mautic.email.clicked'), $data);
+            $chart->setDataset($this->translator->trans('le.email.clicked'), $data);
         }
 
         if ($flag == 'all' || $flag == 'unsubscribed') {
             $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::UNSUBSCRIBED, $canViewOthers);
-            $chart->setDataset($this->translator->trans('mautic.email.unsubscribed'), $data);
+            $chart->setDataset($this->translator->trans('le.email.unsubscribed'), $data);
         }
 
         if ($flag == 'all' || $flag == 'bounced') {
             $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::BOUNCED, $canViewOthers);
-            $chart->setDataset($this->translator->trans('mautic.email.bounced'), $data);
+            $chart->setDataset($this->translator->trans('le.email.bounced'), $data);
         }
 
         return $chart->render();
@@ -1956,9 +1956,9 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $read   = $query->fetchCount($readQ);
         $failed = $query->fetchCount($failedQ);
 
-        $chart->setDataset($this->translator->trans('mautic.email.graph.pie.ignored.read.failed.ignored'), ($sent - $read));
-        $chart->setDataset($this->translator->trans('mautic.email.graph.pie.ignored.read.failed.read'), $read);
-        $chart->setDataset($this->translator->trans('mautic.email.graph.pie.ignored.read.failed.failed'), $failed);
+        $chart->setDataset($this->translator->trans('le.email.graph.pie.ignored.read.failed.ignored'), ($sent - $read));
+        $chart->setDataset($this->translator->trans('le.email.graph.pie.ignored.read.failed.read'), $read);
+        $chart->setDataset($this->translator->trans('le.email.graph.pie.ignored.read.failed.failed'), $failed);
 
         return $chart->render();
     }
@@ -2230,7 +2230,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
 
             if (!$mailer->setTo($user['email'], $user['firstname'].' '.$user['lastname'])) {
-                $errors[] = "{$user['email']}: ".$this->translator->trans('mautic.email.bounce.reason.bad_email');
+                $errors[] = "{$user['email']}: ".$this->translator->trans('le.email.bounce.reason.bad_email');
             } else {
                 if (!$mailer->queue(true)) {
                     $errorArray = $mailer->getErrors();

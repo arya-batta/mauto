@@ -24,8 +24,8 @@ class ExampleSendType extends AbstractType
             'sortablelist',
             [
                 'entry_type'       => EmailType::class,
-                'label'            => 'mautic.email.example_recipients',
-                'add_value_button' => 'mautic.email.add_recipient',
+                'label'            => 'le.email.example_recipients',
+                'add_value_button' => 'le.email.add_recipient',
                 'option_notblank'  => false,
             ]
         );
@@ -35,7 +35,7 @@ class ExampleSendType extends AbstractType
             'form_buttons',
             [
                 'apply_text' => false,
-                'save_text'  => 'mautic.email.send',
+                'save_text'  => 'le.email.send',
                 'save_icon'  => 'fa fa-send',
             ]
         );

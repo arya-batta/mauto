@@ -83,7 +83,7 @@ class SubmitActionRepostType extends AbstractType
                 'required'    => false,
                 'constraints' => new Email(
                     [
-                        'message' => 'mautic.core.email.required',
+                        'message' => 'le.core.email.required',
                     ]
                 ),
             ]

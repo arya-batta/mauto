@@ -131,7 +131,7 @@ class FormSubscriber extends CommonSubscriber
     public function onFormBuilder(Events\FormBuilderEvent $event)
     {
         $action = [
-            'group'              => 'mautic.email.actions',
+            'group'              => 'le.email.actions',
             'label'              => 'mautic.form.action.sendemail',
             'description'        => 'mautic.form.action.sendemail.descr',
             'formType'           => 'form_submitaction_sendemail',

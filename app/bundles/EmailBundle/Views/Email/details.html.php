@@ -57,7 +57,7 @@ if (!$isEmbedded) {
                 ),
             ],
             'iconClass' => 'fa fa-send-o',
-            'btnText'   => 'mautic.email.send',
+            'btnText'   => 'le.email.send',
             'primary'   => true,
         ];
     }
@@ -68,10 +68,10 @@ if (!$isEmbedded) {
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
             'href'        => $view['router']->path($actionRoute, ['objectAction' => 'sendExample', 'objectId' => $email->getId()]),
-            'data-header' => $view['translator']->trans('mautic.email.send.example'),
+            'data-header' => $view['translator']->trans('le.email.send.example'),
         ],
         'iconClass' => 'fa fa-send',
-        'btnText'   => 'mautic.email.send.example',
+        'btnText'   => 'le.email.send.example',
         'primary'   => true,
     ];
 }
@@ -168,7 +168,7 @@ if (!$isEmbedded) {
                             <?php if ($fromName = $email->getFromName()): ?>
                                 <tr>
                                     <td width="20%">
-                                        <span class="fw-b"><?php echo $view['translator']->trans('mautic.email.from_name'); ?></span>
+                                        <span class="fw-b"><?php echo $view['translator']->trans('le.email.from_name'); ?></span>
                                     </td>
                                     <td><?php echo $fromName; ?></td>
                                 </tr>
@@ -176,7 +176,7 @@ if (!$isEmbedded) {
                             <?php if ($fromEmail = $email->getFromAddress()): ?>
                                 <tr>
                                     <td width="20%">
-                                        <span class="fw-b"><?php echo $view['translator']->trans('mautic.email.from_email'); ?></span>
+                                        <span class="fw-b"><?php echo $view['translator']->trans('le.email.from_email'); ?></span>
                                     </td>
                                     <td><?php echo $fromEmail; ?></td>
                                 </tr>
@@ -184,7 +184,7 @@ if (!$isEmbedded) {
                             <?php if ($replyTo = $email->getReplyToAddress()): ?>
                                 <tr>
                                     <td width="20%">
-                                        <span class="fw-b"><?php echo $view['translator']->trans('mautic.email.reply_to_email'); ?></span>
+                                        <span class="fw-b"><?php echo $view['translator']->trans('le.email.reply_to_email'); ?></span>
                                     </td>
                                     <td><?php echo $replyTo; ?></td>
                                 </tr>
@@ -192,7 +192,7 @@ if (!$isEmbedded) {
                             <?php if ($bccAddress = $email->getBccAddress()): ?>
                                 <tr>
                                     <td width="20%">
-                                        <span class="fw-b"><?php echo $view['translator']->trans('mautic.email.bcc'); ?></span>
+                                        <span class="fw-b"><?php echo $view['translator']->trans('le.email.bcc'); ?></span>
                                     </td>
                                     <td><?php echo $bccAddress; ?></td>
                                 </tr>
@@ -239,7 +239,7 @@ if (!$isEmbedded) {
                 </li>
                 <li>
                     <a href="#contacts-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.email.associated.contacts'); ?>
+                        <?php echo $view['translator']->trans('le.email.associated.contacts'); ?>
                     </a>
                 </li>
                 <?php if ($showVariants): ?>
@@ -294,7 +294,7 @@ if (!$isEmbedded) {
         <!-- preview URL -->
         <div class="panel bg-transparent shd-none bdr-rds-0 bdr-w-0 mt-sm mb-0">
             <div class="panel-heading">
-                <div class="panel-title"><?php echo $view['translator']->trans('mautic.email.urlvariant'); ?></div>
+                <div class="panel-title"><?php echo $view['translator']->trans('le.email.urlvariant'); ?></div>
             </div>
             <div class="panel-body pt-xs">
                 <div class="input-group">

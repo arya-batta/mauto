@@ -45,7 +45,7 @@ class WebhookSubscriber extends CommonSubscriber
     {
         // add checkbox to the webhook form for new leads
         $mailOpen = [
-            'label'       => 'mautic.email.webhook.event.open',
+            'label'       => 'le.email.webhook.event.open',
             'description' => 'mautic.email.webhook.event.open_desc',
         ];
 

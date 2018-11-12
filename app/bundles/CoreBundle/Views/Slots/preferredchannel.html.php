@@ -27,7 +27,7 @@ else :
             </label>
             <div class="choice-wrapper">
                 <select class="form-control">
-                    <option value="email" selected="selected"><?php echo $view['translator']->trans('mautic.email.email'); ?></option>
+                    <option value="email" selected="selected"><?php echo $view['translator']->trans('le.email.email'); ?></option>
                 </select></div>
         </div>
     </div>

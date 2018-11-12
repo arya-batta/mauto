@@ -140,7 +140,7 @@ PAYLOAD;
 
         $transportCallback->expects($this->once())
             ->method('addFailureByAddress')
-            ->with($this->equalTo('richard@example.com'), $this->equalTo('mautic.email.complaint.reason.unknown'), $this->equalTo(1));
+            ->with($this->equalTo('richard@example.com'), $this->equalTo('le.email.complaint.reason.unknown'), $this->equalTo(1));
 
         // payload which is sent by Amazon SES
         $payload = <<<PAYLOAD
@@ -174,7 +174,7 @@ PAYLOAD;
 
         $transportCallback->expects($this->once())
             ->method('addFailureByAddress')
-            ->with($this->equalTo('richard@example.com'), $this->equalTo('mautic.email.complaint.reason.abuse'), $this->equalTo(1));
+            ->with($this->equalTo('richard@example.com'), $this->equalTo('le.email.complaint.reason.abuse'), $this->equalTo(1));
 
         // payload which is sent by Amazon SES
         $payload = <<<PAYLOAD

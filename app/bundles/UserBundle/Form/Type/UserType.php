@@ -280,7 +280,7 @@ class UserType extends AbstractType
                 'signature',
                 'textarea',
                 [
-                    'label'      => 'mautic.email.token.signature',
+                    'label'      => 'le.email.token.signature',
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => false,
                     'attr'       => [

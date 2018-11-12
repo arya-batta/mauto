@@ -65,7 +65,7 @@ echo $view['form']->start($form);
                     </div>
                     <div class="col-md-12">
                         <hr />
-                        <h5><?php echo $view['translator']->trans('mautic.email.utm_tags'); ?></h5>
+                        <h5><?php echo $view['translator']->trans('le.email.utm_tags'); ?></h5>
                         <br />
                         <?php
                         foreach ($form['utmTags'] as $i => $utmTag):?>

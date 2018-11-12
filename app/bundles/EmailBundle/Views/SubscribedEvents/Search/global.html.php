@@ -17,7 +17,7 @@
 <?php else: ?>
 <a href="<?php echo $view['router']->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax">
     <?php echo $email->getName(); ?>
-    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.email.readcount'); ?>" data-placement="left">
+    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.email.readcount'); ?>" data-placement="left">
         <?php echo $email->getReadCount(); ?>
     </span>
 </a>

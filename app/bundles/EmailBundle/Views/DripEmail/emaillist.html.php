@@ -55,7 +55,7 @@
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.graph.line.stats.sent',
+                        'text'       => 'le.email.graph.line.stats.sent',
                         'class'      => 'col-email-stats drip-email-stats',
                         'default'    => true,
                     ]
@@ -65,7 +65,7 @@
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.label.list.reads',
+                        'text'       => 'le.email.label.list.reads',
                         'class'      => 'col-email-stats drip-email-stats',
                         'default'    => true,
                     ]
@@ -75,7 +75,7 @@
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.email.report.hits_count',
+                        'text'       => 'le.email.report.hits_count',
                         'class'      => 'col-email-stats drip-email-stats',
                         'default'    => true,
                     ]
@@ -142,7 +142,7 @@
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_sent').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -156,7 +156,7 @@
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.read.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.read.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -170,7 +170,7 @@
                                 'mautic_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('mautic.email.stat.click.percentage.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>

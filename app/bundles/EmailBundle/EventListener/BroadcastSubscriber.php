@@ -88,7 +88,7 @@ class BroadcastSubscriber implements EventSubscriberInterface
             );
 
             $event->setResults(
-                $this->translator->trans('mautic.email.email').': '.$emailEntity->getName(),
+                $this->translator->trans('le.email.email').': '.$emailEntity->getName(),
                 $sentCount,
                 $failedCount,
                 $failedRecipientsByList
