@@ -416,36 +416,26 @@ class LeadListRepository extends CommonRepository
                             unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                             $q->select($select)
-                                ->from('leads', 'l');
+                                ->from('leads', 'l')
+                                ->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->eq('l.id', 'll.lead_id'));
                             if ($filter['operator'] == 'empty') {
-                                $q->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->andX($q->expr()->eq('ll.lead_id', 'l.id')));
-                            } else {
-                                $q->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->andX($q->expr()->neq('ll.lead_id', 'l.id')));
+                                $q->where($q->expr()->isNull('ll.lead_id'));
+                            }else{
+                                $q->where($q->expr()->isNotNull('ll.lead_id'));
                             }
-                            $q->andwhere(
-                                $q->expr()->orX(
-                                    $q->expr()->eq('ll.lead_id', 'NULL'),
-                                    $q->expr()->isNull('ll.leadlist_id')
-                                ),
-                                $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
-                            );
+                            //  select count(l.id) as leads , max(l.id) as max_id from leads l left join lead_lists_leads ll ON l.id=ll.lead_id where ll.lead_id IS NULL;
                             $customcreated = true;
                         } else if ($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
                             unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                             $q->select($select)
-                                ->from('leads', 'l');
+                                ->from('leads', 'l')
+                                ->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->eq('l.id', 'll.lead_id'));
                             if ($filter['operator'] == 'empty') {
-                                $q->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->andX($q->expr()->eq('ll.lead_id', 'l.id')));
-                            } else {
-                                $q->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->andX($q->expr()->neq('ll.lead_id', 'l.id')));
+                                $q->where($q->expr()->isNull('ll.lead_id'));
+                            }else{
+                                $q->where($q->expr()->isNotNull('ll.lead_id'));
                             }
-                            $q->andwhere($q->expr()->orX(
-                                $q->expr()->eq('ll.lead_id', 'NULL'),
-                                $q->expr()->isNull('ll.tag_id')
-                            ),
-                                $q->expr()->andX($q->expr()->isNull('ll.lead_id'))
-                            );
                             $customcreated = true;
                         } else {
                             $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
