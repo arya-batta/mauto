@@ -6075,7 +6075,7 @@ text-align: center;
   z-index: 1015;
 }
 #btn-filter {
-  z-index: 1003;
+  z-index: 450;
 }
 .le-pagination-limit{
   border: none;

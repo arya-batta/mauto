@@ -129,6 +129,11 @@ return [
                 'iconClass' => 'fa-users',
                 'priority'  => 100,
             ],
+            'mautic.campaign.menu.index' => [
+                'id'        => 'mautic_Workflows_root',
+                'iconClass' => 'fa-cogs',
+                'priority'  => 60,
+            ],
            /*'le.segments.root' => [
                 'id'        => 'mautic_segments_root',
                 'iconClass' => 'icon pull-left fa fa-user',

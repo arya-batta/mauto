@@ -17,11 +17,11 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'mautic_email_campaign_index' => [
-                'path'       => '/emails/{page}',
+                'path'       => '/broadcasts/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'mautic_email_campaign_action' => [
-                'path'       => '/emails/{objectAction}/{objectId}',
+                'path'       => '/broadcasts/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'mautic_email_action' => [
@@ -29,19 +29,19 @@ return [
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
             'mautic_email_contacts' => [
-                'path'       => '/emails/contacts/{objectId}',
+                'path'       => '/broadcasts/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
             'mautic_email_usage' => [
-                'path'       => '/emailsusage',
+                'path'       => '/broadcastsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',
             ],
             'le_dripemail_index' => [
-                'path'       => '/dripemail/{page}',
+                'path'       => '/drip/{page}',
                 'controller' => 'MauticEmailBundle:DripEmail:index',
             ],
             'le_dripemail_campaign_action' => [
-                'path'       => '/dripemail/{objectAction}/{objectId}',
+                'path'       => '/drip/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:DripEmail:execute',
             ],
         ],
@@ -79,27 +79,27 @@ return [
                 ],
             ],
             'mautic_email_tracker' => [
-                'path'       => '/emails/{idHash}.gif',
+                'path'       => '/broadcasts/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'mautic_email_webview' => [
-                'path'       => '/emails/view/{idHash}',
+                'path'       => '/broadcasts/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
             ],
             'mautic_email_unsubscribe' => [
-                'path'       => '/emails/unsubscribe/{idHash}',
+                'path'       => '/broadcasts/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'mautic_email_subscribe' => [
-                'path'       => '/emails/subscribers/{idHash}',
+                'path'       => '/broadcasts/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
             ],
             'mautic_email_updatelead' => [
-                'path'       => '/emails/updatelead/{idHash}',
+                'path'       => '/broadcasts/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
             ],
             'mautic_email_resubscribe' => [
-                'path'       => '/emails/resubscribe/{idHash}',
+                'path'       => '/broadcasts/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
             'mautic_mailer_transport_callback' => [
@@ -108,7 +108,7 @@ return [
                 'method'     => ['GET', 'POST'],
             ],
             'mautic_email_preview' => [
-                'path'       => '/emails/preview/{objectId}',
+                'path'       => '/broadcasts/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
             'le_beefree_credentials' => [
@@ -127,15 +127,15 @@ return [
                     'route'      => 'mautic_email_campaign_index',
                     'access'     => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
-                    'priority'   => 300,
+                    'priority'   => 400,
                 ],
                 'le.email.drip.email' => [
-                    'iconClass'  => 'fa fa-envelope',
+                    'iconClass'  => 'fa fa-tint',
                     // 'route'      => 'mautic_email_index',
                     'route'      => 'le_dripemail_index',
                     'access'     => ['dripemail:emails:viewown', 'dripemail:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
-                    'priority'   => 400,
+                    'priority'   => 300,
                 ],
                 /*'le.emailcampaign.emails' => [
                     'route'    => 'mautic_email_campaign_index',

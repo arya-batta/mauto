@@ -57,7 +57,8 @@ class ButtonSubscriber extends CommonSubscriber
             $event->addButton(
                 [
                     'attr' => [
-                        'href'        => $exportRoute,
+                        'href'          => $exportRoute,
+                        'onclick'     => 'Mautic.exportLeads()',
                         'data-toggle' => null,
                     ],
                     'btnText'   => $this->translator->trans('mautic.core.export'),

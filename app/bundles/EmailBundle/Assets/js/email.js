@@ -746,8 +746,8 @@ Mautic.getTotalAttachmentSize = function() {
 Mautic.standardEmailUrl = function(options) {
     if (options && options.windowUrl && options.origin) {
         var url = options.windowUrl;
-        var editEmailKey = '/emails/edit/emailId';
-        var previewEmailKey = '/emails/preview/emailId';
+        var editEmailKey = '/broadcasts/edit/emailId';
+        var previewEmailKey = '/broadcasts/preview/emailId';
         if (url.indexOf(editEmailKey) > -1 ||
             url.indexOf(previewEmailKey) > -1) {
             options.windowUrl = url.replace('emailId', mQuery(options.origin).val());

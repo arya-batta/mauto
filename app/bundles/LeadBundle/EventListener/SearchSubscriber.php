@@ -160,6 +160,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.lead.searchcommand.email_read', [], null, 'en_US'):
                     $this->buildEmailReadQuery($event);
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.email_click'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_click', [], null, 'en_US'):
+                    $this->buildEmailClickQuery($event);
+                break;
             case $this->translator->trans('le.lead.lead.searchcommand.email_failure'):
             case $this->translator->trans('le.lead.lead.searchcommand.email_failure', [], null, 'en_US'):
                 $this->buildEmailFailureQuery($event);
@@ -318,6 +322,23 @@ class SearchSubscriber extends CommonSubscriber
             'params' => [
                 'es.is_read' => 1,
             ],
+        ];
+
+        $this->buildJoinQuery($event, $tables, $config);
+    }
+    private function buildEmailClickQuery(LeadBuildSearchEvent $event)
+    {
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'page_hits',
+                'alias'      => 'ph',
+                'condition'  => 'l.id = ph.lead_id',
+            ],
+        ];
+
+        $config = [
+            'column' => 'ph.email_id',
         ];
 
         $this->buildJoinQuery($event, $tables, $config);

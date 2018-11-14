@@ -20,7 +20,7 @@ class ProcessDripEmailCommand extends ModeratedCommand
         $this
             ->setName('le:dripemail:send')
             ->setAliases(['le:dripemail:send'])
-            ->setDescription('Send Drip Emails Scheduled for Leads')
+            ->setDescription('Send Drip Campaigns Scheduled for Leads')
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '');
 
         parent::configure();

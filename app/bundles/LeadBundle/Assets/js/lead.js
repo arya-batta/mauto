@@ -1600,3 +1600,6 @@ Mautic.showGSTNumber = function (selectedval){
         //mQuery('#billinginfo_gstnumber').prop('required',false);
     //}
 }
+Mautic.exportLeads = function(){
+    Mautic.ajaxActionRequest('lead:exportLead',{},function(response){});
+}

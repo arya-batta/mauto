@@ -22,6 +22,7 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Component\HttpFoundation\Request;
+use Mautic\CoreBundle\Model\IteratorExportDataModel;
 
 /**
  * Class AjaxController.
@@ -931,5 +932,27 @@ class AjaxController extends CommonAjaxController
         $dataArray = array_merge($dataArray, $primaryCompany);
 
         return $this->sendJsonResponse($dataArray);
+    }
+     
+    protected function exportLeadAction(Request $request){
+        /** @var \Mautic\LeadBundle\Model\LeadModel $model */
+        $model      = $this->getModel('lead');
+        $leadcount  = count($model->getEntities());
+        if($leadcount == 0){
+         
+            $this->addFlash("No records to export");
+            $dataArray['success']       = true;
+
+            $dataArray['flashes'] = $this->getFlashContent();
+            return $this->sendJsonResponse($dataArray);
+
+        }else{
+           return $this->redirectToRoute(
+                'mautic_contact_action',
+                ['objectAction' => 'batchExport']
+            );
+
+        }
+
     }
 }

@@ -107,9 +107,10 @@ return [
         'main' => [
             'priority' => 60,
             'items'    => [
-                'mautic.campaign.menu.index' => [
+                'mautic.campaign.workflow.menu.index' => [
                     'route'     => 'mautic_campaign_index',
-                    'iconClass' => 'fa-cogs',
+                    'iconClass' => 'fa-sitemap',
+                    'parent'    => 'mautic.campaign.menu.index',
                 ],
             ],
         ],

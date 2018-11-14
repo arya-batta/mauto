@@ -228,7 +228,7 @@ class ConfigType extends AbstractType
                     'class'   => 'form-control',
                     'data-hide-on' => $LeadsEngageShowConditions,
                 ],
-                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : true,
+                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
                 'required'   => false,
             ]
         );

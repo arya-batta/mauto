@@ -82,10 +82,10 @@ class SolutionInfinityApi extends AbstractSmsApi
                 $keys['senderid']    =   $coreParametersHelper->getParameter('le_account_sender_id');
                 $keys['url']         =   $coreParametersHelper->getParameter('le_account_url');
             }
-                $this->username = $keys['apikey'];
+                $this->username = isset($keys['apikey']) ? $keys['apikey'] : "";
                 //$this->password = $keys['password'];
-                $this->senderid = $keys['senderid'];
-                $this->url = $keys['url'];
+                $this->senderid = isset($keys['senderid']) ? $keys['senderid'] : "";
+                $this->url = isset($keys['url']) ? $keys['url'] : "";
 
 
             parent::__construct($pageTrackableModel);

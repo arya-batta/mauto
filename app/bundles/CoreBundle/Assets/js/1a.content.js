@@ -719,7 +719,7 @@ Mautic.onPageLoad = function (container, response, inModal) {
         Mautic.loadLicenseUsageInfo();
         Mautic.checkemailstatus();
     }
-    Mautic.CheckSMSStatus();
+    //Mautic.CheckSMSStatus();
 };
 
 /**

@@ -957,6 +957,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.duplicate',
             'le.lead.lead.searchcommand.email_sent',
             'le.lead.lead.searchcommand.email_read',
+            'le.lead.lead.searchcommand.email_click',
             'le.lead.lead.searchcommand.email_queued',
             'le.lead.lead.searchcommand.email_pending',
             'le.lead.lead.searchcommand.email_failure',

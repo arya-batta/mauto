@@ -93,6 +93,7 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
+       if ($this->security->isGranted('sms:smses:viewown')) {
         $transportChain = $this->factory->get('mautic.sms.transport_chain');
         $transports     = $transportChain->getEnabledTransports();
         $isEnabled      = false;
@@ -136,6 +137,7 @@ class CampaignSubscriber extends CommonSubscriber
             }
         }
         $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
+       }
     }
 
     /**

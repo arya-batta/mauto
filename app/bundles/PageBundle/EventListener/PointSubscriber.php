@@ -61,7 +61,10 @@ class PointSubscriber extends CommonSubscriber
      * @param PointBuilderEvent $event
      */
     public function onPointBuild(PointBuilderEvent $event)
-    {
+    { 
+        if(!$this->security->isGranted('page:pages:viewown')){
+            return ;
+        }
         $action = [
             'group'       => 'le.page.point.action',
             'label'       => 'le.page.point.action.pagehit',

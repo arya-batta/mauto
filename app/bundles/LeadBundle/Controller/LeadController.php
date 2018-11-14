@@ -53,10 +53,7 @@ class LeadController extends FormController
             ],
             'RETURN_ARRAY'
         );
-        $isempty=$this->request->get('leadcount');
-        if($isempty){
-            $this->addFlash("Leads is Empty");
-        }
+       
         $videoarg       = $this->request->get('login');
         $loginsession   = $this->get('session');
         $loginarg       = $loginsession->get('isLogin');
