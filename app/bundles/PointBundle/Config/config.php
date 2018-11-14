@@ -12,23 +12,23 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_pointtriggerevent_action' => [
+            'le_pointtriggerevent_action' => [
                 'path'       => '/leadscoring/triggers/events/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:TriggerEvent:execute',
             ],
-            'mautic_pointtrigger_index' => [
+            'le_pointtrigger_index' => [
                 'path'       => '/leadscoring/triggers/{page}',
                 'controller' => 'MauticPointBundle:Trigger:index',
             ],
-            'mautic_pointtrigger_action' => [
+            'le_pointtrigger_action' => [
                 'path'       => '/leadscoring/triggers/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:Trigger:execute',
             ],
-            'mautic_point_index' => [
+            'le_point_index' => [
                 'path'       => '/leadscoring/{page}',
                 'controller' => 'MauticPointBundle:Point:index',
             ],
-            'mautic_point_action' => [
+            'le_point_action' => [
                 'path'       => '/leadscoring/{objectAction}/{objectId}',
                 'controller' => 'MauticPointBundle:Point:execute',
             ],
@@ -76,11 +76,11 @@ return [
                   'priority'  => 30,
                   'children'  => [
                       'mautic.point.menu.index' => [
-                          'route'  => 'mautic_point_index',
+                          'route'  => 'le_point_index',
                           'access' => 'point:points:view',
                       ],
                       'mautic.point.trigger.menu.index' => [
-                          'route'  => 'mautic_pointtrigger_index',
+                          'route'  => 'le_pointtrigger_index',
                           'access' => 'point:triggers:view',
                       ],
                   ],

@@ -155,7 +155,7 @@ class NoteController extends FormController
 
         $model  = $this->getModel('lead.note');
         $action = $this->generateUrl(
-            'mautic_contactnote_action',
+            'le_contactnote_action',
             [
                 'objectAction' => 'new',
                 'leadId'       => $leadId,
@@ -247,7 +247,7 @@ class NoteController extends FormController
         }
 
         $action = $this->generateUrl(
-            'mautic_contactnote_action',
+            'le_contactnote_action',
             [
                 'objectAction' => 'edit',
                 'objectId'     => $objectId,

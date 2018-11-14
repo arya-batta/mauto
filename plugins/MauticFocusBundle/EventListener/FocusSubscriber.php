@@ -131,13 +131,13 @@ class FocusSubscriber extends CommonSubscriber
             $request    = $event->getRequest();
             $requestUri = $request->getRequestUri();
 
-            $formGenerateUrl = $this->router->generate('mautic_form_generateform');
+            $formGenerateUrl = $this->router->generate('le_form_generateform');
 
             if (strpos($requestUri, $formGenerateUrl) !== false) {
                 $id = InputHelper::_($this->request->get('id'));
                 if (strpos($id, 'mf-') === 0) {
                     $mfId             = str_replace('mf-', '', $id);
-                    $focusGenerateUrl = $this->router->generate('mautic_focus_generate', ['id' => $mfId]);
+                    $focusGenerateUrl = $this->router->generate('le_focus_generate', ['id' => $mfId]);
 
                     $event->setResponse(new RedirectResponse($focusGenerateUrl));
                 }

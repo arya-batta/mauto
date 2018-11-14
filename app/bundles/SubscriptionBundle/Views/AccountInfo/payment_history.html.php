@@ -38,7 +38,7 @@
          <span class="data"><?php echo $payment->getPaymentStatus()?><span>
            </td>
            <td>
-         <a class="data <?php echo ($payment->getPaymentStatus() == 'Paid') ? '' : 'hide'; ?> btn btn-nospin btn-primary btn-sm viewinvoice" target="_blank" href="<?php echo $view['router']->generate('mautic_viewinvoice_action', ['id' => $payment->getId()]); ?>">View Invoice</a>
+         <a class="data <?php echo ($payment->getPaymentStatus() == 'Paid') ? '' : 'hide'; ?> btn btn-nospin btn-primary btn-sm viewinvoice" target="_blank" href="<?php echo $view['router']->generate('le_viewinvoice_action', ['id' => $payment->getId()]); ?>">View Invoice</a>
            </td>
        </tr>
        <?php endforeach; ?>

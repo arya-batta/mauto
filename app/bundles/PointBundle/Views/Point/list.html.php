@@ -121,7 +121,7 @@ $isAdmin    =$view['security']->isAdmin();
                     <td>
                         <div>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_point_action',
+                                'le_point_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
@@ -160,11 +160,11 @@ $isAdmin    =$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>" id="toolbar-lead">
 
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_point_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_point_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_point_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_point_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                               <i class="material-icons md-color-white">  </i> </a>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_point_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.point.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_point_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.point.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
 
@@ -185,8 +185,8 @@ $isAdmin    =$view['security']->isAdmin();
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_point_index',
-                'baseUrl'    => $view['router']->path('mautic_point_index'),
+                'menuLinkId' => 'le_point_index',
+                'baseUrl'    => $view['router']->path('le_point_index'),
                 'sessionVar' => 'point',
             ]
         ); ?>

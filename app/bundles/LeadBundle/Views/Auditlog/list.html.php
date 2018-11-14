@@ -13,7 +13,7 @@ if (isset($tmpl) && $tmpl == 'index') {
 }
 
 $baseUrl = $view['router']->path(
-    'mautic_contact_auditlog_action',
+    'le_contact_auditlog_action',
     [
         'leadId' => $lead->getId(),
     ]

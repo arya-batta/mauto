@@ -12,11 +12,11 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_webhook_index' => [
+            'le_webhook_index' => [
                 'path'       => '/webhooks/{page}',
                 'controller' => 'MauticWebhookBundle:Webhook:index',
             ],
-            'mautic_webhook_action' => [
+            'le_webhook_action' => [
                 'path'       => '/webhooks/{objectAction}/{objectId}',
                 'controller' => 'MauticWebhookBundle:Webhook:execute',
             ],
@@ -43,7 +43,7 @@ return [
                     'iconClass'       => 'fa-exchange',
                     'priority'        => 200,
                     'access'          => ['webhook:webhooks:viewown', 'webhook:webhooks:viewother'],
-                    'route'           => 'mautic_webhook_index',
+                    'route'           => 'le_webhook_index',
                 ],
             ],
         ],

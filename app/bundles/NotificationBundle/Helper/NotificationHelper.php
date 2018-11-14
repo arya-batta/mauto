@@ -133,7 +133,7 @@ class NotificationHelper
             $welcomenotificationEnabled = in_array('welcome_notification_enabled', $supported);
             $notificationSubdomainName  = $featureSettings['subdomain_name'];
             $leadAssociationUrl         = $this->router->generate(
-                'mautic_subscribe_notification',
+                'le_subscribe_notification',
                 [],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
@@ -260,7 +260,7 @@ JS;
 
     public function sendNotificationonFailure($isemail = false, $isEnabled = true, $errorMessage = '')
     {
-        $configurl     = $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         $messagetext   = 'le.sms.configuration.failure.notification';
         $messageheader = 'le.sms.configuration.failure.header';
         if ($isemail) {

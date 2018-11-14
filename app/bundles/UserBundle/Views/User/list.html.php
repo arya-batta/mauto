@@ -125,7 +125,7 @@ $isAdmin=$view['security']->isAdmin();
                     <div>
                         <?php if ($permissions['edit']) : ?>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_user_action',
+                                'le_user_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(true); ?>
@@ -156,7 +156,7 @@ $isAdmin=$view['security']->isAdmin();
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'baseUrl'    => $view['router']->path('mautic_user_index'),
+                'baseUrl'    => $view['router']->path('le_user_index'),
                 'sessionVar' => 'user',
             ]
         ); ?>

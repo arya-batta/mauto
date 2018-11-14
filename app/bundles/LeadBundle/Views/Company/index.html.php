@@ -16,7 +16,7 @@ $pageButtons = [];
 if ($permissions['lead:leads:create']) {
     $pageButtons[] = [
         'attr' => [
-            'href' => $view['router']->path('mautic_import_action', ['object' => 'companies', 'objectAction' => 'new']),
+            'href' => $view['router']->path('le_import_action', ['object' => 'companies', 'objectAction' => 'new']),
         ],
         'iconClass' => 'fa fa-upload',
         'btnText'   => 'le.lead.lead.import',
@@ -24,7 +24,7 @@ if ($permissions['lead:leads:create']) {
 
     $pageButtons[] = [
         'attr' => [
-            'href' => $view['router']->path('mautic_import_index', ['object' => 'companies']),
+            'href' => $view['router']->path('le_import_index', ['object' => 'companies']),
         ],
         'iconClass' => 'fa fa-history',
         'btnText'   => 'le.lead.lead.import.index',

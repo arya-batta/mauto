@@ -503,7 +503,7 @@ class AssetModel extends FormModel
             'slug' => $assetSlug,
         ];
 
-        return $this->buildUrl('mautic_asset_download', $slugs, $absolute, $clickthrough);
+        return $this->buildUrl('le_asset_download', $slugs, $absolute, $clickthrough);
     }
 
     /**

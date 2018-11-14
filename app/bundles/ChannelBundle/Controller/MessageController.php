@@ -113,7 +113,7 @@ class MessageController extends AbstractStandardFormController
 
                 // Init the date range filter form
                 $returnUrl = $this->generateUrl(
-                    'mautic_message_action',
+                    'le_message_action',
                     [
                         'objectAction' => 'view',
                         'objectId'     => $message->getId(),
@@ -279,7 +279,7 @@ class MessageController extends AbstractStandardFormController
         $filter = [];
         if ('all' !== $channel) {
             $returnUrl = $this->generateUrl(
-                'mautic_message_action',
+                'le_message_action',
                 [
                     'objectAction' => 'view',
                     'objectId'     => $objectId,

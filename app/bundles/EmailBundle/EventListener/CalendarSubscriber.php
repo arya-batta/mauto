@@ -64,7 +64,7 @@ class CalendarSubscriber extends CommonSubscriber
             $date            = new DateTimeHelper($object['start']);
             $object['start'] = $date->toLocalString(\DateTime::ISO8601);
             if ($object['email_id']) {
-                $object['url']         = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $object['email_id']], true);
+                $object['url']         = $this->router->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $object['email_id']], true);
                 $object['attr']        = 'data-toggle="ajax"';
                 $object['description'] = html_entity_decode($object['description']);
                 $object['title']       = $this->translator->trans('le.email.event.sent', ['%email%' => $object['title'], '%x%' => $object['quantity']]);
@@ -77,7 +77,7 @@ class CalendarSubscriber extends CommonSubscriber
                     $contactName = $this->translator->trans('le.lead.lead.anonymous');
                 }
                 $details               = $this->translator->trans('le.email.event.sent.direct', ['%contact%' => $contactName]);
-                $object['url']         = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);
+                $object['url']         = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);
                 $object['attr']        = 'data-toggle="ajax"';
                 $object['title']       = $details;
                 $object['description'] = $details;

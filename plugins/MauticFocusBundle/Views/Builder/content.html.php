@@ -64,7 +64,7 @@ $props = $focus['properties'];
     if (!$preview): ?>
 
         <img src="<?php echo $view['router']->url(
-            'mautic_focus_pixel',
+            'le_focus_pixel',
             ['id' => $focus['id']],
             true
         ); ?>" alt="Mautic Focus" style="display: none;"/>

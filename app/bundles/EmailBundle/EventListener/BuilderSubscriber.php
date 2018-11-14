@@ -264,33 +264,33 @@ class BuilderSubscriber extends CommonSubscriber
         if (!$unsubscribeText) {
             $unsubscribeText = $this->translator->trans('le.email.unsubscribe.text', ['%link%' => '|URL|']);
         }
-        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
+        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
         $event->addToken('{unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
 
-        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]));
+        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]));
 
         $updateLead = $this->coreParametersHelper->getParameter('updatelead');
         if (!$updateLead) {
             $updateLead = $this->translator->trans('le.email.updatelead.text', ['%link%' => '|URL|']);
         }
-        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $updateLead);
+        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $updateLead);
 
         $event->addToken('{update_your_profile_link}', EmojiHelper::toHtml($updateLead));
 
-        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]));
+        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]));
 
         $webviewText = $this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
             $webviewText = $this->translator->trans('le.email.webview.text', ['%link%' => '|URL|']);
         }
-        $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_webview', ['idHash' => $idHash]), $webviewText);
+        $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash]), $webviewText);
         $event->addToken('{webview_text}', EmojiHelper::toHtml($webviewText));
 
         // Show public email preview if the lead is not known to prevent 404
         if (empty($lead['id']) && $email) {
-            $event->addToken('{webview_url}', $this->emailModel->buildUrl('mautic_email_preview', ['objectId' => $email->getId()]));
+            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_preview', ['objectId' => $email->getId()]));
         } else {
-            $event->addToken('{webview_url}', $this->emailModel->buildUrl('mautic_email_webview', ['idHash' => $idHash]));
+            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash]));
         }
 
         $signatureText = $this->coreParametersHelper->getParameter('default_signature_text');
@@ -323,10 +323,10 @@ class BuilderSubscriber extends CommonSubscriber
         }
         if ($footerText != '') {
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_subscribe', ['idHash' => $idHash]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $footerText);
 
             $footerText = str_replace('{update_your_profile_link}', "<a href='|URL|'>Update Your Profile</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('mautic_email_updatelead', ['idHash' => $idHash]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $footerText);
 
             if ($helper != null && !empty($helper->message->getFrom())) {
                 foreach ($helper->message->getFrom() as $fromemail => $fromname) {

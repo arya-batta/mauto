@@ -30,9 +30,9 @@ class ButtonSubscriber extends CommonSubscriber
      */
     public function injectViewButtons(CustomButtonEvent $event)
     {
-        if (0 === strpos($event->getRoute(), 'mautic_contact_index')) {
+        if (0 === strpos($event->getRoute(), 'le_contact_index')) {
             $exportRoute = $this->router->generate(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectAction' => 'batchExport']
             );
 

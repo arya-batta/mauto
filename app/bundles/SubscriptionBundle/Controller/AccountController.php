@@ -38,7 +38,7 @@ class AccountController extends FormController
         }
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
         $model         = $this->getModel('subscription.accountinfo');
-        $action        = $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'edit']);
+        $action        = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']);
         $accrepo       = $model->getRepository();
         $accountentity = $accrepo->findAll();
         if (sizeof($accountentity) > 0) {
@@ -89,9 +89,9 @@ class AccountController extends FormController
             }
             if ($cancelled || $isValid) {
                 if (!$cancelled && $this->isFormApplied($form)) {
-                    return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'edit']));
+                    return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_contact_index'));
                 }
             }
         }
@@ -102,7 +102,7 @@ class AccountController extends FormController
                 //'tmpl'               => $tmpl,
                 'form'               => $form->createView(),
                 'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'mautic_accountinfo_action',
+                'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
                 'planType'           => $planType,
             ],
@@ -110,7 +110,7 @@ class AccountController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_accountinfo_index',
                 'mauticContent' => 'accountinfo',
-                'route'         => $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'edit']),
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']),
             ],
         ]);
     }
@@ -126,7 +126,7 @@ class AccountController extends FormController
 
         /** @var \Mautic\SubscriptionBundle\Model\BillingModel $model */
         $model         = $this->getModel('subscription.billinginfo');
-        $action        = $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'billing']);
+        $action        = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']);
         $billingrepo   = $model->getRepository();
         $billingentity = $billingrepo->findAll();
         if (sizeof($billingentity) > 0) {
@@ -151,9 +151,9 @@ class AccountController extends FormController
             }
             if ($cancelled || $isValid) {
                 if (!$cancelled && $this->isFormApplied($form)) {
-                    return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'billing']));
+                    return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_contact_index'));
                 }
             }
         }
@@ -197,7 +197,7 @@ class AccountController extends FormController
                 //'tmpl'               => $tmpl,
                 'form'               => $form->createView(),
                 'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'mautic_accountinfo_action',
+                'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
                 'emailUsage'         => $emailUsage,
                 'contactUsage'       => $contactUsage,
@@ -214,7 +214,7 @@ class AccountController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_accountinfo_index',
                 'mauticContent' => 'accountinfo',
-                'route'         => $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'billing']),
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']),
             ],
         ]);
     }
@@ -253,7 +253,7 @@ class AccountController extends FormController
             'viewParameters' => [
                 'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'mautic_accountinfo_action',
+                'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
                 'payments'           => $payments,
                 'planType'           => $planType,
@@ -262,7 +262,7 @@ class AccountController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_accountinfo_index',
                 'mauticContent' => 'accountinfo',
-                'route'         => $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'payment']),
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'payment']),
             ],
         ]);
     }
@@ -308,7 +308,7 @@ class AccountController extends FormController
             'viewParameters' => [
                 'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'mautic_accountinfo_action',
+                'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
                 'appstatus'          => $appStatus,
                 'recordcount'        => $recordCount,
@@ -320,7 +320,7 @@ class AccountController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_accountinfo_index',
                 'mauticContent' => 'accountinfo',
-                'route'         => $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cancel']),
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cancel']),
             ],
         ]);
     }
@@ -353,7 +353,7 @@ class AccountController extends FormController
             'viewParameters' => [
                 'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'mautic_accountinfo_action',
+                'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
                 'stripecard'         => $stripecard,
                 'letoken'            => $paymenthelper->getUUIDv4(),
@@ -364,7 +364,7 @@ class AccountController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_accountinfo_index',
                 'mauticContent' => 'accountinfo',
-                'route'         => $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']),
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']),
             ],
         ]);
     }

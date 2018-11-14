@@ -16,11 +16,11 @@ return [
     'author'      => 'Mautic',
     'routes'      => [
         'public' => [
-            'mautic_citrix_proxy' => [
+            'le_citrix_proxy' => [
                 'path'       => '/citrix/proxy',
                 'controller' => 'MauticCitrixBundle:Public:proxy',
             ],
-            'mautic_citrix_sessionchanged' => [
+            'le_citrix_sessionchanged' => [
                 'path'       => '/citrix/sessionChanged',
                 'controller' => 'MauticCitrixBundle:Public:sessionChanged',
             ],

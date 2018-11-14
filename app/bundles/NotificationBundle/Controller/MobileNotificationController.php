@@ -103,7 +103,7 @@ class MobileNotificationController extends FormController
             }
 
             $session->set('mautic.mobile_notification.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_mobile_notification_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_mobile_notification_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -111,7 +111,7 @@ class MobileNotificationController extends FormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_mobile_notification_index',
+                        'activeLink'    => '#le_mobile_notification_index',
                         'mauticContent' => 'mobile_notification',
                     ],
                 ]
@@ -134,9 +134,9 @@ class MobileNotificationController extends FormController
                 ],
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_mobile_notification_index',
+                    'activeLink'    => '#le_mobile_notification_index',
                     'mauticContent' => 'mobile_notification',
-                    'route'         => $this->generateUrl('mautic_mobile_notification_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_mobile_notification_index', ['page' => $page]),
                 ],
             ]
         );
@@ -162,7 +162,7 @@ class MobileNotificationController extends FormController
 
         if ($notification === null) {
             //set the return URL
-            $returnUrl = $this->generateUrl('mautic_mobile_notification_index', ['page' => $page]);
+            $returnUrl = $this->generateUrl('le_mobile_notification_index', ['page' => $page]);
 
             return $this->postActionRedirect(
                 [
@@ -170,7 +170,7 @@ class MobileNotificationController extends FormController
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_mobile_notification_index',
+                        'activeLink'    => '#le_mobile_notification_index',
                         'mauticContent' => 'mobile_notification',
                     ],
                     'flashes' => [
@@ -196,7 +196,7 @@ class MobileNotificationController extends FormController
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
-        $action          = $this->generateUrl('mautic_mobile_notification_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+        $action          = $this->generateUrl('le_mobile_notification_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
         $entityViews     = $model->getHitsLineChartData(
             null,
@@ -210,7 +210,7 @@ class MobileNotificationController extends FormController
         $trackableLinks = $model->getNotificationClickStats($notification->getId());
 
         return $this->delegateView([
-            'returnUrl'      => $this->generateUrl('mautic_mobile_notification_action', ['objectAction' => 'view', 'objectId' => $notification->getId()]),
+            'returnUrl'      => $this->generateUrl('le_mobile_notification_action', ['objectAction' => 'view', 'objectId' => $notification->getId()]),
             'viewParameters' => [
                 'notification' => $notification,
                 'trackables'   => $trackableLinks,
@@ -240,7 +240,7 @@ class MobileNotificationController extends FormController
             ],
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:details.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_mobile_notification_index',
+                'activeLink'    => '#le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ],
         ]);
@@ -272,7 +272,7 @@ class MobileNotificationController extends FormController
 
         //set the page we came from
         $page   = $session->get('mautic.mobile_notification.page', 1);
-        $action = $this->generateUrl('mautic_mobile_notification_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_mobile_notification_action', ['objectAction' => 'new']);
 
         $updateSelect = ($method == 'POST')
             ? $this->request->request->get('notification[updateSelect]', false, true)
@@ -297,9 +297,9 @@ class MobileNotificationController extends FormController
                         'mautic.core.notice.created',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_mobile_notification_index',
+                            '%menu_link%' => 'le_mobile_notification_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_mobile_notification_action',
+                                'le_mobile_notification_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -313,7 +313,7 @@ class MobileNotificationController extends FormController
                             'objectAction' => 'view',
                             'objectId'     => $entity->getId(),
                         ];
-                        $returnUrl = $this->generateUrl('mautic_mobile_notification_action', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_mobile_notification_action', $viewParameters);
                         $template  = 'MauticNotificationBundle:MobileNotification:view';
                     } else {
                         //return edit view so that all the session stuff is loaded
@@ -322,14 +322,14 @@ class MobileNotificationController extends FormController
                 }
             } else {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_mobile_notification_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_mobile_notification_index', $viewParameters);
                 $template       = 'MauticNotificationBundle:MobileNotification:index';
                 //clear any modified content
                 $session->remove('mautic.mobile_notification.'.$entity->getId().'.content');
             }
 
             $passthrough = [
-                'activeLink'    => 'mautic_mobile_notification_index',
+                'activeLink'    => 'le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ];
 
@@ -370,11 +370,11 @@ class MobileNotificationController extends FormController
                 ],
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_mobile_notification_index',
+                    'activeLink'    => '#le_mobile_notification_index',
                     'mauticContent' => 'mobile_notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
-                        'mautic_mobile_notification_action',
+                        'le_mobile_notification_action',
                         [
                             'objectAction' => 'new',
                         ]
@@ -401,14 +401,14 @@ class MobileNotificationController extends FormController
         $page    = $session->get('mautic.mobile_notification.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_mobile_notification_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_mobile_notification_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_mobile_notification_index',
+                'activeLink'    => 'le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ],
         ];
@@ -442,7 +442,7 @@ class MobileNotificationController extends FormController
         }
 
         //Create the form
-        $action = $this->generateUrl('mautic_mobile_notification_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_mobile_notification_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
 
         $updateSelect = ($method == 'POST')
             ? $this->request->request->get('notification[updateSelect]', false, true)
@@ -462,9 +462,9 @@ class MobileNotificationController extends FormController
                         'mautic.core.notice.updated',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_mobile_notification_index',
+                            '%menu_link%' => 'le_mobile_notification_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_mobile_notification_action',
+                                'le_mobile_notification_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -483,7 +483,7 @@ class MobileNotificationController extends FormController
 
             $template    = 'MauticNotificationBundle:MobileNotification:view';
             $passthrough = [
-                'activeLink'    => 'mautic_mobile_notification_index',
+                'activeLink'    => 'le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ];
 
@@ -511,7 +511,7 @@ class MobileNotificationController extends FormController
                     array_merge(
                         $postActionVars,
                         [
-                            'returnUrl'       => $this->generateUrl('mautic_mobile_notification_action', $viewParameters),
+                            'returnUrl'       => $this->generateUrl('le_mobile_notification_action', $viewParameters),
                             'viewParameters'  => $viewParameters,
                             'contentTemplate' => $template,
                             'passthroughVars' => $passthrough,
@@ -536,11 +536,11 @@ class MobileNotificationController extends FormController
                 ],
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_mobile_notification_index',
+                    'activeLink'    => '#le_mobile_notification_index',
                     'mauticContent' => 'mobile_notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
-                        'mautic_mobile_notification_action',
+                        'le_mobile_notification_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -594,7 +594,7 @@ class MobileNotificationController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.mobile_notification.page', 1);
-        $returnUrl = $this->generateUrl('mautic_mobile_notification_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_mobile_notification_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -602,7 +602,7 @@ class MobileNotificationController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_mobile_notification_index',
+                'activeLink'    => 'le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ],
         ];
@@ -658,7 +658,7 @@ class MobileNotificationController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.mobile_notification.page', 1);
-        $returnUrl = $this->generateUrl('mautic_mobile_notification_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_mobile_notification_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -666,7 +666,7 @@ class MobileNotificationController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_mobile_notification_index',
+                'activeLink'    => '#le_mobile_notification_index',
                 'mauticContent' => 'mobile_notification',
             ],
         ];

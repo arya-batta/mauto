@@ -93,13 +93,13 @@ class CalendarSubscriber extends CommonSubscriber
                 $object['entityId']   = $object['page_id'];
                 $object['entityType'] = 'page';
                 $object['editable']   = true;
-                $object['url']        = $this->router->generate('mautic_calendar_action', [
+                $object['url']        = $this->router->generate('le_calendar_action', [
                     'objectAction' => 'edit',
                     'source'       => 'page',
                     'objectId'     => $object['page_id'],
                     'startDate'    => $date->toLocalString(),
                 ], true);
-                $object['viewUrl'] = $this->router->generate('mautic_page_action', ['objectAction' => 'view', 'objectId' => $object['page_id']], true);
+                $object['viewUrl'] = $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $object['page_id']], true);
                 $object['attr']    = [
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#CalendarEditModal',

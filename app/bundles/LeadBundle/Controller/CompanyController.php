@@ -82,7 +82,7 @@ class CompanyController extends FormController
         if ($count && $count < ($start + 1)) {
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.company.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_company_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_company_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -90,7 +90,7 @@ class CompanyController extends FormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticLeadBundle:Company:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_company_index',
+                        'activeLink'    => '#le_company_index',
                         'mauticContent' => 'company',
                     ],
                 ]
@@ -119,9 +119,9 @@ class CompanyController extends FormController
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Company:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_company_index',
+                    'activeLink'    => '#le_company_index',
                     'mauticContent' => 'company',
-                    'route'         => $this->generateUrl('mautic_company_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_company_index', ['page' => $page]),
                 ],
             ]
         );
@@ -150,7 +150,7 @@ class CompanyController extends FormController
         //set the page we came from
         $page = $this->get('session')->get('mautic.company.page', 1);
 
-        $action = $this->generateUrl('mautic_company_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_company_action', ['objectAction' => 'new']);
 
         $updateSelect = InputHelper::clean(
             ($this->request->getMethod() == 'POST')
@@ -165,7 +165,7 @@ class CompanyController extends FormController
         $form   = $model->createForm($entity, $this->get('form.factory'), $action, ['fields' => $fields, 'update_select' => $updateSelect]);
 
         $viewParameters = ['page' => $page];
-        $returnUrl      = $this->generateUrl('mautic_company_index', $viewParameters);
+        $returnUrl      = $this->generateUrl('le_company_index', $viewParameters);
         $template       = 'MauticLeadBundle:Company:index';
 
         ///Check for a submitted form and process it
@@ -188,9 +188,9 @@ class CompanyController extends FormController
                         'mautic.core.notice.created',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_company_index',
+                            '%menu_link%' => 'le_company_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_company_action',
+                                'le_company_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -200,7 +200,7 @@ class CompanyController extends FormController
                     );
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_company_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_company_index', $viewParameters);
                         $template  = 'MauticLeadBundle:Company:index';
                     } else {
                         //return edit view so that all the session stuff is loaded
@@ -210,7 +210,7 @@ class CompanyController extends FormController
             }
 
             $passthrough = [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ];
 
@@ -255,11 +255,11 @@ class CompanyController extends FormController
                 ],
                 'contentTemplate' => $template,
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_company_index',
+                    'activeLink'    => '#le_company_index',
                     'mauticContent' => 'company',
                     'updateSelect'  => ($this->request->getMethod() == 'POST') ? $updateSelect : null,
                     'route'         => $this->generateUrl(
-                        'mautic_company_action',
+                        'le_company_action',
                         [
                             'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                             'objectId'     => $entity->getId(),
@@ -289,14 +289,14 @@ class CompanyController extends FormController
         $viewParameters = ['page' => $page];
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_company_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_company_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => $viewParameters,
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ],
         ];
@@ -327,7 +327,7 @@ class CompanyController extends FormController
             return $this->isLocked($postActionVars, $entity, 'lead.company');
         }
 
-        $action       = $this->generateUrl('mautic_company_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action       = $this->generateUrl('le_company_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $updateSelect = ($this->request->getMethod() == 'POST')
             ? $this->request->request->get('company[updateSelect]', false, true)
             : $this->request->get(
@@ -375,9 +375,9 @@ class CompanyController extends FormController
                         'mautic.core.notice.updated',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_company_index',
+                            '%menu_link%' => 'le_company_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_company_action',
+                                'le_company_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -387,7 +387,7 @@ class CompanyController extends FormController
                     );
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_company_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_company_index', $viewParameters);
                         $template  = 'MauticLeadBundle:Company:index';
                     }
                 }
@@ -395,12 +395,12 @@ class CompanyController extends FormController
                 //unlock the entity
                 $model->unlockEntity($entity);
 
-                $returnUrl = $this->generateUrl('mautic_company_index', $viewParameters);
+                $returnUrl = $this->generateUrl('le_company_index', $viewParameters);
                 $template  = 'MauticLeadBundle:Company:index';
             }
 
             $passthrough = [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ];
 
@@ -452,11 +452,11 @@ class CompanyController extends FormController
                 ],
                 'contentTemplate' => $template,
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_company_index',
+                    'activeLink'    => '#le_company_index',
                     'mauticContent' => 'company',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
-                        'mautic_company_action',
+                        'le_company_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -500,7 +500,7 @@ class CompanyController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.company.page', 1);
-        $returnUrl = $this->generateUrl('mautic_company_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_company_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -508,7 +508,7 @@ class CompanyController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ],
         ];
@@ -559,7 +559,7 @@ class CompanyController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.company.page', 1);
-        $returnUrl = $this->generateUrl('mautic_company_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_company_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -567,7 +567,7 @@ class CompanyController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ],
         ];
@@ -645,14 +645,14 @@ class CompanyController extends FormController
         $page             = $this->get('session')->get('mautic.lead.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_company_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_company_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_company_index',
+                'activeLink'    => '#le_company_index',
                 'mauticContent' => 'company',
             ],
         ];
@@ -674,7 +674,7 @@ class CompanyController extends FormController
             );
         }
 
-        $action = $this->generateUrl('mautic_company_action', ['objectAction' => 'merge', 'objectId' => $secondaryCompany->getId()]);
+        $action = $this->generateUrl('le_company_action', ['objectAction' => 'merge', 'objectId' => $secondaryCompany->getId()]);
 
         $form = $this->get('form.factory')->create(
             'company_merge',
@@ -737,7 +737,7 @@ class CompanyController extends FormController
 
             return $this->postActionRedirect(
                 [
-                    'returnUrl'       => $this->generateUrl('mautic_company_action', $viewParameters),
+                    'returnUrl'       => $this->generateUrl('le_company_action', $viewParameters),
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => 'MauticLeadBundle:Company:edit',
                     'passthroughVars' => [
@@ -756,7 +756,7 @@ class CompanyController extends FormController
                     'action'       => $action,
                     'form'         => $form->createView(),
                     'currentRoute' => $this->generateUrl(
-                        'mautic_company_action',
+                        'le_company_action',
                         [
                             'objectAction' => 'merge',
                             'objectId'     => $secondaryCompany->getId(),

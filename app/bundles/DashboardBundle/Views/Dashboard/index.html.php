@@ -18,7 +18,7 @@ $buttons = [
             'class'       => 'btn btn-default btn-nospin',
             'data-toggle' => 'ajaxmodal',
             'data-target' => '#MauticSharedModal',
-            'href'        => $view['router']->path('mautic_dashboard_action', ['objectAction' => 'new']),
+            'href'        => $view['router']->path('le_dashboard_action', ['objectAction' => 'new']),
             'data-header' => $view['translator']->trans('mautic.dashboard.widget.add'),
         ],
         'iconClass' => 'fa fa-plus',
@@ -38,7 +38,7 @@ $buttons = [
         'attr' => [
             'class'       => 'btn btn-default btn-nospin',
             'href'        => 'javascript:void()',
-            'onclick'     => "Mautic.exportDashboardLayout('{$view['translator']->trans('mautic.dashboard.confirmation_layout_name')}', '{$view['router']->path('mautic_dashboard_action', ['objectAction' => 'export'])}');",
+            'onclick'     => "Mautic.exportDashboardLayout('{$view['translator']->trans('mautic.dashboard.confirmation_layout_name')}', '{$view['router']->path('le_dashboard_action', ['objectAction' => 'export'])}');",
             'data-toggle' => '',
         ],
         'iconClass' => 'fa fa-cloud-download',
@@ -47,7 +47,7 @@ $buttons = [
     [
         'attr' => [
             'class'       => 'btn btn-default',
-            'href'        => $view['router']->path('mautic_dashboard_action', ['objectAction' => 'import']),
+            'href'        => $view['router']->path('le_dashboard_action', ['objectAction' => 'import']),
             'data-header' => $view['translator']->trans('mautic.dashboard.widget.import'),
         ],
         'iconClass' => 'fa fa-cloud-upload',
@@ -99,7 +99,7 @@ if ($showsetup) {
             <div class="col-xs-9">
                 <h4><i class="fa fa-quote-left"></i> <?php echo $view['translator']->trans('mautic.dashboard.nowidgets.tip.header'); ?> <i class="fa fa-quote-right"></i></h4>
                 <p class="mt-md"><?php echo $view['translator']->trans('mautic.dashboard.nowidgets.tip'); ?></p>
-                <a href="<?php echo $view['router']->path('mautic_dashboard_action', ['objectAction' => 'applyDashboardFile', 'file' => 'default.json']); ?>" class="btn btn-success">
+                <a href="<?php echo $view['router']->path('le_dashboard_action', ['objectAction' => 'applyDashboardFile', 'file' => 'default.json']); ?>" class="btn btn-success">
                     Apply the default dashboard
                 </a>
             </div>

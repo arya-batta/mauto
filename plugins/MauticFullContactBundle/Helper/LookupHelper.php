@@ -103,7 +103,7 @@ class LookupHelper
                     if (!array_key_exists($cacheId, $cache['fullcontact'])) {
                         $fullcontact->setWebhookUrl(
                             $this->router->generate(
-                                'mautic_plugin_fullcontact_index',
+                                'le_plugin_fullcontact_index',
                                 [],
                                 UrlGeneratorInterface::ABSOLUTE_URL
                             ),
@@ -151,7 +151,7 @@ class LookupHelper
                     if (isset($parse['host']) && !array_key_exists($cacheId, $cache['fullcontact'])) {
                         $fullcontact->setWebhookUrl(
                             $this->router->generate(
-                                'mautic_plugin_fullcontact_index',
+                                'le_plugin_fullcontact_index',
                                 [],
                                 UrlGeneratorInterface::ABSOLUTE_URL
                             ),

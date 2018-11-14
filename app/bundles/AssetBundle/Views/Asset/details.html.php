@@ -156,7 +156,7 @@ $view['slots']->set(
             <?php echo $view->render(
                 'MauticAssetBundle:Asset:preview.html.php',
                 ['activeAsset' => $activeAsset, 'assetDownloadUrl' => $view['router']->generate(
-                    'mautic_asset_action',
+                    'le_asset_action',
                     ['objectAction' => 'preview', 'objectId' => $activeAsset->getId()]
                 )]
             ); ?>

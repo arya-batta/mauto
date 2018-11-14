@@ -102,7 +102,7 @@ class PaymentHelper
     public function sendPaymentNotification($paymenthistory, $billing, $mailer)
     {
         $mailer->start();
-        $invoicelink  = $this->factory->getRouter()->generate('mautic_viewinvoice_action', ['id' => $paymenthistory->getId()], true);
+        $invoicelink  = $this->factory->getRouter()->generate('le_viewinvoice_action', ['id' => $paymenthistory->getId()], true);
         $message      = \Swift_Message::newInstance();
         $message->setTo([$billing->getAccountingemail() => $billing->getCompanyname()]);
         $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);

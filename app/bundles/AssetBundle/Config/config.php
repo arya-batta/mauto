@@ -12,15 +12,15 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_asset_index' => [
+            'le_asset_index' => [
                 'path'       => '/assets/{page}',
                 'controller' => 'MauticAssetBundle:Asset:index',
             ],
-            'mautic_asset_remote' => [
+            'le_asset_remote' => [
                 'path'       => '/assets/remote',
                 'controller' => 'MauticAssetBundle:Asset:remote',
             ],
-            'mautic_asset_action' => [
+            'le_asset_action' => [
                 'path'       => '/assets/{objectAction}/{objectId}',
                 'controller' => 'MauticAssetBundle:Asset:execute',
             ],
@@ -34,7 +34,7 @@ return [
             ],
         ],
         'public' => [
-            'mautic_asset_download' => [
+            'le_asset_download' => [
                 'path'       => '/asset/{slug}',
                 'controller' => 'MauticAssetBundle:Public:download',
                 'defaults'   => [
@@ -49,7 +49,7 @@ return [
             'items' => [
                 'mautic.asset.assets' => [
                     'iconClass' => 'fa fa-folder-open-o',
-                    'route'     => 'mautic_asset_index',
+                    'route'     => 'le_asset_index',
                     'access'    => ['asset:assets:viewown', 'asset:assets:viewother'],
                     'parent'    => 'mautic.core.components',
                     'priority'  => 150,

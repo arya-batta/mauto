@@ -56,7 +56,7 @@ class AddToCompanyActionType extends AbstractType
         );
 
         $windowUrl = $this->router->generate(
-            'mautic_company_action',
+            'le_company_action',
             [
                 'objectAction' => 'new',
                 'contentOnly'  => 1,

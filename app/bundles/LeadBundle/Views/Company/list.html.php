@@ -110,7 +110,7 @@ if ($tmpl == 'index') {
                         <div>
 
                             <a href="<?php echo $view['router']->generate(
-                                'mautic_company_action',
+                                'le_company_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php if (isset($fields['core']['companyname'])) : ?>
@@ -139,7 +139,7 @@ if ($tmpl == 'index') {
                     </td>
                     <td class="visible-md visible-lg">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
-                            'mautic_contact_index',
+                            'le_contact_index',
                             [
                                 'search' => $view['translator']->trans('le.lead.lead.searchcommand.company').':"'
                                     .$fields['core']['companyname']['value'].'"',
@@ -165,8 +165,8 @@ if ($tmpl == 'index') {
                 'totalItems' => $totalItems,
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_company_index',
-                'baseUrl'    => $view['router']->generate('mautic_company_index'),
+                'menuLinkId' => 'le_company_index',
+                'baseUrl'    => $view['router']->generate('le_company_index'),
                 'sessionVar' => 'company',
             ]
         ); ?>

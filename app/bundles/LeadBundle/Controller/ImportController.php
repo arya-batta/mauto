@@ -157,7 +157,7 @@ class ImportController extends FormController
     public function newAction($objectId = 0, $ignorePost = false)
     {
         if ($this->factory->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
         }
         if ($this->factory->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
@@ -199,7 +199,7 @@ class ImportController extends FormController
 
         $progress = (new Progress())->bindArray($session->get('mautic.'.$object.'.import.progress', [0, 0]));
         $import   = $importModel->getEntity();
-        $action   = $this->generateUrl('mautic_import_action', ['object' => $this->request->get('object'), 'objectAction' => 'new']);
+        $action   = $this->generateUrl('le_import_action', ['object' => $this->request->get('object'), 'objectAction' => 'new']);
 
         switch ($step) {
             case self::STEP_UPLOAD_CSV:
@@ -506,7 +506,7 @@ class ImportController extends FormController
 
             return new JsonResponse(['success' => 1, 'ignore_wdt' => 1]);
         } else {
-            $activeLink = $object === 'lead' ? '#mautic_import_action' : '#mautic_company_index';
+            $activeLink = $object === 'lead' ? '#le_import_action' : '#le_company_index';
 
             return $this->delegateView(
                 [

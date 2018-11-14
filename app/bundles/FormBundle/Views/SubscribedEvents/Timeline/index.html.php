@@ -41,7 +41,7 @@ $results    = $submission->getResults();
 			<dt><?php echo $field->getLabel(); ?></dt>
 			<dd>
                 <?php if ($field->isFileType()) : ?>
-                <a href="<?php echo $view['router']->path('mautic_form_file_download', ['submissionId' => $submission->getId(), 'field' => $field->getAlias()]); ?>">
+                <a href="<?php echo $view['router']->path('le_form_file_download', ['submissionId' => $submission->getId(), 'field' => $field->getAlias()]); ?>">
                     <?php echo $results[$field->getAlias()]; ?>
                 </a>
                 <?php else : ?>

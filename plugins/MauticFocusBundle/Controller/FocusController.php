@@ -24,7 +24,7 @@ class FocusController extends FormController
         $this->setStandardParameters(
             'focus',
             'plugin:focus:items',
-            'mautic_focus',
+            'le_focus',
             'mautic_focus',
             'mautic.focus',
             'MauticFocusBundle:Focus',
@@ -129,7 +129,7 @@ class FocusController extends FormController
                 $dateRangeValues,
                 [
                     'action' => $this->generateUrl(
-                        'mautic_focus_action',
+                        'le_focus_action',
                         [
                             'objectAction' => 'view',
                             'objectId'     => $item->getId(),

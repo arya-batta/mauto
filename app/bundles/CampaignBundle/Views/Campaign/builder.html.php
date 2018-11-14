@@ -102,7 +102,7 @@ $isAdmin=$view['security']->isAdmin();
     </div>
     <div id="builder-errors" class="alert alert-danger" role="alert" style="display: none;">test</div>
     <div  id='campaign-request-url' data-href="<?php echo $view['router']->path(
-        'mautic_campaignevent_action',
+        'le_campaignevent_action',
         [
             'objectAction' => 'objectAction',
         ]

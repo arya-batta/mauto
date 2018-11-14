@@ -20,10 +20,10 @@ if (isset($tmpl) && $tmpl == 'index') {
 }
 
 $baseUrl = isset($lead) ? $view['router']->path(
-    'mautic_plugin_timeline_view',
+    'le_plugin_timeline_view',
     ['leadId' => $lead->getId(), 'integration' => $integration]
 ) :
-    $view['router']->path('mautic_plugin_timeline_index', ['integration' => $integration]);
+    $view['router']->path('le_plugin_timeline_index', ['integration' => $integration]);
 ?>
 <style>
     .col-xs-6 {

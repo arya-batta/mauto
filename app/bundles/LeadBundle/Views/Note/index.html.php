@@ -11,9 +11,9 @@
 ?>
 <div class="box-layout mb-lg">
 	<div>
-        <form action="<?php echo $view['router']->path('mautic_contactnote_index', ['page' => $page, 'leadId' => $lead->getId(), 'tmpl' => 'list']); ?>" class="panel" id="note-filters" method="post">
+        <form action="<?php echo $view['router']->path('le_contactnote_index', ['page' => $page, 'leadId' => $lead->getId(), 'tmpl' => 'list']); ?>" class="panel" id="note-filters" method="post">
             <div class="form-control-icon pa-xs">
-                <input type="text" name="search" value="<?php echo $view->escape($search); ?>" id="NoteFilter" class="form-control bdr-w-0" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" data-toggle="livesearch" data-target="#NoteList" data-action="<?php echo $view['router']->path('mautic_contactnote_index', ['leadId' => $lead->getId(), 'page' => 1]); ?>">
+                <input type="text" name="search" value="<?php echo $view->escape($search); ?>" id="NoteFilter" class="form-control bdr-w-0" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" data-toggle="livesearch" data-target="#NoteList" data-action="<?php echo $view['router']->path('le_contactnote_index', ['leadId' => $lead->getId(), 'page' => 1]); ?>">
                 <span class="the-icon fa fa-search text-muted mt-xs"></span><!-- must below `form-control` -->
             </div>
             <input type="hidden" name="leadId" id="leadId" value="<?php echo $view->escape($lead->getId()); ?>" />
@@ -31,7 +31,7 @@
         </form>
 	</div>
 	<div>
-		<a class="btn btn-primary btn-leadnote-add pull-right" style="background-color: #ec407a;border-color: #E62163;"href="<?php echo $view['router']->path('mautic_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.new'); ?>"><i class="fa fa-plus fa-lg"></i> <?php echo $view['translator']->trans('le.lead.add.note'); ?></a>
+		<a class="btn btn-primary btn-leadnote-add pull-right" style="background-color: #ec407a;border-color: #E62163;"href="<?php echo $view['router']->path('le_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.new'); ?>"><i class="fa fa-plus fa-lg"></i> <?php echo $view['translator']->trans('le.lead.add.note'); ?></a>
 	</div>
 </div>
 

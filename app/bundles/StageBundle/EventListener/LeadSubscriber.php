@@ -66,7 +66,7 @@ class LeadSubscriber extends CommonSubscriber
                 if (isset($log['reference']) && $log['reference'] != null) {
                     $eventLabel = [
                         'label'      => $log['eventName'],
-                        'href'       => $this->router->generate('mautic_stage_action', ['objectAction' => 'edit', 'objectId' => $log['reference']]),
+                        'href'       => $this->router->generate('le_stage_action', ['objectAction' => 'edit', 'objectId' => $log['reference']]),
                         'isExternal' => false,
                     ];
                 } else {

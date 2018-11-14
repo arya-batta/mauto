@@ -16,21 +16,21 @@ return [
     'author'      => 'Mautic',
     'routes'      => [
         'public' => [
-            'mautic_integration_contacts' => [
+            'le_integration_contacts' => [
                 'path'         => '/plugin/{integration}/contact_data',
                 'controller'   => 'MauticCrmBundle:Public:contactData',
                 'requirements' => [
                     'integration' => '.+',
                 ],
             ],
-            'mautic_integration_companies' => [
+            'le_integration_companies' => [
                 'path'         => '/plugin/{integration}/company_data',
                 'controller'   => 'MauticCrmBundle:Public:companyData',
                 'requirements' => [
                     'integration' => '.+',
                 ],
             ],
-            'mautic_integration.pipedrive.webhook' => [
+            'le_integration.pipedrive.webhook' => [
                 'path'       => '/plugin/pipedrive/webhook',
                 'controller' => 'MauticCrmBundle:Pipedrive:webhook',
                 'method'     => 'POST',

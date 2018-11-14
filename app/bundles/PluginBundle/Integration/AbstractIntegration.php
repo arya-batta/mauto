@@ -1284,7 +1284,7 @@ abstract class AbstractIntegration
             return $url;
         } else {
             return $this->router->generate(
-                'mautic_integration_auth_callback',
+                'le_integration_auth_callback',
                 ['integration' => $this->getName()]
             );
         }
@@ -1318,7 +1318,7 @@ abstract class AbstractIntegration
     public function getAuthCallbackUrl()
     {
         $defaultUrl = $this->router->generate(
-            'mautic_integration_auth_callback',
+            'le_integration_auth_callback',
             ['integration' => $this->getName()],
             UrlGeneratorInterface::ABSOLUTE_URL //absolute
         );
@@ -2295,7 +2295,7 @@ abstract class AbstractIntegration
 
             if ($contactId) {
                 $contactLink = $this->router->generate(
-                    'mautic_contact_action',
+                    'le_contact_action',
                     [
                         'objectAction' => 'view',
                         'objectId'     => $contactId,
@@ -2478,7 +2478,7 @@ abstract class AbstractIntegration
     public function getContactTimelineLink($contactId)
     {
         return $this->router->generate(
-            'mautic_plugin_timeline_view',
+            'le_plugin_timeline_view',
             ['integration' => $this->getName(), 'leadId' => $contactId],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

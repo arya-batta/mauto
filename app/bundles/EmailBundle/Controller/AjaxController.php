@@ -329,9 +329,9 @@ class AjaxController extends CommonAjaxController
             $awsAccountStatus = $emailValidator->getAwsAccountStatus($emailuser, $emailpassword, $region);
             $verifiedEmails   = $emailValidator->getVerifiedEmailList($emailuser, $emailpassword, $region);
             $isValidEmail     = $emailValidator->getVerifiedEmailAddressDetails($emailuser, $emailpassword, $region, $emailId);
-            $returnUrl        = $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']);
+            $returnUrl        = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
             /** @var \Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper $routerHelper */
-            $awscallbackurl = $this->get('templating.helper.router')->url('mautic_mailer_transport_callback', ['transport' => 'amazon_api']);
+            $awscallbackurl = $this->get('templating.helper.router')->url('le_mailer_transport_callback', ['transport' => 'amazon_api']);
             if ($isValidEmail == 'Policy not written') {
                 $dataArray['success'] = false;
                 $dataArray['message'] = $this->translator->trans('le.email.verification.policy.error');
@@ -395,7 +395,7 @@ class AjaxController extends CommonAjaxController
         $email      = $request->request->get('email');
         $emailModel->deleteAwsVerifiedEmails($email);
 
-        $returnUrl = $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']);
+        $returnUrl = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
 
         $dataArray['success']  =true;
         $dataArray['redirect'] =$returnUrl;
@@ -405,7 +405,7 @@ class AjaxController extends CommonAjaxController
 
     public function emailstatusAction()
     {
-        $configurl= $this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+        $configurl= $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
             $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);

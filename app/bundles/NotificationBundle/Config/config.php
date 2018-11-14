@@ -156,59 +156,59 @@ return [
     ],
     'routes' => [
         'main' => [
-            'mautic_notification_index' => [
+            'le_notification_index' => [
                 'path'       => '/notifications/{page}',
                 'controller' => 'MauticNotificationBundle:Notification:index',
             ],
-            'mautic_notification_action' => [
+            'le_notification_action' => [
                 'path'       => '/notifications/{objectAction}/{objectId}',
                 'controller' => 'MauticNotificationBundle:Notification:execute',
             ],
-            'mautic_notification_contacts' => [
+            'le_notification_contacts' => [
                 'path'       => '/notifications/view/{objectId}/contact/{page}',
                 'controller' => 'MauticNotificationBundle:Notification:contacts',
             ],
-            'mautic_mobile_notification_index' => [
+            'le_mobile_notification_index' => [
                 'path'       => '/mobile_notifications/{page}',
                 'controller' => 'MauticNotificationBundle:MobileNotification:index',
             ],
-            'mautic_mobile_notification_action' => [
+            'le_mobile_notification_action' => [
                 'path'       => '/mobile_notifications/{objectAction}/{objectId}',
                 'controller' => 'MauticNotificationBundle:MobileNotification:execute',
             ],
-            'mautic_mobile_notification_contacts' => [
+            'le_mobile_notification_contacts' => [
                 'path'       => '/mobile_notifications/view/{objectId}/contact/{page}',
                 'controller' => 'MauticNotificationBundle:MobileNotification:contacts',
             ],
         ],
         'public' => [
-            'mautic_receive_notification' => [
+            'le_receive_notification' => [
                 'path'       => '/notification/receive',
                 'controller' => 'MauticNotificationBundle:Api\NotificationApi:receive',
             ],
-            'mautic_subscribe_notification' => [
+            'le_subscribe_notification' => [
                 'path'       => '/notification/subscribe',
                 'controller' => 'MauticNotificationBundle:Api\NotificationApi:subscribe',
             ],
-            'mautic_notification_popup' => [
+            'le_notification_popup' => [
                 'path'       => '/notification',
                 'controller' => 'MauticNotificationBundle:Popup:index',
             ],
 
             // JS / Manifest URL's
-            'mautic_onesignal_worker' => [
+            'le_onesignal_worker' => [
                 'path'       => '/OneSignalSDKWorker.js',
                 'controller' => 'MauticNotificationBundle:Js:worker',
             ],
-            'mautic_onesignal_updater' => [
+            'le_onesignal_updater' => [
                 'path'       => '/OneSignalSDKUpdaterWorker.js',
                 'controller' => 'MauticNotificationBundle:Js:updater',
             ],
-            'mautic_onesignal_manifest' => [
+            'le_onesignal_manifest' => [
                 'path'       => '/manifest.json',
                 'controller' => 'MauticNotificationBundle:Js:manifest',
             ],
-            'mautic_app_notification' => [
+            'le_app_notification' => [
                 'path'       => '/notification/appcallback',
                 'controller' => 'MauticNotificationBundle:AppCallback:index',
             ],
@@ -226,7 +226,7 @@ return [
         'main' => [
             'items' => [
                 'mautic.notification.notifications' => [
-                    'route'  => 'mautic_notification_index',
+                    'route'  => 'le_notification_index',
                     'access' => ['notification:notifications:viewown', 'notification:notifications:viewother'],
                     'checks' => [
                         'integration' => [
@@ -239,7 +239,7 @@ return [
                     'priority' => 80,
                 ],
                 'mautic.notification.mobile_notifications' => [
-                    'route'  => 'mautic_mobile_notification_index',
+                    'route'  => 'le_mobile_notification_index',
                     'access' => ['notification:mobile_notifications:viewown', 'notification:mobile_notifications:viewother'],
                     'checks' => [
                         'integration' => [

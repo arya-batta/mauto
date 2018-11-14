@@ -44,7 +44,7 @@ $view['slots']->set(
                         'data-toggle' => '',
                         'target'      => '_blank',
                         'href'        => $view['router']->path(
-                            'mautic_form_action',
+                            'le_form_action',
                             ['objectAction' => 'preview', 'objectId' => $activeForm->getId()]
                         ),
                     ],
@@ -56,7 +56,7 @@ $view['slots']->set(
                     'attr' => [
                         'data-toggle' => 'ajax',
                         'href'        => $view['router']->path(
-                            'mautic_form_action',
+                            'le_form_action',
                             ['objectAction' => 'results', 'objectId' => $activeForm->getId()]
                         ),
                     ],
@@ -317,7 +317,7 @@ $isadmin     =$view['security']->isAdmin();
                     <p><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy'); ?></p>
                     <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
                     <textarea id="javascipt_textarea" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
-                            'mautic_form_generateform',
+                            'le_form_generateform',
                             ['id' => $activeForm->getId()]
                         ); ?>"&gt;&lt;/script&gt;</textarea>
                     <a id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea');">
@@ -330,7 +330,7 @@ $isadmin     =$view['security']->isAdmin();
                             'mautic.form.form.help.automaticcopy.iframe'
                         ); ?></h3>
                     <textarea id="iframe_textarea" class="form-control" readonly onclick="Mautic.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
-                            'mautic_form_preview',
+                            'le_form_preview',
                             ['id' => $activeForm->getId()]
                         ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
                     <a id="iframe_textarea_atag" onclick="Mautic.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>

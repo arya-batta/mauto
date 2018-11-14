@@ -130,9 +130,9 @@ class PluginController extends FormController
                 ],
                 'contentTemplate' => 'MauticPluginBundle:Integration:grid.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_plugin_index',
+                    'activeLink'    => '#le_plugin_index',
                     'mauticContent' => 'integration',
-                    'route'         => $this->generateUrl('mautic_plugin_index'),
+                    'route'         => $this->generateUrl('le_plugin_index'),
                 ],
             ]
         );
@@ -189,7 +189,7 @@ class PluginController extends FormController
                 'lead_fields'        => $leadFields,
                 'company_fields'     => $companyFields,
                 'integration_object' => $integrationObject,
-                'action'             => $this->generateUrl('mautic_plugin_config', ['name' => $name]),
+                'action'             => $this->generateUrl('le_plugin_config', ['name' => $name]),
             ]
         );
 
@@ -353,7 +353,7 @@ class PluginController extends FormController
                 ],
                 'contentTemplate' => $template,
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_plugin_index',
+                    'activeLink'    => '#le_plugin_index',
                     'mauticContent' => 'integrationConfig',
                     'route'         => false,
                     'sidebar'       => $this->get('templating')->render('MauticCoreBundle:LeftPanel:index.html.php'),
@@ -399,7 +399,7 @@ class PluginController extends FormController
                 ],
                 'contentTemplate' => 'MauticPluginBundle:Integration:info.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_plugin_index',
+                    'activeLink'    => '#le_plugin_index',
                     'mauticContent' => 'integration',
                     'route'         => false,
                 ],
@@ -600,11 +600,11 @@ class PluginController extends FormController
         // Refresh the index contents
         return $this->postActionRedirect(
             [
-                'returnUrl'       => $this->generateUrl('mautic_plugin_index', $viewParameters),
+                'returnUrl'       => $this->generateUrl('le_plugin_index', $viewParameters),
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => 'MauticPluginBundle:Plugin:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_plugin_index',
+                    'activeLink'    => '#le_plugin_index',
                     'mauticContent' => 'plugin',
                 ],
             ]

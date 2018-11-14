@@ -99,7 +99,7 @@ trait ChannelTrait
                 if (method_exists($channelModel, 'getActionRouteBase')) {
                     $baseRouteName = $channelModel->getActionRouteBase();
                 }
-                $routeSourceName = 'mautic_'.$baseRouteName.'_action';
+                $routeSourceName = 'le_'.$baseRouteName.'_action';
 
                 if ($this->router->getRouteCollection()->get($routeSourceName) !== null) {
                     $url = $this->router->generate(

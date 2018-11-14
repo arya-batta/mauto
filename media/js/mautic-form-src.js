@@ -78,10 +78,10 @@
             if (Core.debug()) console.log('binding modal click events');
             for(var index in Form.clickEvents) {
                 var current = Form.clickEvents[index];
-                document.querySelector(current.data.element).setAttribute("_mautic_form_index", index);
+                document.querySelector(current.data.element).setAttribute("_le_form_index", index);
                 document.querySelector(current.data.element).addEventListener("click", function(){
                     if (Core.debug()) console.log('add event to '+current.data.element);
-                    Form.openModal(Form.clickEvents[this.getAttribute('_mautic_form_index')]);
+                    Form.openModal(Form.clickEvents[this.getAttribute('_le_form_index')]);
                 });
             }
         };

@@ -191,14 +191,14 @@ class PageController extends FormController
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('le.page.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_page_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $lastPage],
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_page_index',
+                    'activeLink'    => '#le_page_index',
                     'mauticContent' => 'page',
                 ],
             ]);
@@ -229,9 +229,9 @@ class PageController extends FormController
             ],
             'contentTemplate' => 'MauticPageBundle:Page:list.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_page_index',
+                'activeLink'    => '#le_page_index',
                 'mauticContent' => 'page',
-                'route'         => $this->generateUrl('mautic_page_index', ['page' => $page]),
+                'route'         => $this->generateUrl('le_page_index', ['page' => $page]),
             ],
         ]);
     }
@@ -255,14 +255,14 @@ class PageController extends FormController
 
         if ($activePage === null) {
             //set the return URL
-            $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
+            $returnUrl = $this->generateUrl('le_page_index', ['page' => $page]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $page],
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_page_index',
+                    'activeLink'    => '#le_page_index',
                     'mauticContent' => 'page',
                 ],
                 'flashes' => [
@@ -358,7 +358,7 @@ class PageController extends FormController
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
-        $action          = $this->generateUrl('mautic_page_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+        $action          = $this->generateUrl('le_page_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
         // Audit Log
@@ -376,7 +376,7 @@ class PageController extends FormController
         list($translationParent, $translationChildren) = $activePage->getTranslations();
 
         return $this->delegateView([
-            'returnUrl' => $this->generateUrl('mautic_page_action', [
+            'returnUrl' => $this->generateUrl('le_page_action', [
                     'objectAction' => 'view',
                     'objectId'     => $activePage->getId(), ]
             ),
@@ -415,13 +415,13 @@ class PageController extends FormController
                 'abTestResults' => $abTestResults,
                 'security'      => $security,
                 'pageUrl'       => $model->generateUrl($activePage, true),
-                'previewUrl'    => $this->generateUrl('mautic_page_preview', ['id' => $objectId], true),
+                'previewUrl'    => $this->generateUrl('le_page_preview', ['id' => $objectId], true),
                 'logs'          => $logs,
                 'dateRangeForm' => $dateRangeForm->createView(),
             ],
             'contentTemplate' => 'MauticPageBundle:Page:details.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_page_index',
+                'activeLink'    => '#le_page_index',
                 'mauticContent' => 'page',
             ],
         ]);
@@ -452,7 +452,7 @@ class PageController extends FormController
 
         //set the page we came from
         $page   = $session->get('le.page.page', 1);
-        $action = $this->generateUrl('mautic_page_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_page_action', ['objectAction' => 'new']);
 
         //create the form
         $form = $model->createForm($entity, $this->get('form.factory'), $action);
@@ -473,8 +473,8 @@ class PageController extends FormController
 
                     $this->addFlash('mautic.core.notice.created', [
                         '%name%'      => $entity->getTitle(),
-                        '%menu_link%' => 'mautic_page_index',
-                        '%url%'       => $this->generateUrl('mautic_page_action', [
+                        '%menu_link%' => 'le_page_index',
+                        '%url%'       => $this->generateUrl('le_page_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
                         ]),
@@ -485,7 +485,7 @@ class PageController extends FormController
                             'objectAction' => 'view',
                             'objectId'     => $entity->getId(),
                         ];
-                        $returnUrl = $this->generateUrl('mautic_page_action', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_page_action', $viewParameters);
                         $template  = 'MauticPageBundle:Page:view';
                     } else {
                         //return edit view so that all the session stuff is loaded
@@ -494,7 +494,7 @@ class PageController extends FormController
                 }
             } else {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_page_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_page_index', $viewParameters);
                 $template       = 'MauticPageBundle:Page:index';
                 //clear any modified content
                 $session->remove('mautic.pagebuilder.'.$entity->getSessionId().'.content');
@@ -506,7 +506,7 @@ class PageController extends FormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $template,
                     'passthroughVars' => [
-                        'activeLink'    => 'mautic_page_index',
+                        'activeLink'    => 'le_page_index',
                         'mauticContent' => 'page',
                     ],
                 ]);
@@ -557,9 +557,9 @@ class PageController extends FormController
             ],
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_page_index',
+                'activeLink'    => '#le_page_index',
                 'mauticContent' => 'page',
-                'route'         => $this->generateUrl('mautic_page_action', [
+                'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'new',
                 ]),
                 'validationError' => $this->getFormErrorForBuilder($form),
@@ -585,14 +585,14 @@ class PageController extends FormController
         $page     = $this->get('session')->get('le.page.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_page_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_page_index',
+                'activeLink'    => 'le_page_index',
                 'mauticContent' => 'page',
             ],
         ];
@@ -623,7 +623,7 @@ class PageController extends FormController
         }
 
         //Create the form
-        $action = $this->generateUrl('mautic_page_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_page_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -642,8 +642,8 @@ class PageController extends FormController
 
                     $this->addFlash('mautic.core.notice.updated', [
                         '%name%'      => $entity->getTitle(),
-                        '%menu_link%' => 'mautic_page_index',
-                        '%url%'       => $this->generateUrl('mautic_page_action', [
+                        '%menu_link%' => 'le_page_index',
+                        '%url%'       => $this->generateUrl('le_page_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
                         ]),
@@ -664,7 +664,7 @@ class PageController extends FormController
 
                 return $this->postActionRedirect(
                     array_merge($postActionVars, [
-                        'returnUrl'       => $this->generateUrl('mautic_page_action', $viewParameters),
+                        'returnUrl'       => $this->generateUrl('le_page_action', $viewParameters),
                         'viewParameters'  => $viewParameters,
                         'contentTemplate' => 'MauticPageBundle:Page:view',
                     ])
@@ -732,9 +732,9 @@ class PageController extends FormController
             ],
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_page_index',
+                'activeLink'    => '#le_page_index',
                 'mauticContent' => 'page',
-                'route'         => $this->generateUrl('mautic_page_action', [
+                'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),
                 ]),
@@ -792,7 +792,7 @@ class PageController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('le.page.page', 1);
-        $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_page_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -800,7 +800,7 @@ class PageController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_page_index',
+                'activeLink'    => 'le_page_index',
                 'mauticContent' => 'page',
             ],
         ];
@@ -853,7 +853,7 @@ class PageController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('le.page.page', 1);
-        $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_page_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -861,7 +861,7 @@ class PageController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_page_index',
+                'activeLink'    => 'le_page_index',
                 'mauticContent' => 'page',
             ],
         ];
@@ -1032,7 +1032,7 @@ class PageController extends FormController
     {
         //todo - add confirmation to button click
         $page      = $this->get('session')->get('le.page.page', 1);
-        $returnUrl = $this->generateUrl('mautic_page_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_page_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -1040,7 +1040,7 @@ class PageController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_page_index',
+                'activeLink'    => 'le_page_index',
                 'mauticContent' => 'page',
             ],
         ];
@@ -1081,7 +1081,7 @@ class PageController extends FormController
                 'objectAction' => 'view',
                 'objectId'     => $objectId,
             ];
-            $postActionVars['returnUrl']       = $this->generateUrl('mautic_page_action', $postActionVars['viewParameters']);
+            $postActionVars['returnUrl']       = $this->generateUrl('le_page_action', $postActionVars['viewParameters']);
             $postActionVars['contentTemplate'] = 'MauticPageBundle:Page:view';
         } //else don't do anything
 
@@ -1214,7 +1214,7 @@ class PageController extends FormController
      */
     public function pluginAction($objectId)
     {
-        $cancelUrl = $this->generateUrl('mautic_page_index');
+        $cancelUrl = $this->generateUrl('le_page_index');
 
         return $this->delegateView([
             'viewParameters' => [
@@ -1223,9 +1223,9 @@ class PageController extends FormController
             ],
             'contentTemplate' => 'MauticPageBundle:Page:model.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_page_index',
+                'activeLink'    => '#le_page_index',
                 'mauticContent' => 'page',
-                'route'         => $this->generateUrl('mautic_page_index'),
+                'route'         => $this->generateUrl('le_page_index'),
             ],
         ]);
     }

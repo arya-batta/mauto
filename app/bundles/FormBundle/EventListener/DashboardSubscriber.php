@@ -168,7 +168,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 if ($submitters) {
                     foreach ($submitters as &$submitter) {
                         $name    = $submitter['lead_id'];
-                        $leadUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $submitter['lead_id']]);
+                        $leadUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $submitter['lead_id']]);
                         if ($submitter['firstname'] || $submitter['lastname']) {
                             $name = trim($submitter['firstname'].' '.$submitter['lastname']);
                         } elseif ($submitter['email']) {
@@ -220,7 +220,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 // Build table rows with links
                 if ($forms) {
                     foreach ($forms as &$form) {
-                        $formUrl = $this->router->generate('mautic_form_action', ['objectAction' => 'view', 'objectId' => $form['id']]);
+                        $formUrl = $this->router->generate('le_form_action', ['objectAction' => 'view', 'objectId' => $form['id']]);
                         $row     = [
                             [
                                 'value' => $form['name'],

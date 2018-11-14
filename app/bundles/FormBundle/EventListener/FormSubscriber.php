@@ -323,7 +323,7 @@ class FormSubscriber extends CommonSubscriber
                         'mautic.form.action.repost.failed_message',
                         [
                             '%link%' => $this->router->generate(
-                                'mautic_form_results',
+                                'le_form_results',
                                 ['objectId' => $submission->getForm()->getId(), 'result' => $submission->getId()],
                                 UrlGeneratorInterface::ABSOLUTE_URL
                             ),

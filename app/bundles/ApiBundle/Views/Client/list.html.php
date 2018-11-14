@@ -97,7 +97,7 @@ endif;
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'baseUrl'    => $view['router']->path('mautic_client_index'),
+                'baseUrl'    => $view['router']->path('le_client_index'),
                 'sessionVar' => 'client',
                 'tmpl'       => $tmpl,
             ]

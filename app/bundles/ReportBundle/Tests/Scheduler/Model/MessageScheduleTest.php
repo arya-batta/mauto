@@ -120,7 +120,7 @@ class MessageScheduleTest extends \PHPUnit_Framework_TestCase
 
         $router->expects($this->once())
             ->method('generate')
-            ->with('mautic_report_view');
+            ->with('le_report_view');
 
         $messageSchedule = new MessageSchedule($translatorMock, $fileProperties, $coreParametersHelper, $router);
 

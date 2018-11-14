@@ -17,13 +17,13 @@
 
 <br />
 <div class="text-center">
-	<a href="<?php echo $view['router']->path('mautic_page_action',
+	<a href="<?php echo $view['router']->path('le_page_action',
         ['objectAction' => 'edit', 'objectId' => $entity->getId()]); ?>"
 	    data-toggle="ajax">
 	    <?php echo $view['translator']->trans('le.page.menu.edit'); ?>
 	</a>
 	|
-	<a href="<?php echo $view['router']->path('mautic_page_action',
+	<a href="<?php echo $view['router']->path('le_page_action',
         ['objectAction' => 'view', 'objectId' => $entity->getId()]); ?>"
 	    data-toggle="ajax">
 	    <?php echo $view['translator']->trans('mautic.core.details'); ?>

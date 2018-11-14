@@ -44,7 +44,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
             'l.id' => [
                 'label' => 'le.lead.report.contact_id',
                 'type'  => 'int',
-                'link'  => 'mautic_contact_action',
+                'link'  => 'le_contact_action',
             ],
             'i.ip_address' => [
                 'label' => 'mautic.core.ipaddress',
@@ -62,7 +62,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
             'l.owner_id' => [
                 'label' => 'le.lead.report.owner_id',
                 'type'  => 'int',
-                'link'  => 'mautic_user_action',
+                'link'  => 'le_user_action',
             ],
             'u.first_name' => [
                 'label' => 'le.lead.report.owner_firstname',
@@ -160,7 +160,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
             'l.id' => [
                 'label' => 'le.lead.report.contact_id',
                 'type'  => 'int',
-                'link'  => 'mautic_contact_action',
+                'link'  => 'le_contact_action',
             ],
             'i.ip_address' => [
                 'label' => 'mautic.core.ipaddress',
@@ -178,7 +178,7 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
             'l.owner_id' => [
                 'label' => 'le.lead.report.owner_id',
                 'type'  => 'int',
-                'link'  => 'mautic_user_action',
+                'link'  => 'le_user_action',
             ],
             'u.first_name' => [
                 'label' => 'le.lead.report.owner_firstname',
@@ -264,32 +264,32 @@ class FieldsBuilderTest extends \PHPUnit_Framework_TestCase
             'comp.id' => [
                 'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'comp.companyname' => [
                 'label' => 'mautic.lead.report.company.company_name',
                 'type'  => 'string',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'comp.companycity' => [
                 'label' => 'mautic.lead.report.company.company_city',
                 'type'  => 'string',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'comp.companystate' => [
                 'label' => 'mautic.lead.report.company.company_state',
                 'type'  => 'string',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'comp.companycountry' => [
                 'label' => 'mautic.lead.report.company.company_country',
                 'type'  => 'string',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'comp.companyindustry' => [
                 'label' => 'mautic.lead.report.company.company_industry',
                 'type'  => 'string',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'x.title' => [
                 'label' => 'Title',

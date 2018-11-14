@@ -12,27 +12,27 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_email_index' => [
+            'le_email_index' => [
                 'path'       => '/emailtemplates/{page}',
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
-            'mautic_email_campaign_index' => [
+            'le_email_campaign_index' => [
                 'path'       => '/broadcasts/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
-            'mautic_email_campaign_action' => [
+            'le_email_campaign_action' => [
                 'path'       => '/broadcasts/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
-            'mautic_email_action' => [
+            'le_email_action' => [
                 'path'       => '/emailtemplates/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
-            'mautic_email_contacts' => [
+            'le_email_contacts' => [
                 'path'       => '/broadcasts/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
-            'mautic_email_usage' => [
+            'le_email_usage' => [
                 'path'       => '/broadcastsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',
             ],
@@ -71,43 +71,43 @@ return [
             ],
         ],
         'public' => [
-            'mautic_plugin_tracker' => [
+            'le_plugin_tracker' => [
                 'path'         => '/plugin/{integration}/tracking.gif',
                 'controller'   => 'MauticEmailBundle:Public:pluginTrackingGif',
                 'requirements' => [
                     'integration' => '.+',
                 ],
             ],
-            'mautic_email_tracker' => [
+            'le_email_tracker' => [
                 'path'       => '/broadcasts/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
-            'mautic_email_webview' => [
+            'le_email_webview' => [
                 'path'       => '/broadcasts/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
             ],
-            'mautic_email_unsubscribe' => [
+            'le_email_unsubscribe' => [
                 'path'       => '/broadcasts/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
-            'mautic_email_subscribe' => [
+            'le_email_subscribe' => [
                 'path'       => '/broadcasts/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
             ],
-            'mautic_email_updatelead' => [
+            'le_email_updatelead' => [
                 'path'       => '/broadcasts/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
             ],
-            'mautic_email_resubscribe' => [
+            'le_email_resubscribe' => [
                 'path'       => '/broadcasts/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
-            'mautic_mailer_transport_callback' => [
+            'le_mailer_transport_callback' => [
                 'path'       => '/mailer/{transport}/callback',
                 'controller' => 'MauticEmailBundle:Public:mailerCallback',
                 'method'     => ['GET', 'POST'],
             ],
-            'mautic_email_preview' => [
+            'le_email_preview' => [
                 'path'       => '/broadcasts/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
@@ -123,22 +123,22 @@ return [
             'items' => [
                 'le.email.emails' => [
                     'iconClass'  => 'fa fa-envelope',
-                   // 'route'      => 'mautic_email_index',
-                    'route'      => 'mautic_email_campaign_index',
+                   // 'route'      => 'le_email_index',
+                    'route'      => 'le_email_campaign_index',
                     'access'     => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 400,
                 ],
                 'le.email.drip.email' => [
                     'iconClass'  => 'fa fa-tint',
-                    // 'route'      => 'mautic_email_index',
+                    // 'route'      => 'le_email_index',
                     'route'      => 'le_dripemail_index',
                     'access'     => ['dripemail:emails:viewown', 'dripemail:emails:viewother'],
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 300,
                 ],
                 /*'le.emailcampaign.emails' => [
-                    'route'    => 'mautic_email_campaign_index',
+                    'route'    => 'le_email_campaign_index',
                     'access'   => ['email:emails:viewown', 'email:emails:viewother'],
                     'parent'   => 'le.campaigns.root',
                     'priority' => 100,

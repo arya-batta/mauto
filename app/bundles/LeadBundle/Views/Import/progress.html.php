@@ -18,7 +18,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.le
 $percent    = $progress->toPercent();
 $id         = ($complete) ? 'leadImportProgressComplete' : 'leadImportProgress';
 $header     = ($complete) ? 'le.lead.import.success' : 'le.lead.import.donotleave';
-$indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_index';
+$indexRoute = $object === 'leads' ? 'le_contact_index' : 'le_company_index';
 ?>
 
 <div class="row ma-lg" id="<?php echo $id; ?>">
@@ -74,13 +74,13 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                 <?php if (!$complete): ?>
                     <div>
                         <a class="btn btn-danger" href="<?php echo $view['router']->path(
-                            'mautic_contact_import_action',
+                            'le_contact_import_action',
                             ['objectAction' => 'cancel']
                         ); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('mautic.core.form.cancel'); ?>
                         </a>
                         <a class="btn btn-primary" href="<?php echo $view['router']->path(
-                            'mautic_contact_import_action',
+                            'le_contact_import_action',
                             ['objectAction' => 'queue']
                         ); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.import.queue.btn'); ?>
@@ -91,12 +91,12 @@ $indexRoute = $object === 'leads' ? 'mautic_contact_index' : 'mautic_company_ind
                         <a class="btn btn-success mb-5" href="<?php echo $view['router']->path($indexRoute); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('mautic.lead.list.view_'.$object); ?>
                         </a>
-                        <a class="btn btn-success mb-5" href="<?php echo $view['router']->path('mautic_import_index', ['object' => $object]); ?>" data-toggle="ajax">
+                        <a class="btn btn-success mb-5" href="<?php echo $view['router']->path('le_import_index', ['object' => $object]); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.view.imports'); ?>
                         </a>
                         <br>
                         <a class="btn btn-success" href="<?php echo $view['router']->path(
-                            'mautic_import_action',
+                            'le_import_action',
                             ['objectAction' => 'view', 'objectId' => $import->getId(), 'object' => $object]
                         ); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.import.result.info', ['%import%' => $import->getName()]); ?>

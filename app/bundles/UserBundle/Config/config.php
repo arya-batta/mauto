@@ -14,14 +14,14 @@ return [
         'admin' => [
             'mautic.user.users' => [
                 'access'          => 'user:users:view',
-                'route'           => 'mautic_user_index',
+                'route'           => 'le_user_index',
                 'iconClass'       => 'fa-users',
                 'priority'        => 550,
             ],
             'mautic.user.roles' => [
                 //    'access'    => 'user:roles:view',
                 'access'    => 'admin',
-                'route'     => 'mautic_role_index',
+                'route'     => 'le_role_index',
                 'iconClass' => 'fa-lock',
                 'priority'  => 250,
             ],
@@ -34,18 +34,18 @@ return [
                 'path'       => '/login',
                 'controller' => 'MauticUserBundle:Security:login',
             ],
-            'mautic_user_logincheck' => [
+            'le_user_logincheck' => [
                 'path'       => '/login_check',
                 'controller' => 'MauticUserBundle:Security:loginCheck',
             ],
-            'mautic_user_logout' => [
+            'le_user_logout' => [
                 'path' => '/logout',
             ],
-            'mautic_sso_login' => [
+            'le_sso_login' => [
                 'path'       => '/sso_login/{integration}',
                 'controller' => 'MauticUserBundle:Security:ssoLogin',
             ],
-            'mautic_sso_login_check' => [
+            'le_sso_login_check' => [
                 'path'       => '/sso_login_check/{integration}',
                 'controller' => 'MauticUserBundle:Security:ssoLoginCheck',
             ],
@@ -56,23 +56,23 @@ return [
             'lightsaml_sp.login_check' => [
                 'path' => '/saml/login_check',
             ],
-            'mautic_user_index' => [
+            'le_user_index' => [
                 'path'       => '/users/{page}',
                 'controller' => 'MauticUserBundle:User:index',
             ],
-            'mautic_user_action' => [
+            'le_user_action' => [
                 'path'       => '/users/{objectAction}/{objectId}',
                 'controller' => 'MauticUserBundle:User:execute',
             ],
-            'mautic_role_index' => [
+            'le_role_index' => [
                 'path'       => '/roles/{page}',
                 'controller' => 'MauticUserBundle:Role:index',
             ],
-            'mautic_role_action' => [
+            'le_role_action' => [
                 'path'       => '/roles/{objectAction}/{objectId}',
                 'controller' => 'MauticUserBundle:Role:execute',
             ],
-            'mautic_user_account' => [
+            'le_user_account' => [
                 'path'       => '/account',
                 'controller' => 'MauticUserBundle:Profile:index',
             ],
@@ -106,11 +106,11 @@ return [
             ],
         ],
         'public' => [
-            'mautic_user_passwordreset' => [
+            'le_user_passwordreset' => [
                 'path'       => '/passwordreset',
                 'controller' => 'MauticUserBundle:Public:passwordReset',
             ],
-            'mautic_user_passwordresetconfirm' => [
+            'le_user_passwordresetconfirm' => [
                 'path'       => '/passwordresetconfirm',
                 'controller' => 'MauticUserBundle:Public:passwordResetConfirm',
             ],

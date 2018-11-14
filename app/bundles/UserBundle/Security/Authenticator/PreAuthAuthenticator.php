@@ -96,7 +96,7 @@ class PreAuthAuthenticator implements AuthenticationProviderInterface
             if ($this->dispatcher->hasListeners(UserEvents::USER_PRE_AUTHENTICATION)) {
                 $integrations = $this->integrationHelper->getIntegrationObjects($authenticatingService, ['sso_service'], false, null, true);
 
-                $loginCheck = ('mautic_sso_login_check' == $request->attributes->get('_route'));
+                $loginCheck = ('le_sso_login_check' == $request->attributes->get('_route'));
                 $authEvent  = new AuthenticationEvent(
                     null,
                     $token,

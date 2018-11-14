@@ -127,7 +127,7 @@ class CategoryController extends FormController
             }
             $viewParams['page'] = $lastPage;
             $session->set('mautic.category.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_category_index', $viewParams);
+            $returnUrl = $this->generateUrl('le_category_index', $viewParams);
 
             return $this->postActionRedirect(
                 [
@@ -158,7 +158,7 @@ class CategoryController extends FormController
 
         return $this->delegateView(
             [
-                'returnUrl'      => $this->generateUrl('mautic_category_index', $viewParams),
+                'returnUrl'      => $this->generateUrl('le_category_index', $viewParams),
                 'viewParameters' => [
                     'bundle'         => $bundle,
                     'permissionBase' => $permissionBase,
@@ -174,7 +174,7 @@ class CategoryController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_'.$bundle.'category_index',
                     'mauticContent' => 'category',
-                    'route'         => $this->generateUrl('mautic_category_index', $viewParams),
+                    'route'         => $this->generateUrl('le_category_index', $viewParams),
                 ],
             ]
         );
@@ -201,7 +201,7 @@ class CategoryController extends FormController
             return $this->modalAccessDenied();
         }
         //Create the form
-        $action = $this->generateUrl('mautic_category_action', [
+        $action = $this->generateUrl('le_category_action', [
             'objectAction' => 'new',
             'bundle'       => $bundle,
         ]);
@@ -245,7 +245,7 @@ class CategoryController extends FormController
             ];
 
             return $this->postActionRedirect([
-                'returnUrl'       => $this->generateUrl('mautic_category_index', $viewParameters),
+                'returnUrl'       => $this->generateUrl('le_category_index', $viewParameters),
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => 'MauticCategoryBundle:Category:index',
                 'passthroughVars' => [
@@ -300,7 +300,7 @@ class CategoryController extends FormController
 
         //Create the form
         $action = $this->generateUrl(
-            'mautic_category_action',
+            'le_category_action',
             [
                 'objectAction' => 'edit',
                 'objectId'     => $objectId,
@@ -330,7 +330,7 @@ class CategoryController extends FormController
                     if ($form->get('buttons')->get('apply')->isClicked()) {
                         // Rebuild the form with new action so that apply doesn't keep creating a clone
                         $action = $this->generateUrl(
-                            'mautic_category_action',
+                            'le_category_action',
                             [
                                 'objectAction' => 'edit',
                                 'objectId'     => $entity->getId(),
@@ -373,7 +373,7 @@ class CategoryController extends FormController
 
             return $this->postActionRedirect(
                 [
-                    'returnUrl'       => $this->generateUrl('mautic_category_index', $viewParameters),
+                    'returnUrl'       => $this->generateUrl('le_category_index', $viewParameters),
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => 'MauticCategoryBundle:Category:index',
                     'passthroughVars' => [
@@ -417,7 +417,7 @@ class CategoryController extends FormController
             'page'   => $page,
             'bundle' => $bundle,
         ];
-        $returnUrl = $this->generateUrl('mautic_category_index', $viewParams);
+        $returnUrl = $this->generateUrl('le_category_index', $viewParams);
         $flashes   = [];
 
         $postActionVars = [
@@ -480,7 +480,7 @@ class CategoryController extends FormController
             'page'   => $page,
             'bundle' => $bundle,
         ];
-        $returnUrl = $this->generateUrl('mautic_category_index', $viewParams);
+        $returnUrl = $this->generateUrl('le_category_index', $viewParams);
         $flashes   = [];
 
         $postActionVars = [

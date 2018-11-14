@@ -272,7 +272,7 @@ class CommonController extends Controller implements MauticController
      */
     public function redirectSecureRootAction()
     {
-        return $this->redirect($this->generateUrl('mautic_dashboard_index'), 301);
+        return $this->redirect($this->generateUrl('le_dashboard_index'), 301);
     }
 
     /**
@@ -284,7 +284,7 @@ class CommonController extends Controller implements MauticController
      */
     public function postActionRedirect($args = [])
     {
-        $returnUrl = array_key_exists('returnUrl', $args) ? $args['returnUrl'] : $this->generateUrl('mautic_dashboard_index');
+        $returnUrl = array_key_exists('returnUrl', $args) ? $args['returnUrl'] : $this->generateUrl('le_dashboard_index');
         $flashes   = array_key_exists('flashes', $args) ? $args['flashes'] : [];
         //forward the controller by default
         $args['forwardController'] = (array_key_exists('forwardController', $args)) ? $args['forwardController'] : true;
@@ -843,7 +843,7 @@ class CommonController extends Controller implements MauticController
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => $template,
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_contact_index',
+                    'activeLink'    => '#le_contact_index',
                     'mauticContent' => 'lead',
                     'closeModal'    => 1, //just in case in quick form
                 ],

@@ -24,7 +24,7 @@ $view['slots']->set('mauticContent', 'focus');
                     <div class="panel-body text-center" style="height: 250px">
                         <i class="fa fa-file-image-o fa-5x text-muted" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                     </div>
-                <a href="<?php echo $view['router']->generate('mautic_focus_action', ['objectAction' => 'new', 'objectId' => 'blank']); ?>" type="button" id="focus_select_button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
+                <a href="<?php echo $view['router']->generate('le_focus_action', ['objectAction' => 'new', 'objectId' => 'blank']); ?>" type="button" id="focus_select_button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
                     Select
                 </a>
                 <button type="button" id="focus_selected_button" class="select-theme-selected btn btn-default <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled">
@@ -49,7 +49,7 @@ $view['slots']->set('mauticContent', 'focus');
                     <h4 style="height: 30px"><?php echo $focusTemplates[$i]['name']; ?></h4>
                     <div style="background-image: url(<?php echo $focusTemplates[$i]['imageurl'] ?>);background-repeat:no-repeat;background-size:contain; background-position:center; width: 100%; height: 250px"></div>
 
-                    <a href="<?php echo $view['router']->generate('mautic_focus_action', ['objectAction' => 'cloneTemplate', 'objectId' => $focusTemplates[$i]['id']]); ?>" type="button" class="select-theme-link btn btn-default <?php echo $isselected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
+                    <a href="<?php echo $view['router']->generate('le_focus_action', ['objectAction' => 'cloneTemplate', 'objectId' => $focusTemplates[$i]['id']]); ?>" type="button" class="select-theme-link btn btn-default <?php echo $isselected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
                         Select
                     </a>
                     <button type="button" class="select-theme-selected btn btn-default <?php echo $isselected ? '' : 'hide' ?>" disabled="disabled">

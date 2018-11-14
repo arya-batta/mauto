@@ -89,7 +89,7 @@ class ReportController extends FormController
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->container->get('session')->set('mautic.report.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_report_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_report_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -97,7 +97,7 @@ class ReportController extends FormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_report_index',
+                        'activeLink'    => '#le_report_index',
                         'mauticContent' => 'report',
                     ],
                 ]
@@ -124,9 +124,9 @@ class ReportController extends FormController
                 ],
                 'contentTemplate' => 'MauticReportBundle:Report:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_report_index',
+                    'activeLink'    => '#le_report_index',
                     'mauticContent' => 'report',
-                    'route'         => $this->generateUrl('mautic_report_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_report_index', ['page' => $page]),
                 ],
             ]
         );
@@ -173,7 +173,7 @@ class ReportController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->container->get('session')->get('mautic.report.page', 1);
-        $returnUrl = $this->generateUrl('mautic_report_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_report_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -181,7 +181,7 @@ class ReportController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_report_index',
+                'activeLink'    => '#le_report_index',
                 'mauticContent' => 'report',
             ],
         ];
@@ -234,7 +234,7 @@ class ReportController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->container->get('session')->get('mautic.report.page', 1);
-        $returnUrl = $this->generateUrl('mautic_report_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_report_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -242,7 +242,7 @@ class ReportController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_report_index',
+                'activeLink'    => '#le_report_index',
                 'mauticContent' => 'report',
             ],
         ];
@@ -317,14 +317,14 @@ class ReportController extends FormController
         $page    = $session->get('mautic.report.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_report_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_report_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_report_index',
+                'activeLink'    => 'le_report_index',
                 'mauticContent' => 'report',
             ],
         ];
@@ -343,7 +343,7 @@ class ReportController extends FormController
         }
 
         //Create the form
-        $action = $this->generateUrl('mautic_report_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_report_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -364,9 +364,9 @@ class ReportController extends FormController
                         'mautic.core.notice.updated',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_report_index',
+                            '%menu_link%' => 'le_report_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_report_action',
+                                'le_report_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -376,7 +376,7 @@ class ReportController extends FormController
                     );
 
                     $returnUrl = $this->generateUrl(
-                        'mautic_report_view',
+                        'le_report_view',
                         [
                             'objectId' => $entity->getId(),
                         ]
@@ -392,7 +392,7 @@ class ReportController extends FormController
                 //unlock the entity
                 $model->unlockEntity($entity);
 
-                $returnUrl  = $this->generateUrl('mautic_report_index', ['page' => $page]);
+                $returnUrl  = $this->generateUrl('le_report_index', ['page' => $page]);
                 $viewParams = ['report' => $page];
                 $template   = 'MauticReportBundle:Report:index';
             }
@@ -429,10 +429,10 @@ class ReportController extends FormController
                 ],
                 'contentTemplate' => 'MauticReportBundle:Report:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_report_index',
+                    'activeLink'    => '#le_report_index',
                     'mauticContent' => 'report',
                     'route'         => $this->generateUrl(
-                        'mautic_report_action',
+                        'le_report_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -467,7 +467,7 @@ class ReportController extends FormController
         $session = $this->container->get('session');
         $page    = $session->get('mautic.report.page', 1);
 
-        $action = $this->generateUrl('mautic_report_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_report_action', ['objectAction' => 'new']);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -482,9 +482,9 @@ class ReportController extends FormController
                         'mautic.core.notice.created',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_report_index',
+                            '%menu_link%' => 'le_report_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_report_action',
+                                'le_report_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -501,12 +501,12 @@ class ReportController extends FormController
                     $viewParameters = [
                         'objectId' => $entity->getId(),
                     ];
-                    $returnUrl = $this->generateUrl('mautic_report_view', $viewParameters);
+                    $returnUrl = $this->generateUrl('le_report_view', $viewParameters);
                     $template  = 'MauticReportBundle:Report:view';
                 }
             } else {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_report_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_report_index', $viewParameters);
                 $template       = 'MauticReportBundle:Report:index';
             }
 
@@ -517,7 +517,7 @@ class ReportController extends FormController
                         'viewParameters'  => $viewParameters,
                         'contentTemplate' => $template,
                         'passthroughVars' => [
-                            'activeLink'    => 'mautic_asset_index',
+                            'activeLink'    => 'le_asset_index',
                             'mauticContent' => 'asset',
                         ],
                     ]
@@ -533,10 +533,10 @@ class ReportController extends FormController
                 ],
                 'contentTemplate' => 'MauticReportBundle:Report:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_report_index',
+                    'activeLink'    => '#le_report_index',
                     'mauticContent' => 'report',
                     'route'         => $this->generateUrl(
-                        'mautic_report_action',
+                        'le_report_action',
                         [
                             'objectAction' => 'new',
                         ]
@@ -566,11 +566,11 @@ class ReportController extends FormController
 
             return $this->postActionRedirect(
                 [
-                    'returnUrl'       => $this->generateUrl('mautic_report_index', ['page' => $page]),
+                    'returnUrl'       => $this->generateUrl('le_report_index', ['page' => $page]),
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_report_index',
+                        'activeLink'    => '#le_report_index',
                         'mauticContent' => 'report',
                     ],
                     'flashes' => [
@@ -595,7 +595,7 @@ class ReportController extends FormController
         $session     = $this->container->get('session');
 
         // Init the forms
-        $action = $this->generateUrl('mautic_report_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_report_action', ['objectAction' => 'view', 'objectId' => $objectId]);
 
         // Get the date range filter values from the request of from the session
         $dateRangeValues = $this->request->get('daterange', []);
@@ -699,10 +699,10 @@ class ReportController extends FormController
                 ],
                 'contentTemplate' => $reportData['contentTemplate'],
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_report_index',
+                    'activeLink'    => '#le_report_index',
                     'mauticContent' => 'report',
                     'route'         => $this->generateUrl(
-                        'mautic_report_view',
+                        'le_report_view',
                         [
                             'objectId'   => $entity->getId(),
                             'reportPage' => $reportPage,
@@ -771,11 +771,11 @@ class ReportController extends FormController
 
             return $this->postActionRedirect(
                 [
-                    'returnUrl'       => $this->generateUrl('mautic_report_index', ['page' => $page]),
+                    'returnUrl'       => $this->generateUrl('le_report_index', ['page' => $page]),
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_report_index',
+                        'activeLink'    => '#le_report_index',
                         'mauticContent' => 'report',
                     ],
                     'flashes' => [

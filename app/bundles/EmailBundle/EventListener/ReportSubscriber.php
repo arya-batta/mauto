@@ -187,7 +187,7 @@ class ReportSubscriber extends CommonSubscriber
 
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($prefix, [], 'mautic_email_action'),
+            $event->getStandardColumns($prefix, [], 'le_email_action'),
             $event->getCategoryColumns()
         );
         $data = [
@@ -508,7 +508,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData              = [];
                     $email                  = [];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -537,7 +537,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $statRepo->getMostEmails($queryBuilder, $limit, $offset);
                     $graphData              = [];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -569,7 +569,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $statRepo->getMostEmails($queryBuilder, $limit, $offset);
                     $graphData              = [];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -607,7 +607,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-exclamation-triangle';
-                    $graphData['link']      = 'mautic_email_action';
+                    $graphData['link']      = 'le_email_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -628,7 +628,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-exclamation-triangle';
-                    $graphData['link']      = 'mautic_email_action';
+                    $graphData['link']      = 'le_email_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -641,7 +641,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $statRepo->getMostEmails($queryBuilder, $limit, $offset);
                     $graphData              = [];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],

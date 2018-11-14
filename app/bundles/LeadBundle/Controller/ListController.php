@@ -105,7 +105,7 @@ class ListController extends FormController
                 $lastPage = (ceil($count / $limit)) ?: 1;
             }
             $session->set('mautic.segment.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_segment_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
                 'returnUrl'      => $returnUrl,
@@ -115,7 +115,7 @@ class ListController extends FormController
                 ],
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_segment_index',
+                    'activeLink'    => '#le_segment_index',
                     'mauticContent' => 'leadlist',
                 ],
             ]);
@@ -146,8 +146,8 @@ class ListController extends FormController
             'viewParameters'  => $parameters,
             'contentTemplate' => 'MauticLeadBundle:List:list.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
-                'route'         => $this->generateUrl('mautic_segment_index', ['page' => $page]),
+                'activeLink'    => '#le_segment_index',
+                'route'         => $this->generateUrl('le_segment_index', ['page' => $page]),
                 'mauticContent' => 'leadlist',
             ],
         ]);
@@ -171,8 +171,8 @@ class ListController extends FormController
         //set the page we came from
         $page = $this->get('session')->get('mautic.segment.page', 1);
         //set the return URL for post actions
-        $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $page]);
-        $action    = $this->generateUrl('mautic_segment_action', ['objectAction' => 'new']);
+        $returnUrl = $this->generateUrl('le_segment_index', ['page' => $page]);
+        $action    = $this->generateUrl('le_segment_action', ['objectAction' => 'new']);
 
         //get the user form factory
         $form = $model->createForm($list, $this->get('form.factory'), $action);
@@ -187,8 +187,8 @@ class ListController extends FormController
 
                     $this->addFlash('mautic.core.notice.created', [
                         '%name%'      => $list->getName().' ('.$list->getAlias().')',
-                        '%menu_link%' => 'mautic_segment_index',
-                        '%url%'       => $this->generateUrl('mautic_segment_action', [
+                        '%menu_link%' => 'le_segment_index',
+                        '%url%'       => $this->generateUrl('le_segment_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $list->getId(),
                         ]),
@@ -203,7 +203,7 @@ class ListController extends FormController
                 'viewParameters'  => ['page' => $page],
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_segment_index',
+                    'activeLink'    => '#le_segment_index',
                     'mauticContent' => 'leadlist',
                 ],
             ]);*/
@@ -218,8 +218,8 @@ class ListController extends FormController
             ],
             'contentTemplate' => 'MauticLeadBundle:List:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
-                'route'         => $this->generateUrl('mautic_segment_action', ['objectAction' => 'new']),
+                'activeLink'    => '#le_segment_index',
+                'route'         => $this->generateUrl('le_segment_action', ['objectAction' => 'new']),
                 'mauticContent' => 'leadlist',
             ],
         ]);
@@ -243,7 +243,7 @@ class ListController extends FormController
             return $this->createSegmentModifyResponse(
                 clone $segment,
                 $postActionVars,
-                $this->generateUrl('mautic_segment_action', ['objectAction' => 'clone', 'objectId' => $objectId]),
+                $this->generateUrl('le_segment_action', ['objectAction' => 'clone', 'objectId' => $objectId]),
                 $ignorePost
             );
         } catch (AccessDeniedException $exception) {
@@ -281,7 +281,7 @@ class ListController extends FormController
             return $this->createSegmentModifyResponse(
                 $segment,
                 $postActionVars,
-                $this->generateUrl('mautic_segment_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
+                $this->generateUrl('le_segment_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
                 $ignorePost
             );
         } catch (AccessDeniedException $exception) {
@@ -332,8 +332,8 @@ class ListController extends FormController
 
                     $this->addFlash('mautic.core.notice.updated', [
                         '%name%'      => $segment->getName().' ('.$segment->getAlias().')',
-                        '%menu_link%' => 'mautic_segment_index',
-                        '%url%'       => $this->generateUrl('mautic_segment_action', [
+                        '%menu_link%' => 'le_segment_index',
+                        '%url%'       => $this->generateUrl('le_segment_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $segment->getId(),
                         ]),
@@ -343,14 +343,14 @@ class ListController extends FormController
                         $contentTemplate                     = 'MauticLeadBundle:List:form.html.php';
                         $postActionVars['contentTemplate']   = $contentTemplate;
                         $postActionVars['forwardController'] = false;
-                        $postActionVars['returnUrl']         = $this->generateUrl('mautic_segment_action', [
+                        $postActionVars['returnUrl']         = $this->generateUrl('le_segment_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $segment->getId(),
                         ]);
 
                         // Re-create the form once more with the fresh segment and action.
                         // The alias was empty on redirect after cloning.
-                        $editAction = $this->generateUrl('mautic_segment_action', ['objectAction' => 'edit', 'objectId' => $segment->getId()]);
+                        $editAction = $this->generateUrl('le_segment_action', ['objectAction' => 'edit', 'objectId' => $segment->getId()]);
                         $form       = $segmentModel->createForm($segment, $this->get('form.factory'), $editAction);
 
                         $postActionVars['viewParameters'] = [
@@ -384,7 +384,7 @@ class ListController extends FormController
             ],
             'contentTemplate' => 'MauticLeadBundle:List:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
+                'activeLink'    => '#le_segment_index',
                 'route'         => $action,
                 'mauticContent' => 'leadlist',
             ],
@@ -431,14 +431,14 @@ class ListController extends FormController
         $page = $this->get('session')->get('mautic.segment.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_segment_index', ['page' => $page]);
 
         return [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
+                'activeLink'    => '#le_segment_index',
                 'mauticContent' => 'leadlist',
             ],
         ];
@@ -454,7 +454,7 @@ class ListController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.segment.page', 1);
-        $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_segment_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -462,7 +462,7 @@ class ListController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
+                'activeLink'    => '#le_segment_index',
                 'mauticContent' => 'lead',
             ],
         ];
@@ -514,7 +514,7 @@ class ListController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.segment.page', 1);
-        $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_segment_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -522,7 +522,7 @@ class ListController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
+                'activeLink'    => '#le_segment_index',
                 'mauticContent' => 'lead',
             ],
         ];
@@ -604,7 +604,7 @@ class ListController extends FormController
     protected function changeList($listId, $action)
     {
         $page      = $this->get('session')->get('mautic.lead.page', 1);
-        $returnUrl = $this->generateUrl('mautic_contact_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_contact_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -612,7 +612,7 @@ class ListController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_contact_index',
+                'activeLink'    => '#le_contact_index',
                 'mauticContent' => 'lead',
             ],
         ];
@@ -662,7 +662,7 @@ class ListController extends FormController
                         '%name%' => $identifier,
                         '%id%'   => $leadId,
                         '%list%' => $list->getName(),
-                        '%url%'  => $this->generateUrl('mautic_contact_action', [
+                        '%url%'  => $this->generateUrl('le_contact_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $leadId,
                         ]),
@@ -707,14 +707,14 @@ class ListController extends FormController
 
         if ($list === null) {
             //set the return URL
-            $returnUrl = $this->generateUrl('mautic_segment_index', ['page' => $page]);
+            $returnUrl = $this->generateUrl('le_segment_index', ['page' => $page]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $page],
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_segment_index',
+                    'activeLink'    => '#le_segment_index',
                     'mauticContent' => 'list',
                 ],
                 'flashes' => [
@@ -736,7 +736,7 @@ class ListController extends FormController
         }
         $translator      = $this->get('translator');
         $dateRangeValues = $this->request->get('daterange', []);
-        $action          = $this->generateUrl('mautic_segment_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+        $action          = $this->generateUrl('le_segment_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
         $stats           = $this->getModel('lead.list')->getSegmentContactsLineChartData(
             null,
@@ -748,7 +748,7 @@ class ListController extends FormController
         );
 
         return $this->delegateView([
-            'returnUrl'      => $this->generateUrl('mautic_segment_action', ['objectAction' => 'view', 'objectId' => $list->getId()]),
+            'returnUrl'      => $this->generateUrl('le_segment_action', ['objectAction' => 'view', 'objectId' => $list->getId()]),
             'viewParameters' => [
                 'list'        => $list,
                 'permissions' => $security->isGranted([
@@ -780,7 +780,7 @@ class ListController extends FormController
             ],
             'contentTemplate' => 'MauticLeadBundle:List:details.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_segment_index',
+                'activeLink'    => '#le_segment_index',
                 'mauticContent' => 'list',
             ],
         ]);

@@ -92,7 +92,7 @@ class EmailVerifyValidator extends ConstraintValidator
             $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
             $verifiedEmails   = $this->emailValidator->getVerifiedEmailList($emailuser, $emailpassword, $region);
             /** @var \Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper $routerHelper */
-            $awscallbackurl   = $this->factory->get('templating.helper.router')->url('mautic_mailer_transport_callback', ['transport' => 'amazon_api']);
+            $awscallbackurl   = $this->factory->get('templating.helper.router')->url('le_mailer_transport_callback', ['transport' => 'amazon_api']);
             $isValidEmail     = $this->emailValidator->getVerifiedEmailAddressDetails($emailuser, $emailpassword, $region, $newfromaddress);
             $entity           = new AwsVerifiedEmails();
             $emailStatus      = $this->emailValidator->getEmailListAndStatus($emailuser, $emailpassword, $region, $newfromaddress);

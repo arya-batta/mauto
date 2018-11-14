@@ -79,7 +79,7 @@ class UserController extends FormController
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.user.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_user_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_user_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
                 'returnUrl'      => $returnUrl,
@@ -89,7 +89,7 @@ class UserController extends FormController
                 ],
                 'contentTemplate' => 'MauticUserBundle:User:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_user_index',
+                    'activeLink'    => '#le_user_index',
                     'mauticContent' => 'user',
                 ],
             ]);
@@ -118,7 +118,7 @@ class UserController extends FormController
             'viewParameters'  => $parameters,
             'contentTemplate' => 'MauticUserBundle:User:list.html.php',
             'passthroughVars' => [
-                'route'         => $this->generateUrl('mautic_user_index', ['page' => $page]),
+                'route'         => $this->generateUrl('le_user_index', ['page' => $page]),
                 'mauticContent' => 'user',
             ],
         ]);
@@ -143,13 +143,13 @@ class UserController extends FormController
         $user = $model->getEntity();
 
         //set the return URL for post actions
-        $returnUrl = $this->generateUrl('mautic_user_index');
+        $returnUrl = $this->generateUrl('le_user_index');
 
         //set the page we came from
         $page = $this->get('session')->get('mautic.user.page', 1);
 
         //get the user form factory
-        $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_user_action', ['objectAction' => 'new']);
         $form   = $model->createForm($user, $this->get('form.factory'), $action);
 
         //Check for a submitted form and process it
@@ -206,8 +206,8 @@ class UserController extends FormController
 
                     $this->addFlash('mautic.core.notice.created', [
                         '%name%'      => $user->getName(),
-                        '%menu_link%' => 'mautic_user_index',
-                        '%url%'       => $this->generateUrl('mautic_user_action', [
+                        '%menu_link%' => 'le_user_index',
+                        '%url%'       => $this->generateUrl('le_user_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $user->getId(),
                         ]),
@@ -221,7 +221,7 @@ class UserController extends FormController
                         'viewParameters'  => ['page' => $page],
                         'contentTemplate' => 'MauticUserBundle:User:index',
                         'passthroughVars' => [
-                            'activeLink'    => '#mautic_user_index',
+                            'activeLink'    => '#le_user_index',
                             'mauticContent' => 'user',
                         ],
                     ]);
@@ -236,7 +236,7 @@ class UserController extends FormController
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticUserBundle:User:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_user_index',
+                        'activeLink'    => '#le_user_index',
                         'mauticContent' => 'user',
                     ],
                 ]);
@@ -274,14 +274,14 @@ class UserController extends FormController
         $page = $this->get('session')->get('mautic.user.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_user_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_user_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_user_index',
+                'activeLink'    => '#le_user_index',
                 'mauticContent' => 'user',
             ],
         ];
@@ -304,7 +304,7 @@ class UserController extends FormController
             return $this->isLocked($postActionVars, $user, 'user.user');
         }
 
-        $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_user_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($user, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -351,8 +351,8 @@ class UserController extends FormController
 
                     $this->addFlash('mautic.core.notice.updated', [
                         '%name%'      => $user->getName(),
-                        '%menu_link%' => 'mautic_user_index',
-                        '%url%'       => $this->generateUrl('mautic_user_action', [
+                        '%menu_link%' => 'le_user_index',
+                        '%url%'       => $this->generateUrl('le_user_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $user->getId(),
                         ]),
@@ -375,7 +375,7 @@ class UserController extends FormController
             'viewParameters'  => ['form' => $form->createView()],
             'contentTemplate' => 'MauticUserBundle:User:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_user_index',
+                'activeLink'    => '#le_user_index',
                 'route'         => $action,
                 'mauticContent' => 'user',
             ],
@@ -397,7 +397,7 @@ class UserController extends FormController
 
         $currentUser    = $this->user;
         $page           = $this->get('session')->get('mautic.user.page', 1);
-        $returnUrl      = $this->generateUrl('mautic_user_index', ['page' => $page]);
+        $returnUrl      = $this->generateUrl('le_user_index', ['page' => $page]);
         $success        = 0;
         $flashes        = [];
         $postActionVars = [
@@ -405,7 +405,7 @@ class UserController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_user_index',
+                'activeLink'    => '#le_user_index',
                 'route'         => $returnUrl,
                 'success'       => $success,
                 'mauticContent' => 'user',
@@ -468,7 +468,7 @@ class UserController extends FormController
         //user not found
         if ($user === null) {
             return $this->postActionRedirect([
-                'returnUrl'       => $this->generateUrl('mautic_dashboard_index'),
+                'returnUrl'       => $this->generateUrl('le_dashboard_index'),
                 'contentTemplate' => 'MauticUserBundle:User:contact',
                 'flashes'         => [
                     [
@@ -480,14 +480,14 @@ class UserController extends FormController
             ]);
         }
 
-        $action = $this->generateUrl('mautic_user_action', ['objectAction' => 'contact', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_user_action', ['objectAction' => 'contact', 'objectId' => $objectId]);
         $form   = $this->createForm(new FormType\ContactType(), [], ['action' => $action]);
 
         $currentUser = $this->user;
 
         if ($this->request->getMethod() == 'POST') {
             $formUrl   = $this->request->request->get('contact[returnUrl]', '', true);
-            $returnUrl = ($formUrl) ? urldecode($formUrl) : $this->generateUrl('mautic_dashboard_index');
+            $returnUrl = ($formUrl) ? urldecode($formUrl) : $this->generateUrl('le_dashboard_index');
             $valid     = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
@@ -539,7 +539,7 @@ class UserController extends FormController
         } else {
             $reEntityId = InputHelper::int($this->request->get('id'));
             $reSubject  = InputHelper::clean($this->request->get('subject'));
-            $returnUrl  = InputHelper::clean($this->request->get('returnUrl', $this->generateUrl('mautic_dashboard_index')));
+            $returnUrl  = InputHelper::clean($this->request->get('returnUrl', $this->generateUrl('le_dashboard_index')));
             $reEntity   = InputHelper::clean($this->request->get('entity'));
 
             $form->get('entity')->setData($reEntity);
@@ -578,7 +578,7 @@ class UserController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.user.page', 1);
-        $returnUrl = $this->generateUrl('mautic_user_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_user_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -586,7 +586,7 @@ class UserController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_user_index',
+                'activeLink'    => '#le_user_index',
                 'mauticContent' => 'user',
             ],
         ];

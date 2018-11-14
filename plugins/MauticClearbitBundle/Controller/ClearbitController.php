@@ -58,7 +58,7 @@ class ClearbitController extends FormController
 
         if ('GET' === $this->request->getMethod()) {
             $route = $this->generateUrl(
-                'mautic_plugin_clearbit_action',
+                'le_plugin_clearbit_action',
                 [
                     'objectAction' => 'lookupPerson',
                 ]
@@ -80,7 +80,7 @@ class ClearbitController extends FormController
                     ],
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:lookup.html.php',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_contact_index',
+                        'activeLink'    => '#le_contact_index',
                         'mauticContent' => 'lead',
                         'route'         => $route,
                     ],
@@ -207,7 +207,7 @@ class ClearbitController extends FormController
         }
         if ('GET' === $this->request->getMethod()) {
             $route = $this->generateUrl(
-                'mautic_plugin_clearbit_action',
+                'le_plugin_clearbit_action',
                 [
                     'objectAction' => 'batchLookupPerson',
                 ]
@@ -227,7 +227,7 @@ class ClearbitController extends FormController
                     ],
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:batchLookup.html.php',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_contact_index',
+                        'activeLink'    => '#le_contact_index',
                         'mauticContent' => 'leadBatch',
                         'route'         => $route,
                     ],
@@ -295,7 +295,7 @@ class ClearbitController extends FormController
 
         if ('GET' === $this->request->getMethod()) {
             $route = $this->generateUrl(
-                'mautic_plugin_clearbit_action',
+                'le_plugin_clearbit_action',
                 [
                     'objectAction' => 'lookupCompany',
                 ]
@@ -335,7 +335,7 @@ class ClearbitController extends FormController
                     ],
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:lookup.html.php',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_company_index',
+                        'activeLink'    => '#le_company_index',
                         'mauticContent' => 'company',
                         'route'         => $route,
                     ],
@@ -461,7 +461,7 @@ class ClearbitController extends FormController
         }
         if ('GET' === $this->request->getMethod()) {
             $route = $this->generateUrl(
-                'mautic_plugin_clearbit_action',
+                'le_plugin_clearbit_action',
                 [
                     'objectAction' => 'batchLookupCompany',
                 ]
@@ -481,7 +481,7 @@ class ClearbitController extends FormController
                     ],
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:batchLookup.html.php',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_company_index',
+                        'activeLink'    => '#le_company_index',
                         'mauticContent' => 'companyBatch',
                         'route'         => $route,
                     ],

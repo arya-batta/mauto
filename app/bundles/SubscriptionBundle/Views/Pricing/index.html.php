@@ -14,7 +14,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
 ?>
 
 <div style="display: block;text-align: center" class="alert alert-danger hide" id="pricing-plan-alert-info" role="alert"> You're not quite ready to process the payment.
-    You need to connect your Email Provider account to proceed further. <a href="<?php echo $view['router']->path('mautic_config_action', ['objectAction' => 'edit']); ?>">
+    You need to connect your Email Provider account to proceed further. <a href="<?php echo $view['router']->path('le_config_action', ['objectAction' => 'edit']); ?>">
         Click Here
     </a> to connect it.</div>
 <br>

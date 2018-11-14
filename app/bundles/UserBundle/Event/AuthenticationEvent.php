@@ -95,7 +95,7 @@ class AuthenticationEvent extends Event
      * @param TokenInterface        $token
      * @param UserProviderInterface $userProvider
      * @param Request               $request
-     * @param bool                  $loginCheck            Event executed from the mautic_sso_login_check route typically used as the SSO callback
+     * @param bool                  $loginCheck            Event executed from the le_sso_login_check route typically used as the SSO callback
      * @param string                $authenticatingService Service Service requesting authentication
      * @param null                  $integrations
      */
@@ -327,7 +327,7 @@ class AuthenticationEvent extends Event
     }
 
     /**
-     * Check if the event is executed as the result of accessing mautic_sso_login_check.
+     * Check if the event is executed as the result of accessing le_sso_login_check.
      *
      * @return bool
      */

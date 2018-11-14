@@ -40,7 +40,7 @@ class ThemeController extends FormController
 
         $themeHelper = $this->container->get('mautic.helper.theme');
         $dir         = $this->factory->getSystemPath('themes', true);
-        $action      = $this->generateUrl('mautic_themes_index');
+        $action      = $this->generateUrl('le_themes_index');
         $form        = $this->get('form.factory')->create('theme_upload', [], ['action' => $action]);
 
         if ($this->request->getMethod() == 'POST') {
@@ -102,9 +102,9 @@ class ThemeController extends FormController
             ],
             'contentTemplate' => 'MauticCoreBundle:Theme:list.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_themes_index',
+                'activeLink'    => '#le_themes_index',
                 'mauticContent' => 'theme',
-                'route'         => $this->generateUrl('mautic_themes_index'),
+                'route'         => $this->generateUrl('le_themes_index'),
             ],
         ]);
     }
@@ -279,10 +279,10 @@ class ThemeController extends FormController
     public function getIndexPostActionVars()
     {
         return [
-            'returnUrl'       => $this->generateUrl('mautic_themes_index'),
+            'returnUrl'       => $this->generateUrl('le_themes_index'),
             'contentTemplate' => 'MauticCoreBundle:theme:index',
             'passthroughVars' => [
-                'activeLink'    => 'mautic_themes_index',
+                'activeLink'    => 'le_themes_index',
                 'mauticContent' => 'theme',
             ],
         ];

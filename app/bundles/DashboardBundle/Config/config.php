@@ -12,11 +12,11 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_dashboard_index' => [
+            'le_dashboard_index' => [
                 'path'       => '/dashboard',
                 'controller' => 'MauticDashboardBundle:Dashboard:index',
             ],
-            'mautic_dashboard_action' => [
+            'le_dashboard_action' => [
                 'path'       => '/dashboard/{objectAction}/{objectId}',
                 'controller' => 'MauticDashboardBundle:Dashboard:execute',
             ],
@@ -38,7 +38,7 @@ return [
             'priority' => 100,
             'items'    => [
                 'mautic.dashboard.menu.index' => [
-                    'route'     => 'mautic_dashboard_index',
+                    'route'     => 'le_dashboard_index',
                     'iconClass' => 'fa-th-large',
                 ],
             ],

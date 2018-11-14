@@ -93,7 +93,7 @@ class LeadSubscriber extends CommonSubscriber
                         'eventId'    => $eventTypeKey.$row['id'],
                         'eventLabel' => [
                             'label' => $form->getName(),
-                            'href'  => $this->router->generate('mautic_form_action', ['objectAction' => 'view', 'objectId' => $form->getId()]),
+                            'href'  => $this->router->generate('le_form_action', ['objectAction' => 'view', 'objectId' => $form->getId()]),
                         ],
                         'eventType' => $eventTypeName,
                         'timestamp' => $row['dateSubmitted'],

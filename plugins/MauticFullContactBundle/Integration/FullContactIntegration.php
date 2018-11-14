@@ -117,7 +117,7 @@ class FullContactIntegration extends AbstractIntegration
             return [
                 'template'   => 'MauticFullContactBundle:Integration:form.html.php',
                 'parameters' => [
-                    'mauticUrl' => $this->router->generate('mautic_plugin_fullcontact_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'mauticUrl' => $this->router->generate('le_plugin_fullcontact_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
             ];
         }

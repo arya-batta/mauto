@@ -35,7 +35,7 @@ class SecurityController extends CommonController
         if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY') ||
             $authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ) {
-            $redirectUrl = $this->generateUrl('mautic_contact_index');
+            $redirectUrl = $this->generateUrl('le_contact_index');
             $event->setController(function () use ($redirectUrl) {
                 return new RedirectResponse($redirectUrl);
             });

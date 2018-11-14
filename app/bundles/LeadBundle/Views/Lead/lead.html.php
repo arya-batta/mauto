@@ -51,7 +51,7 @@ if (!empty($fields['core']['email']['value'])) {
                 ['%email%' => $fields['core']['email']['value']]
             ),
             'href' => $view['router']->path(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectId' => $lead->getId(), 'objectAction' => 'email']
             ),
         ],
@@ -74,7 +74,7 @@ if ($edit) {
                 ['%name%' => $lead->getPrimaryIdentifier()]
             ),
             'href' => $view['router']->path(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectId' => $lead->getId(), 'objectAction' => 'contactFrequency']
             ),
         ],
@@ -95,7 +95,7 @@ if ($view['security']->isGranted('campaign:campaigns:edit')) {
             ),
             'data-footer' => 'false',
             'href'        => $view['router']->path(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectId' => $lead->getId(), 'objectAction' => 'campaign']
             ),
         ],
@@ -120,7 +120,7 @@ if (($view['security']->hasEntityAccess(
                 ['%name%' => $lead->getPrimaryIdentifier()]
             ),
             'href' => $view['router']->path(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectId' => $lead->getId(), 'objectAction' => 'merge']
             ),
         ],
@@ -765,7 +765,7 @@ $view['slots']->set(
                                 </div>
                                 <div class="media-body">
                                     <?php $link = '<a href="'.$view['router']->path(
-                                            'mautic_campaign_action',
+                                            'le_campaign_action',
                                             ['objectAction' => 'view', 'objectId' => $event['campaign_id']]
                                         ).'" data-toggle="ajax">'.$event['campaign_name'].'</a>'; ?>
                                     <?php echo $view['translator']->trans(
@@ -810,7 +810,7 @@ $view['slots']->set(
                     'le.lead.lead.companies'); ?></div>
            <?php foreach ($companies as $key => $company): ?>
                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-success" >
-                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('le.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('mautic_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
+                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('le.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('le_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
                     </span>
                 </h5>
             <?php endforeach; ?>

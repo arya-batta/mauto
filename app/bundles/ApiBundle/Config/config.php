@@ -28,12 +28,12 @@ return [
                 'controller' => 'bazinga.oauth.controller.server:authorizeAction',
                 'method'     => 'POST',
             ],
-            'mautic_oauth1_server_auth_login' => [
+            'le_oauth1_server_auth_login' => [
                 'path'       => '/oauth/v1/authorize_login',
                 'controller' => 'MauticApiBundle:oAuth1/Security:login',
                 'method'     => 'GET|POST',
             ],
-            'mautic_oauth1_server_auth_login_check' => [
+            'le_oauth1_server_auth_login_check' => [
                 'path'       => '/oauth/v1/authorize_login_check',
                 'controller' => 'MauticApiBundle:oAuth1/Security:loginCheck',
                 'method'     => 'GET|POST',
@@ -55,12 +55,12 @@ return [
                 'controller' => 'MauticApiBundle:oAuth2/Authorize:authorize',
                 'method'     => 'GET|POST',
             ],
-            'mautic_oauth2_server_auth_login' => [
+            'le_oauth2_server_auth_login' => [
                 'path'       => '/oauth/v2/authorize_login',
                 'controller' => 'MauticApiBundle:oAuth2/Security:login',
                 'method'     => 'GET|POST',
             ],
-            'mautic_oauth2_server_auth_login_check' => [
+            'le_oauth2_server_auth_login_check' => [
                 'path'       => '/oauth/v2/authorize_login_check',
                 'controller' => 'MauticApiBundle:oAuth2/Security:loginCheck',
                 'method'     => 'GET|POST',
@@ -68,11 +68,11 @@ return [
         ],
         'main' => [
             // Clients
-            'mautic_client_index' => [
+            'le_client_index' => [
                 'path'       => '/credentials/{page}',
                 'controller' => 'MauticApiBundle:Client:index',
             ],
-            'mautic_client_action' => [
+            'le_client_action' => [
                 'path'       => '/credentials/{objectAction}/{objectId}',
                 'controller' => 'MauticApiBundle:Client:execute',
             ],
@@ -83,7 +83,7 @@ return [
         'admin' => [
             'items' => [
                 'mautic.api.client.menu.index' => [
-                    'route'     => 'mautic_client_index',
+                    'route'     => 'le_client_index',
                     'iconClass' => 'fa-puzzle-piece',
                     'priority'  => 350,
                     'access'    => 'api:clients:view',

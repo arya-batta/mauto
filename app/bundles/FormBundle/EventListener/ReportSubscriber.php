@@ -70,7 +70,7 @@ class ReportSubscriber extends CommonSubscriber
         ];
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($prefix, [], 'mautic_form_action'),
+            $event->getStandardColumns($prefix, [], 'le_form_action'),
             $event->getCategoryColumns()
         );
         $data = [
@@ -96,7 +96,7 @@ class ReportSubscriber extends CommonSubscriber
                 $pagePrefix.'id' => [
                     'label' => 'mautic.form.report.page_id',
                     'type'  => 'int',
-                    'link'  => 'mautic_page_action',
+                    'link'  => 'le_page_action',
                 ],
                 $pagePrefix.'title' => [
                     'label' => 'mautic.form.report.page_name',
@@ -212,7 +212,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-sign-in';
-                    $graphData['link']      = 'mautic_form_action';
+                    $graphData['link']      = 'le_form_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -224,7 +224,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-check-square-o';
-                    $graphData['link']      = 'mautic_form_action';
+                    $graphData['link']      = 'le_form_action';
                     $event->setGraph($g, $graphData);
                     break;
             }

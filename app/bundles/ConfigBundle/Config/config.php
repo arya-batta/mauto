@@ -12,11 +12,11 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_config_action' => [
+            'le_config_action' => [
                 'path'       => '/config/{objectAction}/{objectId}',
                 'controller' => 'MauticConfigBundle:Config:execute',
             ],
-            'mautic_sysinfo_index' => [
+            'le_sysinfo_index' => [
                 'path'       => '/sysinfo',
                 'controller' => 'MauticConfigBundle:Sysinfo:index',
             ],
@@ -26,7 +26,7 @@ return [
     'menu' => [
         'admin' => [
             'mautic.config.menu.index' => [
-                'route'           => 'mautic_config_action',
+                'route'           => 'le_config_action',
                 'routeParameters' => ['objectAction' => 'edit'],
                 'iconClass'       => 'fa-cogs',
                 'priority'        => 500,
@@ -35,10 +35,10 @@ return [
                 //'access'          => 'admin',
             ],
             'mautic.sysinfo.menu.index' => [
-                'route'           => 'mautic_sysinfo_index',
+                'route'           => 'le_sysinfo_index',
                 'iconClass'       => 'fa-life-ring',
                 'priority'        => 350,
-                'id'              => 'mautic_sysinfo_index',
+                'id'              => 'le_sysinfo_index',
                 'access'          => 'admin',
                 'checks'          => [
                     'parameters' => [

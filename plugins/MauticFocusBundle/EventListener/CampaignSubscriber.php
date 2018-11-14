@@ -111,7 +111,7 @@ class CampaignSubscriber extends CommonSubscriber
             return $event->setResult(false);
         }
         $values                 = [];
-        $values['focus_item'][] = ['id' => $focusId, 'js' => $this->router->generate('mautic_focus_generate', ['id' => $focusId], true)];
+        $values['focus_item'][] = ['id' => $focusId, 'js' => $this->router->generate('le_focus_generate', ['id' => $focusId], true)];
         $this->trackingHelper->updateSession($values);
 
         return $event->setResult(true);

@@ -93,7 +93,7 @@ if (count($items)):
                                     'data-header' => $view['translator']->trans('mautic.notification.notification.header.preview'),
                                     'data-footer' => 'false',
                                     'href'        => $view['router']->path(
-                                        'mautic_notification_action',
+                                        'le_notification_action',
                                         ['objectId' => $item->getId(), 'objectAction' => 'preview']
                                     ),
                                 ],
@@ -130,7 +130,7 @@ if (count($items)):
                                 <i class="fa fa-fw fa-lg fa-toggle-on text-muted disabled"></i>
                             <?php endif; ?>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_notification_action',
+                                'le_notification_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
                             ); ?>">
                                 <?php echo $item->getName(); ?>
@@ -153,7 +153,7 @@ if (count($items)):
                               data-toggle="tooltip"
                               title="<?php echo $view['translator']->trans('le.channel.stat.leadcount.tooltip'); ?>">
                             <a href="<?php echo $view['router']->path(
-                                'mautic_contact_index',
+                                'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.web_sent').':'.$item->getId()]
                             ); ?>"><?php echo $view['translator']->trans(
                                     'mautic.notification.stat.sentcount',
@@ -174,7 +174,7 @@ if (count($items)):
                 'totalItems' => $totalItems,
                 'page'       => $page,
                 'limit'      => $limit,
-                'baseUrl'    => $view['router']->path('mautic_notification_index'),
+                'baseUrl'    => $view['router']->path('le_notification_index'),
                 'sessionVar' => 'notification',
             ]
         ); ?>

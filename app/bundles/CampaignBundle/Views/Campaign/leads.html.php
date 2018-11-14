@@ -37,7 +37,7 @@
                                     <div class="pull-right label label-danger"><i class="fa fa-ban"> </i></div>
                                 <?php endif; ?>
                                 <h4 class="fw-sb mb-xs">
-                                    <a href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]); ?>" data-toggle="ajax">
+                                    <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]); ?>" data-toggle="ajax">
                                         <span>
                                             <?php
                                             if (!empty($item['firstname']) && !empty($item['lastname'])):
@@ -88,7 +88,7 @@
 <?php if (count($items)): ?>
 <div class="panel-footer">
     <?php
-    $link = (isset($link)) ? $link : 'mautic_contact_index';
+    $link = (isset($link)) ? $link : 'le_contact_index';
     echo $view->render('MauticCoreBundle:Helper:pagination.html.php', [
         'totalItems' => $totalItems,
         'page'       => $page,

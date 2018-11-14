@@ -17,13 +17,13 @@ return [
 
     'routes' => [
         'public' => [
-            'mautic_plugin_clearbit_index' => [
+            'le_plugin_clearbit_index' => [
                 'path'       => '/clearbit/callback',
                 'controller' => 'MauticClearbitBundle:Public:callback',
             ],
         ],
         'main' => [
-            'mautic_plugin_clearbit_action' => [
+            'le_plugin_clearbit_action' => [
                 'path'       => '/clearbit/{objectAction}/{objectId}',
                 'controller' => 'MauticClearbitBundle:Clearbit:execute',
             ],

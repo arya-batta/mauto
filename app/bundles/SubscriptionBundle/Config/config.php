@@ -23,15 +23,15 @@ return [
                 'path'       => '/payment-status',
                 'controller' => 'MauticSubscriptionBundle:Subscription:paymentstatus',
             ],
-            'mautic_kyc_action' => [
+            'le_kyc_action' => [
                 'path'       => '/kyc/{objectAction}/{objectId}',
                 'controller' => 'MauticSubscriptionBundle:KYC:execute',
             ],
-            'mautic_accountinfo_action' => [
+            'le_accountinfo_action' => [
                 'path'       => '/accountinfo/{objectAction}/{objectId}',
                 'controller' => 'MauticSubscriptionBundle:Account:execute',
             ],
-            'mautic_viewinvoice_action' => [
+            'le_viewinvoice_action' => [
                 'path'       => '/viewinvoice/{id}',
                 'controller' => 'MauticSubscriptionBundle:Public:viewinvoice',
             ],
@@ -48,7 +48,7 @@ return [
         'main'    => [],
         'admin'   => [
             'leadsengage.subs.account.menu.index' => [
-                'route'           => 'mautic_accountinfo_action',
+                'route'           => 'le_accountinfo_action',
                 'id'              => 'mautic_accountinfo_index',
                 'routeParameters' => ['objectAction' => 'edit'],
                 'iconClass'       => 'fa fa-address-book-o',

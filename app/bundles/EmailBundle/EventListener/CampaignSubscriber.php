@@ -345,7 +345,7 @@ class CampaignSubscriber extends CommonSubscriber
         }
         if (!$status) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
-            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
@@ -410,7 +410,7 @@ class CampaignSubscriber extends CommonSubscriber
         $lead   = $event->getLead();
         $status = $this->emailModel->mailHelper->emailstatus();
         if (!$status) {
-            $configurl=$this->factory->getRouter()->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }

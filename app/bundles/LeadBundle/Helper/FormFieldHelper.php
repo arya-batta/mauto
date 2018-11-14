@@ -106,7 +106,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
      */
     public function setTranslationKeyPrefix()
     {
-        $this->translationKeyPrefix = 'mautic.lead.field.type.';
+        $this->translationKeyPrefix = 'le.lead.field.type.';
     }
 
     /**

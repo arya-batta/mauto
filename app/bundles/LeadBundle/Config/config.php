@@ -12,14 +12,14 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_plugin_timeline_index' => [
+            'le_plugin_timeline_index' => [
                 'path'         => '/plugin/{integration}/timeline/{page}',
                 'controller'   => 'MauticLeadBundle:Timeline:pluginIndex',
                 'requirements' => [
                     'integration' => '.+',
                 ],
             ],
-            'mautic_plugin_timeline_view' => [
+            'le_plugin_timeline_view' => [
                 'path'         => '/plugin/{integration}/timeline/view/{leadId}/{page}',
                 'controller'   => 'MauticLeadBundle:Timeline:pluginView',
                 'requirements' => [
@@ -27,27 +27,27 @@ return [
                     'leadId'      => '\d+',
                 ],
             ],
-            'mautic_segment_index' => [
+            'le_segment_index' => [
                 'path'       => '/segments/{page}',
                 'controller' => 'MauticLeadBundle:List:index',
             ],
-            'mautic_segment_action' => [
+            'le_segment_action' => [
                 'path'       => '/segments/{objectAction}/{objectId}',
                 'controller' => 'MauticLeadBundle:List:execute',
             ],
-            'mautic_contactfield_index' => [
+            'le_contactfield_index' => [
                 'path'       => '/leads/fields/{page}',
                 'controller' => 'MauticLeadBundle:Field:index',
             ],
-            'mautic_contactfield_action' => [
+            'le_contactfield_action' => [
                 'path'       => '/leads/fields/{objectAction}/{objectId}',
                 'controller' => 'MauticLeadBundle:Field:execute',
             ],
-            'mautic_contact_index' => [
+            'le_contact_index' => [
                 'path'       => '/leads/{page}',
                 'controller' => 'MauticLeadBundle:Lead:index',
             ],
-            'mautic_contactnote_index' => [
+            'le_contactnote_index' => [
                 'path'       => '/leads/notes/{leadId}/{page}',
                 'controller' => 'MauticLeadBundle:Note:index',
                 'defaults'   => [
@@ -57,35 +57,35 @@ return [
                     'leadId' => '\d+',
                 ],
             ],
-            'mautic_contactnote_action' => [
+            'le_contactnote_action' => [
                 'path'         => '/leads/notes/{leadId}/{objectAction}/{objectId}',
                 'controller'   => 'MauticLeadBundle:Note:executeNote',
                 'requirements' => [
                     'leadId' => '\d+',
                 ],
             ],
-            'mautic_contacttimeline_action' => [
+            'le_contacttimeline_action' => [
                 'path'         => '/leads/timeline/{leadId}/{page}',
                 'controller'   => 'MauticLeadBundle:Timeline:index',
                 'requirements' => [
                     'leadId' => '\d+',
                 ],
             ],
-            'mautic_contact_timeline_export_action' => [
+            'le_contact_timeline_export_action' => [
                 'path'         => '/leads/timeline/batchExport/{leadId}',
                 'controller'   => 'MauticLeadBundle:Timeline:batchExport',
                 'requirements' => [
                     'leadId' => '\d+',
                 ],
             ],
-            'mautic_contact_auditlog_action' => [
+            'le_contact_auditlog_action' => [
                 'path'         => '/leads/auditlog/{leadId}/{page}',
                 'controller'   => 'MauticLeadBundle:Auditlog:index',
                 'requirements' => [
                     'leadId' => '\d+',
                 ],
             ],
-            'mautic_contact_auditlog_export_action' => [
+            'le_contact_auditlog_export_action' => [
                 'path'         => '/leads/auditlog/batchExport/{leadId}',
                 'controller'   => 'MauticLeadBundle:Auditlog:batchExport',
                 'requirements' => [
@@ -93,42 +93,42 @@ return [
                 ],
             ],
             // @deprecated 2.9.1 to be removed in 3.0. Use f instead.
-            'mautic_contact_import_index' => [
+            'le_contact_import_index' => [
                 'path'       => '/{object}/import/{page}',
                 'controller' => 'MauticLeadBundle:Import:index',
                 'defaults'   => [
                     'object' => 'leads',
                 ],
             ],
-            // @deprecated 2.9.1 to be removed in 3.0. Use mautic_import_action instead.
-            'mautic_contact_import_action' => [
+            // @deprecated 2.9.1 to be removed in 3.0. Use le_import_action instead.
+            'le_contact_import_action' => [
                 'path'       => '/{object}/import/{objectAction}/{objectId}',
                 'controller' => 'MauticLeadBundle:Import:execute',
                 'defaults'   => [
                     'object' => 'leads',
                 ],
             ],
-            'mautic_import_index' => [
+            'le_import_index' => [
                 'path'       => '/{object}/imports/{page}',
                 'controller' => 'MauticLeadBundle:Import:list',
             ],
-            'mautic_import_action' => [
+            'le_import_action' => [
                 'path'       => '/import/leads',
                 'controller' => 'MauticLeadBundle:Import:index',
             ],
-            'mautic_contact_action' => [
+            'le_contact_action' => [
                 'path'       => '/leads/{objectAction}/{objectId}',
                 'controller' => 'MauticLeadBundle:Lead:execute',
             ],
-            'mautic_company_index' => [
+            'le_company_index' => [
                 'path'       => '/companies/{page}',
                 'controller' => 'MauticLeadBundle:Company:index',
             ],
-            'mautic_company_action' => [
+            'le_company_action' => [
                 'path'       => '/companies/{objectAction}/{objectId}',
                 'controller' => 'MauticLeadBundle:Company:execute',
             ],
-            'mautic_segment_contacts' => [
+            'le_segment_contacts' => [
                 'path'       => '/segment/view/{objectId}/contact/{page}',
                 'controller' => 'MauticLeadBundle:List:contacts',
             ],
@@ -310,12 +310,12 @@ return [
                 'le.lead.leads' => [
                     'iconClass' => 'fa-user',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
-                    'route'     => 'mautic_contact_index',
+                    'route'     => 'le_contact_index',
                     'priority'  => 60,
                     'parent'    => 'le.core.leads',
                 ],
                 /*   'le.companies.menu.index' => [
-                      'route'     => 'mautic_company_index',
+                      'route'     => 'le_company_index',
                       'iconClass' => 'fa-building-o',
                       'access'    => ['lead:leads:viewother'],
                       'priority'  => 75,
@@ -323,14 +323,14 @@ return [
                 'le.lead.list.menu.index' => [
                     'iconClass' => 'fa-pie-chart',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
-                    'route'     => 'mautic_segment_index',
+                    'route'     => 'le_segment_index',
                     'priority'  => 55,
                     'parent'    => 'le.core.leads',
                 ],
 
                'le.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
-                    'route'      => 'mautic_contactfield_index',
+                    'route'      => 'le_contactfield_index',
                     'access'     => 'lead:fields:full',
                     'priority'   => 45,
                   'parent'       => 'le.core.leads',
@@ -338,14 +338,14 @@ return [
 
                 'le.lead.import.menu.index' => [
                      'iconClass'  => 'fa-cloud-upload',
-                     'route'      => 'mautic_import_action',
+                     'route'      => 'le_import_action',
                      'access'     => 'lead:imports:create',
                      'priority'   => 40,
                      'parent'     => 'le.core.leads',
                 ],
 
                'mautic.point.menu.index' => [
-                    'route'      => 'mautic_point_index',
+                    'route'      => 'le_point_index',
                     'iconClass'  => 'fa fa-sliders',
                     'access'     => 'point:points:view',
                     'priority'   => 50,
@@ -353,7 +353,7 @@ return [
                 ],
                /*
                 'mautic.point.trigger.menu.index' => [
-                    'route'    => 'mautic_pointtrigger_index',
+                    'route'    => 'le_pointtrigger_index',
                     'access'   => 'point:triggers:view',
                     'parent'   => 'le.segments.root',
                 ],*/
@@ -365,7 +365,7 @@ return [
                 'le.lead.field.menu.index' => [
                     'id'         => 'mautic_lead_field',
                     'iconClass'  => 'fa-list',
-                    'route'      => 'mautic_contactfield_index',
+                    'route'      => 'le_contactfield_index',
                      'access'    => 'lead:fields:full',
                 ],
             ],   */

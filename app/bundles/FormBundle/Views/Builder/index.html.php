@@ -95,7 +95,7 @@ echo $view['form']->row($form['postActionProperty']);
 <option data-toggle="ajaxmodal"
 data-target="#formComponentModal"
 data-href="<?php echo $view['router']->path(
-'mautic_formfield_action',
+'le_formfield_action',
 [
 'objectAction' => 'new',
 'type'         => $fieldType,
@@ -239,7 +239,7 @@ echo $view['form']->end($form); */
                 'newCampaignForm'   => 'mautic.form.type.campaign.header',
             ],
             'typePrefix'         => 'form',
-            'cancelUrl'          => 'mautic_form_index',
+            'cancelUrl'          => 'le_form_index',
             'header'             => 'mautic.form.type.header',
             'typeOneHeader'      => 'mautic.form.type.campaign.header',
             'typeOneIconClass'   => 'fa-cubes',
@@ -263,7 +263,7 @@ endif;*/ ?>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
             <div class="fragment-1-buttons fixed-header">
-                <a href="<?php echo $view['router']->path('mautic_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -344,7 +344,7 @@ endif;*/ ?>
         <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="overflow: hidden;">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <a href="<?php echo $view['router']->path('mautic_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -398,7 +398,7 @@ endif;*/ ?>
                             <div class=" form_fragment2_data" data-toggle="ajaxmodal"
                                  data-target="#formComponentModal"
                                  data-href="<?php echo $view['router']->path(
-                                     'mautic_formfield_action',
+                                     'le_formfield_action',
                                      [
                                          'objectAction' => 'new',
                                          'type'         => $fieldType,

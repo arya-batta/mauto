@@ -25,7 +25,7 @@
                         'btnClass'      => 'btn btn-danger btn-xs',
                         'message'       => $view['translator']->trans('mautic.api.client.form.confirmrevoke', ['%name%' => $k->getName()]),
                         'confirmText'   => $view['translator']->trans('mautic.api.client.form.revoke'),
-                        'confirmAction' => $view['router']->path('mautic_client_action', ['objectAction' => 'revoke', 'objectId' => $k->getId()]),
+                        'confirmAction' => $view['router']->path('le_client_action', ['objectAction' => 'revoke', 'objectId' => $k->getId()]),
                         'iconClass'     => 'fa fa-trash-o',
                         'btnText'       => $view['translator']->trans('mautic.api.client.form.revoke'),
                     ]

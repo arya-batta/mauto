@@ -54,7 +54,7 @@ class DashboardController extends FormController
 
         $humanFormat     = 'M j, Y';
         $mysqlFormat     = 'Y-m-d';
-        $action          = $this->generateUrl('mautic_dashboard_index');
+        $action          = $this->generateUrl('le_dashboard_index');
         $dateRangeFilter = $this->request->get('daterange', []);
 
         // Set new date range to the session
@@ -88,7 +88,7 @@ class DashboardController extends FormController
         if ($videoarg == 'CloseVideo') {
             $loginsession->set('CloseVideo', true);
 
-            return $this->redirect($this->generateUrl('mautic_dashboard_index'));
+            return $this->redirect($this->generateUrl('le_dashboard_index'));
         }
         $close     = $loginsession->get('CloseVideo');
 
@@ -100,7 +100,7 @@ class DashboardController extends FormController
             $userprefentity->setUserid($currentuser->getId());
             $userprefmodel->saveEntity($userprefentity);
             //$this->addFlash('Video will be available in Help.');
-            return $this->redirect($this->generateUrl('mautic_dashboard_index'));
+            return $this->redirect($this->generateUrl('le_dashboard_index'));
         }
         $userprefrepo   = $userprefmodel->getRepository();
         $userprefentity = $userprefrepo->findOneBy(['userid' => $currentuser->getId()]);
@@ -140,9 +140,9 @@ class DashboardController extends FormController
             ],
             'contentTemplate' => 'MauticDashboardBundle:Dashboard:index.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_dashboard_index',
+                'activeLink'    => '#le_dashboard_index',
                 'mauticContent' => 'dashboard',
-                'route'         => $this->generateUrl('mautic_dashboard_index'),
+                'route'         => $this->generateUrl('le_dashboard_index'),
             ],
         ]);
     }
@@ -158,7 +158,7 @@ class DashboardController extends FormController
         $widget = new Widget();
 
         $model  = $this->getModel('dashboard');
-        $action = $this->generateUrl('mautic_dashboard_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_dashboard_action', ['objectAction' => 'new']);
 
         //get the user form factory
         $form       = $model->createForm($widget, $this->get('form.factory'), $action);
@@ -223,7 +223,7 @@ class DashboardController extends FormController
     {
         $model  = $this->getModel('dashboard');
         $widget = $model->getEntity($objectId);
-        $action = $this->generateUrl('mautic_dashboard_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_dashboard_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
 
         //get the user form factory
         $form       = $model->createForm($widget, $this->get('form.factory'), $action);
@@ -285,7 +285,7 @@ class DashboardController extends FormController
      */
     public function deleteAction($objectId)
     {
-        $returnUrl = $this->generateUrl('mautic_dashboard_index');
+        $returnUrl = $this->generateUrl('le_dashboard_index');
         $success   = 0;
         $flashes   = [];
 
@@ -293,7 +293,7 @@ class DashboardController extends FormController
             'returnUrl'       => $returnUrl,
             'contentTemplate' => 'MauticDashboardBundle:Dashboard:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_dashboard_index',
+                'activeLink'    => '#le_dashboard_index',
                 'success'       => $success,
                 'mauticContent' => 'dashboard',
             ],
@@ -350,7 +350,7 @@ class DashboardController extends FormController
             $msg  = $this->translator->trans('mautic.dashboard.notice.save', [
                 '%name%'    => $name,
                 '%viewUrl%' => $this->generateUrl(
-                    'mautic_dashboard_action',
+                    'le_dashboard_action',
                     [
                         'objectAction' => 'import',
                     ]
@@ -415,7 +415,7 @@ class DashboardController extends FormController
             unlink($path);
         }
 
-        return $this->redirect($this->generateUrl('mautic_dashboard_action', ['objectAction' => 'import']));
+        return $this->redirect($this->generateUrl('le_dashboard_action', ['objectAction' => 'import']));
     }
 
     /**
@@ -464,11 +464,11 @@ class DashboardController extends FormController
                     $model->saveEntity($widget);
                 }
 
-                return $this->redirect($this->get('router')->generate('mautic_dashboard_index'));
+                return $this->redirect($this->get('router')->generate('le_dashboard_index'));
             }
         }
 
-        return $this->redirect($this->generateUrl('mautic_dashboard_action', ['objectAction' => 'import']));
+        return $this->redirect($this->generateUrl('le_dashboard_action', ['objectAction' => 'import']));
     }
 
     /**
@@ -486,7 +486,7 @@ class DashboardController extends FormController
             'global' => $this->container->get('mautic.helper.paths')->getSystemPath('dashboard.global'),
         ];
 
-        $action = $this->generateUrl('mautic_dashboard_action', ['objectAction' => 'import']);
+        $action = $this->generateUrl('le_dashboard_action', ['objectAction' => 'import']);
         $form   = $this->get('form.factory')->create('dashboard_upload', [], ['action' => $action]);
 
         if ($this->request->getMethod() == 'POST') {
@@ -576,10 +576,10 @@ class DashboardController extends FormController
                 ],
                 'contentTemplate' => 'MauticDashboardBundle:Dashboard:import.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_dashboard_index',
+                    'activeLink'    => '#le_dashboard_index',
                     'mauticContent' => 'dashboardImport',
                     'route'         => $this->generateUrl(
-                        'mautic_dashboard_action',
+                        'le_dashboard_action',
                         [
                             'objectAction' => 'import',
                         ]

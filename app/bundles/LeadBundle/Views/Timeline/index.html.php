@@ -11,7 +11,7 @@
 ?>
 
 <!-- filter form -->
-<form method="post" action="<?php echo $view['router']->path('mautic_contacttimeline_action', ['leadId' => $lead->getId()]); ?>" class="panel" id="timeline-filters">
+<form method="post" action="<?php echo $view['router']->path('le_contacttimeline_action', ['leadId' => $lead->getId()]); ?>" class="panel" id="timeline-filters">
     <div class="form-control-icon pa-xs">
         <input type="text" class="form-control bdr-w-0" name="search" id="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($events['filters']['search']); ?>">
         <span class="the-icon fa fa-search text-muted mt-xs"></span>
@@ -37,7 +37,7 @@
                 </select>
             </div>
             <div class="col-sm-2">
-                <a class="btn btn-default btn-block btn-nospin" href="<?php echo $view['router']->generate('mautic_contact_timeline_export_action', ['leadId' => $lead->getId()]); ?>" data-toggle="download">
+                <a class="btn btn-default btn-block btn-nospin" href="<?php echo $view['router']->generate('le_contact_timeline_export_action', ['leadId' => $lead->getId()]); ?>" data-toggle="download">
                     <span>
                         <i class="fa fa-download btn-nospin"></i> <span class="hidden-xs hidden-sm"><?php echo $view['translator']->trans('mautic.core.export'); ?></span>
                     </span>

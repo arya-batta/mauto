@@ -65,7 +65,7 @@ class CalendarSubscriber extends CommonSubscriber
             }
             $date                  = new DateTimeHelper($object['start']);
             $object['start']       = $date->toLocalString(\DateTime::ISO8601);
-            $object['url']         = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);
+            $object['url']         = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $object['lead_id']], true);
             $object['attr']        = 'data-toggle="ajax"';
             $object['description'] = strip_tags(html_entity_decode($object['description']));
 

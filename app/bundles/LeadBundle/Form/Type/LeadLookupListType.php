@@ -29,7 +29,7 @@ class LeadLookupListType extends AbstractType
             [
                 'label'               => 'mautic.lead.lists',
                 'entity_label_column' => 'companyname',
-                'modal_route'         => 'mautic_company_action',
+                'modal_route'         => 'le_company_action',
                 'modal_header'        => 'le.company.new.company',
                 'model'               => 'lead.company',
                 'ajax_lookup_action'  => 'lead:getLookupChoiceList',

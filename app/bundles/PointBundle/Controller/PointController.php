@@ -71,14 +71,14 @@ class PointController extends AbstractFormController
         if ($count && $count < ($start + 1)) {
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.point.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_point_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_point_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $lastPage],
                 'contentTemplate' => 'MauticPointBundle:Point:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_point_index',
+                    'activeLink'    => '#le_point_index',
                     'mauticContent' => 'point',
                 ],
             ]);
@@ -106,9 +106,9 @@ class PointController extends AbstractFormController
             ],
             'contentTemplate' => 'MauticPointBundle:Point:list.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
-                'route'         => $this->generateUrl('mautic_point_index', ['page' => $page]),
+                'route'         => $this->generateUrl('le_point_index', ['page' => $page]),
             ],
         ]);
     }
@@ -138,7 +138,7 @@ class PointController extends AbstractFormController
 
         $actionType = ($this->request->getMethod() == 'POST') ? $this->request->request->get('point[type]', '', true) : '';
 
-        $action  = $this->generateUrl('mautic_point_action', ['objectAction' => 'new']);
+        $action  = $this->generateUrl('le_point_action', ['objectAction' => 'new']);
         $actions = $model->getPointActions();
         $form    = $model->createForm($entity, $this->get('form.factory'), $action, [
             'pointActions' => $actions,
@@ -156,15 +156,15 @@ class PointController extends AbstractFormController
 
                     $this->addFlash('mautic.core.notice.created', [
                         '%name%'      => $entity->getName(),
-                        '%menu_link%' => 'mautic_point_index',
-                        '%url%'       => $this->generateUrl('mautic_point_action', [
+                        '%menu_link%' => 'le_point_index',
+                        '%url%'       => $this->generateUrl('le_point_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
                         ]),
                     ]);
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_point_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_point_index', $viewParameters);
                         $template  = 'MauticPointBundle:Point:index';
                     } else {
                         //return edit view so that all the session stuff is loaded
@@ -172,7 +172,7 @@ class PointController extends AbstractFormController
                     }
                 }
             } else {
-                $returnUrl = $this->generateUrl('mautic_point_index', $viewParameters);
+                $returnUrl = $this->generateUrl('le_point_index', $viewParameters);
                 $template  = 'MauticPointBundle:Point:index';
             }
 
@@ -182,7 +182,7 @@ class PointController extends AbstractFormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $template,
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_point_index',
+                        'activeLink'    => 'le_point_index',
                         'mauticContent' => 'point',
                     ],
                 ]);
@@ -203,9 +203,9 @@ class PointController extends AbstractFormController
             ],
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
-                'route'         => $this->generateUrl('mautic_point_action', [
+                'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                         'objectId'     => $entity->getId(),
                     ]
@@ -233,14 +233,14 @@ class PointController extends AbstractFormController
         $viewParameters = ['page' => $page];
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_point_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_point_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => $viewParameters,
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
             ],
         ];
@@ -267,7 +267,7 @@ class PointController extends AbstractFormController
 
         $actionType = ($this->request->getMethod() == 'POST') ? $this->request->request->get('point[type]', '', true) : $entity->getType();
 
-        $action  = $this->generateUrl('mautic_point_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action  = $this->generateUrl('le_point_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $actions = $model->getPointActions();
         $form    = $model->createForm($entity, $this->get('form.factory'), $action, [
             'pointActions' => $actions,
@@ -284,15 +284,15 @@ class PointController extends AbstractFormController
 
                     $this->addFlash('mautic.core.notice.updated', [
                         '%name%'      => $entity->getName(),
-                        '%menu_link%' => 'mautic_point_index',
-                        '%url%'       => $this->generateUrl('mautic_point_action', [
+                        '%menu_link%' => 'le_point_index',
+                        '%url%'       => $this->generateUrl('le_point_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
                         ]),
                     ]);
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_point_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_point_index', $viewParameters);
                         $template  = 'MauticPointBundle:Point:index';
                     }
                 }
@@ -300,7 +300,7 @@ class PointController extends AbstractFormController
                 //unlock the entity
                 $model->unlockEntity($entity);
 
-                $returnUrl = $this->generateUrl('mautic_point_index', $viewParameters);
+                $returnUrl = $this->generateUrl('le_point_index', $viewParameters);
                 $template  = 'MauticPointBundle:Point:index';
             }
 
@@ -332,9 +332,9 @@ class PointController extends AbstractFormController
             ],
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
-                'route'         => $this->generateUrl('mautic_point_action', [
+                'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => 'edit',
                         'objectId'     => $entity->getId(),
                     ]
@@ -377,7 +377,7 @@ class PointController extends AbstractFormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.point.page', 1);
-        $returnUrl = $this->generateUrl('mautic_point_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_point_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -385,7 +385,7 @@ class PointController extends AbstractFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
             ],
         ];
@@ -434,7 +434,7 @@ class PointController extends AbstractFormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.point.page', 1);
-        $returnUrl = $this->generateUrl('mautic_point_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_point_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -442,7 +442,7 @@ class PointController extends AbstractFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_point_index',
+                'activeLink'    => '#le_point_index',
                 'mauticContent' => 'point',
             ],
         ];

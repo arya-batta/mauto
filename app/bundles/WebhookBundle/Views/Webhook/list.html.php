@@ -99,7 +99,7 @@ if ($tmpl == 'index') {
                                 ['item' => $item, 'model' => 'webhook']
                             ); ?>
                             <a data-toggle="ajax" href="<?php echo $view['router']->path(
-                                'mautic_webhook_action',
+                                'le_webhook_action',
                                 ['objectId' => $item->getId(), 'objectAction' => 'view']
                             ); ?>">
                                 <?php echo $item->getName(); ?>
@@ -126,8 +126,8 @@ if ($tmpl == 'index') {
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_webhook_index',
-                'baseUrl'    => $view['router']->path('mautic_webhook_index'),
+                'menuLinkId' => 'le_webhook_index',
+                'baseUrl'    => $view['router']->path('le_webhook_index'),
                 'sessionVar' => 'mautic_webhook',
             ]
         ); ?>

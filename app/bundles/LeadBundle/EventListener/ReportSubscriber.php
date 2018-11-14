@@ -509,7 +509,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $pointLogRepo->getMostPoints($queryBuilder, $limit, $offset);
                     $graphData              =[];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -539,7 +539,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $pointLogRepo->getMostLeads($queryBuilder, $limit, $offset);
                     $graphData              =[];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -568,7 +568,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $pointLogRepo->getMostLeads($queryBuilder, $limit, $offset);
                     $graphData              =[];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -596,7 +596,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $pointLogRepo->getMostPoints($queryBuilder, $limit, $offset);
 
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             [
                                 'value' => $item['title'],
@@ -624,7 +624,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $pointLogRepo->getMostPoints($queryBuilder, $limit, $offset);
                     $graphData              =[];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -822,7 +822,7 @@ class ReportSubscriber extends CommonSubscriber
             'log.campaign_id' => [
                 'label' => 'le.lead.report.attribution.campaign_id',
                 'type'  => 'int',
-                'link'  => 'mautic_campaign_action',
+                'link'  => 'le_campaign_action',
             ],
             'log.date_triggered' => [
                 'label'          => 'le.lead.report.attribution.action_date',
@@ -837,7 +837,7 @@ class ReportSubscriber extends CommonSubscriber
             'l.stage_id' => [
                 'label' => 'le.lead.report.attribution.stage_id',
                 'type'  => 'int',
-                'link'  => 'mautic_stage_action',
+                'link'  => 'le_stage_action',
             ],
             's.name' => [
                 'alias' => 'stage_name',

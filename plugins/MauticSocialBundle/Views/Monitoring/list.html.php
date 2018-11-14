@@ -84,7 +84,7 @@ if ($tmpl == 'index') {
                                 ]
                             ); ?>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_social_action',
+                                'le_social_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
                             ); ?>"
                                data-toggle="ajax">
@@ -110,8 +110,8 @@ if ($tmpl == 'index') {
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_campaign_index',
-                'baseUrl'    => $view['router']->path('mautic_social_index'),
+                'menuLinkId' => 'le_campaign_index',
+                'baseUrl'    => $view['router']->path('le_social_index'),
                 'sessionVar' => 'social.monitoring',
                 'routeBase'  => 'social',
             ]

@@ -132,7 +132,7 @@ class CompanyType extends AbstractType
                         'data-target' => '#MauticSharedModal',
                         'data-header' => $this->translator->trans('le.lead.company.header.merge'),
                         'href'        => $this->router->generate(
-                            'mautic_company_action',
+                            'le_company_action',
                             [
                                 'objectId'     => $options['data']->getId(),
                                 'objectAction' => 'merge',

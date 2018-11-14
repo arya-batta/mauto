@@ -550,7 +550,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
      */
     protected function getActionRoute()
     {
-        return 'mautic_'.str_replace('mautic_', '', $this->getRouteBase().'_action');
+        return 'le_'.str_replace('le_', '', $this->getRouteBase().'_action');
     }
 
     /**
@@ -644,7 +644,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
      */
     protected function getIndexRoute()
     {
-        return 'mautic_'.str_replace('mautic_', '', $this->getRouteBase().'_index');
+        return 'le_'.str_replace('le_', '', $this->getRouteBase().'_index');
     }
 
     /**

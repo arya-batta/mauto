@@ -43,9 +43,9 @@ class SysinfoController extends FormController
             ],
             'contentTemplate' => 'MauticConfigBundle:Sysinfo:index.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_sysinfo_index',
+                'activeLink'    => '#le_sysinfo_index',
                 'mauticContent' => 'sysinfo',
-                'route'         => $this->generateUrl('mautic_sysinfo_index'),
+                'route'         => $this->generateUrl('le_sysinfo_index'),
             ],
         ]);
     }

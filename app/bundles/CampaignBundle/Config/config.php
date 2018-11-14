@@ -12,27 +12,27 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_campaignevent_action' => [
+            'le_campaignevent_action' => [
                 'path'       => '/automations/events/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Event:execute',
             ],
-            'mautic_campaignsource_action' => [
+            'le_campaignsource_action' => [
                 'path'       => '/automations/sources/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Source:execute',
             ],
-            'mautic_campaign_index' => [
+            'le_campaign_index' => [
                 'path'       => '/automations/{page}',
                 'controller' => 'MauticCampaignBundle:Campaign:index',
             ],
-            'mautic_campaign_action' => [
+            'le_campaign_action' => [
                 'path'       => '/automations/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Campaign:execute',
             ],
-            'mautic_campaign_contacts' => [
+            'le_campaign_contacts' => [
                 'path'       => '/automations/view/{objectId}/contact/{page}',
                 'controller' => 'MauticCampaignBundle:Campaign:contacts',
             ],
-            'mautic_campaign_preview' => [
+            'le_campaign_preview' => [
                 'path'       => '/automation/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
@@ -108,7 +108,7 @@ return [
             'priority' => 60,
             'items'    => [
                 'mautic.campaign.workflow.menu.index' => [
-                    'route'     => 'mautic_campaign_index',
+                    'route'     => 'le_campaign_index',
                     'iconClass' => 'fa-sitemap',
                     'parent'    => 'mautic.campaign.menu.index',
                 ],

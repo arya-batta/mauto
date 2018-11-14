@@ -29,7 +29,7 @@ class MessageListType extends AbstractType
         $resolver->setDefaults(
             [
                 'required'           => false,
-                'modal_route'        => 'mautic_message_action',
+                'modal_route'        => 'le_message_action',
                 'model'              => 'channel.message',
                 'multiple'           => true,
                 'ajax_lookup_action' => function (Options $options) {

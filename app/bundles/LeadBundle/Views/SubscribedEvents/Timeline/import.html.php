@@ -18,7 +18,7 @@ $import = $event['extra'];
         <?php echo $view['translator']->trans('mautic.core.createdby'); ?>
     </dt>
     <dd>
-        <a href="<?php echo $view['router']->path('mautic_user_action', ['objectAction' => 'view', 'objectId' => $import['user_id']]); ?>" data-toggle="ajax">
+        <a href="<?php echo $view['router']->path('le_user_action', ['objectAction' => 'view', 'objectId' => $import['user_id']]); ?>" data-toggle="ajax">
             <?php echo $import['user_name']; ?>
         </a>
     </dd>

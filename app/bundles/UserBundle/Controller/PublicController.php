@@ -25,7 +25,7 @@ class PublicController extends FormController
         $model = $this->getModel('user');
 
         $data   = ['identifier' => ''];
-        $action = $this->generateUrl('mautic_user_passwordreset');
+        $action = $this->generateUrl('le_user_passwordreset');
         $form   = $this->get('form.factory')->create('passwordreset', $data, ['action' => $action]);
 
         ///Check for a submitted form and process it
@@ -69,7 +69,7 @@ class PublicController extends FormController
             ],
             'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_contact_index',
+                'activeLink'    => '#le_contact_index',
                 'mauticContent' => 'lead',
                 'route'         => $action,
             ],
@@ -82,7 +82,7 @@ class PublicController extends FormController
         $model = $this->getModel('user');
 
         $data   = ['identifier' => '', 'password' => '', 'password_confirm' => ''];
-        $action = $this->generateUrl('mautic_user_passwordresetconfirm');
+        $action = $this->generateUrl('le_user_passwordresetconfirm');
         $form   = $this->get('form.factory')->create('passwordresetconfirm', [], ['action' => $action]);
         $token  = $this->request->query->get('token');
 
@@ -129,7 +129,7 @@ class PublicController extends FormController
                     } else {
                         $this->addFlash('mautic.user.user.notice.passwordreset.missingtoken', [], 'notice', null, false);
 
-                        return $this->redirect($this->generateUrl('mautic_user_passwordresetconfirm'));
+                        return $this->redirect($this->generateUrl('le_user_passwordresetconfirm'));
                     }
                 }
             }

@@ -108,7 +108,7 @@ if ($tmpl == 'index') {
                             ); ?>
                             <?php if ($permissions['point:triggers:edit']): ?>
                                 <a href="<?php echo $view['router']->path(
-                                    'mautic_pointtrigger_action',
+                                    'le_pointtrigger_action',
                                     ['objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajax">
                                     <?php echo $item->getName(); ?>
@@ -143,8 +143,8 @@ if ($tmpl == 'index') {
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_pointtrigger_index',
-                'baseUrl'    => $view['router']->path('mautic_pointtrigger_index'),
+                'menuLinkId' => 'le_pointtrigger_index',
+                'baseUrl'    => $view['router']->path('le_pointtrigger_index'),
                 'sessionVar' => 'pointtrigger',
             ]
         ); ?>

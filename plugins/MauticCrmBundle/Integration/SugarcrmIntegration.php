@@ -130,7 +130,7 @@ class SugarcrmIntegration extends CrmAbstractIntegration
      */
     public function getAuthLoginUrl()
     {
-        return $this->router->generate('mautic_integration_auth_callback', ['integration' => $this->getName()]);
+        return $this->router->generate('le_integration_auth_callback', ['integration' => $this->getName()]);
     }
 
     /**
@@ -481,7 +481,7 @@ class SugarcrmIntegration extends CrmAbstractIntegration
                                 $sugarLeadData[$sugarId]['id']      = $ids['integration_entity_id'];
                                 $sugarLeadData[$sugarId]['leadId']  = $ids['internal_entity_id'];
                                 $sugarLeadData[$sugarId]['leadUrl'] = $this->factory->getRouter()->generate(
-                                    'mautic_plugin_timeline_view',
+                                    'le_plugin_timeline_view',
                                     ['integration' => 'Sugarcrm', 'leadId' => $leadId],
                                     UrlGeneratorInterface::ABSOLUTE_URL
                                 );

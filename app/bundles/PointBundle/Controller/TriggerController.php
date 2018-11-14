@@ -73,14 +73,14 @@ class TriggerController extends FormController
         if ($count && $count < ($start + 1)) {
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.point.trigger.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_pointtrigger_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_pointtrigger_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $lastPage],
                 'contentTemplate' => 'MauticPointBundle:Trigger:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_pointtrigger_index',
+                    'activeLink'    => '#le_pointtrigger_index',
                     'mauticContent' => 'pointTrigger',
                 ],
             ]);
@@ -102,9 +102,9 @@ class TriggerController extends FormController
             ],
             'contentTemplate' => 'MauticPointBundle:Trigger:list.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
-                'route'         => $this->generateUrl('mautic_pointtrigger_index', ['page' => $page]),
+                'route'         => $this->generateUrl('le_pointtrigger_index', ['page' => $page]),
             ],
         ]);
     }
@@ -133,14 +133,14 @@ class TriggerController extends FormController
 
         if ($entity === null) {
             //set the return URL
-            $returnUrl = $this->generateUrl('mautic_pointtrigger_index', ['page' => $page]);
+            $returnUrl = $this->generateUrl('le_pointtrigger_index', ['page' => $page]);
 
             return $this->postActionRedirect([
                 'returnUrl'       => $returnUrl,
                 'viewParameters'  => ['page' => $page],
                 'contentTemplate' => 'MauticPointBundle:Trigger:index',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_pointtrigger_index',
+                    'activeLink'    => '#le_pointtrigger_index',
                     'mauticContent' => 'pointTrigger',
                 ],
                 'flashes' => [
@@ -163,9 +163,9 @@ class TriggerController extends FormController
             ],
             'contentTemplate' => 'MauticPointBundle:Trigger:details.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
-                'route'         => $this->generateUrl('mautic_pointtrigger_action', [
+                'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => 'view',
                         'objectId'     => $entity->getId(), ]
                 ),
@@ -204,7 +204,7 @@ class TriggerController extends FormController
         $addEvents     = $session->get('mautic.point.'.$sessionId.'.triggerevents.modified', []);
         $deletedEvents = $session->get('mautic.point.'.$sessionId.'.triggerevents.deleted', []);
 
-        $action = $this->generateUrl('mautic_pointtrigger_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_pointtrigger_action', ['objectAction' => 'new']);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
         $form->get('sessionId')->setData($sessionId);
 
@@ -230,8 +230,8 @@ class TriggerController extends FormController
 
                         $this->addFlash('mautic.core.notice.created', [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_pointtrigger_index',
-                            '%url%'       => $this->generateUrl('mautic_pointtrigger_action', [
+                            '%menu_link%' => 'le_pointtrigger_index',
+                            '%url%'       => $this->generateUrl('le_pointtrigger_action', [
                                 'objectAction' => 'edit',
                                 'objectId'     => $entity->getId(),
                             ]),
@@ -247,7 +247,7 @@ class TriggerController extends FormController
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_pointtrigger_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_pointtrigger_index', $viewParameters);
                 $template       = 'MauticPointBundle:Trigger:index';
 
                 //clear temporary fields
@@ -258,7 +258,7 @@ class TriggerController extends FormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $template,
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_pointtrigger_index',
+                        'activeLink'    => '#le_pointtrigger_index',
                         'mauticContent' => 'pointTrigger',
                     ],
                 ]);
@@ -281,9 +281,9 @@ class TriggerController extends FormController
             ],
             'contentTemplate' => 'MauticPointBundle:Trigger:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
-                'route'         => $this->generateUrl('mautic_pointtrigger_action', [
+                'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                         'objectId'     => $entity->getId(), ]
                 ),
@@ -311,14 +311,14 @@ class TriggerController extends FormController
         $page = $this->get('session')->get('mautic.point.trigger.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_pointtrigger_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_pointtrigger_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
             ],
         ];
@@ -343,7 +343,7 @@ class TriggerController extends FormController
             return $this->isLocked($postActionVars, $entity, 'point.trigger');
         }
 
-        $action = $this->generateUrl('mautic_pointtrigger_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_pointtrigger_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
         $form->get('sessionId')->setData($objectId);
 
@@ -377,8 +377,8 @@ class TriggerController extends FormController
 
                         $this->addFlash('mautic.core.notice.updated', [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_pointtrigger_index',
-                            '%url%'       => $this->generateUrl('mautic_pointtrigger_action', [
+                            '%menu_link%' => 'le_pointtrigger_index',
+                            '%url%'       => $this->generateUrl('le_pointtrigger_action', [
                                 'objectAction' => 'edit',
                                 'objectId'     => $entity->getId(),
                             ]),
@@ -392,7 +392,7 @@ class TriggerController extends FormController
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_pointtrigger_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_pointtrigger_index', $viewParameters);
                 $template       = 'MauticPointBundle:Trigger:index';
 
                 //remove fields from session
@@ -445,9 +445,9 @@ class TriggerController extends FormController
             ],
             'contentTemplate' => 'MauticPointBundle:Trigger:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
-                'route'         => $this->generateUrl('mautic_pointtrigger_action', [
+                'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => 'edit',
                         'objectId'     => $entity->getId(), ]
                 ),
@@ -489,7 +489,7 @@ class TriggerController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.point.trigger.page', 1);
-        $returnUrl = $this->generateUrl('mautic_pointtrigger_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_pointtrigger_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -497,7 +497,7 @@ class TriggerController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
             ],
         ];
@@ -546,7 +546,7 @@ class TriggerController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.point.trigger.page', 1);
-        $returnUrl = $this->generateUrl('mautic_pointtrigger_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_pointtrigger_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -554,7 +554,7 @@ class TriggerController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_pointtrigger_index',
+                'activeLink'    => '#le_pointtrigger_index',
                 'mauticContent' => 'pointTrigger',
             ],
         ];

@@ -578,7 +578,7 @@ class AjaxController extends CommonController
             $dataArray['message']    = $translator->trans(
                     'mautic.core.update.error',
                     ['%error%' => $translator->trans('mautic.core.update.error_performing_migration')]
-                ).' <a href="'.$this->generateUrl('mautic_core_update_schema', ['update' => 1])
+                ).' <a href="'.$this->generateUrl('le_core_update_schema', ['update' => 1])
                 .'" class="btn btn-primary btn-xs" data-toggle="ajax">'.$translator->trans('mautic.core.retry').'</a>';
 
             // A way to keep the upgrade from failing if the session is lost after
@@ -648,7 +648,7 @@ class AjaxController extends CommonController
         $cookieHelper->deleteCookie('mautic_update');
 
         // Set a redirect to force a page reload to get new menu items, assets, etc
-        $dataArray['redirect'] = $this->get('router')->generate('mautic_core_update');
+        $dataArray['redirect'] = $this->get('router')->generate('le_core_update');
 
         return $this->sendJsonResponse($dataArray);
     }

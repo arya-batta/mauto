@@ -49,7 +49,7 @@ class SecurityController extends CommonController
             'MauticApiBundle:Security:login.html.php',
             [
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                'route'         => 'mautic_oauth1_server_auth_login_check',
+                'route'         => 'le_oauth1_server_auth_login_check',
             ]
         );
     }

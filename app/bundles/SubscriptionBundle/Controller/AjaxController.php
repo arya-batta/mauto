@@ -336,7 +336,7 @@ class AjaxController extends CommonAjaxController
             $signuprepository->updateCustomerStatus('Active', 'Trial', $email);
         }
         $dataArray                = ['success' => true];
-        $url                      = $this->generateUrl('mautic_contact_index');
+        $url                      = $this->generateUrl('le_contact_index');
         $dataArray['redirecturl'] = $url;
 
         return $this->sendJsonResponse($dataArray);
@@ -593,7 +593,7 @@ class AjaxController extends CommonAjaxController
 
         if ($licenseinfo->getEmailProvider() == 'LeadsEngage') {
             $welcomemsg                   = $this->get('translator')->trans('le.account.signup.message');
-            $action                       = $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']);
+            $action                       = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
             $welcomemsg                   = str_replace('|URL|', $action, $welcomemsg);
             $actualcount                  = $licenseinfo->getActualEmailCount();
             $totalcount                   = $licenseinfo->getTotalEmailCount();
@@ -605,7 +605,7 @@ class AjaxController extends CommonAjaxController
             $dataArray['isalertneeded']   = true;
         }
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
-            $configurl                    = $this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']);
+            $configurl                    = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
@@ -669,7 +669,7 @@ class AjaxController extends CommonAjaxController
         }
         if ($mailertransport == $this->translator->trans('mautic.transport.elasticemail') || $mailertransport == $this->translator->trans('mautic.transport.sendgrid_api')) {
             $accountusagelink  = $this->translator->trans('le.emailusage.link');
-            $accountusagelink  = str_replace('|URL|', $this->generateUrl('mautic_email_usage'), $accountusagelink);
+            $accountusagelink  = str_replace('|URL|', $this->generateUrl('le_email_usage'), $accountusagelink);
             $accountsuspendmsg = str_replace('%ATAG%', $accountusagelink, $accountsuspendmsg);
         } else {
             $accountsuspendmsg = str_replace('%ATAG%', '', $accountsuspendmsg);

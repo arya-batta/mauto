@@ -12,18 +12,18 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_report_index' => [
+            'le_report_index' => [
                 'path'       => '/reports/{page}',
                 'controller' => 'MauticReportBundle:Report:index',
             ],
-            'mautic_report_export' => [
+            'le_report_export' => [
                 'path'       => '/reports/view/{objectId}/export/{format}',
                 'controller' => 'MauticReportBundle:Report:export',
                 'defaults'   => [
                     'format' => 'csv',
                 ],
             ],
-            'mautic_report_view' => [
+            'le_report_view' => [
                 'path'       => '/reports/view/{objectId}/{reportPage}',
                 'controller' => 'MauticReportBundle:Report:view',
                 'defaults'   => [
@@ -33,7 +33,7 @@ return [
                     'reportPage' => '\d+',
                 ],
             ],
-            'mautic_report_schedule_preview' => [
+            'le_report_schedule_preview' => [
                 'path'       => '/reports/schedule/preview/{isScheduled}/{scheduleUnit}/{scheduleDay}/{scheduleMonthFrequency}/{scheduleDate}',
                 'controller' => 'MauticReportBundle:Schedule:index',
                 'defaults'   => [
@@ -44,7 +44,7 @@ return [
                     'scheduleDate'            => date('h:i:s'),
                 ],
             ],
-            'mautic_report_action' => [
+            'le_report_action' => [
                 'path'       => '/reports/{objectAction}/{objectId}',
                 'controller' => 'MauticReportBundle:Report:execute',
             ],
@@ -64,7 +64,7 @@ return [
     'menu' => [
         'main' => [
             'mautic.report.reports' => [
-                'route'     => 'mautic_report_index',
+                'route'     => 'le_report_index',
                 'iconClass' => 'fa-line-chart',
                 'access'    => [
                     'report:reports:viewown',

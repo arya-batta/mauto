@@ -312,7 +312,7 @@ class UserModel extends FormModel
             $this->logger->addError($exception->getMessage());
             throw new \RuntimeException();
         }
-        $resetLink  = $this->router->generate('mautic_user_passwordresetconfirm', ['token' => $resetToken->getSecret()], true);
+        $resetLink  = $this->router->generate('le_user_passwordresetconfirm', ['token' => $resetToken->getSecret()], true);
         $message    = \Swift_Message::newInstance();
         $message->setTo([$user->getEmail() => $user->getName()]);
         $message->setFrom(['support@leadsengage.com' => 'LeadsEngage']);

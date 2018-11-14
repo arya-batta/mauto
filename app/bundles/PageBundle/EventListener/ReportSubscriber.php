@@ -122,7 +122,7 @@ class ReportSubscriber extends CommonSubscriber
         ];
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns('p.', ['name', 'description'], 'mautic_page_action'),
+            $event->getStandardColumns('p.', ['name', 'description'], 'le_page_action'),
             $event->getCategoryColumns()
         );
         $data = [
@@ -467,7 +467,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-eye';
-                    $graphData['link']      = 'mautic_page_action';
+                    $graphData['link']      = 'le_page_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -479,7 +479,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-eye';
-                    $graphData['link']      = 'mautic_page_action';
+                    $graphData['link']      = 'le_page_action';
                     $event->setGraph($g, $graphData);
                     break;
             }

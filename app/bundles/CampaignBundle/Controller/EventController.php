@@ -124,7 +124,7 @@ class EventController extends CommonFormController
                 'campaignevent',
                 $event,
                 [
-                    'action'   => $this->generateUrl('mautic_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
+                    'action'   => $this->generateUrl('le_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
                     'settings' => $events[$eventType][$type],
                 ]
             );
@@ -173,7 +173,7 @@ class EventController extends CommonFormController
                 ) : '';
             }
             $viewParams['hideTriggerMode'] = isset($event['settings']['hideTriggerMode']) && $event['settings']['hideTriggerMode'];
-            $viewParams['accessurl']       =$this->generateUrl('mautic_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+            $viewParams['accessurl']       =$this->generateUrl('le_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
             $viewParams['events']          =$event;
             $passthroughVars               = [
                 'mauticContent'     => 'campaignEvent',

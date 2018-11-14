@@ -150,7 +150,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 // Build table rows with links
                 if ($pages) {
                     foreach ($pages as &$page) {
-                        $pageUrl = $this->router->generate('mautic_page_action', ['objectAction' => 'view', 'objectId' => $page['id']]);
+                        $pageUrl = $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page['id']]);
                         $row     = [
                             [
                                 'value' => $page['title'],
@@ -196,7 +196,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 // Build table rows with links
                 if ($pages) {
                     foreach ($pages as &$page) {
-                        $pageUrl = $this->router->generate('mautic_page_action', ['objectAction' => 'view', 'objectId' => $page['id']]);
+                        $pageUrl = $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page['id']]);
                         $row     = [
                             [
                                 'value' => $page['name'],

@@ -388,7 +388,7 @@ class PageModel extends FormModel
 
         $slug = $this->generateSlug($entity);
 
-        return $this->buildUrl('mautic_page_public', ['slug' => $slug], $absolute, $clickthrough);
+        return $this->buildUrl('le_page_public', ['slug' => $slug], $absolute, $clickthrough);
     }
 
     /**
@@ -800,13 +800,13 @@ class PageModel extends FormModel
             //use current URL
 
             $isPageEvent = false;
-            if (strpos($request->server->get('REQUEST_URI'), $this->router->generate('mautic_page_tracker')) !== false) {
+            if (strpos($request->server->get('REQUEST_URI'), $this->router->generate('le_page_tracker')) !== false) {
                 // Tracking pixel is used
                 if ($request->server->get('QUERY_STRING')) {
                     parse_str($request->server->get('QUERY_STRING'), $query);
                     $isPageEvent = true;
                 }
-            } elseif (strpos($request->server->get('REQUEST_URI'), $this->router->generate('mautic_page_tracker_cors')) !== false) {
+            } elseif (strpos($request->server->get('REQUEST_URI'), $this->router->generate('le_page_tracker_cors')) !== false) {
                 $query       = $request->request->all();
                 $isPageEvent = true;
             }

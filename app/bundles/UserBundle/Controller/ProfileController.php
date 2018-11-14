@@ -41,7 +41,7 @@ class ProfileController extends FormController
             'editEmail'    => $this->get('mautic.security')->isGranted('user:profile:editemail'),
         ];
 
-        $action = $this->generateUrl('mautic_user_account');
+        $action = $this->generateUrl('le_user_account');
         $form   = $model->createForm($me, $this->get('form.factory'), $action, ['in_profile' => true]);
 
         $overrides = [];
@@ -209,7 +209,7 @@ class ProfileController extends FormController
                     }
                     $this->get('session')->set('_locale', $locale);
 
-                    $returnUrl = $this->generateUrl('mautic_user_account');
+                    $returnUrl = $this->generateUrl('le_user_account');
 
                     return $this->postActionRedirect(
                         [
@@ -228,7 +228,7 @@ class ProfileController extends FormController
                     );
                 }
             } else {
-                return $this->redirect($this->generateUrl('mautic_contact_index'));
+                return $this->redirect($this->generateUrl('le_contact_index'));
             }
         }
         $this->get('session')->set('formProcessed', 0);
@@ -245,7 +245,7 @@ class ProfileController extends FormController
                 'viewParameters'  => $parameters,
                 'contentTemplate' => 'MauticUserBundle:Profile:index.html.php',
                 'passthroughVars' => [
-                    'route'         => $this->generateUrl('mautic_user_account'),
+                    'route'         => $this->generateUrl('le_user_account'),
                     'mauticContent' => 'user',
                 ],
             ]

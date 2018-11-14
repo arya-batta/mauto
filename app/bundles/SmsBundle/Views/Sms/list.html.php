@@ -111,7 +111,7 @@ if (count($items)):
                                     'data-header' => $view['translator']->trans('mautic.sms.smses.header.preview'),
                                     'data-footer' => 'false',
                                     'href'        => $view['router']->path(
-                                        'mautic_sms_action',
+                                        'le_sms_action',
                                         ['objectId' => $item->getId(), 'objectAction' => 'preview']
                                     ),
                                 ],
@@ -155,7 +155,7 @@ if (count($items)):
                     <td class="table-description">
                         <div>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_sms_action',
+                                'le_sms_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
@@ -186,7 +186,7 @@ if (count($items)):
                               data-toggle="tooltip"
                               title="<?php echo $view['translator']->trans('le.channel.stat.leadcount.tooltip'); ?>">
                             <a style="color:#fff;" href="<?php echo $view['router']->path(
-                                'mautic_contact_index',
+                                'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.sms_sent').':'.$item->getId()]
                             ); ?>"><?php echo $view['translator']->trans(
                                     'mautic.sms.stat.sentcount',
@@ -207,20 +207,20 @@ if (count($items)):
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_sms_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_sms_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
                                            data-header="<?php echo $item->getName() ?> Preview"
                                            title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
-                                           href="<?php echo $view['router']->path('mautic_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
+                                           href="<?php echo $view['router']->path('le_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_sms_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.sms.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_sms_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.sms.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
@@ -241,7 +241,7 @@ if (count($items)):
                 'totalItems' => $totalItems,
                 'page'       => $page,
                 'limit'      => $limit,
-                'baseUrl'    => $view['router']->path('mautic_sms_index'),
+                'baseUrl'    => $view['router']->path('le_sms_index'),
                 'sessionVar' => 'sms',
             ]
         ); ?>

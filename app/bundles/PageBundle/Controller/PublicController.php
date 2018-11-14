@@ -273,10 +273,10 @@ class PublicController extends CommonFormController
             }
 
             $this->get('templating.helper.assets')->addScript(
-                $this->get('router')->generate('mautic_js', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                $this->get('router')->generate('le_js', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 'onPageDisplay_headClose',
                 true,
-                'mautic_js'
+                'le_js'
             );
 
             $event = new PageDisplayEvent($content, $entity);

@@ -282,7 +282,7 @@ class PublicController extends CommonFormController
                 ]
             );
 
-            return $this->redirect($this->generateUrl('mautic_form_postmessage'));
+            return $this->redirect($this->generateUrl('le_form_postmessage'));
         }
     }
 

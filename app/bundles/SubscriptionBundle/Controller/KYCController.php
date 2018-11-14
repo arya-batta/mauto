@@ -125,7 +125,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', false);
 
-            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
         }
 
         return $this->delegateView(
@@ -134,15 +134,15 @@ class KYCController extends FormController
                     'form'       => $form->createView(),
                     'billform'   => $billform->createView(),
                     'userform'   => $userform->createView(),
-                    'actionRoute'=> 'mautic_kyc_action',
+                    'actionRoute'=> 'le_kyc_action',
                     'typePrefix' => 'form',
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step1.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_kyc_action',
+                    'activeLink'    => '#le_kyc_action',
                     'mauticContent' => 'kyc',
                     'route'         => $this->generateUrl(
-                        'mautic_kyc_action',
+                        'le_kyc_action',
                         [
                             'objectAction' => 'kyc',
                         ]
@@ -204,7 +204,7 @@ class KYCController extends FormController
 
             $signuprepository=$this->get('le.core.repository.signup');
             $signuprepository->updateKYCInfo($data, $userdata);
-            $redirectUrl = $this->generateUrl('mautic_kyc_action', ['objectAction' => 'condition']);
+            $redirectUrl = $this->generateUrl('le_kyc_action', ['objectAction' => 'condition']);
 
             return new RedirectResponse($redirectUrl);
         }
@@ -215,15 +215,15 @@ class KYCController extends FormController
                     'kycform'    => $kycform->createView(),
                     'form'       => $form->createView(),
                     'headerTitle'=> 'KYC | Leadsengage',
-                    'actionRoute'=> 'mautic_kyc_action',
+                    'actionRoute'=> 'le_kyc_action',
                     'typePrefix' => 'form',
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step2.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_kyc_action',
+                    'activeLink'    => '#le_kyc_action',
                     'mauticContent' => 'kyc',
                     'route'         => $this->generateUrl(
-                        'mautic_kyc_action',
+                        'le_kyc_action',
                         [
                             'objectAction' => 'kyc',
                         ]
@@ -257,7 +257,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', true);
 
-            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
         }
 
         return $this->delegateView(
@@ -265,15 +265,15 @@ class KYCController extends FormController
                 'viewParameters' => [
                     'kycform'    => $kycform->createView(),
                     'headerTitle'=> 'KYC | Leadsengage',
-                    'actionRoute'=> 'mautic_kyc_action',
+                    'actionRoute'=> 'le_kyc_action',
                     'typePrefix' => 'form',
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step3.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_kyc_action',
+                    'activeLink'    => '#le_kyc_action',
                     'mauticContent' => 'condition',
                     'route'         => $this->generateUrl(
-                        'mautic_kyc_action',
+                        'le_kyc_action',
                         [
                             'objectAction' => 'condition',
                         ]

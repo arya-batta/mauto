@@ -28,7 +28,7 @@ class DynamicContentListType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'modal_route'         => 'mautic_dynamicContent_action',
+                'modal_route'         => 'le_dynamicContent_action',
                 'modal_header'        => 'mautic.dynamicContent.header.new',
                 'model'               => 'dynamicContent',
                 'model_lookup_method' => 'getLookupResults',

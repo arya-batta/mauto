@@ -89,7 +89,7 @@ $formId = $form->getId();
                         'templateButtons' => [
                             'delete' => $canDelete,
                         ],
-                        'route'   => 'mautic_form_results_action',
+                        'route'   => 'le_form_results_action',
                         'langVar' => 'form.results',
                         'query'   => [
                             'formId'       => $formId,
@@ -103,7 +103,7 @@ $formId = $form->getId();
                 <td><?php echo $item['id']; ?></td>
                 <td>
                     <?php if (!empty($item['lead']['id'])): ?>
-                    <a href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item['lead']['id']]); ?>" data-toggle="ajax">
+                    <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['lead']['id']]); ?>" data-toggle="ajax">
                         <?php echo $view['date']->convertUTCtoIST($item['dateSubmitted']); ?>
                     </a>
                     <?php else: ?>
@@ -117,7 +117,7 @@ $formId = $form->getId();
                         <?php if ($isTextarea) : ?>
                             <?php echo nl2br($r['value']); ?>
                         <?php elseif ($r['type'] === 'file') : ?>
-                            <a href="<?php echo $view['router']->path('mautic_form_file_download', ['submissionId' => $item['id'], 'field' => $key]); ?>">
+                            <a href="<?php echo $view['router']->path('le_form_file_download', ['submissionId' => $item['id'], 'field' => $key]); ?>">
                                 <?php echo $r['value']; ?>
                             </a>
                         <?php else : ?>
@@ -142,7 +142,7 @@ $formId = $form->getId();
         'totalItems' => $totalCount,
         'page'       => $page,
         'limit'      => $limit,
-        'baseUrl'    => $view['router']->path('mautic_form_results', ['objectId' => $form->getId()]),
+        'baseUrl'    => $view['router']->path('le_form_results', ['objectId' => $form->getId()]),
         'sessionVar' => 'formresult.'.$formId,
     ]); ?>
 </div>

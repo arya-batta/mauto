@@ -29,7 +29,7 @@
                 <div class="media-body">
                     <?php echo $view['translator']->trans('mautic.core.'.$log['action'].'.by.past.tense'); ?>
                     <?php if (!empty($log['userId'])) : ?>
-                        <a href="<?php echo $view['router']->path('mautic_user_action', ['objectAction' => 'edit', 'objectId' => $log['userId']]); ?>" data-toggle="ajax">
+                        <a href="<?php echo $view['router']->path('le_user_action', ['objectAction' => 'edit', 'objectId' => $log['userId']]); ?>" data-toggle="ajax">
                             <?php echo $log['userName']; ?>
                         </a>
                     <?php else: ?>

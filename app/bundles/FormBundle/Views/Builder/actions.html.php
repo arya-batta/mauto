@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 if (empty($route)) {
-    $route = 'mautic_formfield_action';
+    $route = 'le_formfield_action';
 }
 ?>
 

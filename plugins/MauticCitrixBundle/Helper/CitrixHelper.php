@@ -389,7 +389,7 @@ class CitrixHelper
                         $params = [
                             'sessionStatusCallbackUrl' => $router
                                 ->generate(
-                                    'mautic_citrix_sessionchanged',
+                                    'le_citrix_sessionchanged',
                                     [],
                                     UrlGeneratorInterface::ABSOLUTE_URL
                                 ),

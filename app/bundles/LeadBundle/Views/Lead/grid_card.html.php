@@ -34,7 +34,7 @@ $img = $view['lead_avatar']->getAvatar($contact);
                         <div class="pull-right label label-danger"><i class="fa fa-ban"> </i></div>
                     <?php endif; ?>
                     <h4 class="fw-sb mb-xs ellipsis">
-                        <a href="<?php echo $view['router']->path('mautic_contact_action',
+                        <a href="<?php echo $view['router']->path('le_contact_action',
                             ['objectAction' => 'view', 'objectId' => $contact->getId()]); ?>"
                            data-toggle="ajax">
                             <span><?php echo $view['translator']->trans($contact->getPrimaryIdentifier()); ?></span>

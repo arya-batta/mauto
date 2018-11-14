@@ -65,7 +65,7 @@ class FocusShowType extends AbstractType
 
         if (!empty($options['update_select'])) {
             $windowUrl = $this->router->generate(
-                'mautic_focus_action',
+                'le_focus_action',
                 [
                     'objectAction' => 'new',
                     'contentOnly'  => 1,
@@ -90,7 +90,7 @@ class FocusShowType extends AbstractType
 
             // create button edit focus
             $windowUrlEdit = $this->router->generate(
-                'mautic_focus_action',
+                'le_focus_action',
                 [
                     'objectAction' => 'edit',
                     'objectId'     => 'focusId',

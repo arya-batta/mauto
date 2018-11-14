@@ -137,11 +137,11 @@ var Mautic = {
      */
     bindGlobalKeyboardShortcuts: function () {
         Mautic.addKeyboardShortcut('shift+d', 'Load the Dashboard', function (e) {
-            mQuery('#mautic_dashboard_index').click();
+            mQuery('#le_dashboard_index').click();
         });
 
         Mautic.addKeyboardShortcut('shift+c', 'Load Contacts', function (e) {
-            mQuery('#mautic_contact_index').click();
+            mQuery('#le_contact_index').click();
         });
 
         Mautic.addKeyboardShortcut('shift+right', 'Activate Right Menu', function (e) {

@@ -28,7 +28,7 @@ class TweetListType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'modal_route'         => 'mautic_tweet_action',
+                'modal_route'         => 'le_tweet_action',
                 'modal_header'        => 'mautic.integration.Twitter.new.tweet',
                 'model'               => 'social.tweet',
                 'model_lookup_method' => 'getLookupResults',

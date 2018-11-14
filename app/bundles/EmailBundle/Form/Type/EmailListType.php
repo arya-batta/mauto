@@ -39,7 +39,7 @@ class EmailListType extends AbstractType
     {
         $modelname    = $this->factory->getRequest()->get('_route');
         $enableNewForm=true;
-        if ($modelname == 'mautic_campaignevent_action') {
+        if ($modelname == 'le_campaignevent_action') {
             $enableNewForm = false;
         }
 
@@ -47,7 +47,7 @@ class EmailListType extends AbstractType
             [
                 'multiple'    => true,
                 'required'    => false,
-                'modal_route' => 'mautic_email_action',
+                'modal_route' => 'le_email_action',
                 // Email form UI too complicated for a modal so force a popup
                 'force_popup'        => true,
                 'model'              => 'email',

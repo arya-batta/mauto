@@ -131,7 +131,7 @@ class ReportSubscriber extends CommonSubscriber
 
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($prefix, [], 'mautic_mobile_notification_action'),
+            $event->getStandardColumns($prefix, [], 'le_mobile_notification_action'),
             $event->getCategoryColumns()
         );
         $data = [
@@ -323,7 +323,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-paper-plane-o';
-                    $graphData['link']      = 'mautic_mobile_notification_action';
+                    $graphData['link']      = 'le_mobile_notification_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -338,7 +338,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-eye';
-                    $graphData['link']      = 'mautic_mobile_notification_action';
+                    $graphData['link']      = 'le_mobile_notification_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -353,7 +353,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-tachometer';
-                    $graphData['link']      = 'mautic_mobile_notification_action';
+                    $graphData['link']      = 'le_mobile_notification_action';
                     $event->setGraph($g, $graphData);
                     break;
             }

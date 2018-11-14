@@ -28,7 +28,7 @@ $isAdmin    =$view['security']->isAdmin();
                 //this lead was manually added to a list so give an option to remove them
                 $custom[] = [
                     'attr' => [
-                        'href' => $view['router']->path('mautic_segment_action', [
+                        'href' => $view['router']->path('le_segment_action', [
                             'objectAction' => 'removeLead',
                             'objectId'     => $currentList['id'],
                             'leadId'       => $item->getId(),
@@ -47,7 +47,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'data-toggle' => 'ajaxmodal',
                         'data-target' => '#MauticSharedModal',
                         'data-header' => $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]),
-                        'href'        => $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]),
+                        'href'        => $view['router']->path('le_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]),
                     ],
                     'btnText'   => 'le.lead.email.send_email',
                     'iconClass' => 'fa fa-send',
@@ -67,7 +67,7 @@ $isAdmin    =$view['security']->isAdmin();
             ?>
         </td>
         <td class="table-description">
-            <a href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+            <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                 <?php if (in_array($item->getId(), array_keys($noContactList)))  : ?>
                     <div class="pull-right label label-danger"><i class="fa fa-ban"> </i></div>
                 <?php endif; ?>
@@ -153,16 +153,16 @@ $isAdmin    =$view['security']->isAdmin();
                         <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                         <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>" id="toolbar-lead">
                             <?php if ($hasEditAccess): ?>
-                                <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                             <?php if ($hasDeleteAccess):?>
-                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                     <span><i class="material-icons md-color-white">  </i></span>
                                 </a>
                             <?php endif; ?>
                             <?php if (!empty($fields['core']['email']['value'])) : ?>
-                                <a title="<?php echo $view['translator']->trans('le.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('mautic.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('mautic_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
+                                <a title="<?php echo $view['translator']->trans('le.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('le_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                         </div>

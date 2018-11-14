@@ -145,7 +145,7 @@ class CampaignController extends AbstractStandardFormController
     public function editAction($objectId, $ignorePost = false)
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
         } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
@@ -173,7 +173,7 @@ class CampaignController extends AbstractStandardFormController
     public function newAction($objectId = null)
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
         } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
@@ -184,7 +184,7 @@ class CampaignController extends AbstractStandardFormController
     public function quickaddAction()
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('mautic_accountinfo_action', ['objectAction' => 'cardinfo']));
+            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
         }
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->redirectToPricing();
@@ -192,7 +192,7 @@ class CampaignController extends AbstractStandardFormController
         /** @var CampaignModel $model */
         $model     = $this->getModel('campaign');
         $campaign  = $model->getEntity();
-        $action    = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'quickadd']);
+        $action    = $this->generateUrl('le_campaign_action', ['objectAction' => 'quickadd']);
         $form      = $model->createForm($campaign, $this->get('form.factory'), $action, ['isShortForm' => true]);
         if ($this->request->getMethod() == 'POST') {
             $valid = false;
@@ -203,7 +203,7 @@ class CampaignController extends AbstractStandardFormController
                     if (!empty($campaign->getCategory())) {
                         $catId     = $campaign->getCategory()->getId();
                     }
-                    $newaction = $this->generateUrl('mautic_campaign_action',
+                    $newaction = $this->generateUrl('le_campaign_action',
                         ['objectAction'    => 'new',
                             'campaignName' => $name, 'category' => $catId,
                     ]);
@@ -221,10 +221,10 @@ class CampaignController extends AbstractStandardFormController
                 ],
                 'contentTemplate' => 'MauticCampaignBundle:Campaign:quickadd.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_campaign_index',
+                    'activeLink'    => '#le_campaign_index',
                     'mauticContent' => 'lead',
                     'route'         => $this->generateUrl(
-                        'mautic_campaign_action',
+                        'le_campaign_action',
                         [
                             'objectAction' => 'new',
                         ]
@@ -695,7 +695,7 @@ class CampaignController extends AbstractStandardFormController
                 $objectId = $args['objectId'];
                 // Init the date range filter form
                 $dateRangeValues = $this->request->get('daterange', []);
-                $action          = $this->generateUrl('mautic_campaign_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+                $action          = $this->generateUrl('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
                 $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
                 $events          = $this->getCampaignModel()->getEventRepository()->getCampaignEvents($entity->getId());

@@ -30,7 +30,7 @@ $header = $view['translator']->trans(
                 'data-toggle' => '',
                 'class'       => 'btn btn-default btn-nospin',
                 'href'        => $view['router']->path(
-                    'mautic_report_export',
+                    'le_report_export',
                     ['objectId' => $report->getId(), 'format' => 'html']
                 ),
             ],
@@ -44,7 +44,7 @@ $header = $view['translator']->trans(
                     'data-toggle' => 'download',
                     'class'       => 'btn btn-default btn-nospin',
                     'href'        => $view['router']->path(
-                        'mautic_report_export',
+                        'le_report_export',
                         ['objectId' => $report->getId(), 'format' => 'csv']
                     ),
                 ],
@@ -58,7 +58,7 @@ $header = $view['translator']->trans(
                         'data-toggle' => 'download',
                         'class'       => 'btn btn-default btn-nospin',
                         'href'        => $view['router']->path(
-                            'mautic_report_export',
+                            'le_report_export',
                             ['objectId' => $report->getId(), 'format' => 'xlsx']
                         ),
                     ],

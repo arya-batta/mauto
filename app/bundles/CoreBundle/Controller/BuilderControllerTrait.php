@@ -30,8 +30,8 @@ trait BuilderControllerTrait
         $assetsHelper
             ->setContext(AssetsHelper::CONTEXT_BUILDER)
             ->addScriptDeclaration("var mauticBasePath    = '".$this->request->getBasePath()."';")
-            ->addScriptDeclaration("var mauticAjaxUrl     = '".$routerHelper->generate('mautic_core_ajax')."';")
-            ->addScriptDeclaration("var mauticBaseUrl     = '".$routerHelper->generate('mautic_base_index')."';")
+            ->addScriptDeclaration("var mauticAjaxUrl     = '".$routerHelper->generate('le_core_ajax')."';")
+            ->addScriptDeclaration("var mauticBaseUrl     = '".$routerHelper->generate('le_base_index')."';")
             ->addScriptDeclaration("var mauticAssetPrefix = '".$assetsHelper->getAssetPrefix(true)."';")
             ->addScriptDeclaration('var mauticLang        = '.$translator->getJsLang().';')
             ->addCustomDeclaration($assetsHelper->getSystemScripts(true, true))

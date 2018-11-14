@@ -121,7 +121,7 @@ $isAdmin=$view['security']->isAdmin();
                             ); ?>
                             <?php if ($permissions[$permissionBase.':edit']): ?>
                                 <a href="<?php echo $view['router']->path(
-                                    'mautic_category_action',
+                                    'le_category_action',
                                     ['bundle' => $bundle, 'objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $title; ?>"
                             <?php endif; ?>
@@ -156,9 +156,9 @@ $isAdmin=$view['security']->isAdmin();
                     'totalItems' => count($items),
                     'page'       => $page,
                     'limit'      => $limit,
-                    'menuLinkId' => 'mautic_category_index',
+                    'menuLinkId' => 'le_category_index',
                     'baseUrl'    => $view['router']->path(
-                        'mautic_category_index',
+                        'le_category_index',
                         [
                             'bundle' => ($bundle == 'category') ? 'all' : $bundle,
                         ]

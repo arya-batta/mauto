@@ -40,7 +40,7 @@ abstract class AbstractFormController extends CommonController
             }
             $returnUrl = urldecode($this->request->get('returnUrl'));
             if (empty($returnUrl)) {
-                $returnUrl = $this->generateUrl('mautic_dashboard_index');
+                $returnUrl = $this->generateUrl('le_dashboard_index');
             }
 
             $this->addFlash(
@@ -71,7 +71,7 @@ abstract class AbstractFormController extends CommonController
         $date                   = $entity->getCheckedOut();
         $returnUrl              = !empty($postActionVars['returnUrl'])
                                 ? urlencode($postActionVars['returnUrl'])
-                                : urlencode($this->generateUrl('mautic_dashboard_index'));
+                                : urlencode($this->generateUrl('le_dashboard_index'));
         $postActionVars         = $this->refererPostActionVars($postActionVars);
         $returnUrl              = $postActionVars['returnUrl'];
         $override               = '';
@@ -85,7 +85,7 @@ abstract class AbstractFormController extends CommonController
                 'mautic.core.override.lock',
                 [
                     '%url%' => $this->generateUrl(
-                        'mautic_core_form_action',
+                        'le_core_form_action',
                         [
                             'objectAction' => 'unlock',
                             'objectModel'  => $model,
@@ -105,7 +105,7 @@ abstract class AbstractFormController extends CommonController
                 '%name%'       => $entity->$nameFunction(),
                 '%user%'       => $entity->getCheckedOutByUser(),
                 '%contactUrl%' => $this->generateUrl(
-                    'mautic_user_action',
+                    'le_user_action',
                     [
                         'objectAction' => 'contact',
                         'objectId'     => $entity->getCheckedOutBy(),

@@ -22,7 +22,7 @@ $variantContent = $view->render(
         'variants'      => $variants,
         'abTestResults' => $abTestResults,
         'model'         => 'page',
-        'actionRoute'   => 'mautic_page_action',
+        'actionRoute'   => 'le_page_action',
         'nameGetter'    => 'getTitle',
     ]
 );
@@ -34,7 +34,7 @@ $translationContent = $view->render(
         'activeEntity' => $activePage,
         'translations' => $translations,
         'model'        => 'page',
-        'actionRoute'  => 'mautic_page_action',
+        'actionRoute'  => 'le_page_action',
         'nameGetter'   => 'getTitle',
     ]
 );
@@ -92,14 +92,14 @@ $view['slots']->set(
                         <div class="text-muted"><?php echo $activePage->getMetaDescription(); ?></div>
                         <?php if ($activePage->isVariant(true)): ?>
                             <div class="small">
-                                <a href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'view', 'objectId' => $variants['parent']->getId()]); ?>" data-toggle="ajax">
+                                <a href="<?php echo $view['router']->path('le_page_action', ['objectAction' => 'view', 'objectId' => $variants['parent']->getId()]); ?>" data-toggle="ajax">
                                     <?php echo $view['translator']->trans('mautic.core.variant_of', ['%parent%' => $variants['parent']->getName()]); ?>
                                 </a>
                             </div>
                         <?php endif; ?>
                         <?php if ($activePage->isTranslation(true)): ?>
                         <div class="small">
-                            <a href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'view', 'objectId' => $translations['parent']->getId()]); ?>" data-toggle="ajax">
+                            <a href="<?php echo $view['router']->path('le_page_action', ['objectAction' => 'view', 'objectId' => $translations['parent']->getId()]); ?>" data-toggle="ajax">
                                 <?php echo $view['translator']->trans('mautic.core.translation_of', ['%parent%' => $translations['parent']->getName()]); ?>
                             </a>
                         </div>
@@ -215,7 +215,7 @@ $view['slots']->set(
             <div class="text-center" style="height: 100%; width: 100%; ">
                 <h3 style="padding: 30px;">
 
-                        <a class="create-abtest-link le-btn-default"  href="<?php echo $view['router']->path('mautic_page_action', ['objectAction' => 'abtest', 'objectId' => $activePage->getId()]); ?>" data-toggle="ajax">
+                        <a class="create-abtest-link le-btn-default"  href="<?php echo $view['router']->path('le_page_action', ['objectAction' => 'abtest', 'objectId' => $activePage->getId()]); ?>" data-toggle="ajax">
                              <?php echo $view['translator']->trans('mautic.core.ab_test.create'); ?> <i class="fa fa-angle-right"></i>
                         </a>
 

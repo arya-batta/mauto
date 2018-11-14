@@ -254,7 +254,7 @@ class ReportBuilderEvent extends AbstractReportEvent
         $fields[$prefix.'id'] = [
             'label' => 'mautic.report.field.lead.id',
             'type'  => 'int',
-            'link'  => 'mautic_contact_action',
+            'link'  => 'le_contact_action',
             'alias' => 'contactId',
         ];
 

@@ -39,7 +39,7 @@ $isAdmin=$view['security']->isAdmin();
     echo ' hide';
 } ?>" id="remote-button">
 						<?php if ($integrations && $isAdmin) : ?>
-							<a data-toggle="ajaxmodal" data-target="#RemoteFileModal" data-header="<?php echo $view['translator']->trans('mautic.asset.remote.file.browse'); ?>" href="<?php echo $view['router']->path('mautic_asset_remote'); ?>?tmpl=modal" class="btn btn-primary">
+							<a data-toggle="ajaxmodal" data-target="#RemoteFileModal" data-header="<?php echo $view['translator']->trans('mautic.asset.remote.file.browse'); ?>" href="<?php echo $view['router']->path('le_asset_remote'); ?>?tmpl=modal" class="btn btn-primary">
 								<?php echo $view['translator']->trans('mautic.asset.remote.file.browse'); ?>
 							</a>
 						<?php endif; ?>
@@ -71,7 +71,7 @@ $isAdmin=$view['security']->isAdmin();
 		    		<div class="row">
 				    	<div class="form-group col-xs-12 preview">
 				    		<?php echo $view->render('MauticAssetBundle:Asset:preview.html.php', ['activeAsset' => $activeAsset, 'assetDownloadUrl' => $view['router']->generate(
-                                'mautic_asset_action',
+                                'le_asset_action',
                                 ['objectAction' => 'preview', 'objectId' => $activeAsset->getId()]
                             )]); ?>
 			    		</div>

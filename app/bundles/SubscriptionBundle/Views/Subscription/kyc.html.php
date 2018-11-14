@@ -86,7 +86,7 @@ if ($isMobile) {
                                 </div>
                                 <div class="modal-footer">
                                     <div class="button_container" id="kycSubmit">
-                                        <a class="signup_next exit_logout" style="float:left;<?php echo $exitstyle; ?>" href="<?php echo $view['router']->path('mautic_user_logout'); ?>" class="exitlogout" ><span aria-hidden="true"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></span></a>
+                                        <a class="signup_next exit_logout" style="float:left;<?php echo $exitstyle; ?>" href="<?php echo $view['router']->path('le_user_logout'); ?>" class="exitlogout" ><span aria-hidden="true"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></span></a>
                                         <button class="signup_next" type="submit" style="float:right;<?php echo $buttonstyle; ?>" value="Next"><?php echo $view['translator']->trans('leadsengage.kyc.next_button'); ?></button>
 
                                         <span class="fa fa-spinner fa-spin hide" style="padding:15px;<?php echo $spinstyle; ?>"></span>
@@ -103,8 +103,8 @@ if ($isMobile) {
     <div class="modal-dialog video_page" style="<?php echo $videostyle; ?>" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('mautic_dashboard_index'); ?>');" class="dont_show_again close_button" ><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('mautic_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span><i class="fa fa-eye-slash"></i><span style="padding:4px;"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></span></a>
+                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index'); ?>');" class="dont_show_again close_button" ><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
+                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span><i class="fa fa-eye-slash"></i><span style="padding:4px;"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans('leadsengage.kyc.video_header'); ?>
                 </h4>
@@ -224,7 +224,7 @@ if ($isMobile) {
                                 <div class="row">
                                 <div class="modal-footer">
                                     <div class="button_container" id="kycSubmit">
-                                        <a class="signup_next exit_logout" style="float:left;<?php echo $exitstyle; ?>" href="<?php echo $view['router']->path('mautic_user_logout'); ?>" class="exitlogout" ><span aria-hidden="true"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></span></a>
+                                        <a class="signup_next exit_logout" style="float:left;<?php echo $exitstyle; ?>" href="<?php echo $view['router']->path('le_user_logout'); ?>" class="exitlogout" ><span aria-hidden="true"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></span></a>
                                         <button class="signup_next" type="submit" style="float:right;<?php echo $buttonstyle; ?>" value="Next"><?php echo $view['translator']->trans('leadsengage.kyc.submit'); ?></button>
 
                                         <span class="fa fa-spinner fa-spin hide" style="padding:15px;<?php echo $spinstyle; ?>"></span>

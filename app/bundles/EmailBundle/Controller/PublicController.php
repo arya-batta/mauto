@@ -157,7 +157,7 @@ class PublicController extends CommonFormController
             $message = $this->translator->trans('le.email.stat_record.not_found');
         }
 
-        $actionRoute = $this->generateUrl('mautic_email_updatelead', ['idHash' => $idHash]);
+        $actionRoute = $this->generateUrl('le_email_updatelead', ['idHash' => $idHash]);
 
         if ($this->request->getMethod() == 'POST') {
             $parameter       = $this->request->request->all();
@@ -225,7 +225,7 @@ class PublicController extends CommonFormController
         } else {
             $message = $this->translator->trans('le.email.stat_record.not_found');
         }
-        $actionRoute = $this->generateUrl('mautic_email_unsubscribe', ['idHash' => $idHash]);
+        $actionRoute = $this->generateUrl('le_email_unsubscribe', ['idHash' => $idHash]);
         $viewParams  = [
             'name'        => 'UnSubscribe',
             'email'       => $email,
@@ -306,7 +306,7 @@ class PublicController extends CommonFormController
             if (!$this->get('mautic.helper.core_parameters')->getParameter('show_contact_preferences')) {
                 $message = $this->getUnsubscribeMessage($idHash, $model, $stat, $translator);
             } elseif ($lead) {
-                $action = $this->generateUrl('mautic_email_unsubscribe', ['idHash' => $idHash]);
+                $action = $this->generateUrl('le_email_unsubscribe', ['idHash' => $idHash]);
 
                 $viewParameters = [
                     'lead'                         => $lead,
@@ -322,7 +322,7 @@ class PublicController extends CommonFormController
                 if (true === $form) {
                     return $this->postActionRedirect(
                         [
-                            'returnUrl'       => $this->generateUrl('mautic_email_unsubscribe', ['idHash' => $idHash]),
+                            'returnUrl'       => $this->generateUrl('le_email_unsubscribe', ['idHash' => $idHash]),
                             'viewParameters'  => $viewParameters,
                             'contentTemplate' => $contentTemplate,
                         ]
@@ -371,7 +371,7 @@ class PublicController extends CommonFormController
                             [
                                 'form'         => $formView,
                                 'currentRoute' => $this->generateUrl(
-                                    'mautic_contact_action',
+                                    'le_contact_action',
                                     [
                                         'objectAction' => 'contactFrequency',
                                         'objectId'     => $lead->getId(),
@@ -461,7 +461,7 @@ class PublicController extends CommonFormController
                     '|EMAIL|',
                 ],
                 [
-                    $this->generateUrl('mautic_email_subscribe', ['idHash' => $idHash]),
+                    $this->generateUrl('le_email_subscribe', ['idHash' => $idHash]),
                     $stat->getEmailAddress(),
                 ],
                 $message
@@ -933,7 +933,7 @@ class PublicController extends CommonFormController
                 '|EMAIL|',
             ],
             [
-                $this->generateUrl('mautic_email_resubscribe', ['idHash' => $idHash]),
+                $this->generateUrl('le_email_resubscribe', ['idHash' => $idHash]),
                 $stat->getEmailAddress(),
             ],
             $message

@@ -127,7 +127,7 @@ $view['slots']->set(
             </div>
             <!-- tabs controls -->
             <!-- search bar-->
-            <form method="post" action="<?php echo $view['router']->path('mautic_segment_contacts', ['objectId' => $list->getId()]); ?>" class="panel" id="segment-contact-filters">
+            <form method="post" action="<?php echo $view['router']->path('le_segment_contacts', ['objectId' => $list->getId()]); ?>" class="panel" id="segment-contact-filters">
                 <?php if (isset($events['types']) && is_array($events['types'])) : ?>
                     <div class="history-search panel-footer text-muted hidden-xs">
                         <div class="col-sm-5">

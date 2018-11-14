@@ -122,7 +122,7 @@ $isAdmin=$view['security']->isAdmin();
                                             'data-toggle' => 'ajaxmodal',
                                             'data-target' => '#AssetPreviewModal',
                                             'href'        => $view['router']->path(
-                                                'mautic_asset_action',
+                                                'le_asset_action',
                                                 ['objectAction' => 'preview', 'objectId' => $item->getId()]
                                             ),
                                         ],
@@ -146,7 +146,7 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="table-description">
                         <div>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_asset_action',
+                                'le_asset_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
                             ); ?>"
                                data-toggle="ajax">
@@ -184,19 +184,19 @@ $isAdmin=$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_asset_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_asset_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
                                            title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
-                                           href="<?php echo $view['router']->path('mautic_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
+                                           href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_asset_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.asset.asset.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_asset_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.asset.asset.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
@@ -218,8 +218,8 @@ $isAdmin=$view['security']->isAdmin();
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_asset_index',
-                'baseUrl'    => $view['router']->path('mautic_asset_index'),
+                'menuLinkId' => 'le_asset_index',
+                'baseUrl'    => $view['router']->path('le_asset_index'),
                 'sessionVar' => 'asset',
             ]
         ); ?>

@@ -64,7 +64,7 @@ class TweetSendType extends AbstractType
 
         if (!empty($options['update_select'])) {
             $windowUrl = $this->router->generate(
-                'mautic_tweet_action',
+                'le_tweet_action',
                 [
                     'objectAction' => 'new',
                     'contentOnly'  => 1,
@@ -92,7 +92,7 @@ class TweetSendType extends AbstractType
             // create button edit tweet
             // @todo: this button requires a JS to be injected to the campaign builder
             // $windowUrlEdit = $this->router->generate(
-            //     'mautic_tweet_action',
+            //     'le_tweet_action',
             //     [
             //         'objectAction' => 'edit',
             //         'objectId'     => 'tweetId',

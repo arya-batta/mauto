@@ -15,7 +15,7 @@ $containerClass = (!empty($deleted)) ? ' bg-danger' : '';
     <?php echo $view->render('MauticPointBundle:Event:actions.html.php', [
         'deleted'   => (!empty($deleted)) ? $deleted : false,
         'id'        => $id,
-        'route'     => 'mautic_pointtriggerevent_action',
+        'route'     => 'le_pointtriggerevent_action',
         'sessionId' => $sessionId,
     ]); ?>
     <span class="trigger-event-label"><?php echo $event['name']; ?></span>

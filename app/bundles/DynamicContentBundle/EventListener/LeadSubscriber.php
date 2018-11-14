@@ -69,7 +69,7 @@ class LeadSubscriber extends CommonSubscriber
                             'eventLabel' => [
                                 'label' => $stat['name'],
                                 'href'  => $this->router->generate(
-                                    'mautic_dynamicContent_action',
+                                    'le_dynamicContent_action',
                                     ['objectId' => $stat['dynamic_content_id'], 'objectAction' => 'view']
                                 ),
                             ],

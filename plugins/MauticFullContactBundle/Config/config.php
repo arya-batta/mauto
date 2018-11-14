@@ -16,13 +16,13 @@ return [
 
     'routes' => [
         'public' => [
-            'mautic_plugin_fullcontact_index' => [
+            'le_plugin_fullcontact_index' => [
                 'path'       => '/fullcontact/callback',
                 'controller' => 'MauticFullContactBundle:Public:callback',
             ],
         ],
         'main' => [
-            'mautic_plugin_fullcontact_action' => [
+            'le_plugin_fullcontact_action' => [
                 'path'       => '/fullcontact/{objectAction}/{objectId}',
                 'controller' => 'MauticFullContactBundle:FullContact:execute',
             ],

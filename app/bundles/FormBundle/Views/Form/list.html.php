@@ -34,7 +34,7 @@ $isAdmin=$view['security']->isAdmin();
                                     'message'       => $view['translator']->trans('mautic.form.confirm_batch_rebuild'),
                                     'confirmText'   => $view['translator']->trans('mautic.form.rebuild'),
                                     'confirmAction' => $view['router']->path(
-                                        'mautic_form_action',
+                                        'le_form_action',
                                         array_merge(['objectAction' => 'batchRebuildHtml'])
                                     ),
                                     'iconClass'       => 'fa fa-fw fa-refresh',
@@ -137,7 +137,7 @@ $isAdmin=$view['security']->isAdmin();
                                             'data-toggle' => '',
                                             'target'      => '_blank',
                                             'href'        => $view['router']->path(
-                                                'mautic_form_action',
+                                                'le_form_action',
                                                 ['objectAction' => 'preview', 'objectId' => $item->getId()]
                                             ),
                                         ],
@@ -148,7 +148,7 @@ $isAdmin=$view['security']->isAdmin();
                                         'attr' => [
                                             'data-toggle' => 'ajax',
                                             'href'        => $view['router']->path(
-                                                'mautic_form_action',
+                                                'le_form_action',
                                                 ['objectAction' => 'results', 'objectId' => $item->getId()]
                                             ),
                                         ],
@@ -169,9 +169,9 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="table-description">
                         <div>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_form_action',
+                                'le_form_action',
                                 ['objectAction' => 'view', 'objectId' => $item->getId()]
-                            ); ?>" data-toggle="ajax" data-menu-link="mautic_form_index">
+                            ); ?>" data-toggle="ajax" data-menu-link="le_form_index">
                                 <?php echo $item->getName(); ?>
                                 <?php if ($item->getFormType() == 'campaign'): ?>
                                     <span data-toggle="tooltip" title="<?php echo $view['translator']->trans(
@@ -194,9 +194,9 @@ $isAdmin=$view['security']->isAdmin();
                     </td>
                     <td class="visible-md visible-lg">
                         <a href="<?php echo $view['router']->path(
-                            'mautic_form_action',
+                            'le_form_action',
                             ['objectAction' => 'results', 'objectId' => $item->getId()]
-                        ); ?>" data-toggle="ajax" data-menu-link="mautic_form_index" class="label label-primary" <?php echo ($i['submission_count']
+                        ); ?>" data-toggle="ajax" data-menu-link="le_form_index" class="label label-primary" <?php echo ($i['submission_count']
                             == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'mautic.form.form.viewresults',
@@ -219,23 +219,23 @@ $isAdmin=$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_form_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_form_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_form_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <a target="_blank" title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
-                                           href="<?php echo $view['router']->path('mautic_form_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
+                                           href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <a data-toggle="ajax"
                                            title="<?php echo $view['translator']->trans('mautic.form.form.results'); ?>"
-                                           href="<?php echo $view['router']->path('mautic_form_action', ['objectId' => $item->getId(), 'objectAction' => 'results']); ?>">
+                                           href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'results']); ?>">
                                             <i class="material-icons md-color-white">  </i>
                                         </a>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_form_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.form.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_form_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.form.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
@@ -255,7 +255,7 @@ $isAdmin=$view['security']->isAdmin();
                     'totalItems' => $totalItems,
                     'page'       => $page,
                     'limit'      => $limit,
-                    'baseUrl'    => $view['router']->path('mautic_form_index'),
+                    'baseUrl'    => $view['router']->path('le_form_index'),
                     'sessionVar' => 'form',
                 ]
             ); ?>

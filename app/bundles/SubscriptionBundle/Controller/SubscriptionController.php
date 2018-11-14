@@ -379,14 +379,14 @@ class SubscriptionController extends CommonController
                     ],
                     'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_contact_index',
+                        'activeLink'    => '#le_contact_index',
                         'mauticContent' => 'subscription',
-                        'route'         => $this->generateUrl('mautic_contact_index'),
+                        'route'         => $this->generateUrl('le_contact_index'),
                     ],
                 ]
             );
         } else {
-            return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
         }
     }
 }

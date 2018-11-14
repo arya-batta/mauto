@@ -17,21 +17,21 @@ return [
 
     'routes' => [
         'main' => [
-            'mautic_focus_index' => [
+            'le_focus_index' => [
                 'path'       => '/popups/{page}',
                 'controller' => 'MauticFocusBundle:Focus:index',
             ],
-            'mautic_focus_action' => [
+            'le_focus_action' => [
                 'path'       => '/popups/{objectAction}/{objectId}',
                 'controller' => 'MauticFocusBundle:Focus:execute',
             ],
         ],
         'public' => [
-            'mautic_focus_generate' => [
+            'le_focus_generate' => [
                 'path'       => '/popups/{id}.js',
                 'controller' => 'MauticFocusBundle:Public:generate',
             ],
-            'mautic_focus_pixel' => [
+            'le_focus_pixel' => [
                 'path'       => '/popups/{id}/viewpixel.gif',
                 'controller' => 'MauticFocusBundle:Public:viewPixel',
             ],
@@ -161,7 +161,7 @@ return [
         'main' => [
             'mautic.focus' => [
                 'iconClass' => 'fa fa-bullseye',
-                'route'     => 'mautic_focus_index',
+                'route'     => 'le_focus_index',
                 'access'    => 'plugin:focus:items:view',
                 'parent'    => 'mautic.campaigns.root',
                 'priority'  => 170,

@@ -47,7 +47,7 @@ class ConfigController extends FormController
         $this->mergeParamsWithLocal($formConfigs, $doNotChange);
 
         // Create the form
-        $action = $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']);
+        $action = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
         $form   = $this->get('form.factory')->create(
             'config',
             $formConfigs,
@@ -205,13 +205,13 @@ class ConfigController extends FormController
             // If the form is saved or cancelled, redirect back to the dashboard
             if ($cancelled || $isValid) {
                 if (!$cancelled && $this->isFormApplied($form)) {
-                    return $this->delegateRedirect($this->generateUrl('mautic_config_action', ['objectAction' => 'edit']));
+                    return $this->delegateRedirect($this->generateUrl('le_config_action', ['objectAction' => 'edit']));
                 } else {
                     $loginsession = $this->get('session');
 
                     $loginsession->set('isLogin', false);
 
-                    return $this->delegateRedirect($this->generateUrl('mautic_contact_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_contact_index'));
                 }
             }
         }
@@ -236,7 +236,7 @@ class ConfigController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_config_index',
                     'mauticContent' => 'config',
-                    'route'         => $this->generateUrl('mautic_config_action', ['objectAction' => 'edit']),
+                    'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
                 ],
             ]
         );

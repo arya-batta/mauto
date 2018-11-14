@@ -150,7 +150,7 @@ $view['slots']->set(
                     <p class="mb-sm"><?php echo $view['translator']->trans('mautic.focus.install.description'); ?></p>
 
                     <input id="javascipt_textarea" onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly value="<script src='<?php echo $view['router']->url(
-                        'mautic_focus_generate',
+                        'le_focus_generate',
                         ['id' => $item->getId()]
                     ); ?>' type='text/javascript' charset='utf-8' async='async'></script>"/>
                     <a style="color:beige;" id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea');">

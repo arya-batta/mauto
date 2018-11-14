@@ -69,7 +69,7 @@ class MessageSchedule
             );
         }
 
-        $link = $this->router->generate('mautic_report_view', ['objectId' => $report->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->router->generate('le_report_view', ['objectId' => $report->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         return $this->translator->trans(
             'mautic.report.schedule.email.message_file_not_attached',

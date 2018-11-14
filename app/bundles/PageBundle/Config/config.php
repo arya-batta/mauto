@@ -12,41 +12,41 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_page_index' => [
+            'le_page_index' => [
                 'path'       => '/pages/{page}',
                 'controller' => 'MauticPageBundle:Page:index',
             ],
-            'mautic_page_action' => [
+            'le_page_action' => [
                 'path'       => '/pages/{objectAction}/{objectId}',
                 'controller' => 'MauticPageBundle:Page:execute',
             ],
         ],
         'public' => [
-            'mautic_page_tracker' => [
+            'le_page_tracker' => [
                 'path'       => '/mtracking.gif',
                 'controller' => 'MauticPageBundle:Public:trackingImage',
             ],
-            'mautic_page_tracker_cors' => [
+            'le_page_tracker_cors' => [
                 'path'       => '/mtc/event',
                 'controller' => 'MauticPageBundle:Public:tracking',
             ],
-            'mautic_page_tracker_getcontact' => [
+            'le_page_tracker_getcontact' => [
                 'path'       => '/mtc',
                 'controller' => 'MauticPageBundle:Public:getContactId',
             ],
-            'mautic_url_redirect' => [
+            'le_url_redirect' => [
                 'path'       => '/r/{redirectId}',
                 'controller' => 'MauticPageBundle:Public:redirect',
             ],
-            'mautic_page_redirect' => [
+            'le_page_redirect' => [
                 'path'       => '/redirect/{redirectId}',
                 'controller' => 'MauticPageBundle:Public:redirect',
             ],
-            'mautic_page_preview' => [
+            'le_page_preview' => [
                 'path'       => '/page/preview/{id}',
                 'controller' => 'MauticPageBundle:Public:preview',
             ],
-            'mautic_gated_video_hit' => [
+            'le_gated_video_hit' => [
                 'path'       => '/video/hit',
                 'controller' => 'MauticPageBundle:Public:hitVideo',
             ],
@@ -60,7 +60,7 @@ return [
             ],
         ],
         'catchall' => [
-            'mautic_page_public' => [
+            'le_page_public' => [
                 'path'         => '/{slug}',
                 'controller'   => 'MauticPageBundle:Public:index',
                 'requirements' => [
@@ -75,7 +75,7 @@ return [
             'items' => [
                 'le.page.pages' => [
                     'iconClass' => 'fa fa-newspaper-o',
-                    'route'     => 'mautic_page_index',
+                    'route'     => 'le_page_index',
                     'access'    => ['page:pages:viewown', 'page:pages:viewother'],
                     'parent'    => 'mautic.core.components',
                     'priority'  => 250,

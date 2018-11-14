@@ -204,7 +204,7 @@ class DripEmailController extends FormController
         /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
         $emailentity = $emailmodel->getEntity();
         $emailentity->setEmailType('list');
-        $emailaction = $this->generateUrl('mautic_email_campaign_action', ['objectAction' => 'new']);
+        $emailaction = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'new']);
         //create the form
         $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => false]);
         $returnUrl      = $this->generateUrl('le_dripemail_index');

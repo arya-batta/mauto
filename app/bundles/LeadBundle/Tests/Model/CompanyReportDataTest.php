@@ -75,7 +75,7 @@ class CompanyReportDataTest extends \PHPUnit_Framework_TestCase
             'comp.id' => [
                 'label' => 'le.lead.report.company.company_id',
                 'type'  => 'int',
-                'link'  => 'mautic_company_action',
+                'link'  => 'le_company_action',
             ],
             'companies_lead.is_primary' => [
                 'label' => 'le.lead.report.company.is_primary',

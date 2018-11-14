@@ -17,23 +17,23 @@ return [
 
     'routes' => [
         'main' => [
-            'mautic_social_index' => [
+            'le_social_index' => [
                 'path'       => '/monitoring/{page}',
                 'controller' => 'MauticSocialBundle:Monitoring:index',
             ],
-            'mautic_social_action' => [
+            'le_social_action' => [
                 'path'       => '/monitoring/{objectAction}/{objectId}',
                 'controller' => 'MauticSocialBundle:Monitoring:execute',
             ],
-            'mautic_social_contacts' => [
+            'le_social_contacts' => [
                 'path'       => '/monitoring/view/{objectId}/contacts/{page}',
                 'controller' => 'MauticSocialBundle:Monitoring:contacts',
             ],
-            'mautic_tweet_index' => [
+            'le_tweet_index' => [
                 'path'       => '/tweets/{page}',
                 'controller' => 'MauticSocialBundle:Tweet:index',
             ],
-            'mautic_tweet_action' => [
+            'le_tweet_action' => [
                 'path'       => '/tweets/{objectAction}/{objectId}',
                 'controller' => 'MauticSocialBundle:Tweet:execute',
             ],
@@ -47,7 +47,7 @@ return [
             ],
         ],
         'public' => [
-            'mautic_social_js_generate' => [
+            'le_social_js_generate' => [
                 'path'       => '/social/generate/{formName}.js',
                 'controller' => 'MauticSocialBundle:Js:generate',
             ],
@@ -243,13 +243,13 @@ return [
     'menu' => [
         'main' => [
             'mautic.social.monitoring' => [
-                'route'    => 'mautic_social_index',
+                'route'    => 'le_social_index',
                 'parent'   => 'mautic.core.components',
                 'access'   => 'plugin:mauticSocial:monitoring:view',
                 'priority' => 0,
             ],
             'mautic.social.tweets' => [
-                'route'    => 'mautic_tweet_index',
+                'route'    => 'le_tweet_index',
                 'access'   => ['plugin:mauticSocial:tweets:viewown', 'plugin:mauticSocial:tweets:viewother'],
                 'parent'   => 'mautic.core.components',
                 'priority' => 80,

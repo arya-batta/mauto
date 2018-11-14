@@ -78,7 +78,7 @@ class LeadSubscriber extends CommonSubscriber
     {
         // Set available event types
         $eventTypeKey  = 'email.'.$state;
-        $eventTypeName = $this->translator->trans('mautic.email.'.$state);
+        $eventTypeName = $this->translator->trans('le.email.'.$state);
         $event->addEventType($eventTypeKey, $eventTypeName);
         $event->addSerializerGroup('emailList');
 
@@ -110,7 +110,7 @@ class LeadSubscriber extends CommonSubscriber
                 if (!empty($stat['idHash'])) {
                     $eventName = [
                         'label'      => $label,
-                        'href'       => $this->router->generate('mautic_email_webview', ['idHash' => $stat['idHash']]),
+                        'href'       => $this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]),
                         'isExternal' => true,
                     ];
                 } else {

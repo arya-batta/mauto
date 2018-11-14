@@ -59,7 +59,7 @@ class Version20151207000000 extends AbstractMauticMigration
             $session = $this->container->get('session');
             $router  = $this->container->get('router');
 
-            $configUrl = $router->generate('mautic_config_action', ['objectAction' => 'edit']);
+            $configUrl = $router->generate('le_config_action', ['objectAction' => 'edit']);
             $message   = <<<MESSAGE
 Recently Telize discontinued their free IP lookup service; continued use of this service now requires a subscription and an API key. Alternatively you can change the provider through the <a href="$configUrl" data-toggle="ajax">Configuration</a>: System Settings. ​<strong>MaxMind GeoIP2 City Download</strong>​ is the recommended alternative. This service uses a free IP database you can download within Mautic.
 MESSAGE;

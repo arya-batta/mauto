@@ -17,13 +17,13 @@
     if (!empty($inForm)) {
         echo $view->render('MauticFormBundle:Builder:actions.html.php', [
             'id'         => $id,
-            'route'      => 'mautic_formaction_action',
+            'route'      => 'le_formaction_action',
             'actionType' => 'action',
             'formId'     => $formId,
         ]);
     }
     ?>
-    <a data-toggle="ajaxmodal" data-target="#formComponentModal" href="<?php echo $view['router']->path('mautic_formaction_action', ['objectAction' => 'edit', 'objectId' => $id, 'formId' => $formId]); ?>"><span class="action-label"><?php echo $action['name']; ?></span></a>
+    <a data-toggle="ajaxmodal" data-target="#formComponentModal" href="<?php echo $view['router']->path('le_formaction_action', ['objectAction' => 'edit', 'objectId' => $id, 'formId' => $formId]); ?>"><span class="action-label"><?php echo $action['name']; ?></span></a>
     <?php if (!empty($action['description'])): ?>
     <span class="action-descr"><?php echo $action['description']; ?></span>
     <?php endif; ?>

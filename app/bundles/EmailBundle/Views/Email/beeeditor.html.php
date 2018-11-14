@@ -12,7 +12,7 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
 
 <div id="bee-plugin-container" class="hide">
     <div class="builder-content">
-        <input type="hidden" id="builder_url" value="<?php echo $view['router']->path('mautic_'.$type.'_action', ['objectAction' => 'builder', 'objectId' => $objectId]); ?>" />
+        <input type="hidden" id="builder_url" value="<?php echo $view['router']->path('le_'.$type.'_action', ['objectAction' => 'builder', 'objectId' => $objectId]); ?>" />
     </div>
      <div id="bee-plugin-btnpanel hide">
          <div class="row pull-left" style="margin-left: 2%;width: 40%">

@@ -391,8 +391,8 @@ class FieldController extends CommonFormController
             $formField,
             $this->get('form.factory'),
             (!empty($formField['id'])) ?
-                $this->generateUrl('mautic_formfield_action', ['objectAction' => 'edit', 'objectId' => $formField['id']])
-                : $this->generateUrl('mautic_formfield_action', ['objectAction' => 'new']),
+                $this->generateUrl('le_formfield_action', ['objectAction' => 'edit', 'objectId' => $formField['id']])
+                : $this->generateUrl('le_formfield_action', ['objectAction' => 'new']),
             ['customParameters' => $customParams]
         );
         $form->get('formId')->setData($formId);

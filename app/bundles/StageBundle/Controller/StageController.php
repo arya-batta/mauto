@@ -79,7 +79,7 @@ class StageController extends FormController
         if ($count && $count < ($start + 1)) {
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.stage.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_stage_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_stage_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -87,7 +87,7 @@ class StageController extends FormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticStageBundle:Stage:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_stage_index',
+                        'activeLink'    => '#le_stage_index',
                         'mauticContent' => 'stage',
                     ],
                 ]
@@ -115,9 +115,9 @@ class StageController extends FormController
                 ],
                 'contentTemplate' => 'MauticStageBundle:Stage:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_stage_index',
+                    'activeLink'    => '#le_stage_index',
                     'mauticContent' => 'stage',
-                    'route'         => $this->generateUrl('mautic_stage_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_stage_index', ['page' => $page]),
                 ],
             ]
         );
@@ -149,7 +149,7 @@ class StageController extends FormController
         $actionType = ($this->request->getMethod() == 'POST') ? $this->request->request->get('stage[type]', '', true)
             : '';
 
-        $action  = $this->generateUrl('mautic_stage_action', ['objectAction' => 'new']);
+        $action  = $this->generateUrl('le_stage_action', ['objectAction' => 'new']);
         $actions = $model->getStageActions();
         $form    = $model->createForm(
             $entity,
@@ -174,9 +174,9 @@ class StageController extends FormController
                         'mautic.core.notice.created',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_stage_index',
+                            '%menu_link%' => 'le_stage_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_stage_action',
+                                'le_stage_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -186,7 +186,7 @@ class StageController extends FormController
                     );
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_stage_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_stage_index', $viewParameters);
                         $template  = 'MauticStageBundle:Stage:index';
                     } else {
                         //return edit view so that all the session stuff is loaded
@@ -194,7 +194,7 @@ class StageController extends FormController
                     }
                 }
             } else {
-                $returnUrl = $this->generateUrl('mautic_stage_index', $viewParameters);
+                $returnUrl = $this->generateUrl('le_stage_index', $viewParameters);
                 $template  = 'MauticStageBundle:Stage:index';
             }
 
@@ -205,7 +205,7 @@ class StageController extends FormController
                         'viewParameters'  => $viewParameters,
                         'contentTemplate' => $template,
                         'passthroughVars' => [
-                            'activeLink'    => '#mautic_stage_index',
+                            'activeLink'    => '#le_stage_index',
                             'mauticContent' => 'stage',
                         ],
                     ]
@@ -228,10 +228,10 @@ class StageController extends FormController
                 ],
                 'contentTemplate' => 'MauticStageBundle:Stage:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_stage_index',
+                    'activeLink'    => '#le_stage_index',
                     'mauticContent' => 'stage',
                     'route'         => $this->generateUrl(
-                        'mautic_stage_action',
+                        'le_stage_action',
                         [
                             'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                             'objectId'     => $entity->getId(),
@@ -261,14 +261,14 @@ class StageController extends FormController
         $viewParameters = ['page' => $page];
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_stage_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_stage_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => $viewParameters,
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_stage_index',
+                'activeLink'    => '#le_stage_index',
                 'mauticContent' => 'stage',
             ],
         ];
@@ -298,7 +298,7 @@ class StageController extends FormController
 
         $actionType = 'moved to stage';
 
-        $action  = $this->generateUrl('mautic_stage_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action  = $this->generateUrl('le_stage_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $actions = $model->getStageActions();
         $form    = $model->createForm(
             $entity,
@@ -322,9 +322,9 @@ class StageController extends FormController
                         'mautic.core.notice.updated',
                         [
                             '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'mautic_stage_index',
+                            '%menu_link%' => 'le_stage_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_stage_action',
+                                'le_stage_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $entity->getId(),
@@ -334,7 +334,7 @@ class StageController extends FormController
                     );
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $returnUrl = $this->generateUrl('mautic_stage_index', $viewParameters);
+                        $returnUrl = $this->generateUrl('le_stage_index', $viewParameters);
                         $template  = 'MauticStageBundle:Stage:index';
                     }
                 }
@@ -342,7 +342,7 @@ class StageController extends FormController
                 //unlock the entity
                 $model->unlockEntity($entity);
 
-                $returnUrl = $this->generateUrl('mautic_stage_index', $viewParameters);
+                $returnUrl = $this->generateUrl('le_stage_index', $viewParameters);
                 $template  = 'MauticStageBundle:Stage:index';
             }
 
@@ -378,10 +378,10 @@ class StageController extends FormController
                 ],
                 'contentTemplate' => 'MauticStageBundle:Stage:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_stage_index',
+                    'activeLink'    => '#le_stage_index',
                     'mauticContent' => 'stage',
                     'route'         => $this->generateUrl(
-                        'mautic_stage_action',
+                        'le_stage_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -426,7 +426,7 @@ class StageController extends FormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.stage.page', 1);
-        $returnUrl = $this->generateUrl('mautic_stage_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_stage_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -434,7 +434,7 @@ class StageController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_stage_index',
+                'activeLink'    => '#le_stage_index',
                 'mauticContent' => 'stage',
             ],
         ];
@@ -486,7 +486,7 @@ class StageController extends FormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.stage.page', 1);
-        $returnUrl = $this->generateUrl('mautic_stage_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_stage_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -494,7 +494,7 @@ class StageController extends FormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_stage_index',
+                'activeLink'    => '#le_stage_index',
                 'mauticContent' => 'stage',
             ],
         ];

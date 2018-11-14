@@ -64,7 +64,7 @@ class SmsSendType extends AbstractType
 
         if (!empty($options['update_select'])) {
             $windowUrl = $this->router->generate(
-                'mautic_sms_action',
+                'le_sms_action',
                 [
                     'objectAction' => 'new',
                     'contentOnly'  => 1,
@@ -91,7 +91,7 @@ class SmsSendType extends AbstractType
 
             // create button edit sms
             $windowUrlEdit = $this->router->generate(
-                'mautic_sms_action',
+                'le_sms_action',
                 [
                     'objectAction' => 'edit',
                     'objectId'     => 'smsId',

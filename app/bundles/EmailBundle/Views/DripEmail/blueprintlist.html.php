@@ -62,7 +62,7 @@
                         </thead>
                         <tbody>
                         <?php foreach ($entities as $item):
-                            $previewUrl = $view['router']->path('mautic_email_preview', ['objectId' => $item['id']], true);
+                            $previewUrl = $view['router']->path('le_email_preview', ['objectId' => $item['id']], true);
                             ?>
                             <tr>
                                 <td class="table-description">

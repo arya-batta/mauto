@@ -37,7 +37,7 @@ if (is_array($dateFrom)) {
 ?>
 
 <div class="pull-right mr-md mb-md">
-    <a href="<?php echo $view['router']->path('mautic_report_action', ['objectId' => $reportId, 'objectAction' => 'view', 'daterange' => ['date_to' => $dateTo->format('Y-m-d H:i:s'), 'date_from' => $dateFrom->format('Y-m-d H:i:s')]]); ?>">
+    <a href="<?php echo $view['router']->path('le_report_action', ['objectId' => $reportId, 'objectAction' => 'view', 'daterange' => ['date_to' => $dateTo->format('Y-m-d H:i:s'), 'date_from' => $dateFrom->format('Y-m-d H:i:s')]]); ?>">
         <span class="label label-success"><?php echo $view['translator']->trans('mautic.report.dashboard.widgets.full_report'); ?></span>
     </a>
 </div>

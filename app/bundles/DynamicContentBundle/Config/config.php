@@ -14,7 +14,7 @@ return [
         'main' => [
             'items' => [
                 'mautic.dynamicContent.dynamicContent' => [
-                    'route'    => 'mautic_dynamicContent_index',
+                    'route'    => 'le_dynamicContent_index',
                     'access'   => ['dynamiccontent:dynamiccontents:viewown', 'dynamiccontent:dynamiccontents:viewother'],
                     'parent'   => 'mautic.core.components',
                     'priority' => 90,
@@ -24,21 +24,21 @@ return [
     ],
     'routes' => [
         'main' => [
-            'mautic_dynamicContent_index' => [
+            'le_dynamicContent_index' => [
                 'path'       => '/dwc/{page}',
                 'controller' => 'MauticDynamicContentBundle:DynamicContent:index',
             ],
-            'mautic_dynamicContent_action' => [
+            'le_dynamicContent_action' => [
                 'path'       => '/dwc/{objectAction}/{objectId}',
                 'controller' => 'MauticDynamicContentBundle:DynamicContent:execute',
             ],
         ],
         'public' => [
-            'mautic_api_dynamicContent_index' => [
+            'le_api_dynamicContent_index' => [
                 'path'       => '/dwc',
                 'controller' => 'MauticDynamicContentBundle:DynamicContentApi:getEntities',
             ],
-            'mautic_api_dynamicContent_action' => [
+            'le_api_dynamicContent_action' => [
                 'path'       => '/dwc/{objectAlias}',
                 'controller' => 'MauticDynamicContentBundle:DynamicContentApi:process',
             ],

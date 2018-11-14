@@ -19,7 +19,7 @@ endif;
      class="<?php echo $class; ?>  col-md-11 form_fragment3_data "
      data-toggle="ajaxmodal"
      data-target="#formComponentModal"
-     data-href="<?php echo $view['router']->path('mautic_formaction_action', [
+     data-href="<?php echo $view['router']->path('le_formaction_action', [
          'objectAction' => 'new',
          'type'         => $type,
          'tmpl'         => 'action',

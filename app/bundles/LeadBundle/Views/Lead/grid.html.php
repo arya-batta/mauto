@@ -66,7 +66,7 @@ if ($tmpl == 'index') {
             <?php /** @var \Mautic\LeadBundle\Entity\Lead $item */ ?>
             <?php $fields = $item->getFields(); ?>
             <td>
-                <a href="<?php echo $view['router']->path('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                     <?php if (in_array($item->getId(), array_keys($noContactList)))  : ?>
                         <div class="pull-right label label-danger"><i class="fa fa-ban"> </i></div>
                     <?php endif; ?>
@@ -136,7 +136,7 @@ if ($tmpl == 'index') {
     <div class="panel-footer">
         <?php
         if (!isset($route)):
-            $route = (isset($link)) ? $link : 'mautic_contact_index';
+            $route = (isset($link)) ? $link : 'le_contact_index';
         endif;
         if (!isset($routeParameters)):
             $routeParameters = [];

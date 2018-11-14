@@ -84,7 +84,7 @@ class EmailSendType extends AbstractType
 
         if (!empty($options['update_select'])) {
             $windowUrl = $this->factory->getRouter()->generate(
-                'mautic_email_action',
+                'le_email_action',
                 [
                     'objectAction' => 'new',
                     'contentOnly'  => 1,
@@ -109,7 +109,7 @@ class EmailSendType extends AbstractType
 
             // create button edit email
             $windowUrlEdit = $this->factory->getRouter()->generate(
-                'mautic_email_campaign_action',
+                'le_email_campaign_action',
                 [
                     'objectAction' => 'edit',
                     'objectId'     => 'emailId',
@@ -133,7 +133,7 @@ class EmailSendType extends AbstractType
             );
 
             // create button preview email
-            $windowUrlPreview = $this->factory->getRouter()->generate('mautic_email_preview', ['objectId' => 'emailId']);
+            $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['objectId' => 'emailId']);
 
             $builder->add(
                 'previewEmailButton',

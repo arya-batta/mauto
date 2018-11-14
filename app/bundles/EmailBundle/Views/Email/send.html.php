@@ -30,8 +30,8 @@ $emailentity = $model->getEntity($id);
                         </div>
                         <br>
                         <div class="send-foot">
-                            <a class="btn send-btn"  href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $emailentity->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#MauticSharedModal" >Send Example</a>
-                            <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('mautic_email_campaign_index'); ?>" >Cancel</a>
+                            <a class="btn send-btn"  href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $emailentity->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#MauticSharedModal" >Send Example</a>
+                            <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('le_email_campaign_index'); ?>" >Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@ $emailentity = $model->getEntity($id);
                         <br><br>
                         <div style="border-color:green">
                             <div class="send-foot" style="    margin-bottom:20px;">
-                                <a class="btn send-btn" href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'send', 'objectId' => $emailentity->getId()]); ?>" >Send Now</a>
-                                <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('mautic_email_campaign_index'); ?>" >Cancel</a>
+                                <a class="btn send-btn" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'send', 'objectId' => $emailentity->getId()]); ?>" >Send Now</a>
+                                <a style="margin-left: 20px;text-decoration: underline;color: #00bfff" href="<?php echo $view['router']->path('le_email_campaign_index'); ?>" >Cancel</a>
                             </div>
                         </div>
                     </div>

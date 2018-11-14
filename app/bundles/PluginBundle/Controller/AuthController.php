@@ -40,9 +40,9 @@ class AuthController extends FormController
         if (!$integrationObject) {
             $session->set('mautic.integration.postauth.message', ['mautic.integration.notfound', ['%name%' => $integration], 'error']);
             if ($isAjax) {
-                return new JsonResponse(['url' => $this->generateUrl('mautic_integration_auth_postauth', ['integration' => $integration])]);
+                return new JsonResponse(['url' => $this->generateUrl('le_integration_auth_postauth', ['integration' => $integration])]);
             } else {
-                return new RedirectResponse($this->generateUrl('mautic_integration_auth_postauth', ['integration' => $integration]));
+                return new RedirectResponse($this->generateUrl('le_integration_auth_postauth', ['integration' => $integration]));
             }
         }
 
@@ -50,7 +50,7 @@ class AuthController extends FormController
             $error = $integrationObject->authCallback();
         } catch (\InvalidArgumentException $e) {
             $session->set('mautic.integration.postauth.message', [$e->getMessage(), [], 'error']);
-            $redirectUrl = $this->generateUrl('mautic_integration_auth_postauth', ['integration' => $integration]);
+            $redirectUrl = $this->generateUrl('le_integration_auth_postauth', ['integration' => $integration]);
             if ($isAjax) {
                 return new JsonResponse(['url' => $redirectUrl]);
             } else {
@@ -77,7 +77,7 @@ class AuthController extends FormController
 
         $session->set('mautic.integration.'.$integration.'.userdata', $userData);
 
-        return new RedirectResponse($this->generateUrl('mautic_integration_auth_postauth', ['integration' => $integration]));
+        return new RedirectResponse($this->generateUrl('le_integration_auth_postauth', ['integration' => $integration]));
     }
 
     /**

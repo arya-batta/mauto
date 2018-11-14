@@ -155,7 +155,7 @@ class FormController extends CommonFormController
             $lastPage = ($count === 1) ? 1 : ((ceil($count / $limit)) ?: 1) ?: 1;
 
             $session->set('mautic.form.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_form_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -163,7 +163,7 @@ class FormController extends CommonFormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_form_index',
+                        'activeLink'    => '#le_form_index',
                         'mauticContent' => 'form',
                     ],
                 ]
@@ -192,9 +192,9 @@ class FormController extends CommonFormController
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => 'MauticFormBundle:Form:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_form_index',
+                    'activeLink'    => '#le_form_index',
                     'mauticContent' => 'form',
-                    'route'         => $this->generateUrl('mautic_form_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_form_index', ['page' => $page]),
                 ],
             ]
         );
@@ -218,7 +218,7 @@ class FormController extends CommonFormController
 
         if ($activeForm === null) {
             //set the return URL
-            $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $page]);
+            $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
 
             return $this->postActionRedirect(
                 [
@@ -226,7 +226,7 @@ class FormController extends CommonFormController
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#mautic_form_index',
+                        'activeLink'    => '#le_form_index',
                         'mauticContent' => 'form',
                     ],
                     'flashes' => [
@@ -267,7 +267,7 @@ class FormController extends CommonFormController
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
-        $action          = $this->generateUrl('mautic_form_action', ['objectAction' => 'view', 'objectId' => $objectId]);
+        $action          = $this->generateUrl('le_form_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
         // Submission stats per time period
@@ -320,7 +320,7 @@ class FormController extends CommonFormController
                 ],
                 'contentTemplate' => 'MauticFormBundle:Form:details.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_form_index',
+                    'activeLink'    => '#le_form_index',
                     'mauticContent' => 'form',
                     'route'         => $action,
                 ],
@@ -377,7 +377,7 @@ class FormController extends CommonFormController
         $modifiedActions = $session->get('mautic.form.'.$sessionId.'.actions.modified', []);
         $deletedActions  = $session->get('mautic.form.'.$sessionId.'.actions.deleted', []);
 
-        $action = $this->generateUrl('mautic_form_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_form_action', ['objectAction' => 'new']);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -425,9 +425,9 @@ class FormController extends CommonFormController
                                 'mautic.core.notice.created',
                                 [
                                     '%name%'      => $entity->getName(),
-                                    '%menu_link%' => 'mautic_form_index',
+                                    '%menu_link%' => 'le_form_index',
                                     '%url%'       => $this->generateUrl(
-                                        'mautic_form_action',
+                                        'le_form_action',
                                         [
                                             'objectAction' => 'edit',
                                             'objectId'     => $entity->getId(),
@@ -441,7 +441,7 @@ class FormController extends CommonFormController
                                     'objectAction' => 'view',
                                     'objectId'     => $entity->getId(),
                                 ];
-                                $returnUrl = $this->generateUrl('mautic_form_action', $viewParameters);
+                                $returnUrl = $this->generateUrl('le_form_action', $viewParameters);
                                 $template  = 'MauticFormBundle:Form:view';
                             } else {
                                 //return edit view so that all the session stuff is loaded
@@ -468,7 +468,7 @@ class FormController extends CommonFormController
                 }
             } else {
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_form_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_form_index', $viewParameters);
                 $template       = 'MauticFormBundle:Form:index';
             }
 
@@ -482,7 +482,7 @@ class FormController extends CommonFormController
                         'viewParameters'  => $viewParameters,
                         'contentTemplate' => $template,
                         'passthroughVars' => [
-                            'activeLink'    => '#mautic_form_index',
+                            'activeLink'    => '#le_form_index',
                             'mauticContent' => 'form',
                         ],
                     ]
@@ -501,7 +501,7 @@ class FormController extends CommonFormController
                 $session->set('mautic.form.'.$sessionId.'.fields.modified', $modifiedFields);
             }
         }
-        $newactionurl = $this->generateUrl('mautic_form_action', ['objectAction' => 'new', 'objectId' => 'scratch']);
+        $newactionurl = $this->generateUrl('le_form_action', ['objectAction' => 'new', 'objectId' => 'scratch']);
         //fire the form builder event
         $customComponents = $model->getCustomComponents($sessionId);
 
@@ -529,10 +529,10 @@ class FormController extends CommonFormController
                 ],
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_form_index',
+                    'activeLink'    => '#le_form_index',
                     'mauticContent' => 'form',
                     'route'         => $this->generateUrl(
-                        'mautic_form_action',
+                        'le_form_action',
                         [
                             'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                             'objectId'     => $entity->getId(),
@@ -579,14 +579,14 @@ class FormController extends CommonFormController
         $page = $this->get('session')->get('mautic.form.page', 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_form_index',
+                'activeLink'    => '#le_form_index',
                 'mauticContent' => 'form',
             ],
         ];
@@ -619,7 +619,7 @@ class FormController extends CommonFormController
             return $this->isLocked($postActionVars, $entity, 'form.form');
         }
 
-        $action = $this->generateUrl('mautic_form_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_form_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($entity, $this->get('form.factory'), $action);
 
         ///Check for a submitted form and process it
@@ -693,9 +693,9 @@ class FormController extends CommonFormController
                                 'mautic.core.notice.updated',
                                 [
                                     '%name%'      => $entity->getName(),
-                                    '%menu_link%' => 'mautic_form_index',
+                                    '%menu_link%' => 'le_form_index',
                                     '%url%'       => $this->generateUrl(
-                                        'mautic_form_action',
+                                        'le_form_action',
                                         [
                                             'objectAction' => 'edit',
                                             'objectId'     => $entity->getId(),
@@ -709,7 +709,7 @@ class FormController extends CommonFormController
                                     'objectAction' => 'view',
                                     'objectId'     => $entity->getId(),
                                 ];
-                                $returnUrl = $this->generateUrl('mautic_form_action', $viewParameters);
+                                $returnUrl = $this->generateUrl('le_form_action', $viewParameters);
                                 $template  = 'MauticFormBundle:Form:view';
                             }
                         } catch (ValidationException $ex) {
@@ -727,7 +727,7 @@ class FormController extends CommonFormController
                 $model->unlockEntity($entity);
 
                 $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('mautic_form_index', $viewParameters);
+                $returnUrl      = $this->generateUrl('le_form_index', $viewParameters);
                 $template       = 'MauticFormBundle:Form:index';
             }
 
@@ -757,7 +757,7 @@ class FormController extends CommonFormController
 
                 if ($valid) {
                     // Rebuild the form with new action so that apply doesn't keep creating a clone
-                    $action = $this->generateUrl('mautic_form_action', ['objectAction' => 'edit', 'objectId' => $entity->getId()]);
+                    $action = $this->generateUrl('le_form_action', ['objectAction' => 'edit', 'objectId' => $entity->getId()]);
                     $form   = $model->createForm($entity, $this->get('form.factory'), $action);
                 }
             }
@@ -873,7 +873,7 @@ class FormController extends CommonFormController
             $session->set('mautic.form.'.$objectId.'.actions.modified', $modifiedActions);
             $deletedActions = [];
         }
-        $newactionurl = $this->generateUrl('mautic_form_action', ['objectAction' => 'new', 'objectId' => 'scratch']);
+        $newactionurl = $this->generateUrl('le_form_action', ['objectAction' => 'new', 'objectId' => 'scratch']);
 
         return $this->delegateView(
             [
@@ -899,10 +899,10 @@ class FormController extends CommonFormController
                 ],
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_form_index',
+                    'activeLink'    => '#le_form_index',
                     'mauticContent' => 'form',
                     'route'         => $this->generateUrl(
-                        'mautic_form_action',
+                        'le_form_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -1062,7 +1062,7 @@ class FormController extends CommonFormController
     public function deleteAction($objectId)
     {
         $page      = $this->get('session')->get('mautic.form.page', 1);
-        $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -1070,7 +1070,7 @@ class FormController extends CommonFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_form_index',
+                'activeLink'    => '#le_form_index',
                 'mauticContent' => 'form',
             ],
         ];
@@ -1127,7 +1127,7 @@ class FormController extends CommonFormController
     public function batchDeleteAction()
     {
         $page      = $this->get('session')->get('mautic.form.page', 1);
-        $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -1135,7 +1135,7 @@ class FormController extends CommonFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_form_index',
+                'activeLink'    => '#le_form_index',
                 'mauticContent' => 'form',
             ],
         ];
@@ -1210,7 +1210,7 @@ class FormController extends CommonFormController
     public function batchRebuildHtmlAction()
     {
         $page      = $this->get('session')->get('mautic.form.page', 1);
-        $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $page]);
+        $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
         $flashes   = [];
 
         $postActionVars = [
@@ -1218,7 +1218,7 @@ class FormController extends CommonFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_form_index',
+                'activeLink'    => '#le_form_index',
                 'mauticContent' => 'form',
             ],
         ];

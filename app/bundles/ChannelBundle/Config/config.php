@@ -12,15 +12,15 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_message_index' => [
+            'le_message_index' => [
                 'path'       => '/messages/{page}',
                 'controller' => 'MauticChannelBundle:Message:index',
             ],
-            'mautic_message_contacts' => [
+            'le_message_contacts' => [
                 'path'       => '/messages/contacts/{objectId}/{channel}/{page}',
                 'controller' => 'MauticChannelBundle:Message:contacts',
             ],
-            'mautic_message_action' => [
+            'le_message_action' => [
                 'path'       => '/messages/{objectAction}/{objectId}',
                 'controller' => 'MauticChannelBundle:Message:execute',
             ],
@@ -40,7 +40,7 @@ return [
     'menu' => [
         'main' => [
             'mautic.channel.messages' => [
-                'route'    => 'mautic_message_index',
+                'route'    => 'le_message_index',
                 'access'   => ['channel:messages:viewown', 'channel:messages:viewother'],
                 'parent'   => 'mautic.core.components',
                 'priority' => 10,

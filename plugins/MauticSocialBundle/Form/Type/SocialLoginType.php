@@ -61,7 +61,7 @@ class SocialLoginType extends AbstractType
                     'authUrl_'.$integrationObject->getName(),
                     'hidden',
                     [
-                        'data' => $model->buildUrl('mautic_integration_auth_user', $integration, true, []),
+                        'data' => $model->buildUrl('le_integration_auth_user', $integration, true, []),
                     ]
                 );
 

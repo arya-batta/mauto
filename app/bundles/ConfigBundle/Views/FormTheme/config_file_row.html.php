@@ -14,14 +14,14 @@ $feedbackClass = (!empty($hasErrors)) ? ' has-error' : '';
 $field         = $form->vars['name'];
 $hide          = (!empty($fieldValue)) ? '' : ' hide';
 $filename      = \Mautic\CoreBundle\Helper\InputHelper::alphanum($view['translator']->trans($form->vars['label']), true, '_');
-$downloadUrl   = $view['router']->path('mautic_config_action',
+$downloadUrl   = $view['router']->path('le_config_action',
     [
         'objectAction' => 'download',
         'objectId'     => $field,
         'filename'     => $filename,
     ]
 );
-$removeUrl = $view['router']->path('mautic_config_action',
+$removeUrl = $view['router']->path('le_config_action',
     [
         'objectAction' => 'remove',
         'objectId'     => $field,

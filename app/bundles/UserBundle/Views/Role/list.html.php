@@ -91,7 +91,7 @@ endif;
                 <td>
                     <?php if ($permissions['edit']) : ?>
                         <a href="<?php echo $view['router']->path(
-                            'mautic_role_action',
+                            'le_role_action',
                             ['objectAction' => 'edit', 'objectId' => $item->getId()]
                         ); ?>" data-toggle="ajax">
                             <?php echo $item->getName(); ?>
@@ -105,7 +105,7 @@ endif;
                 </td>
                 <td class="visible-md visible-lg">
                     <a class="label label-primary" href="<?php echo $view['router']->path(
-                        'mautic_user_index',
+                        'le_user_index',
                         ['search' => $view['translator']->trans('mautic.user.user.searchcommand.role').':&quot;'.$item->getName().'&quot;']
                     ); ?>" data-toggle="ajax"<?php echo ($userCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                         <?php echo $view['translator']->transChoice(
@@ -130,7 +130,7 @@ endif;
             'totalItems' => count($items),
             'page'       => $page,
             'limit'      => $limit,
-            'baseUrl'    => $view['router']->path('mautic_role_index'),
+            'baseUrl'    => $view['router']->path('le_role_index'),
             'sessionVar' => 'role',
         ]
     ); ?>

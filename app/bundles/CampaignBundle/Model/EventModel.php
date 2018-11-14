@@ -1891,7 +1891,7 @@ class EventModel extends CommonFormModel
                     'mautic.campaign.event.failed',
                     [
                         '%contact%' => '<a href="'.$this->router->generate(
-                                'mautic_contact_action',
+                                'le_contact_action',
                                 ['objectAction' => 'view', 'objectId' => $lead->getId()]
                             ).'" data-toggle="ajax">'.$lead->getPrimaryIdentifier().'</a>',
                     ]

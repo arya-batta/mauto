@@ -12,11 +12,11 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_stage_index' => [
+            'le_stage_index' => [
                 'path'       => '/stages/{page}',
                 'controller' => 'MauticStageBundle:Stage:index',
             ],
-            'mautic_stage_action' => [
+            'le_stage_action' => [
                 'path'       => '/stages/{objectAction}/{objectId}',
                 'controller' => 'MauticStageBundle:Stage:execute',
             ],
@@ -56,7 +56,7 @@ return [
     'menu' => [
         'main' => [
             /*'mautic.stages.menu.index' => [
-                'route'     => 'mautic_stage_index',
+                'route'     => 'le_stage_index',
                 'iconClass' => 'fa-tachometer',
                 'access'    => ['stage:stages:view'],
                 'priority'  => 25,

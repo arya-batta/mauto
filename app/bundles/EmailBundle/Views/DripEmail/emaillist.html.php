@@ -139,7 +139,7 @@
                     <span class="mt-xs has-click-event clickable-stat"
                           id="sent-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
-                                'mautic_contact_index',
+                                'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_sent').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
@@ -153,7 +153,7 @@
                      <span class="mt-xs has-click-event clickable-stat"
                            id="read-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
-                                'mautic_contact_index',
+                                'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.read.tooltip'); ?>">
@@ -167,7 +167,7 @@
                       <span class="mt-xs has-click-event clickable-stat"
                             id="read-percent-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
-                                'mautic_contact_index',
+                                'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
@@ -210,7 +210,7 @@
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
-                                        <a title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>" data-toggle = "ajaxmodal" data-target = "#MauticSharedModal" href="<?php echo $view['router']->path('mautic_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" >
+                                        <a title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>" data-toggle = "ajaxmodal" data-target = "#MauticSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" >
                                             <span><i class="material-icons md-color-white">  </i></span></a>
                                         </a>
                                     </div>

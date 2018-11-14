@@ -25,7 +25,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
         [
             'attr' => [
                 'data-toggle' => 'ajax',
-                'href'        => $view['router']->path('mautic_plugin_reload'),
+                'href'        => $view['router']->path('le_plugin_reload'),
             ],
             'btnText'   => $view['translator']->trans('mautic.plugin.reload.plugins'),
             'iconClass' => 'fa fa-cubes',

@@ -62,7 +62,7 @@ class MessageSendType extends AbstractType
 
         if (!empty($options['update_select'])) {
             $windowUrl = $this->router->generate(
-                'mautic_message_action',
+                'le_message_action',
                 [
                     'objectAction' => 'new',
                     'contentOnly'  => 1,
@@ -85,7 +85,7 @@ class MessageSendType extends AbstractType
 
             // create button edit email
             $windowUrlEdit = $this->router->generate(
-                'mautic_message_action',
+                'le_message_action',
                 [
                     'objectAction' => 'edit',
                     'objectId'     => 'messageId',

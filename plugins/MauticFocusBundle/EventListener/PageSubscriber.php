@@ -95,7 +95,7 @@ class PageSubscriber extends CommonSubscriber
                         )
                     )
                 ) {
-                    $script = '<script src="'.$this->router->generate('mautic_focus_generate', ['id' => $id], true)
+                    $script = '<script src="'.$this->router->generate('le_focus_generate', ['id' => $id], true)
                         .'" type="text/javascript" charset="utf-8" async="async"></script>';
                     $content = preg_replace('#{focus='.$id.'}#', $script, $content);
                 } else {

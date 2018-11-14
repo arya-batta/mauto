@@ -68,7 +68,7 @@ class RedirectModel extends FormModel
     public function generateRedirectUrl(Redirect $redirect, $clickthrough = [], $shortenUrl = false, $utmTags = [])
     {
         $url = $this->buildUrl(
-            'mautic_url_redirect',
+            'le_url_redirect',
             ['redirectId' => $redirect->getRedirectId()],
             true,
             $clickthrough,

@@ -90,7 +90,7 @@ class ClearbitIntegration extends AbstractIntegration
                 'template'   => 'MauticClearbitBundle:Integration:form.html.php',
                 'parameters' => [
                     'mauticUrl' => $this->router->generate(
-                        'mautic_plugin_clearbit_index', [], UrlGeneratorInterface::ABSOLUTE_URL
+                        'le_plugin_clearbit_index', [], UrlGeneratorInterface::ABSOLUTE_URL
                     ),
                 ],
             ];

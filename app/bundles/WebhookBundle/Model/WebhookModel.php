@@ -427,7 +427,7 @@ class WebhookModel extends FormModel
                 [
                     '%reason%'  => $this->translator->trans($reason),
                     '%webhook%' => '<a href="'.$this->router->generate(
-                        'mautic_webhook_action',
+                        'le_webhook_action',
                         ['objectAction' => 'view', 'objectId' => $webhook->getId()]
                     ).'" data-toggle="ajax">'.$webhook->getName().'</a>',
                 ]

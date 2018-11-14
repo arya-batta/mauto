@@ -58,7 +58,7 @@ class MobileNotificationSendType extends AbstractType
         ]);
 
         if (!empty($options['update_select'])) {
-            $windowUrl = $this->router->generate('mautic_mobile_notification_action', [
+            $windowUrl = $this->router->generate('le_mobile_notification_action', [
                 'objectAction' => 'new',
                 'contentOnly'  => 1,
                 'updateSelect' => $options['update_select'],
@@ -78,7 +78,7 @@ class MobileNotificationSendType extends AbstractType
             $notification = $options['data']['notification'];
 
             // create button edit notification
-            $windowUrlEdit = $this->router->generate('mautic_mobile_notification_action', [
+            $windowUrlEdit = $this->router->generate('le_mobile_notification_action', [
                 'objectAction' => 'edit',
                 'objectId'     => 'notificationId',
                 'contentOnly'  => 1,

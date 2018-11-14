@@ -88,7 +88,7 @@ $hideid     = ($isadmin) ? '' : 'hide';
                     <span class="ellipsis">
 
                         <a href="<?php echo $view['router']->path(
-                            'mautic_contactfield_action',
+                            'le_contactfield_action',
                             ['objectAction' => 'edit', 'objectId' => $item->getId()]
                         ); ?>"><?php echo $item->getLabel(); ?></a>
                     </span>
@@ -147,7 +147,7 @@ $hideid     = ($isadmin) ? '' : 'hide';
                 'totalItems' => $totalItems,
                 'page'       => $page,
                 'limit'      => $limit,
-                'baseUrl'    => $view['router']->path('mautic_contactfield_index'),
+                'baseUrl'    => $view['router']->path('le_contactfield_index'),
                 'sessionVar' => 'leadfield',
             ]
         ); ?>

@@ -51,41 +51,41 @@ use Mautic\FormBundle\Validator\UploadFieldValidator;
 return [
     'routes' => [
         'main' => [
-            'mautic_formaction_action' => [
+            'le_formaction_action' => [
                 'path'       => '/forms/action/{objectAction}/{objectId}',
                 'controller' => 'MauticFormBundle:Action:execute',
             ],
-            'mautic_formfield_action' => [
+            'le_formfield_action' => [
                 'path'       => '/forms/field/{objectAction}/{objectId}',
                 'controller' => 'MauticFormBundle:Field:execute',
             ],
-            'mautic_form_index' => [
+            'le_form_index' => [
                 'path'       => '/forms/{page}',
                 'controller' => 'MauticFormBundle:Form:index',
             ],
-            'mautic_form_results' => [
+            'le_form_results' => [
                 'path'       => '/forms/results/{objectId}/{page}',
                 'controller' => 'MauticFormBundle:Result:index',
             ],
-            'mautic_form_file_download' => [
+            'le_form_file_download' => [
                 'path'       => '/forms/results/file/{submissionId}/{field}',
                 'controller' => 'MauticFormBundle:Result:downloadFile',
             ],
-            'mautic_form_export' => [
+            'le_form_export' => [
                 'path'       => '/forms/results/{objectId}/export/{format}',
                 'controller' => 'MauticFormBundle:Result:export',
                 'defaults'   => [
                     'format' => 'csv',
                 ],
             ],
-            'mautic_form_results_action' => [
+            'le_form_results_action' => [
                 'path'       => '/forms/results/{formId}/{objectAction}/{objectId}',
                 'controller' => 'MauticFormBundle:Result:execute',
                 'defaults'   => [
                     'objectId' => 0,
                 ],
             ],
-            'mautic_form_action' => [
+            'le_form_action' => [
                 'path'       => '/forms/{objectAction}/{objectId}',
                 'controller' => 'MauticFormBundle:Form:execute',
             ],
@@ -121,30 +121,30 @@ return [
             ],
         ],
         'public' => [
-            'mautic_form_postresults' => [
+            'le_form_postresults' => [
                 'path'       => '/form/submit',
                 'controller' => 'MauticFormBundle:Public:submit',
             ],
-            'mautic_form_generateform' => [
+            'le_form_generateform' => [
                 'path'       => '/form/generate.js',
                 'controller' => 'MauticFormBundle:Public:generate',
             ],
-            'mautic_form_postmessage' => [
+            'le_form_postmessage' => [
                 'path'       => '/form/message',
                 'controller' => 'MauticFormBundle:Public:message',
             ],
-            'mautic_form_preview' => [
+            'le_form_preview' => [
                 'path'       => '/form/{id}',
                 'controller' => 'MauticFormBundle:Public:preview',
                 'defaults'   => [
                     'id' => '0',
                 ],
             ],
-            'mautic_form_embed' => [
+            'le_form_embed' => [
                 'path'       => '/form/embed/{id}',
                 'controller' => 'MauticFormBundle:Public:embed',
             ],
-            'mautic_form_postresults_ajax' => [
+            'le_form_postresults_ajax' => [
                 'path'       => '/form/submit/ajax',
                 'controller' => 'MauticFormBundle:Ajax:submit',
             ],
@@ -156,7 +156,7 @@ return [
             'items' => [
                 'mautic.form.forms' => [
                     'iconClass' => 'fa fa-edit',
-                    'route'     => 'mautic_form_index',
+                    'route'     => 'le_form_index',
                     'access'    => ['form:forms:viewown', 'form:forms:viewother'],
                     'parent'    => 'mautic.core.components',
                     'priority'  => 200,

@@ -103,7 +103,7 @@ $isAdmin     =$view['security']->isAdmin();
                                         'attr' => [
                                             'data-toggle' => 'ajax',
                                             'href'        => $view['router']->path(
-                                                'mautic_contact_index',
+                                                'le_contact_index',
                                                 [
                                                     'search' => "$listCommand:{$item->getAlias()}",
                                                 ]
@@ -127,7 +127,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <div>
                             <?php if ($view['security']->hasEntityAccess(true, $permissions['lead:lists:editother'], $item->getCreatedBy())) : ?>
                                 <a href="<?php echo $view['router']->path(
-                                    'mautic_segment_action',
+                                    'le_segment_action',
                                     ['objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajax">
                                     <?php echo $item->getName(); ?> (<?php echo $item->getAlias(); ?>)
@@ -153,7 +153,7 @@ $isAdmin     =$view['security']->isAdmin();
                     </td>
                     <td class="visible-md visible-lg" style="width: 30%;">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
-                            'mautic_contact_index',
+                            'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list').':'.$item->getAlias()]
                         ); ?>" data-toggle="ajax"<?php echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
@@ -176,15 +176,15 @@ $isAdmin     =$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('mautic_segment_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('mautic_segment_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('mautic_segment_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.list.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_segment_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.list.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
 
@@ -205,7 +205,7 @@ $isAdmin     =$view['security']->isAdmin();
                     'totalItems' => count($items),
                     'page'       => $page,
                     'limit'      => $limit,
-                    'baseUrl'    => $view['router']->path('mautic_segment_index'),
+                    'baseUrl'    => $view['router']->path('le_segment_index'),
                     'sessionVar' => 'segment',
                 ]
             ); ?>

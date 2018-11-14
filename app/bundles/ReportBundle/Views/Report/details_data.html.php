@@ -193,7 +193,7 @@ $graphContent = $view->render(
                         'totalItems' => $totalResults,
                         'page'       => $reportPage,
                         'limit'      => $limit,
-                        'baseUrl'    => $view['router']->path('mautic_report_view', [
+                        'baseUrl'    => $view['router']->path('le_report_view', [
                             'objectId' => $report->getId(),
                         ]),
                         'sessionVar' => 'report.'.$report->getId(),

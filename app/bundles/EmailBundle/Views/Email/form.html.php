@@ -137,7 +137,7 @@ $isgoogletags= false; //$email->getGoogletags();
         </ul>
         <div id="fragment-1" class="ui-tabs-panel <?php echo $infohide?>">
             <div class="fragment-1-buttons fixed-header">
-                <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -267,7 +267,7 @@ $isgoogletags= false; //$email->getGoogletags();
         <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <a href="<?php echo $view['router']->path('mautic_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
                 <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -524,7 +524,7 @@ if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantPar
                 'newTemplateEmail' => 'le.email.type.template.header',
             ],
             'typePrefix'          => 'email',
-            'cancelUrl'           => $type == 'template' ? 'mautic_email_index' : 'mautic_email_campaign_index',
+            'cancelUrl'           => $type == 'template' ? 'le_email_index' : 'le_email_campaign_index',
             'header'              => 'le.email.type.header',
             'typeOneHeader'       => 'le.email.type.template.header',
             'typeOneIconClass'    => 'fa-cube',
@@ -549,7 +549,7 @@ if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror &
             'item'                => $email,
             'mauticLang'          => [],
             'typePrefix'          => 'email',
-            'cancelUrl'           => $type == 'template' ? 'mautic_email_index' : 'mautic_email_campaign_index',
+            'cancelUrl'           => $type == 'template' ? 'le_email_index' : 'le_email_campaign_index',
             'header'              => 'le.email.editor.header',
             'typeOneHeader'       => 'le.email.editor.basic.header',
             'typeOneIconClass'    => 'fa-cube',

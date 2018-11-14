@@ -660,7 +660,7 @@ class LeadSubscriber extends CommonSubscriber
                             'eventLabel' => !empty($import['object_id']) ? [
                                 'label' => $eventLabel,
                                 'href'  => $this->router->generate(
-                                    'mautic_contact_import_action',
+                                    'le_contact_import_action',
                                     ['objectAction' => 'view', 'objectId' => $import['object_id']]
                                 ),
                             ] : $eventLabel,

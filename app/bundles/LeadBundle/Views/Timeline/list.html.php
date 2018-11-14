@@ -13,7 +13,7 @@ if (isset($tmpl) && $tmpl == 'index') {
 }
 
 $baseUrl = $view['router']->path(
-    'mautic_contacttimeline_action',
+    'le_contacttimeline_action',
     [
         'leadId' => $lead->getId(),
     ]

@@ -12,11 +12,11 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_calendar_index' => [
+            'le_calendar_index' => [
                 'path'       => '/calendar',
                 'controller' => 'MauticCalendarBundle:Default:index',
             ],
-            'mautic_calendar_action' => [
+            'le_calendar_action' => [
                 'path'       => '/calendar/{objectAction}',
                 'controller' => 'MauticCalendarBundle:Default:execute',
             ],
@@ -34,7 +34,7 @@ return [
             /*'priority' => 90,
             'items'    => [
                 'mautic.calendar.menu.index' => [
-                    'route'     => 'mautic_calendar_index',
+                    'route'     => 'le_calendar_index',
                     'iconClass' => 'fa-calendar',
                 ],
             ],*/

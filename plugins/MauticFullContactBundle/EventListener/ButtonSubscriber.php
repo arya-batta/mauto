@@ -64,7 +64,7 @@ class ButtonSubscriber extends CommonSubscriber
                         'data-target' => '#MauticSharedModal',
                         'onclick'     => 'this.href=\''.
                             $this->router->generate(
-                                'mautic_plugin_fullcontact_action',
+                                'le_plugin_fullcontact_action',
                                 ['objectAction' => 'batchLookupPerson']
                             ).
                             '?\' + mQuery.param({\'fullcontact_batch_lookup\':{\'ids\':JSON.parse(Mautic.getCheckedListIds(false, true))}});return true;',
@@ -86,7 +86,7 @@ class ButtonSubscriber extends CommonSubscriber
                             ['%item%' => $event->getItem()->getEmail()]
                         ),
                         'href' => $this->router->generate(
-                            'mautic_plugin_fullcontact_action',
+                            'le_plugin_fullcontact_action',
                             ['objectId' => $event->getItem()->getId(), 'objectAction' => 'lookupPerson']
                         ),
                     ],
@@ -98,12 +98,12 @@ class ButtonSubscriber extends CommonSubscriber
                     ->addButton(
                         $lookupContactButton,
                         ButtonHelper::LOCATION_PAGE_ACTIONS,
-                        ['mautic_contact_action', ['objectAction' => 'view']]
+                        ['le_contact_action', ['objectAction' => 'view']]
                     )
                     ->addButton(
                         $lookupContactButton,
                         ButtonHelper::LOCATION_LIST_ACTIONS,
-                        'mautic_contact_index'
+                        'le_contact_index'
                     );
             }
         } else {
@@ -116,7 +116,7 @@ class ButtonSubscriber extends CommonSubscriber
                             'data-target' => '#MauticSharedModal',
                             'onclick'     => 'this.href=\''.
                                 $this->router->generate(
-                                    'mautic_plugin_fullcontact_action',
+                                    'le_plugin_fullcontact_action',
                                     ['objectAction' => 'batchLookupCompany']
                                 ).
                                 '?\' + mQuery.param({\'fullcontact_batch_lookup\':{\'ids\':JSON.parse(Mautic.getCheckedListIds(false, true))}});return true;',
@@ -140,7 +140,7 @@ class ButtonSubscriber extends CommonSubscriber
                                 ['%item%' => $event->getItem()->getName()]
                             ),
                             'href' => $this->router->generate(
-                                'mautic_plugin_fullcontact_action',
+                                'le_plugin_fullcontact_action',
                                 ['objectId' => $event->getItem()->getId(), 'objectAction' => 'lookupCompany']
                             ),
                         ],
@@ -152,7 +152,7 @@ class ButtonSubscriber extends CommonSubscriber
                         ->addButton(
                             $lookupCompanyButton,
                             ButtonHelper::LOCATION_LIST_ACTIONS,
-                            'mautic_company_index'
+                            'le_company_index'
                         );
                 }
             }

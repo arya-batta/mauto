@@ -82,7 +82,7 @@ class AjaxController extends CommonAjaxController
                     $name = $this->translator->trans('le.lead.lead.anonymous');
                 }
 
-                $leadLink = $this->generateUrl('mautic_contact_action', ['objectAction' => 'view', 'objectId' => $lead->getId()]);
+                $leadLink = $this->generateUrl('le_contact_action', ['objectAction' => 'view', 'objectId' => $lead->getId()]);
 
                 $dataArray['items'][] = [
                     'name' => $name,

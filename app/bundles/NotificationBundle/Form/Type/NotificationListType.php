@@ -28,7 +28,7 @@ class NotificationListType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'modal_route'         => 'mautic_notification_action',
+                'modal_route'         => 'le_notification_action',
                 'modal_header'        => 'mautic.notification.header.new',
                 'model'               => 'notification',
                 'model_lookup_method' => 'getLookupResults',

@@ -32,7 +32,7 @@ if ($tmpl == 'index') {
         'page'       => $page,
         'limit'      => $limit,
         'sessionVar' => 'lead.'.$lead->getId().'.note',
-        'baseUrl'    => $view['router']->path('mautic_contactnote_index', ['leadId' => $lead->getId()]),
+        'baseUrl'    => $view['router']->path('le_contactnote_index', ['leadId' => $lead->getId()]),
     ]); ?>
 </div>
 <?php endif; ?>

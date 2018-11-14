@@ -84,7 +84,7 @@ if ($tmpl == 'index') {
                                 ]
                             ); ?>
                             <a href="<?php echo $view['router']->path(
-                                'mautic_tweet_action',
+                                'le_tweet_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>"
                                data-toggle="ajax">
@@ -110,8 +110,8 @@ if ($tmpl == 'index') {
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_tweet_index',
-                'baseUrl'    => $view['router']->path('mautic_tweet_index'),
+                'menuLinkId' => 'le_tweet_index',
+                'baseUrl'    => $view['router']->path('le_tweet_index'),
                 'sessionVar' => 'social.tweet',
                 'routeBase'  => 'tweet',
             ]

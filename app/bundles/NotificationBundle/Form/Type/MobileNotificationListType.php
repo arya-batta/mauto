@@ -28,7 +28,7 @@ class MobileNotificationListType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'modal_route'         => 'mautic_mobile_notification_action',
+                'modal_route'         => 'le_mobile_notification_action',
                 'modal_header'        => 'mautic.notification.mobile.header.new',
                 'model'               => 'notification',
                 'model_lookup_method' => 'getLookupResults',

@@ -12,56 +12,56 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_core_ajax' => [
+            'le_core_ajax' => [
                 'path'       => '/ajax',
                 'controller' => 'MauticCoreBundle:Ajax:delegateAjax',
             ],
-            'mautic_core_update' => [
+            'le_core_update' => [
                 'path'       => '/update',
                 'controller' => 'MauticCoreBundle:Update:index',
             ],
-            'mautic_core_update_schema' => [
+            'le_core_update_schema' => [
                 'path'       => '/update/schema',
                 'controller' => 'MauticCoreBundle:Update:schema',
             ],
-            'mautic_core_form_action' => [
+            'le_core_form_action' => [
                 'path'       => '/action/{objectAction}/{objectModel}/{objectId}',
                 'controller' => 'MauticCoreBundle:Form:execute',
                 'defaults'   => [
                     'objectModel' => '',
                 ],
             ],
-            'mautic_core_file_action' => [
+            'le_core_file_action' => [
                 'path'       => '/file/{objectAction}/{objectId}',
                 'controller' => 'MauticCoreBundle:File:execute',
             ],
-            'mautic_themes_index' => [
+            'le_themes_index' => [
                 'path'       => '/themes',
                 'controller' => 'MauticCoreBundle:Theme:index',
             ],
-            'mautic_themes_action' => [
+            'le_themes_action' => [
                 'path'       => '/themes/{objectAction}/{objectId}',
                 'controller' => 'MauticCoreBundle:Theme:execute',
             ],
         ],
         'public' => [
-            'mautic_js' => [
+            'le_js' => [
                 'path'       => '/mtc.js',
                 'controller' => 'MauticCoreBundle:Js:index',
             ],
-            'mautic_base_index' => [
+            'le_base_index' => [
                 'path'       => '/',
                 'controller' => 'MauticCoreBundle:Default:index',
             ],
-            'mautic_secure_root' => [
+            'le_secure_root' => [
                 'path'       => '/s',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
-            'mautic_secure_root_slash' => [
+            'le_secure_root_slash' => [
                 'path'       => '/s/',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
-            'mautic_remove_trailing_slash' => [
+            'le_remove_trailing_slash' => [
                 'path'         => '/{url}',
                 'controller'   => 'MauticCoreBundle:Common:removeTrailingSlash',
                 'method'       => 'GET',
@@ -147,10 +147,10 @@ return [
         ],
         'admin' => [
             'mautic.theme.menu.index' => [
-                'route'     => 'mautic_themes_index',
+                'route'     => 'le_themes_index',
                 'iconClass' => 'fa-newspaper-o',
                 'priority'  => 400,
-                'id'        => 'mautic_themes_index',
+                'id'        => 'le_themes_index',
                 //'access'    => 'core:themes:view',
                 'access'    => 'admin',
             ],

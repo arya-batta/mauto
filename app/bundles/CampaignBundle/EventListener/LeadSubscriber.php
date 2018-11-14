@@ -559,7 +559,7 @@ class LeadSubscriber extends CommonSubscriber
                         'eventLabel' => [
                             'label' => $label,
                             'href'  => $this->router->generate(
-                                'mautic_campaign_action',
+                                'le_campaign_action',
                                 ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]
                             ),
                         ],

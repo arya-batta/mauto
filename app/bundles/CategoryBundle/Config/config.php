@@ -12,14 +12,14 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_category_index' => [
+            'le_category_index' => [
                 'path'       => '/categories/{bundle}/{page}',
                 'controller' => 'MauticCategoryBundle:Category:index',
                 'defaults'   => [
                     'bundle' => 'category',
                 ],
             ],
-            'mautic_category_action' => [
+            'le_category_action' => [
                 'path'       => '/categories/{bundle}/{objectAction}/{objectId}',
                 'controller' => 'MauticCategoryBundle:Category:executeCategory',
                 'defaults'   => [
@@ -42,9 +42,9 @@ return [
             'priority' => 100,
             'items'    => [
                 'mautic.category.menu.index' => [
-                    'route'      => 'mautic_category_index',
+                    'route'      => 'le_category_index',
                     'access'     => 'category:categories:view',
-                    'id'         => 'mautic_category_index',
+                    'id'         => 'le_category_index',
                     'iconClass'  => 'fa fa-folder',
                     'priority'   => 450,
                 ],

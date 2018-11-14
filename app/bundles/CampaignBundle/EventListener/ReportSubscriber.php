@@ -155,7 +155,7 @@ class ReportSubscriber extends CommonSubscriber
 
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($campaignPrefix, [], 'mautic_campaign_action'),
+            $event->getStandardColumns($campaignPrefix, [], 'le_campaign_action'),
             $event->getCategoryColumns($catPrefix),
             $event->getLeadColumns($leadPrefix),
             $event->getIpColumn(),

@@ -20,7 +20,7 @@
     <p id="complete_profile"><?php echo $view['translator']->trans('leadsengage.kyc.anti_spam'); ?>(3/3)</p>
 </div>
     <div class="first_time_setup">
-    <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" action="<?php echo $view['router']->path('mautic_kyc_action', ['objectAction' => 'condition']) ?>" method="post">
+    <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" action="<?php echo $view['router']->path('le_kyc_action', ['objectAction' => 'condition']) ?>" method="post">
         <div class="pt-md pr-md pl-md pb-md">
 
             <div class="panel-body" style="width:80%;">
@@ -71,7 +71,7 @@
                 <br>
                 <button class="signup_next" type="submit" value="Next"><?php echo $view['translator']->trans('leadsengage.kyc.next_button'); ?></button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;Or&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <a class="signup_back" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('mautic_kyc_action', ['objectAction' => 'kyc']); ?>');"><?php echo $view['translator']->trans('leadsengage.kyc.go_back'); ?></a>
+                <a class="signup_back" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('le_kyc_action', ['objectAction' => 'kyc']); ?>');"><?php echo $view['translator']->trans('leadsengage.kyc.go_back'); ?></a>
             </div>
         </div>
     </form>

@@ -67,7 +67,7 @@ abstract class AbstractSsoServiceIntegration extends AbstractIntegration
      */
     public function getAuthCallbackUrl()
     {
-        return $this->factory->getRouter()->generate('mautic_sso_login_check',
+        return $this->factory->getRouter()->generate('le_sso_login_check',
             ['integration' => $this->getName()],
             true //absolute
         );

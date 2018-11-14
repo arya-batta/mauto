@@ -29,9 +29,9 @@ class DefaultController extends FormController
         return $this->delegateView([
             'contentTemplate' => 'MauticCalendarBundle:Default:index.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_calendar_index',
+                'activeLink'    => '#le_calendar_index',
                 'mauticContent' => 'calendar',
-                'route'         => $this->generateUrl('mautic_calendar_index'),
+                'route'         => $this->generateUrl('le_calendar_index'),
             ],
         ]);
     }
@@ -57,14 +57,14 @@ class DefaultController extends FormController
         $sourceSession = $this->get('session')->get('mautic.calendar.'.$source, 1);
 
         //set the return URL
-        $returnUrl = $this->generateUrl('mautic_calendar_index', [$source => $sourceSession]);
+        $returnUrl = $this->generateUrl('le_calendar_index', [$source => $sourceSession]);
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => [$source => $sourceSession],
             'contentTemplate' => $event->getContentTemplate(),
             'passthroughVars' => [
-                'activeLink'    => 'mautic_calendar_index',
+                'activeLink'    => 'le_calendar_index',
                 'mauticContent' => $source,
             ],
         ];
@@ -90,7 +90,7 @@ class DefaultController extends FormController
         }
 
         //Create the form
-        $action = $this->generateUrl('mautic_calendar_action', [
+        $action = $this->generateUrl('le_calendar_action', [
             'objectAction' => 'edit',
             'objectId'     => $entity->getId(),
             'source'       => $source,
@@ -153,9 +153,9 @@ class DefaultController extends FormController
             ],
             'contentTemplate' => $event->getContentTemplate(),
             'passthroughVars' => [
-                'activeLink'    => '#mautic_calendar_index',
+                'activeLink'    => '#le_calendar_index',
                 'mauticContent' => 'calendarModal',
-                'route'         => $this->generateUrl('mautic_calendar_action', [
+                'route'         => $this->generateUrl('le_calendar_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),
                     'source'       => $source,

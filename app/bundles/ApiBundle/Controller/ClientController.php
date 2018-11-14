@@ -61,7 +61,7 @@ class ClientController extends FormController
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $this->get('session')->set('mautic.client.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_client_index', ['page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_client_index', ['page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -69,7 +69,7 @@ class ClientController extends FormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticApiBundle:Client:index',
                     'passthroughVars' => [
-                        'activeLink'    => 'mautic_client_index',
+                        'activeLink'    => 'le_client_index',
                         'mauticContent' => 'client',
                     ],
                 ]
@@ -113,7 +113,7 @@ class ClientController extends FormController
                 'viewParameters'  => $parameters,
                 'contentTemplate' => 'MauticApiBundle:Client:list.html.php',
                 'passthroughVars' => [
-                    'route'         => $this->generateUrl('mautic_client_index', ['page' => $page]),
+                    'route'         => $this->generateUrl('le_client_index', ['page' => $page]),
                     'mauticContent' => 'client',
                 ],
             ]
@@ -170,7 +170,7 @@ class ClientController extends FormController
 
         return $this->postActionRedirect(
             [
-                'returnUrl'       => $this->generateUrl('mautic_user_account'),
+                'returnUrl'       => $this->generateUrl('le_user_account'),
                 'contentTemplate' => 'MauticUserBundle:Profile:index',
                 'passthroughVars' => [
                     'success' => $success,
@@ -202,10 +202,10 @@ class ClientController extends FormController
         $client = $model->getEntity();
 
         //set the return URL for post actions
-        $returnUrl = $this->generateUrl('mautic_client_index');
+        $returnUrl = $this->generateUrl('le_client_index');
 
         //get the user form factory
-        $action = $this->generateUrl('mautic_client_action', ['objectAction' => 'new']);
+        $action = $this->generateUrl('le_client_action', ['objectAction' => 'new']);
         $form   = $model->createForm($client, $this->get('form.factory'), $action);
 
         //remove the client id and secret fields as they'll be auto generated
@@ -229,7 +229,7 @@ class ClientController extends FormController
                             '%clientId%'     => $client->getPublicId(),
                             '%clientSecret%' => $client->getSecret(),
                             '%url%'          => $this->generateUrl(
-                                'mautic_client_action',
+                                'le_client_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $client->getId(),
@@ -246,7 +246,7 @@ class ClientController extends FormController
                         'returnUrl'       => $returnUrl,
                         'contentTemplate' => 'MauticApiBundle:Client:index',
                         'passthroughVars' => [
-                            'activeLink'    => '#mautic_client_index',
+                            'activeLink'    => '#le_client_index',
                             'mauticContent' => 'client',
                         ],
                     ]
@@ -289,13 +289,13 @@ class ClientController extends FormController
         /** @var \Mautic\ApiBundle\Model\ClientModel $model */
         $model     = $this->getModel('api.client');
         $client    = $model->getEntity($objectId);
-        $returnUrl = $this->generateUrl('mautic_client_index');
+        $returnUrl = $this->generateUrl('le_client_index');
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'contentTemplate' => 'MauticApiBundle:Client:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_client_index',
+                'activeLink'    => '#le_client_index',
                 'mauticContent' => 'client',
             ],
         ];
@@ -321,7 +321,7 @@ class ClientController extends FormController
             return $this->isLocked($postActionVars, $client, 'api.client');
         }
 
-        $action = $this->generateUrl('mautic_client_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $action = $this->generateUrl('le_client_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
         $form   = $model->createForm($client, $this->get('form.factory'), $action);
 
         // remove api_mode field
@@ -337,9 +337,9 @@ class ClientController extends FormController
                         'mautic.core.notice.updated',
                         [
                             '%name%'      => $client->getName(),
-                            '%menu_link%' => 'mautic_client_index',
+                            '%menu_link%' => 'le_client_index',
                             '%url%'       => $this->generateUrl(
-                                'mautic_client_action',
+                                'le_client_action',
                                 [
                                     'objectAction' => 'edit',
                                     'objectId'     => $client->getId(),
@@ -371,7 +371,7 @@ class ClientController extends FormController
                 ],
                 'contentTemplate' => 'MauticApiBundle:Client:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_client_index',
+                    'activeLink'    => '#le_client_index',
                     'route'         => $action,
                     'mauticContent' => 'client',
                 ],
@@ -392,7 +392,7 @@ class ClientController extends FormController
             return $this->accessDenied();
         }
 
-        $returnUrl = $this->generateUrl('mautic_client_index');
+        $returnUrl = $this->generateUrl('le_client_index');
         $success   = 0;
         $flashes   = [];
 
@@ -400,7 +400,7 @@ class ClientController extends FormController
             'returnUrl'       => $returnUrl,
             'contentTemplate' => 'MauticApiBundle:Client:index',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_client_index',
+                'activeLink'    => '#le_client_index',
                 'success'       => $success,
                 'mauticContent' => 'client',
             ],

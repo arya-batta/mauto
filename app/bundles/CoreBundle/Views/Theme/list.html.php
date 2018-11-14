@@ -86,7 +86,7 @@ $view->extend('MauticCoreBundle:Theme:index.html.php');
                                     [
                                         'attr' => [
                                             'href' => $view['router']->path(
-                                                'mautic_themes_action',
+                                                'le_themes_action',
                                                 ['objectAction' => 'download', 'objectId' => $k]
                                             ),
                                             'data-toggle' => '0',

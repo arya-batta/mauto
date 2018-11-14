@@ -89,7 +89,7 @@ class ReportSubscriber extends CommonSubscriber
 
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($prefix, ['name'], 'mautic_asset_action'),
+            $event->getStandardColumns($prefix, ['name'], 'le_asset_action'),
             $event->getCategoryColumns()
         );
 
@@ -226,7 +226,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $downloadRepo->getMostDownloaded($queryBuilder, $limit, $offset);
                     $graphData              =[];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_asset_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['title'],
@@ -251,7 +251,7 @@ class ReportSubscriber extends CommonSubscriber
                     $items                  = $downloadRepo->getTopReferrers($queryBuilder, $limit, $offset);
                     $graphData              = [];
                     foreach ($items as $item) {
-                        $formUrl = $this->router->generate('mautic_asset_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
+                        $formUrl = $this->router->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $item['id']]);
                         $row     = [
                             'mautic.dashboard.label.title' => [
                                 'value' => $item['referer'],

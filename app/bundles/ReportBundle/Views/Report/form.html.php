@@ -171,7 +171,7 @@ if ($scheduleTabErrorClass == '') {
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <div class="schedule_form well well-sm mt-lg">
-                                        <span id="schedule_preview_url" data-url="<?php echo $view['router']->path('mautic_report_schedule_preview'); ?>"></span>
+                                        <span id="schedule_preview_url" data-url="<?php echo $view['router']->path('le_report_schedule_preview'); ?>"></span>
                                         <div id="schedule_preview_data">
                                             <strong><?php echo $view['translator']->trans('mautic.report.schedule.preview_data'); ?></strong>
                                             <div id="schedule_preview_data_content" class="mt-sm"></div>

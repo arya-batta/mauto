@@ -188,7 +188,7 @@
             </div>
             <div class="form-group" style="padding-top: 15px; display:inline-flex;">
                 <input type="submit" class="buttonle" name="commit" value="Save changes">
-                <a href="<?php echo $view['router']->path('mautic_email_subscribe', ['idHash' => $idHash]); ?>" class="buttonle" style="margin:0px 50px;">Or unsubscribe from all mailing list</a>
+                <a href="<?php echo $view['router']->path('le_email_subscribe', ['idHash' => $idHash]); ?>" class="buttonle" style="margin:0px 50px;">Or unsubscribe from all mailing list</a>
             </div>
         </form>
         <div class="footnote">

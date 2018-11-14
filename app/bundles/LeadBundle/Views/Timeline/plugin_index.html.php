@@ -17,8 +17,8 @@ $view->extend('MauticCoreBundle:Default:slim.html.php');
 </style>
 <!-- filter form -->
 <form method="post" action="<?php echo isset($lead) ? $view['router']->path(
-    'mautic_plugin_timeline_view', ['leadId' => $lead->getId(), 'integration' => $integration]
-) : $view['router']->path('mautic_plugin_timeline_index', ['integration' => $integration]); ?>" class="panel" id="timeline-filters">
+    'le_plugin_timeline_view', ['leadId' => $lead->getId(), 'integration' => $integration]
+) : $view['router']->path('le_plugin_timeline_index', ['integration' => $integration]); ?>" class="panel" id="timeline-filters">
     <div class="form-control-icon pa-xs">
         <input type="text" class="form-control bdr-w-0" name="search" id="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($events['filters']['search']); ?>">
         <span class="the-icon fa fa-search text-muted mt-xs"></span>

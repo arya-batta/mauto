@@ -252,7 +252,7 @@ class PipedriveIntegration extends CrmAbstractIntegration
         $translator = $this->getTranslator();
 
         if ($section == 'authorization') {
-            return [$translator->trans('mautic.pipedrive.webhook_callback').$router->generate('mautic_integration.pipedrive.webhook', [], UrlGeneratorInterface::ABSOLUTE_URL), 'info'];
+            return [$translator->trans('le.pipedrive.webhook_callback').$router->generate('mautic_integration.pipedrive.webhook', [], UrlGeneratorInterface::ABSOLUTE_URL), 'info'];
         }
 
         return parent::getFormNotes($section);

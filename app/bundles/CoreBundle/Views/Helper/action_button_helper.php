@@ -58,13 +58,13 @@ if (isset($route) && !isset($actionRoute)) {
 } elseif (!isset($actionRoute)) {
     $actionRoute = '';
     if (isset($routeBase)) {
-        $actionRoute = 'mautic_'.str_replace('mautic_', '', $routeBase).'_action';
+        $actionRoute = 'le_'.str_replace('le_', '', $routeBase).'_action';
     }
 }
 if (!isset($indexRoute)) {
     $indexRoute = '';
     if (isset($routeBase)) {
-        $indexRoute = 'mautic_'.str_replace('mautic_', '', $routeBase).'_index';
+        $indexRoute = 'le_'.str_replace('le_', '', $routeBase).'_index';
     }
 }
 

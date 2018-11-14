@@ -64,7 +64,7 @@ class BuildJsSubscriber extends CommonSubscriber
      */
     public function onBuildJs(BuildJsEvent $event)
     {
-        $pageTrackingUrl = $this->router->generate('mautic_page_tracker', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $pageTrackingUrl = $this->router->generate('le_page_tracker', [], UrlGeneratorInterface::ABSOLUTE_URL);
         // Determine if this is https
         $parts           = parse_url($pageTrackingUrl);
         $scheme          = $parts['scheme'];
@@ -73,12 +73,12 @@ class BuildJsSubscriber extends CommonSubscriber
         $pageTrackingCORSUrl = str_replace(
             ['http://', 'https://'],
             '',
-            $this->router->generate('mautic_page_tracker_cors', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            $this->router->generate('le_page_tracker_cors', [], UrlGeneratorInterface::ABSOLUTE_URL)
         );
         $contactIdUrl = str_replace(
             ['http://', 'https://'],
             '',
-            $this->router->generate('mautic_page_tracker_getcontact', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            $this->router->generate('le_page_tracker_getcontact', [], UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         $js = <<<JS
@@ -276,11 +276,11 @@ JS;
     public function onBuildJsForVideo(BuildJsEvent $event)
     {
         $formSubmitUrl = $this->router->generate(
-            'mautic_form_postresults_ajax',
+            'le_form_postresults_ajax',
             [],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        $mauticBaseUrl   = $this->router->generate('mautic_base_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $mauticBaseUrl   = $this->router->generate('le_base_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $mediaElementCss = $this->assetsHelper->getUrl('media/css/mediaelementplayer.css', null, null, true);
         $jQueryUrl       = $this->assetsHelper->getUrl(
             'app/bundles/CoreBundle/Assets/js/libraries/2.jquery.js',

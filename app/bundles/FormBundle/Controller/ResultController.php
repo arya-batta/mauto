@@ -52,7 +52,7 @@ class ResultController extends CommonFormController
         $form           = $formModel->getEntity($objectId);
         $session        = $this->get('session');
         $formPage       = $session->get('mautic.form.page', 1);
-        $returnUrl      = $this->generateUrl('mautic_form_index', ['page' => $formPage]);
+        $returnUrl      = $this->generateUrl('le_form_index', ['page' => $formPage]);
         $viewOnlyFields = $formModel->getCustomComponents()['viewOnlyFields'];
 
         if ($form === null) {
@@ -63,7 +63,7 @@ class ResultController extends CommonFormController
                     'viewParameters'  => ['page' => $formPage],
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
-                        'activeLink'    => 'mautic_form_index',
+                        'activeLink'    => 'le_form_index',
                         'mauticContent' => 'form',
                     ],
                     'flashes' => [
@@ -136,7 +136,7 @@ class ResultController extends CommonFormController
             //the number of entities are now less then the current page so redirect to the last page
             $lastPage = ($count === 1) ? 1 : (ceil($count / $limit)) ?: 1;
             $session->set('mautic.formresult.page', $lastPage);
-            $returnUrl = $this->generateUrl('mautic_form_results', ['objectId' => $objectId, 'page' => $lastPage]);
+            $returnUrl = $this->generateUrl('le_form_results', ['objectId' => $objectId, 'page' => $lastPage]);
 
             return $this->postActionRedirect(
                 [
@@ -144,7 +144,7 @@ class ResultController extends CommonFormController
                     'viewParameters'  => ['page' => $lastPage],
                     'contentTemplate' => 'MauticFormBundle:Result:index',
                     'passthroughVars' => [
-                        'activeLink'    => 'mautic_form_index',
+                        'activeLink'    => 'le_form_index',
                         'mauticContent' => 'formresult',
                     ],
                 ]
@@ -175,10 +175,10 @@ class ResultController extends CommonFormController
                 ],
                 'contentTemplate' => 'MauticFormBundle:Result:list.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => 'mautic_form_index',
+                    'activeLink'    => 'le_form_index',
                     'mauticContent' => 'formresult',
                     'route'         => $this->generateUrl(
-                        'mautic_form_results',
+                        'le_form_results',
                         [
                             'objectId' => $objectId,
                             'page'     => $page,
@@ -255,7 +255,7 @@ class ResultController extends CommonFormController
         $form      = $formModel->getEntity($objectId);
         $session   = $this->get('session');
         $formPage  = $session->get('mautic.form.page', 1);
-        $returnUrl = $this->generateUrl('mautic_form_index', ['page' => $formPage]);
+        $returnUrl = $this->generateUrl('le_form_index', ['page' => $formPage]);
 
         if ($form === null) {
             //redirect back to form list
@@ -265,7 +265,7 @@ class ResultController extends CommonFormController
                     'viewParameters'  => ['page' => $formPage],
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
-                        'activeLink'    => 'mautic_form_index',
+                        'activeLink'    => 'le_form_index',
                         'mauticContent' => 'form',
                     ],
                     'flashes' => [
@@ -352,7 +352,7 @@ class ResultController extends CommonFormController
 
         return $this->postActionRedirect(
             [
-                'returnUrl'       => $this->generateUrl('mautic_form_results', $viewParameters),
+                'returnUrl'       => $this->generateUrl('le_form_results', $viewParameters),
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => 'MauticFormBundle:Result:index',
                 'passthroughVars' => [
@@ -384,7 +384,7 @@ class ResultController extends CommonFormController
      */
     protected function getIndexRoute()
     {
-        return 'mautic_form_results';
+        return 'le_form_results';
     }
 
     /**
@@ -392,7 +392,7 @@ class ResultController extends CommonFormController
      */
     protected function getActionRoute()
     {
-        return 'mautic_form_results_action';
+        return 'le_form_results_action';
     }
 
     /**
@@ -406,10 +406,10 @@ class ResultController extends CommonFormController
     {
         $formId = $this->getFormIdFromRequest($parameters);
         switch ($route) {
-            case 'mautic_form_results_action':
+            case 'le_form_results_action':
                 $parameters['formId'] = $formId;
                 break;
-            case 'mautic_form_results':
+            case 'le_form_results':
                 $parameters['objectId'] = $formId;
                 break;
         }

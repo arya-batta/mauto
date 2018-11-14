@@ -91,7 +91,7 @@ if ($tmpl == 'index') {
                                 ['item' => $item, 'model' => 'stage']
                             ); ?>
                             <a href="<?php echo $view['router']->generate(
-                                'mautic_stage_action',
+                                'le_stage_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
@@ -127,8 +127,8 @@ if ($tmpl == 'index') {
                 'totalItems' => count($items),
                 'page'       => $page,
                 'limit'      => $limit,
-                'menuLinkId' => 'mautic_stage_index',
-                'baseUrl'    => $view['router']->generate('mautic_stage_index'),
+                'menuLinkId' => 'le_stage_index',
+                'baseUrl'    => $view['router']->generate('le_stage_index'),
                 'sessionVar' => 'stage',
             ]
         ); ?>

@@ -12,27 +12,27 @@
 return [
     'routes' => [
         'public' => [
-            'mautic_installer_home' => [
+            'le_installer_home' => [
                 'path'       => '/installer',
                 'controller' => 'MauticInstallBundle:Install:step',
             ],
-            'mautic_installer_validater' => [
+            'le_installer_validater' => [
                 'path'       => '/validate',
                 'controller' => 'MauticInstallBundle:Install:validate',
             ],
-            'mautic_installer_remove_slash' => [
+            'le_installer_remove_slash' => [
                 'path'       => '/installer/',
                 'controller' => 'MauticCoreBundle:Common:removeTrailingSlash',
             ],
-            'mautic_installer_step' => [
+            'le_installer_step' => [
                 'path'       => '/installer/step/{index}',
                 'controller' => 'MauticInstallBundle:Install:step',
             ],
-            'mautic_installer_final' => [
+            'le_installer_final' => [
                 'path'       => '/installer/final',
                 'controller' => 'MauticInstallBundle:Install:final',
             ],
-            'mautic_installer_catchcall' => [
+            'le_installer_catchcall' => [
                 'path'         => '/installer/{noerror}',
                 'controller'   => 'MauticInstallBundle:Install:step',
                 'requirements' => [

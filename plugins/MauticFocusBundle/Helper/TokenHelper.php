@@ -69,7 +69,7 @@ class TokenHelper
                         )
                     )
                 ) {
-                    $script = '<script src="'.$this->router->generate('mautic_focus_generate', ['id' => $id], true)
+                    $script = '<script src="'.$this->router->generate('le_focus_generate', ['id' => $id], true)
                         .'" type="text/javascript" charset="utf-8" async="async"></script>';
                     $tokens[$token] = $script;
                 } else {

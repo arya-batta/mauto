@@ -39,13 +39,13 @@ class SmsListType extends AbstractType
     {
         $modelname     = $this->factory->getRequest()->get('_route');
         $enableNewForm = true;
-        if ($modelname == 'mautic_campaignevent_action') {
+        if ($modelname == 'le_campaignevent_action') {
             $enableNewForm = false;
         }
 
         $resolver->setDefaults(
             [
-                'modal_route'         => 'mautic_sms_action',
+                'modal_route'         => 'le_sms_action',
                 'modal_header'        => 'mautic.sms.header.new',
                 'model'               => 'sms',
                 'enableNewForm'       => $enableNewForm,

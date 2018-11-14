@@ -110,7 +110,7 @@ if ($tmpl == 'index') {
                             ['item' => $item, 'model' => 'dynamicContent']
                         ); ?>
                         <a href="<?php echo $view['router']->generate(
-                            'mautic_dynamicContent_action',
+                            'le_dynamicContent_action',
                             ['objectAction' => 'view', 'objectId' => $item->getId()]
                         ); ?>" data-toggle="ajax">
                             <?php echo $item->getName(); ?>
@@ -156,8 +156,8 @@ if ($tmpl == 'index') {
                     'totalItems' => count($items),
                     'page'       => $page,
                     'limit'      => $limit,
-                    'menuLinkId' => 'mautic_dynamicContent_index',
-                    'baseUrl'    => $view['router']->generate('mautic_dynamicContent_index'),
+                    'menuLinkId' => 'le_dynamicContent_index',
+                    'baseUrl'    => $view['router']->generate('le_dynamicContent_index'),
                     'sessionVar' => 'dynamicContent',
                 ]
             ); ?>

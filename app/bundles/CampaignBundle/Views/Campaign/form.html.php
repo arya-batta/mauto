@@ -27,7 +27,7 @@ echo $view->render(
             'Campaigns'          => $items,
             'actionRoute'        => $actionRoute,
             'typePrefix'         => 'form',
-            'cancelUrl'          => 'mautic_campaign_index',
+            'cancelUrl'          => 'le_campaign_index',
             'header'             => 'mautic.campaign.type.choose.header',
             'template'           => 'mautic.campaign.type.template.header',
             'blanktemplate'      => 'mautic.campaign.type.blanktemplate.header',

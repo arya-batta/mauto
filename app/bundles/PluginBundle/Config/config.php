@@ -12,41 +12,41 @@
 return [
     'routes' => [
         'main' => [
-            'mautic_integration_auth_callback_secure' => [
+            'le_integration_auth_callback_secure' => [
                 'path'       => '/plugins/integrations/authcallback/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authCallback',
             ],
-            'mautic_integration_auth_postauth_secure' => [
+            'le_integration_auth_postauth_secure' => [
                 'path'       => '/plugins/integrations/authstatus/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authStatus',
             ],
-            'mautic_plugin_index' => [
+            'le_plugin_index' => [
                 'path'       => '/plugins',
                 'controller' => 'MauticPluginBundle:Plugin:index',
             ],
-            'mautic_plugin_config' => [
+            'le_plugin_config' => [
                 'path'       => '/plugins/config/{name}/{page}',
                 'controller' => 'MauticPluginBundle:Plugin:config',
             ],
-            'mautic_plugin_info' => [
+            'le_plugin_info' => [
                 'path'       => '/plugins/info/{name}',
                 'controller' => 'MauticPluginBundle:Plugin:info',
             ],
-            'mautic_plugin_reload' => [
+            'le_plugin_reload' => [
                 'path'       => '/plugins/reload',
                 'controller' => 'MauticPluginBundle:Plugin:reload',
             ],
         ],
         'public' => [
-            'mautic_integration_auth_user' => [
+            'le_integration_auth_user' => [
                 'path'       => '/plugins/integrations/authuser/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authUser',
             ],
-            'mautic_integration_auth_callback' => [
+            'le_integration_auth_callback' => [
                 'path'       => '/plugins/integrations/authcallback/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authCallback',
             ],
-            'mautic_integration_auth_postauth' => [
+            'le_integration_auth_postauth' => [
                 'path'       => '/plugins/integrations/authstatus/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authStatus',
             ],
@@ -60,7 +60,7 @@ return [
                     'id'        => 'mautic_plugin_root',
                     'iconClass' => 'fa-plus-circle',
                     // 'access'    => 'plugin:plugins:manage',
-                    'route'     => 'mautic_plugin_index',
+                    'route'     => 'le_plugin_index',
                     'access'    => 'admin',
                 ],
             ],

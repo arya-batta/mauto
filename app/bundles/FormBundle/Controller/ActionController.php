@@ -56,7 +56,7 @@ class ActionController extends CommonFormController
         //fire the form builder event
         $customComponents = $this->getModel('form.form')->getCustomComponents();
         $form             = $this->get('form.factory')->create('formaction', $formAction, [
-            'action'   => $this->generateUrl('mautic_formaction_action', ['objectAction' => 'new']),
+            'action'   => $this->generateUrl('le_formaction_action', ['objectAction' => 'new']),
             'settings' => $customComponents['actions'][$actionType],
             'formId'   => $formId,
         ]);
@@ -170,7 +170,7 @@ class ActionController extends CommonFormController
             }
 
             $form = $this->get('form.factory')->create('formaction', $formAction, [
-                'action'   => $this->generateUrl('mautic_formaction_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
+                'action'   => $this->generateUrl('le_formaction_action', ['objectAction' => 'edit', 'objectId' => $objectId]),
                 'settings' => $formAction['settings'],
                 'formId'   => $formId,
             ]);

@@ -26,7 +26,7 @@
             </div>
             <div class="media-body">
                 <?php if (isset($log['userId']) && $log['userId']) : ?>
-                    <a href="<?php echo $view['router']->path('mautic_user_action', ['objectAction' => 'edit', 'objectId' => $log['userId']]); ?>" data-toggle="ajax">
+                    <a href="<?php echo $view['router']->path('le_user_action', ['objectAction' => 'edit', 'objectId' => $log['userId']]); ?>" data-toggle="ajax">
                         <?php echo $log['userName']; ?>
                     </a>
                 <?php elseif ($log['userName']) : ?>

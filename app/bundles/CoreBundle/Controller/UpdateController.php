@@ -43,7 +43,7 @@ class UpdateController extends CommonController
             'contentTemplate' => 'MauticCoreBundle:Update:index.html.php',
             'passthroughVars' => [
                 'mauticContent' => 'update',
-                'route'         => $this->generateUrl('mautic_core_update'),
+                'route'         => $this->generateUrl('le_core_update'),
             ],
         ]);
     }
@@ -106,7 +106,7 @@ class UpdateController extends CommonController
             'contentTemplate' => 'MauticCoreBundle:Update:schema.html.php',
             'passthroughVars' => [
                 'mauticContent' => 'update',
-                'route'         => $this->generateUrl('mautic_core_update_schema'),
+                'route'         => $this->generateUrl('le_core_update_schema'),
             ],
         ]);
     }
