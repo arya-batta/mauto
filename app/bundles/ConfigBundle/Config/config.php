@@ -30,7 +30,7 @@ return [
                 'routeParameters' => ['objectAction' => 'edit'],
                 'iconClass'       => 'fa-cogs',
                 'priority'        => 500,
-                'id'              => 'mautic_config_index',
+                'id'              => 'le_config_index',
                 'access'          => ['lead:leads:viewown', 'lead:leads:viewother'],
                 //'access'          => 'admin',
             ],

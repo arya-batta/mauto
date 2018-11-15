@@ -8,7 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$view['slots']->set('mauticContent', 'form');
+$view['slots']->set('leContent', 'form');
 
 ?>
 <div class="row">

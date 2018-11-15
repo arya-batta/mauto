@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'message');
+$view['slots']->set('leContent', 'message');
 $view['slots']->set('headerTitle', $item->getName());
 
 $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actions.html.php', [

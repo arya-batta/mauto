@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'prepaidplans');
+$view['slots']->set('leContent', 'prepaidplans');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepaidplans'));
 ?>
 <div id="prepaidplan-panel" role="tablist" aria-multiselectable="true">

@@ -514,7 +514,7 @@ class ImportController extends FormController
                     'contentTemplate' => $contentTemplate,
                     'passthroughVars' => [
                         'activeLink'    => $activeLink,
-                        'mauticContent' => 'leadImport',
+                        'leContent' => 'leadImport',
                         'step'          => $step,
                         'progress'      => $progress,
                     ],

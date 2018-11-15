@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'lead');
+$view['slots']->set('leContent', 'lead');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.leads'));
 
 $pageButtons = [];
@@ -18,7 +18,7 @@ if ($permissions['lead:leads:create']) {
         'attr' => [
             'class'       => 'btn btn-default btn-nospin quickadd le-btn-default',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'new', 'qf' => 1]),
             'data-header' => $view['translator']->trans('le.lead.lead.menu.quickadd'),
         ],

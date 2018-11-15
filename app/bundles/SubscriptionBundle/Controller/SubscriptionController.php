@@ -26,7 +26,7 @@ class SubscriptionController extends CommonController
             'contentTemplate' => 'MauticSubscriptionBundle:Subscription:index.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_subscription_index',
-                'mauticContent' => 'subscription',
+                'leContent' => 'subscription',
                 'route'         => $this->generateUrl('le_subscription_index'),
             ],
         ]);
@@ -47,7 +47,7 @@ class SubscriptionController extends CommonController
         'contentTemplate' => 'MauticSubscriptionBundle:Plans:index.html.php',
         'passthroughVars' => [
             'activeLink'    => '#le_plan_index',
-            'mauticContent' => 'prepaidplans',
+            'leContent' => 'prepaidplans',
             'route'         => $this->generateUrl('le_plan_index'),
         ],
     ]);
@@ -74,7 +74,7 @@ class SubscriptionController extends CommonController
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_pricing_index',
-                'mauticContent' => 'pricingplans',
+                'leContent' => 'pricingplans',
                 'route'         => $this->generateUrl('le_pricing_index'),
             ],
         ]);
@@ -117,7 +117,7 @@ class SubscriptionController extends CommonController
         'contentTemplate' => 'MauticSubscriptionBundle:Subscription:status.html.php',
         'passthroughVars' => [
             'activeLink'    => '#le_subscription_status',
-            'mauticContent' => 'subscription-status',
+            'leContent' => 'subscription-status',
             'route'         => $this->generateUrl('le_subscription_status'),
         ],
     ]);
@@ -140,7 +140,7 @@ class SubscriptionController extends CommonController
                 'contentTemplate' => 'MauticSubscriptionBundle:Pricing:status.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_payment_status',
-                    'mauticContent' => 'payment-status',
+                    'leContent' => 'payment-status',
                     'route'         => $this->generateUrl('le_payment_status'),
                 ],
             ]);
@@ -198,7 +198,7 @@ class SubscriptionController extends CommonController
                             'contentTemplate' => 'MauticSubscriptionBundle:Plans:index',
                             'passthroughVars' => [
                                 'activeLink'    => '#le_plan_index',
-                                'mauticContent' => 'prepaidplans',
+                                'leContent' => 'prepaidplans',
                             ],
                         ]
                     );
@@ -224,7 +224,7 @@ class SubscriptionController extends CommonController
                 'contentTemplate' => 'MauticSubscriptionBundle:Plans:status.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_payment_status',
-                    'mauticContent' => 'payment-status',
+                    'leContent' => 'payment-status',
                     'route'         => $this->generateUrl('le_payment_status'),
                 ],
             ]);
@@ -380,7 +380,7 @@ class SubscriptionController extends CommonController
                     'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'subscription',
+                        'leContent' => 'subscription',
                         'route'         => $this->generateUrl('le_contact_index'),
                     ],
                 ]

@@ -66,7 +66,7 @@ class DynamicContentFilterEntryType extends AbstractType
             'content',
             'textarea',
             [
-                'label' => 'mautic.core.dynamicContent.alt_content',
+                'label' => 'le.core.dynamicContent.alt_content',
                 'attr'  => [
                     'class' => 'form-control editor editor-dynamic-content',
                 ],

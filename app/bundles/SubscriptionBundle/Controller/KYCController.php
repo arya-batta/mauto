@@ -140,7 +140,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step1.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'mauticContent' => 'kyc',
+                    'leContent' => 'kyc',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [
@@ -221,7 +221,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step2.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'mauticContent' => 'kyc',
+                    'leContent' => 'kyc',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [
@@ -271,7 +271,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step3.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'mauticContent' => 'condition',
+                    'leContent' => 'condition',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [

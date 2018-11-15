@@ -10,7 +10,7 @@
  */
 
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'list');
+$view['slots']->set('leContent', 'list');
 $view['slots']->set('headerTitle', $list->getName());
 $customButtons = [];
 

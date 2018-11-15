@@ -29,11 +29,11 @@ trait BuilderControllerTrait
 
         $assetsHelper
             ->setContext(AssetsHelper::CONTEXT_BUILDER)
-            ->addScriptDeclaration("var mauticBasePath    = '".$this->request->getBasePath()."';")
-            ->addScriptDeclaration("var mauticAjaxUrl     = '".$routerHelper->generate('le_core_ajax')."';")
-            ->addScriptDeclaration("var mauticBaseUrl     = '".$routerHelper->generate('le_base_index')."';")
-            ->addScriptDeclaration("var mauticAssetPrefix = '".$assetsHelper->getAssetPrefix(true)."';")
-            ->addScriptDeclaration('var mauticLang        = '.$translator->getJsLang().';')
+            ->addScriptDeclaration("var leBasePath    = '".$this->request->getBasePath()."';")
+            ->addScriptDeclaration("var leAjaxUrl     = '".$routerHelper->generate('le_core_ajax')."';")
+            ->addScriptDeclaration("var leBaseUrl     = '".$routerHelper->generate('le_base_index')."';")
+            ->addScriptDeclaration("var leAssetPrefix = '".$assetsHelper->getAssetPrefix(true)."';")
+            ->addScriptDeclaration('var leLang        = '.$translator->getJsLang().';')
             ->addCustomDeclaration($assetsHelper->getSystemScripts(true, true))
             ->addStylesheet('app/bundles/CoreBundle/Assets/css/libraries/builder.css');
 

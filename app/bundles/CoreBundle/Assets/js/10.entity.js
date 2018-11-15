@@ -260,7 +260,7 @@ Le.setSearchFilter = function (el, searchId, string) {
  */
 Le.unlockEntity = function (model, id, parameter) {
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: "action=unlockEntity&model=" + model + "&id=" + id + "&parameter=" + parameter,
         dataType: "json"
@@ -295,7 +295,7 @@ Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     }
     mQuery(el).tooltip('destroy');
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: "action=togglePublishStatus&model=" + model + '&id=' + id + extra,
         dataType: "json",

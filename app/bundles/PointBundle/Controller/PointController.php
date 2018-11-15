@@ -79,7 +79,7 @@ class PointController extends AbstractFormController
                 'contentTemplate' => 'MauticPointBundle:Point:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_point_index',
-                    'mauticContent' => 'point',
+                    'leContent' => 'point',
                 ],
             ]);
         }
@@ -107,7 +107,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
                 'route'         => $this->generateUrl('le_point_index', ['page' => $page]),
             ],
         ]);
@@ -183,7 +183,7 @@ class PointController extends AbstractFormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => 'le_point_index',
-                        'mauticContent' => 'point',
+                        'leContent' => 'point',
                     ],
                 ]);
             }
@@ -204,7 +204,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
                 'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                         'objectId'     => $entity->getId(),
@@ -241,7 +241,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
             ],
         ];
 
@@ -333,7 +333,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
                 'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => 'edit',
                         'objectId'     => $entity->getId(),
@@ -386,7 +386,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
             ],
         ];
 
@@ -443,7 +443,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'mauticContent' => 'point',
+                'leContent' => 'point',
             ],
         ];
 

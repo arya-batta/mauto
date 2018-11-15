@@ -57,7 +57,7 @@ class EventController extends CommonFormController
             $modifiedEvents[$keyId] = $event;
             $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
             $passthroughVars               = [
-                'mauticContent'     => 'campaignEvent',
+                'leContent'     => 'campaignEvent',
                 'success'           => 0,
                 'route'             => false,
                 'eventType'         => $eventType,
@@ -176,7 +176,7 @@ class EventController extends CommonFormController
             $viewParams['accessurl']       =$this->generateUrl('le_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
             $viewParams['events']          =$event;
             $passthroughVars               = [
-                'mauticContent'     => 'campaignEvent',
+                'leContent'     => 'campaignEvent',
                 'success'           => $success,
                 'route'             => false,
                 'eventType'         => $eventType,
@@ -256,7 +256,7 @@ class EventController extends CommonFormController
             }
 
             $dataArray = [
-                'mauticContent' => 'campaignEvent',
+                'leContent' => 'campaignEvent',
                 'success'       => 1,
                 'route'         => false,
                 'eventId'       => $objectId,
@@ -321,7 +321,7 @@ class EventController extends CommonFormController
             $event  = array_merge($blank, $event);
 
             $dataArray = [
-                'mauticContent' => 'campaignEvent',
+                'leContent' => 'campaignEvent',
                 'success'       => 1,
                 'route'         => false,
                 'eventId'       => $objectId,

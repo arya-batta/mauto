@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'leadImport');
+$view['slots']->set('leContent', 'leadImport');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.leads', ['%object%' => $view['request']->getParameter('object')]));
 
 ?>

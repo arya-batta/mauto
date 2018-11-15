@@ -11,7 +11,7 @@ Le.getAbTestWinnerForm = function(bundle, formName, abKey) {
     var query = "action="+bundle+":getAbTestForm&abKey=" + mQuery(abKey).val() + "&id=" + id;
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",

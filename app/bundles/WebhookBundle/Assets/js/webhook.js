@@ -23,7 +23,7 @@ Le.sendHookTest = function() {
     spinner.removeClass('hide');
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         data: data,
         type: 'POST',
         dataType: "json",

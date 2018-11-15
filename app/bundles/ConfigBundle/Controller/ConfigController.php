@@ -234,8 +234,8 @@ class ConfigController extends FormController
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [
-                    'activeLink'    => '#mautic_config_index',
-                    'mauticContent' => 'config',
+                    'activeLink'    => '#le_config_index',
+                    'leContent' => 'config',
                     'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
                 ],
             ]

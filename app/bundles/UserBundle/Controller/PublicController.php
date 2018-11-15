@@ -70,7 +70,7 @@ class PublicController extends FormController
             'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
                 'route'         => $action,
             ],
         ]);

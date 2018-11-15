@@ -1,4 +1,4 @@
-var MauticLang = {};
+var leLang = {};
 var MauticInstaller = {
 
     showWaitMessage: function(event) {

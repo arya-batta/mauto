@@ -87,7 +87,7 @@ abstract class AbstractModalFormController extends AbstractStandardFormControlle
             }
 
             $dataArray = [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
                 'success'       => 1,
                 'route'         => false,
                 'objectId'      => $objectId,
@@ -124,7 +124,7 @@ abstract class AbstractModalFormController extends AbstractStandardFormControlle
             }
 
             $dataArray = [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
                 'success'       => 1,
                 'route'         => false,
                 'objectId'      => $objectId,
@@ -185,7 +185,7 @@ abstract class AbstractModalFormController extends AbstractStandardFormControlle
         }
 
         $passthroughVars = [
-            'mauticContent'      => $this->getJsLoadMethodPrefix(),
+            'leContent'      => $this->getJsLoadMethodPrefix(),
             'success'            => $valid,
             'route'              => false,
             'closeModal'         => ($cancelled || $valid),

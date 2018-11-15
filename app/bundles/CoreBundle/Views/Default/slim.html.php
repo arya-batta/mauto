@@ -19,7 +19,7 @@
             <?php $view['slots']->output('_content'); ?>
         </section>
         <?php echo $view->render('MauticCoreBundle:Helper:modal.html.php', [
-            'id'            => 'MauticSharedModal',
+            'id'            => 'leSharedModal',
             'footerButtons' => true,
         ]); ?>
         <?php $view['assets']->outputScripts('bodyClose'); ?>

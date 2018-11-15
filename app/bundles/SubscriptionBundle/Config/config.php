@@ -49,7 +49,7 @@ return [
         'admin'   => [
             'leadsengage.subs.account.menu.index' => [
                 'route'           => 'le_accountinfo_action',
-                'id'              => 'mautic_accountinfo_index',
+                'id'              => 'le_accountinfo_index',
                 'routeParameters' => ['objectAction' => 'edit'],
                 'iconClass'       => 'fa fa-address-book-o',
                 'priority'        => 600,

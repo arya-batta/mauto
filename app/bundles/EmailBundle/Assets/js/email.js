@@ -469,7 +469,7 @@ Le.reorderEmailsData = function(container){
                 // Get the page and limit
                 /*mQuery.ajax({
                     type: "POST",
-                    url: mauticAjaxUrl + "?action=lead:reorder&limit=" + mQuery('.pagination-limit').val() + '&page=' + mQuery('.pagination li.active a span').first().text(),
+                    url: leAjaxUrl + "?action=lead:reorder&limit=" + mQuery('.pagination-limit').val() + '&page=' + mQuery('.pagination li.active a span').first().text(),
                     data: mQuery(container + ' .leadfield-list tbody').sortable("serialize")});*/
             }
         });
@@ -551,7 +551,7 @@ Le.getEmailAbTestWinnerForm = function(abKey) {
     var query = "action=email:getAbTestForm&abKey=" + mQuery(abKey).val() + "&emailId=" + emailId;
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",
@@ -659,12 +659,12 @@ Le.selectEmailType = function(emailType) {
         mQuery('#leadList').removeClass('hide');
         mQuery('#segmentTranslationParent').removeClass('hide');
         mQuery('#templateTranslationParent').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newListEmail);
+        mQuery('.page-header h3').text(leLang.newListEmail);
     } else {
         mQuery('#segmentTranslationParent').addClass('hide');
         mQuery('#templateTranslationParent').removeClass('hide');
         mQuery('#leadList').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newTemplateEmail);
+        mQuery('.page-header h3').text(leLang.newTemplateEmail);
     }
 
     mQuery('#emailform_emailType').val(emailType);
@@ -1216,7 +1216,7 @@ Le.convertDynamicContentFilterInput = function(el, jQueryVariant) {
             newName =  filterEl.attr('name') + '[]';
             filterEl.attr('name', newName);
 
-            placeholder = mauticLang['chosenChooseMore'];
+            placeholder = leLang['chosenChooseMore'];
         } else if (!multiple && isMultiple) {
             filterEl.removeAttr('multiple');
 
@@ -1227,7 +1227,7 @@ Le.convertDynamicContentFilterInput = function(el, jQueryVariant) {
 
             filterEl.attr('name', newName);
 
-            placeholder = mauticLang['chosenChooseOne'];
+            placeholder = leLang['chosenChooseOne'];
         }
 
         if (multiple) {

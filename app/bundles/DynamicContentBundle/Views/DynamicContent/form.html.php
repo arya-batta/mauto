@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view->addGlobal('translationBase', 'mautic.dynamicContent');
-$view->addGlobal('mauticContent', 'dynamicContent');
+$view->addGlobal('leContent', 'dynamicContent');
 
 $fields = $form->vars['fields'];
 $index  = count($form['filters']->vars['value']) ? max(array_keys($form['filters']->vars['value'])) : 0;

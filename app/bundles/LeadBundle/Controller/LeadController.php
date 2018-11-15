@@ -230,7 +230,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Lead:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'lead',
+                        'leContent' => 'lead',
                     ],
                 ]
             );
@@ -314,7 +314,7 @@ class LeadController extends FormController
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'route'         => $this->generateUrl('le_contact_index', ['page' => $page]),
                 ],
             ]
@@ -348,7 +348,7 @@ class LeadController extends FormController
 //                'contentTemplate' => 'MauticLeadBundle:Lead:quickadd.html.php',
 //                'passthroughVars' => [
 //                    'activeLink'    => '#le_contact_index',
-//                    'mauticContent' => 'lead',
+//                    'leContent' => 'lead',
 //                    'route'         => false,
 //                ],
 //            ]
@@ -431,7 +431,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Lead:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'contact',
+                        'leContent' => 'contact',
                     ],
                     'flashes' => [
                         [
@@ -530,7 +530,7 @@ class LeadController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Lead:lead.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -616,7 +616,7 @@ class LeadController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_contact_index',
-                            'mauticContent' => 'lead',
+                            'leContent' => 'lead',
                             'closeModal'    => 1, //just in case in quick form
                         ],
                     ]
@@ -735,7 +735,7 @@ class LeadController extends FormController
                             'contentTemplate' => $template,
                             'passthroughVars' => [
                                 'activeLink'    => '#le_contact_index',
-                                'mauticContent' => 'lead',
+                                'leContent' => 'lead',
                                 'closeModal'    => 1, //just in case in quick form
                             ],
                         ]
@@ -749,7 +749,7 @@ class LeadController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_contact_index',
-                            'mauticContent' => 'lead',
+                            'leContent' => 'lead',
                             'closeModal'    => 1, //just in case in quick form
                         ],
                     ]
@@ -771,7 +771,7 @@ class LeadController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Lead:'.$formtemplate.'.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -814,7 +814,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
         //lead not found
@@ -958,7 +958,7 @@ class LeadController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Lead:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -1014,7 +1014,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -1139,7 +1139,7 @@ class LeadController extends FormController
                         'contentTemplate' => 'MauticLeadBundle:Lead:view',
                         'passthroughVars' => [
                             'closeModal'    => 1,
-                            'mauticContent' => 'lead',
+                            'leContent' => 'lead',
                         ],
                     ]
                 );
@@ -1272,7 +1272,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -1352,7 +1352,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -1769,7 +1769,7 @@ class LeadController extends FormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => 'MauticLeadBundle:Lead:'.$func,
                     'passthroughVars' => [
-                        'mauticContent' => 'lead',
+                        'leContent' => 'lead',
                         'closeModal'    => 1,
                     ],
                 ]
@@ -1786,7 +1786,7 @@ class LeadController extends FormController
                     'mailertransport'=> $mailertransport,
                 ],
                 'passthroughVars' => [
-                    'mauticContent' => 'leadEmail',
+                    'leContent' => 'leadEmail',
                     'route'         => false,
                 ],
             ]
@@ -1891,7 +1891,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2020,7 +2020,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2114,7 +2114,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2224,7 +2224,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2327,7 +2327,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]

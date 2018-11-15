@@ -222,7 +222,7 @@ class CampaignController extends AbstractStandardFormController
                 'contentTemplate' => 'MauticCampaignBundle:Campaign:quickadd.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_campaign_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'route'         => $this->generateUrl(
                         'le_campaign_action',
                         [
@@ -682,7 +682,7 @@ class CampaignController extends AbstractStandardFormController
                 $args['viewParameters']['customAction'] = 'quickadd';
                 $customAttr                             = [
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'data-header' => $this->translator->trans('le.campaign.new.add'),
                 ];
                 $args['viewParameters']['campaignBlocks'] =  $this->getModel('campaign')->getCampaignsBlocks();

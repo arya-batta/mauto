@@ -70,7 +70,7 @@ class ClientController extends FormController
                     'contentTemplate' => 'MauticApiBundle:Client:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_client_index',
-                        'mauticContent' => 'client',
+                        'leContent' => 'client',
                     ],
                 ]
             );
@@ -114,7 +114,7 @@ class ClientController extends FormController
                 'contentTemplate' => 'MauticApiBundle:Client:list.html.php',
                 'passthroughVars' => [
                     'route'         => $this->generateUrl('le_client_index', ['page' => $page]),
-                    'mauticContent' => 'client',
+                    'leContent' => 'client',
                 ],
             ]
         );
@@ -247,7 +247,7 @@ class ClientController extends FormController
                         'contentTemplate' => 'MauticApiBundle:Client:index',
                         'passthroughVars' => [
                             'activeLink'    => '#le_client_index',
-                            'mauticContent' => 'client',
+                            'leContent' => 'client',
                         ],
                     ]
                 );
@@ -266,7 +266,7 @@ class ClientController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_client_new',
                     'route'         => $action,
-                    'mauticContent' => 'client',
+                    'leContent' => 'client',
                 ],
             ]
         );
@@ -296,7 +296,7 @@ class ClientController extends FormController
             'contentTemplate' => 'MauticApiBundle:Client:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_client_index',
-                'mauticContent' => 'client',
+                'leContent' => 'client',
             ],
         ];
 
@@ -373,7 +373,7 @@ class ClientController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_client_index',
                     'route'         => $action,
-                    'mauticContent' => 'client',
+                    'leContent' => 'client',
                 ],
             ]
         );
@@ -402,7 +402,7 @@ class ClientController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_client_index',
                 'success'       => $success,
-                'mauticContent' => 'client',
+                'leContent' => 'client',
             ],
         ];
 

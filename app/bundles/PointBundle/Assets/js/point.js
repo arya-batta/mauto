@@ -19,7 +19,7 @@ Le.pointTriggerOnLoad = function (container) {
             stop: function(i) {
                 mQuery.ajax({
                     type: "POST",
-                    url: mauticAjaxUrl + "?action=point:reorderTriggerEvents",
+                    url: leAjaxUrl + "?action=point:reorderTriggerEvents",
                     data: mQuery('#triggerEvents').sortable("serialize") + "&triggerId=" + mQuery('#pointtrigger_sessionId').val()
                 });
             }
@@ -93,7 +93,7 @@ Le.getPointActionPropertiesForm = function(actionType) {
 
     var query = "action=point:getActionForm&actionType=" + actionType;
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",

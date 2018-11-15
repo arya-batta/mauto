@@ -216,7 +216,7 @@ class ProfileController extends FormController
                             'returnUrl'       => $returnUrl,
                             'contentTemplate' => 'MauticUserBundle:Profile:index',
                             'passthroughVars' => [
-                                'mauticContent' => 'user',
+                                'leContent' => 'user',
                             ],
                             'flashes' => [ //success
                                 [
@@ -246,7 +246,7 @@ class ProfileController extends FormController
                 'contentTemplate' => 'MauticUserBundle:Profile:index.html.php',
                 'passthroughVars' => [
                     'route'         => $this->generateUrl('le_user_account'),
-                    'mauticContent' => 'user',
+                    'leContent' => 'user',
                 ],
             ]
         );

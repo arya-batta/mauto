@@ -1480,7 +1480,7 @@ Le.updateConnections = function(callback) {
     var query          = "action=campaign:updateConnections&campaignId=" + campaignId;
     var canvasSettings = {canvasSettings: JSON.stringify(Le.campaignupdatedjson)};
     mQuery.ajax({
-        url: mauticAjaxUrl + '?' + query,
+        url:leAjaxUrl + '?' + query,
         type: "POST",
         data: canvasSettings,
         dataType: "json",
@@ -1567,7 +1567,7 @@ Le.campaignToggleTimeframes = function() {
  */
 Le.CloseDataModelCampaign = function(){
     if(mQuery('#campaign_name').val() != ""){
-        mQuery('#MauticSharedModal').modal('hide');
+        mQuery('#leSharedModal').modal('hide');
     } else {
         mQuery('#campaign_name .help-block').html("A name is required");
     }

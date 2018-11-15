@@ -9,22 +9,22 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-$mauticContent = $view['slots']->get(
-    'mauticContent',
-    isset($mauticTemplateVars['mauticContent']) ? $mauticTemplateVars['mauticContent'] : ''
+$leContent = $view['slots']->get(
+    'leContent',
+    isset($mauticTemplateVars['leContent']) ? $mauticTemplateVars['leContent'] : ''
 );
 ?>
 
 <script>
-    var mauticBasePath    = '<?php echo $app->getRequest()->getBasePath(); ?>';
-    var mauticBaseUrl     = '<?php echo $view['router']->path('le_base_index'); ?>';
-    var mauticAjaxUrl     = '<?php echo $view['router']->path('le_core_ajax'); ?>';
-    var mauticAjaxCsrf    = '<?php echo $view['security']->getCsrfToken('mautic_ajax_post'); ?>';
-    var mauticAssetPrefix = '<?php echo $view['assets']->getAssetPrefix(true); ?>';
-    var mauticContent     = '<?php echo $mauticContent; ?>';
-    var mauticEnv         = '<?php echo $app->getEnvironment(); ?>';
+    var leBasePath    = '<?php echo $app->getRequest()->getBasePath(); ?>';
+    var leBaseUrl     = '<?php echo $view['router']->path('le_base_index'); ?>';
+    var leAjaxUrl     = '<?php echo $view['router']->path('le_core_ajax'); ?>';
+    var leAjaxCsrf    = '<?php echo $view['security']->getCsrfToken('mautic_ajax_post'); ?>';
+    var leAssetPrefix = '<?php echo $view['assets']->getAssetPrefix(true); ?>';
+    var leContent     = '<?php echo $leContent; ?>';
+    var leEnv         = '<?php echo $app->getEnvironment(); ?>';
     var leClientID        = '<?php echo $view['assets']->getAppid(); ?>';
-    var mauticLang        = <?php echo $view['translator']->getJsLang(); ?>;
+    var leLang        = <?php echo $view['translator']->getJsLang(); ?>;
    //document.addEventListener("contextmenu", function(e){
      //   alert("Right Click Not Supported");
        // e.preventDefault();
@@ -34,15 +34,15 @@ $mauticContent = $view['slots']->get(
 <?php $view['assets']->outputSystemScripts(true); ?>
 <?php $view['assets']->outputBeeEditorScripts(); ?>
 <?php
-if ($mauticContent == 'subscription' || $mauticContent == 'prepaidplans') {
+if ($leContent == 'subscription' || $leContent == 'prepaidplans') {
     echo '<script src="https://checkout.razorpay.com/v1/checkout.js"></script>';
 }
-//if ($mauticContent == 'accountinfo' || $mauticContent == 'pricingplans') {
+//if ($leContent == 'accountinfo' || $leContent == 'pricingplans') {
     echo '<script src="https://js.stripe.com/v3/"></script>';
 //}
 ?>
 <?php
-if ($mauticContent != 'user') {
+if ($leContent != 'user') {
     echo '<!--Start of Tawk.to Script-->
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

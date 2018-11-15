@@ -195,7 +195,7 @@ var loadTemplate = function(e) {
         //viewpanel.addClass('builder-active');
         request(
             'POST',
-            mauticBaseUrl+'beefree/getcredentials',
+            leBaseUrl+'beefree/getcredentials',
             '',
             'application/x-www-form-urlencoded',
             function(token) {

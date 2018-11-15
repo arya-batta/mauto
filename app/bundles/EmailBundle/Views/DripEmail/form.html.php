@@ -10,7 +10,7 @@
  */
 
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'dripemail');
+$view['slots']->set('leContent', 'dripemail');
 
 $header = $view['translator']->trans('le.drip.email.header.edit', ['%name%' => $entity->getName()]);
 

@@ -12,7 +12,7 @@
 /** @var \Mautic\PageBundle\Entity\Page $activePage */
 //@todo - add landing page stats/analytics
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'page');
+$view['slots']->set('leContent', 'page');
 $view['slots']->set('headerTitle', $activePage->getTitle());
 
 $variantContent = $view->render(

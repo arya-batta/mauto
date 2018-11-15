@@ -11,11 +11,11 @@ Le.selectNotificationType = function(notificationType) {
     if (notificationType == 'list') {
         mQuery('#leadList').removeClass('hide');
         mQuery('#publishStatus').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newListNotification);
+        mQuery('.page-header h3').text(leLang.newListNotification);
     } else {
         mQuery('#publishStatus').removeClass('hide');
         mQuery('#leadList').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newTemplateNotification);
+        mQuery('.page-header h3').text(leLang.newTemplateNotification);
     }
 
     mQuery('#notification_notificationType').val(notificationType);

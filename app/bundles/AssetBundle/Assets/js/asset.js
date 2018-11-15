@@ -19,7 +19,7 @@ Le.updateRemoteBrowser = function(provider, path) {
     spinner.appendTo('#tab' + provider + ' a');
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: "action=asset:fetchRemoteFiles&provider=" + provider + "&path=" + path,
         dataType: "json",
@@ -92,7 +92,7 @@ Le.initializeDropzone = function() {
     var preview = mQuery('.preview div.text-center');
 
     Le.assetDropzone.on("sending", function (file, request, formData) {
-        request.setRequestHeader('X-CSRF-Token', mauticAjaxCsrf);
+        request.setRequestHeader('X-CSRF-Token', leAjaxCsrf);
         formData.append('tempId', mQuery('#asset_tempId').val());
     }).on("addedfile", function (file) {
         preview.fadeOut('fast');

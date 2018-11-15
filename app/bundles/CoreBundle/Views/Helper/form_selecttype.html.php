@@ -20,8 +20,8 @@ if (!isset($typeThreeIconClass)) {
 }
 ?>
 <script>
-    <?php foreach ($mauticLang as $key => $string): ?>
-    mauticLang.<?php echo $key; ?> = "<?php echo $view['translator']->trans($string); ?>";
+    <?php foreach ($leLang as $key => $string): ?>
+    leLang.<?php echo $key; ?> = "<?php echo $view['translator']->trans($string); ?>";
     <?php endforeach; ?>
 </script>
 <div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>

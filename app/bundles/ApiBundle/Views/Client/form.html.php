@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'client');
+$view['slots']->set('leContent', 'client');
 $id = $form->vars['data']->getId();
 if (!empty($id)) {
     $name   = $form->vars['data']->getName();

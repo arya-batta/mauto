@@ -129,7 +129,7 @@ class CompanyType extends AbstractType
                         'class'       => 'btn btn-default btn-dnd',
                         'icon'        => 'fa fa-building',
                         'data-toggle' => 'ajaxmodal',
-                        'data-target' => '#MauticSharedModal',
+                        'data-target' => '#leSharedModal',
                         'data-header' => $this->translator->trans('le.lead.company.header.merge'),
                         'href'        => $this->router->generate(
                             'le_company_action',

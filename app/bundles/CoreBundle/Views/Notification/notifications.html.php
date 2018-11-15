@@ -43,7 +43,7 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
                     </div>
                 </div>
                 <?php $lastNotification = reset($notifications); ?>
-                <input id="mauticLastNotificationId" type="hidden" value="<?php echo $view->escape($lastNotification['id']); ?>" />
+                <input id="leLastNotificationId" type="hidden" value="<?php echo $view->escape($lastNotification['id']); ?>" />
             </div>
         </div>
     </li>

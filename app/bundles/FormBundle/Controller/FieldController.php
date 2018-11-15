@@ -132,7 +132,7 @@ class FieldController extends CommonFormController
         }
 
         $passthroughVars = [
-            'mauticContent' => 'formField',
+            'leContent' => 'formField',
             'success'       => $success,
             'route'         => false,
         ];
@@ -275,7 +275,7 @@ class FieldController extends CommonFormController
             }
 
             $passthroughVars = [
-                'mauticContent' => 'formField',
+                'leContent' => 'formField',
                 'success'       => $success,
                 'route'         => false,
             ];
@@ -364,7 +364,7 @@ class FieldController extends CommonFormController
             }
 
             $dataArray = [
-                'mauticContent' => 'formField',
+                'leContent' => 'formField',
                 'success'       => 1,
                 'route'         => false,
             ];

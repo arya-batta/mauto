@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'pointTrigger');
+$view['slots']->set('leContent', 'pointTrigger');
 $view['slots']->set('headerTitle', $entity->getName());
 
 $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actions.html.php', [

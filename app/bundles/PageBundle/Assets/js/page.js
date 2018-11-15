@@ -115,7 +115,7 @@ Le.getPageAbTestWinnerForm = function(abKey) {
     var query  = "action=page:getAbTestForm&abKey=" + mQuery(abKey).val() + "&pageId=" + pageId;
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",
@@ -190,7 +190,7 @@ Le.openFormCreator = function(){
 
 }
 Le.onFormSelectinPage = function(ele){
-    var base_url = window.location.origin+mauticBaseUrl;
+    var base_url = window.location.origin+leBaseUrl;
     //var jsurl = base_url+"form/generate.js?="+ele;
     //var jsInput = '<script type="text/javascript" src="'+jsurl+'"></script>';
     //mQuery('#javascipt_textarea_page').val(jsInput);

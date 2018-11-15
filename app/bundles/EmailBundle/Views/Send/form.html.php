@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'emailSend');
+$view['slots']->set('leContent', 'emailSend');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.email.send.list', ['%name%' => $email->getName()]));
 $isAdmin=$view['security']->isAdmin();
 $style  = [];
@@ -36,7 +36,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                         <br><br>
                         <br>
                         <div class="send-foot" style="margin-left: 25%;">
-                            <a class="btn btn-primary"  href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $email->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#MauticSharedModal" >Send Example</a>
+                            <a class="btn btn-primary"  href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $email->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#leSharedModal" >Send Example</a>
                             <a style="margin-left:10px;text-decoration: underline;color:#00bfff;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                         </div>
                     </div>

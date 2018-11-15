@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:slim.html.php');
-$view['slots']->set('mauticContent', 'social');
+$view['slots']->set('leContent', 'social');
 
 $data = json_encode($data);
 $js   = <<<JS

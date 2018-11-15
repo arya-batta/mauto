@@ -23,7 +23,7 @@ Le.initializeCalendarModals = function (container) {
 
 Le.loadCalendarEvents = function (container) {
     mQuery('#calendar').fullCalendar({
-        events: mauticAjaxUrl + "?action=calendar:generateData",
+        events: leAjaxUrl + "?action=calendar:generateData",
         lang: 'en',
         eventLimit: true,
         eventLimitText: "more",
@@ -53,7 +53,7 @@ Le.loadCalendarEvents = function (container) {
         },
         eventDrop: function(event, delta, revertFunc) {
             mQuery.ajax({
-                url: mauticAjaxUrl + "?action=calendar:updateEvent",
+                url: leAjaxUrl + "?action=calendar:updateEvent",
                 data: 'entityId=' + event.entityId + '&entityType=' + event.entityType + '&setter=' + event.setter + '&startDate=' + event.start.format(),
                 type: "POST",
                 dataType: "json",

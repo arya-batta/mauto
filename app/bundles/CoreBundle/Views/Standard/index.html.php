@@ -10,9 +10,9 @@
  */
 
 $view->extend('MauticCoreBundle:Default:content.html.php');
-if (!$view['slots']->get('mauticContent')) {
-    if (isset($mauticContent)) {
-        $view['slots']->set('mauticContent', $mauticContent);
+if (!$view['slots']->get('leContent')) {
+    if (isset($leContent)) {
+        $view['slots']->set('leContent', $leContent);
     }
 }
 

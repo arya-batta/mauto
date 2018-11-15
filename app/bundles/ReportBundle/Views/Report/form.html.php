@@ -10,7 +10,7 @@
  */
 
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'report');
+$view['slots']->set('leContent', 'report');
 
 $header = ($report->getId()) ?
     $view['translator']->trans(

@@ -191,7 +191,7 @@ $isAdmin=$view['security']->isAdmin();
                                             <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
-                                        <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
+                                        <a data-toggle="ajaxmodal" data-target="#leSharedModal"
                                            title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
                                            href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                             <i class="material-icons md-color-white">  </i> </a>

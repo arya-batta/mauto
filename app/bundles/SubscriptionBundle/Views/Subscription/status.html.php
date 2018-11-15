@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'subscription-status');
+$view['slots']->set('leContent', 'subscription-status');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.subscriptions'));
 ?>
 <div class="alert <?php echo $status ? 'alert-success' : 'alert-danger' ?> subscription-status col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">

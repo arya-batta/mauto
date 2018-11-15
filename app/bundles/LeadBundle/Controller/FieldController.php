@@ -92,7 +92,7 @@ class FieldController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Field:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contactfield_index',
-                    'mauticContent' => 'leadfield',
+                    'leContent' => 'leadfield',
                 ],
             ]);
         }
@@ -116,7 +116,7 @@ class FieldController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
                 'route'         => $this->generateUrl('le_contactfield_index', ['page' => $page]),
-                'mauticContent' => 'leadfield',
+                'leContent' => 'leadfield',
             ],
         ]);
     }
@@ -201,7 +201,7 @@ class FieldController extends FormController
                         'contentTemplate' => 'MauticLeadBundle:Field:index',
                         'passthroughVars' => [
                             'activeLink'    => '#le_contactfield_index',
-                            'mauticContent' => 'leadfield',
+                            'leContent' => 'leadfield',
                         ],
                     ]
                 );
@@ -225,7 +225,7 @@ class FieldController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_contactfield_index',
                     'route'         => $this->generateUrl('le_contactfield_action', ['objectAction' => 'new']),
-                    'mauticContent' => 'leadfield',
+                    'leContent' => 'leadfield',
                 ],
             ]
         );
@@ -257,7 +257,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'mauticContent' => 'leadfield',
+                'leContent' => 'leadfield',
             ],
         ];
         //list not found
@@ -349,7 +349,7 @@ class FieldController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
                 'route'         => $action,
-                'mauticContent' => 'leadfield',
+                'leContent' => 'leadfield',
             ],
         ]);
     }
@@ -402,7 +402,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -461,7 +461,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 

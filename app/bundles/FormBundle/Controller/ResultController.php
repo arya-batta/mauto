@@ -35,7 +35,7 @@ class ResultController extends CommonFormController
             'mautic.form.result', // lang string base
             'MauticFormBundle:Result', // template base
             'mautic_form', // activeLink
-            'formresult' // mauticContent
+            'formresult' // leContent
         );
     }
 
@@ -64,7 +64,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'mauticContent' => 'form',
+                        'leContent' => 'form',
                     ],
                     'flashes' => [
                         [
@@ -145,7 +145,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Result:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'mauticContent' => 'formresult',
+                        'leContent' => 'formresult',
                     ],
                 ]
             );
@@ -176,7 +176,7 @@ class ResultController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Result:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => 'le_form_index',
-                    'mauticContent' => 'formresult',
+                    'leContent' => 'formresult',
                     'route'         => $this->generateUrl(
                         'le_form_results',
                         [
@@ -266,7 +266,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'mauticContent' => 'form',
+                        'leContent' => 'form',
                     ],
                     'flashes' => [
                         [
@@ -356,7 +356,7 @@ class ResultController extends CommonFormController
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => 'MauticFormBundle:Result:index',
                 'passthroughVars' => [
-                    'mauticContent' => 'formresult',
+                    'leContent' => 'formresult',
                 ],
                 'flashes' => $flashes,
             ]

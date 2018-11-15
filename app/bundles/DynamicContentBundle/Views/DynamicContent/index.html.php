@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'dynamicContent');
+$view['slots']->set('leContent', 'dynamicContent');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.dynamicContent.dynamicContents'));
 
 $view['slots']->set(

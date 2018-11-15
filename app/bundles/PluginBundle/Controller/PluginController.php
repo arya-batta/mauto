@@ -131,7 +131,7 @@ class PluginController extends FormController
                 'contentTemplate' => 'MauticPluginBundle:Integration:grid.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_plugin_index',
-                    'mauticContent' => 'integration',
+                    'leContent' => 'integration',
                     'route'         => $this->generateUrl('le_plugin_index'),
                 ],
             ]
@@ -304,7 +304,7 @@ class PluginController extends FormController
                         'closeModal'    => 1,
                         'enabled'       => $entity->getIsPublished(),
                         'name'          => $integrationObject->getName(),
-                        'mauticContent' => 'integrationConfig',
+                        'leContent' => 'integrationConfig',
                         'sidebar'       => $this->get('templating')->render('MauticCoreBundle:LeftPanel:index.html.php'),
                     ]
                 );
@@ -354,7 +354,7 @@ class PluginController extends FormController
                 'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_plugin_index',
-                    'mauticContent' => 'integrationConfig',
+                    'leContent' => 'integrationConfig',
                     'route'         => false,
                     'sidebar'       => $this->get('templating')->render('MauticCoreBundle:LeftPanel:index.html.php'),
                 ],
@@ -400,7 +400,7 @@ class PluginController extends FormController
                 'contentTemplate' => 'MauticPluginBundle:Integration:info.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_plugin_index',
-                    'mauticContent' => 'integration',
+                    'leContent' => 'integration',
                     'route'         => false,
                 ],
             ]
@@ -605,7 +605,7 @@ class PluginController extends FormController
                 'contentTemplate' => 'MauticPluginBundle:Plugin:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_plugin_index',
-                    'mauticContent' => 'plugin',
+                    'leContent' => 'plugin',
                 ],
             ]
         );

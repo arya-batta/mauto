@@ -11,7 +11,7 @@
 //if ($tmpl == 'index') {
     $view->extend('MauticCoreBundle:Default:content.html.php');
 //}
-$view['slots']->set('mauticContent', 'config');
+$view['slots']->set('leContent', 'config');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.config.header.index'));
 
 $configKeys = array_keys($form->children);

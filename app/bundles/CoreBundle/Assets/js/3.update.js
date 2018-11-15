@@ -7,15 +7,15 @@
  * @param state
  */
 Le.processUpdate = function (container, step, state) {
-    // Edge case but do it anyway, remove the /index_dev.php from mauticBaseUrl to make sure we can always correctly call the standalone upgrader
-    var baseUrl = mauticBasePath + '/';
+    // Edge case but do it anyway, remove the /index_dev.php from leBaseUrl to make sure we can always correctly call the standalone upgrader
+    var baseUrl = leBasePath + '/';
 
     switch (step) {
         // Set the update page layout
         case 1:
             mQuery.ajax({
                 showLoadingBar: true,
-                url: mauticAjaxUrl + '?action=core:updateSetUpdateLayout',
+                url: leAjaxUrl + '?action=core:updateSetUpdateLayout',
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
@@ -35,7 +35,7 @@ Le.processUpdate = function (container, step, state) {
         case 2:
             mQuery.ajax({
                 showLoadingBar: true,
-                url: mauticAjaxUrl + '?action=core:updateDownloadPackage',
+                url: leAjaxUrl + '?action=core:updateDownloadPackage',
                 dataType: 'json',
                 success: function (response) {
                     if (response.redirect) {
@@ -64,7 +64,7 @@ Le.processUpdate = function (container, step, state) {
         case 3:
             mQuery.ajax({
                 showLoadingBar: true,
-                url: mauticAjaxUrl + '?action=core:updateExtractPackage',
+                url: leAjaxUrl + '?action=core:updateExtractPackage',
                 dataType: 'json',
                 success: function (response) {
                     if (response.redirect) {
@@ -239,7 +239,7 @@ Le.processUpdate = function (container, step, state) {
         case 8:
             mQuery.ajax({
                 showLoadingBar: true,
-                url: mauticAjaxUrl + '?action=core:updateDatabaseMigration&finalize=1',
+                url: leAjaxUrl + '?action=core:updateDatabaseMigration&finalize=1',
                 dataType: 'json',
                 success: function (response) {
                     if (response.redirect) {
@@ -264,7 +264,7 @@ Le.processUpdate = function (container, step, state) {
                 },
                 error: function (request, textStatus, errorThrown) {
                     // Redirect to the update/schema page in a last ditch attempt instead of just failing
-                    window.location = mauticBaseUrl + '/s/update/schema?update=1';
+                    window.location = leBaseUrl + '/s/update/schema?update=1';
                 }
             });
             break;
@@ -273,7 +273,7 @@ Le.processUpdate = function (container, step, state) {
         case 9:
             mQuery.ajax({
                 showLoadingBar: true,
-                url: mauticAjaxUrl + '?action=core:updateFinalization',
+                url: leAjaxUrl + '?action=core:updateFinalization',
                 dataType: 'json',
                 success: function (response) {
                     if (response.redirect) {

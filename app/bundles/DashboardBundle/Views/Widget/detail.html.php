@@ -22,7 +22,7 @@
                 <li>
                     <a  href="<?php echo $view['router']->generate('le_dashboard_action', ['objectAction' => 'edit', 'objectId' => $widget->getId()]); ?>"
                         data-toggle="ajaxmodal"
-                        data-target="#MauticSharedModal"
+                        data-target="#leSharedModal"
                         data-header="<?php echo $view['translator']->trans('mautic.dashboard.widget.header.edit'); ?>">
                         <i class="fa fa-pencil"></i> Edit
                     </a>

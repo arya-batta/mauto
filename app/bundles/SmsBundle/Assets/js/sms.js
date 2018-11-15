@@ -101,11 +101,11 @@ Le.selectSmsType = function(smsType) {
     if (smsType == 'list') {
         mQuery('#leadList').removeClass('hide');
         mQuery('#publishStatus').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newListSms);
+        mQuery('.page-header h3').text(leLang.newListSms);
     } else {
         mQuery('#publishStatus').removeClass('hide');
         mQuery('#leadList').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newTemplateSms);
+        mQuery('.page-header h3').text(leLang.newTemplateSms);
     }
 
     mQuery('#sms_smsType').val(smsType);

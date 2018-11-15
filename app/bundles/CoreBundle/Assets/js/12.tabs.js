@@ -1,6 +1,6 @@
 Le.overflowNavOptions = {
     "parent": ".nav-overflow-tabs",
-    "more": Le.translate('mautic.core.tabs.more')
+    "more": Le.translate('le.core.tabs.more')
 };
 
 /**

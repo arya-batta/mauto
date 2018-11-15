@@ -107,7 +107,7 @@ if (count($items)):
                             [
                                 'attr' => [
                                     'data-toggle' => 'ajaxmodal',
-                                    'data-target' => '#MauticSharedModal',
+                                    'data-target' => '#leSharedModal',
                                     'data-header' => $view['translator']->trans('mautic.sms.smses.header.preview'),
                                     'data-footer' => 'false',
                                     'href'        => $view['router']->path(
@@ -214,7 +214,7 @@ if (count($items)):
                                             <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
-                                        <a data-toggle="ajaxmodal" data-target="#MauticSharedModal"
+                                        <a data-toggle="ajaxmodal" data-target="#leSharedModal"
                                            data-header="<?php echo $item->getName() ?> Preview"
                                            title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
                                            href="<?php echo $view['router']->path('le_sms_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">

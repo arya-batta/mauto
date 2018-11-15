@@ -399,7 +399,7 @@ Le.updateEntitySelect = function (response) {
 
         if (mQueryParent(el).prop('disabled')) {
             mQueryParent(el).prop('disabled', false);
-            var emptyOption = mQuery('<option value="">' + mauticLang.chosenChooseOne + '</option>');
+            var emptyOption = mQuery('<option value="">' + leLang.chosenChooseOne + '</option>');
         } else {
             if (mQueryParent(el + ' option[value=""]').length) {
                 emptyOption = mQueryParent(el + ' option[value=""]').clone();
@@ -473,7 +473,7 @@ Le.updateEntitySelect = function (response) {
     if (window.opener) {
         window.close();
     } else {
-        mQueryParent('#MauticSharedModal').modal('hide');
+        mQueryParent('#leSharedModal').modal('hide');
     }
 };
 

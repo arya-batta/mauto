@@ -74,8 +74,8 @@ class BuildJsSubscriber extends CommonSubscriber
             if (typeof MauticDomain == 'undefined') {
                 var MauticDomain = '{$this->request->getSchemeAndHttpHost()}';
             }            
-            if (typeof MauticLang == 'undefined') {
-                var MauticLang = {
+            if (typeof leLang == 'undefined') {
+                var leLang = {
                      'submittingMessage': "{$this->translator->trans('mautic.form.submission.pleasewait')}"
         };
             }

@@ -198,7 +198,7 @@ class CommonController extends Controller implements MauticController
             $args = [
                 'contentTemplate' => $args,
                 'passthroughVars' => [
-                    'mauticContent' => strtolower($this->request->get('bundle')),
+                    'leContent' => strtolower($this->request->get('bundle')),
                 ],
             ];
         }
@@ -211,13 +211,13 @@ class CommonController extends Controller implements MauticController
             $args['passthroughVars']['inBuilder'] = (bool) $inBuilder;
         }
 
-        if (!isset($args['viewParameters']['mauticContent'])) {
-            if (isset($args['passthroughVars']['mauticContent'])) {
-                $mauticContent = $args['passthroughVars']['mauticContent'];
+        if (!isset($args['viewParameters']['leContent'])) {
+            if (isset($args['passthroughVars']['leContent'])) {
+                $leContent = $args['passthroughVars']['leContent'];
             } else {
-                $mauticContent = strtolower($this->request->get('bundle'));
+                $leContent = strtolower($this->request->get('bundle'));
             }
-            $args['viewParameters']['mauticContent'] = $mauticContent;
+            $args['viewParameters']['leContent'] = $leContent;
         }
 
         if ($this->request->isXmlHttpRequest() && !$this->request->get('ignoreAjax', false)) {
@@ -623,7 +623,7 @@ class CommonController extends Controller implements MauticController
             $request = $this->request;
         }
 
-        $afterId = $request->get('mauticLastNotificationId', null);
+        $afterId = $request->get('leLastNotificationId', null);
 
         /** @var \Mautic\CoreBundle\Model\NotificationModel $model */
         $model = $this->getModel('core.notification');
@@ -844,7 +844,7 @@ class CommonController extends Controller implements MauticController
                 'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'mauticContent' => 'lead',
+                    'leContent' => 'lead',
                     'closeModal'    => 1, //just in case in quick form
                 ],
             ]

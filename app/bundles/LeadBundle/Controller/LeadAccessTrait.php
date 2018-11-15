@@ -52,7 +52,7 @@ trait LeadAccessTrait
                         'contentTemplate' => $isPlugin ? 'MauticLeadBundle:Lead:pluginIndex' : 'MauticLeadBundle:Lead:index',
                         'passthroughVars' => [
                             'activeLink'    => $isPlugin ? '#le_plugin_timeline_index' : '#le_contact_index',
-                            'mauticContent' => 'leadTimeline',
+                            'leContent' => 'leadTimeline',
                         ],
                         'flashes' => [
                             [

@@ -103,7 +103,7 @@ class ThemeController extends FormController
             'contentTemplate' => 'MauticCoreBundle:Theme:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_themes_index',
-                'mauticContent' => 'theme',
+                'leContent' => 'theme',
                 'route'         => $this->generateUrl('le_themes_index'),
             ],
         ]);
@@ -283,7 +283,7 @@ class ThemeController extends FormController
             'contentTemplate' => 'MauticCoreBundle:theme:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_themes_index',
-                'mauticContent' => 'theme',
+                'leContent' => 'theme',
             ],
         ];
     }

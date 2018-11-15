@@ -98,7 +98,7 @@ class ReportController extends FormController
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_report_index',
-                        'mauticContent' => 'report',
+                        'leContent' => 'report',
                     ],
                 ]
             );
@@ -125,7 +125,7 @@ class ReportController extends FormController
                 'contentTemplate' => 'MauticReportBundle:Report:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_report_index',
-                    'mauticContent' => 'report',
+                    'leContent' => 'report',
                     'route'         => $this->generateUrl('le_report_index', ['page' => $page]),
                 ],
             ]
@@ -182,7 +182,7 @@ class ReportController extends FormController
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_report_index',
-                'mauticContent' => 'report',
+                'leContent' => 'report',
             ],
         ];
 
@@ -243,7 +243,7 @@ class ReportController extends FormController
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_report_index',
-                'mauticContent' => 'report',
+                'leContent' => 'report',
             ],
         ];
 
@@ -325,7 +325,7 @@ class ReportController extends FormController
             'contentTemplate' => 'MauticReportBundle:Report:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_report_index',
-                'mauticContent' => 'report',
+                'leContent' => 'report',
             ],
         ];
 
@@ -430,7 +430,7 @@ class ReportController extends FormController
                 'contentTemplate' => 'MauticReportBundle:Report:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_report_index',
-                    'mauticContent' => 'report',
+                    'leContent' => 'report',
                     'route'         => $this->generateUrl(
                         'le_report_action',
                         [
@@ -518,7 +518,7 @@ class ReportController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => 'le_asset_index',
-                            'mauticContent' => 'asset',
+                            'leContent' => 'asset',
                         ],
                     ]
                 );
@@ -534,7 +534,7 @@ class ReportController extends FormController
                 'contentTemplate' => 'MauticReportBundle:Report:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_report_index',
-                    'mauticContent' => 'report',
+                    'leContent' => 'report',
                     'route'         => $this->generateUrl(
                         'le_report_action',
                         [
@@ -571,7 +571,7 @@ class ReportController extends FormController
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_report_index',
-                        'mauticContent' => 'report',
+                        'leContent' => 'report',
                     ],
                     'flashes' => [
                         [
@@ -700,7 +700,7 @@ class ReportController extends FormController
                 'contentTemplate' => $reportData['contentTemplate'],
                 'passthroughVars' => [
                     'activeLink'    => '#le_report_index',
-                    'mauticContent' => 'report',
+                    'leContent' => 'report',
                     'route'         => $this->generateUrl(
                         'le_report_view',
                         [
@@ -776,7 +776,7 @@ class ReportController extends FormController
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_report_index',
-                        'mauticContent' => 'report',
+                        'leContent' => 'report',
                     ],
                     'flashes' => [
                         [

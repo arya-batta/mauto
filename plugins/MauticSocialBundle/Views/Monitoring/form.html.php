@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'monitoring');
+$view['slots']->set('leContent', 'monitoring');
 
 echo $view['assets']->includeScript('plugins/MauticSocialBundle/Assets/js/social.js');
 ?>

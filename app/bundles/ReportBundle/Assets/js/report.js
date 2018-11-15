@@ -290,7 +290,7 @@ Le.removeReportRow = function (container) {
 Le.updateReportSourceData = function (context) {
     Le.activateLabelLoadingIndicator('report_source');
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: 'post',
         data: "action=report:getSourceData&context=" + context,
         success: function (response) {

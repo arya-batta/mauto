@@ -112,7 +112,7 @@ class NotificationController extends FormController
                     'contentTemplate' => 'MauticNotificationBundle:Notification:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_notification_index',
-                        'mauticContent' => 'notification',
+                        'leContent' => 'notification',
                     ],
                 ]
             );
@@ -135,7 +135,7 @@ class NotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:Notification:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_notification_index',
-                    'mauticContent' => 'notification',
+                    'leContent' => 'notification',
                     'route'         => $this->generateUrl('le_notification_index', ['page' => $page]),
                 ],
             ]
@@ -171,7 +171,7 @@ class NotificationController extends FormController
                     'contentTemplate' => 'MauticNotificationBundle:Notification:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_notification_index',
-                        'mauticContent' => 'notification',
+                        'leContent' => 'notification',
                     ],
                     'flashes' => [
                         [
@@ -241,7 +241,7 @@ class NotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:Notification:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ],
         ]);
     }
@@ -330,7 +330,7 @@ class NotificationController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ];
 
             // Check to see if this is a popup
@@ -368,7 +368,7 @@ class NotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:Notification:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_notification_index',
-                    'mauticContent' => 'notification',
+                    'leContent' => 'notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_notification_action',
@@ -406,7 +406,7 @@ class NotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:Notification:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ],
         ];
 
@@ -481,7 +481,7 @@ class NotificationController extends FormController
             $template    = 'MauticNotificationBundle:Notification:view';
             $passthrough = [
                 'activeLink'    => 'le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ];
 
             // Check to see if this is a popup
@@ -531,7 +531,7 @@ class NotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:Notification:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_notification_index',
-                    'mauticContent' => 'notification',
+                    'leContent' => 'notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_notification_action',
@@ -597,7 +597,7 @@ class NotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:Notification:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ],
         ];
 
@@ -661,7 +661,7 @@ class NotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:Notification:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_notification_index',
-                'mauticContent' => 'notification',
+                'leContent' => 'notification',
             ],
         ];
 

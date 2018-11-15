@@ -98,7 +98,7 @@ $isAdmin=$view['security']->isAdmin();
                                 ],
                                 'editMode' => 'ajaxmodal',
                                 'editAttr' => [
-                                    'data-target' => '#MauticSharedModal',
+                                    'data-target' => '#leSharedModal',
                                     'data-header' => $title,
                                     'data-toggle' => 'ajaxmodal',
                                 ],
@@ -123,7 +123,7 @@ $isAdmin=$view['security']->isAdmin();
                                 <a href="<?php echo $view['router']->path(
                                     'le_category_action',
                                     ['bundle' => $bundle, 'objectAction' => 'edit', 'objectId' => $item->getId()]
-                                ); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $title; ?>"
+                                ); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $title; ?>"
                             <?php endif; ?>
                             <span><?php echo $item->getTitle(); ?> (<?php echo $item->getAlias(); ?>)</span>
                             <?php if ($permissions[$permissionBase.':edit']): ?>

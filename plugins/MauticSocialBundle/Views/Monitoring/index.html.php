@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'monitoring');
+$view['slots']->set('leContent', 'monitoring');
 
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.social.monitoring'));
 

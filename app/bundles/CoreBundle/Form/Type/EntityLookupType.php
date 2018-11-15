@@ -161,7 +161,7 @@ class EntityLookupType extends AbstractType
                 [
                     'data-new-route'          => $this->router->generate($options['modal_route'], $options['modal_route_parameters']),
                     'data-header'             => $options['modal_header'] ? $this->translator->trans($options['modal_header']) : 'false',
-                    'data-chosen-placeholder' => $this->translator->trans('mautic.core.lookup.search_options', [], 'javascript'),
+                    'data-chosen-placeholder' => $this->translator->trans('le.core.lookup.search_options', [], 'javascript'),
                 ]
             );
         }

@@ -407,7 +407,7 @@ Le.getChartData = function(element, action, query, callback) {
 
     mQuery.ajax({
         showLoadingBar: true,
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: 'POST',
         data: query,
         dataType: "json",

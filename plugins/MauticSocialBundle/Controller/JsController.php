@@ -27,7 +27,7 @@ class JsController extends CommonController
         if (authUrl) {
             var generator = window.open(authUrl, 'integrationauth', 'height=500,width=500');
             if (!generator || generator.closed || typeof generator.closed == 'undefined') {
-                alert(mauticLang.popupBlockerMessage);
+                alert(leLang.popupBlockerMessage);
             }
         }
     }

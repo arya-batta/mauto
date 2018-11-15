@@ -21,7 +21,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'attr' => [
                     'class'       => 'btn btn-default btn-sm btn-nospin',
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchLists']),
                     'data-header' => $view['translator']->trans('le.lead.batch.lists'),
                 ],
@@ -32,7 +32,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'attr' => [
                     'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin ' : 'hide',
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchCampaigns']),
                     'data-header' => $view['translator']->trans('le.lead.batch.campaigns'),
                 ],
@@ -43,7 +43,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'attr' => [
                     'class'       => 'btn btn-default btn-sm btn-nospin',
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchOwners']),
                     'data-header' => $view['translator']->trans('le.lead.batch.owner'),
                 ],
@@ -54,7 +54,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'attr' => [
                     'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin',
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchDnc']),
                     'data-header' => $view['translator']->trans('le.lead.batch.dnc'),
                 ],
@@ -68,7 +68,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'attr' => [
                     'class'       => 'btn btn-default btn-sm btn-nospin',
                     'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#MauticSharedModal',
+                    'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchStages']),
                     'data-header' => $view['translator']->trans('le.lead.batch.stages'),
                 ],

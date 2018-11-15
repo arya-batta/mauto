@@ -211,7 +211,7 @@ Le.saveDashboardLayout = function(text) {
     if (name) {
         mQuery.ajax({
             type: 'POST',
-            url: mauticBaseUrl+'s/dashboard/save',
+            url: leBaseUrl+'s/dashboard/save',
             data: {name: name}
         });
     }

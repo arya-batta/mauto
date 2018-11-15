@@ -30,7 +30,7 @@ class DefaultController extends FormController
             'contentTemplate' => 'MauticCalendarBundle:Default:index.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_calendar_index',
-                'mauticContent' => 'calendar',
+                'leContent' => 'calendar',
                 'route'         => $this->generateUrl('le_calendar_index'),
             ],
         ]);
@@ -65,7 +65,7 @@ class DefaultController extends FormController
             'contentTemplate' => $event->getContentTemplate(),
             'passthroughVars' => [
                 'activeLink'    => 'le_calendar_index',
-                'mauticContent' => $source,
+                'leContent' => $source,
             ],
         ];
 
@@ -133,7 +133,7 @@ class DefaultController extends FormController
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
                 return new JsonResponse([
-                    'mauticContent' => 'calendarModal',
+                    'leContent' => 'calendarModal',
                     'closeModal'    => 1,
                 ]);
             }
@@ -154,7 +154,7 @@ class DefaultController extends FormController
             'contentTemplate' => $event->getContentTemplate(),
             'passthroughVars' => [
                 'activeLink'    => '#le_calendar_index',
-                'mauticContent' => 'calendarModal',
+                'leContent' => 'calendarModal',
                 'route'         => $this->generateUrl('le_calendar_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),

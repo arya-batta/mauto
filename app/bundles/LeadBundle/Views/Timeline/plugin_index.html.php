@@ -52,8 +52,8 @@ $view->extend('MauticCoreBundle:Default:slim.html.php');
 </form>
 
 <script>
-    mauticLang['showMore'] = '<?php echo $view['translator']->trans('mautic.core.more.show'); ?>';
-    mauticLang['hideMore'] = '<?php echo $view['translator']->trans('mautic.core.more.hide'); ?>';
+    leLang['showMore'] = '<?php echo $view['translator']->trans('mautic.core.more.show'); ?>';
+    leLang['hideMore'] = '<?php echo $view['translator']->trans('mautic.core.more.hide'); ?>';
 
     var timelineForm = mQuery('#timeline-filters');
     if (timelineForm.length) {

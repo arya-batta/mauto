@@ -141,7 +141,7 @@ class DashboardController extends FormController
             'contentTemplate' => 'MauticDashboardBundle:Dashboard:index.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_dashboard_index',
-                'mauticContent' => 'dashboard',
+                'leContent' => 'dashboard',
                 'route'         => $this->generateUrl('le_dashboard_index'),
             ],
         ]);
@@ -183,7 +183,7 @@ class DashboardController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'mauticContent' => 'widget',
+                'leContent' => 'widget',
             ];
 
             $filter = $model->getDefaultFilter();
@@ -247,7 +247,7 @@ class DashboardController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'mauticContent' => 'widget',
+                'leContent' => 'widget',
             ];
 
             $filter = $model->getDefaultFilter();
@@ -295,7 +295,7 @@ class DashboardController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_dashboard_index',
                 'success'       => $success,
-                'mauticContent' => 'dashboard',
+                'leContent' => 'dashboard',
             ],
         ];
 
@@ -577,7 +577,7 @@ class DashboardController extends FormController
                 'contentTemplate' => 'MauticDashboardBundle:Dashboard:import.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dashboard_index',
-                    'mauticContent' => 'dashboardImport',
+                    'leContent' => 'dashboardImport',
                     'route'         => $this->generateUrl(
                         'le_dashboard_action',
                         [

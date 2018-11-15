@@ -62,7 +62,7 @@ class TimelineController extends CommonController
                 ],
                 'passthroughVars' => [
                     'route'         => false,
-                    'mauticContent' => 'leadTimeline',
+                    'leContent' => 'leadTimeline',
                     'timelineCount' => $events['total'],
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Timeline:list.html.php',
@@ -124,7 +124,7 @@ class TimelineController extends CommonController
                 ],
                 'passthroughVars' => [
                     'route'         => false,
-                    'mauticContent' => 'pluginTimeline',
+                    'leContent' => 'pluginTimeline',
                     'timelineCount' => $events['total'],
                 ],
                 'contentTemplate' => sprintf('MauticLeadBundle:Timeline:plugin_%s.html.php', $tmpl),
@@ -186,7 +186,7 @@ class TimelineController extends CommonController
                 ],
                 'passthroughVars' => [
                     'route'         => false,
-                    'mauticContent' => 'pluginTimeline',
+                    'leContent' => 'pluginTimeline',
                     'timelineCount' => $events['total'],
                 ],
                 'contentTemplate' => sprintf('MauticLeadBundle:Timeline:plugin_%s.html.php', $tmpl),

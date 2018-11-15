@@ -3,7 +3,7 @@ Le.getStageActionPropertiesForm = function(actionType) {
 
     var query = "action=stage:getActionForm&actionType=" + actionType;
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",

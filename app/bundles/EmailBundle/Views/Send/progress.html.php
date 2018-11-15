@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'emailSend');
+$view['slots']->set('leContent', 'emailSend');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.email.send.list', ['%name%' => $email->getName()]));
 
 $percent = ($progress[1]) ? ceil(($progress[0] / $progress[1]) * 100) : 100;

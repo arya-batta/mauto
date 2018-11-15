@@ -105,7 +105,7 @@ class TriggerEventController extends CommonFormController
         }
 
         $passthroughVars = [
-            'mauticContent' => 'pointTriggerEvent',
+            'leContent' => 'pointTriggerEvent',
             'success'       => $success,
             'route'         => false,
         ];
@@ -222,7 +222,7 @@ class TriggerEventController extends CommonFormController
             }
 
             $passthroughVars = [
-                'mauticContent' => 'pointTriggerEvent',
+                'leContent' => 'pointTriggerEvent',
                 'success'       => $success,
                 'route'         => false,
             ];
@@ -307,7 +307,7 @@ class TriggerEventController extends CommonFormController
             $triggerEvent = array_merge($blank, $triggerEvent);
 
             $dataArray = [
-                'mauticContent' => 'pointTriggerEvent',
+                'leContent' => 'pointTriggerEvent',
                 'success'       => 1,
                 'target'        => '#triggerEvent'.$objectId,
                 'route'         => false,
@@ -371,7 +371,7 @@ class TriggerEventController extends CommonFormController
             $triggerEvent = array_merge($blank, $triggerEvent);
 
             $dataArray = [
-                'mauticContent' => 'pointTriggerEvent',
+                'leContent' => 'pointTriggerEvent',
                 'success'       => 1,
                 'target'        => '#triggerEvent'.$objectId,
                 'route'         => false,

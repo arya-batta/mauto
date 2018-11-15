@@ -91,7 +91,7 @@ class CompanyController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Company:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_company_index',
-                        'mauticContent' => 'company',
+                        'leContent' => 'company',
                     ],
                 ]
             );
@@ -120,7 +120,7 @@ class CompanyController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Company:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_company_index',
-                    'mauticContent' => 'company',
+                    'leContent' => 'company',
                     'route'         => $this->generateUrl('le_company_index', ['page' => $page]),
                 ],
             ]
@@ -211,7 +211,7 @@ class CompanyController extends FormController
 
             $passthrough = [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ];
 
             // Check to see if this is a popup
@@ -256,7 +256,7 @@ class CompanyController extends FormController
                 'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_company_index',
-                    'mauticContent' => 'company',
+                    'leContent' => 'company',
                     'updateSelect'  => ($this->request->getMethod() == 'POST') ? $updateSelect : null,
                     'route'         => $this->generateUrl(
                         'le_company_action',
@@ -297,7 +297,7 @@ class CompanyController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ],
         ];
 
@@ -401,7 +401,7 @@ class CompanyController extends FormController
 
             $passthrough = [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ];
 
             // Check to see if this is a popup
@@ -453,7 +453,7 @@ class CompanyController extends FormController
                 'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_company_index',
-                    'mauticContent' => 'company',
+                    'leContent' => 'company',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_company_action',
@@ -509,7 +509,7 @@ class CompanyController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ],
         ];
 
@@ -568,7 +568,7 @@ class CompanyController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ],
         ];
 
@@ -653,7 +653,7 @@ class CompanyController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Company:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_company_index',
-                'mauticContent' => 'company',
+                'leContent' => 'company',
             ],
         ];
 

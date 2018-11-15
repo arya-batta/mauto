@@ -114,7 +114,7 @@ class DripEmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dripemail_index',
-                    'mauticContent' => 'dripemail',
+                    'leContent' => 'dripemail',
                     'route'         => $this->generateUrl('le_dripemail_index', ['page' => $page]),
                 ],
             ]
@@ -159,7 +159,7 @@ class DripEmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dripemail_index',
-                    'mauticContent' => 'dripemail',
+                    'leContent' => 'dripemail',
                     'route'         => $this->generateUrl(
                         'le_dripemail_campaign_action',
                         [
@@ -214,7 +214,7 @@ class DripEmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_dripemail_index',
-                'mauticContent' => 'dripemail',
+                'leContent' => 'dripemail',
             ],
         ];
         if (empty($fromName)) {
@@ -296,7 +296,7 @@ class DripEmailController extends FormController
             }
             $passthrough = [
                 'activeLink'    => '#le_dripemail_index',
-                'mauticContent' => 'dripemail',
+                'leContent' => 'dripemail',
             ];
             $template       = 'MauticEmailBundle:DripEmail:index';
             $viewParameters = [
@@ -380,7 +380,7 @@ class DripEmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dripemail_index',
-                    'mauticContent' => 'dripemail',
+                    'leContent' => 'dripemail',
                     'route'         => $this->generateUrl(
                         'le_dripemail_campaign_action',
                         $routeParams
@@ -426,7 +426,7 @@ class DripEmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:quickadd.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dripemail_index',
-                    'mauticContent' => 'dripemail',
+                    'leContent' => 'dripemail',
                     'route'         => $this->generateUrl(
                         'le_dripemail_campaign_action',
                         [
@@ -457,7 +457,7 @@ class DripEmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_dripemail_index',
-                'mauticContent' => 'dripemail',
+                'leContent' => 'dripemail',
             ],
         ];
 
@@ -536,7 +536,7 @@ class DripEmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_dripemail_index',
-                'mauticContent' => 'dripemail',
+                'leContent' => 'dripemail',
             ],
         ];
 

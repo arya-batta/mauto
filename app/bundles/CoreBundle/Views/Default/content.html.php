@@ -32,7 +32,7 @@ if (!empty($tmpl)) {
 ?>
 <?php if (!$modalView): ?>
     <div class="content-body">
-        <?php if ($view['slots']->get('mauticContent', '') == 'dashboard' && $showvideo): ?>
+        <?php if ($view['slots']->get('leContent', '') == 'dashboard' && $showvideo): ?>
             <div id="dashboard-widgets" class="dashboard-widgets cards">
                 <div class="card-flex widget" style="width:100%;" role="document">
                     <div class="card" style="height:550px;">

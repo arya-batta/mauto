@@ -45,7 +45,7 @@ abstract class BuilderTokenController extends AbstractStandardFormController
 
         $dataArray = [
             'newContent'    => $tokenHelper->getTokenContent($page, $arguments),
-            'mauticContent' => 'builder',
+            'leContent' => 'builder',
         ];
 
         $response = new JsonResponse($dataArray);

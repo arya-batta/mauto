@@ -32,7 +32,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/companies/new?mauticUserLastActive=1&mauticLastNotificationId=',
+            '/s/companies/new?mauticUserLastActive=1&leLastNotificationId=',
             [
                 'company' => [
                     'companyname'     => 'Test Name',
@@ -69,7 +69,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/companies/new?mauticUserLastActive=1&mauticLastNotificationId=',
+            '/s/companies/new?mauticUserLastActive=1&leLastNotificationId=',
             [
                 'company' => [
                     'companyname'     => $testName,
@@ -117,7 +117,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            's/companies/edit/'.$company->getId().'?mauticUserLastActive=1&mauticLastNotificationId=',
+            's/companies/edit/'.$company->getId().'?mauticUserLastActive=1&leLastNotificationId=',
             [
                 'company' => [
                     'companyname'     => $testName,
@@ -160,7 +160,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            's/companies/edit/'.$company->getId().'?mauticUserLastActive=1&mauticLastNotificationId=',
+            's/companies/edit/'.$company->getId().'?mauticUserLastActive=1&leLastNotificationId=',
             [
                 'company' => [
                     'companyname'     => $testName,
@@ -199,7 +199,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            's/companies/delete/'.$company->getId().'?mauticUserLastActive=1&mauticLastNotificationId=',
+            's/companies/delete/'.$company->getId().'?mauticUserLastActive=1&leLastNotificationId=',
             []
         );
 
@@ -231,7 +231,7 @@ class CompanyTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            's/companies/delete/'.$company->getId().'?mauticUserLastActive=1&mauticLastNotificationId=',
+            's/companies/delete/'.$company->getId().'?mauticUserLastActive=1&leLastNotificationId=',
             []
         );
 

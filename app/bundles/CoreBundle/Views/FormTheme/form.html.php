@@ -15,8 +15,8 @@ if (!isset($entity)) {
 
 $extendTemplate = (!empty($useSlim)) ? 'slim' : 'content';
 $view->extend('MauticCoreBundle:Default:'.$extendTemplate.'.html.php');
-if (isset($mauticContent)) {
-    $view['slots']->set('mauticContent', $mauticContent);
+if (isset($leContent)) {
+    $view['slots']->set('leContent', $leContent);
 }
 
 if (!isset($headerTitle)) {

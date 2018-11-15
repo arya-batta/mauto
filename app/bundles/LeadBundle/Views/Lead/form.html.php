@@ -14,7 +14,7 @@ $header = ($lead->getId()) ?
         ['%name%' => $view['translator']->trans($lead->getPrimaryIdentifier())]) :
     $view['translator']->trans('le.lead.lead.header.new');
 $view['slots']->set('headerTitle', $header);
-$view['slots']->set('mauticContent', 'lead');
+$view['slots']->set('leContent', 'lead');
 $stagehideattr= $view['security']->isGranted('stage:stages:view') ? '' : "style='display: none;'";
 $isAdmin      =$view['security']->isAdmin();
 $groups       = array_keys($fields);

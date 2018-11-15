@@ -118,10 +118,10 @@ class PhpEngine extends BasePhpEngine
     public function render($name, array $parameters = [])
     {
         // Set the javascript loader for subsequent templates
-        if (isset($parameters['mauticContent'])) {
-            $this->jsLoadMethodPrefix = $parameters['mauticContent'];
+        if (isset($parameters['leContent'])) {
+            $this->jsLoadMethodPrefix = $parameters['leContent'];
         } elseif (!empty($this->jsLoadMethodPrefix)) {
-            $parameters['mauticContent'] = $this->jsLoadMethodPrefix;
+            $parameters['leContent'] = $this->jsLoadMethodPrefix;
         }
 
         defined('MAUTIC_RENDERING_TEMPLATE') || define('MAUTIC_RENDERING_TEMPLATE', 1);

@@ -129,7 +129,7 @@ Le.processPageContent = function (response) {
     if (response) {
         Le.deactivateBackgroup();
 
-        if (response.errors && 'dev' == mauticEnv) {
+        if (response.errors && 'dev' == leEnv) {
             alert(response.errors[0].message);
             console.log(response.errors);
         }
@@ -169,8 +169,8 @@ Le.processPageContent = function (response) {
 
         if (response.target == '#app-content') {
             //update type of content displayed
-            if (response.mauticContent) {
-                mauticContent = response.mauticContent;
+            if (response.leContent) {
+                leContent = response.leContent;
             }
 
             if (response.activeLink) {
@@ -620,10 +620,10 @@ Le.onPageLoad = function (container, response, inModal) {
 
     //run specific on loads
     var contentSpecific = false;
-    if (response && response.mauticContent) {
-        contentSpecific = response.mauticContent;
+    if (response && response.leContent) {
+        contentSpecific = response.leContent;
     } else if (container == 'body') {
-        contentSpecific = mauticContent;
+        contentSpecific = leContent;
     }
 
     if (response && response.sidebar) {
@@ -793,7 +793,7 @@ Le.onPageUnload = function (container, response) {
         //full page gets precedence
         Mousetrap.reset();
 
-        contentSpecific = mauticContent;
+        contentSpecific = leContent;
 
         // trash created chart objects to save some memory
         if (typeof Le.chartObjects !== 'undefined') {
@@ -815,8 +815,8 @@ Le.onPageUnload = function (container, response) {
         if (typeof Le.builderTokens !== 'undefined') {
             Le.builderTokens = {};
         }
-    } else if (response && response.mauticContent) {
-        contentSpecific = response.mauticContent;
+    } else if (response && response.leContent) {
+        contentSpecific = response.leContent;
     }
 
     if (contentSpecific) {
@@ -909,7 +909,7 @@ Le.activateChosenSelect = function(el, ignoreGlobal, jQueryVariant) {
 
     var noResultsText = mQuery(el).data('no-results-text');
     if (!noResultsText) {
-        noResultsText = mauticLang['chosenNoResults'];
+        noResultsText = leLang['chosenNoResults'];
     }
 
     var isLookup = mQuery(el).attr('data-chosen-lookup');
@@ -935,11 +935,11 @@ Le.activateChosenSelect = function(el, ignoreGlobal, jQueryVariant) {
             });
         }
 
-        var multiPlaceholder = mauticLang['Le.core.lookup.search_options'],
-            singlePlaceholder = mauticLang['Le.core.lookup.search_options'];
+        var multiPlaceholder = leLang['le.core.lookup.search_options'],
+            singlePlaceholder = leLang['le.core.lookup.search_options'];
     } else {
-        var multiPlaceholder = mauticLang['chosenChooseMore'],
-            singlePlaceholder = mauticLang['chosenChooseOne'];
+        var multiPlaceholder = leLang['chosenChooseMore'],
+            singlePlaceholder = leLang['chosenChooseOne'];
     }
 
     if (typeof mQuery(el).data('chosen-placeholder') !== 'undefined') {
@@ -962,7 +962,7 @@ Le.activateChosenSelect = function(el, ignoreGlobal, jQueryVariant) {
         if (searchTerm) {
             mQuery(el).ajaxChosen({
                 type: 'GET',
-                url: mauticAjaxUrl + '?action=' + mQuery(el).attr('data-chosen-lookup'),
+                url: leAjaxUrl + '?action=' + mQuery(el).attr('data-chosen-lookup'),
                 dataType: 'json',
                 afterTypeDelay: 2,
                 minTermLength: 2,
@@ -1534,14 +1534,14 @@ Le.activateTypeahead = function (el, options) {
 
         if (options.remote) {
             sourceOptions.remote = {
-                url: mauticAjaxUrl + "?action=" + options.action + "&filter=%QUERY",
+                url: leAjaxUrl + "?action=" + options.action + "&filter=%QUERY",
                 filter: filterClosure
             };
         }
 
         if (options.prefetch) {
             sourceOptions.prefetch = {
-                url: mauticAjaxUrl + "?action=" + options.action,
+                url: leAjaxUrl + "?action=" + options.action,
                 filter: filterClosure
             };
         }

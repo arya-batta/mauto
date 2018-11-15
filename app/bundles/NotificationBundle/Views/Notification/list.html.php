@@ -89,7 +89,7 @@ if (count($items)):
                             [
                                 'attr' => [
                                     'data-toggle' => 'ajaxmodal',
-                                    'data-target' => '#MauticSharedModal',
+                                    'data-target' => '#leSharedModal',
                                     'data-header' => $view['translator']->trans('mautic.notification.notification.header.preview'),
                                     'data-footer' => 'false',
                                     'href'        => $view['router']->path(

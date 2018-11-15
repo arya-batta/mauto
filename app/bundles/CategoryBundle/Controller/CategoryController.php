@@ -136,7 +136,7 @@ class CategoryController extends FormController
                     'contentTemplate' => 'MauticCategoryBundle:Category:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_'.$bundle.'category_index',
-                        'mauticContent' => 'category',
+                        'leContent' => 'category',
                     ],
                 ]
             );
@@ -173,7 +173,7 @@ class CategoryController extends FormController
                 'contentTemplate' => 'MauticCategoryBundle:Category:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_'.$bundle.'category_index',
-                    'mauticContent' => 'category',
+                    'leContent' => 'category',
                     'route'         => $this->generateUrl('le_category_index', $viewParams),
                 ],
             ]
@@ -231,7 +231,7 @@ class CategoryController extends FormController
         if ($closeModal) {
             if ($inForm) {
                 return new JsonResponse([
-                    'mauticContent' => 'category',
+                    'leContent' => 'category',
                     'closeModal'    => 1,
                     'inForm'        => 1,
                     'categoryName'  => $entity->getName(),
@@ -250,7 +250,7 @@ class CategoryController extends FormController
                 'contentTemplate' => 'MauticCategoryBundle:Category:index',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_'.$bundle.'category_index',
-                    'mauticContent' => 'category',
+                    'leContent' => 'category',
                     'closeModal'    => 1,
                 ],
             ]);
@@ -266,7 +266,7 @@ class CategoryController extends FormController
                     'bundle'         => $bundle,
                 ],
                 'passthroughVars' => [
-                    'mauticContent' => 'category',
+                    'leContent' => 'category',
                     'success'       => $success,
                     'route'         => false,
                 ],
@@ -357,7 +357,7 @@ class CategoryController extends FormController
             if ($inForm) {
                 return new JsonResponse(
                     [
-                        'mauticContent' => 'category',
+                        'leContent' => 'category',
                         'closeModal'    => 1,
                         'inForm'        => 1,
                         'categoryName'  => $entity->getTitle(),
@@ -378,7 +378,7 @@ class CategoryController extends FormController
                     'contentTemplate' => 'MauticCategoryBundle:Category:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_'.$bundle.'category_index',
-                        'mauticContent' => 'category',
+                        'leContent' => 'category',
                         'closeModal'    => 1,
                     ],
                 ]
@@ -393,7 +393,7 @@ class CategoryController extends FormController
                         'bundle'         => $bundle,
                     ],
                     'passthroughVars' => [
-                        'mauticContent' => 'category',
+                        'leContent' => 'category',
                         'success'       => $success,
                         'route'         => false,
                     ],
@@ -426,7 +426,7 @@ class CategoryController extends FormController
             'contentTemplate' => 'MauticCategoryBundle:Category:index',
             'passthroughVars' => [
                 'activeLink'    => 'mautic_'.$bundle.'category_index',
-                'mauticContent' => 'category',
+                'leContent' => 'category',
             ],
         ];
 
@@ -489,7 +489,7 @@ class CategoryController extends FormController
             'contentTemplate' => 'MauticCategoryBundle:Category:index',
             'passthroughVars' => [
                 'activeLink'    => 'mautic_'.$bundle.'category_index',
-                'mauticContent' => 'category',
+                'leContent' => 'category',
             ],
         ];
 

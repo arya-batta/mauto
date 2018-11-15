@@ -307,7 +307,7 @@ class InstallController extends CommonController
                 'contentTemplate' => 'MauticInstallBundle:Install:final.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_installer_index',
-                    'mauticContent' => 'installer',
+                    'leContent' => 'installer',
                     'route'         => $this->generateUrl('le_installer_final'),
                 ],
             ]
@@ -490,7 +490,7 @@ class InstallController extends CommonController
                         'exception' => '',
                         'trace'     => '',
                     ],
-                    'mauticContent' => 'invalidDomain',
+                    'leContent' => 'invalidDomain',
                     'route'         => $urlParts['path'],
                 ],
                 'responseCode' => $code,

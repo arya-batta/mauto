@@ -37,7 +37,7 @@ class FormController extends AbstractStandardFormController
      * @param string $translationBase Language string base for the shared strings
      * @param string $templateBase    Template base (i.e. YourController:Default) for the view/controller
      * @param string $activeLink      Link ID to return via ajax response
-     * @param string $mauticContent   Mautic content string to return via ajax response for onLoad functions
+     * @param string leContent   Mautic content string to return via ajax response for onLoad functions
      */
     protected function setStandardParameters(
         $modelName,
@@ -47,7 +47,7 @@ class FormController extends AbstractStandardFormController
         $translationBase,
         $templateBase = null,
         $activeLink = null,
-        $mauticContent = null
+        $leContent = null
     ) {
         $this->deprecatedModelName      = $modelName;
         $this->deprecatedPermissionBase = $permissionBase;
@@ -58,7 +58,7 @@ class FormController extends AbstractStandardFormController
         $this->deprecatedRouteBase       = $routeBase;
         $this->deprecatedTranslationBase = $translationBase;
         $this->activeLink                = $activeLink;
-        $this->deprecatedMauticContent   = $mauticContent;
+        $this->deprecatedMauticContent   = $leContent;
         $this->deprecatedTemplateBase    = $templateBase;
     }
 

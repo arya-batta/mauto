@@ -80,7 +80,7 @@ class MonitoringController extends FormController
                     'contentTemplate' => 'MauticSocialBundle:Monitoring:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_social_index',
-                        'mauticContent' => 'monitoring',
+                        'leContent' => 'monitoring',
                     ],
                 ]
             );
@@ -104,7 +104,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'MauticSocialBundle:Monitoring:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'mauticContent' => 'monitoring',
+                    'leContent' => 'monitoring',
                     'route'         => $this->generateUrl('le_social_index', ['page' => $page]),
                 ],
             ]
@@ -203,7 +203,7 @@ class MonitoringController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => 'le_social_index',
-                            'mauticContent' => 'monitoring',
+                            'leContent' => 'monitoring',
                         ],
                     ]
                 );
@@ -220,7 +220,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'MauticSocialBundle:Monitoring:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'mauticContent' => 'monitoring',
+                    'leContent' => 'monitoring',
                     'route'         => $this->generateUrl(
                         'le_social_action',
                         [
@@ -264,7 +264,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'MauticSocial:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_social_index',
-                'mauticContent' => 'monitoring',
+                'leContent' => 'monitoring',
             ],
         ];
 
@@ -369,7 +369,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'MauticSocialBundle:Monitoring:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'mauticContent' => 'monitoring',
+                    'leContent' => 'monitoring',
                     'route'         => $this->generateUrl(
                         'le_social_action',
                         [
@@ -422,7 +422,7 @@ class MonitoringController extends FormController
                     'contentTemplate' => 'MauticSocialMonitoringBundle:Monitoring:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_social_index',
-                        'mauticContent' => 'monitoring',
+                        'leContent' => 'monitoring',
                     ],
                     'flashes' => [
                         [
@@ -483,7 +483,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'MauticSocialBundle:Monitoring:'.$tmpl.'.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'mauticContent' => 'monitoring',
+                    'leContent' => 'monitoring',
                 ],
             ]
         );
@@ -513,7 +513,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'MauticSocialBundle:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_social_index',
-                'mauticContent' => 'monitoring',
+                'leContent' => 'monitoring',
             ],
         ];
 
@@ -580,7 +580,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'MauticSocialBundle:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_social_index',
-                'mauticContent' => 'monitoring',
+                'leContent' => 'monitoring',
             ],
         ];
 

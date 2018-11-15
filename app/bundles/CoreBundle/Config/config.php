@@ -115,32 +115,32 @@ return [
     'menu' => [
         'main' => [
             'mautic.core.components' => [
-                'id'        => 'mautic_components_root',
+                'id'        => 'le_components_root',
                 'iconClass' => 'fa-puzzle-piece',
                 'priority'  => 40,
             ],
              'mautic.core.channels' => [
-                 'id'        => 'mautic_channels_root',
+                 'id'        => 'le_channels_root',
                  'iconClass' => 'fa fa-bullhorn',
                  'priority'  => 80,
              ],
             'le.core.leads' => [
-                'id'        => 'mautic_leads_root',
+                'id'        => 'le_leads_root',
                 'iconClass' => 'fa-users',
                 'priority'  => 100,
             ],
             'mautic.campaign.menu.index' => [
-                'id'        => 'mautic_Workflows_root',
+                'id'        => 'le_Workflows_root',
                 'iconClass' => 'fa-cogs',
                 'priority'  => 60,
             ],
            /*'le.segments.root' => [
-                'id'        => 'mautic_segments_root',
+                'id'        => 'le_segments_root',
                 'iconClass' => 'icon pull-left fa fa-user',
                 'priority'  => 35,
             ],*/
            /* 'le.campaigns.root' => [
-                'id'        => 'mautic_campaigns_root',
+                'id'        => 'le_campaigns_root',
                 'iconClass' => 'fa-clock-o',
                 'priority'  => 70,
             ],*/

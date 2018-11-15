@@ -127,7 +127,7 @@ class NoteController extends FormController
                 ],
                 'passthroughVars' => [
                     'route'         => false,
-                    'mauticContent' => 'leadNote',
+                    'leContent' => 'leadNote',
                     'noteCount'     => count($items),
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Note:list.html.php',
@@ -189,7 +189,7 @@ class NoteController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'mauticContent' => 'leadNote',
+                'leContent' => 'leadNote',
             ];
 
             if ($valid && !$cancelled) {
@@ -291,7 +291,7 @@ class NoteController extends FormController
                 $passthroughVars['noteId'] = $note->getId();
             }
 
-            $passthroughVars['mauticContent'] = 'leadNote';
+            $passthroughVars['leContent'] = 'leadNote';
 
             $response = new JsonResponse($passthroughVars);
 
@@ -343,7 +343,7 @@ class NoteController extends FormController
         $response = new JsonResponse(
             [
                 'deleteId'      => $objectId,
-                'mauticContent' => 'leadNote',
+                'leContent' => 'leadNote',
                 'downNoteCount' => 1,
             ]
         );

@@ -21,7 +21,7 @@ $leadName       = ($isAnonymous) ? $view['translator']->trans($lead->getPrimaryI
 $leadActualName = $lead->getName();
 $leadCompany    = $lead->getCompany();
 
-$view['slots']->set('mauticContent', 'lead');
+$view['slots']->set('leContent', 'lead');
 
 $avatar = '';
 if (!$isAnonymous) {
@@ -45,7 +45,7 @@ if (!empty($fields['core']['email']['value'])) {
         'attr' => [
             'id'          => 'sendEmailButton',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'data-header' => $view['translator']->trans(
                 'le.lead.email.send_email.header',
                 ['%email%' => $fields['core']['email']['value']]
@@ -68,7 +68,7 @@ if ($edit) {
         'attr' => [
             'class'       => $security->isAdmin() ? '' : 'hide',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'data-header' => $view['translator']->trans(
                 'le.lead.lead.header.contact.frequency',
                 ['%name%' => $lead->getPrimaryIdentifier()]
@@ -88,7 +88,7 @@ if ($view['security']->isGranted('campaign:campaigns:edit')) {
         'attr' => [
             'class'       => $security->isAdmin() ? '' : 'hide',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'data-header' => $view['translator']->trans(
                 'le.lead.lead.header.campaigns',
                 ['%name%' => $lead->getPrimaryIdentifier()]
@@ -114,7 +114,7 @@ if (($view['security']->hasEntityAccess(
     $buttons[] = [
         'attr' => [
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'data-header' => $view['translator']->trans(
                 'le.lead.lead.header.merge',
                 ['%name%' => $lead->getPrimaryIdentifier()]

@@ -101,7 +101,7 @@ class DynamicContentController extends FormController
                 'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
-                    'mauticContent' => 'dynamicContent',
+                    'leContent' => 'dynamicContent',
                     'route'         => $this->generateUrl('le_dynamicContent_index', ['page' => $page]),
                 ],
                 'viewParameters' => [
@@ -185,7 +185,7 @@ class DynamicContentController extends FormController
 
             $passthrough = [
                 'activeLink'    => '#le_dynamicContent_index',
-                'mauticContent' => 'dynamicContent',
+                'leContent' => 'dynamicContent',
             ];
 
             // Check to see if this is a popup
@@ -251,7 +251,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_dynamicContent_index',
-                'mauticContent' => 'dynamicContent',
+                'leContent' => 'dynamicContent',
             ],
         ];
 
@@ -332,7 +332,7 @@ class DynamicContentController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
                     'route'         => $action,
-                    'mauticContent' => 'dynamicContent',
+                    'leContent' => 'dynamicContent',
                 ],
             ]
         );
@@ -366,7 +366,7 @@ class DynamicContentController extends FormController
                     'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_dynamicContent_index',
-                        'mauticContent' => 'dynamicContent',
+                        'leContent' => 'dynamicContent',
                     ],
                     'flashes' => [
                         [
@@ -413,7 +413,7 @@ class DynamicContentController extends FormController
                 'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
-                    'mauticContent' => 'dynamicContent',
+                    'leContent' => 'dynamicContent',
                 ],
                 'viewParameters' => [
                     'entity'       => $entity,
@@ -480,7 +480,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_dynamicContent_index',
-                'mauticContent' => 'dynamicContent',
+                'leContent' => 'dynamicContent',
             ],
         ];
 
@@ -537,7 +537,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_dynamicContent_index',
-                'mauticContent' => 'dynamicContent',
+                'leContent' => 'dynamicContent',
             ],
         ];
 

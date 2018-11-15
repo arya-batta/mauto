@@ -11,7 +11,7 @@
 
 /** @var \Mautic\UserBundle\Entity\User $me */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'user');
+$view['slots']->set('leContent', 'user');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.user.account.settings'));
 $isAdmin    =$view['security']->isAdmin();
 $img        = $view['lead_avatar']->getUserAvatar($me);

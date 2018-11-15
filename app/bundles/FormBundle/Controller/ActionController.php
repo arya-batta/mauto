@@ -102,7 +102,7 @@ class ActionController extends CommonFormController
         }
 
         $passthroughVars = [
-            'mauticContent' => 'formAction',
+            'leContent' => 'formAction',
             'success'       => $success,
             'route'         => false,
         ];
@@ -229,7 +229,7 @@ class ActionController extends CommonFormController
             }
 
             $passthroughVars = [
-                'mauticContent' => 'formAction',
+                'leContent' => 'formAction',
                 'success'       => $success,
                 'route'         => false,
             ];
@@ -312,7 +312,7 @@ class ActionController extends CommonFormController
             }
 
             $dataArray = [
-                'mauticContent' => 'formAction',
+                'leContent' => 'formAction',
                 'success'       => 1,
                 'route'         => false,
             ];

@@ -12,7 +12,7 @@
 if (!$isEmbedded) {
     $view->extend('MauticCoreBundle:Default:content.html.php');
 
-    $view['slots']->set('mauticContent', 'email');
+    $view['slots']->set('leContent', 'email');
     $view['slots']->set('headerTitle', $email->getName());
 }
 //dump($actionRoute);
@@ -66,7 +66,7 @@ if (!$isEmbedded) {
         'attr' => [
             'class'       => 'btn btn-default btn-nospin le-btn-default',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'href'        => $view['router']->path($actionRoute, ['objectAction' => 'sendExample', 'objectId' => $email->getId()]),
             'data-header' => $view['translator']->trans('le.email.send.example'),
         ],

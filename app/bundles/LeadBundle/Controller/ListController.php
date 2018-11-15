@@ -116,7 +116,7 @@ class ListController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_segment_index',
-                    'mauticContent' => 'leadlist',
+                    'leContent' => 'leadlist',
                 ],
             ]);
         }
@@ -148,7 +148,7 @@ class ListController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
                 'route'         => $this->generateUrl('le_segment_index', ['page' => $page]),
-                'mauticContent' => 'leadlist',
+                'leContent' => 'leadlist',
             ],
         ]);
     }
@@ -204,7 +204,7 @@ class ListController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_segment_index',
-                    'mauticContent' => 'leadlist',
+                    'leContent' => 'leadlist',
                 ],
             ]);*/
             } elseif ($valid && !$cancelled) {
@@ -220,7 +220,7 @@ class ListController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
                 'route'         => $this->generateUrl('le_segment_action', ['objectAction' => 'new']),
-                'mauticContent' => 'leadlist',
+                'leContent' => 'leadlist',
             ],
         ]);
     }
@@ -386,7 +386,7 @@ class ListController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
                 'route'         => $action,
-                'mauticContent' => 'leadlist',
+                'leContent' => 'leadlist',
             ],
         ]);
     }
@@ -439,7 +439,7 @@ class ListController extends FormController
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
-                'mauticContent' => 'leadlist',
+                'leContent' => 'leadlist',
             ],
         ];
     }
@@ -463,7 +463,7 @@ class ListController extends FormController
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -523,7 +523,7 @@ class ListController extends FormController
             'contentTemplate' => 'MauticLeadBundle:List:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -613,7 +613,7 @@ class ListController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'mauticContent' => 'lead',
+                'leContent' => 'lead',
             ],
         ];
 
@@ -715,7 +715,7 @@ class ListController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:List:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_segment_index',
-                    'mauticContent' => 'list',
+                    'leContent' => 'list',
                 ],
                 'flashes' => [
                     [
@@ -781,7 +781,7 @@ class ListController extends FormController
             'contentTemplate' => 'MauticLeadBundle:List:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_segment_index',
-                'mauticContent' => 'list',
+                'leContent' => 'list',
             ],
         ]);
     }

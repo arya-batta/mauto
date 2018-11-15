@@ -610,7 +610,7 @@
 
                         if (submitButton) {
                             MauticLang.submitMessage = submitButton.innerHTML;
-                            submitButton.innerHTML = MauticLang.submittingMessage;
+                            submitButton.innerHTML = leLang.submittingMessage;
                             submitButton.disabled = 'disabled';
                         }
                     }
@@ -621,7 +621,7 @@
                     if (!Form.customCallbackHandler(formId, 'onSubmitButtonEnable')) {
                         var submitButton = document.getElementById('mauticform_' + formId).querySelector('.mauticform-button');
                         if (submitButton) {
-                            submitButton.innerHTML = MauticLang.submitMessage;
+                            submitButton.innerHTML = leLang.submitMessage;
                             submitButton.disabled = '';
                         }
                     }

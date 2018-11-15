@@ -112,7 +112,7 @@ class MobileNotificationController extends FormController
                     'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_mobile_notification_index',
-                        'mauticContent' => 'mobile_notification',
+                        'leContent' => 'mobile_notification',
                     ],
                 ]
             );
@@ -135,7 +135,7 @@ class MobileNotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_mobile_notification_index',
-                    'mauticContent' => 'mobile_notification',
+                    'leContent' => 'mobile_notification',
                     'route'         => $this->generateUrl('le_mobile_notification_index', ['page' => $page]),
                 ],
             ]
@@ -171,7 +171,7 @@ class MobileNotificationController extends FormController
                     'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_mobile_notification_index',
-                        'mauticContent' => 'mobile_notification',
+                        'leContent' => 'mobile_notification',
                     ],
                     'flashes' => [
                         [
@@ -241,7 +241,7 @@ class MobileNotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ],
         ]);
     }
@@ -330,7 +330,7 @@ class MobileNotificationController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ];
 
             // Check to see if this is a popup
@@ -371,7 +371,7 @@ class MobileNotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_mobile_notification_index',
-                    'mauticContent' => 'mobile_notification',
+                    'leContent' => 'mobile_notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_mobile_notification_action',
@@ -409,7 +409,7 @@ class MobileNotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ],
         ];
 
@@ -484,7 +484,7 @@ class MobileNotificationController extends FormController
             $template    = 'MauticNotificationBundle:MobileNotification:view';
             $passthrough = [
                 'activeLink'    => 'le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ];
 
             // Check to see if this is a popup
@@ -537,7 +537,7 @@ class MobileNotificationController extends FormController
                 'contentTemplate' => 'MauticNotificationBundle:MobileNotification:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_mobile_notification_index',
-                    'mauticContent' => 'mobile_notification',
+                    'leContent' => 'mobile_notification',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_mobile_notification_action',
@@ -603,7 +603,7 @@ class MobileNotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ],
         ];
 
@@ -667,7 +667,7 @@ class MobileNotificationController extends FormController
             'contentTemplate' => 'MauticNotificationBundle:MobileNotification:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_mobile_notification_index',
-                'mauticContent' => 'mobile_notification',
+                'leContent' => 'mobile_notification',
             ],
         ];
 

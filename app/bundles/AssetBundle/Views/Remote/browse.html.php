@@ -10,7 +10,7 @@
  */
 if ($tmpl == 'index') :
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'asset');
+$view['slots']->set('leContent', 'asset');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.remote.file.browse'));
 ?>
 

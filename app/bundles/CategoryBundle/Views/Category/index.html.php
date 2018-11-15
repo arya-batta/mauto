@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'category');
+$view['slots']->set('leContent', 'category');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.category.header.index'));
 
 $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actions.html.php', [
@@ -20,7 +20,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
     'query'     => ['bundle' => $bundle, 'show_bundle_select' => true],
     'editMode'  => 'ajaxmodal',
     'editAttr'  => [
-        'data-target' => '#MauticSharedModal',
+        'data-target' => '#leSharedModal',
         'data-header' => $view['translator']->trans('mautic.category.header.new'),
         'data-toggle' => 'ajaxmodal',
     ],

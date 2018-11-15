@@ -18,7 +18,7 @@ $header = $view['translator']->trans(
     $hideDateRangeFilter = (!empty($report->getSettings()['hideDateRangeFilter']) === true);
 
     $view->extend('MauticCoreBundle:Default:content.html.php');
-    $view['slots']->set('mauticContent', 'report');
+    $view['slots']->set('leContent', 'report');
 
     $view['slots']->set('headerTitle', $header);
 

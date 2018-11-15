@@ -208,7 +208,7 @@ Le.formatCode = function() {
  */
 Le.openMediaManager = function() {
     Le.openServerBrowser(
-        mauticBasePath + '/' + mauticAssetPrefix + 'app/bundles/CoreBundle/Assets/js/libraries/ckeditor/filemanager/index.html?type=Images',
+        leBasePath + '/' + leAssetPrefix + 'app/bundles/CoreBundle/Assets/js/libraries/ckeditor/filemanager/index.html?type=Images',
         screen.width * 0.7,
         screen.height * 0.7
     );
@@ -349,7 +349,7 @@ Le.initSelectTheme = function(themeField) {
 
             if (Le.showChangeThemeWarning && customHtml.val().length) {
                 if (!isCodeMode) {
-                    if (confirm(Le.translate('Le.core.builder.theme_change_warning'))) {
+                    if (confirm(Le.translate('le.core.builder.theme_change_warning'))) {
                         customHtml.val('');
                         Le.showChangeThemeWarning = false;
                     } else {
@@ -440,7 +440,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
             Le.beeTemplate = theme;
 
             if (Le.showChangeThemeWarning && templateJSON.val().length) {
-                    if (confirm(Le.translate('Le.core.builder.theme_change_warning'))) {
+                    if (confirm(Le.translate('le.core.builder.theme_change_warning'))) {
                         templateJSON.val('');
                         Le.showChangeThemeWarning = false;
                     } else {

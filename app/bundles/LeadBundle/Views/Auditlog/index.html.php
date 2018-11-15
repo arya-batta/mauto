@@ -50,8 +50,8 @@
 </form>
 
 <script>
-    mauticLang['showMore'] = '<?php echo $view['translator']->trans('mautic.core.more.show'); ?>';
-    mauticLang['hideMore'] = '<?php echo $view['translator']->trans('mautic.core.more.hide'); ?>';
+    leLang['showMore'] = '<?php echo $view['translator']->trans('mautic.core.more.show'); ?>';
+    leLang['hideMore'] = '<?php echo $view['translator']->trans('mautic.core.more.hide'); ?>';
 </script>
 
 <div id="auditlog-table">

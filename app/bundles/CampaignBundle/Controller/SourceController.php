@@ -84,7 +84,7 @@ class SourceController extends CommonFormController
         }
 
         $passthroughVars = [
-            'mauticContent' => 'campaignSource',
+            'leContent' => 'campaignSource',
             'success'       => $success,
             'route'         => false,
         ];
@@ -189,7 +189,7 @@ class SourceController extends CommonFormController
         }
 
         $passthroughVars = [
-            'mauticContent' => 'campaignSource',
+            'leContent' => 'campaignSource',
             'success'       => $success,
             'route'         => false,
         ];
@@ -262,7 +262,7 @@ class SourceController extends CommonFormController
             }
 
             $dataArray = [
-                'mauticContent' => 'campaignSource',
+                'leContent' => 'campaignSource',
                 'success'       => 1,
                 'route'         => false,
                 'sourceType'    => $sourceType,

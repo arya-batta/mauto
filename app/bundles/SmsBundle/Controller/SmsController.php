@@ -167,7 +167,7 @@ class SmsController extends FormController
                 'contentTemplate' => 'MauticSmsBundle:Sms:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_sms_index',
-                    'mauticContent' => 'sms',
+                    'leContent' => 'sms',
                 ],
             ]);
         }
@@ -195,7 +195,7 @@ class SmsController extends FormController
             'contentTemplate' => 'MauticSmsBundle:Sms:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
                 'route'         => $this->generateUrl('le_sms_index', ['page' => $page]),
             ],
         ]);
@@ -229,7 +229,7 @@ class SmsController extends FormController
                 'contentTemplate' => 'MauticSmsBundle:Sms:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_sms_index',
-                    'mauticContent' => 'sms',
+                    'leContent' => 'sms',
                 ],
                 'flashes' => [
                     [
@@ -302,7 +302,7 @@ class SmsController extends FormController
             'contentTemplate' => 'MauticSmsBundle:Sms:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ],
         ]);
     }
@@ -391,7 +391,7 @@ class SmsController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ];
 
             // Check to see if this is a popup
@@ -429,7 +429,7 @@ class SmsController extends FormController
                 'contentTemplate' => 'MauticSmsBundle:Sms:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_sms_index',
-                    'mauticContent' => 'sms',
+                    'leContent' => 'sms',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_sms_action',
@@ -467,7 +467,7 @@ class SmsController extends FormController
             'contentTemplate' => 'MauticSmsBundle:Sms:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ],
         ];
 
@@ -541,7 +541,7 @@ class SmsController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ];
 
             $template = 'MauticSmsBundle:Sms:view';
@@ -593,7 +593,7 @@ class SmsController extends FormController
                 'contentTemplate' => 'MauticSmsBundle:Sms:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_sms_index',
-                    'mauticContent' => 'sms',
+                    'leContent' => 'sms',
                     'updateSelect'  => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'         => $this->generateUrl(
                         'le_sms_action',
@@ -655,7 +655,7 @@ class SmsController extends FormController
             'contentTemplate' => 'MauticSmsBundle:Sms:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ],
         ];
 
@@ -717,7 +717,7 @@ class SmsController extends FormController
             'contentTemplate' => 'MauticSmsBundle:Sms:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_sms_index',
-                'mauticContent' => 'sms',
+                'leContent' => 'sms',
             ],
         ];
 

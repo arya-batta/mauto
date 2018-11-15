@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'dripemail');
+$view['slots']->set('leContent', 'dripemail');
 $view['slots']->set('headerTitle', $view['translator']->trans($headerTitle));
 
 $pageButtons   = [];
@@ -17,7 +17,7 @@ $pageButtons[] = [
     'attr' => [
         'class'       => 'btn btn-default btn-nospin quickadd le-btn-default',
         'data-toggle' => 'ajaxmodal',
-        'data-target' => '#MauticSharedModal',
+        'data-target' => '#leSharedModal',
         'href'        => $view['router']->path('le_dripemail_campaign_action', ['objectAction' => 'quickadd']),
         'data-header' => $view['translator']->trans('le.drip.email.new.header'),
     ],

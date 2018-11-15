@@ -221,7 +221,7 @@ class EmailCampaignController extends FormController
                     'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_email_campaign_index',
-                        'mauticContent' => 'email',
+                        'leContent' => 'email',
                     ],
                 ]
             );
@@ -250,7 +250,7 @@ class EmailCampaignController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_email_campaign_index',
-                    'mauticContent' => 'email',
+                    'leContent' => 'email',
                     'route'         => $this->generateUrl('le_email_campaign_index', ['page' => $page]),
                 ],
             ]
@@ -296,7 +296,7 @@ class EmailCampaignController extends FormController
                     'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_email_campaign_index',
-                        'mauticContent' => 'email',
+                        'leContent' => 'email',
                     ],
                     'flashes' => [
                         [
@@ -491,7 +491,7 @@ class EmailCampaignController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_email_campaign_index',
-                    'mauticContent' => 'email',
+                    'leContent' => 'email',
                 ],
             ]
         );
@@ -669,7 +669,7 @@ class EmailCampaignController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ];
 
             // Check to see if this is a popup
@@ -754,7 +754,7 @@ class EmailCampaignController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_campaign_index',
-                    'mauticContent'   => 'email',
+                    'leContent'   => 'email',
                     'updateSelect'    => $updateSelect,
                     'route'           => $this->generateUrl('le_email_campaign_action', $routeParams),
                     'validationError' => $this->getFormErrorForBuilder($form),
@@ -851,7 +851,7 @@ class EmailCampaignController extends FormController
             'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ],
         ];
 
@@ -974,7 +974,7 @@ class EmailCampaignController extends FormController
             $template    = 'MauticEmailBundle:EmailCampaign:view';
             $passthrough = [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ];
 
             // Check to see if this is a popup
@@ -1093,7 +1093,7 @@ class EmailCampaignController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_campaign_index',
-                    'mauticContent'   => 'email',
+                    'leContent'   => 'email',
                     'updateSelect'    => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'           => $this->generateUrl('le_email_campaign_action', $routeParams),
                     'validationError' => $this->getFormErrorForBuilder($form),
@@ -1159,7 +1159,7 @@ class EmailCampaignController extends FormController
             'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ],
         ];
 
@@ -1353,7 +1353,7 @@ class EmailCampaignController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ];
 
@@ -1437,7 +1437,7 @@ class EmailCampaignController extends FormController
             'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ],
         ];
         if (!$this->get('mautic.helper.mailer')->emailstatus()) {
@@ -1601,7 +1601,7 @@ class EmailCampaignController extends FormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $contentTemplate,
                     'passthroughVars' => [
-                        'mauticContent' => 'emailSend',
+                        'leContent' => 'emailSend',
                         'route'         => $action,
                     ],
                 ]
@@ -1645,7 +1645,7 @@ class EmailCampaignController extends FormController
             'contentTemplate' => 'MauticEmailBundle:EmailCampaign:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_email_campaign_index',
-                'mauticContent' => 'email',
+                'leContent' => 'email',
             ],
         ];
 

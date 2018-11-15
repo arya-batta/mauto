@@ -45,7 +45,7 @@ Le.loadIntegrationAuthWindow = function(response) {
             var generator = window.open(response.authUrl, 'integrationauth', 'height=500,width=500');
 
             if (!generator || generator.closed || typeof generator.closed == 'undefined') {
-                alert(mauticLang.popupBlockerMessage);
+                alert(leLang.popupBlockerMessage);
             }
         }
     }
@@ -129,7 +129,7 @@ Le.filterIntegrations = function(update) {
 
     if (update) {
         mQuery.ajax({
-            url: mauticAjaxUrl,
+            url: leAjaxUrl,
             type: "POST",
             data: "action=plugin:setIntegrationFilter&plugin=" + filter
         });

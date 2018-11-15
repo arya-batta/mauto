@@ -117,7 +117,7 @@ class SecurityController extends CommonController
             'contentTemplate' => 'MauticUserBundle:Security:login.html.php',
             'passthroughVars' => [
                 'route'          => $this->generateUrl('login'),
-                'mauticContent'  => 'user',
+                'leContent'  => 'user',
                 'sessionExpired' => true,
             ],
         ]);

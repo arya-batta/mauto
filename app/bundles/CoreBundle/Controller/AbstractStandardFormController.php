@@ -104,7 +104,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => $this->getControllerBase().':'.$this->getPostActionControllerAction('batchDelete'),
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
             ],
         ];
 
@@ -307,7 +307,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             'viewParameters'  => ['page' => $page],
             'contentTemplate' => $this->getControllerBase().':'.$this->getPostActionControllerAction('delete'),
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
             ],
             'entity' => $entity,
         ];
@@ -381,7 +381,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             'viewParameters'  => $viewParameters,
             'contentTemplate' => $template,
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
             ],
             'entity' => $entity,
         ];
@@ -507,7 +507,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $delegateArgs = [
             'viewParameters' => [
                 'permissionBase'  => $this->getPermissionBase(),
-                'mauticContent'   => $this->getJsLoadMethodPrefix(),
+                'leContent'   => $this->getJsLoadMethodPrefix(),
                 'actionRoute'     => $this->getActionRoute(),
                 'indexRoute'      => $this->getIndexRoute(),
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
@@ -520,7 +520,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('form.html.php'),
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
                 'route'         => $this->generateUrl(
                     $this->getActionRoute(),
                     [
@@ -956,7 +956,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         'viewParameters'  => ['page' => $lastPage],
                         'contentTemplate' => $this->getControllerBase().':'.$this->getPostActionControllerAction('index'),
                         'passthroughVars' => [
-                            'mauticContent' => $this->getJsLoadMethodPrefix(),
+                            'leContent' => $this->getJsLoadMethodPrefix(),
                         ],
                     ],
                     'index'
@@ -969,7 +969,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
 
         $viewParameters = [
             'permissionBase'  => $this->getPermissionBase(),
-            'mauticContent'   => $this->getJsLoadMethodPrefix(),
+            'leContent'   => $this->getJsLoadMethodPrefix(),
             'sessionVar'      => $this->getSessionBase(),
             'actionRoute'     => $this->getActionRoute(),
             'indexRoute'      => $this->getIndexRoute(),
@@ -991,7 +991,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $this->getTemplateName('list.html.php'),
                     'passthroughVars' => [
-                        'mauticContent' => $this->getJsLoadMethodPrefix(),
+                        'leContent' => $this->getJsLoadMethodPrefix(),
                         'route'         => $this->generateUrl($this->getIndexRoute(), ['page' => $page]),
                     ],
                 ],
@@ -1091,7 +1091,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             }
 
             $passthrough = [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
             ];
 
             if ($isInPopup = isset($form['updateSelect'])) {
@@ -1162,7 +1162,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $delegateArgs = [
             'viewParameters' => [
                 'permissionBase'  => $this->getPermissionBase(),
-                'mauticContent'   => $this->getJsLoadMethodPrefix(),
+                'leContent'   => $this->getJsLoadMethodPrefix(),
                 'actionRoute'     => $this->getActionRoute(),
                 'indexRoute'      => $this->getIndexRoute(),
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
@@ -1175,7 +1175,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('form.html.php'),
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
                 'route'         => $this->generateUrl(
                     $this->getActionRoute(),
                     [
@@ -1242,7 +1242,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         'viewParameters'  => ['page' => $page],
                         'contentTemplate' => $this->getControllerBase().':'.$this->getPostActionControllerAction('view'),
                         'passthroughVars' => [
-                            'mauticContent' => $this->getJsLoadMethodPrefix(),
+                            'leContent' => $this->getJsLoadMethodPrefix(),
                         ],
                         'flashes' => [
                             [
@@ -1305,7 +1305,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('details.html.php'),
             'passthroughVars' => [
-                'mauticContent' => $this->getJsLoadMethodPrefix(),
+                'leContent' => $this->getJsLoadMethodPrefix(),
                 'route'         => $route,
             ],
             'objectId' => $objectId,

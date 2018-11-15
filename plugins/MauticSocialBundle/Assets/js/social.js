@@ -12,7 +12,7 @@ Le.getNetworkFormAction = function(networkType) {
     var query = "action=plugin:mauticSocial:getNetworkForm&networkType=" + mQuery(networkType).val();
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",

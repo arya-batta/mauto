@@ -22,7 +22,7 @@ Le.cancelQueuedMessageEvent = function (channelId) {
         }, function (response) {
             if (response.success) {
                 mQuery('#queued-message-'+channelId).addClass('disabled');
-                mQuery('#queued-status-'+channelId).html(Le.translate('mautic.message.queue.status.cancelled'));
+                mQuery('#queued-status-'+channelId).html(Le.translate('le.message.queue.status.cancelled'));
             }
         }, false
     );

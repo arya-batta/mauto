@@ -74,7 +74,7 @@
                 mQuery('[class*="sf-tool"]').remove();
             }
 
-            mQuery.get(mauticBaseUrl + '_wdt/'+XMLHttpRequest.getResponseHeader('x-debug-token'),function(data){
+            mQuery.get(leBaseUrl + '_wdt/'+XMLHttpRequest.getResponseHeader('x-debug-token'),function(data){
                 mQuery('body').append('<div class="sf-toolbar-reload">'+data+'</div>');
             });
         }
@@ -83,7 +83,7 @@
 </script>
 <?php $view['assets']->outputScripts('bodyClose'); ?>
 <?php echo $view->render('MauticCoreBundle:Helper:modal.html.php', [
-    'id'            => 'MauticSharedModal',
+    'id'            => 'leSharedModal',
     'footerButtons' => true,
 ]); ?>
 </body>

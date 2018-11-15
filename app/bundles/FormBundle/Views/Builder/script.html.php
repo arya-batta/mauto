@@ -26,7 +26,7 @@ $scriptSrc = str_replace('/index_dev.php', '', $scriptSrc);
         };
         head.appendChild(script);
         var MauticDomain = '<?php echo str_replace('/index_dev.php', '', $view['assets']->getBaseUrl()); ?>';
-        var MauticLang   = {
+        var leLang   = {
             'submittingMessage': "<?php echo $view['translator']->trans('mautic.form.submission.pleasewait'); ?>"
         }
     }

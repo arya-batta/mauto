@@ -30,7 +30,7 @@ class DynamicContentFilterType extends AbstractType
             'tokenName',
             'text',
             [
-                'label' => 'mautic.core.dynamicContent.token_name',
+                'label' => 'le.core.dynamicContent.token_name',
                 'attr'  => [
                     'class' => 'form-control dynamic-content-token-name',
                 ],
@@ -41,7 +41,7 @@ class DynamicContentFilterType extends AbstractType
             'content',
             'textarea',
             [
-                'label' => 'mautic.core.dynamicContent.default_content',
+                'label' => 'le.core.dynamicContent.default_content',
                 'attr'  => [
                     'class' => 'form-control editor editor-dynamic-content',
                 ],

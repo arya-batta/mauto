@@ -61,7 +61,7 @@ class ButtonSubscriber extends CommonSubscriber
                     'attr' => [
                         'class'       => 'btn btn-default btn-sm btn-nospin',
                         'data-toggle' => 'ajaxmodal',
-                        'data-target' => '#MauticSharedModal',
+                        'data-target' => '#leSharedModal',
                         'onclick'     => 'this.href=\''.
                             $this->router->generate(
                                 'le_plugin_fullcontact_action',
@@ -80,7 +80,7 @@ class ButtonSubscriber extends CommonSubscriber
                 $lookupContactButton = [
                     'attr' => [
                         'data-toggle' => 'ajaxmodal',
-                        'data-target' => '#MauticSharedModal',
+                        'data-target' => '#leSharedModal',
                         'data-header' => $this->translator->trans(
                             'mautic.plugin.fullcontact.lookup.header',
                             ['%item%' => $event->getItem()->getEmail()]
@@ -113,7 +113,7 @@ class ButtonSubscriber extends CommonSubscriber
                         'attr' => [
                             'class'       => 'btn btn-default btn-sm btn-nospin',
                             'data-toggle' => 'ajaxmodal',
-                            'data-target' => '#MauticSharedModal',
+                            'data-target' => '#leSharedModal',
                             'onclick'     => 'this.href=\''.
                                 $this->router->generate(
                                     'le_plugin_fullcontact_action',
@@ -134,7 +134,7 @@ class ButtonSubscriber extends CommonSubscriber
                     $lookupCompanyButton = [
                         'attr' => [
                             'data-toggle' => 'ajaxmodal',
-                            'data-target' => '#MauticSharedModal',
+                            'data-target' => '#leSharedModal',
                             'data-header' => $this->translator->trans(
                                 'mautic.plugin.fullcontact.lookup.header',
                                 ['%item%' => $event->getItem()->getName()]

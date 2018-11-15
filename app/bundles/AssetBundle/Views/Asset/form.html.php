@@ -14,7 +14,7 @@ $header = ($activeAsset->getId()) ?
         ['%name%' => $activeAsset->getTitle()]) :
     $view['translator']->trans('mautic.asset.asset.menu.new');
 $view['slots']->set('headerTitle', $header);
-$view['slots']->set('mauticContent', 'asset');
+$view['slots']->set('leContent', 'asset');
 $isAdmin=$view['security']->isAdmin();
 ?>
 <script>

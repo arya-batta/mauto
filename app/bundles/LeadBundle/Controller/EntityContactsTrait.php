@@ -112,7 +112,7 @@ trait EntityContactsTrait
                     'viewParameters'  => ['page' => $lastPage, 'objectId' => $entityId],
                     'contentTemplate' => 'MauticLeadBundle:Lead:grid.html.php',
                     'passthroughVars' => [
-                        'mauticContent' => $sessionVar.'Contacts',
+                        'leContent' => $sessionVar.'Contacts',
                     ],
                 ]
             );
@@ -145,7 +145,7 @@ trait EntityContactsTrait
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:grid.html.php',
                 'passthroughVars' => [
-                    'mauticContent' => $sessionVar.'Contacts',
+                    'leContent' => $sessionVar.'Contacts',
                     'route'         => false,
                 ],
             ]

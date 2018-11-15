@@ -10,14 +10,14 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.dashboard.header.index'));
-$view['slots']->set('mauticContent', 'dashboard');
+$view['slots']->set('leContent', 'dashboard');
 
 $buttons = [
     [
         'attr' => [
             'class'       => 'btn btn-default btn-nospin',
             'data-toggle' => 'ajaxmodal',
-            'data-target' => '#MauticSharedModal',
+            'data-target' => '#leSharedModal',
             'href'        => $view['router']->path('le_dashboard_action', ['objectAction' => 'new']),
             'data-header' => $view['translator']->trans('mautic.dashboard.widget.add'),
         ],

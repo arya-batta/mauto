@@ -110,7 +110,7 @@ class CoreSubscriber extends CommonSubscriber
     }
 
     /**
-     * Add mauticForms in js script tag for Froala.
+     * Add leForms in js script tag for Froala.
      *
      * @param FilterControllerEvent $event
      */
@@ -122,9 +122,9 @@ class CoreSubscriber extends CommonSubscriber
 
         $list = $this->em->getRepository('MauticFormBundle:Form')->getSimpleList();
 
-        $mauticForms = json_encode($list, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
+        $leForms = json_encode($list, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 
-        $this->assetsHelper->addScriptDeclaration("var mauticForms = {$mauticForms};");
+        $this->assetsHelper->addScriptDeclaration("var leForms = {$leForms};");
     }
 
     /**

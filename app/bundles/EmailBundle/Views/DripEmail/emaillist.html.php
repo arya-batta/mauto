@@ -210,7 +210,7 @@
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
-                                        <a title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>" data-toggle = "ajaxmodal" data-target = "#MauticSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" >
+                                        <a title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" >
                                             <span><i class="material-icons md-color-white">  </i></span></a>
                                         </a>
                                     </div>

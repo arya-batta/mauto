@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'form');
+$view['slots']->set('leContent', 'form');
 $isadmin    =$view['security']->isAdmin();
 $hidepanel  =$view['security']->isAdmin() ? '' : 'display: none;';
 $header     = ($activeForm->getId())
@@ -234,7 +234,7 @@ echo $view['form']->end($form); */
         'MauticCoreBundle:Helper:form_selecttype.html.php',
         [
             'item'       => $activeForm,
-            'mauticLang' => [
+            'leLang' => [
                 'newStandaloneForm' => 'mautic.form.type.standalone.header',
                 'newCampaignForm'   => 'mautic.form.type.campaign.header',
             ],

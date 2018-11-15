@@ -83,7 +83,7 @@ Le.loadAjaxModal = function (target, route, method, header, footer, preventDismi
 
         var response = {};
         if (Le.modalMauticContent) {
-            response.mauticContent = Le.modalMauticContent;
+            response.leContent = Le.modalMauticContent;
             delete Le.modalMauticContent;
         }
 
@@ -274,7 +274,7 @@ Le.processModalContent = function (response, target) {
             }
         } else {
             // Note for the hidden event
-            Le.modalMauticContent = response.mauticContent ? response.mauticContent : false;
+            Le.modalMauticContent = response.leContent ? response.leContent : false;
         }
     }
 };
@@ -404,7 +404,7 @@ Le.loadAjaxModalBySelectValue = function (el, value, route, header) {
         route = route + (route.indexOf('?') > -1 ? '&' : '?') + 'modal=1&contentOnly=1&updateSelect=' + mQuery(el).attr('id');
         mQuery(el).find('option[value="' + value + '"]').prop('selected', false);
         mQuery(el).trigger("chosen:updated");
-        Le.loadAjaxModal('#MauticSharedModal', route, 'get', header);
+        Le.loadAjaxModal('#leSharedModal', route, 'get', header);
     }
 };
 

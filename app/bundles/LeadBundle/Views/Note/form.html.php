@@ -8,7 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$view['slots']->set('mauticContent', 'leadnote');
+$view['slots']->set('leContent', 'leadnote');
 $userId = $form->vars['data']->getId();
 if (!empty($userId)) {
     $header = $view['translator']->trans('le.lead.note.header.edit');

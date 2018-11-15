@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'theme');
+$view['slots']->set('leContent', 'theme');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.themes'));
 $view['slots']->set('actions', $view->render('MauticCoreBundle:Theme:form.html.php', ['form' => $form]));
 ?>

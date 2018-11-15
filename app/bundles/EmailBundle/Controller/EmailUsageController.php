@@ -41,7 +41,7 @@ class EmailUsageController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Email:emailusage.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_email_usage',
-                'mauticContent' => 'payment-status',
+                'leContent' => 'payment-status',
                 'route'         => $this->generateUrl('le_email_usage'),
             ],
         ]);

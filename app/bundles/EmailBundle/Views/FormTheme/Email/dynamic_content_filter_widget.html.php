@@ -30,7 +30,7 @@
 
         foreach ($form['filters'] as $i => $filter) {
             $isFirst = $i === 0 ? ' active' : '';
-            $tabHtml .= '<li><a role="tab" data-toggle="tab" href="#'.$filter->vars['id'].'">'.$view['translator']->trans('mautic.core.dynamicContent.tab').' '.($i + 1).'</a></li>';
+            $tabHtml .= '<li><a role="tab" data-toggle="tab" href="#'.$filter->vars['id'].'">'.$view['translator']->trans('le.core.dynamicContent.tab').' '.($i + 1).'</a></li>';
 
             $tabContentHtml .= $view['form']->widget($filter);
         }

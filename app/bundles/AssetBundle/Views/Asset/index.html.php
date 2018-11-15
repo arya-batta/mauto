@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'asset');
+$view['slots']->set('leContent', 'asset');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.assets'));
 
 $view['slots']->set(

@@ -32,16 +32,16 @@ mQuery.ajaxSetup({
             settings.url = settings.url + queryGlue + 'mauticUserLastActive=' + userLastActive;
         }
 
-        if (mQuery('#mauticLastNotificationId').length) {
+        if (mQuery('#leLastNotificationId').length) {
             //append last notifications
             var queryGlue = (settings.url.indexOf("?") == -1) ? '?' : '&';
 
-            settings.url = settings.url + queryGlue + 'mauticLastNotificationId=' + mQuery('#mauticLastNotificationId').val();
+            settings.url = settings.url + queryGlue + 'leLastNotificationId=' + mQuery('#leLastNotificationId').val();
         }
 
         // Set CSRF token to each AJAX POST request
         if (settings.type == 'POST') {
-            request.setRequestHeader('X-CSRF-Token', mauticAjaxCsrf);
+            request.setRequestHeader('X-CSRF-Token', leAjaxCsrf);
         }
 
         return true;
@@ -64,7 +64,7 @@ mQuery( document ).ajaxStop(function(event) {
 });
 
 mQuery( document ).ready(function() {
-    if (typeof mauticContent !== 'undefined') {
+    if (typeof leContent !== 'undefined') {
         mQuery("html").Core({
             console: false
         });
@@ -74,7 +74,7 @@ mQuery( document ).ready(function() {
         IdleTimer.init({
             idleTimeout: 60000, //1 min
             awayTimeout: 900000, //15 min
-            statusChangeUrl: mauticAjaxUrl + '?action=updateUserStatus'
+            statusChangeUrl: leAjaxUrl + '?action=updateUserStatus'
         });
     }
 
@@ -169,7 +169,7 @@ var Le = {
         });
 
         Mousetrap.bind('?', function (e) {
-            var modalWindow = mQuery('#MauticSharedModal');
+            var modalWindow = mQuery('#leSharedModal');
 
             modalWindow.find('.modal-title').html('Keyboard Shortcuts');
             modalWindow.find('.modal-body').html(function () {
@@ -202,11 +202,11 @@ var Le = {
      * @param params object
      */
     translate: function (id, params) {
-        if (!mauticLang.hasOwnProperty(id)) {
+        if (!leLang.hasOwnProperty(id)) {
             return id;
         }
 
-        var translated = mauticLang[id];
+        var translated = leLang[id];
 
         if (params) {
             for (var key in params) {
@@ -351,7 +351,7 @@ var Le = {
                 var opener = window.open(options.windowUrl, 'mauticpopup', 'height=600,width=1100');
 
                 if (!opener || opener.closed || typeof opener.closed == 'undefined') {
-                    alert(mauticLang.popupBlockerMessage);
+                    alert(leLang.popupBlockerMessage);
                 } else {
                     opener.onload = function () {
                         Le.stopModalLoadingBar();
@@ -390,11 +390,11 @@ var Le = {
             if (textStatus == 'success') {
                 if (onLoadCallback && typeof Le[onLoadCallback] == 'function') {
                     Le[onLoadCallback]();
-                } else if (typeof Le[mauticContent + "OnLoad"] == 'function') {
+                } else if (typeof Le[leContent + "OnLoad"] == 'function') {
                     // Likely a page refresh; execute onLoad content
-                    if (typeof Le.loadedContent[mauticContent] == 'undefined') {
-                        Le.loadedContent[mauticContent] = true;
-                        Le[mauticContent + "OnLoad"]('#app-content', {});
+                    if (typeof Le.loadedContent[leContent] == 'undefined') {
+                        Le.loadedContent[leContent] = true;
+                        Le[leContent + "OnLoad"]('#app-content', {});
                     }
                 }
             }
@@ -511,7 +511,7 @@ var Le = {
             if (typeof hideWait == 'undefined') {
                 mQuery('<div />', {
                     "class": 'mautic-pleasewait'
-                }).html(mauticLang.pleaseWait)
+                }).html(leLang.pleaseWait)
                     .appendTo(container);
             }
 
@@ -588,7 +588,7 @@ var Le = {
             return;
         }
 
-        var inDevMode = typeof mauticEnv !== 'undefined' && mauticEnv == 'dev';
+        var inDevMode = typeof leEnv !== 'undefined' && leEnv == 'dev';
 
         if (inDevMode) {
             console.log(request);
@@ -743,7 +743,7 @@ var Le = {
      */
     setNotifications: function (notifications) {
         if (notifications.lastId) {
-            mQuery('#mauticLastNotificationId').val(notifications.lastId);
+            mQuery('#leLastNotificationId').val(notifications.lastId);
         }
 
         if (mQuery('#notifications .mautic-update')) {
@@ -811,7 +811,7 @@ var Le = {
         }
 
         mQuery.ajax({
-            url: mauticAjaxUrl,
+            url: leAjaxUrl,
             type: "GET",
             data: "action=clearNotification&id=" + id
         });
@@ -852,7 +852,7 @@ var Le = {
         }
 
         Le.ajaxActionXhr[action] = mQuery.ajax({
-            url: mauticAjaxUrl + '?action=' + action,
+            url: leAjaxUrl + '?action=' + action,
             type: 'POST',
             data: data,
             showLoadingBar: showLoadingBar,

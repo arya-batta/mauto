@@ -12,7 +12,7 @@ $view->extend('MauticCoreBundle:Default:content.html.php');
 
 $object = $app->getRequest()->get('object', 'leads');
 
-$view['slots']->set('mauticContent', 'leadImport');
+$view['slots']->set('leContent', 'leadImport');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.leads', ['%object%' => $object]));
 
 $percent    = $progress->toPercent();

@@ -12,7 +12,7 @@
 use Symfony\Component\Form\FormView;
 
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('mauticContent', 'email');
+$view['slots']->set('leContent', 'email');
 
 $dynamicContentPrototype = $form['dynamicContent']->vars['prototype'];
 
@@ -426,7 +426,7 @@ $isgoogletags= false; //$email->getGoogletags();
                             $tabContentHtml = '<div class="tab-content pa-md col-xs-9" id="dynamicContentContainer">';
 
                             foreach ($form['dynamicContent'] as $i => $dynamicContent) {
-                                $linkText = $dynamicContent['tokenName']->vars['value'] ?: $view['translator']->trans('mautic.core.dynamicContent').' '.($i + 1);
+                                $linkText = $dynamicContent['tokenName']->vars['value'] ?: $view['translator']->trans('le.core.dynamicContent').' '.($i + 1);
 
                                 $tabHtml .= '<li class="'.($i === 0 ? ' active' : '').'"><a role="tab" data-toggle="tab" href="#'.$dynamicContent->vars['id'].'">'.$linkText.'</a></li>';
 
@@ -519,7 +519,7 @@ if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantPar
     echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'       => $email,
-            'mauticLang' => [
+            'leLang' => [
                 'newListEmail'     => 'le.email.type.list.header',
                 'newTemplateEmail' => 'le.email.type.template.header',
             ],
@@ -547,7 +547,7 @@ if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror &
     echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'                => $email,
-            'mauticLang'          => [],
+            'leLang'          => [],
             'typePrefix'          => 'email',
             'cancelUrl'           => $type == 'template' ? 'le_email_index' : 'le_email_campaign_index',
             'header'              => 'le.email.editor.header',

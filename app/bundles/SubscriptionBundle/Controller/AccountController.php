@@ -108,8 +108,8 @@ class AccountController extends FormController
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_accountinfo_index',
-                'mauticContent' => 'accountinfo',
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent' => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']),
             ],
         ]);
@@ -212,8 +212,8 @@ class AccountController extends FormController
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_accountinfo_index',
-                'mauticContent' => 'accountinfo',
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent' => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']),
             ],
         ]);
@@ -260,8 +260,8 @@ class AccountController extends FormController
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:payment.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_accountinfo_index',
-                'mauticContent' => 'accountinfo',
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent' => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'payment']),
             ],
         ]);
@@ -318,8 +318,8 @@ class AccountController extends FormController
              ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_accountinfo_index',
-                'mauticContent' => 'accountinfo',
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent' => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cancel']),
             ],
         ]);
@@ -362,8 +362,8 @@ class AccountController extends FormController
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cardinfo.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_accountinfo_index',
-                'mauticContent' => 'accountinfo',
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent' => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']),
             ],
         ]);

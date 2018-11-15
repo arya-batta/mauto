@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$view['slots']->set('mauticContent', 'tweet');
+$view['slots']->set('leContent', 'tweet');
 
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.social.tweets'));
 

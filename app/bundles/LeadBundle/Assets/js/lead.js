@@ -524,7 +524,7 @@ if(iscampaignmodel){
             newName =  mQuery(filterId).attr('name') + '[]';
             mQuery(filterId).attr('name', newName);
 
-            placeholder = mauticLang['chosenChooseMore'];
+            placeholder = leLang['chosenChooseMore'];
         } else if (!multiple && isMultiple) {
             mQuery(filterId).removeAttr('multiple');
 
@@ -535,7 +535,7 @@ if(iscampaignmodel){
 
             mQuery(filterId).attr('name', newName);
 
-            placeholder = mauticLang['chosenChooseOne'];
+            placeholder = leLang['chosenChooseOne'];
         }
 
         if (multiple) {
@@ -791,7 +791,7 @@ Le.leadfieldOnLoad = function (container) {
                 // Get the page and limit
                 mQuery.ajax({
                     type: "POST",
-                    url: mauticAjaxUrl + "?action=lead:reorder&limit=" + mQuery('.pagination-limit').val() + '&page=' + mQuery('.pagination li.active a span').first().text(),
+                    url: leAjaxUrl + "?action=lead:reorder&limit=" + mQuery('.pagination-limit').val() + '&page=' + mQuery('.pagination li.active a span').first().text(),
                     data: mQuery(container + ' .leadfield-list tbody').sortable("serialize")});
             }
         });
@@ -939,7 +939,7 @@ Le.refreshLeadSocialProfile = function(network, leadId, event) {
     var query = "action=lead:updateSocialProfile&network=" + network + "&lead=" + leadId;
     mQuery.ajax({
         showLoadingBar: true,
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",
@@ -970,7 +970,7 @@ Le.clearLeadSocialProfile = function(network, leadId, event) {
     Le.startIconSpinOnEvent(event);
     var query = "action=lead:clearSocialProfile&network=" + network + "&lead=" + leadId;
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",
@@ -1093,7 +1093,7 @@ Le.toggleLeadSwitch = function(toggleId, query, action) {
     }
 
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "POST",
         data: query,
         dataType: "json",
@@ -1228,7 +1228,7 @@ Le.toggleLiveLeadListUpdate = function () {
 Le.updateLeadList = function () {
     var maxLeadId = mQuery('#liveModeButton').data('max-id');
     mQuery.ajax({
-        url: mauticAjaxUrl,
+        url: leAjaxUrl,
         type: "get",
         data: "action=lead:getNewLeads&maxId=" + maxLeadId,
         dataType: "json",
@@ -1310,12 +1310,12 @@ Le.getLeadEmailContent = function (el) {
 
     var inModal = mQuery('#'+id).closest('modal').length;
     if (inModal) {
-        mQuery('#MauticSharedModal .btn-primary').prop('disabled', true);
+        mQuery('#leSharedModal .btn-primary').prop('disabled', true);
     }
 
     Le.ajaxActionRequest('lead:getEmailTemplate', {'template': mQuery(el).val()}, function(response) {
         if (inModal) {
-            mQuery('#MauticSharedModal .btn-primary').prop('disabled', false);
+            mQuery('#leSharedModal .btn-primary').prop('disabled', false);
         }
         var idPrefix = id.replace('templates', '');
         var bodyEl = (mQuery('#'+idPrefix+'message').length) ? '#'+idPrefix+'message' : '#'+idPrefix+'body';
@@ -1420,7 +1420,7 @@ Le.leadBatchSubmit = function() {
 
     }
 
-    mQuery('#MauticSharedModal').modal('hide');
+    mQuery('#leSharedModal').modal('hide');
 
     return false;
 };
@@ -1484,10 +1484,10 @@ Le.updateLeadFieldValueOptions = function (field, updating) {
 Le.toggleTimelineMoreVisiblity = function (el) {
     if (mQuery(el).is(':visible')) {
         mQuery(el).slideUp('fast');
-        mQuery(el).next().text(mauticLang['showMore']);
+        mQuery(el).next().text(leLang['showMore']);
     } else {
         mQuery(el).slideDown('fast');
-        mQuery(el).next().text(mauticLang['hideMore']);
+        mQuery(el).next().text(leLang['hideMore']);
     }
 };
 

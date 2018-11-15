@@ -90,7 +90,7 @@ class UserController extends FormController
                 'contentTemplate' => 'MauticUserBundle:User:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_user_index',
-                    'mauticContent' => 'user',
+                    'leContent' => 'user',
                 ],
             ]);
         }
@@ -119,7 +119,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:list.html.php',
             'passthroughVars' => [
                 'route'         => $this->generateUrl('le_user_index', ['page' => $page]),
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ]);
     }
@@ -222,7 +222,7 @@ class UserController extends FormController
                         'contentTemplate' => 'MauticUserBundle:User:index',
                         'passthroughVars' => [
                             'activeLink'    => '#le_user_index',
-                            'mauticContent' => 'user',
+                            'leContent' => 'user',
                         ],
                     ]);
                 }
@@ -237,7 +237,7 @@ class UserController extends FormController
                     'contentTemplate' => 'MauticUserBundle:User:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_user_index',
-                        'mauticContent' => 'user',
+                        'leContent' => 'user',
                     ],
                 ]);
             }
@@ -249,7 +249,7 @@ class UserController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#mautic_user_new',
                 'route'         => $action,
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ]);
     }
@@ -282,7 +282,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ];
 
@@ -377,7 +377,7 @@ class UserController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
                 'route'         => $action,
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ]);
     }
@@ -408,7 +408,7 @@ class UserController extends FormController
                 'activeLink'    => '#le_user_index',
                 'route'         => $returnUrl,
                 'success'       => $success,
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ];
         if ($this->request->getMethod() == 'POST') {
@@ -565,7 +565,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:contact.html.php',
             'passthroughVars' => [
                 'route'         => $action,
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ]);
     }
@@ -587,7 +587,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
-                'mauticContent' => 'user',
+                'leContent' => 'user',
             ],
         ];
 

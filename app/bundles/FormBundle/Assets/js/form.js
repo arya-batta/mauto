@@ -44,7 +44,7 @@ Le.formOnLoad = function (container) {
 
                 mQuery.ajax({
                     type: "POST",
-                    url: mauticAjaxUrl + "?action=form:reorderFields",
+                    url: leAjaxUrl + "?action=form:reorderFields",
                     data: mQuery('#mauticforms_fields').sortable("serialize", {attribute: 'data-sortable-id'}) + "&formId=" + mQuery('#mauticform_sessionId').val()
                 });
             }
@@ -122,7 +122,7 @@ Le.formOnLoad = function (container) {
 
                 mQuery.ajax({
                     type: "POST",
-                    url: mauticAjaxUrl + "?action=form:reorderActions",
+                    url: leAjaxUrl + "?action=form:reorderActions",
                     data: mQuery('#mauticforms_actions').sortable("serialize") + "&formId=" + mQuery('#mauticform_sessionId').val()
                 });
             }
@@ -360,11 +360,11 @@ Le.selectFormType = function(formType) {
     if (formType == 'standalone') {
         mQuery("#form_template_campaign").removeClass('hide').addClass('hide');
         mQuery('option.action-standalone-only').removeClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newStandaloneForm);
+        mQuery('.page-header h3').text(leLang.newStandaloneForm);
     } else {
         mQuery("#form_template_standalone").removeClass('hide').addClass('hide');
         mQuery('option.action-standalone-only').addClass('hide');
-        mQuery('.page-header h3').text(mauticLang.newCampaignForm);
+        mQuery('.page-header h3').text(leLang.newCampaignForm);
     }
 
     mQuery('.available-actions select').trigger('chosen:updated');

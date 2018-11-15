@@ -81,7 +81,7 @@ class ClearbitController extends FormController
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:lookup.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'lead',
+                        'leContent' => 'lead',
                         'route'         => $route,
                     ],
                 ]
@@ -228,7 +228,7 @@ class ClearbitController extends FormController
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:batchLookup.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'mauticContent' => 'leadBatch',
+                        'leContent' => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -336,7 +336,7 @@ class ClearbitController extends FormController
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:lookup.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_company_index',
-                        'mauticContent' => 'company',
+                        'leContent' => 'company',
                         'route'         => $route,
                     ],
                 ]
@@ -482,7 +482,7 @@ class ClearbitController extends FormController
                     'contentTemplate' => 'MauticClearbitBundle:Clearbit:batchLookup.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_company_index',
-                        'mauticContent' => 'companyBatch',
+                        'leContent' => 'companyBatch',
                         'route'         => $route,
                     ],
                 ]

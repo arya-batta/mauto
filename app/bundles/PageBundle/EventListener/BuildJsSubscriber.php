@@ -280,7 +280,7 @@ JS;
             [],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        $mauticBaseUrl   = $this->router->generate('le_base_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $leBaseUrl   = $this->router->generate('le_base_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $mediaElementCss = $this->assetsHelper->getUrl('media/css/mediaelementplayer.css', null, null, true);
         $jQueryUrl       = $this->assetsHelper->getUrl(
             'app/bundles/CoreBundle/Assets/js/libraries/2.jquery.js',
@@ -289,7 +289,7 @@ JS;
             true
         );
 
-        $mauticBaseUrl   = str_replace('/index_dev.php', '', $mauticBaseUrl);
+        $leBaseUrl   = str_replace('/index_dev.php', '', $leBaseUrl);
         $mediaElementCss = str_replace('/index_dev.php', '', $mediaElementCss);
         $jQueryUrl       = str_replace('/index_dev.php', '', $jQueryUrl);
 
@@ -364,7 +364,7 @@ MauticJS.processGatedVideos = function (videoElements) {
             if (mediaPlayers[i].views) {
                 MauticJS.iterateCollection(mediaPlayers[i].views)(function(nodeA, iA){
                     if (!node.views[iA].sent) {
-                        MauticJS.makeCORSRequest('POST', '{$mauticBaseUrl}video/hit', node.views[iA], function (data) {
+                        MauticJS.makeCORSRequest('POST', '{$leBaseUrl}video/hit', node.views[iA], function (data) {
                             // Don't continue to send locked views that have already been sent
                             if (data.success && node.views[iA].locked) {
                                 node.views[iA].sent = true;
@@ -432,7 +432,7 @@ MauticJS.processGatedVideos = function (videoElements) {
         
         if (node.dataset.formId) {
             var cookieName = 'mautic-player-'+i+'-'+node.dataset.formId;
-            MauticJS.makeCORSRequest('GET', '{$mauticBaseUrl}form/embed/' + node.dataset.formId, {}, function (data) {
+            MauticJS.makeCORSRequest('GET', '{$leBaseUrl}form/embed/' + node.dataset.formId, {}, function (data) {
                 mediaPlayers[i].formHtml = data;
             });
         } else {

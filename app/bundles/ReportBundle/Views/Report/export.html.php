@@ -11,7 +11,7 @@
 $view->extend('MauticCoreBundle:Default:slim.html.php');
 $view['slots']->set('pageTitle', $pageTitle);
 $view['slots']->set('headerTitle', $report->getName());
-$view['slots']->set('mauticContent', 'report');
+$view['slots']->set('leContent', 'report');
 
 $showGraphsAboveTable = (!empty($report->getSettings()['showGraphsAboveTable']) === true);
 $dataCount            = count($data);

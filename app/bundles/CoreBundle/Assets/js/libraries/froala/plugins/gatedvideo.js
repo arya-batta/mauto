@@ -146,8 +146,8 @@
             '<div class="fr-input-line"><label>' + editor.language.translate('Form') + '</label>' +
             '<select name="formId" tabIndex="3" style="width:100%"><option value="0">' + editor.language.translate('Please select a form.') + '</option>';
 
-        for (var i = 0; mauticForms[i]; i++) {
-          by_url_layer += '<option value="' + mauticForms[i].value + '">' + mauticForms[i].label + '</option>';
+        for (var i = 0; leForms[i]; i++) {
+          by_url_layer += '<option value="' + leForms[i].value + '">' + leForms[i].label + '</option>';
         }
 
         by_url_layer += '</select></div>' +

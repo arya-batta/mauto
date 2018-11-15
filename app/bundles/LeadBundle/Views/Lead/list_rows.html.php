@@ -45,7 +45,7 @@ $isAdmin    =$view['security']->isAdmin();
                 $custom[] = [
                     'attr' => [
                         'data-toggle' => 'ajaxmodal',
-                        'data-target' => '#MauticSharedModal',
+                        'data-target' => '#leSharedModal',
                         'data-header' => $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]),
                         'href'        => $view['router']->path('le_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]),
                     ],
@@ -162,7 +162,7 @@ $isAdmin    =$view['security']->isAdmin();
                                 </a>
                             <?php endif; ?>
                             <?php if (!empty($fields['core']['email']['value'])) : ?>
-                                <a title="<?php echo $view['translator']->trans('le.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#MauticSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('le_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
+                                <a title="<?php echo $view['translator']->trans('le.lead.email.send_email'); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.email.send_email.header', ['%email%' => $fields['core']['email']['value']]); ?>" href="<?php echo $view['router']->path('le_contact_action', ['objectId' => $item->getId(), 'objectAction' => 'email', 'list' => 1]); ?>" class="">
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                         </div>

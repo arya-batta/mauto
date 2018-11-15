@@ -13,8 +13,8 @@
             minTermLength: 3,
             afterTypeDelay: 500,
             jsonTermKey: "search",
-            keepTypingMsg: mauticLang["mautic.core.lookup.keep_typing"],
-            lookingForMsg: mauticLang["mautic.core.lookup.looking_for"]
+            keepTypingMsg: leLang["le.core.lookup.keep_typing"],
+            lookingForMsg: leLang["le.core.lookup.looking_for"]
         };
         select = this;
         chosenXhr = null;

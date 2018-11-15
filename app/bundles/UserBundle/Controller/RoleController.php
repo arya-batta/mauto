@@ -77,7 +77,7 @@ class RoleController extends FormController
                 'contentTemplate' => 'MauticUserBundle:Role:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_role_index',
-                    'mauticContent' => 'role',
+                    'leContent' => 'role',
                 ],
             ]);
         }
@@ -115,7 +115,7 @@ class RoleController extends FormController
             'contentTemplate' => 'MauticUserBundle:Role:list.html.php',
             'passthroughVars' => [
                 'route'         => $this->generateUrl('le_role_index', ['page' => $page]),
-                'mauticContent' => 'role',
+                'leContent' => 'role',
             ],
         ]);
     }
@@ -176,7 +176,7 @@ class RoleController extends FormController
                     'contentTemplate' => 'MauticUserBundle:Role:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_role_index',
-                        'mauticContent' => 'role',
+                        'leContent' => 'role',
                     ],
                 ]);
             } else {
@@ -193,7 +193,7 @@ class RoleController extends FormController
             'passthroughVars' => [
                 'activeLink'     => '#mautic_role_new',
                 'route'          => $this->generateUrl('le_role_action', ['objectAction' => 'new']),
-                'mauticContent'  => 'role',
+                'leContent'  => 'role',
                 'permissionList' => $permissionsConfig['list'],
             ],
         ]);
@@ -229,7 +229,7 @@ class RoleController extends FormController
             'contentTemplate' => 'MauticUserBundle:Role:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_role_index',
-                'mauticContent' => 'role',
+                'leContent' => 'role',
             ],
         ];
 
@@ -302,7 +302,7 @@ class RoleController extends FormController
             'passthroughVars' => [
                 'activeLink'     => '#le_role_index',
                 'route'          => $action,
-                'mauticContent'  => 'role',
+                'leContent'  => 'role',
                 'permissionList' => $permissionsConfig['list'],
             ],
         ]);
@@ -388,7 +388,7 @@ class RoleController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_role_index',
                 'success'       => $success,
-                'mauticContent' => 'role',
+                'leContent' => 'role',
             ],
         ];
 
@@ -449,7 +449,7 @@ class RoleController extends FormController
             'contentTemplate' => 'MauticUserBundle:Role:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_role_index',
-                'mauticContent' => 'role',
+                'leContent' => 'role',
             ],
         ];
 

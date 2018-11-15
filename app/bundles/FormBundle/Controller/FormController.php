@@ -164,7 +164,7 @@ class FormController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_form_index',
-                        'mauticContent' => 'form',
+                        'leContent' => 'form',
                     ],
                 ]
             );
@@ -193,7 +193,7 @@ class FormController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Form:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_form_index',
-                    'mauticContent' => 'form',
+                    'leContent' => 'form',
                     'route'         => $this->generateUrl('le_form_index', ['page' => $page]),
                 ],
             ]
@@ -227,7 +227,7 @@ class FormController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_form_index',
-                        'mauticContent' => 'form',
+                        'leContent' => 'form',
                     ],
                     'flashes' => [
                         [
@@ -321,7 +321,7 @@ class FormController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Form:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_form_index',
-                    'mauticContent' => 'form',
+                    'leContent' => 'form',
                     'route'         => $action,
                 ],
             ]
@@ -483,7 +483,7 @@ class FormController extends CommonFormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_form_index',
-                            'mauticContent' => 'form',
+                            'leContent' => 'form',
                         ],
                     ]
                 );
@@ -530,7 +530,7 @@ class FormController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_form_index',
-                    'mauticContent' => 'form',
+                    'leContent' => 'form',
                     'route'         => $this->generateUrl(
                         'le_form_action',
                         [
@@ -587,7 +587,7 @@ class FormController extends CommonFormController
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_form_index',
-                'mauticContent' => 'form',
+                'leContent' => 'form',
             ],
         ];
 
@@ -900,7 +900,7 @@ class FormController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_form_index',
-                    'mauticContent' => 'form',
+                    'leContent' => 'form',
                     'route'         => $this->generateUrl(
                         'le_form_action',
                         [
@@ -1071,7 +1071,7 @@ class FormController extends CommonFormController
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_form_index',
-                'mauticContent' => 'form',
+                'leContent' => 'form',
             ],
         ];
 
@@ -1136,7 +1136,7 @@ class FormController extends CommonFormController
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_form_index',
-                'mauticContent' => 'form',
+                'leContent' => 'form',
             ],
         ];
 
@@ -1219,7 +1219,7 @@ class FormController extends CommonFormController
             'contentTemplate' => 'MauticFormBundle:Form:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_form_index',
-                'mauticContent' => 'form',
+                'leContent' => 'form',
             ],
         ];
 

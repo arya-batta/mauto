@@ -199,7 +199,7 @@ class PageController extends FormController
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_page_index',
-                    'mauticContent' => 'page',
+                    'leContent' => 'page',
                 ],
             ]);
         }
@@ -230,7 +230,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
                 'route'         => $this->generateUrl('le_page_index', ['page' => $page]),
             ],
         ]);
@@ -263,7 +263,7 @@ class PageController extends FormController
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_page_index',
-                    'mauticContent' => 'page',
+                    'leContent' => 'page',
                 ],
                 'flashes' => [
                     [
@@ -422,7 +422,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ]);
     }
@@ -507,7 +507,7 @@ class PageController extends FormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => 'le_page_index',
-                        'mauticContent' => 'page',
+                        'leContent' => 'page',
                     ],
                 ]);
             }
@@ -558,7 +558,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
                 'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'new',
                 ]),
@@ -593,7 +593,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ];
 
@@ -733,7 +733,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
                 'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),
@@ -801,7 +801,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ];
 
@@ -862,7 +862,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ];
 
@@ -1041,7 +1041,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
             ],
         ];
 
@@ -1224,7 +1224,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:model.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'mauticContent' => 'page',
+                'leContent' => 'page',
                 'route'         => $this->generateUrl('le_page_index'),
             ],
         ]);
