@@ -76,7 +76,7 @@ class MessageSendType extends AbstractType
                 [
                     'attr' => [
                         'class'   => 'btn btn-primary btn-nospin',
-                        'onclick' => 'Mautic.loadNewWindow({windowUrl: \''.$windowUrl.'\'})',
+                        'onclick' => 'Le.loadNewWindow({windowUrl: \''.$windowUrl.'\'})',
                         'icon'    => 'fa fa-plus',
                     ],
                     'label' => 'mautic.channel.create.new.message',
@@ -100,7 +100,7 @@ class MessageSendType extends AbstractType
                 [
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow({windowUrl: \''.$windowUrlEdit.'\'})',
+                        'onclick'  => 'Le.loadNewWindow({windowUrl: \''.$windowUrlEdit.'\'})',
                         'disabled' => !isset($options['data']['message']),
                         'icon'     => 'fa fa-edit',
                     ],

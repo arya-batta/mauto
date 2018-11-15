@@ -47,7 +47,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.updat
                             </tbody>
                         </table>
                         <div class="text-right">
-                            <button class="btn btn-primary" onclick="Mautic.processUpdate('update-panel', 1, '<?php echo base64_encode(json_encode([])); ?>');"><?php echo $view['translator']->trans('mautic.core.update.now'); ?></button>
+                            <button class="btn btn-primary" onclick="Le.processUpdate('update-panel', 1, '<?php echo base64_encode(json_encode([])); ?>');"><?php echo $view['translator']->trans('mautic.core.update.now'); ?></button>
                         </div>
                     </div>
                 </div>

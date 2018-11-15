@@ -143,7 +143,7 @@ if ($isCondition) {
 <?php if ($isCondition): ?>
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
-        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
         <select class="form-control not-chosen <?php echo $template; ?>" name="campaignevent[properties][filters][__name__][filter]" id="campaignevent_properties_filters___name___filter"<?php echo $attr; ?>>
             <?php
             if (isset($form['properties']->vars[$dataKey])):

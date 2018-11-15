@@ -50,7 +50,7 @@ class EmailSendType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     //'tooltip'  => 'le.email.choose.emails_descr',
-                    'onchange' => 'Mautic.disabledEmailAction(window, this)',
+                    'onchange' => 'Le.disabledEmailAction(window, this)',
                 ],
                 'multiple'    => !$isSendMail,
                 'required'    => true,
@@ -98,7 +98,7 @@ class EmailSendType extends AbstractType
                 [
                     'attr' => [
                         'class'   => 'btn btn-primary btn-nospin hide',
-                        'onclick' => 'Mautic.loadNewWindow({
+                        'onclick' => 'Le.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',
                         'icon' => 'fa fa-plus',
@@ -124,7 +124,7 @@ class EmailSendType extends AbstractType
                 [
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow(Mautic.standardEmailUrl({"windowUrl": "'.$windowUrlEdit.'","origin":"#'.$options['update_select'].'"}))',
+                        'onclick'  => 'Le.loadNewWindow(Le.standardEmailUrl({"windowUrl": "'.$windowUrlEdit.'","origin":"#'.$options['update_select'].'"}))',
                         'disabled' => !isset($options['data']['email']),
                         'icon'     => 'fa fa-edit',
                     ],
@@ -141,7 +141,7 @@ class EmailSendType extends AbstractType
                 [
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow(Mautic.standardEmailUrl({"windowUrl": "'.$windowUrlPreview.'","origin":"#'.$options['update_select'].'"}))',
+                        'onclick'  => 'Le.loadNewWindow(Le.standardEmailUrl({"windowUrl": "'.$windowUrlPreview.'","origin":"#'.$options['update_select'].'"}))',
                         'disabled' => !isset($options['data']['email']),
                         'icon'     => 'fa fa-external-link',
                     ],

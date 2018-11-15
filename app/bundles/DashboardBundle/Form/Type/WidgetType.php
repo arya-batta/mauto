@@ -61,7 +61,7 @@ class WidgetType extends AbstractType
             'empty_value' => 'mautic.core.select',
             'attr'        => [
                 'class'    => 'form-control',
-                'onchange' => 'Mautic.updateWidgetForm(this)',
+                'onchange' => 'Le.updateWidgetForm(this)',
             ],
         ]);
 

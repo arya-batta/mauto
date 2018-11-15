@@ -54,7 +54,7 @@
     }
 
     function _init () {
-        Mautic.updateDynamicContentDropdown();
+        Le.updateDynamicContentDropdown();
     }
 
     return {

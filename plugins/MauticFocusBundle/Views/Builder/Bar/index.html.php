@@ -49,7 +49,7 @@ if ($props['bar']['allow_hide']): ?>
             }
         </style>
         <a class="mf-bar-collapser-icon" href="javascript:void(0)"<?php if (!empty($preview)) {
-                    echo ' onclick="Mautic.toggleBarCollapse()"';
+                    echo ' onclick="Le.toggleBarCollapse()"';
                 } ?>>
             <?php $size          = ($props['bar']['size'] == 'large') ? 40 : 24; ?>
             <?php $transformSize = ($props['bar']['size'] == 'large') ? 20 : 20; ?>

@@ -1,4 +1,4 @@
-Mautic.getAbTestWinnerForm = function(bundle, formName, abKey) {
+Le.getAbTestWinnerForm = function(bundle, formName, abKey) {
     if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('has-error')) {
         mQuery(abKey).closest('.form-group').removeClass('has-error');
         if (mQuery(abKey).next().hasClass('help-block')) {
@@ -6,7 +6,7 @@ Mautic.getAbTestWinnerForm = function(bundle, formName, abKey) {
         }
     }
 
-    Mautic.activateLabelLoadingIndicator(formName+'_variantSettings_winnerCriteria');
+    Le.activateLabelLoadingIndicator(formName+'_variantSettings_winnerCriteria');
     var id    = mQuery('#'+formName+'_sessionId').val();
     var query = "action="+bundle+":getAbTestForm&abKey=" + mQuery(abKey).val() + "&id=" + id;
 
@@ -24,15 +24,15 @@ Mautic.getAbTestWinnerForm = function(bundle, formName, abKey) {
                 }
 
                 if (response.html != '') {
-                    Mautic.onPageLoad('#'+formName+'_variantSettings_properties', response);
+                    Le.onPageLoad('#'+formName+'_variantSettings_properties', response);
                 }
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function() {
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         }
     });
 };

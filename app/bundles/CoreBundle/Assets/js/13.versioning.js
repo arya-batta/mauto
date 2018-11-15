@@ -1,6 +1,6 @@
-Mautic.contentVersions = {};
-Mautic.versionNamespace = '';
-Mautic.currentContentVersion = -1;
+Le.contentVersions = {};
+Le.versionNamespace = '';
+Le.currentContentVersion = -1;
 
 /**
  * Setup versioning for the given namespace
@@ -9,9 +9,9 @@ Mautic.currentContentVersion = -1;
  * @param redoCallback function
  * @param namespace
  */
-Mautic.prepareVersioning = function (undoCallback, redoCallback, namespace) {
+Le.prepareVersioning = function (undoCallback, redoCallback, namespace) {
     // Check if localStorage is supported and if not, disable undo/redo buttons
-    if (!Mautic.isLocalStorageSupported()) {
+    if (!Le.isLocalStorageSupported()) {
         mQuery('.btn-undo').prop('disabled', true);
         mQuery('.btn-redo').prop('disabled', true);
 
@@ -21,26 +21,26 @@ Mautic.prepareVersioning = function (undoCallback, redoCallback, namespace) {
     mQuery('.btn-undo')
         .prop('disabled', false)
         .on('click', function() {
-            Mautic.undoVersion(undoCallback);
+            Le.undoVersion(undoCallback);
         });
 
     mQuery('.btn-redo')
         .prop('disabled', false)
         .on('click', function() {
-            Mautic.redoVersion(redoCallback);
+            Le.redoVersion(redoCallback);
         });
 
-    Mautic.currentContentVersion = -1;
+    Le.currentContentVersion = -1;
 
     if (!namespace) {
         namespace = window.location.href;
     }
 
-    if (typeof Mautic.contentVersions[namespace] == 'undefined') {
-        Mautic.contentVersions[namespace] = [];
+    if (typeof Le.contentVersions[namespace] == 'undefined') {
+        Le.contentVersions[namespace] = [];
     }
 
-    Mautic.versionNamespace = namespace;
+    Le.versionNamespace = namespace;
 
     console.log(namespace);
 };
@@ -50,17 +50,17 @@ Mautic.prepareVersioning = function (undoCallback, redoCallback, namespace) {
  *
  * @param namespace
  */
-Mautic.clearVersioning = function () {
-    if (!Mautic.versionNamespace) {
+Le.clearVersioning = function () {
+    if (!Le.versionNamespace) {
         throw 'Versioning not configured';
     }
 
-    if (typeof Mautic.contentVersions[Mautic.versionNamespace] !== 'undefined') {
-        delete Mautic.contentVersions[Mautic.versionNamespace];
+    if (typeof Le.contentVersions[Le.versionNamespace] !== 'undefined') {
+        delete Le.contentVersions[Le.versionNamespace];
     }
 
-    Mautic.versionNamespace = '';
-    Mautic.currentContentVersion = -1;
+    Le.versionNamespace = '';
+    Le.currentContentVersion = -1;
 };
 
 /**
@@ -68,16 +68,16 @@ Mautic.clearVersioning = function () {
  *
  * @param content
  */
-Mautic.storeVersion = function(content) {
-    if (!Mautic.versionNamespace) {
+Le.storeVersion = function(content) {
+    if (!Le.versionNamespace) {
         throw 'Versioning not configured';
     }
 
     // Store the content
-    Mautic.contentVersions[Mautic.versionNamespace].push(content);
+    Le.contentVersions[Le.versionNamespace].push(content);
 
     // Set the current location to the latest spot
-    Mautic.currentContentVersion = Mautic.contentVersions[Mautic.versionNamespace].length;
+    Le.currentContentVersion = Le.contentVersions[Le.versionNamespace].length;
 };
 
 /**
@@ -85,21 +85,21 @@ Mautic.storeVersion = function(content) {
  *
  * @param callback
  */
-Mautic.undoVersion = function(callback) {
+Le.undoVersion = function(callback) {
     console.log('undo');
-    if (!Mautic.versionNamespace) {
+    if (!Le.versionNamespace) {
         throw 'Versioning not configured';
     }
 
-    if (Mautic.currentContentVersion < 0) {
+    if (Le.currentContentVersion < 0) {
         // Nothing to undo
 
         return;
     }
 
-    var version = Mautic.currentContentVersion - 1;
-    if (Mautic.getVersion(version, callback)) {
-        --Mautic.currentContentVersion;
+    var version = Le.currentContentVersion - 1;
+    if (Le.getVersion(version, callback)) {
+        --Le.currentContentVersion;
     };
 };
 
@@ -108,21 +108,21 @@ Mautic.undoVersion = function(callback) {
  *
  * @param callback
  */
-Mautic.redoVersion = function(callback) {
+Le.redoVersion = function(callback) {
     console.log('redo');
-    if (!Mautic.versionNamespace) {
+    if (!Le.versionNamespace) {
         throw 'Versioning not configured';
     }
 
-    if (Mautic.currentContentVersion < 0 || Mautic.contentVersions[Mautic.versionNamespace].length === Mautic.currentContentVersion) {
+    if (Le.currentContentVersion < 0 || Le.contentVersions[Le.versionNamespace].length === Le.currentContentVersion) {
         // Nothing to redo
 
         return;
     }
 
-    var version = Mautic.currentContentVersion + 1;
-    if (Mautic.getVersion(version, callback)) {
-        ++Mautic.currentContentVersion;
+    var version = Le.currentContentVersion + 1;
+    if (Le.getVersion(version, callback)) {
+        ++Le.currentContentVersion;
     };
 };
 
@@ -133,10 +133,10 @@ Mautic.redoVersion = function(callback) {
  * @param command
  * @returns {boolean}
  */
-Mautic.getVersion = function(version, callback) {
+Le.getVersion = function(version, callback) {
     var content = false;
-    if (typeof Mautic.contentVersions[Mautic.versionNamespace][version] !== 'undefined') {
-        content = Mautic.contentVersions[Mautic.versionNamespace][version];
+    if (typeof Le.contentVersions[Le.versionNamespace][version] !== 'undefined') {
+        content = Le.contentVersions[Le.versionNamespace][version];
     }
 
     if (false !== content && typeof callback == 'function') {

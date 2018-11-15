@@ -45,7 +45,7 @@ class CampaignEventLeadTagsType extends AbstractType
                     'data-placeholder'     => $this->translator->trans('le.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->translator->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
-                    'onchange'             => 'Mautic.createLeadTag(this)',
+                    'onchange'             => 'Le.createLeadTag(this)',
                     'class'                => 'form-control',
                 ],
                 'required'    => true,

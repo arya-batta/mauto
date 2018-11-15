@@ -89,7 +89,7 @@ $indexRoute = $object === 'leads' ? 'le_contact_index' : 'le_company_index';
                 <?php else: ?>
                     <div>
                         <a class="btn btn-success mb-5" href="<?php echo $view['router']->path($indexRoute); ?>" data-toggle="ajax">
-                            <?php echo $view['translator']->trans('mautic.lead.list.view_'.$object); ?>
+                            <?php echo $view['translator']->trans('le.lead.list.view_'.$object); ?>
                         </a>
                         <a class="btn btn-success mb-5" href="<?php echo $view['router']->path('le_import_index', ['object' => $object]); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.view.imports'); ?>

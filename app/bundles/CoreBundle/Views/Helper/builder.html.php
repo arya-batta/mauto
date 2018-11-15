@@ -19,14 +19,14 @@ $isAdmin    =$view['security']->isAdmin();
     </div>
     <div class="builder-panel">
         <div class="builder-panel-top">
-            <?php echo $view->render('MauticCoreBundle:Helper:builder_buttons.html.php', ['onclick' => "Mautic.closeBuilder('$type');"]); ?>
+            <?php echo $view->render('MauticCoreBundle:Helper:builder_buttons.html.php', ['onclick' => "Le.closeBuilder('$type');"]); ?>
 
             <div class="code-mode-toolbar <?php echo $isCodeMode ? '' : 'hide'; ?>">
-                <button class="btn btn-default btn-nospin <?php echo $isAdmin ? '' : 'hide'; ?>" onclick="Mautic.openMediaManager()" data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans('mautic.core.media.manager.desc'); ?>">
+                <button class="btn btn-default btn-nospin <?php echo $isAdmin ? '' : 'hide'; ?>" onclick="Le.openMediaManager()" data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans('mautic.core.media.manager.desc'); ?>">
                     <i class="fa fa-photo"></i>
                     <?php echo $view['translator']->trans('mautic.core.media.manager'); ?>
                 </button>
-                <button class="btn btn-default btn-nospin" onclick="Mautic.formatCode()" data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans('mautic.core.format.code.desc'); ?>">
+                <button class="btn btn-default btn-nospin" onclick="Le.formatCode()" data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans('mautic.core.format.code.desc'); ?>">
                     <i class="fa fa-indent"></i>
                     <?php echo $view['translator']->trans('mautic.core.format.code'); ?>
                 </button>

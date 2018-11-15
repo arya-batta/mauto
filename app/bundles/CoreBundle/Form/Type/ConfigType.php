@@ -464,7 +464,7 @@ class ConfigType extends AbstractType
                 'attr'     => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.core.config.form.ip.lookup.service.tooltip',
-                    'onchange' => 'Mautic.getIpLookupFormConfig()',
+                    'onchange' => 'Le.getIpLookupFormConfig()',
                 ],
             ]
         );

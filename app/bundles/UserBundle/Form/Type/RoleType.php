@@ -46,7 +46,7 @@ class RoleType extends AbstractType
         $builder->add('isAdmin', 'yesno_button_group', [
             'label' => 'mautic.user.role.form.isadmin',
             'attr'  => [
-                'onchange' => 'Mautic.togglePermissionVisibility();',
+                'onchange' => 'Le.togglePermissionVisibility();',
                 'tooltip'  => 'mautic.user.role.form.isadmin.tooltip',
             ],
         ]);

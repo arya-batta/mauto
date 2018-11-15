@@ -17,7 +17,7 @@ $leadName = $lead->getPrimaryIdentifier();
         $bgClass = $c['inCampaign'] ? 'text-success' : 'text-danger';
     ?>
     <li class="list-group-item">
-        <i class="fa fa-lg fa-fw <?php echo $switch.' '.$bgClass; ?>" id="leadCampaignToggle<?php echo $c['id']; ?>" onclick="Mautic.toggleLeadCampaign('leadCampaignToggle<?php echo $c['id']; ?>', <?php echo $leadId; ?>, <?php echo $c['id']; ?>);"></i>
+        <i class="fa fa-lg fa-fw <?php echo $switch.' '.$bgClass; ?>" id="leadCampaignToggle<?php echo $c['id']; ?>" onclick="Le.toggleLeadCampaign('leadCampaignToggle<?php echo $c['id']; ?>', <?php echo $leadId; ?>, <?php echo $c['id']; ?>);"></i>
         <span><?php echo $c['name']; ?></span>
     </li>
     <?php endforeach; ?>

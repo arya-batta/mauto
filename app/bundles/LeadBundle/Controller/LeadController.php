@@ -391,6 +391,7 @@ class LeadController extends FormController
      */
     public function viewAction($objectId)
     {
+        //dump($objectId);
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model = $this->getModel('lead.lead');
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {

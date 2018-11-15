@@ -53,7 +53,7 @@ class LeadImportFieldType extends AbstractType
         if ($this->factory->getUser()->isAdmin()) {
             $specialFields =array_merge($propertieFields, ['doNotEmail'=> 'le.lead.import.label.doNotEmail']);
         } else {
-            $specialFields =['doNotEmail'=> 'mautic.lead.import.label.doNotEmail'];
+            $specialFields =['doNotEmail'=> 'le.lead.import.label.doNotEmail'];
         }
 
         $importChoiceFields = [
@@ -136,7 +136,7 @@ class LeadImportFieldType extends AbstractType
                         'data-placeholder'     => $this->factory->getTranslator()->trans('le.lead.tags.select_or_create'),
                         'data-no-results-text' => $this->factory->getTranslator()->trans('le.lead.tags.enter_to_create'),
                         'data-allow-add'       => 'true',
-                        'onchange'             => 'Mautic.createLeadTag(this)',
+                        'onchange'             => 'Le.createLeadTag(this)',
                     ],
                 ]
             );

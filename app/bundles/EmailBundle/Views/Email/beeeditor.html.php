@@ -23,7 +23,7 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
                 <button type="button" class="btn btn-primary btn-bee-show-preview" onclick="javascript:bee.preview();">
                     <?php echo $view['translator']->trans('le.email.beeeditor.showpreview'); ?>
                 </button>
-                <a class="btn btn-primary btn-bee-show-preview <?php echo $hideplugin; ?>" onclick="Mautic.openPluginModel('bee-plugin-model');">
+                <a class="btn btn-primary btn-bee-show-preview <?php echo $hideplugin; ?>" onclick="Le.openPluginModel('bee-plugin-model');">
                     <?php echo $view['translator']->trans('Plugins'); ?>
                 </a>
                 <button type="button" class="btn btn-primary btn-bee-show-structure hide" onclick="javascript:bee.toggleStructure();">
@@ -37,7 +37,7 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
                     <?php echo $view['translator']->trans('le.email.beeeditor.downloadhtml'); ?>
                 </button>
                 <?php endif; ?>
-                <button type="button" class="btn btn-primary btn-bee-close-editor" onclick="Mautic.closeBeeEditor();">
+                <button type="button" class="btn btn-primary btn-bee-close-editor" onclick="Le.closeBeeEditor();">
                     <?php echo $view['translator']->trans('mautic.core.form.cancel'); ?>
                 </button>
                 <button type="button" class="btn btn-primary btn-bee-save" onclick="javascript:bee.save();">

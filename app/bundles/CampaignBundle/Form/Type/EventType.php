@@ -104,7 +104,7 @@ class EventType extends AbstractType
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
-                        'onchange' => 'Mautic.campaignToggleTimeframes();',
+                        'onchange' => 'Le.campaignToggleTimeframes();',
                         'tooltip'  => 'mautic.campaign.form.type.help',
                     ],
                     'data' => $triggerMode,
@@ -205,7 +205,7 @@ class EventType extends AbstractType
             [
                 'save_text'       => $btnValue,
                 'save_icon'       => $btnIcon,
-                'save_onclick'    => 'Mautic.submitCampaignEvent(event)',
+                'save_onclick'    => 'Le.submitCampaignEvent(event)',
                 'apply_text'      => false,
                 'container_class' => 'bottom-form-buttons',
             ]

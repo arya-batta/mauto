@@ -73,17 +73,17 @@ var beeConfig = {
     mergeTags: mergeTags,
     mergeContents: mergeContents,
     onSave: function(jsonFile, htmlFile) {
-        mQuery('.builder-html').val(Mautic.domToString(htmlFile));
+        mQuery('.builder-html').val(Le.domToString(htmlFile));
         jsonFile=jsonFile.replace(/&quot;/g, "'");
         mQuery('.bee-editor-json').val(jsonFile);
-        Mautic.closeBeeEditor(function(){
+        Le.closeBeeEditor(function(){
             var bgApplyBtn = mQuery('.btn-apply');
             bgApplyBtn.trigger('click');
         });
         if(!location.href.match(/(dripemail)/i)) {
-            Mautic.showpreviewoftemplate(htmlFile);
+            Le.showpreviewoftemplate(htmlFile);
         } else {
-            Mautic.showdripEmailpreviewoftemplate(htmlFile);
+            Le.showdripEmailpreviewoftemplate(htmlFile);
         }
 
        // save('newsletter.html', htmlFile);
@@ -129,7 +129,7 @@ var loadTemplate = function(e) {
 
 
 
-Mautic.launchBeeEditor = function (formName, actionName) {
+      Le.launchBeeEditor = function (formName, actionName) {
     var height=620;
     if(mQuery('.sidebar-content').is(':visible')) {
         height=mQuery('.sidebar-left').height();
@@ -140,7 +140,7 @@ Mautic.launchBeeEditor = function (formName, actionName) {
 
     mQuery('body').css('overflow-y', 'hidden');
     // mQuery('#bee-plugin-viewpanel').css('height', height+"px");
-    Mautic.getTokens(actionName+':getBuilderTokens', function(tokens) {
+          Le.getTokens(actionName+':getBuilderTokens', function(tokens) {
         mergeTags.length=0;
         mQuery.each(tokens, function(k,v){
             if (k.match(/assetlink=/i) && v.match(/a:/)){
@@ -208,7 +208,7 @@ Mautic.launchBeeEditor = function (formName, actionName) {
                         themejson=themejson.trim();
                         bee.start(mQuery.parseJSON(themejson));
                         bee.toggleStructure();
-                        Mautic.setCustomHeader(formName);
+                        Le.setCustomHeader(formName);
                         // } catch(e) {
                         //    alert(e); // error in the above string (in this case, yes)!
                         // }
@@ -223,14 +223,14 @@ Mautic.launchBeeEditor = function (formName, actionName) {
                                 // save('template2.json', JSON.stringify(template));
                                 bee.start(mQuery.parseJSON(template));
                                 bee.toggleStructure();
-                                Mautic.setCustomHeader(formName);
+                                Le.setCustomHeader(formName);
                             });
                     }
                 });
             });
     });
 }
-Mautic.setCustomHeader = function (formName) {
+      Le.setCustomHeader = function (formName) {
     var TitleValue = "";
     if(formName == "pageform"){
         TitleValue = mQuery('#page_title').val();
@@ -239,7 +239,7 @@ Mautic.setCustomHeader = function (formName) {
     }
     mQuery('#BeeEditor_Header').html(TitleValue);
 }
-Mautic.closeBeeEditor = function (callback) {
+      Le.closeBeeEditor = function (callback) {
     mQuery('body').css('overflow-y', '');
     mQuery('#bee-plugin-viewpanel').css('height', '');
     var viewpanel = mQuery('#bee-plugin-viewpanel');
@@ -249,7 +249,7 @@ Mautic.closeBeeEditor = function (callback) {
     viewpanel.html("");
     callback();
 }
-Mautic.showpreviewoftemplate = function (htmlFile) {
+      Le.showpreviewoftemplate = function (htmlFile) {
    // if(!mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').addClass('hide');
         mQuery('#change-template-span').html('Change Template');
@@ -258,7 +258,7 @@ Mautic.showpreviewoftemplate = function (htmlFile) {
         mQuery('#builder_btn').removeClass('hide');
    // }
 }
-Mautic.showTemplateview = function () {
+      Le.showTemplateview = function () {
     if(mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').removeClass('hide');
         mQuery("#email-content-preview").addClass('hide');
@@ -271,7 +271,7 @@ Mautic.showTemplateview = function () {
         mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
     }
 }
-Mautic.showdripEmailpreviewoftemplate = function (htmlFile) {
+      Le.showdripEmailpreviewoftemplate = function (htmlFile) {
     if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
         mQuery('#dripemail_advance_editor').addClass('hide');
         //mQuery('#change-template-span').html('Change Template');
@@ -281,7 +281,7 @@ Mautic.showdripEmailpreviewoftemplate = function (htmlFile) {
         //mQuery('#builder_btn').removeClass('hide');
     }
 }
-Mautic.showDripEmailTemplateview = function () {
+      Le.showDripEmailTemplateview = function () {
     if(mQuery('#dripemail_advance_editor').hasClass('hide')) {
         mQuery('#dripemail_advance_editor').removeClass('hide');
         mQuery("#email-content-preview").addClass('hide');

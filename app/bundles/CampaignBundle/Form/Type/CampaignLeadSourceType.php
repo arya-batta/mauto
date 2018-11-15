@@ -106,7 +106,7 @@ class CampaignLeadSourceType extends AbstractType
         $builder->add('buttons', 'form_buttons', [
             'save_text'       => $btnValue,
             'save_icon'       => $btnIcon,
-            'save_onclick'    => 'Mautic.submitCampaignSource(event)',
+            'save_onclick'    => 'Le.submitCampaignSource(event)',
             'apply_text'      => false,
             'container_class' => 'bottom-form-buttons',
         ]);

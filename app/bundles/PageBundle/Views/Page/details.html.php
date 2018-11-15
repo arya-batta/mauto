@@ -245,7 +245,7 @@ $view['slots']->set(
                         </button>
                     </span>
                 </div>
-                <a id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea');">
+                <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
                     <i aria-hidden="true" class="fa fa-clipboard"></i>
                     <?php echo $view['translator']->trans(
                         'leadsengage.subs.clicktocopy'

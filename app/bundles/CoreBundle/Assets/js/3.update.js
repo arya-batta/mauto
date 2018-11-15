@@ -6,7 +6,7 @@
  * @param step
  * @param state
  */
-Mautic.processUpdate = function (container, step, state) {
+Le.processUpdate = function (container, step, state) {
     // Edge case but do it anyway, remove the /index_dev.php from mauticBaseUrl to make sure we can always correctly call the standalone upgrader
     var baseUrl = mauticBasePath + '/';
 
@@ -20,13 +20,13 @@ Mautic.processUpdate = function (container, step, state) {
                 success: function (response) {
                     if (response.success) {
                         mQuery('div[id=' + container + ']').html(response.content);
-                        Mautic.processUpdate(container, step + 1, state);
+                        Le.processUpdate(container, step + 1, state);
                     } else if (response.redirect) {
                         window.location = response.redirect;
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -46,7 +46,7 @@ Mautic.processUpdate = function (container, step, state) {
                         if (response.success) {
                             mQuery('td[id=update-step-downloading-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-check text-success'));
                             mQuery('#updateTable tbody').append('<tr><td>' + response.nextStep + '</td><td id="update-step-extracting-status"><span class="hidden-xs">' + response.nextStepStatus + '</span><i class="pull-right fa fa-spinner fa-spin"></i></td></tr>');
-                            Mautic.processUpdate(container, step + 1, state);
+                            Le.processUpdate(container, step + 1, state);
                         } else {
                             mQuery('td[id=update-step-downloading-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-warning text-danger'));
                             mQuery('div[id=main-update-panel]').removeClass('panel-default').addClass('panel-danger');
@@ -55,7 +55,7 @@ Mautic.processUpdate = function (container, step, state) {
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -75,7 +75,7 @@ Mautic.processUpdate = function (container, step, state) {
                         if (response.success) {
                             mQuery('td[id=update-step-extracting-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-check text-success'));
                             mQuery('#updateTable tbody').append('<tr><td>' + response.nextStep + '</td><td id="update-step-moving-status"><span class="hidden-xs">' + response.nextStepStatus + '</span><i class="pull-right fa fa-spinner fa-spin"></i></td></tr>');
-                            Mautic.processUpdate(container, step + 1, state);
+                            Le.processUpdate(container, step + 1, state);
                         } else {
                             mQuery('td[id=update-step-extracting-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-warning text-danger'));
                             mQuery('div[id=main-update-panel]').removeClass('panel-default').addClass('panel-danger');
@@ -84,7 +84,7 @@ Mautic.processUpdate = function (container, step, state) {
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -110,17 +110,17 @@ Mautic.processUpdate = function (container, step, state) {
                             mQuery('td[id=update-step-moving-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
 
                             // If complete then we go into the next step
-                            Mautic.processUpdate(container, step + 1, response.updateState);
+                            Le.processUpdate(container, step + 1, response.updateState);
                         } else {
                             mQuery('td[id=update-step-moving-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
 
                             // In this section, the step hasn't completed yet so we repeat it
-                            Mautic.processUpdate(container, step, response.updateState);
+                            Le.processUpdate(container, step, response.updateState);
                         }
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -146,17 +146,17 @@ Mautic.processUpdate = function (container, step, state) {
                             mQuery('td[id=update-step-moving-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
 
                             // If complete then we go into the next step
-                            Mautic.processUpdate(container, step + 1, response.updateState);
+                            Le.processUpdate(container, step + 1, response.updateState);
                         } else {
                             mQuery('td[id=update-step-moving-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
 
                             // In this section, the step hasn't completed yet so we repeat it
-                            Mautic.processUpdate(container, step, response.updateState);
+                            Le.processUpdate(container, step, response.updateState);
                         }
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -183,16 +183,16 @@ Mautic.processUpdate = function (container, step, state) {
 
                             // If complete then we go into the next step
                             mQuery('#updateTable tbody').append('<tr><td>' + response.nextStep + '</td><td id="update-step-cache-status"><span class="hidden-xs">' + response.nextStepStatus + '</span><i class="pull-right fa fa-spinner fa-spin"></i></td></tr>');
-                            Mautic.processUpdate(container, step + 1, response.updateState);
+                            Le.processUpdate(container, step + 1, response.updateState);
                         } else {
                             // In this section, the step hasn't completed yet so we repeat it
                             mQuery('td[id=update-step-moving-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
-                            Mautic.processUpdate(container, step, response.updateState);
+                            Le.processUpdate(container, step, response.updateState);
                         }
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -220,17 +220,17 @@ Mautic.processUpdate = function (container, step, state) {
 
                             // If complete then we go into the next step
                             mQuery('#updateTable tbody').append('<tr><td>' + response.nextStep + '</td><td id="update-step-database-status"><span class="hidden-xs">' + response.nextStepStatus + '</span><i class="pull-right fa fa-spinner fa-spin"></i></td></tr>');
-                            Mautic.processUpdate(container, step + 1, response.updateState);
+                            Le.processUpdate(container, step + 1, response.updateState);
                         } else {
                             mQuery('td[id=update-step-cache-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-spinner fa-spin'));
 
                             // In this section, the step hasn't completed yet so we repeat it
-                            Mautic.processUpdate(container, step, response.updateState);
+                            Le.processUpdate(container, step, response.updateState);
                         }
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
@@ -252,7 +252,7 @@ Mautic.processUpdate = function (container, step, state) {
 
                             // If complete then we go into the next step
                             mQuery('#updateTable tbody').append('<tr><td>' + response.nextStep + '</td><td id="update-step-finalization-status"><span class="hidden-xs">' + response.nextStepStatus + '</span><i class="pull-right fa fa-spinner fa-spin"></i></td></tr>');
-                            Mautic.processUpdate(container, step + 1, state);
+                            Le.processUpdate(container, step + 1, state);
                         } else {
                             mQuery('td[id=update-step-database-status]').append(mQuery('<i></i>').addClass('pull-right fa fa-warning text-danger'));
 
@@ -294,11 +294,11 @@ Mautic.processUpdate = function (container, step, state) {
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
                 }
             });
             break;
     }
 
-    Mautic.stopPageLoadingBar();
+    Le.stopPageLoadingBar();
 };

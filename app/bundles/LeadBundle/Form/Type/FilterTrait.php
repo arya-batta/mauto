@@ -211,7 +211,7 @@ trait FilterTrait
                         'data-placeholder'     => $translator->trans('le.lead.tags.select_or_create'),
                         'data-no-results-text' => $translator->trans('le.lead.tags.enter_to_create'),
                         'data-allow-add'       => 'true',
-                        'onchange'             => 'Mautic.createLeadTag(this)',
+                        'onchange'             => 'Le.createLeadTag(this)',
                     ]
                 );
                 $type = 'choice';
@@ -473,7 +473,7 @@ trait FilterTrait
                 'choices' => isset($field['operators']) ? $field['operators'] : [],
                 'attr'    => [
                     'class'    => 'form-control not-chosen le-input',
-                    'onchange' => 'Mautic.convertLeadFilterInput(this)',
+                    'onchange' => 'Le.convertLeadFilterInput(this)',
                 ],
             ]
         );

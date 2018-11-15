@@ -1,5 +1,5 @@
 /* PluginBundle */
-Mautic.matchedFields = function (index, object, integration) {
+Le.matchedFields = function (index, object, integration) {
     var compoundMauticFields = ['mauticContactTimelineLink'];
 
     if (mQuery('#integration_details_featureSettings_updateDncByDate_0').is(':checked')) {
@@ -22,23 +22,23 @@ Mautic.matchedFields = function (index, object, integration) {
     } else {
         var updateMauticField = mQuery('input[name="integration_details[featureSettings]['+object+'Fields][update_mautic_company' + index + ']"]:checked').val();
     }
-    Mautic.ajaxActionRequest('plugin:matchFields', {object: object, integration: integration, integrationField : integrationField, mauticField: mauticField, updateMautic : updateMauticField}, function(response) {
+    Le.ajaxActionRequest('plugin:matchFields', {object: object, integration: integration, integrationField : integrationField, mauticField: mauticField, updateMautic : updateMauticField}, function(response) {
         var theMessage = (response.success) ? '<i class="fa fa-check-circle text-success"></i>' : '';
         mQuery('#matched-' + index + "-" + object).html(theMessage);
     });
 };
-Mautic.initiateIntegrationAuthorization = function() {
+Le.initiateIntegrationAuthorization = function() {
     mQuery('#integration_details_in_auth').val(1);
 
-    Mautic.postForm(mQuery('form[name="integration_details"]'), 'loadIntegrationAuthWindow');
+    Le.postForm(mQuery('form[name="integration_details"]'), 'loadIntegrationAuthWindow');
 };
 
-Mautic.loadIntegrationAuthWindow = function(response) {
+Le.loadIntegrationAuthWindow = function(response) {
     if (response.newContent) {
-        Mautic.processModalContent(response, '#IntegrationEditModal');
+        Le.processModalContent(response, '#IntegrationEditModal');
     } else {
-        Mautic.stopPageLoadingBar();
-        Mautic.stopIconSpinPostEvent();
+        Le.stopPageLoadingBar();
+        Le.stopIconSpinPostEvent();
         mQuery('#integration_details_in_auth').val(0);
 
         if (response.authUrl) {
@@ -51,15 +51,15 @@ Mautic.loadIntegrationAuthWindow = function(response) {
     }
 };
 
-Mautic.refreshIntegrationForm = function() {
+Le.refreshIntegrationForm = function() {
     var opener = window.opener;
     if(opener) {
             var form = opener.mQuery('form[name="integration_details"]');
             if (form.length) {
                 var action = form.attr('action');
                 if (action) {
-                    opener.Mautic.startModalLoadingBar('#IntegrationEditModal');
-                    opener.Mautic.loadAjaxModal('#IntegrationEditModal', action);
+                    opener.Le.startModalLoadingBar('#IntegrationEditModal');
+                    opener.Le.loadAjaxModal('#IntegrationEditModal', action);
                 }
             }
     }
@@ -67,7 +67,7 @@ Mautic.refreshIntegrationForm = function() {
     window.close()
 };
 
-Mautic.integrationOnLoad = function(container, response) {
+Le.integrationOnLoad = function(container, response) {
     if (response && response.name) {
         var integration = '.integration-' + response.name;
         if (response.enabled) {
@@ -76,12 +76,12 @@ Mautic.integrationOnLoad = function(container, response) {
             mQuery(integration).addClass('integration-disabled');
         }
     } else {
-        Mautic.filterIntegrations();
+        Le.filterIntegrations();
     }
     mQuery('[data-toggle="tooltip"]').tooltip();
 };
 
-Mautic.integrationConfigOnLoad = function(container) {
+Le.integrationConfigOnLoad = function(container) {
     if (mQuery('.fields-container select.integration-field').length) {
         var selects = mQuery('.fields-container select.integration-field');
         selects.on('change', function() {
@@ -124,7 +124,7 @@ Mautic.integrationConfigOnLoad = function(container) {
     }
 };
 
-Mautic.filterIntegrations = function(update) {
+Le.filterIntegrations = function(update) {
     var filter = mQuery('#integrationFilter').val();
 
     if (update) {
@@ -161,7 +161,7 @@ Mautic.filterIntegrations = function(update) {
     }
 };
 
-Mautic.getIntegrationLeadFields = function (integration, el, settings) {
+Le.getIntegrationLeadFields = function (integration, el, settings) {
 
     if (typeof settings == 'undefined') {
         settings = {};
@@ -169,25 +169,25 @@ Mautic.getIntegrationLeadFields = function (integration, el, settings) {
     settings.integration = integration;
     settings.object      = 'lead';
 
-    Mautic.getIntegrationFields(settings, 1, el);
+    Le.getIntegrationFields(settings, 1, el);
 };
 
-Mautic.getIntegrationCompanyFields = function (integration, el, settings) {
+Le.getIntegrationCompanyFields = function (integration, el, settings) {
     if (typeof settings == 'undefined') {
         settings = {};
     }
     settings.integration = integration;
     settings.object      = 'company';
 
-    Mautic.getIntegrationFields(settings, 1, el);
+    Le.getIntegrationFields(settings, 1, el);
 };
 
-Mautic.getIntegrationFields = function(settings, page, el) {
+Le.getIntegrationFields = function(settings, page, el) {
     var object    = settings.object ? settings.object : 'lead';
     var fieldsTab = ('lead' === object) ? '#fields-tab' : '#'+object+'-fields-container';
 
     if (el && mQuery(el).is('input')) {
-        Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+        Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
 
         var namePrefix = mQuery(el).attr('name').split('[')[0];
         if ('integration_details' !== namePrefix) {
@@ -201,10 +201,10 @@ Mautic.getIntegrationFields = function(settings, page, el) {
     var inModal = mQuery(fieldsContainer).closest('.modal');
     if (inModal) {
         var modalId = '#'+mQuery(fieldsContainer).closest('.modal').attr('id');
-        Mautic.startModalLoadingBar(modalId);
+        Le.startModalLoadingBar(modalId);
     }
 
-    Mautic.ajaxActionRequest('plugin:getIntegrationFields',
+    Le.ajaxActionRequest('plugin:getIntegrationFields',
         {
             page: page,
             integration: (settings.integration) ? settings.integration : null,
@@ -213,8 +213,8 @@ Mautic.getIntegrationFields = function(settings, page, el) {
         function(response) {
             if (response.success) {
                 mQuery(fieldsContainer).replaceWith(response.html);
-                Mautic.onPageLoad(fieldsContainer);
-                Mautic.integrationConfigOnLoad(fieldsContainer);
+                Le.onPageLoad(fieldsContainer);
+                Le.integrationConfigOnLoad(fieldsContainer);
                 if (mQuery(fieldsTab).length) {
                     mQuery(fieldsTab).removeClass('hide');
                 }
@@ -225,18 +225,18 @@ Mautic.getIntegrationFields = function(settings, page, el) {
             }
 
             if (el) {
-                Mautic.removeLabelLoadingIndicator();
+                Le.removeLabelLoadingIndicator();
             }
 
             if (inModal) {
-                Mautic.stopModalLoadingBar(modalId);
+                Le.stopModalLoadingBar(modalId);
             }
         }
     );
 };
 
-Mautic.getIntegrationConfig = function (el, settings) {
-    Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+Le.getIntegrationConfig = function (el, settings) {
+    Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
 
     if (typeof settings == 'undefined') {
         settings = {};
@@ -247,23 +247,23 @@ Mautic.getIntegrationConfig = function (el, settings) {
     mQuery('.integration-campaigns-status').html('');
     mQuery('.integration-config-container').html('');
 
-    Mautic.ajaxActionRequest('plugin:getIntegrationConfig', data,
+    Le.ajaxActionRequest('plugin:getIntegrationConfig', data,
         function (response) {
             if (response.success) {
                 mQuery('.integration-config-container').html(response.html);
-                Mautic.onPageLoad('.integration-config-container', response);
+                Le.onPageLoad('.integration-config-container', response);
             }
 
-            Mautic.integrationConfigOnLoad('.integration-config-container');
-            Mautic.removeLabelLoadingIndicator();
+            Le.integrationConfigOnLoad('.integration-config-container');
+            Le.removeLabelLoadingIndicator();
         }
     );
 
 
 };
 
-Mautic.getIntegrationCampaignStatus = function (el, settings) {
-    Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+Le.getIntegrationCampaignStatus = function (el, settings) {
+    Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
     if (typeof settings == 'undefined') {
         settings = {};
     }
@@ -276,36 +276,36 @@ Mautic.getIntegrationCampaignStatus = function (el, settings) {
 
     mQuery('.integration-campaigns-status').html('');
     mQuery('.integration-campaigns-status').removeClass('hide');
-    Mautic.ajaxActionRequest('plugin:getIntegrationCampaignStatus', data,
+    Le.ajaxActionRequest('plugin:getIntegrationCampaignStatus', data,
         function (response) {
 
             if (response.success) {
                 mQuery('.integration-campaigns-status').append(response.html);
-                Mautic.onPageLoad('.integration-campaigns-status', response);
+                Le.onPageLoad('.integration-campaigns-status', response);
             }
 
-            Mautic.integrationConfigOnLoad('.integration-campaigns-status');
-            Mautic.removeLabelLoadingIndicator();
+            Le.integrationConfigOnLoad('.integration-campaigns-status');
+            Le.removeLabelLoadingIndicator();
         }
     );
 };
 
-Mautic.getIntegrationCampaigns = function (el, settings) {
-    Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+Le.getIntegrationCampaigns = function (el, settings) {
+    Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
 
     var data = {integration: mQuery(el).val()};
 
     mQuery('.integration-campaigns').html('');
 
-    Mautic.ajaxActionRequest('plugin:getIntegrationCampaigns', data,
+    Le.ajaxActionRequest('plugin:getIntegrationCampaigns', data,
         function (response) {
             if (response.success) {
                 mQuery('.integration-campaigns').html(response.html);
-                Mautic.onPageLoad('.integration-campaigns', response);
+                Le.onPageLoad('.integration-campaigns', response);
             }
 
-            Mautic.integrationConfigOnLoad('.integration-campaigns');
-            Mautic.removeLabelLoadingIndicator();
+            Le.integrationConfigOnLoad('.integration-campaigns');
+            Le.removeLabelLoadingIndicator();
         }
     );
 };

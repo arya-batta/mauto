@@ -27,7 +27,7 @@ class ColorType extends AbstractType
                 'attr'       => [
                     'class'       => 'form-control',
                     'data-toggle' => 'color',
-                    'onchange'    => 'Mautic.focusUpdatePreview()',
+                    'onchange'    => 'Le.focusUpdatePreview()',
                 ],
                 'required' => false,
             ]
@@ -42,7 +42,7 @@ class ColorType extends AbstractType
                 'attr'       => [
                     'class'       => 'form-control',
                     'data-toggle' => 'color',
-                    'onchange'    => 'Mautic.focusUpdatePreview()',
+                    'onchange'    => 'Le.focusUpdatePreview()',
                 ],
                 'required' => false,
             ]
@@ -57,7 +57,7 @@ class ColorType extends AbstractType
                 'attr'       => [
                     'class'       => 'form-control',
                     'data-toggle' => 'color',
-                    'onchange'    => 'Mautic.focusUpdatePreview()',
+                    'onchange'    => 'Le.focusUpdatePreview()',
                 ],
                 'required' => false,
             ]
@@ -72,7 +72,7 @@ class ColorType extends AbstractType
                 'attr'       => [
                     'class'       => 'form-control',
                     'data-toggle' => 'color',
-                    'onchange'    => 'Mautic.focusUpdatePreview()',
+                    'onchange'    => 'Le.focusUpdatePreview()',
                 ],
                 'required' => false,
             ]

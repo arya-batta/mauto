@@ -95,7 +95,7 @@ class SortableListType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'remove_onclick'      => 'Mautic.removeFormListOption(this);',
+                'remove_onclick'      => 'Le.removeFormListOption(this);',
                 'option_required'     => true,
                 'option_notblank'     => true,
                 'constraint_callback' => false,

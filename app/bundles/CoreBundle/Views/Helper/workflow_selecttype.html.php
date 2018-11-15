@@ -17,7 +17,7 @@ $index = 0;
     <div class="modal-dialog-workflow">
         <div class="modal-content-workflow">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($cancelUrl); ?>');" class="close" ><span aria-hidden="true">&times;</span></a>
+                <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($cancelUrl); ?>');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans($template); ?>
                 </h4>
@@ -27,9 +27,9 @@ $index = 0;
                 <div class="row blankTemplateRow">
                     <div class="col-md-6">
                         <div class="panel panel-primary-workflow">
-                            <div class="panel-heading" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'new', 'objectId' => 'blank']) ?>');">
+                            <div class="panel-heading" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'new', 'objectId' => 'blank']) ?>');">
                                 <div class="col-xs-8 col-sm-10 np heading-workflow">
-                                    <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'new', 'objectId' => 'blank']) ?>');" class="panel-title panel-title-workflow-blank" ><?php echo $view['translator']->trans($blanktemplate); ?></a>
+                                    <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'new', 'objectId' => 'blank']) ?>');" class="panel-title panel-title-workflow-blank" ><?php echo $view['translator']->trans($blanktemplate); ?></a>
                                 </div>
                                 <div class="heading-workflow-img">
                                     <i class="material-icons material-color-change">&#xE335;</i>
@@ -49,9 +49,9 @@ $index = 0;
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="panel panel-primary-workflow">
-                                    <div class="panel-heading" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');">
+                                    <div class="panel-heading" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');">
                                         <div class="col-xs-8 col-sm-10 np heading-workflow">
-                                            <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');" class="panel-title panel-title-workflow"><?php echo $item->getName() ?></a>
+                                            <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');" class="panel-title panel-title-workflow"><?php echo $item->getName() ?></a>
 
                                         </div>
                                         <div class="heading-workflow-img">
@@ -64,9 +64,9 @@ $index = 0;
                     <?php else: ?>
                         <div class="col-md-6">
                             <div class="panel panel-primary-workflow">
-                                <div class="panel-heading" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');">
+                                <div class="panel-heading" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');">
                                     <div class="col-xs-8 col-sm-10 np heading-workflow">
-                                        <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');" class="panel-title panel-title-workflow"><?php echo $item->getName() ?></a>
+                                        <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'clone', 'objectId' => $item->getId()]) ?>');" class="panel-title panel-title-workflow"><?php echo $item->getName() ?></a>
 
                                     </div>
                                     <div class="heading-workflow-img">

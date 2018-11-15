@@ -1,13 +1,13 @@
 /** NotificationBundle **/
-Mautic.notificationOnLoad = function (container, response) {
+Le.notificationOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'notification');
+        Le.activateSearchAutocomplete('list-search', 'notification');
     }
 
-    Mautic.activatePreviewPanelUpdate();
+    Le.activatePreviewPanelUpdate();
 };
 
-Mautic.selectNotificationType = function(notificationType) {
+Le.selectNotificationType = function(notificationType) {
     if (notificationType == 'list') {
         mQuery('#leadList').removeClass('hide');
         mQuery('#publishStatus').addClass('hide');
@@ -26,7 +26,7 @@ Mautic.selectNotificationType = function(notificationType) {
     mQuery('.notification-type-modal-backdrop').remove();
 };
 
-Mautic.standardNotificationUrl = function(options) {
+Le.standardNotificationUrl = function(options) {
     if (!options) {
         return;
     }
@@ -44,7 +44,7 @@ Mautic.standardNotificationUrl = function(options) {
     return options;
 };
 
-Mautic.disabledNotificationAction = function(opener) {
+Le.disabledNotificationAction = function(opener) {
     if (typeof opener == 'undefined') {
         opener = window;
     }
@@ -56,7 +56,7 @@ Mautic.disabledNotificationAction = function(opener) {
     opener.mQuery('#campaignevent_properties_editNotificationButton').prop('disabled', disabled);
 };
 
-Mautic.activatePreviewPanelUpdate = function () {
+Le.activatePreviewPanelUpdate = function () {
     var notificationPreview = mQuery('#notification-preview');
     var notificationForm    = mQuery('form[name="notification"]');
 

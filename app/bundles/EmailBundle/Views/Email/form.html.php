@@ -103,7 +103,7 @@ $custombutton = [
         'btnText' => 'le.core.edit',
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
-            'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
+            'onclick' => "Le.launchBeeEditor('emailform', 'email');",
             'style'   => 'background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-left: 26%;border-radius:4px;z-index:499;top:40px;',
         ],
     ],
@@ -127,7 +127,7 @@ $isgoogletags= false; //$email->getGoogletags();
                             'customButtons' => $custombutton,
                         ]
                     ); ?>
-                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Mautic.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
+                    <a class="btn btn-default text-primary btn-beeditor le-btn-default" onclick="Le.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 10%;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
                         <span>
                             <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                         </span>
@@ -408,7 +408,7 @@ $isgoogletags= false; //$email->getGoogletags();
                         </div>
                         <div class="text-right pr-10">
                             <i class="fa fa-spinner fa-spin ml-2 plaintext-spinner hide"></i>
-                            <a class="small" onclick="Mautic.autoGeneratePlaintext();"><?php echo $view['translator']->trans('le.email.plaintext.generate'); ?></a>
+                            <a class="small" onclick="Le.autoGeneratePlaintext();"><?php echo $view['translator']->trans('le.email.plaintext.generate'); ?></a>
                         </div>
                         <div class="clearfix"></div>
                         <?php echo $view['form']->widget($form['plainText']); ?>
@@ -479,7 +479,7 @@ $isgoogletags= false; //$email->getGoogletags();
 
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
-        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
         <select class="form-control not-chosen <?php echo $template; ?>" name="emailform[dynamicContent][__dynamicContentIndex__][filters][__dynamicContentFilterIndex__][filters][__name__][filter]" id="emailform_dynamicContent___dynamicContentIndex___filters___dynamicContentFilterIndex___filters___name___filter"<?php echo $attr; ?>>
             <?php
             if (isset($form->vars[$dataKey])):
@@ -529,14 +529,14 @@ if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantPar
             'typeOneHeader'       => 'le.email.type.template.header',
             'typeOneIconClass'    => 'fa-cube',
             'typeOneDescription'  => 'le.email.type.template.description',
-            'typeOneOnClick'      => "Mautic.selectEmailType('template');",
+            'typeOneOnClick'      => "Le.selectEmailType('template');",
             'typeTwoHeader'       => 'le.email.type.list.header',
             'typeTwoIconClass'    => 'fa-pie-chart',
             'typeTwoDescription'  => 'le.email.type.list.description',
-            'typeTwoOnClick'      => "Mautic.selectEmailType('list');",
+            'typeTwoOnClick'      => "Le.selectEmailType('list');",
             'typeThreeHeader'     => 'le.email.editor.codeeditor.header',
             'typeThreeIconClass'  => 'fas fa-code',
-            'typeThreeOnClick'    => "Mautic.selectEmailEditor('code');",
+            'typeThreeOnClick'    => "Le.selectEmailEditor('code');",
             'typeThreeDescription'=> 'le.email.editor.codeeditor.description',
         ]);
 endif;
@@ -554,14 +554,14 @@ if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror &
             'typeOneHeader'       => 'le.email.editor.basic.header',
             'typeOneIconClass'    => 'fa-cube',
             'typeOneDescription'  => 'le.email.editor.basic.description',
-            'typeOneOnClick'      => "Mautic.selectEmailEditor('basic');",
+            'typeOneOnClick'      => "Le.selectEmailEditor('basic');",
             'typeTwoHeader'       => 'le.email.editor.advance.header',
             'typeTwoIconClass'    => 'fa-pie-chart',
             'typeTwoDescription'  => 'le.email.editor.advance.description',
-            'typeTwoOnClick'      => "Mautic.selectEmailEditor('advance');",
+            'typeTwoOnClick'      => "Le.selectEmailEditor('advance');",
             'typeThreeHeader'     => 'le.email.editor.codeeditor.header',
             'typeThreeIconClass'  => 'fas fa-code',
-            'typeThreeOnClick'    => "Mautic.selectEmailEditor('code');",
+            'typeThreeOnClick'    => "Le.selectEmailEditor('code');",
             'typeThreeDescription'=> 'le.email.editor.codeeditor.description',
         ]);
 endif;

@@ -68,7 +68,7 @@ class IntegrationsListType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.integration.integration.tooltip',
-                    'onchange' => 'Mautic.getIntegrationConfig(this);',
+                    'onchange' => 'Le.getIntegrationConfig(this);',
                 ],
                 'required'    => true,
                 'constraints' => [

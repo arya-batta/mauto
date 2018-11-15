@@ -1,27 +1,27 @@
 /** DynamicContentBundle **/
-Mautic.toggleDwcFilters = function () {
+Le.toggleDwcFilters = function () {
     mQuery("#dwcFiltersTab, #slotNameDiv").toggleClass("hide");
     if (mQuery("#dwcFiltersTab").hasClass('hide')) {
         mQuery('.nav-tabs a[href="#details"]').click();
     } else {
-        Mautic.dynamicContentOnLoad();
+        Le.dynamicContentOnLoad();
     }
 };
 
-Mautic.dynamicContentOnLoad = function (container, response) {
+Le.dynamicContentOnLoad = function (container, response) {
     if (typeof container !== 'object') {
         if (mQuery(container + ' #list-search').length) {
-            Mautic.activateSearchAutocomplete('list-search', 'dynamicContent');
+            Le.activateSearchAutocomplete('list-search', 'dynamicContent');
         }
     }
 
     var availableFilters = mQuery('div.dwc-filter').find('select[data-mautic="available_filters"]');
-    Mautic.activateChosenSelect(availableFilters, false);
+    Le.activateChosenSelect(availableFilters, false);
 
-    Mautic.leadlistOnLoad('div.dwc-filter');
+    Le.leadlistOnLoad('div.dwc-filter');
 };
 
-Mautic.standardDynamicContentUrl = function(options) {
+Le.standardDynamicContentUrl = function(options) {
     if (!options) {
         return;
     }
@@ -39,7 +39,7 @@ Mautic.standardDynamicContentUrl = function(options) {
     return options;
 };
 
-Mautic.disabledDynamicContentAction = function(opener) {
+Le.disabledDynamicContentAction = function(opener) {
     if (typeof opener == 'undefined') {
         opener = window;
     }
@@ -58,8 +58,8 @@ if (typeof MauticIsDwcReady === 'undefined') {
         document.readyState === "complete" ||
         !(document.readyState === "loading" || document.documentElement.doScroll)
     ) {
-        Mautic.dynamicContentOnLoad();
+        Le.dynamicContentOnLoad();
     } else {
-        document.addEventListener("DOMContentLoaded", Mautic.dynamicContentOnLoad);
+        document.addEventListener("DOMContentLoaded", Le.dynamicContentOnLoad);
     }
 }

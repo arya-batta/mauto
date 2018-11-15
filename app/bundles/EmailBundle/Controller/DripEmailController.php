@@ -309,7 +309,7 @@ class DripEmailController extends FormController
         $groupFilters  = [
             'filters' => [
                 'multiple'    => false,
-                'onchange'    => 'Mautic.filterBeeTemplates()',
+                'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 

@@ -131,7 +131,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                     <a href="https://leadsengage.com"><?php /*echo $view['translator']->trans('le.email.amazon.bounce.help'); */?></a>
                 </div>-->
                 <input type="text" id="transportcallback" class="form-control" readonly value="<?php echo $view['router']->url('le_mailer_transport_callback', ['transport' => $transportname]); ?>" />
-                <a id="transportcallback_atag" onclick="Mautic.copytoClipboardforms('transportcallback');">
+                <a id="transportcallback_atag" onclick="Le.copytoClipboardforms('transportcallback');">
                     <i aria-hidden="true" class="fa fa-clipboard"></i>
                     <?php echo $view['translator']->trans(
                         'leadsengage.subs.clicktocopy'
@@ -150,7 +150,7 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                         <a href="https://leadsengage.com"><?php /*echo $view['translator']->trans('le.email.amazon.spam.help'); */?></a>
                     </div>-->
                     <input type="text" id="transportcallback_spam" class="form-control" readonly value="<?php echo $view['router']->url('le_mailer_transport_callback', ['transport' => 'amazon']); ?>" />
-                    <a id="transportcallback_spam_atag" onclick="Mautic.copytoClipboardforms('transportcallback_spam');">
+                    <a id="transportcallback_spam_atag" onclick="Le.copytoClipboardforms('transportcallback_spam');">
                         <i aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(
                             'leadsengage.subs.clicktocopy'

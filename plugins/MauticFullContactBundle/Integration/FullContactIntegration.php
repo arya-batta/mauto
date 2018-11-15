@@ -63,7 +63,7 @@ class FullContactIntegration extends AbstractIntegration
                     'attr'  => [
                         'class'   => 'btn btn-primary',
                         'style'   => 'margin-bottom: 10px',
-                        'onclick' => 'Mautic.testFullContactApi(this)',
+                        'onclick' => 'Le.testFullContactApi(this)',
                     ],
                 ]
             );

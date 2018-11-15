@@ -18,7 +18,7 @@ function postFormHandler() {
     if (opener && typeof opener.postAuthCallback == 'function') {
         opener.postAuthCallback({$data});
     } else {
-        Mautic.refreshIntegrationForm();
+        Le.refreshIntegrationForm();
     }
     window.close()
 }

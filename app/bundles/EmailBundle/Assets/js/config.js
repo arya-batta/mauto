@@ -1,4 +1,4 @@
-Mautic.testMonitoredEmailServerConnection = function(mailbox) {
+Le.testMonitoredEmailServerConnection = function(mailbox) {
     var data = {
         host:       mQuery('#config_emailconfig_monitored_email_' + mailbox + '_host').val(),
         port:       mQuery('#config_emailconfig_monitored_email_' + mailbox + '_port').val(),
@@ -29,7 +29,7 @@ Mautic.testMonitoredEmailServerConnection = function(mailbox) {
 
     mQuery('#' + mailbox + 'TestButtonContainer .fa-spinner').removeClass('hide');
 
-    Mautic.ajaxActionRequest('email:testMonitoredEmailServerConnection', data, function(response) {
+    Le.ajaxActionRequest('email:testMonitoredEmailServerConnection', data, function(response) {
         var theClass = (response.success) ? 'has-success' : 'has-error';
         var theMessage = response.message;
         mQuery('#' + mailbox + 'TestButtonContainer').removeClass('has-success has-error').addClass(theClass);
@@ -63,7 +63,7 @@ Mautic.testMonitoredEmailServerConnection = function(mailbox) {
     });
 };
 
-Mautic.testEmailServerConnection = function(sendEmail) {
+Le.testEmailServerConnection = function(sendEmail) {
     var toemail = "";
     var trackingcode = "";
     var additionalinfo = "";
@@ -92,7 +92,7 @@ Mautic.testEmailServerConnection = function(sendEmail) {
 
     mQuery('#mailerTestButtonContainer .fa-spinner').removeClass('hide');
 
-    Mautic.ajaxActionRequest('email:testEmailServerConnection', data, function(response) {
+    Le.ajaxActionRequest('email:testEmailServerConnection', data, function(response) {
         var theClass = (response.success) ? 'has-success' : 'has-error';
         var theMessage = response.message;
         if(theClass == 'has-success'){
@@ -124,7 +124,7 @@ Mautic.testEmailServerConnection = function(sendEmail) {
     });
 };
 
-Mautic.copytoClipboardforms = function(id) {
+Le.copytoClipboardforms = function(id) {
     var copyText = document.getElementById(id);
     copyText.select();
     document.execCommand("Copy");
@@ -137,7 +137,7 @@ Mautic.copytoClipboardforms = function(id) {
     }, 1000);
 };
 
-Mautic.showBounceCallbackURL = function(modeEl) {
+Le.showBounceCallbackURL = function(modeEl) {
     var mode = mQuery(modeEl).val();
     if(mode != "mautic.transport.amazon" && mode != "mautic.transport.sendgrid_api" && mode != "mautic.transport.sparkpost" && mode != "mautic.transport.elasticemail") {
         mQuery('.transportcallback').addClass('hide');
@@ -175,11 +175,11 @@ Mautic.showBounceCallbackURL = function(modeEl) {
         mQuery('#config_emailconfig_mailer_transport').val(mode);
     }
     mQuery('#config_emailconfig_mailer_amazon_region').val('');
-    Mautic.updateEmailStatus();
+    Le.updateEmailStatus();
 };
 
 
-Mautic.configOnLoad = function (container) {
+Le.configOnLoad = function (container) {
     mQuery('#emailVerifyModel').on("hidden.bs.modal", function(){
         mQuery('#aws_email_verification').val('');
         mQuery('#user_email .help-block').addClass('hide');
@@ -195,12 +195,12 @@ Mautic.configOnLoad = function (container) {
             return;
         }
        mQuery('#user_email .help-block').removeClass('hide');
-       Mautic.activateButtonLoadingIndicator(currentLink);
-        Mautic.ajaxActionRequest('email:awsEmailFormValidation', {'email': email}, function(response) {
-           Mautic.removeButtonLoadingIndicator(currentLink);
+       Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:awsEmailFormValidation', {'email': email}, function(response) {
+           Le.removeButtonLoadingIndicator(currentLink);
 
             if(response.success) {
-                Mautic.redirectWithBackdrop(response.redirect);
+                Le.redirectWithBackdrop(response.redirect);
                 mQuery('#emailVerifyModel').addClass('hide');
             } else {
                 document.getElementById('errors').innerHTML=response.message;
@@ -215,23 +215,23 @@ Mautic.configOnLoad = function (container) {
         var spans = currentLink.closest("tr").find("span");
         var email = spans.eq(0).text();
 
-        Mautic.activateButtonLoadingIndicator(currentLink);
-        Mautic.ajaxActionRequest('email:deleteAwsVerifiedEmails', {'email': email}, function(response) {
-            Mautic.removeButtonLoadingIndicator(currentLink);
+        Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:deleteAwsVerifiedEmails', {'email': email}, function(response) {
+            Le.removeButtonLoadingIndicator(currentLink);
             if(response.success) {
                 currentLink.addClass('hide');
                 spans.addClass('hide');
-               // Mautic.redirectWithBackdrop(response.redirect);
+               // Le.redirectWithBackdrop(response.redirect);
             } else {
                 document.getElementById('errors').innerHTML=response.message;
                 return;
             }
         });
     });
-    Mautic.hideFlashMessage();
+    Le.hideFlashMessage();
 }
 
-Mautic.updateEmailStatus = function(){
+Le.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
     mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
     mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');

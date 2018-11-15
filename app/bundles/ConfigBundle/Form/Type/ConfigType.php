@@ -77,8 +77,8 @@ class ConfigType extends AbstractType
             'buttons',
             'form_buttons',
             [
-                'apply_onclick' => 'Mautic.activateBackdrop()',
-                'save_onclick'  => 'Mautic.activateBackdrop()',
+                'apply_onclick' => 'Le.activateBackdrop()',
+                'save_onclick'  => 'Le.activateBackdrop()',
             ]
         );
 

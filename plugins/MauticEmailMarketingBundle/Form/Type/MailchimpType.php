@@ -84,7 +84,7 @@ class MailchimpType extends AbstractType
             'required' => false,
             'attr'     => [
                 'tooltip'  => 'mautic.emailmarketing.list.tooltip',
-                'onchange' => 'Mautic.getIntegrationLeadFields(\'Mailchimp\', this, {"list": this.value});',
+                'onchange' => 'Le.getIntegrationLeadFields(\'Mailchimp\', this, {"list": this.value});',
             ],
         ]);
 

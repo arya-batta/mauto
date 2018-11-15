@@ -63,7 +63,7 @@ $view->extend('MauticCoreBundle:Default:slim.html.php');
             timelineForm.delay(200).submit();
         }).on('submit', function(e) {
             e.preventDefault();
-            Mautic.refreshLeadTimeline(timelineForm);
+            Le.refreshLeadTimeline(timelineForm);
         });
 
     }

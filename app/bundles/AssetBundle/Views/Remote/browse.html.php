@@ -30,7 +30,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.remo
                                 <li class="list-group-item<?php if ($step === 1) {
     echo ' active';
 } ?>" id="tab<?php echo $integration->getName(); ?>">
-                                    <a href="#" class="steps" onclick="Mautic.updateRemoteBrowser('<?php echo $integration->getName(); ?>');">
+                                    <a href="#" class="steps" onclick="Le.updateRemoteBrowser('<?php echo $integration->getName(); ?>');">
                                         <?php echo $integration->getDisplayName(); ?>
                                     </a>
                                 </li>

@@ -1,12 +1,12 @@
 //UserBundle
-Mautic.userOnLoad = function (container) {
+Le.userOnLoad = function (container) {
     if (mQuery(container + ' form[name="user"]').length) {
         if (mQuery('#user_position').length) {
-            Mautic.activateTypeahead('#user_position', {displayKey: 'position'});
+            Le.activateTypeahead('#user_position', {displayKey: 'position'});
         }
     } else {
         if (mQuery(container + ' #list-search').length) {
-            Mautic.activateSearchAutocomplete('list-search', 'user.user');
+            Le.activateSearchAutocomplete('list-search', 'user.user');
         }
     }
     if (mQuery('#user_preferred_profile_image').length) {
@@ -20,9 +20,9 @@ Mautic.userOnLoad = function (container) {
     }
 };
 
-Mautic.roleOnLoad = function (container, response) {
+Le.roleOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'user.role');
+        Le.activateSearchAutocomplete('list-search', 'user.role');
     }
 
     if (response && response.permissionList) {
@@ -33,7 +33,7 @@ Mautic.roleOnLoad = function (container, response) {
 /**
  * Toggles permission panel visibility for roles
  */
-Mautic.togglePermissionVisibility = function () {
+Le.togglePermissionVisibility = function () {
     //add a very slight delay in order for the clicked on checkbox to be selected since the onclick action
     //is set to the parent div
     setTimeout(function () {
@@ -53,7 +53,7 @@ Mautic.togglePermissionVisibility = function () {
  * @param changedPermission
  * @param bundle
  */
-Mautic.onPermissionChange = function (changedPermission, bundle) {
+Le.onPermissionChange = function (changedPermission, bundle) {
     var granted = 0;
 
     if (mQuery(changedPermission).prop('checked')) {

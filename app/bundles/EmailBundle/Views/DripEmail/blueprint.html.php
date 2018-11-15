@@ -8,7 +8,7 @@
                 <img height="125px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/blueprint.png')?>"/>
                 <h2 class="drip-col-stats"><?php echo $view['translator']->trans('le.drip.email.choose.blueprint')?></h2>
                 <br>
-                <a class="btn btn-default text-primary le-btn-default" onclick="Mautic.openBluePrintPage();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;float: right;margin-right: 8%;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                <a class="btn btn-default text-primary le-btn-default" onclick="Le.openBluePrintPage();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;float: right;margin-right: 8%;border-radius:4px;z-index:1003;" data-toggle="ajax">
                     <span>
                         <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.browse.blueprint'); ?></span>
                     </span>
@@ -23,7 +23,7 @@
                 <img height="125px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/startfromscratch.png')?>"/>
                 <h2 class="drip-col-stats"><?php echo $view['translator']->trans('mautic.campaign.type.blanktemplate.header')?></h2>
                 <br>
-                <a class="btn btn-default text-primary le-btn-default" onclick="Mautic.openDripEmailEditor();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;float: right;margin-right: 8%;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                <a class="btn btn-default text-primary le-btn-default" onclick="Le.openDripEmailEditor();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;float: right;margin-right: 8%;border-radius:4px;z-index:1003;" data-toggle="ajax">
                     <span>
                         <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.create.your.own'); ?></span>
                     </span>

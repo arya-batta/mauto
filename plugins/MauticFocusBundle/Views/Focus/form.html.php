@@ -123,7 +123,7 @@ echo $view['form']->start($form);
         <div class="builder-panel builder-panel-focus">
             <div class="builder-panel-top">
                 <p>
-                    <button type="button" class="btn btn-primary btn-close-builder btn-block" onclick="Mautic.closeFocusBuilder(this);"><?php echo $view['translator']->trans(
+                    <button type="button" class="btn btn-primary btn-close-builder btn-block" onclick="Le.closeFocusBuilder(this);"><?php echo $view['translator']->trans(
                             'mautic.core.close.builder'
                         ); ?></button>
                 </p>

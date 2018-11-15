@@ -50,7 +50,7 @@ class TweetSendType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.integration.Twitter.send.selecttweet.desc',
-                    'onchange' => 'Mautic.disabledTweetAction()',
+                    'onchange' => 'Le.disabledTweetAction()',
                 ],
                 'multiple'    => false,
                 'required'    => true,
@@ -78,7 +78,7 @@ class TweetSendType extends AbstractType
                 [
                     'attr' => [
                         'class'   => 'btn btn-primary btn-nospin',
-                        'onclick' => 'Mautic.loadNewWindow({
+                        'onclick' => 'Le.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',
                         'icon' => 'fa fa-plus',
@@ -107,7 +107,7 @@ class TweetSendType extends AbstractType
             //     [
             //         'attr' => [
             //             'class'    => 'btn btn-primary btn-nospin',
-            //             'onclick'  => 'Mautic.loadNewWindow(Mautic.standardTweetUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
+            //             'onclick'  => 'Le.loadNewWindow(Le.standardTweetUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
             //             'disabled' => !isset($tweet),
             //             'icon'     => 'fa fa-edit',
             //         ],

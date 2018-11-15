@@ -148,7 +148,7 @@ class ReportType extends AbstractType
                     'attr'        => [
                         'class'    => 'form-control',
                         'tooltip'  => 'mautic.report.report.form.source.help',
-                        'onchange' => 'Mautic.updateReportSourceData(this.value)',
+                        'onchange' => 'Le.updateReportSourceData(this.value)',
                     ],
                 ]
             );
@@ -209,7 +209,7 @@ class ReportType extends AbstractType
                         'attr'       => [
                             'class'         => 'form-control multiselect',
                             'data-sortable' => 'true',
-                            'onchange'      => 'Mautic.checkSelectedGroupBy()',
+                            'onchange'      => 'Le.checkSelectedGroupBy()',
                         ],
                     ]
                 );

@@ -1,5 +1,5 @@
-Mautic.getStageActionPropertiesForm = function(actionType) {
-    Mautic.activateLabelLoadingIndicator('stage_type');
+Le.getStageActionPropertiesForm = function(actionType) {
+    Le.activateLabelLoadingIndicator('stage_type');
 
     var query = "action=stage:getActionForm&actionType=" + actionType;
     mQuery.ajax({
@@ -10,14 +10,14 @@ Mautic.getStageActionPropertiesForm = function(actionType) {
         success: function (response) {
             if (typeof response.html != 'undefined') {
                 mQuery('#stageActionProperties').html(response.html);
-                Mautic.onPageLoad('#stageActionProperties', response);
+                Le.onPageLoad('#stageActionProperties', response);
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function() {
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         }
     });
 };

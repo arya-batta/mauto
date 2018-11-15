@@ -90,7 +90,7 @@ $indexCount = 1;
                                            title=""
                                            autocomplete="false"
                                            value="0"
-                                           onchange="Mautic.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')"
+                                           onchange="Le.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')"
                                            <?php if ($checked): ?>checked="checked"<?php endif; ?>
                                            <?php if ($child->vars['attr']['disabled']) : echo 'disabled'; endif; ?>>
                                     <btn class="btn-nospin fa fa-arrow-circle-left"></btn>
@@ -102,7 +102,7 @@ $indexCount = 1;
                                            title=""
                                            autocomplete="false"
                                            value="1"
-                                           onchange="Mautic.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')"
+                                           onchange="Le.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')"
                                            <?php if ($child->vars['value'] === '1'): ?>checked="checked"<?php endif; ?>
                                            <?php if ($child->vars['attr']['disabled']) : echo 'disabled'; endif; ?>>
                                     <btn class="btn-nospin fa fa-arrow-circle-right"></btn>
@@ -123,7 +123,7 @@ $indexCount = 1;
                         name="<?php echo $child->vars['full_name']; ?>"
                         class="<?php echo $child->vars['attr']['class']; ?>"
                         data-placeholder=" "
-                        autocomplete="false" onchange="Mautic.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')">
+                        autocomplete="false" onchange="Le.matchedFields(<?php echo $indexCount; ?>, '<?php echo $object; ?>', '<?php echo $integration; ?>')">
                     <option value=""></option>
                     <?php
                     $mauticChoices = $child->vars['attr']['data-choices'];
@@ -170,7 +170,7 @@ $indexCount = 1;
                 'fixedLimit'  => true,
                 'target'      => '#IntegrationEditModal',
                 'totalItems'  => $totalFields,
-                'jsCallback'  => 'Mautic.getIntegrationFields',
+                'jsCallback'  => 'Le.getIntegrationFields',
                 'jsArguments' => [
                     [
                         'object'      => $object,

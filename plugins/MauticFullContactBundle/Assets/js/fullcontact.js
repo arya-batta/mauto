@@ -7,7 +7,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-Mautic.testFullContactApi = function (btn) {
+Le.testFullContactApi = function (btn) {
     mQuery(btn).prop('disabled', true);
     var apikey = mQuery('#integration_details_apiKeys_apikey').val();
     var d = new Date();

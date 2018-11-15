@@ -1,13 +1,13 @@
 //FormBundle
-Mautic.formOnLoad = function (container) {
+Le.formOnLoad = function (container) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'form.form');
+        Le.activateSearchAutocomplete('list-search', 'form.form');
     }
     var bodyOverflow = {};
 
     mQuery('select.form-builder-new-component').change(function (e) {
         mQuery(this).find('option:selected');
-        Mautic.ajaxifyModal(mQuery(this).find('option:selected'));
+        Le.ajaxifyModal(mQuery(this).find('option:selected'));
         // Reset the dropdown
         mQuery(this).val('');
         mQuery(this).trigger('chosen:updated');
@@ -50,8 +50,8 @@ Mautic.formOnLoad = function (container) {
             }
         });
 
-        Mautic.initFormFieldButtons();
-        Mautic.removeActionButtons();
+        Le.initFormFieldButtons();
+        Le.removeActionButtons();
     }
 
     mQuery("#ui-tab-header1").addClass('ui-tabs-selected ui-state-active');
@@ -138,18 +138,18 @@ Mautic.formOnLoad = function (container) {
         //mQuery('body').addClass('noscroll');
     }
 
-    Mautic.initHideItemButton('#mauticforms_fields');
-    Mautic.initHideItemButton('#mauticforms_actions');
+    Le.initHideItemButton('#mauticforms_fields');
+    Le.initHideItemButton('#mauticforms_actions');
     if(mQuery('#Form_post_action').hasClass('has-error')){
         mQuery('.check_required').addClass('required');
     }
 };
 
-Mautic.updateFormFields = function () {
-    Mautic.activateLabelLoadingIndicator('campaignevent_properties_field');
+Le.updateFormFields = function () {
+    Le.activateLabelLoadingIndicator('campaignevent_properties_field');
 
     var formId = mQuery('#campaignevent_properties_form').val();
-    Mautic.ajaxActionRequest('form:updateFormFields', {'formId': formId}, function(response) {
+    Le.ajaxActionRequest('form:updateFormFields', {'formId': formId}, function(response) {
         if (response.fields) {
             var select = mQuery('#campaignevent_properties_field');
             select.find('option').remove();
@@ -163,13 +163,13 @@ Mautic.updateFormFields = function () {
             });
             select.attr('data-field-options', JSON.stringify(fieldOptions));
             select.trigger('chosen:updated');
-            Mautic.updateFormFieldValues(select);
+            Le.updateFormFieldValues(select);
         }
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };
 
-Mautic.updateFormFieldValues = function (field) {
+Le.updateFormFieldValues = function (field) {
     field = mQuery(field);
     var fieldValue = field.val();
     var options = jQuery.parseJSON(field.attr('data-field-options'));
@@ -208,7 +208,7 @@ Mautic.updateFormFieldValues = function (field) {
     }
 };
 
-Mautic.formFieldOnLoad = function (container, response) {
+Le.formFieldOnLoad = function (container, response) {
     //new field created so append it to the form
     if (response.fieldHtml) {
         var newHtml = response.fieldHtml;
@@ -232,7 +232,7 @@ Mautic.formFieldOnLoad = function (container, response) {
         //activate new stuff
         mQuery(fieldContainer).find("[data-toggle='ajax']").click(function (event) {
             event.preventDefault();
-            return Mautic.ajaxifyLink(this, event);
+            return Le.ajaxifyLink(this, event);
         });
 
         //initialize tooltips
@@ -241,11 +241,11 @@ Mautic.formFieldOnLoad = function (container, response) {
         //initialize ajax'd modals
         mQuery(fieldContainer).find("[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
             event.preventDefault();
-            Mautic.ajaxifyModal(this, event);
+            Le.ajaxifyModal(this, event);
         });
 
-        Mautic.initFormFieldButtons(fieldContainer);
-        Mautic.initHideItemButton(fieldContainer);
+        Le.initFormFieldButtons(fieldContainer);
+        Le.initHideItemButton(fieldContainer);
 
         //show fields panel
         if (!mQuery('#fields-panel').hasClass('in')) {
@@ -262,7 +262,7 @@ Mautic.formFieldOnLoad = function (container, response) {
     }
 };
 
-Mautic.initFormFieldButtons = function (container) {
+Le.initFormFieldButtons = function (container) {
     if (typeof container == 'undefined') {
         mQuery('#mauticforms_fields .mauticform-row').off(".mauticformfields");
         var container = '#mauticforms_fields';
@@ -274,7 +274,7 @@ Mautic.initFormFieldButtons = function (container) {
     });
 };
 
-Mautic.formActionOnLoad = function (container, response) {
+Le.formActionOnLoad = function (container, response) {
     //new action created so append it to the form
     if (response.actionHtml) {
         var newHtml = response.actionHtml;
@@ -291,7 +291,7 @@ Mautic.formActionOnLoad = function (container, response) {
         //activate new stuff
         mQuery(actionId + " [data-toggle='ajax']").click(function (event) {
             event.preventDefault();
-            return Mautic.ajaxifyLink(this, event);
+            return Le.ajaxifyLink(this, event);
         });
         //initialize tooltips
         mQuery(actionId + " *[data-toggle='tooltip']").tooltip({html: true});
@@ -300,10 +300,10 @@ Mautic.formActionOnLoad = function (container, response) {
         mQuery(actionId + " [data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
             event.preventDefault();
 
-            Mautic.ajaxifyModal(this, event);
+            Le.ajaxifyModal(this, event);
         });
 
-        Mautic.initHideItemButton(actionId);
+        Le.initHideItemButton(actionId);
 
         mQuery('#mauticforms_actions .mauticform-row').off(".mauticform");
         mQuery('#mauticforms_actions .mauticform-row').on('dblclick.mauticformactions', function(event) {
@@ -326,14 +326,14 @@ Mautic.formActionOnLoad = function (container, response) {
     }
 };
 
-Mautic.initHideItemButton = function(container) {
+Le.initHideItemButton = function(container) {
     mQuery(container).find('[data-hide-panel]').click(function(e) {
         e.preventDefault();
         mQuery(this).closest('.panel').hide('fast');
     });
 }
 
-Mautic.onPostSubmitActionChange = function(value) {
+Le.onPostSubmitActionChange = function(value) {
     mQuery('#Form_post_action .custom-help').html("");
     if (value == 'return') {
         //remove required class
@@ -356,7 +356,7 @@ Mautic.onPostSubmitActionChange = function(value) {
     mQuery('#mauticform_postActionProperty').parent().removeClass('has-error');
 };
 
-Mautic.selectFormType = function(formType) {
+Le.selectFormType = function(formType) {
     if (formType == 'standalone') {
         mQuery("#form_template_campaign").removeClass('hide').addClass('hide');
         mQuery('option.action-standalone-only').removeClass('hide');
@@ -377,12 +377,12 @@ Mautic.selectFormType = function(formType) {
     mQuery('.form-type-modal-backdrop').remove();
 };
 
-Mautic.openNewFormAction = function(url){
+Le.openNewFormAction = function(url){
     var formtype = mQuery('#mauticform_formType').val();
     url = url + "_" + formtype;
     window.location.href = url;
 };
 
-Mautic.updatePlaceholdervalue = function(ele){
+Le.updatePlaceholdervalue = function(ele){
     mQuery('#formfield_properties_placeholder').val(ele);
 }

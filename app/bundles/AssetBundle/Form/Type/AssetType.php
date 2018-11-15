@@ -71,7 +71,7 @@ class AssetType extends AbstractType
             ],
             'choices_as_values' => true,
             'attr'              => [
-                'onchange' => 'Mautic.changeAssetStorageLocation();',
+                'onchange' => 'Le.changeAssetStorageLocation();',
             ],
         ]);
 

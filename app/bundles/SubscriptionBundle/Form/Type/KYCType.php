@@ -172,7 +172,7 @@ class KYCType extends AbstractType
                 'attr'       => [
                     'class'        => 'form-control',
                     'autocomplete' => 'off',
-                    'onchange'     => 'Mautic.showMarketingOthersField(this.value);',
+                    'onchange'     => 'Le.showMarketingOthersField(this.value);',
                 ],
                 'empty_value' => '',
                 'data'        => $options['data']->getPrevioussoftware(),
@@ -190,7 +190,7 @@ class KYCType extends AbstractType
                 'attr'       => [
                     'class'        => 'form-control',
                     'autocomplete' => 'off',
-                    'onchange'     => 'Mautic.showOthersField(this.value);',
+                    'onchange'     => 'Le.showOthersField(this.value);',
                 ],
                 'empty_value' => '',
                 'data'        => $options['data']->getKnowus(),

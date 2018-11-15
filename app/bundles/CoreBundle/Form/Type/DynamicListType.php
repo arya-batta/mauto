@@ -54,7 +54,7 @@ class DynamicListType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'remove_onclick'  => 'Mautic.removeFormListOption(this);',
+            'remove_onclick'  => 'Le.removeFormListOption(this);',
             'option_required' => true,
             'option_notblank' => true,
             'remove_icon'     => 'fa fa-times',

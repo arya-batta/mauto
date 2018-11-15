@@ -264,7 +264,7 @@ class ConfigType extends AbstractType
                     'tabindex' => $tabIndex,
                     'style'    => $style,
                     'tooltip'  => 'le.email.config.mailer.from.email.tooltip',
-                    'onkeyup'      => 'Mautic.updateEmailStatus();',
+                    'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -315,7 +315,7 @@ class ConfigType extends AbstractType
                 'attr'     => [
                     'class'   => 'form-control le-input',
                     'tooltip' => 'le.email.config.mailer.transport.tooltip',
-                    'onchange'=> 'Mautic.showBounceCallbackURL(this)',
+                    'onchange'=> 'Le.showBounceCallbackURL(this)',
                 ],
                 'data'        => $transport,
                 'disabled'    => $disabletransport,
@@ -403,7 +403,7 @@ class ConfigType extends AbstractType
                 'required' => false,
                 'attr'     => [
                     'class'        => 'form-control le-input',
-                    'onchange'     => 'Mautic.showBounceCallbackURL(this)',
+                    'onchange'     => 'Le.showBounceCallbackURL(this)',
                 ],
                 'data'        => $datavalue,
                 'disabled'    => $disabletransport,
@@ -431,7 +431,7 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control',
                     'data-show-on' => $amazonRegionShowConditions,
                     'tooltip'      => 'le.email.config.mailer.amazon_host.tooltip',
-                    'onchange'     => 'Mautic.updateEmailStatus();',
+                    'onchange'     => 'Le.updateEmailStatus();',
                 ],
                 'empty_value' => false,
             ]
@@ -538,7 +538,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginUserHideConditions,
                     'tooltip'      => 'le.email.config.mailer.user.tooltip',
                     'autocomplete' => 'off',
-                    'onkeyup'      => 'Mautic.updateEmailStatus();',
+                    'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -558,7 +558,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginPasswordHideConditions,
                     'tooltip'      => 'le.email.config.mailer.password.tooltip',
                     'autocomplete' => 'off',
-                    'onkeyup'      => 'Mautic.updateEmailStatus();',
+                    'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -580,7 +580,7 @@ class ConfigType extends AbstractType
                     'tooltip'      => 'le.email.config.mailer.apikey.tooltop',
                     'autocomplete' => 'off',
                     'placeholder'  => 'le.email.config.mailer.apikey.placeholder',
-                    'onkeyup'      => 'Mautic.updateEmailStatus();',
+                    'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -613,7 +613,7 @@ class ConfigType extends AbstractType
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-success',
-                    'onclick' => 'Mautic.testEmailServerConnection(true)',
+                    'onclick' => 'Le.testEmailServerConnection(true)',
                 ],
             ]
         );
@@ -626,7 +626,7 @@ class ConfigType extends AbstractType
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-info',
-                    'onclick' => 'Mautic.testEmailServerConnection(true)',
+                    'onclick' => 'Le.testEmailServerConnection(true)',
                 ],
             ]
         );

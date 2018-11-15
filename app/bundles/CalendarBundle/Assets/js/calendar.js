@@ -1,27 +1,27 @@
 //CalendarBundle
-Mautic.calendarOnLoad = function (container) {
-    Mautic.loadCalendarEvents(container);
+Le.calendarOnLoad = function (container) {
+    Le.loadCalendarEvents(container);
 };
 
-Mautic.calendarModalOnLoad = function (container, response) {
+Le.calendarModalOnLoad = function (container, response) {
     mQuery('#calendar').fullCalendar( 'refetchEvents' );
     mQuery(container + " a[data-toggle='ajax']").off('click.ajax');
     mQuery(container + " a[data-toggle='ajax']").on('click.ajax', function (event) {
         event.preventDefault();
         mQuery('.modal').modal('hide');
-        return Mautic.ajaxifyLink(this, event);
+        return Le.ajaxifyLink(this, event);
     });
 };
 
-Mautic.initializeCalendarModals = function (container) {
+Le.initializeCalendarModals = function (container) {
     mQuery(container + " *[data-toggle='ajaxmodal']").off('click.ajaxmodal');
     mQuery(container + " *[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
         event.preventDefault();
-        Mautic.ajaxifyModal(this, event);
+        Le.ajaxifyModal(this, event);
     });
 }
 
-Mautic.loadCalendarEvents = function (container) {
+Le.loadCalendarEvents = function (container) {
     mQuery('#calendar').fullCalendar({
         events: mauticAjaxUrl + "?action=calendar:generateData",
         lang: 'en',
@@ -48,7 +48,7 @@ Mautic.loadCalendarEvents = function (container) {
             // if calendar events are loaded
             if (!bool) {
                 //initialize ajax'd modals
-                Mautic.initializeCalendarModals(container);
+                Le.initializeCalendarModals(container);
             }
         },
         eventDrop: function(event, delta, revertFunc) {
@@ -61,15 +61,15 @@ Mautic.loadCalendarEvents = function (container) {
                     if (!response.success) {
                         revertFunc();
                     }
-                    Mautic.initializeCalendarModals(container);
+                    Le.initializeCalendarModals(container);
                     if (response.flashes) {
-                        Mautic.setFlashes(response.flashes);
-                        Mautic.hideFlashes();
+                        Le.setFlashes(response.flashes);
+                        Le.hideFlashes();
                     }
                 },
                 error: function (response, textStatus, errorThrown) {
                     revertFunc();
-                    Mautic.processAjaxError(response, textStatus, errorThrown, true);
+                    Le.processAjaxError(response, textStatus, errorThrown, true);
                 }
             });
         }

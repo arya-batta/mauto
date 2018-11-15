@@ -1,4 +1,4 @@
-Mautic.subscriptionOnLoad = function (container) {
+Le.subscriptionOnLoad = function (container) {
     mQuery('#subscription-panel').on('show.bs.collapse', function (e) {
         var actives = mQuery('#subscription-panel').find('.in, .collapsing');
         actives.each(function (index, element) {
@@ -106,14 +106,14 @@ Mautic.subscriptionOnLoad = function (container) {
         var planname=mQuery('#sectionThree .cplantitle').attr("planname");
         var plancycle=mQuery('#sectionThree .cplantitle').attr("plancycle");
         var plancurrency=mQuery('#sectionThree .cplantitle').attr("plancurrency");
-        Mautic.activateBackdrop();
-        Mautic.ajaxActionRequest('subscription:makepayment', {username: username,useremail:useremail,useraddress:useraddress,planname:planname,plancycle:plancycle,plancurrency:plancurrency}, function(response) {
-            Mautic.deactivateBackgroup();
+        Le.activateBackdrop();
+        Le.ajaxActionRequest('subscription:makepayment', {username: username,useremail:useremail,useraddress:useraddress,planname:planname,plancycle:plancycle,plancurrency:plancurrency}, function(response) {
+            Le.deactivateBackgroup();
           if (response.success) {
               if(response.provider == "razorpay"){
-                  Mautic.invokeRazorPay(response,username,useremail,useraddress,planname);
+                  Le.invokeRazorPay(response,username,useremail,useraddress,planname);
               }else{
-                  Mautic.invokePaypalPay(response);
+                  Le.invokePaypalPay(response);
               }
            }else{
               alert(response.errormsg);
@@ -123,7 +123,7 @@ Mautic.subscriptionOnLoad = function (container) {
     });
 }
 
-Mautic.validatePersonalInfo = function(){
+Le.validatePersonalInfo = function(){
     var theClass = "has-error";
     var isvalid = true;
     var firstName = mQuery('#user_firstName').val();
@@ -167,7 +167,7 @@ Mautic.validatePersonalInfo = function(){
     return isvalid;
 }
 
-Mautic.validateKYCForm = function() {
+Le.validateKYCForm = function() {
     /*var firstName = mQuery('#user_firstName').val();
     var lastName = mQuery('#user_lastName').val();
     var phonenumber = mQuery('#accountinfo_phonenumber').val();
@@ -305,12 +305,12 @@ Mautic.validateKYCForm = function() {
 };
 var timeInterval = 0;
 
-Mautic.savePersonalInfo = function(){
+Le.savePersonalInfo = function(){
     var firstName   = mQuery('#user_firstName').val();
     var lastName    = mQuery('#user_lastName').val();
     var phonenumber = mQuery('#accountinfo_phonenumber').val();
     var email       = mQuery('#user_email').val();
-    var isvalid     = Mautic.validatePersonalInfo();
+    var isvalid     = Le.validatePersonalInfo();
     if(!isvalid){
         return isvalid;
     }
@@ -322,7 +322,7 @@ Mautic.savePersonalInfo = function(){
     mQuery(".kyc").css("display", "none");
 }
 
-Mautic.SendOTPConnection = function() {
+Le.SendOTPConnection = function() {
     var firstName   = mQuery('#step2_firstname').val();
     var lastName    = mQuery('#step2_lastname').val();
     var phonenumber = mQuery('#step2_mobile').val();
@@ -342,11 +342,11 @@ Mautic.SendOTPConnection = function() {
     mQuery('#billinginfo_gstnumber').prop('required',false);
     var theClass    = "has-error";
     var isvalid     = true;
-    isvalid         = Mautic.validateKYCForm();
+    isvalid         = Le.validateKYCForm();
     if(!isvalid){
         return isvalid;
     }
-    var otp         = Mautic.getCookie('MobileVerificationOTP');
+    var otp         = Le.getCookie('MobileVerificationOTP');
     if(isvalid) {
         var data = {
             firstName: firstName,
@@ -370,7 +370,7 @@ Mautic.SendOTPConnection = function() {
         
         mQuery('#kycSubmit .fa-spinner').removeClass('hide');
 
-        Mautic.ajaxActionRequest('subscription:updateKYC', data, function (response) {
+        Le.ajaxActionRequest('subscription:updateKYC', data, function (response) {
             if(response.success){
                 mQuery('#kycSubmit .fa-spinner').addClass('hide');
                 var otp = response.otp;
@@ -402,7 +402,7 @@ Mautic.SendOTPConnection = function() {
                     document.cookie = "MobileVerificationOTP=" + otp + "; path=/";
                     mQuery('#kyc_otpverification').html('A code was just sent to your mobile phone : <b>' + mobile + '</b>')
                 } else {
-                    Mautic.RedirectToGivenURL(response.redirecturl);
+                    Le.RedirectToGivenURL(response.redirecturl);
                     //mQuery(".steps").css("display","none");
                     //mQuery(".video_page").css("display","block");
                     //mQuery(".video_page").fadeIn("slow");
@@ -414,7 +414,7 @@ Mautic.SendOTPConnection = function() {
     }
 };
 
-Mautic.LoadKYCDetails = function() {
+Le.LoadKYCDetails = function() {
     clearInterval(timeInterval);
     mQuery(".otp_verifications").css("display","none");
     ///mQuery(".steps").css("display","block");
@@ -424,11 +424,11 @@ Mautic.LoadKYCDetails = function() {
 
 };
 
-Mautic.reSendOTP = function() {
+Le.reSendOTP = function() {
     mQuery('#send_sms').attr('disabled');
     mQuery('#send_sms').addClass('disabled');
     var phonenumber = mQuery('#sms_number').val();
-    var otp = Mautic.getCookie('MobileVerificationOTP');
+    var otp = Le.getCookie('MobileVerificationOTP');
     mQuery(".alertmsg").css("display","none");
     mQuery('.sms_code_div').removeClass('has-success has-error');
     mQuery('#sms_code').val('');
@@ -436,7 +436,7 @@ Mautic.reSendOTP = function() {
         phonenumber : phonenumber,
         otp:otp,
     };
-    Mautic.ajaxActionRequest('subscription:resendOTP', data, function (response) {
+    Le.ajaxActionRequest('subscription:resendOTP', data, function (response) {
         if(response.success){
             mQuery('#send_sms .fa').removeClass('fa-spinner fa-spin').addClass('fa-repeat');
             //setTimeout(function(){
@@ -463,10 +463,10 @@ Mautic.reSendOTP = function() {
     });
 };
 
-Mautic.verifyOTP = function() {
+Le.verifyOTP = function() {
     mQuery(".alertmsg").css("display","none");
     document.cookie.indexOf("MobileVerificationOTP");
-    var otp = Mautic.getCookie('MobileVerificationOTP');
+    var otp = Le.getCookie('MobileVerificationOTP');
     var otpcode = mQuery('#sms_code').val();
     if(otpcode == "") {
         mQuery('.sms_code_div').removeClass('has-success has-error').addClass('has-error');
@@ -474,11 +474,11 @@ Mautic.verifyOTP = function() {
     }
     var data = {};
     if(otp != "" && otp == otpcode){
-        Mautic.ajaxActionRequest('subscription:OTPVerified', data, function (response) {
+        Le.ajaxActionRequest('subscription:OTPVerified', data, function (response) {
             if(response.success){
                 //mQuery(".otp_verifications").css("display","none");
                 //mQuery(".video_page").fadeIn("slow");
-                Mautic.RedirectToGivenURL(response.redirecturl);
+                Le.RedirectToGivenURL(response.redirecturl);
                 //mQuery(".video_page").css("display","block");
             }
         });
@@ -488,12 +488,12 @@ Mautic.verifyOTP = function() {
     }
 };
 
-Mautic.closeAlertMSG = function() {
+Le.closeAlertMSG = function() {
     mQuery(".alertmsg").css("display","none");
 
 };
 
-Mautic.getCookie = function(cname) {
+Le.getCookie = function(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i = 0; i < ca.length; i++) {
@@ -508,7 +508,7 @@ Mautic.getCookie = function(cname) {
     return "";
 };
 
-Mautic.invokeRazorPay = function(response,username,useremail,useraddress,planname) {
+Le.invokeRazorPay = function(response,username,useremail,useraddress,planname) {
     var apikey=response.apikey;
     var subscriptionid=response.subscriptionid
     var options = {
@@ -521,9 +521,9 @@ Mautic.invokeRazorPay = function(response,username,useremail,useraddress,plannam
             var paymentid=response.razorpay_payment_id;
             var subscriptionid=response.razorpay_subscription_id;
             var signature=response.razorpay_signature;
-            Mautic.ajaxActionRequest('subscription:validatepayment', {paymentid: paymentid,subscriptionid:subscriptionid,signature:signature}, function(response) {
+            Le.ajaxActionRequest('subscription:validatepayment', {paymentid: paymentid,subscriptionid:subscriptionid,signature:signature}, function(response) {
                 if (response.success) {
-                    Mautic.redirectWithBackdrop(response.redirect);
+                    Le.redirectWithBackdrop(response.redirect);
                 }else{
                     alert(response.errormsg);
                 }
@@ -545,7 +545,7 @@ Mautic.invokeRazorPay = function(response,username,useremail,useraddress,plannam
     var rzp1 = new Razorpay(options);
     rzp1.open();
 };
-Mautic.invokePaypalPay = function(response) {
-    Mautic.redirectWithBackdrop(response.approvalurl);
-   // Mautic.openInNewTab(response.approvalurl);
+Le.invokePaypalPay = function(response) {
+    Le.redirectWithBackdrop(response.approvalurl);
+   // Le.openInNewTab(response.approvalurl);
 };

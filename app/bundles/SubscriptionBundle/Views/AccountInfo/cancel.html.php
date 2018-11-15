@@ -38,7 +38,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                         <br>
                         <p style="text-align: left;font-family: 'Open Sans', Helvetica, Arial, sans-serif;font-size:14px;padding: 0 0 15px;"><?php echo $view['translator']->trans('leadsengage.cancel.'.strtolower($planType).'.description', ['%recordcount%' => $recordcount, '%licenseenddate%'=>$licenseenddate, '%planname%'=>$planType]); ?></p>
                         <br>
-                        <a  href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']) ?>');" <?php echo $planType == 'Paid' ? 'class="cancel-subscription"' : 'class="hide"' ?>><?php echo $view['translator']->trans('leadsengage.cancel.subscription.title'); ?></a>
+                        <a  href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']) ?>');" <?php echo $planType == 'Paid' ? 'class="cancel-subscription"' : 'class="hide"' ?>><?php echo $view['translator']->trans('leadsengage.cancel.subscription.title'); ?></a>
                         <br>
                         <br>
                     </div>

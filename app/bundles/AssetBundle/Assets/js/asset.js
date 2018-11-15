@@ -1,18 +1,18 @@
 //AssetBundle
-Mautic.assetOnLoad = function (container) {
+Le.assetOnLoad = function (container) {
     if (typeof mauticAssetUploadEndpoint !== 'undefined' && mQuery('div#dropzone').length) {
-        Mautic.initializeDropzone();
+        Le.initializeDropzone();
     }
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 };
 
-Mautic.assetOnUnload = function(id) {
+Le.assetOnUnload = function(id) {
     if (id === '#app-content') {
-        delete Mautic.assetDropzone;
+        delete Le.assetDropzone;
     }
 };
 
-Mautic.updateRemoteBrowser = function(provider, path) {
+Le.updateRemoteBrowser = function(provider, path) {
     path = typeof path !== 'undefined' ? path : '';
 
     var spinner = mQuery('<i class="fa fa-fw fa-spinner fa-spin"></i>');
@@ -33,7 +33,7 @@ Mautic.updateRemoteBrowser = function(provider, path) {
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function() {
             spinner.remove();
@@ -41,12 +41,12 @@ Mautic.updateRemoteBrowser = function(provider, path) {
     })
 };
 
-Mautic.selectRemoteFile = function(url) {
+Le.selectRemoteFile = function(url) {
     mQuery('#asset_remotePath').val(url);
     mQuery('#RemoteFileModal').modal('hide');
 };
 
-Mautic.changeAssetStorageLocation = function() {
+Le.changeAssetStorageLocation = function() {
     if (mQuery('#asset_storageLocation_0').prop('checked')) {
         mQuery('#storage-local').removeClass('hide');
         mQuery('#storage-remote').addClass('hide');
@@ -58,7 +58,7 @@ Mautic.changeAssetStorageLocation = function() {
     }
 };
 
-Mautic.initializeDropzone = function() {
+Le.initializeDropzone = function() {
     var options = {
         url: mauticAssetUploadEndpoint,
         uploadMultiple: false,
@@ -88,10 +88,10 @@ Mautic.initializeDropzone = function() {
         options.dictInvalidFileType = mauticAssetUploadExtensionError;
     }
 
-    Mautic.assetDropzone = new Dropzone("div#dropzone", options);
+    Le.assetDropzone = new Dropzone("div#dropzone", options);
     var preview = mQuery('.preview div.text-center');
 
-    Mautic.assetDropzone.on("sending", function (file, request, formData) {
+    Le.assetDropzone.on("sending", function (file, request, formData) {
         request.setRequestHeader('X-CSRF-Token', mauticAjaxCsrf);
         formData.append('tempId', mQuery('#asset_tempId').val());
     }).on("addedfile", function (file) {

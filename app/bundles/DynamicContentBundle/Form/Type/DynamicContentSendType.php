@@ -52,7 +52,7 @@ class DynamicContentSendType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.dynamicContent.choose.dynamicContents',
-                    'onchange' => 'Mautic.disabledDynamicContentAction()',
+                    'onchange' => 'Le.disabledDynamicContentAction()',
                 ],
                 'where'       => 'e.isCampaignBased = 1', // do not show dwc with filters
                 'multiple'    => false,
@@ -80,7 +80,7 @@ class DynamicContentSendType extends AbstractType
                     'label' => 'mautic.dynamicContent.send.new.dynamicContent',
                     'attr'  => [
                         'class'   => 'btn btn-primary btn-nospin',
-                        'onclick' => 'Mautic.loadNewWindow({
+                        'onclick' => 'Le.loadNewWindow({
                             "windowUrl": "'.$windowUrl.'"
                         })',
                         'icon' => 'fa fa-plus',
@@ -109,7 +109,7 @@ class DynamicContentSendType extends AbstractType
                     'label' => 'mautic.dynamicContent.send.edit.dynamicContent',
                     'attr'  => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow(Mautic.standardDynamicContentUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
+                        'onclick'  => 'Le.loadNewWindow(Le.standardDynamicContentUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
                         'disabled' => !isset($dynamicContent),
                         'icon'     => 'fa fa-edit',
                     ],

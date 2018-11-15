@@ -1,4 +1,4 @@
-Mautic.prepaidplansOnLoad = function (container) {
+Le.prepaidplansOnLoad = function (container) {
     mQuery('#prepaidplan-panel').on('show.bs.collapse', function (e) {
         var actives = mQuery('#prepaidplan-panel').find('.in, .collapsing');
         actives.each(function (index, element) {
@@ -16,15 +16,15 @@ Mautic.prepaidplansOnLoad = function (container) {
         var planamount = currentLink.attr('data-planamount');
         var plancurrency = currentLink.attr('data-plancurrency');
         var plancredits = currentLink.attr('data-plancredits');
-        Mautic.ajaxActionRequest('subscription:getAvailableCount', {}, function(response) {
-            Mautic.deactivateBackgroup();
+        Le.ajaxActionRequest('subscription:getAvailableCount', {}, function(response) {
+            Le.deactivateBackgroup();
             if (response.success) {
                var availablecredits=response.availablecount;
                var totalcredits=(+plancredits + +availablecredits);
                 mQuery('#sectionTwo #selected-plan').html(planname);
-                mQuery('#sectionTwo #available-credits').html(Mautic.getFormattedNumber(availablecredits));
-                mQuery('#sectionTwo #additional-credits').html(Mautic.getFormattedNumber(plancredits));
-                mQuery('#sectionTwo #total-credits').html(Mautic.getFormattedNumber(totalcredits));
+                mQuery('#sectionTwo #available-credits').html(Le.getFormattedNumber(availablecredits));
+                mQuery('#sectionTwo #additional-credits').html(Le.getFormattedNumber(plancredits));
+                mQuery('#sectionTwo #total-credits').html(Le.getFormattedNumber(totalcredits));
                 var paymentcontinue = mQuery('#sectionTwo #paymentcontinue-btn');
                 paymentcontinue.attr("plankey", plankey);
                 paymentcontinue.attr("planname", planname);
@@ -63,15 +63,15 @@ Mautic.prepaidplansOnLoad = function (container) {
             taxamount= Math.round(taxamount);
             totalamount=(+planamount + +taxamount);
             taxheaderlabel.html("Tax (18%)");
-            taxamountlabel.html(Mautic.getFormattedNumber(taxamount));
+            taxamountlabel.html(Le.getFormattedNumber(taxamount));
         }else{
             taxcurrency.hide();
             totalamount=planamount;
             taxamountlabel.html("NA");
             taxheaderlabel.html("Tax");
         }
-        planpricing.html(Mautic.getFormattedNumber(planamount));
-        totalamountlabel.html(Mautic.getFormattedNumber(totalamount));
+        planpricing.html(Le.getFormattedNumber(planamount));
+        totalamountlabel.html(Le.getFormattedNumber(totalamount));
         taxcurrency.html(plancurrency);
         pricingcurrency.html(plancurrency);
         totalcurrency.html(plancurrency);
@@ -100,14 +100,14 @@ Mautic.prepaidplansOnLoad = function (container) {
         var netamount=makepayment.attr("netamount");
         var taxamount=makepayment.attr("taxamount");
 
-        Mautic.activateBackdrop();
-        Mautic.ajaxActionRequest('subscription:purchaseplan', {plancurrency:plancurrency,planamount:totalamount,planname:planname,plankey:plankey,plancredits:plancredits,beforecredits:beforecredits,aftercredits:aftercredits,taxamount:taxamount,netamount:netamount}, function(response) {
-            Mautic.deactivateBackgroup();
+        Le.activateBackdrop();
+        Le.ajaxActionRequest('subscription:purchaseplan', {plancurrency:plancurrency,planamount:totalamount,planname:planname,plankey:plankey,plancredits:plancredits,beforecredits:beforecredits,aftercredits:aftercredits,taxamount:taxamount,netamount:netamount}, function(response) {
+            Le.deactivateBackgroup();
           if (response.success) {
               if(response.provider == "razorpay"){
-                  Mautic.invokeRazorPay_Prepaid(response,plankey,planname,totalamount);
+                  Le.invokeRazorPay_Prepaid(response,plankey,planname,totalamount);
               }else{
-                  Mautic.invokePaypalPay_Prepaid(response);
+                  Le.invokePaypalPay_Prepaid(response);
               }
            }else{
               alert(response.errormsg);
@@ -117,7 +117,7 @@ Mautic.prepaidplansOnLoad = function (container) {
     });
 }
 
-Mautic.invokeRazorPay_Prepaid = function(response,plankey,planname,totalamount) {
+Le.invokeRazorPay_Prepaid = function(response,plankey,planname,totalamount) {
     var apikey=response.apikey;
     var username=response.username;
     var useremail=response.useremail;
@@ -131,13 +131,13 @@ Mautic.invokeRazorPay_Prepaid = function(response,plankey,planname,totalamount) 
         "description": "Order ID:"+orderid,
         "image": "https://s3.amazonaws.com/leadsroll.com/Razer-Pay-Icon.png",
         "handler": function (response){
-            Mautic.activateBackdrop();
+            Le.activateBackdrop();
             var paymentid=response.razorpay_payment_id;
-            Mautic.ajaxActionRequest('subscription:capturepayment', {paymentid: paymentid,captureamount:captureamount}, function(response) {
+            Le.ajaxActionRequest('subscription:capturepayment', {paymentid: paymentid,captureamount:captureamount}, function(response) {
                 if (response.success) {
-                    Mautic.redirectWithBackdrop(response.redirect);
+                    Le.redirectWithBackdrop(response.redirect);
                 }else{
-                    Mautic.deactivateBackgroup();
+                    Le.deactivateBackgroup();
                     alert(response.errormsg);
                 }
             });
@@ -157,7 +157,7 @@ Mautic.invokeRazorPay_Prepaid = function(response,plankey,planname,totalamount) 
         },
         "modal": {
             "ondismiss":  function (response){
-                Mautic.ajaxActionRequest('subscription:cancelpayment', {orderid: orderid}, function(response) {
+                Le.ajaxActionRequest('subscription:cancelpayment', {orderid: orderid}, function(response) {
                 });
             }
         }
@@ -165,16 +165,16 @@ Mautic.invokeRazorPay_Prepaid = function(response,plankey,planname,totalamount) 
     var rzp1 = new Razorpay(options);
     rzp1.open();
 };
-Mautic.invokePaypalPay_Prepaid = function(response) {
-    Mautic.redirectWithBackdrop(response.approvalurl);
-   // Mautic.openInNewTab(response.approvalurl);
+Le.invokePaypalPay_Prepaid = function(response) {
+    Le.redirectWithBackdrop(response.approvalurl);
+   // Le.openInNewTab(response.approvalurl);
 };
 
-Mautic.getFormattedNumber = function(number) {
+Le.getFormattedNumber = function(number) {
   return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
 };
-Mautic.loadLicenseUsageInfo = function() {
-     Mautic.ajaxActionRequest('subscription:validityinfo', {}, function(response) {
+Le.loadLicenseUsageInfo = function() {
+     Le.ajaxActionRequest('subscription:validityinfo', {}, function(response) {
          if (response.success) {
               if(response.credits != "" && response.validity != "" && response.transport == 'mautic.transport.amazon'){
                  mQuery('.sidebar-credits-info-holder').removeClass('hide');
@@ -197,11 +197,11 @@ Mautic.loadLicenseUsageInfo = function() {
          }
      });
     mQuery('#licenseclosebutton').click(function(e) {
-       Mautic.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
+       Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });
 
-    Mautic.ajaxActionRequest('subscription:licenseusageinfo', {}, function(response) {
+    Le.ajaxActionRequest('subscription:licenseusageinfo', {}, function(response) {
         if (response.success) {
             if(response.info != "" && response.isalertneeded != "true"){
                 mQuery('.license-notifiation').removeClass('hide');
@@ -220,7 +220,7 @@ Mautic.loadLicenseUsageInfo = function() {
         }
     });
 
-    Mautic.ajaxActionRequest('subscription:TrialUpgrade', {}, function(response) {
+    Le.ajaxActionRequest('subscription:TrialUpgrade', {}, function(response) {
         if (response.success && !location.href.match(/(pricing)/i)) {
             mQuery('#upgrade-now').removeClass('hide');
             mQuery('#upgrade-info-trial-info').removeClass('hide');

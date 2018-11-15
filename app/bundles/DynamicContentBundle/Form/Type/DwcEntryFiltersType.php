@@ -59,7 +59,7 @@ class DwcEntryFiltersType extends AbstractType
                 ],
                 'attr' => [
                     'class'    => 'form-control not-chosen glue-select',
-                    'onchange' => 'Mautic.updateFilterPositioning(this)',
+                    'onchange' => 'Le.updateFilterPositioning(this)',
                 ],
             ]
         );

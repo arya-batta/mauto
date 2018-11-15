@@ -52,7 +52,7 @@ mQuery.ajaxSetup({
 
 mQuery( document ).ajaxComplete(function(event, xhr, settings) {
     xhr.always(function(response) {
-        if (response.flashes) Mautic.setFlashes(response.flashes);
+        if (response.flashes) Le.setFlashes(response.flashes);
     });
 });
 
@@ -60,7 +60,7 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
 mQuery( document ).ajaxStop(function(event) {
     // Seems to be stuck
     MauticVars.activeRequests = 0;
-    Mautic.stopPageLoadingBar();
+    Le.stopPageLoadingBar();
 });
 
 mQuery( document ).ready(function() {
@@ -109,7 +109,7 @@ MauticVars.routeInProgress       = '';
 MauticVars.moderatedIntervals    = {};
 MauticVars.intervalsInProgress   = {};
 
-var Mautic = {
+var Le = {
     loadedContent: {},
 
     keyboardShortcutHtml: {},
@@ -125,44 +125,44 @@ var Mautic = {
         Mousetrap.bind(sequence, func);
         var sectionName = section || 'global';
 
-        if (!Mautic.keyboardShortcutHtml.hasOwnProperty(sectionName)) {
-            Mautic.keyboardShortcutHtml[sectionName] = {};
+        if (!Le.keyboardShortcutHtml.hasOwnProperty(sectionName)) {
+            Le.keyboardShortcutHtml[sectionName] = {};
         }
 
-        Mautic.keyboardShortcutHtml[sectionName][sequence] = '<div class="col-xs-6"><mark>' + sequence + '</mark>: ' + description + '</div>';
+        Le.keyboardShortcutHtml[sectionName][sequence] = '<div class="col-xs-6"><mark>' + sequence + '</mark>: ' + description + '</div>';
     },
 
     /**
      * Binds global keyboard shortcuts
      */
     bindGlobalKeyboardShortcuts: function () {
-        Mautic.addKeyboardShortcut('shift+d', 'Load the Dashboard', function (e) {
+        Le.addKeyboardShortcut('shift+d', 'Load the Dashboard', function (e) {
             mQuery('#le_dashboard_index').click();
         });
 
-        Mautic.addKeyboardShortcut('shift+c', 'Load Contacts', function (e) {
+        Le.addKeyboardShortcut('shift+c', 'Load Contacts', function (e) {
             mQuery('#le_contact_index').click();
         });
 
-        Mautic.addKeyboardShortcut('shift+right', 'Activate Right Menu', function (e) {
+        Le.addKeyboardShortcut('shift+right', 'Activate Right Menu', function (e) {
             mQuery(".navbar-right a[data-toggle='sidebar']").click();
         });
 
-        Mautic.addKeyboardShortcut('shift+n', 'Show Notifications', function (e) {
+        Le.addKeyboardShortcut('shift+n', 'Show Notifications', function (e) {
             mQuery('.dropdown-notification').click();
         });
 
-        Mautic.addKeyboardShortcut('shift+s', 'Global Search', function (e) {
+        Le.addKeyboardShortcut('shift+s', 'Global Search', function (e) {
             mQuery('#globalSearchContainer .search-button').click();
         });
 
-        Mautic.addKeyboardShortcut('mod+z', 'Undo change', function (e) {
+        Le.addKeyboardShortcut('mod+z', 'Undo change', function (e) {
             if (mQuery('.btn-undo').length) {
                 mQuery('.btn-undo').click();
             }
         });
 
-        Mautic.addKeyboardShortcut('mod+shift+z', 'Redo change', function (e) {
+        Le.addKeyboardShortcut('mod+shift+z', 'Redo change', function (e) {
             if (mQuery('.btn-redo').length) {
                 mQuery('.btn-redo').click();
             }
@@ -174,16 +174,16 @@ var Mautic = {
             modalWindow.find('.modal-title').html('Keyboard Shortcuts');
             modalWindow.find('.modal-body').html(function () {
                 var modalHtml = '';
-                var sections = Object.keys(Mautic.keyboardShortcutHtml);
+                var sections = Object.keys(Le.keyboardShortcutHtml);
                 sections.forEach(function (section) {
                     var sectionTitle = (section + '').replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
                         return $1.toUpperCase();
                     });
                     modalHtml += '<h4>' + sectionTitle + '</h4><br />';
                     modalHtml += '<div class="row">';
-                    var sequences = Object.keys(Mautic.keyboardShortcutHtml[section]);
+                    var sequences = Object.keys(Le.keyboardShortcutHtml[section]);
                     sequences.forEach(function (sequence) {
-                        modalHtml += Mautic.keyboardShortcutHtml[section][sequence];
+                        modalHtml += Le.keyboardShortcutHtml[section][sequence];
                     });
                     modalHtml += '</div><hr />';
                 });
@@ -230,14 +230,14 @@ var Mautic = {
             autoClose: 10000
         });
 
-        Mautic.browserNotifier = {
+        Le.browserNotifier = {
             isSupported: notify.isSupported,
             permissionLevel: notify.permissionLevel()
         };
 
-        Mautic.browserNotifier.isSupported = notify.isSupported;
-        Mautic.browserNotifier.permissionLevel = notify.permissionLevel();
-        Mautic.browserNotifier.createNotification = function (title, options) {
+        Le.browserNotifier.isSupported = notify.isSupported;
+        Le.browserNotifier.permissionLevel = notify.permissionLevel();
+        Le.browserNotifier.createNotification = function (title, options) {
             return notify.createNotification(title, options);
         }
     },
@@ -328,15 +328,15 @@ var Mautic = {
      */
     activateLabelLoadingIndicator: function (el) {
         var labelSpinner = mQuery("label[for='" + el + "']");
-        Mautic.labelSpinner = mQuery('<i class="fa fa-fw fa-spinner fa-spin"></i>');
-        labelSpinner.append(Mautic.labelSpinner);
+        Le.labelSpinner = mQuery('<i class="fa fa-fw fa-spinner fa-spin"></i>');
+        labelSpinner.append(Le.labelSpinner);
     },
 
     /**
      * Remove the spinner from label
      */
     removeLabelLoadingIndicator: function () {
-        mQuery(Mautic.labelSpinner).remove();
+        mQuery(Le.labelSpinner).remove();
     },
 
     /**
@@ -345,7 +345,7 @@ var Mautic = {
      */
     loadNewWindow: function (options) {
         if (options.windowUrl) {
-            Mautic.startModalLoadingBar();
+            Le.startModalLoadingBar();
 
             setTimeout(function () {
                 var opener = window.open(options.windowUrl, 'mauticpopup', 'height=600,width=1100');
@@ -354,8 +354,8 @@ var Mautic = {
                     alert(mauticLang.popupBlockerMessage);
                 } else {
                     opener.onload = function () {
-                        Mautic.stopModalLoadingBar();
-                        Mautic.stopIconSpinPostEvent();
+                        Le.stopModalLoadingBar();
+                        Le.stopIconSpinPostEvent();
                     };
                 }
             }, 100);
@@ -371,30 +371,30 @@ var Mautic = {
      */
     loadScript: function (url, onLoadCallback, alreadyLoadedCallback) {
         // check if the asset has been loaded
-        if (typeof Mautic.headLoadedAssets == 'undefined') {
-            Mautic.headLoadedAssets = {};
-        } else if (typeof Mautic.headLoadedAssets[url] != 'undefined') {
+        if (typeof Le.headLoadedAssets == 'undefined') {
+            Le.headLoadedAssets = {};
+        } else if (typeof Le.headLoadedAssets[url] != 'undefined') {
             // URL has already been appended to head
 
-            if (alreadyLoadedCallback && typeof Mautic[alreadyLoadedCallback] == 'function') {
-                Mautic[alreadyLoadedCallback]();
+            if (alreadyLoadedCallback && typeof Le[alreadyLoadedCallback] == 'function') {
+                Le[alreadyLoadedCallback]();
             }
 
             return;
         }
 
         // Note that asset has been appended
-        Mautic.headLoadedAssets[url] = 1;
+        Le.headLoadedAssets[url] = 1;
 
         mQuery.getScript(url, function (data, textStatus, jqxhr) {
             if (textStatus == 'success') {
-                if (onLoadCallback && typeof Mautic[onLoadCallback] == 'function') {
-                    Mautic[onLoadCallback]();
-                } else if (typeof Mautic[mauticContent + "OnLoad"] == 'function') {
+                if (onLoadCallback && typeof Le[onLoadCallback] == 'function') {
+                    Le[onLoadCallback]();
+                } else if (typeof Le[mauticContent + "OnLoad"] == 'function') {
                     // Likely a page refresh; execute onLoad content
-                    if (typeof Mautic.loadedContent[mauticContent] == 'undefined') {
-                        Mautic.loadedContent[mauticContent] = true;
-                        Mautic[mauticContent + "OnLoad"]('#app-content', {});
+                    if (typeof Le.loadedContent[mauticContent] == 'undefined') {
+                        Le.loadedContent[mauticContent] = true;
+                        Le[mauticContent + "OnLoad"]('#app-content', {});
                     }
                 }
             }
@@ -408,15 +408,15 @@ var Mautic = {
      */
     loadStylesheet: function (url) {
         // check if the asset has been loaded
-        if (typeof Mautic.headLoadedAssets == 'undefined') {
-            Mautic.headLoadedAssets = {};
-        } else if (typeof Mautic.headLoadedAssets[url] != 'undefined') {
+        if (typeof Le.headLoadedAssets == 'undefined') {
+            Le.headLoadedAssets = {};
+        } else if (typeof Le.headLoadedAssets[url] != 'undefined') {
             // URL has already been appended to head
             return;
         }
 
         // Note that asset has been appended
-        Mautic.headLoadedAssets[url] = 1;
+        Le.headLoadedAssets[url] = 1;
 
         var link = document.createElement("link");
         link.type = "text/css";
@@ -489,7 +489,7 @@ var Mautic = {
      * @param url
      */
     redirectWithBackdrop: function (url) {
-        Mautic.activateBackdrop();
+        Le.activateBackdrop();
         setTimeout(function () {
             window.location = url;
         }, 50);
@@ -534,20 +534,20 @@ var Mautic = {
      * @param action
      */
     executeAction: function (action, callback) {
-        if (typeof Mautic.activeActions == 'undefined') {
-            Mautic.activeActions = {};
-        } else if (typeof Mautic.activeActions[action] != 'undefined') {
+        if (typeof Le.activeActions == 'undefined') {
+            Le.activeActions = {};
+        } else if (typeof Le.activeActions[action] != 'undefined') {
             // Action is currently being executed
             return;
         }
 
-        Mautic.activeActions[action] = true;
+        Le.activeActions[action] = true;
 
         //dismiss modal if activated
-        Mautic.dismissConfirmation();
+        Le.dismissConfirmation();
 
         if (action.indexOf('batchExport') >= 0) {
-            Mautic.initiateFileDownload(action);
+            Le.initiateFileDownload(action);
             return;
         }
 
@@ -557,17 +557,17 @@ var Mautic = {
             type: "POST",
             dataType: "json",
             success: function (response) {
-                Mautic.processPageContent(response);
+                Le.processPageContent(response);
 
                 if (typeof callback == 'function') {
                     callback(response);
                 }
             },
             error: function (request, textStatus, errorThrown) {
-                Mautic.processAjaxError(request, textStatus, errorThrown);
+                Le.processAjaxError(request, textStatus, errorThrown);
             },
             complete: function () {
-                delete Mautic.activeActions[action]
+                delete Le.activeActions[action]
             }
         });
     },
@@ -582,9 +582,9 @@ var Mautic = {
      */
     processAjaxError: function (request, textStatus, errorThrown, mainContent) {
         if (textStatus == 'abort') {
-            Mautic.stopPageLoadingBar();
-            Mautic.stopCanvasLoadingBar();
-            Mautic.stopIconSpinPostEvent();
+            Le.stopPageLoadingBar();
+            Le.stopCanvasLoadingBar();
+            Le.stopIconSpinPostEvent();
             return;
         }
 
@@ -643,9 +643,9 @@ var Mautic = {
             }
         }
 
-        Mautic.stopPageLoadingBar();
-        Mautic.stopCanvasLoadingBar();
-        Mautic.stopIconSpinPostEvent();
+        Le.stopPageLoadingBar();
+        Le.stopCanvasLoadingBar();
+        Le.stopIconSpinPostEvent();
     },
 
     /**
@@ -670,13 +670,13 @@ var Mautic = {
             if (typeof callback == 'function') {
                 callback(params);
             } else {
-                window["Mautic"][callback].apply('window', params);
+                window["Le"][callback].apply('window', params);
             }
         }
 
         //schedule new timeout
         MauticVars.moderatedIntervals[key] = setTimeout(function () {
-            Mautic.setModeratedInterval(key, callback, timeout, params)
+            Le.setModeratedInterval(key, callback, timeout, params)
         }, timeout);
     },
 
@@ -696,7 +696,7 @@ var Mautic = {
      * @param key
      */
     clearModeratedInterval: function (key) {
-        Mautic.moderatedIntervalCallbackIsComplete(key);
+        Le.moderatedIntervalCallbackIsComplete(key);
         clearTimeout(MauticVars.moderatedIntervals[key]);
         delete MauticVars.moderatedIntervals[key];
     },
@@ -727,7 +727,7 @@ var Mautic = {
      */
     setBrowserNotifications: function (notifications) {
         mQuery.each(notifications, function (key, notification) {
-            Mautic.browserNotifier.createNotification(
+            Le.browserNotifier.createNotification(
                 notification.title,
                 {
                     body: notification.message,
@@ -827,23 +827,23 @@ var Mautic = {
      * @param failureClosure
      */
     ajaxActionRequest: function (action, data, successClosure, showLoadingBar, queue) {
-        if (typeof Mautic.ajaxActionXhrQueue == 'undefined') {
-            Mautic.ajaxActionXhrQueue = {};
+        if (typeof Le.ajaxActionXhrQueue == 'undefined') {
+            Le.ajaxActionXhrQueue = {};
         }
-        if (typeof Mautic.ajaxActionXhr == 'undefined') {
-            Mautic.ajaxActionXhr = {};
-        } else if (typeof Mautic.ajaxActionXhr[action] != 'undefined') {
+        if (typeof Le.ajaxActionXhr == 'undefined') {
+            Le.ajaxActionXhr = {};
+        } else if (typeof Le.ajaxActionXhr[action] != 'undefined') {
             if (queue) {
-                if (typeof Mautic.ajaxActionXhrQueue[action] == 'undefined') {
-                    Mautic.ajaxActionXhrQueue[action] = [];
+                if (typeof Le.ajaxActionXhrQueue[action] == 'undefined') {
+                    Le.ajaxActionXhrQueue[action] = [];
                 }
 
-                Mautic.ajaxActionXhrQueue[action].push({action: action, data: data, successClosure: successClosure, showLoadingBar: showLoadingBar});
+                Le.ajaxActionXhrQueue[action].push({action: action, data: data, successClosure: successClosure, showLoadingBar: showLoadingBar});
 
                 return;
             } else {
-                Mautic.removeLabelLoadingIndicator();
-                Mautic.ajaxActionXhr[action].abort();
+                Le.removeLabelLoadingIndicator();
+                Le.ajaxActionXhr[action].abort();
             }
         }
 
@@ -851,7 +851,7 @@ var Mautic = {
             showLoadingBar = false;
         }
 
-        Mautic.ajaxActionXhr[action] = mQuery.ajax({
+        Le.ajaxActionXhr[action] = mQuery.ajax({
             url: mauticAjaxUrl + '?action=' + action,
             type: 'POST',
             data: data,
@@ -862,15 +862,15 @@ var Mautic = {
                 }
             },
             error: function (request, textStatus, errorThrown) {
-                Mautic.processAjaxError(request, textStatus, errorThrown, true);
+                Le.processAjaxError(request, textStatus, errorThrown, true);
             },
             complete: function () {
-                delete Mautic.ajaxActionXhr[action];
+                delete Le.ajaxActionXhr[action];
 
-                if (typeof Mautic.ajaxActionXhrQueue[action] !== 'undefined' && Mautic.ajaxActionXhrQueue[action].length) {
-                    var next = Mautic.ajaxActionXhrQueue[action].shift();
+                if (typeof Le.ajaxActionXhrQueue[action] !== 'undefined' && Le.ajaxActionXhrQueue[action].length) {
+                    var next = Le.ajaxActionXhrQueue[action].shift();
 
-                    Mautic.ajaxActionRequest(next.action, next.data, next.successClosure, next.showLoadingBar, false);
+                    Le.ajaxActionRequest(next.action, next.data, next.successClosure, next.showLoadingBar, false);
                 }
             }
         });
@@ -884,8 +884,8 @@ var Mautic = {
     isLocalStorageSupported: function() {
         try {
             // Check if localStorage is supported
-            localStorage.setItem('mautic.test', 'mautic');
-            localStorage.removeItem('mautic.test');
+            localStorage.setItem('Le.test', 'mautic');
+            localStorage.removeItem('Le.test');
 
             return true;
         } catch (e) {

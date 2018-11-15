@@ -82,7 +82,7 @@ $toolbarButtons = [
         'attr' => [
             'class'       => 'hidden-xs le-btn-default btn btn-default btn-sm btn-nospin',
             'href'        => 'javascript: void(0)',
-            'onclick'     => 'Mautic.toggleLiveLeadListUpdate();',
+            'onclick'     => 'Le.toggleLiveLeadListUpdate();',
             'id'          => 'liveModeButton',
             'data-toggle' => false,
             'data-max-id' => $maxLeadId,
@@ -97,7 +97,7 @@ if ($indexMode == 'list') {
         'attr' => [
             'class'          => 'hidden-xs btn btn-default btn-sm btn-nospin le-btn-default'.(($anonymousShowing) ? ' le-btn-default' : ''),
             'href'           => 'javascript: void(0)',
-            'onclick'        => 'Mautic.toggleAnonymousLeads();',
+            'onclick'        => 'Le.toggleAnonymousLeads();',
             'id'             => 'anonymousLeadButton',
             'data-anonymous' => $view['translator']->trans('le.lead.lead.searchcommand.isanonymous'),
         ],

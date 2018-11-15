@@ -160,7 +160,7 @@ class ConfigTrackingPageType extends AbstractType
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-success',
-                    'onclick' => 'Mautic.testEmailServerConnection()',
+                    'onclick' => 'Le.testEmailServerConnection()',
                 ],
             ]
         );

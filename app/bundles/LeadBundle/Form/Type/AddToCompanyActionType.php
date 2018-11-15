@@ -70,7 +70,7 @@ class AddToCompanyActionType extends AbstractType
             [
                 'attr' => [
                     'class'   => 'btn btn-primary btn-nospin',
-                    'onclick' => 'Mautic.loadNewWindow({"windowUrl": "'.$windowUrl.'"})',
+                    'onclick' => 'Le.loadNewWindow({"windowUrl": "'.$windowUrl.'"})',
                     'icon'    => 'fa fa-plus',
                 ],
                 'label' => 'le.company.new.company',

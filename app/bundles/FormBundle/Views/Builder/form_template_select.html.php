@@ -25,7 +25,7 @@ $view['slots']->set('mauticContent', 'form');
                     <div class="panel-body text-center" style="height: 250px">
                         <i class="fa fa-file-image-o fa-5x text-muted" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                     </div>
-                <a onclick="Mautic.openNewFormAction('<?php echo $newFormURL; ?>');" type="button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
+                <a onclick="Le.openNewFormAction('<?php echo $newFormURL; ?>');" type="button" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" >
                     Select
                 </a>
                 <button type="button" class="select-theme-selected btn btn-default <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled">

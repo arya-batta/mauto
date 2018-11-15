@@ -1,6 +1,6 @@
-Mautic.overflowNavOptions = {
+Le.overflowNavOptions = {
     "parent": ".nav-overflow-tabs",
-    "more": Mautic.translate('mautic.core.tabs.more')
+    "more": Le.translate('mautic.core.tabs.more')
 };
 
 /**
@@ -8,11 +8,11 @@ Mautic.overflowNavOptions = {
  *
  * @param el
  */
-Mautic.toggleTabPublished = function(el) {
+Le.toggleTabPublished = function(el) {
     if (mQuery(el).val() === "1" && mQuery(el).prop('checked')) {
-        Mautic.publishTab(el);
+        Le.publishTab(el);
     } else {
-        Mautic.unpublishTab(el);
+        Le.unpublishTab(el);
     }
 }
 
@@ -21,8 +21,8 @@ Mautic.toggleTabPublished = function(el) {
  *
  * @param tab
  */
-Mautic.publishTab = function(tab) {
-    mQuery('a[href="#'+Mautic.getTabId(tab)+'"]').find('.fa').removeClass('text-muted').addClass('text-success');
+Le.publishTab = function(tab) {
+    mQuery('a[href="#'+Le.getTabId(tab)+'"]').find('.fa').removeClass('text-muted').addClass('text-success');
 };
 
 /**
@@ -30,8 +30,8 @@ Mautic.publishTab = function(tab) {
  *
  * @param tab
  */
-Mautic.unpublishTab = function(tab) {
-    mQuery('a[href="#'+Mautic.getTabId(tab)+'"]').find('.fa').removeClass('text-success').addClass('text-muted');
+Le.unpublishTab = function(tab) {
+    mQuery('a[href="#'+Le.getTabId(tab)+'"]').find('.fa').removeClass('text-success').addClass('text-muted');
 };
 
 /**
@@ -40,7 +40,7 @@ Mautic.unpublishTab = function(tab) {
  * @param tab
  * @returns {*}
  */
-Mautic.getTabId = function(tab) {
+Le.getTabId = function(tab) {
     if (!mQuery(tab).hasClass('tab-pane')) {
         tab = mQuery(tab).closest('.tab-pane');
     }
@@ -53,12 +53,12 @@ Mautic.getTabId = function(tab) {
  * @param tabs
  * @param options
  */
-Mautic.activateOverflowTabs = function(tabs, options) {
+Le.activateOverflowTabs = function(tabs, options) {
     if (!options) {
         options = {};
     }
 
-    var localOptions = Mautic.overflowNavOptions;
+    var localOptions = Le.overflowNavOptions;
 
     mQuery.extend(localOptions, options);
     mQuery(tabs).overflowNavs(localOptions);
@@ -78,7 +78,7 @@ Mautic.activateOverflowTabs = function(tabs, options) {
  * Activate sortable tabs
  * @param tabs
  */
-Mautic.activateSortableTabs = function(tabs) {
+Le.activateSortableTabs = function(tabs) {
     mQuery(tabs).sortable(
         {
             container: 'ul.nav',
@@ -100,10 +100,10 @@ Mautic.activateSortableTabs = function(tabs) {
  *
  * @param container
  */
-Mautic.activateTabDeleteButtons = function(container) {
+Le.activateTabDeleteButtons = function(container) {
     mQuery(container + " .nav.nav-deletable>li a").each(
         function() {
-            Mautic.activateTabDeleteButton(this);
+            Le.activateTabDeleteButton(this);
         }
     );
 };
@@ -113,11 +113,11 @@ Mautic.activateTabDeleteButtons = function(container) {
  *
  * @param tab
  */
-Mautic.activateTabDeleteButton = function(tab) {
+Le.activateTabDeleteButton = function(tab) {
     var btn = mQuery('<span class="btn btn-danger btn-xs btn-delete pull-right hide"><i class="fa fa-times"></i></span>')
         .on('click',
             function() {
-                return Mautic.deleteTab(btn)
+                return Le.deleteTab(btn)
             }
         ).appendTo(tab);
 
@@ -136,7 +136,7 @@ Mautic.activateTabDeleteButton = function(tab) {
  *
  * @param tab
  */
-Mautic.deleteTab = function(deleteBtn) {
+Le.deleteTab = function(deleteBtn) {
     var tab = mQuery(deleteBtn).closest('li');
     var tabContent = mQuery(deleteBtn).closest('a').attr('href');
 
@@ -164,7 +164,7 @@ Mautic.deleteTab = function(deleteBtn) {
                         mQuery('.tab-content .placeholder').removeClass('hide');
                     }
                 } else {
-                    Mautic.stopIconSpinPostEvent();
+                    Le.stopIconSpinPostEvent();
                 }
             }
         });

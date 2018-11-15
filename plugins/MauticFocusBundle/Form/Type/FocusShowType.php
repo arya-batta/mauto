@@ -50,7 +50,7 @@ class FocusShowType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.focus.focusitem.selectitem_descr',
-                    'onchange' => 'Mautic.disabledFocusActions()',
+                    'onchange' => 'Le.disabledFocusActions()',
                 ],
                 'multiple'    => false,
                 'required'    => true,
@@ -79,7 +79,7 @@ class FocusShowType extends AbstractType
                 [
                     'attr' => [
                         'class'   => 'btn btn-primary btn-nospin',
-                        'onclick' => 'Mautic.loadNewWindow({
+                        'onclick' => 'Le.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',
                         'icon' => 'fa fa-plus',
@@ -105,7 +105,7 @@ class FocusShowType extends AbstractType
                 [
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow(Mautic.standardFocusUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
+                        'onclick'  => 'Le.loadNewWindow(Le.standardFocusUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
                         'disabled' => !isset($options['data']['focus']),
                         'icon'     => 'fa fa-edit',
                     ],

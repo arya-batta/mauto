@@ -46,7 +46,7 @@ class CampaignEventFormFieldValueType extends AbstractType
                 'attr'        => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.form.campaign.event.forms_descr',
-                    'onchange' => 'Mautic.updateFormFields(this)',
+                    'onchange' => 'Le.updateFormFields(this)',
                 ],
                 'required'    => true,
                 'constraints' => [
@@ -120,7 +120,7 @@ class CampaignEventFormFieldValueType extends AbstractType
                 [
                     'choices' => $fields,
                     'attr'    => [
-                        'onchange'           => 'Mautic.updateFormFieldValues(this)',
+                        'onchange'           => 'Le.updateFormFieldValues(this)',
                         'data-field-options' => json_encode($options),
                     ],
                 ]

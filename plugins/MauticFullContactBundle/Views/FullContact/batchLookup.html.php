@@ -23,7 +23,7 @@ $attr = $form->vars['attr'];
 
     <script>
         (function () {
-            var ids = Mautic.getCheckedListIds(false, true);
+            var ids = Le.getCheckedListIds(false, true);
             if (mQuery('#fullcontact_batch_lookup_ids').length) {
                 mQuery('#fullcontact_batch_lookup_ids').val(ids);
             }

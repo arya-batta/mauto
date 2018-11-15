@@ -24,7 +24,7 @@
         ]); ?>
         <?php $view['assets']->outputScripts('bodyClose'); ?>
         <script>
-            Mautic.onPageLoad('body');
+            Le.onPageLoad('body');
         </script>
     </body>
 </html>

@@ -74,7 +74,7 @@ if (!empty($utmTags['query'])) {
 
         if (!empty($showMore)) {
             echo '</div>';
-            echo '<a href="javascript:void(0);" class="text-center small center-block mt-xs" onclick="Mautic.toggleTimelineMoreVisiblity(mQuery(this).prev());">';
+            echo '<a href="javascript:void(0);" class="text-center small center-block mt-xs" onclick="Le.toggleTimelineMoreVisiblity(mQuery(this).prev());">';
             echo $view['translator']->trans('mautic.core.more.show');
             echo '</a>';
         }

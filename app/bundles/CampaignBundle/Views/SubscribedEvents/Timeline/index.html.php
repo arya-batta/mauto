@@ -45,12 +45,12 @@ if ($cancelled) {
         </span>
         <?php if ($lead && $view['security']->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getPermissionUser())): ?>
         <span class="form-buttons btn-group btn-group-xs mb-3 hide" role="group" aria-label="Field options">
-            <button type="button" class="btn btn-default btn-edit btn-nospin" onclick="Mautic.updateScheduledCampaignEvent(<?php echo $item['event_id']; ?>, <?php echo $lead->getId(); ?>)" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.campaign.event.reschedule'); ?>">
+            <button type="button" class="btn btn-default btn-edit btn-nospin" onclick="Le.updateScheduledCampaignEvent(<?php echo $item['event_id']; ?>, <?php echo $lead->getId(); ?>)" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.campaign.event.reschedule'); ?>">
                 <i class="fa fa-clock-o text-primary"></i>
             </button>
             <button type="button" class="btn btn-default btn-nospin"<?php if ($cancelled) {
     echo ' disabled';
-} ?> onclick="Mautic.cancelScheduledCampaignEvent(<?php echo $item['event_id']; ?>, <?php echo $lead->getId(); ?>)" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.campaign.event.cancel'); ?>">
+} ?> onclick="Le.cancelScheduledCampaignEvent(<?php echo $item['event_id']; ?>, <?php echo $lead->getId(); ?>)" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.campaign.event.cancel'); ?>">
                 <i class="fa fa-times text-danger"></i>
             </button>
         </span>

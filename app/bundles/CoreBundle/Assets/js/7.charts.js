@@ -12,9 +12,9 @@ if (typeof Chart != 'undefined') {
  *
  * @param mQuery|string scope
  */
-Mautic.renderCharts = function(scope) {
+Le.renderCharts = function(scope) {
     var charts = [];
-    if (!Mautic.chartObjects) Mautic.chartObjects = [];
+    if (!Le.chartObjects) Le.chartObjects = [];
 
     if (mQuery.type(scope) === 'string') {
         charts = mQuery(scope).find('canvas.chart');
@@ -29,17 +29,17 @@ Mautic.renderCharts = function(scope) {
             canvas = mQuery(canvas);
             if (!canvas.hasClass('chart-rendered')) {
                 if (canvas.hasClass('line-chart')) {
-                    Mautic.renderLineChart(canvas)
+                    Le.renderLineChart(canvas)
                 } else if (canvas.hasClass('pie-chart')) {
-                    Mautic.renderPieChart(canvas)
+                    Le.renderPieChart(canvas)
                 } else if (canvas.hasClass('bar-chart')) {
-                    Mautic.renderBarChart(canvas)
+                    Le.renderBarChart(canvas)
                 } else if (canvas.hasClass('liefechart-bar-chart')) {
-                    Mautic.renderLifechartBarChart(canvas)
+                    Le.renderLifechartBarChart(canvas)
                 } else if (canvas.hasClass('simple-bar-chart')) {
-                    Mautic.renderSimpleBarChart(canvas)
+                    Le.renderSimpleBarChart(canvas)
                 } else if (canvas.hasClass('horizontal-bar-chart')) {
-                    Mautic.renderHorizontalBarChart(canvas)
+                    Le.renderHorizontalBarChart(canvas)
                 }
             }
             canvas.addClass('chart-rendered');
@@ -52,7 +52,7 @@ Mautic.renderCharts = function(scope) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderLineChart = function(canvas) {
+Le.renderLineChart = function(canvas) {
     var data = mQuery.parseJSON(canvas.text());
     if (!data.labels.length || !data.datasets.length) return;
     var chart = new Chart(canvas, {
@@ -81,7 +81,7 @@ Mautic.renderLineChart = function(canvas) {
             }
         }
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -89,7 +89,7 @@ Mautic.renderLineChart = function(canvas) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderPieChart = function(canvas) {
+Le.renderPieChart = function(canvas) {
     var data = mQuery.parseJSON(canvas.text());
     var options = {borderWidth: 1};
     var disableLegend = canvas.attr('data-disable-legend');
@@ -98,13 +98,13 @@ Mautic.renderPieChart = function(canvas) {
             display: false
         }
     }
-    // data = Mautic.emulateNoDataForPieChart(data);
+    // data = Le.emulateNoDataForPieChart(data);
     var chart = new Chart(canvas, {
         type: 'pie',
         data: data,
         options: options
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -112,7 +112,7 @@ Mautic.renderPieChart = function(canvas) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderBarChart = function(canvas) {
+Le.renderBarChart = function(canvas) {
     var data = mQuery.parseJSON(canvas.text());
     var chart = new Chart(canvas, {
         type: 'bar',
@@ -125,7 +125,7 @@ Mautic.renderBarChart = function(canvas) {
             }
         }
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -133,7 +133,7 @@ Mautic.renderBarChart = function(canvas) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderLifechartBarChart = function(canvas) {
+Le.renderLifechartBarChart = function(canvas) {
     var canvasWidth = mQuery(canvas).parent().width();
     var barWidth    = (canvasWidth < 300) ? 5 : 25;
     var data = mQuery.parseJSON(canvas.text());
@@ -150,7 +150,7 @@ Mautic.renderLifechartBarChart = function(canvas) {
             }
         }
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -158,7 +158,7 @@ Mautic.renderLifechartBarChart = function(canvas) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderSimpleBarChart = function(canvas) {
+Le.renderSimpleBarChart = function(canvas) {
     var data = mQuery.parseJSON(canvas.text());
     var chart = new Chart(canvas, {
         type: 'bar',
@@ -183,7 +183,7 @@ Mautic.renderSimpleBarChart = function(canvas) {
             }
         }
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -191,7 +191,7 @@ Mautic.renderSimpleBarChart = function(canvas) {
  *
  * @param mQuery element canvas
  */
-Mautic.renderHorizontalBarChart = function(canvas) {
+Le.renderHorizontalBarChart = function(canvas) {
     var data = mQuery.parseJSON(canvas.text());
     var chart = new Chart(canvas, {
         type: 'horizontalBar',
@@ -233,7 +233,7 @@ Mautic.renderHorizontalBarChart = function(canvas) {
             }
         }
     });
-    Mautic.chartObjects.push(chart);
+    Le.chartObjects.push(chart);
 };
 
 /**
@@ -241,7 +241,7 @@ Mautic.renderHorizontalBarChart = function(canvas) {
  *
  * @param mQuery element scope
  */
-Mautic.renderMaps = function(scope) {
+Le.renderMaps = function(scope) {
     var maps = [];
 
     if (mQuery.type(scope) === 'string') {
@@ -254,7 +254,7 @@ Mautic.renderMaps = function(scope) {
 
     if (maps.length) {
         maps.each(function(index, element) {
-            Mautic.renderMap(mQuery(element));
+            Le.renderMap(mQuery(element));
         });
     }
 };
@@ -264,10 +264,10 @@ Mautic.renderMaps = function(scope) {
  * @param wrapper
  * @returns {*}
  */
-Mautic.renderMap = function(wrapper) {
+Le.renderMap = function(wrapper) {
     // Map render causes a JS error on FF when the element is hidden
     if (wrapper.is(':visible')) {
-        if (!Mautic.mapObjects) Mautic.mapObjects = [];
+        if (!Le.mapObjects) Le.mapObjects = [];
         var data = wrapper.data('map-data');
         if (typeof data === 'undefined' || !data.length) {
             try {
@@ -337,7 +337,7 @@ Mautic.renderMap = function(wrapper) {
             }
         });
         wrapper.addClass('map-rendered');
-        Mautic.mapObjects.push(wrapper);
+        Le.mapObjects.push(wrapper);
         return wrapper;
     }
 };
@@ -345,7 +345,7 @@ Mautic.renderMap = function(wrapper) {
 /**
  * Destroy a jVector map
  */
-Mautic.destroyMap = function(wrapper) {
+Le.destroyMap = function(wrapper) {
     if (wrapper.hasClass('map-rendered')) {
         var map = wrapper.vectorMap('get', 'mapObject');
         map.removeAllMarkers();
@@ -358,7 +358,7 @@ Mautic.destroyMap = function(wrapper) {
 /**
  * Initialize graph date range selectors
  */
-Mautic.initDateRangePicker = function (fromId, toId) {
+Le.initDateRangePicker = function (fromId, toId) {
     var dateFrom = mQuery(fromId);
     var dateTo = mQuery(toId);
 
@@ -394,7 +394,7 @@ Mautic.initDateRangePicker = function (fromId, toId) {
  * @param query
  * @param callback
  */
-Mautic.getChartData = function(element, action, query, callback) {
+Le.getChartData = function(element, action, query, callback) {
     var element = mQuery(element);
     var wrapper = element.closest('ul');
     var button  = mQuery('#time-scopes .button-label');
@@ -413,16 +413,16 @@ Mautic.getChartData = function(element, action, query, callback) {
         dataType: "json",
         success: function (response) {
             if (response.success) {
-                Mautic.stopPageLoadingBar();
+                Le.stopPageLoadingBar();
                 if (typeof callback == 'function') {
                     callback(response);
-                } else if(typeof window["Mautic"][callback] !== 'undefined') {
-                    window["Mautic"][callback].apply('window', [response]);
+                } else if(typeof window["Le"][callback] !== 'undefined') {
+                    window["Le"][callback].apply('window', [response]);
                 }
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         }
     });
 };
@@ -433,7 +433,7 @@ Mautic.getChartData = function(element, action, query, callback) {
  *
  * @param data
  */
-Mautic.emulateNoDataForPieChart = function (data) {
+Le.emulateNoDataForPieChart = function (data) {
     var dataEmpty = true;
     mQuery.each(data, function (i, part) {
         if (part.value) {

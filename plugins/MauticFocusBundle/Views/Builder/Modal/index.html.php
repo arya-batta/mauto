@@ -23,7 +23,7 @@ $animate   = (!empty($preview) && !empty($props['animate'])) ? ' mf-animate' : '
 } ?><?php echo $animate; ?>">
         <div class="mf-<?php echo $style; ?>-container">
             <div class="mf-<?php echo $style; ?>-close">
-                <a href="javascript:void(0)"<?php if (!empty($preview)): echo ' onclick="Mautic.closeFocusModal(\''.$style.'\')"'; endif; ?>>x</a>
+                <a href="javascript:void(0)"<?php if (!empty($preview)): echo ' onclick="Le.closeFocusModal(\''.$style.'\')"'; endif; ?>>x</a>
             </div>
             <div class="mf-content">
                 <?php if (in_array($htmlMode, ['editor', 'html'])): ?>

@@ -1,4 +1,4 @@
-Mautic.getNetworkFormAction = function(networkType) {
+Le.getNetworkFormAction = function(networkType) {
     // removes errors when network type properties has changed
     if (networkType && mQuery(networkType).val() && mQuery(networkType).closest('.form-group').hasClass('has-error')) {
         mQuery(networkType).closest('.form-group').removeClass('has-error');
@@ -7,7 +7,7 @@ Mautic.getNetworkFormAction = function(networkType) {
         }
     }
 
-    Mautic.activateLabelLoadingIndicator('monitoring_networkType');
+    Le.activateLabelLoadingIndicator('monitoring_networkType');
 
     var query = "action=plugin:mauticSocial:getNetworkForm&networkType=" + mQuery(networkType).val();
 
@@ -23,16 +23,16 @@ Mautic.getNetworkFormAction = function(networkType) {
 
                 // sends markup through core js parsers
                 if (response.html != '') {
-                    Mautic.onPageLoad('#properties-container', response);
+                    Le.onPageLoad('#properties-container', response);
                 }
             }
 
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function() {
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         }
     });
 };
@@ -40,16 +40,16 @@ Mautic.getNetworkFormAction = function(networkType) {
 /*
  * watches the compose field and updates various parts of the modal and text area
  */
-Mautic.composeSocialWatcher = function() {
+Le.composeSocialWatcher = function() {
     // the text area
     var input = mQuery('textarea.tweet-message');
 
     // on load
-    Mautic.updateCharacterCount();
+    Le.updateCharacterCount();
 
     // watch the text area keyup
     input.on('keyup', function(){
-        Mautic.updateCharacterCount();
+        Le.updateCharacterCount();
     });
 
     var pageId  = mQuery('select.tweet-insert-page');
@@ -57,22 +57,22 @@ Mautic.composeSocialWatcher = function() {
     var handle  = mQuery('button.tweet-insert-handle');
 
     pageId.on('change', function() {
-        Mautic.insertSocialLink(pageId.val(), 'pagelink', false);
+        Le.insertSocialLink(pageId.val(), 'pagelink', false);
     });
 
     assetId.on('change', function() {
-        Mautic.insertSocialLink(assetId.val(), 'assetlink', false);
+        Le.insertSocialLink(assetId.val(), 'assetlink', false);
     });
 
     handle.on('click', function() {
-       Mautic.insertSocialLink(false, 'twitter_handle', true);
+       Le.insertSocialLink(false, 'twitter_handle', true);
     });
 };
 
 /*
  * gets the count of the text area and returns (140 - count)
  */
-Mautic.getCharacterCount = function() {
+Le.getCharacterCount = function() {
     var tweetLenght = 280;
 
     var currentLength = mQuery('textarea#twitter_tweet_text');
@@ -83,8 +83,8 @@ Mautic.getCharacterCount = function() {
 /*
  * sets the content of the character count span
  */
-Mautic.updateCharacterCount = function() {
-    var tweetCount = Mautic.getCharacterCount();
+Le.updateCharacterCount = function() {
+    var tweetCount = Le.getCharacterCount();
 
     var countContainer = mQuery('#character-count span');
 
@@ -98,7 +98,7 @@ Mautic.updateCharacterCount = function() {
  * @type   the type of link to insert
  * @skipId if the id is blank and this is true it'll still insert the link
  */
-Mautic.insertSocialLink = function(id, type, skipId) {
+Le.insertSocialLink = function(id, type, skipId) {
 
     // if there is no id and skipID is false then exit
     if (! id && ! skipId) {
@@ -118,5 +118,5 @@ Mautic.insertSocialLink = function(id, type, skipId) {
     var newVal = (currentVal) ? currentVal + ' ' + link : link;
     textarea.val(newVal);
 
-    Mautic.updateCharacterCount();
+    Le.updateCharacterCount();
 };

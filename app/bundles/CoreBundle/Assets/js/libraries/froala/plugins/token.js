@@ -47,7 +47,7 @@
 
         function _init() {
             var method = location.href.match(/(email|dwc|config|leads|broadcast)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
-            Mautic.getTokens(method, function(tokens) {
+            Le.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
                     if (k.match(/assetlink=/i) && v.match(/a:/)){
                         delete tokens[k];

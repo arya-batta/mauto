@@ -49,7 +49,7 @@ class DynamicContentDecisionType extends DynamicContentSendType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.dynamicContent.choose.dynamicContents',
-                    'onchange' => 'Mautic.disabledDynamicContentAction()',
+                    'onchange' => 'Le.disabledDynamicContentAction()',
                 ],
                 'where'       => 'e.isCampaignBased = 1', // do not show dwc with filters
                 'multiple'    => false,

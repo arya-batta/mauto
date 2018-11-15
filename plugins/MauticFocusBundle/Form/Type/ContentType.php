@@ -31,7 +31,7 @@ class ContentType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'onblur'       => 'Mautic.focusUpdatePreview()',
+                    'onblur'       => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
                 'required' => false,
@@ -47,7 +47,7 @@ class ContentType extends AbstractType
                 'attr'       => [
                     'class'        => 'form-control',
                     'placeholder'  => 'mautic.core.optional',
-                    'onblur'       => 'Mautic.focusUpdatePreview()',
+                    'onblur'       => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
                 'required' => false,
@@ -62,7 +62,7 @@ class ContentType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'onblur'       => 'Mautic.focusUpdatePreview()',
+                    'onblur'       => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
             ]
@@ -76,7 +76,7 @@ class ContentType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'onblur'       => 'Mautic.focusUpdatePreview()',
+                    'onblur'       => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
             ]
@@ -89,7 +89,7 @@ class ContentType extends AbstractType
                 'label' => 'mautic.focus.form.link_new_window',
                 'data'  => (isset($options['link_new_window'])) ? $options['link_new_window'] : true,
                 'attr'  => [
-                    'onchange'     => 'Mautic.focusUpdatePreview()',
+                    'onchange'     => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
             ]
@@ -120,7 +120,7 @@ class ContentType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control',
-                    'onchange'     => 'Mautic.focusUpdatePreview()',
+                    'onchange'     => 'Le.focusUpdatePreview()',
                     'data-show-on' => '{"focus_html_mode_0":"checked"}',
                 ],
                 'required'    => false,

@@ -227,7 +227,7 @@ class ConfigMonitoredMailboxesType extends AbstractType
                 'required' => false,
                 'attr'     => [
                     'class'   => 'btn btn-success',
-                    'onclick' => 'Mautic.testMonitoredEmailServerConnection(\''.$options['mailbox'].'\')',
+                    'onclick' => 'Le.testMonitoredEmailServerConnection(\''.$options['mailbox'].'\')',
                 ],
             ]
         );

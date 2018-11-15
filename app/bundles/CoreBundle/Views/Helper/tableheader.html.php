@@ -68,7 +68,7 @@ $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
 <th<?php echo (!empty($class)) ? ' class="'.$class.'"' : ''; ?> >
     <div class="thead-filter">
         <?php if (!empty($orderBy)): ?>
-        <a <?php echo (!empty($tooltip)) ? 'data-placement="top" title="" data-toggle="tooltip" data-original-title="'.$view['translator']->trans($tooltip).'"' : ''; ?> href="javascript: void(0);"   onclick="Mautic.reorderTableData('<?php echo $sessionVar; ?>','<?php echo $orderBy; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
+        <a <?php echo (!empty($tooltip)) ? 'data-placement="top" title="" data-toggle="tooltip" data-original-title="'.$view['translator']->trans($tooltip).'"' : ''; ?> href="javascript: void(0);"   onclick="Le.reorderTableData('<?php echo $sessionVar; ?>','<?php echo $orderBy; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
             <span><?php echo $view['translator']->trans($text); ?></span>
             <?php if ($order == $orderBy): ?>
             <i class="fa fa-sort-amount-<?php echo strtolower($dir); ?>"></i>
@@ -82,10 +82,10 @@ $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
         <?php $value = (isset($filters[$filterBy])) ? $filters[$filterBy]['value'] : ''; ?>
         <div class="input-group input-group-sm">
             <?php $toggle = (!empty($dataToggle)) ? ' data-toggle="'.$dataToggle.'"' : ''; ?>
-            <input type="text" style="width:80%;" placeholder="<?php echo $view['translator']->trans('mautic.core.form.thead.filter'); ?>" autocomplete="false" class="form-control input-sm" value="<?php echo $view->escape($value); ?>"<?php echo $toggle; ?> onchange="Mautic.filterTableData('<?php echo $sessionVar; ?>','<?php echo $filterBy; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" />
+            <input type="text" style="width:80%;" placeholder="<?php echo $view['translator']->trans('mautic.core.form.thead.filter'); ?>" autocomplete="false" class="form-control input-sm" value="<?php echo $view->escape($value); ?>"<?php echo $toggle; ?> onchange="Le.filterTableData('<?php echo $sessionVar; ?>','<?php echo $filterBy; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" />
             <?php $inputClass = (!empty($value)) ? 'fa-times' : 'fa-filter'; ?>
             <span class="input-group-btn" style="float:left;">
-                <button class="btn btn-info btn-xs" onclick="Mautic.filterTableData('<?php echo $sessionVar; ?>','<?php echo $filterBy; ?>',<?php echo (!empty($value)) ? "''," : 'mQuery(this).parent().prev().val(),'; ?>'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
+                <button class="btn btn-info btn-xs" onclick="Le.filterTableData('<?php echo $sessionVar; ?>','<?php echo $filterBy; ?>',<?php echo (!empty($value)) ? "''," : 'mQuery(this).parent().prev().val(),'; ?>'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
                     <i class="fa fa-fw fa-lg <?php echo $inputClass; ?>" style="margin-left: -5px;"></i>
                 </button>
             </span>

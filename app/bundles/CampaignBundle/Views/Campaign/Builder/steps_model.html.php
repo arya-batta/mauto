@@ -15,7 +15,7 @@
     <div class="modal-dialog le-gradient-align" style="width:770px;" >
         <div class="modal-content le-modal-content">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeCampaignTypeModel()" class="close" ><span aria-hidden="true">&times;</span></a>
+                <a href="javascript: void(0);" onclick="Le.closeCampaignTypeModel()" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title" style="color: #000;">
                     <?php echo $view['translator']->trans('le.campaignevent.type.header'); ?>
                 </h4>
@@ -26,7 +26,7 @@
               <div class="row">
                   <div class="col-md-4">
                       <div class="panel panel-success campaign-event-type-anchor">
-                          <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('action')">
+                          <a href="javascript: void(0);" onclick="Le.selectCampaignType('action')">
                               <div>
                                   <div class="campaign-event-type-header">
                                       <h3><?php echo $view['translator']->trans('mautic.campaign.event.action.header'); ?></h3>
@@ -45,7 +45,7 @@
                   </div>
                   <div class="col-md-4">
                       <div class="panel panel-success campaign-event-type-anchor">
-                          <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('decision')">
+                          <a href="javascript: void(0);" onclick="Le.selectCampaignType('decision')">
                               <div>
                                   <div class="campaign-event-type-header">
                                       <h3><?php echo $view['translator']->trans('mautic.campaign.event.decision.header'); ?></h3>
@@ -64,7 +64,7 @@
                   </div>
                   <div class="col-md-4">
                       <div class="panel panel-success campaign-event-type-anchor">
-                          <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('goal')">
+                          <a href="javascript: void(0);" onclick="Le.selectCampaignType('goal')">
                               <div>
                                   <div class="campaign-event-type-header">
                                       <h3><?php echo $view['translator']->trans('le.campaign.event.goal.header'); ?></h3>
@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="panel panel-success campaign-event-type-anchor">
-                            <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('fork')">
+                            <a href="javascript: void(0);" onclick="Le.selectCampaignType('fork')">
                                 <div>
                                     <div class="campaign-event-type-header">
                                         <h3><?php echo $view['translator']->trans('le.campaign.event.fork.header'); ?></h3>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="panel panel-success campaign-event-type-anchor">
-                            <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('delay')">
+                            <a href="javascript: void(0);" onclick="Le.selectCampaignType('delay')">
                                 <div>
                                     <div class="campaign-event-type-header">
                                         <h3><?php echo $view['translator']->trans('le.campaign.event.delay.header'); ?></h3>
@@ -123,7 +123,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="panel panel-success campaign-event-type-anchor">
-                            <a href="javascript: void(0);" onclick="Mautic.selectCampaignType('exit')">
+                            <a href="javascript: void(0);" onclick="Le.selectCampaignType('exit')">
                                 <div>
                                     <div class="campaign-event-type-header">
                                         <h3><?php echo $view['translator']->trans('le.campaign.event.exit.header'); ?></h3>

@@ -37,10 +37,10 @@ $isAdmin=$view['security']->isAdmin();
                                 <label class="control-label" style="color:#fff;">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-no">
-                                            <input type="radio" onchange="Mautic.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                            <input type="radio" onchange=Le.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
                                         </label>
                                         <label class="btn btn-default le-btn-published le-btn-small active btn-yes btn-success">
-                                            <input type="radio" onchange="Mautic.showStatistics(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                            <input type="radio" onchange="Le.showStatistics(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
                                         </label>
                                     </div>
                                 </div>
@@ -51,10 +51,10 @@ $isAdmin=$view['security']->isAdmin();
                                 <label class="control-label" style="color:#fff;">Start Workflow</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-no <?php echo !$entity->isPublished() ? 'active ' : ''?>">
-                                            <input type="radio" onchange="Mautic.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                            <input type="radio" onchange="Le.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
                                         </label>
                                         <label class="btn btn-default le-btn-published le-btn-small <?php echo $entity->isPublished() ? 'active ' : ''?> btn-success btn-yes">
-                                            <input type="radio" onchange="Mautic.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                            <input type="radio" onchange="Le.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
                                         </label>
                                     </div>
                                 </div>
@@ -81,17 +81,17 @@ $isAdmin=$view['security']->isAdmin();
         <div class="campaign-custom-button-div">
             <?php echo $view['form']->end($form); ?>
         <!--<button type="button" class="btn btn-primary btn-close-campaign-builder campaign-custom-close-button"
-                onclick="Mautic.closeCampaignBuilder();">
+                onclick="Le.closeCampaignBuilder();">
             <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
         </button>-->
-            <button type="button" class="btn btn-primary btn-save-builder campaign-custom-save-button" onclick="Mautic.saveCampaignFromBuilder();">
+            <button type="button" class="btn btn-primary btn-save-builder campaign-custom-save-button" onclick="Le.saveCampaignFromBuilder();">
                 <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
-            <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Mautic.applyCampaignFromBuilder();">
+            <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Le.applyCampaignFromBuilder();">
                 <?php echo $view['translator']->trans('le.email.beeeditor.save'); ?>
             </button>
 <!--            <div class="custom-fields">-->
-<!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Mautic.publishCampaign();">-->
+<!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Le.publishCampaign();">-->
 <!--                --><?php //echo $view['translator']->trans($entity->isPublished() ? 'Stop Workflow' : 'Start Workflow');?>
 <!--            </button>-->
                 <div id="flash">
@@ -134,7 +134,7 @@ echo $view->render('MauticCampaignBundle:Campaign\Builder:steps_model.html.php',
 <script>
 
     <?php if (!empty($canvasSettings)): ?>
-    Mautic.campaignBuilderCanvasSettings =
+    Le.campaignBuilderCanvasSettings =
     <?php echo $canvasSettings ?>;//json_encode($canvasSettings, JSON_PRETTY_PRINT);
     <?php endif; ?>
     <?php
@@ -173,12 +173,12 @@ foreach ($acions as $key => $value) {
     }
 
 ?>
-    Mautic.campaignBuilderStatistics =
+    Le.campaignBuilderStatistics =
     <?php echo json_encode($statistics, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderEventOptions =
+    Le.campaignBuilderEventOptions =
     <?php echo json_encode($eventoptions, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderSourceOptions =
+    Le.campaignBuilderSourceOptions =
     <?php echo json_encode($sourceoptions, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderGroupOptions =
+    Le.campaignBuilderGroupOptions =
     <?php echo json_encode($campaigngroupoptions, JSON_PRETTY_PRINT); ?>;
 </script>

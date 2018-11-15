@@ -33,7 +33,7 @@ class FocusPropertiesType extends AbstractType
                         'label' => 'mautic.focus.form.bar.allow_hide',
                         'data'  => (isset($options['data']['allow_hide'])) ? $options['data']['allow_hide'] : true,
                         'attr'  => [
-                            'onchange' => 'Mautic.focusUpdatePreview()',
+                            'onchange' => 'Le.focusUpdatePreview()',
                         ],
                     ]
                 );
@@ -45,7 +45,7 @@ class FocusPropertiesType extends AbstractType
                         'label' => 'mautic.focus.form.bar.push_page',
                         'attr'  => [
                             'tooltip'  => 'mautic.focus.form.bar.push_page.tooltip',
-                            'onchange' => 'Mautic.focusUpdatePreview()',
+                            'onchange' => 'Le.focusUpdatePreview()',
                         ],
                         'data' => (isset($options['data']['push_page'])) ? $options['data']['push_page'] : true,
                     ]
@@ -58,7 +58,7 @@ class FocusPropertiesType extends AbstractType
                         'label' => 'mautic.focus.form.bar.sticky',
                         'attr'  => [
                             'tooltip'  => 'mautic.focus.form.bar.sticky.tooltip',
-                            'onchange' => 'Mautic.focusUpdatePreview()',
+                            'onchange' => 'Le.focusUpdatePreview()',
                         ],
                         'data' => (isset($options['data']['sticky'])) ? $options['data']['sticky'] : true,
                     ]
@@ -76,7 +76,7 @@ class FocusPropertiesType extends AbstractType
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class'    => 'form-control',
-                            'onchange' => 'Mautic.focusUpdatePreview()',
+                            'onchange' => 'Le.focusUpdatePreview()',
                         ],
                         'required'    => false,
                         'empty_value' => false,
@@ -117,7 +117,7 @@ class FocusPropertiesType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'    => 'form-control',
-                        'onchange' => 'Mautic.focusUpdatePreview()',
+                        'onchange' => 'Le.focusUpdatePreview()',
                     ],
                     'required'    => false,
                     'empty_value' => false,

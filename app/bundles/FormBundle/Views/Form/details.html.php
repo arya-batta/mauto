@@ -320,7 +320,7 @@ $isadmin     =$view['security']->isAdmin();
                             'le_form_generateform',
                             ['id' => $activeForm->getId()]
                         ); ?>"&gt;&lt;/script&gt;</textarea>
-                    <a id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea');">
+                    <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
                         <i aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(
                             'leadsengage.subs.clicktocopy'
@@ -329,11 +329,11 @@ $isadmin     =$view['security']->isAdmin();
                     <h3 class="pt-lg"><?php echo $view['translator']->trans(
                             'mautic.form.form.help.automaticcopy.iframe'
                         ); ?></h3>
-                    <textarea id="iframe_textarea" class="form-control" readonly onclick="Mautic.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
+                    <textarea id="iframe_textarea" class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
                             'le_form_preview',
                             ['id' => $activeForm->getId()]
                         ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
-                    <a id="iframe_textarea_atag" onclick="Mautic.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>
+                    <a id="iframe_textarea_atag" onclick="Le.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(
                             'leadsengage.subs.clicktocopy'
                         ); ?></a>

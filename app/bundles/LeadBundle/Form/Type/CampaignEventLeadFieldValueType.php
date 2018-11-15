@@ -72,7 +72,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                 'attr'        => [
                     'class'    => 'form-control',
                     'tooltip'  => 'le.lead.campaign.event.field_descr',
-                    'onchange' => 'Mautic.updateLeadFieldValues(this)',
+                    'onchange' => 'Le.updateLeadFieldValues(this)',
                 ],
                 'required'    => true,
                 'constraints' => [
@@ -173,7 +173,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class'                => 'form-control le-input',
-                            'onchange'             => 'Mautic.updateLeadFieldValueOptions(this)',
+                            'onchange'             => 'Le.updateLeadFieldValueOptions(this)',
                             'data-toggle'          => $fieldType,
                             'data-onload-callback' => 'updateLeadFieldValueOptions',
                         ],
@@ -220,7 +220,7 @@ class CampaignEventLeadFieldValueType extends AbstractType
                     'label'      => 'le.lead.lead.submitaction.operator',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'onchange' => 'Mautic.updateLeadFieldValues(this)',
+                        'onchange' => 'Le.updateLeadFieldValues(this)',
                     ],
                     'choices' => $this->leadModel->getOperatorsForFieldType(null == $fieldType ? 'default' : $fieldType, ['date']),
                 ]

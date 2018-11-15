@@ -13,7 +13,7 @@ $view['slots']->set('mauticContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
 
 $carderror = $view['translator']->trans('le.payment.failure.oncarderror');
-$carderror = str_replace('|URL|', 'Mautic.openPluginModel("card-error-info")', $carderror);
+$carderror = str_replace('|URL|', 'Le.openPluginModel("card-error-info")', $carderror);
 $hidenoti  = '';
 if ($lastpayment == null) {
     $hidenoti = 'hide';

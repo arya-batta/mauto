@@ -1,35 +1,35 @@
 //PageBundle
-Mautic.pageOnLoad = function (container, response) {
+Le.pageOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'page.page');
+        Le.activateSearchAutocomplete('list-search', 'page.page');
     }
 
     if (mQuery(container + ' #page_template').length) {
-        Mautic.toggleBuilderButton(mQuery('#page_template').val() == '');
+        Le.toggleBuilderButton(mQuery('#page_template').val() == '');
 
         //Handle autohide of "Redirect URL" field if "Redirect Type" is none
         if (mQuery(container + ' select[name="page[redirectType]"]').length) {
             //Auto-hide on page loading
-            Mautic.autoHideRedirectUrl(container);
+            Le.autoHideRedirectUrl(container);
 
             //Auto-hide on select changing
             mQuery(container + ' select[name="page[redirectType]"]').chosen().change(function(){
-                Mautic.autoHideRedirectUrl(container);
+                Le.autoHideRedirectUrl(container);
             });
         }
 
         // Preload tokens for code mode builder
-        //  Mautic.getTokens(Mautic.getBuilderTokensMethod(), function(){});
-        // Mautic.initSelectTheme(mQuery('#page_template'));
-        Mautic.initSelectBeeTemplate(mQuery('#page_template'),'page');
+        //  Le.getTokens(Le.getBuilderTokensMethod(), function(){});
+        // Le.initSelectTheme(mQuery('#page_template'));
+        Le.initSelectBeeTemplate(mQuery('#page_template'),'page');
     }
 
     // Open the builder directly when saved from the builder
     if (response && response.inBuilder) {
-        Mautic.launchBuilder('page');
-        Mautic.processBuilderErrors(response);
+        Le.launchBuilder('page');
+        Le.processBuilderErrors(response);
     }
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 
     mQuery('.next-tab, .prevv-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
@@ -84,13 +84,13 @@ Mautic.pageOnLoad = function (container, response) {
             if (url.indexOf('pages/new') == -1) {
                 if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
                     mQuery('#builder_btn').removeClass('hide');
-                    Mautic.showpreviewoftemplate(mQuery('textarea.builder-html').val());
+                    Le.showpreviewoftemplate(mQuery('textarea.builder-html').val());
                 }
             }
         }
 
     });
-    Mautic.filterBeeTemplates= function () {
+    Le.filterBeeTemplates= function () {
         d = document.getElementById("filters").value;
         if(d == "all"){
             mQuery('.bee-template').removeClass('hide');
@@ -101,7 +101,7 @@ Mautic.pageOnLoad = function (container, response) {
     };
 };
 
-Mautic.getPageAbTestWinnerForm = function(abKey) {
+Le.getPageAbTestWinnerForm = function(abKey) {
     if (abKey && mQuery(abKey).val() && mQuery(abKey).closest('.form-group').hasClass('has-error')) {
         mQuery(abKey).closest('.form-group').removeClass('has-error');
         if (mQuery(abKey).next().hasClass('help-block')) {
@@ -109,7 +109,7 @@ Mautic.getPageAbTestWinnerForm = function(abKey) {
         }
     }
 
-    Mautic.activateLabelLoadingIndicator('page_variantSettings_winnerCriteria');
+    Le.activateLabelLoadingIndicator('page_variantSettings_winnerCriteria');
 
     var pageId = mQuery('#page_sessionId').val();
     var query  = "action=page:getAbTestForm&abKey=" + mQuery(abKey).val() + "&pageId=" + pageId;
@@ -128,24 +128,24 @@ Mautic.getPageAbTestWinnerForm = function(abKey) {
                 }
 
                 if (response.html != '') {
-                    Mautic.onPageLoad('#page_variantSettings_properties', response);
+                    Le.onPageLoad('#page_variantSettings_properties', response);
                 }
             }
 
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
 
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
             spinner.remove();
         },
         complete: function () {
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         }
     });
 };
 
-Mautic.autoHideRedirectUrl = function(container) {
+Le.autoHideRedirectUrl = function(container) {
     var select = mQuery(container + ' select[name="page[redirectType]"]');
     var input = mQuery(container + ' input[name="page[redirectUrl]"]');
 
@@ -157,16 +157,16 @@ Mautic.autoHideRedirectUrl = function(container) {
         input.closest('.form-group').show();
     }
 };
-Mautic.openPluginModel = function(id){
+Le.openPluginModel = function(id){
     mQuery('#'+id).removeClass('hide').addClass('fade in');
 }
-Mautic.closePluginModel = function(id){
+Le.closePluginModel = function(id){
     mQuery('#'+id).removeClass('fade in').addClass('hide');
 }
-Mautic.openFormCreator = function(){
-    Mautic.ajaxActionRequest('page:getFormsList',{}, function(response) {
+Le.openFormCreator = function(){
+    Le.ajaxActionRequest('page:getFormsList',{}, function(response) {
         var formlist = response.forms;
-        var tborder= "<select border='1' id='page_formSelect' class='form-control category-select le-input' onclick='Mautic.onFormSelectinPage(this.options[this.selectedIndex].value);'>";
+        var tborder= "<select border='1' id='page_formSelect' class='form-control category-select le-input' onclick='Le.onFormSelectinPage(this.options[this.selectedIndex].value);'>";
         var i = 0;
         var firstValue = "";
         for (var key in formlist) {
@@ -182,14 +182,14 @@ Mautic.openFormCreator = function(){
         tborder+= "</select>";
 
         mQuery('.insert-tokens').html(tborder);
-        Mautic.onFormSelectinPage(firstValue);
+        Le.onFormSelectinPage(firstValue);
 
     });
     mQuery('#bee-plugin-model').removeClass('fade in').addClass('hide');
     mQuery('#bee-plugin-form-creator').removeClass('hide').addClass('fade in');
 
 }
-Mautic.onFormSelectinPage = function(ele){
+Le.onFormSelectinPage = function(ele){
     var base_url = window.location.origin+mauticBaseUrl;
     //var jsurl = base_url+"form/generate.js?="+ele;
     //var jsInput = '<script type="text/javascript" src="'+jsurl+'"></script>';
@@ -200,11 +200,11 @@ Mautic.onFormSelectinPage = function(ele){
     }
     mQuery('#iframe_textarea_page').val(iframeinput);
 }
-Mautic.openVideoEmbedModel = function(){
+Le.openVideoEmbedModel = function(){
     mQuery('#bee-plugin-model').removeClass('fade in').addClass('hide');
     mQuery('#bee-plugin-video-embed').removeClass('hide').addClass('fade in');
 }
-Mautic.ConvertURLtoEmbed = function (){
+Le.ConvertURLtoEmbed = function (){
     var url = mQuery('#youtube_url').val();
     if(mQuery('#youtube_url').val() == ""){
         mQuery('#youtube_u').removeClass('has-success has-error').addClass('has-error');
@@ -220,7 +220,7 @@ Mautic.ConvertURLtoEmbed = function (){
         mQuery('#iframe_textarea_videopage').val(iframeMarkup);
     }
 }
-Mautic.getYoutubeVideoID = function(url){
+Le.getYoutubeVideoID = function(url){
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
 

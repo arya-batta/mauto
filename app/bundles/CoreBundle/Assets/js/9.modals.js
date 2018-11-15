@@ -1,6 +1,6 @@
-Mautic.modalContentXhr = {};
-Mautic.activeModal = '';
-Mautic.backgroundedModal = '';
+Le.modalContentXhr = {};
+Le.activeModal = '';
+Le.backgroundedModal = '';
 
 /**
  * Load a modal with ajax content
@@ -10,7 +10,7 @@ Mautic.backgroundedModal = '';
  *
  * @returns {boolean}
  */
-Mautic.ajaxifyModal = function (el, event) {
+Le.ajaxifyModal = function (el, event) {
     if (mQuery(el).hasClass('disabled')) {
         return false;
     }
@@ -36,7 +36,7 @@ Mautic.ajaxifyModal = function (el, event) {
         // Reset
         mQuery(el).removeAttr('data-prevent-dismiss');
     }
-    Mautic.loadAjaxModal(target, route, method, header, footer, preventDismissal);
+    Le.loadAjaxModal(target, route, method, header, footer, preventDismissal);
 };
 
 /**
@@ -47,7 +47,7 @@ Mautic.ajaxifyModal = function (el, event) {
  * @param header
  * @param footer
  */
-Mautic.loadAjaxModal = function (target, route, method, header, footer, preventDismissal) {
+Le.loadAjaxModal = function (target, route, method, header, footer, preventDismissal) {
     if (mQuery(target + ' .loading-placeholder').length) {
         mQuery(target + ' .loading-placeholder').removeClass('hide');
         mQuery(target + ' .modal-body-content').addClass('hide');
@@ -74,23 +74,23 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
 
     //clean slate upon close
     mQuery(target).on('hidden.bs.modal', function () {
-        if (typeof Mautic.modalContentXhr[target] != 'undefined') {
-            Mautic.modalContentXhr[target].abort();
-            delete Mautic.modalContentXhr[target];
+        if (typeof Le.modalContentXhr[target] != 'undefined') {
+            Le.modalContentXhr[target].abort();
+            delete Le.modalContentXhr[target];
         }
 
         mQuery('body').removeClass('noscroll');
 
         var response = {};
-        if (Mautic.modalMauticContent) {
-            response.mauticContent = Mautic.modalMauticContent;
-            delete Mautic.modalMauticContent;
+        if (Le.modalMauticContent) {
+            response.mauticContent = Le.modalMauticContent;
+            delete Le.modalMauticContent;
         }
 
         //unload
-        Mautic.onPageUnload(target, response);
+        Le.onPageUnload(target, response);
 
-        Mautic.resetModal(target);
+        Le.resetModal(target);
     });
 
     // Check if dismissal is allowed
@@ -116,35 +116,35 @@ Mautic.loadAjaxModal = function (target, route, method, header, footer, preventD
         }
     }
 
-    Mautic.showModal(target);
+    Le.showModal(target);
 
-    if (typeof Mautic.modalContentXhr == 'undefined') {
-        Mautic.modalContentXhr = {};
-    } else if (typeof Mautic.modalContentXhr[target] != 'undefined') {
-        Mautic.modalContentXhr[target].abort();
+    if (typeof Le.modalContentXhr == 'undefined') {
+        Le.modalContentXhr = {};
+    } else if (typeof Le.modalContentXhr[target] != 'undefined') {
+        Le.modalContentXhr[target].abort();
     }
-    Mautic.modalContentXhr[target] = mQuery.ajax({
+    Le.modalContentXhr[target] = mQuery.ajax({
         url: route,
         type: method,
         dataType: "json",
         success: function (response) {
             if (response) {
-                Mautic.processModalContent(response, target);
+                Le.processModalContent(response, target);
             }
-            Mautic.stopIconSpinPostEvent();
+            Le.stopIconSpinPostEvent();
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
-            Mautic.stopIconSpinPostEvent();
+            Le.processAjaxError(request, textStatus, errorThrown);
+            Le.stopIconSpinPostEvent();
         },
         complete: function () {
-            Mautic.stopModalLoadingBar(target);
-            delete Mautic.modalContentXhr[target];
+            Le.stopModalLoadingBar(target);
+            delete Le.modalContentXhr[target];
         }
     });
 };
 
-Mautic.updateAjaxModal = function (target, route, method) {
+Le.updateAjaxModal = function (target, route, method) {
     if (mQuery(target + ' .loading-placeholder').length) {
         mQuery(target + ' .loading-placeholder').removeClass('hide');
         mQuery(target + ' .modal-body-content').addClass('hide');
@@ -153,7 +153,7 @@ Mautic.updateAjaxModal = function (target, route, method) {
             mQuery(target + ' .modal-loading-bar').addClass('active');
         }
     }
-    Mautic.modalContentXhr[target] = mQuery.ajax({
+    Le.modalContentXhr[target] = mQuery.ajax({
         url: route,
         type: method,
         dataType: "json",
@@ -168,17 +168,17 @@ Mautic.updateAjaxModal = function (target, route, method) {
                     mQuery(target + ' .modal-body').html(response.newContent);
                 }
                 //activate content specific stuff
-                Mautic.onPageLoad(target, response, true);
+                Le.onPageLoad(target, response, true);
             }
-            Mautic.stopIconSpinPostEvent();
+            Le.stopIconSpinPostEvent();
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
-            Mautic.stopIconSpinPostEvent();
+            Le.processAjaxError(request, textStatus, errorThrown);
+            Le.stopIconSpinPostEvent();
         },
         complete: function () {
-            Mautic.stopModalLoadingBar(target);
-            delete Mautic.modalContentXhr[target];
+            Le.stopModalLoadingBar(target);
+            delete Le.modalContentXhr[target];
         }
     });
 };
@@ -186,7 +186,7 @@ Mautic.updateAjaxModal = function (target, route, method) {
  * Clears content from a shared modal
  * @param target
  */
-Mautic.resetModal = function (target) {
+Le.resetModal = function (target) {
     if (mQuery(target).hasClass('in')) {
         return;
     }
@@ -212,8 +212,8 @@ Mautic.resetModal = function (target) {
  * @param response
  * @param target
  */
-Mautic.processModalContent = function (response, target) {
-    Mautic.stopIconSpinPostEvent();
+Le.processModalContent = function (response, target) {
+    Le.stopIconSpinPostEvent();
     if (response.error) {
         if (response.errors) {
             alert(response.errors[0].message);
@@ -231,18 +231,18 @@ Mautic.processModalContent = function (response, target) {
         mQuery('body').removeClass('modal-open');
         mQuery('.modal-backdrop').remove();
         //assume the content is to refresh main app
-        Mautic.processPageContent(response);
+        Le.processPageContent(response);
     } else {
         if (response.notifications) {
-            Mautic.setNotifications(response.notifications);
+            Le.setNotifications(response.notifications);
         }
 
         if (response.browserNotifications) {
-            Mautic.setBrowserNotifications(response.browserNotifications);
+            Le.setBrowserNotifications(response.browserNotifications);
         }
 
         if (response.callback) {
-            window["Mautic"][response.callback].apply('window', [response]);
+            window["Le"][response.callback].apply('window', [response]);
             return;
         }
 
@@ -250,7 +250,7 @@ Mautic.processModalContent = function (response, target) {
             mQuery(response.target).html(response.newContent);
 
             //activate content specific stuff
-            Mautic.onPageLoad(response.target, response, true);
+            Le.onPageLoad(response.target, response, true);
         } else if (response.newContent) {
             //load the content
             if (mQuery(target + ' .loading-placeholder').length) {
@@ -263,18 +263,18 @@ Mautic.processModalContent = function (response, target) {
         }
 
         //activate content specific stuff
-        Mautic.onPageLoad(target, response, true);
-        Mautic.modalMauticContent = false;
+        Le.onPageLoad(target, response, true);
+        Le.modalMauticContent = false;
         if (response.closeModal) {
             mQuery('body').removeClass('noscroll');
             mQuery(target).modal('hide');
 
             if (!response.updateModalContent) {
-                Mautic.onPageUnload(target, response);
+                Le.onPageUnload(target, response);
             }
         } else {
             // Note for the hidden event
-            Mautic.modalMauticContent = response.mauticContent ? response.mauticContent : false;
+            Le.modalMauticContent = response.mauticContent ? response.mauticContent : false;
         }
     }
 };
@@ -282,7 +282,7 @@ Mautic.processModalContent = function (response, target) {
 /**
  * Display confirmation modal
  */
-Mautic.showConfirmation = function (el) {
+Le.showConfirmation = function (el) {
     var precheck = mQuery(el).data('precheck');
 
     if (precheck) {
@@ -290,8 +290,8 @@ Mautic.showConfirmation = function (el) {
             if (!precheck()) {
                 return;
             }
-        } else if (typeof Mautic[precheck] == 'function') {
-            if (!Mautic[precheck]()) {
+        } else if (typeof Le[precheck] == 'function') {
+            if (!Le[precheck]()) {
                 return;
             }
         }
@@ -315,8 +315,8 @@ Mautic.showConfirmation = function (el) {
         .css("marginRight", "5px")
         .css("marginLeft", "5px")
         .click(function () {
-            if (typeof Mautic[confirmCallback] === "function") {
-                window["Mautic"][confirmCallback].apply('window', [confirmAction, el]);
+            if (typeof Le[confirmCallback] === "function") {
+                window["Le"][confirmCallback].apply('window', [confirmAction, el]);
             }
         })
         .html(confirmText);
@@ -324,10 +324,10 @@ Mautic.showConfirmation = function (el) {
         var cancelButton = mQuery('<button type="button" />')
             .addClass("btn btn-primary")
             .click(function () {
-                if (cancelCallback && typeof Mautic[cancelCallback] === "function") {
-                    window["Mautic"][cancelCallback].apply('window', []);
+                if (cancelCallback && typeof Le[cancelCallback] === "function") {
+                    window["Le"][cancelCallback].apply('window', []);
                 } else {
-                    Mautic.dismissConfirmation();
+                    Le.dismissConfirmation();
                 }
             })
             .html(cancelText);
@@ -355,7 +355,7 @@ Mautic.showConfirmation = function (el) {
 /**
  * Dismiss confirmation modal
  */
-Mautic.dismissConfirmation = function () {
+Le.dismissConfirmation = function () {
     if (mQuery('.confirmation-modal').length) {
         mQuery('.confirmation-modal').modal('hide');
     }
@@ -367,10 +367,10 @@ Mautic.dismissConfirmation = function () {
  * @param el
  * @param url
  */
-Mautic.closeModalAndRedirect = function(el, url) {
-    Mautic.startModalLoadingBar(el);
+Le.closeModalAndRedirect = function(el, url) {
+    Le.startModalLoadingBar(el);
 
-    Mautic.loadContent(url);
+    Le.loadContent(url);
 
     mQuery('body').removeClass('noscroll');
 };
@@ -380,7 +380,7 @@ Mautic.closeModalAndRedirect = function(el, url) {
  *
  * @param url
  */
-Mautic.RedirectToGivenURL = function(url) {
+Le.RedirectToGivenURL = function(url) {
 
     window.location.href = url;
 
@@ -393,7 +393,7 @@ Mautic.RedirectToGivenURL = function(url) {
  * @param url
  * @param header
  */
-Mautic.loadAjaxModalBySelectValue = function (el, value, route, header) {
+Le.loadAjaxModalBySelectValue = function (el, value, route, header) {
     var selectVal = mQuery(el).val();
     var hasValue = (selectVal == value);
     if (!hasValue && mQuery.isArray(selectVal)) {
@@ -404,7 +404,7 @@ Mautic.loadAjaxModalBySelectValue = function (el, value, route, header) {
         route = route + (route.indexOf('?') > -1 ? '&' : '?') + 'modal=1&contentOnly=1&updateSelect=' + mQuery(el).attr('id');
         mQuery(el).find('option[value="' + value + '"]').prop('selected', false);
         mQuery(el).trigger("chosen:updated");
-        Mautic.loadAjaxModal('#MauticSharedModal', route, 'get', header);
+        Le.loadAjaxModal('#MauticSharedModal', route, 'get', header);
     }
 };
 
@@ -413,7 +413,7 @@ Mautic.loadAjaxModalBySelectValue = function (el, value, route, header) {
  *
  * @param target
  */
-Mautic.showModal = function(target) {
+Le.showModal = function(target) {
     if (mQuery('.modal.in').length) {
         // another modal is activated so let's stack
 

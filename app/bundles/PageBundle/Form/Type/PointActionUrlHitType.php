@@ -93,7 +93,7 @@ class PointActionUrlHitType extends AbstractType
                     'attr'       => [
                         'class'   => 'form-control le-input',
                         'tooltip' => 'le.page.point.action.form.returns.within.descr',
-                        'onBlur'  => 'Mautic.EnablesOption(this.id)',
+                        'onBlur'  => 'Le.EnablesOption(this.id)',
                     ],
                     'auto_initialize' => false,
                 ])
@@ -114,7 +114,7 @@ class PointActionUrlHitType extends AbstractType
                     'attr'       => [
                         'class'   => 'form-control le-input',
                         'tooltip' => 'le.page.point.action.form.returns.after.descr',
-                        'onBlur'  => 'Mautic.EnablesOption(this.id)',
+                        'onBlur'  => 'Le.EnablesOption(this.id)',
                     ],
                     'auto_initialize' => false,
                 ])

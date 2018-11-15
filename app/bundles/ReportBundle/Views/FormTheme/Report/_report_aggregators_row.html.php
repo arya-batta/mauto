@@ -8,6 +8,6 @@ $feedbackClass = (!empty($hasErrors)) ? ' has-error' : '';
         <?php echo $view['form']->errors($form) ?>
     </div>
     <div class="col-xs-12">
-        <button id="aggregators-button" disabled type="button" class="btn btn-primary" onclick="Mautic.addReportRow('report_aggregators');"><?php echo $view['translator']->trans('mautic.report.report.label.function'); ?></button>
+        <button id="aggregators-button" disabled type="button" class="btn btn-primary" onclick="Le.addReportRow('report_aggregators');"><?php echo $view['translator']->trans('mautic.report.report.label.function'); ?></button>
     </div>
 </div>

@@ -9,7 +9,7 @@ MauticVars.lastGlobalSearchStr  = "";
  *
  * @param string idInputSelector
  */
-Mautic.isNewEntity = function(idInputSelector) {
+Le.isNewEntity = function(idInputSelector) {
     id = mQuery(idInputSelector);
     if (id.length) {
         return id.val().match("^new_");
@@ -22,7 +22,7 @@ Mautic.isNewEntity = function(idInputSelector) {
  *
  * @returns {*}
  */
-Mautic.getEntityId = function() {
+Le.getEntityId = function() {
     return (mQuery('input#entityId').length) ? mQuery('input#entityId').val() : 0;
 };
 
@@ -33,7 +33,7 @@ Mautic.getEntityId = function() {
  * @param tmpl
  * @param target
  */
-Mautic.reorderTableData = function (name, orderby, tmpl, target, baseUrl) {
+Le.reorderTableData = function (name, orderby, tmpl, target, baseUrl) {
     if (typeof baseUrl == 'undefined') {
         baseUrl = window.location.pathname;
     }
@@ -43,7 +43,7 @@ Mautic.reorderTableData = function (name, orderby, tmpl, target, baseUrl) {
     }
 
     var route = baseUrl + "&name=" + name + "&orderby=" + encodeURIComponent(orderby);
-    Mautic.loadContent(route, '', 'POST', target);
+    Le.loadContent(route, '', 'POST', target);
 };
 
 /**
@@ -54,7 +54,7 @@ Mautic.reorderTableData = function (name, orderby, tmpl, target, baseUrl) {
  * @param tmpl
  * @param target
  */
-Mautic.filterTableData = function (name, filterby, filterValue, tmpl, target, baseUrl) {
+Le.filterTableData = function (name, filterby, filterValue, tmpl, target, baseUrl) {
     if (typeof baseUrl == 'undefined') {
         baseUrl = window.location.pathname;
     }
@@ -64,7 +64,7 @@ Mautic.filterTableData = function (name, filterby, filterValue, tmpl, target, ba
     }
 
     var route = baseUrl + "&name=" + name + "&filterby=" + encodeURIComponent(filterby) + "&value=" + encodeURIComponent(filterValue)
-    Mautic.loadContent(route, '', 'POST', target);
+    Le.loadContent(route, '', 'POST', target);
 };
 
 /**
@@ -74,7 +74,7 @@ Mautic.filterTableData = function (name, filterby, filterValue, tmpl, target, ba
  * @param tmpl
  * @param target
  */
-Mautic.limitTableData = function (name, limit, tmpl, target, baseUrl) {
+Le.limitTableData = function (name, limit, tmpl, target, baseUrl) {
     if (typeof baseUrl == 'undefined') {
         baseUrl = window.location.pathname;
     }
@@ -84,14 +84,14 @@ Mautic.limitTableData = function (name, limit, tmpl, target, baseUrl) {
     }
 
     var route = baseUrl + "&name=" + name + "&limit=" + limit;
-    Mautic.loadContent(route, '', 'POST', target);
+    Le.loadContent(route, '', 'POST', target);
 };
 
 
 /**
  * Filters list based on search contents
  */
-Mautic.filterList = function (e, elId, route, target, liveCacheVar, action, overlayEnabled, overlayTarget) {
+Le.filterList = function (e, elId, route, target, liveCacheVar, action, overlayEnabled, overlayTarget) {
     if (typeof liveCacheVar == 'undefined') {
         liveCacheVar = "liveCache";
     }
@@ -119,7 +119,7 @@ Mautic.filterList = function (e, elId, route, target, liveCacheVar, action, over
             response.overlayEnabled = overlayEnabled;
             response.overlayTarget = overlayTarget;
 
-            Mautic.processPageContent(response);
+            Le.processPageContent(response);
         } else {
             var searchName = el.attr('name');
             if (searchName == 'undefined') {
@@ -133,14 +133,14 @@ if(!value.startsWith('"')){
         value=value+'"';
     }
 }
-            if (typeof Mautic.liveSearchXhr !== 'undefined') {
+            if (typeof Le.liveSearchXhr !== 'undefined') {
                 //ensure current search request is aborted
-                Mautic['liveSearchXhr'].abort();
+                L['liveSearchXhr'].abort();
             }
 
             var btn = "button[data-livesearch-parent='" + elId + "']";
-            if (mQuery(btn).length && !mQuery(btn).hasClass('btn-nospin') && !Mautic.filterButtonClicked) {
-                Mautic.startIconSpinOnEvent(btn);
+            if (mQuery(btn).length && !mQuery(btn).hasClass('btn-nospin') && !Le.filterButtonClicked) {
+                Le.startIconSpinOnEvent(btn);
             }
 
             var tmpl = mQuery('#' + elId).data('tmpl');
@@ -157,11 +157,11 @@ if(!value.startsWith('"')){
 
             if (inModal) {
                 var modalTarget = '#' + mQuery(modalParent).attr('id');
-                Mautic.startModalLoadingBar(modalTarget);
+                Le.startModalLoadingBar(modalTarget);
             }
             var showLoading = (inModal) ? false : true;
 
-            Mautic.liveSearchXhr = mQuery.ajax({
+            Le.liveSearchXhr = mQuery.ajax({
                 showLoadingBar: showLoading,
                 url: route,
                 type: "GET",
@@ -189,15 +189,15 @@ if(!value.startsWith('"')){
                     }
 
                     if (inModal) {
-                        Mautic.processModalContent(response);
-                        Mautic.stopModalLoadingBar(modalTarget);
+                        Le.processModalContent(response);
+                        Le.stopModalLoadingBar(modalTarget);
                     } else {
-                        Mautic.processPageContent(response);
-                        Mautic.stopPageLoadingBar();
+                        Le.processPageContent(response);
+                        Le.stopPageLoadingBar();
                     }
                 },
                 error: function (request, textStatus, errorThrown) {
-                    Mautic.processAjaxError(request, textStatus, errorThrown);
+                    Le.processAjaxError(request, textStatus, errorThrown);
 
                     //update the buttons class and action
                     if (mQuery(btn).length) {
@@ -211,8 +211,8 @@ if(!value.startsWith('"')){
                     }
                 },
                 complete: function() {
-                    delete Mautic.liveSearchXhr;
-                    delete Mautic.filterButtonClicked;
+                    delete Le.liveSearchXhr;
+                    delete Le.filterButtonClicked;
                 }
             });
         }
@@ -223,7 +223,7 @@ if(!value.startsWith('"')){
  * Apply filter
  * @param list
  */
-Mautic.setSearchFilter = function (el, searchId, string) {
+Le.setSearchFilter = function (el, searchId, string) {
     if (typeof searchId == 'undefined')
         searchId = '#list-search';
     else
@@ -243,7 +243,7 @@ Mautic.setSearchFilter = function (el, searchId, string) {
     var e = mQuery.Event("keypress", {which: 13});
     e.data = {};
     e.data.livesearch = true;
-    Mautic.filterList(
+    Le.filterList(
         e,
         'list-search',
         mQuery(searchId).attr('data-action'),
@@ -258,7 +258,7 @@ Mautic.setSearchFilter = function (el, searchId, string) {
  * @param model
  * @param id
  */
-Mautic.unlockEntity = function (model, id, parameter) {
+Le.unlockEntity = function (model, id, parameter) {
     mQuery.ajax({
         url: mauticAjaxUrl,
         type: "POST",
@@ -274,7 +274,7 @@ Mautic.unlockEntity = function (model, id, parameter) {
  * @param model
  * @param id
  */
-Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
+Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     event.preventDefault();
 
     var wasPublished = mQuery(el).hasClass('fa-toggle-on');
@@ -287,7 +287,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     MauticVars.liveCache = new Array();
 
     if (backdrop) {
-        Mautic.activateBackdrop();
+        Le.activateBackdrop();
     }
 
     if (extra) {
@@ -309,7 +309,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
                 }
                 alert("You don't have rights to "+alertmsg+" it");
             }else if (response.reload) {
-                Mautic.redirectWithBackdrop(window.location);
+                Le.redirectWithBackdrop(window.location);
             } else if (response.statusHtml) {
                 mQuery(el).replaceWith(response.statusHtml);
                 mQuery(el).tooltip({html: true, container: 'body'});
@@ -319,7 +319,7 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
             var addClass = (wasPublished) ? 'fa-toggle-on' : 'fa-toggle-off';
             mQuery(el).removeClass('fa-spin fa-spinner').addClass(addClass);
 
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         }
     });
 };
@@ -329,15 +329,15 @@ Mautic.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
  *
  * @param action
  */
-Mautic.executeBatchAction = function (action, el) {
-    if (typeof Mautic.activeActions == 'undefined') {
-        Mautic.activeActions = {};
-    } else if (typeof Mautic.activeActions[action] != 'undefined') {
+Le.executeBatchAction = function (action, el) {
+    if (typeof Le.activeActions == 'undefined') {
+        Le.activeActions = {};
+    } else if (typeof Le.activeActions[action] != 'undefined') {
         // Action is currently being executed
         return;
     }
 
-    var items = Mautic.getCheckedListIds(el, true);
+    var items = Le.getCheckedListIds(el, true);
 
     var queryGlue = action.indexOf('?') >= 0 ? '&' : '?';
 
@@ -345,7 +345,7 @@ Mautic.executeBatchAction = function (action, el) {
     var action = action + queryGlue + 'ids=' + items;
 
     // Hand over processing to the executeAction method
-    Mautic.executeAction(action);
+    Le.executeAction(action);
 };
 
 /**
@@ -354,7 +354,7 @@ Mautic.executeBatchAction = function (action, el) {
  * @param container
  * @returns int
  */
-Mautic.batchActionPrecheck = function(container) {
+Le.batchActionPrecheck = function(container) {
     if (typeof container == 'undefined') {
         container = '';
     }
@@ -369,7 +369,7 @@ Mautic.batchActionPrecheck = function(container) {
  * @param stringify
  * @returns {*}
  */
-Mautic.getCheckedListIds = function(el, stringify) {
+Le.getCheckedListIds = function(el, stringify) {
     var checkboxes = 'input[class=list-checkbox]:checked';
 
     // Check for a target

@@ -11,7 +11,7 @@ var FroalaEditorForFileManagerCurrentImage = null;
 function SetUrl(url, width, height, alt) {
     if (!FroalaEditorForFileManager) {
         // This is not called from Froala, let's handle it elsewhere:
-        Mautic.setFileUrl(url, width, height, alt);
+        Le.setFileUrl(url, width, height, alt);
         return;
     }
     if (typeof FroalaEditorForFileManagerCurrentImage !== 'undefined' && 
@@ -78,7 +78,7 @@ function SetUrl(url, width, height, alt) {
     function show () {
       FroalaEditorForFileManagerCurrentImage = editor.image.get();
       FroalaEditorForFileManager = editor;
-      Mautic.openMediaManager();
+        Le.openMediaManager();
     }
 
     return {

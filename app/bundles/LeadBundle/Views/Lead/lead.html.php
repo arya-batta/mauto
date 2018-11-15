@@ -362,7 +362,7 @@ $view['slots']->set(
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                                         'le.lead.remove_dnc_status'
                                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
 
@@ -372,7 +372,7 @@ $view['slots']->set(
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                                         'le.lead.remove_dnc_status'
                                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                                             <?php elseif ($doNotContact['spam']): ?>
@@ -381,7 +381,7 @@ $view['slots']->set(
                                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                                         'le.lead.remove_dnc_status'
                                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                                             <?php endif; ?>
@@ -667,7 +667,7 @@ $view['slots']->set(
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                         'le.lead.remove_dnc_status'
                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
 
@@ -677,7 +677,7 @@ $view['slots']->set(
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                         'le.lead.remove_dnc_status'
                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                             <?php elseif ($doNotContact['spam']): ?>
@@ -686,7 +686,7 @@ $view['slots']->set(
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                         'le.lead.remove_dnc_status'
                                     ); ?>">
-                                    <i class="fa fa-times has-click-event" onclick="Mautic.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
+                                    <i class="fa fa-times has-click-event" onclick="Le.removeBounceStatus(this, <?php echo $doNotContact['id']; ?>);"></i>
                                 </span>
                             </span>
                             <?php endif; ?>
@@ -810,7 +810,7 @@ $view['slots']->set(
                     'le.lead.lead.companies'); ?></div>
            <?php foreach ($companies as $key => $company): ?>
                 <h5 class="pull-left mt-xs mr-xs"><span class="label label-success" >
-                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('le.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('le_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
+                       <i id="company-<?php echo $company['id']; ?>" class="fa fa-check <?php if ($company['is_primary'] == 1): ?>primary<?php endif?>" onclick="Le.setAsPrimaryCompany(<?php echo $company['id']?>, <?php echo $lead->getId()?>);" title="<?php echo $view['translator']->trans('le.lead.company.set.primary'); ?>"></i> <a href="<?php echo $view['router']->path('le_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;"><?php echo $company['companyname']; ?></a>
                     </span>
                 </h5>
             <?php endforeach; ?>

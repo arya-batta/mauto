@@ -72,7 +72,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                                         'btnClass'        => 'btn btn-primary send-btn'.((!$pending) ? ' disabled' : ''),
                                     ]);
                                     ?>-->
-                                    <a class="<?php echo $btnclass; ?>" style="margin-left:2px;border-radius: 3px;" href="javascript: void(0);" onclick="Mautic.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
+                                    <a class="<?php echo $btnclass; ?>" style="margin-left:2px;border-radius: 3px;" href="javascript: void(0);" onclick="Le.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
                                     <a class="btn" style="margin-left:1px;text-decoration: underline;color:#00bfff;font-weight:500;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                                 </span>
 
@@ -117,7 +117,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                                     //    'btnClass'        => 'btn btn-primary send-btn'.((!$pending) ? ' disabled' : ''),
                                     //]);
                                     ?>
-                                    <a class="<?php echo $btnclass; ?>" style="margin-left:2px;border-radius: 3px;" href="javascript: void(0);" onclick="Mautic.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
+                                    <a class="<?php echo $btnclass; ?>" style="margin-left:2px;border-radius: 3px;" href="javascript: void(0);" onclick="Le.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
                                     <a class="btn btn-primary" style="margin-left:2px;border-radius: 3px;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                                 </span>
 

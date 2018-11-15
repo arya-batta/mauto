@@ -18,7 +18,7 @@ mQuery(document).on({
  * @param newIdPrefix
  * @param newNamePrefix
  */
-Mautic.renameFormElements = function(container, oldIdPrefix, oldNamePrefix, newIdPrefix, newNamePrefix) {
+Le.renameFormElements = function(container, oldIdPrefix, oldNamePrefix, newIdPrefix, newNamePrefix) {
     mQuery('*[id^="'+oldIdPrefix+'"]', container).each( function() {
         var id = mQuery(this).attr('id');
         id = id.replace(oldIdPrefix, newIdPrefix);
@@ -43,8 +43,8 @@ Mautic.renameFormElements = function(container, oldIdPrefix, oldNamePrefix, newI
  *
  * @param form
  */
-Mautic.ajaxifyForm = function (formName) {
-    Mautic.initializeFormFieldVisibilitySwitcher(formName);
+Le.ajaxifyForm = function (formName) {
+    Le.initializeFormFieldVisibilitySwitcher(formName);
 
     //prevent enter submitting form and instead jump to next line
     var form = 'form[name="' + formName + '"]';
@@ -131,21 +131,21 @@ Mautic.ajaxifyForm = function (formName) {
             return false;
         } else {
             var callbackAsync = form.data('submit-callback-async');
-            if (callbackAsync && typeof Mautic[callbackAsync] == 'function') {
-                Mautic[callbackAsync].apply(this, [form, function() {
-                    Mautic.postMauticForm(form);
+            if (callbackAsync && typeof Le[callbackAsync] == 'function') {
+                Le[callbackAsync].apply(this, [form, function() {
+                    Le.postMauticForm(form);
                 }]);
             } else {
                 var callback = form.data('submit-callback');
 
                 // Allow a callback to do stuff before submit and abort if needed
-                if (callback && typeof Mautic[callback] == 'function') {
-                    if (!Mautic[callback]()) {
+                if (callback && typeof Le[callback] == 'function') {
+                    if (!Le[callback]()) {
                         return false;
                     }
                 }
 
-                Mautic.postMauticForm(form);
+                Le.postMauticForm(form);
             }
         }
 
@@ -158,13 +158,13 @@ Mautic.ajaxifyForm = function (formName) {
  *
  * @param form
  */
-Mautic.postMauticForm = function(form) {
+Le.postMauticForm = function(form) {
     MauticVars.formSubmitInProgress = true;
-    Mautic.postForm(form, function (response) {
+    Le.postForm(form, function (response) {
         if (response.inMain) {
-            Mautic.processPageContent(response);
+            Le.processPageContent(response);
         } else {
-            Mautic.processModalContent(response, '#' + response.modalId);
+            Le.processModalContent(response, '#' + response.modalId);
         }
     });
 };
@@ -174,7 +174,7 @@ Mautic.postMauticForm = function(form) {
  *
  * @param form
  */
-Mautic.resetForm = function(form) {
+Le.resetForm = function(form) {
     mQuery(':input', form)
         .not(':button, :submit, :reset, :hidden')
         .val('')
@@ -197,7 +197,7 @@ Mautic.resetForm = function(form) {
  * @param form
  * @param callback
  */
-Mautic.postForm = function (form, callback) {
+Le.postForm = function (form, callback) {
     var form = mQuery(form);
 
     var modalParent = form.closest('.modal');
@@ -207,7 +207,7 @@ Mautic.postForm = function (form, callback) {
 
     if (!inMain) {
         var modalTarget = '#' + mQuery(modalParent).attr('id');
-        Mautic.startModalLoadingBar(modalTarget);
+        Le.startModalLoadingBar(modalTarget);
     }
     var showLoading = (!inMain || form.attr('data-hide-loadingbar')) ? false : true;
 
@@ -215,11 +215,11 @@ Mautic.postForm = function (form, callback) {
         showLoadingBar: showLoading,
         success: function (data) {
             if (!inMain) {
-                Mautic.stopModalLoadingBar(modalTarget);
+                Le.stopModalLoadingBar(modalTarget);
             }
 
             if (data.redirect) {
-                Mautic.redirectWithBackdrop(data.redirect);
+                Le.redirectWithBackdrop(data.redirect);
             } else {
                 MauticVars.formSubmitInProgress = false;
                 if (!inMain) {
@@ -231,7 +231,7 @@ Mautic.postForm = function (form, callback) {
                         mQuery('#' + modalId).modal('hide');
                         mQuery('.modal-backdrop').remove();
                     }
-                    Mautic.processPageContent(data);
+                    Le.processPageContent(data);
                 } else if (callback) {
                     data.inMain = inMain;
 
@@ -241,8 +241,8 @@ Mautic.postForm = function (form, callback) {
 
                     if (typeof callback == 'function') {
                         callback(data);
-                    } else if (typeof Mautic[callback] == 'function') {
-                        Mautic[callback](data);
+                    } else if (typeof Le[callback] == 'function') {
+                        Le[callback](data);
                     }
                 }
             }
@@ -250,7 +250,7 @@ Mautic.postForm = function (form, callback) {
         error: function (request, textStatus, errorThrown) {
             MauticVars.formSubmitInProgress = false;
 
-            Mautic.processAjaxError(request, textStatus, errorThrown, inMain);
+            Le.processAjaxError(request, textStatus, errorThrown, inMain);
         }
     });
 };
@@ -261,19 +261,19 @@ Mautic.postForm = function (form, callback) {
  *
  * @param formName
  */
-Mautic.initializeFormFieldVisibilitySwitcher = function (formName)
+Le.initializeFormFieldVisibilitySwitcher = function (formName)
 {
-    Mautic.switchFormFieldVisibilty(formName);
+    Le.switchFormFieldVisibilty(formName);
 
     mQuery('form[name="'+formName+'"]').change(function() {
-        Mautic.switchFormFieldVisibilty(formName);
+        Le.switchFormFieldVisibilty(formName);
     });
 };
 
 /**
  * Switch form field visibility based on selected values
  */
-Mautic.switchFormFieldVisibilty = function (formName) {
+Le.switchFormFieldVisibilty = function (formName) {
     var form   = mQuery('form[name="'+formName+'"]');
     var fields = {};
     var fieldsPriority = {};
@@ -378,7 +378,7 @@ Mautic.switchFormFieldVisibilty = function (formName) {
  *
  * @param response
  */
-Mautic.updateEntitySelect = function (response) {
+Le.updateEntitySelect = function (response) {
     var mQueryParent = (window.opener) ? window.opener.mQuery : mQuery;
 
     if (response.id) {
@@ -481,7 +481,7 @@ Mautic.updateEntitySelect = function (response) {
  * Toggles the class for yes/no button groups
  * @param changedId
  */
-Mautic.toggleYesNoButtonClass = function (changedId) {
+Le.toggleYesNoButtonClass = function (changedId) {
     changedId = '#' + changedId;
 
     var isYesButton   = mQuery(changedId).parent().hasClass('btn-yes');
@@ -526,7 +526,7 @@ Mautic.toggleYesNoButtonClass = function (changedId) {
  * Removes a list option from a list generated by ListType
  * @param el
  */
-Mautic.removeFormListOption = function (el) {
+Le.removeFormListOption = function (el) {
     var sortableDiv = mQuery(el).parents('div.sortable');
     var inputCount = mQuery(sortableDiv).parents('div.form-group').find('input.sortable-itemcount');
     var count = mQuery(inputCount).val();
@@ -540,7 +540,7 @@ Mautic.removeFormListOption = function (el) {
  * @param value
  * @param label
  */
-Mautic.createOption = function (value, label) {
+Le.createOption = function (value, label) {
     return mQuery('<option/>')
         .attr('value', value)
         .text(label);
@@ -553,9 +553,9 @@ Mautic.createOption = function (value, label) {
  * @param action
  * @param valueOnChange
  */
-Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOnChangeArguments) {
+Le.updateFieldOperatorValue = function(field, action, valueOnChange, valueOnChangeArguments) {
     var fieldId = mQuery(field).attr('id');
-    Mautic.activateLabelLoadingIndicator(fieldId);
+    Le.activateLabelLoadingIndicator(fieldId);
 
     if (fieldId.indexOf('_operator') !== -1) {
         var fieldType = 'operator';
@@ -569,7 +569,7 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
     var fieldAlias = mQuery('#'+fieldPrefix+'field').val();
     var fieldOperator = mQuery('#'+fieldPrefix+'operator').val();
 
-    Mautic.ajaxActionRequest(action, {'alias': fieldAlias, 'operator': fieldOperator, 'changed': fieldType}, function(response) {
+    Le.ajaxActionRequest(action, {'alias': fieldAlias, 'operator': fieldOperator, 'changed': fieldType}, function(response) {
         if (typeof response.options != 'undefined') {
             var valueField = mQuery('#'+fieldPrefix+'value');
             var valueFieldAttrs = {
@@ -596,7 +596,7 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
                     if (typeof optgroup === 'object') {
                         var optgroupEl = mQuery('<optgroup/>').attr('label', value);
                         mQuery.each(optgroup, function(optVal, label) {
-                            var option = Mautic.createOption(optVal, label);
+                            var option = Le.createOption(optVal, label);
 
                             if (response.optionsAttr && response.optionsAttr[optVal]) {
                                 mQuery.each(response.optionsAttr[optVal], function(optAttr, optVal) {
@@ -608,7 +608,7 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
                         });
                         newValueField.append(optgroupEl);
                     } else {
-                        var option = Mautic.createOption(value, optgroup);
+                        var option = Le.createOption(value, optgroup);
 
                         if (response.optionsAttr && response.optionsAttr[value]) {
                             mQuery.each(response.optionsAttr[value], function(optAttr, optVal) {
@@ -622,7 +622,7 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
                 newValueField.val(valueFieldAttrs['value']);
                 valueField.replaceWith(newValueField);
 
-                Mautic.activateChosenSelect(newValueField);
+                Le.activateChosenSelect(newValueField);
             } else {
                 var newValueField = mQuery('<input/>')
                     .attr('type', 'text')
@@ -640,7 +640,7 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
                 valueField.replaceWith(newValueField);
 
                 if (response.fieldType == 'date' || response.fieldType == 'datetime') {
-                    Mautic.activateDateTimeInputs(newValueField, response.fieldType);
+                    Le.activateDateTimeInputs(newValueField, response.fieldType);
                 }
             }
 
@@ -676,15 +676,15 @@ Mautic.updateFieldOperatorValue = function(field, action, valueOnChange, valueOn
                     .attr('name', operatorFieldAttrs['name'])
                     .attr('autocomplete', operatorFieldAttrs['autocomplete'])
                     .attr('value', operatorFieldAttrs['value'])
-                    .attr('onchange', 'Mautic.updateLeadFieldValues(this)');
+                    .attr('onchange', 'Le.updateLeadFieldValues(this)');
                 mQuery.each(response.operators, function(optionKey, optionVal) {
-                    newOperatorField.append(Mautic.createOption(optionKey, optionVal));
+                    newOperatorField.append(Le.createOption(optionKey, optionVal));
                 });
                 newOperatorField.val(operatorField.val());
                 operatorField.replaceWith(newOperatorField);
-                Mautic.activateChosenSelect(newOperatorField);
+                Le.activateChosenSelect(newOperatorField);
             }
         }
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };

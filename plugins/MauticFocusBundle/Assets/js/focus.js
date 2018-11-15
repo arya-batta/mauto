@@ -1,4 +1,4 @@
-Mautic.disabledFocusActions = function(opener) {
+Le.disabledFocusActions = function(opener) {
     if (typeof opener == 'undefined') {
         opener = window;
     }
@@ -10,7 +10,7 @@ Mautic.disabledFocusActions = function(opener) {
     opener.mQuery('#campaignevent_properties_previewFocusButton').prop('disabled', disabled);
 };
 
-Mautic.standardFocusUrl = function(options) {
+Le.standardFocusUrl = function(options) {
     if (!options) {
         return;
     }
@@ -28,9 +28,9 @@ Mautic.standardFocusUrl = function(options) {
     return options;
 };
 
-Mautic.focusOnLoad = function () {
-    if (typeof Mautic.loadedPreviewImage !== 'undefined') {
-        delete Mautic.loadedPreviewImage;
+Le.focusOnLoad = function () {
+    if (typeof Le.loadedPreviewImage !== 'undefined') {
+        delete Le.loadedPreviewImage;
     }
 
     if (mQuery('.builder').length) {
@@ -96,7 +96,7 @@ Mautic.focusOnLoad = function () {
 
                 activateType(this, thisType);
 
-                Mautic.focusUpdatePreview();
+                Le.focusUpdatePreview();
             },
             mouseenter: function () {
                 mQuery(this).addClass('focus-hover');
@@ -150,7 +150,7 @@ Mautic.focusOnLoad = function () {
                 }
 
                 activateStyle(this, thisStyle);
-                Mautic.focusUpdatePreview();
+                Le.focusUpdatePreview();
             },
             mouseenter: function () {
                 mQuery(this).addClass('focus-hover');
@@ -184,7 +184,7 @@ Mautic.focusOnLoad = function () {
             var url = mQuery('#websiteUrlPlaceholderInput').val();
             if (url) {
                 mQuery('#focus_website').val(url);
-                Mautic.launchFocusBuilder(true);
+                Le.launchFocusBuilder(true);
             } else {
                 return;
             }
@@ -194,11 +194,11 @@ Mautic.focusOnLoad = function () {
             if (mQuery(this).data('viewport') == 'mobile') {
                 mQuery('.btn-viewport i').removeClass('fa-desktop fa-2x').addClass('fa-mobile-phone fa-3x');
                 mQuery(this).data('viewport', 'desktop');
-                Mautic.launchFocusBuilder(true);
+                Le.launchFocusBuilder(true);
             } else {
                 mQuery('.btn-viewport i').removeClass('fa-mobile-phone fa-3x').addClass('fa-desktop fa-2x');
                 mQuery(this).data('viewport', 'mobile');
-                Mautic.launchFocusBuilder(true);
+                Le.launchFocusBuilder(true);
             }
         });
 
@@ -206,34 +206,34 @@ Mautic.focusOnLoad = function () {
             var content = editor.html.get();
 
             if (content.indexOf('{focus_form}') !== -1) {
-                Mautic.focusUpdatePreview();
+                Le.focusUpdatePreview();
             } else {
                 mQuery('.mf-content').html(content);
             }
 
         });
     } else {
-        Mautic.initDateRangePicker();
+        Le.initDateRangePicker();
     }
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 };
 
-Mautic.focusOnUnload = function () {
-    if (typeof Mautic.loadedPreviewImage != 'undefined') {
-        delete Mautic.loadedPreviewImage;
+Le.focusOnUnload = function () {
+    if (typeof Le.loadedPreviewImage != 'undefined') {
+        delete Le.loadedPreviewImage;
     }
 
-    if (typeof Mautic.focusStatsChart != 'undefined') {
-        Mautic.focusStatsChart.destroy();
+    if (typeof Le.focusStatsChart != 'undefined') {
+        Le.focusStatsChart.destroy();
     }
 };
 
-Mautic.launchFocusBuilder = function (forceFetch) {
+Le.launchFocusBuilder = function (forceFetch) {
     mQuery('.website-placeholder').addClass('hide');
     mQuery('body').css('overflow-y', 'hidden');
 
     // Prevent preview updates till the website snapshot is loaded
-    Mautic.ignoreMauticFocusPreviewUpdate = true;
+    Le.ignoreMauticFocusPreviewUpdate = true;
 
     if (!mQuery('#builder-overlay').length) {
         var builderCss = {
@@ -260,14 +260,14 @@ Mautic.launchFocusBuilder = function (forceFetch) {
 
     if (!url) {
         if (!mQuery('#focus_unlockId').val()) {
-            Mautic.setFocusDefaultColors();
+            Le.setFocusDefaultColors();
         }
         mQuery('.website-placeholder').removeClass('hide');
         mQuery('#builder-overlay').addClass('hide');
         mQuery('.btn-close-builder').prop('disabled', false);
         mQuery('#websiteUrlPlaceholderInput').prop('disabled', false);
-    } else if (forceFetch || typeof Mautic.loadedPreviewImage == 'undefined' || Mautic.loadedPreviewImage != url) {
-        Mautic.loadedPreviewImage = url;
+    } else if (forceFetch || typeof Le.loadedPreviewImage == 'undefined' || Le.loadedPreviewImage != url) {
+        Le.loadedPreviewImage = url;
 
         // Fetch image
         var data = {
@@ -276,7 +276,7 @@ Mautic.launchFocusBuilder = function (forceFetch) {
         }
 
         mQuery('.preview-body').html('');
-        Mautic.ajaxActionRequest('plugin:focus:getWebsiteSnapshot', data, function (response) {
+        Le.ajaxActionRequest('plugin:focus:getWebsiteSnapshot', data, function (response) {
             mQuery('#builder-overlay').addClass('hide');
             mQuery('.btn-close-builder').prop('disabled', false);
 
@@ -358,7 +358,7 @@ Mautic.launchFocusBuilder = function (forceFetch) {
                         mQuery('#focus_properties_colors_button').minicolors('value', response.colors.buttonColor);
                         mQuery('#focus_properties_colors_button_text').minicolors('value', response.colors.buttonTextColor);
                     } else if (!response.ignoreDefaultColors) {
-                        Mautic.setFocusDefaultColors();
+                        Le.setFocusDefaultColors();
                     }
 
                     if (response.palette) {
@@ -382,8 +382,8 @@ Mautic.launchFocusBuilder = function (forceFetch) {
                     }
                 }
 
-                Mautic.ignoreMauticFocusPreviewUpdate = false;
-                Mautic.focusUpdatePreview();
+                Le.ignoreMauticFocusPreviewUpdate = false;
+                Le.focusUpdatePreview();
             } else {
                 mQuery('.website-placeholder').removeClass('hide');
                 mQuery('#websiteUrlPlaceholderInput').prop('disabled', false);
@@ -391,30 +391,30 @@ Mautic.launchFocusBuilder = function (forceFetch) {
                 // Disable droppers
                 mQuery('.btn-dropper').addClass('disabled');
 
-                Mautic.ignoreMauticFocusPreviewUpdate = false;
+                Le.ignoreMauticFocusPreviewUpdate = false;
             }
         });
     } else {
         mQuery('#builder-overlay').addClass('hide');
         mQuery('.btn-close-builder').prop('disabled', false);
 
-        Mautic.ignoreMauticFocusPreviewUpdate = false;
+        Le.ignoreMauticFocusPreviewUpdate = false;
         if (url) {
-            Mautic.focusUpdatePreview();
+            Le.focusUpdatePreview();
         }
     }
 };
 
-Mautic.closeFocusBuilder = function (el) {
+Le.closeFocusBuilder = function (el) {
     // Kill preview updates
-    if (typeof Mautic.ajaxActionXhr != 'undefined' && typeof Mautic.ajaxActionXhr['plugin:focus:generatePreview'] != 'undefined') {
-        Mautic.ajaxActionXhr['plugin:focus:generatePreview'].abort();
-        delete Mautic.ajaxActionXhr['plugin:focus:generatePreview'];
+    if (typeof Le.ajaxActionXhr != 'undefined' && typeof Le.ajaxActionXhr['plugin:focus:generatePreview'] != 'undefined') {
+        Le.ajaxActionXhr['plugin:focus:generatePreview'].abort();
+        delete Le.ajaxActionXhr['plugin:focus:generatePreview'];
     }
 
     mQuery('#websiteUrlPlaceholderInput').prop('disabled', true);
 
-    Mautic.stopIconSpinPostEvent();
+    Le.stopIconSpinPostEvent();
 
     // Kill the overlay
     mQuery('#builder-overlay').remove();
@@ -425,11 +425,11 @@ Mautic.closeFocusBuilder = function (el) {
     mQuery('body').css('overflow-y', '');
 };
 
-Mautic.focusUpdatePreview = function () {
+Le.focusUpdatePreview = function () {
     mQuery('.preview-body').html('');
     // Generate a preview
     var data = mQuery('form[name=focus]').formToArray();
-    Mautic.ajaxActionRequest('plugin:focus:generatePreview', data, function (response) {
+    Le.ajaxActionRequest('plugin:focus:generatePreview', data, function (response) {
         var container = mQuery('<div />').html(response.style);
         var innerContainer = mQuery('<div />').html(response.html);
 
@@ -445,7 +445,7 @@ Mautic.focusUpdatePreview = function () {
 
         if (!mQuery('.mf-bar').length && mQuery('.builder-content').length) {
             mQuery('.builder-content').on('click', function () {
-                Mautic.closeFocusModal(mQuery('#focus_style').val());
+                Le.closeFocusModal(mQuery('#focus_style').val());
             });
             mQuery('.mautic-focus').on('click', function (e) {
                 e.stopPropagation();
@@ -454,14 +454,14 @@ Mautic.focusUpdatePreview = function () {
     });
 };
 
-Mautic.setFocusDefaultColors = function () {
+Le.setFocusDefaultColors = function () {
     mQuery('#focus_properties_colors_primary').minicolors('value', 'ec407a');
     mQuery('#focus_properties_colors_text').minicolors('value', (mQuery('#focus_style').val() == 'bar') ? 'ffffff' : '000000');
     mQuery('#focus_properties_colors_button').minicolors('value', '4285f4');
     mQuery('#focus_properties_colors_button_text').minicolors('value', 'ffffff');
 };
 
-Mautic.toggleBarCollapse = function () {
+Le.toggleBarCollapse = function () {
     var svg = '.mf-bar-collapser-icon svg';
     var currentSize = mQuery(svg).data('transform-size');
     var currentDirection = mQuery(svg).data('transform-direction');
@@ -492,7 +492,7 @@ Mautic.toggleBarCollapse = function () {
     }
 }
 
-Mautic.closeFocusModal = function (style) {
+Le.closeFocusModal = function (style) {
     mQuery('.mf-' + style).remove();
     if (mQuery('.mf-' + style + '-overlay').length) {
         mQuery('.mf-' + style + '-overlay').remove();

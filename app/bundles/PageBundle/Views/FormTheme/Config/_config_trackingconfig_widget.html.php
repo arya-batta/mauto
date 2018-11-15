@@ -36,7 +36,7 @@ $isAdmin    =$view['security']->isAdmin();
 
     mt('send', 'pageview');
 &lt;/script&gt;</textarea>
-            <a id="copy_to_clipboard_atag" onclick="Mautic.copytoClipboardforms('copy_to_clipboard');">
+            <a id="copy_to_clipboard_atag" onclick="Le.copytoClipboardforms('copy_to_clipboard');">
                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                 <?php echo $view['translator']->trans(
                     'leadsengage.subs.clicktocopy'

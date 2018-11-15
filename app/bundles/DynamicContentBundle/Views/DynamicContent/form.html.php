@@ -183,7 +183,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
     <?php foreach ($templates as $dataKey => $template): ?>
         <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create')
             .'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create')
-            .'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+            .'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
         <select class="form-control not-chosen <?php echo $template; ?>" name="dwc[filters][__name__][filter]"
                 id="dwc_filters___name___filter"<?php echo $attr; ?>>
             <?php

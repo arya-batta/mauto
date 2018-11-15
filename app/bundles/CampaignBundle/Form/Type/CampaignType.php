@@ -69,7 +69,7 @@ class CampaignType extends AbstractType
                     'save_attr'  => [
                         'href'         => '#',
                     ],
-                    'save_onclick' => 'Mautic.CloseDataModelCampaign()',
+                    'save_onclick' => 'Le.CloseDataModelCampaign()',
                     'cancel_attr'  => [
                         'data-dismiss' => 'modal',
                         'href'         => '#',
@@ -152,7 +152,7 @@ class CampaignType extends AbstractType
                     'save_attr'  => [
                         'href'         => '#',
                     ],
-                    'save_onclick' => 'Mautic.CloseDataModelCampaign()',
+                    'save_onclick' => 'Le.CloseDataModelCampaign()',
                     'cancel_attr'  => [
                         'data-dismiss' => 'modal',
                         'href'         => '#',
@@ -167,7 +167,7 @@ class CampaignType extends AbstractType
                         'attr'  => [
                             'class'   => 'btn btn-default btn-dnd le-btn-default',
                             'icon'    => 'fa fa-cube',
-                            'onclick' => 'Mautic.launchCampaignEditor();',
+                            'onclick' => 'Le.launchCampaignEditor();',
                         ],
                     ],
                 ],

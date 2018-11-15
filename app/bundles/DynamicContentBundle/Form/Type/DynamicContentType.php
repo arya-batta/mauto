@@ -146,7 +146,7 @@ class DynamicContentType extends AbstractType
                 'data'  => (bool) $options['data']->isCampaignBased(),
                 'attr'  => [
                     'tooltip'  => 'mautic.dwc.form.is_campaign_based.tooltip',
-                    'onchange' => 'Mautic.toggleDwcFilters()',
+                    'onchange' => 'Le.toggleDwcFilters()',
                 ],
             ]
         );

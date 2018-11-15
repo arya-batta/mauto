@@ -16,8 +16,8 @@ $header = $view['translator']->trans('leadsengage.kyc.video_header');
     <div class="modal-dialog" role="document" style="width:55%;">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index'); ?>');" class="dont_show_again close_button" ><span aria-hidden="true">Close</span></a>
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span aria-hidden="true"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></a>
+                <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index'); ?>');" class="dont_show_again close_button" ><span aria-hidden="true">Close</span></a>
+                <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span aria-hidden="true"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans($header); ?>
                 </h4>

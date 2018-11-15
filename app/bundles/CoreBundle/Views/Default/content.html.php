@@ -37,7 +37,7 @@ if (!empty($tmpl)) {
                 <div class="card-flex widget" style="width:100%;" role="document">
                     <div class="card" style="height:550px;">
                         <div class="card-header">
-                            <a href="javascript: void(0);" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('le_dashboard_index', ['login' => 'CloseVideo']); ?>');" class="dont_show_again close_button" style="<?php echo $closestyle; ?>"><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
+                            <a href="javascript: void(0);" onclick="Le.RedirectToGivenURL('<?php echo $view['router']->path('le_dashboard_index', ['login' => 'CloseVideo']); ?>');" class="dont_show_again close_button" style="<?php echo $closestyle; ?>"><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
                             <p style="padding:10px 15px;font-size:16px;">
                                 <?php if (!$isMobile) {
     echo $view['translator']->trans('leadsengage.kyc.video_header');
@@ -55,7 +55,7 @@ if (!empty($tmpl)) {
                                 ]);
                                 */?>
                             </span>-->
-                                <a href="javascript: void(0);" class="btn btn-primary btn-send" style="margin-right: 10px;" onclick="Mautic.RedirectToGivenURL('<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');"<span><i class="fa fa-eye-slash"></i><span>Don't Show Again</span></span></a>
+                                <a href="javascript: void(0);" class="btn btn-primary btn-send" style="margin-right: 10px;" onclick="Le.RedirectToGivenURL('<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');"<span><i class="fa fa-eye-slash"></i><span>Don't Show Again</span></span></a>
                             </div>
                         </div>
                         <br>

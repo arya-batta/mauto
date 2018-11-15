@@ -536,7 +536,7 @@ class SalesforceIntegration extends CrmAbstractIntegration
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
-                        'onclick' => 'Mautic.postForm(mQuery(\'form[name="integration_details"]\'),\'\');',
+                        'onclick' => 'Le.postForm(mQuery(\'form[name="integration_details"]\'),\'\');',
                     ],
                 ]
             );
@@ -555,7 +555,7 @@ class SalesforceIntegration extends CrmAbstractIntegration
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
-                        'onclick' => 'Mautic.postForm(mQuery(\'form[name="integration_details"]\'),\'\');',
+                        'onclick' => 'Le.postForm(mQuery(\'form[name="integration_details"]\'),\'\');',
                     ],
                 ]
             );

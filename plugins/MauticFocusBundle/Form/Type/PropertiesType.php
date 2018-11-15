@@ -66,7 +66,7 @@ class PropertiesType extends AbstractType
                 'label' => 'mautic.focus.form.animate',
                 'data'  => (isset($options['data']['animate'])) ? $options['data']['animate'] : true,
                 'attr'  => [
-                    'onchange' => 'Mautic.focusUpdatePreview()',
+                    'onchange' => 'Le.focusUpdatePreview()',
                 ],
             ]
         );

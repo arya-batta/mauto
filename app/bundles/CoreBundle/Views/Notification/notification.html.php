@@ -21,7 +21,7 @@
         <i class="fa fa-2x <?php echo (!empty($n['iconClass'])) ? $n['iconClass'] : 'fa-star'; ?>"></i>
         <?php endif; ?>
     </span>
-    <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right do-not-close" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clear'); ?>" onclick="Mautic.clearNotification(<?php echo $n['id']; ?>);"><i class="fa fa-times do-not-close"></i></a>
+    <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right do-not-close" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clear'); ?>" onclick="Le.clearNotification(<?php echo $n['id']; ?>);"><i class="fa fa-times do-not-close"></i></a>
     <?php if (!$n['isRead']): ?>
         <span class="pull-right is-unread text-danger"><i class="fa fa-asterisk"></i></span>
     <?php endif; ?>

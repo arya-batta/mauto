@@ -153,7 +153,7 @@ $view['slots']->set(
                         'le_focus_generate',
                         ['id' => $item->getId()]
                     ); ?>' type='text/javascript' charset='utf-8' async='async'></script>"/>
-                    <a style="color:beige;" id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea');">
+                    <a style="color:beige;" id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
                         <i  aria-hidden="true" class="fa fa-clipboard"></i>
                         <?php echo $view['translator']->trans(
                             'leadsengage.subs.clicktocopy'

@@ -698,7 +698,7 @@ class EmailController extends FormController
         $groupFilters = [
             'filters' => [
                 'multiple'    => false,
-                'onchange'    => 'Mautic.filterBeeTemplates()',
+                'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 
@@ -984,7 +984,7 @@ class EmailController extends FormController
         $groupFilters = [
             'filters' => [
                 'multiple'    => false,
-                'onchange'    => 'Mautic.filterBeeTemplates()',
+                'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 

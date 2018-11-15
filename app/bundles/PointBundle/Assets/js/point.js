@@ -1,14 +1,14 @@
 //PointBundle
-Mautic.pointOnLoad = function (container) {
+Le.pointOnLoad = function (container) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'point');
+        Le.activateSearchAutocomplete('list-search', 'point');
     }
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 };
 
-Mautic.pointTriggerOnLoad = function (container) {
+Le.pointTriggerOnLoad = function (container) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'point.trigger');
+        Le.activateSearchAutocomplete('list-search', 'point.trigger');
     }
 
     if (mQuery('#triggerEvents')) {
@@ -36,7 +36,7 @@ Mautic.pointTriggerOnLoad = function (container) {
     }
 };
 
-Mautic.pointTriggerEventOnLoad = function (container, response) {
+Le.pointTriggerEventOnLoad = function (container, response) {
     //new action created so append it to the form
     if (response.eventHtml) {
         var newHtml = response.eventHtml;
@@ -57,14 +57,14 @@ Mautic.pointTriggerEventOnLoad = function (container, response) {
         //activate new stuff
         mQuery(eventId + " a[data-toggle='ajax']").click(function (event) {
             event.preventDefault();
-            return Mautic.ajaxifyLink(this, event);
+            return Le.ajaxifyLink(this, event);
         });
 
         //initialize ajax'd modals
         mQuery(eventId + " a[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
             event.preventDefault();
 
-            Mautic.ajaxifyModal(this, event);
+            Le.ajaxifyModal(this, event);
         });
 
         mQuery('#triggerEvents .trigger-event-row').off(".triggerevents");
@@ -88,8 +88,8 @@ Mautic.pointTriggerEventOnLoad = function (container, response) {
     }
 };
 
-Mautic.getPointActionPropertiesForm = function(actionType) {
-    Mautic.activateLabelLoadingIndicator('point_type');
+Le.getPointActionPropertiesForm = function(actionType) {
+    Le.activateLabelLoadingIndicator('point_type');
 
     var query = "action=point:getActionForm&actionType=" + actionType;
     mQuery.ajax({
@@ -100,18 +100,18 @@ Mautic.getPointActionPropertiesForm = function(actionType) {
         success: function (response) {
             if (typeof response.html != 'undefined') {
                 mQuery('#pointActionProperties').html(response.html);
-                Mautic.onPageLoad('#pointActionProperties', response);
+                Le.onPageLoad('#pointActionProperties', response);
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function() {
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         }
     });
 };
-Mautic.EnablesOption = function (urlActionProperty) {
+Le.EnablesOption = function (urlActionProperty) {
     if (urlActionProperty === 'point_properties_returns_within' && mQuery('#point_properties_returns_within').val() > 0) {
         mQuery('#point_properties_returns_after').val(0);
     } else {

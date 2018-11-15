@@ -520,7 +520,7 @@ class PageController extends FormController
         $groupFilters = [
             'filters' => [
                 'multiple'    => false,
-                'onchange'    => 'Mautic.filterBeeTemplates()',
+                'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
         $emailmodel=$this->factory->getModel('email');
@@ -698,7 +698,7 @@ class PageController extends FormController
         $groupFilters = [
             'filters' => [
                 'multiple'    => false,
-                'onchange'    => 'Mautic.filterBeeTemplates()',
+                'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
         $emailmodel                        =$this->factory->getModel('email');

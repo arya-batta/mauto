@@ -16,7 +16,7 @@
     <div class="modal-dialog le-gradient-align" style="width: 700px;height: 321px;" >
         <div class="modal-content le-modal-content" style="height: 320px;">
             <div class="modal-header" style="padding: 25px;">
-                <a href="javascript: void(0);" onclick="Mautic.closePluginModel('card-error-info');" class="close" ><span aria-hidden="true">&times;</span></a>
+                <a href="javascript: void(0);" onclick="Le.closePluginModel('card-error-info');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <b>There are a few reasons why we might be having a problem renewing your account.</b>
 
                 <div class="modal-loading-bar"></div>

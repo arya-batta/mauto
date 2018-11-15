@@ -352,7 +352,7 @@ class PageType extends AbstractType
 //                    'attr'  => [
 //                        'class'   => 'btn btn-default btn-dnd btn-nospin btn-builder text-primary',
 //                        'icon'    => 'fa fa-cube',
-//                        'onclick' => "Mautic.launchBuilder('page');",
+//                        'onclick' => "Le.launchBuilder('page');",
 //                    ],
 //                ],
 //                [
@@ -361,7 +361,7 @@ class PageType extends AbstractType
 //                    'attr'  => [
 //                        'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
 //                        'icon'    => 'fa fa-cube',
-//                        'onclick' => "Mautic.launchBeeEditor('pageform', 'page');",
+//                        'onclick' => "Le.launchBeeEditor('pageform', 'page');",
 //                    ],
 //                ],
             ],

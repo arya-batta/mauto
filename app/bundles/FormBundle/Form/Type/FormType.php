@@ -165,7 +165,7 @@ class FormType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'    => 'form-control',
-                'onchange' => 'Mautic.onPostSubmitActionChange(this.value);',
+                'onchange' => 'Le.onPostSubmitActionChange(this.value);',
             ],
             'required'    => false,
             'empty_value' => false,
@@ -183,7 +183,7 @@ class FormType extends AbstractType
             'attr'       => [
                 'class'    => 'form-control le-input',
                 'data-hide-on' => '{"mauticform_postAction":["return"]}',
-                'onkeyup'  => 'Mautic.onKeyupMaxLength(this.value);',
+                'onkeyup'  => 'Le.onKeyupMaxLength(this.value);',
             ],
             'required'   => $required,
         ]);

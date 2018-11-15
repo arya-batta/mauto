@@ -55,7 +55,7 @@ class ContactFrequencyType extends AbstractType
                     'choices_as_values' => true,
                     'expanded'          => true,
                     'label_attr'        => ['class' => 'control-label'],
-                    'attr'              => ['onClick' => 'Mautic.togglePreferredChannel(this.value);'],
+                    'attr'              => ['onClick' => 'Le.togglePreferredChannel(this.value);'],
                     'multiple'          => true,
                     'label'             => false,
                     'required'          => false,

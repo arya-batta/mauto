@@ -12,7 +12,7 @@
 <?php if (empty($socialProfiles)): ?>
 <div class="alert alert-warning col-md-6 col-md-offset-3 mt-md">
     <h4><?php echo $view['translator']->trans('le.lead.socialprofiles.header'); ?></h4>
-    <p><a href="javascript: void(0);" onclick="Mautic.refreshLeadSocialProfile('', <?php echo $lead->getId(); ?>, event);"><?php echo $view['translator']->trans('le.lead.socialprofiles.noresults'); ?></a></p>
+    <p><a href="javascript: void(0);" onclick="Le.refreshLeadSocialProfile('', <?php echo $lead->getId(); ?>, event);"><?php echo $view['translator']->trans('le.lead.socialprofiles.noresults'); ?></a></p>
 </div>
 <?php else: ?>
 <?php $count = 0; ?>
@@ -24,11 +24,11 @@
             <div class="panel-heading pr-0">
                 <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.integration.'.$integrationName); ?></h3>
                 <div class="panel-toolbar text-right">
-                    <a href="javascript:void(0);" class="btn" data-toggle="tooltip" onclick="Mautic.refreshLeadSocialProfile('<?php echo $integrationName; ?>', '<?php echo $lead->getId(); ?>', event);" title="<?php echo $view['translator']->trans('le.lead.lead.social.lastupdate', ['%datetime%' => $view['date']->toFullConcat($details['lastRefresh'], 'utc')]); ?>">
+                    <a href="javascript:void(0);" class="btn" data-toggle="tooltip" onclick="Le.refreshLeadSocialProfile('<?php echo $integrationName; ?>', '<?php echo $lead->getId(); ?>', event);" title="<?php echo $view['translator']->trans('le.lead.lead.social.lastupdate', ['%datetime%' => $view['date']->toFullConcat($details['lastRefresh'], 'utc')]); ?>">
                         <i class="text-white fa fa-refresh"></i>
                     </a>
                     <!--<a href="javascript:void(0);" class="btn" data-toggle="panelcollapse"><i class="text-white fa fa-angle-up"></i></a>-->
-                    <a href="javascript:void(0);" class="btn" onclick="Mautic.clearLeadSocialProfile('<?php echo $integrationName; ?>', '<?php echo $lead->getId(); ?>', event);" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.lead.social.removecache'); ?>">
+                    <a href="javascript:void(0);" class="btn" onclick="Le.clearLeadSocialProfile('<?php echo $integrationName; ?>', '<?php echo $lead->getId(); ?>', event);" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.lead.social.removecache'); ?>">
                         <i class="text-white fa fa-times"></i>
                     </a>
                     <!-- trickery to allow tooltip and onclick for close button -->

@@ -50,7 +50,7 @@ class SmsSendType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control',
                     'tooltip'  => 'mautic.sms.choose.smss',
-                    'onchange' => 'Mautic.disabledSmsAction()',
+                    'onchange' => 'Le.disabledSmsAction()',
                 ],
                 'multiple'    => false,
                 'required'    => true,
@@ -78,7 +78,7 @@ class SmsSendType extends AbstractType
                 [
                     'attr' => [
                         'class'   => 'btn btn-primary btn-nospin',
-                        'onclick' => 'Mautic.loadNewWindow({
+                        'onclick' => 'Le.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',
                         'icon' => 'fa fa-plus',
@@ -106,7 +106,7 @@ class SmsSendType extends AbstractType
                 [
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
-                        'onclick'  => 'Mautic.loadNewWindow(Mautic.standardSmsUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
+                        'onclick'  => 'Le.loadNewWindow(Le.standardSmsUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
                         'disabled' => !isset($sms),
                         'icon'     => 'fa fa-edit',
                     ],

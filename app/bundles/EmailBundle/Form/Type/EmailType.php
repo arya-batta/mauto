@@ -579,7 +579,7 @@ class EmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'    => 'form-control',
-                        'onchange' => 'Mautic.getTotalAttachmentSize();',
+                        'onchange' => 'Le.getTotalAttachmentSize();',
                     ],
                     'multiple' => true,
                     'expanded' => false,
@@ -598,7 +598,7 @@ class EmailType extends AbstractType
 //              'attr'  => [
 //                  'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-builder',
 //                  'icon'    => 'fa fa-cube',
-//                  'onclick' => "Mautic.launchBuilder('emailform', 'email');",
+//                  'onclick' => "Le.launchBuilder('emailform', 'email');",
 //              ],
 //          ],
                 [
@@ -607,7 +607,7 @@ class EmailType extends AbstractType
                     'attr'  => [
                         'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
                         'icon'    => 'fa fa-cube',
-                        'onclick' => "Mautic.launchBeeEditor('emailform', 'email');",
+                        'onclick' => "Le.launchBeeEditor('emailform', 'email');",
                     ],
                 ],
             ];

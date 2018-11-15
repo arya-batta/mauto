@@ -139,7 +139,7 @@ class FieldType extends AbstractType
             [
                 'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
                 'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Mautic.updatePlaceholdervalue(this.value)'],
+                'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
                 'constraints' => [
                     new Assert\NotBlank(
                         ['message' => 'mautic.form.field.label.notblank']

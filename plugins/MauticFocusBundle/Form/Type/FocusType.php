@@ -89,7 +89,7 @@ class FocusType extends AbstractType
                 'data'       => !empty($options['data']->getHtmlMode()) ? $options['data']->getHtmlMode() : 'basic',
                 'attr'       => [
                     'class'    => 'form-control le-input',
-                    'onchange' => 'Mautic.focusUpdatePreview()',
+                    'onchange' => 'Le.focusUpdatePreview()',
                     'tooltip'  => 'mautic.focums.html_mode.tooltip',
                 ],
                 'choices' => [
@@ -125,7 +125,7 @@ class FocusType extends AbstractType
                     'class'        => 'form-control le-input',
                     'rows'         => 12,
                     'data-show-on' => '{"focus_html_mode_2":"checked"}',
-                    'onchange'     => 'Mautic.focusUpdatePreview()',
+                    'onchange'     => 'Le.focusUpdatePreview()',
                 ],
                 'required' => false,
             ]
@@ -220,7 +220,7 @@ class FocusType extends AbstractType
                 'multiple'    => false,
                 'empty_value' => '',
                 'attr'        => [
-                    'onchange' => 'Mautic.focusUpdatePreview()',
+                    'onchange' => 'Le.focusUpdatePreview()',
                 ],
             ]
         );
@@ -236,7 +236,7 @@ class FocusType extends AbstractType
                 'attr'  => [
                     'class'   => 'btn btn-default btn-dnd btn-nospin le-btn-default',
                     'icon'    => 'fa fa-cube',
-                    'onclick' => 'Mautic.launchFocusBuilder();',
+                    'onclick' => 'Le.launchFocusBuilder();',
                 ],
             ],
         ];

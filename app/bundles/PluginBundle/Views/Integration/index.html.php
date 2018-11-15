@@ -40,7 +40,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
         <div class="box-layout">
             <div class="row">
                 <div class="col-xs-3 va-m">
-                    <select id="integrationFilter" onchange="Mautic.filterIntegrations(true);" class="form-control" data-placeholder="<?php echo $view['translator']->trans('mautic.integration.filter.all'); ?>">
+                    <select id="integrationFilter" onchange="Le.filterIntegrations(true);" class="form-control" data-placeholder="<?php echo $view['translator']->trans('mautic.integration.filter.all'); ?>">
                         <option value=""></option>
                         <?php foreach ($plugins as $a): ?>
                         <option<?php echo ($filterValue === $a['id']) ? ' selected' : ''; ?> value="<?php echo $view->escape($a['id']); ?>">

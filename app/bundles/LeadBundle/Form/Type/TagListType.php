@@ -50,7 +50,7 @@ class TagListType extends AbstractType
                     'data-placeholder'     => $this->translator->trans('le.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->translator->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
-                    'onchange'             => 'Mautic.updateLeadTags(this)',
+                    'onchange'             => 'Le.updateLeadTags(this)',
                 ],
                 'disabled' => (!$options['allow_edit']),
             ]

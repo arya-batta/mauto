@@ -1,14 +1,14 @@
 //ConfigBundle
 /**
- * @deprecated - use Mautic.initializeFormFieldVisibilitySwitcher() instead
+ * @deprecated - use Le.initializeFormFieldVisibilitySwitcher() instead
  * @param formName
  */
-Mautic.hideSpecificConfigFields = function(formName) {
+Le.hideSpecificConfigFields = function(formName) {
 	initializeFormFieldVisibilitySwitcher(formName);
 };
 
-Mautic.removeConfigValue = function(action, el) {
-    Mautic.executeAction(action, function(response) {
+Le.removeConfigValue = function(action, el) {
+    Le.executeAction(action, function(response) {
     	if (response.success) {
             mQuery(el).parent().addClass('hide');
         }

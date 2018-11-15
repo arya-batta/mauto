@@ -66,7 +66,7 @@
 
 <script>
 
-    Mautic.onPageLoad('body');
+    Le.onPageLoad('body');
     <?php if ($app->getEnvironment() === 'dev'): ?>
     mQuery( document ).ajaxComplete(function(event, XMLHttpRequest, ajaxOption){
         if(XMLHttpRequest.responseJSON && typeof XMLHttpRequest.responseJSON.ignore_wdt == 'undefined' && XMLHttpRequest.getResponseHeader('x-debug-token')) {

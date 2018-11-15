@@ -1,15 +1,15 @@
 //DashboardBundle
-Mautic.dashboardOnLoad = function (container) {
-    Mautic.initWidgetSorting();
-    Mautic.initWidgetRemoveButtons(mQuery('#dashboard-widgets'));
+Le.dashboardOnLoad = function (container) {
+    Le.initWidgetSorting();
+    Le.initWidgetRemoveButtons(mQuery('#dashboard-widgets'));
 };
 
-Mautic.dashboardOnUnload = function(id) {
+Le.dashboardOnUnload = function(id) {
     // Trash initialized dashboard vars on app content change.
     mQuery('.jvectormap-tip').remove();
 };
 
-Mautic.widgetOnLoad = function(container, response) {
+Le.widgetOnLoad = function(container, response) {
     if (!response.widgetId) return;
     var widget = mQuery('[data-widget-id=' + response.widgetId + ']');
     var widgetHtml = mQuery(response.widgetHtml);
@@ -17,7 +17,7 @@ Mautic.widgetOnLoad = function(container, response) {
     // initialize edit button modal again
     widgetHtml.find("*[data-toggle='ajaxmodal']").on('click.ajaxmodal', function (event) {
         event.preventDefault();
-        Mautic.ajaxifyModal(this, event);
+        Le.ajaxifyModal(this, event);
     });
 
     // Create the new widget wrapper and add it to the 0 position if doesn't exist (probably a new one)
@@ -31,13 +31,13 @@ Mautic.widgetOnLoad = function(container, response) {
     widget.html(widgetHtml)
         .css('width', response.widgetWidth + '%')
         .css('height', response.widgetHeight + '%');
-    Mautic.renderCharts(widgetHtml);
-    Mautic.renderMaps(widgetHtml);
-    Mautic.initWidgetRemoveButtons(widgetHtml);
-    Mautic.saveWidgetSorting();
+    Le.renderCharts(widgetHtml);
+    Le.renderMaps(widgetHtml);
+    Le.initWidgetRemoveButtons(widgetHtml);
+    Le.saveWidgetSorting();
 }
 
-Mautic.initWidgetSorting = function () {
+Le.initWidgetSorting = function () {
     var widgetsWrapper = mQuery('#dashboard-widgets');
     var bodyOverflow = {};
 
@@ -132,7 +132,7 @@ Mautic.initWidgetSorting = function () {
             mQuery("#dashboard-widgets .widget").css("visibility", "visible");
             mQuery("#cloned-widgets .widget").remove();
 
-            Mautic.saveWidgetSorting();
+            Le.saveWidgetSorting();
         },
         change: function(e, ui) {
             mQuery("#dashboard-widgets .widget:not(.exclude-me)").each(function() {
@@ -149,7 +149,7 @@ Mautic.initWidgetSorting = function () {
     }).disableSelection();
 }
 
-Mautic.saveWidgetSorting = function () {
+Le.saveWidgetSorting = function () {
     var widgetsWrapper = mQuery('#dashboard-widgets');
     var widgets = widgetsWrapper.children();
     var ordering = [];
@@ -157,34 +157,34 @@ Mautic.saveWidgetSorting = function () {
         ordering.push(mQuery(this).attr('data-widget-id'));
     });
 
-    Mautic.ajaxActionRequest('dashboard:updateWidgetOrdering', {'ordering': ordering}, function(response) {
+    Le.ajaxActionRequest('dashboard:updateWidgetOrdering', {'ordering': ordering}, function(response) {
         // @todo handle errors
     });
 }
 
-Mautic.updateWidgetForm = function (element) {
-    Mautic.activateLabelLoadingIndicator('widget_type');
+Le.updateWidgetForm = function (element) {
+    Le.activateLabelLoadingIndicator('widget_type');
     var formWrapper = mQuery(element).closest('form');
     var WidgetFormValues = formWrapper.serializeArray();
-    Mautic.ajaxActionRequest('dashboard:updateWidgetForm', WidgetFormValues, function(response) {
+    Le.ajaxActionRequest('dashboard:updateWidgetForm', WidgetFormValues, function(response) {
         if (response.formHtml) {
             var formHtml = mQuery(response.formHtml);
             formHtml.find('#widget_buttons').addClass('hide hidden');
             formWrapper.html(formHtml.children());
-            Mautic.onPageLoad('#widget_params');
+            Le.onPageLoad('#widget_params');
         }
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };
 
-Mautic.initWidgetRemoveButtons = function (scope) {
+Le.initWidgetRemoveButtons = function (scope) {
     scope.find('.remove-widget').on('click', function(e) {
         e.preventDefault();
         var button = mQuery(this);
         var wrapper = button.closest('.widget');
         var widgetId = wrapper.attr('data-widget-id');
         wrapper.hide('slow');
-        Mautic.ajaxActionRequest('dashboard:delete', {widget: widgetId}, function(response) {
+        Le.ajaxActionRequest('dashboard:delete', {widget: widgetId}, function(response) {
             if (!response.success) {
                 wrapper.show('slow');
             }
@@ -193,7 +193,7 @@ Mautic.initWidgetRemoveButtons = function (scope) {
 
 };
 
-Mautic.exportDashboardLayout = function(text, baseUrl) {
+Le.exportDashboardLayout = function(text, baseUrl) {
     var name = prompt(text, "");
 
     if (name !== null) {
@@ -205,7 +205,7 @@ Mautic.exportDashboardLayout = function(text, baseUrl) {
     }
 };
 
-Mautic.saveDashboardLayout = function(text) {
+Le.saveDashboardLayout = function(text) {
     var name = prompt(text, "");
 
     if (name) {

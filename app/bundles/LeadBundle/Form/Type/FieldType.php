@@ -103,7 +103,7 @@ class FieldType extends AbstractType
                 'disabled'    => ($disabled || !$new),
                 'attr'        => [
                     'class'    => 'form-control le-input',
-                    'onchange' => 'Mautic.updateLeadFieldProperties(this.value);',
+                    'onchange' => 'Le.updateLeadFieldProperties(this.value);',
                 ],
                 'data'     => $default,
                 'required' => false,
@@ -499,7 +499,7 @@ class FieldType extends AbstractType
                 'label' => 'le.lead.field.form.isuniqueidentifer',
                 'attr'  => [
                     'tooltip'  => 'le.lead.field.form.isuniqueidentifer.tooltip',
-                    'onchange' => 'Mautic.displayUniqueIdentifierWarning(this)',
+                    'onchange' => 'Le.displayUniqueIdentifierWarning(this)',
                 ],
                 'disabled' => ($options['data']->getAlias() == 'email'),
                 'data'     => (!empty($data)),

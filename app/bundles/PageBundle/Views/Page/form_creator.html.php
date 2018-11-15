@@ -16,7 +16,7 @@
     <div class="modal-dialog le-gradient-align" >
         <div class="modal-contentle-modal-content" style="height: 360px">
             <div class="modal-header"style="background-color: white;">
-                <a href="javascript: void(0);" onclick="Mautic.closePluginModel('bee-plugin-form-creator')" class="close" ><span aria-hidden="true">&times;</span></a>
+                <a href="javascript: void(0);" onclick="Le.closePluginModel('bee-plugin-form-creator')" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans('le.plugins.page.form.embed'); ?>
                 </h4>
@@ -35,7 +35,7 @@
                             <!--<p><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy'); ?></p>
                             <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
                             <textarea id="javascipt_textarea_page" class="form-control" readonly></textarea>
-                            <a id="javascipt_textarea_atag" onclick="Mautic.copytoClipboardforms('javascipt_textarea_page');">
+                            <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea_page');">
                                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clicktocopy'
@@ -44,8 +44,8 @@
                             <h3 class="pt-lg"><?php echo $view['translator']->trans(
                                     'mautic.form.form.help.automaticcopy.iframe'
                                 ); ?></h3>
-                            <textarea style="height: 113px;max-height: 113px;" id="iframe_textarea_page" class="form-control" readonly onclick="Mautic.copytoClipboardforms(this);"></textarea>
-                            <a id="iframe_textarea_atag" onclick="Mautic.copytoClipboardforms('iframe_textarea_page');"><i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <textarea style="height: 113px;max-height: 113px;" id="iframe_textarea_page" class="form-control" readonly onclick="Le.copytoClipboardforms(this);"></textarea>
+                            <a id="iframe_textarea_atag" onclick="Le.copytoClipboardforms('iframe_textarea_page');"><i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clicktocopy'
                                 ); ?></a>

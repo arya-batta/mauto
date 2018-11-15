@@ -1,7 +1,8 @@
 //LeadBundle
-Mautic.leadOnLoad = function (container, response) {
-    Mautic.removeActionButtons();
-    Mautic.addKeyboardShortcut('a', 'Quick add a New Lead', function(e) {
+Le.leadOnLoad = function (container, response) {
+    alert("Testing");
+    Le.removeActionButtons();
+    Le.addKeyboardShortcut('a', 'Quick add a New Lead', function(e) {
         if(mQuery('a.quickadd').length) {
             mQuery('a.quickadd').click();
         } else if (mQuery('a.btn-leadnote-add').length) {
@@ -9,11 +10,11 @@ Mautic.leadOnLoad = function (container, response) {
         }
     }, 'contact pages');
 
-    Mautic.addKeyboardShortcut('t', 'Activate Table View', function(e) {
+    Le.addKeyboardShortcut('t', 'Activate Table View', function(e) {
         mQuery('#table-view').click();
     }, 'contact pages');
 
-    Mautic.addKeyboardShortcut('c', 'Activate Card View', function(e) {
+    Le.addKeyboardShortcut('c', 'Activate Card View', function(e) {
         mQuery('#card-view').click();
     }, 'contact pages');
 
@@ -41,7 +42,7 @@ Mautic.leadOnLoad = function (container, response) {
             timelineForm.delay(200).submit();
         }).on('submit', function(e) {
             e.preventDefault();
-            Mautic.refreshLeadTimeline(timelineForm);
+            Le.refreshLeadTimeline(timelineForm);
         });
 
         var toggleTimelineDetails = function (el) {
@@ -56,8 +57,8 @@ Mautic.leadOnLoad = function (container, response) {
             }
         };
 
-        Mautic.leadTimelineOnLoad(container, response);
-        Mautic.leadAuditlogOnLoad(container, response);
+        Le.leadTimelineOnLoad(container, response);
+        Le.leadAuditlogOnLoad(container, response);
     }
 
     // Auditlog filters
@@ -69,7 +70,7 @@ Mautic.leadOnLoad = function (container, response) {
             auditlogForm.delay(200).submit();
         }).on('submit', function(e) {
             e.preventDefault();
-            Mautic.refreshLeadAuditLog(auditlogForm);
+            Le.refreshLeadAuditLog(auditlogForm);
         });
     }
 
@@ -82,16 +83,15 @@ Mautic.leadOnLoad = function (container, response) {
             noteForm.delay(200).submit();
         }).on('submit', function(e) {
             e.preventDefault();
-            Mautic.refreshLeadNotes(noteForm);
+            Le.refreshLeadNotes(noteForm);
         });
     }
-
-    if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'lead.lead');
+   if (mQuery(container + ' #list-search').length) {
+        Le.activateSearchAutocomplete('list-search', 'lead.lead');
     }
 
     if (mQuery(container + ' #notes-container').length) {
-        Mautic.activateSearchAutocomplete('NoteFilter', 'lead.note');
+        Le.activateSearchAutocomplete('NoteFilter', 'lead.note');
     }
 
     if (mQuery('#lead_preferred_profile_image').length) {
@@ -127,17 +127,17 @@ Mautic.leadOnLoad = function (container, response) {
     var leadMap = [];
 
     mQuery(document).on('shown.bs.tab', 'a#load-lead-map', function (e) {
-        leadMap = Mautic.renderMap(mQuery('#place-container .vector-map'));
+        leadMap = Le.renderMap(mQuery('#place-container .vector-map'));
     });
 
     mQuery('a[data-toggle="tab"]').not('a#load-lead-map').on('shown.bs.tab', function (e) {
         if (leadMap.length) {
-            Mautic.destroyMap(leadMap);
+            Le.destroyMap(leadMap);
             leadMap = [];
         }
     });
 
-    Mautic.initUniqueIdentifierFields();
+    Le.initUniqueIdentifierFields();
 
     if (mQuery(container + ' .panel-companies').length) {
         mQuery(container + ' .panel-companies .fa-check').tooltip({html: true});
@@ -150,7 +150,7 @@ Mautic.leadOnLoad = function (container, response) {
     });*/
 
 };
-Mautic.segment_filter = function(id){
+Le.segment_filter = function(id){
     if(mQuery('#segment-filter-block_'+id).css("display") != 'none')
     {
         mQuery('#segment-filter-block_'+id).css("display","none");
@@ -163,7 +163,7 @@ Mautic.segment_filter = function(id){
         mQuery('#'+id).setAttribute('aria-expanded','true');
     }
 }
-Mautic.leadTimelineOnLoad = function (container, response) {
+Le.leadTimelineOnLoad = function (container, response) {
     mQuery("#contact-timeline a[data-activate-details='all']").on('click', function() {
         if (mQuery(this).find('span').first().hasClass('fa-level-down')) {
             mQuery("#contact-timeline a[data-activate-details!='all']").each(function () {
@@ -205,7 +205,7 @@ Mautic.leadTimelineOnLoad = function (container, response) {
     }
 };
 
-Mautic.leadAuditlogOnLoad = function (container, response) {
+Le.leadAuditlogOnLoad = function (container, response) {
     mQuery("#contact-auditlog a[data-activate-details='all']").on('click', function() {
         if (mQuery(this).find('span').first().hasClass('fa-level-down')) {
             mQuery("#contact-auditlog a[data-activate-details!='all']").each(function () {
@@ -243,21 +243,21 @@ Mautic.leadAuditlogOnLoad = function (container, response) {
     });
 };
 
-Mautic.leadOnUnload = function(id) {
+Le.leadOnUnload = function(id) {
     if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] != 'undefined') {
-        Mautic.clearModeratedInterval('leadListLiveUpdate');
+        Le.clearModeratedInterval('leadListLiveUpdate');
     }
 
-    if (typeof Mautic.mapObjects !== 'undefined') {
-        delete Mautic.mapObjects;
+    if (typeof Le.mapObjects !== 'undefined') {
+        delete Le.mapObjects;
     }
 };
 
-Mautic.getLeadId = function() {
+Le.getLeadId = function() {
     return mQuery('input#leadId').val();
 }
 
-Mautic.leadEmailOnLoad = function(container, response) {
+Le.leadEmailOnLoad = function(container, response) {
     mQuery('[data-verified-email]').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
@@ -304,17 +304,17 @@ Mautic.leadEmailOnLoad = function(container, response) {
         textarea.val(emailHtml.find('html').get(0).outerHTML);
     });
 }
- Mautic.addHide= function(){
+ Le.addHide= function(){
     mQuery('#segment_filters').addClass('hide');
      //mQuery('#segment-filter-block_lead').removeClass('collapse in');
      //mQuery('#segment-filter-block_lead').addClass('collapse');
 }
-Mautic.removeHide= function(){
+Le.removeHide= function(){
     mQuery('#segment_filters').removeClass('hide');
     mQuery('#segment-filter-block_list_leadlist').css("display","");
     mQuery('#segment-filter-block_list_leadlist').css("height","auto");
 }
-Mautic.closeOnOpen= function(headerid){
+Le.closeOnOpen= function(headerid){
     if (headerid != "") {
         if (mQuery(headerid).hasClass('collapse in'))
         {
@@ -326,9 +326,9 @@ Mautic.closeOnOpen= function(headerid){
         }
     }
 };
-Mautic.addSegementFilter= function(filterId){
+Le.addSegementFilter= function(filterId){
     if (filterId.id != "") {
-        Mautic.addLeadListFilter(filterId.id);
+        Le.addLeadListFilter(filterId.id);
         mQuery(this).val('');
         mQuery(this).trigger('chosen:updated');
 
@@ -338,9 +338,9 @@ Mautic.addSegementFilter= function(filterId){
         mQuery('#detailstab').removeClass('active');
     }
 };
-Mautic.leadlistOnLoad = function(container) {
+Le.leadlistOnLoad = function(container) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'lead.list');
+        Le.activateSearchAutocomplete('list-search', 'lead.list');
     }
 
     var prefix = 'leadlist';
@@ -352,7 +352,7 @@ Mautic.leadlistOnLoad = function(container) {
     if (mQuery('#' + prefix + '_filters').length) {
         mQuery('#available_filters').on('change', function() {
             if (mQuery(this).val()) {
-                Mautic.addLeadListFilter(mQuery(this).val());
+                Le.addLeadListFilter(mQuery(this).val());
                 mQuery(this).val('');
                 mQuery(this).trigger('chosen:updated');
             }
@@ -405,7 +405,7 @@ Mautic.leadlistOnLoad = function(container) {
                 // First in the list should be an "and"
                 ui.item.find('select.glue-select').first().val('and');
 
-                Mautic.reorderSegmentFilters();
+                Le.reorderSegmentFilters();
             }
         });
 
@@ -421,13 +421,13 @@ Mautic.leadlistOnLoad = function(container) {
             segmentContactForm.delay(200).submit();
         }).on('submit', function(e) {
             e.preventDefault();
-            Mautic.refreshSegmentContacts(segmentContactForm);
+            Le.refreshSegmentContacts(segmentContactForm);
         });
     }
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 };
 
-Mautic.reorderSegmentFilters = function() {
+Le.reorderSegmentFilters = function() {
     // Update the filter numbers sot that they are ordered correctly when processed and grouped server side
     var counter = 0;
 
@@ -438,7 +438,7 @@ Mautic.reorderSegmentFilters = function() {
     }
 
     mQuery('#' + prefix + '_filters .panel').each(function() {
-        Mautic.updateFilterPositioning(mQuery(this).find('select.glue-select').first());
+        Le.updateFilterPositioning(mQuery(this).find('select.glue-select').first());
         mQuery(this).find('[id^="' + prefix + '_filters_"]').each(function() {
             var id = mQuery(this).attr('id');
             if (prefix + '_filters___name___filter' === id) {
@@ -459,7 +459,7 @@ Mautic.reorderSegmentFilters = function() {
     mQuery('#' + prefix + '_filters .panel').first().removeClass('in-group');
 };
 
-Mautic.convertLeadFilterInput = function(el) {
+Le.convertLeadFilterInput = function(el) {
      var iscampaignmodel=false;
     if (mQuery('#CampaignEventModal').length) {
         iscampaignmodel=true;
@@ -556,18 +556,18 @@ if(iscampaignmodel){
 
         mQuery(filterId).attr('data-placeholder', placeholder);
 
-        Mautic.activateChosenSelect(mQuery(filterId));
+        Le.activateChosenSelect(mQuery(filterId));
     }
 };
 
-Mautic.updateLookupListFilter = function(field, datum) {
+Le.updateLookupListFilter = function(field, datum) {
     if (datum && datum.id) {
         var filterField = '#'+field.replace('_display', '_filter');
         mQuery(filterField).val(datum.id);
     }
 };
 
-Mautic.activateSegmentFilterTypeahead = function(displayId, filterId, fieldOptions, mQueryObject) {
+Le.activateSegmentFilterTypeahead = function(displayId, filterId, fieldOptions, mQueryObject) {
 
     if(typeof mQueryObject == 'function'){
         mQuery = mQueryObject;
@@ -575,10 +575,10 @@ Mautic.activateSegmentFilterTypeahead = function(displayId, filterId, fieldOptio
 
     mQuery('#' + displayId).attr('data-lookup-callback', 'updateLookupListFilter');
 
-    Mautic.activateFieldTypeahead(displayId, filterId, [], 'lead:fieldList')
+    Le.activateFieldTypeahead(displayId, filterId, [], 'lead:fieldList')
 };
 
-Mautic.addLeadListFilter = function (elId) {
+Le.addLeadListFilter = function (elId) {
     var filterId = '#available_' + elId;
     var label    = mQuery(filterId).text();
 
@@ -686,9 +686,9 @@ if(iscampaignmodel){
         }
     } else if (fieldType == 'lookup') {
         var fieldCallback = mQuery(filterId).data("field-callback");
-        if (fieldCallback && typeof Mautic[fieldCallback] == 'function') {
+        if (fieldCallback && typeof Le[fieldCallback] == 'function') {
             var fieldOptions = mQuery(filterId).data("field-list");
-            Mautic[fieldCallback](filterIdBase + 'filter', elId, fieldOptions);
+            Le[fieldCallback](filterIdBase + 'filter', elId, fieldOptions);
         }
     } else if (fieldType == 'datetime') {
         mQuery(filter).datetimepicker({
@@ -733,9 +733,9 @@ if(iscampaignmodel){
         mQuery(oldDisplay).replaceWith(newDisplay);
 
         var fieldCallback = mQuery(filterId).data("field-callback");
-        if (fieldCallback && typeof Mautic[fieldCallback] == 'function') {
+        if (fieldCallback && typeof Le[fieldCallback] == 'function') {
             var fieldOptions = mQuery(filterId).data("field-list");
-            Mautic[fieldCallback](filterIdBase + 'display', elId, fieldOptions);
+            Le[fieldCallback](filterIdBase + 'display', elId, fieldOptions);
         }
     } else {
         mQuery(filter).attr('type', fieldType);
@@ -755,13 +755,13 @@ if(iscampaignmodel){
     });
 
     // Convert based on first option in list
-    Mautic.convertLeadFilterInput('#' + filterIdBase + 'operator');
+    Le.convertLeadFilterInput('#' + filterIdBase + 'operator');
 
     // Reposition if applicable
-    Mautic.updateFilterPositioning(mQuery('#' + filterIdBase + 'glue'));
+    Le.updateFilterPositioning(mQuery('#' + filterIdBase + 'glue'));
 };
 
-Mautic.leadfieldOnLoad = function (container) {
+Le.leadfieldOnLoad = function (container) {
     if (mQuery(container + ' .leadfield-list').length) {
         var bodyOverflow = {};
         mQuery(container + ' .leadfield-list tbody').sortable({
@@ -798,12 +798,12 @@ Mautic.leadfieldOnLoad = function (container) {
     }
 
     if (mQuery(container + ' form[name="leadfield"]').length) {
-        Mautic.updateLeadFieldProperties(mQuery('#leadfield_type').val(), true);
+        Le.updateLeadFieldProperties(mQuery('#leadfield_type').val(), true);
     }
 
 };
 
-Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
+Le.updateLeadFieldProperties = function(selectedVal, onload) {
     if (selectedVal == 'multiselect') {
         // Use select
         selectedVal = 'select';
@@ -816,7 +816,7 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
         );
         mQuery("#leadfield_properties *[data-toggle='sortablelist']").each(function (index) {
             var sortableList = mQuery(this);
-            Mautic.activateSortable(this);
+            Le.activateSortable(this);
             // Using an interval so removing, adding, updating and reordering are accounted for
             var contactFieldListOptions = mQuery('#leadfield_properties').find('input').map(function() {
                 return mQuery(this).val();
@@ -923,19 +923,19 @@ Mautic.updateLeadFieldProperties = function(selectedVal, onload) {
     }
     mQuery('#leadfield_defaultValue').addClass('le-input');
     if (selectedVal === 'datetime' || selectedVal === 'date' || selectedVal === 'time') {
-        Mautic.activateDateTimeInputs('#leadfield_defaultValue', selectedVal);
+        Le.activateDateTimeInputs('#leadfield_defaultValue', selectedVal);
     } else if (isSelect) {
-       Mautic.activateChosenSelect('#leadfield_defaultValue');
+       Le.activateChosenSelect('#leadfield_defaultValue');
     }
 };
 
-Mautic.updateLeadFieldBooleanLabels = function(el, label) {
+Le.updateLeadFieldBooleanLabels = function(el, label) {
     mQuery('#leadfield_defaultValue_' + label).parent().find('span').text(
         mQuery(el).val()
     );
 };
 
-Mautic.refreshLeadSocialProfile = function(network, leadId, event) {
+Le.refreshLeadSocialProfile = function(network, leadId, event) {
     var query = "action=lead:updateSocialProfile&network=" + network + "&lead=" + leadId;
     mQuery.ajax({
         showLoadingBar: true,
@@ -957,17 +957,17 @@ Mautic.refreshLeadSocialProfile = function(network, leadId, event) {
                     });
                 }
             }
-            Mautic.stopPageLoadingBar();
-            Mautic.stopIconSpinPostEvent();
+            Le.stopPageLoadingBar();
+            Le.stopIconSpinPostEvent();
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         }
     });
 };
 
-Mautic.clearLeadSocialProfile = function(network, leadId, event) {
-    Mautic.startIconSpinOnEvent(event);
+Le.clearLeadSocialProfile = function(network, leadId, event) {
+    Le.startIconSpinOnEvent(event);
     var query = "action=lead:clearSocialProfile&network=" + network + "&lead=" + leadId;
     mQuery.ajax({
         url: mauticAjaxUrl,
@@ -984,54 +984,54 @@ Mautic.clearLeadSocialProfile = function(network, leadId, event) {
                 mQuery('#SocialCount').html(response.socialCount);
             }
 
-            Mautic.stopIconSpinPostEvent();
+            Le.stopIconSpinPostEvent();
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
-            Mautic.stopIconSpinPostEvent();
+            Le.processAjaxError(request, textStatus, errorThrown);
+            Le.stopIconSpinPostEvent();
         }
     });
 };
 
-Mautic.refreshLeadAuditLog = function(form) {
-    Mautic.postForm(mQuery(form), function (response) {
+Le.refreshLeadAuditLog = function(form) {
+    Le.postForm(mQuery(form), function (response) {
         response.target = '#auditlog-table';
         mQuery('#AuditLogCount').html(response.auditLogCount);
-        Mautic.processPageContent(response);
+        Le.processPageContent(response);
     });
 };
 
-Mautic.refreshLeadTimeline = function(form) {
-    Mautic.postForm(mQuery(form), function (response) {
+Le.refreshLeadTimeline = function(form) {
+    Le.postForm(mQuery(form), function (response) {
         response.target = '#timeline-table';
         mQuery('#TimelineCount').html(response.timelineCount);
-        Mautic.processPageContent(response);
+        Le.processPageContent(response);
     });
 };
 
-Mautic.refreshLeadNotes = function(form) {
-    Mautic.postForm(mQuery(form), function (response) {
+Le.refreshLeadNotes = function(form) {
+    Le.postForm(mQuery(form), function (response) {
         response.target = '#NoteList';
         mQuery('#NoteCount').html(response.noteCount);
-        Mautic.processPageContent(response);
+        Le.processPageContent(response);
     });
 };
 
-Mautic.refreshSegmentContacts = function(form) {
-    Mautic.postForm(mQuery(form), function (response) {
+Le.refreshSegmentContacts = function(form) {
+    Le.postForm(mQuery(form), function (response) {
         response.target = '#contacts-container';
-        Mautic.processPageContent(response);
+        Le.processPageContent(response);
     });
 };
 
-Mautic.toggleLeadList = function(toggleId, leadId, listId) {
+Le.toggleLeadList = function(toggleId, leadId, listId) {
     var action = mQuery('#' + toggleId).hasClass('fa-toggle-on') ? 'remove' : 'add';
     var query = "action=lead:toggleLeadList&leadId=" + leadId + "&listId=" + listId + "&listAction=" + action;
 
-    Mautic.toggleLeadSwitch(toggleId, query, action);
+    Le.toggleLeadSwitch(toggleId, query, action);
 };
 
-Mautic.togglePreferredChannel = function(channel) {
+Le.togglePreferredChannel = function(channel) {
     if (channel == 'all') {
         var status = mQuery('#lead_contact_frequency_rules_subscribed_channels_0')[0].checked;  //"select all" change
 
@@ -1039,15 +1039,15 @@ Mautic.togglePreferredChannel = function(channel) {
         mQuery('#channels input:checkbox').each(function(){ //iterate all listed checkbox items
             if (this.checked != status) {
                 this.checked = status;
-                Mautic.setPreferredChannel(this.value);
+                Le.setPreferredChannel(this.value);
             }
         });
     } else {
-        Mautic.setPreferredChannel(channel);
+        Le.setPreferredChannel(channel);
     }
 };
 
-Mautic.setPreferredChannel = function(channel) {
+Le.setPreferredChannel = function(channel) {
     mQuery( '#frequency_' + channel ).slideToggle();
     mQuery( '#frequency_' + channel ).removeClass('hide');
     if (mQuery('#' + channel)[0].checked) {
@@ -1067,20 +1067,20 @@ Mautic.setPreferredChannel = function(channel) {
     }
 };
 
-Mautic.toggleCompanyLead = function(toggleId, leadId, companyId) {
+Le.toggleCompanyLead = function(toggleId, leadId, companyId) {
     var action = mQuery('#' + toggleId).hasClass('fa-toggle-on') ? 'remove' : 'add';
     var query = "action=lead:toggleCompanyLead&leadId=" + leadId + "&companyId=" + companyId + "&companyAction=" + action;
-    Mautic.toggleLeadSwitch(toggleId, query, action);
+    Le.toggleLeadSwitch(toggleId, query, action);
 };
 
-Mautic.toggleLeadCampaign = function(toggleId, leadId, campaignId) {
+Le.toggleLeadCampaign = function(toggleId, leadId, campaignId) {
     var action = mQuery('#' + toggleId).hasClass('fa-toggle-on') ? 'remove' : 'add';
     var query  = "action=lead:toggleLeadCampaign&leadId=" + leadId + "&campaignId=" + campaignId + "&campaignAction=" + action;
 
-    Mautic.toggleLeadSwitch(toggleId, query, action);
+    Le.toggleLeadSwitch(toggleId, query, action);
 };
 
-Mautic.toggleLeadSwitch = function(toggleId, query, action) {
+Le.toggleLeadSwitch = function(toggleId, query, action) {
     var toggleOn  = 'fa-toggle-on text-success';
     var toggleOff = 'fa-toggle-off text-danger';
     var spinClass = 'fa-spin fa-spinner ';
@@ -1130,7 +1130,7 @@ Mautic.toggleLeadSwitch = function(toggleId, query, action) {
     });
 };
 
-Mautic.leadNoteOnLoad = function (container, response) {
+Le.leadNoteOnLoad = function (container, response) {
     if (response.noteHtml) {
         var el = '#LeadNote' + response.noteId;
         if (mQuery(el).length) {
@@ -1139,9 +1139,9 @@ Mautic.leadNoteOnLoad = function (container, response) {
             mQuery('#LeadNotes').prepend(response.noteHtml);
         }
 
-        Mautic.makeModalsAlive(mQuery(el + " *[data-toggle='ajaxmodal']"));
-        Mautic.makeConfirmationsAlive(mQuery(el+' a[data-toggle="confirmation"]'));
-        Mautic.makeLinksAlive(mQuery(el + " a[data-toggle='ajax']"));
+        Le.makeModalsAlive(mQuery(el + " *[data-toggle='ajaxmodal']"));
+        Le.makeConfirmationsAlive(mQuery(el+' a[data-toggle="confirmation"]'));
+        Le.makeLinksAlive(mQuery(el + " a[data-toggle='ajax']"));
     } else if (response.deleteId && mQuery('#LeadNote' + response.deleteId).length) {
         mQuery('#LeadNote' + response.deleteId).remove();
     }
@@ -1162,25 +1162,25 @@ Mautic.leadNoteOnLoad = function (container, response) {
     }
 };
 
-Mautic.showSocialMediaImageModal = function(imgSrc) {
+Le.showSocialMediaImageModal = function(imgSrc) {
     mQuery('#socialImageModal img').attr('src', imgSrc);
     mQuery('#socialImageModal').modal('show');
 };
 
-Mautic.leadImportOnLoad = function (container, response) {
+Le.leadImportOnLoad = function (container, response) {
     if (!mQuery('#leadImportProgress').length) {
-        Mautic.clearModeratedInterval('leadImportProgress');
+        Le.clearModeratedInterval('leadImportProgress');
     } else {
-        Mautic.setModeratedInterval('leadImportProgress', 'reloadLeadImportProgress', 3000);
+        Le.setModeratedInterval('leadImportProgress', 'reloadLeadImportProgress', 3000);
     }
 };
 
-Mautic.reloadLeadImportProgress = function() {
+Le.reloadLeadImportProgress = function() {
     if (!mQuery('#leadImportProgress').length) {
-        Mautic.clearModeratedInterval('leadImportProgress');
+        Le.clearModeratedInterval('leadImportProgress');
     } else {
         // Get progress separate so there's no delay while the import batches
-        Mautic.ajaxActionRequest('lead:getImportProgress', {}, function(response) {
+        Le.ajaxActionRequest('lead:getImportProgress', {}, function(response) {
             if (response.progress) {
                 if (response.progress[0] > 0) {
                     mQuery('.imported-count').html(response.progress[0]);
@@ -1195,37 +1195,37 @@ Mautic.reloadLeadImportProgress = function() {
             showLoadingBar: false,
             url: window.location + '?importbatch=1',
             success: function(response) {
-                Mautic.moderatedIntervalCallbackIsComplete('leadImportProgress');
+                Le.moderatedIntervalCallbackIsComplete('leadImportProgress');
 
                 if (response.newContent) {
                     // It's done so pass to process page
-                    Mautic.processPageContent(response);
+                    Le.processPageContent(response);
                 }
             }
         });
     }
 };
 
-Mautic.removeBounceStatus = function (el, dncId) {
+Le.removeBounceStatus = function (el, dncId) {
     mQuery(el).removeClass('fa-times').addClass('fa-spinner fa-spin');
 
-    Mautic.ajaxActionRequest('lead:removeBounceStatus', 'id=' + dncId, function() {
+    Le.ajaxActionRequest('lead:removeBounceStatus', 'id=' + dncId, function() {
         mQuery('#bounceLabel' + dncId).tooltip('destroy');
         mQuery('#bounceLabel' + dncId).fadeOut(300, function() { mQuery(this).remove(); });
     });
 };
 
-Mautic.toggleLiveLeadListUpdate = function () {
+Le.toggleLiveLeadListUpdate = function () {
     if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] == 'undefined') {
-        Mautic.setModeratedInterval('leadListLiveUpdate', 'updateLeadList', 5000);
+        Le.setModeratedInterval('leadListLiveUpdate', 'updateLeadList', 5000);
         mQuery('#liveModeButton').addClass('btn-primary');
     } else {
-        Mautic.clearModeratedInterval('leadListLiveUpdate');
+        Le.clearModeratedInterval('leadListLiveUpdate');
         mQuery('#liveModeButton').removeClass('btn-primary');
     }
 };
 
-Mautic.updateLeadList = function () {
+Le.updateLeadList = function () {
     var maxLeadId = mQuery('#liveModeButton').data('max-id');
     mQuery.ajax({
         url: mauticAjaxUrl,
@@ -1271,17 +1271,17 @@ Mautic.updateLeadList = function () {
                 mQuery('#liveModeButton').data('max-id', response.maxId);
             }
 
-            Mautic.moderatedIntervalCallbackIsComplete('leadListLiveUpdate');
+            Le.moderatedIntervalCallbackIsComplete('leadListLiveUpdate');
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
 
-            Mautic.moderatedIntervalCallbackIsComplete('leadListLiveUpdate');
+            Le.moderatedIntervalCallbackIsComplete('leadListLiveUpdate');
         }
     });
 };
 
-Mautic.toggleAnonymousLeads = function() {
+Le.toggleAnonymousLeads = function() {
     var searchValue = mQuery('#list-search').typeahead('val');
     var string      = mQuery('#anonymousLeadButton').data('anonymous').toLowerCase();
 
@@ -1301,19 +1301,19 @@ Mautic.toggleAnonymousLeads = function() {
         mQuery('#anonymousLeadButton').removeClass('btn-primary');
     }
     searchValue = searchValue.replace("  ", " ");
-    Mautic.setSearchFilter(null, 'list-search', searchValue);
+    Le.setSearchFilter(null, 'list-search', searchValue);
 };
 
-Mautic.getLeadEmailContent = function (el) {
+Le.getLeadEmailContent = function (el) {
     var id = (mQuery.type( el ) === "string") ? el : mQuery(el).attr('id');
-    Mautic.activateLabelLoadingIndicator(id);
+    Le.activateLabelLoadingIndicator(id);
 
     var inModal = mQuery('#'+id).closest('modal').length;
     if (inModal) {
         mQuery('#MauticSharedModal .btn-primary').prop('disabled', true);
     }
 
-    Mautic.ajaxActionRequest('lead:getEmailTemplate', {'template': mQuery(el).val()}, function(response) {
+    Le.ajaxActionRequest('lead:getEmailTemplate', {'template': mQuery(el).val()}, function(response) {
         if (inModal) {
             mQuery('#MauticSharedModal .btn-primary').prop('disabled', false);
         }
@@ -1323,23 +1323,23 @@ Mautic.getLeadEmailContent = function (el) {
         mQuery(bodyEl).val(response.body);
         mQuery('#'+idPrefix+'subject').val(response.subject);
 
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };
 
-Mautic.updateLeadTags = function () {
-    Mautic.activateLabelLoadingIndicator('lead_tags_tags');
+Le.updateLeadTags = function () {
+    Le.activateLabelLoadingIndicator('lead_tags_tags');
     var formData = mQuery('form[name="lead_tags"]').serialize();
-    Mautic.ajaxActionRequest('lead:updateLeadTags', formData, function(response) {
+    Le.ajaxActionRequest('lead:updateLeadTags', formData, function(response) {
         if (response.tags) {
             mQuery('#lead_tags_tags').html(response.tags);
             mQuery('#lead_tags_tags').trigger('chosen:updated');
         }
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };
 
-Mautic.createLeadTag = function (el) {
+Le.createLeadTag = function (el) {
     var newFound = false;
     mQuery('#' + mQuery(el).attr('id') + ' :selected').each(function(i, selected) {
         if (!mQuery.isNumeric(mQuery(selected).val())) {
@@ -1350,31 +1350,31 @@ Mautic.createLeadTag = function (el) {
     var tags = JSON.stringify(mQuery(el).val());
 
     if (!newFound) {
-        Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
-        Mautic.ajaxActionRequest('lead:addNumericLeadTags', {tags: tags}, function(response) {
+        Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+        Le.ajaxActionRequest('lead:addNumericLeadTags', {tags: tags}, function(response) {
             if (response.tags) {
                 mQuery('#' + mQuery(el).attr('id')).html(response.tags);
                 mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
             }
 
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         });
 
         return
     }
 
-        Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
-        Mautic.ajaxActionRequest('lead:addLeadTags', {tags: tags}, function(response) {
+        Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+        Le.ajaxActionRequest('lead:addLeadTags', {tags: tags}, function(response) {
             if (response.tags) {
                 mQuery('#' + mQuery(el).attr('id')).html(response.tags);
                 mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
             }
 
-            Mautic.removeLabelLoadingIndicator();
+            Le.removeLabelLoadingIndicator();
         });
 };
 
-Mautic.createLeadUtmTag = function (el) {
+Le.createLeadUtmTag = function (el) {
     var newFound = false;
     mQuery('#' + mQuery(el).attr('id') + ' :selected').each(function(i, selected) {
         if (!mQuery.isNumeric(mQuery(selected).val())) {
@@ -1386,24 +1386,24 @@ Mautic.createLeadUtmTag = function (el) {
         return;
     }
 
-    Mautic.activateLabelLoadingIndicator(mQuery(el).attr('id'));
+    Le.activateLabelLoadingIndicator(mQuery(el).attr('id'));
 
     var utmtags = JSON.stringify(mQuery(el).val());
 
-    Mautic.ajaxActionRequest('lead:addLeadUtmTags', {utmtags: utmtags}, function(response) {
+    Le.ajaxActionRequest('lead:addLeadUtmTags', {utmtags: utmtags}, function(response) {
         if (response.tags) {
             mQuery('#' + mQuery(el).attr('id')).html(response.utmtags);
             mQuery('#' + mQuery(el).attr('id')).trigger('chosen:updated');
         }
 
-        Mautic.removeLabelLoadingIndicator();
+        Le.removeLabelLoadingIndicator();
     });
 };
 
-Mautic.leadBatchSubmit = function() {
-    if (Mautic.batchActionPrecheck()) {
+Le.leadBatchSubmit = function() {
+    if (Le.batchActionPrecheck()) {
         if (mQuery('#lead_batch_remove').val() || mQuery('#lead_batch_add').val() || mQuery('#lead_batch_dnc_reason').length || mQuery('#lead_batch_stage_addstage').length || mQuery('#lead_batch_owner_addowner').length) {
-            var ids = Mautic.getCheckedListIds(false, true);
+            var ids = Le.getCheckedListIds(false, true);
 
             if (mQuery('#lead_batch_ids').length) {
                 mQuery('#lead_batch_ids').val(ids);
@@ -1425,12 +1425,12 @@ Mautic.leadBatchSubmit = function() {
     return false;
 };
 
-Mautic.updateLeadFieldValues = function (field) {
+Le.updateLeadFieldValues = function (field) {
     mQuery('.condition-custom-date-row').hide();
-    Mautic.updateFieldOperatorValue(field, 'lead:updateLeadFieldValues', Mautic.updateLeadFieldValueOptions, [true]);
+    Le.updateFieldOperatorValue(field, 'lead:updateLeadFieldValues', Le.updateLeadFieldValueOptions, [true]);
 };
 
-Mautic.updateLeadFieldValueOptions = function (field, updating) {
+Le.updateLeadFieldValueOptions = function (field, updating) {
     var fieldId = mQuery(field).attr('id');
     var fieldPrefix = fieldId.slice(0, -5);
 
@@ -1481,7 +1481,7 @@ Mautic.updateLeadFieldValueOptions = function (field, updating) {
     }
 };
 
-Mautic.toggleTimelineMoreVisiblity = function (el) {
+Le.toggleTimelineMoreVisiblity = function (el) {
     if (mQuery(el).is(':visible')) {
         mQuery(el).slideUp('fast');
         mQuery(el).next().text(mauticLang['showMore']);
@@ -1491,7 +1491,7 @@ Mautic.toggleTimelineMoreVisiblity = function (el) {
     }
 };
 
-Mautic.displayUniqueIdentifierWarning = function (el) {
+Le.displayUniqueIdentifierWarning = function (el) {
     if (mQuery(el).val() === "0") {
         mQuery('.unique-identifier-warning').fadeOut('fast');
     } else {
@@ -1499,7 +1499,7 @@ Mautic.displayUniqueIdentifierWarning = function (el) {
     }
 };
 
-Mautic.initUniqueIdentifierFields = function() {
+Le.initUniqueIdentifierFields = function() {
     var uniqueFields = mQuery('[data-unique-identifier]');
     if (uniqueFields.length) {
         uniqueFields.on('change', function() {
@@ -1509,7 +1509,7 @@ Mautic.initUniqueIdentifierFields = function() {
                 value: input.val(),
                 ignore: mQuery('#lead_unlockId').val()
             };
-            Mautic.ajaxActionRequest('lead:getLeadIdsByFieldValue', request, function(response) {
+            Le.ajaxActionRequest('lead:getLeadIdsByFieldValue', request, function(response) {
                 if (response.items !== 'undefined' && response.items.length) {
                     var warning = mQuery('<div class="exists-warning" />').text(response.existsMessage);
                     mQuery.each(response.items, function(i, item) {
@@ -1532,7 +1532,7 @@ Mautic.initUniqueIdentifierFields = function() {
     }
 };
 
-Mautic.updateFilterPositioning = function (el) {
+Le.updateFilterPositioning = function (el) {
     var $el = mQuery(el);
     var $parentEl = $el.closest('.panel');
 
@@ -1543,8 +1543,8 @@ Mautic.updateFilterPositioning = function (el) {
     }
 };
 
-Mautic.setAsPrimaryCompany = function (companyId,leadId){
-    Mautic.ajaxActionRequest('lead:setAsPrimaryCompany', {'companyId': companyId, 'leadId': leadId}, function(response) {
+Le.setAsPrimaryCompany = function (companyId,leadId){
+    Le.ajaxActionRequest('lead:setAsPrimaryCompany', {'companyId': companyId, 'leadId': leadId}, function(response) {
         if (response.success) {
             if (response.oldPrimary == response.newPrimary && mQuery('#company-' + response.oldPrimary).hasClass('primary')) {
                 mQuery('#company-' + response.oldPrimary).removeClass('primary');
@@ -1557,7 +1557,7 @@ Mautic.setAsPrimaryCompany = function (companyId,leadId){
     });
 }
 
-Mautic.showOthersField = function (selectedval){
+Le.showOthersField = function (selectedval){
     if(selectedval == "Other"){
         mQuery('#kycinfo_others_label').addClass('required');
         mQuery('#kycinfo_others_label').css("display", "block");
@@ -1571,7 +1571,7 @@ Mautic.showOthersField = function (selectedval){
     }
 }
 
-Mautic.showMarketingOthersField = function (selectedval){
+Le.showMarketingOthersField = function (selectedval){
     if(selectedval == "Other"){
         mQuery('#marketing_others_label').addClass('required');
         mQuery('#marketing_others_label').css("display", "block");
@@ -1585,7 +1585,7 @@ Mautic.showMarketingOthersField = function (selectedval){
     }
 }
 
-Mautic.showGSTNumber = function (selectedval){
+Le.showGSTNumber = function (selectedval){
     //if(selectedval == "India"){
         //mQuery('.accountTimezone').val('Asia/Kolkata');
         //mQuery('#gstnumber_info').addClass('required');
@@ -1600,6 +1600,6 @@ Mautic.showGSTNumber = function (selectedval){
         //mQuery('#billinginfo_gstnumber').prop('required',false);
     //}
 }
-Mautic.exportLeads = function(){
-    Mautic.ajaxActionRequest('lead:exportLead',{},function(response){});
+Le.exportLeads = function(){
+    Le.ajaxActionRequest('lead:exportLead',{},function(response){});
 }

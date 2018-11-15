@@ -1,9 +1,9 @@
 /** SmsBundle **/
-Mautic.smsOnLoad = function (container, response) {
+Le.smsOnLoad = function (container, response) {
     if (mQuery(container + ' #list-search').length) {
-        Mautic.activateSearchAutocomplete('list-search', 'sms');
+        Le.activateSearchAutocomplete('list-search', 'sms');
     }
-    Mautic.getTokens('email:getBuilderTokens', function(tokens) {
+    Le.getTokens('email:getBuilderTokens', function(tokens) {
        /** mQuery.each(tokens, function(k,v){
             if (k.match(/assetlink=/i) && v.match(/a:/)){
                 delete tokens[k];
@@ -72,11 +72,11 @@ Mautic.smsOnLoad = function (container, response) {
             }
         });
     });
-    Mautic.removeActionButtons();
+    Le.removeActionButtons();
 };
-Mautic.CheckSMSStatus = function () {
+Le.CheckSMSStatus = function () {
     if(mQuery('.license-notifiation').hasClass('hide')) {
-        Mautic.ajaxActionRequest('sms:smsstatus', {}, function (response) {
+        Le.ajaxActionRequest('sms:smsstatus', {}, function (response) {
             if (response.success) {
                 if (response.info != "" && response.isalertneeded != "true") {
                     if (mQuery('.license-notifiation').hasClass('hide')) {
@@ -97,7 +97,7 @@ Mautic.CheckSMSStatus = function () {
     }
 }
 
-Mautic.selectSmsType = function(smsType) {
+Le.selectSmsType = function(smsType) {
     if (smsType == 'list') {
         mQuery('#leadList').removeClass('hide');
         mQuery('#publishStatus').addClass('hide');
@@ -116,7 +116,7 @@ Mautic.selectSmsType = function(smsType) {
     mQuery('.sms-type-modal-backdrop').remove();
 };
 
-Mautic.standardSmsUrl = function(options) {
+Le.standardSmsUrl = function(options) {
     if (!options) {
         return;
     }
@@ -132,7 +132,7 @@ Mautic.standardSmsUrl = function(options) {
     return options;
 };
 
-Mautic.disabledSmsAction = function(opener) {
+Le.disabledSmsAction = function(opener) {
     if (typeof opener == 'undefined') {
         opener = window;
     }

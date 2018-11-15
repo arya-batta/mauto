@@ -151,7 +151,7 @@ class BillingType extends AbstractType
                 'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => [
                     'class'    => 'form-control',
-                    'onchange' => 'Mautic.showGSTNumber(this.value);',
+                    'onchange' => 'Le.showGSTNumber(this.value);',
                 ],
                 'empty_value' => '',
                 'data'        => $options['data']->getCountry(),

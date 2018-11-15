@@ -1,17 +1,17 @@
-Mautic.accountinfoOnLoad = function (container) {
+Le.accountinfoOnLoad = function (container) {
     if(mQuery('.cardholder-panel').is(':visible')) {
         var stripe = getStripeClient();
         var card=getStripeCard(stripe);
         mountStripeCard(stripe,card,'#card-holder-widget');
         mQuery('.cardholder-panel .card-update-btn').click(function(e) {
             e.preventDefault();
-            Mautic.activateBackdrop();
+            Le.activateBackdrop();
             stripe.createToken(card).then(function(result) {
                 if (result.error) {
-                    Mautic.deactivateBackgroup();
+                    Le.deactivateBackgroup();
                     // Inform the user if there was an error.
                     var errorElement = document.getElementById('card-holder-errors');
-                    var message=Mautic.showerror(result.error.message);
+                    var message=Le.showerror(result.error.message);
                     errorElement.textContent = message;
                 } else {
                     // Send the token to your server.
@@ -23,11 +23,11 @@ Mautic.accountinfoOnLoad = function (container) {
     if(mQuery('.cancelsubscription').is(':visible')) {
         mQuery('.cancelsubscription .cancel-subscription').click(function(e) {
             e.preventDefault();
-            Mautic.activateBackdrop();
-            Mautic.ajaxActionRequest('subscription:cancelsubscription', {}, function(response) {
+            Le.activateBackdrop();
+            Le.ajaxActionRequest('subscription:cancelsubscription', {}, function(response) {
                 e.preventDefault();
-                Mautic.activateBackdrop();
-                Mautic.deactivateBackgroup();
+                Le.activateBackdrop();
+                Le.deactivateBackgroup();
                 if(response.success) {
                     mQuery('.cancelsubscription').addClass('hide');
                     mQuery('.deactivatedaccount').addClass('show');
@@ -36,7 +36,7 @@ Mautic.accountinfoOnLoad = function (container) {
         });
     }
 }
-Mautic.pricingplansOnLoad = function (container) {
+Le.pricingplansOnLoad = function (container) {
     var stripe = getStripeClient();
     var card=getStripeCard(stripe);
     mQuery('[data-planname]').click(function(e) {
@@ -71,13 +71,13 @@ Mautic.pricingplansOnLoad = function (container) {
         var planname = currentLink.attr('planname');
         var plancredits = currentLink.attr('plancredits');
         var planvalidity = currentLink.attr('planvalidity');
-        Mautic.activateButtonLoadingIndicator(currentLink);
+        Le.activateButtonLoadingIndicator(currentLink);
         stripe.createToken(card).then(function(result) {
             if (result.error) {
-                Mautic.removeButtonLoadingIndicator(currentLink);
+                Le.removeButtonLoadingIndicator(currentLink);
                 // Inform the user if there was an error.
                 var errorElement = document.getElementById('card-holder-errors');
-                var message=Mautic.showerror(result.error.message);
+                var message=Le.showerror(result.error.message);
                 errorElement.textContent = message;
             } else {
                 // Send the token to your server.
@@ -150,12 +150,12 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
         isCardUpdateAlone=false;
     }
     // Insert the token ID into the form so it gets submitted to the server
-    Mautic.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,planvalidity:planvalidity,isCardUpdateAlone:isCardUpdateAlone}, function(response) {
+    Le.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,planvalidity:planvalidity,isCardUpdateAlone:isCardUpdateAlone}, function(response) {
 
         if(isCardUpdateAlone){
-            Mautic.deactivateBackgroup();
+            Le.deactivateBackgroup();
         }else{
-            Mautic.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
+            Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
         }
         if (response.success) {
             card.clear();
@@ -163,13 +163,13 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 setInfoText("Card updated successfully");
                 location.reload();
             }else{
-                Mautic.redirectWithBackdrop(response.statusurl);
+                Le.redirectWithBackdrop(response.statusurl);
             }
         }
         else{
             // Inform the user if there was an error.
             var errors=response.errormsg;
-            var error=Mautic.showerror(errors);
+            var error=Le.showerror(errors);
             setInfoText(error);
         }
     });
@@ -184,7 +184,7 @@ function setInfoText(info){
     infoElement.html(info);
     infoElement.removeClass('hide');
 }
-Mautic.showerror= function (error){
+Le.showerror= function (error){
     var keys=[
         "Your card was declined",
         "insufficient funds",

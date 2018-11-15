@@ -96,14 +96,14 @@
 ?>
 <script>
     <?php if (!empty($canvasSettings)): ?>
-    Mautic.campaignBuilderCanvasSettings =
+    Le.campaignBuilderCanvasSettings =
         <?php echo json_encode($canvasSettings, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderCanvasSources =
+    Le.campaignBuilderCanvasSources =
         <?php echo json_encode($campaignSources, JSON_PRETTY_PRINT); ?>;
-    Mautic.campaignBuilderCanvasEvents =
+    Le.campaignBuilderCanvasEvents =
         <?php echo json_encode($campaignEvents, JSON_PRETTY_PRINT); ?>;
     <?php endif; ?>
 
-    Mautic.campaignBuilderConnectionRestrictions =
+    Le.campaignBuilderConnectionRestrictions =
         <?php echo json_encode($eventSettings['connectionRestrictions'], JSON_PRETTY_PRINT); ?>;
 </script>

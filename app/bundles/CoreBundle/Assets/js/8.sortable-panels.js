@@ -3,7 +3,7 @@
  *
  * @param el
  */
-Mautic.activateSortablePanels = function (container) {
+Le.activateSortablePanels = function (container) {
     mQuery(container).find('.available-panel-selector').each(function() {
         var sortablesContainer = mQuery(this).closest('.sortable-panels');
         var selector = this;
@@ -17,7 +17,7 @@ Mautic.activateSortablePanels = function (container) {
 console.log(prototype);
             if (mQuery(prototype).length) {
                 console.log('exists');
-                Mautic.appendSortablePanel(sortablesContainer, prototype);
+                Le.appendSortablePanel(sortablesContainer, prototype);
             }
 
             mQuery(selector).val('');
@@ -60,7 +60,7 @@ console.log(prototype);
 
     var sortable = mQuery(container).hasClass('sortable-panels') ? container : mQuery(container).find('.sortable-panels');
     mQuery(sortable).find('.sortable-panel-wrapper').each(function() {
-        Mautic.activateSortablePanel(mQuery(this).closest('.panel'));
+        Le.activateSortablePanel(mQuery(this).closest('.panel'));
     });
 };
 
@@ -68,20 +68,20 @@ console.log(prototype);
  * Activate individual sortable panel's buttons, etc
  * @param panel
  */
-Mautic.activateSortablePanel = function (panel) {
+Le.activateSortablePanel = function (panel) {
     mQuery(panel).find('.sortable-panel-buttons').each( function() {
         mQuery(this).find('.btn-delete').on('click', function() {
-            Mautic.deleteSortablePanel(mQuery(this).closest('.panel'));
+            Le.deleteSortablePanel(mQuery(this).closest('.panel'));
         });
 
         mQuery(this).find('.btn-edit').on('click', function() {
-            Mautic.showModal('#'+mQuery(panel).find('.modal').attr('id'));
+            Le.showModal('#'+mQuery(panel).find('.modal').attr('id'));
         });
     });
 
     // Activate chosens in the new modal
     mQuery(panel).find('select').not('.multiselect, .not-chosen').each(function() {
-        Mautic.activateChosenSelect(this, true);
+        Le.activateChosenSelect(this, true);
     });
 
     mQuery(panel).on('dblclick.sortablepanels', function(event) {
@@ -102,7 +102,7 @@ Mautic.activateSortablePanel = function (panel) {
  * @param sortablesContainer
  * @param modal
  */
-Mautic.appendSortablePanel = function(sortablesContainer, modal) {
+Le.appendSortablePanel = function(sortablesContainer, modal) {
     var newIdPrefix    = mQuery(sortablesContainer).find('.available-panel-selector').attr('data-prototype-id-prefix');
     var newNamePrefix  = mQuery(sortablesContainer).find('.available-panel-selector').attr('data-prototype-name-prefix');
     var oldIdPrefix    = mQuery(modal).attr('data-id-prefix');
@@ -154,15 +154,15 @@ Mautic.appendSortablePanel = function(sortablesContainer, modal) {
     newPanel.append(newModal);
 
     // Replace forms id/names
-    Mautic.renameFormElements(newModal, oldIdPrefix, oldNamePrefix, newIdPrefix, newNamePrefix)
+    Le.renameFormElements(newModal, oldIdPrefix, oldNamePrefix, newIdPrefix, newNamePrefix)
 
-    Mautic.activateModalEmbeddedForms('#'+mQuery(newModal).attr('id'));
+    Le.activateModalEmbeddedForms('#'+mQuery(newModal).attr('id'));
 
-    Mautic.showModal(newModal);
+    Le.showModal(newModal);
 
     // Activate chosens in the new modal
     mQuery(newModal).find('select').not('.multiselect, .not-chosen').each(function() {
-        Mautic.activateChosenSelect(this);
+        Le.activateChosenSelect(this);
     });
 };
 
@@ -172,7 +172,7 @@ Mautic.appendSortablePanel = function(sortablesContainer, modal) {
  * @param btn
  * @param modal
  */
-Mautic.updateSortablePanel = function(modalBtn, modal) {
+Le.updateSortablePanel = function(modalBtn, modal) {
     var panel = mQuery(modal).closest('.panel');
 
     // Get label
@@ -214,14 +214,14 @@ Mautic.updateSortablePanel = function(modalBtn, modal) {
         }
     }
 
-    Mautic.activateSortablePanel(panel);
+    Le.activateSortablePanel(panel);
     mQuery(panel).removeClass('new-panel');
 
     // Switch add to update button
     mQuery(panel).find('.modal .btn-add').addClass('hide');
     mQuery(panel).find('.modal .btn-update').removeClass('hide');
 
-    Mautic.toggleSortablePanelAddMessage(mQuery(panel).closest('.sortable-panels'));
+    Le.toggleSortablePanelAddMessage(mQuery(panel).closest('.sortable-panels'));
 };
 
 /**
@@ -229,11 +229,11 @@ Mautic.updateSortablePanel = function(modalBtn, modal) {
  *
  * @param panel
  */
-Mautic.deleteSortablePanel = function(panel) {
+Le.deleteSortablePanel = function(panel) {
     var panelContainer = mQuery(panel).closest('.sortable-panels');
     mQuery(panel).remove();
 
-    Mautic.toggleSortablePanelAddMessage(panelContainer);
+    Le.toggleSortablePanelAddMessage(panelContainer);
 };
 
 /**
@@ -242,7 +242,7 @@ Mautic.deleteSortablePanel = function(panel) {
  * @param modalBtn
  * @param modal
  */
-Mautic.cancelSortablePanel = function(modalBtn, modal) {
+Le.cancelSortablePanel = function(modalBtn, modal) {
     setTimeout(function () {
         mQuery(modal).closest('.panel').remove();
     }, 500);
@@ -253,7 +253,7 @@ Mautic.cancelSortablePanel = function(modalBtn, modal) {
  *
  * @param panelContainer
  */
-Mautic.toggleSortablePanelAddMessage = function(panelContainer) {
+Le.toggleSortablePanelAddMessage = function(panelContainer) {
     // Show/hide the add message
     var panelsLeft = mQuery(panelContainer).find('.sortable-panel-wrapper').length;
     mQuery(panelContainer).find('.sortable-panel-placeholder').each(function() {

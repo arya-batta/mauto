@@ -120,7 +120,7 @@ class LeadType extends AbstractType
                     'data-placeholder'     => $this->factory->getTranslator()->trans('le.lead.tags.select_or_create'),
                     'data-no-results-text' => $this->factory->getTranslator()->trans('le.lead.tags.enter_to_create'),
                     'data-allow-add'       => 'true',
-                    'onchange'             => 'Mautic.createLeadTag(this)',
+                    'onchange'             => 'Le.createLeadTag(this)',
                 ],
             ]
         );

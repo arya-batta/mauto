@@ -49,7 +49,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 
 <?php echo $view['form']->start($form); ?>
 <ul class="bg-auto nav nav-tabs pr-md pl-md">
-    <li class="active detail" id="detailstab" onclick="Mautic.addHide()">
+    <li class="active detail" id="detailstab" onclick="Le.addHide()">
         <a href="#details" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <?php echo $view['translator']->trans('mautic.core.details'); ?>
             <?php if ($mainErrors): ?>
@@ -57,7 +57,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
             <?php endif; ?>
         </a>
     </li>
-    <li id="filterstab" data-toggle="tooltip" title="" onclick="Mautic.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
+    <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
         <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
             <?php if ($filterErrors): ?>
@@ -183,7 +183,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                 $closedata='#segment-filter-block_'.$header;
             ?>
             <div class="hr-segment-expand">
-                <a href="javascript:void(0)" onclick="Mautic.segment_filter(this.id)" id="<?php echo $header; ?>"
+                <a href="javascript:void(0)" onclick="Le.segment_filter(this.id)" id="<?php echo $header; ?>"
                    class="arrow segment-collapse" >
                     <span style="font-size:12px"  <i class="<?php echo $icon ?>"> </i><?php echo $view['translator']->trans('le.leadlist.'.$header); ?></span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>
                 <div class=" filter_option"  style="overflow: hidden;height: auto;display:none;padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_<?php echo $header ?>">
@@ -197,7 +197,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                         ?>
 
                             <div class="col-md-6">
-                        <a  onclick="Mautic.addSegementFilter(this)"
+                        <a  onclick="Le.addSegementFilter(this)"
                             value="<?php echo $view->escape($value); ?>"
                             id="<?php echo $value; ?>"
                             data-field-object="<?php echo $object; ?>"
@@ -222,7 +222,7 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
-        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Mautic.createLeadTag(this)"' : ''; ?>
+        <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
         <select class="form-control not-chosen <?php echo $template; ?>" name="leadlist[filters][__name__][filter]" id="leadlist_filters___name___filter"<?php echo $attr; ?>>
             <?php
             if (isset($form->vars[$dataKey])):

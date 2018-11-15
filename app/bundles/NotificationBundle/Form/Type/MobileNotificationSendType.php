@@ -47,7 +47,7 @@ class MobileNotificationSendType extends AbstractType
             'attr'       => [
                 'class'    => 'form-control',
                 'tooltip'  => 'mautic.notification.choose.notifications',
-                'onchange' => 'Mautic.disabledNotificationAction()',
+                'onchange' => 'Le.disabledNotificationAction()',
             ],
             'multiple'    => false,
             'constraints' => [
@@ -67,7 +67,7 @@ class MobileNotificationSendType extends AbstractType
             $builder->add('newNotificationButton', 'button', [
                 'attr' => [
                     'class'   => 'btn btn-primary btn-nospin',
-                    'onclick' => 'Mautic.loadNewWindow({
+                    'onclick' => 'Le.loadNewWindow({
                         "windowUrl": "'.$windowUrl.'"
                     })',
                     'icon' => 'fa fa-plus',
@@ -88,7 +88,7 @@ class MobileNotificationSendType extends AbstractType
             $builder->add('editNotificationButton', 'button', [
                 'attr' => [
                     'class'    => 'btn btn-primary btn-nospin',
-                    'onclick'  => 'Mautic.loadNewWindow(Mautic.standardNotificationUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
+                    'onclick'  => 'Le.loadNewWindow(Le.standardNotificationUrl({"windowUrl": "'.$windowUrlEdit.'"}))',
                     'disabled' => !isset($notification),
                     'icon'     => 'fa fa-edit',
                 ],

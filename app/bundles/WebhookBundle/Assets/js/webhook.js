@@ -1,4 +1,4 @@
-Mautic.sendHookTest = function() {
+Le.sendHookTest = function() {
 
     var url = mQuery('#webhook_webhookUrl').val();
     var eventTypes = mQuery("#event-types input[type='checkbox']");
@@ -33,7 +33,7 @@ Mautic.sendHookTest = function() {
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Mautic.processAjaxError(request, textStatus, errorThrown);
+            Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function(response) {
             spinner.addClass('hide');

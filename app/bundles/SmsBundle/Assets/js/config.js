@@ -1,4 +1,4 @@
-Mautic.testSmsServerConnection = function(sendSMS) {
+Le.testSmsServerConnection = function(sendSMS) {
     var data = {
         transport: mQuery('#config_smsconfig_sms_transport').val(),
         url:       mQuery('#config_smsconfig_account_url').val(),
@@ -11,7 +11,7 @@ Mautic.testSmsServerConnection = function(sendSMS) {
 
     mQuery('#smsTestButtonContainer .fa-spinner').removeClass('hide');
 
-    Mautic.ajaxActionRequest('sms:testSmsServerConnection', data, function(response) {
+    Le.ajaxActionRequest('sms:testSmsServerConnection', data, function(response) {
         var theClass = (response.success) ? 'has-success' : 'has-error';
         var theMessage = response.message;
         if(!mQuery('#smsconfig #smsTestButtonContainer').is(':hidden')){
@@ -36,7 +36,7 @@ Mautic.testSmsServerConnection = function(sendSMS) {
     });
 };
 
-Mautic.updateTextMessageStatus = function(){
+Le.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
     mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
     mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');

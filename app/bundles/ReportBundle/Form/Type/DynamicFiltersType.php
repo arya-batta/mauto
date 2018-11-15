@@ -35,7 +35,7 @@ class DynamicFiltersType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'    => 'form-control',
-                        'onchange' => "Mautic.filterTableData('report.".$options['report']->getId()."','".$column."',this.value,'list','.report-content');",
+                        'onchange' => "Le.filterTableData('report.".$options['report']->getId()."','".$column."',this.value,'list','.report-content');",
                     ],
                     'required' => false,
                 ];

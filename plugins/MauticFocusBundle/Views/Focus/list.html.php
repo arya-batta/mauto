@@ -163,7 +163,7 @@ $isAdmin=$view['security']->isAdmin();
                         <div style="position: relative;" class="fab-list-container">
                             <div class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
-                                    <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>')"></i>
+                                    <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions">
                                         <?php if ($hasEditAccess): ?>
                                             <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_focus_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">

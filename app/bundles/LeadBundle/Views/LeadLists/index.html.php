@@ -19,7 +19,7 @@ $leadName = $lead->getPrimaryIdentifier();
         $bgClass = $inList ? 'text-success' : 'text-danger';
     ?>
     <li class="list-group-item">
-        <i class="fa fa-lg fa-fw <?php echo $switch.' '.$bgClass; ?>" id="leadListToggle<?php echo $l['id']; ?>" onclick="Mautic.toggleLeadList('leadListToggle<?php echo $l['id']; ?>', <?php echo $leadId; ?>, <?php echo $l['id']; ?>);"></i>
+        <i class="fa fa-lg fa-fw <?php echo $switch.' '.$bgClass; ?>" id="leadListToggle<?php echo $l['id']; ?>" onclick="Le.toggleLeadList('leadListToggle<?php echo $l['id']; ?>', <?php echo $leadId; ?>, <?php echo $l['id']; ?>);"></i>
         <span><?php echo $l['name'].' ('.$l['alias'].')'; ?></span>
     </li>
     <?php endforeach; ?>

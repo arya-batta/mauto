@@ -180,10 +180,10 @@
                     <td class="visible-sm visible-md visible-lg" style="width:30%;">
                         <div class="row" style="margin-left:10px;margin-right:-30px;">
                             <div class="col-md-5" style="width:36%;">
-                            <input type="text" onfocusout="Mautic.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>"/>
+                            <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>"/>
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;right:30px;">
-                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime" onchange="Mautic.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
+                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
                                     <option <?php echo $scheduleFrequency == 1 ? 'selected' : ''; ?> value="days">day</option>
                                     <option <?php echo $scheduleFrequency == 2 ? 'selected' : ''; ?> value="hours">hours</option>
                                     <option <?php echo $scheduleFrequency == 3 ? 'selected' : ''; ?> value="minutes">minutes</option>
@@ -199,14 +199,14 @@
                         <div style="position: relative;" class="fab-list-container">
                             <div class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
-                                    <i class="material-icons" onclick="Mautic.showActionButtons('<?php echo $item->getId(); ?>');"></i>
+                                    <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>');"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a onclick="Mautic.allowEditEmailfromDrip(<?php echo $item->getId() ?>);">
+                                            <a onclick="Le.allowEditEmailfromDrip(<?php echo $item->getId() ?>);">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a onclick="Mautic.removeEmailfromDrip(<?php echo $item->getId(); ?>,<?php echo $entity->getId(); ?>);" >
+                                            <a onclick="Le.removeEmailfromDrip(<?php echo $item->getId(); ?>,<?php echo $entity->getId(); ?>);" >
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>

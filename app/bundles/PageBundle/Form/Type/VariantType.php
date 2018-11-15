@@ -67,7 +67,7 @@ class VariantType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control',
-                    'onchange' => 'Mautic.getAbTestWinnerForm(\'page\', \'page\', this);',
+                    'onchange' => 'Le.getAbTestWinnerForm(\'page\', \'page\', this);',
                 ],
                 'expanded'    => false,
                 'multiple'    => false,

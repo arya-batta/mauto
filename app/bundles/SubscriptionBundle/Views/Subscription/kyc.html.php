@@ -38,7 +38,7 @@ if ($isMobile) {
 <div class="modal fade in kyc" style="display: block;z-index: 1500; <?php echo $popupstyle; ?>">
     <div class="modal-dialog steps" style="<?php echo $style; ?>" role="document">
         <?php if ($showSetup): ?>
-            <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" onsubmit="return Mautic.savePersonalInfo();" method="post">
+            <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" onsubmit="return Le.savePersonalInfo();" method="post">
                 <div class="modal-content">
                     <div class="modal-header kyc-border">
                         <h4 class="modal-title">
@@ -103,8 +103,8 @@ if ($isMobile) {
     <div class="modal-dialog video_page" style="<?php echo $videostyle; ?>" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index'); ?>');" class="dont_show_again close_button" ><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
-                <a href="javascript: void(0);" onclick="Mautic.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span><i class="fa fa-eye-slash"></i><span style="padding:4px;"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></span></a>
+                <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index'); ?>');" class="dont_show_again close_button" ><span><i class="fa fa-close"></i><span style="padding:4px;">Close</span></span></a>
+                <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path('le_dashboard_index', ['login' => 'dont_show_again']); ?>');" class="dont_show_again" ><span><i class="fa fa-eye-slash"></i><span style="padding:4px;"><?php echo $view['translator']->trans('leadsengage.kyc.dont_show'); ?></span></span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans('leadsengage.kyc.video_header'); ?>
                 </h4>
@@ -119,7 +119,7 @@ if ($isMobile) {
 </div>
 <div class="modal fade in kyc_step2" style="display: none;z-index: 1500; <?php echo $popupstyle; ?>">
     <div class="modal-dialog steps" style="<?php echo $style; ?>" role="document">
-        <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" onsubmit="return Mautic.SendOTPConnection();" method="post">
+        <form class="form-group login-form" name="terms_condition" data-toggle="ajax" role="form" onsubmit="return Le.SendOTPConnection();" method="post">
             <div class="modal-content">
                 <div class="modal-header kyc-border">
                     <h4 class="modal-title">
@@ -254,7 +254,7 @@ if ($isMobile) {
                     <!-- begin .row -->
                     <div class="row">
                         <div class="alert alert-danger alert-dismissable alertmsg" style="display:none;margin-left: 10px;margin-right: 10px;">
-                            <a type="button" class="close" onclick ="Mautic.closeAlertMSG();" aria-hidden="true">×</a>
+                            <a type="button" class="close" onclick ="Le.closeAlertMSG();" aria-hidden="true">×</a>
                             <i class="fa fa-exclamation-triangle"></i>
                             Invalid Code
                         </div>
@@ -275,9 +275,9 @@ if ($isMobile) {
                 </div>
 
                 <div class="modal-footer">
-                    <a id="otpBack" onclick="Mautic.LoadKYCDetails();" type="submit" class="btn btn-primary">Back</a>
-                    <a id="send_sms" onclick="Mautic.reSendOTP();" type="submit" class="btn btn-default disabled resendsms" disabled="true"><i class="fa fa-repeat"></i> Resend code</a>
-                    <a id="verify" onclick="Mautic.verifyOTP()" type="submit" class="btn btn-primary">Validate</a>
+                    <a id="otpBack" onclick="Le.LoadKYCDetails();" type="submit" class="btn btn-primary">Back</a>
+                    <a id="send_sms" onclick="Le.reSendOTP();" type="submit" class="btn btn-default disabled resendsms" disabled="true"><i class="fa fa-repeat"></i> Resend code</a>
+                    <a id="verify" onclick="Le.verifyOTP()" type="submit" class="btn btn-primary">Validate</a>
                 </div>
 
             </form>

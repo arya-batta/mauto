@@ -69,7 +69,7 @@ class MonitoringType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'    => 'form-control',
-                'onchange' => 'Mautic.getNetworkFormAction(this)',
+                'onchange' => 'Le.getNetworkFormAction(this)',
             ],
             'choices'     => $options['networkTypes'], // passed from the controller
             'empty_value' => 'mautic.core.form.chooseone',

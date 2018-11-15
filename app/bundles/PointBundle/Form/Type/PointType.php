@@ -71,7 +71,7 @@ class PointType extends AbstractType
             'label_attr'  => ['class' => 'control-label'],
             'attr'        => [
                 'class'    => 'form-control le-input',
-                'onchange' => 'Mautic.getPointActionPropertiesForm(this.value);',
+                'onchange' => 'Le.getPointActionPropertiesForm(this.value);',
             ],
         ]);
 

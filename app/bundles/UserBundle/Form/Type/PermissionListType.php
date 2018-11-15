@@ -34,7 +34,7 @@ class PermissionListType extends AbstractType
             'attr'       => function (Options $options) {
                 return [
                     'data-permission' => $options['bundle'].':'.$options['level'],
-                    'onchange'        => 'Mautic.onPermissionChange(this, \''.$options['bundle'].'\')',
+                    'onchange'        => 'Le.onPermissionChange(this, \''.$options['bundle'].'\')',
                 ];
             },
         ]);

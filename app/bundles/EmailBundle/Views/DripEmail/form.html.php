@@ -123,12 +123,12 @@ $isAdmin              = $view['security']->isAdmin();
                                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('Which email builder would you like to use?')?></h1>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-6 editor_layout" onclick="Mautic.setValueforNewButton('advance_editor',this);" style="margin-left:10px;">
+                                        <div class="col-md-6 editor_layout" onclick="Le.setValueforNewButton('advance_editor',this);" style="margin-left:10px;">
                                             <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
                                             <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
                                             <br>
                                         </div>
-                                        <div class="col-md-6 editor_layout editor_select" onclick="Mautic.setValueforNewButton('basic_editor',this);" style="margin-left:20px;">
+                                        <div class="col-md-6 editor_layout editor_select" onclick="Le.setValueforNewButton('basic_editor',this);" style="margin-left:20px;">
                                             <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
                                             <h4><?php echo $view['translator']->trans('le.email.editor.basic.header')?></h4>
                                             <br>
@@ -139,22 +139,22 @@ $isAdmin              = $view['security']->isAdmin();
                         </ul>
                     </li>
 
-                    <a class="btn btn-default le-btn-default btn-nospin" id="new-drip-email" value="basic_editor" onclick="Mautic.openDripEmailEditor();" style="float:right;z-index:10000;">
+                    <a class="btn btn-default le-btn-default btn-nospin" id="new-drip-email" value="basic_editor" onclick="Le.openDripEmailEditor();" style="float:right;z-index:10000;">
                         <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
                     </a>
                 </div>
                 <div class="saveclose-container hide">
-                    <a class="btn btn-default le-btn-default btn-nospin" id="save-drip-email" value="basic_editor" onclick="Mautic.saveDripEmail(<?php echo $entity->getId(); ?>);" style="float:right;z-index:10000;">
+                    <a class="btn btn-default le-btn-default btn-nospin" id="save-drip-email" value="basic_editor" onclick="Le.saveDripEmail(<?php echo $entity->getId(); ?>);" style="float:right;z-index:10000;">
                     <span><i class="fa fa-save"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.save.close')?></span></span>
                     </a>
                 </div>
                 <div class="cancel-container hide">
-                    <a class="btn btn-default le-btn-default btn-nospin" id="save-drip-email" value="basic_editor" onclick="Mautic.saveDripEmail(<?php echo $entity->getId(); ?>);" style="float:right;z-index:10000;">
+                    <a class="btn btn-default le-btn-default btn-nospin" id="save-drip-email" value="basic_editor" onclick="Le.saveDripEmail(<?php echo $entity->getId(); ?>);" style="float:right;z-index:10000;">
                         <span><i class="fa fa-save"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.cancel')?></span></span>
                     </a>
                 </div>
                 <div class="update-container hide">
-                    <a class="btn btn-default le-btn-default btn-nospin" id="update-drip-email" value="" onclick="Mautic.updateDripEmail();" style="float:right;z-index:10000;">
+                    <a class="btn btn-default le-btn-default btn-nospin" id="update-drip-email" value="" onclick="Le.updateDripEmail();" style="float:right;z-index:10000;">
                         <span><i class="fa fa-save"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.update')?></span></span>
                     </a>
                 </div>
@@ -222,12 +222,12 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
                     <div class="tab-pane fade in bdr-w-0 hide" style="width:100%;" id="email-preview-container">
                         <div id="builder_btn">
-                            <a class="btn btn-default text-primary le-btn-default" onclick="Mautic.showDripEmailTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                            <a class="btn btn-default text-primary le-btn-default" onclick="Le.showDripEmailTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                                 </span>
                             </a>
-                            <a class="btn btn-default text-primary le-btn-default" onclick="Mautic.launchBeeEditor('dripemail', 'email');" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                            <a class="btn btn-default text-primary le-btn-default" onclick="Le.launchBeeEditor('dripemail', 'email');" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.edit'); ?></span>
                                 </span>

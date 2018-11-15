@@ -244,11 +244,11 @@ echo $view['form']->end($form); */
             'typeOneHeader'      => 'mautic.form.type.campaign.header',
             'typeOneIconClass'   => 'fa-cubes',
             'typeOneDescription' => 'mautic.form.type.campaign.description',
-            'typeOneOnClick'     => "Mautic.selectFormType('campaign');",
+            'typeOneOnClick'     => "Le.selectFormType('campaign');",
             'typeTwoHeader'      => 'mautic.form.type.standalone.header',
             'typeTwoIconClass'   => 'fa-list',
             'typeTwoDescription' => 'mautic.form.type.standalone.description',
-            'typeTwoOnClick'     => "Mautic.selectFormType('standalone');",
+            'typeTwoOnClick'     => "Le.selectFormType('standalone');",
             'typeThreeHeader'    => 'le.email.editor.codeeditor.header',
         ]
     );

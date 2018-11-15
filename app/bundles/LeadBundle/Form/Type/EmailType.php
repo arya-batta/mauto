@@ -137,7 +137,7 @@ class EmailType extends AbstractType
                 'required'   => false,
                 'attr'       => [
                     'class'    => 'form-control le-input',
-                    'onchange' => 'Mautic.getLeadEmailContent(this)',
+                    'onchange' => 'Le.getLeadEmailContent(this)',
                 ],
                 'multiple' => false,
             ]

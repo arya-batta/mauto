@@ -16,7 +16,7 @@
     <div class="modal-dialog le-gradient-align" >
         <div class="modal-content le-modal-content" style="height: 260px">
             <div class="modal-header">
-                <a href="javascript: void(0);" onclick="Mautic.closePluginModel('bee-plugin-model');" class="close" ><span aria-hidden="true">&times;</span></a>
+                <a href="javascript: void(0);" onclick="Le.closePluginModel('bee-plugin-model');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title">
                     <?php echo $view['translator']->trans('le.plugins.page.title'); ?>
                 </h4>
@@ -24,7 +24,7 @@
             </div>
             <div class="modal-body form-select-modal" style="background-color: #eee;height: 207px;">
                 <div class="row" style="margin-top: 6%;">
-                    <div class="col-md-6" style="width:50%;cursor:pointer;" onclick="Mautic.openFormCreator();">
+                    <div class="col-md-6" style="width:50%;cursor:pointer;" onclick="Le.openFormCreator();">
                         <div class="panel panel-success">
                             <div class="white-block">
                                 <div>
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" style="width:50%;cursor:pointer;" onclick="Mautic.openVideoEmbedModel();">
+                    <div class="col-md-6" style="width:50%;cursor:pointer;" onclick="Le.openVideoEmbedModel();">
                         <div class="panel panel-success">
                             <div class="white-block">
                                 <div>

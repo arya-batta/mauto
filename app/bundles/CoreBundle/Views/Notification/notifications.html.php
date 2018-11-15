@@ -16,7 +16,7 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
 ?>
 <?php if ($isadmin): ?>
     <li class="dropdown dropdown-custom" id="notificationsDropdown" style="margin-left: 3px;">
-        <a href="javascript: void(0);" onclick="Mautic.showNotifications();" class="dropdown-toggle dropdown-notification" data-toggle="dropdown">
+        <a href="javascript: void(0);" onclick="Le.showNotifications();" class="dropdown-toggle dropdown-notification" data-toggle="dropdown">
             <?php $hideClass = (!empty($updateMessage['isNew']) || !empty($showNewIndicator)) ? '' : ' hide'; ?>
              <span class="label label-danger<?php echo $hideClass; ?>" id="newNotificationIndicator"><i class="fa fa-asterisk"></i></span>
             <span class="fa fa-bell-o" style="font-size: 16px;"></span>
@@ -26,7 +26,7 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h6 class="fw-sb"><?php echo $view['translator']->trans('mautic.core.notifications'); ?>
-                            <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right text-danger" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clearall'); ?>" onclick="Mautic.clearNotification(0);"><i class="fa fa-times"></i></a>
+                            <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right text-danger" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clearall'); ?>" onclick="Le.clearNotification(0);"><i class="fa fa-times"></i></a>
                         </h6>
                     </div>
                 </div>
