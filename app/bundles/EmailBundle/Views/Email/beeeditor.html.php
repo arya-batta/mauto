@@ -14,7 +14,7 @@ $hideplugin = ($type == 'page') ? '' : 'hide';
     <div class="builder-content">
         <input type="hidden" id="builder_url" value="<?php echo $view['router']->path('le_'.$type.'_action', ['objectAction' => 'builder', 'objectId' => $objectId]); ?>" />
     </div>
-     <div id="bee-plugin-btnpanel hide">
+     <div id="bee-plugin-btnpanel">
          <div class="row pull-left" style="margin-left: 2%;width: 40%">
              <h3 id = "BeeEditor_Header"></h3>
          </div>

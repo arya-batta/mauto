@@ -4986,7 +4986,7 @@ figcaption {
 #bee-plugin-viewpanel {
   background-color: #fff;
   position: absolute;
-  /*top: 50px;*/
+  top: 50px;
   bottom: 0;
   right: 0;
   left: 0;
