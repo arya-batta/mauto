@@ -60,7 +60,7 @@ $templates = [
 
 $attr                 = $form->vars['attr'];
 $isAdmin              =$view['security']->isAdmin();
-$isCodeMode           = ($email->getTemplate() === 'mautic_code_mode');
+$isCodeMode           = ($email->getTemplate() === 'le_code_mode');
 $isbasiceditor        =$email->getBeeJSON() == null || $email->getBeeJSON() == '';
 $formcontainserror    =$view['form']->containsErrors($form);
 $activatebasiceditor  =($formcontainserror || $isCloneOp || $isMobile) && $isbasiceditor ? 'active' : '';

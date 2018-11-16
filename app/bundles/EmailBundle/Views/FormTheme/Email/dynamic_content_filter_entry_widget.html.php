@@ -39,7 +39,7 @@
                             $header = $object;
                             $icon   = ($object == 'company') ? 'fa-building' : 'fa-user';
                             ?>
-                            <optgroup label="<?php echo $view['translator']->trans('mautic.lead.'.$header); ?>">
+                            <optgroup label="<?php echo $view['translator']->trans('le.lead.'.$header); ?>">
                                 <?php foreach ($field as $value => $params):
                                     $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
                                     $choices   = \Mautic\LeadBundle\Helper\FormFieldHelper::parseList($list, true, ('boolean' === $params['properties']['type']));

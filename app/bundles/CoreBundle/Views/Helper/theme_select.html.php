@@ -8,7 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$codeMode   = 'mautic_code_mode';
+$codeMode   = 'le_code_mode';
 $isCodeMode = ($active == $codeMode);
 ?>
 <?php if ($themes) : ?>

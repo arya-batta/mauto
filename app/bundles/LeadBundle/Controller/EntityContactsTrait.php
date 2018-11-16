@@ -52,7 +52,7 @@ trait EntityContactsTrait
         }
 
         // Set the route if not standardized
-        $route = "mautic_{$sessionVar}_contacts";
+        $route = "le_{$sessionVar}_contacts";
         if (method_exists($this, 'getRouteBase') && $this->getRouteBase()) {
             $route = 'le_'.$this->getRouteBase().'_contacts';
         }

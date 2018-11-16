@@ -28,7 +28,7 @@ $view['slots']->set('headerTitle', $header.$subheader);
 $template                           = $form['template']->vars['data'];
 $attr                               = $form->vars['attr'];
 $attr['data-submit-callback-async'] = 'clearThemeHtmlBeforeSave';
-$isCodeMode                         = ($activePage->getTemplate() === 'mautic_code_mode');
+$isCodeMode                         = ($activePage->getTemplate() === 'le_code_mode');
 $isAdmin                            =$view['security']->isAdmin();
 $hidepanel                          =$view['security']->isAdmin() ? '' : "style='display: none;'";
 $custombuttons                      = [

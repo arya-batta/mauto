@@ -344,7 +344,7 @@ Le.initSelectTheme = function(themeField) {
             e.preventDefault();
             var currentLink = mQuery(this);
             var theme = currentLink.attr('data-theme');
-            var isCodeMode = (theme === 'mautic_code_mode');
+            var isCodeMode = (theme === 'le_code_mode');
             Le.builderTheme = theme;
 
             if (Le.showChangeThemeWarning && customHtml.val().length) {

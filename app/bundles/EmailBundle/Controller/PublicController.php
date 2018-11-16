@@ -265,7 +265,7 @@ class PublicController extends CommonFormController
         if (!empty($stat)) {
             if ($email = $stat->getEmail()) {
                 $template = $email->getTemplate();
-                if ('mautic_code_mode' === $template) {
+                if ('le_code_mode' === $template) {
                     // Use system default
                     $template = null;
                 }
@@ -471,7 +471,7 @@ class PublicController extends CommonFormController
             $message = $this->translator->trans('le.email.stat_record.not_found');
         }
 
-        $template = ($email !== null && 'mautic_code_mode' !== $email->getTemplate()) ? $email->getTemplate() : $this->coreParametersHelper->getParameter('theme');
+        $template = ($email !== null && 'le_code_mode' !== $email->getTemplate()) ? $email->getTemplate() : $this->coreParametersHelper->getParameter('theme');
         $theme    = null;
         if ($template != null) {
             $theme = $this->factory->getTheme($template);
