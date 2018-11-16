@@ -875,7 +875,7 @@ Le.createNewDynamicContentFilter = function(el, jQueryVariant) {
     filterHolder.append(newForm);
 
     var filterContainer  = mQuery(filterContainerId);
-    var availableFilters = filterContainer.find('select[data-mautic="available_filters"]');
+    var availableFilters = filterContainer.find('select[data-le="available_filters"]');
     var altTextarea      = filterContainer.find('.editor');
     var removeButton     = filterContainer.find('.remove-item');
 
@@ -947,7 +947,7 @@ Le.initDynamicContentItem = function (tabId, jQueryVariant, tokenName) {
         );
     });
 
-    $el.find('select[data-mautic="available_filters"]').on('change', function() {
+    $el.find('select[data-le="available_filters"]').on('change', function() {
         var $this = mQuery(this);
 
         if ($this.val()) {
@@ -1023,7 +1023,7 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
     var activeDynamicContentFilterContainer = dynamicContentFilterContainers.filter(':visible');
     var dynamicContentFilterIndex           = dynamicContentFilterContainers.index(activeDynamicContentFilterContainer);
 
-    var selectedOption  = mQuery('option[data-mautic="available_' + selectedFilter + '"]').first();
+    var selectedOption  = mQuery('option[data-le="available_' + selectedFilter + '"]').first();
     var label           = selectedOption.text();
 
     // create a new filter

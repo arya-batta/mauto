@@ -15,7 +15,7 @@ Le.dynamicContentOnLoad = function (container, response) {
         }
     }
 
-    var availableFilters = mQuery('div.dwc-filter').find('select[data-mautic="available_filters"]');
+    var availableFilters = mQuery('div.dwc-filter').find('select[data-le="available_filters"]');
     Le.activateChosenSelect(availableFilters, false);
 
     Le.leadlistOnLoad('div.dwc-filter');
