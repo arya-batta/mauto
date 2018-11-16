@@ -82,10 +82,10 @@ class DashboardSubscriber extends MainDashboardSubscriber
                                 $log['objectName'] = '';
                             }
 
-                            $routeName = 'mautic_'.$log['bundle'].'_action';
+                            $routeName = 'le_'.$log['bundle'].'_action';
                             if ($this->router->getRouteCollection()->get($routeName) !== null) {
                                 $log['route'] = $this->router->generate(
-                                    'mautic_'.$log['bundle'].'_action',
+                                    'le_'.$log['bundle'].'_action',
                                     ['objectAction' => 'view', 'objectId' => $log['objectId']]
                                 );
                             } else {

@@ -117,8 +117,8 @@ class DefaultController extends FormController
 
                     $this->addFlash('mautic.core.notice.updated', [
                         '%name%'      => $entity->getTitle(),
-                        '%menu_link%' => 'mautic_'.$source.'_index',
-                        '%url%'       => $this->generateUrl('mautic_'.$source.'_action', [
+                        '%menu_link%' => 'le_'.$source.'_index',
+                        '%url%'       => $this->generateUrl('le_'.$source.'_action', [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
                         ]),

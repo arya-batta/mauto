@@ -72,7 +72,7 @@ class LeadSubscriber extends CommonSubscriber
             foreach ($logs['results'] as $log) {
                 $eventName = [
                     'label' => $label.$log['channelName'].' '.$log['channelId'],
-                    'href'  => $this->router->generate('mautic_'.$log['channelName'].'_action', ['objectAction' => 'view', 'objectId' => $log['channelId']]),
+                    'href'  => $this->router->generate('le_'.$log['channelName'].'_action', ['objectAction' => 'view', 'objectId' => $log['channelId']]),
                 ];
                 $event->addEvent(
                     [

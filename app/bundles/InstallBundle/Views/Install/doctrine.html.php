@@ -21,7 +21,7 @@ if ($tmpl == 'index') {
 </div>
 <div class="panel-body">
     <?php echo $view['form']->start($form); ?>
-    <div class="alert alert-mautic">
+    <div class="alert alert-le">
         <h6><?php echo $view['translator']->trans('mautic.install.database.introtext'); ?></h6>
     </div>
 

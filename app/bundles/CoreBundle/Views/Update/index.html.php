@@ -17,7 +17,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.updat
     <div id="update-panel" class="panel-body">
         <div class="col-sm-offset-2 col-sm-8">
             <?php if ($updateData['error'] || $updateData['message'] == 'mautic.core.updater.running.latest.version') : ?>
-                <div class="alert alert-mautic">
+                <div class="alert alert-le">
                     <?php echo $view['translator']->trans($updateData['message']); ?>
                 </div>
             <?php else : ?>

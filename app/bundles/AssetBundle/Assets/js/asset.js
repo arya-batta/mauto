@@ -72,20 +72,20 @@ Le.initializeDropzone = function() {
         }
     };
 
-    if (typeof mauticAssetUploadMaxSize !== 'undefined') {
-        options.maxFilesize = mauticAssetUploadMaxSize;
+    if (typeof leAssetUploadMaxSize !== 'undefined') {
+        options.maxFilesize = leAssetUploadMaxSize;
     }
 
-    if (typeof mauticAssetUploadMaxSizeError !== 'undefined') {
-        options.dictFileTooBig = mauticAssetUploadMaxSizeError;
+    if (typeof leAssetUploadMaxSizeError !== 'undefined') {
+        options.dictFileTooBig = leAssetUploadMaxSizeError;
     }
 
-    if (typeof mauticAssetUploadExtensions !== 'undefined') {
-        options.acceptedFiles = mauticAssetUploadExtensions;
+    if (typeof leAssetUploadExtensions !== 'undefined') {
+        options.acceptedFiles = leAssetUploadExtensions;
     }
 
-    if (typeof mauticAssetUploadExtensionError !== 'undefined') {
-        options.dictInvalidFileType = mauticAssetUploadExtensionError;
+    if (typeof leAssetUploadExtensionError !== 'undefined') {
+        options.dictInvalidFileType = leAssetUploadExtensionError;
     }
 
     Le.assetDropzone = new Dropzone("div#dropzone", options);

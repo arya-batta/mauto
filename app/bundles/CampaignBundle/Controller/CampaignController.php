@@ -252,7 +252,7 @@ class CampaignController extends AbstractStandardFormController
      */
     protected function afterEntityClone($campaign, $oldCampaign)
     {
-        $tempId   = 'mautic_'.sha1(uniqid(mt_rand(), true));
+        $tempId   = 'le_'.sha1(uniqid(mt_rand(), true));
         $objectId = $oldCampaign->getId();
 
         // Get the events that need to be duplicated as well
@@ -433,7 +433,7 @@ class CampaignController extends AbstractStandardFormController
         if ($objectId) {
             $sessionId = $objectId;
         } elseif ('new' === $action && empty($sessionId)) {
-            $sessionId = 'mautic_'.sha1(uniqid(mt_rand(), true));
+            $sessionId = 'le_'.sha1(uniqid(mt_rand(), true));
             if ($this->request->request->has('campaign')) {
                 $sessionId = $this->request->request->get('campaign[sessionId]', $sessionId, true);
             }

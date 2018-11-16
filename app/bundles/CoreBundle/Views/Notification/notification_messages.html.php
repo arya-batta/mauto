@@ -11,7 +11,7 @@
 ?>
 
 <?php if (!empty($updateMessage['message'])) : ?>
-<div class="media pt-sm pb-sm pr-md pl-md nm bdr-b alert-mautic mautic-update">
+<div class="media pt-sm pb-sm pr-md pl-md nm bdr-b alert-le le-update">
     <h4 class="pull-left"><?php echo $updateMessage['message']; ?></h4>
     <div class="pull-right">
         <a class="btn btn-danger" href="<?php echo $view['router']->path('le_core_update'); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.update.now'); ?></a>

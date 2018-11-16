@@ -80,9 +80,9 @@ class AjaxController extends CommonAjaxController
                 'mautic.core.error.locked',
                 [
                     '%name%'      => $entity->getTitle(),
-                    '%menu_link%' => 'mautic_'.$source.'_index',
+                    '%menu_link%' => 'le_'.$source.'_index',
                     '%url%'       => $this->generateUrl(
-                        'mautic_'.$source.'_action',
+                        'le_'.$source.'_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),
@@ -99,9 +99,9 @@ class AjaxController extends CommonAjaxController
                 'mautic.core.notice.updated',
                 [
                     '%name%'      => $entity->getTitle(),
-                    '%menu_link%' => 'mautic_'.$source.'_index',
+                    '%menu_link%' => 'le_'.$source.'_index',
                     '%url%'       => $this->generateUrl(
-                        'mautic_'.$source.'_action',
+                        'le_'.$source.'_action',
                         [
                             'objectAction' => 'edit',
                             'objectId'     => $entity->getId(),

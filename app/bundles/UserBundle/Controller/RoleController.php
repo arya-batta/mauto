@@ -332,7 +332,7 @@ class RoleController extends FormController
 
             if ($object->isEnabled()) {
                 $bundle = $object->getName();
-                $label  = $translator->trans("mautic.{$bundle}.permissions.header");
+                $label  = $translator->trans("le.{$bundle}.permissions.header");
 
                 //convert the permission bits from the db into readable names
                 $data = $object->convertBitsToPermissionNames($permissionsArray);

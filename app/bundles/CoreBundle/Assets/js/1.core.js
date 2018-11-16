@@ -746,8 +746,8 @@ var Le = {
             mQuery('#leLastNotificationId').val(notifications.lastId);
         }
 
-        if (mQuery('#notifications .mautic-update')) {
-            mQuery('#notifications .mautic-update').remove();
+        if (mQuery('#notifications .le-update')) {
+            mQuery('#notifications .le-update').remove();
         }
 
         if (notifications.hasNewNotifications) {

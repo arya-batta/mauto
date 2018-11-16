@@ -18,11 +18,11 @@ $view['slots']->set('leContent', 'asset');
 $isAdmin=$view['security']->isAdmin();
 ?>
 <script>
-	<?php echo 'mauticAssetUploadEndpoint = "'.$uploadEndpoint.'";'; ?>
-	<?php echo 'mauticAssetUploadMaxSize = '.$maxSize.';'; ?>
-	<?php echo 'mauticAssetUploadMaxSizeError = "'.$maxSizeError.'";'; ?>
-	<?php echo 'mauticAssetUploadExtensions = "'.$extensions.'";'; ?>
-	<?php echo 'mauticAssetUploadExtensionError = "'.$extensionError.'";'; ?>
+	<?php echo 'leAssetUploadEndpoint = "'.$uploadEndpoint.'";'; ?>
+	<?php echo 'leAssetUploadMaxSize = '.$maxSize.';'; ?>
+	<?php echo 'leAssetUploadMaxSizeError = "'.$maxSizeError.'";'; ?>
+	<?php echo 'leAssetUploadExtensions = "'.$extensions.'";'; ?>
+	<?php echo 'leAssetUploadExtensionError = "'.$extensionError.'";'; ?>
 </script>
 <?php echo $view['form']->start($form); ?>
 <!-- start: box layout -->

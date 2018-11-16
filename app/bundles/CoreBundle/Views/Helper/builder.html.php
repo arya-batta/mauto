@@ -15,7 +15,7 @@ $isAdmin    =$view['security']->isAdmin();
         <?php echo htmlspecialchars($builderAssets); ?>
     </script>
     <div class="builder-content">
-        <input type="hidden" id="builder_url" value="<?php echo $view['router']->path('mautic_'.$type.'_action', ['objectAction' => 'builder', 'objectId' => $objectId]); ?>" />
+        <input type="hidden" id="builder_url" value="<?php echo $view['router']->path('le_'.$type.'_action', ['objectAction' => 'builder', 'objectId' => $objectId]); ?>" />
     </div>
     <div class="builder-panel">
         <div class="builder-panel-top">

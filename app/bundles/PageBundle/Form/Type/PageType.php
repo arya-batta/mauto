@@ -105,7 +105,7 @@ class PageType extends AbstractType
             'beeJSON',
             'textarea',
             [
-                'label'      => 'mautic.page.form.beejson',
+                'label'      => 'le.page.form.beejson',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [

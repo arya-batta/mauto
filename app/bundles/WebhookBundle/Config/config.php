@@ -39,7 +39,7 @@ return [
         'admin' => [
             'items' => [
                 'mautic.webhook.webhooks' => [
-                    'id'              => 'mautic_webhook_root',
+                    'id'              => 'le_webhook_root',
                     'iconClass'       => 'fa-exchange',
                     'priority'        => 200,
                     'access'          => ['webhook:webhooks:viewown', 'webhook:webhooks:viewother'],

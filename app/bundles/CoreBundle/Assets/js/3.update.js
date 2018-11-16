@@ -280,7 +280,7 @@ Le.processUpdate = function (container, step, state) {
                         window.location = response.redirect;
                     } else {
                         if (response.success) {
-                            mQuery('div[id=' + container + ']').html('<div class="alert alert-mautic">' + response.message + '</div>');
+                            mQuery('div[id=' + container + ']').html('<div class="alert alert-le">' + response.message + '</div>');
 
                             if (response.postmessage) {
                                 mQuery('<div>'+response.postmessage+'</div>').insertAfter('div[id=' + container + '] .alert');

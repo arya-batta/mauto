@@ -57,7 +57,7 @@ return [
             'priority' => 50,
             'items'    => [
                 'mautic.plugin.plugins' => [
-                    'id'        => 'mautic_plugin_root',
+                    'id'        => 'le_plugin_root',
                     'iconClass' => 'fa-plus-circle',
                     // 'access'    => 'plugin:plugins:manage',
                     'route'     => 'le_plugin_index',

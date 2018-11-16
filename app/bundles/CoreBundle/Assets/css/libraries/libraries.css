@@ -4810,19 +4810,19 @@ a.thumbnail.active {
 .alert-danger .alert-link {
   color: #843534;
 }
-.alert-mautic {
+.alert-le {
   background-color: #375695;
   border-color: rgba(0, 0, 0, 0.03);
   color: #ffffff;
 }
-.alert-mautic a {
+.alert-le a {
   color: #ffffff;
   text-decoration: underline;
 }
-.alert-mautic hr {
+.alert-le hr {
   border-top-color: rgba(0, 0, 0, 0.03);
 }
-.alert-mautic .alert-link {
+.alert-le .alert-link {
   color: #e6e6e6;
 }
 @-webkit-keyframes progress-bar-stripes {
