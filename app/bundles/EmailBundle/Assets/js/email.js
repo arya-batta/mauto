@@ -121,7 +121,7 @@ Le.emailOnLoad = function (container, response) {
                 return;
             }
             var url = window.location.href;
-            if (url.indexOf('emails/new') == -1) {
+            if (url.indexOf('broadcasts/new') == -1) {
                 if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
                     Le.showpreviewoftemplate(mQuery('textarea.builder-html').val());
                 }

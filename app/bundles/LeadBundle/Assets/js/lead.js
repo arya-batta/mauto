@@ -1,6 +1,5 @@
 //LeadBundle
 Le.leadOnLoad = function (container, response) {
-    alert("Testing");
     Le.removeActionButtons();
     Le.addKeyboardShortcut('a', 'Quick add a New Lead', function(e) {
         if(mQuery('a.quickadd').length) {
