@@ -43,7 +43,7 @@ class UploadFieldValidator
      */
     public function processFileValidation(Field $field, Request $request)
     {
-        $files = $request->files->get('mauticform');
+        $files = $request->files->get('leform');
 
         if (!$files || !array_key_exists($field->getAlias(), $files)) {
             throw new NoFileGivenException();

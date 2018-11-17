@@ -1,6 +1,6 @@
 //AssetBundle
 Le.assetOnLoad = function (container) {
-    if (typeof mauticAssetUploadEndpoint !== 'undefined' && mQuery('div#dropzone').length) {
+    if (typeof leAssetUploadEndpoint !== 'undefined' && mQuery('div#dropzone').length) {
         Le.initializeDropzone();
     }
     Le.removeActionButtons();
@@ -60,7 +60,7 @@ Le.changeAssetStorageLocation = function() {
 
 Le.initializeDropzone = function() {
     var options = {
-        url: mauticAssetUploadEndpoint,
+        url: leAssetUploadEndpoint,
         uploadMultiple: false,
         filesizeBase: 1024,
         init: function() {

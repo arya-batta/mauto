@@ -182,7 +182,7 @@ class FormType extends AbstractType
             'label_attr' => ['class' => 'control-label check_required'],
             'attr'       => [
                 'class'    => 'form-control le-input',
-                'data-hide-on' => '{"mauticform_postAction":["return"]}',
+                'data-hide-on' => '{"leform_postAction":["return"]}',
                 'onkeyup'  => 'Le.onKeyupMaxLength(this.value);',
             ],
             'required'   => $required,
@@ -221,6 +221,6 @@ class FormType extends AbstractType
      */
     public function getName()
     {
-        return 'mauticform';
+        return 'leform';
     }
 }

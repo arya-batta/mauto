@@ -14,9 +14,9 @@ Le.formOnLoad = function (container) {
     });
 
 
-    if (mQuery('#mauticforms_fields')) {
+    if (mQuery('#leforms_fields')) {
         //make the fields sortable
-        mQuery('#mauticforms_fields').sortable({
+        mQuery('#leforms_fields').sortable({
             items: '.panel',
             cancel: '',
             helper: function(e, ui) {
@@ -36,7 +36,7 @@ Le.formOnLoad = function (container) {
             },
             scroll: true,
             axis: 'y',
-            containment: '#mauticforms_fields .drop-here',
+            containment: '#leforms_fields .drop-here',
             stop: function(e, ui) {
                 // Restore original overflow
                 mQuery('body').css(bodyOverflow);
@@ -45,7 +45,7 @@ Le.formOnLoad = function (container) {
                 mQuery.ajax({
                     type: "POST",
                     url: leAjaxUrl + "?action=form:reorderFields",
-                    data: mQuery('#mauticforms_fields').sortable("serialize", {attribute: 'data-sortable-id'}) + "&formId=" + mQuery('#mauticform_sessionId').val()
+                    data: mQuery('#leforms_fields').sortable("serialize", {attribute: 'data-sortable-id'}) + "&formId=" + mQuery('#leform_sessionId').val()
                 });
             }
         });
@@ -61,7 +61,7 @@ Le.formOnLoad = function (container) {
         mQuery('#Form_post_action').removeClass('has-success has-error');
         mQuery('#Form_Name .help-block').addClass('hide').html("");
         mQuery('#Form_post_action .help-block').addClass('hide').html("");
-        if(mQuery('#mauticform_name').val() == "" && mQuery('#mauticform_postActionProperty').val() == ""){
+        if(mQuery('#leform_name').val() == "" && mQuery('#leform_postActionProperty').val() == ""){
             if(mQuery('.check_required').hasClass('required'))
             {
                 mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
@@ -76,11 +76,11 @@ Le.formOnLoad = function (container) {
 
             return;
         }
-        else if(mQuery('#mauticform_name').val() == "") {
+        else if(mQuery('#leform_name').val() == "") {
             mQuery('#Form_Name').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Form_Name .custom-help').removeClass('hide').html("Name can't be empty.");
             return;
-        } else if (mQuery('#mauticform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
+        } else if (mQuery('#leform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
             mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Form_post_action .custom-help').removeClass('hide').html("Redirect URL/Message can't be empty");
             return;
@@ -92,9 +92,9 @@ Le.formOnLoad = function (container) {
         mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
     });
 
-    if (mQuery('#mauticforms_actions')) {
+    if (mQuery('#leforms_actions')) {
         //make the fields sortable
-        mQuery('#mauticforms_actions').sortable({
+        mQuery('#leforms_actions').sortable({
             items: '.panel',
             cancel: '',
             helper: function(e, ui) {
@@ -114,7 +114,7 @@ Le.formOnLoad = function (container) {
             },
             scroll: true,
             axis: 'y',
-            containment: '#mauticforms_actions .drop-here',
+            containment: '#leforms_actions .drop-here',
             stop: function(e, ui) {
                 // Restore original overflow
                 mQuery('body').css(bodyOverflow);
@@ -123,23 +123,23 @@ Le.formOnLoad = function (container) {
                 mQuery.ajax({
                     type: "POST",
                     url: leAjaxUrl + "?action=form:reorderActions",
-                    data: mQuery('#mauticforms_actions').sortable("serialize") + "&formId=" + mQuery('#mauticform_sessionId').val()
+                    data: mQuery('#leforms_actions').sortable("serialize") + "&formId=" + mQuery('#leform_sessionId').val()
                 });
             }
         });
 
-        mQuery('#mauticforms_actions .mauticform-row').on('dblclick.mauticformactions', function(event) {
+        mQuery('#leforms_actions .leform-row').on('dblclick.leformactions', function(event) {
             event.preventDefault();
             mQuery(this).find('.btn-edit').first().click();
         });
     }
 
-    if (mQuery('#mauticform_formType').length && mQuery('#mauticform_formType').val() == '') {
+    if (mQuery('leform_formType').length && mQuery('#leform_formType').val() == '') {
         //mQuery('body').addClass('noscroll');
     }
 
-    Le.initHideItemButton('#mauticforms_fields');
-    Le.initHideItemButton('#mauticforms_actions');
+    Le.initHideItemButton('#leforms_fields');
+    Le.initHideItemButton('#leforms_actions');
     if(mQuery('#Form_post_action').hasClass('has-error')){
         mQuery('.check_required').addClass('required');
     }
@@ -212,7 +212,7 @@ Le.formFieldOnLoad = function (container, response) {
     //new field created so append it to the form
     if (response.fieldHtml) {
         var newHtml = response.fieldHtml;
-        var fieldId = '#mauticform_' + response.fieldId;
+        var fieldId = '#leform_' + response.fieldId;
         var fieldContainer = mQuery(fieldId).closest('.form-field-wrapper');
 
         if (mQuery(fieldId).length) {
@@ -221,7 +221,7 @@ Le.formFieldOnLoad = function (container, response) {
             var newField = false;
         } else {
             //append content
-            var panel = mQuery('#mauticforms_fields .mauticform-button-wrapper').closest('.form-field-wrapper');
+            var panel = mQuery('#leforms_fields .leform-button-wrapper').closest('.form-field-wrapper');
             panel.before(newHtml);
             var newField = true;
         }
@@ -264,11 +264,11 @@ Le.formFieldOnLoad = function (container, response) {
 
 Le.initFormFieldButtons = function (container) {
     if (typeof container == 'undefined') {
-        mQuery('#mauticforms_fields .mauticform-row').off(".mauticformfields");
-        var container = '#mauticforms_fields';
+        mQuery('#leforms_fields .leform-row').off(".leformfields");
+        var container = '#leforms_fields';
     }
 
-    mQuery(container).find('.mauticform-row').on('dblclick.mauticformfields', function(event) {
+    mQuery(container).find('.leform-row').on('dblclick.leformfields', function(event) {
         event.preventDefault();
         mQuery(this).closest('.form-field-wrapper').find('.btn-edit').first().click();
     });
@@ -278,14 +278,14 @@ Le.formActionOnLoad = function (container, response) {
     //new action created so append it to the form
     if (response.actionHtml) {
         var newHtml = response.actionHtml;
-        var actionId = '#mauticform_action_' + response.actionId;
+        var actionId = '#leform_action_' + response.actionId;
         if (mQuery(actionId).length) {
             //replace content
             mQuery(actionId).replaceWith(newHtml);
             var newField = false;
         } else {
             //append content
-            mQuery(newHtml).appendTo('#mauticforms_actions');
+            mQuery(newHtml).appendTo('#leforms_actions');
             var newField = true;
         }
         //activate new stuff
@@ -305,8 +305,8 @@ Le.formActionOnLoad = function (container, response) {
 
         Le.initHideItemButton(actionId);
 
-        mQuery('#mauticforms_actions .mauticform-row').off(".mauticform");
-        mQuery('#mauticforms_actions .mauticform-row').on('dblclick.mauticformactions', function(event) {
+        mQuery('#leforms_actions .leform-row').off(".leform");
+        mQuery('#leforms_actions .leform-row').on('dblclick.leformactions', function(event) {
             event.preventDefault();
             mQuery(this).find('.btn-edit').first().click();
         });
@@ -337,23 +337,23 @@ Le.onPostSubmitActionChange = function(value) {
     mQuery('#Form_post_action .custom-help').html("");
     if (value == 'return') {
         //remove required class
-        mQuery('#mauticform_postActionProperty').attr('type','text');
-        mQuery('#mauticform_postActionProperty').prev().removeClass('required');
+        mQuery('#leform_postActionProperty').attr('type','text');
+        mQuery('#leform_postActionProperty').prev().removeClass('required');
         mQuery('#Form_post_action').addClass('hide');
-        mQuery('#mauticform_postActionProperty').val('');
+        mQuery('#leform_postActionProperty').val('');
     } else {
         if(value == 'redirect'){
-            mQuery('#mauticform_postActionProperty').attr('type','url');
+            mQuery('#leform_postActionProperty').attr('type','url');
             mQuery('#Form_post_action').removeClass('hide');
         } else {
-            mQuery('#mauticform_postActionProperty').attr('type','text');
+            mQuery('#leform_postActionProperty').attr('type','text');
             mQuery('#Form_post_action').removeClass('hide');
         }
-        mQuery('#mauticform_postActionProperty').prev().addClass('required');
+        mQuery('#leform_postActionProperty').prev().addClass('required');
     }
 
-    mQuery('#mauticform_postActionProperty').next().html('');
-    mQuery('#mauticform_postActionProperty').parent().removeClass('has-error');
+    mQuery('#leform_postActionProperty').next().html('');
+    mQuery('#leform_postActionProperty').parent().removeClass('has-error');
 };
 
 Le.selectFormType = function(formType) {
@@ -369,7 +369,7 @@ Le.selectFormType = function(formType) {
 
     mQuery('.available-actions select').trigger('chosen:updated');
 
-    mQuery('#mauticform_formType').val(formType);
+    mQuery('#leform_formType').val(formType);
 
     mQuery('body').removeClass('noscroll');
 
@@ -378,7 +378,7 @@ Le.selectFormType = function(formType) {
 };
 
 Le.openNewFormAction = function(url){
-    var formtype = mQuery('#mauticform_formType').val();
+    var formtype = mQuery('#leform_formType').val();
     url = url + "_" + formtype;
     window.location.href = url;
 };

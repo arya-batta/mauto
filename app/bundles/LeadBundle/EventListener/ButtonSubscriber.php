@@ -42,7 +42,7 @@ class ButtonSubscriber extends CommonSubscriber
                         'data-toggle'           => 'confirmation',
                         'href'                  => $exportRoute,
                         'data-precheck'         => 'batchActionPrecheck',
-                        'data-message'          => $this->translator->trans('mautic.core.export.items', ['%items%' => 'contacts']),
+                        'data-message'          => $this->translator->trans('mautic.core.export.items', ['%items%' => 'Leads']),
                         'data-confirm-text'     => $this->translator->trans('mautic.core.export'),
                         'data-confirm-callback' => 'executeBatchAction',
                         'data-cancel-text'      => $this->translator->trans('mautic.core.form.cancel'),

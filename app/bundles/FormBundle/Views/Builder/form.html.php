@@ -41,19 +41,19 @@ if (!isset($isAjax)) {
 
 <?php echo $style; ?>
 
-<div id="mauticform_wrapper<?php echo $formName ?>" class="mauticform_wrapper">
-    <form autocomplete="false" role="form" method="post" action="<?php echo  $action; ?>" id="mauticform<?php echo $formName ?>" <?php if ($isAjax): ?> data-mautic-form="<?php echo ltrim($formName, '_') ?>"<?php endif; ?> enctype="multipart/form-data">
-        <div class="mauticform-error" id="mauticform<?php echo $formName ?>_error"></div>
-        <div class="mauticform-message" id="mauticform<?php echo $formName ?>_message"></div>
-        <div class="mauticform-innerform">
+<div id="leform_wrapper<?php echo $formName ?>" class="leform_wrapper">
+    <form autocomplete="false" role="form" method="post" action="<?php echo  $action; ?>" id="leform<?php echo $formName ?>" <?php if ($isAjax): ?> data-le-form="<?php echo ltrim($formName, '_') ?>"<?php endif; ?> enctype="multipart/form-data">
+        <div class="leform-error" id="leform<?php echo $formName ?>_error"></div>
+        <div class="leform-message" id="leform<?php echo $formName ?>_message"></div>
+        <div class="leform-innerform">
 
             <?php
             /** @var \Mautic\FormBundle\Entity\Field $f */
             foreach ($fields as $fieldId => $f):
                 if (isset($formPages['open'][$fieldId])):
                     // Start a new page
-                    $lastFieldAttribute = ($lastFormPage === $fieldId) ? ' data-mautic-form-pagebreak-lastpage="true"' : '';
-                    echo "\n          <div class=\"mauticform-page-wrapper mauticform-page-$pageCount\" data-mautic-form-page=\"$pageCount\"$lastFieldAttribute>\n";
+                    $lastFieldAttribute = ($lastFormPage === $fieldId) ? ' data-le-form-pagebreak-lastpage="true"' : '';
+                    echo "\n          <div class=\"leform-page-wrapper leform-page-$pageCount\" data-le-form-page=\"$pageCount\"$lastFieldAttribute>\n";
                 endif;
 
                 if (!isset($submissions) || $f->showForContact($submissions, $lead, $form)):
@@ -96,9 +96,9 @@ if (!isset($isAjax)) {
             ?>
         </div>
 
-        <input type="hidden" name="mauticform[formId]" id="mauticform<?php echo $formName ?>_id" value="<?php echo $view->escape($form->getId()); ?>"/>
-        <input type="hidden" name="mauticform[return]" id="mauticform<?php echo $formName ?>_return" value=""/>
-        <input type="hidden" name="mauticform[formName]" id="mauticform<?php echo $formName ?>_name" value="<?php echo $view->escape(ltrim($formName, '_')); ?>"/>
+        <input type="hidden" name="leform[formId]" id="leform<?php echo $formName ?>_id" value="<?php echo $view->escape($form->getId()); ?>"/>
+        <input type="hidden" name="leform[return]" id="leform<?php echo $formName ?>_return" value=""/>
+        <input type="hidden" name="leform[formName]" id="leform<?php echo $formName ?>_name" value="<?php echo $view->escape(ltrim($formName, '_')); ?>"/>
 
         <?php echo (isset($formExtra)) ? $formExtra : ''; ?>
 </form>

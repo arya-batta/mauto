@@ -33,15 +33,15 @@ class JsController extends CommonController
     }
     
     function postAuthCallback(response){
-        var elements = document.getElementById("mauticform_{$formName}").elements;
+        var elements = document.getElementById("leform_{$formName}").elements;
         var field, fieldName;
         values = JSON.parse(JSON.stringify(response));
         
         for (var i = 0, element; element = elements[i++];) {
             field = element.name
-            fieldName = field.replace("mauticform[","");
+            fieldName = field.replace("leform[","");
             fieldName = fieldName.replace("]","");
-            var element = document.getElementsByName("mauticform["+fieldName+"]");
+            var element = document.getElementsByName("leform["+fieldName+"]");
             
             // Remove underscores, dashes, and f_ prefix for comparison
             fieldName = fieldName.replace("f_", "").replace(/_/g,"").replace(/-/g, "");

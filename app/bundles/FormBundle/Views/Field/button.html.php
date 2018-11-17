@@ -17,7 +17,7 @@ $buttonType = (isset($properties['type'])) ? $properties['type'] : 'submit';
 $html = <<<HTML
 
             <div $containerAttr>
-                <button type="$buttonType" name="mauticform[{$field['alias']}]" $inputAttr value="1">{$field['label']}</button>
+                <button type="$buttonType" name="leform[{$field['alias']}]" $inputAttr value="1">{$field['label']}</button>
             </div>
 HTML;
 

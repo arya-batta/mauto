@@ -85,7 +85,7 @@ echo $view['form']->row($form['postActionProperty']);
 </div>
 <div class="tab-pane fade bdr-w-0" id="fields-container">
 <?php echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
-<div id="mauticforms_fields">
+<div id="leforms_fields">
 <div class="row">
 <div class="available-fields mb-md col-sm-4">
 <select class="chosen form-builder-new-component" data-placeholder="<?php echo $view['translator']->trans('mautic.form.form.component.fields'); ?>">
@@ -144,7 +144,7 @@ endif; ?>
 </div>
 </div>
 <div class="tab-pane fade bdr-w-0" id="actions-container">
-<div id="mauticforms_actions">
+<div id="leforms_actions">
 <div class="row">
 <div class="available-actions mb-md col-sm-4">
 <select class="chosen form-builder-new-component" data-placeholder="<?php echo $view['translator']->trans('mautic.form.form.component.submitactions'); ?>">
@@ -357,7 +357,7 @@ endif;*/ ?>
             </div>
             <?php  echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
            <div>
-            <div id="mauticforms_fields" class="col-md-8">
+            <div id="leforms_fields" class="col-md-8">
                 <div class="drop-here">
                     <?php foreach ($formFields as $field): ?>
                         <?php if (!in_array($field['id'], $deletedFields)) : ?>
@@ -432,7 +432,7 @@ endif;*/ ?>
                 </div>
             </div>
 
-            <div id="mauticforms_actions" class="col-md-8">
+            <div id="leforms_actions" class="col-md-8">
                 <div class="drop-here">
                     <?php foreach ($formActions as $action): ?>
                         <?php if (!in_array($action['id'], $deletedActions)) : ?>

@@ -948,7 +948,7 @@ class AjaxController extends CommonAjaxController
 
         }else{
            return $this->redirectToRoute(
-                'mautic_contact_action',
+                'le_contact_action',
                 ['objectAction' => 'batchExport']
             );
 

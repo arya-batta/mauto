@@ -189,7 +189,7 @@ class ConfigType extends AbstractType
                 'data'     => (!empty($options['data']['default_signature_text']))
                     ? $options['data']['default_signature_text']
                     : $this->translator->trans(
-                        'mautic.email.default.signature',
+                        'le.email.default.signature',
                         [
                             '%from_name%' => '|FROM_NAME|',
                         ]

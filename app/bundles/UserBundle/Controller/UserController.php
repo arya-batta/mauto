@@ -247,7 +247,7 @@ class UserController extends FormController
             'viewParameters'  => ['form' => $form->createView()],
             'contentTemplate' => 'MauticUserBundle:User:form.html.php',
             'passthroughVars' => [
-                'activeLink'    => '#mautic_user_new',
+                'activeLink'    => '#le_user_new',
                 'route'         => $action,
                 'leContent' => 'user',
             ],

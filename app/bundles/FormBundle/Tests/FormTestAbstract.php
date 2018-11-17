@@ -350,7 +350,7 @@ class FormTestAbstract extends WebTestCase
 
     public function getTestFormFields()
     {
-        $fieldSession          = 'mautic_'.sha1(uniqid(mt_rand(), true));
+        $fieldSession          = 'le_'.sha1(uniqid(mt_rand(), true));
         $fields[$fieldSession] =
             [
                 'label'        => 'Email',

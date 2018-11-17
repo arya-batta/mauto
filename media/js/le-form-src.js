@@ -38,7 +38,7 @@
         };
 
         Form.initialize = function(){
-            var re = /{mauticform([^}]+)}/g, text;
+            var re = /{leform([^}]+)}/g, text;
             while(text = re.exec(document.body.innerHTML)) {
                 var replaceText = text[0];
                 var replaceArgs = {data: {}, params: ''};
@@ -130,7 +130,7 @@
         Form.prepareForms = function() {
             var forms = document.getElementsByTagName('form');
             for (var i = 0, n = forms.length; i < n; i++) {
-                var formId = forms[i].getAttribute('data-mautic-form');
+                var formId = forms[i].getAttribute('data-le-form');
                 if (formId !== null) {
                     Form.prepareMessengerForm(formId);
                     Form.prepareValidation(formId);
@@ -140,7 +140,7 @@
         };
 
         Form.prepareMessengerForm = function(formId) {
-            var theForm = document.getElementById('mauticform_' + formId);
+            var theForm = document.getElementById('leform_' + formId);
 
             // Check for an onsubmit attribute
             if (!theForm.getAttribute('onsubmit')) {
@@ -168,11 +168,11 @@
                 theForm.target = 'mauticiframe_' + formId;
             }
 
-            if (!document.getElementById('mauticform_' + formId + '_messenger')) {
+            if (!document.getElementById('leform_' + formId + '_messenger')) {
                 var messengerInput = document.createElement('INPUT');
                 messengerInput.type = 'hidden';
-                messengerInput.setAttribute('name', 'mauticform[messenger]');
-                messengerInput.setAttribute('id', 'mauticform_' + formId + '_messenger');
+                messengerInput.setAttribute('name', 'leform[messenger]');
+                messengerInput.setAttribute('id', 'leform_' + formId + '_messenger');
                 messengerInput.value = 1;
 
                 theForm.appendChild(messengerInput);
@@ -183,7 +183,7 @@
             if (typeof window.MauticFormValidations[formId] == 'undefined') {
                 window.MauticFormValidations[formId] = {};
 
-                var theForm = document.getElementById('mauticform_' + formId);
+                var theForm = document.getElementById('leform_' + formId);
 
                 // Find validations via data-attributes
                 var validations = theForm.querySelectorAll('[data-validate]');
@@ -199,13 +199,13 @@
         };
 
         Form.preparePagination = function(formId) {
-            var theForm        = document.getElementById('mauticform_'+formId);
-            var pages          = theForm.querySelectorAll('[data-mautic-form-page]');
+            var theForm        = document.getElementById('leform_'+formId);
+            var pages          = theForm.querySelectorAll('[data-le-form-page]');
             var lastPageNumber = pages.length;
 
             [].forEach.call(pages, function (page) {
-                var pageNumber       = parseInt(page.getAttribute('data-mautic-form-page'));
-                var pageBreak        = theForm.querySelector('[data-mautic-form-pagebreak="'+pageNumber+'"]');
+                var pageNumber       = parseInt(page.getAttribute('data-le-form-page'));
+                var pageBreak        = theForm.querySelector('[data-le-form-pagebreak="'+pageNumber+'"]');
 
                 if (pageNumber > 1) {
                     // Hide other pages by default
@@ -216,8 +216,8 @@
                     var prevPageNumber    = pageNumber - 1;
                     var nextPageNumber    = pageNumber + 1;
 
-                    var prevButton = pageBreak.querySelector('[data-mautic-form-pagebreak-button="prev"]');
-                    var nextButton = pageBreak.querySelector('[data-mautic-form-pagebreak-button="next"]');
+                    var prevButton = pageBreak.querySelector('[data-le-form-pagebreak-button="prev"]');
+                    var nextButton = pageBreak.querySelector('[data-le-form-pagebreak-button="next"]');
 
                     // Add button handlers
                     prevButton.onclick = function(formId, theForm, showPageNumber) {
@@ -230,7 +230,7 @@
                     nextButton.onclick = function(formId, theForm, hidePageNumber, showPageNumber) {
                         return function () {
                             // Validate fields first
-                            var validations = theForm.querySelector('[data-mautic-form-page="' + hidePageNumber + '"]').querySelectorAll('[data-validate]');
+                            var validations = theForm.querySelector('[data-le-form-page="' + hidePageNumber + '"]').querySelectorAll('[data-validate]');
                             var isValid = true;
                             [].forEach.call(validations, function (container) {
                                 var fieldKey = container.getAttribute('data-validate');
@@ -262,24 +262,24 @@
         };
 
         Form.switchPage = function(theForm, showPageNumber) {
-            var pages          = theForm.querySelectorAll('[data-mautic-form-page]');
+            var pages          = theForm.querySelectorAll('[data-le-form-page]');
             [].forEach.call(pages, function (page) {
                 // Hide all pages
                 page.style.display = 'none';
 
-                var pageNumber = parseInt(page.getAttribute('data-mautic-form-page'));
-                var pageBreak  = theForm.querySelector('[data-mautic-form-pagebreak="'+pageNumber+'"]');
+                var pageNumber = parseInt(page.getAttribute('data-le-form-page'));
+                var pageBreak  = theForm.querySelector('[data-le-form-pagebreak="'+pageNumber+'"]');
                 if (pageBreak) {
                     pageBreak.style.display = 'none';
                 }
             });
 
             // Show the wanted page
-            var thePage = theForm.querySelector('[data-mautic-form-page="' + showPageNumber + '"]');
+            var thePage = theForm.querySelector('[data-le-form-page="' + showPageNumber + '"]');
             if (thePage) {
                 thePage.style.display = 'block'
             }
-            var showPageBreak = theForm.querySelector('[data-mautic-form-pagebreak="' + showPageNumber + '"]');
+            var showPageBreak = theForm.querySelector('[data-le-form-pagebreak="' + showPageNumber + '"]');
             if (showPageBreak) {
                 showPageBreak.style.display = 'block';
             }
@@ -296,11 +296,11 @@
             }
 
             // If within a page break - go back to the page that includes this field
-            var pageBreak = Form.findAncestor(container, 'mauticform-page-wrapper');
+            var pageBreak = Form.findAncestor(container, 'leform-page-wrapper');
             if (pageBreak) {
-                var page = pageBreak.getAttribute('data-mautic-form-page');
+                var page = pageBreak.getAttribute('data-le-form-page');
                 if (switchPage) {
-                    Form.switchPage(document.getElementById('mauticform_' + formId), page);
+                    Form.switchPage(document.getElementById('leform_' + formId), page);
                 }
 
                 return page;
@@ -311,7 +311,7 @@
             var ancestor = false;
             while (true) {
                 var parent = el.parentElement;
-                if (!parent || Form.hasClass(parent, 'mauticform-innerform')) {
+                if (!parent || Form.hasClass(parent, 'leform-innerform')) {
                     break;
                 } else if (Form.hasClass(parent, cls)) {
                     ancestor = parent;
@@ -335,7 +335,7 @@
                         Form.prepareMessengerForm(formId);
                     }
 
-                    var elId              = 'mauticform_' + formId;
+                    var elId              = 'leform_' + formId;
                     var theForm           = document.getElementById(elId);
                     var formValid         = Form.customCallbackHandler(formId, 'onValidate');
                     var firstInvalidField = false;
@@ -347,9 +347,9 @@
                         Form.customCallbackHandler(formId, 'onValidateStart');
 
                         // Remove success class if applicable
-                        var formContainer = document.getElementById('mauticform_wrapper_' + formId);
+                        var formContainer = document.getElementById('leform_wrapper_' + formId);
                         if (formContainer) {
-                            formContainer.className = formContainer.className.replace(" mauticform-post-success", "");
+                            formContainer.className = formContainer.className.replace(" leform-post-success", "");
                         }
 
                         validator.setMessage('', 'message');
@@ -394,7 +394,7 @@
 
                     // If true, then a callback handled it
                     if (valid === null) {
-                        var name = 'mauticform[' + field.name + ']';
+                        var name = 'leform[' + field.name + ']';
 
                         if (field.multiple == 'true' || field.type == 'checkboxgrp') {
                             name = name + '[]';
@@ -468,7 +468,7 @@
                     var callbackValidationMessage = validationMessage;
                     var elContainer = document.getElementById(containerId);
                     if (elContainer) {
-                        elErrorSpan = elContainer.querySelector('.mauticform-errormsg');
+                        elErrorSpan = elContainer.querySelector('.leform-errormsg');
                         if (typeof validationMessage == 'undefined' && elErrorSpan) {
                             callbackValidationMessage = elErrorSpan.innerHTML;
                         }
@@ -488,14 +488,14 @@
                             }
 
                             elErrorSpan.style.display = (valid) ? 'none' : '';
-                            elContainer.className = elContainer.className + " mauticform-has-error";
+                            elContainer.className = elContainer.className + " leform-has-error";
                         }
                     }
                 },
 
                 clearErrors: function() {
-                    var theForm    = document.getElementById('mauticform_' + formId);
-                    var hasErrors  = theForm.querySelectorAll('.mauticform-has-error');
+                    var theForm    = document.getElementById('leform_' + formId);
+                    var hasErrors  = theForm.querySelectorAll('.leform-has-error');
                     var that       = this;
                     [].forEach.call(hasErrors, function(container) {
                         that.clearError(container.id);
@@ -507,10 +507,10 @@
                     if (!Form.customCallbackHandler(formId, 'onErrorClear', containerId)) {
                         var elContainer = document.getElementById(containerId);
                         if (elContainer) {
-                            var elErrorSpan = elContainer.querySelector('.mauticform-errormsg');
+                            var elErrorSpan = elContainer.querySelector('.leform-errormsg');
                             if (elErrorSpan) {
                                 elErrorSpan.style.display = 'none';
-                                elContainer.className = elContainer.className.replace(" mauticform-has-error", "");
+                                elContainer.className = elContainer.className.replace(" leform-has-error", "");
                             }
                         }
                     }
@@ -551,11 +551,11 @@
                                         firstPage = elPage;
                                     }
                                 }
-                                this.markError('mauticform_' + formId + '_' + field, false, response.validationErrors[field]);
+                                this.markError('leform_' + formId + '_' + field, false, response.validationErrors[field]);
                             }
 
                             if (firstPage) {
-                                Form.switchPage(document.getElementById('mauticform_' + formId), firstPage);
+                                Form.switchPage(document.getElementById('leform_' + formId), firstPage);
                             }
                         } else if (response.errorMessage) {
                             this.setMessage(response.errorMessage, 'error');
@@ -567,9 +567,9 @@
                             }
 
                             // Add a post success class
-                            var formContainer = document.getElementById('mauticform_wrapper_' + formId);
+                            var formContainer = document.getElementById('leform_wrapper_' + formId);
                             if (formContainer) {
-                                formContainer.className = formContainer.className + " mauticform-post-success";
+                                formContainer.className = formContainer.className + " leform-post-success";
                             }
 
                             // Reset the form
@@ -585,7 +585,7 @@
                 setMessage: function (message, type) {
                     // If true, a callback handled it
                     if (!Form.customCallbackHandler(formId, 'onMessageSet', {message: message, type: type})) {
-                        var container = document.getElementById('mauticform_' + formId + '_' + type);
+                        var container = document.getElementById('leform_' + formId + '_' + type);
                         if (container) {
                             container.innerHTML = message;
                         } else if (message) {
@@ -598,18 +598,18 @@
 
                     this.clearErrors();
 
-                    Form.switchPage(document.getElementById('mauticform_' + formId), 1);
+                    Form.switchPage(document.getElementById('leform_' + formId), 1);
 
-                    document.getElementById('mauticform_' + formId).reset();
+                    document.getElementById('leform_' + formId).reset();
                 },
 
                 disableSubmitButton: function() {
                     // If true, then a callback handled it
                     if (!Form.customCallbackHandler(formId, 'onSubmitButtonDisable')) {
-                        var submitButton = document.getElementById('mauticform_' + formId).querySelector('.mauticform-button');
+                        var submitButton = document.getElementById('leform_' + formId).querySelector('.leform-button');
 
                         if (submitButton) {
-                            MauticLang.submitMessage = submitButton.innerHTML;
+                            leLang.submitMessage = submitButton.innerHTML;
                             submitButton.innerHTML = leLang.submittingMessage;
                             submitButton.disabled = 'disabled';
                         }
@@ -619,7 +619,7 @@
                 enableSubmitButton: function() {
                     // If true, then a callback handled it
                     if (!Form.customCallbackHandler(formId, 'onSubmitButtonEnable')) {
-                        var submitButton = document.getElementById('mauticform_' + formId).querySelector('.mauticform-button');
+                        var submitButton = document.getElementById('leform_' + formId).querySelector('.leform-button');
                         if (submitButton) {
                             submitButton.innerHTML = leLang.submitMessage;
                             submitButton.disabled = '';
@@ -635,7 +635,7 @@
 	        window.addEventListener('message', function(event) {
                 if (Core.debug()) console.log(event);
 
-              if (event.origin !== MauticDomain && MauticDomain.indexOf(event.origin) < 0) return;
+              if (event.origin !== leDomain && leDomain.indexOf(event.origin) < 0) return;
 
 
                 try {
@@ -654,9 +654,9 @@
         };
 
         Form.getFieldContainerId = function(formId, fieldKey) {
-            var containerId = 'mauticform_' + formId + '_' + fieldKey;
+            var containerId = 'leform_' + formId + '_' + fieldKey;
             if (!document.getElementById(containerId)) {
-                containerId = 'mauticform_' + fieldKey;
+                containerId = 'leform_' + fieldKey;
             }
 
             return containerId;
@@ -698,8 +698,8 @@
             this.buildOut();
             this.initializeEvents();
             window.getComputedStyle(this.modal).height;
-            this.modal.className = this.modal.className + (this.modal.offsetHeight > window.innerHeight ? " mauticForm-open mauticForm-anchored" : " mauticForm-open");
-            this.overlay.className = this.overlay.className + " mauticForm-open";
+            this.modal.className = this.modal.className + (this.modal.offsetHeight > window.innerHeight ? " leform-open leform-anchored" : " leform-open");
+            this.overlay.className = this.overlay.className + " leform-open";
         };
 
         Modal.buildOut = function() {
@@ -710,14 +710,14 @@
 
             // Create modal element
             this.modal = document.createElement("div");
-            this.modal.className = "mauticForm-modal " + this.options.className;
+            this.modal.className = "leform-modal " + this.options.className;
             this.modal.style.width = this.options.width;
             this.modal.style.height = this.options.height;
 
             // If closeButton option is true, add a close button
             if (this.options.closeButton === true) {
                 this.closeButton = document.createElement("button");
-                this.closeButton.className = "mauticForm-close close-button";
+                this.closeButton.className = "leform-close close-button";
                 this.closeButton.innerHTML = "&times;";
                 this.modal.appendChild(this.closeButton);
             }
@@ -725,13 +725,13 @@
             // If overlay is true, add one
             if (this.options.overlay === true) {
                 this.overlay = document.createElement("div");
-                this.overlay.className = "mauticForm-overlay " + this.options.className;
+                this.overlay.className = "leform-overlay " + this.options.className;
                 docFrag.appendChild(this.overlay);
             }
 
             // Create content area and append to modal
             contentHolder = document.createElement("div");
-            contentHolder.className = "mauticForm-content";
+            contentHolder.className = "leform-content";
             contentHolder.innerHTML = content;
             this.modal.appendChild(contentHolder);
 
@@ -761,8 +761,8 @@
 
         Modal.close = function() {
             var _ = this;
-            this.modal.className = this.modal.className.replace(" mauticForm-open", "");
-            this.overlay.className = this.overlay.className.replace(" mauticForm-open", "");
+            this.modal.className = this.modal.className.replace(" leform-open", "");
+            this.overlay.className = this.overlay.className.replace(" leform-open", "");
             this.modal.addEventListener(this.transitionSelect(), function() {
                 _.modal.parentNode.removeChild(_.modal);
             });
@@ -827,14 +827,14 @@
         return Core;
     }
 
-    if (typeof(MauticSDK) === 'undefined') {
-        window.MauticSDK = define_library();
+    if (typeof(leSDK) === 'undefined') {
+        window.leSDK = define_library();
         var sjs = document.getElementsByTagName('script'), tjs = sjs.length;
         for (var i = 0; i < sjs.length; i++) {
-            if (!sjs[i].hasAttribute('src') || sjs[i].getAttribute("src").indexOf('mautic-form-src.js') == -1) continue;
+            if (!sjs[i].hasAttribute('src') || sjs[i].getAttribute("src").indexOf('le-form-src.js') == -1) continue;
             var sParts = sjs[i].getAttribute("src").split("?");
-            if (sParts[1]) MauticSDK.setConfig(MauticSDK.parseToObject(sParts[1]));
-            MauticSDK.initialize(sParts[0]);
+            if (sParts[1]) leSDK.setConfig(leSDK.parseToObject(sParts[1]));
+            leSDK.initialize(sParts[0]);
             break;
         }
     }

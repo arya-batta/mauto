@@ -42,6 +42,6 @@ body > .container {
     padding: 20px;
 }
 
-.mauticform-selectbox, .mauticform-input, .mauticform-textarea {
+.leform-selectbox, .leform-input, .leform-textarea {
     width: 100% !important;
 }

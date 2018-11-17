@@ -43,7 +43,7 @@ class UploadFieldValidatorTest extends \PHPUnit_Framework_TestCase
 
         $parameterBagMock->expects($this->once())
             ->method('get')
-            ->with('mauticform')
+            ->with('leform')
             ->willReturn(false);
 
         $request        = new Request();
@@ -87,7 +87,7 @@ class UploadFieldValidatorTest extends \PHPUnit_Framework_TestCase
 
         $parameterBagMock->expects($this->once())
             ->method('get')
-            ->with('mauticform')
+            ->with('leform')
             ->willReturn($files);
 
         $request        = new Request();
@@ -136,7 +136,7 @@ class UploadFieldValidatorTest extends \PHPUnit_Framework_TestCase
 
         $parameterBagMock->expects($this->once())
             ->method('get')
-            ->with('mauticform')
+            ->with('leform')
             ->willReturn($files);
 
         $request        = new Request();

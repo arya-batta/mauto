@@ -130,7 +130,7 @@ if (!isset($args['repackage'])) {
         'media/css/libraries.css' => true,
         'media/js/app.js'         => true,
         'media/js/libraries.js'   => true,
-        'media/js/mautic-form.js' => true,
+        'media/js/le-form.js' => true,
     ];
     $modifiedFiles = $modifiedFiles + $assetFiles;
 

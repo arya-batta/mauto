@@ -20,7 +20,7 @@ HTML;
 
 $help = (empty($field['helpMessage'])) ? '' : <<<HTML
 
-                <span class="mauticform-helpmessage">{$field['helpMessage']}</span>
+                <span class="leform-helpmessage">{$field['helpMessage']}</span>
 HTML;
 
 if ($containerType == 'textarea'):
@@ -39,7 +39,7 @@ endif;
 $html = <<<HTML
 
             <div $containerAttr>{$label}{$help}{$textInput}
-                <span class="mauticform-errormsg" style="display: none;">$validationMessage</span>
+                <span class="leform-errormsg" style="display: none;">$validationMessage</span>
             </div>
 
 HTML;

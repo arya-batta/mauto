@@ -271,7 +271,7 @@ class UserType extends AbstractType
 
         $defaultSignature = '';
         if (isset($options['data']) && $options['data']->getSignature() === null) {
-            $defaultSignature = $this->translator->trans('mautic.email.default.signature', ['%from_name%' => '|FROM_NAME|']);
+            $defaultSignature = $this->translator->trans('le.email.default.signature', ['%from_name%' => '|FROM_NAME|']);
         } elseif (isset($options['data'])) {
             $defaultSignature = $options['data']->getSignature();
         }

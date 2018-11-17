@@ -54,6 +54,6 @@ a:hover, a:focus {
     margin-right: auto;
 }
 
-.mauticform-selectbox, .mauticform-input, .mauticform-textarea {
+.leform-selectbox, .leform-input, .leform-textarea {
     width: 100% !important;
 }

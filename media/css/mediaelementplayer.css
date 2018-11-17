@@ -1014,11 +1014,11 @@ div.mejs-speed-button {
 	overflow:hidden;
 }
 
-.mautic-gated-video-style .mauticform-error,
-.mautic-gated-video-style .mauticform-message {
+.mautic-gated-video-style .leform-error,
+.mautic-gated-video-style .leform-message {
 	display:none;
 }
 
-.mautic-gated-video-style .mauticform-row {
+.mautic-gated-video-style .leform-row {
 	margin-bottom:13px;
 }

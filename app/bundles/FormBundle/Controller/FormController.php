@@ -362,7 +362,7 @@ class FormController extends CommonFormController
         //set the page we came from
         $page = $this->get('session')->get('mautic.form.page', 1);
 
-        $sessionId = $this->request->request->get('mauticform[sessionId]', 'mautic_'.sha1(uniqid(mt_rand(), true)), true);
+        $sessionId = $this->request->request->get('leform[sessionId]', 'le_'.sha1(uniqid(mt_rand(), true)), true);
         if ($objectEntity != null && $objectEntity != 'scratch' && $objectEntity instanceof Form) {
             $entity    = $objectEntity;
             $sessionId = $sessionid;
@@ -556,13 +556,13 @@ class FormController extends CommonFormController
     {
         /** @var \Mautic\FormBundle\Model\FormModel $model */
         $model            = $this->getModel('form');
-        $formData         = $this->request->request->get('mauticform');
+        $formData         = $this->request->request->get('leform');
         $sessionId        = isset($formData['sessionId']) ? $formData['sessionId'] : null;
         $customComponents = $model->getCustomComponents();
 
         if ($objectId instanceof Form) {
             $entity   = $objectId;
-            $objectId = 'mautic_'.sha1(uniqid(mt_rand(), true));
+            $objectId = 'le_'.sha1(uniqid(mt_rand(), true));
         } else {
             $entity = $model->getEntity($objectId);
 
@@ -1287,7 +1287,7 @@ class FormController extends CommonFormController
         $entity->setPostAction($formitem['post_action']);
         $entity->setPostActionProperty($formitem['post_action_property']);
         $session           = $this->get('session');
-        $sessionId         = $this->request->request->get('mauticform[sessionId]', 'mautic_'.sha1(uniqid(mt_rand(), true)), true);
+        $sessionId         = $this->request->request->get('leform[sessionId]', 'le_'.sha1(uniqid(mt_rand(), true)), true);
         $modifiedFields    = $session->get('mautic.form.'.$sessionId.'.fields.modified', []);
         $usedLeadFields    = $this->get('session')->get('mautic.form.'.$sessionId.'.fields.leadfields', []);
         $formFields        = $signuprepository->selectFormFieldsTemplatebyID($formid);

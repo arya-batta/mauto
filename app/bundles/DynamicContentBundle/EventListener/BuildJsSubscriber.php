@@ -71,8 +71,8 @@ class BuildJsSubscriber extends CommonSubscriber
         $js = <<<JS
         
            // call variable if doesnt exist
-            if (typeof MauticDomain == 'undefined') {
-                var MauticDomain = '{$this->request->getSchemeAndHttpHost()}';
+            if (typeof leDomain == 'undefined') {
+                var leDomain = '{$this->request->getSchemeAndHttpHost()}';
             }            
             if (typeof leLang == 'undefined') {
                 var leLang = {
@@ -105,20 +105,20 @@ MauticJS.replaceDynamicContent = function (params) {
                     }
 
                     // form load library
-                    if (dwcContent.search("mauticform_wrapper") > 0) {
+                    if (dwcContent.search("leform_wrapper") > 0) {
                         // if doesn't exist
-                        if (typeof MauticSDK == 'undefined') {
-                            MauticJS.insertScript('{$this->assetsHelper->getUrl('media/js/mautic-form.js', null, null, true)}');
+                        if (typeof leSDK == 'undefined') {
+                            MauticJS.insertScript('{$this->assetsHelper->getUrl('media/js/le-form.js', null, null, true)}');
                             
                             // check initialize form library
                             var fileInterval = setInterval(function() {
-                                if (typeof MauticSDK != 'undefined') {
-                                    MauticSDK.onLoad(); 
+                                if (typeof leSDK != 'undefined') {
+                                    leSDK.onLoad(); 
                                     clearInterval(fileInterval); // clear interval
                                  }
                              }, 100); // check every 100ms
                         } else {
-                            MauticSDK.onLoad();
+                            leSDK.onLoad();
                          }
                     }
 

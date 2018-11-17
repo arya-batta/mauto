@@ -139,7 +139,7 @@ switch ($style) {
                     });
                 }
                 <?php elseif ($focus['type'] == 'form'): ?>
-                var buttons = Focus.iframeDoc.getElementsByClassName('mauticform-button');
+                var buttons = Focus.iframeDoc.getElementsByClassName('leform-button');
                 if (buttons.length) {
                     buttons[0].addEventListener('click', function (event) {
                         Focus.convertVisitor();

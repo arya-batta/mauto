@@ -25,7 +25,7 @@ ob_start();
         margin-top: 20px;
     }
 
-    a.mf-link, .mauticform-button {
+    a.mf-link, .leform-button {
         padding: 5px 15px;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -36,7 +36,7 @@ ob_start();
         border: none;
     }
 
-    a.mf-link:hover, .mauticform-button:hover {
+    a.mf-link:hover, .leform-button:hover {
         opacity: 0.9;
         text-decoration: none;
         border: none;
@@ -46,24 +46,24 @@ ob_start();
 .mautic-focus {
     <?php if ($preview): ?>
 
-    .mauticform-row {
+    .leform-row {
         min-height: 0px;
     }
     <?php endif; ?>
 
-    .mauticform_wrapper form {
+    .leform_wrapper form {
         padding: 0;
         margin: 0;
     }
 
-    .mauticform-input, select {
+    .leform-input, select {
         border-radius: 2px;
         padding: 5px 8px;
         color: #757575;
         border: 1px solid #ababab;
     }
 
-    .mauticform-input:focus, select:focus {
+    .leform-input:focus, select:focus {
         outline: none;
         border: 1px solid #757575;
     }

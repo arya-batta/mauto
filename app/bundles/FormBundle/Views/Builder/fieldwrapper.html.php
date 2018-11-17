@@ -14,7 +14,7 @@ if (!isset($inBuilder)) {
 }
 
 ?>
-<div class="panel form-field-wrapper" data-sortable-id="mauticform_<?php echo $field['id']; ?>">
+<div class="panel form-field-wrapper" data-sortable-id="leform_<?php echo $field['id']; ?>">
     <?php
     echo $view->render('MauticFormBundle:Builder:actions.html.php',
         [

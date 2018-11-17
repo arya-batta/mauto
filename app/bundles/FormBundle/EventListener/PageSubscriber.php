@@ -97,12 +97,12 @@ class PageSubscriber extends CommonSubscriber
                     )
                 ) {
                     $formHtml = ($form->isPublished()) ? $this->formModel->getContent($form) :
-                        '<div class="mauticform-error">'.
+                        '<div class="leform-error">'.
                         $this->translator->trans('mautic.form.form.pagetoken.notpublished').
                         '</div>';
 
                     //add the hidden page input
-                    $pageInput = "\n<input type=\"hidden\" name=\"mauticform[mauticpage]\" value=\"{$page->getId()}\" />\n";
+                    $pageInput = "\n<input type=\"hidden\" name=\"leform[mauticpage]\" value=\"{$page->getId()}\" />\n";
                     $formHtml  = preg_replace('#</form>#', $pageInput.'</form>', $formHtml);
 
                     //pouplate get parameters

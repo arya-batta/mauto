@@ -21,7 +21,7 @@ include __DIR__.'/field_helper.php';
 $optionLabelAttr = (isset($properties['labelAttributes'])) ? $properties['labelAttributes'] : '';
 $wrapDiv         = true;
 
-$defaultOptionLabelClass = 'mauticform-'.$containerType.'-label';
+$defaultOptionLabelClass = 'leform-'.$containerType.'-label';
 if (stripos($optionLabelAttr, 'class') === false) {
     $optionLabelAttr .= ' class="'.$defaultOptionLabelClass.'"';
 } else {
@@ -30,7 +30,7 @@ if (stripos($optionLabelAttr, 'class') === false) {
 }
 
 $count   = 0;
-$firstId = 'mauticform_'.$containerType.'_'.$type.'_'.$field['alias'].'_'.InputHelper::alphanum(InputHelper::transliterate($firstListValue)).'1';
+$firstId = 'leform_'.$containerType.'_'.$type.'_'.$field['alias'].'_'.InputHelper::alphanum(InputHelper::transliterate($firstListValue)).'1';
 
 $label = (!$field['showLabel']) ? '' : <<<HTML
 
@@ -39,7 +39,7 @@ HTML;
 
 $help = (empty($field['helpMessage'])) ? '' : <<<HTML
 
-                <span class="mauticform-helpmessage">{$field['helpMessage']}</span>
+                <span class="leform-helpmessage">{$field['helpMessage']}</span>
 HTML;
 
 $options = [];
@@ -52,8 +52,8 @@ $checkboxBrackets = ($type == 'checkbox') ? '[]' : '';
 
 $option = <<<HTML
 
-                    <label id="mauticform_{$containerType}_label_{$id}" for="mauticform_{$containerType}_{$type}_{$id}" {$optionLabelAttr}>
-                        <input {$inputAttr}{$checked} name="mauticform[{$field['alias']}]{$checkboxBrackets}" id="mauticform_{$containerType}_{$type}_{$id}" type="{$type}" value="{$view->escape($listValue)}" />
+                    <label id="leform_{$containerType}_label_{$id}" for="leform_{$containerType}_{$type}_{$id}" {$optionLabelAttr}>
+                        <input {$inputAttr}{$checked} name="leform[{$field['alias']}]{$checkboxBrackets}" id="leform_{$containerType}_{$type}_{$id}" type="{$type}" value="{$view->escape($listValue)}" />
                         $listLabel
                     </label>
 HTML;
@@ -61,7 +61,7 @@ HTML;
 if ($wrapDiv):
 $option = <<<HTML
 
-                <div class="mauticform-{$containerType}-row">$option
+                <div class="leform-{$containerType}-row">$option
                 </div>
 HTML;
 endif;
@@ -75,7 +75,7 @@ $optionHtml = implode('', $options);
 $html = <<<HTML
 
             <div $containerAttr>{$label}{$help}{$optionHtml}
-                <span class="mauticform-errormsg" style="display: none;">$validationMessage</span>
+                <span class="leform-errormsg" style="display: none;">$validationMessage</span>
             </div>
 
 HTML;

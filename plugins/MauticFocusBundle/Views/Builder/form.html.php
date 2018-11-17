@@ -31,14 +31,14 @@ if (empty($preview)):
     <script>
         var MauticFocusHandler = function (messageType, message) {
             // Store the HTML
-            var wrapper = document.getElementById('mauticform_wrapper<?php echo $formName ?>');
-            var innerForm = wrapper.getElementsByClassName('mauticform-innerform');
+            var wrapper = document.getElementById('leform_wrapper<?php echo $formName ?>');
+            var innerForm = wrapper.getElementsByClassName('leform-innerform');
             innerForm[0].style.display = "none";
 
             <?php if ($style == 'page'): ?>
-            document.getElementById('mauticform<?php echo $formName ?>_' + messageType).style.fontSize = "2em";
+            document.getElementById('leform<?php echo $formName ?>_' + messageType).style.fontSize = "2em";
             <?php elseif ($style != 'bar'): ?>
-            document.getElementById('mauticform<?php echo $formName ?>_' + messageType).style.fontSize = "1.1em";
+            document.getElementById('leform<?php echo $formName ?>_' + messageType).style.fontSize = "1.1em";
             <?php endif; ?>
 
             var headline = document.getElementsByClassName('mf-headline');
@@ -52,7 +52,7 @@ if (empty($preview)):
             }
 
             if (message) {
-                document.getElementById('mauticform<?php echo $formName ?>_' + messageType).innerHTML = message;
+                document.getElementById('leform<?php echo $formName ?>_' + messageType).innerHTML = message;
             }
 
             setTimeout(function () {
@@ -68,7 +68,7 @@ if (empty($preview)):
                 }
 
                 innerForm[0].style.display = "inherit";
-                document.getElementById('mauticform<?php echo $formName ?>_' + messageType).innerHTML = '';
+                document.getElementById('leform<?php echo $formName ?>_' + messageType).innerHTML = '';
             }, (messageType == 'error') ? 1500 : 5000);
         }
         if (typeof MauticFormCallback == 'undefined') {
@@ -114,7 +114,7 @@ if (empty($preview)):
 
 <?php
 $formExtra = <<<EXTRA
-<input type="hidden" name="mauticform[focusId]" id="mauticform{$formName}_focus_id" value="$focusId"/>
+<input type="hidden" name="leform[focusId]" id="leform{$formName}_focus_id" value="$focusId"/>
 EXTRA;
 
 echo $view->render('MauticFormBundle:Builder:form.html.php', [

@@ -35,12 +35,12 @@ h1 {
   margin-right: auto;
 }
 
-.mauticform-selectbox, .mauticform-input, .mauticform-textarea {
+.leform-selectbox, .leform-input, .leform-textarea {
   width: 100% !important;
   color: #000000;
 }
 
-.mauticform-button {
+.leform-button {
   color: #000000;
 }
 

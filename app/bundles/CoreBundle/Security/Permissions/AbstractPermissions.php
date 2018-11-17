@@ -378,7 +378,7 @@ abstract class AbstractPermissions
 
         $choices['full'] = 'mautic.core.permissions.full';
 
-        $label = ($level == 'categories') ? 'mautic.category.permissions.categories' : "mautic.$bundle.permissions.$level";
+        $label = ($level == 'categories') ? 'mautic.category.permissions.categories' : "le.$bundle.permissions.$level";
         $builder->add("$bundle:$level", 'permissionlist', [
             'choices' => $choices,
             'label'   => $label,
@@ -422,7 +422,7 @@ abstract class AbstractPermissions
 
         $builder->add("$bundle:$level", 'permissionlist', [
             'choices' => $choices,
-            'label'   => "mautic.$bundle.permissions.$level",
+            'label'   => "le.$bundle.permissions.$level",
             'data'    => (!empty($data[$level]) ? $data[$level] : []),
             'bundle'  => $bundle,
             'level'   => $level,
@@ -498,7 +498,7 @@ abstract class AbstractPermissions
 
         $builder->add("$bundle:$level", 'permissionlist', [
                 'choices' => $choices,
-                'label'   => "mautic.$bundle.permissions.$level",
+                'label'   => "le.$bundle.permissions.$level",
                 'data'    => (!empty($data[$level]) ? $data[$level] : []),
                 'bundle'  => $bundle,
                 'level'   => $level,

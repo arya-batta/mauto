@@ -61,7 +61,7 @@
             margin: -3px 0 0 0;
         }
 
-        .mauticform-input, select, .mauticform-button {
+        .leform-input, select, .leform-button {
             padding: 3px 6px;
             font-size: 0.9em;
         }
@@ -82,25 +82,25 @@
             font-size: 1em;
         }
 
-        .mauticform-input, select, .mauticform-button {
+        .leform-input, select, .leform-button {
             font-size: 1em;
         }
     }
 
-    .mauticform-row, .mauticform-checkboxgrp-row, .mauticform-radiogrp-row {
+    .leform-row, .leform-checkboxgrp-row, .leform-radiogrp-row {
         display: inline-block;
         margin-right: 3px;
     }
 
-    .mauticform-row .mauticform-input, .mauticform-row select {
+    .leform-row .leform-input, .leform-row select {
         color: #000000;
     }
 
-    .mauticform-label {
+    .leform-label {
         display: none;
     }
 
-    .mauticform_wrapper {
+    .leform_wrapper {
         display: inline-block;
     }
 

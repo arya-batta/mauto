@@ -227,15 +227,15 @@ class FormFieldHelper extends AbstractFormFieldHelper
             case 'text':
             case 'email':
             case 'hidden':
-                if (preg_match('/<input(.*?)id="mauticform_input_'.$formName.'_'.$alias.'"(.*?)value="(.*?)"(.*?)\/>/i', $formHtml, $match)) {
-                    $replace = '<input'.$match[1].'id="mauticform_input_'.$formName.'_'.$alias.'"'.$match[2].'value="'.$this->sanitizeValue($value).'"'
+                if (preg_match('/<input(.*?)id="leform_input_'.$formName.'_'.$alias.'"(.*?)value="(.*?)"(.*?)\/>/i', $formHtml, $match)) {
+                    $replace = '<input'.$match[1].'id="leform_input_'.$formName.'_'.$alias.'"'.$match[2].'value="'.$this->sanitizeValue($value).'"'
                         .$match[4].'/>';
                     $formHtml = str_replace($match[0], $replace, $formHtml);
                 }
                 break;
             case 'textarea':
-                if (preg_match('/<textarea(.*?)id="mauticform_input_'.$formName.'_'.$alias.'"(.*?)>(.*?)<\/textarea>/i', $formHtml, $match)) {
-                    $replace  = '<textarea'.$match[1].'id="mauticform_input_'.$formName.'_'.$alias.'"'.$match[2].'>'.$this->sanitizeValue($value).'</textarea>';
+                if (preg_match('/<textarea(.*?)id="leform_input_'.$formName.'_'.$alias.'"(.*?)>(.*?)<\/textarea>/i', $formHtml, $match)) {
+                    $replace  = '<textarea'.$match[1].'id="leform_input_'.$formName.'_'.$alias.'"'.$match[2].'>'.$this->sanitizeValue($value).'</textarea>';
                     $formHtml = str_replace($match[0], $replace, $formHtml);
                 }
                 break;
@@ -249,11 +249,11 @@ class FormFieldHelper extends AbstractFormFieldHelper
                 foreach ($value as $val) {
                     $val = $this->sanitizeValue($val);
                     if (preg_match(
-                        '/<input(.*?)id="mauticform_checkboxgrp_checkbox(.*?)"(.*?)value="'.$val.'"(.*?)\/>/i',
+                        '/<input(.*?)id="leform_checkboxgrp_checkbox(.*?)"(.*?)value="'.$val.'"(.*?)\/>/i',
                         $formHtml,
                         $match
                     )) {
-                        $replace = '<input'.$match[1].'id="mauticform_checkboxgrp_checkbox'.$match[2].'"'.$match[3].'value="'.$val.'"'
+                        $replace = '<input'.$match[1].'id="leform_checkboxgrp_checkbox'.$match[2].'"'.$match[3].'value="'.$val.'"'
                             .$match[4].' checked />';
                         $formHtml = str_replace($match[0], $replace, $formHtml);
                     }
@@ -261,15 +261,15 @@ class FormFieldHelper extends AbstractFormFieldHelper
                 break;
             case 'radiogrp':
                 $value = $this->sanitizeValue($value);
-                if (preg_match('/<input(.*?)id="mauticform_radiogrp_radio(.*?)"(.*?)value="'.$value.'"(.*?)\/>/i', $formHtml, $match)) {
-                    $replace = '<input'.$match[1].'id="mauticform_radiogrp_radio'.$match[2].'"'.$match[3].'value="'.$value.'"'.$match[4]
+                if (preg_match('/<input(.*?)id="leform_radiogrp_radio(.*?)"(.*?)value="'.$value.'"(.*?)\/>/i', $formHtml, $match)) {
+                    $replace = '<input'.$match[1].'id="leform_radiogrp_radio'.$match[2].'"'.$match[3].'value="'.$value.'"'.$match[4]
                         .' checked />';
                     $formHtml = str_replace($match[0], $replace, $formHtml);
                 }
                 break;
             case 'select':
             case 'country':
-                $regex = '/<select\s*id="mauticform_input_'.$formName.'_'.$alias.'"(.*?)<\/select>/is';
+                $regex = '/<select\s*id="leform_input_'.$formName.'_'.$alias.'"(.*?)<\/select>/is';
                 if (preg_match($regex, $formHtml, $match)) {
                     $origText = $match[0];
                     $replace  = str_replace(

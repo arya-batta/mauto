@@ -191,7 +191,7 @@ class RoleController extends FormController
             ],
             'contentTemplate' => 'MauticUserBundle:Role:form.html.php',
             'passthroughVars' => [
-                'activeLink'     => '#mautic_role_new',
+                'activeLink'     => '#le_role_new',
                 'route'          => $this->generateUrl('le_role_action', ['objectAction' => 'new']),
                 'leContent'  => 'role',
                 'permissionList' => $permissionsConfig['list'],

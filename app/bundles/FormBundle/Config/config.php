@@ -250,7 +250,7 @@ return [
             'mautic.form.type.form' => [
                 'class'     => FormType::class,
                 'arguments' => 'mautic.factory',
-                'alias'     => 'mauticform',
+                'alias'     => 'leform',
             ],
             'mautic.form.type.field' => [
                 'class'       => FieldType::class,

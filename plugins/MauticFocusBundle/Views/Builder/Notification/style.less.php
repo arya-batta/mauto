@@ -56,7 +56,7 @@
         }
     }
 
-    .mauticform-input, .mauticform-row select, .mauticform-button {
+    .leform-input, .leform-row select, .leform-button {
         width: 100%;
         height: 28px;
         margin-bottom: 2px;

@@ -604,8 +604,8 @@ section {
     background: rgba(255, 255, 255, .3)
 }
 
-.form .mauticform-checkboxgrp-label,
-.form .mauticform-radiogrp-row label {
+.form .leform-checkboxgrp-label,
+.form .leform-radiogrp-row label {
     text-transform: none;
     font-size: .8rem;
     font-weight: 600;
@@ -613,7 +613,7 @@ section {
 }
 
 .form label,
-.form label.mauticform-label {
+.form label.leform-label {
     font-size: .75rem!important;
     font-weight: 400!important;
     margin-bottom: .5rem!important;
@@ -621,7 +621,7 @@ section {
 }
 
 .form label span,
-.form label.mauticform-label span {
+.form label.leform-label span {
     width: 70%;
     display: inline-block;
     vertical-align: middle
@@ -634,7 +634,7 @@ section {
     line-height: 1rem
 }
 
-.form button.mauticform-pagebreak {
+.form button.leform-pagebreak {
     position: relative;
     margin-top: .5rem!important;
     margin-left: calc(50% - 8rem)!important;
@@ -642,7 +642,7 @@ section {
     margin-bottom: 0!important
 }
 
-.form button.mauticform-pagebreak.mautic-pagebreak-back {
+.form button.leform-pagebreak.mautic-pagebreak-back {
     background: 0 0!important;
     color: #fff!important;
     -webkit-box-shadow: none!important;
@@ -652,7 +652,7 @@ section {
     font-weight: 400!important
 }
 
-.form button.mauticform-pagebreak~.mauticform-button-wrapper {
+.form button.leform-pagebreak~.leform-button-wrapper {
     margin-top: 0!important
 }
 
@@ -666,7 +666,7 @@ section {
     margin: 0 0 .5rem
 }
 
-.form .mauticform-required:after {
+.form .leform-required:after {
     content: '*';
     position: absolute;
     top: 1rem;
@@ -738,7 +738,7 @@ section {
     font-weight: 700
 }
 
-.form.white .mauticform-required:after {
+.form.white .leform-required:after {
     color: rgba(33, 33, 33, .2)
 }
 
@@ -766,7 +766,7 @@ section {
 }
 
 .form .button,
-.form .mauticform-button-wrapper .mauticform-button,
+.form .leform-button-wrapper .leform-button,
 .form button,
 .form button.btn.btn-default {
     background: #00bf9a;
@@ -788,7 +788,7 @@ section {
 }
 
 .form .button:hover,
-.form .mauticform-button-wrapper .mauticform-button:hover,
+.form .leform-button-wrapper .leform-button:hover,
 .form button.btn.btn-default:hover,
 .form button:hover {
     -webkit-transition: all 1s cubic-bezier(.19, 1, .22, 1);
@@ -799,22 +799,22 @@ section {
     box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, .5)
 }
 
-.form .button#mauticform_input_mauticcomsignupfree_final_page,
-.form .mauticform-button-wrapper .mauticform-button#mauticform_input_mauticcomsignupfree_final_page,
-.form button#mauticform_input_mauticcomsignupfree_final_page,
-.form button.btn.btn-default#mauticform_input_mauticcomsignupfree_final_page {
+.form .button#leform_input_mauticcomsignupfree_final_page,
+.form .leform-button-wrapper .leform-button#leform_input_mauticcomsignupfree_final_page,
+.form button#leform_input_mauticcomsignupfree_final_page,
+.form button.btn.btn-default#leform_input_mauticcomsignupfree_final_page {
     color: #fff;
     background: #1E2A36
 }
 
-.form .button#mauticform_input_mauticcomsignupfree_final_page:hover,
-.form .mauticform-button-wrapper .mauticform-button#mauticform_input_mauticcomsignupfree_final_page:hover,
-.form button#mauticform_input_mauticcomsignupfree_final_page:hover,
-.form button.btn.btn-default#mauticform_input_mauticcomsignupfree_final_page:hover {
+.form .button#leform_input_mauticcomsignupfree_final_page:hover,
+.form .leform-button-wrapper .leform-button#leform_input_mauticcomsignupfree_final_page:hover,
+.form button#leform_input_mauticcomsignupfree_final_page:hover,
+.form button.btn.btn-default#leform_input_mauticcomsignupfree_final_page:hover {
     background: #11181F
 }
 
-.form .mauticform-errormsg {
+.form .leform-errormsg {
     height: 2rem;
     float: left;
     color: #FF6363;
@@ -824,16 +824,16 @@ section {
     padding: .4rem 0 0
 }
 
-.form .mauticform-freetext {
+.form .leform-freetext {
     width: 100%
 }
 
-.form .mauticform-freetext span {
+.form .leform-freetext span {
     font-size: 1.2rem!important;
     line-height: 1.9rem!important
 }
 
-.form .mauticform-freetext a {
+.form .leform-freetext a {
     color: #00bf9a!important
 }
 
@@ -847,7 +847,7 @@ section {
     font-weight: 500
 }
 
-.mauticform-row {
+.leform-row {
     width: 33.33333%;
     float: left;
     padding: .75rem .9rem;
@@ -855,21 +855,21 @@ section {
     position: relative
 }
 
-.mauticform-row#mauticform_contactus_message {
+.leform-row#leform_contactus_message {
     width: 100%
 }
 
-.mauticform-row#mauticform_contactus_message textarea {
+.leform-row#leform_contactus_message textarea {
     height: 7rem
 }
 
-.mauticform-row.mauticform-has-error,
-.mauticform-row.mauticform-has-error+.mauticform-row {
+.leform-row.leform-has-error,
+.leform-row.leform-has-error+.leform-row {
     min-height: 7.5rem
 }
 
-.mauticform-pagebreak-wrapper,
-.mauticform-row.mauticform-button-wrapper {
+.leform-pagebreak-wrapper,
+.leform-row.leform-button-wrapper {
     width: 100%;
     text-align: left;
     margin: 1rem 0 0
@@ -885,12 +885,12 @@ section {
 }
 
 @media (max-width:48rem) {
-    .mauticform-row {
+    .leform-row {
         width: 100%
     }
 }
 
-.form .mauticform-row.mauticform-required .mauticform-label:after {
+.form .leform-row.leform-required .leform-label:after {
   color: #fff;
   line-height: .75rem;
   vertical-align: bottom;

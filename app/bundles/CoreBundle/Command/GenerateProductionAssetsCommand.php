@@ -52,12 +52,12 @@ EOT
         // Minify Mautic Form SDK
         file_put_contents(
             $pathsHelper->getSystemPath('assets', true).'/js/mautic-form-tmp.js',
-            \Minify::combine([$pathsHelper->getSystemPath('assets', true).'/js/mautic-form-src.js'])
+            \Minify::combine([$pathsHelper->getSystemPath('assets', true).'/js/le-form-src.js'])
         );
-        // Fix the MauticSDK loader
+        // Fix the leSDK loader
         file_put_contents(
-            $pathsHelper->getSystemPath('assets', true).'/js/mautic-form.js',
-            str_replace("'mautic-form-src.js'", "'mautic-form.js'",
+            $pathsHelper->getSystemPath('assets', true).'/js/le-form.js',
+            str_replace("'le-form-src.js'", "'le-form.js'",
                 file_get_contents($pathsHelper->getSystemPath('assets', true).'/js/mautic-form-tmp.js'))
         );
         // Remove temp file.

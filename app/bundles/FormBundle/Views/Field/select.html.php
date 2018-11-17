@@ -25,7 +25,7 @@ HTML;
 
 $help = (empty($field['helpMessage'])) ? '' : <<<HTML
 
-                <span class="mauticform-helpmessage">{$field['helpMessage']}</span>
+                <span class="leform-helpmessage">{$field['helpMessage']}</span>
 HTML;
 
 $emptyOption = '';
@@ -67,7 +67,7 @@ $html        = <<<HTML
             <div $containerAttr>{$label}{$help}
                 <select $inputAttr>$optionsHtml
                 </select>
-                <span class="mauticform-errormsg" style="display: none;">$validationMessage</span>
+                <span class="leform-errormsg" style="display: none;">$validationMessage</span>
             </div>
 
 HTML;

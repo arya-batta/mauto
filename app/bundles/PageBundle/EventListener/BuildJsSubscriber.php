@@ -522,11 +522,11 @@ MauticJS.processGatedVideos = function (videoElements) {
                                     }, 3000);
                                 } else if (data.validationErrors) {
                                     // Reset validation errors
-                                    jQuery('#mauticform_'+data.formName+' .mauticform-errormsg').css('display', 'none');
+                                    jQuery('#leform_'+data.formName+' .leform-errormsg').css('display', 'none');
                                     // Display validation errors
                                     jQuery.each(data.validationErrors, function (field, message) {
-                                        if (jQuery('#mauticform_'+data.formName+'_'+field+' .mauticform-errormsg')) {
-                                            jQuery('#mauticform_'+data.formName+'_'+field+' .mauticform-errormsg').css('display', 'block');
+                                        if (jQuery('#leform_'+data.formName+'_'+field+' .leform-errormsg')) {
+                                            jQuery('#leform_'+data.formName+'_'+field+' .leform-errormsg').css('display', 'block');
                                         }
                                     });
                                 }

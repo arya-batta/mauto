@@ -12,52 +12,52 @@
     max-width: 100%;
 }
 
-#mauticforms_fields .mauticform-row, #mauticforms_actions .mauticform-row {
+#leforms_fields .leform-row, #leforms_actions .leform-row {
     padding: 10px;
 }
 
-#mauticforms_fields .mauticform-row {
+#leforms_fields .leform-row {
     margin-bottom: 0 !important;
 }
 
-#mauticforms_actions .mauticform-row .action-label {
+#leforms_actions .leform-row .action-label {
     font-size: 1.1em;
     font-weight: bold;
     display: block;
 }
 
-#mauticforms_actions .mauticform-row .action-descr {
+#leforms_actions .leform-row .action-descr {
     font-size: 0.9em;
     display: block;
 }
 
-#mauticforms_actions .form-buttons {
+#leforms_actions .form-buttons {
     float: right;
     margin-top: 3px;
 }
 
-#mauticforms_fields .form-buttons {
+#leforms_fields .form-buttons {
     position: absolute;
     right: 8px;
     top: 8px;
 }
 
-#mauticforms_fields input, #mauticforms_fields textarea, #mauticforms_fields select {
+#leforms_fields input, #leforms_fields textarea, #leforms_fields select {
     background-color: #fff;
     box-shadow: 0px 0px 0px #fff inset;
     padding: 0.5em 0.5em;
     width: 50%;
 }
 
-#mauticforms_fields .chosen-container-single .chosen-search input[type="text"] {
+#leforms_fields .chosen-container-single .chosen-search input[type="text"] {
     width:100%;
 }
 
-.mauticform-row {
+.leform-row {
     min-height: 60px;
 }
 
-#mauticforms_fields .panel-footer {
+#leforms_fields .panel-footer {
     padding: 3px 15px;
 }
 
@@ -89,12 +89,12 @@ textarea.form-html {
     padding-right: 20px;
 }
 
-#mauticforms_fields input[type="date"],
-#mauticforms_fields input[type="time"],
-#mauticforms_fields input[type="datetime-local"],
-#mauticforms_fields input[type="month"] {
+#leforms_fields input[type="date"],
+#leforms_fields input[type="time"],
+#leforms_fields input[type="datetime-local"],
+#leforms_fields input[type="month"] {
     line-height: inherit;
 }
-#mauticforms_fields input.mauticform-radiogrp-radio {
+#leforms_fields input.leform-radiogrp-radio {
     width: auto;
 }

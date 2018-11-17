@@ -32,12 +32,12 @@ if (!isset($formName)) {
 
 $properties = $field['properties'];
 
-$defaultInputClass = 'mauticform-'.$defaultInputClass;
-$defaultLabelClass = 'mauticform-'.$defaultLabelClass;
+$defaultInputClass = 'leform-'.$defaultInputClass;
+$defaultLabelClass = 'leform-'.$defaultLabelClass;
 
 $name = '';
 if (empty($ignoreName)) {
-    $inputName = 'mauticform['.$field['alias'].']';
+    $inputName = 'leform['.$field['alias'].']';
     if (!empty($properties['multiple'])) {
         $inputName .= '[]';
     }
@@ -51,8 +51,8 @@ if (in_array($field['type'], ['checkboxgrp', 'radiogrp', 'textarea'])) {
 }
 
 if (empty($ignoreId)) {
-    $inputId = 'id="mauticform_input'.$formName.'_'.$field['alias'].'"';
-    $labelId = 'id="mauticform_label'.$formName.'_'.$field['alias'].'" for="mauticform_input'.$formName.'_'.$field['alias'].'"';
+    $inputId = 'id="leform_input'.$formName.'_'.$field['alias'].'"';
+    $labelId = 'id="leform_label'.$formName.'_'.$field['alias'].'" for="leform_input'.$formName.'_'.$field['alias'].'"';
 } else {
     $inputId = $labelId = '';
 }
@@ -86,18 +86,18 @@ if (!empty($inForm)) {
 }
 
 // Container
-$containerAttr = 'id="mauticform'.$formName.'_'.$id.'" '.htmlspecialchars_decode($field['containerAttributes']);
+$containerAttr = 'id="leform'.$formName.'_'.$id.'" '.htmlspecialchars_decode($field['containerAttributes']);
 if (!isset($containerClass)) {
     $containerClass = $containerType;
 }
 $order                 = (isset($field['order'])) ? $field['order'] : 0;
-$defaultContainerClass = 'mauticform-row mauticform-'.$containerClass.' mauticform-field-'.$order;
+$defaultContainerClass = 'leform-row leform-'.$containerClass.' leform-field-'.$order;
 
 // Field is required
 $validationMessage = '';
 if (isset($field['isRequired']) && $field['isRequired']) {
     $required = true;
-    $defaultContainerClass .= ' mauticform-required';
+    $defaultContainerClass .= ' leform-required';
     $validationMessage = $field['validationMessage'];
     if (empty($validationMessage)) {
         $validationMessage = $view['translator']->trans('mautic.form.field.generic.required', [], 'validators');
@@ -110,7 +110,7 @@ if (isset($field['isRequired']) && $field['isRequired']) {
     }
 } elseif (!empty($required)) {
     // Forced to be required
-    $defaultContainerClass .= ' mauticform-required';
+    $defaultContainerClass .= ' leform-required';
 }
 
 $appendAttribute($containerAttr, 'class', $defaultContainerClass);

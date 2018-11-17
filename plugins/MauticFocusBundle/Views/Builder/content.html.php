@@ -29,12 +29,12 @@ $props = $focus['properties'];
 
         <?php if (isset($props['colors'])): ?>
 
-        .mf-content a.mf-link, .mf-content .mauticform-button {
+        .mf-content a.mf-link, .mf-content .leform-button {
             background-color: #<?php echo $props['colors']['button']; ?>;
             color: #<?php echo $props['colors']['button_text']; ?>;
         }
 
-        .mauticform-input:focus, select:focus {
+        .leform-input:focus, select:focus {
             border: 1px solid #<?php echo $props['colors']['button']; ?>;
         }
 

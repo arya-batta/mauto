@@ -139,7 +139,7 @@ $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErr
                             $header = $object;
                             $icon   = ($object == 'company') ? 'building' : 'user';
                             ?>
-                            <optgroup label="<?php echo $view['translator']->trans('mautic.lead.'.$header); ?>">
+                            <optgroup label="<?php echo $view['translator']->trans('le.lead.'.$header); ?>">
                                 <?php
                                 foreach ($group->choices as $subGroup => $fields):
                                     foreach ($fields->choices as $field) :

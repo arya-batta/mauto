@@ -163,7 +163,7 @@ class FormModel extends CommonFormModel
             $options['action'] = $action;
         }
 
-        return $formFactory->create('mauticform', $entity, $options);
+        return $formFactory->create('leform', $entity, $options);
     }
 
     /**

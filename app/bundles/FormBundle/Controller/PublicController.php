@@ -41,7 +41,7 @@ class PublicController extends CommonFormController
         }
         $isAjax        = $this->request->query->get('ajax', false);
         $form          = null;
-        $post          = $this->request->request->get('mauticform');
+        $post          = $this->request->request->get('leform');
         $messengerMode = (!empty($post['messenger']));
         $server        = $this->request->server->all();
         $return        = (isset($post['return'])) ? $post['return'] : false;
