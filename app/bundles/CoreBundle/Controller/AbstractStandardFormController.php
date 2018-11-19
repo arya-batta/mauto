@@ -16,7 +16,7 @@ use Mautic\CategoryBundle\Entity\Category;
 use Mautic\CoreBundle\Entity\FormEntity;
 use Mautic\CoreBundle\Model\AbstractCommonModel;
 use Mautic\CoreBundle\Model\FormModel;
-use MauticPlugin\MauticFocusBundle\Entity\Focus;
+use MauticPlugin\leFocusBundle\Entity\Focus;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

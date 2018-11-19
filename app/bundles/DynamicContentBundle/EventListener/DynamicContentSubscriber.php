@@ -31,7 +31,7 @@ use Mautic\PageBundle\Event\PageDisplayEvent;
 use Mautic\PageBundle\Helper\TokenHelper as PageTokenHelper;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PageBundle\PageEvents;
-use MauticPlugin\MauticFocusBundle\Helper\TokenHelper as FocusTokenHelper;
+use MauticPlugin\leFocusBundle\Helper\TokenHelper as FocusTokenHelper;
 
 /**
  * Class DynamicContentSubscriber.
