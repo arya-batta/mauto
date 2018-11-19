@@ -76,7 +76,7 @@ class SolutionInfinityApi extends AbstractSmsApi
             //$this->sendingPhoneNumber = $integration->getIntegrationSettings()->getFeatureSettings()['sending_phone_number'];
 
             $keys = $integration->getDecryptedApiKeys();
-            if ($coreParametersHelper->getParameter('mautic.sms_transport') == 'mautic.sms.transport.leadsengage') {
+            if ($coreParametersHelper->getParameter('mautic.sms_transport') == 'le.sms.transport.leadsengage') {
 
                 $keys['apikey']         =   $coreParametersHelper->getParameter('le_account_api_key');
                 $keys['senderid']    =   $coreParametersHelper->getParameter('le_account_sender_id');

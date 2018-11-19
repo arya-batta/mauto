@@ -557,7 +557,7 @@ class EmailCampaignController extends FormController
             $entity->setPostalAddress($postaladdress);
         }
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon') {
+        if ($mailertransport == 'le.transport.amazon') {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $model->upAwsEmailVerificationStatus($emails);
@@ -836,7 +836,7 @@ class EmailCampaignController extends FormController
             $entity->setFromAddress($fromadress);
         }
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon') {
+        if ($mailertransport == 'le.transport.amazon') {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $model->upAwsEmailVerificationStatus($emails);
@@ -1513,7 +1513,7 @@ class EmailCampaignController extends FormController
         $transport        = $params['mailer_transport'];
         $emailValidator   = $this->factory->get('mautic.validator.email');
 
-        if ($transport == 'mautic.transport.amazon') {
+        if ($transport == 'le.transport.amazon') {
             $isValidEmail   = $emailValidator->getVerifiedEmailAddressDetails($emailuser, $emailpassword, $region, $fromadress);
             if (!$isValidEmail) {
                 return $this->postActionRedirect(

@@ -93,7 +93,7 @@ class ConfigController extends FormController
         /** @var EmailModel $emailModel */
         $emailModel     = $this->getModel('email');
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
+        if ($mailertransport == 'le.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $emailModel->upAwsEmailVerificationStatus($emails);
@@ -357,8 +357,8 @@ class ConfigController extends FormController
     {
         $this->unpublishAllSMSSettings();
         $integrationHelper = $this->factory->getHelper('integration');
-        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
-            $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans('mautic.sms.transport.solutioninfini'));
+        if ($objects['sms_transport'] == 'le.sms.transport.leadsengage') {
+            $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans('le.sms.transport.solutioninfini'));
         } else {
             /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
             $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans($objects['sms_transport']));
@@ -370,7 +370,7 @@ class ConfigController extends FormController
         $features['frequency_number'] = $objects['sms_frequency_number'];
         $features['frequency_time']   = $objects['sms_frequency_time'];
         $features['sms_status']       = $objects['sms_status'];
-        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
+        if ($objects['sms_transport'] == 'le.sms.transport.leadsengage') {
             $objects['account_auth_token']    = '';
             $objects['account_sid']           = '';
             $objects['sms_from_number']       = '';
@@ -378,14 +378,14 @@ class ConfigController extends FormController
             $objects['account_api_key']       = '';
             $objects['account_sender_id']     = '';
         } else {
-            if ($objects['sms_transport'] == 'mautic.sms.transport.solutioninfini') {
+            if ($objects['sms_transport'] == 'le.sms.transport.solutioninfini') {
                 $apikeys['url']                = $objects['account_url'];
                 $apikeys['apikey']             = $objects['account_api_key'];
                 $apikeys['senderid']           = $objects['account_sender_id'];
                 $objects['account_auth_token'] = '';
                 $objects['account_sid']        = '';
                 $objects['sms_from_number']    = '';
-            } elseif ($objects['sms_transport'] == 'mautic.sms.transport.twilio') {
+            } elseif ($objects['sms_transport'] == 'le.sms.transport.twilio') {
                 $apikeys['username']              = $objects['account_sid'];
                 $apikeys['password']              = $objects['account_auth_token'];
                 $features['sending_phone_number'] = $objects['sms_from_number'];
@@ -394,7 +394,7 @@ class ConfigController extends FormController
                 $objects['account_sender_id']     = '';
             }
         }
-        if ($objects['sms_transport'] == 'mautic.sms.transport.leadsengage') {
+        if ($objects['sms_transport'] == 'le.sms.transport.leadsengage') {
             $settings->setIsPublished($objects['publish_account']);
         } else {
             $settings->setFeatureSettings($features);
@@ -417,7 +417,7 @@ class ConfigController extends FormController
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper  = $this->factory->getHelper('integration');
         foreach ($transports as $transportServiceId=>$transport) {
-            if ($transportServiceId == 'mautic.sms.transport.leadsengage') {
+            if ($transportServiceId == 'le.sms.transport.leadsengage') {
                 continue;
             } else {
                 $integrationObject = $integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));

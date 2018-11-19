@@ -393,7 +393,7 @@ return [
         ],
         'other' => [
             // Mailers
-//            'mautic.transport.amazon' => [
+//            'le.transport.amazon' => [
 //                'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\AmazonTransport',
 //                'serviceAlias' => 'swiftmailer.mailer.transport.%s',
 //                'arguments'    => [
@@ -416,7 +416,7 @@ return [
                     '%mautic.mailer_amazon_region%',
                 ],
             ],
-            'mautic.transport.amazon' => [
+            'le.transport.amazon' => [
                 'class'        => \Mautic\EmailBundle\Swiftmailer\Transport\AmazonApiTransport::class,
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [
@@ -427,7 +427,7 @@ return [
                'mautic.email.model.transport_callback',
                 ],
             ],
-            'mautic.transport.mandrill' => [
+            'le.transport.mandrill' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\MandrillTransport',
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [
@@ -439,7 +439,7 @@ return [
                     'setPassword'      => ['%mautic.mailer_api_key%'],
                 ],
             ],
-            'mautic.transport.mailjet' => [
+            'le.transport.mailjet' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\MailjetTransport',
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [
@@ -452,7 +452,7 @@ return [
                     'setPassword' => ['%mautic.mailer_password%'],
                 ],
             ],
-            'mautic.transport.sendgrid' => [
+            'le.transport.sendgrid' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\SendgridTransport',
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'methodCalls'  => [
@@ -460,7 +460,7 @@ return [
                     'setPassword' => ['%mautic.mailer_password%'],
                 ],
             ],
-            'mautic.transport.sendgrid_api' => [
+            'le.transport.sendgrid_api' => [
                 'class'        => \Mautic\EmailBundle\Swiftmailer\Transport\SendgridApiTransport::class,
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [
@@ -524,7 +524,7 @@ return [
                     'mautic.email.model.transport_callback',
                 ],
             ],
-            'mautic.transport.elasticemail' => [
+            'le.transport.elasticemail' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\ElasticemailTransport',
                 'arguments'    => [
                     'translator',
@@ -549,7 +549,7 @@ return [
                     'setPassword' => ['%mautic.mailer_password_transactions%'],
                 ],
             ],
-            'mautic.transport.postmark' => [
+            'le.transport.postmark' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\PostmarkTransport',
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'methodCalls'  => [
@@ -557,7 +557,7 @@ return [
                     'setPassword' => ['%mautic.mailer_password%'],
                 ],
             ],
-            'mautic.transport.sparkpost' => [
+            'le.transport.sparkpost' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\SparkpostTransport',
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [

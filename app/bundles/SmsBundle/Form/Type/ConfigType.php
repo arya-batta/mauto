@@ -53,8 +53,8 @@ class ConfigType extends AbstractType
         $choices    = [];
         $transports = $this->transportChain->getEnabledTransports();
         foreach ($transports as $transportServiceId=>$transport) {
-            if ($transportServiceId == 'mautic.sms.transport.solutioninfini') {
-                $choices[$transportServiceId] = $this->translator->trans('mautic.sms.transport.solutioninfini.choice');
+            if ($transportServiceId == 'le.sms.transport.solutioninfini') {
+                $choices[$transportServiceId] = $this->translator->trans('le.sms.transport.solutioninfini.choice');
             } else {
                 $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
             }
@@ -74,9 +74,9 @@ class ConfigType extends AbstractType
             'empty_value' => false,
 
         ]);
-        $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["mautic.sms.transport.solutioninfini"]}';
-        $TwilioShowConditions    = '{"config_smsconfig_sms_transport":["mautic.sms.transport.twilio"]}';
-        $LeadsEngageShowConditions= '{"config_smsconfig_sms_transport":["mautic.sms.transport.leadsengage"]}';
+        $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["le.sms.transport.solutioninfini"]}';
+        $TwilioShowConditions    = '{"config_smsconfig_sms_transport":["le.sms.transport.twilio"]}';
+        $LeadsEngageShowConditions= '{"config_smsconfig_sms_transport":["le.sms.transport.leadsengage"]}';
         $builder->add(
             'account_url',
             'text',

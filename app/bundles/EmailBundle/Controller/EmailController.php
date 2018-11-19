@@ -553,7 +553,7 @@ class EmailController extends FormController
             $entity->setPostalAddress($postaladdress);
         }
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon') {
+        if ($mailertransport == 'le.transport.amazon') {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $model->upAwsEmailVerificationStatus($emails);
@@ -783,7 +783,7 @@ class EmailController extends FormController
             $entity->setFromAddress($fromadress);
         }
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon') {
+        if ($mailertransport == 'le.transport.amazon') {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $model->upAwsEmailVerificationStatus($emails);

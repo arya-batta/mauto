@@ -165,9 +165,9 @@ try {
                     $mailer        = $parameters['mailer_transport'];
                     $elasticapikey = $parameters['mailer_password'];
                     $subusername   = $parameters['mailer_user'];
-                    if ($mailer == 'mautic.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
+                    if ($mailer == 'le.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
                         CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
-                    } elseif ($mailer == 'mautic.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
+                    } elseif ($mailer == 'le.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
                         CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
                     }
                 }
@@ -234,11 +234,11 @@ function executeCommand($command)
 function CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername)
 {
     $status = true;
-    if ($mailer == 'mautic.transport.elasticemail') {
+    if ($mailer == 'le.transport.elasticemail') {
         if ($elasticapikey != '') {
             $status = checkStatusofElastic($elasticapikey);
         }
-    } elseif ($mailer == 'mautic.transport.sendgrid_api') {
+    } elseif ($mailer == 'le.transport.sendgrid_api') {
         if ($subusername != '') {
             $status = checkStatus($subusername);
         }

@@ -87,13 +87,13 @@ $hideawsemailoptions = '';
 $style               ='80%';
 $tabindex            ='-1';
 $pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
-if ($mailertransport != 'mautic.transport.amazon' && $mailertransport != 'mautic.transport.sparkpost') {
+if ($mailertransport != 'le.transport.amazon' && $mailertransport != 'le.transport.sparkpost') {
     $hideawsemailoptions  = 'hide';
     $style                = '';
     $pointereventstyle    = '';
     $tabindex             = '';
 }
-if ($mailertransport != 'mautic.transport.amazon') {
+if ($mailertransport != 'le.transport.amazon') {
     $hideawsemailoptions ='hide';
     $style               ='';
 }

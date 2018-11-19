@@ -7,28 +7,28 @@ class TransportType
     public function getTransportTypes()
     {
         return [
-            'mautic.transport.amazon'       => 'le.email.config.mailer_transport.amazon',
-            'mautic.transport.elasticemail' => 'le.email.config.mailer_transport.elasticemail',
+            'le.transport.amazon'       => 'le.email.config.mailer_transport.amazon',
+            'le.transport.elasticemail' => 'le.email.config.mailer_transport.elasticemail',
             'gmail'                         => 'le.email.config.mailer_transport.gmail',
-            'mautic.transport.mandrill'     => 'le.email.config.mailer_transport.mandrill',
-            'mautic.transport.mailjet'      => 'le.email.config.mailer_transport.mailjet',
+            'le.transport.mandrill'     => 'le.email.config.mailer_transport.mandrill',
+            'le.transport.mailjet'      => 'le.email.config.mailer_transport.mailjet',
             'smtp'                          => 'le.email.config.mailer_transport.smtp',
             'mail'                          => 'le.email.config.mailer_transport.mail',
-            'mautic.transport.postmark'     => 'le.email.config.mailer_transport.postmark',
-            'mautic.transport.sendgrid'     => 'le.email.config.mailer_transport.sendgrid',
-            'mautic.transport.sendgrid_api' => 'le.email.config.mailer_transport.sendgrid_api',
+            'le.transport.postmark'     => 'le.email.config.mailer_transport.postmark',
+            'le.transport.sendgrid'     => 'le.email.config.mailer_transport.sendgrid',
+            'le.transport.sendgrid_api' => 'le.email.config.mailer_transport.sendgrid_api',
             'sendmail'                      => 'le.email.config.mailer_transport.sendmail',
-            'mautic.transport.sparkpost'    => 'le.email.config.mailer_transport.sparkpost',
+            'le.transport.sparkpost'    => 'le.email.config.mailer_transport.sparkpost',
         ];
     }
 
     public function getCustomTransportType($needLeTransport)
     {
         $leTrans         = ['le.transport.vialeadsengage'   => 'le.transport.vialeadsengage'];
-        $customTransport = ['mautic.transport.amazon'       => 'mautic.transport.amazon',
-            'mautic.transport.elasticemail'                 => 'le.email.config.mailer_transport.elasticemail',
-            'mautic.transport.sendgrid_api'                 => 'le.email.config.mailer_transport.sendgrid_api',
-            'mautic.transport.sparkpost'                    => 'le.email.config.mailer_transport.sparkpost', ];
+        $customTransport = ['le.transport.amazon'       => 'le.transport.amazon',
+            'le.transport.elasticemail'                 => 'le.email.config.mailer_transport.elasticemail',
+            'le.transport.sendgrid_api'                 => 'le.email.config.mailer_transport.sendgrid_api',
+            'le.transport.sparkpost'                    => 'le.email.config.mailer_transport.sparkpost', ];
 
         if ($needLeTransport) {
             $customTransport = array_merge($leTrans, $customTransport);
@@ -44,22 +44,22 @@ class TransportType
 
     public function getAmazonService()
     {
-        return '"mautic.transport.amazon"';
+        return '"le.transport.amazon"';
     }
 
     public function getCustomServiceForUser()
     {
-        return '"mautic.transport.amazon",
-                "mautic.transport.elasticemail"';
+        return '"le.transport.amazon",
+                "le.transport.elasticemail"';
     }
 
     public function getCustomService()
     {
-        return '"mautic.transport.amazon",
-                "mautic.transport.sparkpost",
-                "mautic.transport.mandrill",
-                "mautic.transport.sendgrid_api",
-                "mautic.transport.elasticemail"';
+        return '"le.transport.amazon",
+                "le.transport.sparkpost",
+                "le.transport.mandrill",
+                "le.transport.sendgrid_api",
+                "le.transport.elasticemail"';
     }
 
     public function getLeadsEngageService()
@@ -69,18 +69,18 @@ class TransportType
 
     public function getMailjetService()
     {
-        return '"mautic.transport.mailjet"';
+        return '"le.transport.mailjet"';
     }
 
     public function getServiceRequiresLogin()
     {
-        return '"mautic.transport.mandrill",
-                "mautic.transport.mailjet",
-                "mautic.transport.sendgrid",
-                "mautic.transport.elasticemail",
-                "mautic.transport.amazon",
-                "mautic.transport.postmark",
-                "mautic.transport.sendgrid_api",
+        return '"le.transport.mandrill",
+                "le.transport.mailjet",
+                "le.transport.sendgrid",
+                "le.transport.elasticemail",
+                "le.transport.amazon",
+                "le.transport.postmark",
+                "le.transport.sendgrid_api",
                 "le.transport.vialeadsengage",
                 "gmail"';
     }
@@ -89,16 +89,16 @@ class TransportType
     {
         return '"mail",
                 "sendmail",
-                "mautic.transport.sparkpost"';
+                "le.transport.sparkpost"';
     }
 
     public function getServiceRequiresPassword()
     {
-        return '"mautic.transport.elasticemail",
-                "mautic.transport.sendgrid",
-                "mautic.transport.amazon",
-                "mautic.transport.postmark",
-                "mautic.transport.mailjet",
+        return '"le.transport.elasticemail",
+                "le.transport.sendgrid",
+                "le.transport.amazon",
+                "le.transport.postmark",
+                "le.transport.mailjet",
                 "le.transport.vialeadsengage",
                 "gmail"';
     }
@@ -107,15 +107,15 @@ class TransportType
     {
         return '"mail",
                 "sendmail",
-                "mautic.transport.sparkpost",
-                "mautic.transport.mandrill",
-                "mautic.transport.sendgrid_api"';
+                "le.transport.sparkpost",
+                "le.transport.mandrill",
+                "le.transport.sendgrid_api"';
     }
 
     public function getServiceRequiresApiKey()
     {
-        return '"mautic.transport.sparkpost",
-                "mautic.transport.mandrill",
-                "mautic.transport.sendgrid_api"';
+        return '"le.transport.sparkpost",
+                "le.transport.mandrill",
+                "le.transport.sendgrid_api"';
     }
 }

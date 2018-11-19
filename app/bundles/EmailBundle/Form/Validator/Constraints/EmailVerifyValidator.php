@@ -81,7 +81,7 @@ class EmailVerifyValidator extends ConstraintValidator
             $region = $params['mailer_amazon_region'];
         }
 
-        if ($transport == 'mautic.transport.amazon') {
+        if ($transport == 'le.transport.amazon') {
             $message       = '';
             if ($emailpassword == '') {
                 $message = $this->translator->trans('le.email.password.error');

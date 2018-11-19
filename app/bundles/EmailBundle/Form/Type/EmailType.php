@@ -127,7 +127,7 @@ class EmailType extends AbstractType
             ]
         );
         $tooltip = 'le.email.from_email.tooltip';
-        if ($emailProvider == $this->translator->trans('mautic.transport.amazon')) {
+        if ($emailProvider == $this->translator->trans('le.transport.amazon')) {
             $tooltip = 'le.email.amazon.fromaddress.tooltip';
         }
         $builder->add(

@@ -1627,7 +1627,7 @@ class LeadController extends FormController
         //$region         = $params['mailer_amazon_region'];
 
         $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'mautic.transport.amazon') {
+        if ($mailertransport == 'le.transport.amazon') {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
                 $emailModel->upAwsEmailVerificationStatus($emails);

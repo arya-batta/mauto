@@ -549,7 +549,7 @@ class AjaxController extends CommonAjaxController
         $mailsent24hrs         = $statrepo->getSentCountsByDate($last24hrsDate);
         $dataArray['success']  =true;
 
-        if ($transport == 'mautic.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
+        if ($transport == 'le.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
             $stats                        = $this->get('mautic.validator.email')->getSendingStatistics($maileruser, $emailpassword, $region);
             if (empty($stats['Max24HourSend'])) {
                 $stats['Max24HourSend'] = 'NA';
@@ -562,13 +562,13 @@ class AjaxController extends CommonAjaxController
             $dataArray['validity']        = $contactUsage;
             $dataArray['daysavailable']   = $stats['SentLast24Hours'];
         }
-        if ($transport == 'mautic.transport.elasticemail' && !empty($maileruser) && !empty($emailpassword)) {
+        if ($transport == 'le.transport.elasticemail' && !empty($maileruser) && !empty($emailpassword)) {
             $accountstatus              = $this->get('mautic.helper.licenseinfo')->getElasticAccountDetails($emailpassword, 'load');
             $dataArray['credits']       = $contactUsage;
             $dataArray['accountstatus'] = isset($accountstatus['statusformatted']) ? $accountstatus['statusformatted'] : '';
             $dataArray['daysavailable'] = $mailsent24hrs;
         }
-        if ($transport == 'mautic.transport.sendgrid_api' && !empty($maileruser) && !empty($emailpassword)) {
+        if ($transport == 'le.transport.sendgrid_api' && !empty($maileruser) && !empty($emailpassword)) {
             $accountstatus              = $this->get('mautic.helper.licenseinfo')->getSendGridStatus($maileruser);
             $dataArray['credits']       = $contactUsage;
             $dataArray['accountstatus'] = $accountstatus;
@@ -667,7 +667,7 @@ class AjaxController extends CommonAjaxController
         if ($accountStatus) {
             $accountsuspendmsg = $this->translator->trans('leadsengage.account.suspended');
         }
-        if ($mailertransport == $this->translator->trans('mautic.transport.elasticemail') || $mailertransport == $this->translator->trans('mautic.transport.sendgrid_api')) {
+        if ($mailertransport == $this->translator->trans('le.transport.elasticemail') || $mailertransport == $this->translator->trans('le.transport.sendgrid_api')) {
             $accountusagelink  = $this->translator->trans('le.emailusage.link');
             $accountusagelink  = str_replace('|URL|', $this->generateUrl('le_email_usage'), $accountusagelink);
             $accountsuspendmsg = str_replace('%ATAG%', $accountusagelink, $accountsuspendmsg);
@@ -1029,7 +1029,7 @@ class AjaxController extends CommonAjaxController
                 $billing = new Billing();
             }
             if ($billing->getAccountingemail() != '') {
-                $mailer       = $this->container->get('mautic.transport.elasticemail.transactions');
+                $mailer       = $this->container->get('le.transport.elasticemail.transactions');
                 $paymenthelper=$this->get('le.helper.payment');
                 $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
             }
@@ -1046,7 +1046,7 @@ class AjaxController extends CommonAjaxController
         $curentDate            =date('Y-m-d');
         $this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);
         $this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
-        $mailer = $this->container->get('mautic.transport.elasticemail.transactions');
+        $mailer = $this->container->get('le.transport.elasticemail.transactions');
         $this->sendCancelSubscriptionEmail($mailer);
 
         return $this->sendJsonResponse($dataArray);

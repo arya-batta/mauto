@@ -139,7 +139,7 @@ Le.copytoClipboardforms = function(id) {
 
 Le.showBounceCallbackURL = function(modeEl) {
     var mode = mQuery(modeEl).val();
-    if(mode != "mautic.transport.amazon" && mode != "mautic.transport.sendgrid_api" && mode != "mautic.transport.sparkpost" && mode != "mautic.transport.elasticemail") {
+    if(mode != "le.transport.amazon" && mode != "le.transport.sendgrid_api" && mode != "le.transport.sparkpost" && mode != "le.transport.elasticemail") {
         mQuery('.transportcallback').addClass('hide');
         mQuery('.transportcallback_spam').addClass('hide');
     } else {
@@ -148,17 +148,17 @@ Le.showBounceCallbackURL = function(modeEl) {
         mQuery('.transportcallback').removeClass('hide');
         mQuery('.transportcallback_spam').addClass('hide');
         var notificationHelpURL = "http://help.leadsengage.io/container/show/";
-        if (mode == "mautic.transport.amazon"){
+        if (mode == "le.transport.amazon"){
             replaceval = "amazon";
             notificationHelpURL += "amazon-ses";
             mQuery('.transportcallback_spam').removeClass('hide');
-        } else if(mode == "mautic.transport.sendgrid_api") {
+        } else if(mode == "le.transport.sendgrid_api") {
             replaceval = "sendgrid_api";
             notificationHelpURL += replaceval;
-        } else if (mode == "mautic.transport.sparkpost"){
+        } else if (mode == "le.transport.sparkpost"){
             replaceval = "sparkpost";
             notificationHelpURL += replaceval;
-        } else if (mode == "mautic.transport.elasticemail"){
+        } else if (mode == "le.transport.elasticemail"){
             replaceval = "elasticemail";
             notificationHelpURL += replaceval
         }

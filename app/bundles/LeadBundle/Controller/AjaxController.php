@@ -478,7 +478,7 @@ class AjaxController extends CommonAjaxController
     public function removeBounceStatusfromESP($emailid)
     {
         $transportParam   = $this->get('mautic.helper.core_parameters')->getParameter(('mailer_transport'));
-        if ($transportParam == 'mautic.transport.elasticemail') {
+        if ($transportParam == 'le.transport.elasticemail') {
             $curlhttp         =$this->get('mautic.http.connector');
             $apikey           = $this->get('mautic.helper.core_parameters')->getParameter(('mailer_password'));
             $currentTransport = $this->get('swiftmailer.mailer.transport.'.$transportParam);

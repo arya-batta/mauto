@@ -81,11 +81,11 @@ class EmailStepType extends AbstractType
             [
                 'choices' => [
                     'mail'                      => 'le.email.config.mailer_transport.mail',
-                    'mautic.transport.mandrill' => 'le.email.config.mailer_transport.mandrill',
-                    'mautic.transport.mailjet'  => 'le.email.config.mailer_transport.mailjet',
-                    'mautic.transport.sendgrid' => 'le.email.config.mailer_transport.sendgrid',
-                    'mautic.transport.amazon'   => 'le.email.config.mailer_transport.amazon',
-                    'mautic.transport.postmark' => 'le.email.config.mailer_transport.postmark',
+                    'le.transport.mandrill' => 'le.email.config.mailer_transport.mandrill',
+                    'le.transport.mailjet'  => 'le.email.config.mailer_transport.mailjet',
+                    'le.transport.sendgrid' => 'le.email.config.mailer_transport.sendgrid',
+                    'le.transport.amazon'   => 'le.email.config.mailer_transport.amazon',
+                    'le.transport.postmark' => 'le.email.config.mailer_transport.postmark',
                     'gmail'                     => 'le.email.config.mailer_transport.gmail',
                     'smtp'                      => 'le.email.config.mailer_transport.smtp',
                     'sendmail'                  => 'le.email.config.mailer_transport.sendmail',

@@ -95,7 +95,7 @@ return [
             ],
         ],
         'other' => [
-            'mautic.sms.transport.solutioninfini' => [
+            'le.sms.transport.solutioninfini' => [
                 'class'     => \Mautic\SmsBundle\Api\SolutionInfinityApi::class,
                 'arguments' => [
                     'mautic.page.model.trackable',
@@ -110,7 +110,7 @@ return [
                 ],
                 'alias' => 'SolutionInfinity',
             ],
-            'mautic.sms.transport.leadsengage' => [
+            'le.sms.transport.leadsengage' => [
                 'class'     => \Mautic\SmsBundle\Api\SolutionInfinityApi::class,
                 'arguments' => [
                     'mautic.page.model.trackable',
@@ -133,7 +133,7 @@ return [
                     'monolog.logger.mautic',
                 ],
             ],
-            'mautic.sms.transport.twilio' => [
+            'le.sms.transport.twilio' => [
                 'class'        => \Mautic\SmsBundle\Api\TwilioApi::class,
                 'arguments'    => [
                     'mautic.page.model.trackable',
@@ -232,7 +232,7 @@ return [
         'sms_enabled'              => false,
         'sms_username'             => null,
         'sms_password'             => null,
-        'sms_transport'            => 'mautic.sms.transport.twilio',
+        'sms_transport'            => 'le.sms.transport.twilio',
         'account_url'              => null,
         'account_sid'              => null,
         'account_api_key'          => null,

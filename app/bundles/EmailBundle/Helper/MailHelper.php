@@ -2253,7 +2253,7 @@ class MailHelper
             default:
                 if ($this->container->has($transport)) {
                     $mailer = $this->container->get($transport);
-                    if ('mautic.transport.amazon' == $transport) {
+                    if ('le.transport.amazon' == $transport) {
                         if (!$mailer instanceof AmazonApiTransport) {
                             $mailer->setHost($settings['amazon_region']);
                         } elseif ($mailer instanceof AmazonApiTransport) {
@@ -2303,7 +2303,7 @@ class MailHelper
                 if ($settings['send_test'] == 'true' || $settings['toemail'] != '') {
                     $email = '';
                     if ($settings['toemail'] != '' && $default) {
-                        $lemailer = $this->factory->get('mautic.transport.elasticemail.transactions');
+                        $lemailer = $this->factory->get('le.transport.elasticemail.transactions');
                         $lemailer->start();
                         $trackingcode = $settings['trackingcode'];
                         $mailbody     = $translator->trans('le.email.website_tracking.body');

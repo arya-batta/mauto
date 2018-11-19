@@ -234,7 +234,7 @@ class ConfigType extends AbstractType
         );
 
         $choices = [
-            'mautic.transport.amazon'     => 'mautic.transport.amazon',
+            'le.transport.amazon'     => 'le.transport.amazon',
             'le.transport.vialeadsengage' => 'le.transport.vialeadsengage',
         ];
         $transport        = $options['data']['mailer_transport'];
@@ -242,7 +242,7 @@ class ConfigType extends AbstractType
         $disabletransport = false;
         $tabIndex         ='';
         $style            ='';
-        if ($emailProvider == 'LeadsEngage' && ($transport == 'mautic.transport.elasticemail' || $transport == 'mautic.transport.sendgrid_api') && !$currentUser) {
+        if ($emailProvider == 'LeadsEngage' && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api') && !$currentUser) {
             $datavalue        = 'le.transport.vialeadsengage';
             $disabletransport = false;
         } elseif (!$emailProvider == 'Sparkpost' && !$currentUser) {
@@ -594,7 +594,7 @@ class ConfigType extends AbstractType
                     'ssl' => 'le.email.config.mailer_encryption.ssl',
                     'tls' => 'le.email.config.mailer_encryption.tls',
                 ],
-                'label'    => 'mautic.email.config.mailer.encryption',
+                'label'    => 'le.email.config.mailer.encryption',
                 'required' => false,
                 'attr'     => [
                     'class'        => 'form-control',

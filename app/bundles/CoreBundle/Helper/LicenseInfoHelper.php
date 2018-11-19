@@ -1044,7 +1044,7 @@ class LicenseInfoHelper
         $actualSMSCount = $entity->getActualSmsCount();
 
         $smsprovider = $this->factory->get('mautic.helper.core_parameters')->getParameter('sms_transport');
-        if ($smsprovider == 'mautic.sms.transport.leadsengage') {
+        if ($smsprovider == 'le.sms.transport.leadsengage') {
             $totalSMSCount = 10;
         }
 

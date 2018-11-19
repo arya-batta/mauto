@@ -19,24 +19,24 @@ $helpurl       = 'http://help.leadsengage.io/container/show/';
 $transportname = 'amazon';
 
 $transport = $formConfig['parameters']['mailer_transport'];
-if ($transport == 'mautic.transport.sendgrid_api') {
+if ($transport == 'le.transport.sendgrid_api') {
     $transportname = 'sendgrid_api';
     $helpurl .= $view['translator']->trans('le.email.sendgrid.helpurl.value');
-} elseif ($transport == 'mautic.transport.amazon') {
+} elseif ($transport == 'le.transport.amazon') {
     $hidebounceurl = '';
     $hidespamurl   = '';
     $transportname = 'amazon';
     $helpurl .= $view['translator']->trans('le.email.amazon.helpurl.value');
-} elseif ($transport == 'mautic.transport.sparkpost') {
+} elseif ($transport == 'le.transport.sparkpost') {
     $transportname = 'sparkpost';
     $helpurl .= $view['translator']->trans('le.email.sparkpost.helpurl.value');
-} elseif ($transport == 'mautic.transport.elasticemail') {
+} elseif ($transport == 'le.transport.elasticemail') {
     $transportname = 'elasticemail';
     $helpurl .= $view['translator']->trans('le.email.elasticemail.helpurl.value');
 } else {
     $hidespamurl = $hidebounceurl = 'hide';
 }
-if ($formConfig['parameters']['mailer_transport_name'] == 'le.transport.vialeadsengage' && ($transport == 'mautic.transport.elasticemail' || $transport == 'mautic.transport.sendgrid_api')) {
+if ($formConfig['parameters']['mailer_transport_name'] == 'le.transport.vialeadsengage' && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api')) {
     $hidespamurl = $hidebounceurl = 'hide';
 }
 $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';

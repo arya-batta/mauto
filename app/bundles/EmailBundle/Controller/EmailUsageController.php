@@ -26,9 +26,9 @@ class EmailUsageController extends FormController
     {
         $mailTransport = $this->coreParametersHelper->getParameter('mailer_transport');
         $usagedetails  = '';
-        if ($mailTransport == 'mautic.transport.elasticemail') {
+        if ($mailTransport == 'le.transport.elasticemail') {
             $usagedetails = $this->getElasticEmailStat();
-        } elseif ($mailTransport == 'mautic.transport.sendgrid_api') {
+        } elseif ($mailTransport == 'le.transport.sendgrid_api') {
             $usagedetails = $this->getSendGridStat();
         }
         $username                 = $this->coreParametersHelper->getParameter('mailer_user');

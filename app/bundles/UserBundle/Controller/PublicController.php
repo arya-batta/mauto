@@ -39,7 +39,7 @@ class PublicController extends FormController
                 //    $form['identifier']->addError(new FormError($this->translator->trans('mautic.user.user.passwordreset.nouserfound', [], 'validators')));
                 //} else {
                 try {
-                    $mailer = $this->container->get('mautic.transport.elasticemail.transactions');
+                    $mailer = $this->container->get('le.transport.elasticemail.transactions');
                     $model->sendResetEmail($user, $mailer);
                     $this->addFlash('mautic.user.user.notice.passwordreset', [], 'notice', null, false);
                 } catch (\Exception $exception) {

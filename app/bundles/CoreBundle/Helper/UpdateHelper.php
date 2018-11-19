@@ -203,12 +203,12 @@ class UpdateHelper
         // The user is able to update to the latest version, cache the data first
         $data = [
             'error'        => false,
-            'message'      => 'mautic.core.updater.update.available',
-            'version'      => $update->version,
-            'announcement' => $update->announcement,
-            'package'      => $update->package,
-            'checkedTime'  => time(),
-            'stability'    => $this->factory->getParameter('update_stability'),
+            'message'      => '', //mautic.core.updater.update.available
+            'version'      => '', //$update->version,
+            'announcement' => '', //$update->announcement,
+            'package'      => '', //$update->package,
+            'checkedTime'  => '', //time(),
+            'stability'    => '', //$this->factory->getParameter('update_stability'),
         ];
 
         file_put_contents($cacheFile, json_encode($data));
