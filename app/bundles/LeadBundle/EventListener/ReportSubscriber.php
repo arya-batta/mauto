@@ -932,7 +932,7 @@ class ReportSubscriber extends CommonSubscriber
             ->addGraph($context, 'pie', 'le.lead.graph.pie.attribution_channels');
 
         $data = [
-            'display_name' => 'mautic.lead.report.attribution.'.$type,
+            'display_name' => 'le.lead.report.attribution.'.$type,
             'columns'      => $columns,
             'filters'      => $filters,
         ];

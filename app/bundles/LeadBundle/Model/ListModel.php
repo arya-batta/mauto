@@ -294,16 +294,18 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],
         ];
-        $choices['list_categories']=[
-            'globalcategory' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.categories'),
-                'properties' => [
-                    'type' => 'globalcategory',
+        if($this->security->isAdmin()) {
+            $choices['list_categories'] = [
+                'globalcategory' => [
+                    'label' => $this->translator->trans('le.lead.list.filter.categories'),
+                    'properties' => [
+                        'type' => 'globalcategory',
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('multiselect'),
+                    'object' => 'lead',
                 ],
-                'operators' => $this->getOperatorsForFieldType('multiselect'),
-                'object'    => 'lead',
-            ],
-        ];
+            ];
+        }
         $choices['emails']= [
             'lead_email_sent' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_sent'),
@@ -404,14 +406,6 @@ class ListModel extends FormModel
             ],
         ];
         $choices['pages']= [
-            'url_title' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
-                'properties' => [
-                    'type' => 'landingpage_list',
-                ],
-                'operators' => $this->getOperatorsForFieldType('landingpage_list'),
-                'object'    => 'lead',
-            ],
             'sessions' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.session'),
                 'properties' => ['type' => 'number'],
@@ -600,6 +594,14 @@ class ListModel extends FormModel
               ],
           ];*/
         if ($this->security->isAdmin()) {
+            $choices['pages']['url_title'] = [
+                'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
+                'properties' => [
+                    'type' => 'landingpage_list',
+                ],
+                'operators' => $this->getOperatorsForFieldType('landingpage_list'),
+                'object'    => 'lead',
+            ];
             $choices['lead']['page_id']= [
                 'label'      => $this->translator->trans('le.lead.list.filter.page_id'),
                 'properties' => [

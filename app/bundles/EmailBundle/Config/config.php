@@ -17,11 +17,11 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'le_email_campaign_index' => [
-                'path'       => '/broadcasts/{page}',
+                'path'       => '/broadcast/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'le_email_campaign_action' => [
-                'path'       => '/broadcasts/{objectAction}/{objectId}',
+                'path'       => '/broadcast/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'le_email_action' => [
@@ -29,7 +29,7 @@ return [
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
             'le_email_contacts' => [
-                'path'       => '/broadcasts/contacts/{objectId}',
+                'path'       => '/broadcast/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
             'le_email_usage' => [
@@ -79,27 +79,27 @@ return [
                 ],
             ],
             'le_email_tracker' => [
-                'path'       => '/broadcasts/{idHash}.gif',
+                'path'       => '/broadcast/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'le_email_webview' => [
-                'path'       => '/broadcasts/view/{idHash}',
+                'path'       => '/broadcast/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
             ],
             'le_email_unsubscribe' => [
-                'path'       => '/broadcasts/unsubscribe/{idHash}',
+                'path'       => '/broadcast/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'le_email_subscribe' => [
-                'path'       => '/broadcasts/subscribers/{idHash}',
+                'path'       => '/broadcast/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
             ],
             'le_email_updatelead' => [
-                'path'       => '/broadcasts/updatelead/{idHash}',
+                'path'       => '/broadcast/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
             ],
             'le_email_resubscribe' => [
-                'path'       => '/broadcasts/resubscribe/{idHash}',
+                'path'       => '/broadcast/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
             'le_mailer_transport_callback' => [
@@ -108,7 +108,7 @@ return [
                 'method'     => ['GET', 'POST'],
             ],
             'le_email_preview' => [
-                'path'       => '/broadcasts/preview/{objectId}',
+                'path'       => '/broadcast/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
             'le_beefree_credentials' => [
@@ -537,7 +537,7 @@ return [
                     'setPassword' => ['%mautic.mailer_password%'],
                 ],
             ],
-            'mautic.transport.elasticemail.transactions' => [
+            'le.transport.elasticemail.transactions' => [
                 'class'        => 'Mautic\EmailBundle\Swiftmailer\Transport\ElasticemailTransport',
                 'arguments'    => [
                     'translator',

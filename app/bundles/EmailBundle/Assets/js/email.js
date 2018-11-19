@@ -746,8 +746,8 @@ Le.getTotalAttachmentSize = function() {
 Le.standardEmailUrl = function(options) {
     if (options && options.windowUrl && options.origin) {
         var url = options.windowUrl;
-        var editEmailKey = '/broadcasts/edit/emailId';
-        var previewEmailKey = '/broadcasts/preview/emailId';
+        var editEmailKey = '/broadcast/edit/emailId';
+        var previewEmailKey = '/broadcast/preview/emailId';
         if (url.indexOf(editEmailKey) > -1 ||
             url.indexOf(previewEmailKey) > -1) {
             options.windowUrl = url.replace('emailId', mQuery(options.origin).val());

@@ -210,8 +210,9 @@ return [
                 'alias' => 'pointaction_urlhit',
             ],
             'mautic.form.type.pagehit.campaign_trigger' => [
-                'class' => 'Mautic\PageBundle\Form\Type\CampaignEventPageHitType',
-                'alias' => 'campaignevent_pagehit',
+                'class'      => 'Mautic\PageBundle\Form\Type\CampaignEventPageHitType',
+                'arguments'  => 'mautic.helper.user',
+                'alias'      => 'campaignevent_pagehit',
             ],
             'mautic.form.type.pagelist' => [
                 'class'     => 'Mautic\PageBundle\Form\Type\PageListType',

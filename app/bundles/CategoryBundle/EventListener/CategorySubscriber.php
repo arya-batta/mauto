@@ -85,6 +85,8 @@ class CategorySubscriber extends CommonSubscriber
                         continue;
                     } elseif ($type == 'plugin:focus' && !$this->security->isGranted('plugin:focus:items:view')) {
                         continue;
+                    } elseif ($type == 'sms' && !$this->security->isGranted('sms:smses:viewother')){
+                      continue;
                     }
                     $event->addCategoryType($type, $label);
                 }

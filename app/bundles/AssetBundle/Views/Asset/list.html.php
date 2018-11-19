@@ -188,7 +188,7 @@ $isAdmin=$view['security']->isAdmin();
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs hide" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_asset_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <a data-toggle="ajaxmodal" data-target="#leSharedModal"

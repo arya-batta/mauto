@@ -73,7 +73,7 @@ foreach ($templateButtons as $action => $enabled) {
                     'confirm' => [
                         'message' => $view['translator']->trans(
                             'mautic.'.$langVar.'.form.confirmdelete',
-                            ['%name%' => $item->$nameGetter().' ('.$item->getId().')']
+                            ['%name%' => $item->$nameGetter()/*.' ('.$item->getId().')'*/]
                         ),
                         'confirmAction' => $view['router']->path(
                             $actionRoute,

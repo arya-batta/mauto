@@ -26,7 +26,7 @@ $view['slots']->set(
 );
 
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.lead.emails'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.emails'); ?></h3></div>
 <div style="padding-top: 15px;">
     <?php foreach ($emailBlockDetails as $key => $emailBlock): ?>
         <div class="info-box" id="leads-info-box-container">

@@ -527,7 +527,6 @@ class SearchSubscriber extends CommonSubscriber
         $qb->andWhere($qb->expr()->in('es.email_id', $ids));
         $query = $q->expr()->in('l.id', sprintf('(%s)', $qb));
         $event->setSubQuery($query);
-        file_put_contents('/var/www/log.txt', $query."\n", FILE_APPEND);
         $config = [
             'column' => 'es.email_id',
             'params' => [

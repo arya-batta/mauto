@@ -13,17 +13,27 @@ namespace Mautic\PageBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Mautic\CoreBundle\Helper\UserHelper;
 
 /**
  * Class CampaignEventPageHitType.
  */
 class CampaignEventPageHitType extends AbstractType
 {
+
+    public  $isadmin;
+    /**
+     * @param UserHelper    $userHelper
+     */
+    public function _construct( UserHelper $userHelper){
+        $this->isadmin = $userHelper->getUser()->isAdmin();
+    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if($this->isadmin){
         $builder->add('pages', 'page_list', [
             'label'      => 'le.page.campaign.event.form.pages',
             'label_attr' => ['class' => 'control-label'],
@@ -33,7 +43,7 @@ class CampaignEventPageHitType extends AbstractType
             ],
             'required'   => false,
         ]);
-
+        }
         $builder->add('url', 'text', [
             'label'      => 'le.page.campaign.event.form.url',
             'label_attr' => ['class' => 'control-label'],
