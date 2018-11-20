@@ -25,7 +25,7 @@ $view['slots']->set(
     )
 );
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.report.group.pages'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.report.group.pages'); ?></h3></div>
 <div style="padding-top: 15px;">
     <?php foreach ($pageBlockDetails as $key => $pageBlock): ?>
         <div class="info-box" id="leads-info-box-container">

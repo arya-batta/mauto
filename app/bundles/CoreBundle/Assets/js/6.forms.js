@@ -51,7 +51,7 @@ Le.ajaxifyForm = function (formName) {
     mQuery(form + ' input, ' + form + ' select').off('keydown.ajaxform');
     mQuery(form + ' input, ' + form + ' select').on('keydown.ajaxform', function (e) {
         if(e.keyCode == 13 && (e.metaKey || e.ctrlKey)) {
-            if (MauticVars.formSubmitInProgress) {
+            if (leVars.formSubmitInProgress) {
                 return false;
             }
 
@@ -127,7 +127,7 @@ Le.ajaxifyForm = function (formName) {
         e.preventDefault();
         var form = mQuery(this);
 
-        if (MauticVars.formSubmitInProgress) {
+        if (leVars.formSubmitInProgress) {
             return false;
         } else {
             var callbackAsync = form.data('submit-callback-async');
@@ -159,7 +159,7 @@ Le.ajaxifyForm = function (formName) {
  * @param form
  */
 Le.postMauticForm = function(form) {
-    MauticVars.formSubmitInProgress = true;
+    leVars.formSubmitInProgress = true;
     Le.postForm(form, function (response) {
         if (response.inMain) {
             Le.processPageContent(response);
@@ -221,7 +221,7 @@ Le.postForm = function (form, callback) {
             if (data.redirect) {
                 Le.redirectWithBackdrop(data.redirect);
             } else {
-                MauticVars.formSubmitInProgress = false;
+                leVars.formSubmitInProgress = false;
                 if (!inMain) {
                     var modalId = mQuery(modalParent).attr('id');
                 }
@@ -248,7 +248,7 @@ Le.postForm = function (form, callback) {
             }
         },
         error: function (request, textStatus, errorThrown) {
-            MauticVars.formSubmitInProgress = false;
+            leVars.formSubmitInProgress = false;
 
             Le.processAjaxError(request, textStatus, errorThrown, inMain);
         }

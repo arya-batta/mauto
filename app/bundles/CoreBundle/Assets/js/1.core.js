@@ -1,4 +1,4 @@
-var MauticVars  = {};
+var leVars  = {};
 var mQuery      = jQuery.noConflict(true);
 window.jQuery   = mQuery;
 
@@ -11,7 +11,7 @@ if (!String.prototype.startsWith) {
 }
 
 //set default ajax options
-MauticVars.activeRequests = 0;
+leVars.activeRequests = 0;
 /*mQuery(function() {
     mQuery('#flashes').delay(10000).fadeIn('normal', function() {
         mQuery(this).delay(50000).fadeOut();
@@ -21,7 +21,7 @@ mQuery.ajaxSetup({
     beforeSend: function (request, settings) {
         if (settings.showLoadingBar) {
             mQuery('.loading-bar').addClass('active');
-            MauticVars.activeRequests++;
+            leVars.activeRequests++;
         }
 
         if (typeof IdleTimer != 'undefined') {
@@ -29,7 +29,7 @@ mQuery.ajaxSetup({
             var userLastActive = IdleTimer.getLastActive();
             var queryGlue = (settings.url.indexOf("?") == -1) ? '?' : '&';
 
-            settings.url = settings.url + queryGlue + 'mauticUserLastActive=' + userLastActive;
+            settings.url = settings.url + queryGlue + 'leUserLastActive=' + userLastActive;
         }
 
         if (mQuery('#leLastNotificationId').length) {
@@ -59,7 +59,7 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
 // Force stop the page loading bar when no more requests are being in progress
 mQuery( document ).ajaxStop(function(event) {
     // Seems to be stuck
-    MauticVars.activeRequests = 0;
+    leVars.activeRequests = 0;
     Le.stopPageLoadingBar();
 });
 
@@ -87,27 +87,27 @@ mQuery( document ).ready(function() {
 });
 
 //Fix for back/forward buttons not loading ajax content with History.pushState()
-MauticVars.manualStateChange = true;
+leVars.manualStateChange = true;
 
 if (typeof History != 'undefined') {
     History.Adapter.bind(window, 'statechange', function () {
-        if (MauticVars.manualStateChange == true) {
+        if (leVars.manualStateChange == true) {
             //back/forward button pressed
             window.location.reload();
         }
-        MauticVars.manualStateChange = true;
+        leVars.manualStateChange = true;
     });
 }
 
 //used for spinning icons to show something is in progress)
-MauticVars.iconClasses          = {};
+leVars.iconClasses          = {};
 
 //prevent multiple ajax calls from multiple clicks
-MauticVars.routeInProgress       = '';
+leVars.routeInProgress       = '';
 
 //prevent interval ajax requests from overlapping
-MauticVars.moderatedIntervals    = {};
-MauticVars.intervalsInProgress   = {};
+leVars.moderatedIntervals    = {};
+leVars.intervalsInProgress   = {};
 
 var Le = {
     loadedContent: {},
@@ -246,17 +246,17 @@ var Le = {
      * Stops the ajax page loading indicator
      */
     stopPageLoadingBar: function () {
-        if (MauticVars.activeRequests < 1) {
-            MauticVars.activeRequests = 0;
+        if (leVars.activeRequests < 1) {
+            leVars.activeRequests = 0;
         } else {
-            MauticVars.activeRequests--;
+            leVars.activeRequests--;
         }
 
-        if (MauticVars.loadingBarTimeout) {
-            clearTimeout(MauticVars.loadingBarTimeout);
+        if (leVars.loadingBarTimeout) {
+            clearTimeout(leVars.loadingBarTimeout);
         }
 
-        if (MauticVars.activeRequests == 0) {
+        if (leVars.activeRequests == 0) {
             mQuery('.loading-bar').removeClass('active');
         }
     },
@@ -266,7 +266,7 @@ var Le = {
      */
     startPageLoadingBar: function () {
         mQuery('.loading-bar').addClass('active');
-        MauticVars.activeRequests++;
+        leVars.activeRequests++;
     },
 
     /**
@@ -431,8 +431,8 @@ var Le = {
      * @param event|string
      */
     startIconSpinOnEvent: function (target) {
-        if (MauticVars.ignoreIconSpin) {
-            MauticVars.ignoreIconSpin = false;
+        if (leVars.ignoreIconSpin) {
+            leVars.ignoreIconSpin = false;
             return;
         }
 
@@ -450,7 +450,7 @@ var Le = {
             if (!dontspin && ((hasBtn && mQuery(target).find('i.fa').length) || hasIcon)) {
                 var el = (hasIcon) ? target : mQuery(target).find('i.fa').first();
                 var identifierClass = (new Date).getTime();
-                MauticVars.iconClasses[identifierClass] = mQuery(el).attr('class');
+                leVars.iconClasses[identifierClass] = mQuery(el).attr('class');
 
                 var specialClasses = ['fa-fw', 'fa-lg', 'fa-2x', 'fa-3x', 'fa-4x', 'fa-5x', 'fa-li', 'text-white', 'text-muted'];
                 var appendClasses = "";
@@ -471,15 +471,15 @@ var Le = {
      * Stops the icon spinning after an event is complete
      */
     stopIconSpinPostEvent: function (specificId) {
-        if (typeof specificId != 'undefined' && specificId in MauticVars.iconClasses) {
-            mQuery('.' + specificId).removeClass('fa fa-spinner fa-spin ' + specificId).addClass(MauticVars.iconClasses[specificId]);
-            delete MauticVars.iconClasses[specificId];
+        if (typeof specificId != 'undefined' && specificId in leVars.iconClasses) {
+            mQuery('.' + specificId).removeClass('fa fa-spinner fa-spin ' + specificId).addClass(leVars.iconClasses[specificId]);
+            delete leVars.iconClasses[specificId];
         } else {
-            mQuery.each(MauticVars.iconClasses, function (index, value) {
+            mQuery.each(leVars.iconClasses, function (index, value) {
                 mQuery('.' + index).removeClass('fa fa-spinner fa-spin ' + index).addClass(value);
             });
 
-            MauticVars.iconClasses = {};
+            leVars.iconClasses = {};
         }
     },
 
@@ -624,7 +624,7 @@ var Le = {
                 mQuery('#app-content .content-body').html(response.newContent);
                 if (response.route && response.route.indexOf("ajax") == -1) {
                     //update URL in address bar
-                    MauticVars.manualStateChange = false;
+                    leVars.manualStateChange = false;
                     History.pushState(null, "Mautic", response.route);
                 }
             } else if (response.newContent && mQuery('.modal.in').length) {
@@ -656,11 +656,11 @@ var Le = {
      * @param timeout
      */
     setModeratedInterval: function (key, callback, timeout, params) {
-        if (typeof MauticVars.intervalsInProgress[key] != 'undefined') {
+        if (typeof leVars.intervalsInProgress[key] != 'undefined') {
             //action is still pending so clear and reschedule
-            clearTimeout(MauticVars.moderatedIntervals[key]);
+            clearTimeout(leVars.moderatedIntervals[key]);
         } else {
-            MauticVars.intervalsInProgress[key] = true;
+            leVars.intervalsInProgress[key] = true;
 
             //perform callback
             if (typeof params == 'undefined') {
@@ -675,7 +675,7 @@ var Le = {
         }
 
         //schedule new timeout
-        MauticVars.moderatedIntervals[key] = setTimeout(function () {
+        leVars.moderatedIntervals[key] = setTimeout(function () {
             Le.setModeratedInterval(key, callback, timeout, params)
         }, timeout);
     },
@@ -687,7 +687,7 @@ var Le = {
      * @param key
      */
     moderatedIntervalCallbackIsComplete: function (key) {
-        delete MauticVars.intervalsInProgress[key];
+        delete leVars.intervalsInProgress[key];
     },
 
     /**
@@ -697,8 +697,8 @@ var Le = {
      */
     clearModeratedInterval: function (key) {
         Le.moderatedIntervalCallbackIsComplete(key);
-        clearTimeout(MauticVars.moderatedIntervals[key]);
-        delete MauticVars.moderatedIntervals[key];
+        clearTimeout(leVars.moderatedIntervals[key]);
+        delete leVars.moderatedIntervals[key];
     },
 
     /**

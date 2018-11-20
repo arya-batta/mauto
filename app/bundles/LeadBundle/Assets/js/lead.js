@@ -243,7 +243,7 @@ Le.leadAuditlogOnLoad = function (container, response) {
 };
 
 Le.leadOnUnload = function(id) {
-    if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] != 'undefined') {
+    if (typeof leVars.moderatedIntervals['leadListLiveUpdate'] != 'undefined') {
         Le.clearModeratedInterval('leadListLiveUpdate');
     }
 
@@ -1215,7 +1215,7 @@ Le.removeBounceStatus = function (el, dncId) {
 };
 
 Le.toggleLiveLeadListUpdate = function () {
-    if (typeof MauticVars.moderatedIntervals['leadListLiveUpdate'] == 'undefined') {
+    if (typeof leVars.moderatedIntervals['leadListLiveUpdate'] == 'undefined') {
         Le.setModeratedInterval('leadListLiveUpdate', 'updateLeadList', 5000);
         mQuery('#liveModeButton').addClass('btn-primary');
     } else {

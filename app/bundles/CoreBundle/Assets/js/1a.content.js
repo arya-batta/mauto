@@ -38,8 +38,8 @@ Le.loadContent = function (route, link, method, target, showPageLoading, callbac
                     Le.processPageContent(response);
                 } else {
                     //clear the live cache
-                    MauticVars.liveCache = new Array();
-                    MauticVars.lastSearchStr = '';
+                    leVars.liveCache = new Array();
+                    leVars.lastSearchStr = '';
 
                     //set route and activeLink if the response didn't override
                     if (typeof response.route === 'undefined') {
@@ -56,13 +56,13 @@ Le.loadContent = function (route, link, method, target, showPageLoading, callbac
                 //restore button class if applicable
                 Le.stopIconSpinPostEvent();
             }
-            MauticVars.routeInProgress = '';
+            leVars.routeInProgress = '';
         },
         error: function (request, textStatus, errorThrown) {
             Le.processAjaxError(request, textStatus, errorThrown, true);
 
             //clear routeInProgress
-            MauticVars.routeInProgress = '';
+            leVars.routeInProgress = '';
 
             //restore button class if applicable
             Le.stopIconSpinPostEvent();
@@ -160,7 +160,7 @@ Le.processPageContent = function (response) {
 
         if (response.route) {
             //update URL in address bar
-            MauticVars.manualStateChange = false;
+            leVars.manualStateChange = false;
             History.pushState(null, "LeadsEngage", response.route);
 
             //update Title
@@ -729,7 +729,7 @@ Le.makeConfirmationsAlive = function(jQueryObject) {
     jQueryObject.off('click.confirmation');
     jQueryObject.on('click.confirmation', function (event) {
         event.preventDefault();
-        MauticVars.ignoreIconSpin = true;
+        leVars.ignoreIconSpin = true;
         return Le.showConfirmation(this);
     });
 };
@@ -769,8 +769,8 @@ Le.onPageUnload = function (container, response) {
         mQuery(container + " *[data-toggle='tooltip']").tooltip('destroy');
 
         //unload lingering modals from body so that there will not be multiple modals generated from new ajaxed content
-        if (typeof MauticVars.modalsReset == 'undefined') {
-            MauticVars.modalsReset = {};
+        if (typeof leVars.modalsReset == 'undefined') {
+            leVars.modalsReset = {};
         }
 
         mQuery(container + ' textarea.editor').each(function () {
@@ -843,7 +843,7 @@ Le.ajaxifyLink = function (el, event) {
     }
 
     var route = mQuery(el).attr('href');
-    if (route.indexOf('javascript') >= 0 || MauticVars.routeInProgress === route) {
+    if (route.indexOf('javascript') >= 0 || leVars.routeInProgress === route) {
         return false;
     }
 
@@ -877,7 +877,7 @@ Le.ajaxifyLink = function (el, event) {
         method = 'GET'
     }
 
-    MauticVars.routeInProgress = route;
+    leVars.routeInProgress = route;
 
     var target = mQuery(el).attr('data-target');
     if (!target) {
@@ -1256,13 +1256,13 @@ Le.activateSearchAutocomplete = function (elId, modelName) {
         mQuery(typeaheadObject).on('typeahead:selected', function (event, datum) {
             if (livesearch) {
                 //force live search update,
-                MauticVars.lastSearchStr = '';
+                leVars.lastSearchStr = '';
                 mQuery('#' + elId).keyup();
             }
         }).on('typeahead:autocompleted', function (event, datum) {
             if (livesearch) {
                 //force live search update
-                MauticVars.lastSearchStr = '';
+                leVars.lastSearchStr = '';
                 mQuery('#' + elId).keyup();
             }
         });
@@ -1299,7 +1299,7 @@ Le.activateLiveSearch = function (el, searchStrVar, liveCacheVar) {
         }
 
         var target = mQuery(el).attr('data-target');
-        var diff = searchStr.length - MauticVars[searchStrVar].length;
+        var diff = searchStr.length - leVars[searchStrVar].length;
 
         if (diff < 0) {
             diff = parseInt(diff) * -1;
@@ -1332,9 +1332,9 @@ Le.activateLiveSearch = function (el, searchStrVar, liveCacheVar) {
             }
         }
 
-        //searchStr in MauticVars[liveCacheVar] ||
-        if ((!searchStr && MauticVars[searchStrVar].length) || diff >= 3 || spaceKeyPressed || enterKeyPressed) {
-            MauticVars[searchStrVar] = searchStr;
+        //searchStr in leVars[liveCacheVar] ||
+        if ((!searchStr && leVars[searchStrVar].length) || diff >= 3 || spaceKeyPressed || enterKeyPressed) {
+            leVars[searchStrVar] = searchStr;
             event.data.livesearch = true;
 
             Le.filterList(event,
@@ -1355,7 +1355,7 @@ Le.activateLiveSearch = function (el, searchStrVar, liveCacheVar) {
     if (mQuery(btn).length) {
         mQuery(btn).on('click', {'parent': mQuery(el).attr('id')}, function (event) {
             var searchStr = mQuery(el).val().trim();
-            MauticVars[searchStrVar] = searchStr;
+            leVars[searchStrVar] = searchStr;
 
             Le.filterButtonClicked = true;
             Le.filterList(event,

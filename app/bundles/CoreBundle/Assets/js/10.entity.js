@@ -1,8 +1,8 @@
 //live search vars
-MauticVars.liveCache            = new Array();
-MauticVars.lastSearchStr        = "";
-MauticVars.globalLivecache      = new Array();
-MauticVars.lastGlobalSearchStr  = "";
+leVars.liveCache            = new Array();
+leVars.lastSearchStr        = "";
+leVars.globalLivecache      = new Array();
+leVars.lastGlobalSearchStr  = "";
 
 /**
  * Check if the the entity ID is temporary (for new entities)
@@ -113,8 +113,8 @@ Le.filterList = function (e, elId, route, target, liveCacheVar, action, overlayE
 
         //make the request
         //@TODO reevaluate search caching as it seems to cause issues
-        if (false && value && value in MauticVars[liveCacheVar]) {
-            var response = {"newContent": MauticVars[liveCacheVar][value]};
+        if (false && value && value in leVars[liveCacheVar]) {
+            var response = {"newContent": leVars[liveCacheVar][value]};
             response.target = target;
             response.overlayEnabled = overlayEnabled;
             response.overlayTarget = overlayTarget;
@@ -170,7 +170,7 @@ if(!value.startsWith('"')){
                 success: function (response) {
                     //cache the response
                     if (response.newContent) {
-                        MauticVars[liveCacheVar][value] = response.newContent;
+                        leVars[liveCacheVar][value] = response.newContent;
                     }
                     //note the target to be updated
                     response.target = target;
@@ -284,7 +284,7 @@ Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     //destroy tooltips so it can be regenerated
     mQuery(el).tooltip('destroy');
     //clear the lookup cache
-    MauticVars.liveCache = new Array();
+    leVars.liveCache = new Array();
 
     if (backdrop) {
         Le.activateBackdrop();

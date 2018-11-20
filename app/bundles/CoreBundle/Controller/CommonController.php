@@ -699,7 +699,7 @@ class CommonController extends Controller implements MauticController
             }
 
             //If the user has not interacted with the browser for the last 30 seconds, consider the message unread
-            $lastActive = $this->request->get('mauticUserLastActive', 0);
+            $lastActive = $this->request->get('leUserLastActive', 0);
             $isRead     = $lastActive > 30 ? 0 : 1;
 
             $this->addNotification($translatedMessage, null, $isRead, null, $iconClass);
@@ -774,7 +774,7 @@ class CommonController extends Controller implements MauticController
             }
 
             //If the user has not interacted with the browser for the last 30 seconds, consider the message unread
-            $lastActive = $this->request->get('mauticUserLastActive', 0);
+            $lastActive = $this->request->get('leUserLastActive', 0);
             $isRead     = $lastActive > 30 ? 0 : 1;
 
             $this->addNotification($translatedMessage, null, $isRead, null, $iconClass);

@@ -50,7 +50,7 @@ class LeadTest extends PipedriveTest
         for ($i = 0; $i < $iterations; ++$i) {
             $this->client->request(
                 'POST',
-                '/s/contacts/new?qf=1&mauticUserLastActive=1&leLastNotificationId=',
+                '/s/contacts/new?qf=1&leUserLastActive=1&leLastNotificationId=',
                 [
                     'lead' => [
                         'firstname' => 'Test'.$i,
@@ -92,7 +92,7 @@ class LeadTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/contacts/edit/'.$lead->getId().'?mauticUserLastActive=1&leLastNotificationId=',
+            '/s/contacts/edit/'.$lead->getId().'?leUserLastActive=1&leLastNotificationId=',
             [
                 'lead' => [
                     'firstname' => 'Test',
@@ -140,7 +140,7 @@ class LeadTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/contacts/edit/'.$lead->getId().'?mauticUserLastActive=1&leLastNotificationId=',
+            '/s/contacts/edit/'.$lead->getId().'?leUserLastActive=1&leLastNotificationId=',
             [
                 'lead' => [
                     'firstname' => 'Test',
@@ -185,7 +185,7 @@ class LeadTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/contacts/edit/'.$lead->getId().'?mauticUserLastActive=1&leLastNotificationId=',
+            '/s/contacts/edit/'.$lead->getId().'?leUserLastActive=1&leLastNotificationId=',
             [
                 'lead' => [
                     'firstname' => 'Test',
@@ -231,7 +231,7 @@ class LeadTest extends PipedriveTest
 
         $this->client->request(
             'POST',
-            '/s/contacts/delete/'.$lead->getId().'?mauticUserLastActive=1&leLastNotificationId=',
+            '/s/contacts/delete/'.$lead->getId().'?leUserLastActive=1&leLastNotificationId=',
             []
         );
 

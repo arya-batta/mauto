@@ -79,7 +79,7 @@ class CategorySubscriber extends CommonSubscriber
                 foreach ($bundle['config']['categories'] as $type => $label) {
                     if ($type == 'stage' && !$this->security->isGranted('stage:stages:view')) {
                         continue;
-                    } elseif ($type == 'plugin:mauticSocial' && !$this->security->isGranted('plugin:mauticSocial:monitoring:view')) {
+                    } elseif ($type == 'plugin:leSocial' && !$this->security->isGranted('plugin:leSocial:monitoring:view')) {
                         continue;
                     } elseif ($type == 'page' && !$this->security->isGranted('page:pages:viewother')) {
                         continue;

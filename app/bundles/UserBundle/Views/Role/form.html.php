@@ -11,7 +11,7 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'role');
 
-$view['assets']->addScriptDeclaration('MauticVars.permissionList = '.json_encode($permissionsConfig['list']), 'bodyClose');
+$view['assets']->addScriptDeclaration('leVars.permissionList = '.json_encode($permissionsConfig['list']), 'bodyClose');
 
 $objectId = $form->vars['data']->getId();
 if (!empty($objectId)) {

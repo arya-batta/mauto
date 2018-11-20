@@ -16,7 +16,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Mautic\CoreBundle\Doctrine\AbstractMauticMigration;
 
 /**
- * MauticSocialBundle schema.
+ * leSocialBundle schema.
  *
  * Class Version20160520000000
  */

@@ -26,7 +26,7 @@ Le.roleOnLoad = function (container, response) {
     }
 
     if (response && response.permissionList) {
-        MauticVars.permissionList = response.permissionList;
+        leVars.permissionList = response.permissionList;
     }
 };
 
@@ -80,7 +80,7 @@ Le.onPermissionChange = function (changedPermission, bundle) {
     //update granted numbers
     if (mQuery('.' + bundle + '_granted').length) {
         var granted = 0;
-        var levelPerms = MauticVars.permissionList[bundle];
+        var levelPerms = leVars.permissionList[bundle];
         mQuery.each(levelPerms, function(level, perms) {
             mQuery.each(perms, function(index, perm) {
                 var isChecked = mQuery('input[data-permission="' + bundle + ':' + level + ':' + perm + '"]').prop('checked');
