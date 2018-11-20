@@ -65,13 +65,13 @@ final class FormEvents
     const FORM_ON_BUILD = 'mautic.form_on_build';
 
     /**
-     * The mautic.form_on_submit event is dispatched when a new submission is fired.
+     * The le.form_on_submit event is dispatched when a new submission is fired.
      *
      * The event listener receives a Mautic\FormBundle\Event\SubmissionEvent instance.
      *
      * @var string
      */
-    const FORM_ON_SUBMIT = 'mautic.form_on_submit';
+    const FORM_ON_SUBMIT = 'le.form_on_submit';
 
     /**
      * The mautic.form.on_campaign_trigger_condition event is fired when the campaign condition triggers.

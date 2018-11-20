@@ -28,13 +28,13 @@ final class PageEvents
     const VIDEO_ON_HIT = 'mautic.video_on_hit';
 
     /**
-     * The mautic.page_on_hit event is thrown when a public page is browsed and a hit recorded in the analytics table.
+     * The le.page_on_hit event is thrown when a public page is browsed and a hit recorded in the analytics table.
      *
      * The event listener receives a Mautic\PageBundle\Event\PageHitEvent instance.
      *
      * @var string
      */
-    const PAGE_ON_HIT = 'mautic.page_on_hit';
+    const PAGE_ON_HIT = 'le.page_on_hit';
 
     /**
      * The mautic.page_on_build event is thrown before displaying the page builder form to allow adding of tokens.

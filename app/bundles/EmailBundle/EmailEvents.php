@@ -28,14 +28,14 @@ final class EmailEvents
     const TOKEN_REPLACEMENT = 'mautic.email_token_replacement';
 
     /**
-     * The mautic.email_on_open event is dispatched when an email is opened.
+     * The le.email_on_open event is dispatched when an email is opened.
      *
      * The event listener receives a
      * Mautic\EmailBundle\Event\EmailOpenEvent instance.
      *
      * @var string
      */
-    const EMAIL_ON_OPEN = 'mautic.email_on_open';
+    const EMAIL_ON_OPEN = 'le.email_on_open';
 
     /**
      * The mautic.email_on_send event is dispatched when an email is sent.

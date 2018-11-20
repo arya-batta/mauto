@@ -28,27 +28,27 @@ final class LeadEvents
     const LEAD_PRE_SAVE = 'mautic.lead_pre_save';
 
     /**
-     * The mautic.lead_post_save event is dispatched right after a lead is persisted.
+     * The le.lead_post_save event is dispatched right after a lead is persisted.
      *
      * The event listener receives a
      * Mautic\LeadBundle\Event\LeadEvent instance.
      *
      * @var string
      */
-    const LEAD_POST_SAVE = 'mautic.lead_post_save';
+    const LEAD_POST_SAVE = 'le.lead_post_save';
 
     /**
-     * The mautic.lead_points_change event is dispatched if a lead's points changes.
+     * The le.lead_points_change event is dispatched if a lead's points changes.
      *
      * The event listener receives a
      * Mautic\LeadBundle\Event\PointsChangeEvent instance.
      *
      * @var string
      */
-    const LEAD_POINTS_CHANGE = 'mautic.lead_points_change';
+    const LEAD_POINTS_CHANGE = 'le.lead_points_change';
 
     /**
-     * The mautic.lead_points_change event is dispatched if a lead's points changes.
+     * The le.lead_points_change event is dispatched if a lead's points changes.
      *
      * The event listener receives a
      * Mautic\LeadBundle\Event\PointsChangeEvent instance.
@@ -108,14 +108,14 @@ final class LeadEvents
     const LEAD_PRE_DELETE = 'mautic.lead_pre_delete';
 
     /**
-     * The mautic.lead_post_delete event is dispatched after a lead is deleted.
+     * The le.lead_post_delete event is dispatched after a lead is deleted.
      *
      * The event listener receives a
      * Mautic\LeadBundle\Event\LeadEvent instance.
      *
      * @var string
      */
-    const LEAD_POST_DELETE = 'mautic.lead_post_delete';
+    const LEAD_POST_DELETE = 'le.lead_post_delete';
 
     /**
      * The mautic.lead_pre_merge event is dispatched before two leads are merged.
@@ -148,14 +148,14 @@ final class LeadEvents
     const LEAD_IDENTIFIED = 'mautic.lead_identified';
 
     /**
-     * The mautic.lead_channel_subscription_changed event is dispatched when a lead's DNC status changes.
+     * The le.lead_channel_subscription_changed event is dispatched when a lead's DNC status changes.
      *
      * The event listener receives a
      * Mautic\LeadBundle\Event\ChannelSubscriptionChange instance.
      *
      * @var string
      */
-    const CHANNEL_SUBSCRIPTION_CHANGED = 'mautic.lead_channel_subscription_changed';
+    const CHANNEL_SUBSCRIPTION_CHANGED = 'le.lead_channel_subscription_changed';
 
     /**
      * The mautic.lead_build_search_commands event is dispatched when the search commands are built.
