@@ -23,12 +23,12 @@ class WebhookController extends FormController
         $this->setStandardParameters(
             'webhook.webhook', // model name
             'webhook:webhooks', // permission base
-            'mautic_webhook', // route base
+            'le_webhook', // route base
             'mautic_webhook', // session base
             'mautic.webhook', // lang string base
             'MauticWebhookBundle:Webhook', // template base
-            'mautic_webhook', // activeLink
-            'mauticWebhook' // leContent
+            'le_webhook', // activeLink
+            'Webhook' // leContent
         );
     }
 
