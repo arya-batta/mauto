@@ -128,7 +128,7 @@ class DynamicContentType extends AbstractType
                 'description',
                 'textarea',
                 [
-                    'label'      => 'mautic.dynamicContent.description',
+                    'label'      => 'le.dynamicContent.description',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => ['class' => 'form-control'],
                     'required'   => false,

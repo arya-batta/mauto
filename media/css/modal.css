@@ -1,5 +1,5 @@
 /* Modal Base CSS */
-.mauticForm-overlay
+.leForm-overlay
 {
     position: fixed;
     z-index: 9998;
@@ -20,7 +20,7 @@
     background: rgba(0,0,0,.6);
 }
 
-.mauticForm-modal
+.leForm-modal
 {
     position: absolute;
     z-index: 9999;
@@ -48,7 +48,7 @@
     background: #fff;
 }
 
-.mauticForm-modal.mauticForm-open.mauticForm-anchored
+.leForm-modal.leForm-open.leForm-anchored
 {
     top: 20px;
 
@@ -59,19 +59,19 @@
     transform: translate(-50%, 0);
 }
 
-.mauticForm-modal.mauticForm-open
+.leForm-modal.leForm-open
 {
     opacity: 1;
 }
 
-.mauticForm-overlay.mauticForm-open
+.leForm-overlay.leForm-open
 {
     opacity: 1;
 
 }
 
 /* Close Button */
-.mauticForm-close
+.leForm-close
 {
     font-family: Helvetica,Arial,sans-serif;
     font-size: 24px;
@@ -92,21 +92,21 @@
     background: #e74c3c;
 }
 
-.mauticForm-close:hover
+.leForm-close:hover
 {
     background: #c0392b;
 }
 
 /* Default Animation */
 
-.mauticForm-overlay.fade-and-drop
+.leForm-overlay.fade-and-drop
 {
     display: block;
 
     opacity: 0;
 }
 
-.mauticForm-modal.fade-and-drop
+.leForm-modal.fade-and-drop
 {
     top: -300%;
 
@@ -115,7 +115,7 @@
     display: block;
 }
 
-.mauticForm-modal.fade-and-drop.mauticForm-open
+.leForm-modal.fade-and-drop.leForm-open
 {
     top: 50%;
 
@@ -126,7 +126,7 @@
     transition: 500ms top 500ms ease;
 }
 
-.mauticForm-modal.fade-and-drop.mauticForm-open.mauticForm-anchored
+.leForm-modal.fade-and-drop.leForm-open.leForm-anchored
 {
 
     -webkit-transition: 500ms top 500ms ease;
@@ -136,7 +136,7 @@
     transition: 500ms top 500ms ease;
 }
 
-.mauticForm-overlay.fade-and-drop.mauticForm-open
+.leForm-overlay.fade-and-drop.leForm-open
 {
     top: 0;
 
@@ -149,7 +149,7 @@
     opacity: 1;
 }
 
-.mauticForm-modal.fade-and-drop
+.leForm-modal.fade-and-drop
 {
     -webkit-transition: 500ms top ease;
     -moz-transition: 500ms top ease;
@@ -158,7 +158,7 @@
     transition: 500ms top ease;
 }
 
-.mauticForm-overlay.fade-and-drop
+.leForm-overlay.fade-and-drop
 {
     -webkit-transition: 500ms opacity 500ms ease;
     -moz-transition: 500ms opacity 500ms ease;
@@ -167,6 +167,6 @@
     transition: 500ms opacity 500ms ease;
 }
 
-.mauticForm-content {
+.leForm-content {
     height: 100%;
 }

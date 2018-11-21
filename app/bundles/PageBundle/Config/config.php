@@ -329,8 +329,8 @@ return [
         'track_by_fingerprint'  => false,
         'track_by_tracking_url' => false,
         'redirect_list_types'   => [
-            '301' => 'le.page.form.redirecttype.permanent',
-            '302' => 'le.page.form.redirecttype.temporary',
+            '301' => 'mautic.page.form.redirecttype.permanent',
+            '302' => 'mautic.page.form.redirecttype.temporary',
         ],
         'google_analytics_id'                   => null,
         'google_analytics_trackingpage_enabled' => false,
