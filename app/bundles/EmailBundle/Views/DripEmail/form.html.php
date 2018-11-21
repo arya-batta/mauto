@@ -25,16 +25,33 @@ $isAdmin              = $view['security']->isAdmin();
 <?php echo $view['form']->start($form); ?>
 <div id="page-wrap" class="tab-content align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
-        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>EMAILS</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
+        <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
+            <li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active" role = "tab" id = "ui-tab-header1" rel = 1>
+                <a id="info_tab" class="text-start">
+                    <div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 01</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.name'); ?></label>
+                    </div></a>
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header2" rel = 2>
+                <a class="text-start"> <div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 02</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.drip.compose'); ?></label>
+                    </div></a>
+
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
+                <a class="text-start" style="padding: 3px 34px;;"><div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 03</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>
+                    </div></a>
+            </li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 108px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -100,7 +117,7 @@ $isAdmin              = $view['security']->isAdmin();
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 108px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -261,9 +278,9 @@ $isAdmin              = $view['security']->isAdmin();
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:-112px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 30px;">
-                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                <a href="#" style="margin-left:-85px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 27px;">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>

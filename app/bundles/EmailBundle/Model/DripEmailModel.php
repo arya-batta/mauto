@@ -529,4 +529,23 @@ class DripEmailModel extends FormModel
 
         return $emailSent;
     }
+
+    public function getDripEmailBlocks()
+    {
+        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-o', $this->translator->trans('le.email.sent.last30days.sent'),
+            $this->getRepository()->getLast30DaysDripSentCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
+        ];
+        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.opens'),
+            $this->getRepository()->getLast30DaysDripOpensCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
+        ];
+        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+            $this->getRepository()->getLast30DaysDripClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
+        ];
+
+        $allBlockDetails[] = $sentCount;
+        $allBlockDetails[] = $openCount;
+        $allBlockDetails[] = $clickCount;
+
+        return $allBlockDetails;
+    }
 }

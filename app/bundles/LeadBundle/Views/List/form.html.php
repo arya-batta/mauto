@@ -48,21 +48,27 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-tabs pr-md pl-md">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;">
     <li class="active detail" id="detailstab" onclick="Le.addHide()">
-        <a href="#details" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
-            <?php echo $view['translator']->trans('mautic.core.details'); ?>
-            <?php if ($mainErrors): ?>
-                <i class="fa fa-warning"></i>
-            <?php endif; ?>
+        <a href="#details" style="padding: 3px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
+            <div class="content-wrapper-first">
+                <div><span class="small-xx">Step 01</span></div>
+                <label><?php echo $view['translator']->trans('le.core.segment.setup'); ?>
+                    <?php if ($mainErrors): ?>
+                        <i class="fa fa-warning"></i>
+                    <?php endif; ?> </label>
+            </div>
         </a>
     </li>
     <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
-        <a href="#filters" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
-            <?php echo $view['translator']->trans('mautic.core.leadlist.filters'); ?>
-            <?php if ($filterErrors): ?>
-                <i class="fa fa-warning"></i>
-            <?php endif; ?>
+        <a href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
+            <div class="content-wrapper-first">
+                <div><span class="small-xx">Step 02</span></div>
+                <label>  <?php echo $view['translator']->trans('le.core.segment.filter'); ?>
+                    <?php if ($filterErrors): ?>
+                        <i class="fa fa-warning"></i>
+                    <?php endif; ?> </label>
+            </div>
         </a>
     </li>
 </ul>

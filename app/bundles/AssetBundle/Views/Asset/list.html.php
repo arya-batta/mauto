@@ -86,7 +86,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'asset',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-asset-actions',
+                    'class'      => 'col-lead-location visible-md visible-lg col-asset-actions col-lead-actions',
                 ]);
                 ?>
             </tr>

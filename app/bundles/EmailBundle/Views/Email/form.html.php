@@ -113,10 +113,26 @@ $isgoogletags= false; //$email->getGoogletags();
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <div id="page-wrap" class="tab-content align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
-        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1><a id="info_tab">INFO</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>CONTENT</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3><a>SETTINGS</a></li>
+        <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
+            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1>
+                <a class="text-start" id="info_tab"><div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 01</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.name'); ?></label>
+                    </div></a>
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header2" rel = 2>
+                <a class="text-start" style="padding: 3px 30px;"><div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 02</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.compose'); ?></label>
+                    </div></a>
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3>
+                <a class="text-start" style="padding: 3px 35px;"> <div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 03</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>
+                    </div></a>
+            </li>
+        </ul>
             <div class="le-builder-btn col-md-6<?php  echo $hideadvanceeditor; ?>" style="width: 65%;float: right;">
                 <div id="builder_btn" class="hide" style="margin-left: 385px;position: absolute;top: -37px;right: 0;">
                     <?php echo $view->render(
@@ -134,12 +150,11 @@ $isgoogletags= false; //$email->getGoogletags();
                     </a>
                 </div>
             </div>
-        </ul>
         <div id="fragment-1" class="ui-tabs-panel <?php echo $infohide?>">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 107px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -179,7 +194,7 @@ $isgoogletags= false; //$email->getGoogletags();
                         </ul>
                     </li>
                 </div>
-            </div>
+                </div>
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $view['form']->row($form['previewText']); ?>
@@ -269,7 +284,7 @@ $isgoogletags= false; //$email->getGoogletags();
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -173px;margin-right: 106px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -316,8 +331,8 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
         <div id="fragment-3" class="ui-tabs-panel <?php echo $settingshide?>">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:-112px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 30px;">
+                <a href="#" style="margin-left:-85px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -519,7 +534,7 @@ if ((empty($updateSelect) && !$isExisting && !$formcontainserror && !$variantPar
     echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'       => $email,
-            'leLang' => [
+            'leLang'     => [
                 'newListEmail'     => 'le.email.type.list.header',
                 'newTemplateEmail' => 'le.email.type.template.header',
             ],
@@ -547,7 +562,7 @@ if (empty($updateSelect) && !$isCloneOp && !$isExisting && !$formcontainserror &
     echo $view->render('MauticEmailBundle:Email:email_selecttype.html.php',
         [
             'item'                => $email,
-            'leLang'          => [],
+            'leLang'              => [],
             'typePrefix'          => 'email',
             'cancelUrl'           => $type == 'template' ? 'le_email_index' : 'le_email_campaign_index',
             'header'              => 'le.email.editor.header',

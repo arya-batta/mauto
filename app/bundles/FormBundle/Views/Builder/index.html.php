@@ -255,17 +255,35 @@ echo $view['form']->end($form); */
 endif;*/ ?>
 <?php echo $view['form']->start($form); ?>
 <div class="page-wrap  tab-content" >
-    <div  id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
-        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header1" rel = 1><a class="info_tab">Details</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header2" rel = 2><a>Fields</a></li>
-            <li class="ui-state-default ui-corner-top btn btn-default btn-group" role = "tab" id = "ui-tab-header3" rel = 3><a>Actions</a></li>
+    <div  style="margin-top: -8px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
+        <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header1" rel = 1>
+                <a class="info_tab text-start" style="padding: 3px 24px;">
+                <div class="content-wrapper-first">
+                    <div><span class="small-xx">Step 01</span></div>
+                    <label><?php echo $view['translator']->trans('Set up your form.'); ?></label>
+                </div>
+                </a>
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header2" rel = 2>
+                <a class="text-start" > <div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 02</span></div>
+                        <label><?php echo $view['translator']->trans('Create form fields.'); ?></label>
+                    </div>
+
+                </a></li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
+
+                <a class="text-start" style="padding: 3px 17px;"> <div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 03</span></div>
+                        <label><?php echo $view['translator']->trans('Select form actions.'); ?></label>
+                    </div></a></li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 109px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -282,8 +300,8 @@ endif;*/ ?>
                     <div class="help-block custom-help"></div>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $view['form']->label($form['isPublished']); ?>
-                    <?php echo $view['form']->widget($form['isPublished']); ?>
+                    <?php echo $view['form']->label($form['category']); ?>
+                    <?php echo $view['form']->widget($form['category']); ?>
                 </div>
             </div>
             <div class="row">
@@ -312,8 +330,8 @@ endif;*/ ?>
             <br>
             <div class="row">
                 <div class="col-md-12">
-                    <?php echo $view['form']->label($form['category']); ?>
-                    <?php echo $view['form']->widget($form['category']); ?>
+                    <?php echo $view['form']->label($form['isPublished']); ?>
+                    <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>
                 <div class="col-md-12" >
                     <br>
@@ -346,7 +364,7 @@ endif;*/ ?>
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 128px;">
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 109px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -421,8 +439,8 @@ endif;*/ ?>
         </div>
         <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" style="margin-left:-112px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -177px;margin-right: 15px;">
+                <a href="#" style="margin-left:-85px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 15px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"

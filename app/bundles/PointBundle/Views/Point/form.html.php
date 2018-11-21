@@ -24,24 +24,24 @@ echo $view['form']->start($form);
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto bdr-r" id="details">
     	<div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="pa-md">
                     <?php
                     echo $view['form']->row($form['name']);
+                    echo $view['form']->row($form['delta']);
                     ?>
                 </div>
             </div>
     		<div class="col-md-6">
 		        <div class="pa-md">
-                    <?php echo $view['form']->row($form['category']); ?>
-                    <?php echo $view['form']->row($form['type']); ?>
+                    <?php echo $view['form']->row($form['category']);
+                          echo $view['form']->row($form['score']); ?>
 				</div>
 			</div>
             <div class="col-md-6">
                 <div class="pa-md">
                     <?php
-                    echo $view['form']->row($form['isPublished']);
-                    echo $view['form']->row($form['delta']);
+                    echo $view['form']->row($form['type']);
                     ?>
                 </div>
             </div>
@@ -57,8 +57,9 @@ echo $view['form']->start($form);
                 </div>
             </div>
 			<div class="col-md-12">
-				<div class="pa-md">
-                    <?php echo $view['form']->row($form['description']); ?>
+				<div <?php echo $isAdmin ? 'class="pa-md"' : 'class="hide"' ?>>
+                    <?php echo $view['form']->row($form['description']);
+                          echo $view['form']->row($form['isPublished']); ?>
 				</div>
 			</div>
 		</div>

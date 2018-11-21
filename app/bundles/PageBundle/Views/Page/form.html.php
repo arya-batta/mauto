@@ -191,7 +191,7 @@ $custombutton = [
                         <!--/ tabs controls -->
                         <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
                         <div class="fragment-3-buttons fixed-header">
-                            <a href="#" style="margin-left:-112px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                            <a href="#" style="margin-left:-85px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -182px;margin-right: 30px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
