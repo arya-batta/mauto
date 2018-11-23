@@ -258,17 +258,17 @@ endif;*/ ?>
     <div  style="margin-top: -8px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header1" rel = 1>
-                <a class="info_tab text-start" style="padding: 3px 24px;">
+                <a class="info_tab text-start" style="padding: 3px 42px;">
                 <div class="content-wrapper-first">
                     <div><span class="small-xx">Step 01</span></div>
-                    <label><?php echo $view['translator']->trans('Set up your form.'); ?></label>
+                    <label><?php echo $view['translator']->trans('Set Up Form.'); ?></label>
                 </div>
                 </a>
             </li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header2" rel = 2>
                 <a class="text-start" > <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 02</span></div>
-                        <label><?php echo $view['translator']->trans('Create form fields.'); ?></label>
+                        <label><?php echo $view['translator']->trans('Choose Form Fields.'); ?></label>
                     </div>
 
                 </a></li>
@@ -276,7 +276,7 @@ endif;*/ ?>
 
                 <a class="text-start" style="padding: 3px 17px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
-                        <label><?php echo $view['translator']->trans('Select form actions.'); ?></label>
+                        <label><?php echo $view['translator']->trans('Choose Form Actions.'); ?></label>
                     </div></a></li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
