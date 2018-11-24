@@ -218,7 +218,7 @@ class CampaignRepository extends CommonRepository
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder()
             ->from(MAUTIC_TABLE_PREFIX.'campaign_events', 'ce');
         if ($id) {
-            $q->select('ce.properties')
+            $q->select('ce.properties,ce.id')
                 ->where($q->expr()->andX(
                     $q->expr()->eq('ce.campaign_id', $id),
                     $q->expr()->eq('ce.event_type', ':event_type'),
@@ -227,7 +227,7 @@ class CampaignRepository extends CommonRepository
                 )->setParameter('event_type', 'source', 'string')
                 ->setParameter('type', 'lists', 'string');
         } else {
-            $q->select('ce.properties')
+            $q->select('ce.properties,ce.id')
                 ->where($q->expr()->andX(
                     $q->expr()->eq('ce.event_type', ':event_type'),
                     $q->expr()->isNull('ce.trigger_mode'),
@@ -248,26 +248,23 @@ class CampaignRepository extends CommonRepository
 //            $q->select('DISTINCT cl.leadlist_id');
 //        }
 
-        $lists       = [];
-        $publishedIds=[];
+
+        $listevents    = [];
         $results     = $q->execute()->fetchAll();
 
         foreach ($results as $r) {
             $properties = $r['properties'];
+            $id=$r['id'];
             $properties =unserialize($properties);
             if (!empty($properties['lists'])) {
-                $lists=array_merge($lists, $properties['lists']);
+                $listevents [$id]=$properties['lists'];
             }
             // $lists[] = $r['leadlist_id'];
         }
-        $listPublishIds =[];
-        $publishedIds[] = $this->getPublishedSegment($lists);
-
-        if (!empty($publishedIds[0]) && !empty($publishedIds)) {
-            $listPublishIds=array_unique($publishedIds);
-        }
-
-        return $listPublishIds;
+          foreach ($listevents as $eventid => $lists){
+              $listevents[$eventid] = $this->getPublishedSegment($lists);
+          }
+        return $listevents;
     }
 
     /**
@@ -848,21 +845,20 @@ class CampaignRepository extends CommonRepository
      *
      * @return int|string
      */
-    public function getPublishedSegment($listId)
+    public function getPublishedSegment($lists)
     {
         $qb = $this->_em->getConnection()->createQueryBuilder();
 
         $qb->select('l.id')
             ->from(MAUTIC_TABLE_PREFIX.'lead_lists', 'l')
-            ->andWhere('l.id = :lead')
-            ->setParameter('lead', isset($listId[0]) ? (int) $listId[0] : '');
-
-        $qb->andWhere($qb->expr()->eq('l.is_published', ':isPublished'))
+            ->Where($qb->expr()->andX($qb->expr()->in('l.id', $lists),$qb->expr()->eq('l.is_published', ':isPublished')))
             ->setParameter('isPublished', '1');
 
         $results = $qb->execute()->fetchAll();
-
-        return !empty($results[0]['id']) ? (int) $results[0]['id'] : '';
+        foreach ($results as $result => $list) {
+            $publishedLists[] = $list['id'];
+        }
+        return $publishedLists;
     }
 
     public function getWfProgressLeadsCount($campaign, $exitevents)

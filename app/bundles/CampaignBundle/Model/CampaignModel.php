@@ -1009,15 +1009,120 @@ class CampaignModel extends CommonFormModel
         $repo = $this->getRepository();
 
         // Get a list of lead lists this campaign is associated with
-        $lists = $repo->getCampaignListIds($campaign->getId());
+        $listevents = $repo->getCampaignListIds($campaign->getId());
+        $totalleadsProcessed=0;
+        foreach($listevents as $eventid => $lists) {
+            $batchLimiters = [
+                'dateTime' => (new DateTimeHelper())->toUtcString(),
+            ];
 
-        $batchLimiters = [
-            'dateTime' => (new DateTimeHelper())->toUtcString(),
-        ];
+            if (count($lists)) {
+                // Get a count of new leads
+                $newLeadsCount = $repo->getCampaignLeadsFromLists(
+                    $campaign->getId(),
+                    $lists,
+                    [
+                        'countOnly' => true,
+                        'batchLimiters' => $batchLimiters,
+                    ]
+                );
 
-        if (count($lists)) {
-            // Get a count of new leads
-            $newLeadsCount = $repo->getCampaignLeadsFromLists(
+                // Ensure the same list is used each batch
+                $batchLimiters['maxId'] = (int)$newLeadsCount['maxId'];
+
+                // Number of total leads to process
+                $leadCount = (int)$newLeadsCount['count'];
+            } else {
+                // No lists to base campaign membership off of so ignore
+                $leadCount = 0;
+            }
+
+            if ($output) {
+                $output->writeln($this->translator->trans('mautic.campaign.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit,'%eventid%' => $eventid]));
+            }
+
+            // Handle by batches
+            $start = $leadsProcessed = 0;
+
+            // Try to save some memory
+            gc_enable();
+
+            if ($leadCount) {
+                $maxCount = ($maxLeads) ? $maxLeads : $leadCount;
+
+                if ($output) {
+                    $progress = ProgressBarHelper::init($output, $maxCount);
+                    $progress->start();
+                }
+                    $newLeadList = $repo->getCampaignLeadsFromLists(
+                        $campaign->getId(),
+                        $lists,
+                        [
+                            'limit' => $limit,
+                            'batchLimiters' => $batchLimiters,
+                        ]
+                    );
+                    // Add leads
+                while ($start < $leadCount) {
+                    // Keep CPU down for large lists; sleep per $limit batch
+                    $this->batchSleep();
+
+                    // Get a count of new leads
+
+                    $start += $limit;
+
+                    $processedLeads = [];
+                    foreach ($newLeadList as $l) {
+                        $this->addLeads($campaign, [$l], false, true, -1);
+                        $this->putCampaignEventLog($eventid, $campaign, $l);
+                        $processedLeads[] = $l;
+                        ++$leadsProcessed;
+                        if ($output && isset($progress) && $leadsProcessed < $maxCount) {
+                            $progress->setProgress($leadsProcessed);
+                        }
+
+                        unset($l);
+
+                        if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                            break;
+                        }
+                    }
+                    // Dispatch batch event
+                    if (count($processedLeads) && $this->dispatcher->hasListeners(CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE)) {
+                        $this->dispatcher->dispatch(
+                            CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE,
+                            new Events\CampaignLeadChangeEvent($campaign, $processedLeads, 'added')
+                        );
+                    }
+
+                    unset($newLeadList);
+
+                    // Free some memory
+                    gc_collect_cycles();
+
+                    if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                        // done for this round, bye bye
+                        if (isset($progress)) {
+                            $progress->finish();
+                        }
+
+                        return $leadsProcessed;
+                    }
+
+                }
+
+                if ($output && isset($progress)) {
+                    $progress->finish();
+                    $output->writeln('');
+
+                }
+            }
+            $totalleadsProcessed += $leadsProcessed;
+        }
+
+        return $totalleadsProcessed;
+            // Get a count of leads to be removed
+           /* $removeLeadCount = $repo->getCampaignOrphanLeads(
                 $campaign->getId(),
                 $lists,
                 [
@@ -1026,184 +1131,84 @@ class CampaignModel extends CommonFormModel
                 ]
             );
 
-            // Ensure the same list is used each batch
-            $batchLimiters['maxId'] = (int) $newLeadsCount['maxId'];
-
-            // Number of total leads to process
-            $leadCount = (int) $newLeadsCount['count'];
-        } else {
-            // No lists to base campaign membership off of so ignore
-            $leadCount = 0;
-        }
-
-        if ($output) {
-            $output->writeln($this->translator->trans('mautic.campaign.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit]));
-        }
-
-        // Handle by batches
-        $start = $leadsProcessed = 0;
-
-        // Try to save some memory
-        gc_enable();
-
-        if ($leadCount) {
-            $maxCount = ($maxLeads) ? $maxLeads : $leadCount;
+            // Restart batching
+            $start                  = $lastRoundPercentage                  = 0;
+            $leadCount              = $removeLeadCount['count'];
+            $batchLimiters['maxId'] = $removeLeadCount['maxId'];
 
             if ($output) {
-                $progress = ProgressBarHelper::init($output, $maxCount);
-                $progress->start();
+                $output->writeln($this->translator->trans('le.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
             }
 
-            // Add leads
-            while ($start < $leadCount) {
-                // Keep CPU down for large lists; sleep per $limit batch
-                $this->batchSleep();
+            if ($leadCount) {
+                $maxCount = ($maxLeads) ? $maxLeads : $leadCount;
 
-                // Get a count of new leads
-                $newLeadList = $repo->getCampaignLeadsFromLists(
-                    $campaign->getId(),
-                    $lists,
-                    [
-                        'limit'         => $limit,
-                        'batchLimiters' => $batchLimiters,
-                    ]
-                );
+                if ($output) {
+                    $progress = ProgressBarHelper::init($output, $maxCount);
+                    $progress->start();
+                }
 
-                $start += $limit;
+                // Remove leads
+                while ($start < $leadCount) {
+                    // Keep CPU down for large lists; sleep per $limit batch
+                    $this->batchSleep();
 
-                $processedLeads = [];
-                foreach ($newLeadList as $l) {
-                    $this->addLeads($campaign, [$l], false, true, -1);
-                    $processedLeads[] = $l;
-                    ++$leadsProcessed;
-                    if ($output && isset($progress) && $leadsProcessed < $maxCount) {
-                        $progress->setProgress($leadsProcessed);
+                    $removeLeadList = $repo->getCampaignOrphanLeads(
+                        $campaign->getId(),
+                        $lists,
+                        [
+                            'limit'         => $limit,
+                            'batchLimiters' => $batchLimiters,
+                        ]
+                    );
+
+                    $processedLeads = [];
+                    foreach ($removeLeadList as $l) {
+                        $this->removeLeads($campaign, [$l], false, true, true);
+                        $processedLeads[] = $l;
+                        ++$leadsProcessed;
+                        if (isset($progress) && $leadsProcessed < $maxCount) {
+                            $progress->setProgress($leadsProcessed);
+                        }
+
+                        if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                            break;
+                        }
                     }
 
-                    unset($l);
+                    // Dispatch batch event
+                    if (count($processedLeads) && $this->dispatcher->hasListeners(CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE)) {
+                        $this->dispatcher->dispatch(
+                            CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE,
+                            new Events\CampaignLeadChangeEvent($campaign, $processedLeads, 'removed')
+                        );
+                    }
+
+                    $start += $limit;
+
+                    unset($removeLeadList);
+
+                    // Free some memory
+                    gc_collect_cycles();
 
                     if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                        break;
+                        // done for this round, bye bye
+
+                        if (isset($progress)) {
+                            $progress->finish();
+                        }
+
+                        return $leadsProcessed;
                     }
                 }
 
-                // Dispatch batch event
-                if (count($processedLeads) && $this->dispatcher->hasListeners(CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE)) {
-                    $this->dispatcher->dispatch(
-                        CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE,
-                        new Events\CampaignLeadChangeEvent($campaign, $processedLeads, 'added')
-                    );
+                if ($output && isset($progress)) {
+                    $progress->finish();
+                    $output->writeln('');
                 }
+            }*/
 
-                unset($newLeadList);
 
-                // Free some memory
-                gc_collect_cycles();
-
-                if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                    // done for this round, bye bye
-                    if (isset($progress)) {
-                        $progress->finish();
-                    }
-
-                    return $leadsProcessed;
-                }
-            }
-
-            if ($output && isset($progress)) {
-                $progress->finish();
-                $output->writeln('');
-            }
-        }
-
-        // Get a count of leads to be removed
-        $removeLeadCount = $repo->getCampaignOrphanLeads(
-            $campaign->getId(),
-            $lists,
-            [
-                'countOnly'     => true,
-                'batchLimiters' => $batchLimiters,
-            ]
-        );
-
-        // Restart batching
-        $start                  = $lastRoundPercentage                  = 0;
-        $leadCount              = $removeLeadCount['count'];
-        $batchLimiters['maxId'] = $removeLeadCount['maxId'];
-
-        if ($output) {
-            $output->writeln($this->translator->trans('le.lead.list.rebuild.to_be_removed', ['%leads%' => $leadCount, '%batch%' => $limit]));
-        }
-
-        if ($leadCount) {
-            $maxCount = ($maxLeads) ? $maxLeads : $leadCount;
-
-            if ($output) {
-                $progress = ProgressBarHelper::init($output, $maxCount);
-                $progress->start();
-            }
-
-            // Remove leads
-            while ($start < $leadCount) {
-                // Keep CPU down for large lists; sleep per $limit batch
-                $this->batchSleep();
-
-                $removeLeadList = $repo->getCampaignOrphanLeads(
-                    $campaign->getId(),
-                    $lists,
-                    [
-                        'limit'         => $limit,
-                        'batchLimiters' => $batchLimiters,
-                    ]
-                );
-
-                $processedLeads = [];
-                foreach ($removeLeadList as $l) {
-                    $this->removeLeads($campaign, [$l], false, true, true);
-                    $processedLeads[] = $l;
-                    ++$leadsProcessed;
-                    if (isset($progress) && $leadsProcessed < $maxCount) {
-                        $progress->setProgress($leadsProcessed);
-                    }
-
-                    if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                        break;
-                    }
-                }
-
-                // Dispatch batch event
-                if (count($processedLeads) && $this->dispatcher->hasListeners(CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE)) {
-                    $this->dispatcher->dispatch(
-                        CampaignEvents::LEAD_CAMPAIGN_BATCH_CHANGE,
-                        new Events\CampaignLeadChangeEvent($campaign, $processedLeads, 'removed')
-                    );
-                }
-
-                $start += $limit;
-
-                unset($removeLeadList);
-
-                // Free some memory
-                gc_collect_cycles();
-
-                if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                    // done for this round, bye bye
-
-                    if (isset($progress)) {
-                        $progress->finish();
-                    }
-
-                    return $leadsProcessed;
-                }
-            }
-
-            if ($output && isset($progress)) {
-                $progress->finish();
-                $output->writeln('');
-            }
-        }
-
-        return $leadsProcessed;
     }
 
     /**
@@ -1472,6 +1477,9 @@ class CampaignModel extends CommonFormModel
     public function putCampaignEventLog($eventid, $campaign, $lead)
     {
         $event            = $this->em->getReference('MauticCampaignBundle:Event', $eventid);
+        if (!$lead instanceof Lead) {
+            $lead   = $this->em->getReference('MauticLeadBundle:Lead', $lead);
+        }
         $campaignlead     =$this->em->getReference('MauticCampaignBundle:Lead', [
             'lead'     => $lead->getId(),
             'campaign' => $campaign->getId(),

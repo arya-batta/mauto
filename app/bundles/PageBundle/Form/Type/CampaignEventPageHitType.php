@@ -43,6 +43,15 @@ class CampaignEventPageHitType extends AbstractType
             ],
             'required'   => false,
         ]);
+            $builder->add('referer', 'text', [
+                'label'      => 'le.page.campaign.event.form.referer',
+                'label_attr' => ['class' => 'control-label'],
+                'required'   => false,
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                    'tooltip' => 'le.page.campaign.event.form.referer.descr',
+                ],
+            ]);
         }
         $builder->add('url', 'text', [
             'label'      => 'le.page.campaign.event.form.url',
@@ -51,16 +60,6 @@ class CampaignEventPageHitType extends AbstractType
             'attr'       => [
                 'class'   => 'form-control le-input',
                 'tooltip' => 'le.page.campaign.event.form.url.descr',
-            ],
-        ]);
-
-        $builder->add('referer', 'text', [
-            'label'      => 'le.page.campaign.event.form.referer',
-            'label_attr' => ['class' => 'control-label'],
-            'required'   => false,
-            'attr'       => [
-                'class'   => 'form-control le-input',
-                'tooltip' => 'le.page.campaign.event.form.referer.descr',
             ],
         ]);
     }

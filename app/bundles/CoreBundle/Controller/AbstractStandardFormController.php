@@ -1035,6 +1035,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             if ($catId != '') {
                 $entity->setCategory($catName);
             }
+            $entity->setIsPublished(false);
         }
 
         //set the page we came from

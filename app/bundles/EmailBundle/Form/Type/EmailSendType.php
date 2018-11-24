@@ -61,25 +61,26 @@ class EmailSendType extends AbstractType
                 ],
             ]
         );
-
-        if (!empty($options['with_email_types'])) {
-            $builder->add(
-                'email_type',
-                'button_group',
-                [
-                    'choices' => [
-                        'transactional' => 'le.email.send.emailtype.transactional',
-                        'marketing'     => 'le.email.send.emailtype.marketing',
-                    ],
-                    'label'      => 'le.email.send.emailtype',
-                    'label_attr' => ['class' => 'control-label'],
-                    'attr'       => [
-                        'class'   => 'form-control email-type',
-                        'tooltip' => 'le.email.send.emailtype.tooltip',
-                    ],
-                    'data' => (!isset($options['data']['email_type'])) ? 'transactional' : $options['data']['email_type'],
-                ]
-            );
+        if($this->factory->getUser()->isAdmin()) {
+            if (!empty($options['with_email_types'])) {
+                $builder->add(
+                    'email_type',
+                    'button_group',
+                    [
+                        'choices' => [
+                            'transactional' => 'le.email.send.emailtype.transactional',
+                            'marketing' => 'le.email.send.emailtype.marketing',
+                        ],
+                        'label' => 'le.email.send.emailtype',
+                        'label_attr' => ['class' => 'control-label'],
+                        'attr' => [
+                            'class' => 'form-control email-type',
+                            'tooltip' => 'le.email.send.emailtype.tooltip',
+                        ],
+                        'data' => (!isset($options['data']['email_type'])) ? 'transactional' : $options['data']['email_type'],
+                    ]
+                );
+            }
         }
 
         if (!empty($options['update_select'])) {

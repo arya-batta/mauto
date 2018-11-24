@@ -34,18 +34,18 @@ $baseUrl = $view['router']->path(
             </th>
             <?php
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                'orderBy'    => 'eventLabel',
-                'text'       => 'le.lead.timeline.event_name',
-                'class'      => 'timeline-name',
+                'orderBy'    => 'eventType',
+                'text'       => 'le.lead.timeline.event_type',
+                'class'      => 'visible-md visible-lg timeline-type',
                 'sessionVar' => 'lead.'.$lead->getId().'.timeline',
                 'baseUrl'    => $baseUrl,
                 'target'     => '#timeline-table',
             ]);
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                'orderBy'    => 'eventType',
-                'text'       => 'le.lead.timeline.event_type',
-                'class'      => 'visible-md visible-lg timeline-type',
+                'orderBy'    => 'eventLabel',
+                'text'       => 'le.lead.timeline.event_name',
+                'class'      => 'timeline-name',
                 'sessionVar' => 'lead.'.$lead->getId().'.timeline',
                 'baseUrl'    => $baseUrl,
                 'target'     => '#timeline-table',
@@ -89,10 +89,10 @@ $baseUrl = $view['router']->path(
                         <span class="fa fa-fw <?php echo $icon ?>"></span>
                     </a>
                 </td>
-                <td class="timeline-name"><?php echo $eventLabel; ?></td>
                 <td class="timeline-type"><?php if (isset($event['eventType'])) {
                 echo $event['eventType'];
             } ?></td>
+                <td class="timeline-name"><?php echo $eventLabel; ?></td>
                 <td class="timeline-timestamp"><?php echo $view['date']->toText($event['timestamp'], 'local', 'Y-m-d H:i:s', true); ?></td>
             </tr>
             <?php if (!empty($details)): ?>

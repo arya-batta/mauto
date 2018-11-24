@@ -244,6 +244,8 @@ class LeadSubscriber extends CommonSubscriber
     {
         $lead   = $event->getLead();
         //get campaigns for the list
+        $changes=$lead->getChanges(true);
+
         $repo              = $this->campaignModel->getRepository();
         $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('fieldvalue');
 
@@ -251,15 +253,17 @@ class LeadSubscriber extends CommonSubscriber
             foreach ($allLeadsCampaigns as $c) {
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
-                    if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
-                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                        if ($event['goal'] != 'interrupt') {
-                            $this->campaignModel->addLead($campaign, $lead);
-                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
-                        } else {
-                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                    if(!empty($changes[$properties['field']])) {
+                        if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                            unset($campaign);
                         }
-                        unset($campaign);
                     }
                 }
             }

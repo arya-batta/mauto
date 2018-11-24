@@ -354,7 +354,7 @@ class EventController extends CommonFormController
         } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail' || $event['type'] == 'email.send') {
             $choices=$formView->children['properties']->children['email']->vars['choices'];
             $emails =$event['properties']['email'];
-            $label  =$this->getFormattedEventLabel($label, $emails, $choices['en']);
+            $label  =$this->getFormattedEventLabel($label,$event['type'] == 'email.send'? [$emails]:$emails, $choices['en']);
         } elseif ($event['type'] == 'leadtags') {
             $choices=$formView->children['properties']->children['tags']->vars['choices'];
             $tags   =$event['properties']['tags'];
@@ -397,7 +397,7 @@ class EventController extends CommonFormController
             $label            =$this->getLabelFromMultiChoices($label, $addTagschoices, $removeTagschoices, $addToTags, $removeToTags);
         } elseif ($event['type'] == 'lead.changepoints') {
             $points=$event['properties']['points'];
-            $label =$label.'['.$points.']';
+            $label =$label.' ['.$points.']';
         } elseif ($event['type'] == 'email.send.to.user' || $event['type'] == 'sms.send_text_sms.to.user') {
             $choices=$formView->children['properties']->children['user_id']->vars['choices'];
             $user   =$event['properties']['user_id'];
@@ -443,19 +443,19 @@ class EventController extends CommonFormController
     {
         $label1='';
         if (sizeof($data1) > 0) {
-            $label1=$this->getFormattedEventLabel('Added', $data1, $choice1);
+            $label1=$this->getFormattedEventLabel('Add', $data1, $choice1);
         }
         $label2='';
         if (sizeof($data2) > 0) {
-            $label2=$this->getFormattedEventLabel('Removed', $data2, $choice2);
+            $label2=$this->getFormattedEventLabel(' Remove', $data2, $choice2);
         }
         if ($label1 != '') {
-            $label=$label.'-'.$label1;
+            $label=$label.', '.$label1;
         }
         if ($label2 != '' && $label1 != '') {
             $label=$label.','.$label2;
         } elseif ($label2 != '') {
-            $label=$label.'-'.$label2;
+            $label=$label.', '.$label2;
         }
 
         return $label;
@@ -537,12 +537,16 @@ class EventController extends CommonFormController
                             $displaystring .= ',';
                         }
                     }
-                    $value='['.$displaystring.']';
+                    if($displaystring != '') {
+                        $value='['.$displaystring.']';
+                    }
                 } else {
                     $value='['.implode(',', $value).']';
                 }
             } else {
-                $value="'".$value."'";
+                if($value != '') {
+                    $value = "[" . $value . "]";
+                }
             }
             if ($index > 0) {
                 if ($glue == 'or') {
