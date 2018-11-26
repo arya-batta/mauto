@@ -465,7 +465,7 @@ class DripEmailModel extends FormModel
                 if ($dripScheduleTime == '') {
                     $dripScheduleTime = date('H:i');
                 }
-                if ($configdays != '') {
+                if (!empty($configdays)) {
                     for ($i = 0; $i < 7; ++$i) {
                         $currentDay = date('D', strtotime('+'.$i.' day'));
                         if (!in_array($currentDay, $configdays)) {
@@ -476,6 +476,8 @@ class DripEmailModel extends FormModel
                             break;
                         }
                     }
+                } else {
+                    $isFirstmailToday = true;
                 }
                 $scheduleTime = date('Y-m-d H:i:s', strtotime('+'.$entity->getScheduleTime().' + '.$dayscount.' days', strtotime($dripScheduleTime)));
             } else {
