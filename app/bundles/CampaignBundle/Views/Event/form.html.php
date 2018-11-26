@@ -51,6 +51,7 @@ if ($isCondition) {
         'assets'           => 'asset_downloads_list-template',
     ];
 }
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <div class="bundle-form">
@@ -71,8 +72,8 @@ if ($isCondition) {
         </div>
     </div>
     <?php if ($isCondition):?>
-    <div class="form-group">
-        <div style="margin-top:18px;" class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['properties']['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
+    <div class="form-group hide">
+        <div style="margin-top:18px;" class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['properties']['filters']->vars['prototype'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn])); ?>" data-index="<?php echo $index + 1; ?>">
             <select class="chosen form-control" id="available_filters" data-placeholder="Choose filter...">
                 <option value=""></option>
                 <?php
@@ -109,7 +110,17 @@ if ($isCondition) {
         <div class="clearfix"></div>
     </div>
     <div style="margin-bottom: 30px;" class="selected-filters" id="leadlist_filters">
-        <?php echo $view['form']->widget($form['properties']['filters']); ?>
+        <div class='filter-group-template leadlist-filter-group filter-and-group'>
+            <div class='filter-panel-holder'>
+            </div>
+            <?php echo $addconditionbtn?>
+        </div>
+        <div class="filter-and-group-holder">
+            <?php echo $view['form']->widget($form['properties']['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
+        </div>
+        <div class="leadlist-filter-group filter-or-group">
+            <button type="button" class="btn btn-default btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+        </div>
     </div>
     <?php endif; ?>
     <?php echo $view['form']->widget($form['canvasSettings']['droppedX']); ?>
@@ -144,7 +155,7 @@ if ($isCondition) {
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
         <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
-        <select class="form-control not-chosen <?php echo $template; ?>" name="campaignevent[properties][filters][__name__][filter]" id="campaignevent_properties_filters___name___filter"<?php echo $attr; ?>>
+        <select class="form-control not-chosen <?php echo $template; ?>" name="campaignevent[properties][filters][__name__][filter]" id="campaignevent_properties_filters___name___filter"<?php echo $attr; ?> disabled>
             <?php
             if (isset($form['properties']->vars[$dataKey])):
                 foreach ($form['properties']->vars[$dataKey] as $value => $label):
