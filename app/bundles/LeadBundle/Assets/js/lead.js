@@ -349,7 +349,7 @@ Le.leadlistOnLoad = function(container) {
     }
 
     if (mQuery('#' + prefix + '_filters').length) {
-        mQuery('#available_filters').on('change', function() {
+        mQuery('#available_filters').off().on('change', function() {
             if (mQuery(this).val()) {
                 Le.addLeadListFilter(mQuery(this).val());
                 mQuery(this).val('');
@@ -357,57 +357,52 @@ Le.leadlistOnLoad = function(container) {
             }
         });
 
-        mQuery('#' + prefix + '_filters .remove-selected').each( function (index, el) {
-            mQuery(el).on('click', function () {
-                mQuery(this).closest('.panel').animate(
-                    {'opacity': 0},
-                    'fast',
-                    function () {
-                        mQuery(this).remove();
-                    }
-                );
+        Le.registerEventsforFilterGroupButtons(prefix);
 
-                if (!mQuery('#' + prefix + '_filters li:not(.placeholder)').length) {
-                    mQuery('#' + prefix + '_filters li.placeholder').removeClass('hide');
-                } else {
-                    mQuery('#' + prefix + '_filters li.placeholder').addClass('hide');
-                }
-            });
-        });
+        Le.registerEventsForFilterLists();
 
-        var bodyOverflow = {};
-        mQuery('#' + prefix + '_filters').sortable({
-            items: '.panel',
-            helper: function(e, ui) {
-                ui.children().each(function() {
-                    if (mQuery(this).is(":visible")) {
-                        mQuery(this).width(mQuery(this).width());
-                    }
-                });
+        Le.registerEventsForFilterRemove(prefix);
 
-                // Fix body overflow that messes sortable up
-                bodyOverflow.overflowX = mQuery('body').css('overflow-x');
-                bodyOverflow.overflowY = mQuery('body').css('overflow-y');
-                mQuery('body').css({
-                    overflowX: 'visible',
-                    overflowY: 'visible'
-                });
+        //var bodyOverflow = {};
+        // mQuery('#' + prefix + '_filters').sortable({
+        //     items: '.panel',
+        //     helper: function(e, ui) {
+        //         ui.children().each(function() {
+        //             if (mQuery(this).is(":visible")) {
+        //                 mQuery(this).width(mQuery(this).width());
+        //             }
+        //         });
+        //
+        //         // Fix body overflow that messes sortable up
+        //         bodyOverflow.overflowX = mQuery('body').css('overflow-x');
+        //         bodyOverflow.overflowY = mQuery('body').css('overflow-y');
+        //         mQuery('body').css({
+        //             overflowX: 'visible',
+        //             overflowY: 'visible'
+        //         });
+        //
+        //         return ui;
+        //     },
+        //     scroll: true,
+        //     axis: 'y',
+        //     stop: function(e, ui) {
+        //         // Restore original overflow
+        //         mQuery('body').css(bodyOverflow);
+        //
+        //         // First in the list should be an "and"
+        //         ui.item.find('select.glue-select').first().val('and');
+        //
+        //         Le.reorderSegmentFilters();
+        //     }
+        // });
 
-                return ui;
-            },
-            scroll: true,
-            axis: 'y',
-            stop: function(e, ui) {
-                // Restore original overflow
-                mQuery('body').css(bodyOverflow);
-
-                // First in the list should be an "and"
-                ui.item.find('select.glue-select').first().val('and');
-
-                Le.reorderSegmentFilters();
-            }
-        });
-
+       if(mQuery('#' + prefix + '_filters .filter-and-group-holder').length){
+           var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
+       var filterandgroups=filterandgroupholder.children();
+       if(filterandgroups.length == 0){
+           Le.addnewFilterAndGroup(prefix,'or');
+       }
+       }
     }
 
     // segment contact filters
@@ -425,7 +420,65 @@ Le.leadlistOnLoad = function(container) {
     }
     Le.removeActionButtons();
 };
-
+Le.addnewFilterAndGroup=function(prefix,defaultglue){
+    var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
+    var filtergrouptemplate = mQuery('#' + prefix + '_filters .filter-group-template').clone();
+    filtergrouptemplate.removeClass('filter-group-template');
+    filterandgroupholder.append(filtergrouptemplate);
+    var filterpanelholder=mQuery(filtergrouptemplate).find('.filter-panel-holder');
+    Le.addLeadListFilter('default',filterpanelholder,defaultglue);
+    Le.registerEventsForFilterLists();
+    Le.registerEventsforFilterGroupButtons(prefix);
+    Le.registerEventsForFilterRemove(prefix);
+}
+Le.registerEventsforFilterGroupButtons=function(prefix){
+    mQuery('.selected-filters .leadlist-filter-group .btn-filter-group').off().on('click', function() {
+        var type=mQuery(this).attr("data-filter-group");
+        if(type == 'and'){
+            var filterpanelgroup=mQuery(this).parent();
+            var filterpanelholder=filterpanelgroup.find('.filter-panel-holder');
+            Le.addLeadListFilter('default',filterpanelholder,type);
+            Le.registerEventsForFilterLists();
+            Le.registerEventsforFilterGroupButtons(prefix);
+        }else{
+            Le.addnewFilterAndGroup(prefix,'or');
+        }
+    });
+}
+Le.registerEventsForFilterLists=function(){
+    mQuery('#leadlist_filters .list_filter_fields').off().on('change', function(){
+        if (mQuery(this).val()) {
+            var filtercontainer=mQuery(this).parent();
+            var filterprototype=filtercontainer.parent().parent();
+            var filterindex=filtercontainer.attr('data-filter-index');
+            Le.updateLeadListFilter(mQuery(this).val(),filterindex,filterprototype);
+        }
+    });
+}
+Le.registerEventsForFilterRemove=function(prefix){
+    mQuery('#' + prefix + '_filters .remove-selected').each( function (index, el) {
+        mQuery(el).off().on('click', function () {
+            mQuery(this).closest('.panel').animate(
+                {'opacity': 0},
+                'fast',
+                function () {
+                    mQuery(this).remove();
+                }
+            );
+            if (!mQuery('#' + prefix + '_filters li:not(.placeholder)').length) {
+                mQuery('#' + prefix + '_filters li.placeholder').removeClass('hide');
+            } else {
+                mQuery('#' + prefix + '_filters li.placeholder').addClass('hide');
+            }
+            setTimeout(function() {
+                if (mQuery('#CampaignEventModal').length) {
+                    prefix='campaignevent_properties';
+                }
+                Le.updateFilterGlueValue(prefix);
+            }, 1000);
+        });
+    });
+}
 Le.reorderSegmentFilters = function() {
     // Update the filter numbers sot that they are ordered correctly when processed and grouped server side
     var counter = 0;
@@ -577,7 +630,7 @@ Le.activateSegmentFilterTypeahead = function(displayId, filterId, fieldOptions, 
     Le.activateFieldTypeahead(displayId, filterId, [], 'lead:fieldList')
 };
 
-Le.addLeadListFilter = function (elId) {
+Le.addLeadListFilter = function (elId,filtergroup,glueval) {
     var filterId = '#available_' + elId;
     var label    = mQuery(filterId).text();
 
@@ -587,16 +640,62 @@ Le.addLeadListFilter = function (elId) {
     mQuery('.available-filters').data('index', filterNum + 1);
 
     var prototype = mQuery('.available-filters').data('prototype');
-    var fieldType = mQuery(filterId).data('field-type');
-    var fieldObject = mQuery(filterId).data('field-object');
-    var customObject = mQuery(filterId).data('field-customobject');
-    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
+
 
     prototype = prototype.replace(/__name__/g, filterNum);
     prototype = prototype.replace(/__label__/g, label);
 
     // Convert to DOM
     prototype = mQuery(prototype);
+    var filterlist=mQuery(prototype).find('.list_filter_fields');
+    Le.activateChosenSelect(filterlist);
+    var prefix = 'leadlist';
+    var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
+    if (parent.length) {
+        prefix = parent.attr('id');
+    }
+    var iscampaignmodel=false;
+    if (mQuery('#CampaignEventModal').length) {
+        iscampaignmodel=true;
+    }
+    var filterBase  = prefix+ "[filters][" + filterNum + "]";
+    var filterIdBase = prefix + "_filters_" + filterNum + "_";
+    var formBase=prefix + "_filters_";
+if(iscampaignmodel){
+    filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
+    filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
+    formBase="campaignevent_properties_filters_";
+}
+    // mQuery(prototype).find("a.remove-selected").on('click', function() {
+    //     mQuery(this).closest('.panel').animate(
+    //         {'opacity': 0},
+    //         'fast',
+    //         function () {
+    //             mQuery(this).remove();
+    //         }
+    //     );
+    // });
+    mQuery(prototype).appendTo(filtergroup);//'#' + prefix + '_filters'
+    mQuery(prototype).find("input[name='" + filterBase + "[filter]']").remove();
+    mQuery('#' + filterIdBase + 'operator').remove();
+    mQuery(prototype).find("input[name='" + filterBase + "[display]']").prop("disabled", true);
+    mQuery(prototype).find("input[name='" + filterBase + "[field]']").prop("disabled", true);
+    mQuery(prototype).find("input[name='" + filterBase + "[type]']").prop("disabled", true);
+    mQuery(prototype).find("input[name='" + filterBase + "[object]']").prop("disabled", true);
+    mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").prop("disabled", true);
+    mQuery(prototype).find("input[name='" + filterBase + "[fieldlabel]']").prop("disabled", true);
+    mQuery(prototype).find("select[name='" + filterBase + "[glue]']").prop("disabled", true);
+    mQuery(prototype).find("select[name='" + filterBase + "[glue]']").val(glueval);
+    // Reposition if applicable
+    Le.updateFilterPositioning(formBase);
+};
+Le.updateLeadListFilter = function (elId,filterNum,prototype) {
+    var filterId = '#available_' + elId;
+    var label    = mQuery(filterId).text();
+    var fieldType = mQuery(filterId).data('field-type');
+    var fieldObject = mQuery(filterId).data('field-object');
+    var customObject = mQuery(filterId).data('field-customobject');
+    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
 
     var prefix = 'leadlist';
     var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
@@ -609,23 +708,31 @@ Le.addLeadListFilter = function (elId) {
     }
     var filterBase  = prefix+ "[filters][" + filterNum + "]";
     var filterIdBase = prefix + "_filters_" + filterNum + "_";
-if(iscampaignmodel){
-    filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
-    filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
-}
+    if(iscampaignmodel){
+        filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
+        filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
+    }
     var operator = mQuery('#' + filterIdBase + 'operator').val();
+    try{
+        var tempprototype = mQuery('.available-filters').data('prototype');
+        tempprototype = tempprototype.replace(/__name__/g, filterNum);
+        tempprototype = mQuery(tempprototype);
+        mQuery(prototype).find('.filter-field-segment').replaceWith(mQuery(tempprototype).find('.filter-field-segment'));
+        mQuery(prototype).find('.filter-operator-segment').replaceWith(mQuery(tempprototype).find('.filter-operator-segment'));
+    }catch(err){
+       alert(err);
+    }
     if (isSpecial && (operator != "empty" && operator != "!empty")) {
         var templateField = fieldType;
         if (fieldType == 'boolean' || fieldType == 'multiselect') {
             templateField = 'select';
         }
-
         var template = mQuery('#templates .' + templateField + '-template').clone();
         mQuery(template).attr('name', mQuery(template).attr('name').replace(/__name__/g, filterNum));
         mQuery(template).attr('id', mQuery(template).attr('id').replace(/__name__/g, filterNum));
+        mQuery(template).prop("disabled", false);
         mQuery(prototype).find('input[name="' + filterBase + '[filter]"]').replaceWith(template);
     }
-
     if (mQuery('#' + prefix + '_filters div.panel').length == 0) {
         // First filter so hide the glue footer
         mQuery(prototype).find(".panel-heading").addClass('hide');
@@ -639,6 +746,7 @@ if(iscampaignmodel){
     mQuery(prototype).find(".inline-spacer").append(fieldObject);
 
     mQuery(prototype).find("a.remove-selected").on('click', function() {
+        var panelholder=mQuery(this).closest('.panel').parent();
         mQuery(this).closest('.panel').animate(
             {'opacity': 0},
             'fast',
@@ -646,6 +754,10 @@ if(iscampaignmodel){
                 mQuery(this).remove();
             }
         );
+        if(panelholder.children() > 0) {
+           var firstpanel=panelholder.first();
+           mQuery(firstpanel).find("select[name='" + filterBase + "[glue]']").val('or');
+        }
     });
 
     mQuery(prototype).find("input[name='" + filterBase + "[field]']").val(elId);
@@ -653,10 +765,16 @@ if(iscampaignmodel){
     mQuery(prototype).find("input[name='" + filterBase + "[object]']").val(fieldObject);
     mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").val(customObject);
     mQuery(prototype).find("input[name='" + filterBase + "[fieldlabel]']").val(label);
-
+    mQuery(prototype).find("input[name='" + filterBase + "[display]']").prop("disabled", false);
+    mQuery(prototype).find("input[name='" + filterBase + "[field]']").prop("disabled", false);
+    mQuery(prototype).find("input[name='" + filterBase + "[type]']").prop("disabled", false);
+    mQuery(prototype).find("input[name='" + filterBase + "[object]']").prop("disabled", false);
+    mQuery(prototype).find("input[name='" + filterBase + "[customObject]']").prop("disabled", false);
+    mQuery(prototype).find("input[name='" + filterBase + "[fieldlabel]']").prop("disabled", false);
+    mQuery(prototype).find("select[name='" + filterBase + "[glue]']").prop("disabled", false);
     var filterEl = (isSpecial) ? "select[name='" + filterBase + "[filter]']" : "input[name='" + filterBase + "[filter]']";
 
-    mQuery(prototype).appendTo('#' + prefix + '_filters');
+    //mQuery(prototype).appendTo('#' + prefix + '_filters');
     if(elId == "lead_email_activity"){
         mQuery(prototype).find('.email-activity-label').removeClass('hide');
         mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-5').addClass('col-sm-3 lead_filter_padding_right');
@@ -757,9 +875,8 @@ if(iscampaignmodel){
     Le.convertLeadFilterInput('#' + filterIdBase + 'operator');
 
     // Reposition if applicable
-    Le.updateFilterPositioning(mQuery('#' + filterIdBase + 'glue'));
+    //Mautic.updateFilterPositioning(mQuery('#' + filterIdBase + 'glue'));
 };
-
 Le.leadfieldOnLoad = function (container) {
     if (mQuery(container + ' .leadfield-list').length) {
         var bodyOverflow = {};
@@ -1531,17 +1648,79 @@ Le.initUniqueIdentifierFields = function() {
     }
 };
 
-Le.updateFilterPositioning = function (el) {
-    var $el = mQuery(el);
-    var $parentEl = $el.closest('.panel');
-
-    if ($el.val() == 'and') {
-        $parentEl.addClass('in-group');
-    } else {
-        $parentEl.removeClass('in-group');
+Le.updateFilterPositioning = function (filterBase) {
+    try{
+        var newindex=0;
+        mQuery('.selected-filters .filter-and-group').each( function (index, el) {
+            var filterholder=mQuery(el).find('.filter-panel-holder');
+            var panels=filterholder.children();
+            for(var cindex=0;cindex<panels.length;cindex++){
+                var panel=panels[cindex];
+                var oldindex=mQuery(panel).find('.field-name').attr("data-filter-index");
+                mQuery(panel).find('.field-name').attr("data-filter-index",newindex);
+                var operatorID='#'+filterBase+oldindex+'_operator';
+                Le.replaceFilterElementsIndex(panel,operatorID,oldindex,newindex);
+                var filterID='#'+filterBase+oldindex+'_filter';
+                Le.replaceFilterElementsIndex(panel,filterID,oldindex,newindex);
+                var filterchosenID='#'+filterBase+oldindex+'_filter_chosen';
+                Le.replaceFilterElementsIndex(panel,filterchosenID,oldindex,newindex);
+                var displayID='#'+filterBase+oldindex+'_display';
+                Le.replaceFilterElementsIndex(panel,displayID,oldindex,newindex);
+                var fieldID='#'+filterBase+oldindex+'_field';
+                Le.replaceFilterElementsIndex(panel,fieldID,oldindex,newindex);
+                var typeID='#'+filterBase+oldindex+'_type';
+                Le.replaceFilterElementsIndex(panel,typeID,oldindex,newindex);
+                var objectID='#'+filterBase+oldindex+'_object';
+                Le.replaceFilterElementsIndex(panel,objectID,oldindex,newindex);
+                var customobjectID='#'+filterBase+oldindex+'_customObject';
+                Le.replaceFilterElementsIndex(panel,customobjectID,oldindex,newindex);
+                var glueID='#'+filterBase+oldindex+'_glue';
+                Le.replaceFilterElementsIndex(panel,glueID,oldindex,newindex);
+                var fieldlabelID='#'+filterBase+oldindex+'_fieldlabel';
+                Le.replaceFilterElementsIndex(panel,fieldlabelID,oldindex,newindex);
+                newindex++;
+            }
+        });
+    }catch(ex){
+        alert(ex);
     }
 };
-
+Le.updateFilterGlueValue = function (filterBase) {
+    try{
+        mQuery('.selected-filters .filter-and-group').not('.selected-filters .filter-group-template').each( function (index, el) {
+            var filterholder=mQuery(el).find('.filter-panel-holder');
+            var panels=filterholder.children();
+            if(panels.length > 0){
+                var panel=panels[0];
+                var filterindex=mQuery(panel).find('.field-name').attr("data-filter-index");
+                var glueID='#'+filterBase+'_filters_'+filterindex+'_glue';
+                if(mQuery(panel).has(glueID).length){
+                    mQuery(panel).find(glueID).val('or');
+                }
+            }else{
+                filterholder.parent().remove();
+            }
+        });
+    }catch(ex){
+        alert(ex);
+    }
+};
+Le.replaceFilterElementsIndex=function(panel,id,oldindex,newindex)
+{
+    if(mQuery(panel).has(id).length){
+        var el=mQuery(panel).find(id);
+        if (typeof el.attr('name') !== typeof undefined && el.attr('name') !== false) {
+            var nameattr=el.attr('name');
+            nameattr=nameattr.replace('['+oldindex+']','['+newindex+']');
+            el.attr('name',nameattr);
+        }
+        if (typeof el.attr('id') !== typeof undefined && el.attr('id') !== false) {
+            var idattr=el.attr('id');
+            idattr=idattr.replace('_'+oldindex+'_','_'+newindex+'_');
+            el.attr('id',idattr);
+        }
+    }
+}
 Le.setAsPrimaryCompany = function (companyId,leadId){
     Le.ajaxActionRequest('lead:setAsPrimaryCompany', {'companyId': companyId, 'leadId': leadId}, function(response) {
         if (response.success) {

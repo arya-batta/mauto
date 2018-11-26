@@ -43,8 +43,9 @@ $templates = [
     'assets'           => 'asset_downloads_list-template',
 ];
 
-$mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
-$filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text-danger"' : '';
+$mainErrors     = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
+$filterErrors   = ($view['form']->containsErrors($form['filters'])) ? 'class="text-danger"' : '';
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <?php echo $view['form']->start($form); ?>
@@ -103,16 +104,16 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                     </div>
                     <div class="tab-pane fade bdr-w-0" id="filters">
                         <div class="form-group hide">
-                            <div class="available-filters mb-md pl-0 col-md-4" data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
+                            <div class="available-filters mb-md pl-0 col-md-4" data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn])); ?>" data-index="<?php echo $index + 1; ?>">
                                 <select class="chosen form-control" id="available_filters">
-                                    <option value=""></option>
+                                    <option value="" id="available_default"></option>
                                     <?php
                                     foreach ($fields as $object => $field):
                                         $header = $object;
                                         $icon   = ($object == 'company') ? 'building' : 'user';
 
                                     ?>
-                                    <optgroup label="<?php echo $view['translator']->trans('le.lead.'.$header); ?>">
+                                    <optgroup label="<?php echo $view['translator']->trans('le.leadlist.'.$header); ?>">
                                         <?php foreach ($field as $value => $params):
                                             $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
                                             $choices   = \Mautic\LeadBundle\Helper\FormFieldHelper::parseList($list, true, ('boolean' === $params['properties']['type']));
@@ -140,7 +141,17 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
                             <div class="clearfix"></div>
                         </div>
                         <div class="selected-filters" style="margin-bottom: 35px;" id="leadlist_filters">
-                            <?php echo $view['form']->widget($form['filters']); ?>
+                            <div class='filter-group-template leadlist-filter-group filter-and-group'>
+                                <div class='filter-panel-holder'>
+                                </div>
+                                <?php echo $addconditionbtn?>
+                            </div>
+                            <div class="filter-and-group-holder">
+                            <?php echo $view['form']->widget($form['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
+                            </div>
+                            <div class="leadlist-filter-group filter-or-group">
+                                <button type="button" class="btn btn-default btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,81 +166,81 @@ $filterErrors = ($view['form']->containsErrors($form['filters'])) ? 'class="text
     </div>-->
 
 
-<div class="pr-lg pl-lg pt-md pb-md hide" id="segment_filters">
-    <div class="alert alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
-        <p><?php echo $view['translator']->trans('le.lead.list.filter.notes'); ?></p>
-    </div>
-    <div class="available-filters  mb-md pl-0 col-md-4 " data-prototype="<?php echo $view->escape($view['form']->widget($form['filters']->vars['prototype'])); ?>" data-index="<?php echo $index + 1; ?>">
-        <?php
-        foreach ($fields as $object => $field):
-            $header = $object;
-             if ($object == 'lead'):
-                $icon   = 'fa fa-user';
-             elseif ($object == 'list_points'):
-                $icon   = 'fa fa-question-circle';
-             elseif ($object == 'list_tags'):
-                 $icon   = 'fa fa-tags';
-             elseif ($object == 'list_leadlist'):
-                 $icon   = 'fa fa-pie-chart';
-             elseif ($object == 'list_categories'):
-                 $icon   = 'fa fa-folder';
-             elseif ($object == 'date_activity'):
-                 $icon   = 'fa fa-clock-o';
-             elseif ($object == 'emails'):
-                 $icon   = 'fa fa fa-envelope';
-             elseif ($object == 'pages'):
-                 $icon   = 'fa fa fa-newspaper-o';
-             elseif ($object == 'forms'):
-                 $icon   = 'fa fa-edit';
-             elseif ($object == 'assets'):
-                 $icon   = 'fa fa-folder-open-o';
-             else:
-                $icon   = 'fa-user';
-             endif;
-                $closedata='#segment-filter-block_'.$header;
-            ?>
-            <div class="hr-segment-expand">
-                <a href="javascript:void(0)" onclick="Le.segment_filter(this.id)" id="<?php echo $header; ?>"
-                   class="arrow segment-collapse" >
-                    <span style="font-size:12px"  <i class="<?php echo $icon ?>"> </i><?php echo $view['translator']->trans('le.leadlist.'.$header); ?></span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>
-                <div class=" filter_option"  style="overflow: hidden;height: auto;display:none;padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_<?php echo $header ?>">
-                    <?php foreach ($field as $value => $params):
-                        $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
-
-                        $choices   = \Mautic\LeadBundle\Helper\FormFieldHelper::parseList($list, true, ('boolean' === $params['properties']['type']));
-                        $list      = json_encode($choices);
-                        $callback  = (!empty($params['properties']['callback'])) ? $params['properties']['callback'] : '';
-                        $operators = (!empty($params['operators'])) ? $view->escape(json_encode($params['operators'])) : '{}';
-                        ?>
-
-                            <div class="col-md-6">
-                        <a  onclick="Le.addSegementFilter(this)"
-                            value="<?php echo $view->escape($value); ?>"
-                            id="<?php echo $value; ?>"
-                            data-field-object="<?php echo $object; ?>"
-                            data-field-type="<?php echo $params['properties']['type']; ?>"
-                            data-field-list="<?php echo $view->escape($list); ?>"
-                            data-field-callback="<?php echo $callback; ?>"
-                            data-field-operators="<?php echo $operators; ?>"
-                            data-field-customobject="<?php echo $params['object']; ?>"
-                            class="segment-filter-badge ">
-                        <icon class="fa fa-plus" />
-                            <?php echo $view['translator']->trans($params['label']); ?>
-                        </a></div>
-
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</div>
+<!--<div class="pr-lg pl-lg pt-md pb-md " id="segment_filters">-->
+<!--    <div class="alert alert-info " id="form-field-placeholder" style="width: 92%;margin-left: 14px;">-->
+<!--        <p>--><?php //echo $view['translator']->trans('le.lead.list.filter.notes');?><!--</p>-->
+<!--    </div>-->
+<!--    <div class="available-filters  mb-md pl-0 col-md-4 " data-prototype="--><?php //echo $view->escape($view['form']->widget($form['filters']->vars['prototype']));?><!--" data-index="--><?php //echo $index + 1;?><!--">-->
+<!--        --><?php
+//        foreach ($fields as $object => $field):
+//            $header = $object;
+//             if ($object == 'lead'):
+//                $icon   = 'fa fa-user';
+//             elseif ($object == 'list_points'):
+//                $icon   = 'fa fa-question-circle';
+//             elseif ($object == 'list_tags'):
+//                 $icon   = 'fa fa-tags';
+//             elseif ($object == 'list_leadlist'):
+//                 $icon   = 'fa fa-pie-chart';
+//             elseif ($object == 'list_categories'):
+//                 $icon   = 'fa fa-folder';
+//             elseif ($object == 'date_activity'):
+//                 $icon   = 'fa fa-clock-o';
+//             elseif ($object == 'emails'):
+//                 $icon   = 'fa fa fa-envelope';
+//             elseif ($object == 'pages'):
+//                 $icon   = 'fa fa fa-newspaper-o';
+//             elseif ($object == 'forms'):
+//                 $icon   = 'fa fa-edit';
+//             elseif ($object == 'assets'):
+//                 $icon   = 'fa fa-folder-open-o';
+//             else:
+//                $icon   = 'fa-user';
+//             endif;
+//                $closedata='#segment-filter-block_'.$header;
+//?>
+<!--            <div class="hr-segment-expand">-->
+<!--                <a href="javascript:void(0)" onclick="Mautic.segment_filter(this.id)" id="--><?php //echo $header;?><!--"-->
+<!--                   class="arrow segment-collapse" >-->
+<!--                    <span style="font-size:12px"  <i class="--><?php //echo $icon?><!--"> </i>--><?php //echo $view['translator']->trans('le.leadlist.'.$header);?><!--</span><i class="caret" style="float: right !important;margin-top: 8px;"></i></a>-->
+<!--                <div class=" filter_option"  style="overflow: hidden;height: auto;display:none;padding: 12px;margin-left: -19px;margin-right: -66px;"   id="segment-filter-block_--><?php //echo $header?><!--">-->
+<!--                    --><?php //foreach ($field as $value => $params):
+//                        $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
+//
+//                        $choices   = \Mautic\LeadBundle\Helper\FormFieldHelper::parseList($list, true, ('boolean' === $params['properties']['type']));
+//                        $list      = json_encode($choices);
+//                        $callback  = (!empty($params['properties']['callback'])) ? $params['properties']['callback'] : '';
+//                        $operators = (!empty($params['operators'])) ? $view->escape(json_encode($params['operators'])) : '{}';
+//?>
+<!---->
+<!--                            <div class="col-md-6">-->
+<!--                        <a  onclick="Mautic.addSegementFilter(this)"-->
+<!--                            value="--><?php //echo $view->escape($value);?><!--"-->
+<!--                            id="--><?php //echo $value;?><!--"-->
+<!--                            data-field-object="--><?php //echo $object;?><!--"-->
+<!--                            data-field-type="--><?php //echo $params['properties']['type'];?><!--"-->
+<!--                            data-field-list="--><?php //echo $view->escape($list);?><!--"-->
+<!--                            data-field-callback="--><?php //echo $callback;?><!--"-->
+<!--                            data-field-operators="--><?php //echo $operators;?><!--"-->
+<!--                            data-field-customobject="--><?php //echo $params['object'];?><!--"-->
+<!--                            class="segment-filter-badge ">-->
+<!--                        <icon class="fa fa-plus" />-->
+<!--                            --><?php //echo $view['translator']->trans($params['label']);?>
+<!--                        </a></div>-->
+<!---->
+<!--                    --><?php //endforeach;?>
+<!--                </div>-->
+<!--            </div>-->
+<!--        --><?php //endforeach;?>
+<!--    </div>-->
+<!--</div>-->
 </div>
 <?php echo $view['form']->end($form); ?>
 
 <div class="hide" id="templates">
     <?php foreach ($templates as $dataKey => $template): ?>
         <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
-        <select class="form-control not-chosen <?php echo $template; ?>" name="leadlist[filters][__name__][filter]" id="leadlist_filters___name___filter"<?php echo $attr; ?>>
+        <select class="form-control not-chosen <?php echo $template; ?>" name="leadlist[filters][__name__][filter]" id="leadlist_filters___name___filter"<?php echo $attr; ?> disabled>
             <?php
             if (isset($form->vars[$dataKey])):
                 foreach ($form->vars[$dataKey] as $value => $label):
