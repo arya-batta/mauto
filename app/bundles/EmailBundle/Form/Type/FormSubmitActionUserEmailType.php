@@ -33,6 +33,7 @@ class FormSubmitActionUserEmailType extends AbstractType
                 'tooltip' => 'le.email.choose.emails_descr',
             ],
             'update_select' => 'formaction_properties_useremail_email',
+            'set_email_list_type' => 'template',
         ]);
 
         $builder->add('user_id', 'user_list', [

@@ -26,8 +26,9 @@ $view['slots']->set(
 );
 
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.emails'); ?></h3></div>
+<div class="le-header-align"><h3><?php  echo $view['translator']->trans($headerTitle); ?></h3></div>
 <div style="padding-top: 15px;">
+    <?php if(!$notificationemail): ?>
     <?php foreach ($emailBlockDetails as $key => $emailBlock): ?>
         <div class="info-box" id="leads-info-box-container">
                 <span class="info-box-icon" style="background-color:<?php echo $emailBlock[0]; ?>;>">
@@ -39,6 +40,7 @@ $view['slots']->set(
 
         </div>
     <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 <div class="panel panel-default bdr-t-wdh-0 mb-0">
     <?php echo $view->render(

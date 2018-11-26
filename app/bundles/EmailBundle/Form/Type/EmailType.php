@@ -621,24 +621,34 @@ class EmailType extends AbstractType
                 'apply_text' => 'Send',
             ]
         );*/
-        $builder->add(
-            'buttons',
-            'form_buttons',
-            [
-                'pre_extra_buttons' => [
-                    [
-                        'name'  => 'sendtest',
-                        'label' => 'Send',
-                        'type'  => 'submit',
-                        'attr'  => [
-                            'class'   => 'btn btn-default pull-right le-btn-default hide sendEmailTest',
-                            'icon'    => 'fa fa-send-o',
+        if (!$options['isEmailTemplate']) {
+            $builder->add(
+                'buttons',
+                'form_buttons',
+                [
+                    'pre_extra_buttons' => [
+                        [
+                            'name' => 'sendtest',
+                            'label' => 'Send',
+                            'type' => 'submit',
+                            'attr' => [
+                                'class' => 'btn btn-default pull-right le-btn-default hide sendEmailTest',
+                                'icon' => 'fa fa-send-o',
+                            ],
                         ],
                     ],
-                ],
-                'apply_text' => false,
-            ]
-        );
+                    'apply_text' => false,
+                ]
+            );
+        }else{
+            $builder->add(
+                'buttons',
+                'form_buttons',
+                [
+                    'apply_text' => false,
+                ]
+            );
+        }
         if (!empty($options['update_select'])) {
             $builder->add(
                 'updateSelect',

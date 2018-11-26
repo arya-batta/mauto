@@ -243,9 +243,10 @@ class EmailCampaignController extends FormController
                     'model'            => $model,
                     'actionRoute'      => 'le_email_campaign_action',
                     'indexRoute'       => 'le_email_campaign_index',
-                    'headerTitle'      => 'le.email.emails',
+                    'headerTitle'      => 'le.lead.emails',
                     'translationBase'  => 'mautic.email.broadcast',
                     'emailBlockDetails'=> $emailBlockDetails,
+                    'notificationemail'=> false
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -487,6 +488,7 @@ class EmailCampaignController extends FormController
                     'dateRangeForm' => $dateRangeForm->createView(),
                     'actionRoute'   => 'le_email_campaign_action',
                     'indexRoute'    => 'le_email_campaign_index',
+                    'notificationemail'=> false,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [

@@ -748,6 +748,9 @@ Le.standardEmailUrl = function(options) {
         var url = options.windowUrl;
         var editEmailKey = '/broadcast/edit/emailId';
         var previewEmailKey = '/broadcast/preview/emailId';
+        if(options.origin == '#campaignevent_properties_useremail_email'){
+             previewEmailKey = '/emailnotifications/preview/emailId';
+        }
         if (url.indexOf(editEmailKey) > -1 ||
             url.indexOf(previewEmailKey) > -1) {
             options.windowUrl = url.replace('emailId', mQuery(options.origin).val());

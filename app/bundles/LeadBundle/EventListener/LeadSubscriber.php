@@ -651,7 +651,7 @@ class LeadSubscriber extends CommonSubscriber
                 } elseif ($import['object_id']) {
                     $eventLabel = $import['object_id'];
                 }
-                $eventLabel = $this->translator->trans('mautic.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel]);
+                $eventLabel = $this->translator->trans('le.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel]);
                 $event->addEvent(
                         [
                             'event'      => $eventTypeKey,

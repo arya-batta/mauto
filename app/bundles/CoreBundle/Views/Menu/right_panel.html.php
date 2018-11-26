@@ -3,13 +3,14 @@
 /** @var \Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables $app */
 $userAccess         = $view['security']->isGranted('user:users:view');
 $pluginAccess       = $view['security']->isGranted('plugin:plugins:manage');
-$webhookAccess      =$view['security']->isGranted('webhook:webhooks:viewown');
-$themeAccess        =$view['security']->isGranted('core:themes:view');
+$webhookAccess      = $view['security']->isGranted('webhook:webhooks:viewown');
+$themeAccess        = $view['security']->isGranted('core:themes:view');
 $customFieldAccess  = $view['security']->isGranted('lead:fields:full');
-$configAccess       =  $view['security']->isGranted('lead:leads:viewown');
+$configAccess       = $view['security']->isGranted('lead:leads:viewown');
 $userAccess         = $view['security']->isGranted('user:roles:view');
 $categoryAccess     = $view['security']->isGranted('category:categories:view');
-$apiAccess          =$view['security']->isGranted('api:clients:view');
+$apiAccess          = $view['security']->isGranted('api:clients:view');
+$notificationAccess = $view['security']->isGranted('email:emails:viewown');
 ?>
 <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -36,6 +37,13 @@ $apiAccess          =$view['security']->isGranted('api:clients:view');
                 <i class="margin-right  fa fa-cogs"></i><span><?php echo $view['translator']->trans('mautic.config.menu.index'); ?></span>
             </a>
         </li>
+      <?php endif; ?>
+      <?php if ($notificationAccess): ?>
+            <li>
+                <a href="<?php echo $view['router']->path('le_email_index'); ?>" data-toggle="ajax">
+                    <i class="margin-right fa fa-envelope"></i><span><?php echo $view['translator']->trans('le.notification.menu.index'); ?></span>
+                </a>
+            </li>
       <?php endif; ?>
       <?php if ($categoryAccess): ?>
         <li>

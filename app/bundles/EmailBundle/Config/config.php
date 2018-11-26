@@ -13,7 +13,7 @@ return [
     'routes' => [
         'main' => [
             'le_email_index' => [
-                'path'       => '/emailtemplates/{page}',
+                'path'       => '/notificationemails/{page}',
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'le_email_campaign_index' => [
@@ -25,7 +25,7 @@ return [
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'le_email_action' => [
-                'path'       => '/emailtemplates/{objectAction}/{objectId}',
+                'path'       => '/notificationemails/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
             'le_email_contacts' => [
@@ -83,20 +83,29 @@ return [
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'le_email_webview' => [
-                'path'       => '/broadcast/view/{idHash}',
+                'path'       => '/{type}/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
+                'defaults'   => [
+                    'type' => 'broadcast',
+                ],
             ],
             'le_email_unsubscribe' => [
                 'path'       => '/broadcast/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'le_email_subscribe' => [
-                'path'       => '/broadcast/subscribers/{idHash}',
+                'path'       => '/{type}/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
+                'defaults'   => [
+                    'type' => 'broadcast',
+                ],
             ],
             'le_email_updatelead' => [
-                'path'       => '/broadcast/updatelead/{idHash}',
+                'path'       => '/{type}/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
+                'defaults'   => [
+                    'type' => 'broadcast',
+                ],
             ],
             'le_email_resubscribe' => [
                 'path'       => '/broadcast/resubscribe/{idHash}',
@@ -108,8 +117,11 @@ return [
                 'method'     => ['GET', 'POST'],
             ],
             'le_email_preview' => [
-                'path'       => '/broadcast/preview/{objectId}',
+                'path'       => '/{type}/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
+                'defaults'   => [
+                    'type' => 'broadcast',
+                ],
             ],
             'le_beefree_credentials' => [
                 'path'       => '/beefree/getcredentials',

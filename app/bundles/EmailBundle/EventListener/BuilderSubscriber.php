@@ -254,6 +254,13 @@ class BuilderSubscriber extends CommonSubscriber
         $lead   = $event->getLead();
         $email  = $event->getEmail();
         $helper = $event->getHelper();
+        $type = 'broadcast';
+        if($email != null){
+            $emailtype = $email->getEmailType();
+            if ($emailtype == 'template'){
+                $type = 'notificationemail';
+            }
+        }
 
         if ($idHash == null) {
             // Generate a bogus idHash to prevent errors for routes that may include it
@@ -264,20 +271,20 @@ class BuilderSubscriber extends CommonSubscriber
         if (!$unsubscribeText) {
             $unsubscribeText = $this->translator->trans('le.email.unsubscribe.text', ['%link%' => '|URL|']);
         }
-        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
+        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash ,'type' => $type]), $unsubscribeText);
         $event->addToken('{unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
 
-        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]));
+        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash ,'type' => $type]));
 
         $updateLead = $this->coreParametersHelper->getParameter('updatelead');
         if (!$updateLead) {
             $updateLead = $this->translator->trans('le.email.updatelead.text', ['%link%' => '|URL|']);
         }
-        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $updateLead);
+        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash,'type' => $type]), $updateLead);
 
         $event->addToken('{update_your_profile_link}', EmojiHelper::toHtml($updateLead));
 
-        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]));
+        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash ,'type' => $type]));
 
         $webviewText = $this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
@@ -288,9 +295,9 @@ class BuilderSubscriber extends CommonSubscriber
 
         // Show public email preview if the lead is not known to prevent 404
         if (empty($lead['id']) && $email) {
-            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_preview', ['objectId' => $email->getId()]));
+            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_preview', ['objectId' => $email->getId(),'type' => $type]));
         } else {
-            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash]));
+            $event->addToken('{webview_url}', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash ,'type' => $type]));
         }
 
         $signatureText = $this->coreParametersHelper->getParameter('default_signature_text');
@@ -323,10 +330,10 @@ class BuilderSubscriber extends CommonSubscriber
         }
         if ($footerText != '') {
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash ,'type' => $type]), $footerText);
 
             $footerText = str_replace('{update_your_profile_link}', "<a href='|URL|'>Update Your Profile</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash ,'type' => $type]), $footerText);
 
             if ($helper != null && !empty($helper->message->getFrom())) {
                 foreach ($helper->message->getFrom() as $fromemail => $fromname) {

@@ -40,6 +40,7 @@ class EmailSendType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $isSendMail=!empty($options['with_email_types']) ? $options['with_email_types'] : false;
+        $email_list_type=!empty($options['set_email_list_type']) ? $options['set_email_list_type'] : 'list';
 
         $builder->add(
             'email',
@@ -52,6 +53,7 @@ class EmailSendType extends AbstractType
                     //'tooltip'  => 'le.email.choose.emails_descr',
                     'onchange' => 'Le.disabledEmailAction(window, this)',
                 ],
+                'email_type' => $email_list_type,
                 'multiple'    => !$isSendMail,
                 'required'    => true,
                 'constraints' => [
@@ -134,8 +136,12 @@ class EmailSendType extends AbstractType
             );
 
             // create button preview email
-            $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['objectId' => 'emailId']);
 
+            if($options['update_select'] == 'campaignevent_properties_useremail_email'){
+                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type' => 'emailnotifications','objectId' => 'emailId']);
+            }else{
+                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type'=> 'broadcast','objectId' => 'emailId']);
+            }
             $builder->add(
                 'previewEmailButton',
                 'button',
@@ -202,7 +208,7 @@ class EmailSendType extends AbstractType
             ]
         );
 
-        $resolver->setDefined(['update_select', 'with_email_types']);
+        $resolver->setDefined(['update_select', 'with_email_types','set_email_list_type']);
     }
 
     /**

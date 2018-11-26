@@ -234,7 +234,7 @@ class EmailController extends FormController
             [
                 'viewParameters' => [
                     'searchValue'      => $search,
-                    'filters'          => $listFilters,
+                    'filters'          => '', //$listFilters,
                     'items'            => $emails,
                     'totalItems'       => $count,
                     'page'             => $page,
@@ -244,9 +244,10 @@ class EmailController extends FormController
                     'model'            => $model,
                     'actionRoute'      => 'le_email_action',
                     'indexRoute'       => 'le_email_index',
-                    'headerTitle'      => 'le.email.emails',
+                    'headerTitle'      => 'le.email.notification_emails',
                     'translationBase'  => 'mautic.email',
                     'emailBlockDetails'=> $emailBlockDetails,
+                    'notificationemail'=> true,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -471,7 +472,7 @@ class EmailController extends FormController
                     'security'      => $security,
                     'previewUrl'    => $this->generateUrl(
                         'le_email_preview',
-                        ['objectId' => $email->getId()],
+                        ['type' => 'notificationemails','objectId' => $email->getId()],
                         true
                     ),
                     'contacts' => $this->forward(
@@ -486,6 +487,7 @@ class EmailController extends FormController
                     'actionRoute'     => 'le_email_action',
                     'indexRoute'      => 'le_email_index',
                     'translationBase' => 'email',
+                    'notificationemail'=> true,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [
@@ -728,7 +730,7 @@ class EmailController extends FormController
                     'mailertransport'    => $mailertransport,
                     'filters'            => $groupFilters,
                 ],
-                'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
+                'contentTemplate' => 'MauticEmailBundle:Email:notification_form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_index',
                     'leContent'   => 'email',
@@ -1014,7 +1016,7 @@ class EmailController extends FormController
                     'mailertransport'    => $mailertransport,
                     'filters'            => $groupFilters,
                 ],
-                'contentTemplate' => 'MauticEmailBundle:Email:form.html.php',
+                'contentTemplate' => 'MauticEmailBundle:Email:notification_form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_index',
                     'leContent'   => 'email',
@@ -1535,7 +1537,7 @@ class EmailController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'le.email.notice.batch_deleted',
+                    'msg'     => 'le.notification.email.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],
@@ -1629,7 +1631,7 @@ class EmailController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash(implode('; ', $errors));
                 } else {
-                    $this->addFlash('le.email.notice.test_sent_multiple.success');
+                    $this->addFlash('le.notification.email.notice.test_sent_multiple.success');
                 }
             }
 

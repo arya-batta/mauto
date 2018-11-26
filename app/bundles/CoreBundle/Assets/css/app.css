@@ -1885,6 +1885,9 @@ ul.dropdown-menu-form {
   height: 2px;
   background-color: #ec407a;
 }
+.template-content{
+  margin-left:170px;
+}
 /*
 .tab-content {
   > .tab-pane {
@@ -5790,6 +5793,9 @@ figcaption {
 }
 .col-email-name{
   width: 60%;
+}
+.col-notification-email-name{
+  width: 34%;
 }
 .col-sms-name{
   width: 60%;

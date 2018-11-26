@@ -91,7 +91,7 @@ if (!$isEmbedded) {
                         $email->getCreatedBy()
                     ),
                     'clone'  => $permissions['email:emails:create'],
-                    'abtest' => ($allowAbTest && $permissions['email:emails:create']),
+                    'abtest' => (!$notificationemail && $allowAbTest && $permissions['email:emails:create']),
                     'delete' => $view['security']->hasEntityAccess(
                         $permissions['email:emails:deleteown'],
                         $permissions['email:emails:deleteother'],
@@ -237,11 +237,13 @@ if (!$isEmbedded) {
                         <?php echo $view['translator']->trans('le.trackable.click_counts'); ?>
                     </a>
                 </li>
+                <?php if(!$notificationemail): ?>
                 <li>
                     <a href="#contacts-container" role="tab" data-toggle="tab">
                         <?php echo $view['translator']->trans('le.email.associated.contacts'); ?>
                     </a>
                 </li>
+                <?php endif; ?>
                 <?php if ($showVariants): ?>
                     <li>
                         <a href="#variants-container" role="tab" data-toggle="tab">
@@ -266,9 +268,11 @@ if (!$isEmbedded) {
                 <?php echo $view->render('MauticPageBundle:Trackable:click_counts.html.php', ['trackables' => $trackables]); ?>
             </div>
 
+            <?php if(!$notificationemail): ?>
             <div class="tab-pane bdr-w-0" id="contacts-container">
                 <?php echo $contacts; ?>
             </div>
+            <?php endif; ?>
 
             <?php if ($showVariants): ?>
                 <!-- #variants-container -->
