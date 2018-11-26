@@ -80,7 +80,7 @@ var beeConfig = {
             var bgApplyBtn = mQuery('.btn-apply');
             bgApplyBtn.trigger('click');
         });
-        if(!location.href.match(/(dripemail)/i)) {
+        if(!location.href.match(/(drip)/i)) {
             Le.showpreviewoftemplate(htmlFile);
         } else {
             Le.showdripEmailpreviewoftemplate(htmlFile);
@@ -129,7 +129,7 @@ var loadTemplate = function(e) {
 
 
 
-      Le.launchBeeEditor = function (formName, actionName) {
+Le.launchBeeEditor = function (formName, actionName) {
     var height=620;
     if(mQuery('.sidebar-content').is(':visible')) {
         height=mQuery('.sidebar-left').height();
@@ -230,7 +230,7 @@ var loadTemplate = function(e) {
             });
     });
 }
-      Le.setCustomHeader = function (formName) {
+Le.setCustomHeader = function (formName) {
     var TitleValue = "";
     if(formName == "pageform"){
         TitleValue = mQuery('#page_title').val();
@@ -239,7 +239,7 @@ var loadTemplate = function(e) {
     }
     mQuery('#BeeEditor_Header').html(TitleValue);
 }
-      Le.closeBeeEditor = function (callback) {
+Le.closeBeeEditor = function (callback) {
     mQuery('body').css('overflow-y', '');
     mQuery('#bee-plugin-viewpanel').css('height', '');
     var viewpanel = mQuery('#bee-plugin-viewpanel');
@@ -249,7 +249,7 @@ var loadTemplate = function(e) {
     viewpanel.html("");
     callback();
 }
-      Le.showpreviewoftemplate = function (htmlFile) {
+Le.showpreviewoftemplate = function (htmlFile) {
    // if(!mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').addClass('hide');
         mQuery('#change-template-span').html('Change Template');
@@ -258,7 +258,7 @@ var loadTemplate = function(e) {
         mQuery('#builder_btn').removeClass('hide');
    // }
 }
-      Le.showTemplateview = function () {
+Le.showTemplateview = function () {
     if(mQuery('#email-advance-container').hasClass('hide')) {
         mQuery('#email-advance-container').removeClass('hide');
         mQuery("#email-content-preview").addClass('hide');
@@ -271,7 +271,7 @@ var loadTemplate = function(e) {
         mQuery("#email-content-preview").html(mQuery('textarea.builder-html').val());
     }
 }
-      Le.showdripEmailpreviewoftemplate = function (htmlFile) {
+Le.showdripEmailpreviewoftemplate = function (htmlFile) {
     if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
         mQuery('#dripemail_advance_editor').addClass('hide');
         //mQuery('#change-template-span').html('Change Template');
@@ -281,7 +281,7 @@ var loadTemplate = function(e) {
         //mQuery('#builder_btn').removeClass('hide');
     }
 }
-      Le.showDripEmailTemplateview = function () {
+Le.showDripEmailTemplateview = function () {
     if(mQuery('#dripemail_advance_editor').hasClass('hide')) {
         mQuery('#dripemail_advance_editor').removeClass('hide');
         mQuery("#email-content-preview").addClass('hide');

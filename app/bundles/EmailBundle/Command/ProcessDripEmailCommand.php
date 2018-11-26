@@ -9,6 +9,7 @@
 namespace Mautic\EmailBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
+use Mautic\LeadBundle\Entity\DoNotContact;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,12 +39,24 @@ class ProcessDripEmailCommand extends ModeratedCommand
             $leadEventLogRepo      = $container->get('mautic.email.repository.leadEventLog');
             $dripEmailModel        = $container->get('mautic.email.model.dripemail');
             $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
+            $leadModel             = $container->get('mautic.lead.model.lead');
             $timezone              = $coreParameterHelper->getParameter('default_timezone');
             date_default_timezone_set($timezone);
             $currentDate      = date('Y-m-d H:i:s');
             $eventList        = $leadEventLogRepo->getScheduledEvents($currentDate);
             foreach ($eventList as $leadEvent) {
                 if (!empty($leadEvent->getEmail())) {
+                    $isContactableReason = $leadModel->isContactable($leadEvent->getLead(), 'email');
+                    $isDoNotContact      = 0;
+                    if (DoNotContact::IS_CONTACTABLE !== $isContactableReason) {
+                        $isDoNotContact = 1;
+                    }
+                    if ($isDoNotContact) {
+                        $leadEvent->setIsScheduled(0);
+                        $leadEvent->setSystemTriggered($currentDate);
+                        $leadEventLogRepo->saveEntity($leadEvent);
+                        continue;
+                    }
                     $result = $dripEmailModel->sendDripEmailtoLead($leadEvent->getEmail(), $leadEvent->getLead());
                     if ($result['result']) {
                         $leadEvent->setIsScheduled(0);

@@ -260,6 +260,7 @@ return [
                 'arguments' => [
                     'mautic.helper.user',
                     'mautic.email.model.email',
+                    'mautic.email.model.dripemail',
                 ],
             ],
             'mautic.email.webhook.subscriber' => [

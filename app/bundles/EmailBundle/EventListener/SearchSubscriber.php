@@ -15,6 +15,7 @@ use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event as MauticEvents;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Helper\UserHelper;
+use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 
 /**
@@ -33,15 +34,22 @@ class SearchSubscriber extends CommonSubscriber
     protected $userHelper;
 
     /**
+     * @var DripEmailModel
+     */
+    protected $dripModel;
+
+    /**
      * SearchSubscriber constructor.
      *
-     * @param UserHelper $userHelper
-     * @param EmailModel $emailModel
+     * @param UserHelper     $userHelper
+     * @param EmailModel     $emailModel
+     * @param DripEmailModel $dripModel
      */
-    public function __construct(UserHelper $userHelper, EmailModel $emailModel)
+    public function __construct(UserHelper $userHelper, EmailModel $emailModel, DripEmailModel $dripModel)
     {
         $this->userHelper = $userHelper;
         $this->emailModel = $emailModel;
+        $this->dripModel  = $dripModel;
     }
 
     /**
@@ -106,6 +114,35 @@ class SearchSubscriber extends CommonSubscriber
                 }
                 $emailResults['count'] = count($emails);
                 $event->addResults('le.email.emails', $emailResults);
+            }
+
+            $drips = $this->dripModel->getEntities(
+                [
+                    'limit'  => 5,
+                    'filter' => $filter,
+                ]);
+
+            if (count($drips) > 0) {
+                $dripResults = [];
+
+                foreach ($drips as $drip) {
+                    $dripResults[] = $this->templating->renderResponse(
+                        'MauticEmailBundle:SubscribedEvents\DripSearch:global.html.php',
+                        ['drip' => $drip]
+                    )->getContent();
+                }
+                if (count($drips) > 5) {
+                    $dripResults[] = $this->templating->renderResponse(
+                        'MauticEmailBundle:SubscribedEvents\DripSearch:global.html.php',
+                        [
+                            'showMore'     => true,
+                            'searchString' => $str,
+                            'remaining'    => (count($drips) - 5),
+                        ]
+                    )->getContent();
+                }
+                $dripResults['count'] = count($drips);
+                $event->addResults('le.email.drip.email', $dripResults);
             }
         }
     }

@@ -459,19 +459,25 @@ class DripEmailModel extends FormModel
                 continue;
             }
             if ($entity->getDripEmailOrder() == 1) {
-                $dayscount  = 0;
-                $configdays = $dripemail->getDaysEmailSend();
-                for ($i = 0; $i < 7; ++$i) {
-                    $currentDay   = date('D', strtotime('+'.$i.' day'));
-                    if (!in_array($currentDay, $configdays)) {
-                        continue;
-                    } else {
-                        $isFirstmailToday = true;
-                        $dayscount        = $i;
-                        break;
+                $dayscount        = 0;
+                $configdays       = $dripemail->getDaysEmailSend();
+                $dripScheduleTime = $dripemail->getScheduleDate();
+                if ($dripScheduleTime == '') {
+                    $dripScheduleTime = date('H:i');
+                }
+                if ($configdays != '') {
+                    for ($i = 0; $i < 7; ++$i) {
+                        $currentDay = date('D', strtotime('+'.$i.' day'));
+                        if (!in_array($currentDay, $configdays)) {
+                            continue;
+                        } else {
+                            $isFirstmailToday = true;
+                            $dayscount        = $i;
+                            break;
+                        }
                     }
                 }
-                $scheduleTime = date('Y-m-d H:i:s', strtotime('+'.$entity->getScheduleTime().' + '.$dayscount.' days', strtotime($dripemail->getScheduleDate())));
+                $scheduleTime = date('Y-m-d H:i:s', strtotime('+'.$entity->getScheduleTime().' + '.$dayscount.' days', strtotime($dripScheduleTime)));
             } else {
                 $scheduleTime = date('Y-m-d H:i:s', strtotime($previousDate.'+'.$entity->getScheduleTime()));
             }

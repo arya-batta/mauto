@@ -45,7 +45,7 @@ class ConfigSubscriber extends CommonSubscriber
     public function onConfigSave(ConfigEvent $event)
     {
         $data = $event->getConfig('smsconfig');
-        if ($data['sms_transport'] == 'le.sms.transport.solutioninfini') {
+        if (!empty($data['sms_transport']) && $data['sms_transport'] == 'le.sms.transport.solutioninfini') {
             if (empty($data['account_url'])) {
                 $event->setError('le.sms.solution.account.url.invalid', [], 'smsconfig', 'account_url');
             }
@@ -55,7 +55,7 @@ class ConfigSubscriber extends CommonSubscriber
             if (empty($data['account_sender_id'])) {
                 $event->setError('le.sms.solution.account.sid.invalid', [], 'smsconfig', 'account_sender_id');
             }
-        } elseif ($data['sms_transport'] == 'le.sms.transport.twilio') {
+        } elseif (!empty($data['sms_transport']) && $data['sms_transport'] == 'le.sms.transport.twilio') {
             if (empty($data['account_auth_token'])) {
                 $event->setError('le.sms.twilo.authentication.invalid', [], 'smsconfig', 'account_auth_token');
             }

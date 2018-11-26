@@ -441,6 +441,11 @@ class CampaignSubscriber extends CommonSubscriber
         $lead      = $event->getLead();
         $dripEmail = $config['dripemail'];
         $entity    = $this->dripEmailModel->getEntity($dripEmail);
+        if ($entity == null) {
+            $event->setResult(true);
+
+            return $event;
+        }
         $this->dripEmailModel->addLead($entity, $lead);
 
         $items     = $this->emailModel->getEntities(

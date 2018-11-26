@@ -253,6 +253,7 @@ Le.dripemailOnLoad = function (container, response) {
             prev = i;
         }
     });*/
+    mQuery('#dripemail_advance_editor .chosen-container-single').removeClass('hide');
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
 
@@ -1302,6 +1303,9 @@ Le.setValueforNewButton = function (value,ele){
 
 Le.openDripEmailEditor = function (){
     var editorname = mQuery('#new-drip-email').attr('value');
+    if(editorname == "basic_editor"){
+        mQuery('#emailform_customHtml').val('');
+    }
     editorname = "dripemail_"+editorname;
     mQuery('#drip-email-container').removeClass('hide');
     mQuery('#drip-email-list-container').addClass('hide');
@@ -1309,6 +1313,7 @@ Le.openDripEmailEditor = function (){
     mQuery('#'+editorname).removeClass('hide');
     mQuery('.newbutton-container').addClass('hide');
     mQuery('.saveclose-container').removeClass('hide');
+    Le.showChangeThemeWarning = true;
 }
 
 Le.saveDripEmail = function (dripEntity) {
@@ -1456,6 +1461,9 @@ Le.allowEditEmailfromDrip = function (emailId){
             mQuery('#emailform_subject').val(response.subject);
             mQuery('#emailform_previewText').val(response.preview);
             mQuery('#emailform_customHtml').val(response.emailcontent);
+            if(response.emailcontent != ""){
+                mQuery('.dripemail_content .fr-placeholder').attr('style','display:none;');
+            }
             mQuery('.dripemail_content .fr-element').html(response.emailcontent);
             mQuery('#emailform_beeJSON').val(response.beeJSON);
             if(!response.isBeeEditor){

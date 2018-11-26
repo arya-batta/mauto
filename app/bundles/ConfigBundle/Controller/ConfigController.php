@@ -106,14 +106,14 @@ class ConfigController extends FormController
                 $isValid = false;
                 if ($isWritabale && $isValid = $this->isFormValid($form)) {
                     // Bind request to the form
-                    $post = $this->request->request;
+                    $post     = $this->request->request;
                     $formData = $form->getData();
                     // Dispatch pre-save event. Bundles may need to modify some field values like passwords before save
                     $configEvent = new ConfigEvent($formData, $post);
                     $dispatcher->dispatch(ConfigEvents::CONFIG_PRE_SAVE, $configEvent);
                     $formValues = $configEvent->getConfig();
 
-                    $errors = $configEvent->getErrors();
+                    $errors      = $configEvent->getErrors();
                     $fieldErrors = $configEvent->getFieldErrors();
 
                     if ($errors || $fieldErrors) {
@@ -138,6 +138,9 @@ class ConfigController extends FormController
 
                         // Merge each bundle's updated configuration into the local configuration
                         foreach ($formValues as $key => $object) {
+                            if (empty($object['sms_transport'])) {
+                                break;
+                            }
                             if ($key == 'smsconfig' && !empty($object['sms_transport'])) {
                                 $object = $this->saveSMSConfig($object);
                             }
@@ -165,9 +168,12 @@ class ConfigController extends FormController
                                 $configurator->mergeParameters(['mailer_user' => $params['mailer_user']]);
                             }
                             $emailTransport = '';
+                            $smsTransport   = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
                                 $emailTransport = $formData['emailconfig']['mailer_transport_name'];
-                                $smsTransport   =   $formData['smsconfig']['sms_transport'];
+                                if (!empty($formData['smsconfig'])) {
+                                    $smsTransport = $formData['smsconfig']['sms_transport'];
+                                }
 
                                 //$emailTransport = $params['mailer_transport_name'];
                                 $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
@@ -175,7 +181,9 @@ class ConfigController extends FormController
                                 $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             } else {
                                 $emailTransport = $params['mailer_transport_name'];
-                                $smsTransport   =  $params['sms_transport'];
+                                if (!empty($params['sms_transport'])) {
+                                    $smsTransport = $params['sms_transport'];
+                                }
 
                                 $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
@@ -235,7 +243,7 @@ class ConfigController extends FormController
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_config_index',
-                    'leContent' => 'config',
+                    'leContent'     => 'config',
                     'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
                 ],
             ]

@@ -14,6 +14,7 @@ namespace Mautic\EmailBundle\Controller;
 use Mautic\CoreBundle\Controller\BuilderControllerTrait;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Controller\FormErrorMessagesTrait;
+use Mautic\EmailBundle\Entity\LeadEventLogRepository;
 use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
@@ -64,8 +65,8 @@ class DripEmailController extends FormController
             $start = 0;
         }
 
-        $search = $this->request->get('search', $session->get('mautic.email.filter', ''));
-        $session->set('mautic.email.filter', $search);
+        $search = $this->request->get('search', $session->get('mautic.dripemail.filter', ''));
+        $session->set('mautic.dripemail.filter', $search);
 
         $ignoreListJoin = true;
 
@@ -182,6 +183,12 @@ class DripEmailController extends FormController
      */
     public function editAction($objectId = null)
     {
+        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
+            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
+        }
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        }
         /** @var DripEmailModel $model */
         $model = $this->getModel('email.dripemail');
 
@@ -269,7 +276,11 @@ class DripEmailController extends FormController
                     $entity->setUnsubscribeText($formData['unsubscribe_text']);
                     $entity->setPostalAddress($formData['postal_address']);
                     //$entity->setCategory($formData['category']);
-                    $entity->setScheduleDate($formData['scheduleDate']);
+                    $scheduleDate = $formData['scheduleDate'];
+                    //if($scheduleDate == ""){
+                    //    $scheduleDate = date("H:i");
+                    //}
+                    $entity->setScheduleDate($scheduleDate);
                     //$entity->setDaysEmailSend($formData['daysEmailSend']);
                     //$changes = $entity->getChanges(true);
                     //if (!empty($changes['fromAddress']) || !empty($changes['fromName'])) {
@@ -304,7 +315,16 @@ class DripEmailController extends FormController
             $viewParameters = [
             ];
             if ($cancelled) {
-                return $this->redirect($this->generateUrl('le_dripemail_index'));
+                return $this->postActionRedirect(
+                    array_merge(
+                        $postActionVars,
+                        [
+                            'returnUrl'       => $this->generateUrl('le_dripemail_index'),
+                            'viewParameters'  => $viewParameters,
+                            'contentTemplate' => $template,
+                        ]
+                    )
+                );
             }
         }
 
@@ -399,6 +419,9 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
         /** @var DripEmailModel $model */
         $model     = $this->getModel('email.dripemail');
         $dripemail = $model->getEntity();
@@ -490,6 +513,25 @@ class DripEmailController extends FormController
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'email.dripemail', true);
                 } else {
                     $deleteIds[] = $objectId;
+                    /** @var LeadEventLogRepository $leadEventLog */
+                    $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
+                    $leadEvents    = $leadEventLog->getEntities(
+                        [
+                            'filter'           => [
+                                'force' => [
+                                    [
+                                        'column' => 'dle.campaign',
+                                        'expr'   => 'eq',
+                                        'value'  => $entity,
+                                    ],
+                                ],
+                            ],
+                            'ignore_paginator' => true,
+                        ]
+                    );
+                    foreach ($leadEvents as $event) {
+                        $leadEventLog->deleteEntity($event);
+                    }
                 }
             }
 
@@ -561,6 +603,26 @@ class DripEmailController extends FormController
                 return $this->accessDenied();
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'email.dripemail');
+            }
+
+            /** @var LeadEventLogRepository $leadEventLog */
+            $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
+            $leadEvents    = $leadEventLog->getEntities(
+                [
+                    'filter'           => [
+                        'force' => [
+                            [
+                                'column' => 'dle.campaign',
+                                'expr'   => 'eq',
+                                'value'  => $entity,
+                            ],
+                        ],
+                    ],
+                    'ignore_paginator' => true,
+                ]
+            );
+            foreach ($leadEvents as $event) {
+                $leadEventLog->deleteEntity($event);
             }
 
             $model->deleteEntity($entity);

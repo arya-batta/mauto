@@ -213,7 +213,7 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
 
                     <div class="tab-pane fade in bdr-w-0 dripemail_content hide" id="dripemail_advance_editor" style="margin-top:-30px;">
-                        <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
+                        <div class="col-md-6" style="width:100%;">
                             <div style="width: 70%">
                                 <?php if (!empty($filters)): ?>
                                     <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
@@ -234,7 +234,7 @@ $isAdmin              = $view['security']->isAdmin();
                         </div>
                         <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                             'beetemplates' => $beetemplates,
-                            'active'       => $emailform['template']->vars['value'],
+                            'active'       => '', //$emailform['template']->vars['value'],
                         ]); ?>
                     </div>
                     <div class="tab-pane fade in bdr-w-0 hide" style="width:100%;" id="email-preview-container">
@@ -266,6 +266,9 @@ $isAdmin              = $view['security']->isAdmin();
                         'translationBase' => $translationBase,
                         'entity'          => $entity,
                     ]); ?>
+                </div>
+                <div class="hide">
+                    <?php echo $view['form']->rest($emailform); ?>
                 </div>
             </div>
             <drip class="drip-blue-prints hide">

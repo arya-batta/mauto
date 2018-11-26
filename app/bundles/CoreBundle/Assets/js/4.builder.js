@@ -464,7 +464,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
                 Le.launchBeeEditor('emailform', 'email');
             } else if (location.href.match(/(pages)/i)){
                 Le.launchBeeEditor('pageform', 'page');
-            } else if (location.href.match(/(dripemail)/i)){
+            } else if (location.href.match(/(drip)/i)){
                 Le.launchBeeEditor('dripemail', 'email');
             }
         });
