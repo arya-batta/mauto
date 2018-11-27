@@ -858,7 +858,7 @@ class CampaignRepository extends CommonRepository
         foreach ($results as $result => $list) {
             $publishedLists[] = $list['id'];
         }
-        return $publishedLists;
+        return isset($publishedLists) ? $publishedLists : [];
     }
 
     public function getWfProgressLeadsCount($campaign, $exitevents)
@@ -923,5 +923,19 @@ class CampaignRepository extends CommonRepository
         $count   = $results[0]['lead_count'];
 
         return $count;
+    }
+    public function getWfCompletedLeads($campaignid, $exitevents)
+    {
+            $sq = $this->getEntityManager()->createQueryBuilder()
+                ->from('MauticCampaignBundle:LeadEventLog', 'o1')
+                ->select('DISTINCT( o1.lead) as lead_id');
+            $sq->where(
+                $sq->expr()->andX($sq->expr()->eq('IDENTITY(o1.campaign)',$campaignid ),
+                    $sq->expr()->In('IDENTITY(o1.event)', $exitevents)));
+            $results       = $sq->getQuery()->getArrayResult();
+            foreach ($results as $result=>$value){
+                $temp[]=$value['lead_id'];
+            }
+        return isset($temp) ? $temp : [-1];
     }
 }

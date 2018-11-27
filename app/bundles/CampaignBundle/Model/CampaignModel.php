@@ -830,6 +830,9 @@ class CampaignModel extends CommonFormModel
      */
     public function checkGoalAchievedByLead($campaign, $lead, $eventid)
     {
+        if (!$campaign instanceof Campaign) {
+            $campaign   = $this->em->getReference('MauticCamapignBundle:Campaign', $campaign);
+        }
         $achieved       =false;
         $completedevents=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
         if ($completedevents > 0) {

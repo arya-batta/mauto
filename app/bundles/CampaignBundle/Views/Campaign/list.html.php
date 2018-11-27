@@ -166,7 +166,10 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-progress-<?php echo $item->getId(); ?>">
-                            <a href="javascript:void(0);" data-toggle="tooltip"
+                            <a href="<?php echo $view['router']->path(
+                                'le_contact_index',
+                                ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-progress').':'.$item->getId()]
+                            ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.progress.tooltip'); ?>">
                                 <div class="wf-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -177,7 +180,10 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-completed-<?php echo $item->getId(); ?>">
-                            <a href="javascript:void(0);" data-toggle="tooltip"
+                            <a href="<?php echo $view['router']->path(
+                                'le_contact_index',
+                                ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-completed').':'.$item->getId()]
+                            ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.completed.tooltip'); ?>">
                                 <div class="wf-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -188,7 +194,10 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-goal-<?php echo $item->getId(); ?>">
-                            <a href="javascript:void(0);" data-toggle="tooltip"
+                            <a href="<?php echo $view['router']->path(
+                                'le_contact_index',
+                                ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-goal').':'.$item->getId()]
+                            ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.goal.tooltip'); ?>">
                                 <div class="wf-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>

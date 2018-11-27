@@ -23,6 +23,7 @@ use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Event\LeadBuildSearchEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\CampaignBundle\Model\CampaignModel;
 
 /**
  * Class SearchSubscriber.
@@ -43,18 +44,23 @@ class SearchSubscriber extends CommonSubscriber
      * @var EmailRepository
      */
     private $emailRepository;
-
+    /**
+     * @var CampaignModel
+     */
+    protected $CampaignModel;
     /**
      * SearchSubscriber constructor.
      *
      * @param LeadModel     $leadModel
      * @param EntityManager $entityManager
+     * @param CampaignModel $campaignmodel
      */
-    public function __construct(LeadModel $leadModel, EntityManager $entityManager)
+    public function __construct(LeadModel $leadModel, EntityManager $entityManager,CampaignModel $campaignModel)
     {
         $this->leadModel       = $leadModel;
         $this->leadRepo        = $leadModel->getRepository();
         $this->emailRepository = $entityManager->getRepository(Email::class);
+        $this->CampaignModel   = $campaignModel;
     }
 
     /**
@@ -200,6 +206,19 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.lead.searchcommand.mobile_sent', [], null, 'en_US'):
                     $this->buildMobileSentQuery($event);
                 break;
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-progress'):
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-progress', [], null, 'en_US'):
+                    $this->buildWfProgressQuery($event);
+                break;
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-completed'):
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-completed', [], null, 'en_US'):
+                    $this->buildWfCompletedQuery($event);
+                break;
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-goal'):
+            case $this->translator->trans('le.lead.campaign.searchcommand.wf-goal', [], null, 'en_US'):
+                    $this->buildWfGoalQuery($event);
+                break;
+
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
                 $this->buildDripEmailSentQuery($event);
@@ -535,6 +554,72 @@ class SearchSubscriber extends CommonSubscriber
         ];
         //$this->buildJoinQuery($event, $tables, $config);
     }
+
+    private function buildWfProgressQuery($event){
+        $campaignid=$event->getString();
+        $campaign=$this->CampaignModel->getEntity($campaignid);
+        $canvassettings=json_decode($campaign->getCanvasSettings());
+        $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
+        $completedleads= $this->CampaignModel->getRepository()->getWfCompletedLeads($campaignid,$exitevents);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'campaign_lead_event_log',
+                'alias'      => 'cl',
+                'condition'  => 'l.id = cl.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+
+            $expr = $q->expr()->andX($q->expr()->eq('cl.campaign_id', $campaignid),
+                     $q->expr()->notin('cl.lead_id', $completedleads));
+
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, false, $expr);
+    }
+    private function buildWfCompletedQuery($event){
+        $campaignid=$event->getString();
+        $campaign=$this->CampaignModel->getEntity($campaignid);
+        $canvassettings=json_decode($campaign->getCanvasSettings());
+        $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'campaign_lead_event_log',
+                'alias'      => 'cl',
+                'condition'  => 'l.id = cl.lead_id',
+            ],
+        ];
+
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andX($q->expr()->in('cl.event_id',$exitevents));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+    }
+    private function buildWfGoalQuery($event){
+        $campaignid=$event->getString();
+        $campaign=$this->CampaignModel->getEntity($campaignid);
+        $canvassettings=json_decode($campaign->getCanvasSettings());
+        $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'campaign_lead_event_log',
+                'alias'      => 'cl',
+                'condition'  => 'l.id = cl.lead_id',
+            ],
+            [
+                'from_alias' => 'cl',
+                'table'      => 'campaign_events',
+                'alias'      => 'ce',
+                'condition'  => 'cl.event_id = ce.id'
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr = $q->expr()->andX($q->expr()->eq('ce.trigger_mode','"interrupt"'),
+            $q->expr()->eq('cl.campaign_id',$campaignid));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+
+    }
+
 
     /**
      * @param LeadBuildSearchEvent $event

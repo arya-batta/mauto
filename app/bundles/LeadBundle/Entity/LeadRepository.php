@@ -967,6 +967,9 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.sms_sent',
             'le.lead.lead.searchcommand.web_sent',
             'le.lead.lead.searchcommand.mobile_sent',
+            'le.lead.campaign.searchcommand.wf-progress',
+            'le.lead.campaign.searchcommand.wf-completed',
+            'le.lead.campaign.searchcommand.wf-goal',
         ];
 
         if (!empty($this->availableSearchFields)) {

@@ -439,6 +439,7 @@ return [
                 'arguments' => [
                     'mautic.lead.model.lead',
                     'doctrine.orm.entity_manager',
+                    'mautic.campaign.model.campaign',
                 ],
             ],
             'mautic.webhook.subscriber' => [
