@@ -51,7 +51,7 @@ class DripEmailSendType extends AbstractType
                     'class'    => 'form-control',
                 ],
                 'multiple'    => false,
-                'required'    => true,
+                'required'    => false,
                 'constraints' => [
                     new NotBlank(
                         ['message' => 'le.drip.email.choosedripemail.notblank']

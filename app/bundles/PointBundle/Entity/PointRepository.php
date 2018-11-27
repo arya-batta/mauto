@@ -52,7 +52,7 @@ class PointRepository extends CommonRepository
     public function getPublishedByType($type)
     {
         $q = $this->createQueryBuilder('p')
-            ->select('partial p.{id, type, name, delta, properties}')
+            ->select('partial p.{id, type, name, delta, properties,score}')
             ->setParameter('type', $type);
 
         //make sure the published up and down dates are good
@@ -218,5 +218,35 @@ class PointRepository extends CommonRepository
         $results = $q->execute()->fetchAll();
 
         return $results[0]['inactivepoints'];
+    }
+
+    /**
+     * Get dripemail template based on id.
+     *
+     * @param string $templateId
+     *
+     * @return string
+     */
+    public function getDripEmailList($templateId)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('e.name as name', 'e.id as id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->leftJoin('e', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'd.id = e.dripemail_id')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('d.id', ':templateId')
+                )
+            )->setParameter('templateId', $templateId);
+
+        $results = $q->execute()->fetchAll();
+
+        $emailList=[];
+        foreach ($results as $list) {
+            $emailList[$list['id']] = $list['name'];
+        }
+
+        return $emailList;
     }
 }

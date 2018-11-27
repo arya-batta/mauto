@@ -74,6 +74,11 @@ class Point extends FormEntity
      **/
     private $category;
 
+    /**
+     * @var string
+     */
+    private $score;
+
     public function __clone()
     {
         $this->id = null;
@@ -111,6 +116,8 @@ class Point extends FormEntity
         $builder->addField('delta', 'integer');
 
         $builder->addField('properties', 'array');
+
+        $builder->addField('score', 'string');
 
         $builder->createOneToMany('log', 'LeadPointLog')
             ->mappedBy('point')
@@ -401,5 +408,21 @@ class Point extends FormEntity
     public function setDelta($delta)
     {
         $this->delta = (int) $delta;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
     }
 }

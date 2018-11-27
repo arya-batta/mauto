@@ -5509,7 +5509,7 @@ figcaption {
 .prev-tab, .cancel-tab {
   bottom: 0;
   left: 0;
-  margin-left: -25%;
+  margin-left: -24%;
 }
 .ui-tabs-panel a.mover {
   position: relative;
@@ -5526,16 +5526,16 @@ figcaption {
   margin-top: -305px;
 }
 .prev-tab {
-  margin-top: -295px;
+  margin-top: -293px;
 }
 .prevv-tab {
-  margin-top: -315px;
+  margin-top: -341px;
 }
 #next-tab-1{
-  margin-top: -295px;
+  margin-top: -291px;
 }
 #next-page-1{
-  margin-top: -305px;
+  margin-top: -294px;
 }
 #previous-3 {
   margin-left: 518px;
@@ -5545,7 +5545,7 @@ figcaption {
   margin-left: 347px;
 }
 #next-tab-2{
-  margin-top: -295px;
+  margin-top: -291px;
 }
 .fragment-1-buttons{
   float: right;
@@ -6610,4 +6610,8 @@ text-align: center;
 }
 .small-xx {
   font-size: 12px;
+}
+.app-sidebar .nav-submenu >li > a > i.fa-tint{
+  font-size: 22px;
+  margin-left: 3px;
 }

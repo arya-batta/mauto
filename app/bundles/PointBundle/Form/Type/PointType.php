@@ -83,6 +83,23 @@ class PointType extends AbstractType
                     'tooltip' => 'mautic.point.action.delta.help',
                 ],
             'precision' => 0,
+            'required'  => false,
+        ]);
+
+        $builder->add('score', 'choice', [
+            'choices' => [
+                'hot' => 'le.lead.lead.scoretype.hot',
+                'cold'=> 'le.lead.lead.scoretype.cold',
+                'warm'=> 'le.lead.lead.scoretype.warm',
+            ],
+            'empty_value' => '',
+            'label'       => 'le.lead.lead.event.changescore',
+            'label_attr'  => ['class' => 'control-label'],
+            'attr'        => [
+                'class'   => 'form-control le-input',
+                'tooltip' => 'le.point.change.score.desc',
+            ],
+            'required'    => false,
         ]);
 
         $type = (!empty($options['actionType'])) ? $options['actionType'] : $options['data']->getType();

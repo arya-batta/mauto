@@ -252,6 +252,7 @@ class PointModel extends CommonFormModel
                     'name'       => $action->getName(),
                     'properties' => $action->getProperties(),
                     'points'     => $action->getDelta(),
+                    'score'      => $action->getScore(),
                 ],
                 'lead'         => $lead,
                 'factory'      => $this->factory, // WHAT?
@@ -303,6 +304,12 @@ class PointModel extends CommonFormModel
                     $log->setDateFired(new \DateTime());
 
                     $persist[] = $log;
+
+                    $score = $action->getScore();
+
+                    if ($lead !== null && !empty($score)) {
+                        $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                    }
                 }
             }
         }

@@ -83,4 +83,29 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($dataArray);
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function getDripFilterInputAction(Request $request)
+    {
+        $dataArray = [
+            'success'   => 0,
+            'values'    => '',
+        ];
+        $templateId = InputHelper::clean($request->request->get('templateId'));
+
+        if (!empty($templateId)) {
+            /** @var \Mautic\PointBundle\Model\PointModel $model */
+            $pointModel = $this->getModel('point');
+            $dripEmails =$pointModel->getRepository('MauticPointBundle:Point')->getDripEmailList($templateId);
+
+            $dataArray['values']    = $dripEmails;
+            $dataArray['success']   = 1;
+        }
+
+        return $this->sendJsonResponse($dataArray);
+    }
 }

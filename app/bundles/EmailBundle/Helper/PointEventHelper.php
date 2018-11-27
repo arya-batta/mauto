@@ -31,10 +31,18 @@ class PointEventHelper
             return false;
         }
 
-        $emailId = $eventDetails->getId();
-
-        if (isset($action['properties']['emails'])) {
-            $limitToEmails = $action['properties']['emails'];
+        $emailId      = $eventDetails->getId();
+        $limitToEmails=[];
+        if (isset($action['properties']['campaigntype'])) {
+            if ($action['properties']['campaigntype'] == 'drip') {
+                if (isset($action['properties']['driplist'])) {
+                    $limitToEmails[] = $action['properties']['driplist'];
+                }
+            } else {
+                if (isset($action['properties']['emails'])) {
+                    $limitToEmails[] = $action['properties']['emails'];
+                }
+            }
         }
 
         if (!empty($limitToEmails) && !in_array($emailId, $limitToEmails)) {

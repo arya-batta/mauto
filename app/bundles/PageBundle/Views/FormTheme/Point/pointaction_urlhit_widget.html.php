@@ -13,7 +13,7 @@ $timeFrames = [
     'H' => $view['translator']->trans('mautic.core.time.hours'),
     'd' => $view['translator']->trans('mautic.core.time.days'),
 ];
-
+$isAdmin=$view['security']->isAdmin();
 ?>
 
 <div class="row">
@@ -22,7 +22,7 @@ $timeFrames = [
     </div>
 </div>
 
-<div class="row">
+<div class="row <?php echo $isAdmin ? '' : 'hide'; ?>">
     <div class="col-xs-12">
         <?php echo $view['form']->row($form['page_hits']); ?>
     </div>
@@ -31,7 +31,7 @@ $timeFrames = [
     </div> -->
 </div>
 
-<div class="row">
+<div class="row <?php echo $isAdmin ? '' : 'hide'; ?>">
     <div class="col-xs-12 form-group ">
         <?php echo $view['form']->label($form['returns_within']); ?>
         <div class="input-group">

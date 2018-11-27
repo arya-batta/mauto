@@ -45,13 +45,12 @@ class EmailListType extends AbstractType
 
         $resolver->setDefaults(
             [
-                'multiple'    => true,
+                'multiple'    => false,
                 'required'    => false,
                 'modal_route' => 'le_email_action',
                 // Email form UI too complicated for a modal so force a popup
                 'force_popup'        => true,
                 'model'              => 'email',
-                'multiple'           => true,
                 'enableNewForm'      => $enableNewForm,
                 'ajax_lookup_action' => function (Options $options) {
                     $query = [

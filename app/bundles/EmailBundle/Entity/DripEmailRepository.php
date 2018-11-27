@@ -92,14 +92,18 @@ class DripEmailRepository extends CommonRepository
         $fromdate = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select('count(d.id) as sentcount')
+        $q->select('count(e.id) as sentcount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
-            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'd.id = es.email_id')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->where(
                 $q->expr()->andX(
                     $q->expr()->eq('es.is_failed', ':false')
                 )
             )->setParameter('false', false, 'boolean');
+
+        $q->andWhere(
+            $q->expr()->isNotNull('e.dripemail_id')
+        );
 
         if ($fromdate !== null) {
             $q->andWhere(
@@ -108,12 +112,12 @@ class DripEmailRepository extends CommonRepository
         }
 
         if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('d.created_by', ':currentUserId'))
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
         if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('d.created_by', ':id'))
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
                 ->setParameter('id', '1');
         }
 
@@ -135,14 +139,18 @@ class DripEmailRepository extends CommonRepository
         $fromdate = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select('count(d.id) as opencount')
+        $q->select('count(e.id) as opencount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
-            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'd.id = es.email_id')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->where(
                 $q->expr()->andX(
                     $q->expr()->eq('es.is_failed', ':false')
                 )
             )->setParameter('false', false, 'boolean');
+
+        $q->andWhere(
+            $q->expr()->isNotNull('e.dripemail_id')
+        );
 
         if ($fromdate !== null) {
             $q->andWhere(
@@ -154,12 +162,12 @@ class DripEmailRepository extends CommonRepository
         }
 
         if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('d.created_by', ':currentUserId'))
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
         if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('d.created_by', ':id'))
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
                 ->setParameter('id', '1');
         }
 
@@ -189,7 +197,7 @@ class DripEmailRepository extends CommonRepository
                     $q->expr()->eq('t.channel', ':channel')
                 )
             )
-            ->setParameter('channel', 'dripemail')
+            ->setParameter('channel', 'email')
             ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
                 $q->expr()->andX(
                     $q->expr()->eq('t.channel_id', 'es.id')

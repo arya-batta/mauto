@@ -36,7 +36,9 @@ class ScoreActionType extends AbstractType
                 ],
                 'label'       => 'le.campaign.lead.event.score',
                 'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class' => 'form-control'],
+                'attr'        => ['class'    => 'form-control',
+                                   'tooltip' => 'le.point.change.score.desc',
+                                 ],
                 'data'        => (isset($options['data']['score'])) ? $options['data']['score'] : 'Cold',
             ]
         );

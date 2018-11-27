@@ -73,7 +73,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
         </a>
     </li>
 </ul>
-<div class="box-layout">
+<div class="box-layout" style="border: 1px solid #ccc;margin-left: 15px;width: 97%;border-radius: 2px;">
     <div class="col-md-8 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">

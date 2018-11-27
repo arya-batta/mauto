@@ -344,8 +344,9 @@ return [
                 'alias' => 'email_click_decision',
             ],
             'mautic.form.type.emailopen_list' => [
-                'class' => 'Mautic\EmailBundle\Form\Type\EmailOpenType',
-                'alias' => 'emailopen_list',
+                'class'     => 'Mautic\EmailBundle\Form\Type\EmailOpenType',
+                'arguments' => 'mautic.factory',
+                'alias'     => 'emailopen_list',
             ],
             'mautic.form.type.emailsend_list' => [
                 'class'     => 'Mautic\EmailBundle\Form\Type\EmailSendType',

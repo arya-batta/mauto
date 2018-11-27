@@ -11,8 +11,11 @@
 
 namespace Mautic\EmailBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -20,6 +23,16 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class EmailOpenType extends AbstractType
 {
+    protected $factory;
+
+    /**
+     * @param MauticFactory $factory
+     */
+    public function __construct(MauticFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -30,10 +43,22 @@ class EmailOpenType extends AbstractType
             'label'      => 'le.email.open.limittoemails',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
-                'tooltip' => 'le.email.open.limittoemails_descr',
+                'class'   => 'hide form-control',
             ],
             'enableNewForm'      => false,
+            'multiple'           => false,
+            'required'           => false,
+        ];
+
+        $defaultDripOptions = [
+            'label'      => 'le.email.open.limittodripemails',
+            'label_attr' => ['class' => 'control-label'],
+            'attr'       => [
+                'class'    => 'hide form-control',
+                'onchange' => 'Le.convertDripFilterInput(this.value);',
+            ],
+            'enableNewForm'      => false,
+            'multiple'           => false,
             'required'           => false,
         ];
 
@@ -46,7 +71,76 @@ class EmailOpenType extends AbstractType
             $defaultOptions = array_merge($defaultOptions, $options['list_options']);
         }
 
+        $builder->add('campaigntype', 'choice', [
+            'choices' => [
+                'broadcast' => 'Broadcast Campaign',
+                'drip'      => 'Drip Campaign',
+            ],
+            'empty_value' => '',
+            'label'       => 'le.email.open.email.type',
+            'label_attr'  => ['class' => 'control-label'],
+            'attr'        => [
+                'class'    => 'form-control le-input',
+                'onchange' => 'Le.getSelectedCampaignValue(this.value)',
+            ],
+            'required'     => false,
+        ]);
+
         $builder->add('emails', 'email_list', $defaultOptions);
+
+        $builder->add('dripemail', 'dripemail_list', $defaultDripOptions);
+
+        $formModifier = function (FormEvent $event, $eventName) {
+            $this->buildDripFilterForm($event, $eventName);
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $formModifier($event, FormEvents::PRE_SET_DATA);
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $formModifier($event, FormEvents::PRE_SUBMIT);
+            }
+        );
+    }
+
+    public function buildDripFilterForm(FormEvent $event, $eventName)
+    {
+        $data      = $event->getData();
+        $form      = $event->getForm();
+        $options   = $form->getConfig()->getOptions();
+
+        $pointModel = $this->factory->getModel('point');
+        $dripEmailId= '';
+
+        if (isset($options['dripemail'])) {
+            $dripEmailId = $options['dripemail'];
+        }
+
+        if (isset($data['dripemail'])) {
+            $dripEmailId = $data['dripemail'];
+        }
+
+        $dripEmails =$pointModel->getRepository('MauticPointBundle:Point')->getDripEmailList($dripEmailId);
+
+        $form->add('driplist', 'choice', [
+         'label'      => 'le.email.open.limittoemails',
+        'label_attr'  => ['class' => 'control-label'],
+        'attr'        => [
+            'class'   => 'form-control not-chosen le-input',
+        ],
+        'required'    => false,
+        'choices'     => $dripEmails,
+     ]);
+
+        if ($eventName == FormEvents::PRE_SUBMIT) {
+            $event->setData($data);
+        }
     }
 
     /**

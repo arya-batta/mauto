@@ -4,6 +4,8 @@ Le.pointOnLoad = function (container) {
         Le.activateSearchAutocomplete('list-search', 'point');
     }
     Le.removeActionButtons();
+    var value = mQuery('#point_properties_campaigntype').val();
+    Le.getSelectedCampaignValue(value);
 };
 
 Le.pointTriggerOnLoad = function (container) {
@@ -119,4 +121,55 @@ Le.EnablesOption = function (urlActionProperty) {
             mQuery('#point_properties_returns_within').val(0);
         }
     }
+};
+
+Le.getSelectedCampaignValue = function (value) {
+    if(value == "broadcast"){
+        mQuery('#pointemailaction').removeClass('hide');
+        mQuery('#pointdripemailaction').addClass('hide');
+        mQuery('#dripemaillist').addClass('hide');
+    } else if(value == "drip"){
+        mQuery('#pointdripemailaction').removeClass('hide');
+        var dripList=mQuery('#point_properties_dripemail').val();
+        if(dripList != ''){
+            mQuery('#dripemaillist').removeClass('hide');
+        }
+        mQuery('#pointemailaction').addClass('hide');
+    } else {
+        mQuery('#pointdripemailaction').addClass('hide');
+        mQuery('#pointemailaction').addClass('hide');
+    }
+};
+Le.convertDripFilterInput = function (templateId) {
+    var query = "action=point:getDripFilterInput&templateId=" + templateId;
+    Le.activateLabelLoadingIndicator('point_properties_driplist');
+    mQuery('#dripemaillist').removeClass('hide');
+    mQuery.ajax({
+        url: leAjaxUrl,
+        type: "POST",
+        data: query,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+              var templateOptions = response.values;
+                mQuery('#point_properties_driplist').html('');
+                if (mQuery('#point_properties_driplist_chosen').length) {
+                    mQuery('#point_properties_driplist').chosen('destroy');
+                }
+                var index=0;
+                mQuery.each(templateOptions, function (value, label) {
+                    var newOption = mQuery('<option/>').val(value).text(label);
+                    if(index == 0){
+                        mQuery(newOption).attr('selected','selected');
+                    }
+                    newOption.appendTo(mQuery('#point_properties_driplist'));
+                    index++;
+                });
+                Le.activateChosenSelect('#point_properties_driplist');
+            }
+        },
+        complete: function() {
+            Le.removeLabelLoadingIndicator();
+        }
+    });
 };
