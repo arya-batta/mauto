@@ -790,7 +790,7 @@ class EmailRepository extends CommonRepository
         return $q;
     }
 
-    public function updateLeadDetails($FirstName,$LastName,$newEmailAddress, $leadId)
+    public function updateLeadDetails($FirstName, $LastName, $newEmailAddress, $leadId)
     {
         $q   = $this->_em->getConnection()->createQueryBuilder();
         $q->update(MAUTIC_TABLE_PREFIX.'leads')
@@ -823,6 +823,9 @@ class EmailRepository extends CommonRepository
                     $q->expr()->eq('es.is_failed', ':false')
                 )
             )->setParameter('false', false, 'boolean');
+
+        $q->andWhere('e.email_type = :emailType')
+            ->setParameter('emailType', 'list');
 
         if ($fromdate !== null) {
             $q->andWhere(
@@ -866,6 +869,9 @@ class EmailRepository extends CommonRepository
                     $q->expr()->eq('es.is_failed', ':false')
                 )
             )->setParameter('false', false, 'boolean');
+
+        $q->andWhere('e.email_type = :emailType')
+            ->setParameter('emailType', 'list');
 
         if ($fromdate !== null) {
             $q->andWhere(

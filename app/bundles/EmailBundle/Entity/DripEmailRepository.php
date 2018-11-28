@@ -101,9 +101,8 @@ class DripEmailRepository extends CommonRepository
                 )
             )->setParameter('false', false, 'boolean');
 
-        $q->andWhere(
-            $q->expr()->isNotNull('e.dripemail_id')
-        );
+        $q->andWhere('e.email_type = :emailType')
+            ->setParameter('emailType', 'dripemail');
 
         if ($fromdate !== null) {
             $q->andWhere(
@@ -148,9 +147,8 @@ class DripEmailRepository extends CommonRepository
                 )
             )->setParameter('false', false, 'boolean');
 
-        $q->andWhere(
-            $q->expr()->isNotNull('e.dripemail_id')
-        );
+        $q->andWhere('e.email_type = :emailType')
+            ->setParameter('emailType', 'dripemail');
 
         if ($fromdate !== null) {
             $q->andWhere(
