@@ -231,7 +231,7 @@ class PointRepository extends CommonRepository
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
 
-        $q->select('e.name as name', 'e.id as id')
+        $q->select('e.subject as name', 'e.id as id')
             ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
             ->leftJoin('e', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'd.id = e.dripemail_id')
             ->where(
