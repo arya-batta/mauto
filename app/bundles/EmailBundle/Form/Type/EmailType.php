@@ -30,6 +30,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class EmailType.
@@ -590,6 +591,31 @@ class EmailType extends AbstractType
 
         $builder->add('sessionId', 'hidden');
         $builder->add('emailType', 'hidden');
+        $recipients = null;
+        if (!empty($options['data'])) {
+            if (is_array($options['data'])) {
+                $recipients = (!empty($options['data']['recipients'])) ? $options['data']['recipients'] : null;
+
+                // Merge the parent data over so the child forms could use them
+                if (is_array($recipients)) {
+                    $recipients = array_merge($options['data'], $recipients);
+                }
+            } elseif (is_object($options['data']) && method_exists($options['data'], 'getRecipients')) {
+                $recipients = $options['data']->getRecipients();
+            }
+        }
+        $builder->add('recipients', 'emailrecipientsfilter', [
+            'label'       => false,
+            'data'        => $recipients,
+            'required'    => true,
+            'constraints' => [
+                new NotBlank(
+                    [
+                        'message' => 'le.email.recipients.filter.value.required',
+                    ]
+                ),
+            ],
+        ]);
         if (!InputHelper::isMobile()) {
             $customButtons = [//builder disabled due to bee editor
 //          [
@@ -628,19 +654,19 @@ class EmailType extends AbstractType
                 [
                     'pre_extra_buttons' => [
                         [
-                            'name' => 'sendtest',
+                            'name'  => 'sendtest',
                             'label' => 'Send',
-                            'type' => 'submit',
-                            'attr' => [
+                            'type'  => 'submit',
+                            'attr'  => [
                                 'class' => 'btn btn-default pull-right le-btn-default hide sendEmailTest',
-                                'icon' => 'fa fa-send-o',
+                                'icon'  => 'fa fa-send-o',
                             ],
                         ],
                     ],
                     'apply_text' => false,
                 ]
             );
-        }else{
+        } else {
             $builder->add(
                 'buttons',
                 'form_buttons',

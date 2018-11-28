@@ -205,9 +205,9 @@ $custombutton = [
                             <div class="row">
                                 <div class="col-md-12">
                                     <div style="width:50%;margin-left: 20px;">
-                                        <?php if (!empty($filters)): ?>
+                                        <?php if (!empty($template_filters)): ?>
                                             <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
-                                                'filters' => $filters,
+                                                'filters' => $template_filters,
                                                 'target'  => (empty($target)) ? null : $target,
                                                 'tmpl'    => (empty($tmpl)) ? null : $tmpl,
                                             ]); ?>

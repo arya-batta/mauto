@@ -199,7 +199,7 @@ class PageController extends FormController
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_page_index',
-                    'leContent' => 'page',
+                    'leContent'     => 'page',
                 ],
             ]);
         }
@@ -230,7 +230,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
                 'route'         => $this->generateUrl('le_page_index', ['page' => $page]),
             ],
         ]);
@@ -263,7 +263,7 @@ class PageController extends FormController
                 'contentTemplate' => 'MauticPageBundle:Page:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_page_index',
-                    'leContent' => 'page',
+                    'leContent'     => 'page',
                 ],
                 'flashes' => [
                     [
@@ -422,7 +422,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ]);
     }
@@ -462,7 +462,7 @@ class PageController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
-                    $title=$entity->getTitle();
+                    $title   =$entity->getTitle();
                     $content = $entity->getCustomHtml();
                     $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
                     $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
@@ -507,7 +507,7 @@ class PageController extends FormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => 'le_page_index',
-                        'leContent' => 'page',
+                        'leContent'     => 'page',
                     ],
                 ]);
             }
@@ -518,16 +518,16 @@ class PageController extends FormController
         $sectionForm = $this->get('form.factory')->create('builder_section');
 
         $groupFilters = [
-            'filters' => [
+            'template_filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
         $emailmodel=$this->factory->getModel('email');
 
-        $groupFilters['filters']['groups'] = [];
+        $groupFilters['template_filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['']  = [
+        $groupFilters['template_filters']['groups']['']  = [
             'options' => $emailmodel->getPageTemplateGroupNames(),
         ];
 
@@ -542,23 +542,23 @@ class PageController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'form'               => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
-                'isVariant'          => $entity->isVariant(true),
-                'tokens'             => $model->getBuilderComponents($entity, 'tokens'),
-                'activePage'         => $entity,
-                'themes'             => $this->factory->getInstalledThemes('page', true),
-                'slots'              => $this->buildSlotForms($slotTypes),
-                'sections'           => $this->buildSlotForms($sections),
-                'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                'sectionForm'        => $sectionForm->createView(),
-                'permissions'        => $permissions,
-                'beetemplates'       => $this->factory->getInstalledBeeTemplates('page'),
-                'filters'            => $groupFilters,
+                'form'                        => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
+                'isVariant'                   => $entity->isVariant(true),
+                'tokens'                      => $model->getBuilderComponents($entity, 'tokens'),
+                'activePage'                  => $entity,
+                'themes'                      => $this->factory->getInstalledThemes('page', true),
+                'slots'                       => $this->buildSlotForms($slotTypes),
+                'sections'                    => $this->buildSlotForms($sections),
+                'builderAssets'               => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                'sectionForm'                 => $sectionForm->createView(),
+                'permissions'                 => $permissions,
+                'beetemplates'                => $this->factory->getInstalledBeeTemplates('page'),
+                'template_filters'            => $groupFilters,
             ],
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
                 'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'new',
                 ]),
@@ -593,7 +593,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ];
 
@@ -632,7 +632,7 @@ class PageController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $content = $entity->getCustomHtml();
-                    $title = $entity->getTitle();
+                    $title   = $entity->getTitle();
                     $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
                     $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
                     $entity->setCustomHtml($content);
@@ -696,31 +696,31 @@ class PageController extends FormController
         $sectionForm = $this->get('form.factory')->create('builder_section');
 
         $groupFilters = [
-            'filters' => [
+            'template_filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
-        $emailmodel                        =$this->factory->getModel('email');
-        $groupFilters['filters']['groups'] = [];
+        $emailmodel                                 =$this->factory->getModel('email');
+        $groupFilters['template_filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['']  = [
+        $groupFilters['template_filters']['groups']['']  = [
             'options' => $emailmodel->getPageTemplateGroupNames(),
         ];
 
         return $this->delegateView([
             'viewParameters' => [
-                'form'               => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
-                'isVariant'          => $entity->isVariant(true),
-                'tokens'             => $model->getBuilderComponents($entity, 'tokens'),
-                'activePage'         => $entity,
-                'themes'             => $this->factory->getInstalledThemes('page', true),
-                'slots'              => $this->buildSlotForms($slotTypes),
-                'sections'           => $this->buildSlotForms($sections),
-                'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                'sectionForm'        => $sectionForm->createView(),
-                'filters'            => $groupFilters,
-                'permissions'        => $security->isGranted(
+                'form'                        => $this->setFormTheme($form, 'MauticPageBundle:Page:form.html.php', 'MauticPageBundle:FormTheme\Page'),
+                'isVariant'                   => $entity->isVariant(true),
+                'tokens'                      => $model->getBuilderComponents($entity, 'tokens'),
+                'activePage'                  => $entity,
+                'themes'                      => $this->factory->getInstalledThemes('page', true),
+                'slots'                       => $this->buildSlotForms($slotTypes),
+                'sections'                    => $this->buildSlotForms($sections),
+                'builderAssets'               => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                'sectionForm'                 => $sectionForm->createView(),
+                'template_filters'            => $groupFilters,
+                'permissions'                 => $security->isGranted(
                     [
                         'page:preference_center:editown',
                         'page:preference_center:editother',
@@ -733,7 +733,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
                 'route'         => $this->generateUrl('le_page_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),
@@ -801,7 +801,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ];
 
@@ -862,7 +862,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ];
 
@@ -1041,7 +1041,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ];
 
@@ -1224,7 +1224,7 @@ class PageController extends FormController
             'contentTemplate' => 'MauticPageBundle:Page:model.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_page_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
                 'route'         => $this->generateUrl('le_page_index'),
             ],
         ]);

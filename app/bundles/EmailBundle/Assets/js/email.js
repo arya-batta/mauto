@@ -1,6 +1,7 @@
 /** EmailBundle **/
 Le.emailOnLoad = function (container, response) {
     if (mQuery('#emailform_plainText').length) {
+         Le.leadlistOnLoad(container);
         // @todo initiate the token dropdown
         var plaintext = mQuery('#emailform_plainText');
 
@@ -41,7 +42,7 @@ Le.emailOnLoad = function (container, response) {
             prev = i;
         }
     });
-    if(!mQuery("#fragment-3").hasClass('ui-tabs-hide')){
+    if(!mQuery("#fragment-4").hasClass('ui-tabs-hide')){
         mQuery('.sendEmailTest').removeClass('hide');
     } else {
         mQuery('.sendEmailTest').addClass('hide');
@@ -116,7 +117,7 @@ Le.emailOnLoad = function (container, response) {
             mQuery('#Email_winnercriteria .help-block').html("");
         }
         if(!mQuery('#email-advance-container').hasClass('hide')) {
-            if (selectrel == 3 && !mQuery(this).hasClass('ui-state-default')) {
+            if (selectrel == 4 && !mQuery(this).hasClass('ui-state-default')) {
                 Le.launchBeeEditor('emailform', 'email');
                 return;
             }
@@ -131,12 +132,12 @@ Le.emailOnLoad = function (container, response) {
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
-        if(selectrel == 3){
+        if(selectrel == 4){
             mQuery('.sendEmailTest').removeClass('hide');
         } else {
             mQuery('.sendEmailTest').addClass('hide');
         }
-        if (mQuery('#ui-tab-header2').hasClass('ui-tabs-selected'))
+        if (mQuery('#ui-tab-header3').hasClass('ui-tabs-selected'))
         {
             if(!mQuery('#email-content-preview').hasClass('hide')) {
                 mQuery('#builder_btn').removeClass('hide');
@@ -226,7 +227,7 @@ Le.emailOnLoad = function (container, response) {
         mQuery("#emailform_fromAddress").val(value);
     });
     Le.filterBeeTemplates= function () {
-        d = document.getElementById("filters").value;
+        d = document.getElementById("template_filters").value;
         if(d == "all"){
             mQuery('.bee-template').removeClass('hide');
         } else {

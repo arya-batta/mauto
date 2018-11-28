@@ -329,15 +329,15 @@ class DripEmailController extends FormController
         }
 
         $groupFilters  = [
-            'filters' => [
+            'template_filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 
-        $groupFilters['filters']['groups'] = [];
+        $groupFilters['template_filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['']  = [
+        $groupFilters['template_filters']['groups']['']  = [
             'options' => $emailmodel->getEmailTemplateGroupNames(),
         ];
 
@@ -386,18 +386,18 @@ class DripEmailController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'              => $form->createView(),
-                    'entity'            => $entity,
-                    'emailform'         => $emailform->createView(),
-                    'beetemplates'      => $this->factory->getInstalledBeeTemplates('email'),
-                    'filters'           => $groupFilters,
-                    'items'             => $items,
-                    'permissions'       => $permissions,
-                    'actionRoute'       => 'le_dripemail_campaign_action',
-                    'translationBase'   => 'mautic.email.broadcast',
-                    'emailEntity'       => $emailentity,
-                    'bluePrints'        => $bluePrints,
-                    'drips'             => $dripPrints,
+                    'form'                       => $form->createView(),
+                    'entity'                     => $entity,
+                    'emailform'                  => $emailform->createView(),
+                    'beetemplates'               => $this->factory->getInstalledBeeTemplates('email'),
+                    'template_filters'           => $groupFilters,
+                    'items'                      => $items,
+                    'permissions'                => $permissions,
+                    'actionRoute'                => 'le_dripemail_campaign_action',
+                    'translationBase'            => 'mautic.email.broadcast',
+                    'emailEntity'                => $emailentity,
+                    'bluePrints'                 => $bluePrints,
+                    'drips'                      => $dripPrints,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:form.html.php',
                 'passthroughVars' => [

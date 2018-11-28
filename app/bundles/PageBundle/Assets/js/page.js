@@ -91,7 +91,7 @@ Le.pageOnLoad = function (container, response) {
 
     });
     Le.filterBeeTemplates= function () {
-        d = document.getElementById("filters").value;
+        d = document.getElementById("template_filters").value;
         if(d == "all"){
             mQuery('.bee-template').removeClass('hide');
         } else {
