@@ -747,6 +747,9 @@ class LeadListRepository extends CommonRepository
                 $object = $details['customObject'];
             }
             $column=false;
+            if($details['field'] == 'lead_score'){
+                $details['field'] = 'score';
+            }
             if ($object == 'lead') {
                 $column = isset($this->leadTableSchema[$details['field']]) ? $this->leadTableSchema[$details['field']] : false;
             } elseif ($object == 'company') {
@@ -815,7 +818,7 @@ class LeadListRepository extends CommonRepository
                     $key             = array_search($string, $relativeDateStrings);
                     $dtHelper        = new DateTimeHelper('midnight today', null, 'local');
                     $requiresBetween = in_array($func, ['eq', 'neq']) && $isTimestamp;
-                    $timeframe       = str_replace('mautic.lead.list.', '', $key);
+                    $timeframe       = str_replace('le.lead.list.', '', $key);
                     $modifier        = false;
                     $isRelative      = true;
 
@@ -861,12 +864,36 @@ class LeadListRepository extends CommonRepository
                                 }
                             }
                             break;
+                        case 'last_15':
+                        case 'last_60':
+                        case 'last_90':
+                        case 'next_15':
+                        case 'next_60':
+                        case 'next_90':
+                            $daycount = substr($timeframe, -2);
+                            if (strpos($timeframe, 'next') !== false) {
+                                $dtHelper->modify('+'.$daycount.' day');
+                            }else{
+                                $dtHelper->modify('-'.$daycount.' day');
+                            }
+
+                            if ($requiresBetween) {
+                                $modifier = '+'.$daycount.' day';
+                            } else {
+                                if (in_array($func, ['gt', 'lte'])) {
+                                    $modifier = '+'.$daycount.' day -1 second';
+                                }
+                            }
+                            break;
                         case 'week_last':
                         case 'week_next':
                         case 'week_this':
                             $interval = str_replace('week_', '', $timeframe);
                             $dtHelper->setDateTime('midnight monday '.$interval.' week', null);
-
+                            if($interval == 'this'){
+                                $requiresBetween = 'true';
+                                $isTimestamp = 'true';
+                            }
                             // This week: Monday 2015-08-24 00:00:00
                             if ($requiresBetween) {
                                 // eq:
@@ -898,7 +925,10 @@ class LeadListRepository extends CommonRepository
                         case 'month_this':
                             $interval = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of '.$interval.' month', null);
-
+                            if($interval == 'this'){
+                                $requiresBetween = 'true';
+                                $isTimestamp = 'true';
+                            }
                             // This month: 2015-08-01 00:00:00
                             if ($requiresBetween) {
                                 // eq:
@@ -929,7 +959,10 @@ class LeadListRepository extends CommonRepository
                         case 'year_this':
                             $interval = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of January '.$interval.' year', null);
-
+                                if($interval == 'this'){
+                                    $requiresBetween = 'true';
+                                    $isTimestamp = 'true';
+                                }
                             // This year: 2015-01-01 00:00:00
                             if ($requiresBetween) {
                                 // eq:
@@ -1207,29 +1240,44 @@ class LeadListRepository extends CommonRepository
                         case 'eq':
                         case 'neq':
                             $parameters[$parameter] = $details['filter'];
-                            if ($details['type'] == 'date') {
-                                $parameter2  = $this->generateRandomParameterName();
-                                $parameters[$parameter] = $details['filter'].' 00:00:00';
-                                $parameters[$parameter2] = $details['filter'].' 23:59:59';
-                                $exprParameter2          = ":$parameter2";
-                                $ignoreAutoFilter        = true;
-                                $field                   = $column;
+                            $parameter2  = $this->generateRandomParameterName();
+                            $parameters[$parameter] = $details['filter'].' 00:00:00';
+                            $parameters[$parameter2] = $details['filter'].' 23:59:59';
+                            $exprParameter2          = ":$parameter2";
+                            $ignoreAutoFilter        = true;
+                            $field                   = $column;
+                            $subqb->where(
+                                $q->expr()
+                                    ->andX(
+                                        $q->expr()->gte($alias.'.'.$field, $exprParameter),
+                                        $q->expr()->lt($alias.'.'.$field, $exprParameter2),
+                                        $q->expr()
+                                            ->eq($alias.'.lead_id', 'l.id'),
+                                            $expn
+                                        )
+                                );
+                            break;
+                        case 'gte':
+                        case 'lte':
+                            $parameters[$parameter] = $details['filter'];
+                            if ($func == 'gte' ){
                                 $subqb->where(
                                     $q->expr()
                                         ->andX(
-                                            $q->expr()->gte($alias.'.'.$field, $exprParameter),
-                                            $q->expr()->lt($alias.'.'.$field, $exprParameter2),
+                                            $q->expr()
+                                                ->gte($alias.'.'.$column, $exprParameter),
                                             $q->expr()
                                                 ->eq($alias.'.lead_id', 'l.id'),
                                             $expn
                                         )
                                 );
-                            } else {
+
+                            } else{
                                 $subqb->where(
                                     $q->expr()
                                         ->andX(
                                             $q->expr()
-                                                ->eq($alias.'.'.$column, $exprParameter),
+                                                ->lte($alias.'.'.$column, $exprParameter),
                                             $q->expr()
                                                 ->eq($alias.'.lead_id', 'l.id'),
                                             $expn
@@ -2246,6 +2294,12 @@ class LeadListRepository extends CommonRepository
             'le.lead.list.year_next',
             'le.lead.list.year_this',
             'le.lead.list.anniversary',
+            'le.lead.list.last_15',
+            'le.lead.list.next_15',
+            'le.lead.list.last_60',
+            'le.lead.list.next_60',
+            'le.lead.list.last_90',
+            'le.lead.list.next_90',
         ];
     }
 

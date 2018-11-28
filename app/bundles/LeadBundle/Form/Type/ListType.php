@@ -58,6 +58,7 @@ class ListType extends AbstractType
     private $userchoices         = [];
     private $formSubmitChoices   = [];
     private $assetChoices        = [];
+    private $scoreChoices        = [];
 
     /**
      * ListType constructor.
@@ -87,6 +88,7 @@ class ListType extends AbstractType
         $this->regionChoices   = FormFieldHelper::getRegionChoices();
         $this->localeChoices   = FormFieldHelper::getLocaleChoices();
 
+        $this->scoreChoices   =['hot'=>'Hot','warm'=>'Warm','cold'=>'Cold',];
         // Segments
         $lists = $listModel->getUserLists();
         foreach ($lists as $list) {
@@ -275,6 +277,7 @@ class ListType extends AbstractType
                         'globalcategory'       => $this->categoriesChoices,
                         'users'                => $this->userchoices,
                         'landingpage_list'     => $this->landingpageChoices,
+                        'score_list'           => $this->scoreChoices,
                         'formsubmit_list'      => $this->formSubmitChoices,
                         'asset_downloads_list' => $this->assetChoices,
                     ],
@@ -325,6 +328,7 @@ class ListType extends AbstractType
         $view->vars['locales']          = $this->localeChoices;
         $view->vars['globalcategory']   = $this->categoriesChoices;
         $view->vars['landingpage_list'] = $this->landingpageChoices;
+        $view->vars['score_list']       = $this->scoreChoices;
         $view->vars['users']            = $this->userchoices;
         $view->vars['forms']            = $this->formSubmitChoices;
         $view->vars['assets']           = $this->assetChoices;

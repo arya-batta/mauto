@@ -139,6 +139,18 @@ trait FilterTrait
                 $customOptions['choice_translation_domain'] = false;
                 $type                                       = 'choice';
                 break;
+            case 'score_list':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['score_list'];
+                $customOptions['multiple']                  = false;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
             case 'formsubmit_list':
                 if (!isset($data['filter'])) {
                     $data['filter'] = [];
@@ -359,7 +371,7 @@ trait FilterTrait
                 break;
         }
 
-        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
+        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this','last_15', 'next_15', 'last_60', 'next_60', 'last_90', 'next_90', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
         $customOptions['constraints'] = [];
         if (in_array($data['operator'], ['empty', '!empty'])) {
             $attr['disabled'] = 'disabled';

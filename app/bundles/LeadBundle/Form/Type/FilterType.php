@@ -105,6 +105,7 @@ class FilterType extends AbstractType
                 'locales',
                 'globalcategory',
                 'landingpage_list',
+                'score_list',
                 'users',
                 'formsubmit_list',
                 'asset_downloads_list',

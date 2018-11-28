@@ -293,7 +293,43 @@ class ListModel extends FormModel
                 'operators'  => $this->getOperatorsForFieldType('number'),
                 'object'     => 'lead',
             ],
+            'lead_score' => [
+                'label'      => $this->translator->trans('le.lead.list.event.score'),
+                'properties' => [
+                    'type' => 'score_list',
+
+                ],
+                'operators'  => $this->getOperatorsForFieldType('score_type'),
+                'object'     => 'lead',
+            ],
         ];
+        $choices['date_activity'] =[
+            /*'date_added' => [
+                'label'      => $this->translator->trans('mautic.core.date.added'),
+                'properties' => ['type' => 'date'],
+                'operators'  => $this->getOperatorsForFieldType('default'),
+                'object'     => 'lead',
+            ],*/
+            'date_identified' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.date_identified'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType('custmdate'),
+                'object'     => 'lead',
+            ],
+            'last_active' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.last_active'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType('custmdate'),
+                'object'     => 'lead',
+            ],
+            'date_modified' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.date_modified'),
+                'properties' => ['type' => 'datetime'],
+                'operators'  => $this->getOperatorsForFieldType('custmdate'),
+                'object'     => 'lead',
+            ],
+        ];
+
         if($this->security->isAdmin()) {
             $choices['list_categories'] = [
                 'globalcategory' => [
@@ -307,12 +343,6 @@ class ListModel extends FormModel
             ];
         }
         $choices['emails']= [
-            'lead_email_sent' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_sent'),
-                'properties' => ['type' => 'lead_email_received'],
-                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
-                'object'     => 'lead',
-            ],
             'lead_email_activity' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_activity'),
                 'properties' => [
@@ -321,14 +351,6 @@ class ListModel extends FormModel
                 ],
                 'operators'  => $this->getOperatorsForFieldType('emailactivity'),
                 'object'     => 'lead',
-            ],
-            'lead_email_received' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_received'),
-                'properties' => [
-                    'type' => 'lead_email_received',
-                ],
-                'operators' => $this->getOperatorsForFieldType('selecttemplate'),
-                'object'    => 'lead',
             ],
             'lead_email_read_count' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_read_count'),
@@ -340,12 +362,6 @@ class ListModel extends FormModel
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_read_date'),
                 'properties' => ['type' => 'date'],
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
-                'object'     => 'lead',
-            ],
-            'lead_email_click' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click'),
-                'properties' => ['type' => 'lead_email_received'],
-                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
             ],
             'lead_email_click_count' => [
@@ -385,49 +401,29 @@ class ListModel extends FormModel
                 'object'    => 'lead',
             ],
         ];
-        $choices['forms']= [
-            'lead_form_submit' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.lead_form_submit'),
-                'properties' => [
-                    'type' => 'formsubmit_list',
-                ],
-                'operators'  => $this->getOperatorsForFieldType('landingpage_list'),
+        $choices['one_of_campaign']= [
+            'lead_email_sent' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_sent'),
+                'properties' => ['type' => 'lead_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
             ],
-        ];
-        $choices['assets']= [
-            'asset_downloads' => [
-                'label'      => $this->translator->trans('mautic.asset.asset.submitaction.downloadfile'),
+            'lead_email_received' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_received'),
                 'properties' => [
-                    'type' => 'asset_downloads_list',
+                    'type' => 'lead_email_received',
                 ],
-                'operators'  => $this->getOperatorsForFieldType('landingpage_list'),
+                'operators' => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'    => 'lead',
+            ],
+            'lead_email_click' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click'),
+                'properties' => ['type' => 'lead_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
             ],
         ];
         $choices['pages']= [
-            'sessions' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.session'),
-                'properties' => ['type' => 'number'],
-                'operators'  => $this->getOperatorsForFieldType('number'),
-                'object'     => 'lead',
-            ],
-            'source' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.source'),
-                'properties' => [
-                    'type' => 'text',
-                ],
-                'operators' => $this->getOperatorsForFieldType('pages'),
-                'object'    => 'lead',
-            ],
-            'source_id' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.source.id'),
-                'properties' => [
-                    'type' => 'number',
-                ],
-                'operators'  => $this->getOperatorsForFieldType('number'),
-                'object'     => 'lead',
-            ],
             'hit_url' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.visited_url'),
                 'properties' => [
@@ -448,39 +444,24 @@ class ListModel extends FormModel
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
-            'referer' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.referer'),
+        ];
+        $choices['forms']= [
+            'lead_form_submit' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_form_submit'),
                 'properties' => [
-                    'type' => 'text',
+                    'type' => 'formsubmit_list',
                 ],
-                'operators' => $this->getOperatorsForFieldType('pages'),
-                'object'    => 'lead',
+                'operators'  => $this->getOperatorsForFieldType('landingpage_list'),
+                'object'     => 'lead',
             ],
         ];
-
-        $choices['date_activity'] =[
-            /*'date_added' => [
-                'label'      => $this->translator->trans('mautic.core.date.added'),
-                'properties' => ['type' => 'date'],
-                'operators'  => $this->getOperatorsForFieldType('default'),
-                'object'     => 'lead',
-            ],*/
-            'date_identified' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.date_identified'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType('custmdate'),
-                'object'     => 'lead',
-            ],
-            'last_active' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.last_active'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType('custmdate'),
-                'object'     => 'lead',
-            ],
-            'date_modified' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.date_modified'),
-                'properties' => ['type' => 'datetime'],
-                'operators'  => $this->getOperatorsForFieldType('custmdate'),
+        $choices['assets']= [
+            'asset_downloads' => [
+                'label'      => $this->translator->trans('mautic.asset.asset.submitaction.downloadfile'),
+                'properties' => [
+                    'type' => 'asset_downloads_list',
+                ],
+                'operators'  => $this->getOperatorsForFieldType('landingpage_list'),
                 'object'     => 'lead',
             ],
         ];
@@ -494,7 +475,7 @@ class ListModel extends FormModel
             ]
         );
         foreach ($fields as $field) {
-            if ($field->getAlias() == 'points') {
+            if ($field->getAlias() == 'points' || $field->getAlias() == 'score') {
                 continue;
             }
             $type               = $field->getType();
@@ -594,13 +575,45 @@ class ListModel extends FormModel
               ],
           ];*/
         if ($this->security->isAdmin()) {
-            $choices['pages']['url_title'] = [
-                'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
-                'properties' => [
-                    'type' => 'landingpage_list',
+            $choices['pages'] = [
+                'url_title' =>[
+                    'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
+                    'properties' => [
+                        'type' => 'landingpage_list',
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('landingpage_list'),
+                    'object'    => 'lead',
                 ],
-                'operators' => $this->getOperatorsForFieldType('landingpage_list'),
-                'object'    => 'lead',
+                'sessions' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.session'),
+                    'properties' => ['type' => 'number'],
+                    'operators'  => $this->getOperatorsForFieldType('number'),
+                    'object'     => 'lead',
+                ],
+                'source' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.source'),
+                    'properties' => [
+                        'type' => 'text',
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('pages'),
+                    'object'    => 'lead',
+                ],
+                'source_id' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.source.id'),
+                    'properties' => [
+                        'type' => 'number',
+                    ],
+                    'operators'  => $this->getOperatorsForFieldType('number'),
+                    'object'     => 'lead',
+                ],
+                'referer' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.referer'),
+                    'properties' => [
+                        'type' => 'text',
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('pages'),
+                    'object'    => 'lead',
+                ],
             ];
             $choices['lead']['page_id']= [
                 'label'      => $this->translator->trans('le.lead.list.filter.page_id'),

@@ -535,7 +535,7 @@ if(iscampaignmodel){
     var filterId  = '#' + prefix + '_filters_' + filterNum + '_filter';
     var typeId  = '#' + prefix + '_filters_' + filterNum + '_type';
     var fieldtype = mQuery(typeId).val();
-    var isSpecial = (mQuery.inArray(fieldtype, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldtype, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list']) != -1);
     // Reset has-error
     if (mQuery(filterId).parent().hasClass('has-error')) {
         mQuery(filterId).parent().find('div.help-block').hide();
@@ -549,7 +549,7 @@ if(iscampaignmodel){
         mQuery(filterId).val('');
     }
 
-    var customFilter = (operator == 'today' || operator == 'tomorrow' || operator == 'yesterday' || operator == 'week_last' || operator == 'week_next' || operator == 'week_this' || operator == 'month_last' || operator == 'month_next' || operator == 'month_this' || operator == 'year_last' || operator == 'year_next' || operator == 'year_this');
+    var customFilter = (operator == 'today' || operator == 'tomorrow' || operator == 'yesterday' || operator == 'week_last' || operator == 'week_next' || operator == 'week_this' || operator == 'last_15' || operator == 'next_15' ||  operator == 'last_60' || operator == 'next_60' || operator == 'last_90' || operator == 'next_90' || operator == 'month_last' || operator == 'month_next' || operator == 'month_this' || operator == 'year_last' || operator == 'year_next' || operator == 'year_this');
 
     if (customFilter) {
         mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').attr('tabindex', '-1');
@@ -695,7 +695,7 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     var fieldType = mQuery(filterId).data('field-type');
     var fieldObject = mQuery(filterId).data('field-object');
     var customObject = mQuery(filterId).data('field-customobject');
-    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','formsubmit_list','asset_downloads_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list']) != -1);
 
     var prefix = 'leadlist';
     var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');

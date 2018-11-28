@@ -46,6 +46,7 @@ if ($isCondition) {
         'locales'          => 'locale-template',
         'globalcategory'   => 'globalcategory-template',
         'landingpage_list' => 'landingpage_list-template',
+        'score_list'       => 'score_list-template',
         'users'            => 'owner_id-template',
         'forms'            => 'formsubmit_list-template',
         'assets'           => 'asset_downloads_list-template',
