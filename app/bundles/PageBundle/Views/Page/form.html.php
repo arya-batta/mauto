@@ -225,6 +225,7 @@ $custombutton = [
                             <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                                 'beetemplates' => $beetemplates,
                                 'active'       => '',
+                                'route'        => 'pages',
                             ]); ?>
                         </div>
                         <div class="tab-pane fade in bdr-w-0 " style="margin-top:5px;width:100%;" id="email-preview-container">

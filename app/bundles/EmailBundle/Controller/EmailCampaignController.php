@@ -2009,4 +2009,9 @@ class EmailCampaignController extends FormController
 
         return $correctassets;
     }
+
+    public function templatePreviewAction($template){
+        echo $this->factory->getBeeTemplateHTMLByName($template);
+        return new Response();
+    }
 }

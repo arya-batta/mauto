@@ -460,7 +460,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
             mQuery('.theme-list .select-theme-link').removeClass('hide');
             currentLink.closest('.panel').find('.select-theme-selected').removeClass('hide');
             currentLink.addClass('hide');
-            if(location.href.match(/(emails)/i)) {
+            if(location.href.match(/(oneoff)/i)) {
                 Le.launchBeeEditor('emailform', 'email');
             } else if (location.href.match(/(pages)/i)){
                 Le.launchBeeEditor('pageform', 'page');

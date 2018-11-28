@@ -122,7 +122,7 @@ Le.emailOnLoad = function (container, response) {
                 return;
             }
             var url = window.location.href;
-            if (url.indexOf('broadcasts/new') == -1) {
+            if (url.indexOf('oneoff/new') == -1) {
                 if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
                     Le.showpreviewoftemplate(mQuery('textarea.builder-html').val());
                 }
@@ -748,8 +748,8 @@ Le.getTotalAttachmentSize = function() {
 Le.standardEmailUrl = function(options) {
     if (options && options.windowUrl && options.origin) {
         var url = options.windowUrl;
-        var editEmailKey = '/broadcast/edit/emailId';
-        var previewEmailKey = '/broadcast/preview/emailId';
+        var editEmailKey = '/oneoff/edit/emailId';
+        var previewEmailKey = '/oneoff/preview/emailId';
         if(options.origin == '#campaignevent_properties_useremail_email'){
              previewEmailKey = '/emailnotifications/preview/emailId';
         }

@@ -439,6 +439,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                 <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                     'beetemplates' => $beetemplates,
                     'active'       => $form['template']->vars['value'],
+                    'route'        => 'oneoff',
                 ]); ?>
             </div>
             <div class="tab-pane fade in bdr-w-0 " style="margin-top:-25px;width:100%;" id="email-preview-container">

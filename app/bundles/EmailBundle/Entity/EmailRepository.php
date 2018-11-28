@@ -305,12 +305,14 @@ class EmailRepository extends CommonRepository
         if ($email instanceof Email) {
             if ($email->getEmailType() == 'list') {
                 $leadlistRepo = $this->getEntityManager()->getRepository('MauticLeadBundle:LeadList');
-                $parameters   =[];
-                $expr         = $leadlistRepo->generateSegmentExpression($email->getRecipients()['filters'], $parameters, $q, null, null, false, 'l', null);
-                if ($expr->count()) {
-                    $q->andWhere($expr);
+                if(isset($email->getRecipients()['filters'])){
+                    $parameters   =[];
+                    $expr         = $leadlistRepo->generateSegmentExpression($email->getRecipients()['filters'], $parameters, $q, null, null, false, 'l', null);
+                    if ($expr->count()) {
+                        $q->andWhere($expr);
+                    }
+                    unset($parameters);
                 }
-                unset($parameters);
             } else {
                 return ($countOnly) ? 0 : [];
             }

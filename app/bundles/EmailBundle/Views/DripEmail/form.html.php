@@ -235,6 +235,7 @@ $isAdmin              = $view['security']->isAdmin();
                         <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                             'beetemplates' => $beetemplates,
                             'active'       => '', //$emailform['template']->vars['value'],
+                            'route'        => 'drip',
                         ]); ?>
                     </div>
                     <div class="tab-pane fade in bdr-w-0 hide" style="width:100%;" id="email-preview-container">
