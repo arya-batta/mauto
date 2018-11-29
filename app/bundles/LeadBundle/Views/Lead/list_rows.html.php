@@ -88,7 +88,7 @@ $isAdmin    =$view['security']->isAdmin();
             <?php ++$count; ?>
             <?php endforeach; ?>
         </td>
-        <td class="visible-md visible-lg" style="text-align:center;">
+        <td class="visible-md visible-lg text-center">
            <?php
             $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : '';
            ?>

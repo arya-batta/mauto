@@ -181,11 +181,18 @@ class PublicController extends CommonFormController
 
             return $this->render($contentTemplate, $viewParams);
         }
-        $emailAddress = preg_replace('/(?:^|.@).\K|.[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '*', $email);
+
+        // Replacing email id with star
+        $position = strrpos( $email, '@');
+        $result1 =  substr($email, 0, $position );
+        $result2 =  substr($email, $position );
+        $len = strlen($result1);
+        $result1 = substr($result1, 0, 1).str_repeat('*', $len - 2).substr($result1, $len - 1, 1);
+        $emailAddress = $result1.$result2;
+
         if (empty($message)) {
             $actionName = 'updatelead';
         }
-
         $viewParams  = [
             'email'       => $emailAddress,
             'message'     => $message,

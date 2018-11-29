@@ -143,14 +143,14 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.score',
                     'text'       => 'mautic.core.type.score',
-                    'class'      => 'col-lead-score',
+                    'class'      => 'col-lead-score text-center',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.points',
                     'text'       => 'le.lead.points',
-                    'class'      => 'visible-md visible-lg col-lead-points',
+                    'class'      => 'visible-md visible-lg text-center col-lead-points',
                 ]);
                /* echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',

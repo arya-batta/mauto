@@ -11,7 +11,7 @@
 ?>
 <div class="campaignevent-type-modal-backdrop hide"><div class="modal-backdrop fade in"></div></div>
 <div class="modal fade campaignevent-type-modal hide" style="display: block; z-index: 9999;">
-    <div class="le-modal-gradient" style="margin-top:100px;margin-left:300px;">
+    <div class="le-modal-gradient" style="margin-top:100px;margin-left:18%;">
     <div class="modal-dialog le-gradient-align" style="width:770px;" >
         <div class="modal-content le-modal-content">
             <div class="modal-header">

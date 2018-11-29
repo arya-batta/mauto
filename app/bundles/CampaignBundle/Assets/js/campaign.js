@@ -254,7 +254,7 @@ Le.campaignOnLoad = function (container, response) {
 };
 
 Le.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
-    mQuery('.le-modal-box-align').attr("style","margin-left:200px");
+    mQuery('.le-modal-box-align').attr("style","margin-left:18%");
 var gelement = document.createElementNS(Le.SVGNAMESPACEURI,"g");
 if(incomplete){
     label='Define your '+type+'...';
