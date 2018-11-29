@@ -37,7 +37,7 @@ $isAdmin=$view['security']->isAdmin();
                                 <label class="control-label" style="color:#fff;">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-no">
-                                            <input type="radio" onchange=Le.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                            <input type="radio" onchange="Le.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
                                         </label>
                                         <label class="btn btn-default le-btn-published le-btn-small active btn-yes btn-success">
                                             <input type="radio" onchange="Le.showStatistics(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
