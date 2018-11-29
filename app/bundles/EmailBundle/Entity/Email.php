@@ -259,6 +259,11 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $dripEmail;
 
+    /**
+     * @var array
+     */
+    private $recipients = [];
+
     public function __clone()
     {
         $this->id                      = null;
@@ -480,6 +485,8 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->nullable()
             ->build();
 
+        $builder->addField('recipients', 'array');
+
         $builder->createManyToOne('dripEmail', 'DripEmail')
             ->cascadeMerge()
             ->cascadeDetach()
@@ -661,6 +668,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
                     'lists',
                     'beeJSON',
                     'google_tags',
+                    'recipients',
                 ]
             )
             ->build();
@@ -1535,6 +1543,29 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public function setDripEmail($dripEmail)
     {
         $this->dripEmail = $dripEmail;
+    }
+
+    /**
+     * @param array $recipients
+     *
+     * @return $this
+     */
+    public function setRecipients(array $recipients)
+    {
+        $this->isChanged('recipients', $recipients);
+        $this->recipients = $recipients;
+
+        return $this;
+    }
+
+    /**
+     * Get Recipients.
+     *
+     * @return array
+     */
+    public function getRecipients()
+    {
+        return $this->recipients;
     }
 
     /**

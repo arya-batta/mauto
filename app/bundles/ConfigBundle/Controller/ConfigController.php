@@ -138,13 +138,10 @@ class ConfigController extends FormController
 
                         // Merge each bundle's updated configuration into the local configuration
                         foreach ($formValues as $key => $object) {
-                            if (empty($object['sms_transport'])) {
-                                break;
-                            }
                             if ($key == 'smsconfig' && !empty($object['sms_transport'])) {
                                 $object = $this->saveSMSConfig($object);
                             }
-                            $object['sms_status']=$formValues['smsconfig']['sms_status'];
+                            $object['sms_status']=!empty($formValues['smsconfig']['sms_status']) ? $formValues['smsconfig']['sms_status'] : '';
                             $checkThese          = array_intersect(array_keys($object), $unsetIfEmpty);
                             foreach ($checkThese as $checkMe) {
                                 if (empty($object[$checkMe])) {
@@ -189,6 +186,7 @@ class ConfigController extends FormController
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                                 $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             }
+                            $params = $configurator->getParameters();
                             $configurator->write();
 
                             $this->addFlash('mautic.config.config.notice.updated');

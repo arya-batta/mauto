@@ -31,12 +31,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class CampaignListFilterType.
+ * Class EmailRecipientFilterType.
  */
-class CampaignListFilterType extends AbstractType
+class EmailRecipientFilterType extends AbstractType
 {
     private $translator;
     private $fieldChoices        = [];
@@ -87,6 +86,7 @@ class CampaignListFilterType extends AbstractType
         $this->localeChoices   = FormFieldHelper::getLocaleChoices();
 
         $this->scoreChoices   =['hot'=>'Hot', 'warm'=>'Warm', 'cold'=>'Cold'];
+
         // Segments
         $lists = $listModel->getUserLists();
         foreach ($lists as $list) {
@@ -229,14 +229,6 @@ class CampaignListFilterType extends AbstractType
                         'formsubmit_list'      => $this->formSubmitChoices,
                         'asset_downloads_list' => $this->assetChoices,
                     ],
-                    'required'    => true,
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => 'mautic.core.value.required',
-                            ]
-                        ),
-                    ],
                     'error_bubbling' => true,
                     'mapped'         => true,
                     'allow_add'      => true,
@@ -277,6 +269,6 @@ class CampaignListFilterType extends AbstractType
      */
     public function getName()
     {
-        return 'campaignlistfilter';
+        return 'emailrecipientsfilter';
     }
 }

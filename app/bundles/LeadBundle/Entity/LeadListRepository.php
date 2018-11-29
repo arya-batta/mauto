@@ -317,20 +317,20 @@ class LeadListRepository extends CommonRepository
         return ($returnArray) ? $return : $return[$listIds[0]];
     }
 
-    public function isAlreadyInserted($leadid=null,$listid=null){
-
-         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
-         $q->select('l.lead_id')
-             ->from('lead_lists_leads','l')
-             ->where($q->expr()->eq('l.lead_id',$leadid),
-                 $q->expr()->eq('l.leadlist_id',$listid)
+    public function isAlreadyInserted($leadid=null, $listid=null)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('l.lead_id')
+             ->from('lead_lists_leads', 'l')
+             ->where($q->expr()->eq('l.lead_id', $leadid),
+                 $q->expr()->eq('l.leadlist_id', $listid)
                  );
-         $row = $q->execute()->rowCount();
-         if ($row){
-             return false;
-         }else{
-             return true;
-         }
+        $row = $q->execute()->rowCount();
+        if ($row) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -376,7 +376,7 @@ class LeadListRepository extends CommonRepository
                 $filters = [];
             }
 
-            $parameters = [];
+            $parameters    = [];
             $customcreated = false;
             if ($dynamic && count($filters)) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
@@ -410,7 +410,7 @@ class LeadListRepository extends CommonRepository
                 }
 
                 if ($newOnly || !$nonMembersOnly) { // !$nonMembersOnly is mainly used for tests as we just want a live count
-                    foreach($filters as  $key => $filter) {
+                    foreach ($filters as  $key => $filter) {
                         $customcreated = false;
                         if ($filter['field'] == 'leadlist' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
                             unset($q);
@@ -420,12 +420,12 @@ class LeadListRepository extends CommonRepository
                                 ->leftJoin('l', 'lead_lists_leads', 'll', $q->expr()->eq('l.id', 'll.lead_id'));
                             if ($filter['operator'] == 'empty') {
                                 $q->where($q->expr()->isNull('ll.lead_id'));
-                            }else{
+                            } else {
                                 $q->where($q->expr()->isNotNull('ll.lead_id'));
                             }
                             //  select count(l.id) as leads , max(l.id) as max_id from leads l left join lead_lists_leads ll ON l.id=ll.lead_id where ll.lead_id IS NULL;
                             $customcreated = true;
-                        } else if ($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
+                        } elseif ($filter['field'] == 'tags' && ($filter['operator'] == 'empty' || $filter['operator'] == '!empty')) {
                             unset($q);
                             $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                             $q->select($select)
@@ -433,7 +433,7 @@ class LeadListRepository extends CommonRepository
                                 ->leftJoin('l', 'lead_tags_xref', 'll', $q->expr()->eq('l.id', 'll.lead_id'));
                             if ($filter['operator'] == 'empty') {
                                 $q->where($q->expr()->isNull('ll.lead_id'));
-                            }else{
+                            } else {
                                 $q->where($q->expr()->isNotNull('ll.lead_id'));
                             }
                             $customcreated = true;
@@ -473,7 +473,7 @@ class LeadListRepository extends CommonRepository
 
                             $q->leftJoin(
                                 'l',
-                                MAUTIC_TABLE_PREFIX . 'lead_lists_leads',
+                                MAUTIC_TABLE_PREFIX.'lead_lists_leads',
                                 'll',
                                 $listOnExpr
                             );
@@ -578,10 +578,9 @@ class LeadListRepository extends CommonRepository
                     }
                 }
 
-                if($customcreated){
+                if ($customcreated) {
                     $leads['list_id']=$id;
                 }
-
             } elseif (!$dynamic) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                 if ($countOnly) {
@@ -649,7 +648,7 @@ class LeadListRepository extends CommonRepository
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|mixed
      */
-    protected function generateSegmentExpression(array $filters, array &$parameters, QueryBuilder $q, QueryBuilder $parameterQ = null, $listId = null, $isNot = false, $leadTablePrefix = 'l', $leadid=null)
+    public function generateSegmentExpression(array $filters, array &$parameters, QueryBuilder $q, QueryBuilder $parameterQ = null, $listId = null, $isNot = false, $leadTablePrefix = 'l', $leadid=null)
     {
         if (null === $parameterQ) {
             $parameterQ = $q;
@@ -747,7 +746,7 @@ class LeadListRepository extends CommonRepository
                 $object = $details['customObject'];
             }
             $column=false;
-            if($details['field'] == 'lead_score'){
+            if ($details['field'] == 'lead_score') {
                 $details['field'] = 'score';
             }
             if ($object == 'lead') {
@@ -873,7 +872,7 @@ class LeadListRepository extends CommonRepository
                             $daycount = substr($timeframe, -2);
                             if (strpos($timeframe, 'next') !== false) {
                                 $dtHelper->modify('+'.$daycount.' day');
-                            }else{
+                            } else {
                                 $dtHelper->modify('-'.$daycount.' day');
                             }
 
@@ -890,9 +889,9 @@ class LeadListRepository extends CommonRepository
                         case 'week_this':
                             $interval = str_replace('week_', '', $timeframe);
                             $dtHelper->setDateTime('midnight monday '.$interval.' week', null);
-                            if($interval == 'this'){
+                            if ($interval == 'this') {
                                 $requiresBetween = 'true';
-                                $isTimestamp = 'true';
+                                $isTimestamp     = 'true';
                             }
                             // This week: Monday 2015-08-24 00:00:00
                             if ($requiresBetween) {
@@ -925,9 +924,9 @@ class LeadListRepository extends CommonRepository
                         case 'month_this':
                             $interval = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of '.$interval.' month', null);
-                            if($interval == 'this'){
+                            if ($interval == 'this') {
                                 $requiresBetween = 'true';
-                                $isTimestamp = 'true';
+                                $isTimestamp     = 'true';
                             }
                             // This month: 2015-08-01 00:00:00
                             if ($requiresBetween) {
@@ -959,9 +958,9 @@ class LeadListRepository extends CommonRepository
                         case 'year_this':
                             $interval = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of January '.$interval.' year', null);
-                                if($interval == 'this'){
+                                if ($interval == 'this') {
                                     $requiresBetween = 'true';
-                                    $isTimestamp = 'true';
+                                    $isTimestamp     = 'true';
                                 }
                             // This year: 2015-01-01 00:00:00
                             if ($requiresBetween) {
@@ -1123,14 +1122,14 @@ class LeadListRepository extends CommonRepository
                                 )
                             );
                         default:
-                            if($details['field'] == 'url_title'){
-                                $table = 'page_hits';
-                                $column = 'page_id';
-                                $subQueryFilters =[];
-                                $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
+                            if ($details['field'] == 'url_title') {
+                                $table            = 'page_hits';
+                                $column           = 'page_id';
+                                $subQueryFilters  =[];
+                                $func             = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
                                 $ignoreAutoFilter = true;
-                                $specific = true;
-                                $subQb = $this->createFilterExpressionSubQuery(
+                                $specific         = true;
+                                $subQb            = $this->createFilterExpressionSubQuery(
                                     $table,
                                     $alias,
                                     $column,
@@ -1140,12 +1139,12 @@ class LeadListRepository extends CommonRepository
                                     $subQueryFilters,
                                     $specific
                                 );
-                                    $groupExpr->add(
+                                $groupExpr->add(
                                         sprintf('%s (%s)', $func, $subQb->getSQL())
                                     );
 
                                 break;
-                            }else{
+                            } else {
                                 $parameters[$parameter] = implode(',', $details['filter']);
                                 $subqb->where(
                                     $q->expr()->andX(
@@ -1162,7 +1161,7 @@ class LeadListRepository extends CommonRepository
                                 ->eq($alias.'.lead_id', $leadId)
                         );
                     }
-                if($details['field'] != 'url_title') {
+                if ($details['field'] != 'url_title') {
                     $groupExpr->add(sprintf('%s (%s)', $operand, $subqb->getSQL()));
                 }
                     break;
@@ -1239,9 +1238,9 @@ class LeadListRepository extends CommonRepository
                     switch ($func) {
                         case 'eq':
                         case 'neq':
-                            $parameters[$parameter] = $details['filter'];
-                            $parameter2  = $this->generateRandomParameterName();
-                            $parameters[$parameter] = $details['filter'].' 00:00:00';
+                            $parameters[$parameter]  = $details['filter'];
+                            $parameter2              = $this->generateRandomParameterName();
+                            $parameters[$parameter]  = $details['filter'].' 00:00:00';
                             $parameters[$parameter2] = $details['filter'].' 23:59:59';
                             $exprParameter2          = ":$parameter2";
                             $ignoreAutoFilter        = true;
@@ -1260,7 +1259,7 @@ class LeadListRepository extends CommonRepository
                         case 'gte':
                         case 'lte':
                             $parameters[$parameter] = $details['filter'];
-                            if ($func == 'gte' ){
+                            if ($func == 'gte') {
                                 $subqb->where(
                                     $q->expr()
                                         ->andX(
@@ -1271,8 +1270,7 @@ class LeadListRepository extends CommonRepository
                                             $expn
                                         )
                                 );
-
-                            } else{
+                            } else {
                                 $subqb->where(
                                     $q->expr()
                                         ->andX(

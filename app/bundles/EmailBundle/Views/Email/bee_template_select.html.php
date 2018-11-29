@@ -25,12 +25,23 @@
                             <i class="fa fa-file-image-o fa-5x text-muted" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                         </div>
                     <?php endif; ?>
-                    <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
-                        Select
-                    </a>
-                    <button type="button" class="select-theme-selected btn btn-default <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled">
-                        Selected
-                    </button>
+                    <div class="row" style="margin-top: 30px;">
+                        <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="btn-nospin col-md-6 select-theme-link bee_template <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
+                            <i class="fa fa-check-circle template_icon" style="color: #6A7474">
+                            <span style="margin-left: 12px;font-size: 15px;">Select</span>
+                            </i>
+                        </a>
+                        <a type="button" class=" btn-nospin col-md-6 select-theme-selected bee_template <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled"style="margin-top: 0px;">
+                            <i class="fa fa-check-circle template_icon" style="color: rgb(249, 4, 86)">
+                            <span style="margin-left: 12px;font-size: 15px;">Selected</span>
+                            </i>
+                        </a>
+                        <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey,'route' => $route]); ?>" target="_blank" type="button" class="col-md-6 bee_template btn-nospin" onclick="">
+                            <i class="fa fa-eye  template_icon" style="color: #6A7474">
+                            <span style="margin-left: 12px;font-size: 15px;">Preview</span>
+                            </i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <?php if ($hasThumbnail) : ?>
@@ -77,12 +88,23 @@
                         <div>
                           <a class="label label-primary hide" style="text-transform: capitalize;"><?php echo !empty($themeInfo['config']['group']) ? $themeInfo['config']['group'] : '' ?></a>
                         </div>
-                        <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="select-theme-link btn btn-default <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
-                            Select
-                        </a>
-                        <button type="button" class="select-theme-selected btn btn-default <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled">
-                            Selected
-                        </button>
+                        <div class="row" style="margin-top: 30px;">
+                              <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="btn-nospin col-md-6  select-theme-link bee_template <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
+                                 <i class="fa fa-check-circle template_icon" style="color: #6A7474;">
+                                  <span style="margin-left: 12px;font-size: 15px;">Select</span>
+                                 </i>
+                              </a>
+                              <a type="button" class=" btn-nospin col-md-6 select-theme-selected  bee_template <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled"style="margin-top: 0px;">
+                                  <i class="fa fa-check-circle template_icon " style="color: rgb(249, 4, 86);">
+                                  <span style="margin-left: 12px;font-size: 15px;">Selected</span>
+                                  </i>
+                              </a>
+                            <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey,'route' => $route]); ?>" target="_blank" type="button" class=" col-md-6 bee_template btn-nospin" onclick="">
+                                <i class="fa fa-eye template_icon" style="color: #6A7474">
+                                <span style="margin-left: 12px;font-size: 15px;">Preview</span>
+                                </i>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <?php if ($hasThumbnail) : ?>

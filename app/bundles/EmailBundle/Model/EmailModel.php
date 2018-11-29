@@ -927,9 +927,9 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     public function sendEmailToLists(Email $email, $lists = null, $limit = null, $batch = false, OutputInterface $output = null)
     {
         //get the leads
-        if (empty($lists)) {
-            $lists = $email->getLists();
-        }
+//        if (empty($lists)) {
+//            $lists = $email->getLists();
+//        }
 
         // Safety check
         if ('list' !== $email->getEmailType()) {
@@ -961,49 +961,49 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $progress = new ProgressBar($output, $totalLeadCount);
         }
 
-        foreach ($lists as $list) {
-            if (!$batch && $limit !== null && $limit <= 0) {
-                // Hit the max for this batch
-                break;
-            }
+        // foreach ($lists as $list) {
+//            if (!$batch && $limit !== null && $limit <= 0) {
+//                // Hit the max for this batch
+//                break;
+//            }
 
-            $options['listId'] = $list->getId();
-            $leads             = $this->getPendingLeads($email, $list->getId(), false, $limit);
+        // $options['listId'] = $list->getId();
+            $leads             = $this->getPendingLeads($email, null, false, $limit); //$list->getId()
             $leadCount         = count($leads);
 
-            while ($leadCount) {
-                $sentCount += $leadCount;
+        while ($leadCount) {
+            $sentCount += $leadCount;
 
-                if (!$batch && $limit != null) {
-                    // Only retrieve the difference between what has already been sent and the limit
-                    $limit -= $leadCount;
+            if (!$batch && $limit != null) {
+                // Only retrieve the difference between what has already been sent and the limit
+                $limit -= $leadCount;
+            }
+
+            $listErrors = $this->sendEmail($email, $leads, $options);
+
+            if (!empty($listErrors)) {
+                $listFailedCount = count($listErrors);
+
+                $sentCount -= $listFailedCount;
+                $failedCount += $listFailedCount;
+
+                $failed = $listErrors; //[$options['listId']]
+            }
+
+            if ($batch) {
+                if ($progress) {
+                    $progressCounter += $leadCount;
+                    $progress->setProgress($progressCounter);
                 }
 
-                $listErrors = $this->sendEmail($email, $leads, $options);
-
-                if (!empty($listErrors)) {
-                    $listFailedCount = count($listErrors);
-
-                    $sentCount -= $listFailedCount;
-                    $failedCount += $listFailedCount;
-
-                    $failed[$options['listId']] = $listErrors;
-                }
-
-                if ($batch) {
-                    if ($progress) {
-                        $progressCounter += $leadCount;
-                        $progress->setProgress($progressCounter);
-                    }
-
-                    // Get the next batch of leads
-                    $leads     = $this->getPendingLeads($email, $list->getId(), false, $limit);
+                // Get the next batch of leads
+                    $leads     = $this->getPendingLeads($email, null, false, $limit); //$list->getId()
                     $leadCount = count($leads);
-                } else {
-                    $leadCount = 0;
-                }
+            } else {
+                $leadCount = 0;
             }
         }
+        // }
 
         if ($progress) {
             $progress->finish();

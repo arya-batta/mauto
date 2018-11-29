@@ -221,7 +221,7 @@ class EmailController extends FormController
                     'contentTemplate' => 'MauticEmailBundle:Email:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_email_index',
-                        'leContent' => 'email',
+                        'leContent'     => 'email',
                     ],
                 ]
             );
@@ -252,7 +252,7 @@ class EmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_email_index',
-                    'leContent' => 'email',
+                    'leContent'     => 'email',
                     'route'         => $this->generateUrl('le_email_index', ['page' => $page]),
                 ],
             ]
@@ -294,7 +294,7 @@ class EmailController extends FormController
                     'contentTemplate' => 'MauticEmailBundle:Email:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_email_index',
-                        'leContent' => 'email',
+                        'leContent'     => 'email',
                     ],
                     'flashes' => [
                         [
@@ -472,7 +472,7 @@ class EmailController extends FormController
                     'security'      => $security,
                     'previewUrl'    => $this->generateUrl(
                         'le_email_preview',
-                        ['type' => 'notificationemails','objectId' => $email->getId()],
+                        ['type' => 'notificationemails', 'objectId' => $email->getId()],
                         true
                     ),
                     'contacts' => $this->forward(
@@ -483,16 +483,16 @@ class EmailController extends FormController
                             'ignoreAjax' => true,
                         ]
                     )->getContent(),
-                    'dateRangeForm'   => $dateRangeForm->createView(),
-                    'actionRoute'     => 'le_email_action',
-                    'indexRoute'      => 'le_email_index',
-                    'translationBase' => 'email',
+                    'dateRangeForm'    => $dateRangeForm->createView(),
+                    'actionRoute'      => 'le_email_action',
+                    'indexRoute'       => 'le_email_index',
+                    'translationBase'  => 'email',
                     'notificationemail'=> true,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_email_index',
-                    'leContent' => 'email',
+                    'leContent'     => 'email',
                 ],
             ]
         );
@@ -529,9 +529,9 @@ class EmailController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
@@ -648,7 +648,7 @@ class EmailController extends FormController
 
             $passthrough = [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ];
 
             // Check to see if this is a popup
@@ -698,42 +698,42 @@ class EmailController extends FormController
         );
 
         $groupFilters = [
-            'filters' => [
+            'template_filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 
-        $groupFilters['filters']['groups'] = [];
+        $groupFilters['template_filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['']  = [
+        $groupFilters['template_filters']['groups']['']  = [
             'options' => $model->getEmailTemplateGroupNames(),
         ];
 
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'               => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
-                    'isVariant'          => $entity->isVariant(true),
-                    'email'              => $entity,
-                    'slots'              => $this->buildSlotForms($slotTypes),
-                    'sections'           => $this->buildSlotForms($sections),
-                    'themes'             => $this->factory->getInstalledThemes('email', true),
-                    'beetemplates'       => $this->factory->getInstalledBeeTemplates('email'),
-                    'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                    'sectionForm'        => $sectionForm->createView(),
-                    'updateSelect'       => $updateSelect,
-                    'permissions'        => $permissions,
-                    'isClone'            => $isClone,
-                    'isMobile'           => $ismobile,
-                    'verifiedemail'      => $verifiedemail,
-                    'mailertransport'    => $mailertransport,
-                    'filters'            => $groupFilters,
+                    'form'                        => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
+                    'isVariant'                   => $entity->isVariant(true),
+                    'email'                       => $entity,
+                    'slots'                       => $this->buildSlotForms($slotTypes),
+                    'sections'                    => $this->buildSlotForms($sections),
+                    'themes'                      => $this->factory->getInstalledThemes('email', true),
+                    'beetemplates'                => $this->factory->getInstalledBeeTemplates('email'),
+                    'builderAssets'               => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                    'sectionForm'                 => $sectionForm->createView(),
+                    'updateSelect'                => $updateSelect,
+                    'permissions'                 => $permissions,
+                    'isClone'                     => $isClone,
+                    'isMobile'                    => $ismobile,
+                    'verifiedemail'               => $verifiedemail,
+                    'mailertransport'             => $mailertransport,
+                    'template_filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:notification_form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_index',
-                    'leContent'   => 'email',
+                    'leContent'       => 'email',
                     'updateSelect'    => $updateSelect,
                     'route'           => $this->generateUrl('le_email_action', $routeParams),
                     'validationError' => $this->getFormErrorForBuilder($form),
@@ -769,9 +769,9 @@ class EmailController extends FormController
         $params          = $configurator->getParameters();
         $maileruser      = $params['mailer_user'];
         $emailpassword   = $params['mailer_password'];
-        if(isset($params['mailer_amazon_region'])){
+        if (isset($params['mailer_amazon_region'])) {
             $region                = $params['mailer_amazon_region'];
-        }else{
+        } else {
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
@@ -801,7 +801,7 @@ class EmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Email:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ],
         ];
 
@@ -905,7 +905,7 @@ class EmailController extends FormController
             $template    = 'MauticEmailBundle:Email:view';
             $passthrough = [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ];
 
             // Check to see if this is a popup
@@ -984,42 +984,42 @@ class EmailController extends FormController
         );
 
         $groupFilters = [
-            'filters' => [
+            'template_filters' => [
                 'multiple'    => false,
                 'onchange'    => 'Le.filterBeeTemplates()',
             ],
         ];
 
-        $groupFilters['filters']['groups'] = [];
+        $groupFilters['template_filters']['groups'] = [];
 
-        $groupFilters['filters']['groups']['']  = [
+        $groupFilters['template_filters']['groups']['']  = [
             'options' => $model->getEmailTemplateGroupNames(),
         ];
 
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'               => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
-                    'isVariant'          => $entity->isVariant(true),
-                    'slots'              => $this->buildSlotForms($slotTypes),
-                    'sections'           => $this->buildSlotForms($sections),
-                    'themes'             => $this->factory->getInstalledThemes('email', true),
-                    'beetemplates'       => $this->factory->getInstalledBeeTemplates('email'),
-                    'email'              => $entity,
-                    'forceTypeSelection' => $forceTypeSelection,
-                    'attachmentSize'     => $attachmentSize,
-                    'builderAssets'      => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
-                    'sectionForm'        => $sectionForm->createView(),
-                    'permissions'        => $permissions,
-                    'isMobile'           => $ismobile,
-                    'verifiedemail'      => $verifiedemail,
-                    'mailertransport'    => $mailertransport,
-                    'filters'            => $groupFilters,
+                    'form'                        => $this->setFormTheme($form, 'MauticEmailBundle:Email:form.html.php', 'MauticEmailBundle:FormTheme\Email'),
+                    'isVariant'                   => $entity->isVariant(true),
+                    'slots'                       => $this->buildSlotForms($slotTypes),
+                    'sections'                    => $this->buildSlotForms($sections),
+                    'themes'                      => $this->factory->getInstalledThemes('email', true),
+                    'beetemplates'                => $this->factory->getInstalledBeeTemplates('email'),
+                    'email'                       => $entity,
+                    'forceTypeSelection'          => $forceTypeSelection,
+                    'attachmentSize'              => $attachmentSize,
+                    'builderAssets'               => trim(preg_replace('/\s+/', ' ', $this->getAssetsForBuilder())), // strip new lines
+                    'sectionForm'                 => $sectionForm->createView(),
+                    'permissions'                 => $permissions,
+                    'isMobile'                    => $ismobile,
+                    'verifiedemail'               => $verifiedemail,
+                    'mailertransport'             => $mailertransport,
+                    'template_filters'            => $groupFilters,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:notification_form.html.php',
                 'passthroughVars' => [
                     'activeLink'      => '#le_email_index',
-                    'leContent'   => 'email',
+                    'leContent'       => 'email',
                     'updateSelect'    => InputHelper::clean($this->request->query->get('updateSelect')),
                     'route'           => $this->generateUrl('le_email_action', $routeParams),
                     'validationError' => $this->getFormErrorForBuilder($form),
@@ -1081,7 +1081,7 @@ class EmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Email:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ],
         ];
 
@@ -1275,7 +1275,7 @@ class EmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Page:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'page',
+                'leContent'     => 'page',
             ],
         ];
 
@@ -1353,7 +1353,7 @@ class EmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Email:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ],
         ];
 
@@ -1473,7 +1473,7 @@ class EmailController extends FormController
                 'viewParameters'  => $viewParameters,
                 'contentTemplate' => $contentTemplate,
                 'passthroughVars' => [
-                    'leContent' => 'emailSend',
+                    'leContent'     => 'emailSend',
                     'route'         => $action,
                 ],
             ]
@@ -1497,7 +1497,7 @@ class EmailController extends FormController
             'contentTemplate' => 'MauticEmailBundle:Email:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_email_index',
-                'leContent' => 'email',
+                'leContent'     => 'email',
             ],
         ];
 

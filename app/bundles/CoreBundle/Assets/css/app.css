@@ -5522,7 +5522,7 @@ figcaption {
 #cancel-page-1{
   margin-top: -305px;
 }
-#cancel-tab-2{
+#cancel-tab-2,#cancel-tab-3{
   margin-top: -305px;
 }
 .prev-tab {
@@ -5532,7 +5532,7 @@ figcaption {
   margin-top: -341px;
 }
 #next-tab-1{
-  margin-top: -291px;
+  margin-top: -293px;
 }
 #next-page-1{
   margin-top: -294px;
@@ -5544,8 +5544,8 @@ figcaption {
   margin-top: -150px;
   margin-left: 347px;
 }
-#next-tab-2{
-  margin-top: -291px;
+#next-tab-2,#next-tab-3{
+  margin-top: -293px;
 }
 .fragment-1-buttons{
   float: right;
@@ -6614,4 +6614,14 @@ text-align: center;
 .app-sidebar .nav-submenu >li > a > i.fa-tint{
   font-size: 22px;
   margin-left: 3px;
+}
+.bee_template {
+    border: 1px solid #ebedf0;
+    box-shadow: 0px 1px 1px #f3f3f3;
+}
+.template_icon {
+    font-size: 18px;
+    margin-left: -43px;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }

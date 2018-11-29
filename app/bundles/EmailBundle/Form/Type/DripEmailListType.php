@@ -36,14 +36,13 @@ class DripEmailListType extends AbstractType
                     'expr'   => 'eq',
                     'value'  => true,
                 ],
-                [
-                    'column' => 'd.id',
-                    'expr'   => 'neq',
-                    'value'  => '1',
-                ],
             ],
         ];
-
+//        [
+//            'column' => 'd.id',
+//            'expr'   => 'neq',
+//            'value'  => '1',
+//        ],
         $choices = $model->getEntities(
             [
                 'filter' => $filterarray,

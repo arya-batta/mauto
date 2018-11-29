@@ -254,7 +254,7 @@ class BuilderSubscriber extends CommonSubscriber
         $lead   = $event->getLead();
         $email  = $event->getEmail();
         $helper = $event->getHelper();
-        $type = 'broadcast';
+        $type = 'one-off';
         if($email != null){
             $emailtype = $email->getEmailType();
             if ($emailtype == 'template'){

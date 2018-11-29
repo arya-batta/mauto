@@ -205,9 +205,9 @@ $custombutton = [
                             <div class="row">
                                 <div class="col-md-12">
                                     <div style="width:50%;margin-left: 20px;">
-                                        <?php if (!empty($filters)): ?>
+                                        <?php if (!empty($template_filters)): ?>
                                             <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
-                                                'filters' => $filters,
+                                                'filters' => $template_filters,
                                                 'target'  => (empty($target)) ? null : $target,
                                                 'tmpl'    => (empty($tmpl)) ? null : $tmpl,
                                             ]); ?>
@@ -225,6 +225,7 @@ $custombutton = [
                             <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                                 'beetemplates' => $beetemplates,
                                 'active'       => '',
+                                'route'        => 'pages',
                             ]); ?>
                         </div>
                         <div class="tab-pane fade in bdr-w-0 " style="margin-top:5px;width:100%;" id="email-preview-container">

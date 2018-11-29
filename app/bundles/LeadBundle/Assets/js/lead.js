@@ -343,11 +343,10 @@ Le.leadlistOnLoad = function(container) {
     }
 
     var prefix = 'leadlist';
-    var parent = mQuery('.dynamic-content-filter, .dwc-filter');
-    if (parent.length) {
-        prefix = parent.attr('id');
-    }
-
+    // var parent = mQuery('.dynamic-content-filter, .dwc-filter');
+    // if (parent.length) {
+    //     prefix = parent.attr('id');
+    // }
     if (mQuery('#' + prefix + '_filters').length) {
         mQuery('#available_filters').off().on('change', function() {
             if (mQuery(this).val()) {
@@ -395,7 +394,6 @@ Le.leadlistOnLoad = function(container) {
         //         Le.reorderSegmentFilters();
         //     }
         // });
-
        if(mQuery('#' + prefix + '_filters .filter-and-group-holder').length){
            var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
        var filterandgroups=filterandgroupholder.children();
@@ -473,6 +471,8 @@ Le.registerEventsForFilterRemove=function(prefix){
             setTimeout(function() {
                 if (mQuery('#CampaignEventModal').length) {
                     prefix='campaignevent_properties';
+                }else if(mQuery('#emailform_plainText').length){
+                    prefix='emailform_recipients';
                 }
                 Le.updateFilterGlueValue(prefix);
             }, 1000);
@@ -513,18 +513,18 @@ Le.reorderSegmentFilters = function() {
 
 Le.convertLeadFilterInput = function(el) {
      var iscampaignmodel=false;
-    if (mQuery('#CampaignEventModal').length) {
-        iscampaignmodel=true;
-    }
+
 
     var prefix = 'leadlist';
-if(iscampaignmodel){
-    prefix = 'campaignevent_properties';
-}
-    var parent = mQuery(el).parents('.dynamic-content-filter, .dwc-filter');
-    if (parent.length) {
-        prefix = parent.attr('id');
+    if (mQuery('#CampaignEventModal').length) {
+        prefix = 'campaignevent_properties';
+    }else if(mQuery('#emailform_plainText').length){
+        prefix = 'emailform_recipients';
     }
+    // var parent = mQuery(el).parents('.dynamic-content-filter, .dwc-filter');
+    // if (parent.length) {
+    //     prefix = parent.attr('id');
+    // }
 
     var operator = mQuery(el).val();
 
@@ -650,21 +650,22 @@ Le.addLeadListFilter = function (elId,filtergroup,glueval) {
     var filterlist=mQuery(prototype).find('.list_filter_fields');
     Le.activateChosenSelect(filterlist);
     var prefix = 'leadlist';
-    var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
-    if (parent.length) {
-        prefix = parent.attr('id');
-    }
-    var iscampaignmodel=false;
-    if (mQuery('#CampaignEventModal').length) {
-        iscampaignmodel=true;
-    }
+    // var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
+    // if (parent.length) {
+    //     prefix = parent.attr('id');
+    // }
+
     var filterBase  = prefix+ "[filters][" + filterNum + "]";
     var filterIdBase = prefix + "_filters_" + filterNum + "_";
     var formBase=prefix + "_filters_";
-if(iscampaignmodel){
+if(mQuery('#CampaignEventModal').length){
     filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
     filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
     formBase="campaignevent_properties_filters_";
+}else if(mQuery('#emailform_plainText').length){
+    filterBase  = "emailform[recipients][filters][" + filterNum + "]";
+    filterIdBase = "emailform_recipients_filters_" + filterNum + "_";
+    formBase="emailform_recipients_filters_";
 }
     // mQuery(prototype).find("a.remove-selected").on('click', function() {
     //     mQuery(this).closest('.panel').animate(
@@ -698,19 +699,18 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list']) != -1);
 
     var prefix = 'leadlist';
-    var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
-    if (parent.length) {
-        prefix = parent.attr('id');
-    }
-    var iscampaignmodel=false;
-    if (mQuery('#CampaignEventModal').length) {
-        iscampaignmodel=true;
-    }
+    // var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
+    // if (parent.length) {
+    //     prefix = parent.attr('id');
+    // }
     var filterBase  = prefix+ "[filters][" + filterNum + "]";
     var filterIdBase = prefix + "_filters_" + filterNum + "_";
-    if(iscampaignmodel){
+    if(mQuery('#CampaignEventModal').length){
         filterBase  = "campaignevent[properties][filters][" + filterNum + "]";
         filterIdBase = "campaignevent_properties_filters_" + filterNum + "_";
+    }else if(mQuery('#emailform_plainText').length){
+        filterBase  = "emailform[recipients][filters][" + filterNum + "]";
+        filterIdBase = "emailform_recipients_filters_" + filterNum + "_";
     }
     var operator = mQuery('#' + filterIdBase + 'operator').val();
     try{

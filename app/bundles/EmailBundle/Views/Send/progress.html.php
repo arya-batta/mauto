@@ -51,11 +51,11 @@ $id      = ($status != 'inprogress') ? 'emailSendProgressComplete' : 'emailSendP
 
                 <?php if ($status == 'inprogress'): ?>
                 <div>
-                    <a class="text-danger mt-md" href="<?php echo $view['router']->path('le_email_action', ['objectAction' => 'send', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                    <a class="text-danger mt-md" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'send', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 </div>
                 <?php else: ?>
                 <div>
-                    <a class="text-success mt-md" href="<?php echo $view['router']->path('le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.done'); ?></a>
+                    <a class="text-success mt-md" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.form.done'); ?></a>
                 </div>
                 <?php endif; ?>
             </div>

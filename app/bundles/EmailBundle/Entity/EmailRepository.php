@@ -238,40 +238,40 @@ class EmailRepository extends CommonRepository
         $mqQb->where($messageExpr);
 
         // Only include those who belong to the associated lead lists
-        if (is_null($listIds)) {
-            // Get a list of lists associated with this email
-            $lists = $this->getEntityManager()->getConnection()->createQueryBuilder()
-                ->select('el.leadlist_id')
-                ->from(MAUTIC_TABLE_PREFIX.'email_list_xref', 'el')
-                ->where('el.email_id = '.(int) $emailId)
-                ->execute()
-                ->fetchAll();
-
-            $listIds = [];
-            foreach ($lists as $list) {
-                $listIds[] = $list['leadlist_id'];
-            }
-
-            if (empty($listIds)) {
-                // Prevent fatal error
-                return ($countOnly) ? 0 : [];
-            }
-        } elseif (!is_array($listIds)) {
-            $listIds = [$listIds];
-        }
+//        if (is_null($listIds)) {
+//            // Get a list of lists associated with this email
+//            $lists = $this->getEntityManager()->getConnection()->createQueryBuilder()
+//                ->select('el.leadlist_id')
+//                ->from(MAUTIC_TABLE_PREFIX.'email_list_xref', 'el')
+//                ->where('el.email_id = '.(int) $emailId)
+//                ->execute()
+//                ->fetchAll();
+//
+//            $listIds = [];
+//            foreach ($lists as $list) {
+//                $listIds[] = $list['leadlist_id'];
+//            }
+//
+//            if (empty($listIds)) {
+//                // Prevent fatal error
+//                return ($countOnly) ? 0 : [];
+//            }
+//        } elseif (!is_array($listIds)) {
+//            $listIds = [$listIds];
+//        }
 
         // Main query
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
         if ($countOnly) {
             // distinct with an inner join seems faster
             $q->select('count(distinct(l.id)) as count');
-            $q->innerJoin('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll',
-                $q->expr()->andX(
-                    $q->expr()->in('ll.leadlist_id', $listIds),
-                    $q->expr()->eq('ll.lead_id', 'l.id'),
-                    $q->expr()->eq('ll.manually_removed', ':false')
-                )
-            );
+//            $q->innerJoin('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll',
+//                $q->expr()->andX(
+//                    $q->expr()->in('ll.leadlist_id', $listIds),
+//                    $q->expr()->eq('ll.lead_id', 'l.id'),
+//                    $q->expr()->eq('ll.manually_removed', ':false')
+//                )
+//            );
 
             if ($countWithMaxMin) {
                 $q->addSelect('MIN(l.id) as min_id');
@@ -282,25 +282,41 @@ class EmailRepository extends CommonRepository
 
             // use a derived table in order to retrieve distinct leads in case they belong to multiple
             // lead lists associated with this email
-            $listQb = $this->getEntityManager()->getConnection()->createQueryBuilder();
-            $listQb->select('distinct(ll.lead_id) lead_id')
-                ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll')
-                ->where(
-                    $listQb->expr()->andX(
-                        $listQb->expr()->in('ll.leadlist_id', $listIds),
-                        $listQb->expr()->eq('ll.manually_removed', ':false')
-                    )
-                );
-
-            $listQb = $this->setMinMaxIds($listQb, 'll.lead_id', $minContactId, $maxContactId);
-
-            $q->innerJoin('l', sprintf('(%s)', $listQb->getSQL()), 'in_list', 'l.id = in_list.lead_id');
+//            $listQb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+//            $listQb->select('distinct(ll.lead_id) lead_id')
+//                ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll')
+//                ->where(
+//                    $listQb->expr()->andX(
+//                        $listQb->expr()->in('ll.leadlist_id', $listIds),
+//                        $listQb->expr()->eq('ll.manually_removed', ':false')
+//                    )
+//                );
+//
+//            $listQb = $this->setMinMaxIds($listQb, 'll.lead_id', $minContactId, $maxContactId);
+//
+//            $q->innerJoin('l', sprintf('(%s)', $listQb->getSQL()), 'in_list', 'l.id = in_list.lead_id');
         }
 
         $dncQb  = $this->setMinMaxIds($dncQb, 'dnc.lead_id', $minContactId, $maxContactId);
         $mqQb   = $this->setMinMaxIds($mqQb, 'mq.lead_id', $minContactId, $maxContactId);
         $statQb = $this->setMinMaxIds($statQb, 'stat.lead_id', $minContactId, $maxContactId);
 
+        $email = $this->getEntity($emailId);
+        if ($email instanceof Email) {
+            if ($email->getEmailType() == 'list') {
+                $leadlistRepo = $this->getEntityManager()->getRepository('MauticLeadBundle:LeadList');
+                if(isset($email->getRecipients()['filters'])){
+                    $parameters   =[];
+                    $expr         = $leadlistRepo->generateSegmentExpression($email->getRecipients()['filters'], $parameters, $q, null, null, false, 'l', null);
+                    if ($expr->count()) {
+                        $q->andWhere($expr);
+                    }
+                    unset($parameters);
+                }
+            } else {
+                return ($countOnly) ? 0 : [];
+            }
+        }
         $q->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
             ->andWhere(sprintf('l.id NOT IN (%s)', $dncQb->getSQL()))
             ->andWhere(sprintf('l.id NOT IN (%s)', $statQb->getSQL()))

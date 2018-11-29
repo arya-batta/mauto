@@ -17,23 +17,27 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'le_email_campaign_index' => [
-                'path'       => '/broadcast/{page}',
+                'path'       => '/oneoff/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'le_email_campaign_action' => [
-                'path'       => '/broadcast/{objectAction}/{objectId}',
+                'path'       => '/oneoff/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
+            ],
+            'le_email_preview_action' => [
+                'path'       => '/{route}/preview/template/{template}',
+                'controller' => 'MauticEmailBundle:EmailCampaign:templatePreview',
             ],
             'le_email_action' => [
                 'path'       => '/notificationemails/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
             'le_email_contacts' => [
-                'path'       => '/broadcast/contacts/{objectId}',
+                'path'       => '/oneoff/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
             'le_email_usage' => [
-                'path'       => '/broadcastsusage',
+                'path'       => '/oneoffsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',
             ],
             'le_dripemail_index' => [
@@ -79,36 +83,36 @@ return [
                 ],
             ],
             'le_email_tracker' => [
-                'path'       => '/broadcast/{idHash}.gif',
+                'path'       => '/oneoff/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'le_email_webview' => [
                 'path'       => '/{type}/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
                 'defaults'   => [
-                    'type' => 'broadcast',
+                    'type' => 'one-off',
                 ],
             ],
             'le_email_unsubscribe' => [
-                'path'       => '/broadcast/unsubscribe/{idHash}',
+                'path'       => '/oneoff/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'le_email_subscribe' => [
                 'path'       => '/{type}/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
                 'defaults'   => [
-                    'type' => 'broadcast',
+                    'type' => 'one-off',
                 ],
             ],
             'le_email_updatelead' => [
                 'path'       => '/{type}/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
                 'defaults'   => [
-                    'type' => 'broadcast',
+                    'type' => 'one-off',
                 ],
             ],
             'le_email_resubscribe' => [
-                'path'       => '/broadcast/resubscribe/{idHash}',
+                'path'       => '/oneoff/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
             'le_mailer_transport_callback' => [
@@ -120,7 +124,7 @@ return [
                 'path'       => '/{type}/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
                 'defaults'   => [
-                    'type' => 'broadcast',
+                    'type' => 'one-off',
                 ],
             ],
             'le_beefree_credentials' => [
