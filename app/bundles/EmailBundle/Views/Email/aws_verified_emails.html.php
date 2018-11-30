@@ -15,7 +15,7 @@
 </style>
 <table class="payment-history">
     <thead>
-    <button id="open-model-btn" type="button" class="btn btn-info" style="margin-left: 200px;" data-toggle="modal" data-target="#emailVerifyModel"><?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
+    <button id="open-model-btn" type="button" class="btn btn-info" style="margin-left: 18%;" data-toggle="modal" data-target="#emailVerifyModel"><?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
     <div class="modal fade le-modal-box-align" id="emailVerifyModel">
         <div class="le-modal-gradient">
         <div class="modal-dialog le-gradient-align">

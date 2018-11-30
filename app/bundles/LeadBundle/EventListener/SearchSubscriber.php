@@ -218,6 +218,26 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.campaign.searchcommand.wf-goal', [], null, 'en_US'):
                     $this->buildWfGoalQuery($event);
                 break;
+            case $this->translator->trans('le.lead.drip.searchcommand.lead'):
+            case $this->translator->trans('le.lead.drip.searchcommand.lead', [], null, 'en_US'):
+                    $this->buildDripLeadQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.sent'):
+            case $this->translator->trans('le.lead.drip.searchcommand.sent', [], null, 'en_US'):
+                    $this->buildDripSentQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.read'):
+            case $this->translator->trans('le.lead.drip.searchcommand.read', [], null, 'en_US'):
+                    $this->buildDripReadQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.click'):
+            case $this->translator->trans('le.lead.drip.searchcommand.click', [], null, 'en_US'):
+                    $this->buildDripClickQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.unsubscribe'):
+            case $this->translator->trans('le.lead.drip.searchcommand.unsubscribe', [], null, 'en_US'):
+                    $this->buildDripUnsubscribeQuery($event);
+                break;
 
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
@@ -616,6 +636,110 @@ class SearchSubscriber extends CommonSubscriber
         $q     = $event->getQueryBuilder();
         $expr = $q->expr()->andX($q->expr()->eq('ce.trigger_mode','"interrupt"'),
             $q->expr()->eq('cl.campaign_id',$campaignid));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripLeadQuery($event){
+        $tables = [
+            [
+              'from_alias'  => 'l',
+              'table'       => 'dripemail_leads',
+              'alias'       => 'dl',
+              'condition'   => 'l.id = dl.lead_id',
+            ],
+        ];
+        $config = [
+            'column' => 'dl.dripemail_id',
+        ];
+        $this->buildJoinQuery($event, $tables, $config);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripSentQuery($event){
+        $dripid =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+
+        $q     = $event->getQueryBuilder();
+        $expr = $q->expr()->andX($q->expr()->eq('es.is_failed', '"0"'),
+            $q->expr()->in('es.email_id', $emailIds));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+        //$this->buildJoinQuery($event, $tables, $config);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripReadQuery($event){
+        $dripid =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+
+        $q     = $event->getQueryBuilder();
+        $expr = $q->expr()->andX($q->expr()->eq('es.is_read', '"1"'),
+            $q->expr()->in('es.email_id', $emailIds));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripClickQuery($event){
+        $dripid =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'page_hits',
+                'alias'      => 'ph',
+                'condition'  => 'l.id = ph.lead_id',
+            ],
+        ];
+
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andX($q->expr()->in('ph.email_id',$emailIds));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripUnsubscribeQuery($event){
+        $dripid =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr = $q->expr()->andX($q->expr()->eq('es.is_unsubscribe', '"1"'),
+            $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
 
     }

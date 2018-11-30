@@ -957,4 +957,21 @@ class EmailRepository extends CommonRepository
 
         return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
     }
+
+    /**
+     * @param $dripid
+     * @return array
+     */
+    public function getEmailIdsByDripid($dripid){
+        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->andWhere($q->expr()->eq('e.dripemail_id',':dripemail_id'))
+            ->setParameter('dripemail_id',$dripid);
+        $emails = $q->execute()->fetchAll();
+       foreach ($emails as $email ){
+           $emailids[]=$email['id'];
+       }
+        return $emailids;
+    }
 }

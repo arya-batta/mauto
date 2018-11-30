@@ -179,6 +179,10 @@ $isAdmin=$view['security']->isAdmin();
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-lead-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.lead').':'.$item->getId()]
+                               ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -190,6 +194,10 @@ $isAdmin=$view['security']->isAdmin();
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-sent-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.sent').':'.$item->getId()]
+                               ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -201,6 +209,10 @@ $isAdmin=$view['security']->isAdmin();
                      <span class="mt-xs has-click-event clickable-stat"
                            id="drip-read-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.read').':'.$item->getId()]
+                               ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.stat.read.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -212,6 +224,10 @@ $isAdmin=$view['security']->isAdmin();
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-click-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.click').':'.$item->getId()]
+                               ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -223,6 +239,10 @@ $isAdmin=$view['security']->isAdmin();
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.unsubscribe').':'.$item->getId()]
+                               ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
