@@ -2477,10 +2477,14 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
             $this->getRepository()->getLast30DaysClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
         ];
+        $unSubscribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-user-times', $this->translator->trans('le.email.sent.list.unsubscribe'),
+            $this->getRepository()->getUnsubscribeCount($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
+        ];
 
         $allBlockDetails[] = $sentCount;
         $allBlockDetails[] = $openCount;
         $allBlockDetails[] = $clickCount;
+        $allBlockDetails[] = $unSubscribeCount;
 
         return $allBlockDetails;
     }

@@ -218,4 +218,35 @@ class DripEmailRepository extends CommonRepository
 
         return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
     }
+    public function getDripUnsubscribeCounts($viewOthers = false){
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(e.id) as unsubscribecount')
+            ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('es.is_failed', ':false')
+                )
+            )->setParameter('false', false, 'boolean');
+
+        $q->andWhere('e.email_type = :emailType')
+            ->setParameter('emailType', 'dripemail');
+        $q->andWhere(
+            $q->expr()->eq('es.is_unsubscribe', 1),
+            $q->expr()->neq('e.dripemail_id','"NULL"')
+        );
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+        return $results[0]['unsubscribecount'];
+
+    }
 }
