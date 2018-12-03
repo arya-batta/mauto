@@ -18,10 +18,10 @@ use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Exception\SmsCouldNotBeSentException;
-use Mautic\SmsBundle\Helper\SmsHelper;
 use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
+use Mautic\SmsBundle\Helper\SmsHelper;
 
 /**
  * Class CampaignSubscriber.
@@ -92,15 +92,15 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-        if ($this->security->isGranted('sms:smses:viewown')) {
-            $transportChain = $this->factory->get('mautic.sms.transport_chain');
-            $transports     = $transportChain->getEnabledTransports();
-            $isEnabled      = false;
-            foreach ($transports as $transportServiceId=>$transport) {
-                $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
-                if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-                    $isEnabled = true;
-                    $event->addAction(
+       if ($this->security->isGranted('sms:smses:viewown')) {
+        $transportChain = $this->factory->get('mautic.sms.transport_chain');
+        $transports     = $transportChain->getEnabledTransports();
+        $isEnabled      = false;
+        foreach ($transports as $transportServiceId=>$transport) {
+            $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+                $isEnabled = true;
+                $event->addAction(
                     'sms.send_text_sms',
                     [
                         'label'            => 'mautic.campaign.sms.send_text_sms',

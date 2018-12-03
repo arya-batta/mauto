@@ -73,7 +73,7 @@ class EmailOpenType extends AbstractType
 
         $builder->add('campaigntype', 'choice', [
             'choices' => [
-                'broadcast' => 'Broadcast Campaign',
+                'broadcast' => 'One-Off Campaign',
                 'drip'      => 'Drip Campaign',
             ],
             'empty_value' => '',

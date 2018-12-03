@@ -6625,3 +6625,9 @@ text-align: center;
     margin-top: 7px;
     margin-bottom: 7px;
 }
+.header_text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 101%;
+}

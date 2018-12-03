@@ -60,4 +60,22 @@ class SendGridApiFacade
             throw new \Swift_TransportException($e->getMessage());
         }
     }
+
+    /**
+     * @return SendGridWrapper
+     */
+    public function getSendGridWrapper()
+    {
+        return $this->sendGridWrapper;
+    }
+
+    /**
+     * @param SendGridWrapper $sendGridWrapper
+     */
+    public function setSendGridWrapper($sendGridWrapper)
+    {
+        $this->sendGridWrapper = $sendGridWrapper;
+    }
+
+
 }

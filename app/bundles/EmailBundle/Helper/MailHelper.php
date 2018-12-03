@@ -28,6 +28,8 @@ use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\SubscriptionBundle\Entity\Account;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Mautic\EmailBundle\Swiftmailer\Transport\SendgridApiTransport;
+use Mautic\EmailBundle\Swiftmailer\Transport\SparkpostTransport;
 
 /**
  * Class MailHelper.
@@ -2262,6 +2264,15 @@ class MailHelper
                             }
                             $sesmailer = new SimpleEmailService($settings['user'], $settings['password'], $settings['amazon_region']);
                             $mailer->setSimpleemailservice($sesmailer);
+                        }
+                    }elseif('le.transport.sendgrid_api' == $transport){
+                        $sendgrid = new \SendGrid($settings['api_key']);
+                        if($mailer instanceof SendgridApiTransport) {
+                            $mailer->getSendGridApiFacade()->getSendGridWrapper()->setSendGrid($sendgrid);
+                            }
+                    }elseif ('le.transport.sparkpost' == $transport){
+                        if($mailer instanceof SparkpostTransport){
+                            $mailer->setApiKey($settings['api_key']);
                         }
                     }
                 }
