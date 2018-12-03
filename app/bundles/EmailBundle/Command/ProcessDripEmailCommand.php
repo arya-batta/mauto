@@ -10,12 +10,21 @@ namespace Mautic\EmailBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
 use Mautic\LeadBundle\Entity\DoNotContact;
+use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\Event\LeadEvent;
+use Mautic\LeadBundle\LeadEvents;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ProcessDripEmailCommand extends ModeratedCommand
 {
+    /**
+     * @var EventDispatcher
+     */
+    protected $dispatcher;
+
     protected function configure()
     {
         $this
@@ -38,13 +47,19 @@ class ProcessDripEmailCommand extends ModeratedCommand
 
             $leadEventLogRepo      = $container->get('mautic.email.repository.leadEventLog');
             $dripEmailModel        = $container->get('mautic.email.model.dripemail');
+            $this->dispatcher      = $container->get('event_dispatcher');
             $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
             $leadModel             = $container->get('mautic.lead.model.lead');
             $timezone              = $coreParameterHelper->getParameter('default_timezone');
             date_default_timezone_set($timezone);
-            $currentDate      = date('Y-m-d H:i:s');
-            $eventList        = $leadEventLogRepo->getScheduledEvents($currentDate);
+            $currentDate       = date('Y-m-d H:i:s');
+            $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate);
+            $completedDripsIds = [];
             foreach ($eventList as $leadEvent) {
+                $completedDrips = $leadEvent->getRotation();
+                if ($completedDrips == '1') {
+                    $completedDripsIds[$leadEvent->getCampaign()->getId()][] = $leadEvent->getLead()->getId();
+                }
                 if (!empty($leadEvent->getEmail())) {
                     $isContactableReason = $leadModel->isContactable($leadEvent->getLead(), 'email');
                     $isDoNotContact      = 0;
@@ -70,6 +85,14 @@ class ProcessDripEmailCommand extends ModeratedCommand
                     $output->writeln('<info>'.'To be Modified Lead ID:'.$leadEvent->getLead()->getId().'</info>');
                     $output->writeln('<info>========================================</info>');
                 }
+            }
+
+            if ($this->dispatcher->hasListeners(LeadEvents::COMPLETED_DRIP_CAMPAIGN)) {
+                $lead  = new Lead();
+                $event = new LeadEvent($lead, true);
+                $event->setCompletedDripsIds($completedDripsIds);
+                $this->dispatcher->dispatch(LeadEvents::COMPLETED_DRIP_CAMPAIGN, $event);
+                unset($event);
             }
         } catch (\Exception $e) {
             echo 'exception->'.$e->getMessage()."\n";

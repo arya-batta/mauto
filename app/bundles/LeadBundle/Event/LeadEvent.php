@@ -20,8 +20,20 @@ use Mautic\LeadBundle\Entity\Lead;
 class LeadEvent extends CommonEvent
 {
     /**
-     * @param Lead $lead
-     * @param bool $isNew
+     * @var
+     */
+    private $removedtags;
+
+    /**
+     * @var
+     */
+    private $dripId;
+
+    /**
+     * @param Lead   $lead
+     * @param bool   $isNew
+     * @param string $removedtags
+     * @param string $dripId
      */
     public function __construct(Lead &$lead, $isNew = false)
     {
@@ -47,5 +59,37 @@ class LeadEvent extends CommonEvent
     public function setLead(Lead $lead)
     {
         $this->entity = $lead;
+    }
+
+    /**
+     * Returns the Removed Tags.
+     */
+    public function getRemovedTags()
+    {
+        return $this->removedtags;
+    }
+
+    /**
+     * @param  $removedtags
+     */
+    public function setLRemovedTags($removedtags)
+    {
+        $this->removedtags = $removedtags;
+    }
+
+    /**
+     * Returns the Removed Tags.
+     */
+    public function getCompletedDripsIds()
+    {
+        return $this->dripId;
+    }
+
+    /**
+     * @param  $dripId
+     */
+    public function setCompletedDripsIds($dripId)
+    {
+        $this->dripId = $dripId;
     }
 }

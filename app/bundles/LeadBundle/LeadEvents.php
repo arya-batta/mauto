@@ -583,6 +583,14 @@ final class LeadEvents
     const MODIFY_TAG_EVENT = 'mautic.modify_tag_with_campaign';
 
     /**
+     * The mautic.remove_tag_with_campaign event registers Lead Tag Modify.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const REMOVE_TAG_EVENT = 'mautic.remove_tag_with_campaign';
+    /**
      * The mautic.modify_lead_field_with_campaign event registers Lead Field Value Modify.
      *
      * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
@@ -626,4 +634,13 @@ final class LeadEvents
      * @var string
      */
     const PAGE_HIT_EVENT = 'mautic.page_hit_with_campaign';
+
+    /**
+     * The mautic.dripcampaign_completed_with_campaign event registers Drip Email Sent Event.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const COMPLETED_DRIP_CAMPAIGN = 'mautic.dripcampaign_completed_with_campaign';
 }

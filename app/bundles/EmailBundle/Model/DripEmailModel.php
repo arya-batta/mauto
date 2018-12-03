@@ -228,7 +228,7 @@ class DripEmailModel extends FormModel
     }
 
     /**
-     * @return \Mautic\EmailBundle\Entity\LeadEventLog
+     * @return \Mautic\EmailBundle\Entity\LeadEventLogRepository
      */
     public function getCampaignLeadEventRepository()
     {
@@ -455,9 +455,9 @@ class DripEmailModel extends FormModel
         $isFirstmailToday = false;
         $previousDate     = date('Y-m-d H:i:s');
         foreach ($entities as $entity) {
-            if (!$this->checkLeadCompleted($lead, $dripemail, $entity)) {
+            /*if (!$this->checkLeadCompleted($lead, $dripemail, $entity)) {
                 continue;
-            }
+            }*/
             if ($entity->getDripEmailOrder() == 1) {
                 $dayscount        = 0;
                 $configdays       = $dripemail->getDaysEmailSend();

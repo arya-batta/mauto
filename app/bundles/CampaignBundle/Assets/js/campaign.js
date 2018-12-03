@@ -1697,7 +1697,16 @@ Le.invokeCampaignEventDeleteAction=function(id,callback){
  */
 
 Le.campaignEventOnLoad = function (container, response) {
-    Le.leadlistOnLoad(container);
+    var value = mQuery('#campaignevent_properties_campaigntype').val();
+    var eventNames = mQuery('#campaignevent_type').val();
+
+    if(eventNames == "openEmail" || eventNames == "clickEmail"){
+        Le.getSelectedCampaignValue(value);
+    }
+   if(eventNames == "lead.campaign_list_filter"){
+       Le.leadlistOnLoad(container);
+   }
+
     var eventType=response.eventType;
     if(!response.closeModal && !response.deleted){
         var cegselctize = mQuery('#campaignevent_group').selectize({

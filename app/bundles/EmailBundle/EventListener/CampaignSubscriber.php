@@ -113,6 +113,9 @@ class CampaignSubscriber extends CommonSubscriber
                 ['onCampaignTriggerActionSendEmailToContact', 0],
                 ['onCampaignTriggerActionSendEmailToUser', 1],
                 ['onCampaignTriggerActionSendDripEmailToLead', 2],
+                ['onCampaignTriggerActionRemoveDripCampaign', 3],
+                ['onCampaignTriggerActionRestartDripCampaign', 4],
+                ['onCampaignTriggerActionMoveDripCampaign', 5],
             ],
             EmailEvents::ON_CAMPAIGN_TRIGGER_DECISION => ['onCampaignTriggerDecision', 0],
             EmailEvents::EMAIL_ON_REPLY               => ['onEmailReply', 0],
@@ -171,7 +174,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
-                'order'           => 1,
+                'order'           => 4,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
@@ -187,6 +190,19 @@ class CampaignSubscriber extends CommonSubscriber
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
+
+        $event->addAction(
+            'move.dripcampaign',
+            [
+                'label'           => 'le.email.campaign.event.move.dripcampaign',
+                'description'     => 'le.email.campaign.event.move.dripcampaign_descr',
+                'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'formType'        => 'dripemail_move',
+                'order'           => 2,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
+            ]
+        );
+
         if ($isAdmin) {
             $event->addDecision(
                 'email.reply',
@@ -227,7 +243,8 @@ class CampaignSubscriber extends CommonSubscriber
                 'label'           => 'le.email.campaign.event.email.open',
                 'description'     => 'le.email.campaign.event.email.open_descr',
                 'sourcetype'      => 'openEmail',
-                'formType'        => 'emailsend_list',
+                'formTheme'       => 'MauticEmailBundle:FormTheme\Point',
+                'formType'        => 'emailopen_list',
                 'order'           => '7',
                 'group'           => 'le.campaign.source.group.name',
             ]
@@ -239,9 +256,34 @@ class CampaignSubscriber extends CommonSubscriber
                 'label'           => 'le.email.campaign.event.email.click',
                 'description'     => 'le.email.campaign.event.email.click_descr',
                 'sourcetype'      => 'clickEmail',
-                'formType'        => 'emailsend_list',
+                'formTheme'       => 'MauticEmailBundle:FormTheme\Point',
+                'formType'        => 'emailopen_list',
                 'order'           => '8',
                 'group'           => 'le.campaign.source.group.name',
+            ]
+        );
+
+        $event->addAction(
+            'remove.dripcampaign',
+            [
+                'label'           => 'le.lead.lead.events.remove.dripcampaign',
+                'description'     => 'le.lead.lead.events.remove.dripcampaigndesc',
+                'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'formType'        => 'dripemailsend_list',
+                'order'           => 2,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
+            ]
+        );
+
+        $event->addAction(
+            'restart.dripcampaign',
+            [
+                'label'           => 'le.lead.lead.events.restart.dripcampaign',
+                'description'     => 'le.lead.lead.events.restart.dripcampaigndesc',
+                'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+                'formType'        => 'dripemailsend_list',
+                'order'           => 3,
+                'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
     }
@@ -447,6 +489,143 @@ class CampaignSubscriber extends CommonSubscriber
             return $event;
         }
         $this->dripEmailModel->addLead($entity, $lead);
+
+        $items     = $this->emailModel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $this->dripEmailModel->scheduleEmail($items, $entity, $lead);
+        $event->setResult(true);
+
+        return $event;
+    }
+
+    /**
+     * Triggers the action which removes the leads from particular drip campaign.
+     *
+     * @param CampaignExecutionEvent $event
+     *
+     * @return CampaignExecutionEvent|null
+     */
+    public function onCampaignTriggerActionRemoveDripCampaign(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('remove.dripcampaign')) {
+            return;
+        }
+
+        $config    = $event->getConfig();
+        $lead      = $event->getLead();
+        $dripEmail = $config['dripemail'];
+        $email     = $this->dripEmailModel->getEntity($dripEmail);
+
+        if (!$email || !$email->isPublished()) {
+            return $event->setFailed('DripEmail not found or published');
+        }
+
+        $eventLogRepo=$this->dripEmailModel->getCampaignLeadEventRepository();
+        $eventLogRepo->removeScheduledEvents($dripEmail, $lead->getId());
+        $eventLogRepo->removeScheduledDripLead($dripEmail, $lead->getId());
+        $event->setResult(true);
+
+        return $event;
+    }
+
+    /**
+     * Triggers the action which moves the leads from particular drip campaign to another drip.
+     *
+     * @param CampaignExecutionEvent $event
+     *
+     * @return CampaignExecutionEvent|null
+     */
+    public function onCampaignTriggerActionMoveDripCampaign(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('move.dripcampaign')) {
+            return;
+        }
+        $config    = $event->getConfig();
+        $lead      = $event->getLead();
+
+        $moveFromId = $config['movedripfrom'];
+        $moveToId   = $config['movedripto'];
+
+        $eventLogRepo     = $this->dripEmailModel->getCampaignLeadEventRepository();
+        $moveFromemail    = $this->dripEmailModel->getEntity($moveFromId);
+
+        if (!$moveFromemail || !$moveFromemail->isPublished()) {
+            return $event->setFailed('DripMoveFromEmail not found or published');
+        }
+
+        $eventLogRepo->removeScheduledEvents($moveFromId, $lead->getId());
+        $eventLogRepo->removeScheduledDripLead($moveFromId, $lead->getId());
+
+        $entity    = $this->dripEmailModel->getEntity($moveToId);
+        if ($entity == null) {
+            $event->setResult(true);
+
+            return $event;
+        }
+        $this->dripEmailModel->addLead($entity, $lead);
+
+        $items     = $this->emailModel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $this->dripEmailModel->scheduleEmail($items, $entity, $lead);
+        $event->setResult(true);
+
+        return $event;
+    }
+
+    /**
+     * Triggers the action which restart the lead from the beginning of the particular drip campaign.
+     *
+     * @param CampaignExecutionEvent $event
+     *
+     * @return CampaignExecutionEvent|null
+     */
+    public function onCampaignTriggerActionRestartDripCampaign(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('restart.dripcampaign')) {
+            return;
+        }
+
+        $config    = $event->getConfig();
+        $lead      = $event->getLead();
+        $dripEmail = $config['dripemail'];
+        $entity    = $this->dripEmailModel->getEntity($dripEmail);
+
+        if (!$entity || !$entity->isPublished()) {
+            return $event->setFailed('DripEmail not found or published');
+        }
+
+        $eventLogRepo=$this->dripEmailModel->getCampaignLeadEventRepository();
+        $eventLogRepo->restartScheduledEvents($dripEmail, $lead->getId());
 
         $items     = $this->emailModel->getEntities(
             [

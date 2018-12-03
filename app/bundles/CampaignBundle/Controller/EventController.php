@@ -57,7 +57,7 @@ class EventController extends CommonFormController
             $modifiedEvents[$keyId] = $event;
             $session->set('mautic.campaign.'.$campaignId.'.events.modified', $modifiedEvents);
             $passthroughVars               = [
-                'leContent'     => 'campaignEvent',
+                'leContent'         => 'campaignEvent',
                 'success'           => 0,
                 'route'             => false,
                 'eventType'         => $eventType,
@@ -176,7 +176,7 @@ class EventController extends CommonFormController
             $viewParams['accessurl']       =$this->generateUrl('le_campaignevent_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
             $viewParams['events']          =$event;
             $passthroughVars               = [
-                'leContent'     => 'campaignEvent',
+                'leContent'         => 'campaignEvent',
                 'success'           => $success,
                 'route'             => false,
                 'eventType'         => $eventType,
@@ -256,7 +256,7 @@ class EventController extends CommonFormController
             }
 
             $dataArray = [
-                'leContent' => 'campaignEvent',
+                'leContent'     => 'campaignEvent',
                 'success'       => 1,
                 'route'         => false,
                 'eventId'       => $objectId,
@@ -321,7 +321,7 @@ class EventController extends CommonFormController
             $event  = array_merge($blank, $event);
 
             $dataArray = [
-                'leContent' => 'campaignEvent',
+                'leContent'     => 'campaignEvent',
                 'success'       => 1,
                 'route'         => false,
                 'eventId'       => $objectId,
@@ -352,9 +352,15 @@ class EventController extends CommonFormController
             $pages  =$event['properties']['pages'];
             $label  =$this->getFormattedEventLabel($label, $pages, $choices['en']);
         } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail' || $event['type'] == 'email.send') {
-            $choices=$formView->children['properties']->children['email']->vars['choices'];
-            $emails =$event['properties']['email'];
-            $label  =$this->getFormattedEventLabel($label,$event['type'] == 'email.send'? [$emails]:$emails, $choices['en']);
+            if ($event['properties']['campaigntype'] == 'drip') {
+                $choices=$formView->children['properties']->children['driplist']->vars['choices'];
+                $emails =$event['properties']['driplist'];
+                $label  =$this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices);
+            } else {
+                $choices=$formView->children['properties']->children['emails']->vars['choices'];
+                $emails =$event['properties']['emails'];
+                $label  =$this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices['en']);
+            }
         } elseif ($event['type'] == 'leadtags') {
             $choices=$formView->children['properties']->children['tags']->vars['choices'];
             $tags   =$event['properties']['tags'];
@@ -537,15 +543,15 @@ class EventController extends CommonFormController
                             $displaystring .= ',';
                         }
                     }
-                    if($displaystring != '') {
+                    if ($displaystring != '') {
                         $value='['.$displaystring.']';
                     }
                 } else {
                     $value='['.implode(',', $value).']';
                 }
             } else {
-                if($value != '') {
-                    $value = "[" . $value . "]";
+                if ($value != '') {
+                    $value = '['.$value.']';
                 }
             }
             if ($index > 0) {
