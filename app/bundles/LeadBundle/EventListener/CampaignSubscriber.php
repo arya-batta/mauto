@@ -138,7 +138,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.lead.events.changelist_descr',
             'formType'        => 'leadlist_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 3,
+            'order'           => 4,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changelist', $action);
@@ -335,11 +335,33 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addSources('leadtags', $source);
 
         $source = [
+            'label'       => 'le.lead.list.filter.tags.remove',
+            'description' => 'le.lead.list.filter.tags.remove.desc',
+            'order'       => '5',
+            'formType'    => 'campaignevent_lead_tags',
+            'group'       => 'le.campaign.source.group.name',
+            'sourcetype'  => 'leadtags.remove',
+        ];
+
+        $event->addSources('leadtags.remove', $source);
+
+        $source = [
+            'label'       => 'le.lead.lead.events.completed_dripcampaign',
+            'description' => 'le.lead.lead.events.completed_dripcampaign_descr',
+            'formType'    => 'dripemailsend_list',
+            'order'       => '6',
+            'group'       => 'le.campaign.source.group.name',
+            'sourcetype'  => 'dripcampaign_completed',
+        ];
+
+        $event->addSources('dripcampaign_completed', $source);
+
+        $source = [
             'label'       => 'le.lead.lead.events.field_value',
             'description' => 'le.lead.lead.events.field_value_descr',
             'formType'    => 'campaignevent_lead_field_value',
             'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
-            'order'       => '6',
+            'order'       => '7',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'fieldvalue',
         ];

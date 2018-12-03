@@ -141,8 +141,12 @@ Le.getSelectedCampaignValue = function (value) {
     }
 };
 Le.convertDripFilterInput = function (templateId) {
+    var eventType = 'point_properties_driplist';
+    if (mQuery(location).attr('href').includes("automations")) {
+        eventType = 'campaignevent_properties_driplist';
+    }
     var query = "action=point:getDripFilterInput&templateId=" + templateId;
-    Le.activateLabelLoadingIndicator('point_properties_driplist');
+    Le.activateLabelLoadingIndicator(eventType);
     mQuery('#dripemaillist').removeClass('hide');
     mQuery.ajax({
         url: leAjaxUrl,
@@ -152,9 +156,9 @@ Le.convertDripFilterInput = function (templateId) {
         success: function (response) {
             if (response.success) {
               var templateOptions = response.values;
-                mQuery('#point_properties_driplist').html('');
-                if (mQuery('#point_properties_driplist_chosen').length) {
-                    mQuery('#point_properties_driplist').chosen('destroy');
+                mQuery('#'+eventType).html('');
+                if (mQuery('#'+eventType + '_chosen').length) {
+                    mQuery('#'+eventType).chosen('destroy');
                 }
                 var index=0;
                 mQuery.each(templateOptions, function (value, label) {
@@ -162,10 +166,10 @@ Le.convertDripFilterInput = function (templateId) {
                     if(index == 0){
                         mQuery(newOption).attr('selected','selected');
                     }
-                    newOption.appendTo(mQuery('#point_properties_driplist'));
+                    newOption.appendTo(mQuery('#'+eventType));
                     index++;
                 });
-                Le.activateChosenSelect('#point_properties_driplist');
+                Le.activateChosenSelect('#'+eventType);
             }
         },
         complete: function() {

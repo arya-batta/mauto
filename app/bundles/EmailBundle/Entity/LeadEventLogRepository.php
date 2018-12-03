@@ -128,4 +128,41 @@ class LeadEventLogRepository extends CommonRepository
             ]
         );
     }
+
+    /**
+     * @param $campaignId
+     * @param $leadId
+     */
+    public function removeScheduledDripLead($campaignId, $leadId)
+    {
+        $conn = $this->_em->getConnection();
+
+        $conn->delete(MAUTIC_TABLE_PREFIX.'dripemail_leads', [
+            'lead_id'       => (int) $leadId,
+            'dripemail_id'  => (int) $campaignId,
+        ]);
+    }
+
+    /**
+     * @param $campaignId
+     * @param $leadId
+     */
+    public function restartScheduledEvents($campaignId, $leadId)
+    {
+        $q   = $this->_em->getConnection()->createQueryBuilder();
+        $q->update(MAUTIC_TABLE_PREFIX.'dripemail_lead_event_log')
+            ->set('is_scheduled', ':scheduled')
+            ->set('failedReason', ':reason')
+            ->setParameter('reason', 'cancelled')
+            ->setParameter('scheduled', 0)
+            ->where($q->expr()->eq('dripemail_id', $campaignId));
+
+        $q->andWhere($q->expr()->eq('lead_id', ':leadId'))
+            ->setParameter('leadId', $leadId);
+
+        $q->andWhere($q->expr()->eq('is_scheduled', ':iSscheduled'))
+            ->setParameter('iSscheduled', 1);
+
+        $q->execute();
+    }
 }

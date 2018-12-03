@@ -68,6 +68,8 @@ class LeadSubscriber extends CommonSubscriber
             LeadEvents::OPEN_EMAIL_EVENT         => ['OpenEmailEvent', 0],
             LeadEvents::CLICK_EMAIL_EVENT        => ['ClickEmailEvent', 0],
             LeadEvents::PAGE_HIT_EVENT           => ['PageHitEvent', 0],
+            LeadEvents::REMOVE_TAG_EVENT         => ['RemoveTagModifiedLead', 0],
+            LeadEvents::COMPLETED_DRIP_CAMPAIGN  => ['CompletedDripCampaign', 0],
         ];
     }
 
@@ -240,6 +242,34 @@ class LeadSubscriber extends CommonSubscriber
         }
     }
 
+    public function RemoveTagModifiedLead(LeadEvent $event)
+    {
+        $lead        = $event->getLead();
+        $removedTags = $event->getRemovedTags();
+
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('leadtags.remove');
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties        = unserialize($event['properties']);
+                    $campaign          = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                    $containsAllValues = !empty(array_intersect($properties['tags'], $removedTags));
+                    if ($containsAllValues) {
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                    }
+                }
+            }
+        }
+    }
+
     public function AddModifiedLeadbasedonFields(LeadEvent $event)
     {
         $lead   = $event->getLead();
@@ -253,7 +283,7 @@ class LeadSubscriber extends CommonSubscriber
             foreach ($allLeadsCampaigns as $c) {
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
-                    if(!empty($changes[$properties['field']])) {
+                    if (!empty($changes[$properties['field']])) {
                         if ($this->leadModel->checkLeadFieldValue($lead, $properties)) {
                             $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
                             if ($event['goal'] != 'interrupt') {
@@ -354,6 +384,34 @@ class LeadSubscriber extends CommonSubscriber
 //                    else {
 //                        $this->campaignModel->removeLead($campaign, $lead);
 //                    }
+                }
+            }
+        }
+    }
+
+    public function CompletedDripCampaign(LeadEvent $event)
+    {
+        $dripLeadID = $event->getCompletedDripsIds();
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('dripcampaign_completed');
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    if (array_key_exists($properties['dripemail'], $dripLeadID)) {
+                        $leadValues= $dripLeadID[$properties['dripemail']];
+                        foreach ($leadValues as $lead) {
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                        }
+                        unset($campaign);
+                    }
                 }
             }
         }

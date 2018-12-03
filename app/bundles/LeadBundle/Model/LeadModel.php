@@ -27,7 +27,6 @@ use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Helper\PathsHelper;
 use Mautic\CoreBundle\Model\FormModel;
-use Mautic\EmailBundle\Entity\Stat;
 use Mautic\EmailBundle\Entity\StatRepository;
 use Mautic\EmailBundle\Helper\EmailValidator;
 use Mautic\LeadBundle\DataObject\LeadManipulator;
@@ -2029,7 +2028,15 @@ class LeadModel extends FormModel
             if (($this->dispatcher->hasListeners(LeadEvents::MODIFY_TAG_EVENT))) {
                 $event = new LeadEvent($lead, true);
                 $this->dispatcher->dispatch(LeadEvents::MODIFY_TAG_EVENT, $event);
-
+                unset($event);
+            }
+        }
+        if (!empty($changes['tags']['removed'])) {
+            $removedTags = $changes['tags']['removed'];
+            if (($this->dispatcher->hasListeners(LeadEvents::REMOVE_TAG_EVENT))) {
+                $event = new LeadEvent($lead, true);
+                $event->setLRemovedTags($removedTags);
+                $this->dispatcher->dispatch(LeadEvents::REMOVE_TAG_EVENT, $event);
                 unset($event);
             }
         }

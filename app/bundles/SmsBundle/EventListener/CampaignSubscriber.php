@@ -18,10 +18,10 @@ use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Exception\SmsCouldNotBeSentException;
+use Mautic\SmsBundle\Helper\SmsHelper;
 use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
-use Mautic\SmsBundle\Helper\SmsHelper;
 
 /**
  * Class CampaignSubscriber.
@@ -65,13 +65,12 @@ class CampaignSubscriber extends CommonSubscriber
         NotificationHelper $notificationhelper,
         SendSmsToUser $sendSmstoUser,
         SmsHelper $smsHelper
-
     ) {
         $this->integrationHelper  = $integrationHelper;
         $this->smsModel           = $smsModel;
         $this->notificationhelper = $notificationhelper;
         $this->sendSmstoUser      = $sendSmstoUser;
-        $this->smsHelper      = $smsHelper;
+        $this->smsHelper          = $smsHelper;
     }
 
     /**
@@ -93,15 +92,15 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-       if ($this->security->isGranted('sms:smses:viewown')) {
-        $transportChain = $this->factory->get('mautic.sms.transport_chain');
-        $transports     = $transportChain->getEnabledTransports();
-        $isEnabled      = false;
-        foreach ($transports as $transportServiceId=>$transport) {
-            $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
-            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-                $isEnabled = true;
-                $event->addAction(
+        if ($this->security->isGranted('sms:smses:viewown')) {
+            $transportChain = $this->factory->get('mautic.sms.transport_chain');
+            $transports     = $transportChain->getEnabledTransports();
+            $isEnabled      = false;
+            foreach ($transports as $transportServiceId=>$transport) {
+                $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+                if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+                    $isEnabled = true;
+                    $event->addAction(
                     'sms.send_text_sms',
                     [
                         'label'            => 'mautic.campaign.sms.send_text_sms',
@@ -113,11 +112,11 @@ class CampaignSubscriber extends CommonSubscriber
                         'timelineTemplate' => 'MauticSmsBundle:SubscribedEvents\Timeline:index.html.php',
                         'channel'          => 'sms',
                         'channelIdField'   => 'sms',
-                        'order'            => 2,
+                        'order'            => 4,
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                $event->addAction(
+                    $event->addAction(
                     'sms.send_text_sms.to.user',
                     [
                         'label'            => 'le.campaign.sms.send_text_sms.to.user',
@@ -133,11 +132,11 @@ class CampaignSubscriber extends CommonSubscriber
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                break;
+                    break;
+                }
             }
+            $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
         }
-        $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
-       }
     }
 
     /**
@@ -153,36 +152,38 @@ class CampaignSubscriber extends CommonSubscriber
         $lead  = $event->getLead();
         $smsId = (int) $event->getConfig()['sms'];
         $sms   = $this->smsModel->getEntity($smsId);
-        if(!$this->smsHelper->getSmsTransportStatus()){
+        if (!$this->smsHelper->getSmsTransportStatus()) {
             $this->notificationhelper->sendNotificationonFailure(false, false);
             $event->setFailed($this->translator->trans('Can\'t reach text message provider. Please check the configuration'));
-            return ;
 
-        }else {
-
+            return;
+        } else {
             if (!$sms) {
                 return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
             }
-        $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
+            $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
 
-        if (!$smsCountExpired) {
-            return $event->setFailed('le.sms.license.expire');
-        }$result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
-        if ($result['errorResult'] != 'Success') {
-            $this->notificationhelper->sendNotificationonFailure(false, false);
-        }
-        if ('Authenticate' === $result['status']) {
-            // Don't fail the event but reschedule it for later
-            return $event->setResult(false);
-        }
+            if (!$smsCountExpired) {
+                return $event->setFailed('le.sms.license.expire');
+            }
+            $result = $this->smsModel->sendSms($sms, $lead, ['channel' => ['campaign.event', $event->getEvent()['id']]])[$lead->getId()];
+            if ($result['errorResult'] != 'Success') {
+                $this->notificationhelper->sendNotificationonFailure(false, false);
+            }
+            if ('Authenticate' === $result['status']) {
+                // Don't fail the event but reschedule it for later
+                return $event->setResult(false);
+            }
 
-        if (!empty($result['sent'])) {
-            $event->setChannel('sms', $sms->getId());
-            $event->setResult($result);
-        $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');} else {
-            $result['failed'] = true;
-            $result['reason'] = $result['status'];
-            $event->setResult($result);}
+            if (!empty($result['sent'])) {
+                $event->setChannel('sms', $sms->getId());
+                $event->setResult($result);
+                $this->factory->get('mautic.helper.licenseinfo')->intSMSCount('1');
+            } else {
+                $result['failed'] = true;
+                $result['reason'] = $result['status'];
+                $event->setResult($result);
+            }
         }
     }
 
