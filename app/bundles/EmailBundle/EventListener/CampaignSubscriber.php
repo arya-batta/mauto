@@ -186,7 +186,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'le.email.campaign.event.send.to.dripcampaign_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'dripemailsend_list',
-                'order'           => 1,
+                'order'           => 2,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );

@@ -170,4 +170,19 @@ class SendgridApiTransport implements \Swift_Transport, TokenTransportInterface,
     {
         $this->sendGridApiCallback->processCallbackRequest($request);
     }
+    /**
+     * @return SendGridApiFacade
+     */
+    public function getSendGridApiFacade()
+    {
+        return $this->sendGridApiFacade;
+    }
+
+    /**
+     * @param SendGridApiFacade $sendGridApiFacade
+     */
+    public function setSendGridApiFacade($sendGridApiFacade)
+    {
+        $this->sendGridApiFacade = $sendGridApiFacade;
+    }
 }

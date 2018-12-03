@@ -5,7 +5,7 @@
 <div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
         <div class="col-xs-5 col-sm-6 col-md-6 va-m">
-            <h3 class="pull-left"><?php $view['slots']->output('headerTitle'); ?></h3>
+            <h3 class="pull-left header_text"><?php $view['slots']->output('headerTitle'); ?></h3>
             <div class="col-xs-2 text-right pull-left">
                 <?php $view['slots']->output('publishStatus'); ?>
             </div>

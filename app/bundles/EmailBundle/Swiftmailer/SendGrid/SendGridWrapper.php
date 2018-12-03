@@ -39,4 +39,22 @@ class SendGridWrapper
     {
         return $this->sendGrid->client->mail()->send()->post($mail);
     }
+
+    /**
+     * @return \SendGrid
+     */
+    public function getSendGrid()
+    {
+        return $this->sendGrid;
+    }
+
+    /**
+     * @param \SendGrid $sendGrid
+     */
+    public function setSendGrid($sendGrid)
+    {
+        $this->sendGrid = $sendGrid;
+    }
+
+
 }

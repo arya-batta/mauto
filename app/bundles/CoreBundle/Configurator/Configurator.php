@@ -177,7 +177,11 @@ class Configurator
                      'le_db_host',
                      'le_db_port',
                      'le_db_user',
-                     'le_db_password');
+                     'le_db_password',
+                     'beeeditor_client_id',
+                     'beeeditor_client_secret',
+                     'mailer_user_transactions',
+                     'mailer_password_transactions');
         for($i = 0;$i < sizeof($unset); $i++){
             if(isset($this->parameters[$unset[$i]])){
                 unset($this->parameters[$unset[$i]]);

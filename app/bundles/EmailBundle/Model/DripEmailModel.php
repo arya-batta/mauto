@@ -549,10 +549,14 @@ class DripEmailModel extends FormModel
         $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
             $this->getRepository()->getLast30DaysDripClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
         ];
+        $unsubacribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-user-times', $this->translator->trans('le.email.sent.drip.unsubscribe'),
+            $this->getRepository()->getDripUnsubscribeCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
+        ];
 
         $allBlockDetails[] = $sentCount;
         $allBlockDetails[] = $openCount;
         $allBlockDetails[] = $clickCount;
+        $allBlockDetails[] = $unsubacribeCount;
 
         return $allBlockDetails;
     }

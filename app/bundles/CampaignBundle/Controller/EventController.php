@@ -534,14 +534,22 @@ class EventController extends CommonFormController
                     $list=$options['tags'];
                 } elseif ($object == 'lead' && $field == 'owner_id') {
                     $list=$options['users'];
+                } elseif ($object == 'forms'){
+                    $list=$options['formsubmit_list'];
+                }elseif ($object == 'assets'){
+                    $list=$options['asset_downloads_list']['en'];
                 }
                 if (!empty($list)) {
                     $displaystring='';
-                    for ($v=0; $v < sizeof($value); ++$v) {
-                        $displaystring .= $list[$value[$v]];
-                        if ($v < sizeof($value) - 1) {
-                            $displaystring .= ',';
+                    if(sizeof($value) > 0) {
+                        for ($v = 0; $v < sizeof($value); ++$v) {
+                            $displaystring .= $list[$value[$v]];
+                            if ($v < sizeof($value) - 1) {
+                                $displaystring .= ',';
+                            }
                         }
+                    } else {
+                        $value = '';
                     }
                     if ($displaystring != '') {
                         $value='['.$displaystring.']';
