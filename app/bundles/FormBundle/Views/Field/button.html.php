@@ -12,12 +12,21 @@ $defaultInputClass = 'button';
 $containerType     = 'button-wrapper';
 include __DIR__.'/field_helper.php';
 
+$defaultinputattr = $field['inputAttributes'];
+
+if (strpos($inputAttr, 'btn-default') !== false) {
+    $defaultinputattr = substr($defaultinputattr, 23);
+}
+
+if (strpos($inputAttr, 'style') !== false) {
+    $defaultinputattr='';
+}
 $buttonType = (isset($properties['type'])) ? $properties['type'] : 'submit';
 
 $html = <<<HTML
 
             <div $containerAttr>
-                <button type="$buttonType" name="leform[{$field['alias']}]" $inputAttr value="1">{$field['label']}</button>
+                <button type="$buttonType" name="leform[{$field['alias']}]" $defaultinputattr $inputAttr value="1">{$field['label']}</button>
             </div>
 HTML;
 

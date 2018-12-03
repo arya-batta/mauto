@@ -145,6 +145,34 @@ Le.formOnLoad = function (container) {
     }
 };
 
+Le.setBtnBackgroundColor = function () {
+    var selectedbgcolor =  mQuery('#formfield_btnbgcolor').val() ;
+    var input = mQuery('#formfield_inputAttributes').val();
+
+     if (input.indexOf('style=') == -1) {
+         var value =input+" style='background-color:#"+selectedbgcolor+";color:#ffffff;'";
+         mQuery('#formfield_inputAttributes').val(value);
+      }else {
+         var fields = input.split('background-color');
+         var sec = fields[1].substr(9);
+         var value = fields[0]+'background-color:#'+selectedbgcolor+';'+sec;
+         mQuery('#formfield_inputAttributes').val(value);
+     }
+}
+Le.setBtnTextColor = function () {
+    var selectedtxtcolor =  mQuery('#formfield_btntxtcolor').val() ;
+    var input = mQuery('#formfield_inputAttributes').val();
+
+    if (input.indexOf('style=') == -1) {
+        var value =input+" style='background-color:#ff9900;color:#"+selectedtxtcolor+";'";
+        mQuery('#formfield_inputAttributes').val(value);
+    }else{
+        var fields = input.split(';color');
+        var sec = fields[1].substr(9);
+        var value = fields[0]+';color:#'+selectedtxtcolor+';'+sec;
+        mQuery('#formfield_inputAttributes').val(value);
+    }
+}
 Le.updateFormFields = function () {
     Le.activateLabelLoadingIndicator('campaignevent_properties_field');
 
@@ -260,7 +288,27 @@ Le.formFieldOnLoad = function (container, response) {
             //mQuery('#form-field-placeholder').remove();
         }
     }
+
+    var bgcolor = mQuery('#leform_input_submit').css('background-color');
+    var txtcolor = mQuery('#leform_input_submit').css('color');
+    var $iconbg =   Le.getBgColorHex(bgcolor);
+    var $icontxt =   Le.getBgColorHex(txtcolor);
+    mQuery('#formfield_btnbgcolor').minicolors('value',$iconbg);
+    mQuery('#formfield_btntxtcolor').minicolors('value',$icontxt);
+
 };
+
+Le.getBgColorHex = function (color){
+    var hex;
+    if(color.indexOf('#')>-1){
+        //for IE
+        hex = color;
+    } else {
+        var rgb = color.match(/\d+/g);
+        hex = ('0' + parseInt(rgb[0], 10).toString(16)).slice(-2) + ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) + ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2);
+    }
+    return hex;
+}
 
 Le.initFormFieldButtons = function (container) {
     if (typeof container == 'undefined') {

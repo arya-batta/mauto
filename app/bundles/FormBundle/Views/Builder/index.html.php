@@ -333,7 +333,7 @@ endif;*/ ?>
                     <?php echo $view['form']->label($form['isPublished']); ?>
                     <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>
-                <div class="col-md-12" >
+                <div class="col-md-12 hide" >
                     <br>
                     <?php echo $view['form']->label($form['description']); ?>
                     <?php echo $view['form']->widget($form['description']); ?>

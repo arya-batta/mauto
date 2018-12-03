@@ -122,6 +122,8 @@ $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErr
                     <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
                     <?php echo $view['form']->rowIfExists($form, 'helpMessage', $template); ?>
                     <?php echo $placeholder; ?>
+                    <?php echo $view['form']->rowIfExists($form, 'btnbgcolor', $template); ?>
+                    <?php echo $view['form']->rowIfExists($form, 'btntxtcolor', $template); ?>
                 </div>
             </div>
 

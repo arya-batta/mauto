@@ -50,6 +50,10 @@ class FieldType extends AbstractType
         $addBehaviorFields      =
         $addIsRequired          = true;
 
+        $createcolor = false;
+        $style='';
+        $tabindex='';
+
         if (!empty($options['customParameters'])) {
             $type = 'custom';
 
@@ -109,6 +113,7 @@ class FieldType extends AbstractType
                     break;
                 case 'button':
                     $addHelpMessage = $addShowLabel = $addDefaultValue = $addLabelAttributes = $addIsRequired = $addLeadFieldList = $addSaveResult = $addBehaviorFields = false;
+                    $createcolor = true;
                     break;
                 case 'hidden':
                     $addHelpMessage = $addShowLabel = $addLabelAttributes = $addIsRequired = false;
@@ -246,6 +251,10 @@ class FieldType extends AbstractType
             );
         }
 
+        if($createcolor){
+            $style = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
+            $tabindex = '-1';
+        }
         if ($addInputAttributes) {
             $builder->add(
                 'inputAttributes',
@@ -257,10 +266,44 @@ class FieldType extends AbstractType
                         'class'     => 'form-control le-input',
                         'tooltip'   => 'mautic.form.field.help.attr',
                         'maxlength' => '255',
+                        'style'     => $style,
+                        'tabindex'  => $tabindex,
                     ],
                     'required' => false,
                 ]
             );
+            if($createcolor){
+                $builder->add(
+                    'btnbgcolor',
+                    'text',
+                    [
+                        'label'      => 'mautic.form.field.form.btn_bg_color',
+                        'label_attr' => ['class' => 'control-label'],
+                        'attr'       => [
+                            'class'     => 'form-control minicolors-input le-input',
+                            'data-toggle' => 'color',
+                            'onchange'    => 'Le.setBtnBackgroundColor()'
+                        ],
+                        'required' => false,
+                    ]
+                );
+
+                $builder->add(
+                    'btntxtcolor',
+                    'text',
+                    [
+                        'label'      => 'mautic.form.field.form.btn_txt_color',
+                        'label_attr' => ['class' => 'control-label'],
+                        'attr'       => [
+                            'class'     => 'form-control minicolors-input le-input',
+                            'data-toggle' => 'color',
+                            'onchange'    => 'Le.setBtnTextColor()'
+                        ],
+                        'required' => false,
+                    ]
+                );
+            }
+
         }
 
         if ($addContainerAttributes) {

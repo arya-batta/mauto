@@ -1383,7 +1383,7 @@ class FormController extends CommonFormController
         $modifiedFields[$submitId]['showLabel']       = 0;
         $modifiedFields[$submitId]['type']            = 'button';
         $modifiedFields[$submitId]['id']              = $submitId;
-        $modifiedFields[$submitId]['inputAttributes'] = 'class="btn btn-default"';
+        $modifiedFields[$submitId]['inputAttributes'] = 'class="btn btn-default" style="background-color:#ff9900;color:#ffffff;"';
         $modifiedFields[$submitId]['formId']          = $sessionId;
         unset($modifiedFields[$submitId]['form']);
 
