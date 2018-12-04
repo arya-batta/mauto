@@ -21,12 +21,22 @@ class AwsVerifiedEmails
     /**
      * @var string
      */
+    private $fromname;
+
+    /**
+     * @var string
+     */
     private $verifiedemails;
 
     /**
      * @var string
      */
     private $verificationstatus;
+
+    /**
+     * @var string
+     */
+    private $idhash;
 
     /**
      * @param ORM\ClassMetadata $metadata
@@ -42,7 +52,10 @@ class AwsVerifiedEmails
             ->makePrimaryKey()
             ->generatedValue()
             ->build();
-
+        $builder->createField('fromname', 'string')
+            ->columnName('from_name')
+            ->nullable()
+            ->build();
         $builder->createField('verifiedemails', 'string')
             ->columnName('verified_emails')
             ->nullable()
@@ -50,6 +63,10 @@ class AwsVerifiedEmails
 
         $builder->createField('verificationstatus', 'string')
             ->columnName('verification_status')
+            ->nullable()
+            ->build();
+        $builder->createField('idhash', 'string')
+            ->columnName('id_hash')
             ->nullable()
             ->build();
     }
@@ -74,6 +91,38 @@ class AwsVerifiedEmails
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFromName()
+    {
+        return $this->fromname;
+    }
+
+    /**
+     * @param $fromname
+     */
+    public function setFromName($fromname)
+    {
+        $this->fromname = $fromname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdHash()
+    {
+        return $this->idhash;
+    }
+
+    /**
+     * @param $idhash
+     */
+    public function setIdHash($idhash)
+    {
+        $this->idhash = $idhash;
     }
 
     /**

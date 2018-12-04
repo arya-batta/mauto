@@ -174,28 +174,28 @@ Le.getFormattedNumber = function(number) {
   return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
 };
 Le.loadLicenseUsageInfo = function() {
-     Le.ajaxActionRequest('subscription:validityinfo', {}, function(response) {
-         if (response.success) {
-              if(response.credits != "" && response.validity != "" && response.transport == 'le.transport.amazon'){
-                 mQuery('.sidebar-credits-info-holder').removeClass('hide');
-                 mQuery('.sidebar-credits-info-holder').show();
-                  mQuery('.sidebar-credits-info-holder .account-status').html("Status : "+response.accountstatus);
-                 mQuery('.sidebar-credits-info-holder .email-credits').html("Max24HourSend : "+response.credits);
-                 mQuery('.sidebar-credits-info-holder .email-validity').html("Contact Usage : "+response.validity);
-                 mQuery('.sidebar-credits-info-holder .email-days-available').html("SentLast24Hours : "+response.daysavailable);
-              } else if(response.credits != "" && (response.transport == 'le.transport.elasticemail' || response.transport == 'le.transport.sendgrid_api')){
-                  mQuery('.sidebar-credits-info-holder').removeClass('hide');
-                  mQuery('.sidebar-credits-info-holder').show();
-                  mQuery('.sidebar-credits-info-holder .account-status').html("Status : "+response.accountstatus);
-                  mQuery('.sidebar-credits-info-holder .email-credits').html("Contact Usage : "+response.credits);
-                  mQuery('.sidebar-credits-info-holder .email-days-available').html("SentLast24Hours : "+response.daysavailable);
-                  mQuery('.sidebar-credits-info-holder #emailvalidityloading').addClass('hide');
-              }
-             else{
-                 mQuery('.sidebar-credits-info-holder').hide();
-             }
-         }
-     });
+     // Le.ajaxActionRequest('subscription:validityinfo', {}, function(response) {
+     //     if (response.success) {
+     //          if(response.credits != "" && response.validity != "" && response.transport == 'le.transport.amazon'){
+     //             mQuery('.sidebar-credits-info-holder').removeClass('hide');
+     //             mQuery('.sidebar-credits-info-holder').show();
+     //              mQuery('.sidebar-credits-info-holder .account-status').html("Status : "+response.accountstatus);
+     //             mQuery('.sidebar-credits-info-holder .email-credits').html("Max24HourSend : "+response.credits);
+     //             mQuery('.sidebar-credits-info-holder .email-validity').html("Contact Usage : "+response.validity);
+     //             mQuery('.sidebar-credits-info-holder .email-days-available').html("SentLast24Hours : "+response.daysavailable);
+     //          } else if(response.credits != "" && (response.transport == 'le.transport.elasticemail' || response.transport == 'le.transport.sendgrid_api')){
+     //              mQuery('.sidebar-credits-info-holder').removeClass('hide');
+     //              mQuery('.sidebar-credits-info-holder').show();
+     //              mQuery('.sidebar-credits-info-holder .account-status').html("Status : "+response.accountstatus);
+     //              mQuery('.sidebar-credits-info-holder .email-credits').html("Contact Usage : "+response.credits);
+     //              mQuery('.sidebar-credits-info-holder .email-days-available').html("SentLast24Hours : "+response.daysavailable);
+     //              mQuery('.sidebar-credits-info-holder #emailvalidityloading').addClass('hide');
+     //          }
+     //         else{
+     //             mQuery('.sidebar-credits-info-holder').hide();
+     //         }
+     //     }
+     // });
     mQuery('#licenseclosebutton').click(function(e) {
        Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });

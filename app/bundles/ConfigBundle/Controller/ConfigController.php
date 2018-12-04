@@ -186,7 +186,10 @@ class ConfigController extends FormController
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                                 $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
                             }
-                            $params = $configurator->getParameters();
+                            if ($mailertransport != $params['mailer_transport_name']) {
+                                $emailModel = $this->factory->getModel('email');
+                                $emailModel->resetAllSenderProfiles();
+                            }
                             $configurator->write();
 
                             $this->addFlash('mautic.config.config.notice.updated');

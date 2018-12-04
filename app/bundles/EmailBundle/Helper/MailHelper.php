@@ -283,8 +283,9 @@ class MailHelper
         } catch (\Exception $e) {
             $this->logError($e);
         }
-
-        $this->from       = $this->systemFrom       = (!empty($from)) ? $from : [$factory->getParameter('mailer_from_email') => $factory->getParameter('mailer_from_name')];
+        $fromname         ='';
+        $fromemail        ='';
+        $this->from       = $this->systemFrom       = (!empty($from)) ? $from : [$fromemail => $fromname]; //$factory->getParameter('mailer_from_email') //$factory->getParameter('mailer_from_name')
         $this->returnPath = $factory->getParameter('mailer_return_path');
 
         // Check if batching is supported by the transport
@@ -2196,13 +2197,21 @@ class MailHelper
         $cacheHelper->clearContainerFile();
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
+        $fromname       ='';
+        $fromemail      ='';
+        $emailmodel     =$this->factory->getModel('email');
+        $defaultsender  =$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname =$defaultsender[0];
+            $fromemail=$defaultsender[1];
+        }
         $settings       = [
             'amazon_region'     => $this->coreParametersHelper->getParameter('mailer_amazon_region'),
             'api_key'           => $this->coreParametersHelper->getParameter('mailer_api_key'),
             'authMode'          => $this->coreParametersHelper->getParameter('mailer_auth_mode'),
             'encryption'        => $this->coreParametersHelper->getParameter('mailer_encryption'),
-            'from_email'        => $this->coreParametersHelper->getParameter('mailer_from_email'),
-            'from_name'         => $this->coreParametersHelper->getParameter('mailer_from_name'),
+            'from_email'        => $fromemail, //$this->coreParametersHelper->getParameter('mailer_from_email'),
+            'from_name'         => $fromname, //$this->coreParametersHelper->getParameter('mailer_from_name'),
             'host'              => $this->coreParametersHelper->getParameter('mailer_host'),
             'password'          => $this->coreParametersHelper->getParameter('mailer_password'),
             'port'              => $this->coreParametersHelper->getParameter('mailer_port'),
@@ -2248,9 +2257,15 @@ class MailHelper
 
     public function testEmailServerConnection($settings, $default=false)
     {
-        $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
-        $transport = $settings['transport'];
-        $user      = $this->factory->get('mautic.helper.user')->getUser();
+        $dataArray    = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
+        $transport    = $settings['transport'];
+        $user         = $this->factory->get('mautic.helper.user')->getUser();
+        $emailmodel   = $this->factory->getModel('email');
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $settings['from_name'] =$defaultsender[0];
+            $settings['from_email']=$defaultsender[1];
+        }
         switch ($transport) {
             case 'gmail':
                 $mailer = new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
@@ -2320,7 +2335,7 @@ class MailHelper
                 if ($settings['send_test'] == 'true' || $settings['toemail'] != '') {
                     $email = '';
                     if ($settings['toemail'] != '' && $default) {
-                        $lemailer = $this->factory->get('le.transport.elasticemail.transactions');
+                        $lemailer = $this->factory->get('le.transactions.sendgrid_api');
                         $lemailer->start();
                         $trackingcode = $settings['trackingcode'];
                         $mailbody     = $translator->trans('le.email.website_tracking.body');

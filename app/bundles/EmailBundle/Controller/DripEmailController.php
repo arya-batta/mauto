@@ -301,18 +301,25 @@ class DripEmailController extends FormController
         ];
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator    = $this->get('mautic.configurator');
+        $configurator     = $this->get('mautic.configurator');
         $params          = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        // $fromname        = $params['mailer_from_name'];
+        // $fromadress      = $params['mailer_from_email'];
         $unsubscribetxt  = $params['unsubscribe_text'];
         $postaladdress   = $params['postal_address'];
-        $fromName        = $entity->getFromName();
-        $fromAdress      = $entity->getFromAddress();
         $unsubscribeTxt  = $entity->getUnsubscribeText();
         $postalAddress   = $entity->getPostalAddress();
         /** @var EmailModel $emailmodel */
-        $emailmodel = $this->getModel('email');
+        $emailmodel   = $this->getModel('email');
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
+        $fromName        = $entity->getFromName();
+        $fromAdress      =$entity->getFromAddress();
         /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
         $emailentity = $emailmodel->getEntity();
         $emailentity->setEmailType('list');

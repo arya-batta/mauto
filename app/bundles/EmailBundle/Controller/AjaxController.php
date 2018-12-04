@@ -290,106 +290,293 @@ class AjaxController extends CommonAjaxController
         return new JsonResponse($data);
     }
 
-    public function awsEmailFormValidationAction(Request $request)
+    public function senderProfileVerifyAction(Request $request)
     {
-        $emailId     = InputHelper::clean($request->request->get('email'));
-        $dataArray   =[];
-        $validator   = $this->container->get('validator');
-        $constraints = [
+        $fromemail     = InputHelper::clean($request->request->get('email'));
+        $fromname      = InputHelper::clean($request->request->get('name'));
+        $dataArray     =[];
+        $validator     = $this->container->get('validator');
+        $constraints   = [
             new \Symfony\Component\Validator\Constraints\Email(),
             new \Symfony\Component\Validator\Constraints\NotBlank(),
         ];
-        $error = $validator->validateValue($emailId, $constraints);
+        $error = $validator->validateValue($fromemail, $constraints);
 
         if (count($error) > 0) {
             $errors[]            = $error;
             $dataArray['success']=false;
             $dataArray['message']=$this->translator->trans('le.core.email.required');
         } else {
-            /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
-            $emailModel       = $this->factory->getModel('email');
-            $emailValidator   = $this->factory->get('mautic.validator.email');
-            $getAllEmailIds   = $emailModel->getAllEmailAddress();
-            $awsVeridiedIds   =$emailModel->getVerifiedEmailAddress();
-            $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
-
-            /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-            $configurator     = $this->factory->get('mautic.configurator');
-            $params           = $configurator->getParameters();
-            $emailuser        = $params['mailer_user'];
-            if (isset($params['mailer_amazon_region'])) {
-                $region                = $params['mailer_amazon_region'];
-            } else {
-                $region='';
-            }
-            //$region           = $params['mailer_amazon_region'];
-            $emailpassword    = $params['mailer_password'];
-            $emailverifyhelper= $this->factory->get('mautic.validator.email');
-
-            $awsAccountStatus = $emailValidator->getAwsAccountStatus($emailuser, $emailpassword, $region);
-            $verifiedEmails   = $emailValidator->getVerifiedEmailList($emailuser, $emailpassword, $region);
-            $isValidEmail     = $emailValidator->getVerifiedEmailAddressDetails($emailuser, $emailpassword, $region, $emailId);
-            $returnUrl        = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
-            /** @var \Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper $routerHelper */
-            $awscallbackurl = $this->get('templating.helper.router')->url('le_mailer_transport_callback', ['transport' => 'amazon_api']);
-            if ($isValidEmail == 'Policy not written') {
-                $dataArray['success'] = false;
-                $dataArray['message'] = $this->translator->trans('le.email.verification.policy.error');
-            }
-
-            $entity = new AwsVerifiedEmails();
-            if (!empty($verifiedEmails)) {
-                if (in_array($emailId, $verifiedEmails)) {
-                    if (!in_array($emailId, $getAllEmailIds)) {
-                        $entity->setVerifiedEmails($emailId);
-                        $entity->setVerificationStatus('Verified');
-                        $verifiedemailRepo->saveEntity($entity);
-                        $dataArray['success']  = true;
-                        $dataArray['redirect'] = $returnUrl;
-                    }
-                }
-            }
-
-            if (!in_array($emailId, $getAllEmailIds)) {
-                if (!$isValidEmail) {
-                    $result = $emailverifyhelper->sendVerificationMail($emailuser, $emailpassword, $region, $emailId, $awscallbackurl);
-                    if ($result == 'Policy not written') {
-                        $dataArray['success'] = false;
-                        $dataArray['message'] = $this->translator->trans('le.email.verification.policy.error');
-                    } elseif ($result == 'Sns Policy not written') {
-                        $dataArray['success'] = false;
-                        $dataArray['message'] = $this->translator->trans('le.email.verification.sns.policy.error');
-                    } else {
-                        $this->addFlash('le.config.aws.email.verification');
-                        $dataArray['success']  = true;
-                        $dataArray['message']  = $this->translator->trans('le.aws.email.verification');
-                        $dataArray['redirect'] = $returnUrl;
-                    }
-                } else {
-                    if (!$awsAccountStatus) {
-                        $dataArray['success']  = false;
-                        $dataArray['message']  = $this->translator->trans('le.email.verification.inactive.key');
-                    } else {
-                        $dataArray['success']  = true;
-                        $dataArray['message']  = $this->translator->trans('le.aws.email.verification');
-                        $dataArray['redirect'] = $returnUrl;
-                    }
-                }
-            } else {
-                if (!in_array($emailId, $awsVeridiedIds)) {
-                    $dataArray['success'] = false;
-                    $dataArray['message'] = $this->translator->trans('le.aws.email.verification.pending');
-                } else {
-                    $dataArray['success'] = false;
-                    $dataArray['message'] = $this->translator->trans('le.aws.email.verification.verified');
-                }
-            }
+            $dataArray=$this->verifyNewSenderProfile($fromemail, $fromname);
         }
 
         return $this->sendJsonResponse($dataArray);
     }
 
-    public function deleteAwsVerifiedEmailsAction(Request $request)
+    private function verifyNewSenderProfile($fromemail, $fromname, $action='created')
+    {
+//        $this->verifySparkPostSender($fromemail,$fromname);
+//        if(true){
+//         return  ['success'=>false,'message'=> 'test'];
+//        }
+        $dataArray=['success'=>true, 'message'=> ''];
+        /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
+        $emailModel       = $this->factory->getModel('email');
+        $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
+        $status           =$emailModel->isSenderProfileVerified($fromemail);
+        if ($status == '0' && $action == 'created') {
+            $dataArray['success'] = false;
+            $dataArray['message'] = $this->translator->trans('le.aws.email.verification.verified');
+        } elseif ($status == '1' && $action == 'created') {
+            $dataArray['success'] = false;
+            $dataArray['message'] = $this->translator->trans('le.aws.email.verification.pending');
+        } elseif ($status == '2' || $action == 'updated') {
+            $response=$this->verifySenderWithMailer($fromname, $fromemail, $action);
+            if ($response['success']) {
+                $returnUrl             = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
+                $dataArray['success']  = true;
+                $dataArray['message']  = $this->translator->trans('le.aws.email.verification');
+                $dataArray['redirect'] = $returnUrl;
+                if ($action == 'created') {
+                    $idHash = uniqid();
+                    $entity = new AwsVerifiedEmails();
+                    $entity->setVerifiedEmails($fromemail);
+                    $entity->setFromName($fromname);
+                    $entity->setVerificationStatus('1');
+                    $entity->setIdHash($idHash);
+                    $verifiedemailRepo->saveEntity($entity);
+                    $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idHash);
+                    if ($mailresponse == '') {
+                        $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
+                    } else {
+                        $this->addFlash('le.config.sender.email.verification.error');
+                    }
+                } else {
+                    $senderprofiles=$verifiedemailRepo->findBy(
+                        [
+                            'verifiedemails' => $fromemail,
+                        ]
+                    );
+                    if (sizeof($senderprofiles) > 0) {
+                        $senderprofile=$senderprofiles[0];
+                        $senderprofile->setVerificationStatus('0');
+                        $verifiedemailRepo->saveEntity($senderprofile);
+                    }
+                }
+            } else {
+                return $response;
+            }
+        }
+
+        return $dataArray;
+    }
+
+    public function verifySenderWithMailer($fromname, $fromemail, $action)
+    {
+        $dataArray  =['success'=>true, 'message'=>''];
+        $mailHelper = $this->get('mautic.helper.mailer');
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator     = $this->factory->get('mautic.configurator');
+        $params           = $configurator->getParameters();
+        $transport        = $params['mailer_transport'];
+        $transportlabel   =$this->translator->trans($transport);
+        $mailer           = $this->container->get($transport);
+        $user             = $this->factory->get('mautic.helper.user')->getUser();
+        try {
+            $userFullName = trim($user->getFirstName().' '.$user->getLastName());
+            if (empty($userFullName)) {
+                $userFullName = null;
+            }
+            $mailer->start();
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->translator->trans('le.email.config.mailer.transport.sender.verify.subject', ['%action%'=> $action]));
+            $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%user%'=> $userFullName, '%action%'=> $action, '%sender%'=> $fromemail]);
+            $message->setBody($mailbody, 'text/html');
+            $message->setFrom([$fromemail => $fromname]);
+            $message->setTo([$user->getEmail() => $userFullName]);
+            $mailer->send($message);
+        } catch (\Exception $ex) {
+            $dataArray['success'] = false;
+            $dataArray['message'] = '<b>'.$transportlabel.':</b><br>'.$mailHelper->geterrormsg($ex->getMessage());
+        }
+
+        return $dataArray;
+    }
+
+    public function sendSenderVerificationEmail($fromemail, $fromname, $idHash)
+    {
+        $mailer = $this->container->get('le.transactions.sendgrid_api');
+        $mailer->start();
+        $verifylink        = $this->generateUrl('le_sender_profile_verify_link', ['idhash' => $idHash], true);
+        $message           = \Swift_Message::newInstance();
+        $message->setTo([$fromemail => $fromname]);
+        $message->setFrom(['support@leadsengage.com' => 'LeadsEngage']);
+        $message->setSubject($this->translator->trans('le.sender.verification.subject'));
+        $text = "<!DOCTYPE html>
+<html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+	</head>
+	<body aria-disabled='false' style='min-height: 300px;margin:0px;'>
+		<div style='background-color:#eff2f7'>
+			<div style='padding-top: 55px;'>
+				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #EF3F87;'>
+
+					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leadsengage/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
+					<br>
+					<div style='text-align:center;width:100%;'>
+						<div style='display:inline-block;width: 80%;'>
+
+							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Hi $fromname,</p>
+
+							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Please click on the button below to Confirm this email within LeadsEngage System</p><a href=\"$verifylink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #EF3F87;border: #EF3F87;'>Verify Your Email</a>
+							<br>
+
+							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Thanks,
+								<br>LeadsEngage Support</p>
+						</div>
+					</div>
+				</div>
+				<br>
+				<br>
+				<br>
+			</div>
+		</div>
+		
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailresponse='';
+        try {
+            $mailer->send($message);
+        } catch (\Exception $ex) {
+            $mailresponse=  $ex->getMessage();
+        }
+
+        return $mailresponse;
+    }
+
+    private function verifySparkPostSender($fromemail, $fromname)
+    {
+        $dataArray =['success'=>true, 'message'=> ''];
+        $http      = $this->get('mautic.http.connector');
+        $domainname= substr(strrchr($fromemail, '@'), 1);
+        try {
+            $response = $http->get('https://api.sparkpost.com/api/v1/sending-domains?ownership_verified=true', ['Authorization'=>'75df76268ba43535a0d5f0b27ff07e9c19053815'], 30);
+            if ($response->code === 200) {
+                $successresponse = json_decode($response->body, true);
+                file_put_contents('/var/www/mauto/sparkpost.txt', 'Data:'.$response->body."\n", FILE_APPEND);
+            } else {
+                $errresponse =json_decode($response->body, true);
+                $errormessage='';
+                if (isset($errresponse['errors'][0]['message'])) {
+                    $errormessage=$errresponse['errors'][0]['message'];
+                    if ($errormessage == 'Unauthorized.') {
+                        $errormessage='Provide valid sparkpost api key to check verified sending domains.';
+                    } elseif ($errormessage == 'Forbidden.') {
+                        $errormessage='Provide permission to your api key yo check sending domains in sparkpost account';
+                    }
+                    $dataArray['success']=false;
+                    $dataArray['message']=$errormessage;
+                }
+            }
+        } catch (\Exception $ex) {
+            $dataArray['success']=false;
+            $dataArray['message']=$ex->getMessage();
+        }
+
+        return $dataArray;
+    }
+
+    private function verifyAWSSender($fromemail, $fromname)
+    {
+        $dataArray=['success'=>true, 'message'=> ''];
+        /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
+        $emailModel       = $this->factory->getModel('email');
+        $emailValidator   = $this->factory->get('mautic.validator.email');
+        $getAllEmailIds   = $emailModel->getAllEmailAddress();
+        $awsVeridiedIds   =$emailModel->getVerifiedEmailAddress();
+        $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator     = $this->factory->get('mautic.configurator');
+        $params           = $configurator->getParameters();
+        $emailuser        = $params['mailer_user'];
+        if (isset($params['mailer_amazon_region'])) {
+            $region                = $params['mailer_amazon_region'];
+        } else {
+            $region='';
+        }
+        //$region           = $params['mailer_amazon_region'];
+        $emailpassword    = $params['mailer_password'];
+        $emailverifyhelper= $this->factory->get('mautic.validator.email');
+
+        $awsAccountStatus = $emailValidator->getAwsAccountStatus($emailuser, $emailpassword, $region);
+        $verifiedEmails   = $emailValidator->getVerifiedEmailList($emailuser, $emailpassword, $region);
+        $isValidEmail     = $emailValidator->getVerifiedEmailAddressDetails($emailuser, $emailpassword, $region, $fromemail);
+        $returnUrl        = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
+        /** @var \Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper $routerHelper */
+        $awscallbackurl = $this->get('templating.helper.router')->url('le_mailer_transport_callback', ['transport' => 'amazon_api']);
+        if ($isValidEmail == 'Policy not written') {
+            $dataArray['success'] = false;
+            $dataArray['message'] = $this->translator->trans('le.email.verification.policy.error');
+        }
+        if (!$awsAccountStatus && sizeof($verifiedEmails) > 0) {
+            $awsAccountStatus=true;
+        }
+        $verifystatus='Pending';
+        if ($isValidEmail) {
+            $verifystatus          ='Verified';
+            $dataArray['success']  = true;
+            $dataArray['redirect'] = $returnUrl;
+        }
+        if (!in_array($fromemail, $getAllEmailIds)) {
+            $entity = new AwsVerifiedEmails();
+            $entity->setVerifiedEmails($fromemail);
+            $entity->setFromName($fromname);
+            $entity->setVerificationStatus($verifystatus);
+            $verifiedemailRepo->saveEntity($entity);
+            if (!$isValidEmail && $awsAccountStatus) {
+                $result = $emailverifyhelper->sendVerificationMail($emailuser, $emailpassword, $region, $fromemail, $awscallbackurl);
+                if ($result == 'Policy not written') {
+                    $dataArray['success'] = false;
+                    $dataArray['message'] = $this->translator->trans('le.email.verification.policy.error');
+                } elseif ($result == 'Sns Policy not written') {
+                    $dataArray['success'] = false;
+                    $dataArray['message'] = $this->translator->trans('le.email.verification.sns.policy.error');
+                } else {
+                    $this->addFlash('le.config.aws.email.verification');
+                    $dataArray['success']  = true;
+                    $dataArray['message']  = $this->translator->trans('le.aws.email.verification');
+                    $dataArray['redirect'] = $returnUrl;
+                }
+            } else {
+                if (!$awsAccountStatus) {
+                    $dataArray['success']  = false;
+                    $dataArray['message']  = $this->translator->trans('le.email.verification.inactive.key');
+                } else {
+                    $dataArray['success']  = true;
+                    $dataArray['message']  = $this->translator->trans('le.aws.email.verification');
+                    $dataArray['redirect'] = $returnUrl;
+                }
+            }
+        } else {
+            if (!in_array($fromemail, $awsVeridiedIds)) {
+                $dataArray['success'] = false;
+                $dataArray['message'] = $this->translator->trans('le.aws.email.verification.pending');
+            } else {
+                $dataArray['success'] = false;
+                $dataArray['message'] = $this->translator->trans('le.aws.email.verification.verified');
+            }
+        }
+
+        return $dataArray;
+    }
+
+    public function deleteSenderProfileAction(Request $request)
     {
         $emailModel = $this->factory->getModel('email');
         $email      = $request->request->get('email');
@@ -401,6 +588,15 @@ class AjaxController extends CommonAjaxController
         $dataArray['redirect'] =$returnUrl;
 
         return $this->sendJsonResponse($dataArray);
+    }
+
+    public function reVerifySenderProfileAction(Request $request)
+    {
+        $fromemail     = InputHelper::clean($request->request->get('email'));
+        $fromname      = InputHelper::clean($request->request->get('name'));
+        $response      =$this->verifyNewSenderProfile($fromemail, $fromname, 'updated');
+
+        return $this->sendJsonResponse($response);
     }
 
     public function emailstatusAction()
@@ -456,14 +652,16 @@ class AjaxController extends CommonAjaxController
         $emailentity->setEmailType('dripemail');
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator= $this->get('mautic.configurator');
+        // $configurator= $this->get('mautic.configurator');
 
-        $params          = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
-        $emailentity->setFromName($fromname);
-        $emailentity->setFromAddress($fromadress);
-
+        // $params          = $configurator->getParameters();
+        //$fromname        = $params['mailer_from_name'];
+        //$fromadress      = $params['mailer_from_email'];
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $emailentity->setFromName($defaultsender[0]);
+            $emailentity->setFromAddress($defaultsender[1]);
+        }
         $totalitems = $emailmodel->getEntities(
             [
                 'filter'           => [
@@ -976,13 +1174,16 @@ class AjaxController extends CommonAjaxController
             $newEntity->setGoogleTags(true);
             $newEntity->setEmailType('dripemail');
             /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-            $configurator= $this->get('mautic.configurator');
+            // $configurator= $this->get('mautic.configurator');
 
-            $params          = $configurator->getParameters();
-            $fromname        = $params['mailer_from_name'];
-            $fromadress      = $params['mailer_from_email'];
-            $newEntity->setFromName($fromname);
-            $newEntity->setFromAddress($fromadress);
+            // $params          = $configurator->getParameters();
+            // $fromname        = $params['mailer_from_name'];
+            //  $fromadress      = $params['mailer_from_email'];
+            $defaultsender=$emailmodel->getDefaultSenderProfile();
+            if (sizeof($defaultsender) > 0) {
+                $newEntity->setFromName($defaultsender[0]);
+                $newEntity->setFromAddress($defaultsender[1]);
+            }
             $newEntity->setDripEmailOrder($dripOrder);
             $newEntity->setScheduleTime($item['scheduleTime']);
             $emailmodel->saveEntity($newEntity);

@@ -502,6 +502,34 @@ return [
                     'mautic.transport.sendgrid_api.response',
                 ],
             ],
+            'le.transactions.sendgrid_api' => [
+                'class'        => \Mautic\EmailBundle\Swiftmailer\Transport\SendgridApiTransport::class,
+                'serviceAlias' => 'swiftmailer.mailer.transport.%s',
+                'arguments'    => [
+                    'le.transactions.sendgrid_api.facade',
+                    'mautic.transport.sendgrid_api.calback',
+                ],
+            ],
+            'le.transactions.sendgrid_api.facade' => [
+                'class'     => \Mautic\EmailBundle\Swiftmailer\SendGrid\SendGridApiFacade::class,
+                'arguments' => [
+                    'le.transactions.sendgrid_api.sendgrid_wrapper',
+                    'mautic.transport.sendgrid_api.message',
+                    'mautic.transport.sendgrid_api.response',
+                ],
+            ],
+            'le.transactions.sendgrid_api.sendgrid_wrapper' => [
+                'class'     => \Mautic\EmailBundle\Swiftmailer\SendGrid\SendGridWrapper::class,
+                'arguments' => [
+                    'le.transactions.sendgrid_api.sendgrid',
+                ],
+            ],
+            'le.transactions.sendgrid_api.sendgrid' => [
+                'class'     => \SendGrid::class,
+                'arguments' => [
+                    '%mautic.mailer_password_transactions%',
+                ],
+            ],
             'mautic.transport.sendgrid_api.mail.base' => [
                 'class'     => \Mautic\EmailBundle\Swiftmailer\SendGrid\Mail\SendGridMailBase::class,
                 'arguments' => [

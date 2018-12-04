@@ -20,7 +20,6 @@ use Aws\Sns\SnsClient;
 use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Entity\AwsConfig;
-use Mautic\EmailBundle\Entity\AwsVerifiedEmails;
 use Mautic\EmailBundle\Event\EmailValidationEvent;
 use Mautic\EmailBundle\Exception\InvalidEmailException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -202,13 +201,10 @@ class EmailValidator
         $regionname = $regionname[1];
         /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
         $emailModel       = $this->factory->getModel('email');
-        $repo             =$emailModel->getAwsConfigRepository();
-        $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
-        $verifiedEmails   =$emailModel->getAllEmailAddress();
-
+        // $repo             =$emailModel->getAwsConfigRepository();
         try {
             $sesclient =$this->getSesClient($key, $secret, $regionname);
-            $snsclient =$this->getSnsClient($key, $secret, $regionname);
+            //$snsclient =$this->getSnsClient($key, $secret, $regionname);
 
             $sesclient->verifyEmailAddress([
                          'EmailAddress' => $email,
@@ -216,29 +212,21 @@ class EmailValidator
         } catch (SesException $e) {
             return 'Policy not written';
         }
-        try {
-            $bounceArnValue = $this->createBounceTopic($snsclient, $email, $sesclient, $awscallbackurl);
-            $comptopicArn   =  $this->createComplaintTopic($snsclient, $email, $sesclient, $awscallbackurl);
-        } catch (SnsException $e) {
-            return 'Sns Policy not written';
-        }
-
-        $entity = new AwsConfig();
-        if ($entity->getBounceArnValue() != $bounceArnValue) {
-            $entity->setBounceArnValue($bounceArnValue);
-        }
-        if ($entity->getComplaintArnValue() != $comptopicArn) {
-            $entity->setComplaintArnValue($comptopicArn);
-        }
-        $repo->saveEntity($entity);
-
-        $entity = new AwsVerifiedEmails();
-
-        if (!in_array($email, $verifiedEmails)) {
-            $entity->setVerifiedEmails($email);
-            $entity->setVerificationStatus('Pending');
-            $verifiedemailRepo->saveEntity($entity);
-        }
+//        try {
+//            $bounceArnValue = $this->createBounceTopic($snsclient, $email, $sesclient, $awscallbackurl);
+//            $comptopicArn   =  $this->createComplaintTopic($snsclient, $email, $sesclient, $awscallbackurl);
+//        } catch (SnsException $e) {
+//            return 'Sns Policy not written';
+//        }
+//
+//        $entity = new AwsConfig();
+//        if ($entity->getBounceArnValue() != $bounceArnValue) {
+//            $entity->setBounceArnValue($bounceArnValue);
+//        }
+//        if ($entity->getComplaintArnValue() != $comptopicArn) {
+//            $entity->setComplaintArnValue($comptopicArn);
+//        }
+//        $repo->saveEntity($entity);
     }
 
     public function createBounceTopic($snsclient, $email, $sesclient, $awscallbackurl)
@@ -293,7 +281,6 @@ class EmailValidator
         try {
             $sesclient             =$this->getSesClient($key, $secret, $regionname);
             $checkifdomainverified = $this->checkDomainVerification($sesclient, $email);
-
             if ($checkifdomainverified != true) {
                 $result = $sesclient->listVerifiedEmailAddresses([
              ]);
@@ -312,11 +299,6 @@ class EmailValidator
 
     public function checkDomainVerification($sesclient, $email)
     {
-        /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
-        $emailModel       = $this->factory->getModel('email');
-        $verifiedEmails   =$emailModel->getAllEmailAddress();
-        $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
-        $entity           = new AwsVerifiedEmails();
         $domainname       = substr(strrchr($email, '@'), 1);
         try {
             $result = $sesclient->getIdentityVerificationAttributes([
@@ -329,12 +311,6 @@ class EmailValidator
                 if ($result['VerificationAttributes'][$domainname]['VerificationStatus'] != 'Success') {
                     return false;
                 } else {
-                    if (!in_array($email, $verifiedEmails)) {
-                        $entity->setVerifiedEmails($email);
-                        $entity->setVerificationStatus('Verified');
-                        $verifiedemailRepo->saveEntity($entity);
-                    }
-
                     return true;
                 }
             } else {
@@ -391,7 +367,7 @@ class EmailValidator
             $result     = $sesclient->listVerifiedEmailAddresses([
         ]);
         } catch (SesException $e) {
-            return;
+            return $e->getMessage();
         }
 
         return $result['VerifiedEmailAddresses'];
@@ -423,8 +399,7 @@ class EmailValidator
     {
         $regionname = explode('.', $region);
         $regionname = $regionname[1];
-
-        $iAmClient = IamClient::factory([
+        $iAmClient  = IamClient::factory([
             'credentials' => ['key' => $key, 'secret' => $secret],
             'region'      => $regionname,
             'version'     => 'latest',

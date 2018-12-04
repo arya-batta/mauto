@@ -97,7 +97,9 @@ class EmailVerifyValidator extends ConstraintValidator
             $entity           = new AwsVerifiedEmails();
             $emailStatus      = $this->emailValidator->getEmailListAndStatus($emailuser, $emailpassword, $region, $newfromaddress);
             $awsAccountStatus = $this->emailValidator->getAwsAccountStatus($emailuser, $emailpassword, $region);
-
+            if (!$awsAccountStatus && sizeof($verifiedEmails) > 0) {
+                $awsAccountStatus=true;
+            }
             if (!$isValidEmail) {
                 if (!$emailStatus) {
                     $emailModel->upAwsDeletedEmailVerificationStatus($newfromaddress);

@@ -21,6 +21,12 @@ return [
                 'controller' => 'MauticConfigBundle:Sysinfo:index',
             ],
         ],
+        'public' => [
+            'le_sender_profile_verify_link' => [
+                'path'       => '/verify/sender/{idhash}',
+                'controller' => 'MauticEmailBundle:Public:verifySenderProfile',
+            ],
+        ],
     ],
 
     'menu' => [

@@ -217,7 +217,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                     $billing = new Billing();
                 }
                 if ($billing->getAccountingemail() != '') {
-                    $mailer       = $container->get('le.transport.elasticemail.transactions');
+                    $mailer       = $container->get('le.transactions.sendgrid_api');
                     $paymenthelper=$container->get('le.helper.payment');
                     $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
                 }

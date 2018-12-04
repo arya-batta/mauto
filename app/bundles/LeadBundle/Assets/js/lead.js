@@ -257,11 +257,13 @@ Le.getLeadId = function() {
 }
 
 Le.leadEmailOnLoad = function(container, response) {
-    mQuery('[data-verified-email]').click(function(e) {
+    mQuery('[data-verified-emails]').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
-        var value = currentLink.attr('data-verified-email');
-        mQuery("#lead_quickemail_from").val(value);
+        var email = currentLink.attr('data-verified-emails');
+        var name = currentLink.attr('data-verified-fromname');
+        mQuery("#lead_quickemail_from").val(email);
+        mQuery("#lead_quickemail_fromname").val(name);
     });
     // Some hacky editations made on every form submit because of Froala (more at: https://github.com/froala/wysiwyg-editor/issues/1372)
     mQuery('[name="lead_quickemail"]').on('submit.ajaxform', function() {
