@@ -264,6 +264,11 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
      */
     private $recipients = [];
 
+    /*
+     * @var bool
+     */
+    private $isScheduled = 0;
+
     public function __clone()
     {
         $this->id                      = null;
@@ -491,6 +496,10 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->cascadeMerge()
             ->cascadeDetach()
             ->addJoinColumn('dripemail_id', 'id', true, false, 'SET NULL')
+            ->build();
+
+        $builder->createField('isScheduled', 'boolean')
+            ->columnName('is_scheduled')
             ->build();
     }
 
@@ -1566,6 +1575,22 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public function getRecipients()
     {
         return $this->recipients;
+    }
+
+    /**
+     * @return int
+     */
+    public function getisScheduled()
+    {
+        return $this->isScheduled;
+    }
+
+    /**
+     * @param int $isScheduled
+     */
+    public function setIsScheduled($isScheduled)
+    {
+        $this->isScheduled = $isScheduled;
     }
 
     /**

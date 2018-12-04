@@ -305,7 +305,7 @@ class EmailRepository extends CommonRepository
         if ($email instanceof Email) {
             if ($email->getEmailType() == 'list') {
                 $leadlistRepo = $this->getEntityManager()->getRepository('MauticLeadBundle:LeadList');
-                if(isset($email->getRecipients()['filters'])){
+                if (isset($email->getRecipients()['filters'])) {
                     $parameters   =[];
                     $expr         = $leadlistRepo->generateSegmentExpression($email->getRecipients()['filters'], $parameters, $q, null, null, false, 'l', null);
                     if ($expr->count()) {
@@ -914,7 +914,8 @@ class EmailRepository extends CommonRepository
         return $results[0]['opencount'];
     }
 
-    public function getUnsubscribeCount($viewOthers = false){
+    public function getUnsubscribeCount($viewOthers = false)
+    {
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count(e.id) as unsubscribecount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
@@ -945,6 +946,7 @@ class EmailRepository extends CommonRepository
 
         return $results[0]['unsubscribecount'];
     }
+
     /**
      * Get open counts based on date.
      *
@@ -991,18 +993,42 @@ class EmailRepository extends CommonRepository
 
     /**
      * @param $dripid
+     *
      * @return array
      */
-    public function getEmailIdsByDripid($dripid){
+    public function getEmailIdsByDripid($dripid)
+    {
         $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $q->select('id')
             ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
-            ->andWhere($q->expr()->eq('e.dripemail_id',':dripemail_id'))
-            ->setParameter('dripemail_id',$dripid);
+            ->andWhere($q->expr()->eq('e.dripemail_id', ':dripemail_id'))
+            ->setParameter('dripemail_id', $dripid);
         $emails = $q->execute()->fetchAll();
-       foreach ($emails as $email ){
-           $emailids[]=$email['id'];
-       }
+        foreach ($emails as $email) {
+            $emailids[]=$email['id'];
+        }
+
         return $emailids;
+    }
+
+    /**
+     * Get amounts of emails for Drip.
+     *
+     * @return array
+     */
+    public function getDripEmailCount()
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('count(*) as emailCount, e.dripemail_id as DripEmail')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e');
+        $q->andWhere($q->expr()->isNotNull('e.dripemail_id'));
+        $q->addGroupBy('e.dripemail_id');
+        $results   = $q->execute()->fetchAll();
+        $newResult = [];
+        foreach ($results as $key => $value) {
+            $newResult[$value['DripEmail']] = $value['emailCount'];
+        }
+
+        return $newResult;
     }
 }

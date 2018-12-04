@@ -216,6 +216,7 @@ class LeadType extends AbstractType
                 'form_buttons',
                 [
                     'apply_text' => false,
+                    'save_icon'  => false,
                     'save_text'  => 'mautic.core.form.save',
                 ]
             );

@@ -33,7 +33,7 @@
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
-                        'text'       => 'mautic.core.name',
+                        'text'       => 'le.page.report.hits.email_subject',
                         'class'      => 'col-page-title',
                         'default'    => true,
                     ]
@@ -92,6 +92,28 @@
                     ]
                 );
 
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.report.preview',
+                        'class'      => 'col-email-stats drip-email-stats',
+                        'default'    => true,
+                    ]
+                );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.wizard.sendexample',
+                        'class'      => 'col-email-stats drip-email-stats',
+                        'default'    => true,
+                    ]
+                );
+
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'email',
                     'orderBy'    => '',
@@ -106,9 +128,11 @@
                 <?php
                 $scheduleTime      = 1;
                 $scheduleFrequency = 1;
+                $scheduleUnit      = 'days';
                 if ($item->getScheduleTime() != '') {
                     $schedule     = explode(' ', $item->getScheduleTime());
                     $scheduleTime = $schedule[0];
+                    $scheduleUnit = $schedule[1];
                     if ($schedule[1] == 'hours') {
                         $scheduleFrequency = 2;
                     } elseif ($schedule[1] == 'minutes') {
@@ -122,13 +146,13 @@
                         <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'email']); ?>
                     </td>
                     <td class="table-description">
-                        <span><?php echo $item->getSubject(); ?></span>
+                        <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $item->getId()]); ?>"><span><?php echo $item->getSubject(); ?></span></a>
                     </td>
                     <td class="visible-sm visible-md visible-lg drip-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="scheduled-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('scheduled_leads'); ?>">
+                               title="<?php echo $view['translator']->trans('le.drip.email.scheduled_leads'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -177,10 +201,10 @@
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg" style="width:30%;">
+                    <td class="visible-sm visible-md visible-lg" style="width:40%;">
                         <div class="row" style="margin-left:10px;margin-right:-30px;">
                             <div class="col-md-5" style="width:36%;">
-                            <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>"/>
+                            <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;right:30px;">
                                 <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
@@ -190,6 +214,22 @@
                                 </select>
                             </div>
                         </div>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs">
+                            <a class="btn btn-default text-primary le-btn-default custom-preview-button" style="background-color: #ec407a;color:#FFFFFF;font-size:13px;" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => 'noBluePrint'], true)?>" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('le.email.preview.tooltip'); ?>" target="_blank">
+                                <?php echo $view['translator']->trans('le.drip.email.list.preview'); ?>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs">
+                            <a class="btn btn-default text-primary le-btn-default custom-preview-button" style="background-color: #ec407a;color:#FFFFFF;font-size:13px;" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" data-toggle="tooltip"
+                               title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>">
+                               <?php echo $view['translator']->trans('le.drip.email.send'); ?>
+                            </a>
+                        </span>
                     </td>
                     <td>
 
@@ -202,17 +242,14 @@
                                     <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>');"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a onclick="Le.allowEditEmailfromDrip(<?php echo $item->getId() ?>);">
+                                            <a title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $item->getId()]); ?>"><!--onclick="Le.allowEditEmailfromDrip(<?php echo $item->getId() ?>);"-->
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a onclick="Le.removeEmailfromDrip(<?php echo $item->getId(); ?>,<?php echo $entity->getId(); ?>);" >
+                                            <a  title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" onclick="Le.removeEmailfromDrip(<?php echo $item->getId(); ?>,<?php echo $entity->getId(); ?>);" >
                                                 <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>
-                                        <a title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" >
-                                            <span><i class="material-icons md-color-white">  </i></span></a>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -224,5 +261,8 @@
         </table>
     </div>
 <?php else: ?>
-    <?php echo $view->render('MauticEmailBundle:DripEmail:blueprint.html.php'); ?>
+    <?php echo $view->render('MauticEmailBundle:DripEmail:blueprint.html.php', [
+            'entity'          => $entity,
+        ]
+    ); ?>
 <?php endif; ?>

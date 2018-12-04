@@ -633,11 +633,14 @@ class AjaxController extends CommonAjaxController
             'entity'            => $dripEntity,
         ]);
 
-        $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
-
-        $responseArr             = [];
-        $responseArr['success']  = true;
-        $responseArr['content']  = $htmlContent;
+        if (strpos($htmlContent, '<div class="table-responsive">') !== false) {
+            $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
+        } elseif (strpos($htmlContent, '<p class="drip-col-stats">') !== false) {
+            $htmlContent = strstr($htmlContent, '<div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">');
+        }
+        $responseArr                = [];
+        $responseArr['success']     = true;
+        $responseArr['content']     = $htmlContent;
 
         return $this->sendJsonResponse($responseArr);
     }
@@ -717,7 +720,7 @@ class AjaxController extends CommonAjaxController
      */
     protected function getDripEmailScheduledCountStatsAction(Request $request)
     {
-        /** @var EmailModel $model */
+        /** @var EmailModel $emailmodel */
         $emailmodel = $this->getModel('email');
 
         /** @var DripEmailModel $model */
@@ -1018,9 +1021,10 @@ class AjaxController extends CommonAjaxController
 
     public function reorderEmailsAction(Request $request)
     {
-        $data     = $request->request->all();
-        $emailId  = $data['id'];
-        $order    = $data['order'];
+        $data      = $request->request->all();
+        $emailId   = $data['id'];
+        $order     = $data['order'];
+        $totalsize = $data['totalsize'];
 
         /** @var EmailModel $emailmodel */
         $emailmodel = $this->getModel('email');
@@ -1031,6 +1035,54 @@ class AjaxController extends CommonAjaxController
         $responseArr             = [];
         $responseArr['success']  = true;
 
+        if ($totalsize == $order) {
+            $this->addFlash($this->translator->trans('le.drip.emails.reorder.message'));
+        }
+        //render flashes
+        $responseArr['flashes'] = $this->getFlashContent();
+        //$responseArr['orderChanged'] = $order;
+
         return $this->sendJsonResponse($responseArr);
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function getEmailsinDripCountStatsAction(Request $request)
+    {
+        /** @var EmailModel $model */
+        $model = $this->getModel('email');
+
+        /** @var DripEmailModel $dripmodel */
+        $dripmodel = $this->getModel('email.dripemail');
+
+        $data = [];
+        if ($id = $request->get('id')) {
+            if ($email = $model->getEntity($id)) {
+                $sentCount   = $email->getSentCount(true);
+
+                $clickCount = $model->getEmailClickCount($email->getId());
+                if ($clickCount > 0 && $sentCount > 0) {
+                    $clickCountPercentage = round($clickCount / $sentCount * 100);
+                } else {
+                    $clickCountPercentage = 0;
+                    $clickCount           =0;
+                }
+
+                $eventLogRepo  = $dripmodel->getCampaignLeadEventRepository();
+                $events        = $eventLogRepo->getScheduledEventsbyDripEmail($email);
+                $scheduledlead = sizeof($events);
+
+                $data = [
+                    'success'          => 1,
+                    'sentCount'        => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%' =>$sentCount]),
+                    'readCount'        => $this->translator->trans('le.email.stat.readcount', ['%count%' => $email->getReadCount(true), '%percentage%' => round($email->getReadPercentage(true))]),
+                    'readPercent'      => $this->translator->trans('le.email.stat.readpercent', ['%count%' => $clickCount, '%percentage%'=>$clickCountPercentage]),
+                    'scheduledcount'   => $this->translator->trans('le.drip.email.stat.scheduledcount', ['%count%' =>$scheduledlead]),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
     }
 }

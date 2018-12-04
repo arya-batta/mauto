@@ -165,4 +165,56 @@ class LeadEventLogRepository extends CommonRepository
 
         $q->execute();
     }
+
+    /**
+     * Get a lead's page event log.
+     *
+     * @param int|null $leadId
+     * @param array    $options
+     *
+     * @return array
+     *
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLeadLogs($leadId = null, array $options = [])
+    {
+        $query = $this->getEntityManager()
+            ->getConnection()
+            ->createQueryBuilder()
+            ->select('dle.id as log_id,
+                    dle.dripemail_id,
+                    dle.email_id,
+                    dle.date_triggered as dateTriggered,
+                    d.name AS drip_name,
+                    e.subject AS email_subject,
+                    dle.is_scheduled as isScheduled,
+                    dle.trigger_date as triggerDate,
+                    dle.lead_id,
+                    dle.failedReason
+                    '
+            )
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_lead_event_log', 'dle')
+            ->leftJoin('dle', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'dle.dripemail_id = d.id')
+            ->leftJoin('dle', MAUTIC_TABLE_PREFIX.'emails', 'e', 'dle.email_id = e.id');
+        if ($leadId) {
+            $query->where('dle.lead_id = '.(int) $leadId);
+        }
+
+        if (isset($options['scheduledState'])) {
+            if ($options['scheduledState']) {
+                // Include cancelled as well
+                $query->andWhere(
+                    $query->expr()->eq('dle.is_scheduled', ':scheduled')
+                );
+            } else {
+                $query->andWhere(
+                    $query->expr()->eq('dle.is_scheduled', ':scheduled')
+                );
+            }
+            $query->setParameter('scheduled', $options['scheduledState'], 'boolean');
+        }
+
+        return $this->getTimelineResults($query, $options, 'e.name', 'dle.date_triggered', [''], ['dateTriggered', 'triggerDate']);
+    }
 }

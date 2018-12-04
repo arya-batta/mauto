@@ -244,7 +244,7 @@ class DynamicContentType extends AbstractType
             $builder->add(
                 'buttons',
                 'form_buttons',
-                ['apply_text' => false]
+                ['apply_text' => false, 'save_icon'  => false]
             );
 
             $builder->add(

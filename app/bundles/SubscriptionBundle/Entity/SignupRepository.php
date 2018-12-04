@@ -430,6 +430,11 @@ class SignupRepository
 
     public function getDripEmailsForBluePrint()
     {
+        try {
+            $this->getConnection()->connect();
+        } catch (\Exception $e) {
+            return [];
+        }
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->select('d.id')
             ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
@@ -462,8 +467,35 @@ class SignupRepository
      *
      * @return Paginator
      */
+    public function getEmailsByEmailId($emailId)
+    {
+        try {
+            $this->getConnection()->connect();
+        } catch (\Exception $e) {
+            return [];
+        }
+        $q = $this->getConnection()->createQueryBuilder()
+            ->select('e.*')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id');
+        $q->andWhere('e.id = :emailId')
+            ->setParameter('emailId', $emailId)
+            ->orderBy('e.dripEmailOrder', 'asc');
+
+        return $emails = $q->execute()->fetchAll();
+    }
+
+    /**
+     * Get a list of entities.
+     *
+     * @return Paginator
+     */
     public function getDripEmails()
     {
+        try {
+            $this->getConnection()->connect();
+        } catch (\Exception $e) {
+            return [];
+        }
         $q = $this->getConnection()
             ->createQueryBuilder()
             ->select('d.*')

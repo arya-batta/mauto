@@ -137,7 +137,13 @@ Le.launchBeeEditor = function (formName, actionName) {
             height=620;
         }
     }
-
+    if(Le.beeTemplate == ""){
+        alert("Please Select the Template.");
+        return;
+    }
+    //if(formName == "dripemail") {
+        mQuery('#builder_url_text').focus();
+   // }
     mQuery('body').css('overflow-y', 'hidden');
     // mQuery('#bee-plugin-viewpanel').css('height', height+"px");
           Le.getTokens(actionName+':getBuilderTokens', function(tokens) {
@@ -272,14 +278,14 @@ Le.showTemplateview = function () {
     }
 }
 Le.showdripEmailpreviewoftemplate = function (htmlFile) {
-    if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
+    //if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
         mQuery('#dripemail_advance_editor').addClass('hide');
         //mQuery('#change-template-span').html('Change Template');
         mQuery("#email-content-preview").removeClass('hide');
         mQuery("#email-preview-container").removeClass('hide');
         mQuery("#email-content-preview").html(htmlFile);
         //mQuery('#builder_btn').removeClass('hide');
-    }
+    //}
 }
 Le.showDripEmailTemplateview = function () {
     if(mQuery('#dripemail_advance_editor').hasClass('hide')) {

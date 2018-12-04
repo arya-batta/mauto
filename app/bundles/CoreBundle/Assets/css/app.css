@@ -5502,7 +5502,7 @@ figcaption {
   bottom: 0;
   right: 0;
   z-index:1003;
-  margin-left:69%;
+  margin-left:66%;
   background-color: #ec407a;
   color: #fff;
 }
@@ -5549,6 +5549,9 @@ figcaption {
 }
 .fragment-1-buttons{
   float: right;
+}
+.fragment-1-buttons,.fragment-2-buttons,.fragment-3-buttons,.fragment-4-buttons{
+  margin-top: -25px;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;
@@ -6492,7 +6495,7 @@ text-align: center;
   border-bottom: 1px solid rgba(0,0,0,.12);
   text-align: center;
 }
-.drip-col-stats{
+.drip-col-stats,.drip-email-col-stats{
   text-align:center;
 }
 .drip-email-stats{
@@ -6514,7 +6517,7 @@ text-align: center;
   text-align: start;
 }
 .custom-preview-button{
-  text-transform: capitalize;
+  text-transform: inherit;
   padding: 0px 10px 0px 10px;
 }
 .custom-preview-button > span{
@@ -6630,4 +6633,7 @@ text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 101%;
+}
+.disable_ele{
+  pointer-events:none;
 }

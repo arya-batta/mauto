@@ -56,6 +56,7 @@
     <!--/ end: app-content -->
 
     <!-- start: app-content -->
+    <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
     <section id="app-content" style="margin-bottom: 5%;">
         <?php $view['slots']->output('_content'); ?>
     </section>

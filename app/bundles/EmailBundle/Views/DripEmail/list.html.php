@@ -128,7 +128,7 @@ $isAdmin=$view['security']->isAdmin();
             <?php foreach ($items as $item): ?>
                 <?php
                 ?>
-                <tr>
+                <tr class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <td>
                         <?php
                         $edit = $view['security']->hasEntityAccess(
@@ -159,7 +159,7 @@ $isAdmin=$view['security']->isAdmin();
                     <td>
                         <?php echo $view->render('MauticCoreBundle:Helper:publishstatus_icon.html.php', ['item' => $item, 'model' => 'email.dripemail']); ?>
                     </td>
-                    <td class="table-description">
+                    <td class="table-description" style="text-align: left;">
                         <div>
                             <?php $category = $item->getCategory(); ?>
                             <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
@@ -168,7 +168,7 @@ $isAdmin=$view['security']->isAdmin();
                                 $actionRoute,
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
-                                <?php echo $item->getName(); ?>
+                                <?php echo $item->getName(); ?> <b>(<?php echo empty($EmailsCount) ? '0' : empty($EmailsCount[$item->getId()]) ? '0' : $EmailsCount[$item->getId()]; ?> Emails)</b>
                             </a>
                             <div style="white-space: nowrap;">
                             <span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span>
@@ -250,7 +250,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <?php if ($isAdmin):?>
+                    <?php if ($isAdmin) : ?>
                         <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
@@ -266,6 +266,10 @@ $isAdmin=$view['security']->isAdmin();
                                         <?php if ($hasEditAccess): ?>
                                             <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
+                                        <?php endif; ?>
+                                        <?php if ($hasCloneAccess) : ?>
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_dripemail_campaign_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                                <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
                                             <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_dripemail_campaign_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.dripemail.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">

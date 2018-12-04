@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="row" style="padding-top:5px;padding-bottom:15px;border-bottom: 1px solid;">
+<div class="row" style="padding-top:5px;padding-bottom:15px;border-bottom: 1px solid;margin-left:15px;margin-right:15px;">
 <a class="btn btn-default text-primary le-btn-default custom-preview-button" onclick="Le.closeBluePrintPage();" style="background-color: #ec407a;color:#ffffff;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
 <span>
 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.backtoeamils'); ?></span>
@@ -9,7 +9,7 @@
 </div>
 <?php if (count($items)): ?>
     <?php foreach ($items as $key => $entities): ?>
-        <div class="row" style="margin-top:10px;border-bottom: 1px solid;">
+        <div class="row" style="margin-top:10px;border-bottom: 1px solid;margin:0px;">
             <div class="col-md-3" style="margin-bottom:10px;">
                 <p><span style="font-size:18px;font-weight: bold;"><?php echo $drips[$key]['name']; ?></span></p>
                 <p><span style="font-size:13px;"><?php echo $drips[$key]['description']; ?></span></p>
@@ -42,7 +42,7 @@
                                     'sessionVar' => 'email',
                                     'orderBy'    => '',
                                     'text'       => 'le.drip.email.graph.line.stats.delay',
-                                    'class'      => 'col-email-stats text-start',
+                                    'class'      => 'col-email-stats col-page-category',
                                     'default'    => true,
                                 ]
                             );
@@ -62,17 +62,17 @@
                         </thead>
                         <tbody>
                         <?php foreach ($entities as $item):
-                            $previewUrl = $view['router']->path('le_email_preview', ['objectId' => $item['id']], true);
+                            $previewUrl = $view['router']->path('le_dripemail_email_action', ['objectId' => $drips[$key]['id'], 'subobjectAction' => 'preview', 'subobjectId' => $item['id']], true);
                             ?>
                             <tr>
                                 <td class="table-description">
                                     <span><?php echo $item['subject']; ?></span>
                                 </td>
-                                <td class="visible-sm visible-md visible-lg email-col-stats" data-stats="<?php echo $item['id']; ?>">
+                                <td class="visible-sm visible-md visible-lg email-col-stats col-page-category" data-stats="<?php echo $item['id']; ?>">
                                     <span><?php echo $item['scheduleTime']; ?></span>
                                 </td>
-                                <td class="visible-sm visible-md visible-lg email-col-stats drip-col-stats" data-stats="<?php echo $item['id']; ?>">
-                                    <a class="btn btn-default text-primary le-btn-default custom-preview-button" onclick="window.open('<?php echo $previewUrl; ?>', '_blank');" style="background-color: #ec407a;color:#ffffff;float: right;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                                <td class="visible-sm visible-md visible-lg email-col-stats col-page-category drip-col-stats" data-stats="<?php echo $item['id']; ?>">
+                                    <a class="btn btn-default text-primary le-btn-default custom-preview-button" href="<?php echo $previewUrl; ?>" target="_blank" style="background-color: #ec407a;color:#ffffff;float: right;border-radius:4px;z-index:1003;">
                                             <span>
                                             <span class="hidden-xs hidden-sm" id="view-emailtemplate-button"><?php echo $view['translator']->trans('View Email'); ?></span>
                                             </span>

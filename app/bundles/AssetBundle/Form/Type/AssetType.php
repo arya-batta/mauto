@@ -172,7 +172,7 @@ class AssetType extends AbstractType
             'required' => false,
         ]);
 
-        $builder->add('buttons', 'form_buttons', []);
+        $builder->add('buttons', 'form_buttons', ['save_icon'  => false]);
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

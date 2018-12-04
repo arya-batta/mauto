@@ -169,11 +169,11 @@ class LeadEventLog
     }
 
     /**
-     * @param \DateTime|null $dateTriggered
+     * @param $dateTriggered
      *
      * @return $this
      */
-    public function setDateTriggered(\DateTime $dateTriggered = null)
+    public function setDateTriggered($dateTriggered = null)
     {
         $this->dateTriggered = $dateTriggered;
         if (null !== $dateTriggered) {
@@ -253,11 +253,11 @@ class LeadEventLog
     }
 
     /**
-     * @param DripEmail $campaign
+     * @param $campaign|null
      *
      * @return $this
      */
-    public function setCampaign(DripEmail $campaign)
+    public function setCampaign($campaign)
     {
         $this->campaign = $campaign;
 

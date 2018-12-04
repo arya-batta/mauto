@@ -45,11 +45,10 @@ $custombuttons                      = [
 $custombutton = [
     [
         'name'    => 'beeeditor',
-        'btnText' => 'le.core.edit',
+        'btnText' => 'le.drip.email.open.editor',
         'attr'    => [
-            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
+            'class'   => 'btn btn-default btn-save le-btn-default btn-copy m_down',
             'onclick' => "Le.launchBeeEditor('pageform', 'page');",
-            'style'   => 'color: #ffffff;background-color: #ec407a;padding-top: 8px;border-radius: 4px;top:40px;',
         ],
     ],
 ];
@@ -67,7 +66,7 @@ $custombutton = [
                     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
                         <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
                         <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
-                        <div class="le-builder-btn col-md-6" style="width: 50%;float: right;position: absolute;top: 5px;right: 0;">
+                        <div class="le-builder-btn col-md-6 hide" style="width: 50%;float: right;position: absolute;top: 5px;right: 0;">
                             <div id="builder_btn" class="hide" style="margin-left: 385px;">
                                 <?php echo $view->render(
                                     'MauticCoreBundle:Helper:page_actions.html.php',
@@ -188,16 +187,26 @@ $custombutton = [
                         </div>
                     </div>
                     <div id="fragment-page-2" class="ui-tabs-panel hide">
-                        <!--/ tabs controls -->
-                        <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
+                        <!--/ tabs controls
+                        <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />-->
                         <div class="fragment-3-buttons fixed-header">
                             <a href="#" style="margin-left:-82px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -195px;margin-right: 30px;">
-                                <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                                <div class="btn-group toolbar-standard hidden-xs hidden-sm " style="margin-right:123px;"></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                                     <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
                                             aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                </div>
+                                <div id = "open_editor_page_button" style="position:relative;top:-136px;left:5px;  ">
+                                    <?php echo $view->render(
+                                        'MauticCoreBundle:Helper:page_actions.html.php',
+                                        [
+                                            'routeBase'     => 'email',
+                                            'langVar'       => 'email',
+                                            'customButtons' => $custombutton,
+                                        ]
+                                    ); ?>
                                 </div>
                             </div>
                         </div>

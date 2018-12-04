@@ -56,6 +56,8 @@ class LeadSubscriber extends CommonSubscriber
         $this->addEmailEvents($event, 'read');
         $this->addEmailEvents($event, 'sent');
         $this->addEmailEvents($event, 'failed');
+        $this->addDripCampaignEvents($event, 'campaign.event', $this->translator->trans('le.drip.campaign.completed'));
+        $this->addDripCampaignEvents($event, 'campaign.event.scheduled', $this->translator->trans('le.drip.campaign.scheduled'));
         $this->addEmailReplies($event);
     }
 
@@ -178,6 +180,71 @@ class LeadSubscriber extends CommonSubscriber
                         'timestamp'  => $reply['date_replied'],
                         'icon'       => 'fa-envelope',
                         'contactId'  => $contactId,
+                    ]
+                );
+            }
+        }
+    }
+
+    /**
+     * @param LeadTimelineEvent $event
+     * @param                   $state
+     */
+    protected function addDripCampaignEvents(LeadTimelineEvent $event, $eventTypeKey, $eventTypeName)
+    {
+        // Set available event types
+        $event->addEventType($eventTypeKey, $eventTypeName);
+        $event->addSerializerGroup('dripcampaignList');
+
+        // Decide if those events are filtered
+        if (!$event->isApplicable($eventTypeKey)) {
+            return;
+        }
+
+        /** @var \Mautic\EmailBundle\Entity\LeadEventLogRepository $logRepository */
+        $logRepository                 = $this->em->getRepository('MauticEmailBundle:LeadEventLog');
+        $queryOptions                  = $event->getQueryOptions();
+        $queryOptions['scheduledState']= ('campaign.event' === $eventTypeKey) ? false : true;
+        $campaigns                     = $logRepository->getLeadLogs($event->getLeadId(), $queryOptions);
+        // Add total to counter
+        $event->addToCounter($eventTypeKey, $campaigns);
+
+        if (!$event->isEngagementCount()) {
+            // Add the events to the event array
+            foreach ($campaigns['results'] as $campaign) {
+                if (!empty($campaign['email_subject']) && !empty($campaign['drip_name'])) {
+                    $label = $campaign['email_subject'].'/'.$campaign['drip_name'];
+                } else {
+                    continue;
+                }
+                $eventName = $label;
+                $eventName = [
+                    'label'      => $label,
+                    'href'       => $this->router->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign['dripemail_id']]),
+                    'isExternal' => true,
+                ];
+
+                $contactId = $campaign['lead_id'];
+                unset($campaign['lead_id']);
+
+                $subeventTypeIcon='fa-sign-out';
+                if ($queryOptions['scheduledState']) {
+                    $subeventTypeIcon='fa-bolt';
+                }
+
+                $event->addEvent(
+                    [
+                        'event'      => $eventTypeKey,
+                        'eventId'    => $eventTypeKey.$campaign['log_id'],
+                        'eventLabel' => $eventName,
+                        'eventType'  => $eventTypeName,
+                        'timestamp'  => $campaign['dateTriggered'],
+                        'extra'      => [
+                            'log' => $campaign,
+                        ],
+                        'contentTemplate' => 'MauticEmailBundle:SubscribedEvents\DripSearch:index.html.php',
+                        'icon'            => $subeventTypeIcon,
+                        'contactId'       => $contactId,
                     ]
                 );
             }

@@ -26,28 +26,28 @@ $isAdmin              = $view['security']->isAdmin();
 <div id="page-wrap" class="tab-content align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
-            <li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active" role = "tab" id = "ui-tab-header1" rel = 1>
+            <!--<li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active hide" role = "tab" id = "ui-tab-header1" rel = 1>
                 <a id="info_tab" class="text-start">
                     <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 01</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.name'); ?></label>
                     </div></a>
-            </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header2" rel = 2>
+            </li>-->
+            <li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active" role = "tab" id = "ui-tab-header2" rel = 2>
                 <a class="text-start"> <div class="content-wrapper-first">
-                        <div><span class="small-xx">Step 02</span></div>
+                        <div><span class="small-xx">Step 01</span></div>
                         <label><?php echo $view['translator']->trans('le.core.drip.compose'); ?></label>
                     </div></a>
 
             </li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
-                <a class="text-start" style="padding: 3px 34px;;"><div class="content-wrapper-first">
-                        <div><span class="small-xx">Step 03</span></div>
+                <a class="text-start" style="padding: 3px 34px;"><div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 02</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>
                     </div></a>
             </li>
         </ul>
-        <div id="fragment-1" class="ui-tabs-panel">
+        <div id="fragment-1" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
@@ -60,61 +60,12 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="dripEmail_PublicName">
-                    <?php echo $view['form']->label($form['name']); ?>
-                    <?php echo $view['form']->widget($form['name']); ?>
-                    <?php echo $view['form']->errors($form['name']); ?>
-                    <div class="help-block custom-help"></div>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['category']); ?>
-                </div>
-            </div>
-            <div class="row hide">
-                <div class="col-md-11 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" style="width: 88.11111%">
-                    <?php echo $view['form']->label($form['subject']); ?>
-                    <?php echo $view['form']->widget($form['subject']); ?>
-                    <?php echo $view['form']->errors($form['subject']); ?>
-                    <div class="help-block custom-help"></div>
-                </div>
-                <div>
-                    <li class="dropdown dropdown-menu-right" style="display: block;">
-                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
-                            <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
-                            <li>
-                                <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
-                                </div
-                            </li>
-                        </ul>
-                    </li>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isPublished']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['google_tags']); ?>
-                </div>
-            </div>
-            <div class="row hide">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['previewText']); ?>
-                </div>
-            </div>
-            <div class="row <?php echo $isAdmin ? '' : 'hide'; ?>">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['description']); ?>
-                </div>
-            </div>
+
 
         </div>
-        <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
+        <div id="fragment-2" class="ui-tabs-panel ">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" id="#previous-button" style="margin-top: -307px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="#previous-button" style="margin-top: -307px;" class="prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
                 <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 100px;">
@@ -127,12 +78,12 @@ $isAdmin              = $view['security']->isAdmin();
                 </div>
             </div>
 
-            <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />
+            <!--<input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />-->
             <div class="drip-email-button-container" style="margin-top:-65px;float:right;">
                 <div class="newbutton-container">
                     <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
                         <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 13px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
-                            <span><i class="fa fa-caret-down"></i></span>
+                            <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
                             <div class="insert-drip-options">
@@ -140,23 +91,27 @@ $isAdmin              = $view['security']->isAdmin();
                                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('Which email builder would you like to use?')?></h1>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-6 editor_layout" onclick="Le.setValueforNewButton('advance_editor',this);" style="margin-left:10px;">
-                                            <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
-                                            <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
-                                            <br>
-                                        </div>
-                                        <div class="col-md-6 editor_layout editor_select" onclick="Le.setValueforNewButton('basic_editor',this);" style="margin-left:20px;">
-                                            <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
-                                            <h4><?php echo $view['translator']->trans('le.email.editor.basic.header')?></h4>
-                                            <br>
-                                        </div>
+                                        <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 1]); ?>">
+                                            <div class="col-md-6 editor_layout"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                                                <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
+                                                <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
+                                                <br>
+                                            </div>
+                                        </a>
+                                        <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 0]); ?>">
+                                            <div class="col-md-6 editor_layout editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                                                <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
+                                                <h4><?php echo $view['translator']->trans('le.email.editor.basic.header')?></h4>
+                                                <br>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </ul>
                     </li>
 
-                    <a class="btn btn-default le-btn-default btn-nospin" id="new-drip-email" value="basic_editor" onclick="Le.openDripEmailEditor();" style="float:right;z-index:10000;">
+                    <a class="btn hide btn-default le-btn-default btn-nospin" id="new-drip-email" value="basic_editor" onclick="Le.openDripEmailEditor();" style="float:right;z-index:10000;">
                         <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
                     </a>
                 </div>
@@ -269,13 +224,7 @@ $isAdmin              = $view['security']->isAdmin();
                     ]); ?>
                 </div>
             </div>
-            <drip class="drip-blue-prints hide">
-                <?php echo $view->render('MauticEmailBundle:DripEmail:blueprintlist.html.php', [
-                    'items'           => $bluePrints,
-                    'entity'          => $entity,
-                    'drips'           => $drips,
-                ]); ?>
-            </drip>
+
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-3-buttons fixed-header">
@@ -291,45 +240,93 @@ $isAdmin              = $view['security']->isAdmin();
             </div>
             <div id="email-other-container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <?php echo $view['form']->row($form['fromName']); ?>
+                    <div class="col-md-6 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="dripEmail_PublicName">
+                        <?php echo $view['form']->label($form['name']); ?>
+                        <?php echo $view['form']->widget($form['name']); ?>
+                        <?php echo $view['form']->errors($form['name']); ?>
+                        <div class="help-block custom-help"></div>
                     </div>
                     <div class="col-md-6">
-                        <?php echo $view['form']->row($form['scheduleDate']); ?>
+                        <?php echo $view['form']->row($form['category']); ?>
+                    </div>
+                </div>
+                <div class="row hide">
+                    <div class="col-md-11 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" style="width: 88.11111%">
+                        <?php echo $view['form']->label($form['subject']); ?>
+                        <?php echo $view['form']->widget($form['subject']); ?>
+                        <?php echo $view['form']->errors($form['subject']); ?>
+                        <div class="help-block custom-help"></div>
+                    </div>
+                    <div>
+                        <li class="dropdown dropdown-menu-right" style="display: block;">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
+                                <li>
+                                    <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                                    </div
+                                </li>
+                            </ul>
+                        </li>
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['fromName']); ?>
+                    </div>
                     <div class="col-md-6">
                         <div class="pull-left" id="email_FromAddress" >
                             <?php echo $view['form']->row($form['fromAddress']); ?>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['replyToAddress']); ?>
                     </div>
-
-                </div>
-                <div class="row">
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['bccAddress']); ?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['isPublished']); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['google_tags']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['scheduleDate']); ?>
+                    </div>
+                    <div class="col-md-6">
                         <?php echo $view['form']->row($form['daysEmailSend']); ?>
                     </div>
                 </div>
+                <div class="row hide">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['previewText']); ?>
+                    </div>
+                </div>
+                <div class="row <?php echo $isAdmin ? '' : 'hide'; ?>">
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['description']); ?>
+                    </div>
+                </div>
+
                 <br>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <br>
                         <?php echo $view['form']->label($form['postal_address']); ?>
                         <?php echo $view['form']->widget($form['postal_address']); ?>
                     </div>
-                    <div class="col-md-6" id="unsubscribe_text_div">
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12" id="unsubscribe_text_div">
                         <?php echo $view['form']->label($form['unsubscribe_text']); ?>
                         <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
                     </div>
@@ -342,3 +339,11 @@ $isAdmin              = $view['security']->isAdmin();
 <?php echo $view['form']->end($form); ?>
 
 <?php echo $view->render('MauticEmailBundle:Email:beeeditor.html.php', ['objectId'      => $emailEntity->getSessionId(), 'type'          => 'email']); ?>
+
+<drip class="drip-blue-prints builder-active hide">
+    <?php echo $view->render('MauticEmailBundle:DripEmail:blueprintlist.html.php', [
+        'items'           => $bluePrints,
+        'entity'          => $entity,
+        'drips'           => $drips,
+    ]); ?>
+</drip>

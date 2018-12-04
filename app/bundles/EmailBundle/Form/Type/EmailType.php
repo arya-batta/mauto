@@ -88,7 +88,10 @@ class EmailType extends AbstractType
         if (!$options['isEmailTemplate']) {
             $name = 'le.email.form.campaign.name';
         }
-
+        $namedata = $options['data']->getName() ? $options['data']->getName() : '';
+        if ($options['isDripEmail'] && $namedata == '') {
+            $namedata = 'DripEmail - ';
+        }
         $builder->add(
             'name',
             'text',
@@ -96,6 +99,7 @@ class EmailType extends AbstractType
                 'label'      => $name,
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
+                'data'       => $namedata,
             ]
         );
 
@@ -131,6 +135,21 @@ class EmailType extends AbstractType
         if ($emailProvider == $this->translator->trans('le.transport.amazon')) {
             $tooltip = 'le.email.amazon.fromaddress.tooltip';
         }
+        $constraints = [
+            new EmailVerify(
+                [
+                    'message' => 'le.email.verification.error',
+                ]
+            ),
+            new EmailDomain(
+                [
+                    'message' => 'le.email.verification.error',
+                ]
+            ),
+        ];
+        if ($options['isDripEmail']) {
+            $constraints = [];
+        }
         $builder->add(
             'fromAddress',
             'text',
@@ -142,19 +161,8 @@ class EmailType extends AbstractType
                     'preaddon' => 'fa fa-envelope',
                     'tooltip'  => $tooltip,
                  ],
-                'constraints' => [
-                    new EmailVerify(
-                        [
-                            'message' => 'le.email.verification.error',
-                        ]
-                    ),
-                    new EmailDomain(
-                        [
-                            'message' => 'le.email.verification.error',
-                        ]
-                    ),
-                ],
-                'required' => false,
+                'constraints' => $constraints,
+                'required'    => false,
             ]
         );
 
@@ -664,6 +672,7 @@ class EmailType extends AbstractType
                         ],
                     ],
                     'apply_text' => false,
+                    'save_icon'  => false,
                 ]
             );
         } else {
@@ -672,6 +681,7 @@ class EmailType extends AbstractType
                 'form_buttons',
                 [
                     'apply_text' => false,
+                    'save_icon'  => false,
                 ]
             );
         }
@@ -704,7 +714,7 @@ class EmailType extends AbstractType
             ]
         );
 
-        $resolver->setDefined(['update_select', 'isEmailTemplate']);
+        $resolver->setDefined(['update_select', 'isEmailTemplate', 'isDripEmail']);
     }
 
     /**

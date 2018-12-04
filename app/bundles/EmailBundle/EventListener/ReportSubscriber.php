@@ -92,6 +92,10 @@ class ReportSubscriber extends CommonSubscriber
                 'label' => 'le.email.subject',
                 'type'  => 'string',
             ],
+            $prefix.'email_type' => [
+                'label' => 'le.email.send.emailtype',
+                'type'  => 'string',
+            ],
             $prefix.'lang' => [
                 'label' => 'mautic.core.language',
                 'type'  => 'string',

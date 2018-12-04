@@ -24,12 +24,12 @@ use Mautic\EmailBundle\Swiftmailer\Amazon\SimpleEmailService;
 use Mautic\EmailBundle\Swiftmailer\Exception\BatchQueueMaxException;
 use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
 use Mautic\EmailBundle\Swiftmailer\Transport\AmazonApiTransport;
+use Mautic\EmailBundle\Swiftmailer\Transport\SendgridApiTransport;
+use Mautic\EmailBundle\Swiftmailer\Transport\SparkpostTransport;
 use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\SubscriptionBundle\Entity\Account;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Mautic\EmailBundle\Swiftmailer\Transport\SendgridApiTransport;
-use Mautic\EmailBundle\Swiftmailer\Transport\SparkpostTransport;
 
 /**
  * Class MailHelper.
@@ -388,7 +388,7 @@ class MailHelper
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
-                    if ((strpos($this->body['content'], '{footer_text}') == 0) && (strpos($this->body['content'], '{unsubscribe_link}') == 0)) {
+                    if ((strpos($this->body['content'], '{footer_text}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false)) {
                         $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                         $this->body['content'] = $bodycontent;
                     }
@@ -588,6 +588,12 @@ class MailHelper
     public function queue($dispatchSendEvent = false, $returnMode = self::QUEUE_RESET_TO)
     {
         if ($this->tokenizationEnabled) {
+            if ($dispatchSendEvent && !empty($this->body['content'])) {
+                if ((strpos($this->body['content'], '{footer_text}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false)) {
+                    $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
+                    $this->body['content'] = $bodycontent;
+                }
+            }
             // Dispatch event to get custom tokens from listeners
             if ($dispatchSendEvent) {
                 $this->dispatchSendEvent();
@@ -2265,13 +2271,13 @@ class MailHelper
                             $sesmailer = new SimpleEmailService($settings['user'], $settings['password'], $settings['amazon_region']);
                             $mailer->setSimpleemailservice($sesmailer);
                         }
-                    }elseif('le.transport.sendgrid_api' == $transport){
+                    } elseif ('le.transport.sendgrid_api' == $transport) {
                         $sendgrid = new \SendGrid($settings['api_key']);
-                        if($mailer instanceof SendgridApiTransport) {
+                        if ($mailer instanceof SendgridApiTransport) {
                             $mailer->getSendGridApiFacade()->getSendGridWrapper()->setSendGrid($sendgrid);
-                            }
-                    }elseif ('le.transport.sparkpost' == $transport){
-                        if($mailer instanceof SparkpostTransport){
+                        }
+                    } elseif ('le.transport.sparkpost' == $transport) {
+                        if ($mailer instanceof SparkpostTransport) {
                             $mailer->setApiKey($settings['api_key']);
                         }
                     }

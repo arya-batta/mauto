@@ -85,8 +85,16 @@ class SearchSubscriber extends CommonSubscriber
                     'expr'   => 'eq',
                     'value'  => $this->userHelper->getUser()->getId(),
                 ];
+                /*$filter['force']=[
+                    ['column' => 'IDENTITY(e.createdBy)', 'expr' => 'eq', 'value' => $this->userHelper->getUser()->getId()],
+                    ['column' => 'e.emailType', 'expr' => 'neq', 'value' => 'dripemail'],
+                ];*/
             }
-
+            $filter['force'][] = [
+                'column' => 'e.emailType',
+                'expr'   => 'neq',
+                'value'  => 'dripemail',
+            ];
             $emails = $this->emailModel->getEntities(
                 [
                     'limit'  => 5,
@@ -115,11 +123,11 @@ class SearchSubscriber extends CommonSubscriber
                 $emailResults['count'] = count($emails);
                 $event->addResults('le.email.emails', $emailResults);
             }
-
-            $drips = $this->dripModel->getEntities(
+            $dripfilter      = ['string' => $str, 'force' => []];
+            $drips           = $this->dripModel->getEntities(
                 [
                     'limit'  => 5,
-                    'filter' => $filter,
+                    'filter' => $dripfilter,
                 ]);
 
             if (count($drips) > 0) {

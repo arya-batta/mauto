@@ -48,6 +48,10 @@ return [
                 'path'       => '/drip/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:DripEmail:execute',
             ],
+            'le_dripemail_email_action' => [
+                'path'       => '/drip/{objectId}/emails/{subobjectAction}/{subobjectId}',
+                'controller' => 'MauticEmailBundle:DripEmail:executeDrip',
+            ],
         ],
         'api' => [
             'mautic_api_emailstandard' => [

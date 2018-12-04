@@ -1224,14 +1224,15 @@ Le.activateDateTimeInputs = function(el, type) {
             closeOnDateSelect: true
         });
     } else if (type == 'time') {
-        mQuery(el).datetimepicker({
+        mQuery(el).timepicki();
+        /*mQuery(el).datetimepicker({
             datepicker: false,
             format: (format) ? format : 'H:i:s',
             lazyInit: true,
             validateOnBlur: false,
             allowBlank: true,
             scrollInput: false
-        });
+        });*/
     }
 
     mQuery(el).addClass('calendar-activated');

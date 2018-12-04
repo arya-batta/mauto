@@ -14,17 +14,44 @@ namespace Mautic\EmailBundle\Controller;
 use Mautic\CoreBundle\Controller\BuilderControllerTrait;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Controller\FormErrorMessagesTrait;
+use Mautic\EmailBundle\Entity\DripEmail;
 use Mautic\EmailBundle\Entity\LeadEventLogRepository;
 use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class DripEmailController extends FormController
 {
     use BuilderControllerTrait;
     use FormErrorMessagesTrait;
     use EntityContactsTrait;
+
+    /**
+     * Executes an action defined in route.
+     *
+     * @param int    $objectId
+     * @param string $subobjectAction
+     * @param int    $subobjectId
+     * @param string $objectModel
+     *
+     * @return array|JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function executeDripAction($objectId = 0, $subobjectAction, $subobjectId = 0, $objectModel = '')
+    {
+        if (method_exists($this, "email{$subobjectAction}Action")) {
+            //if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && !$this->request->get('qf', false)) {
+            //    return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+            //} else if($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && $this->request->get('qf', false)){
+            //    $this->redirectToPricing();
+            //}
+
+            return $this->{"email{$subobjectAction}Action"}($subobjectId, $objectId, $objectModel);
+        }
+
+        return $this->notFound();
+    }
 
     /**
      * @param int $page
@@ -35,6 +62,9 @@ class DripEmailController extends FormController
     {
         /** @var DripEmailModel $model */
         $model = $this->getModel('email.dripemail');
+
+        /** @var DripEmailModel $model */
+        $emailmodel = $this->getModel('email');
 
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(
@@ -65,11 +95,50 @@ class DripEmailController extends FormController
             $start = 0;
         }
 
-        $search = $this->request->get('search', $session->get('mautic.dripemail.filter', ''));
-        $session->set('mautic.dripemail.filter', $search);
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->get('translator')->trans('le.drip.email.filter.category.placeholder'),
+                'multiple'    => true,
+            ],
+        ];
 
+        // Reset available groups
+        $listFilters['filters']['groups'] = [];
+
+        $currentFilters = $session->get('le.dripemail.list_filters', []);
+        $updatedFilters = $this->request->get('filters', false);
         $ignoreListJoin = true;
 
+        //retrieve a titles of Category
+        $listFilters['filters']['groups']['mautic.core.filter.category'] = [
+            'options' => $this->getModel('category.category')->getLookupResults('dripemail'),
+            'prefix'  => 'category',
+            'values'  => empty($currentFilters) ? [] : array_values($currentFilters['category']),
+        ];
+
+        if ($updatedFilters) {
+            // Filters have been updated
+
+            // Parse the selected values
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    list($clmn, $fltr) = explode(':', $updatedFilter);
+
+                    $newFilters[$clmn][] = $fltr;
+                }
+
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+
+        $session->set('le.dripemail.list_filters', $currentFilters);
+        $search = $this->request->get('search', $session->get('mautic.dripemail.filter', ''));
+        $session->set('mautic.dripemail.filter', $search);
         $filter = [
             'string' => $search,
             'force'  => [],
@@ -78,6 +147,33 @@ class DripEmailController extends FormController
             $filter['force'][] =
                 ['column' => 'd.createdBy', 'expr' => 'eq', 'value' => $this->user->getId()];
         }
+
+        if (!empty($currentFilters)) {
+            $catIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                switch ($type) {
+                    case 'category':
+                        $key = 'categories';
+                        break;
+                }
+
+                $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
+
+                foreach ($typeFilters as $fltr) {
+                    switch ($type) {
+                        case 'category':
+                            $catIds[] = (int) $fltr;
+                            break;
+                    }
+                }
+            }
+
+            if (!empty($catIds)) {
+                $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
+            }
+        }
+
+        $ignoreListJoin = true;
 
         $orderBy    = $session->get('mautic.email.orderby', 'd.subject');
         $orderByDir = $session->get('mautic.email.orderbydir', 'DESC');
@@ -96,11 +192,13 @@ class DripEmailController extends FormController
 
         $dripEmailBlockDetails = $model->getDripEmailBlocks();
 
+        $emailscount = $emailmodel->getRepository()->getDripEmailCount();
+
         return $this->delegateView(
             [
                 'viewParameters' => [
                     'searchValue'          => $search,
-                    'filters'              => [],
+                    'filters'              => $listFilters,
                     'items'                => $emails,
                     'totalItems'           => $count,
                     'page'                 => $page,
@@ -113,6 +211,7 @@ class DripEmailController extends FormController
                     'headerTitle'          => 'Drip Campaigns',
                     'translationBase'      => 'mautic.email.broadcast',
                     'dripEmailBlockDetails'=> $dripEmailBlockDetails,
+                    'EmailsCount'          => $emailscount,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:list.html.php',
                 'passthroughVars' => [
@@ -206,8 +305,12 @@ class DripEmailController extends FormController
         $params          = $configurator->getParameters();
         $fromname        = $params['mailer_from_name'];
         $fromadress      = $params['mailer_from_email'];
+        $unsubscribetxt  = $params['unsubscribe_text'];
+        $postaladdress   = $params['postal_address'];
         $fromName        = $entity->getFromName();
         $fromAdress      = $entity->getFromAddress();
+        $unsubscribeTxt  = $entity->getUnsubscribeText();
+        $postalAddress   = $entity->getPostalAddress();
         /** @var EmailModel $emailmodel */
         $emailmodel = $this->getModel('email');
         /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
@@ -215,7 +318,7 @@ class DripEmailController extends FormController
         $emailentity->setEmailType('list');
         $emailaction = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'new']);
         //create the form
-        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => false]);
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
         $returnUrl      = $this->generateUrl('le_dripemail_index');
         $postActionVars = [
             'returnUrl'       => $returnUrl,
@@ -231,6 +334,12 @@ class DripEmailController extends FormController
         }
         if (empty($fromAdress)) {
             $entity->setFromAddress($fromadress);
+        }
+        if (empty($unsubscribeTxt)) {
+            $entity->setUnsubscribeText($unsubscribetxt);
+        }
+        if (empty($postalAddress)) {
+            $entity->setPostalAddress($postaladdress);
         }
         if ($entity === null) {
             return $this->postActionRedirect(
@@ -258,10 +367,12 @@ class DripEmailController extends FormController
             //deny access if the entity is locked
             return $this->isLocked($postActionVars, $entity, 'email');
         }
-        $signuprepo = $this->factory->get('le.core.repository.signup');
-        $bluePrints = $signuprepo->getBluePrintCampaigns();
-        $dripPrints = $signuprepo->getDripEmails();
-
+        $signuprepo     = $this->factory->get('le.core.repository.signup');
+        $bluePrints     = $signuprepo->getBluePrintCampaigns();
+        $dripPrints     = $signuprepo->getDripEmails();
+        $template       = 'MauticEmailBundle:DripEmail:index';
+        $viewParameters = [
+        ];
         if ($this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
@@ -303,7 +414,17 @@ class DripEmailController extends FormController
                         'warning'
                     );
 
-                    return $this->redirect($this->generateUrl('le_dripemail_index'));
+                    return $this->postActionRedirect(
+                        array_merge(
+                            $postActionVars,
+                            [
+                                'returnUrl'       => $this->generateUrl('le_dripemail_index'),
+                                'viewParameters'  => $viewParameters,
+                                'contentTemplate' => $template,
+                            ]
+                        )
+                    );
+                    //return $this->redirect($this->generateUrl('le_dripemail_index'));
                     //$this->editAction($entity);
                 }
             }
@@ -311,9 +432,7 @@ class DripEmailController extends FormController
                 'activeLink'    => '#le_dripemail_index',
                 'leContent'     => 'dripemail',
             ];
-            $template       = 'MauticEmailBundle:DripEmail:index';
-            $viewParameters = [
-            ];
+
             if ($cancelled) {
                 return $this->postActionRedirect(
                     array_merge(
@@ -410,6 +529,66 @@ class DripEmailController extends FormController
                 ],
             ]
         );
+    }
+
+    /**
+     * Clone an entity.
+     *
+     * @param $objectId
+     *
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function cloneAction($objectId)
+    {
+        $model      = $this->getModel('email.dripemail');
+        $emailmodel = $this->getModel('email');
+        /** @var DripEmail $entity */
+        $entity = $model->getEntity($objectId);
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
+
+        $newEntity = null;
+        if ($entity != null) {
+            if (!$this->get('mautic.security')->isGranted('email:emails:create')
+                || !$this->get('mautic.security')->hasEntityAccess(
+                    'email:emails:viewown',
+                    'email:emails:viewother',
+                    $entity->getCreatedBy()
+                )
+            ) {
+                return $this->accessDenied();
+            }
+            $entities = $emailmodel->getEntities(
+                [
+                    'filter' => [
+                        'force' => [
+                            [
+                                'column' => 'e.dripEmail',
+                                'expr'   => 'eq',
+                                'value'  => $entity,
+                            ],
+                        ],
+                    ],
+                    'orderBy'          => 'e.dripEmailOrder',
+                    'orderByDir'       => 'asc',
+                    'ignore_paginator' => true,
+                ]
+            );
+            $newEntity      = clone $entity;
+            $newEntity->setIsPublished(true);
+            $model->saveEntity($newEntity);
+            foreach ($entities as $email) {
+                $newEmail      = clone $email;
+                $newEmail->setIsPublished(true);
+                $newEmail->setDripEmail($newEntity);
+                $emailmodel->saveEntity($newEmail);
+                unset($newemail);
+                unset($email);
+            }
+        }
+
+        return $this->editAction($newEntity->getId());
     }
 
     /**
@@ -644,6 +823,396 @@ class DripEmailController extends FormController
                     'flashes' => $flashes,
                 ]
             )
+        );
+    }
+
+    /**
+     * Edit Drip campaign Email.
+     *
+     * @param   $subobjectId
+     * @param   $objectId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function emaileditAction($subobjectId, $objectId)
+    {
+        $returnUrl      = $this->generateUrl('le_dripemail_index');
+        $postActionVars = [
+            'returnUrl'       => $returnUrl,
+            'viewParameters'  => ['page' => 1],
+            'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
+            'passthroughVars' => [
+                'activeLink'    => 'le_dripemail_index',
+                'leContent'     => 'dripemail',
+            ],
+        ];
+        $viewParameters = [
+        ];
+
+        if ($subobjectId === null || $objectId === null) {
+            $template       = 'MauticEmailBundle:DripEmail:index';
+
+            return $this->postActionRedirect(
+                array_merge(
+                    $postActionVars,
+                    [
+                        'returnUrl'       => $this->generateUrl('le_dripemail_index'),
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => $template,
+                    ]
+                )
+            );
+        }
+        /** @var DripEmailModel $model */
+        $model = $this->getModel('email.dripemail');
+
+        /** @var \Mautic\EmailBundle\Entity\DripEmail $entity */
+        $entity = $model->getEntity($objectId);
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+
+        /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+        $emailentity = $emailmodel->getEntity($subobjectId);
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator    = $this->get('mautic.configurator');
+        $params          = $configurator->getParameters();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $fromName        = $emailentity->getFromName();
+        $fromAdress      = $emailentity->getFromAddress();
+        $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $emailentity->getId()]);
+        //create the form
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
+
+        if (empty($fromName)) {
+            $emailentity->setFromName($fromname);
+        }
+        if (empty($fromAdress)) {
+            $emailentity->setFromAddress($fromadress);
+        }
+        $isBeeEditor = true;
+        if ($emailentity->getTemplate() == null || $emailentity->getTemplate() == '') {
+            $isBeeEditor = false;
+        }
+        $groupFilters  = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Le.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $emailmodel->getEmailTemplateGroupNames(),
+        ];
+
+        $routeParams = [
+            'objectAction' => 'edit',
+            'objectId'     => $entity->getId(),
+        ];
+        $postActionVars = [];
+        $template       = 'MauticEmailBundle:DripEmail:edit';
+
+        //dump($emailentity);
+        $scheduledTime = $emailentity->getScheduleTime();
+        if ($this->request->getMethod() == 'POST') {
+            if (!$cancelled = $this->isFormCancelled($emailform)) {
+                if ($valid = $this->isFormValid($emailform)) {
+                    $emailentity->setScheduleTime($scheduledTime);
+
+                    $emailmodel->saveEntity($emailentity);
+
+                    $this->addFlash(
+                        'mautic.core.notice.updated',
+                        [
+                            '%name%'      => $emailentity->getName(),
+                            '%menu_link%' => 'le_dripemail_index',
+                            '%url%'       => $this->generateUrl(
+                                'le_dripemail_campaign_action',
+                                [
+                                    'objectAction' => 'edit',
+                                    'objectId'     => $entity->getId(),
+                                ]
+                            ),
+                        ],
+                        'warning'
+                    );
+
+                    return $this->delegateRedirect($this->generateUrl(
+                        'le_dripemail_campaign_action',
+                        [
+                            'objectAction' => 'edit',
+                            'objectId'     => $entity->getId(),
+                        ]
+                    ));
+                }
+            }
+
+            if ($cancelled) {
+                return $this->delegateRedirect($this->generateUrl(
+                    'le_dripemail_campaign_action',
+                    [
+                        'objectAction' => 'edit',
+                        'objectId'     => $entity->getId(),
+                    ]
+                ));
+            }
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form'              => $emailform->createView(),
+                    'entity'            => $emailentity,
+                    'beetemplates'      => $this->factory->getInstalledBeeTemplates('email'),
+                    'filters'           => $groupFilters,
+                    'actionRoute'       => 'le_dripemail_campaign_action',
+                    'translationBase'   => 'mautic.email.broadcast',
+                    'isBeeEditor'       => $isBeeEditor,
+                    'EmailCount'        => $emailentity->getDripEmailOrder(),
+                ],
+                'contentTemplate' => 'MauticEmailBundle:DripEmail:emailform.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_dripemail_index',
+                    'leContent'     => 'dripemail',
+                    'route'         => $this->generateUrl(
+                        'le_dripemail_campaign_action',
+                        $routeParams
+                    ),
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Edit Drip campaign Email.
+     *
+     * @param   $subobjectId
+     * @param   $objectId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function emailnewAction($subobjectId, $objectId)
+    {
+        $returnUrl      = $this->generateUrl('le_dripemail_index');
+        $postActionVars = [
+            'returnUrl'       => $returnUrl,
+            'viewParameters'  => ['page' => 1],
+            'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
+            'passthroughVars' => [
+                'activeLink'    => 'le_dripemail_index',
+                'leContent'     => 'dripemail',
+            ],
+        ];
+        if ($objectId === null) {
+            $template       = 'MauticEmailBundle:DripEmail:index';
+            $viewParameters = [
+            ];
+
+            return $this->postActionRedirect(
+                array_merge(
+                    $postActionVars,
+                    [
+                        'returnUrl'       => $this->generateUrl('le_dripemail_index'),
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => $template,
+                    ]
+                )
+            );
+        }
+        /** @var DripEmailModel $model */
+        $model = $this->getModel('email.dripemail');
+
+        /** @var \Mautic\EmailBundle\Entity\DripEmail $entity */
+        $entity = $model->getEntity($objectId);
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+
+        /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+        $emailentity = $emailmodel->getEntity();
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator    = $this->get('mautic.configurator');
+        $params          = $configurator->getParameters();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $fromName        = $emailentity->getFromName();
+        $fromAdress      = $emailentity->getFromAddress();
+        $emailentity->setName('DripEmail - ');
+        $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => $subobjectId]);
+        //create the form
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
+
+        if (empty($fromName)) {
+            $emailentity->setFromName($fromname);
+        }
+        if (empty($fromAdress)) {
+            $emailentity->setFromAddress($fromadress);
+        }
+
+        $isBeeEditor   = $subobjectId;
+        $groupFilters  = [
+            'filters' => [
+                'multiple'    => false,
+                'onchange'    => 'Le.filterBeeTemplates()',
+            ],
+        ];
+
+        $groupFilters['filters']['groups'] = [];
+
+        $groupFilters['filters']['groups']['']  = [
+            'options' => $emailmodel->getEmailTemplateGroupNames(),
+        ];
+
+        $routeParams = [
+            'objectAction' => 'edit',
+            'objectId'     => $entity->getId(),
+        ];
+        $totalitems = $emailmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $template       = 'MauticEmailBundle:DripEmail:index';
+        $viewParameters = [
+        ];
+        /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
+        $usermodel      = $this->getModel('user.user');
+        $userentity     = $usermodel->getCurrentUserEntity();
+        $postActionVars = [];
+        if ($this->request->getMethod() == 'POST') {
+            if (!$cancelled = $this->isFormCancelled($emailform)) {
+                if ($valid = $this->isFormValid($emailform)) {
+                    $emailentity->setName('DripEmail - '.$emailentity->getSubject());
+                    $emailentity->setIsPublished(true);
+                    $emailentity->setDripEmail($entity);
+                    $emailentity->setGoogleTags(true);
+                    $emailentity->setEmailType('dripemail');
+                    $emailentity->setCreatedBy($userentity);
+                    $emailentity->setFromName($fromname);
+                    $emailentity->setFromAddress($fromadress);
+
+                    $emailentity->setDripEmailOrder(sizeof($totalitems) + 1);
+                    $scheduleTime = '0 days';
+                    if (sizeof($totalitems) > 0) {
+                        $scheduleTime = '1 days';
+                    }
+                    $templatename = $isBeeEditor ? $emailentity->getTemplate() : '';
+                    $emailentity->setTemplate($templatename);
+                    $emailentity->setScheduleTime($scheduleTime);
+
+                    $emailmodel->saveEntity($emailentity);
+
+                    $this->addFlash(
+                        'mautic.core.notice.created',
+                        [
+                            '%name%'      => $emailentity->getName(),
+                            '%menu_link%' => 'le_dripemail_index',
+                            '%url%'       => $this->generateUrl(
+                                'le_dripemail_campaign_action',
+                                [
+                                    'objectAction' => 'edit',
+                                    'objectId'     => $entity->getId(),
+                                ]
+                            ),
+                        ],
+                        'warning'
+                    );
+
+                    return $this->delegateRedirect($this->generateUrl(
+                        'le_dripemail_campaign_action',
+                        [
+                            'objectAction' => 'edit',
+                            'objectId'     => $entity->getId(),
+                        ]
+                    ));
+                }
+            }
+
+            if ($cancelled) {
+                return $this->delegateRedirect($this->generateUrl(
+                    'le_dripemail_campaign_action',
+                    [
+                        'objectAction' => 'edit',
+                        'objectId'     => $entity->getId(),
+                    ]
+                ));
+            }
+        }
+
+        $dripRoute = ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => $isBeeEditor];
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form'              => $emailform->createView(),
+                    'entity'            => $emailentity,
+                    'beetemplates'      => $this->factory->getInstalledBeeTemplates('email'),
+                    'filters'           => $groupFilters,
+                    'actionRoute'       => 'le_dripemail_email_action',
+                    'translationBase'   => 'mautic.email.broadcast',
+                    'isBeeEditor'       => $isBeeEditor,
+                    'EmailCount'        => sizeof($totalitems) + 1,
+                ],
+                'contentTemplate' => 'MauticEmailBundle:DripEmail:emailform.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_dripemail_index',
+                    'leContent'     => 'dripemail',
+                    'route'         => $this->generateUrl(
+                        'le_dripemail_email_action',
+                        $dripRoute
+                    ),
+                ],
+            ]
+        );
+    }
+
+    public function emailpreviewAction($objectid, $subobjectId)
+    {
+        $driprepo    = $this->get('le.core.repository.signup');
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        $email      = [];
+        if ($objectid != 'noBluePrint') {
+            $email = $driprepo->getEmailsByEmailId($objectid);
+        } else {
+            /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
+            $emailentity             = $emailmodel->getEntity($subobjectId);
+            $email[0]['custom_html'] = $emailentity->getCustomHtml();
+        }
+        $dripRoute = ['objectId' => $subobjectId, 'objectAction' => 'edit'];
+        //echo $email[0]['custom_html'];
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'actionRoute'       => 'le_dripemail_email_action',
+                    'email'             => $email,
+                ],
+                'contentTemplate' => 'MauticEmailBundle:DripEmail:preview.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_dripemail_index',
+                    'leContent'     => 'dripemail',
+                    'route'         => $this->generateUrl(
+                        'le_dripemail_campaign_action',
+                        $dripRoute
+                    ),
+                ],
+            ]
         );
     }
 }

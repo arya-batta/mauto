@@ -51,8 +51,8 @@ class FieldType extends AbstractType
         $addIsRequired          = true;
 
         $createcolor = false;
-        $style='';
-        $tabindex='';
+        $style       ='';
+        $tabindex    ='';
 
         if (!empty($options['customParameters'])) {
             $type = 'custom';
@@ -113,7 +113,7 @@ class FieldType extends AbstractType
                     break;
                 case 'button':
                     $addHelpMessage = $addShowLabel = $addDefaultValue = $addLabelAttributes = $addIsRequired = $addLeadFieldList = $addSaveResult = $addBehaviorFields = false;
-                    $createcolor = true;
+                    $createcolor    = true;
                     break;
                 case 'hidden':
                     $addHelpMessage = $addShowLabel = $addLabelAttributes = $addIsRequired = false;
@@ -251,8 +251,8 @@ class FieldType extends AbstractType
             );
         }
 
-        if($createcolor){
-            $style = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
+        if ($createcolor) {
+            $style    = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
             $tabindex = '-1';
         }
         if ($addInputAttributes) {
@@ -272,7 +272,7 @@ class FieldType extends AbstractType
                     'required' => false,
                 ]
             );
-            if($createcolor){
+            if ($createcolor) {
                 $builder->add(
                     'btnbgcolor',
                     'text',
@@ -280,9 +280,9 @@ class FieldType extends AbstractType
                         'label'      => 'mautic.form.field.form.btn_bg_color',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
-                            'class'     => 'form-control minicolors-input le-input',
+                            'class'       => 'form-control minicolors-input le-input',
                             'data-toggle' => 'color',
-                            'onchange'    => 'Le.setBtnBackgroundColor()'
+                            'onchange'    => 'Le.setBtnBackgroundColor()',
                         ],
                         'required' => false,
                     ]
@@ -295,15 +295,14 @@ class FieldType extends AbstractType
                         'label'      => 'mautic.form.field.form.btn_txt_color',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
-                            'class'     => 'form-control minicolors-input le-input',
+                            'class'       => 'form-control minicolors-input le-input',
                             'data-toggle' => 'color',
-                            'onchange'    => 'Le.setBtnTextColor()'
+                            'onchange'    => 'Le.setBtnTextColor()',
                         ],
                         'required' => false,
                     ]
                 );
             }
-
         }
 
         if ($addContainerAttributes) {
@@ -450,6 +449,7 @@ class FieldType extends AbstractType
                 'save_text'       => $btnValue,
                 'save_icon'       => $btnIcon,
                 'apply_text'      => false,
+                'save_icon'       => false,
                 'container_class' => 'bottom-form-buttons',
             ]
         );

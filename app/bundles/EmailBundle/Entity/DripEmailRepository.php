@@ -32,6 +32,9 @@ class DripEmailRepository extends CommonRepository
             ->createQueryBuilder()
             ->select('d')
             ->from('MauticEmailBundle:DripEmail', 'd', 'd.id');
+        if (empty($args['iterator_mode'])) {
+            $q->leftJoin('d.category', 'c');
+        }
 
         $args['qb'] = $q;
 
@@ -102,7 +105,7 @@ class DripEmailRepository extends CommonRepository
             )->setParameter('false', false, 'boolean');
 
         $q->andWhere($q->expr()->eq('e.email_type', ':emailType'),
-            $q->expr()->neq('e.dripemail_id','"NULL"'))
+            $q->expr()->neq('e.dripemail_id', '"NULL"'))
             ->setParameter('emailType', 'dripemail');
 
         if ($fromdate !== null) {
@@ -149,7 +152,7 @@ class DripEmailRepository extends CommonRepository
             )->setParameter('false', false, 'boolean');
 
         $q->andWhere($q->expr()->eq('e.email_type', ':emailType'),
-            $q->expr()->neq('e.dripemail_id','"NULL"'))
+            $q->expr()->neq('e.dripemail_id', '"NULL"'))
             ->setParameter('emailType', 'dripemail');
 
         if ($fromdate !== null) {
@@ -197,7 +200,7 @@ class DripEmailRepository extends CommonRepository
                 )
             )->setParameter('clickdate', $dateinterval);
         $q->andWhere($q->expr()->eq('e.email_type', ':emailType'),
-            $q->expr()->neq('e.dripemail_id','"NULL"'))
+            $q->expr()->neq('e.dripemail_id', '"NULL"'))
             ->setParameter('emailType', 'dripemail');
         if (!$viewOthers) {
             $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
@@ -210,9 +213,12 @@ class DripEmailRepository extends CommonRepository
         }
 
         $results = $q->execute()->fetchAll();
+
         return $results[0]['clickcount'];
     }
-    public function getDripUnsubscribeCounts($viewOthers = false){
+
+    public function getDripUnsubscribeCounts($viewOthers = false)
+    {
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count(e.id) as unsubscribecount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
@@ -227,7 +233,7 @@ class DripEmailRepository extends CommonRepository
             ->setParameter('emailType', 'dripemail');
         $q->andWhere(
             $q->expr()->eq('es.is_unsubscribe', 1),
-            $q->expr()->neq('e.dripemail_id','"NULL"')
+            $q->expr()->neq('e.dripemail_id', '"NULL"')
         );
         if (!$viewOthers) {
             $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
@@ -240,7 +246,7 @@ class DripEmailRepository extends CommonRepository
         }
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
-        return $results[0]['unsubscribecount'];
 
+        return $results[0]['unsubscribecount'];
     }
 }

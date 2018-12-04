@@ -73,16 +73,21 @@ class DripEmailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber(new FormExitSubscriber('email.dripemail', $options));
-        $emailProvider = $this->licenseHelper->getEmailProvider();
-
-        $days = [
-            'Mon'        => 'mautic.report.schedule.day.monday',
-            'Tue'        => 'mautic.report.schedule.day.tuesday',
-            'Wed'        => 'mautic.report.schedule.day.wednesday',
-            'Thu'        => 'mautic.report.schedule.day.thursday',
-            'Fri'        => 'mautic.report.schedule.day.friday',
-            'Sat'        => 'mautic.report.schedule.day.saturday',
-            'Sun'        => 'mautic.report.schedule.day.sunday',
+        $emailProvider   = $this->licenseHelper->getEmailProvider();
+        $configurator    = $this->factory->get('mautic.configurator');
+        $params          = $configurator->getParameters();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $unsubscribetxt  = $params['unsubscribe_text'];
+        $postaladdress   = $params['postal_address'];
+        $days            = [
+            'Mon'        => 'le.drip.email.schedule.day.monday',
+            'Tue'        => 'le.drip.email.schedule.day.tuesday',
+            'Wed'        => 'le.drip.email.schedule.day.wednesday',
+            'Thu'        => 'le.drip.email.schedule.day.thursday',
+            'Fri'        => 'le.drip.email.schedule.day.friday',
+            'Sat'        => 'le.drip.email.schedule.day.saturday',
+            'Sun'        => 'le.drip.email.schedule.day.sunday',
         ];
 
         if ($options['isShortForm']) {
@@ -94,7 +99,7 @@ class DripEmailType extends AbstractType
             ]);
 
             $builder->add('category', 'category', [
-                'bundle'     => 'campaign',
+                'bundle'     => 'dripemail',
                 'label'      => 'mautic.core.category',
                 'label_attr' => ['class' => 'control-label'],
                 'new_cat'    => false,
@@ -106,6 +111,7 @@ class DripEmailType extends AbstractType
                 [
                     'apply_text'   => 'le.drip.email.create.drip',
                     'save_text'    => false,
+                    'save_icon'    => false,
                     'cancel_attr'  => [
                         'data-dismiss' => 'modal',
                         'href'         => '#',
@@ -160,6 +166,7 @@ class DripEmailType extends AbstractType
                         'disabled' => false,
                     ],
                     'required' => false,
+                    'data'     => $options['data']->getFromName() ? $options['data']->getFromName() : $fromname,
                 ]
             );
             $tooltip = 'le.email.from_email.tooltip';
@@ -178,6 +185,7 @@ class DripEmailType extends AbstractType
                         'tooltip'  => $tooltip,
                     ],
                     'required' => false,
+                    'data'     => $options['data']->getFromAddress() ? $options['data']->getFromAddress() : $fromadress,
                 ]
             );
 
@@ -247,11 +255,12 @@ class DripEmailType extends AbstractType
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
                             'class'                => 'form-control editor editor-advanced editor-builder-tokens',
-                            'tooltip'              => 'le.email.config.footer_content.tooltip',
+                            'tooltip'              => 'le.drip.email.config.footer_content.tooltip',
                             'data-token-callback'  => 'email:getBuilderTokens',
                             'data-token-activator' => '{',
                         ],
                         'required' => false,
+                        'data'     => $options['data']->getUnsubscribeText() ? $options['data']->getUnsubscribeText() : $unsubscribetxt,
                     ]
                 )
             );
@@ -264,10 +273,11 @@ class DripEmailType extends AbstractType
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
                         'class'   => 'form-control',
-                        'tooltip' => 'le.email.config.postal_address.tooltip',
+                        'tooltip' => 'le.drip.email.config.postal_address.tooltip',
                         'style'   => 'height:100px;',
                     ],
                     'required' => false,
+                    'data'     => $options['data']->getPostalAddress() ? $options['data']->getPostalAddress() : $postaladdress,
                 ]
             );
 
@@ -276,20 +286,21 @@ class DripEmailType extends AbstractType
                 'category',
                 'category',
                 [
-                    'bundle' => 'email',
+                    'bundle' => 'dripemail',
                 ]
             );
 
             $builder->add('scheduleDate', 'time', [
                 'required'       => false,
-                'label'          => 'What time of day should we send emails?',
+                'label'          => 'le.drip.email.schedule.time',
                 'label_attr'     => ['class' => 'control-label '],
                 'widget'         => 'single_text',
                 'attr'           => ['data-toggle' => 'time', 'class' => 'form-control le-input'],
                 'input'          => 'string',
                 'html5'          => false,
-                'with_seconds'   => 'true',
-                'with_minutes'   => 'true',
+                'empty_value'    => false,
+                'with_seconds'   => true,
+                'with_minutes'   => true,
             ]);
 
             $builder->add(
@@ -298,13 +309,15 @@ class DripEmailType extends AbstractType
                 [
                     'choices'     => $days,
                     'multiple'    => true,
+                    'expanded'    => true,
                     'label'       => 'le.drip.email.schedule.day',
                     'label_attr'  => ['class' => 'control-label'],
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
-                        'class'                => 'form-control',
+                        'class'   => 'form-control',
                     ],
+                    'data'        => $options['data']->getDaysEmailSend() ? $options['data']->getDaysEmailSend() : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                 ]
             );
 
@@ -313,6 +326,7 @@ class DripEmailType extends AbstractType
                 'form_buttons',
                 [
                     'apply_text' => false,
+                    'save_icon'  => false,
                 ]
             );
         }

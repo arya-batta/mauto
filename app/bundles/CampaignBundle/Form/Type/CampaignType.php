@@ -148,6 +148,7 @@ class CampaignType extends AbstractType
                 'form_buttons',
                 [
                     'apply_text' => false,
+                    'save_icon'  => false,
                     'save_text'  => 'le.campaign.new.add.create.campaign',
                     'save_attr'  => [
                         'href'         => '#',

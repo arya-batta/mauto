@@ -1,0 +1,26 @@
+<?php
+
+/*
+ * @copyright   2018 LeadsEngage Contributors. All rights reserved
+ * @author      LeadsEngage
+ *
+ * @link        https://leadsengage.com
+ *
+ * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+$content = 'No Preview Available...!';
+if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
+    $content = $email[0]['custom_html'];
+}
+?>
+<html>
+<head>
+    <title>Preview Email | LeadsEngage</title>
+    <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
+    <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
+    <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
+</head>
+<body>
+<?php echo $content; ?>
+</body>
+</html>

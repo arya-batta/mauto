@@ -46,7 +46,7 @@
         }
 
         function _init() {
-            var method = location.href.match(/(email|dwc|config|leads|broadcast)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
+            var method = location.href.match(/(email|dwc|config|drip|leads|oneoff)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
             Le.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
                     if (k.match(/assetlink=/i) && v.match(/a:/)){

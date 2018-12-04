@@ -31,6 +31,7 @@ class ProcessDripEmailCommand extends ModeratedCommand
             ->setName('le:dripemail:send')
             ->setAliases(['le:dripemail:send'])
             ->setDescription('Send Drip Campaigns Scheduled for Leads')
+            ->addOption('--email-limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of Emails sent at a time. Defaults to value is 300.')
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '');
 
         parent::configure();
@@ -54,11 +55,17 @@ class ProcessDripEmailCommand extends ModeratedCommand
             date_default_timezone_set($timezone);
             $currentDate       = date('Y-m-d H:i:s');
             $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate);
+            $emailsCount       = 0;
+            $emailLimit        = (!empty($options['email-limit'])) ? $options['email-limit'] : 300;
             $completedDripsIds = [];
             foreach ($eventList as $leadEvent) {
                 $completedDrips = $leadEvent->getRotation();
                 if ($completedDrips == '1') {
                     $completedDripsIds[$leadEvent->getCampaign()->getId()][] = $leadEvent->getLead()->getId();
+                }
+                if ($emailLimit == $emailsCount) {
+                    sleep(2);
+                    $emailsCount = 0;
                 }
                 if (!empty($leadEvent->getEmail())) {
                     $isContactableReason = $leadModel->isContactable($leadEvent->getLead(), 'email');
@@ -69,10 +76,12 @@ class ProcessDripEmailCommand extends ModeratedCommand
                     if ($isDoNotContact) {
                         $leadEvent->setIsScheduled(0);
                         $leadEvent->setSystemTriggered($currentDate);
+                        $leadEvent->setFailedReason('This Lead is Skipped because of Lead is DoNotContact');
                         $leadEventLogRepo->saveEntity($leadEvent);
                         continue;
                     }
-                    $result = $dripEmailModel->sendDripEmailtoLead($leadEvent->getEmail(), $leadEvent->getLead());
+                    $emailsCount = $emailsCount++;
+                    $result      = $dripEmailModel->sendDripEmailtoLead($leadEvent->getEmail(), $leadEvent->getLead());
                     if ($result['result']) {
                         $leadEvent->setIsScheduled(0);
                         $leadEvent->setSystemTriggered($currentDate);

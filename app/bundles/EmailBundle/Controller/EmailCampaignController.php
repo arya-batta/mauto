@@ -105,11 +105,12 @@ class EmailCampaignController extends FormController
             'options' => $this->getModel('lead.list')->getUserLists(),
             'prefix'  => 'list',
         ];
-
+        $currentFilters = $session->get('mautic.email.list_filters', []);
         //retrieve a titles of Category
         $listFilters['filters']['groups']['mautic.core.filter.category'] = [
             'options' => $this->getModel('category.category')->getLookupResults('email'),
             'prefix'  => 'category',
+            'values'  => (empty($currentFilters) || !isset($currentFilters['category'])) ? [] : array_values($currentFilters['category']),
         ];
         //retrieve a list of themes
         //$listFilters['filters']['groups']['mautic.core.filter.themes'] = [
@@ -117,7 +118,6 @@ class EmailCampaignController extends FormController
         //    'prefix'  => 'theme',
         //];
 
-        $currentFilters = $session->get('mautic.email.list_filters', []);
         $updatedFilters = $this->request->get('filters', false);
         $ignoreListJoin = true;
 
@@ -582,7 +582,7 @@ class EmailCampaignController extends FormController
         }
 
         //create the form
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
 
         ///Check for a submitted form and process it
         if ($method == 'POST') {
@@ -594,6 +594,9 @@ class EmailCampaignController extends FormController
                     $currentutmtags=$entity->getUtmTags();
                     $currentsubject=$entity->getSubject();
                     $currentname   =$entity->getName();
+                    if ($entity->getBeeJSON() == 'RichTextEditor') {
+                        $entity->setTemplate('');
+                    }
 
                     if (!empty($formData['unsubscribe_text'])) {
                         $entity->setUnsubscribeText($formData['unsubscribe_text']);
@@ -900,7 +903,7 @@ class EmailCampaignController extends FormController
             $entity->setEmailType('list');
         }
         /** @var Form $form */
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
 
         ///Check for a submitted form and process it
         if (!$ignorePost && $method == 'POST') {
@@ -1013,7 +1016,7 @@ class EmailCampaignController extends FormController
                 );
             } elseif ($valid && $form->get('buttons')->get('sendtest')->isClicked()) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
-                //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false]);
+                //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
                 $id = $entity->getId();
 
                 return $this->sendAction($id);
@@ -1186,6 +1189,25 @@ class EmailCampaignController extends FormController
                 return $this->accessDenied();
             } elseif ($model->isLocked($entity)) {
                 return $this->isLocked($postActionVars, $entity, 'email');
+            }
+            /** @var LeadEventLogRepository $leadEventLog */
+            $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
+            $leadEvents    = $leadEventLog->getEntities(
+                [
+                    'filter'           => [
+                        'force' => [
+                            [
+                                'column' => 'dle.email',
+                                'expr'   => 'eq',
+                                'value'  => $entity,
+                            ],
+                        ],
+                    ],
+                    'ignore_paginator' => true,
+                ]
+            );
+            foreach ($leadEvents as $event) {
+                $leadEventLog->deleteEntity($event);
             }
 
             $model->deleteEntity($entity);
@@ -1561,8 +1583,8 @@ class EmailCampaignController extends FormController
 
         if (!$accountStatus) {
             if ((($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL')) && $isHavingEmailValidity) {
-                if ($this->request->getMethod() == 'POST' && ($complete || $this->isFormValid($form))) {
-                    if (!$complete) {
+                if ($this->request->getMethod() == 'POST' && $this->isFormValid($form)) {//($complete || $this->isFormValid($form))) {
+                    /*if (!$complete) {
                         $progress = [0, (int) $pending];
                         $session->set('mautic.email.send.progress', $progress);
 
@@ -1582,34 +1604,39 @@ class EmailCampaignController extends FormController
 
                     $contentTemplate = 'MauticEmailBundle:Send:progress.html.php';
                     $viewParameters  = [
-                'progress'   => $progress,
-                'stats'      => $stats,
-                'status'     => $status,
-                'email'      => $entity,
-                'batchlimit' => $batchlimit,
-            ];
+                        'progress'   => $progress,
+                        'stats'      => $stats,
+                        'status'     => $status,
+                        'email'      => $entity,
+                        'batchlimit' => $batchlimit,
+                    ];*/
+                    $entity->setIsScheduled(true);
+                    $model->saveEntity($entity);
+                    $this->addFlash('le.email.broadcast.send');
+
+                    return $this->viewAction($objectId);
                 } else {
                     //process and send
                     $contentTemplate = 'MauticEmailBundle:Send:form.html.php';
                     $viewParameters  = [
-                'form'       => $form->createView(),
-                'email'      => $entity,
-                'pending'    => $pending,
-                'actionRoute'=> 'le_email_campaign_action',
-                'indexRoute' => 'le_email_campaign_index',
-            ];
+                        'form'       => $form->createView(),
+                        'email'      => $entity,
+                        'pending'    => $pending,
+                        'actionRoute'=> 'le_email_campaign_action',
+                        'indexRoute' => 'le_email_campaign_index',
+                    ];
                 }
 
                 return $this->delegateView(
-                [
-                    'viewParameters'  => $viewParameters,
-                    'contentTemplate' => $contentTemplate,
-                    'passthroughVars' => [
-                        'leContent'     => 'emailSend',
-                        'route'         => $action,
-                    ],
-                ]
-            );
+                    [
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => $contentTemplate,
+                        'passthroughVars' => [
+                            'leContent'     => 'emailSend',
+                            'route'         => $action,
+                        ],
+                    ]
+                );
             } else {
                 if (!$isHavingEmailValidity) {
                     $this->addFlash('mautic.email.validity.expired');
@@ -1680,6 +1707,25 @@ class EmailCampaignController extends FormController
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'email', true);
                 } else {
                     $deleteIds[] = $objectId;
+                    /** @var LeadEventLogRepository $leadEventLog */
+                    $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
+                    $leadEvents    = $leadEventLog->getEntities(
+                        [
+                            'filter'           => [
+                                'force' => [
+                                    [
+                                        'column' => 'dle.email',
+                                        'expr'   => 'eq',
+                                        'value'  => $entity,
+                                    ],
+                                ],
+                            ],
+                            'ignore_paginator' => true,
+                        ]
+                    );
+                    foreach ($leadEvents as $event) {
+                        $leadEventLog->deleteEntity($event);
+                    }
                 }
             }
 
@@ -2010,8 +2056,10 @@ class EmailCampaignController extends FormController
         return $correctassets;
     }
 
-    public function templatePreviewAction($template){
+    public function templatePreviewAction($template)
+    {
         echo $this->factory->getBeeTemplateHTMLByName($template);
+
         return new Response();
     }
 }

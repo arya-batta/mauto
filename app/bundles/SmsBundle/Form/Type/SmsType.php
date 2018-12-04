@@ -144,6 +144,7 @@ class SmsType extends AbstractType
                 'form_buttons',
                 [
                     'apply_text' => false,
+                    'save_icon'  => false,
                 ]
             );
             $builder->add(

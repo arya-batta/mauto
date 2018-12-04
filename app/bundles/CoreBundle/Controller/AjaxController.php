@@ -296,6 +296,15 @@ class AjaxController extends CommonController
                     );
                     $dataArray['statusHtml'] = $html;
                 }
+                if ((method_exists($entity, 'getEmailType')) && $entity->getEmailType() == 'dripemail') {
+                    if ($entity->getIsPublished()) {
+                        $this->addFlash($this->translator->trans('le.drip.email.publish.message'));
+                    } else {
+                        $this->addFlash($this->translator->trans('le.drip.email.unpublish.message'));
+                    }
+                }
+                //render flashes
+                $dataArray['flashes'] = $this->getFlashContent();
             }
         }
 

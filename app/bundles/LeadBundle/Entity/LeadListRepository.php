@@ -2267,6 +2267,9 @@ class LeadListRepository extends CommonRepository
 
         $strings = [];
         foreach ($keys as $key) {
+            if ($this->translator == null) {
+                continue;
+            }
             $strings[$key] = $this->translator->trans($key);
         }
 

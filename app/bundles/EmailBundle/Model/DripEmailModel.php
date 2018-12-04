@@ -452,12 +452,17 @@ class DripEmailModel extends FormModel
 
     public function scheduleEmail($entities, $dripemail, $lead)
     {
-        $isFirstmailToday = false;
+        $isFirstmailToday      = false;
+        $timezone              = $this->coreParametersHelper->getParameter('default_timezone');
+        date_default_timezone_set($timezone);
         $previousDate     = date('Y-m-d H:i:s');
+        $isLastEmail      = false;
+        $emailCount       = 0;
         foreach ($entities as $entity) {
-            /*if (!$this->checkLeadCompleted($lead, $dripemail, $entity)) {
+            $emailCount = $emailCount + 1;
+            if (!$this->checkLeadCompleted($lead, $dripemail, $entity) || !$entity->getIsPublished()) {
                 continue;
-            }*/
+            }
             if ($entity->getDripEmailOrder() == 1) {
                 $dayscount        = 0;
                 $configdays       = $dripemail->getDaysEmailSend();
@@ -486,6 +491,9 @@ class DripEmailModel extends FormModel
             if (!$isFirstmailToday) {
                 continue;
             }
+            if ($emailCount == count($entities)) {
+                $isLastEmail = true;
+            }
             $previousDate = $scheduleTime;
             //dump($isFirstmailToday);
             //dump($scheduleTime);
@@ -493,8 +501,10 @@ class DripEmailModel extends FormModel
             $dripevent->setLead($lead);
             $dripevent->setCampaign($dripemail);
             $dripevent->setEmail($entity);
-            $dripevent->setIsScheduled(true);
             $dripevent->setTriggerDate($scheduleTime);
+            $dripevent->setDateTriggered(date('Y-m-d H:i:s'));
+            $dripevent->setIsScheduled(true);
+            $dripevent->setRotation($isLastEmail);
             $this->saveCampaignLeadEvent($dripevent);
         }
     }
@@ -508,6 +518,9 @@ class DripEmailModel extends FormModel
             'email_type'     => 'transactional',
             'return_errors'  => true,
             'dnc_as_error'   => true,
+            'source'         => ['email', $email->getId()],
+            'allowResends'   => false,
+            'customHeaders'  => [],
         ];
 
         //getLead
@@ -559,5 +572,22 @@ class DripEmailModel extends FormModel
         $allBlockDetails[] = $unsubacribeCount;
 
         return $allBlockDetails;
+    }
+
+    public function scheduleOneOffEmail($leads, $dripemail = null, $email)
+    {
+        $previousDate     = date('Y-m-d H:i:s');
+        foreach ($leads as $lead) {
+            $leadEntity = $this->leadModel->getEntity($lead['id']);
+            //file_put_contents("/var/www/log.txt",json_encode($leadEntity)."\n",FILE_APPEND);
+            $dripevent = new DripLeadEvent();
+            $dripevent->setLead($leadEntity);
+            $dripevent->setCampaign($dripemail);
+            $dripevent->setEmail($email);
+            $dripevent->setTriggerDate($previousDate);
+            $dripevent->setDateTriggered(date('Y-m-d H:i:s'));
+            $dripevent->setIsScheduled(true);
+            $this->saveCampaignLeadEvent($dripevent);
+        }
     }
 }

@@ -979,7 +979,9 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $limit -= $leadCount;
             }
 
-            $listErrors = $this->sendEmail($email, $leads, $options);
+            $listErrors     = []; //$this->sendEmail($email, $leads, $options);
+            $dripEmailModel = $this->factory->get('mautic.email.model.dripemail');
+            $dripEmailModel->scheduleOneOffEmail($leads, null, $email);
 
             if (!empty($listErrors)) {
                 $listFailedCount = count($listErrors);

@@ -404,6 +404,10 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
     Le.beeTemplate = themeField.val();
     var templateJSON = mQuery('textarea.bee-editor-json');
     var templateHTML = mQuery('textarea.builder-html');
+    var url = window.location.href;
+    if((url.indexOf('emails/new') != -1 || url.indexOf('oneoff/new') != -1 || url.indexOf('pages/new') != -1 || (typeof templateHTML.val() === 'undefined' || !templateHTML.val().length))){
+        Le.beeTemplate = "";
+    }
     // Populate default content
     if (!templateJSON.length || !templateJSON.val().length) {
         if(!templateHTML.length || !templateHTML.val().length) {
@@ -418,9 +422,9 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
     }else{
         if(formname=='email'){
             if (!templateJSON.length || !templateJSON.val().length) {
-                Le.selectEmailEditor("basic");
+                //Le.selectEmailEditor("basic");
             }else{
-                Le.selectEmailEditor("advance");
+                //Le.selectEmailEditor("advance");
             }
         }
     }
@@ -447,7 +451,9 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
                         return;
                     }
             }
-            mQuery('#builder_url_text').focus();
+           // if(formname != "dripemail") {
+            //    mQuery('#builder_url_text').focus();
+            //}
             // Set the theme field value
             themeField.val(theme);
             // Load the template JSON to the source textarea
@@ -460,13 +466,13 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
             mQuery('.theme-list .select-theme-link').removeClass('hide');
             currentLink.closest('.panel').find('.select-theme-selected').removeClass('hide');
             currentLink.addClass('hide');
-            if(location.href.match(/(oneoff)/i)) {
-                Le.launchBeeEditor('emailform', 'email');
-            } else if (location.href.match(/(pages)/i)){
-                Le.launchBeeEditor('pageform', 'page');
-            } else if (location.href.match(/(drip)/i)){
-                Le.launchBeeEditor('dripemail', 'email');
-            }
+             /*if(formname == "email") {
+                 Le.launchBeeEditor('emailform', 'email');
+             } else if (formname == "page"){
+                 Le.launchBeeEditor('pageform', 'page');
+             } else if (location.href.match(/(drip)/i)){
+                 Le.launchBeeEditor('dripemail', 'email');
+             }*/
         });
     }
 };
