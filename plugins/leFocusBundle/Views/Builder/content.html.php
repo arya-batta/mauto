@@ -22,7 +22,7 @@ $props = $focus['properties'];
 
 <div>
     <style scoped>
-        .mautic-focus {
+        .le-focus {
             font-family: <?php echo $props['content']['font']; ?>;
             color: #<?php echo $props['colors']['text']; ?>;
         }

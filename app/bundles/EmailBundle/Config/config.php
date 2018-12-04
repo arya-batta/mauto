@@ -371,6 +371,10 @@ return [
                 'arguments' => 'router',
                 'alias'     => 'dripemailsend_list',
             ],
+            'mautic.form.type.dripemail_move' => [
+                'class'     => 'Mautic\EmailBundle\Form\Type\DripEmailMoveType',
+                'alias'     => 'dripemail_move',
+            ],
             'mautic.form.type.formsubmit_sendemail_admin' => [
                 'class' => 'Mautic\EmailBundle\Form\Type\FormSubmitActionUserEmailType',
                 'alias' => 'email_submitaction_useremail',

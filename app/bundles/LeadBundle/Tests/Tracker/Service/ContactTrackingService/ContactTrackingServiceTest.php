@@ -66,7 +66,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $contactTrackingService = $this->getContactTrackingService();
@@ -97,7 +97,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn(null);
 
         $contactTrackingService = $this->getContactTrackingService();
@@ -121,7 +121,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $this->cookieHelperMock->expects($this->at(1))
@@ -156,7 +156,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $this->cookieHelperMock->expects($this->at(1))
@@ -197,7 +197,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $this->cookieHelperMock->expects($this->at(1))
@@ -242,7 +242,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $this->cookieHelperMock->expects($this->at(1))
@@ -287,7 +287,7 @@ final class ContactTrackingServiceTest extends \PHPUnit_Framework_TestCase
         // getTrackedIdentifier()
         $this->cookieHelperMock->expects($this->at(0))
             ->method('getCookie')
-            ->with('mautic_session_id', null)
+            ->with('le_session_id', null)
             ->willReturn($trackingId);
 
         $this->cookieHelperMock->expects($this->at(1))

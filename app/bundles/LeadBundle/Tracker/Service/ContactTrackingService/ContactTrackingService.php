@@ -120,6 +120,6 @@ final class ContactTrackingService implements ContactTrackingServiceInterface
      */
     public function getTrackedIdentifier()
     {
-        return $this->cookieHelper->getCookie('mautic_session_id', null);
+        return $this->cookieHelper->getCookie('le_session_id', null);
     }
 }
