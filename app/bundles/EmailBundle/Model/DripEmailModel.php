@@ -460,7 +460,7 @@ class DripEmailModel extends FormModel
         $emailCount       = 0;
         foreach ($entities as $entity) {
             $emailCount = $emailCount + 1;
-            if (!$this->checkLeadCompleted($lead, $dripemail, $entity) || !$entity->getIsPublished()) {
+            if (!$entity->getIsPublished()) { //!$this->checkLeadCompleted($lead, $dripemail, $entity) ||
                 continue;
             }
             if ($entity->getDripEmailOrder() == 1) {
