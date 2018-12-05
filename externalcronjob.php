@@ -86,6 +86,8 @@ try {
                 $fcolname = 'f29';
             } elseif ($operation == 'le:dripemail:send') {
                 $fcolname = 'f30';
+            } elseif ($operation == 'le:oneoff:send') {
+                $fcolname = 'f23';
             }
         } else {
             exit('Please Configure Valid Parameter');
