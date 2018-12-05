@@ -33,9 +33,9 @@ $custombutton = [
         ],
     ],
 ];
-$buttonpanelcss = 'margin-top: -100px;margin-right: 138px;';
+$buttonpanelcss = 'margin-top: -80px;margin-right: 138px;';
 if (!$isBeeEditor) {
-    $buttonpanelcss = 'margin-top: -100px;margin-right: 10px;';
+    $buttonpanelcss = 'margin-top: -80px;margin-right: 10px;';
 }
 $customHtml = $entity->getCustomHtml();
 ?>

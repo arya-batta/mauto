@@ -203,7 +203,8 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                         </ul>
                     </li>
                 </div>
-                </div>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $view['form']->row($form['previewText']); ?>
