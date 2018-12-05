@@ -291,16 +291,6 @@ ul.tag-cloud li {
 .leadlist-filter-group .filter-and-group{
     background: red;
 }
-.filter-and-group::after{
-    content: "OR";
-    top: calc(100% + 18px);
-    top:-webkit-calc(100% + 18px);
-    position: absolute;
-    left: 50px;
-    background: #fff;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-}
 .filter-and-group::before{
     content: "";
     top: calc(100% + 6px);
@@ -332,6 +322,16 @@ ul.tag-cloud li {
     left: 18px;
     border-bottom: 1px solid #ccc;
     width: 67px;
+}
+.filter-and-group::after{
+    content: "OR";
+    top: calc(100% + 18px);
+    top:-webkit-calc(100% + 18px);
+    position: absolute;
+    left: 50px;
+    background: #fff;
+    letter-spacing: 0.1em;
+    font-weight: 700;
 }
 .filter-and-group-holder div:first-child .filter-and-group::before{
     display: none;
