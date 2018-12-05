@@ -265,6 +265,7 @@ ul.tag-cloud li {
     padding: 6px;
     border-radius: 2px;
     background: #f2f2f2;
+    width: 6%;
 }
 .lead_filter_padding_right{
     padding-right: 0px;

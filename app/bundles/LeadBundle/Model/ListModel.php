@@ -297,7 +297,6 @@ class ListModel extends FormModel
                 'label'      => $this->translator->trans('le.lead.list.event.score'),
                 'properties' => [
                     'type' => 'score_list',
-
                 ],
                 'operators'  => $this->getOperatorsForFieldType('score_type'),
                 'object'     => 'lead',
@@ -330,15 +329,15 @@ class ListModel extends FormModel
             ],
         ];
 
-        if($this->security->isAdmin()) {
+        if ($this->security->isAdmin()) {
             $choices['list_categories'] = [
                 'globalcategory' => [
-                    'label' => $this->translator->trans('le.lead.list.filter.categories'),
+                    'label'      => $this->translator->trans('le.lead.list.filter.categories'),
                     'properties' => [
                         'type' => 'globalcategory',
                     ],
                     'operators' => $this->getOperatorsForFieldType('multiselect'),
-                    'object' => 'lead',
+                    'object'    => 'lead',
                 ],
             ];
         }
@@ -423,6 +422,42 @@ class ListModel extends FormModel
                 'object'     => 'lead',
             ],
         ];
+
+        $choices['drip_campaign']= [
+            'drip_email_subscribed' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_drip_campaign'),
+                'properties' => ['type' => 'drip_email_list'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+            'drip_email_completed' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_drip_campaign_completed'),
+                'properties' => ['type' => 'drip_email_list'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+            'drip_email_sent' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_drip_email_sent'),
+                'properties' => ['type' => 'drip_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+            'drip_email_read' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.drip_email_read'),
+                'properties' => [
+                    'type' => 'drip_email_received',
+                ],
+                'operators' => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'    => 'lead',
+            ],
+            'drip_email_click' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.drip_email_click'),
+                'properties' => ['type' => 'drip_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+        ];
+
         $choices['pages']= [
             'hit_url' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.visited_url'),
@@ -576,7 +611,7 @@ class ListModel extends FormModel
           ];*/
         if ($this->security->isAdmin()) {
             $choices['pages'] = [
-                'url_title' =>[
+                'url_title' => [
                     'label'      => $this->translator->trans('le.lead.list.filter.url_title'),
                     'properties' => [
                         'type' => 'landingpage_list',
@@ -845,14 +880,14 @@ class ListModel extends FormModel
                     break;
                 }
                 $list_id=false;
-                if(isset($newLeadList[$id]['list_id'])){
+                if (isset($newLeadList[$id]['list_id'])) {
                     $list_id = $newLeadList[$id]['list_id'];
                     unset($newLeadList[$id]['list_id']);
                 }
 
                 $processedLeads = [];
                 foreach ($newLeadList[$id] as $l) {
-                    if($list_id){
+                    if ($list_id) {
                         $already_not_inserted = $this->getRepository()->isAlreadyInserted($l, $list_id);
                         if ($already_not_inserted) {
                             $this->addLead($l, $entity, false, true, -1, $localDateTime);
@@ -868,7 +903,7 @@ class ListModel extends FormModel
                                 break;
                             }
                         }
-                    }else{
+                    } else {
                         $this->addLead($l, $entity, false, true, -1, $localDateTime);
                         $processedLeads[] = $l;
                         unset($l);
@@ -882,7 +917,6 @@ class ListModel extends FormModel
                             break;
                         }
                     }
-
                 }
                 $start += $limit;
 

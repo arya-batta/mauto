@@ -66,7 +66,7 @@ class DripEmailListType extends AbstractType
             [
                 'choices'            => $this->choices,
                 'expanded'           => false,
-                'multiple'           => false,
+                'multiple'           => true,
                 'required'           => false,
                 'empty_value'        => 'mautic.core.form.chooseone',
                 'enableNewForm'      => false,

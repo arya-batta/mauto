@@ -17,6 +17,7 @@ use Mautic\AssetBundle\Model\AssetModel;
 use Mautic\CategoryBundle\Model\CategoryModel;
 use Mautic\CoreBundle\Helper\UserHelper;
 use Mautic\CoreBundle\Security\Permissions\CorePermissions;
+use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\FormBundle\Model\FormModel;
 use Mautic\LeadBundle\Form\DataTransformer\FieldFilterTransformer;
@@ -56,6 +57,8 @@ class EmailRecipientFilterType extends AbstractType
     private $formSubmitChoices   = [];
     private $assetChoices        = [];
     private $scoreChoices        = [];
+    private $dripEmailChoices    = [];
+    private $dripEmailList       = [];
 
     /**
      * ListType constructor.
@@ -72,8 +75,9 @@ class EmailRecipientFilterType extends AbstractType
      * @param UserModel           $userModel
      * @param FormModel           $formModel
      * @param AssetModel          $assetModel
+     * @param DripEmailModel      $dripEmailModel
      */
-    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel, FormModel $formModel, AssetModel $assetModel)
+    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel, FormModel $formModel, AssetModel $assetModel, DripEmailModel $dripEmailModel)
     {
         $this->translator = $translator;
 
@@ -189,6 +193,24 @@ class EmailRecipientFilterType extends AbstractType
         foreach ($categories as $category) {
             $this->categoriesChoices[$category['id']] = $category['title'];
         }
+
+        $driEmailRepo=$dripEmailModel->getRepository();
+        $driEmailRepo->setCurrentUser($currentUser);
+
+        $dripEmails = $driEmailRepo->getAllDripEmailList();
+
+        foreach ($dripEmails as $dripEmail) {
+            $this->dripEmailChoices[$dripEmail['dripname']][$dripEmail['id']] = $dripEmail['name'];
+        }
+        ksort($this->dripEmailChoices);
+
+        $dripEmailsLists = $driEmailRepo->getDripEmailList();
+
+        foreach ($dripEmailsLists as $dripEmails) {
+            $this->dripEmailList[$dripEmails['id']] = $dripEmails['name'];
+        }
+        ksort($this->dripEmailList);
+
         $this->deviceTypesChoices  = array_combine((DeviceParser::getAvailableDeviceTypeNames()), (DeviceParser::getAvailableDeviceTypeNames()));
         $this->deviceBrandsChoices = DeviceParser::$deviceBrands;
         $this->deviceOsChoices     = array_combine((array_keys(OperatingSystem::getAvailableOperatingSystemFamilies())), array_keys(OperatingSystem::getAvailableOperatingSystemFamilies()));
@@ -228,6 +250,8 @@ class EmailRecipientFilterType extends AbstractType
                         'score_list'           => $this->scoreChoices,
                         'formsubmit_list'      => $this->formSubmitChoices,
                         'asset_downloads_list' => $this->assetChoices,
+                        'drip_email_received'  => $this->dripEmailChoices,
+                        'drip_email_list'      => $this->dripEmailList,
                     ],
                     'error_bubbling' => true,
                     'mapped'         => true,
@@ -244,24 +268,26 @@ class EmailRecipientFilterType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['fields']           = $this->fieldChoices;
-        $view->vars['countries']        = $this->countryChoices;
-        $view->vars['regions']          = $this->regionChoices;
-        $view->vars['timezones']        = $this->timezoneChoices;
-        $view->vars['lists']            = $this->listChoices;
-        $view->vars['emails']           = $this->emailChoices;
-        $view->vars['deviceTypes']      = $this->deviceTypesChoices;
-        $view->vars['deviceBrands']     = $this->deviceBrandsChoices;
-        $view->vars['deviceOs']         = $this->deviceOsChoices;
-        $view->vars['tags']             = $this->tagChoices;
-        $view->vars['stage']            = $this->stageChoices;
-        $view->vars['locales']          = $this->localeChoices;
-        $view->vars['globalcategory']   = $this->categoriesChoices;
-        $view->vars['landingpage_list'] = $this->landingpageChoices;
-        $view->vars['score_list']       = $this->scoreChoices;
-        $view->vars['users']            = $this->userchoices;
-        $view->vars['forms']            = $this->formSubmitChoices;
-        $view->vars['assets']           = $this->assetChoices;
+        $view->vars['fields']            = $this->fieldChoices;
+        $view->vars['countries']         = $this->countryChoices;
+        $view->vars['regions']           = $this->regionChoices;
+        $view->vars['timezones']         = $this->timezoneChoices;
+        $view->vars['lists']             = $this->listChoices;
+        $view->vars['emails']            = $this->emailChoices;
+        $view->vars['deviceTypes']       = $this->deviceTypesChoices;
+        $view->vars['deviceBrands']      = $this->deviceBrandsChoices;
+        $view->vars['deviceOs']          = $this->deviceOsChoices;
+        $view->vars['tags']              = $this->tagChoices;
+        $view->vars['stage']             = $this->stageChoices;
+        $view->vars['locales']           = $this->localeChoices;
+        $view->vars['globalcategory']    = $this->categoriesChoices;
+        $view->vars['landingpage_list']  = $this->landingpageChoices;
+        $view->vars['score_list']        = $this->scoreChoices;
+        $view->vars['users']             = $this->userchoices;
+        $view->vars['forms']             = $this->formSubmitChoices;
+        $view->vars['assets']            = $this->assetChoices;
+        $view->vars['drip_campaign']     = $this->dripEmailChoices;
+        $view->vars['drip_campaign_list']= $this->dripEmailList;
     }
 
     /**

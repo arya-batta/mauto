@@ -80,7 +80,9 @@ trait FilterTrait
             $field = $options['fields']['forms'][$fieldName];
         } elseif (isset($options['fields']['assets'][$fieldName])) {
             $field = $options['fields']['assets'][$fieldName];
-        } /*elseif (isset($options['fields']['company'][$fieldName])) {
+        } elseif (isset($options['fields']['drip_campaign'][$fieldName])) {
+            $field = $options['fields']['drip_campaign'][$fieldName];
+        }/*elseif (isset($options['fields']['company'][$fieldName])) {
             $field = $options['fields']['company'][$fieldName];
         }*/
 
@@ -171,6 +173,30 @@ trait FilterTrait
                 }
 
                 $customOptions['choices']                   = $options['asset_downloads_list'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
+            case 'drip_email_received':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['drip_email_received'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
+            case 'drip_email_list':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = $data['filter'];
+                }
+
+                $customOptions['choices']                   = $options['drip_email_list'];
                 $customOptions['multiple']                  = true;
                 $customOptions['choice_translation_domain'] = false;
                 $type                                       = 'choice';
@@ -371,7 +397,7 @@ trait FilterTrait
                 break;
         }
 
-        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this','last_15', 'next_15', 'last_60', 'next_60', 'last_90', 'next_90', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
+        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this', 'last_15', 'next_15', 'last_60', 'next_60', 'last_90', 'next_90', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
         $customOptions['constraints'] = [];
         if (in_array($data['operator'], ['empty', '!empty'])) {
             $attr['disabled'] = 'disabled';

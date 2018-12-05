@@ -46,7 +46,7 @@ class EmailOpenType extends AbstractType
                 'class'   => 'hide form-control',
             ],
             'enableNewForm'      => false,
-            'multiple'           => false,
+          //  'multiple'           => false,
             'required'           => false,
         ];
 
@@ -129,13 +129,14 @@ class EmailOpenType extends AbstractType
         $dripEmails =$pointModel->getRepository('MauticPointBundle:Point')->getDripEmailList($dripEmailId);
 
         $form->add('driplist', 'choice', [
-         'label'      => 'le.email.open.limittoemails',
-        'label_attr'  => ['class' => 'control-label'],
-        'attr'        => [
-            'class'   => 'form-control not-chosen le-input',
-        ],
-        'required'    => false,
-        'choices'     => $dripEmails,
+         'label'         => 'le.email.open.limittoemails',
+         'label_attr'    => ['class' => 'control-label'],
+            'attr'       => [
+                'class'   => 'form-control',
+            ],
+         'required'    => false,
+         'multiple'    => true,
+         'choices'     => $dripEmails,
      ]);
 
         if ($eventName == FormEvents::PRE_SUBMIT) {

@@ -1677,6 +1677,7 @@ class LeadListRepository extends CommonRepository
                 case 'tags':
                 case 'globalcategory':
                 case 'lead_email_received':
+                case 'drip_email_read':
                 case 'lead_email_sent':
                 case 'device_type':
                 case 'device_brand':
@@ -1684,6 +1685,10 @@ class LeadListRepository extends CommonRepository
                 case 'lead_form_submit':
                 case 'asset_downloads':
                 case 'lead_email_click':
+                case 'drip_email_click':
+                case 'drip_email_subscribed':
+                case 'drip_email_completed':
+                case 'drip_email_sent':
                     // Special handling of lead lists and tags
                     $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
 
@@ -1701,6 +1706,7 @@ class LeadListRepository extends CommonRepository
                             $column = 'category_id';
                             break;
                         case 'lead_email_received':
+                        case 'drip_email_read':
                             $table  = 'email_stats';
                             $column = 'email_id';
 
@@ -1714,6 +1720,7 @@ class LeadListRepository extends CommonRepository
                             $alias  = 'll';
                             break;*/
                         case 'lead_email_sent':
+                        case 'drip_email_sent':
                             $table  = 'email_stats';
                             $column = 'email_id';
                             break;
@@ -1738,8 +1745,17 @@ class LeadListRepository extends CommonRepository
                             $column = 'asset_id';
                             break;
                         case 'lead_email_click':
+                        case 'drip_email_click':
                             $table  = 'page_hits';
                             $column = 'email_id';
+                            break;
+                        case 'drip_email_subscribed':
+                            $table  = 'dripemail_leads';
+                            $column = 'dripemail_id';
+                            break;
+                        case 'drip_email_completed':
+                            $table  = 'dripemail_lead_event_log';
+                            $column = 'dripemail_id';
                             break;
                     }
 
@@ -1752,6 +1768,11 @@ class LeadListRepository extends CommonRepository
                         $leadId,
                         $subQueryFilters
                     );
+
+                    if ($details['field'] == 'drip_email_completed') {
+                        $column= $alias.'.rotation';
+                        $subQb->andWhere($column.' = "1"');
+                    }
 
                     $groupExpr->add(
                         sprintf('%s (%s)', $func, $subQb->getSQL())

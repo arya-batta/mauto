@@ -53,7 +53,7 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
             <?php echo $view['form']->widget($form['operator']); ?>
         </div>
         <?php $hasErrors = count($form['filter']->vars['errors']) || count($form['display']->vars['errors']); ?>
-        <div class="col-xs-10 <?php echo $filterType == 'lead_email_activity' ? 'col-sm-1 lead_filter_padding_right' : 'col-sm-3'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
+        <div class="col-xs-10 <?php echo $filterType == 'lead_email_activity' ? 'col-sm-1 lead_filter_padding_right' : 'col-sm-4'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
             <?php echo $view['form']->widget($form['filter']); ?>
             <?php echo $view['form']->widget($form['display']); ?>
             <?php echo $view['form']->errors($form['filter']); ?>

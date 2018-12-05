@@ -20,9 +20,9 @@ $view['slots']->set('headerTitle', $header);
 echo $view['form']->start($form);
 ?>
 <!-- start: box layout -->
-<div class="box-layout">
+<div class="box-layout border-margin">
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-r" id="details">
+    <div class="col-md-9 bg-auto height-auto" id="details">
     	<div class="row">
             <div class="col-md-6">
                 <div class="pa-md">

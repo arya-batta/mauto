@@ -109,6 +109,8 @@ class FilterType extends AbstractType
                 'users',
                 'formsubmit_list',
                 'asset_downloads_list',
+                'drip_email_received',
+                'drip_email_list',
             ]
         );
 

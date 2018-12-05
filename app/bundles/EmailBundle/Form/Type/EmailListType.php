@@ -45,7 +45,7 @@ class EmailListType extends AbstractType
 
         $resolver->setDefaults(
             [
-                'multiple'    => false,
+                'multiple'    => true,
                 'required'    => false,
                 'modal_route' => 'le_email_action',
                 // Email form UI too complicated for a modal so force a popup

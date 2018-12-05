@@ -32,15 +32,15 @@ class PointEventHelper
         }
 
         $emailId      = $eventDetails->getId();
-        $limitToEmails=[];
+
         if (isset($action['properties']['campaigntype'])) {
             if ($action['properties']['campaigntype'] == 'drip') {
                 if (isset($action['properties']['driplist'])) {
-                    $limitToEmails[] = $action['properties']['driplist'];
+                    $limitToEmails = $action['properties']['driplist'];
                 }
             } else {
                 if (isset($action['properties']['emails'])) {
-                    $limitToEmails[] = $action['properties']['emails'];
+                    $limitToEmails = $action['properties']['emails'];
                 }
             }
         }
