@@ -65,12 +65,12 @@ class EmailType extends AbstractType
             ]
         );
 
-        $user = $this->factory->get('mautic.helper.user')->getUser();
-        if ($emailProvider == 'Sparkpost') {
-            $default = (empty($options['data']['fromname'])) ? $fromname : $options['data']['fromname'];
-        } else {
-            $default = (empty($options['data']['fromname'])) ? $user->getFirstName().' '.$user->getLastName() : $options['data']['fromname'];
-        }
+        // $user = $this->factory->get('mautic.helper.user')->getUser();
+//        if ($emailProvider == 'Sparkpost') {
+        $default = (empty($options['data']['fromname'])) ? $fromname : $options['data']['fromname'];
+//        } else {
+//            $default = (empty($options['data']['fromname'])) ? $user->getFirstName().' '.$user->getLastName() : $options['data']['fromname'];
+//        }
 
         $builder->add(
             'fromname',
@@ -86,11 +86,11 @@ class EmailType extends AbstractType
             ]
         );
 
-        if ($emailProvider == 'Sparkpost') {
-            $default = (empty($options['data']['from'])) ? $fromemail : $options['data']['from'];
-        } else {
-            $default = (empty($options['data']['from'])) ? $user->getEmail() : $options['data']['from'];
-        }
+//        if ($emailProvider == 'Sparkpost') {
+        $default = (empty($options['data']['from'])) ? $fromemail : $options['data']['from'];
+//        } else {
+//            $default = (empty($options['data']['from'])) ? $user->getEmail() : $options['data']['from'];
+//        }
 
         $builder->add(
             'from',

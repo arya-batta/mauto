@@ -276,9 +276,25 @@ $isAdmin              = $view['security']->isAdmin();
                         <?php echo $view['form']->row($form['fromName']); ?>
                     </div>
                     <div class="col-md-6">
-                        <div class="pull-left" id="email_FromAddress" >
-                            <?php echo $view['form']->row($form['fromAddress']); ?>
+                        <div class="pull-left" id="email_FromAddress" style="max-width:70%;">
+                            <?php echo $view['form']->row($form['fromAddress'],
+                                ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                         </div>
+                        <?php //echo $view['form']->widget($form['fromAddress']);?>
+                        <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;" data-toggle="dropdown" href="#">
+                                <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
+                                <li>
+                                    <?php foreach ($verifiedemail as $key=> $value): ?>
+                                <li >
+                                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $key; ?></a>
+                                </li>
+                                <?php endforeach; ?>
+                                </li>
+                            </ul>
+                        </li>
                     </div>
                 </div>
                 <div class="row">

@@ -14,6 +14,7 @@ $view['assets']->addScript('app/bundles/InstallBundle/Assets/install/install.js'
 <html>
     <?php echo $view->render('MauticCoreBundle:Default:head.html.php'); ?>
     <body>
+    <?php echo $view->render('MauticCoreBundle:Default:googletagmanager.html.php'); ?>
         <!-- start: app-wrapper -->
         <section id="app-wrapper">
             <div class="container">

@@ -302,7 +302,7 @@ class DripEmailController extends FormController
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator     = $this->get('mautic.configurator');
-        $params          = $configurator->getParameters();
+        $params           = $configurator->getParameters();
         // $fromname        = $params['mailer_from_name'];
         // $fromadress      = $params['mailer_from_email'];
         $unsubscribetxt  = $params['unsubscribe_text'];
@@ -501,6 +501,7 @@ class DripEmailController extends FormController
                 ]
             );
         }
+        $verifiedemail = $emailmodel->getVerifiedEmailAddress();
         //dump($items);
         //foreach ($bluePrints as $key => $item){
         //    dump($dripPrints);
@@ -512,18 +513,19 @@ class DripEmailController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'form'                       => $form->createView(),
-                    'entity'                     => $entity,
-                    'emailform'                  => $emailform->createView(),
-                    'beetemplates'               => $this->factory->getInstalledBeeTemplates('email'),
-                    'template_filters'           => $groupFilters,
-                    'items'                      => $items,
-                    'permissions'                => $permissions,
-                    'actionRoute'                => 'le_dripemail_campaign_action',
-                    'translationBase'            => 'mautic.email.broadcast',
-                    'emailEntity'                => $emailentity,
-                    'bluePrints'                 => $bluePrints,
-                    'drips'                      => $dripPrints,
+                    'form'                         => $form->createView(),
+                    'entity'                       => $entity,
+                    'emailform'                    => $emailform->createView(),
+                    'beetemplates'                 => $this->factory->getInstalledBeeTemplates('email'),
+                    'template_filters'             => $groupFilters,
+                    'items'                        => $items,
+                    'permissions'                  => $permissions,
+                    'actionRoute'                  => 'le_dripemail_campaign_action',
+                    'translationBase'              => 'mautic.email.broadcast',
+                    'emailEntity'                  => $emailentity,
+                    'bluePrints'                   => $bluePrints,
+                    'drips'                        => $dripPrints,
+                    'verifiedemail'                => $verifiedemail,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:form.html.php',
                 'passthroughVars' => [
@@ -883,10 +885,17 @@ class DripEmailController extends FormController
         $emailentity = $emailmodel->getEntity($subobjectId);
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator    = $this->get('mautic.configurator');
-        $params          = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        // $configurator    = $this->get('mautic.configurator');
+        //$params          = $configurator->getParameters();
+        //  $fromname        = $params['mailer_from_name'];
+        // $fromadress      = $params['mailer_from_email'];
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
         $fromName        = $emailentity->getFromName();
         $fromAdress      = $emailentity->getFromAddress();
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $emailentity->getId()]);
@@ -1043,10 +1052,17 @@ class DripEmailController extends FormController
         $emailentity = $emailmodel->getEntity();
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator    = $this->get('mautic.configurator');
-        $params          = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        // $configurator    = $this->get('mautic.configurator');
+        // $params          = $configurator->getParameters();
+        //  $fromname        = $params['mailer_from_name'];
+        // $fromadress      = $params['mailer_from_email'];
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
         $fromName        = $emailentity->getFromName();
         $fromAdress      = $emailentity->getFromAddress();
         $emailentity->setName('DripEmail - ');

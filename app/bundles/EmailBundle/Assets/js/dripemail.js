@@ -125,8 +125,8 @@ Le.dripemailOnLoad = function (container, response) {
         var currentLink = mQuery(this);
         var email = currentLink.attr('data-verified-emails');
         var name = currentLink.attr('data-verified-fromname');
-        mQuery("#emailform_fromAddress").val(email);
-        mQuery("#emailform_fromName").val(name);
+        mQuery("#dripemailform_fromAddress").val(email);
+        mQuery("#dripemailform_fromName").val(name);
     });
     Le.filterBeeTemplates= function () {
         d = document.getElementById("filters").value;
@@ -197,7 +197,7 @@ Le.loadDripEmailStatCounts = function(){
 }
 
 Le.loadEmailsinDripStatCounts = function(){
-    if (mQuery('table.email-list').length) {
+    if (mQuery('table.dripemail-list').length) {
         mQuery('tr.drip-emailcol-stats').each(function () {
             var id = mQuery(this).attr('data-stats');
             // Process the request one at a time or the xhr will cancel the previous

@@ -205,7 +205,8 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                         </ul>
                     </li>
                 </div>
-                </div>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <?php echo $view['form']->row($form['previewText']); ?>
@@ -466,7 +467,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                             <?php echo $view['form']->row($form['fromAddress'],
                                 ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                         </div>
-                        <?php echo $view['form']->widget($form['fromAddress']); ?>
+                        <?php //echo $view['form']->widget($form['fromAddress']);?>
                         <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
                             <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;" data-toggle="dropdown" href="#">
                                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
