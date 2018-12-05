@@ -85,8 +85,10 @@ class EmailType extends AbstractType
         $emailProvider = $this->licenseHelper->getEmailProvider();
 
         $name = 'le.email.form.template.name';
+        $message = 'le.email.notification.name.notblank';
         if (!$options['isEmailTemplate']) {
             $name = 'le.email.form.campaign.name';
+            $message = 'le.email.campaign.name.notblank';
         }
         $namedata = $options['data']->getName() ? $options['data']->getName() : '';
         if ($options['isDripEmail'] && $namedata == '') {
@@ -100,6 +102,13 @@ class EmailType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'data'       => $namedata,
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => $message,
+                        ]
+                    )
+                ],
             ]
         );
 

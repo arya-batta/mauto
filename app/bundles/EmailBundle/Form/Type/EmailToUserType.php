@@ -36,7 +36,7 @@ class EmailToUserType extends AbstractType
                 'tooltip' => 'le.email.choose.emails_descr',
             ],
             'update_select'   => empty($options['update_select']) ? 'formaction_properties_useremail_email' : $options['update_select'],
-            'with_email_types'=> !empty($options['with_email_types']) ? $options['with_email_types'] : false,
+            'with_email_types'=> !empty($options['with_email_types']) ? $options['with_email_types'] : 'false',
             'set_email_list_type' => 'template',
         ]);
 

@@ -145,7 +145,6 @@ class EmailType extends AbstractType
                     'onchange' => 'Le.getLeadEmailContent(this)',
                 ],
                 'multiple'   => false,
-                'email_type' => 'template',
             ]
         );
 

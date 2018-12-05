@@ -34,6 +34,7 @@ class FormSubmitActionUserEmailType extends AbstractType
             ],
             'update_select' => 'formaction_properties_useremail_email',
             'set_email_list_type' => 'template',
+            'with_email_types'    => 'true',
         ]);
 
         $builder->add('user_id', 'user_list', [

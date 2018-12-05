@@ -11,11 +11,11 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_email_index', ['search' => $searchString]); ?>" data-toggle="ajax">
+<a href="<?php echo $view['router']->generate($type=='list'?'le_email_campaign_index':'le_email_index', ['search' => $searchString]); ?>" data-toggle="ajax">
     <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
 </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax">
+<a href="<?php echo $view['router']->generate($type=='list'?'le_email_campaign_action':'le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax">
     <?php echo $email->getName(); ?>
     <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.email.readcount'); ?>" data-placement="left">
         <?php echo $email->getReadCount(); ?>

@@ -39,7 +39,7 @@ class EmailListType extends AbstractType
     {
         $modelname    = $this->factory->getRequest()->get('_route');
         $enableNewForm=true;
-        if ($modelname == 'le_campaignevent_action') {
+        if ($modelname == 'le_campaignevent_action' || $modelname == 'le_formaction_action') {
             $enableNewForm = false;
         }
 
