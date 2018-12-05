@@ -541,7 +541,7 @@ class AjaxController extends CommonAjaxController
             $region='';
         }
         //$region                = $paramater['mailer_amazon_region'];
-        $fromadress            = $paramater['mailer_from_email'];
+        //  $fromadress            = $paramater['mailer_from_email'];
         $transport             = $paramater['mailer_transport'];
         $date                  = new \DateTime();
         $date->modify('-1 day');
@@ -1029,7 +1029,7 @@ class AjaxController extends CommonAjaxController
                 $billing = new Billing();
             }
             if ($billing->getAccountingemail() != '') {
-                $mailer       = $this->container->get('le.transport.elasticemail.transactions');
+                $mailer       = $this->container->get('le.transactions.sendgrid_api');
                 $paymenthelper=$this->get('le.helper.payment');
                 $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
             }
@@ -1046,7 +1046,7 @@ class AjaxController extends CommonAjaxController
         $curentDate            =date('Y-m-d');
         $this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);
         $this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
-        $mailer = $this->container->get('le.transport.elasticemail.transactions');
+        $mailer = $this->container->get('le.transactions.sendgrid_api');
         $this->sendCancelSubscriptionEmail($mailer);
 
         return $this->sendJsonResponse($dataArray);

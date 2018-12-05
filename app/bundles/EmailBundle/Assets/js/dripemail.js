@@ -123,8 +123,10 @@ Le.dripemailOnLoad = function (container, response) {
     mQuery('[data-verified-emails]').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
-        var value = currentLink.attr('data-verified-emails');
-        mQuery("#emailform_fromAddress").val(value);
+        var email = currentLink.attr('data-verified-emails');
+        var name = currentLink.attr('data-verified-fromname');
+        mQuery("#emailform_fromAddress").val(email);
+        mQuery("#emailform_fromName").val(name);
     });
     Le.filterBeeTemplates= function () {
         d = document.getElementById("filters").value;

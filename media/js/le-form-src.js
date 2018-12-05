@@ -152,7 +152,7 @@
             }
 
             // Check to see if the iframe exists
-            if (!document.getElementById('mauticiframe_' + formId)) {
+            if (!document.getElementById('leiframe_' + formId)) {
                 // Likely an editor has stripped out the iframe so let's dynamically create it
                 var ifrm = document.createElement("IFRAME");
                 ifrm.style.display = "none";
@@ -161,11 +161,11 @@
                 ifrm.style.border = "none";
                 ifrm.style.width = 0;
                 ifrm.style.heigh = 0;
-                ifrm.setAttribute( 'id', 'mauticiframe_' + formId);
-                ifrm.setAttribute('name', 'mauticiframe_' + formId);
+                ifrm.setAttribute( 'id', 'leiframe_' + formId);
+                ifrm.setAttribute('name', 'leiframe_' + formId);
                 document.body.appendChild(ifrm);
 
-                theForm.target = 'mauticiframe_' + formId;
+                theForm.target = 'leiframe_' + formId;
             }
 
             if (!document.getElementById('leform_' + formId + '_messenger')) {
@@ -518,7 +518,7 @@
 
                 parseFormResponse: function (response) {
                     // Reset the iframe so that back doesn't repost for some browsers
-                    var ifrm = document.getElementById('mauticiframe_' + formId);
+                    var ifrm = document.getElementById('leiframe_' + formId);
                     if (ifrm) {
                         ifrm.src = 'about:blank';
                     }
@@ -529,7 +529,7 @@
                         Form.customCallbackHandler(formId, 'onResponseStart', response);
                         if (response.download) {
                             // Hit the download in the iframe
-                            document.getElementById('mauticiframe_' + formId).src = response.download;
+                            document.getElementById('leiframe_' + formId).src = response.download;
 
                             // Register a callback for a redirect
                             if (response.redirect) {

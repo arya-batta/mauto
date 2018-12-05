@@ -9,8 +9,6 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-use Symfony\Component\Form\FormView;
-
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'email');
 
@@ -83,21 +81,6 @@ if ($formcontainserror) {
         $infohide         = 'ui-tabs-hide';
     }
 }
-$hideawsemailoptions = '';
-$style               ='80%';
-$tabindex            ='-1';
-$pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
-if ($mailertransport != 'le.transport.amazon' && $mailertransport != 'le.transport.sparkpost') {
-    $hideawsemailoptions  = 'hide';
-    $style                = '';
-    $pointereventstyle    = '';
-    $tabindex             = '';
-}
-if ($mailertransport != 'le.transport.amazon') {
-    $hideawsemailoptions ='hide';
-    $style               ='';
-}
-
 $isgoogletags= false; //$email->getGoogletags();
 ?>
 <div class="fixed-header" style="margin-top: -75px;left: 75%;position: fixed;">
@@ -138,22 +121,22 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
         <div class="row" style="width: 125%;">
             <div class="col-md-10">
-                <div class="pull-left" id="email_FromAddress" style="max-width:<?php echo $style; ?>;">
+                <div class="pull-left" id="email_FromAddress" style="max-width:70%;">
                     <?php echo $view['form']->row($form['fromAddress'],
-                        ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]); ?>
+                        ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                 </div>
                 <?php echo $view['form']->widget($form['fromAddress']); ?>
-                <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:23px;" data-toggle="dropdown" href="#">
+                <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 100px;">
+                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;" data-toggle="dropdown" href="#">
                         <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
                         <li>
                             <?php foreach ($verifiedemail as $key=> $value): ?>
-                                <li >
-                                    <a class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>"><?php echo $value; ?></a>
-                                </li>
-                            <?php endforeach; ?>
+                        <li >
+                            <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $key; ?></a>
+                        </li>
+                        <?php endforeach; ?>
                         </li>
                     </ul>
                 </li>

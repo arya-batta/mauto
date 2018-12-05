@@ -43,7 +43,7 @@ ob_start();
     }
 }
 
-.mautic-focus {
+.le-focus {
     <?php if ($preview): ?>
 
     .leform-row {

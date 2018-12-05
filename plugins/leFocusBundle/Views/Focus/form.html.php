@@ -32,7 +32,7 @@ echo $view['form']->start($form);
         <!-- container -->
         <div class="col-md-9 bg-auto height-auto bdr-r pa-md">
             <div class="row">
-                <div class="col-md-12 <?php echo (($entity->getName() == '' && $ObjectID == '') && isset($focusTemplates)) ? 'hide' : 'hide' ?>">
+                <div class="col-md-12 <?php echo (($entity->getName() == '' && (isset($ObjectID) && $ObjectID == '')) && isset($focusTemplates)) ? 'hide' : 'hide' ?>">
                     <?php if (isset($focusTemplates)) : ?>
                     <?php echo $view->render('leFocusBundle:Focus:focus_template_select.html.php', [
                         'focusTemplates' => $focusTemplates,
@@ -41,7 +41,7 @@ echo $view['form']->start($form);
                     ]); ?>
                     <?php endif?>
                 </div>
-                <div class="<?php echo ($entity->getName() != '' || $ObjectID == 'blank') ? '' : '' ?>">
+                <div class="<?php echo ($entity->getName() != '' || (isset($ObjectID) && $ObjectID == 'blank')) ? '' : '' ?>">
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['name']); ?>
                     </div>

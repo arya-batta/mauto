@@ -351,16 +351,20 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['pages']->vars['choices'];
             $pages  =$event['properties']['pages'];
             $label  =$this->getFormattedEventLabel($label, $pages, $choices['en']);
-        } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail' || $event['type'] == 'email.send') {
+        } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail') {
             if ($event['properties']['campaigntype'] == 'drip') {
-                $choices=$formView->children['properties']->children['driplist']->vars['choices'];
-                $emails =$event['properties']['driplist'];
-                $label  =$this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices);
+                $choices = $formView->children['properties']->children['driplist']->vars['choices'];
+                $emails = $event['properties']['driplist'];
+                $label = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices);
             } else {
-                $choices=$formView->children['properties']->children['emails']->vars['choices'];
-                $emails =$event['properties']['emails'];
-                $label  =$this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices['en']);
+                $choices = $formView->children['properties']->children['emails']->vars['choices'];
+                $emails = $event['properties']['emails'];
+                $label = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices['en']);
             }
+        }elseif($event['type'] == 'email.send') {
+            $choices=$formView->children['properties']->children['email']->vars['choices'];
+            $emails =$event['properties']['email'];
+            $label  =$this->getFormattedEventLabel($label, [$emails], $choices['en']);
         } elseif ($event['type'] == 'leadtags') {
             $choices=$formView->children['properties']->children['tags']->vars['choices'];
             $tags   =$event['properties']['tags'];
@@ -408,6 +412,16 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['user_id']->vars['choices'];
             $user   =$event['properties']['user_id'];
             $label  =$this->getFormattedEventLabel($label, $user, $choices);
+        } elseif ($event['type'] == 'email.send.to.dripcampaign' || $event['type'] == 'remove.dripcampaign' || $event['type'] == 'restart.dripcampaign'){
+            $choices=$formView->children['properties']->children['dripemail']->vars['choices'];
+            $dripemail   =$event['properties']['dripemail'];
+            $label  =$this->getFormattedEventLabel($label, [$dripemail], $choices);
+        } elseif ($event['type'] == 'move.dripcampaign'){
+            $addDripchoices     =$formView->children['properties']->children['movedripfrom']->vars['choices'];
+            $addDrip            =$event['properties']['movedripfrom'];
+            $removeDripchoices  =$formView->children['properties']->children['movedripto']->vars['choices'];
+            $removeDrip         =$event['properties']['movedripto'];
+            $label              =$this->getLabelFromMultiChoices($label, $addDripchoices, $removeDripchoices, [$addDrip], [$removeDrip]);
         }
 
         return $label;

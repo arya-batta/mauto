@@ -183,11 +183,11 @@ class PublicController extends CommonFormController
         }
 
         // Replacing email id with star
-        $position = strrpos( $email, '@');
-        $result1 =  substr($email, 0, $position );
-        $result2 =  substr($email, $position );
-        $len = strlen($result1);
-        $result1 = substr($result1, 0, 1).str_repeat('*', $len - 2).substr($result1, $len - 1, 1);
+        $position     = strrpos($email, '@');
+        $result1      =  substr($email, 0, $position);
+        $result2      =  substr($email, $position);
+        $len          = strlen($result1);
+        $result1      = substr($result1, 0, 1).str_repeat('*', $len - 2).substr($result1, $len - 1, 1);
         $emailAddress = $result1.$result2;
 
         if (empty($message)) {
@@ -947,5 +947,23 @@ class PublicController extends CommonFormController
         );
 
         return $message;
+    }
+
+    /**
+     * @param $idhash
+     *
+     * @return Response
+     */
+    public function verifySenderProfileAction($idhash)
+    {
+        $emailmodel = $this->getModel('email');
+        $response   =$emailmodel->verifySenderProfile($idhash);
+        if ($response['status']) {
+            $this->addFlash('le.config.sender.email.verification.success', ['%sender%'=> $response['email']]);
+
+            return $this->delegateRedirect($this->generateUrl('le_config_action', ['objectAction' => 'edit']));
+        } else {
+            return new Response("<html><body><p style='font-size: 20px;'>".$this->translator->trans('le.config.sender.email.verification.failure').'</p></body></html>');
+        }
     }
 }

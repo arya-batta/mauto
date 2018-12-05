@@ -90,7 +90,7 @@ if (empty($preview)):
             onResponse: function (data) {
                 if (data.download) {
                     // Hit the download in the iframe
-                    document.getElementById('mauticiframe<?php echo $formName; ?>').src = data.download;
+                    document.getElementById('leiframe<?php echo $formName; ?>').src = data.download;
 
                     // Register a callback for a redirect
                     if (data.redirect) {

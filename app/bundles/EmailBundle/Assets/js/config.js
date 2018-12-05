@@ -185,50 +185,81 @@ Le.configOnLoad = function (container) {
         mQuery('#user_email .help-block').addClass('hide');
         mQuery('#user_email .help-block').html("");
     });
-    mQuery('.aws-verification-btn').click(function(e) {
+    mQuery('.sender_profile_create_btn').click(function(e) {
+        e.preventDefault();
+        mQuery('#sender_profile_from_name_errors').html("");
+        mQuery('#sender_profile_from_email_errors').html("");
+        mQuery('#sender_profile_from_name').html("");
+        mQuery('#sender_profile_from_email').html("");
+    });
+    mQuery('.sender_profile_verify_btn').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
-        var email = mQuery('#aws_email_verification').val();
+        var email = mQuery('#sender_profile_from_email').val();
+        var fromname = mQuery('#sender_profile_from_name').val();
         var mailformat =/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,4})?$/;
+        if(fromname == ""){
+            mQuery('#sender_profile_from_name_errors').html("From name cannot be empty!");
+            return;
+        }
         if (!email.match(mailformat)) {
-            document.getElementById('errors').innerHTML= "Please provide your business email address, since Gmail/ Googlemail/ Yahoo/ Hotmail/ MSN/ AOL and a few more reject emails that claim to come from them but actually originate from different servers.";
+            mQuery('#sender_profile_from_email_errors').html("Please provide your business email address, since Gmail/ Googlemail/ Yahoo/ Hotmail/ MSN/ AOL and a few more reject emails that claim to come from them but actually originate from different servers.");
             return;
         }
        mQuery('#user_email .help-block').removeClass('hide');
        Le.activateButtonLoadingIndicator(currentLink);
-        Le.ajaxActionRequest('email:awsEmailFormValidation', {'email': email}, function(response) {
+        Le.ajaxActionRequest('email:senderProfileVerify', {'email': email,'name':fromname}, function(response) {
            Le.removeButtonLoadingIndicator(currentLink);
-
             if(response.success) {
-                Le.redirectWithBackdrop(response.redirect);
-                mQuery('#emailVerifyModel').addClass('hide');
-            } else {
-                document.getElementById('errors').innerHTML=response.message;
-                return;
+               Le.redirectWithBackdrop(response.redirect);
+               mQuery('#emailVerifyModel').addClass('hide');
+            } else{
+                mQuery('#sender_profile_from_email_errors').html(response.message);
+            return;
             }
         });
     });
 
-    mQuery('.delete_aws_verified_emails').click(function(e) {
+    mQuery('.remove_sender_profile_btn').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
-        var spans = currentLink.closest("tr").find("span");
-        var email = spans.eq(0).text();
-
+        var currentrow=currentLink.closest("tr");
+        var fromemail = currentrow.find(".sender_profile_from_email_col");
+        var email = fromemail.text();
         Le.activateButtonLoadingIndicator(currentLink);
-        Le.ajaxActionRequest('email:deleteAwsVerifiedEmails', {'email': email}, function(response) {
+        Le.ajaxActionRequest('email:deleteSenderProfile', {'email': email}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
             if(response.success) {
-                currentLink.addClass('hide');
-                spans.addClass('hide');
-               // Le.redirectWithBackdrop(response.redirect);
+                currentrow.remove();
             } else {
-                document.getElementById('errors').innerHTML=response.message;
+                mQuery('#sender_profile_errors').html(response.message);
                 return;
             }
         });
     });
-    Le.hideFlashMessage();
+
+    mQuery('.verify_sender_profile_btn').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var currentrow=currentLink.closest("tr");
+        var fromemail = currentrow.find(".sender_profile_from_email_col");
+        var email = fromemail.text();
+        email=email.trim();
+        var fromname = currentrow.find(".sender_profile_from_name_col");
+        var name = fromname.text();
+        name=name.trim();
+        Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:reVerifySenderProfile', {'email': email,'name':name}, function(response) {
+            Le.removeButtonLoadingIndicator(currentLink);
+            if(!response.success) {
+                mQuery('#sender_profile_errors').html(response.message);
+                return;
+            }else{
+                Le.redirectWithBackdrop(response.redirect);
+            }
+        });
+    });
+   Le.hideFlashMessage();
 }
 
 Le.updateEmailStatus = function(){

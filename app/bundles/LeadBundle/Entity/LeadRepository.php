@@ -1348,7 +1348,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         }
 
         if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
         }
 

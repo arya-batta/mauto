@@ -39,7 +39,7 @@ class PublicController extends FormController
                 //    $form['identifier']->addError(new FormError($this->translator->trans('mautic.user.user.passwordreset.nouserfound', [], 'validators')));
                 //} else {
                 try {
-                    $mailer = $this->container->get('le.transport.elasticemail.transactions');
+                    $mailer = $this->container->get('le.transactions.sendgrid_api');
                     $model->sendResetEmail($user, $mailer);
                     $this->addFlash('mautic.user.user.notice.passwordreset', [], 'notice', null, false);
                 } catch (\Exception $exception) {
@@ -70,7 +70,7 @@ class PublicController extends FormController
             'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
                 'route'         => $action,
             ],
         ]);

@@ -8,40 +8,26 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$hideawsemailoptions = '';
-$style               ='86%';
-$tabindex            ='-1';
-$pointereventstyle   = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
-if ($mailertransport != 'le.transport.amazon' && $mailertransport != 'le.transport.sparkpost') {
-    $hideawsemailoptions  = 'hide';
-    $style                = '';
-    $pointereventstyle    ='';
-    $tabindex             = '';
-}
-if ($mailertransport != 'le.transport.amazon') {
-    $hideawsemailoptions ='hide';
-    $style               ='';
-}
 if ($dnc && $dnc['bounced']) {
     echo '<div class="alert alert-warning">'.$view['translator']->trans('le.lead.do.not.contact_bounced').'</div>';
 } else {
     echo $view['form']->start($form);
     echo $view['form']->row($form['fromname']); ?>
     <div class="row">
-      <div class="form-group col-xs-12" style="width:<?php echo $style; ?>">
+      <div class="form-group col-xs-12" style="width:76%">
            <?php echo $view['form']->row($form['from'],
-                ['attr' => ['tabindex' => $tabindex, 'style' =>$pointereventstyle]]
+                ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]
             ); ?>
       </div>
-        <li class="dropdown <?php echo $hideawsemailoptions; ?>" name="verifiedemails" id="verifiedemails" style="display: block;">
-            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;float:inherit;margin-top:23px;" data-toggle="dropdown" href="#">
+        <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;float:inherit;margin-top:25px;" data-toggle="dropdown" href="#">
                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
                 <li>
-                    <?php foreach ($verifiedemail as $key=> $value):?>
-                <li >
-                    <a class="verified-emails" id="data-verified-emails" data-verified-email="<?php echo $value; ?>"><?php echo $value; ?></a>
+                    <?php foreach ($verifiedemail as $key=> $value): ?>
+                <li>
+                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $key; ?></a>
                 </li>
                 <?php endforeach; ?>
                 </li>

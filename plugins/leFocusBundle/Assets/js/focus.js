@@ -447,7 +447,7 @@ Le.focusUpdatePreview = function () {
             mQuery('.builder-content').on('click', function () {
                 Le.closeFocusModal(mQuery('#focus_style').val());
             });
-            mQuery('.mautic-focus').on('click', function (e) {
+            mQuery('.le-focus').on('click', function (e) {
                 e.stopPropagation();
             });
         }

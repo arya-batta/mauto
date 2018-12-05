@@ -18,7 +18,7 @@ $animate   = (!empty($preview) && !empty($props['animate'])) ? ' mf-animate' : '
             border-color: #<?php echo $props['colors']['primary']; ?>
         }
     </style>
-    <div class="mautic-focus mf-<?php echo $style; ?><?php if ($placement) {
+    <div class="le-focus mf-<?php echo $style; ?><?php if ($placement) {
     echo " mf-$style-$placement";
 } ?><?php echo $animate; ?>">
         <div class="mf-<?php echo $style; ?>-container">

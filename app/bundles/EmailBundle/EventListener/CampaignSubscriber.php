@@ -174,7 +174,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
-                'order'           => 4,
+                'order'           => 1,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
@@ -198,7 +198,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'le.email.campaign.event.move.dripcampaign_descr',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'dripemail_move',
-                'order'           => 2,
+                'order'           => 5,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
@@ -232,7 +232,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
-                'order'           => 11,
+                'order'           => 13,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
@@ -270,7 +270,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'le.lead.lead.events.remove.dripcampaigndesc',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'dripemailsend_list',
-                'order'           => 2,
+                'order'           => 3,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );
@@ -282,7 +282,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'description'     => 'le.lead.lead.events.restart.dripcampaigndesc',
                 'eventName'       => EmailEvents::ON_CAMPAIGN_TRIGGER_ACTION,
                 'formType'        => 'dripemailsend_list',
-                'order'           => 3,
+                'order'           => 4,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );

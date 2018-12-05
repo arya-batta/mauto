@@ -479,7 +479,7 @@ switch ($style) {
                 }
 
                 // Get the main focus element
-                var focus = Focus.iframeDoc.getElementsByClassName('mautic-focus');
+                var focus = Focus.iframeDoc.getElementsByClassName('le-focus');
                 Focus.iframeFocus = focus[0];
 
                 // Insert style into iframe head

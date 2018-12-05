@@ -12,7 +12,7 @@ $props   = $focus['properties'];
 $color   = \MauticPlugin\leFocusBundle\Model\FocusModel::isLightColor($props['colors']['primary']) ? '000000' : 'ffffff';
 $animate = (!empty($preview) && !empty($props['animate'])) ? ' mf-animate' : '';
 ?>
-<div class="mautic-focus mf-bar mf-bar-<?php echo $props['bar']['size']; ?> mf-bar-<?php echo $props['bar']['placement']; ?><?php if ($props['bar']['sticky']) {
+<div class="le-focus mf-bar mf-bar-<?php echo $props['bar']['size']; ?> mf-bar-<?php echo $props['bar']['placement']; ?><?php if ($props['bar']['sticky']) {
     echo ' mf-bar-sticky';
 } ?><?php echo $animate; ?>" style="background-color: #<?php echo $props['colors']['primary']; ?>;">
 

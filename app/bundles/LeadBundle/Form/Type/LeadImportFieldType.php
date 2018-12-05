@@ -161,7 +161,7 @@ class LeadImportFieldType extends AbstractType
                 $buttons,
                 [
                     'apply_text' => false,
-                    'save_text'  => 'mautic.lead.import',
+                    'save_text'  => 'le.lead.import',
                     'save_class' => 'btn le-btn-default btn-copy',
                     'save_icon'  => 'fa fa-upload',
                 ]

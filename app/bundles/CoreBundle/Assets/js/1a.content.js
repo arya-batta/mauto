@@ -1709,7 +1709,7 @@ Le.showActionButtons = function (id) {
 Le.hideFlashMessage = function () {
     mQuery(function() {
         mQuery('#flashes').delay(800).fadeIn('normal', function() {
-            mQuery(this).delay(1500).fadeOut();
+            mQuery(this).delay(3000).fadeOut();
         });
     });
 };

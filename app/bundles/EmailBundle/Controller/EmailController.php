@@ -535,8 +535,15 @@ class EmailController extends FormController
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$model->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
+        // $fromname        = $params['mailer_from_name'];
+        // $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];
         $unsubscribeText = $params['footer_text'];
         $postaladdress   = $params['postal_address'];
@@ -775,8 +782,15 @@ class EmailController extends FormController
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$model->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
+        // $fromname        = $params['mailer_from_name'];
+        // $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];
         if (empty($fromName)) {
             $entity->setFromName($fromname);

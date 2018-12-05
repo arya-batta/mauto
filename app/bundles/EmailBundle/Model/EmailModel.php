@@ -2359,18 +2359,18 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     {
         $emailids=[];
         $q       = $this->em->createQueryBuilder();
-        $q->select('a.verifiedemails')
+        $q->select('a.fromname,a.verifiedemails')
              ->from('MauticEmailBundle:AwsVerifiedEmails', 'a')
             ->where(
            $q->expr()->andX(
                $q->expr()->eq('a.verificationstatus', ':verificationstatus')
              )
-             )->setParameter('verificationstatus', 'Verified');
+             )->setParameter('verificationstatus', '0');
 
         $value = $q->getQuery()->getArrayResult();
 
         for ($i=0; $i < sizeof($value); ++$i) {
-            $emailids[]= $value[$i]['verifiedemails'];
+            $emailids[$value[$i]['fromname']]= $value[$i]['verifiedemails'];
         }
 
         return $emailids;
@@ -2392,22 +2392,88 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         return $emailids;
     }
 
-    public function upAwsEmailVerificationStatus($emails)
+    public function isSenderProfileVerified($email)
     {
-        $q = $this->factory->getEntityManager()->getConnection()->createQueryBuilder();
-        foreach ($emails as $key => $email) {
-            $q->update(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
-            ->set('verification_status', ':status')
-            ->setParameter('status', 'Verified')
-            ->where('verified_emails = '.'"'.$email.'"');
-
-            $q->execute();
+        $q= $this->em->createQueryBuilder();
+        $q->select('a.verifiedemails,a.verificationstatus')
+            ->from('MauticEmailBundle:AwsVerifiedEmails', 'a');
+        $q->where($q->expr()->eq('a.verifiedemails', ':email'));
+        $q->setParameter('email', $email, 'string');
+        $results = $q->getQuery()->getArrayResult();
+        if (sizeof($results) > 0) {
+            return $results[0]['verificationstatus'];
+        } else {
+            return '2';
         }
+    }
+
+    public function verifySenderProfile($idhash)
+    {
+        $response      =['status'=>true, 'email'=>''];
+        $respository   =$this->getAwsVerifiedEmailsRepository();
+        $senderprofiles=$respository->findBy(
+            [
+                'idhash' => $idhash,
+            ]
+        );
+        if (sizeof($senderprofiles) > 0) {
+            $senderprofile=$senderprofiles[0];
+            $senderprofile->setVerificationStatus('0');
+            $respository->saveEntity($senderprofile);
+            $response['email']=$senderprofile->getVerifiedEmails();
+        } else {
+            $response['status']=false;
+        }
+
+        return $response;
+    }
+
+    public function getDefaultSenderProfile()
+    {
+        $defaultprofile=[];
+        $q             = $this->em->createQueryBuilder();
+        $q->select('a.verifiedemails,a.fromname')
+        ->from('MauticEmailBundle:AwsVerifiedEmails', 'a');
+        $q->where($q->expr()->eq('a.verificationstatus', ':status'));
+        $q->setParameter('status', '0', 'string');
+        $q->orderBy('a.id', 'ASC')->setMaxResults(1);
+        $results = $q->getQuery()->getArrayResult();
+        if (sizeof($results) > 0) {
+            $defaultprofile[]=$results[0]['fromname'];
+            $defaultprofile[]=$results[0]['verifiedemails'];
+        }
+
+        return $defaultprofile;
+    }
+
+    public function upAwsEmailVerificationStatus($verifiedemails)
+    {
+        $allemails=$this->getAllEmailAddress();
+        $q        = $this->em->getConnection()->createQueryBuilder();
+        foreach ($allemails as $key => $email) {
+            if (in_array($email, $verifiedemails)) {
+                $q->update(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
+                    ->set('verification_status', ':status')
+                    ->setParameter('status', '0')
+                    ->where('verified_emails = '.'"'.$email.'"');
+                $q->execute();
+            }
+        }
+    }
+
+    public function resetAllSenderProfiles()
+    {
+        $q = $this->em->getConnection()->createQueryBuilder();
+
+        $q->update(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
+                ->set('verification_status', ':status')
+                ->setParameter('status', '1');
+        $q->execute();
     }
 
     public function upAwsDeletedEmailVerificationStatus($email)
     {
-        $q = $this->factory->getEntityManager()->getConnection()->createQueryBuilder();
+        $q = $this->em->getConnection()->createQueryBuilder();
         $q->update(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
                 ->set('verification_status', ':status')
                 ->setParameter('status', 'Pending')
@@ -2419,7 +2485,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     public function deleteAwsVerifiedEmails($email)
     {
         $emailId = trim(preg_replace('/\s\s+/', ' ', $email));
-        $q       = $this->factory->getEntityManager()->getConnection()->createQueryBuilder();
+        $q       = $this->em->getConnection()->createQueryBuilder();
         $q->delete(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
            ->where('verified_emails = :emails')
            ->setParameter('emails', $emailId)
