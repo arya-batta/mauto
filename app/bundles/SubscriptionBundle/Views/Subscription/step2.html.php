@@ -14,6 +14,7 @@
 <?php echo $view->render('MauticCoreBundle:Default:head.html.php'); ?>
 
 <body class="header-fixed">
+<?php echo $view->render('MauticCoreBundle:Default:googletagmanager.html.php'); ?>
 <section id="app-wrapper">
 
 <div id="complete_profile_header">

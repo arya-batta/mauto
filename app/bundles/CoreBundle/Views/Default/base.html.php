@@ -13,6 +13,7 @@
 <html>
 <?php echo $view->render('MauticCoreBundle:Default:head.html.php'); ?>
 <body class="header-fixed">
+<?php echo $view->render('MauticCoreBundle:Default:googletagmanager.html.php'); ?>
 <!-- start: app-wrapper -->
 <section id="app-wrapper">
     <?php $view['assets']->outputScripts('bodyOpen'); ?>

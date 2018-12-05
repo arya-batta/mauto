@@ -13,6 +13,7 @@
 <html>
     <?php echo $view->render('MauticCoreBundle:Default:head.html.php'); ?>
     <body>
+    <?php echo $view->render('MauticCoreBundle:Default:googletagmanager.html.php'); ?>
         <?php $view['assets']->outputScripts('bodyOpen'); ?>
         <section id="app-content" class="container content-only">
             <?php echo $view->render('MauticCoreBundle:Notification:flashes.html.php', ['alertType' => 'standard']); ?>

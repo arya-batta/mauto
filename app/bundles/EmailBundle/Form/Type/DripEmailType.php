@@ -76,8 +76,14 @@ class DripEmailType extends AbstractType
         $emailProvider   = $this->licenseHelper->getEmailProvider();
         $configurator    = $this->factory->get('mautic.configurator');
         $params          = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname        = ''; //$params['mailer_from_name'];
+        $fromadress      = ''; //$params['mailer_from_email'];
+        $emailmodel      =$this->factory->getModel('email');
+        $defaultsender   =$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
         $unsubscribetxt  = $params['unsubscribe_text'];
         $postaladdress   = $params['postal_address'];
         $days            = [

@@ -34,43 +34,22 @@ $leContent = $view['slots']->get(
 <?php $view['assets']->outputSystemScripts(true); ?>
 <?php $view['assets']->outputBeeEditorScripts(); ?>
 <?php
-if ($leContent == 'subscription' || $leContent == 'prepaidplans') {
-    echo '<script src="https://checkout.razorpay.com/v1/checkout.js"></script>';
-}
+//if ($leContent == 'subscription' || $leContent == 'prepaidplans') {
+//    echo '<script src="https://checkout.razorpay.com/v1/checkout.js"></script>';
+//}
 //if ($leContent == 'accountinfo' || $leContent == 'pricingplans') {
     echo '<script src="https://js.stripe.com/v3/"></script>';
 //}
 ?>
 <?php
-if ($leContent != 'user') {
-    echo '<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src=\'https://embed.tawk.to/5acda3a2d7591465c7096324/default\';
-        s1.charset=\'UTF-8\';
-        s1.setAttribute(\'crossorigin\',\'*\');
-        s0.parentNode.insertBefore(s1,s0);
-    })();
-</script>
-<!--End of Tawk.to Script-->
-<!-- Start of Support Hero Script-->
-<script async data-cfasync="false" src="https://d29l98y0pmei9d.cloudfront.net/js/widget.min.js?k=Y2xpZW50SWQ9MTgyOSZob3N0TmFtZT1sZWFkc2VuZ2FnZS5zdXBwb3J0aGVyby5pbw=="></script>
-<!-- End of Support Hero Script-->';
-}
-
-echo '<!-- Hotjar Tracking Code for https://leadsengage.com -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:876063,hjsv:6};
-        a=o.getElementsByTagName(\'head\')[0];
-        r=o.createElement(\'script\');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');
-</script>';
+//if ($leContent != 'user') {
+echo '<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({\'gtm.start\':
+new Date().getTime(),event:\'gtm.js\'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';j.async=true;j.src=
+\'https://www.googletagmanager.com/gtm.js?id=\'+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,\'script\',\'dataLayer\',\'GTM-5SC6L7G\');</script>
+<!-- End Google Tag Manager -->';
+//}
 ?>
 

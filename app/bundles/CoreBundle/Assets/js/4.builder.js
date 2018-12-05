@@ -521,11 +521,13 @@ Le.setThemeHtml = function(theme) {
  */
 
 Le.setBeeTemplateJSON = function(template) {
-    Le.setBeeTemplateHTML(template);
-    mQuery.get(mQuery('#builder_url').val()+'?beetemplate=' + template, function(templatejson) {
-        var textarea = mQuery('textarea.bee-editor-json');
-        textarea.val(templatejson);
-    });
+    if(template != ""){
+        Le.setBeeTemplateHTML(template);
+        mQuery.get(mQuery('#builder_url').val()+'?beetemplate=' + template, function(templatejson) {
+            var textarea = mQuery('textarea.bee-editor-json');
+            textarea.val(templatejson);
+        });
+    }
 };
 
 /**
