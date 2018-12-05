@@ -83,6 +83,7 @@ if ($formcontainserror) {
 }
 $isgoogletags= false; //$email->getGoogletags();
 ?>
+<?php /** ?>
 <div class="fixed-header" style="margin-top: -75px;left: 75%;position: fixed;">
     <div class="toolbar-form-buttons  pull-right">
         <div class="btn-group toolbar-standard hidden-xs hidden-sm ">
@@ -96,6 +97,7 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
     </div>
 </div>
+      <?php */ ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
     <div class="template-content " style="padding: 26px;display: block;
     border-width: 0;

@@ -95,34 +95,72 @@ class SearchSubscriber extends CommonSubscriber
                 'expr'   => 'neq',
                 'value'  => 'dripemail',
             ];
-            $emails = $this->emailModel->getEntities(
+            $emailgroups = $this->emailModel->getEntities(
                 [
                     'limit'  => 5,
                     'filter' => $filter,
                 ]);
 
-            if (count($emails) > 0) {
+            $lists = [];
+            $templates = [];
+
+            foreach($emailgroups as $key => $emailgroup) {
+
+                if($emailgroup->getEmailType() == 'list'){
+                    $lists[$key] = $emailgroup;
+                }else{
+                    $templates[$key] = $emailgroup;
+                }
+            }
+
+            if (count($lists) > 0) {
                 $emailResults = [];
 
-                foreach ($emails as $email) {
+                foreach ($lists as $email) {
                     $emailResults[] = $this->templating->renderResponse(
                         'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
-                        ['email' => $email]
+                        ['email' => $email,'type'=> 'list']
                     )->getContent();
                 }
-                if (count($emails) > 5) {
+                if (count($lists) > 5) {
                     $emailResults[] = $this->templating->renderResponse(
                         'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
                         [
                             'showMore'     => true,
                             'searchString' => $str,
-                            'remaining'    => (count($emails) - 5),
+                            'remaining'    => (count($lists) - 5),
+                            'type'         => 'list'
                         ]
                     )->getContent();
                 }
-                $emailResults['count'] = count($emails);
+                $emailResults['count'] = count($lists);
                 $event->addResults('le.email.emails', $emailResults);
             }
+
+            if (count($templates) > 0) {
+                $emailResults = [];
+
+                foreach ($templates as $email) {
+                    $emailResults[] = $this->templating->renderResponse(
+                        'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
+                        ['email' => $email,'type'=> 'template']
+                    )->getContent();
+                }
+                if (count($templates) > 5) {
+                    $emailResults[] = $this->templating->renderResponse(
+                        'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
+                        [
+                            'showMore'     => true,
+                            'searchString' => $str,
+                            'remaining'    => (count($templates) - 5),
+                            'type'         => 'template'
+                        ]
+                    )->getContent();
+                }
+                $emailResults['count'] = count($templates);
+                $event->addResults('le.email.notification_email', $emailResults);
+            }
+
             $dripfilter      = ['string' => $str, 'force' => []];
             $drips           = $this->dripModel->getEntities(
                 [

@@ -48,14 +48,25 @@ class TokenSubscriber extends CommonSubscriber
         $subject = $event->getSubject();
         $content = preg_replace('/(%7B)(.*?)(%7D)/i', '{$2}', $content, -1, $count);
 
-        if (!empty($lead) && isset($lead['owner_id'])) {
-            $leadowner = $this->factory->getModel('lead')->getRepository()->getLeadOwner($lead['owner_id']);
-            $content   = str_replace('{lead_owner_name}', $leadowner['first_name'], $content);
-            $content   = str_replace('{lead_owner_mobile}', $leadowner['mobile'], $content);
-            $content   = str_replace('{lead_owner_email}', $leadowner['email'], $content);
-            $subject   = str_replace('{lead_owner_name}', $leadowner['first_name'], $subject);
-            $subject   = str_replace('{lead_owner_mobile}', $leadowner['mobile'], $subject);
-            $subject   = str_replace('{lead_owner_email}', $leadowner['email'], $subject);
+        if (!empty($lead) && $lead['id']!= null) {
+
+            $ownername   =  '';
+            $ownermobile =  '';
+            $owneremail  =  '';
+            $leadowner   = $this->factory->getModel('lead')->getEntity($lead['id'])->getOwner();
+
+            if($leadowner != null){
+                $ownername   = $leadowner->getName();
+                $ownermobile = $leadowner->getMobile();
+                $owneremail  = $leadowner->getEmail();
+            }
+
+            $content   = str_replace('{lead_owner_name}', $ownername, $content);
+            $content   = str_replace('{lead_owner_mobile}', $ownermobile, $content);
+            $content   = str_replace('{lead_owner_email}', $owneremail, $content);
+            $subject   = str_replace('{lead_owner_name}', $ownername, $subject);
+            $subject   = str_replace('{lead_owner_mobile}', $ownermobile, $subject);
+            $subject   = str_replace('{lead_owner_email}', $owneremail, $subject);
         }
         $event->setSubject($subject);
         $event->setContent($content);

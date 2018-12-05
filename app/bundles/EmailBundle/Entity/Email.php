@@ -533,15 +533,6 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint(
-            'name',
-            new NotBlank(
-                [
-                    'message' => 'le.email.name.notblank',
-                ]
-            )
-        );
-
-        $metadata->addPropertyConstraint(
             'subject',
             new NotBlank(
                 [

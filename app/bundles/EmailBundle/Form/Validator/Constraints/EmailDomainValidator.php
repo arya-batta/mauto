@@ -52,7 +52,11 @@ class EmailDomainValidator extends ConstraintValidator
         if ($value != '' && preg_match($regexval, $value)) {
             return;
         } else {
-            $this->context->addViolation($this->translator->trans('le.email.domain.verification.error'));
+            if ($value == ''){
+                $this->context->addViolation($this->translator->trans('le.email.fromAddres.required'));
+            }else{
+                $this->context->addViolation($this->translator->trans('le.email.domain.verification.error'));
+            }
         }
     }
 }
