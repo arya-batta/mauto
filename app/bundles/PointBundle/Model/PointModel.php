@@ -304,13 +304,12 @@ class PointModel extends CommonFormModel
                     $log->setDateFired(new \DateTime());
 
                     $persist[] = $log;
-
-                    $score = $action->getScore();
-
-                    if ($lead !== null && !empty($score)) {
-                        $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
-                    }
                 }
+            }
+            $score = $action->getScore();
+
+            if ($lead !== null && !empty($score)) {
+                $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
             }
         }
 

@@ -64,7 +64,7 @@ class PointSubscriber extends CommonSubscriber
             'label'    => 'le.email.point.action.open',
             'callback' => ['\\Mautic\\EmailBundle\\Helper\\PointEventHelper', 'validateEmail'],
             'formType' => 'emailopen_list',
-            'formTheme'=> 'MauticEmailBundle:FormTheme\Point',
+            'formTheme'=> 'MauticPointBundle:FormTheme\Action',
         ];
 
         $event->addAction('email.open', $action);
@@ -74,7 +74,7 @@ class PointSubscriber extends CommonSubscriber
             'label'    => 'le.email.point.action.send',
             'callback' => ['\\Mautic\\EmailBundle\\Helper\\PointEventHelper', 'validateEmail'],
             'formType' => 'emailopen_list',
-            'formTheme'=> 'MauticEmailBundle:FormTheme\Point',
+            'formTheme'=> 'MauticPointBundle:FormTheme\Action',
         ];
 
         $event->addAction('email.send', $action);

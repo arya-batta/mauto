@@ -124,11 +124,21 @@ Le.EnablesOption = function (urlActionProperty) {
 };
 
 Le.getSelectedCampaignValue = function (value) {
-    if(value == "broadcast"){
+    if(value == "broadcast") {
+        var formType = 'point_properties_driplist';
+        if (mQuery(location).attr('href').includes("automations")) {
+            formType = 'campaignevent_properties_driplist';
+        }
+        Le.resetDropDownValues(formType);
         mQuery('#pointemailaction').removeClass('hide');
         mQuery('#pointdripemailaction').addClass('hide');
         mQuery('#dripemaillist').addClass('hide');
-    } else if(value == "drip"){
+    } else if(value == "drip") {
+        var formType = 'point_properties_emails';
+        if (mQuery(location).attr('href').includes("automations")) {
+            formType = 'campaignevent_properties_emails';
+        }
+        Le.resetDropDownValues(formType);
         mQuery('#pointdripemailaction').removeClass('hide');
         var dripList=mQuery('#point_properties_dripemail').val();
         if(dripList != ''){
@@ -160,14 +170,14 @@ Le.convertDripFilterInput = function (templateId) {
                 if (mQuery('#'+eventType + '_chosen').length) {
                     mQuery('#'+eventType).chosen('destroy');
                 }
-                var index=0;
+                //var index=0;
                 mQuery.each(templateOptions, function (value, label) {
                     var newOption = mQuery('<option/>').val(value).text(label);
-                    if(index == 0){
-                        mQuery(newOption).attr('selected','selected');
-                    }
+                    //if(index == 0){
+                     //   mQuery(newOption).attr('selected','selected');
+                   // }
                     newOption.appendTo(mQuery('#'+eventType));
-                    index++;
+                   // index++;
                 });
                 Le.activateChosenSelect('#'+eventType);
             }
@@ -176,4 +186,11 @@ Le.convertDripFilterInput = function (templateId) {
             Le.removeLabelLoadingIndicator();
         }
     });
+};
+Le.resetDropDownValues =function (type) {
+    mQuery('#'+type + ' ' +'option').removeAttr("selected");
+    if (mQuery('#'+type + '_chosen').length) {
+        mQuery('#'+type).chosen('destroy');
+    }
+    Le.activateChosenSelect(mQuery('#'+type));
 };

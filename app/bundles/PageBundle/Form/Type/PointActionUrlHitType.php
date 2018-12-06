@@ -49,10 +49,10 @@ class PointActionUrlHitType extends AbstractType
 
         $builder->add('page_hits', 'integer', [
             'label'      => 'le.page.hits',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label hide'],
             'required'   => false,
             'attr'       => [
-                'class'   => 'form-control le-input',
+                'class'   => 'form-control le-input hide',
                 'tooltip' => 'le.page.point.action.form.page.hits.descr',
             ],
         ]);
@@ -68,9 +68,9 @@ class PointActionUrlHitType extends AbstractType
                 $builder->create('accumulative_time', 'text', [
                     'label'      => 'le.page.point.action.form.accumulative.time',
                     'required'   => false,
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'control-label hide'],
                     'attr'       => [
-                        'class'   => 'form-control le-input',
+                        'class'   => 'form-control le-input hide',
                         'tooltip' => 'le.page.point.action.form.accumulative.time.descr',
                     ],
                     'auto_initialize' => false,
@@ -89,9 +89,9 @@ class PointActionUrlHitType extends AbstractType
                 $builder->create('returns_within', 'text', [
                     'label'      => 'le.page.point.action.form.returns.within',
                     'required'   => false,
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'control-label hide'],
                     'attr'       => [
-                        'class'   => 'form-control le-input',
+                        'class'   => 'form-control le-input hide',
                         'tooltip' => 'le.page.point.action.form.returns.within.descr',
                         'onBlur'  => 'Le.EnablesOption(this.id)',
                     ],
@@ -110,9 +110,9 @@ class PointActionUrlHitType extends AbstractType
                 $builder->create('returns_after', 'text', [
                     'label'      => 'le.page.point.action.form.returns.after',
                     'required'   => false,
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'control-label hide'],
                     'attr'       => [
-                        'class'   => 'form-control le-input',
+                        'class'   => 'form-control le-input hide',
                         'tooltip' => 'le.page.point.action.form.returns.after.descr',
                         'onBlur'  => 'Le.EnablesOption(this.id)',
                     ],
