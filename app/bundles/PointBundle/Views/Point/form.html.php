@@ -23,26 +23,34 @@ echo $view['form']->start($form);
 <div class="box-layout border-margin">
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto" id="details">
-    	<div class="row">
+        <div class="row">
             <div class="col-md-6">
                 <div class="pa-md">
-                    <?php
-                    echo $view['form']->row($form['name']);
-                    echo $view['form']->row($form['delta']);
-                    ?>
+                <?php echo $view['form']->row($form['name']); ?>
+            </div>
+            </div>
+            <div class="col-md-6">
+                <div class="pa-md">
+                <?php echo $view['form']->row($form['category']); ?>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pa-md">
+                    <?php echo $view['form']->row($form['delta']); ?>
                 </div>
             </div>
-    		<div class="col-md-6">
-		        <div class="pa-md">
-                    <?php echo $view['form']->row($form['category']);
-                          echo $view['form']->row($form['score']); ?>
-				</div>
-			</div>
             <div class="col-md-6">
                 <div class="pa-md">
-                    <?php
-                    echo $view['form']->row($form['type']);
-                    ?>
+                    <?php echo $view['form']->row($form['score']); ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pa-md">
+                    <?php echo $view['form']->row($form['type']); ?>
                 </div>
             </div>
             <div class="col-md-6">
@@ -56,14 +64,15 @@ echo $view['form']->start($form);
                     </div>
                 </div>
             </div>
-			<div class="col-md-12">
-				<div <?php echo $isAdmin ? 'class="pa-md"' : 'class="hide"' ?>>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div <?php echo $isAdmin ? 'class="pa-md"' : 'class="hide"' ?>>
                     <?php echo $view['form']->row($form['description']);
-                          echo $view['form']->row($form['isPublished']); ?>
-				</div>
-			</div>
-		</div>
-	</div>
+                    echo $view['form']->row($form['isPublished']); ?>
+                </div>
+            </div>
+        </div>
  	<div class="hide col-md-3 bg-white height-auto">
 		<div class="pr-lg pl-lg pt-md pb-md">
             <?php  echo $view['form']->row($form['category']);

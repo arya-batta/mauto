@@ -89,8 +89,8 @@ class PointType extends AbstractType
         $builder->add('score', 'choice', [
             'choices' => [
                 'hot' => 'le.lead.lead.scoretype.hot',
-                'cold'=> 'le.lead.lead.scoretype.cold',
                 'warm'=> 'le.lead.lead.scoretype.warm',
+                'cold'=> 'le.lead.lead.scoretype.cold',
             ],
             'empty_value' => '',
             'label'       => 'le.lead.lead.event.changescore',
