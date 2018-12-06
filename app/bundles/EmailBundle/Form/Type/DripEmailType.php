@@ -73,19 +73,20 @@ class DripEmailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber(new FormExitSubscriber('email.dripemail', $options));
-        $emailProvider   = $this->licenseHelper->getEmailProvider();
-        $configurator    = $this->factory->get('mautic.configurator');
-        $params          = $configurator->getParameters();
-        $fromname        = ''; //$params['mailer_from_name'];
-        $fromadress      = ''; //$params['mailer_from_email'];
-        $emailmodel      =$this->factory->getModel('email');
-        $defaultsender   =$emailmodel->getDefaultSenderProfile();
+        $emailProvider       = $this->licenseHelper->getEmailProvider();
+        $configurator        = $this->factory->get('mautic.configurator');
+        $coreParameterHelper = $this->factory->get('mautic.helper.core_parameters');
+        $params              = $configurator->getParameters();
+        $fromname            = ''; //$params['mailer_from_name'];
+        $fromadress          = ''; //$params['mailer_from_email'];
+        $emailmodel          =$this->factory->getModel('email');
+        $defaultsender       =$emailmodel->getDefaultSenderProfile();
         if (sizeof($defaultsender) > 0) {
             $fromname  =$defaultsender[0];
             $fromadress=$defaultsender[1];
         }
-        $unsubscribetxt  = $params['unsubscribe_text'];
-        $postaladdress   = $params['postal_address'];
+        $unsubscribetxt  = $coreParameterHelper->getParameter('footer_text');
+        $postaladdress   = $coreParameterHelper->getParameter('postal_address');
         $days            = [
             'Mon'        => 'le.drip.email.schedule.day.monday',
             'Tue'        => 'le.drip.email.schedule.day.tuesday',

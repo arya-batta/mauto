@@ -218,7 +218,7 @@
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs">
                             <a class="btn btn-default text-primary le-btn-default custom-preview-button" style="background-color: #ec407a;color:#FFFFFF;font-size:13px;" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => 'noBluePrint'], true)?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('le.email.preview.tooltip'); ?>" target="_blank">
+                               title="<?php echo $view['translator']->trans('le.drip.email.preview.tooltip'); ?>" target="_blank">
                                 <?php echo $view['translator']->trans('le.drip.email.list.preview'); ?>
                             </a>
                         </span>
@@ -226,7 +226,7 @@
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs">
                             <a class="btn btn-default text-primary le-btn-default custom-preview-button" style="background-color: #ec407a;color:#FFFFFF;font-size:13px;" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('le.email.wizard.sendexample'); ?>">
+                               title="<?php echo $view['translator']->trans('le.drip.email.wizard.sendexample.tooltip'); ?>">
                                <?php echo $view['translator']->trans('le.drip.email.send'); ?>
                             </a>
                         </span>

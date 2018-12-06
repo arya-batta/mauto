@@ -20044,14 +20044,15 @@ ol, ul {
   margin-top:60px;
 }
 .checkboxcontroller {
-  font-family: arial;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   display: block;
   position: relative;
   padding-left: 22px;
   margin-bottom: 5px;
   padding-top: 1px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight:normal;
 }
 .checkboxcontroller input {
   position: absolute;

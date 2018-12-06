@@ -57,12 +57,14 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
         <?php endif; ?>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+        <div>
         <span id="upgrade-now" class="mailbox-read-time hide">
 
         </span>
         <span id="upgrade-info-trial-info" class="mailbox-read-time hide">
 
         </span>
+        </div>
     </ul>
     <!-- start: right nav -->
    <!-- <ul class="nav navbar-nav navbar-right">

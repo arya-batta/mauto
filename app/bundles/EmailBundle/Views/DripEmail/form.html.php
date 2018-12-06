@@ -314,8 +314,14 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <?php echo $view['form']->row($form['scheduleDate']); ?>
+                        <a class="btn btn-default le-btn-default btn-nospin custom-preview-button pink-background reset-time-button" onclick="Le.ClearScheduleTimeWidget();">
+                            <span><i class="fa fa-refresh"></i></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+
                     </div>
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['daysEmailSend']); ?>

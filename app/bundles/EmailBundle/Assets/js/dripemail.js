@@ -505,3 +505,6 @@ Le.useBluePrintDrip = function(ele){
         }
     });
 }
+Le.ClearScheduleTimeWidget = function(){
+    mQuery('#dripemailform_scheduleDate').val('');
+}
