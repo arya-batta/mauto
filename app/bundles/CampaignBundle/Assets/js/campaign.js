@@ -516,12 +516,24 @@ Le.updateTriggerPath=function (rootelement) {
         nextposition=nextposition + +Le.WF_TRIGGER_NODE_GAP_WIDTH_CONSTANT;
     }
     var insertnode=rootelement.parentNode.children[rootelement.parentNode.children.length-1];
-    var rootnodematrix=rootelement.transform.baseVal[0].matrix;
+    var rootnodematrix={};
+    if(typeof(rootelement.transform.baseVal.length)  === "undefined")
+    {
+        rootnodematrix=rootelement.transform.baseVal.getItem(0).matrix;//for ios safari browswer
+    }else{
+        rootnodematrix=rootelement.transform.baseVal[0].matrix;
+    }
     insertnode.setAttributeNS(null, "transform", 'translate('+nextposition+','+(rootnodematrix.f + +14)+')');
     var paths=[];
     for(var ch=0;ch<childrens.length;ch++){
         var child=childrens[ch];
-        var matrix=child.transform.baseVal[0].matrix;
+        var matrix={};
+        if(typeof(child.transform.baseVal.length)  === "undefined")
+        {
+            matrix=child.transform.baseVal.getItem(0).matrix;//for ios safari browswer
+        }else{
+            matrix=child.transform.baseVal[0].matrix;
+        }
         var bcr=child.getBoundingClientRect();
         var xposition=matrix.e;
         //alert("X:"+xposition+",Width:"+(bcr.width));
