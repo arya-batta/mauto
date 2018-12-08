@@ -131,7 +131,7 @@ $isAdmin              = $view['security']->isAdmin();
                     </a>
                 </div>
             </div>
-            <div class="dripemail-body" style="margin-top:-50px;">
+            <div class="dripemail-body" style="margin-top:-14px;">
                 <div class="hide" id="drip-email-container">
                     <div class="row">
                         <div class="col-md-8">
@@ -155,7 +155,7 @@ $isAdmin              = $view['security']->isAdmin();
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="z-index:10000;">
                             <?php echo $view['form']->row($emailform['previewText']); ?>
                         </div>
                     </div>
@@ -214,7 +214,7 @@ $isAdmin              = $view['security']->isAdmin();
                 </div>
                 <br>
                 <br>
-                <div class="" id="drip-email-list-container">
+                <div class="" id="drip-email-list-container" style="margin-top: -36px">
                     <?php echo $view->render('MauticEmailBundle:DripEmail:emaillist.html.php', [
                         'items'           => $items,
                         'permissions'     => $permissions,

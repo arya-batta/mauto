@@ -238,7 +238,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.drip.searchcommand.unsubscribe', [], null, 'en_US'):
                     $this->buildDripUnsubscribeQuery($event);
                 break;
-
+            case $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled'):
+            case $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled', [], null, 'en_US'):
+                $this->buildDripScheduledQuery($event);
+                break;
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
                 $this->buildDripEmailSentQuery($event);
@@ -265,7 +268,15 @@ class SearchSubscriber extends CommonSubscriber
             $nq->select('l.id'); // select only id
             $nsql = $nq->getSQL();
             foreach ($nq->getParameters() as $pk => $pv) { // replace all parameters
-                $nsql = preg_replace('/:'.$pk.'/', is_bool($pv) ? (int) $pv : $pv, $nsql);
+                if(!is_array($pv)) {
+                    $nsql = preg_replace('/:' . $pk . '/', is_bool($pv) ? (int)$pv : $pv, $nsql);
+                }else{
+                    $temp=json_encode($pv);
+                    $remov = array("[", "]");
+                    $replc   = array("", "");
+                    $pv = str_replace($remov, $replc, $temp);
+                    $nsql = preg_replace('/:' . $pk . '/',$pv, $nsql);
+                }
             }
             $query = $q->expr()->in('l.id', sprintf('(%s)', $nsql));
             $event->setSubQuery($query);
@@ -516,7 +527,24 @@ class SearchSubscriber extends CommonSubscriber
 
         $this->buildJoinQuery($event, $tables, $config);
     }
+    private function buildDripScheduledQuery(LeadBuildSearchEvent $event){
+        $tables = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'dripemail_lead_event_log',
+                'alias'      => 'el',
+                'condition'  => 'l.id = el.lead_id',
+            ],
+        ];
+        $config = [
+            'column'  => 'el.email_id',
+            'params'  => [
+                'is_scheduled' => 1,
+            ]
+        ];
 
+        $this->buildJoinQuery($event, $tables, $config);
+    }
     /**
      * @param LeadBuildSearchEvent $event
      */

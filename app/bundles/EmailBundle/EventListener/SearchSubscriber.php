@@ -97,7 +97,7 @@ class SearchSubscriber extends CommonSubscriber
             ];
             $emailgroups = $this->emailModel->getEntities(
                 [
-                    'limit'  => 5,
+                    //'limit'  => 5,
                     'filter' => $filter,
                 ]);
 
@@ -115,12 +115,15 @@ class SearchSubscriber extends CommonSubscriber
 
             if (count($lists) > 0) {
                 $emailResults = [];
-
+                $count =0;
                 foreach ($lists as $email) {
-                    $emailResults[] = $this->templating->renderResponse(
-                        'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
-                        ['email' => $email,'type'=> 'list']
-                    )->getContent();
+                    if($count < 5) {
+                        $emailResults[] = $this->templating->renderResponse(
+                            'MauticEmailBundle:SubscribedEvents\Search:global.html.php',
+                            ['email' => $email, 'type' => 'list']
+                        )->getContent();
+                        $count++;
+                    }
                 }
                 if (count($lists) > 5) {
                     $emailResults[] = $this->templating->renderResponse(

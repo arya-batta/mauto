@@ -1059,6 +1059,7 @@ Le.checkemailstatus = function(){
 }
 
 Le.changeButtonPanelStyle = function (){
+    /*
     if(!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')){
         mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
         if(mQuery('.license-notifiation').hasClass('hide')) {
@@ -1073,5 +1074,5 @@ Le.changeButtonPanelStyle = function (){
         } else {
             mQuery('#fixed-content').attr('style', 'margin-top:215px;');
         }
-    }
+    }*/
 }

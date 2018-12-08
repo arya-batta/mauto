@@ -955,6 +955,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.tag',
             'le.lead.lead.searchcommand.stage',
             'le.lead.lead.searchcommand.duplicate',
+            'le.lead.lead.searchcommand.drip_scheduled',
             'le.lead.lead.searchcommand.email_sent',
             'le.lead.lead.searchcommand.email_read',
             'le.lead.lead.searchcommand.email_click',
@@ -1350,6 +1351,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere("l.created_by  IS NULL");
         }
 
         $results = $q->execute()->fetchAll();
@@ -1372,6 +1374,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
 
         $results = $q->execute()->fetchAll();

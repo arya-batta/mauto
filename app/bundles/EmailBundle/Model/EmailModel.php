@@ -1662,6 +1662,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
         foreach ($leads as $lead) {
             $this->leadModel->removeDncForLead($lead, 'email');
+            $this->getRepository()->downUnsubscribeStat($emailAdress->getId(),$lead->getId());
+
         }
     }
 

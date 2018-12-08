@@ -151,7 +151,10 @@
                     <td class="visible-sm visible-md visible-lg drip-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="scheduled-count-<?php echo $item->getId(); ?>">
-                            <a data-toggle="tooltip"
+                            <a href="<?php echo $view['router']->path(
+                                'le_contact_index',
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.drip_scheduled').':'.$item->getId()]
+                            ); ?>"data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.drip.email.scheduled_leads'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
@@ -192,7 +195,7 @@
                             id="read-percent-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
                                 'le_contact_index',
-                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
+                                ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_click').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
@@ -202,11 +205,11 @@
                         </span>
                     </td>
                     <td class="visible-sm visible-md visible-lg" style="width:40%;">
-                        <div class="row" style="margin-left:10px;margin-right:-30px;">
-                            <div class="col-md-5" style="width:36%;">
+                        <div class="row" style="margin-left:-58px;margin-right:-48px;">
+                            <div class="col-md-5" style="width:64px;margin-left: 14%;">
                             <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
-                            <div class="col-md-7" id="drip-email-delay" style="position:relative;right:30px;">
+                            <div class="col-md-7" id="drip-email-delay" style="position:relative;width:63%;margin-left: -29px">
                                 <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
                                     <option <?php echo $scheduleFrequency == 1 ? 'selected' : ''; ?> value="days">day</option>
                                     <option <?php echo $scheduleFrequency == 2 ? 'selected' : ''; ?> value="hours">hours</option>
