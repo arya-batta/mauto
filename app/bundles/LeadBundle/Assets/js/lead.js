@@ -419,6 +419,9 @@ Le.leadlistOnLoad = function(container) {
         });
     }
     Le.removeActionButtons();
+    if (mQuery('.filter-field-segment').hasClass('has-error')){
+        mQuery('#segment_filters_tab').click();
+    }
 };
 Le.addnewFilterAndGroup=function(prefix,defaultglue){
     var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
@@ -440,6 +443,7 @@ Le.registerEventsforFilterGroupButtons=function(prefix){
             Le.addLeadListFilter('default',filterpanelholder,type);
             Le.registerEventsForFilterLists();
             Le.registerEventsforFilterGroupButtons(prefix);
+            Le.registerEventsForFilterRemove(prefix);
         }else{
             Le.addnewFilterAndGroup(prefix,'or');
         }

@@ -66,6 +66,8 @@ trait FilterTrait
             $field = $options['fields']['pages'][$fieldName];
         } elseif (isset($options['fields']['emails'][$fieldName])) {
             $field = $options['fields']['emails'][$fieldName];
+        }elseif  (isset($options['fields']['one_of_campaign'][$fieldName])) {
+            $field = $options['fields']['one_of_campaign'][$fieldName];
         } elseif (isset($options['fields']['date_activity'][$fieldName])) {
             $field = $options['fields']['date_activity'][$fieldName];
         } elseif (isset($options['fields']['list_tags'][$fieldName])) {

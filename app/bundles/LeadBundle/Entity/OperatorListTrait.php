@@ -326,6 +326,21 @@ trait OperatorListTrait
             'expr'        => 'lte',
             'negate_expr' => 'gte',
         ],
+        'month_last' => [
+            'label'       => 'le.core.operator.month_last',
+            'expr'        => 'gte',
+            'negate_expr' => 'lte',
+        ],
+        'month_next' => [
+            'label'       => 'le.core.operator.month_next',
+            'expr'        => 'lte',
+            'negate_expr' => 'gte',
+        ],
+        'month_this' => [
+            'label'       => 'le.core.operator.month_this',
+            'expr'        => 'eq',
+            'negate_expr' => 'neq',
+        ],
         'last_60'   => [
             'label'       => 'le.core.operator.last_60',
             'expr'        => 'gte',
@@ -345,21 +360,6 @@ trait OperatorListTrait
             'label'       => 'le.core.operator.next_90',
             'expr'        => 'lte',
             'negate_expr' => 'gte',
-        ],
-        'month_last' => [
-            'label'       => 'le.core.operator.month_last',
-            'expr'        => 'gte',
-            'negate_expr' => 'lte',
-        ],
-        'month_next' => [
-            'label'       => 'le.core.operator.month_next',
-            'expr'        => 'lte',
-            'negate_expr' => 'gte',
-        ],
-        'month_this' => [
-            'label'       => 'le.core.operator.month_this',
-            'expr'        => 'eq',
-            'negate_expr' => 'neq',
         ],
         'year_last' => [
             'label'       => 'le.core.operator.year_last',

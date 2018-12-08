@@ -29,7 +29,7 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
 <!--            <i class="object-icon fa --><?php //echo $class;?><!--" aria-hidden="true"></i> <span>--><?php //echo ($isPrototype) ? '__label__' : $fields[$object][$filterType]['label'];?><!--</span>-->
 <!--        </div>-->
         <?php if (!empty($filterfields)): ?>
-            <div class="col-xs-6 col-md-4 field-name" data-filter-index="<?php echo $filterindex ?>">
+            <div class="col-xs-6 col-sm-5 field-name" data-filter-index="<?php echo $filterindex ?>">
                 <select class="chosen form-control list_filter_fields">
                     <option value=""></option>
                     <?php

@@ -65,7 +65,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
         </a>
     </li>
     <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
-        <a href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
+        <a id="segment_filters_tab" href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 02</span></div>
                 <label>  <?php echo $view['translator']->trans('le.core.segment.filter'); ?>

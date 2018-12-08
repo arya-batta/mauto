@@ -246,6 +246,9 @@ Le.emailOnLoad = function (container, response) {
         }
     };
     Le.removeActionButtons();
+    if (mQuery('.filter-field-segment').hasClass('has-error')){
+        mQuery('#ui-tab-header3').click();
+    }
 };
 
 Le.loadEmailStatCounts = function(){
