@@ -24,7 +24,7 @@ Le.dripemailOnLoad = function (container, response) {
     mQuery('#dripemail_advance_editor .chosen-container-single').removeClass('hide');
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
-
+        mQuery('#dripEmail_PublicName .help-block').addClass('hide').html("");
         mQuery('#dripEmail_PublicName').removeClass('has-success has-error');
         if(mQuery('#dripemailform_name').val() == "") {
             mQuery('#dripEmail_PublicName').removeClass('has-success has-error').addClass('has-error');
@@ -148,6 +148,15 @@ Le.dripemailOnLoad = function (container, response) {
             mQuery('#flashes').addClass('hide');
         });
     });
+
+    if(mQuery('#dripEmail_PublicName').hasClass('has-error')){
+        mQuery('#ui-tab-header3').addClass('ui-tabs-selected ui-state-active');
+        mQuery('#ui-tab-header2').removeClass('ui-tabs-selected ui-state-active');
+        mQuery('#fragment-1').addClass('ui-tabs-hide');
+        mQuery('#fragment-2').addClass('ui-tabs-hide');
+        mQuery('#fragment-3').removeClass('ui-tabs-hide');
+    }
+
 };
 
 Le.loadDripEmailScheduledStatCounts = function(){

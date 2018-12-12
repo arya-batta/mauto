@@ -19,7 +19,7 @@ if ($item['isScheduled']) {
         <span id="timeline-campaign-event-text-<?php echo $item['dripemail_id']; ?>">
             <i class="fa fa-clock-o"></i>
             <span class="timeline-campaign-event-scheduled-<?php echo $item['dripemail_id']; ?>">
-                <?php echo $view['translator']->trans($eventtxt, ['%date%' => $view['date']->toFull($event['timestamp'])]); ?>
+                <?php echo $view['translator']->trans($eventtxt, ['%date%' => $view['date']->toFull($event['extra']['log']['triggerDate'])]); ?>
             </span>
             <br>
             <span class="timeline-campaign-event-scheduled-<?php echo $item['dripemail_id']; ?>">

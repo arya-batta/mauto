@@ -1551,6 +1551,14 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             unset($errorArray['failures']);
             $errors[] = implode('; ', $errorArray);
         }
+        if($errors == null){
+            foreach ($to as $toAddress) {
+                $this->getRepository()->upCount($email->getId(), 'sent', 1);
+            }
+            foreach ($users as $user) {
+                $this->getRepository()->upCount($email->getId(), 'sent', 1);
+            }
+        }
 
         if (isset($saveEntities)) {
             $this->getStatRepository()->saveEntities($saveEntities);

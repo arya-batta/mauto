@@ -74,7 +74,7 @@ class SendEmailToUser
         if (!$accountStatus) {
             if ($isValidEmailCount && $isHavingEmailValidity) {
                 $tokens = $this->emailModel->dispatchEmailSendEvent($email, $leadCredentials, $idHash)->getTokens();
-                $errors = $this->emailModel->sendEmailToUser($email, $users, $leadCredentials, $tokens, [], false, $to, $cc, $bcc);
+                $errors = $this->emailModel->sendEmailToUser($email, $users, $leadCredentials, $tokens, [], true, $to, $cc, $bcc);
                 $this->licenseInfoHelper->intEmailCount('1');
 
                 if ($errors) {
