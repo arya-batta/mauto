@@ -1311,7 +1311,8 @@ class LeadController extends FormController
                     $falshMsg= 'mautic.core.notice.restrict.deleted';
                 }
 
-                $identifier = $this->get('translator')->trans($entity->getPrimaryIdentifier());
+                $primaryidentifier = $this->get('translator')->trans($entity->getPrimaryIdentifier());
+                $identifier = !empty($primaryidentifier) ? $primaryidentifier : $entity->getEmail();
                 $flashes[]  = [
                     'type'    => 'notice',
                     'msg'     => $falshMsg,

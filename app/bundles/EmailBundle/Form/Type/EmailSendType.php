@@ -149,7 +149,7 @@ class EmailSendType extends AbstractType
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
                         'onclick'  => 'Le.loadNewWindow(Le.standardEmailUrl({"windowUrl": "'.$windowUrlPreview.'","origin":"#'.$options['update_select'].'"}))',
-                        'disabled' => !isset($options['data']['email']),
+                        'disabled' => 'disabled',//!isset($options['data']['email']),
                         'icon'     => 'fa fa-external-link',
                     ],
                     'label' => 'le.email.send.preview.email',

@@ -203,12 +203,12 @@ class CampaignController extends AbstractStandardFormController
                     if (!empty($campaign->getCategory())) {
                         $catId     = $campaign->getCategory()->getId();
                     }
-                    $newaction = $this->generateUrl('le_campaign_action',
-                        ['objectAction'    => 'new',
-                            'campaignName' => $name, 'category' => $catId,
+                    $model->saveEntity($campaign);
+                    $actionurl = $this->generateUrl('le_campaign_action',
+                        ['objectAction'    => 'edit','objectId'=> $campaign->getId(),
                     ]);
 
-                    return $this->delegateRedirect($newaction);
+                    return $this->delegateRedirect($actionurl);
                 }
             }
         }

@@ -61,7 +61,12 @@ class EmailType extends AbstractType
                 'label'      => 'le.email.subject',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
-                'required'   => false,
+                'required'   => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'mautic.core.subject.required',
+                    ]),
+                ],
             ]
         );
 
@@ -81,8 +86,13 @@ class EmailType extends AbstractType
                 'attr'       => ['class'     => 'form-control le-input',
                 'disabled'                   => false,
                 ],
-                'required'   => false,
+                'required'   => true,
                 'data'       => $default,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'le.lead.from_name.required',
+                    ]),
+                ],
             ]
         );
 

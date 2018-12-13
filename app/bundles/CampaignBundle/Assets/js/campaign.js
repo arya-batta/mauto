@@ -1366,12 +1366,12 @@ Le.registerKeyupCampaignName = function(){
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
         mQuery('#campaignPublishButton').html('Stop Workflow');
         mQuery('#campaignPublishButton').attr("value","unpublish");
-        mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
+        mQuery('#campaignPublishButton').attr("data-original-title","Stop this workflow.");
     } else {
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
         mQuery('#campaignPublishButton').html('Start Workflow');
         mQuery('#campaignPublishButton').attr("value","publish");
-        mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
+        mQuery('#campaignPublishButton').attr("data-original-title", " workflow will be in draft/ pause till you start. Tap this button to start this workflow.");
     }
 };
 
@@ -1395,7 +1395,7 @@ Le.CloseStatisticsWidget = function(){
 };
 Le.publishCampaign = function(flag){
     var campaignname = mQuery('#campaign_name').val();
-    var msg = "Automation workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
+    var msg = "Workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
   if(flag){
       Le.toggleYesNoButtonClass('campaign_isPublished_1');
       mQuery('#campaign_isPublished_1').attr('checked',true);
@@ -1426,7 +1426,7 @@ Le.publishCampaign = function(flag){
 Le.publishCampaign_old = function(){
     var value = mQuery('#campaignPublishButton').attr("value");
     var campaignname = mQuery('#campaign_name').val();
-    var msg = "Automation workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
+    var msg = "Workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
     if(value == "publish"){
         Le.toggleYesNoButtonClass('campaign_isPublished_1');
         mQuery('#campaign_isPublished_1').attr('checked',true);
@@ -1438,7 +1438,7 @@ Le.publishCampaign_old = function(){
         mQuery('#campaignPublishButton').attr("value","unpublish");
         mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
         mQuery('#campaignPublishButton').html('Stop Workflow');
-        mQuery('#campaignPublishButton').attr("data-original-title","Stop this automation workflow.");
+        mQuery('#campaignPublishButton').attr("data-original-title","Stop this workflow.");
         mQuery('#flash').css('display','inline-block');
         mQuery('#flash').html(msg+' started.');
     } else {
@@ -1448,7 +1448,7 @@ Le.publishCampaign_old = function(){
         mQuery(uotherLabel).addClass('active');
         var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
         mQuery(potherLabel).removeClass('active');
-        mQuery('#campaignPublishButton').attr("data-original-title", "Automation workflow will be in draft/ pause till you start. Tap this button to start this automation workflow.");
+        mQuery('#campaignPublishButton').attr("data-original-title", "Workflow will be in draft/ pause till you start. Tap this button to start this workflow.");
         mQuery('#campaignPublishButton').attr("value","publish");
         mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
         mQuery('#campaignPublishButton').html('Start Workflow');
@@ -1834,6 +1834,13 @@ Le.campaignEventOnLoad = function (container, response) {
         }
     }
        //mQuery('.le-modal-box-align').css("marginLeft","210px");
+    var value = mQuery('#campaignevent_properties_useremail_email').val()
+    if(value === '' || value === null ){
+        mQuery('#campaignevent_properties_useremail_previewEmailButton').prop('disabled', true);
+    }else{
+        mQuery('#campaignevent_properties_useremail_previewEmailButton').prop('disabled', false);
+    }
+
 };
 Le.getFilteredCampaignEventSubgroupOptions=function(groupname){
     var filteroptions = [];

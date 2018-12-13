@@ -417,7 +417,13 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $form    = $model->createForm($entity, $this->get('form.factory'), $action, $options);
 
         $isPost = !$ignorePost && $this->request->getMethod() == 'POST';
-        $this->beforeFormProcessed($entity, $form, 'edit', $isPost, $objectId, $isClone);
+        $action = 'edit';
+        if ($model instanceof CampaignModel) {
+            if($entity->getCanvasSettings() == null){
+                $action = 'new';
+            }
+        }
+        $this->beforeFormProcessed($entity, $form, $action, $isPost, $objectId, $isClone);
 
         ///Check for a submitted form and process it
         if ($isPost) {

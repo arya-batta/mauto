@@ -126,7 +126,7 @@ Le.EnablesOption = function (urlActionProperty) {
 Le.getSelectedCampaignValue = function (value) {
     if(value == "broadcast") {
         var formType = 'point_properties_driplist';
-        if (mQuery(location).attr('href').includes("automations")) {
+        if (mQuery(location).attr('href').includes("workflows")) {
             formType = 'campaignevent_properties_driplist';
         }
         Le.resetDropDownValues(formType);
@@ -135,7 +135,7 @@ Le.getSelectedCampaignValue = function (value) {
         mQuery('#dripemaillist').addClass('hide');
     } else if(value == "drip") {
         var formType = 'point_properties_emails';
-        if (mQuery(location).attr('href').includes("automations")) {
+        if (mQuery(location).attr('href').includes("workflows")) {
             formType = 'campaignevent_properties_emails';
         }
         Le.resetDropDownValues(formType);
@@ -152,7 +152,7 @@ Le.getSelectedCampaignValue = function (value) {
 };
 Le.convertDripFilterInput = function (templateId) {
     var eventType = 'point_properties_driplist';
-    if (mQuery(location).attr('href').includes("automations")) {
+    if (mQuery(location).attr('href').includes("workflows")) {
         eventType = 'campaignevent_properties_driplist';
     }
     var query = "action=point:getDripFilterInput&templateId=" + templateId;

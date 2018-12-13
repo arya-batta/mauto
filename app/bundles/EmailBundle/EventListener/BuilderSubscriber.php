@@ -271,10 +271,10 @@ class BuilderSubscriber extends CommonSubscriber
         if (!$unsubscribeText) {
             $unsubscribeText = $this->translator->trans('le.email.unsubscribe.text', ['%link%' => '|URL|']);
         }
-        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash, 'type' => $type]), $unsubscribeText);
+        $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
         $event->addToken('{unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
 
-        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash, 'type' => $type]));
+        $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]));
 
         $updateLead = $this->coreParametersHelper->getParameter('updatelead');
         if (!$updateLead) {
@@ -336,7 +336,7 @@ class BuilderSubscriber extends CommonSubscriber
         }
         if ($footerText != '') {
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash, 'type' => $type]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $footerText);
 
             $footerText = str_replace('{update_your_profile_link}', "<a href='|URL|'>Update Your Profile</a>", $footerText);
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash, 'type' => $type]), $footerText);

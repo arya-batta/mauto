@@ -13,27 +13,27 @@ return [
     'routes' => [
         'main' => [
             'le_campaignevent_action' => [
-                'path'       => '/automations/events/{objectAction}/{objectId}',
+                'path'       => '/workflows/events/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Event:execute',
             ],
             'le_campaignsource_action' => [
-                'path'       => '/automations/sources/{objectAction}/{objectId}',
+                'path'       => '/workflows/sources/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Source:execute',
             ],
             'le_campaign_index' => [
-                'path'       => '/automations/{page}',
+                'path'       => '/workflows/{page}',
                 'controller' => 'MauticCampaignBundle:Campaign:index',
             ],
             'le_campaign_action' => [
-                'path'       => '/automations/{objectAction}/{objectId}',
+                'path'       => '/workflows/{objectAction}/{objectId}',
                 'controller' => 'MauticCampaignBundle:Campaign:execute',
             ],
             'le_campaign_contacts' => [
-                'path'       => '/automations/view/{objectId}/contact/{page}',
+                'path'       => '/workflows/view/{objectId}/contact/{page}',
                 'controller' => 'MauticCampaignBundle:Campaign:contacts',
             ],
             'le_campaign_preview' => [
-                'path'       => '/automation/preview/{objectId}',
+                'path'       => '/workflow/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
             ],
         ],
@@ -55,22 +55,22 @@ return [
                 'controller' => 'MauticCampaignBundle:Api\EventApi',
             ],
             'mautic_api_campaigns_events_contact' => [
-                'path'       => '/automations/events/contact/{contactId}',
+                'path'       => '/workflows/events/contact/{contactId}',
                 'controller' => 'MauticCampaignBundle:Api\EventLogApi:getContactEvents',
                 'method'     => 'GET',
             ],
             'mautic_api_campaigns_edit_contact_event' => [
-                'path'       => '/automations/events/{eventId}/contact/{contactId}/edit',
+                'path'       => '/workflows/events/{eventId}/contact/{contactId}/edit',
                 'controller' => 'MauticCampaignBundle:Api\EventLogApi:editContactEvent',
                 'method'     => 'PUT',
             ],
             'mautic_api_campaigns_batchedit_events' => [
-                'path'       => '/automations/events/batch/edit',
+                'path'       => '/workflows/events/batch/edit',
                 'controller' => 'MauticCampaignBundle:Api\EventLogApi:editEvents',
                 'method'     => 'PUT',
             ],
             'mautic_api_campaign_contact_events' => [
-                'path'       => '/automations/{campaignId}/events/contact/{contactId}',
+                'path'       => '/workflows/{campaignId}/events/contact/{contactId}',
                 'controller' => 'MauticCampaignBundle:Api\EventLogApi:getContactEvents',
                 'method'     => 'GET',
             ],
@@ -79,24 +79,24 @@ return [
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:getContacts',
             ],
             'mautic_api_campaignaddcontact' => [
-                'path'       => '/automations/{id}/contact/{leadId}/add',
+                'path'       => '/workflows/{id}/contact/{leadId}/add',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:addLead',
                 'method'     => 'POST',
             ],
             'mautic_api_campaignremovecontact' => [
-                'path'       => '/automations/{id}/contact/{leadId}/remove',
+                'path'       => '/workflows/{id}/contact/{leadId}/remove',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:removeLead',
                 'method'     => 'POST',
             ],
 
             // @deprecated 2.6.0 to be removed 3.0
             'bc_mautic_api_campaignaddcontact' => [
-                'path'       => '/automations/{id}/contact/add/{leadId}',
+                'path'       => '/workflows/{id}/contact/add/{leadId}',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:addLead',
                 'method'     => 'POST',
             ],
             'bc_mautic_api_campaignremovecontact' => [
-                'path'       => '/automations/{id}/contact/remove/{leadId}',
+                'path'       => '/workflows/{id}/contact/remove/{leadId}',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:removeLead',
                 'method'     => 'POST',
             ],
