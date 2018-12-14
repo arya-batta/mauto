@@ -203,7 +203,7 @@ Le.configOnLoad = function (container) {
             return;
         }
         if (!email.match(mailformat)) {
-            mQuery('#sender_profile_from_email_errors').html("Please provide your business email address, since Gmail/ Googlemail/ Yahoo/ Hotmail/ MSN/ AOL and a few more reject emails that claim to come from them but actually originate from different servers.");
+            mQuery('#sender_profile_from_email_errors').html("Please provide your business email address, since free emails like gmail/ yahoo/ hotmail and a few more are not allowed due to DMARC rules.");
             return;
         }
        mQuery('#user_email .help-block').removeClass('hide');

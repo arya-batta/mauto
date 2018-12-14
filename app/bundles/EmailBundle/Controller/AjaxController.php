@@ -382,6 +382,13 @@ class AjaxController extends CommonAjaxController
         $transportlabel   =$this->translator->trans($transport);
         $mailer           = $this->container->get($transport);
         $user             = $this->factory->get('mautic.helper.user')->getUser();
+        if ($action == 'created') {
+            $msg = 'added';
+            $sub ='added a new';
+        } else {
+            $msg = 'verified';
+            $sub ='verified the';
+        }
         try {
             $userFullName = trim($user->getFirstName().' '.$user->getLastName());
             if (empty($userFullName)) {
@@ -389,10 +396,10 @@ class AjaxController extends CommonAjaxController
             }
             $mailer->start();
             $message = \Swift_Message::newInstance()
-                ->setSubject($this->translator->trans('le.email.config.mailer.transport.sender.verify.subject', ['%action%'=> $action]));
-            $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%user%'=> $userFullName, '%action%'=> $action, '%sender%'=> $fromemail]);
+                ->setSubject($this->translator->trans('le.email.config.mailer.transport.sender.verify.subject', ['%action%'=> $sub]));
+            $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%action%'=> $msg, '%sender%'=> $fromemail, '%name%'=> $user->getFirstName()]);
             $message->setBody($mailbody, 'text/html');
-            $message->setFrom([$fromemail => $fromname]);
+            $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
             $message->setTo([$user->getEmail() => $userFullName]);
             $mailer->send($message);
         } catch (\Exception $ex) {
@@ -410,7 +417,7 @@ class AjaxController extends CommonAjaxController
         $verifylink        = $this->generateUrl('le_sender_profile_verify_link', ['idhash' => $idHash], true);
         $message           = \Swift_Message::newInstance();
         $message->setTo([$fromemail => $fromname]);
-        $message->setFrom(['support@leadsengage.com' => 'LeadsEngage']);
+        $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
         $message->setSubject($this->translator->trans('le.sender.verification.subject'));
         $text = "<!DOCTYPE html>
 <html>
@@ -432,11 +439,11 @@ class AjaxController extends CommonAjaxController
 
 							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Hi $fromname,</p>
 
-							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Please click on the button below to Confirm this email within LeadsEngage System</p><a href=\"$verifylink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #EF3F87;border: #EF3F87;'>Verify Your Email</a>
-							<br>
-
-							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Thanks,
-								<br>LeadsEngage Support</p>
+							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>We have received a request to authorize this email address for use with LeadsEnagge Marketing Automation Platform. If you requested this verification, please go to the following button (Verify your email here) to confirm that you are authorized to use this email address.</p><a href=\"$verifylink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #EF3F87;border: #EF3F87;'>Verify your email here</a>
+							<br><br>
+                            <p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Note- If you did NOT request to verify this email address, kindly reply to this email and let us know. We can investigate if the request was unauthorized.</p>
+							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Sincerely,
+								<br>LeadsEngage Team.</p>
 						</div>
 					</div>
 				</div>

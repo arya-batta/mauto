@@ -48,11 +48,11 @@ $templates = [
 
 $mainErrors     = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
 $filterErrors   = ($view['form']->containsErrors($form['filters'])) ? 'class="text-danger"' : '';
-$addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-group\" data-filter-group='and'>Add a condition</button>";
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;margin-top: 135px;">
     <li class="active detail" id="detailstab" onclick="Le.addHide()">
         <a href="#details" style="padding: 3px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">
@@ -64,7 +64,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
             </div>
         </a>
     </li>
-    <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top" data-original-title="<?php echo $view['translator']->trans('le.lead.lead.segment.add.help'); ?>">
+    <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top">
         <a id="segment_filters_tab" href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 02</span></div>
@@ -143,6 +143,9 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+                            <p><?php echo $view['translator']->trans('le.segment.wizard.notification'); ?></p>
+                        </div>
                         <div class="selected-filters" style="margin-bottom: 35px;" id="leadlist_filters">
                             <div class='filter-group-template leadlist-filter-group filter-and-group'>
                                 <div class='filter-panel-holder'>
@@ -153,7 +156,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
                             <?php echo $view['form']->widget($form['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
                             </div>
                             <div class="leadlist-filter-group filter-or-group">
-                                <button type="button" class="btn btn-default btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                                <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
                             </div>
                         </div>
                     </div>

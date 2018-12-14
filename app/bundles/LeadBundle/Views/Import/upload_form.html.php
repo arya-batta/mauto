@@ -40,8 +40,8 @@ if (!$isAdmin) {
                 </div>
                 <div class="panel-body">
                     <?php echo $view['form']->start($form); ?>
-                    <div class="row" style="margin-left:16%;">
-                        <div class="pull-left col-xs-3">
+                    <div class="row center-align-container" style="margin-left: -11%;">
+                        <div class="pull-center col-xs-6">
                             <a href="<?php echo $view['assets']->getImportSampleFilePath() ?>" download>
                             <span class="input-group-btn download_sample">
                                 <i class="fa fa-download"></i> <b><?php echo $view['translator']->trans('le.lead.import.download.sample'); ?></b>

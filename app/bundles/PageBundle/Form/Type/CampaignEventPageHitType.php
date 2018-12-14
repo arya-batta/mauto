@@ -11,30 +11,33 @@
 
 namespace Mautic\PageBundle\Form\Type;
 
+use Mautic\CoreBundle\Helper\UserHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Mautic\CoreBundle\Helper\UserHelper;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class CampaignEventPageHitType.
  */
 class CampaignEventPageHitType extends AbstractType
 {
+    public $isadmin;
 
-    public  $isadmin;
     /**
-     * @param UserHelper    $userHelper
+     * @param UserHelper $userHelper
      */
-    public function _construct( UserHelper $userHelper){
+    public function _construct(UserHelper $userHelper)
+    {
         $this->isadmin = $userHelper->getUser()->isAdmin();
     }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if($this->isadmin){
-        $builder->add('pages', 'page_list', [
+        if ($this->isadmin) {
+            $builder->add('pages', 'page_list', [
             'label'      => 'le.page.campaign.event.form.pages',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
@@ -56,10 +59,15 @@ class CampaignEventPageHitType extends AbstractType
         $builder->add('url', 'text', [
             'label'      => 'le.page.campaign.event.form.url',
             'label_attr' => ['class' => 'control-label'],
-            'required'   => false,
+            'required'   => true,
             'attr'       => [
                 'class'   => 'form-control le-input',
                 'tooltip' => 'le.page.campaign.event.form.url.descr',
+            ],
+            'constraints' => [
+                new NotBlank(
+                    ['message' => 'mautic.core.value.required']
+                ),
             ],
         ]);
     }

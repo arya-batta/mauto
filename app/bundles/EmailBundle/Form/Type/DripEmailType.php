@@ -143,7 +143,8 @@ class DripEmailType extends AbstractType
                     [
                         'label'      => 'le.drip.email.subject',
                         'label_attr' => ['class' => 'control-label'],
-                        'attr'       => ['class' => 'form-control le-input'],
+                        'attr'       => ['class' => 'le-white-background form-control le-input',
+                                         'style' => 'background-color: #fff;', ],
                         'required'   => false,
                     ]
                 )
@@ -243,10 +244,11 @@ class DripEmailType extends AbstractType
                 'previewText',
                 'text',
                 [
-                    'label'      => 'le.email.previewText',
-                    'label_attr' => ['class' => 'control-label'],
-                    'attr'       => [
-                        'class'   => 'form-control le-input',
+                    'label'       => 'le.email.previewText',
+                    'label_attr'  => ['class' => 'control-label'],
+                    'attr'        => [
+                        'class'   => 'le-white-background form-control le-input',
+                        'style'   => 'background-color: #fff;',
                         'tooltip' => 'le.email.previewText.tooltip',
                     ],
                     'required' => false,

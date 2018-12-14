@@ -160,7 +160,9 @@ class FormSubscriber extends CommonSubscriber
             'allowCampaignForm' => true,
         ];
 
-        $event->addSubmitAction('form.repost', $action);
+        if ($this->factory->getUser()->isAdmin()) {
+            $event->addSubmitAction('form.repost', $action);
+        }
     }
 
     /**

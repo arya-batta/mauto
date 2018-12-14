@@ -354,14 +354,14 @@ class EventController extends CommonFormController
         } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail') {
             if ($event['properties']['campaigntype'] == 'drip') {
                 $choices = $formView->children['properties']->children['driplist']->vars['choices'];
-                $emails = $event['properties']['driplist'];
-                $label = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices);
+                $emails  = $event['properties']['driplist'];
+                $label   = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices);
             } else {
                 $choices = $formView->children['properties']->children['emails']->vars['choices'];
-                $emails = $event['properties']['emails'];
-                $label = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices['en']);
+                $emails  = $event['properties']['emails'];
+                $label   = $this->getFormattedEventLabel($label, $event['type'] == 'email.send' ? [$emails] : $emails, $choices['en']);
             }
-        }elseif($event['type'] == 'email.send') {
+        } elseif ($event['type'] == 'email.send') {
             $choices=$formView->children['properties']->children['email']->vars['choices'];
             $emails =$event['properties']['email'];
             $label  =$this->getFormattedEventLabel($label, [$emails], $choices['en']);
@@ -412,11 +412,11 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['user_id']->vars['choices'];
             $user   =$event['properties']['user_id'];
             $label  =$this->getFormattedEventLabel($label, $user, $choices);
-        } elseif ($event['type'] == 'email.send.to.dripcampaign' || $event['type'] == 'remove.dripcampaign' || $event['type'] == 'restart.dripcampaign'){
-            $choices=$formView->children['properties']->children['dripemail']->vars['choices'];
+        } elseif ($event['type'] == 'email.send.to.dripcampaign' || $event['type'] == 'remove.dripcampaign' || $event['type'] == 'restart.dripcampaign') {
+            $choices     =$formView->children['properties']->children['dripemail']->vars['choices'];
             $dripemail   =$event['properties']['dripemail'];
-            $label  =$this->getFormattedEventLabel($label, [$dripemail], $choices);
-        } elseif ($event['type'] == 'move.dripcampaign'){
+            $label       =$this->getFormattedEventLabel($label, [$dripemail], $choices);
+        } elseif ($event['type'] == 'move.dripcampaign') {
             $addDripchoices     =$formView->children['properties']->children['movedripfrom']->vars['choices'];
             $addDrip            =$event['properties']['movedripfrom'];
             $removeDripchoices  =$formView->children['properties']->children['movedripto']->vars['choices'];
@@ -548,14 +548,14 @@ class EventController extends CommonFormController
                     $list=$options['tags'];
                 } elseif ($object == 'lead' && $field == 'owner_id') {
                     $list=$options['users'];
-                } elseif ($object == 'forms'){
+                } elseif ($object == 'forms') {
                     $list=$options['formsubmit_list'];
-                }elseif ($object == 'assets'){
+                } elseif ($object == 'assets') {
                     $list=$options['asset_downloads_list']['en'];
                 }
                 if (!empty($list)) {
                     $displaystring='';
-                    if(sizeof($value) > 0) {
+                    if (sizeof($value) > 0) {
                         for ($v = 0; $v < sizeof($value); ++$v) {
                             $displaystring .= $list[$value[$v]];
                             if ($v < sizeof($value) - 1) {
@@ -640,6 +640,7 @@ class EventController extends CommonFormController
         }
         $isValidForm = true;
         $formData    = $form->getData();
+
         if ($eventType == 'source' && $type == 'pagehit') {
             if (empty($formData['properties']['pages']) && empty($formData['properties']['url']) && empty($formData['properties']['referer'])) {
                 $form['properties']['pages']->addError(
@@ -652,6 +653,25 @@ class EventController extends CommonFormController
                         new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
                     );
                 $isValidForm = false;
+            }
+        }
+        if ($type == 'openEmail' || $type == 'clickEmail') {
+            if (!empty($formData['properties']['campaigntype'])) {
+                if ($formData['properties']['campaigntype'] == 'broadcast') {
+                    if (empty($formData['properties']['emails'])) {
+                        $form['properties']['emails']->addError(
+                            new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                        );
+                        $isValidForm = false;
+                    }
+                } else {
+                    if (empty($formData['properties']['driplist'])) {
+                        $form['properties']['driplist']->addError(
+                            new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                        );
+                        $isValidForm = false;
+                    }
+                }
             }
         }
 

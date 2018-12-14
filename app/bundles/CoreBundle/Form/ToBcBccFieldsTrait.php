@@ -30,7 +30,7 @@ trait ToBcBccFieldsTrait
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'       => 'form-control le-input',
-                    'placeholder' => 'mautic.core.optional',
+                    //'placeholder' => 'mautic.core.optional',
                     'tooltip'     => 'mautic.core.send.email.to.multiple.addresses',
                 ],
                 'required'    => false,

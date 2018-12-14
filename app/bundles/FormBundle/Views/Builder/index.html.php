@@ -283,7 +283,7 @@ endif;*/ ?>
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -173px;margin-right: 103px;">
+                <div class="toolbar-form-buttons" style="margin-top: -173px;margin-right: 125px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -364,7 +364,7 @@ endif;*/ ?>
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 102px;">
+                <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 121px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -404,7 +404,7 @@ endif;*/ ?>
             </div>
             <div class="col-md-4" >
                 <div class="available-fields">
-                    <div class="alert alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
+                    <div class="alert alert-info le-alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
                         <p><?php echo $view['translator']->trans('mautic.form.form.addfield'); ?></p>
                     </div>
                     <center>
@@ -434,8 +434,6 @@ endif;*/ ?>
 
                 </div>
             </div>
-
-
         </div>
         <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
@@ -473,7 +471,7 @@ endif;*/ ?>
                 </div>
             </div>
             <div class="available-actions col-md-4" style="margin-top: -35px;"> <br><br>
-                <div class="alert alert-info" id="form-action-placeholder" style="width: 92%;">
+                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width: 92%;">
                     <p><?php echo $view['translator']->trans('mautic.form.form.addaction'); ?></p>
                 </div>
                 <center>

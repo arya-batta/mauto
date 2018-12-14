@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class EmailOpenType.
@@ -47,7 +48,7 @@ class EmailOpenType extends AbstractType
             ],
             'enableNewForm'      => false,
           //  'multiple'           => false,
-            'required'           => false,
+            'required'           => true,
         ];
 
         $defaultDripOptions = [
@@ -59,7 +60,7 @@ class EmailOpenType extends AbstractType
             ],
             'enableNewForm'      => false,
             'multiple'           => false,
-            'required'           => false,
+            'required'           => true,
         ];
 
         if (isset($options['list_options'])) {
@@ -83,7 +84,12 @@ class EmailOpenType extends AbstractType
                 'class'    => 'form-control le-input',
                 'onchange' => 'Le.getSelectedCampaignValue(this.value)',
             ],
-            'required'     => false,
+            'required'     => true,
+            'constraints'  => [
+                new NotBlank(
+                    ['message' => 'mautic.core.value.required']
+                ),
+            ],
         ]);
 
         $builder->add('emails', 'email_list', $defaultOptions);
@@ -130,11 +136,11 @@ class EmailOpenType extends AbstractType
 
         $form->add('driplist', 'choice', [
          'label'         => 'le.email.open.limittoemails',
-         'label_attr'    => ['class' => 'control-label'],
+         'label_attr'    => ['class' => 'control-label required'],
             'attr'       => [
                 'class'   => 'form-control',
             ],
-         'required'    => false,
+         'required'    => true,
          'multiple'    => true,
          'choices'     => $dripEmails,
      ]);

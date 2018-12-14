@@ -1708,8 +1708,13 @@ Le.showActionButtons = function (id) {
  */
 Le.hideFlashMessage = function () {
     mQuery(function() {
-        mQuery('#flashes').delay(800).fadeIn('normal', function() {
-            mQuery(this).delay(3000).fadeOut();
+        mQuery('#flashes').delay(3000).fadeIn('normal', function() {
+            var value = mQuery('.alert-growl  span').html();
+            if(value.includes("verification link")){
+                mQuery(this).delay(200000).fadeOut();
+            } else {
+                mQuery(this).delay(3000).fadeOut();
+            }
         });
     });
 };

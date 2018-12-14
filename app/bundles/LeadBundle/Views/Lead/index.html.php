@@ -14,7 +14,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.leads'));
 
 $pageButtons = [];
 if ($permissions['lead:leads:create']) {
-    $pageButtons[] = [
+    /*   $pageButtons[] = [
         'attr' => [
             'class'       => 'btn btn-default btn-nospin quickadd le-btn-default',
             'data-toggle' => 'ajaxmodal',
@@ -27,7 +27,7 @@ if ($permissions['lead:leads:create']) {
         'primary'   => true,
     ];
 
-  /**  if ($permissions['lead:imports:create']) {
+   if ($permissions['lead:imports:create']) {
         $pageButtons[] = [
             'attr' => [
                 'href' => $view['router']->path('le_import_action', ['object' => 'leads', 'objectAction' => 'new']),
@@ -107,7 +107,7 @@ if ($indexMode == 'list') {
 }
 $toolbarButtons = [];
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.list.thead.leadcount'); ?></h3></div>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.list.thead.leadcount.all'); ?></h3></div>
 <div style="padding-top: 15px;">
         <div class="info-box" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> '']); ?>" data-toggle="ajax">

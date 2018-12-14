@@ -37,7 +37,7 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
                             'updateMessage' => $updateMessage,
                         ]); ?>
                         <?php $class = (!empty($notifications)) ? ' hide' : ''; ?>
-                        <div style="width: 100px; margin: 75px auto 0 auto;" class="<?php echo $class; ?> mautibot-image" id="notificationMautibot">
+                        <div style="width: 100px; margin: 75px auto 0 auto;" class="<?php echo $class; ?> LEbot-image" id="notificationLEbot">
                             <img class="img img-responsive" src="<?php echo $view['mautibot']->getImage('wave'); ?>" />
                         </div>
                     </div>

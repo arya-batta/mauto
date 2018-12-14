@@ -473,9 +473,9 @@ Le.selectEmailEditor = function(editorType) {
             Le.setBeeTemplateJSON(Le.beeTemplate);
         }
         advance.removeClass('hide');
-        mQuery('#next-tab-3').attr('style','margin-left:78%;');
-        mQuery('#previous-button-3').attr('style','margin-left:-18%;');
-        mQuery('#email-2-button-div').attr('style','margin-right:120px;');
+        mQuery('#next-tab-3').attr('style','margin-left:77.9%;');
+        mQuery('#previous-button-3').attr('style','margin-left:-15.9%;');
+        mQuery('#email-2-button-div').attr('style','margin-right:184px;');
         mQuery('#open_editor_email_button').removeClass('hide');
         basic.addClass('hide');
         activateTab='advance';

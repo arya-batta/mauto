@@ -99,20 +99,20 @@ class SubmitActionEmailType extends AbstractType
             ]
         );
 
-        if ($this->coreParametersHelper->getParameter('mailer_spool_type') == 'file') {
-            $default = (isset($options['data']['immediately'])) ? $options['data']['immediately'] : false;
-            $builder->add(
+        // if ($this->coreParametersHelper->getParameter('mailer_spool_type') == 'file') {
+        $default = (isset($options['data']['immediately'])) ? $options['data']['immediately'] : false;
+        $builder->add(
                 'immediately',
                 YesNoButtonGroupType::class,
                 [
                     'label' => 'mautic.form.action.sendemail.immediately',
-                    'data'  => $default,
+                    'data'  => true,
                     'attr'  => [
                         'tooltip' => 'mautic.form.action.sendemail.immediately.desc',
                     ],
                 ]
             );
-        } else {
+        /*} else {
             $builder->add(
                 'immediately',
                 HiddenType::class,
@@ -120,7 +120,7 @@ class SubmitActionEmailType extends AbstractType
                     'data' => false,
                 ]
             );
-        }
+        }*/
 
         $default = (isset($options['data']['copy_lead'])) ? $options['data']['copy_lead'] : true;
         $builder->add(
@@ -128,7 +128,7 @@ class SubmitActionEmailType extends AbstractType
             YesNoButtonGroupType::class,
             [
                 'label' => 'mautic.form.action.sendemail.copytolead',
-                'data'  => $default,
+                'data'  => false,
             ]
         );
 
@@ -138,7 +138,7 @@ class SubmitActionEmailType extends AbstractType
             'yesno_button_group',
             [
                 'label' => 'mautic.form.action.sendemail.setreplyto',
-                'data'  => $default,
+                'data'  => false,
                 'attr'  => [
                     'tooltip' => 'mautic.form.action.sendemail.setreplyto_tooltip',
                 ],
@@ -151,7 +151,7 @@ class SubmitActionEmailType extends AbstractType
             YesNoButtonGroupType::class,
             [
                 'label' => 'mautic.form.action.sendemail.emailtoowner',
-                'data'  => $default,
+                'data'  => false,
             ]
         );
 

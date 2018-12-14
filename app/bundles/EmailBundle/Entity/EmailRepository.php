@@ -312,7 +312,7 @@ class EmailRepository extends CommonRepository
                         $q->andWhere($expr);
                     }
                     unset($parameters);
-                }else {
+                } else {
                     return ($countOnly) ? 0 : [];
                 }
             } else {
@@ -713,12 +713,13 @@ class EmailRepository extends CommonRepository
         $q->execute();
     }
 
-    public function downUnsubscribeStat($email_id,$leadid){
+    public function downUnsubscribeStat($email_id, $leadid)
+    {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $q->update(MAUTIC_TABLE_PREFIX.'email_stats')
-            ->set('is_unsubscribe',0)
-            ->andwhere($q->expr()->eq('email_id',$email_id),
-                $q->expr()->eq('lead_id',$leadid));
+            ->set('is_unsubscribe', 0)
+            ->andwhere($q->expr()->eq('email_id', $email_id),
+                $q->expr()->eq('lead_id', $leadid));
         $q->execute();
     }
 
@@ -937,10 +938,19 @@ class EmailRepository extends CommonRepository
                 )
             )->setParameter('false', false, 'boolean');
 
-        $q->andWhere('e.email_type = :emailType')
+        $q->orWhere('e.email_type = :emailType')
             ->setParameter('emailType', 'list');
+
         $q->andWhere(
             $q->expr()->eq('es.is_unsubscribe', 1)
+        );
+
+        $q->orWhere(
+            $q->expr()->eq('es.is_spam', 1)
+        );
+
+        $q->andWhere(
+            $q->expr()->eq('es.is_bounce', 1)
         );
         if (!$viewOthers) {
             $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
@@ -967,39 +977,39 @@ class EmailRepository extends CommonRepository
      */
     public function getLast30DaysClickCounts($viewOthers =false)
     {
-      /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
-        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
+          $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-        $q->select('SUM(t.hits)')
-            ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
-            ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
-                $q->expr()->andX(
-                    $q->expr()->eq('r.id', 't.redirect_id'),
-                    $q->expr()->eq('t.channel', ':channel')
-                )
-            )
-            ->setParameter('channel', 'email')
-            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
-                $q->expr()->andX(
-                    $q->expr()->eq('t.channel_id', 'es.id')
-                ))
-            ->andWhere($q->expr()->gte('r.date_added', ':dateAdded'))
-            ->setParameter('dateAdded', $dateinterval)
-            ->orderBy('r.url');
+          $q->select('SUM(t.hits)')
+              ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
+              ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
+                  $q->expr()->andX(
+                      $q->expr()->eq('r.id', 't.redirect_id'),
+                      $q->expr()->eq('t.channel', ':channel')
+                  )
+              )
+              ->setParameter('channel', 'email')
+              ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
+                  $q->expr()->andX(
+                      $q->expr()->eq('t.channel_id', 'es.id')
+                  ))
+              ->andWhere($q->expr()->gte('r.date_added', ':dateAdded'))
+              ->setParameter('dateAdded', $dateinterval)
+              ->orderBy('r.url');
 
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
+          if (!$viewOthers) {
+              $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
+                  ->setParameter('currentUserId', $this->currentUser->getId());
+          }
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('r.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
+          if ($this->currentUser->getId() != 1) {
+              $q->andWhere($q->expr()->neq('r.created_by', ':id'))
+                  ->setParameter('id', '1');
+          }
 
-        $results = $q->execute()->fetchAll();
+          $results = $q->execute()->fetchAll();
 
-        return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;*/
+          return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;*/
         $dateinterval = date('Y-m-d', strtotime('-29 days'));
         $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $q->select('count(DISTINCT e.id) as clickcount')
@@ -1023,6 +1033,7 @@ class EmailRepository extends CommonRepository
         }
 
         $results = $q->execute()->fetchAll();
+
         return $results[0]['clickcount'];
     }
 

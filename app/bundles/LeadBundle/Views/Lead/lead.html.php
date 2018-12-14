@@ -267,18 +267,27 @@ $view['slots']->set(
                                         <p class="text-primary"><?php echo $fields['core']['email']['value']; ?>
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="fw-b" ">
+                                        <h6 class="fw-b">
                                         <?php echo $view['translator']->trans('le.lead.field.address'); ?>
                                         </h6>
                                         <address class="text-primary">
                                             <?php if (isset($fields['core']['address1'])): ?>
-                                                <?php echo $fields['core']['address1']['value']; ?><br>
+                                                <?php echo $fields['core']['address1']['value'] ?>
                                             <?php endif; ?>
-                                            <?php if (!empty($fields['core']['address2']['value'])) : echo $fields['core']['address2']['value']
+                                            <?php if (!empty($fields['core']['address2']['value'])) : echo $fields['core']['address2']['value'].'.'
                                                 .'<br>'; endif ?>
-                                            <?php echo $lead->getLocation(); ?><br> <?php if (isset($fields['core']['zipcode'])) {
-                                                    echo $fields['core']['zipcode']['value'];
+                                            <?php if (isset($fields['core']['city']['value'])) {
+                                                    echo $fields['core']['city']['value'].'- ';
                                                 } ?>
+                                            <?php if (isset($fields['core']['zipcode']['value'])) {
+                                                    echo $fields['core']['zipcode']['value'].'.';
+                                                } ?><br>
+                                            <?php if (isset($fields['core']['state']['value'])) {
+                                                    echo $fields['core']['state']['value'].', ';
+                                                } ?>
+                                            <?php if (isset($fields['core']['country']['value'])) {
+                                                    echo $fields['core']['country']['value'].'.';
+                                                } ?><br>
                                         </address>
                                     </div>
                                 </div>
@@ -333,7 +342,7 @@ $view['slots']->set(
                                                         <?php if ($event['url'] != ''):?>
                                                             <?php
                                                             $linkType       = 'target="_new"';
-                                                            $string = (strlen($event['url']) > 106) ? substr($event['url'],0,106).'....' : $event['url'];
+                                                            $string         = (strlen($event['url']) > 106) ? substr($event['url'], 0, 106).'....' : $event['url'];
                                                             $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
                                                             <h5 class="mt-xs mr-xs">
                                                                 <b><?php echo $event['pagehits'].'x '?></b>

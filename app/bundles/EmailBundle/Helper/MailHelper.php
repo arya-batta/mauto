@@ -2377,7 +2377,7 @@ class MailHelper
                     if ($settings['send_test'] == 'true') {
                         $message= $translator->trans('mautic.core.success', ['%email%'=>$email]);
                     } else {
-                        $message = $translator->trans('mautic.core.success.tracking');
+                        $message = $translator->trans('mautic.core.success.tracking', ['%email%'=>$email]);
                     }
                     $dataArray['message'] =$message;
                 } else {

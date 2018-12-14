@@ -265,7 +265,7 @@ ul.tag-cloud li {
     padding: 6px;
     border-radius: 2px;
     background: #f2f2f2;
-    width: 6%;
+    width: 8%;
 }
 .lead_filter_padding_right{
     padding-right: 0px;
@@ -282,7 +282,7 @@ ul.tag-cloud li {
     margin-top: 10px;
     margin-bottom: 10px;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0.1em;
 }
 .selected-filters .filter-group-template {
@@ -335,4 +335,8 @@ ul.tag-cloud li {
 }
 .filter-and-group-holder div:first-child .filter-and-group::before{
     display: none;
+}
+.lead-list:hover{
+    color: #eee;
+    background-color: #ec407a;
 }

@@ -11,7 +11,7 @@
 ?>
 
 <?php if (!empty($filters)) : ?>
-    <div class="form-group" style="width:45%;margin-left: 28px;">
+    <div class="form-group">
         <?php
         foreach ($filters as $filterName => $filter):
 

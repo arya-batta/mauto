@@ -34,10 +34,10 @@ class DripEmailMoveType extends AbstractType
                     'class'    => 'form-control',
                 ],
                 'multiple'    => false,
-                'required'    => false,
+                'required'    => true,
                 'constraints' => [
                     new NotBlank(
-                        ['message' => 'le.drip.email.choosedripemail.notblank']
+                        ['message' => 'mautic.core.value.required']
                     ),
                 ],
             ]
@@ -53,10 +53,10 @@ class DripEmailMoveType extends AbstractType
                     'class'    => 'form-control',
                 ],
                 'multiple'    => false,
-                'required'    => false,
+                'required'    => true,
                 'constraints' => [
                     new NotBlank(
-                        ['message' => 'le.drip.email.choosedripemail.notblank']
+                        ['message' => 'mautic.core.value.required']
                     ),
                 ],
             ]

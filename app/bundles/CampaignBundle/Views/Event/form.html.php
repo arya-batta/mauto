@@ -54,7 +54,7 @@ if ($isCondition) {
         'drip_campaign_list'=> 'drip_email_list-template',
     ];
 }
-$addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-group\" data-filter-group='and'>Add a condition</button>";
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <div class="bundle-form">
@@ -122,7 +122,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
             <?php echo $view['form']->widget($form['properties']['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
         </div>
         <div class="leadlist-filter-group filter-or-group">
-            <button type="button" class="btn btn-default btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+            <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
         </div>
     </div>
     <?php endif; ?>
@@ -144,7 +144,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-gro
                 <div class="col-sm-4">
                     <?php echo $view['form']->row($form['triggerInterval']); ?>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-2" style="margin-left: -170px;">
                     <?php echo $view['form']->row($form['triggerIntervalUnit']); ?>
                 </div>
             </div>

@@ -101,10 +101,10 @@ class EmailCampaignController extends FormController
         }
 
         //retrieve a list of Lead Lists
-        $listFilters['filters']['groups']['mautic.core.filter.lists'] = [
+        /*$listFilters['filters']['groups']['mautic.core.filter.lists'] = [
             'options' => $this->getModel('lead.list')->getUserLists(),
             'prefix'  => 'list',
-        ];
+        ];*/
         $currentFilters = $session->get('mautic.email.list_filters', []);
         //retrieve a titles of Category
         $listFilters['filters']['groups']['mautic.core.filter.category'] = [

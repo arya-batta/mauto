@@ -68,7 +68,17 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'p.delta',
                         'text'       => 'mautic.point.thead.delta',
-                        'class'      => 'visible-md visible-lg col-point-delta',
+                        'class'      => 'visible-md visible-lg col-point-delta align-center',
+                    ]
+                );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'point',
+                        'orderBy'    => 'p.delta',
+                        'text'       => 'mautic.point.thead.score',
+                        'class'      => 'visible-md visible-lg col-point-delta align-center',
                     ]
                 );
 
@@ -144,7 +154,12 @@ $isAdmin    =$view['security']->isAdmin();
                         <span style="white-space: nowrap;"><span class="label label-default pa-4"
                                                                  style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-md visible-lg"><?php echo $item->getDelta(); ?></td>
+                    <?php  $score = (!empty($item->getScore())) ? $view['assets']->getLeadScoreIcon($item->getScore()) : ''; ?>
+                    <td class="visible-md visible-lg align-center"><?php echo $item->getDelta(); ?></td>
+                    <td class="visible-md visible-lg text-center">
+                        <img src="<?php echo $score; ?>" style="max-height: 25px;" />
+
+                    </td>
                     <?php
                     $type   = $item->getType();
                     $action = (isset($actions[$type])) ? $actions[$type]['label'] : '';

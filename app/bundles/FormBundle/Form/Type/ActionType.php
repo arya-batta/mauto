@@ -35,12 +35,12 @@ class ActionType extends AbstractType
             'required'   => false,
         ]);
 
-        $builder->add('description', 'textarea', [
+        /*$builder->add('description', 'textarea', [
             'label'      => 'mautic.core.description',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => ['class' => 'form-control editor le-input'],
             'required'   => false,
-        ]);
+        ]);*/
 
         $properties      = (!empty($options['data']['properties'])) ? $options['data']['properties'] : null;
         $formType        = $options['settings']['formType'];

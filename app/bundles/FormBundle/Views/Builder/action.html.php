@@ -10,6 +10,8 @@
  */
 $template   = '<div class="col-md-6">{content}</div>';
 $properties = (isset($form['properties'])) ? $form['properties'] : [];
+$isAdmin    =$view['security']->isAdmin();
+$hidepanel  = ($isAdmin) ? '' : "style='display: none;'";
 ?>
 
 <div class="bundle-form">
@@ -20,7 +22,6 @@ $properties = (isset($form['properties'])) ? $form['properties'] : [];
     <?php echo $view['form']->start($form); ?>
     <div class="row pa-md">
         <?php echo $view['form']->row($form['name']); ?>
-        <?php echo $view['form']->row($form['description']); ?>
         <?php echo $view['form']->row($form['properties']); ?>
     </div>
     <?php echo $view['form']->end($form); ?>

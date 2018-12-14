@@ -158,7 +158,7 @@ class UserType extends AbstractType
             'text',
             [
                 'label'      => 'mautic.core.lastname',
-                'label_attr' => ['class' => 'control-label required'],
+                'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'required'   => false,
             ]
@@ -300,6 +300,7 @@ class UserType extends AbstractType
                     'class'    => 'form-control le-input',
                     'preaddon' => 'fa fa-mobile',
                 ],
+                'required'     => false,
             ]
         );
         if (empty($options['in_profile'])) {

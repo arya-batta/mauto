@@ -25,7 +25,7 @@ $emailentity = $model->getEntity($id);
                             <img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/emailtick.png'); ?>" />
                             <br><br>
                             <div>
-                                <strong><h6 class="send-body-detail">Send An Example Before Sending This Campaign</h6></strong>
+                                <strong><h6 class="send-body-detail">Send An Example Before Sending This Campaign.</h6></strong>
                             </div>
                         </div>
                         <br>

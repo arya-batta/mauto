@@ -132,7 +132,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
                     <?php echo $view['form']->row($form['isListable']); ?>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isShortVisible']); ?>
+                    <?php echo $view['form']->row($form['isUniqueIdentifer']); ?>
                 </div>
             </div>
             <div class="row">
@@ -144,8 +144,8 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isUniqueIdentifer']); ?>
+                <div class="col-md-6" <?php echo $hidepanel; ?>>
+                    <?php echo $view['form']->row($form['isShortVisible']); ?>
                 </div>
             </div>
             <div class="row unique-identifier-warning" style="<?php if (!$form['isUniqueIdentifer']->vars['data']): echo 'display:none;'; endif; ?>">

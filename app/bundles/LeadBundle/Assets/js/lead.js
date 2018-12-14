@@ -539,6 +539,7 @@ Le.convertLeadFilterInput = function(el) {
     var matches   = regExp.exec(mQuery(el).attr('id'));
     var filterNum = matches[1];
     var filterId  = '#' + prefix + '_filters_' + filterNum + '_filter';
+    var operatorId  = '#' + prefix + '_filters_' + filterNum + '_operator';
     var typeId  = '#' + prefix + '_filters_' + filterNum + '_type';
     var fieldtype = mQuery(typeId).val();
     var isSpecial = (mQuery.inArray(fieldtype, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list','drip_email_received','drip_email_list']) != -1);
@@ -566,7 +567,7 @@ Le.convertLeadFilterInput = function(el) {
         mQuery(filterId+', #' + prefix + '_filters_' + filterNum + '_display').removeAttr('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;');
         mQuery(filterId).val("");
     }
-
+    Le.activateChosenSelect(mQuery(operatorId));
     var newName = '';
     var lastPos;
 
@@ -783,7 +784,8 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     //mQuery(prototype).appendTo('#' + prefix + '_filters');
     if(elId == "lead_email_activity"){
         mQuery(prototype).find('.email-activity-label').removeClass('hide');
-        mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-5').addClass('col-sm-3 lead_filter_padding_right');
+        mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-5').addClass('col-sm-2 lead_filter_padding_right');
+        mQuery(prototype).find('.filter-operator-segment').removeClass('col-sm-2').addClass('col-sm-3');
     } else {
         mQuery(prototype).find('.email-activity-label').removeClass('hide lead_filter_padding_right').addClass('hide');
     }

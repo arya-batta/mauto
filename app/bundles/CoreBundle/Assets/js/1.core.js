@@ -759,8 +759,8 @@ var Le = {
         if (notifications.content) {
             mQuery('#notifications').prepend(notifications.content);
 
-            if (!mQuery('#notificationMautibot').hasClass('hide')) {
-                mQuery('#notificationMautibot').addClass('hide');
+            if (!mQuery('#notificationLEbot').hasClass('hide')) {
+                mQuery('#notificationLEbot').addClass('hide');
             }
         }
 
@@ -795,8 +795,8 @@ var Le = {
                 mQuery(this).remove();
 
                 if (!mQuery('#notifications .notification').length) {
-                    if (mQuery('#notificationMautibot').hasClass('hide')) {
-                        mQuery('#notificationMautibot').removeClass('hide');
+                    if (mQuery('#notificationLEbot').hasClass('hide')) {
+                        mQuery('#notificationLEbot').removeClass('hide');
                     }
                 }
             });
@@ -804,8 +804,8 @@ var Le = {
             mQuery("#notifications .notification").fadeOut(300, function () {
                 mQuery(this).remove();
 
-                if (mQuery('#notificationMautibot').hasClass('hide')) {
-                    mQuery('#notificationMautibot').removeClass('hide');
+                if (mQuery('#notificationLEbot').hasClass('hide')) {
+                    mQuery('#notificationLEbot').removeClass('hide');
                 }
             });
         }

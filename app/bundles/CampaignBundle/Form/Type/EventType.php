@@ -104,6 +104,7 @@ class EventType extends AbstractType
                     'empty_value' => false,
                     'required'    => false,
                     'attr'        => [
+                        'class'    => 'decision-widget-width',
                         'onchange' => 'Le.campaignToggleTimeframes();',
                         'tooltip'  => 'mautic.campaign.form.type.help',
                     ],
@@ -117,7 +118,7 @@ class EventType extends AbstractType
                 [
                     'label' => false,
                     'attr'  => [
-                        'class'       => 'form-control le-input',
+                        'class'       => 'form-control le-input decision-widget-width',
                         'preaddon'    => 'fa fa-calendar',
                         'data-toggle' => 'datetime',
                     ],
@@ -133,7 +134,7 @@ class EventType extends AbstractType
                 [
                     'label' => false,
                     'attr'  => [
-                        'class'    => 'form-control le-input',
+                        'class'    => 'form-control le-input decision-widget-width',
                         'preaddon' => 'symbol-hashtag',
                     ],
                     'data' => $data,
@@ -153,12 +154,9 @@ class EventType extends AbstractType
                         'm' => 'mautic.campaign.event.intervalunit.choice.m',
                         'y' => 'mautic.campaign.event.intervalunit.choice.y',
                     ],
-                    'multiple'   => false,
-                    'label_attr' => ['class' => 'control-label'],
-                    'label'      => false,
-                    'attr'       => [
-                        'class' => 'form-control',
-                    ],
+                    'multiple'    => false,
+                    'label_attr'  => ['class' => 'control-label'],
+                    'label'       => false,
                     'empty_value' => false,
                     'required'    => false,
                     'data'        => $data,

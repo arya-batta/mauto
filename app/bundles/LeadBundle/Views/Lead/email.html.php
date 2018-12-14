@@ -8,6 +8,8 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+$isadmin    =$view['security']->isAdmin();
+$hidepanel  = ($isadmin) ? '' : "style='display: none;'";
 if ($dnc && $dnc['bounced']) {
     echo '<div class="alert alert-warning">'.$view['translator']->trans('le.lead.do.not.contact_bounced').'</div>';
 } else {
@@ -35,11 +37,13 @@ if ($dnc && $dnc['bounced']) {
         </li>
     </div>
     <?php
-    echo $view['form']->row($form['subject']);
-    echo $view['form']->row($form['body']);
-    echo $view['form']->row($form['templates']);
-
-    echo $view['form']->end($form);
+     echo $view['form']->row($form['subject']);
+    echo $view['form']->row($form['body']); ?>
+    <div class="row" <?php echo $hidepanel; ?>>
+        <?php   echo $view['form']->row($form['templates']); ?>
+    </div>
+    <?php
+     echo $view['form']->end($form);
 }
-?>
+    ?>
 

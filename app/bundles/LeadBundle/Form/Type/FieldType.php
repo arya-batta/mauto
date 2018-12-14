@@ -380,7 +380,7 @@ class FieldType extends AbstractType
                         'text',
                         [
                             'label'      => 'mautic.core.defaultvalue',
-                            'label_attr' => ['class' => 'control-label le-input'],
+                            'label_attr' => ['class' => 'control-label'],
                             'attr'       => [
                                 'class' => 'form-control le-input',
                                 'type'  => $type,

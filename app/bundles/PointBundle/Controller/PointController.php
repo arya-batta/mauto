@@ -45,6 +45,15 @@ class PointController extends AbstractFormController
             $this->setListFilters();
         }
 
+        $listFilters = [
+            'filters' => [
+                'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),
+                'multiple'    => true,
+            ],
+        ];
+        // Reset available groups
+        $listFilters['filters']['groups'] = [];
+
         //set limits
         $limit = $this->get('session')->get('mautic.point.limit', $this->coreParametersHelper->getParameter('default_pagelimit'));
         $start = ($page === 1) ? 0 : (($page - 1) * $limit);
@@ -56,6 +65,59 @@ class PointController extends AbstractFormController
         $this->get('session')->set('mautic.point.filter', $search);
 
         $filter     = ['string' => $search, 'force' => []];
+
+        $listFilters['filters']['groups']['mautic.core.filter.category'] = [
+            'options' => $this->getModel('category.category')->getLookupResults('point'),
+            'prefix'  => 'category',
+        ];
+
+        $updatedFilters = $this->request->get('filters', false);
+
+        if ($updatedFilters) {
+            // Filters have been updated
+
+            // Parse the selected values
+            $newFilters     = [];
+            $updatedFilters = json_decode($updatedFilters, true);
+
+            if ($updatedFilters) {
+                foreach ($updatedFilters as $updatedFilter) {
+                    list($clmn, $fltr) = explode(':', $updatedFilter);
+
+                    $newFilters[$clmn][] = $fltr;
+                }
+
+                $currentFilters = $newFilters;
+            } else {
+                $currentFilters = [];
+            }
+        }
+        $this->get('session')->set('mautic.form.filter', []);
+
+        if (!empty($currentFilters)) {
+            $catIds = [];
+            foreach ($currentFilters as $type => $typeFilters) {
+                switch ($type) {
+                    case 'category':
+                        $key = 'categories';
+                        break;
+                }
+
+                $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
+
+                foreach ($typeFilters as $fltr) {
+                    switch ($type) {
+                        case 'category':
+                            $catIds[] = (int) $fltr;
+                            break;
+                    }
+                }
+            }
+
+            if (!empty($catIds)) {
+                $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
+            }
+        }
         $orderBy    = $this->get('session')->get('mautic.point.orderby', 'p.name');
         $orderByDir = $this->get('session')->get('mautic.point.orderbydir', 'ASC');
 
@@ -79,7 +141,7 @@ class PointController extends AbstractFormController
                 'contentTemplate' => 'MauticPointBundle:Point:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_point_index',
-                    'leContent' => 'point',
+                    'leContent'     => 'point',
                 ],
             ]);
         }
@@ -96,6 +158,7 @@ class PointController extends AbstractFormController
         return $this->delegateView([
             'viewParameters' => [
                 'searchValue'        => $search,
+                'filters'            => $listFilters,
                 'items'              => $points,
                 'actions'            => $actions['actions'],
                 'page'               => $page,
@@ -107,7 +170,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
                 'route'         => $this->generateUrl('le_point_index', ['page' => $page]),
             ],
         ]);
@@ -183,7 +246,7 @@ class PointController extends AbstractFormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => 'le_point_index',
-                        'leContent' => 'point',
+                        'leContent'     => 'point',
                     ],
                 ]);
             }
@@ -204,7 +267,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
                 'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                         'objectId'     => $entity->getId(),
@@ -241,7 +304,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
             ],
         ];
 
@@ -333,7 +396,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
                 'route'         => $this->generateUrl('le_point_action', [
                         'objectAction' => 'edit',
                         'objectId'     => $entity->getId(),
@@ -386,7 +449,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
             ],
         ];
 
@@ -443,7 +506,7 @@ class PointController extends AbstractFormController
             'contentTemplate' => 'MauticPointBundle:Point:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_point_index',
-                'leContent' => 'point',
+                'leContent'     => 'point',
             ],
         ];
 

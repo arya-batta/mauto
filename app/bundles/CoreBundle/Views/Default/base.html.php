@@ -39,12 +39,13 @@
     <?php $anitSpamUrl    ='https://leadsengage.com/anti-spam-policy/'; ?>
     <?php $privacyUrl     ='https://leadsengage.com/privacy-policy/'; ?>
     <?php $termsAndCondUrl='https://leadsengage.com/terms-of-service/'; ?>
+    <?php $GDPRpolicy     ='https://leadsengage.com/gdpr-policy/'; ?>
     <!-- start: app-footer(need to put on top of #app-content)-->
     <footer id="app-footer">
         <div class="container-fluid">
             <div class="col-lg-12">
                 <div class="pull-left hidden-xs">
-                    <?php echo $view['translator']->trans('mautic.core.copyright.anti.spam', ['%anitSpamUrl%' => $anitSpamUrl, '%privacyUrl%' => $privacyUrl, '%termsAndCondUrl%' => $termsAndCondUrl]); ?>
+                    <?php echo $view['translator']->trans('mautic.core.copyright.anti.spam', ['%anitSpamUrl%' => $anitSpamUrl, '%privacyUrl%' => $privacyUrl, '%termsAndCondUrl%' => $termsAndCondUrl, '%GDPRpolicy%'=> $GDPRpolicy]); ?>
                 </div>
                 <div class="pull-right">
                     <?php echo $view['translator']->trans('mautic.core.copyright', ['%date%' => date('Y')]); ?></div><?php

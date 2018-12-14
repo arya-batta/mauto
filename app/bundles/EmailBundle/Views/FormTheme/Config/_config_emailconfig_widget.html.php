@@ -71,21 +71,12 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                         <?php endif; ?>
                     </div>
                     <div data-hide-on='{"config_emailconfig_mailer_transport":["sendmail","mail"]}'>
-                        <div class="col-md-2 pt-lg mt-3">
+                        <div class="col-md-3">
+                            <label style="margin-left: 16px;" class="control-label"><?php echo $view['translator']->trans('le.email.config.email.status.label'); ?></label>
+                        <div class="col-md-12">
                             <?php echo $view['form']->widget($fields['email_status'], ['attr' => ['tabindex' => '-1']]); ?>
-                        </div>
-                        <div class="button_container">
-                            <div class="col-sm-3 pt-lg mt-3">
-                                <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
-                                <?php /** echo $view['form']->widget($fields['mailer_test_send_button']); */ ?>
-                            </div>
-                        </div>
+                        </div> </div>
                     </div>
-                    <div width="150px;" id="mailerTestButtonContainer" >
-                        <span class="fa fa-spinner fa-spin hide"></span>
-                        <div class="col-md-6 help-block" style="float:right;"></div>
-                    </div>
-
                 </div>
             <?php endif; ?>
 
@@ -114,6 +105,17 @@ $hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_password', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_api_key', $template); ?>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
+                    <?php /** echo $view['form']->widget($fields['mailer_test_send_button']); */ ?>
+                </div>
+                <div width="150px;" id="mailerTestButtonContainer" >
+                    <span class="fa fa-spinner fa-spin hide" style="margin-left: -246px;"></span>
+                    <div class="col-md-6 help-block" style="    float: left;margin-left: -205px;margin-top: 39px;"></div>
+                </div>
+            </div>
+
             <?php if ($isadmin): ?>
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">
                 <div class="col-sm-12">

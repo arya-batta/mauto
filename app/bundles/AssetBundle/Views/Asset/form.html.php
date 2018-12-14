@@ -28,7 +28,7 @@ $isAdmin=$view['security']->isAdmin();
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-r">
+    <div class="col-md-9 bg-auto height-auto">
         <div class="pa-md">
 	        <div class="row">
 		        <div class="col-md-6">

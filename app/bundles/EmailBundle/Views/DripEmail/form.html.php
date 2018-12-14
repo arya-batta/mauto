@@ -68,7 +68,7 @@ $isAdmin              = $view['security']->isAdmin();
                 <a href="#" id="#previous-button" style="margin-top: -307px;" class="prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 100px;">
+                <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 124px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -228,7 +228,7 @@ $isAdmin              = $view['security']->isAdmin();
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:-82px;margin-top: -308px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" style="margin-left:-82px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -317,7 +317,7 @@ $isAdmin              = $view['security']->isAdmin();
                     <div class="col-md-3">
                         <?php echo $view['form']->row($form['scheduleDate']); ?>
                         <a class="btn btn-default le-btn-default btn-nospin custom-preview-button pink-background reset-time-button" onclick="Le.ClearScheduleTimeWidget();">
-                            <span><i class="fa fa-refresh"></i></span>
+                            <span><i class="fa fa-refresh" style="font-size: 15px;"></i></span>
                         </a>
                     </div>
                     <div class="col-md-3">

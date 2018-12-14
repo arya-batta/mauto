@@ -1067,6 +1067,7 @@ class DripEmailController extends FormController
         $fromName        = $emailentity->getFromName();
         $fromAdress      = $emailentity->getFromAddress();
         $emailentity->setName('DripEmail - ');
+        $emailentity->setIsPublished(false);
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => $subobjectId]);
         //create the form
         $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);

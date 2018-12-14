@@ -50,8 +50,8 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-                if(!$notificationemail){
-                echo $view->render(
+                if (!$notificationemail) {
+                    echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'email',
@@ -102,18 +102,18 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-                if(!$notificationemail) {
+                if (!$notificationemail) {
                     echo $view->render(
                         'MauticCoreBundle:Helper:tableheader.html.php',
                         [
                             'sessionVar' => 'email',
-                            'orderBy' => '',
-                            'text' => 'le.email.config.monitored_email.bounce_folder',
-                            'class' => 'col-email-stats',
-                            'default' => true,
+                            'orderBy'    => '',
+                            'text'       => 'le.email.config.monitored_email.bounce_folder',
+                            'class'      => 'col-email-stats',
+                            'default'    => true,
                         ]
                     );
-                echo $view->render(
+                    echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'email',
@@ -205,7 +205,7 @@ $isAdmin=$view['security']->isAdmin();
                             <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                             <a href="<?php echo $view['router']->path(
                                 $actionRoute,
-                                ['objectAction' => 'view', 'objectId' => $item->getId()]
+                                ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
                                 <?php if ($hasVariants): ?>
@@ -220,7 +220,7 @@ $isAdmin=$view['security']->isAdmin();
                                     <i class="fa fa-fw fa-language"></i>
                                 </span>
                                 <?php endif; ?>
-                                <?php if(!$notificationemail): ?>
+                                <?php if (!$notificationemail): ?>
                                 <?php if ($type !== 'list'): ?>
                                     <span data-toggle="tooltip" title="<?php echo $view['translator']->trans(
                                         'le.email.icon_tooltip.list_email'
@@ -241,7 +241,7 @@ $isAdmin=$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <?php if(!$notificationemail ): ?>
+                    <?php if (!$notificationemail): ?>
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="pending-<?php echo $item->getId(); ?>">
@@ -249,7 +249,7 @@ $isAdmin=$view['security']->isAdmin();
                                 'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_pending').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.pending.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -264,7 +264,7 @@ $isAdmin=$view['security']->isAdmin();
                                 'le_contact_index',
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_sent').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
-                               title="<?php echo $view['translator']->trans('le.email.stat.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.stat.tooltip.sent'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
@@ -313,7 +313,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <?php if(!$notificationemail): ?>
+                    <?php if (!$notificationemail): ?>
                     <td class="visible-sm visible-md visible-lg col-stats">
                            <span class="mt-xs has-click-event clickable-stat"
                                  id="bounce-count-<?php echo $item->getId(); ?>">
@@ -371,15 +371,15 @@ $isAdmin=$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path(!$notificationemail?'le_email_campaign_action':'le_email_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path(!$notificationemail ? 'le_email_campaign_action' : 'le_email_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path(!$notificationemail?'le_email_campaign_action':'le_email_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path(!$notificationemail ? 'le_email_campaign_action' : 'le_email_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>
-                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path(!$notificationemail?'le_email_campaign_action':'le_email_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans(!$notificationemail?'mautic.email.form.confirmdelete':'mautic.email.notification.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                            <a data-toggle="confirmation" href="<?php echo $view['router']->path(!$notificationemail ? 'le_email_campaign_action' : 'le_email_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans(!$notificationemail ? 'mautic.email.form.confirmdelete' : 'mautic.email.notification.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                              <span><i class="material-icons md-color-white">  </i></span>
                                             </a>
                                         <?php endif; ?>

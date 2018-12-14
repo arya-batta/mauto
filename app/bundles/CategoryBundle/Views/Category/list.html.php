@@ -61,7 +61,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'category',
                         'orderBy'    => 'c.bundle',
                         'text'       => 'mautic.core.type',
-                        'class'      => 'visible-md visible-lg col-page-bundle',
+                        'class'      => 'visible-md visible-lg col-page-bundle col-category-type',
                     ]
                 );
                 if ($isAdmin):

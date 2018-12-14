@@ -111,13 +111,13 @@ class FormButtonsType extends AbstractType
     {
         $resolver->setDefaults([
             'apply_text'         => 'mautic.core.form.apply',
-            'apply_icon'         => 'fa fa-check',
+            'apply_icon'         => '', //'fa fa-check',
             'apply_class'        => 'btn btn-default btn-apply le-btn-default',
             'apply_onclick'      => false,
             'apply_attr'         => [],
             'apply_type'         => 'submit',
             'save_text'          => 'mautic.core.form.saveandclose',
-            'save_icon'          => 'fa fa-save',
+            'save_icon'          => '', //'fa fa-save',
             'save_class'         => 'btn btn-default btn-save le-btn-default',
             'save_onclick'       => false,
             'save_attr'          => [],

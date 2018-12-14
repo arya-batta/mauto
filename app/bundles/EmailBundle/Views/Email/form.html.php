@@ -120,7 +120,7 @@ $filter_templates = [
     'drip_campaign_list'=> 'drip_email_list-template',
 ];
 $customHtml            = $email->getCustomHtml();
-$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-filter-group\" data-filter-group='and'>Add a condition</button>";
+$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <div id="page-wrap" class="tab-content align-tab-center">
@@ -293,11 +293,11 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
         </div>
         <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" id="previous-button-3" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1" style="<?php echo !$isbasiceditor ? 'margin-left:-18%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="previous-button-3" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1" style="<?php echo !$isbasiceditor ? 'margin-left:-16%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-3" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-3" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3" style="<?php echo !$isbasiceditor ? 'margin-left:77%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <a href="#" id="next-tab-3" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3" style="<?php echo !$isbasiceditor ? 'margin-left:78%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
-                    <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:125px;' : ''?>"></div>
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:184px;' : ''?>"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
@@ -323,14 +323,20 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
 
             <div class="tab-pane fade in bdr-w-0 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?> <?php echo ($isbasiceditor || $customHtml != '') ? 'hide' : ''; ?>" id="email-advance-container" style="margin-top:-10px;">
                 <div class="col-md-6 <?php echo $activateadvanceeditor; echo $hideadvanceeditor; ?>" style="width:100%;">
-                    <div style="width: 70%;margin-left:-40px;">
-                        <?php  if (!empty($template_filters)): ?>
-                            <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
-                                'filters' => $template_filters,
-                                'target'  => (empty($target)) ? null : $target,
-                                'tmpl'    => (empty($tmpl)) ? null : $tmpl,
-                            ]); ?>
-                        <?php endif; ?>
+                    <div id="block_container">
+                        <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;">
+                            <p><?php echo $view['translator']->trans('le.email.notification'); ?></p>
+                        </div>
+                        <div class="le-category-filter alert alert-info le-alert-info">
+                            <p class="info-box-text" style="margin-top: -8px;"><?php echo $view['translator']->trans('le.email.category.notification'); ?></p>
+                            <?php  if (!empty($template_filters)): ?>
+                                <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                                    'filters' => $template_filters,
+                                    'target'  => (empty($target)) ? null : $target,
+                                    'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                ]); ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -367,6 +373,9 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
                 </div>
+            </div>
+            <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+                <p><?php echo $view['translator']->trans('le.email.wizard.notification'); ?></p>
             </div>
             <div class="form-group hide">
                 <div style="margin-top:18px;" class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['recipients']['filters']->vars['prototype'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn])); ?>" data-index="<?php echo $filter_index + 1; ?>">
@@ -415,7 +424,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default btn-fil
                     <?php echo $view['form']->widget($form['recipients']['filters'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn]); ?>
                 </div>
                 <div class="leadlist-filter-group filter-or-group">
-                    <button type="button" class="btn btn-default btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                    <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
                 </div>
             </div>
             <div class="hide" id="templates">

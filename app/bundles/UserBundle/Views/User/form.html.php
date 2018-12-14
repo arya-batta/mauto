@@ -34,7 +34,7 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
 			            <?php echo $view['form']->widget($form['firstName'], ['attr' => ['placeholder' => $form['firstName']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['firstName']); ?>
 			        </div>
-                    <div class="col-sm-6<?php echo (count($form['lastName']->vars['errors'])) ? ' has-error' : ''; ?>">
+                    <div class="col-sm-6<?php echo (count($form['lastName']->vars['errors'])) ? ' ' : ''; ?>">
                         <label class="control-label mb-xs"><?php echo $view['form']->label($form['lastName']); ?></label>
 			            <?php echo $view['form']->widget($form['lastName'], ['attr' => ['placeholder' => $form['lastName']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['lastName']); ?>
@@ -45,7 +45,7 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
 
 			<div class="form-group mb-0">
 			    <div class="row">
-                    <div class="col-sm-6<?php echo (count($form['mobile']->vars['errors'])) ? ' has-error' : ''; ?>">
+                    <div class="col-sm-6<?php echo (count($form['mobile']->vars['errors'])) ? '' : ''; ?>">
                         <label class="control-label mb-xs"><?php echo $view['form']->label($form['mobile']); ?></label>
                         <?php echo $view['form']->widget($form['mobile'], ['attr' => ['placeholder' => $form['mobile']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['mobile']); ?>
@@ -61,7 +61,7 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
 
             <div class="form-group mb-0">
                 <div class="row">
-                    <div class="col-sm-6<?php echo (count($form['position']->vars['errors'])) ? ' has-error' : ''; ?>">
+                    <div class="col-sm-6 <?php echo $isAdmin ? '' : ' hide'?> <?php echo (count($form['position']->vars['errors'])) ? ' has-error' : ''; ?>">
                         <label class="control-label mb-xs"><?php echo $view['form']->label($form['position']); ?></label>
                         <?php echo $view['form']->widget($form['position'], ['attr' => ['placeholder' => $form['position']->vars['label']]]); ?>
                         <?php echo $view['form']->errors($form['position']); ?>

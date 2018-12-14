@@ -196,9 +196,9 @@ class ConfigType extends AbstractType
                     ),
             ]
         );
-        $class = 'status_success';
+        $class       = 'status_success';
         $emailStatus = $options['data']['email_status'];
-        if($emailStatus == "InActive"){
+        if ($emailStatus == 'InActive') {
             $class = 'status_fail';
         }
 
@@ -206,7 +206,7 @@ class ConfigType extends AbstractType
             'email_status',
             'text',
             [
-                'label'      => false,
+                'label'      => 'le.email.config.email.status.label',
                 'attr'       => [
                     'class'    => 'form-control btn btn-primary '.$class,
                 ],
@@ -234,7 +234,7 @@ class ConfigType extends AbstractType
         );
 
         $choices = [
-            'le.transport.amazon'     => 'le.transport.amazon',
+            'le.transport.amazon'         => 'le.transport.amazon',
             'le.transport.vialeadsengage' => 'le.transport.vialeadsengage',
         ];
         $transport        = $options['data']['mailer_transport'];
@@ -260,10 +260,10 @@ class ConfigType extends AbstractType
                 'label'      => 'le.email.config.mailer.from.email',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'    => 'form-control le-input',
-                    'tabindex' => $tabIndex,
-                    'style'    => $style,
-                    'tooltip'  => 'le.email.config.mailer.from.email.tooltip',
+                    'class'        => 'form-control le-input',
+                    'tabindex'     => $tabIndex,
+                    'style'        => $style,
+                    'tooltip'      => 'le.email.config.mailer.from.email.tooltip',
                     'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'constraints' => [

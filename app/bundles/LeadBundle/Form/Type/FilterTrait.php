@@ -66,7 +66,7 @@ trait FilterTrait
             $field = $options['fields']['pages'][$fieldName];
         } elseif (isset($options['fields']['emails'][$fieldName])) {
             $field = $options['fields']['emails'][$fieldName];
-        }elseif  (isset($options['fields']['one_of_campaign'][$fieldName])) {
+        } elseif (isset($options['fields']['one_of_campaign'][$fieldName])) {
             $field = $options['fields']['one_of_campaign'][$fieldName];
         } elseif (isset($options['fields']['date_activity'][$fieldName])) {
             $field = $options['fields']['date_activity'][$fieldName];
@@ -512,7 +512,7 @@ trait FilterTrait
                 'label'   => false,
                 'choices' => isset($field['operators']) ? $field['operators'] : [],
                 'attr'    => [
-                    'class'    => 'form-control not-chosen le-input',
+                    'class'    => 'form-contro not-chosen le-input le-dropdown-menu',
                     'onchange' => 'Le.convertLeadFilterInput(this)',
                 ],
             ]

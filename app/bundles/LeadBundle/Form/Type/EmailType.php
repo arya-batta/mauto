@@ -58,10 +58,10 @@ class EmailType extends AbstractType
             'subject',
             'text',
             [
-                'label'      => 'le.email.subject',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control le-input'],
-                'required'   => true,
+                'label'       => 'le.email.subject',
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control le-input'],
+                'required'    => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'mautic.core.subject.required',
@@ -86,8 +86,8 @@ class EmailType extends AbstractType
                 'attr'       => ['class'     => 'form-control le-input',
                 'disabled'                   => false,
                 ],
-                'required'   => true,
-                'data'       => $default,
+                'required'    => true,
+                'data'        => $default,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'le.lead.from_name.required',
@@ -143,6 +143,7 @@ class EmailType extends AbstractType
 
         $builder->add('list', 'hidden');
 
+        //if($this->factory->getUser()->isAdmin()) {
         $builder->add(
             'templates',
             'email_list',
@@ -156,8 +157,8 @@ class EmailType extends AbstractType
                 ],
                 'multiple'   => false,
             ]
-        );
-
+          );
+        // }
         $builder->add('buttons', 'form_buttons', [
             'apply_text'  => false,
             'save_text'   => 'le.email.send',

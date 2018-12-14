@@ -99,17 +99,10 @@ $isgoogletags= false; //$email->getGoogletags();
 </div>
       <?php */ ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
-    <div class="template-content " style="padding: 26px;display: block;
-    border-width: 0;
-    background: none;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    min-height: 500px;
-    max-width: 700px;
-    align-items: center;
-    margin-top: 12px;">
-        <div class="row" style="width: 125%;">
-            <div class="col-md-10  <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_TemplateName">
+<div class="center-align-container">
+    <div class="template-content" style="padding: 26px;display: block;border-width: 0;background: none;border: 1px solid #ccc;border-radius: 2px;min-height: 500px;max-width: 700px;align-items: center;margin-top: 12px;">
+        <div class="row">
+            <div class="col-md-12 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_TemplateName">
                 <?php echo $view['form']->label($form['name']); ?>
                 <?php echo $view['form']->widget($form['name']); ?>
                 <?php echo $view['form']->errors($form['name']); ?>
@@ -123,7 +116,7 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
         <div class="row" style="width: 125%;">
             <div class="col-md-10">
-                <div class="pull-left" id="email_FromAddress" style="max-width:70%;">
+                <div class="pull-left" id="email_FromAddress" style="max-width:80%;">
                     <?php echo $view['form']->row($form['fromAddress'],
                         ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                 </div>
@@ -372,6 +365,8 @@ $isgoogletags= false; //$email->getGoogletags();
             </div>
         </div>
     </div>
+</div>
+</div>
 <?php echo $view['form']->end($form); ?>
 
 

@@ -26,20 +26,23 @@
             <div class="modal-content le-modal-content">
                 <!-- Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Sender profile verification</h4>
+                    <h4 class="modal-title">Add New Sender Profile</h4>
                 </div>
                 <!-- body -->
                 <div class="modal-body">
                     <div class="form-group" id ="from_name">
-                        <label class="control-label required" for="email">From name</label>
+                        <label class="control-label required" for="email">New sender name</label>
                         <input type="text" class="form-control le-input" id="sender_profile_from_name" placeholder="Enter valid name" name="fromname" required="required">
                         <div class="help-block" id ="sender_profile_from_name_errors"></div>
                     </div>
                         <div class="form-group" id ="from_email">
-                            <label class="control-label required" for="email">From email</label>
+                            <label class="control-label required" for="email">New sender email</label>
                             <input type="email" class="form-control le-input" id="sender_profile_from_email" placeholder="Enter valid email" name="fromemail" required="required">
                             <div class="help-block" id ="sender_profile_from_email_errors"></div>
                         </div>
+                    <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+                        <p>We’ll send an email with a verification link to the new sender email inbox. Please make sure you click the verification link to activate the new profile.</p>
+                    </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
                             <button type="button"  class="btn btn-success sender_profile_verify_btn"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
@@ -54,10 +57,10 @@
 
     <tr>
         <th>
-          <span class="header">From name<span>
+          <span class="header">New sender name<span>
         </th>
         <th>
-          <span class="header">From email<span>
+          <span class="header">New sender email<span>
         </th>
         <th>
          <span class="header">Status<span>

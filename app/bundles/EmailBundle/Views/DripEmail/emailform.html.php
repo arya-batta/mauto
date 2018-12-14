@@ -29,50 +29,48 @@ $custombutton = [
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
             'onclick' => "Le.launchBeeEditor('dripemail', 'email');",
-            'style'   => 'background-color: #ec407a;color:#ffffff;float: right;margin-left: 26%;border-radius:4px;z-index:499;top:-137px;right:10px;padding-top:2px;padding-bottom:3px;',
+            'style'   => 'background-color: #ec407a;color:#ffffff;border-radius:4px;z-index:499;margin-top:-35px;right:-189px;',
         ],
     ],
 ];
-$buttonpanelcss = 'margin-top: -80px;margin-right: 138px;';
+$buttonpanelcss = 'margin-top: -70px;';
+$marginRight    = 'margin-right: 208px;';
 if (!$isBeeEditor) {
-    $buttonpanelcss = 'margin-top: -80px;margin-right: 10px;';
+    $buttonpanelcss = 'margin-top: -70px;';
+    $marginRight    = 'margin-right: 21px;';
 }
 $customHtml = $entity->getCustomHtml();
 ?>
+<div class="row" style="position: absolute;z-index: 520;right: 0;<?php echo $marginRight; ?>">
+        <div class="toolbar-form-buttons" style="<?php echo $buttonpanelcss; ?>">
+            <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+            <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+            </div>
+            <div id="builder_btn">
+                <?php echo $isBeeEditor ? $view->render(
+                    'MauticCoreBundle:Helper:page_actions.html.php',
+                    [
+                        'routeBase'     => 'email',
+                        'langVar'       => 'email',
+                        'customButtons' => $custombutton,
+                    ]
+                ) : ''; ?>
+            </div>
+        </div>
+    </div>
 <?php echo $view['form']->start($form); ?>
-    <div class="box-layout">
-        <div class="col-md-12 bg-auto height-auto bdr-l">
+    <div class="box-layout le-email-border">
+        <div class="col-md-12 bg-auto height-auto">
             <div class="tab-content align-tab-center">
-                <div id="fragment-1" class="ui-tabs-panel">
-                    <div class="fragment-2-buttons fixed-header">
-                        <div class="toolbar-form-buttons" style="<?php echo $buttonpanelcss; ?>">
-                            <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
-                            <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                                <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
-                                        aria-expanded="false"><i class="fa fa-caret-down"></i></button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
-                            </div>
-
-                        </div>
-                        <div id="builder_btn">
-                            <?php echo $isBeeEditor ? $view->render(
-                                'MauticCoreBundle:Helper:page_actions.html.php',
-                                [
-                                    'routeBase'     => 'email',
-                                    'langVar'       => 'email',
-                                    'customButtons' => $custombutton,
-                                ]
-                            ) : ''; ?>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
+                <div class="row le-border" style="margin-top: 20px;">
+                    <div class="col-md-8" style="top: 6px;">
                         <div class="col-md-10 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" id="DripEmail_Subject" style="right:15px;">
-                            <?php echo $view['form']->label($form['subject']); ?>
-                            <?php echo $view['form']->widget($form['subject']); ?>
-                            <?php echo $view['form']->errors($form['subject']); ?>
+                            <?php echo $view['form']->row($form['subject'],
+                                ['attr' => ['style' =>'background-color: #fff;']]
+                            ); ?>
                         </div>
                         <div class="col-md-2" style="right:25px;">
                             <li class="dropdown dropdown-menu-right" style="display: block;">
@@ -89,27 +87,30 @@ $customHtml = $entity->getCustomHtml();
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <?php echo $view['form']->row($form['previewText']); ?>
+                    <div class="col-md-4" style="top: 6px;">
+                        <?php echo $view['form']->row($form['previewText'],
+                            ['attr' => ['style' =>'background-color: #fff;']]
+                        ); ?>
                     </div>
                 </div>
-                <div class="row">
-
-                </div>
                 <br>
-                <div class="row">
+                <div class="row <?php echo $isBeeEditor ? 'hide' : 'le-border'; ?>">
                     <div class="col-md-12">
-                        <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo $isBeeEditor ? 'hide' : ''; ?>" style="margin-top:-8px;" id="dripemail_basic_editor">
+                        <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo $isBeeEditor ? 'hide' : ''; ?>" style="margin-top: 11px;margin-bottom: 14px;" id="dripemail_basic_editor">
                             <?php echo $view['form']->widget($form['customHtml']); ?>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row <?php echo ($isBeeEditor && $customHtml == '') ? 'le-border' : 'hide'; ?>">
                     <div class="col-md-12">
                         <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo ($isBeeEditor && $customHtml == '') ? '' : 'hide'; ?>" id="dripemail_advance_editor" style="margin-top:-30px;">
                             <br>
-                            <div class="col-md-6" style="width:100%;">
-                                <div style="width: 70%;margin-left:-40px;">
+                            <div id="block_container" style="margin-top: 17px;margin-left: -4px;">
+                                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;">
+                                    <p><?php echo $view['translator']->trans('le.email.notification'); ?></p>
+                                </div>
+                                <div class="le-category-filter alert alert-info le-alert-info">
+                                    <p class="info-box-text" style="margin-top: -8px;"><?php echo $view['translator']->trans('le.email.category.notification'); ?></p>
                                     <?php if (!empty($filters)): ?>
                                         <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                                             'filters' => $filters,
@@ -159,7 +160,7 @@ $customHtml = $entity->getCustomHtml();
             </div>
         </div>
     </div>
-
+    </div>
 <?php echo $view['form']->end($form); ?>
 
 <?php echo $view->render('MauticEmailBundle:Email:beeeditor.html.php', ['objectId'      => $entity->getSessionId(), 'type'          => 'email']); ?>

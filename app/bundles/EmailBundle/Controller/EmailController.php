@@ -651,7 +651,7 @@ class EmailController extends FormController
                             'objectId'     => $entity->getId(),
                         ];
                         $returnUrl = $this->generateUrl('le_email_action', $viewParameters);
-                        $template  = 'MauticEmailBundle:Email:view';
+                        $template  = 'MauticEmailBundle:Email:index';
                     } else {
                         //return edit view so that all the session stuff is loaded
                         return $this->editAction($entity->getId(), true);
@@ -935,7 +935,7 @@ class EmailController extends FormController
                 $model->unlockEntity($entity);
             }
 
-            $template    = 'MauticEmailBundle:Email:view';
+            $template    = 'MauticEmailBundle:Email:index';
             $passthrough = [
                 'activeLink'    => 'le_email_index',
                 'leContent'     => 'email',
@@ -957,7 +957,7 @@ class EmailController extends FormController
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
                 $viewParameters = [
-                    'objectAction' => 'view',
+                    'objectAction' => 'index',
                     'objectId'     => $entity->getId(),
                 ];
 
