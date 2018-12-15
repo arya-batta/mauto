@@ -63,6 +63,7 @@ trait EntityFieldsBuildFormTrait
 
             switch ($type) {
                 case 'number':
+                case 'le_currency':
                     if (empty($properties['precision'])) {
                         $properties['precision'] = null;
                     } //ensure default locale is used
@@ -74,10 +75,10 @@ trait EntityFieldsBuildFormTrait
                         // Prevent transform errors
                         $value = null;
                     }
-
+                    $customType = 'number';
                     $builder->add(
                         $alias,
-                        $type,
+                        $customType,
                         [
                             'required'      => $required,
                             'label'         => $field['label'],

@@ -99,6 +99,12 @@ class FormFieldHelper extends AbstractFormFieldHelper
         'locale' => [
             'properties' => [],
         ],
+        'le_currency' => [
+            'properties' => [
+                'roundmode' => [],
+                'precision' => [],
+            ],
+        ],
     ];
 
     /**
