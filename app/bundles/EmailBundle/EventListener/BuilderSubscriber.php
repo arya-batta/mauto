@@ -111,13 +111,15 @@ class BuilderSubscriber extends CommonSubscriber
         }
 
         $tokens = [
-            '{lead_owner_name}'             => $this->translator->trans('le.email.token.lead_owner_name'),
-            '{lead_owner_mobile}'           => $this->translator->trans('le.email.token.lead_owner_mobile'),
-            '{lead_owner_email}'            => $this->translator->trans('le.email.token.lead_owner_email'),
-            '{from_email}'                  => $this->translator->trans('le.email.token.from_email'),
-            '{postal_address}'              => $this->translator->trans('le.email.token.postal_address'),
-            '{unsubscribe_link}'            => $this->translator->trans('le.email.token.unsubscribe_text'),
-            '{update_your_profile_link}'    => $this->translator->trans('le.email.token.updatelead_text'),
+            '{lead_owner_name}'                                         => $this->translator->trans('le.email.token.lead_owner_name'),
+            '{lead_owner_mobile}'                                       => $this->translator->trans('le.email.token.lead_owner_mobile'),
+            '{lead_owner_email}'                                        => $this->translator->trans('le.email.token.lead_owner_email'),
+            '{from_email}'                                              => $this->translator->trans('le.email.token.from_email'),
+            '{postal_address}'                                          => $this->translator->trans('le.email.token.postal_address'),
+            '{{global_unsubscribe_link}}'                               => $this->translator->trans('le.email.token.unsubscribe_text'),
+            '<a href=\'{{list_unsubscribe_link}}\'>Unsubscribe</a>'     => $this->translator->trans('le.lead.list.unsubscribe.text'),
+            '{update_your_profile_link}'                                => $this->translator->trans('le.email.token.updatelead_text'),
+            '<a href=\'{{confirmation_link}}\'>Confirm Here</a>'        => $this->translator->trans('le.lead.list.confirm.text'),
             //'{webview_text}'     => $this->translator->trans('le.email.token.webview_text'),
             //'{signature}'        => $this->translator->trans('le.email.token.signature'),
             //'{subject}'          => $this->translator->trans('le.email.subject'),
@@ -272,6 +274,7 @@ class BuilderSubscriber extends CommonSubscriber
             $unsubscribeText = $this->translator->trans('le.email.unsubscribe.text', ['%link%' => '|URL|']);
         }
         $unsubscribeText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $unsubscribeText);
+        $event->addToken('{global_unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
         $event->addToken('{unsubscribe_link}', EmojiHelper::toHtml($unsubscribeText));
 
         $event->addToken('{unsubscribe_url}', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]));
@@ -335,6 +338,7 @@ class BuilderSubscriber extends CommonSubscriber
             $footerText = $email->getUnsubscribeText();
         }
         if ($footerText != '') {
+            $footerText = str_replace('{global_unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
             $footerText = str_replace('{unsubscribe_link}', "<a href='|URL|'>Unsubscribe</a>", $footerText);
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $footerText);
 

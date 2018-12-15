@@ -816,7 +816,7 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
     var prototype   = mQuery('#filterSelectPrototype').data('prototype');
     var fieldObject = selectedOption.data('field-object');
     var fieldType   = selectedOption.data('field-type');
-    var isSpecial   = (mQuery.inArray(fieldType, ['leadlist', 'lead_email_received', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale']) != -1);
+    var isSpecial   = (mQuery.inArray(fieldType, ['leadlist','listoptin', 'lead_email_received', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale']) != -1);
 
     // Update the prototype settings
     prototype = prototype.replace(/__name__/g, filterNum)
@@ -915,14 +915,15 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
             closeOnDateSelect: true
         });
     } else if (fieldType == 'time') {
-        mQuery(filter).datetimepicker({
+        mQuery(filter).timepicki();
+        /*mQuery(filter).datetimepicker({
             datepicker: false,
             format: 'H:i',
             lazyInit: true,
             validateOnBlur: false,
             allowBlank: true,
             scrollInput: false
-        });
+        });*/
     } else if (fieldType == 'lookup_id') {
         //switch the filter and display elements
         var oldFilter = mQuery(filterEl);

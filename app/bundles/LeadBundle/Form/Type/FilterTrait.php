@@ -84,6 +84,8 @@ trait FilterTrait
             $field = $options['fields']['assets'][$fieldName];
         } elseif (isset($options['fields']['drip_campaign'][$fieldName])) {
             $field = $options['fields']['drip_campaign'][$fieldName];
+        } elseif (isset($options['fields']['list_listoptin'][$fieldName])) {
+            $field = $options['fields']['list_listoptin'][$fieldName];
         }/*elseif (isset($options['fields']['company'][$fieldName])) {
             $field = $options['fields']['company'][$fieldName];
         }*/
@@ -103,6 +105,23 @@ trait FilterTrait
                 }
 
                 $customOptions['choices']                   = $options['lists'];
+                $customOptions['multiple']                  = true;
+                $customOptions['choice_translation_domain'] = false;
+                $type                                       = 'choice';
+                break;
+            case 'listoptin':
+                if (!isset($data['filter'])) {
+                    $data['filter'] = [];
+                } elseif (!is_array($data['filter'])) {
+                    $data['filter'] = [$data['filter']];
+                }
+
+                // Don't show the current list ID in the choices
+                if (!empty($currentListId)) {
+                    unset($options['listoptin'][$currentListId]);
+                }
+
+                $customOptions['choices']                   = $options['listoptin'];
                 $customOptions['multiple']                  = true;
                 $customOptions['choice_translation_domain'] = false;
                 $type                                       = 'choice';

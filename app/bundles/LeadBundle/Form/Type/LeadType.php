@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -34,16 +35,18 @@ class LeadType extends AbstractType
     private $factory;
     private $companyModel;
     private $leadListModel;
+    private $listOptInModel;
 
     /**
      * @param MauticFactory $factory
      */
-    public function __construct(MauticFactory $factory, CompanyModel $companyModel, ListModel $leadListModel)
+    public function __construct(MauticFactory $factory, CompanyModel $companyModel, ListModel $leadListModel, ListOptInModel $listOptInModel)
     {
-        $this->translator    = $factory->getTranslator();
-        $this->factory       = $factory;
-        $this->companyModel  = $companyModel;
-        $this->leadListModel = $leadListModel;
+        $this->translator     = $factory->getTranslator();
+        $this->factory        = $factory;
+        $this->companyModel   = $companyModel;
+        $this->leadListModel  = $leadListModel;
+        $this->listOptInModel = $listOptInModel;
     }
 
     /**
@@ -161,6 +164,24 @@ class LeadType extends AbstractType
                 'multiple'     => true,
                 'required'     => false,
                 'data'         => $leadSegments,
+            ]
+        );
+
+        $lists       = $this->listOptInModel->getListLeadRepository()->getListIDbyLeads($options['data']->getId());
+        $leadLists   = [];
+        foreach ($lists as $list) {
+            $leadLists[(string) $list['leadlist_id']] = (string) $list['leadlist_id'];
+        }
+        $builder->add(
+            'lead_listsoptin',
+            'listoptin_choices',
+            [
+                'by_reference' => false,
+                'label'        => 'le.lead.list.optin.form.list',
+                'label_attr'   => ['class' => 'control-label'],
+                'multiple'     => true,
+                'required'     => false,
+                'data'         => $leadLists,
             ]
         );
 

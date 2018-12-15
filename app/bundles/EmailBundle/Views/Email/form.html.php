@@ -118,6 +118,7 @@ $filter_templates = [
     'assets'            => 'asset_downloads_list-template',
     'drip_campaign'     => 'drip_email_received-template',
     'drip_campaign_list'=> 'drip_email_list-template',
+    'listoptin'         => 'listoptin-template',
 ];
 $customHtml            = $email->getCustomHtml();
 $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";

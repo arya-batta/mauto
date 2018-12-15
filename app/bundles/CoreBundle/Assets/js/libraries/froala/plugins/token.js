@@ -46,7 +46,7 @@
         }
 
         function _init() {
-            var method = location.href.match(/(email|dwc|config|drip|leads|oneoff)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
+            var method = location.href.match(/(email|dwc|config|drip|leads|list|oneoff)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
             Le.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
                     if (k.match(/assetlink=/i) && v.match(/a:/)){
@@ -68,6 +68,18 @@
                 });
                 var k, keys = [];
                 for (k in tokens) {
+                    if(location.href.match(/(email|dwc|config|drip|leads|oneoff)/i)){
+                        if(location.href.match(/(notificationemails)/i)){
+                            if((k.match(/list_unsubscribe_link/i))){
+                                continue;
+                            }
+                        } else {
+                            if ((k.match(/list_unsubscribe_link/i)) || (k.match(/confirmation_link/i))) {
+                                continue;
+                            }
+                        }
+
+                    }
                     if (tokens.hasOwnProperty(k)) {
                         keys.push(k);
                     }

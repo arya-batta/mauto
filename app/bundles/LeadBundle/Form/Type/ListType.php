@@ -26,6 +26,7 @@ use Mautic\LeadBundle\Form\DataTransformer\FieldFilterTransformer;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
 use Mautic\PageBundle\Model\PageModel;
 use Mautic\StageBundle\Model\StageModel;
 use Mautic\UserBundle\Model\UserModel;
@@ -62,6 +63,7 @@ class ListType extends AbstractType
     private $scoreChoices        = [];
     private $dripEmailChoices    = [];
     private $dripEmailList       = [];
+    private $listoptinChoices    = [];
 
     /**
      * ListType constructor.
@@ -79,8 +81,9 @@ class ListType extends AbstractType
      * @param FormModel           $formModel
      * @param AssetModel          $assetModel
      * @param DripEmailModel      $dripEmailModel
+     * @param ListOptInModel      $listOptInModel
      */
-    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel, FormModel $formModel, AssetModel $assetModel, DripEmailModel $dripEmailModel)
+    public function __construct(TranslatorInterface $translator, ListModel $listModel, EmailModel $emailModel, CorePermissions $security, LeadModel $leadModel, StageModel $stageModel, CategoryModel $categoryModel, UserHelper $userHelper, PageModel $pageModel, UserModel $userModel, FormModel $formModel, AssetModel $assetModel, DripEmailModel $dripEmailModel, ListOptInModel $listOptInModel)
     {
         $this->translator = $translator;
 
@@ -97,6 +100,12 @@ class ListType extends AbstractType
         $lists = $listModel->getUserLists();
         foreach ($lists as $list) {
             $this->listChoices[$list['id']] = $list['name'];
+        }
+
+        // Lists
+        $listoptins = $listOptInModel->getListsOptIn();
+        foreach ($listoptins as $listoptin) {
+            $this->listoptinChoices[$listoptin['id']] = $listoptin['name'];
         }
 
         $viewOther   = $security->isGranted('email:emails:viewother');
@@ -304,6 +313,7 @@ class ListType extends AbstractType
                         'asset_downloads_list' => $this->assetChoices,
                         'drip_email_received'  => $this->dripEmailChoices,
                         'drip_email_list'      => $this->dripEmailList,
+                        'listoptin'            => $this->listoptinChoices,
                     ],
                     'error_bubbling' => false,
                     'mapped'         => true,
@@ -314,7 +324,12 @@ class ListType extends AbstractType
             )->addModelTransformer($filterModalTransformer)
         );
 
-        $builder->add('buttons', 'form_buttons');
+        $builder->add('buttons', 'form_buttons',
+            [
+                'apply_icon'   => false,
+                'save_icon'    => false,
+            ]
+        );
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);
@@ -358,6 +373,7 @@ class ListType extends AbstractType
         $view->vars['assets']            = $this->assetChoices;
         $view->vars['drip_campaign']     = $this->dripEmailChoices;
         $view->vars['drip_campaign_list']= $this->dripEmailList;
+        $view->vars['listoptin']         = $this->listoptinChoices;
     }
 
     /**

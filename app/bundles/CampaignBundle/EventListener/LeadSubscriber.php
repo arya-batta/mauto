@@ -15,12 +15,15 @@ use Mautic\AssetBundle\Event\AssetLoadEvent;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\EmailBundle\Event\EmailOpenEvent;
+use Mautic\LeadBundle\Entity\ListLeadOptIn;
 use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
 use Mautic\LeadBundle\Event\LeadTimelineEvent;
 use Mautic\LeadBundle\Event\ListChangeEvent;
+use Mautic\LeadBundle\Event\ListOptInChangeEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
 use Mautic\PageBundle\Entity\Hit;
 use Mautic\PageBundle\Event\PageHitEvent;
 
@@ -70,6 +73,7 @@ class LeadSubscriber extends CommonSubscriber
             LeadEvents::PAGE_HIT_EVENT           => ['PageHitEvent', 0],
             LeadEvents::REMOVE_TAG_EVENT         => ['RemoveTagModifiedLead', 0],
             LeadEvents::COMPLETED_DRIP_CAMPAIGN  => ['CompletedDripCampaign', 0],
+            LeadEvents::LIST_OPT_IN_CHANGE       => ['onLeadOptInChanged', 0],
         ];
     }
 
@@ -493,6 +497,42 @@ class LeadSubscriber extends CommonSubscriber
                             $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
                         }
                         unset($campaign);
+                    }
+                }
+            }
+        }
+    }
+
+    public function onLeadOptInChanged(ListOptInChangeEvent $leadevent)
+    {
+        $list   = $leadevent->getList();
+        $lead   = $leadevent->getLead();
+        $action = $leadevent->wasAdded() ? 'added' : 'removed';
+        /** @var ListOptInModel $listoptinmodel */
+        $listoptinmodel = $this->factory->getModel('lead.listoptin');
+        /** @var ListLeadOptIn $listLead */
+        $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());
+        if (!$listLead->getConfirmedLead()) {
+            return;
+        }
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('listoptin');
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    if ($action == 'added') {
+                        if (in_array($list->getId(), $properties['listoptin'])) {
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                            unset($campaign);
+                        }
                     }
                 }
             }

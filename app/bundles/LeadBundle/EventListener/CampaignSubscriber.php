@@ -26,6 +26,7 @@ use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\FieldModel;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
 
 /**
  * Class CampaignSubscriber.
@@ -64,21 +65,28 @@ class CampaignSubscriber extends CommonSubscriber
     protected $licenseInfoHelper;
 
     /**
+     * @var ListOptInModel
+     */
+    protected $listoptinmodel;
+
+    /**
      * CampaignSubscriber constructor.
      *
      * @param IpLookupHelper    $ipLookupHelper
      * @param LeadModel         $leadModel
      * @param FieldModel        $leadFieldModel
      * @param LicenseInfoHelper $licenseInfoHelper
+     * @param ListOptInModel    $listoptinmodel
      */
-    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel, LicenseInfoHelper  $licenseInfoHelper)
+    public function __construct(IpLookupHelper $ipLookupHelper, LeadModel $leadModel, FieldModel $leadFieldModel, ListModel $listModel, CampaignModel $campaignModel, LicenseInfoHelper  $licenseInfoHelper, ListOptInModel $listoptinmodel)
     {
         $this->ipLookupHelper     = $ipLookupHelper;
         $this->leadModel          = $leadModel;
         $this->leadFieldModel     = $leadFieldModel;
         $this->listModel          = $listModel;
         $this->campaignModel      = $campaignModel;
-        $this->licenseInfoHelper  =  $licenseInfoHelper;
+        $this->licenseInfoHelper  = $licenseInfoHelper;
+        $this->listoptinmodel     = $listoptinmodel;
     }
 
     /**
@@ -100,6 +108,7 @@ class CampaignSubscriber extends CommonSubscriber
                 ['onCampaignTriggerActionChangeScore', 8],
                 ['onCampaignTriggerActionSetDNC', 9],
                 ['onCampaignTriggerActionRemoveDNC', 10],
+                ['onCampaignTriggerActionUpdateListOptIn', 11],
             ],
             LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION => ['onCampaignTriggerCondition', 0],
         ];
@@ -138,7 +147,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.lead.events.changelist_descr',
             'formType'        => 'leadlist_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 6,
+            'order'           => 7,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changelist', $action);
@@ -159,7 +168,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.lead.events.changetags_descr',
             'formType'        => 'modify_lead_tags',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 7,
+            'order'           => 8,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changetags', $action);
@@ -272,6 +281,16 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addCondition('lead.segments', $trigger);
 
         $trigger = [
+            'label'       => 'le.lead.list.optin.events.listoptin',
+            'description' => 'le.lead.list.optin.events.listoptin_descr',
+            'formType'    => 'campaignevent_lead_listoptin',
+            'eventName'   => LeadEvents::ON_CAMPAIGN_TRIGGER_CONDITION,
+            'order'       => 2,
+        ];
+
+        $event->addCondition('lead.listoptin', $trigger);
+
+        $trigger = [
             'label'       => 'le.lead.lead.events.owner',
             'description' => 'le.lead.lead.events.owner_descr',
             'formType'    => 'campaignevent_lead_owner',
@@ -314,6 +333,17 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addSources('lists', $source);
 
         $source = [
+            'label'         => 'le.campaign.leadsource.listoptin',
+            'description'   => 'le.campaign.leadsource.listoptin.desc',
+            'formType'      => 'campaignsource_listoptin',
+            'sourcetype'    => 'listoptin',
+            'group'         => 'le.campaign.source.group.name',
+            'order'         => 1,
+        ];
+
+        $event->addSources('listoptin', $source);
+
+        $source = [
             'label'         => 'le.campaign.leadsource.allleads',
             'description'   => 'le.campaign.leadsource.allleads.desc',
             'sourcetype'    => 'allleads',
@@ -326,7 +356,7 @@ class CampaignSubscriber extends CommonSubscriber
         $source = [
             'label'       => 'le.lead.list.filter.tags',
             'description' => 'le.lead.lead.events.tags_descr',
-            'order'       => '4',
+            'order'       => '5',
             'formType'    => 'campaignevent_lead_tags',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'leadtags',
@@ -337,7 +367,7 @@ class CampaignSubscriber extends CommonSubscriber
         $source = [
             'label'       => 'le.lead.list.filter.tags.remove',
             'description' => 'le.lead.list.filter.tags.remove.desc',
-            'order'       => '5',
+            'order'       => '6',
             'formType'    => 'campaignevent_lead_tags',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'leadtags.remove',
@@ -349,7 +379,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'       => 'le.lead.lead.events.completed_dripcampaign',
             'description' => 'le.lead.lead.events.completed_dripcampaign_descr',
             'formType'    => 'dripemailsend_list',
-            'order'       => '6',
+            'order'       => '7',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'dripcampaign_completed',
         ];
@@ -361,12 +391,22 @@ class CampaignSubscriber extends CommonSubscriber
             'description' => 'le.lead.lead.events.field_value_descr',
             'formType'    => 'campaignevent_lead_field_value',
             'formTheme'   => 'MauticLeadBundle:FormTheme\FieldValueCondition',
-            'order'       => '7',
+            'order'       => '8',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'fieldvalue',
         ];
 
         $event->addSources('fieldvalue', $source);
+
+        $action = [
+            'label'           => 'le.lead.list.optin.events.changelist',
+            'description'     => 'le.lead.list.optin.events.changelist_descr',
+            'formType'        => 'leadlistoptin_action',
+            'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+            'order'           => 6,
+            'group'           => 'le.campaign.event.group.name.leadsengage',
+        ];
+        $event->addAction('lead.changelistoptin', $action);
     }
 
     /**
@@ -648,6 +688,9 @@ class CampaignSubscriber extends CommonSubscriber
         } elseif ($event->checkContext('lead.segments')) {
             $listRepo = $this->listModel->getRepository();
             $result   = $listRepo->checkLeadSegmentsByIds($lead, $event->getConfig()['segments']);
+        } elseif ($event->checkContext('lead.listoptin')) {
+            $listRepo = $this->listoptinmodel->getRepository();
+            $result   = $listRepo->checkLeadListsByIds($lead, $event->getConfig()['segments']);
         } elseif ($event->checkContext('lead.owner')) {
             $result = $this->leadModel->getRepository()->checkLeadOwner($lead, $event->getConfig()['owner']);
         } elseif ($event->checkContext('lead.campaigns')) {
@@ -660,5 +703,33 @@ class CampaignSubscriber extends CommonSubscriber
         }
 
         return $event->setResult($result);
+    }
+
+    /**
+     * @param CampaignExecutionEvent $event
+     */
+    public function onCampaignTriggerActionUpdateListOptIn(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('lead.changelistoptin')) {
+            return;
+        }
+
+        $addTo      = $event->getConfig()['addToLists'];
+        $removeFrom = $event->getConfig()['removeFromLists'];
+
+        $lead              = $event->getLead();
+        $somethingHappened = false;
+
+        if (!empty($addTo)) {
+            $this->leadModel->addToListOptIn($lead, $addTo);
+            $somethingHappened = true;
+        }
+
+        if (!empty($removeFrom)) {
+            $this->leadModel->removeFromListOptIn($lead, $removeFrom);
+            $somethingHappened = true;
+        }
+
+        return $event->setResult($somethingHappened);
     }
 }

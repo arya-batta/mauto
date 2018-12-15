@@ -104,7 +104,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'      => 'campaignsource_forms',
             'sourcetype'    => 'forms',
             'group'         => 'le.campaign.source.group.name',
-            'order'         => '2',
+            'order'         => '3',
         ];
 
         $event->addSources('forms', $source);

@@ -132,6 +132,32 @@ return [
                 'path'       => '/segment/view/{objectId}/contact/{page}',
                 'controller' => 'MauticLeadBundle:List:contacts',
             ],
+            'le_listoptin_index' => [
+                'path'       => '/list/{page}',
+                'controller' => 'MauticLeadBundle:ListOptIn:index',
+            ],
+            'le_listoptin_action' => [
+                'path'       => '/list/{objectAction}/{objectId}',
+                'controller' => 'MauticLeadBundle:ListOptIn:execute',
+            ],
+        ],
+        'public' => [
+            'le_confirm_list' => [
+                'path'       => '/l/listconfirm/{idhash}',
+                'controller' => 'MauticLeadBundle:Public:listconfirm',
+            ],
+            'le_subscribe_list' => [
+                'path'       => '/l/listsubscribe/{idhash}',
+                'controller' => 'MauticLeadBundle:Public:listsubscribe',
+            ],
+            'le_unsubscribe_list' => [
+                'path'       => '/l/listunsubscribe/{idhash}',
+                'controller' => 'MauticLeadBundle:Public:listunsubscribe',
+            ],
+            'le_resubscribe_list' => [
+                'path'       => '/l/listresubscribe/{idhash}',
+                'controller' => 'MauticLeadBundle:Public:listresubscribe',
+            ],
         ],
         'api' => [
             'mautic_api_contactsstandard' => [
@@ -351,6 +377,13 @@ return [
                     'priority'   => 50,
                     'parent'     => 'le.core.leads',
                 ],
+               'le.lead.list.optin.menu.index' => [
+                    'iconClass' => 'fa-list-ul',
+                    'access'    => ['lead:listoptin:viewown', 'lead:listoptin:viewother'],
+                    'route'     => 'le_listoptin_index',
+                    'priority'  => 60,
+                    'parent'    => 'le.core.leads',
+               ],
                /*
                 'mautic.point.trigger.menu.index' => [
                     'route'    => 'le_pointtrigger_index',
@@ -409,6 +442,7 @@ return [
                     'mautic.lead.model.list',
                     'mautic.campaign.model.campaign',
                     'mautic.helper.licenseinfo',
+                    'mautic.lead.model.listoptin',
                 ],
             ],
             'mautic.lead.reportbundle.subscriber' => [
@@ -424,6 +458,12 @@ return [
             ],
             'mautic.lead.reportbundle.segment_subscriber' => [
                 'class'     => \Mautic\LeadBundle\EventListener\SegmentReportSubscriber::class,
+                'arguments' => [
+                    'mautic.lead.reportbundle.fields_builder',
+                ],
+            ],
+            'mautic.lead.reportbundle.list_subscriber' => [
+                'class'     => \Mautic\LeadBundle\EventListener\ListReportSubscriber::class,
                 'arguments' => [
                     'mautic.lead.reportbundle.fields_builder',
                 ],
@@ -491,7 +531,12 @@ return [
         'forms' => [
             'mautic.form.type.lead' => [
                 'class'     => 'Mautic\LeadBundle\Form\Type\LeadType',
-                'arguments' => ['mautic.factory', 'mautic.lead.model.company', 'mautic.lead.model.list'],
+                'arguments' => [
+                    'mautic.factory',
+                    'mautic.lead.model.company',
+                    'mautic.lead.model.list',
+                    'mautic.lead.model.listoptin',
+                ],
                 'alias'     => 'lead',
             ],
             'mautic.form.type.leadlist' => [
@@ -510,8 +555,16 @@ return [
                     'mautic.form.model.form',
                     'mautic.asset.model.asset',
                     'mautic.email.model.dripemail',
+                    'mautic.lead.model.listoptin',
                 ],
                 'alias' => 'leadlist',
+            ],
+            'mautic.form.type.leadlistoptin' => [
+                'class'     => 'Mautic\LeadBundle\Form\Type\ListOptInType',
+                'arguments' => [
+                    'translator',
+                ],
+                'alias' => 'leadlistoptin',
             ],
             'mautic.form.type.campaign_list_filter' => [
                 'class'     => 'Mautic\LeadBundle\Form\Type\CampaignListFilterType',
@@ -529,6 +582,7 @@ return [
                     'mautic.form.model.form',
                     'mautic.asset.model.asset',
                     'mautic.email.model.dripemail',
+                    'mautic.lead.model.listoptin',
                 ],
                 'alias' => 'campaignlistfilter',
             ],
@@ -548,6 +602,7 @@ return [
                     'mautic.form.model.form',
                     'mautic.asset.model.asset',
                     'mautic.email.model.dripemail',
+                    'mautic.lead.model.listoptin',
                 ],
                 'alias' => 'emailrecipientsfilter',
             ],
@@ -555,6 +610,11 @@ return [
                 'class'     => 'Mautic\LeadBundle\Form\Type\LeadListType',
                 'arguments' => ['mautic.factory'],
                 'alias'     => 'leadlist_choices',
+            ],
+            'mautic.form.type.leadlistoptin_choices' => [
+                'class'     => 'Mautic\LeadBundle\Form\Type\LeadListOptInType',
+                'arguments' => ['mautic.factory'],
+                'alias'     => 'listoptin_choices',
             ],
             'mautic.form.type.leadlist_filter' => [
                 'class'       => 'Mautic\LeadBundle\Form\Type\FilterType',
@@ -610,6 +670,11 @@ return [
             'mautic.form.type.leadlist_action' => [
                 'class'     => 'Mautic\LeadBundle\Form\Type\ListActionType',
                 'alias'     => 'leadlist_action',
+                'arguments' => ['mautic.factory'],
+            ],
+            'mautic.form.type.leadlistoptin_action' => [
+                'class'     => 'Mautic\LeadBundle\Form\Type\ListOptInActionType',
+                'alias'     => 'leadlistoptin_action',
                 'arguments' => ['mautic.factory'],
             ],
             'mautic.form.type.updatelead_action' => [
@@ -711,6 +776,14 @@ return [
                 'class' => 'Mautic\LeadBundle\Form\Type\CampaignSourceLeadSegmentsType',
                 'alias' => 'campaignsource_lists',
             ],
+            'mautic.form.type.campaignevent_lead_listoptin' => [
+                'class' => 'Mautic\LeadBundle\Form\Type\CampaignEventLeadListOptinType',
+                'alias' => 'campaignevent_lead_listoptin',
+            ],
+            'mautic.form.type.campaignsource_listoptin' => [
+                'class' => 'Mautic\LeadBundle\Form\Type\CampaignSourceLeadListOptinType',
+                'alias' => 'campaignsource_listoptin',
+            ],
             'mautic.form.type.campaignevent_lead_campaigns' => [
                 'class'     => Mautic\LeadBundle\Form\Type\CampaignEventLeadCampaignsType::class,
                 'alias'     => 'campaignevent_lead_campaigns',
@@ -809,6 +882,12 @@ return [
                     'event_dispatcher',
                 ],
             ],
+            'mautic.validator.emailcontent' => [
+                'class'     => 'Mautic\LeadBundle\Form\Validator\Constraints\EmailContentVerifierValidator',
+                'arguments' => ['mautic.factory', 'translator'],
+                'tag'       => 'validator.constraint_validator',
+                'alias'     => 'emailcontent_verifier',
+            ],
         ],
         'repositories' => [
             'mautic.lead.repository.dnc' => [
@@ -878,6 +957,7 @@ return [
                     'mautic.user.provider',
                     'mautic.tracker.contact',
                     'mautic.tracker.device',
+                    'mautic.lead.model.listoptin',
                 ],
             ],
             'mautic.lead.model.field' => [
@@ -889,6 +969,13 @@ return [
             ],
             'mautic.lead.model.list' => [
                 'class'     => 'Mautic\LeadBundle\Model\ListModel',
+                'arguments' => [
+                    'mautic.helper.core_parameters',
+                    'mautic.helper.integration',
+                ],
+            ],
+            'mautic.lead.model.listoptin' => [
+                'class'     => 'Mautic\LeadBundle\Model\ListOptInModel',
                 'arguments' => [
                     'mautic.helper.core_parameters',
                     'mautic.helper.integration',
@@ -939,6 +1026,7 @@ return [
                     'mautic.lead.model.field',
                     'mautic.lead.model.list',
                     'mautic.user.model.user',
+                    'mautic.lead.model.listoptin',
                 ],
             ],
             'mautic.lead.model.dnc' => [

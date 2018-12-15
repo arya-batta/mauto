@@ -381,6 +381,10 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['lists']->vars['choices'];
             $lists  =$event['properties']['lists'];
             $label  =$this->getFormattedEventLabel($label, $lists, $choices);
+        } elseif ($event['type'] == 'listoptin') {
+            $choices=$formView->children['properties']->children['listoptin']->vars['choices'];
+            $lists  =$event['properties']['listoptin'];
+            $label  =$this->getFormattedEventLabel($label, $lists, $choices);
         } elseif ($event['type'] == 'lead.changeowner') {
             $choices=$formView->children['properties']->children['owner']->vars['choices'];
             $owner  =$event['properties']['owner'];
@@ -393,13 +397,19 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['sms']->vars['choices'];
             $sms    =$event['properties']['sms'];
             $label  =$this->getFormattedEventLabel($label, $sms, $choices['en']);
-        } elseif ($event['type'] == 'lead.changelist') {
+        } elseif ($event['type'] == 'lead.changelist' || $event['type'] == 'lead.changelistoptin') {
             $addToListschoices     =$formView->children['properties']->children['addToLists']->vars['choices'];
             $addToLists            =$event['properties']['addToLists'];
             $removeFromListschoices=$formView->children['properties']->children['removeFromLists']->vars['choices'];
             $removeFromLists       =$event['properties']['removeFromLists'];
             $label                 =$this->getLabelFromMultiChoices($label, $addToListschoices, $removeFromListschoices, $addToLists, $removeFromLists);
-        } elseif ($event['type'] == 'lead.changetags') {
+        } /*elseif ($event['type'] == 'lead.changelistoptin') {
+            $addToListschoices     =$formView->children['properties']->children['addToLists']->vars['choices'];
+            $addToLists            =$event['properties']['addToLists'];
+            $removeFromListschoices=$formView->children['properties']->children['removeFromLists']->vars['choices'];
+            $removeFromLists       =$event['properties']['removeFromLists'];
+            $label                 =$this->getLabelFromMultiChoices($label, $addToListschoices, $removeFromListschoices, $addToLists, $removeFromLists);
+        } */elseif ($event['type'] == 'lead.changetags') {
             $addTagschoices   =$formView->children['properties']->children['add_tags']->vars['choices'];
             $addToTags        =$event['properties']['add_tags'];
             $removeTagschoices=$formView->children['properties']->children['remove_tags']->vars['choices'];
@@ -411,12 +421,12 @@ class EventController extends CommonFormController
         } elseif ($event['type'] == 'email.send.to.user' || $event['type'] == 'sms.send_text_sms.to.user') {
             $choices=$formView->children['properties']->children['user_id']->vars['choices'];
             $user   =$event['properties']['user_id'];
-            if(sizeof($user) > 0) {
+            if (sizeof($user) > 0) {
                 $label = $this->getFormattedEventLabel($label, $user, $choices);
-            }else{
-                if($event['properties']['to_owner'] == 1){
+            } else {
+                if ($event['properties']['to_owner'] == 1) {
                     $label =$label.'[Lead Owner]';
-                }elseif ($event['properties']['to'] != null){
+                } elseif ($event['properties']['to'] != null) {
                     $label =$label.' ['.$event['properties']['to'].']';
                 }
             }
@@ -430,10 +440,10 @@ class EventController extends CommonFormController
             $removeDripchoices  =$formView->children['properties']->children['movedripto']->vars['choices'];
             $removeDrip         =$event['properties']['movedripto'];
             $label              =$this->getLabelFromMultiChoices($label, $addDripchoices, $removeDripchoices, [$addDrip], [$removeDrip]);
-        } elseif($event['type'] == 'leadtags.remove'){
-            $tags=$event['properties']['tags'];
+        } elseif ($event['type'] == 'leadtags.remove') {
+            $tags  =$event['properties']['tags'];
             $label =$label.json_encode($tags);
-            $label =  str_replace('"','',$label);
+            $label =  str_replace('"', '', $label);
         }
 
         return $label;
@@ -558,6 +568,8 @@ class EventController extends CommonFormController
                     $list=$options['globalcategory'];
                 } elseif ($object == 'list_leadlist') {
                     $list=$options['lists'];
+                } elseif ($object == 'list_listoptin') {
+                    $list=$options['listoptin'];
                 } elseif ($object == 'list_tags') {
                     $list=$options['tags'];
                 } elseif ($object == 'lead' && $field == 'owner_id') {
@@ -566,47 +578,45 @@ class EventController extends CommonFormController
                     $list=$options['formsubmit_list'];
                 } elseif ($object == 'assets') {
                     $list=$options['asset_downloads_list']['en'];
-                }elseif ($object == 'drip_campaign'){
+                } elseif ($object == 'drip_campaign') {
                     $list=$options['drip_email_receive'];
                 }
                 if (!empty($list)) {
                     $displaystring='';
                     if (sizeof($value) > 0) {
-                       if($object == 'drip_campaign'){
-                           $keys=array_keys($list);
-                           foreach ($keys as $key){
-                               $lists=$list[$key];
-                               for ($v = 0; $v < sizeof($value); ++$v) {
-                                   if(isset($lists[$value[$v]])) {
-                                       $displaystring .=$key.':'.$lists[$value[$v]];
-                                       if ($v < sizeof($value) - 1) {
-                                           $displaystring .= ', ';
-                                       }
-                                   }
-                               }
-                           }
-
-                       }
-                       else{
-                        for ($v = 0; $v < sizeof($value); ++$v) {
-                            $displaystring .= $list[$value[$v]];
-                            if ($v < sizeof($value) - 1) {
-                                $displaystring .= ', ';
+                        if ($object == 'drip_campaign') {
+                            $keys=array_keys($list);
+                            foreach ($keys as $key) {
+                                $lists=$list[$key];
+                                for ($v = 0; $v < sizeof($value); ++$v) {
+                                    if (isset($lists[$value[$v]])) {
+                                        $displaystring .= $key.':'.$lists[$value[$v]];
+                                        if ($v < sizeof($value) - 1) {
+                                            $displaystring .= ', ';
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            for ($v = 0; $v < sizeof($value); ++$v) {
+                                $displaystring .= $list[$value[$v]];
+                                if ($v < sizeof($value) - 1) {
+                                    $displaystring .= ', ';
+                                }
                             }
                         }
-                       }
-                    }else {
+                    } else {
                         $value = '';
                     }
                     if ($displaystring != '') {
-                        if($object == 'emails'){
-                            if(sizeof($value > 0)) {
+                        if ($object == 'emails') {
+                            if (sizeof($value > 0)) {
                                 $value = '['.$displaystring.'] emails';
-                            }else{
+                            } else {
                                 $value = '['.$displaystring.'] email';
                             }
-                        }else {
-                            $value = '[' . $displaystring . ']';
+                        } else {
+                            $value = '['.$displaystring.']';
                         }
                     }
                 } else {
@@ -614,16 +624,16 @@ class EventController extends CommonFormController
                 }
             } else {
                 if ($value != '') {
-                    if($fieldlabel == 'Lead Score'){
-                        $v =ucwords($value);
+                    if ($fieldlabel == 'Lead Score') {
+                        $v    =ucwords($value);
                         $value='['.$v.']';
-                      }elseif ($fieldlabel == 'Email activity'){
+                    } elseif ($fieldlabel == 'Email activity') {
                         $value = '['.$value.'] emails';
-                      }elseif (is_int($value)){
-                          $value= $value == 1 ? '[ Yes ]' : '[ No ]' ;
-                      }else{
+                    } elseif (is_int($value)) {
+                        $value= $value == 1 ? '[ Yes ]' : '[ No ]';
+                    } else {
                         $value = '['.$value.']';
-                      }
+                    }
                 }
             }
             if ($index > 0) {
@@ -655,6 +665,16 @@ class EventController extends CommonFormController
                     $form['properties']['removeFromLists']->addError(
                     new FormError($this->translator->trans('mautic.campaign.segment.remove.required', [], 'validators'))
                 );
+                    $isValidForm =false;
+                }
+            } elseif ($type == 'lead.changelistoptin') {
+                if (empty($formData['properties']['addToLists']) && empty($formData['properties']['removeFromLists'])) {
+                    $form['properties']['addToLists']->addError(
+                        new FormError($this->translator->trans('mautic.campaign.list.add.required', [], 'validators'))
+                    );
+                    $form['properties']['removeFromLists']->addError(
+                        new FormError($this->translator->trans('mautic.campaign.list.remove.required', [], 'validators'))
+                    );
                     $isValidForm =false;
                 }
             } elseif ($type == 'lead.changetags') {

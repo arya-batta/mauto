@@ -12,6 +12,7 @@
 namespace Mautic\EmailBundle\Form\Type;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
+use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\CoreBundle\Form\Type\DynamicContentTrait;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
@@ -72,6 +73,7 @@ class DripEmailType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber(new CleanFormSubscriber(['unsubscribe_text' => 'html']));
         $builder->addEventSubscriber(new FormExitSubscriber('email.dripemail', $options));
         $emailProvider       = $this->licenseHelper->getEmailProvider();
         $configurator        = $this->factory->get('mautic.configurator');

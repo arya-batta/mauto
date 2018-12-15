@@ -306,23 +306,14 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                   <div class="col-md-6">
-                                       <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
-                                       <?php $tags   = $lead->getTags(); ?>
-                                       <?php $count  =  0; ?>
-                                       <h6 class="fw-b">
-                                           <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
-                                       <div class="leadprofile">
-                                           <?php foreach ($tags as $tag): ?>
-                                               <?php if ($count == 5):
-                                                   $count=0;
-                                               endif; ?>
-                                               <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
-                                               </h5>
-                                               <?php ++$count; ?>
-                                           <?php endforeach; ?></div>
-                                       <div class="clearfix"></div>
-                                   </div>
+                                    <div class="col-md-6">
+                                        <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.lists.belongsto'); ?></h6>
+                                        <div class="leadprofile">
+                                            <?php foreach ($listName as $list): ?>
+                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $list['name']; ?></span></h5>
+                                            <?php endforeach; ?></div>
+                                        <div class="clearfix"></div>
+                                    </div>
                                     <div class="col-md-6">
                                         <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
                                         <div class="leadprofile">
@@ -332,9 +323,26 @@ $view['slots']->set(
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="row" >
-                                    <br>
-                                    <div class="col-md-12">
+                                  <br>
+                                  <div class="row" >
+                                      <div class="col-md-6">
+                                          <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+                                          <?php $tags   = $lead->getTags(); ?>
+                                          <?php $count  =  0; ?>
+                                          <h6 class="fw-b">
+                                              <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
+                                          <div class="leadprofile">
+                                              <?php foreach ($tags as $tag): ?>
+                                                  <?php if ($count == 5):
+                                                      $count=0;
+                                                  endif; ?>
+                                                  <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
+                                                  </h5>
+                                                  <?php ++$count; ?>
+                                              <?php endforeach; ?></div>
+                                          <div class="clearfix"></div>
+                                      </div>
+                                    <div class="col-md-6">
                                             <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
                                             <div class="lead_page_hit_url_div">
                                                 <?php if (!empty($pageHitDetails)): ?>
@@ -342,7 +350,7 @@ $view['slots']->set(
                                                         <?php if ($event['url'] != ''):?>
                                                             <?php
                                                             $linkType       = 'target="_new"';
-                                                            $string         = (strlen($event['url']) > 106) ? substr($event['url'], 0, 106).'....' : $event['url'];
+                                                            $string         = (strlen($event['url']) > 50) ? substr($event['url'], 0, 50).'....' : $event['url'];
                                                             $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
                                                             <h5 class="mt-xs mr-xs">
                                                                 <b><?php echo $event['pagehits'].'x '?></b>

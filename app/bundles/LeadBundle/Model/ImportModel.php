@@ -409,7 +409,8 @@ class ImportModel extends FormModel
                         $eventLog,
                         $import->getCreatedBy(),
                         $import->getCreatedByUser(),
-                        $import->getId()
+                        $import->getId(),
+                        $import->getDefault('listoptin')
                     );
 
                     if ($merged) {

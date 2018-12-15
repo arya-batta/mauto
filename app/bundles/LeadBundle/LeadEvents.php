@@ -643,4 +643,44 @@ final class LeadEvents
      * @var string
      */
     const COMPLETED_DRIP_CAMPAIGN = 'mautic.dripcampaign_completed_with_campaign';
+
+    /**
+     * The mautic.list_optin_change event is dispatched if a lead's list optin changes.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ListOptInChangeEvent instance.
+     *
+     * @var string
+     */
+    const LIST_OPT_IN_CHANGE = 'mautic.list_optin_change';
+
+    /**
+     * The mautic.lead_list_send_email event is dispatched when generating a lead's timeline view.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\LeadListOptInEvent instance.
+     *
+     * @var string
+     */
+    const LEAD_LIST_SEND_EMAIL = 'mautic.lead_list_send_email';
+
+    /**
+     * The mautic.lead_list_sendgoodbye_email event is dispatched when generating a lead's timeline view.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\LeadListOptInEvent instance.
+     *
+     * @var string
+     */
+    const LEAD_LIST_SENDGOODBYE_EMAIL = 'mautic.lead_list_sendgoodbye_email';
+
+    /**
+     * The mautic.lead_list_sendthankyou_email event is dispatched when generating a lead's timeline view.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\LeadListOptInEvent instance.
+     *
+     * @var string
+     */
+    const LEAD_LIST_SENDTHANKYOU_EMAIL = 'mautic.lead_list_sendthankyou_email';
 }

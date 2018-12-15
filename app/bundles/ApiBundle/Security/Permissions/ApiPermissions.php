@@ -49,9 +49,9 @@ class ApiPermissions extends AbstractPermissions
     {
         $builder->add('api:access', 'permissionlist', [
             'choices' => [
-                'full' => 'mautic.api.permissions.granted',
+                'full' => 'le.api.permissions.granted',
             ],
-            'label'  => 'mautic.api.permissions.apiaccess',
+            'label'  => 'le.api.permissions.apiaccess',
             'data'   => (!empty($data['access']) ? $data['access'] : []),
             'bundle' => 'api',
             'level'  => 'access',

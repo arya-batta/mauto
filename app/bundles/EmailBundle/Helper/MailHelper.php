@@ -389,7 +389,7 @@ class MailHelper
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
-                    if ((strpos($this->body['content'], '{footer_text}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false)) {
+                    if ((strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) || (strpos($this->body['content'], '{{unsubscribe_link}}') === false))) {
                         $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                         $this->body['content'] = $bodycontent;
                     }
@@ -517,6 +517,9 @@ class MailHelper
      */
     public function alterEmailBodyContent($bodyContent)
     {
+        if (strpos($this->body['content'], '{{list_footer_text}}') !== false) {
+            return $bodyContent;
+        }
         $doc                      = new \DOMDocument();
         $doc->strictErrorChecking = false;
         libxml_use_internal_errors(true);
@@ -590,7 +593,7 @@ class MailHelper
     {
         if ($this->tokenizationEnabled) {
             if ($dispatchSendEvent && !empty($this->body['content'])) {
-                if ((strpos($this->body['content'], '{footer_text}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false)) {
+                if ((strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) || (strpos($this->body['content'], '{{unsubscribe_link}}') === false))) {
                     $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                     $this->body['content'] = $bodycontent;
                 }

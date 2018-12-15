@@ -40,6 +40,7 @@ use Mautic\LeadBundle\Entity\LeadCategory;
 use Mautic\LeadBundle\Entity\LeadEventLog;
 use Mautic\LeadBundle\Entity\LeadField;
 use Mautic\LeadBundle\Entity\LeadList;
+use Mautic\LeadBundle\Entity\LeadListOptIn;
 use Mautic\LeadBundle\Entity\MergeRecord;
 use Mautic\LeadBundle\Entity\OperatorListTrait;
 use Mautic\LeadBundle\Entity\PointsChangeLog;
@@ -191,6 +192,11 @@ class LeadModel extends FormModel
     private $fieldsByGroup = [];
 
     /**
+     * @var ListOptInModel
+     */
+    protected $listOptinModel;
+
+    /**
      * LeadModel constructor.
      *
      * @param RequestStack         $requestStack
@@ -209,6 +215,7 @@ class LeadModel extends FormModel
      * @param UserProvider         $userProvider
      * @param ContactTracker       $contactTracker
      * @param DeviceTracker        $deviceTracker
+     * @param ListOptInModel       $listOptinModel
      */
     public function __construct(
         RequestStack $requestStack,
@@ -226,7 +233,8 @@ class LeadModel extends FormModel
         EmailValidator $emailValidator,
         UserProvider $userProvider,
         ContactTracker $contactTracker,
-        DeviceTracker $deviceTracker
+        DeviceTracker $deviceTracker,
+        ListOptInModel $listOptinModel
     ) {
         $this->request                = $requestStack->getCurrentRequest();
         $this->cookieHelper           = $cookieHelper;
@@ -244,6 +252,7 @@ class LeadModel extends FormModel
         $this->userProvider           = $userProvider;
         $this->contactTracker         = $contactTracker;
         $this->deviceTracker          = $deviceTracker;
+        $this->listOptinModel         = $listOptinModel;
     }
 
     /**
@@ -649,7 +658,7 @@ class LeadModel extends FormModel
             );
 
             // Unset stage and owner from the form because it's already been handled
-            unset($data['stage'], $data['owner'], $data['tags'], $data['lead_lists']);
+            unset($data['stage'], $data['owner'], $data['tags'], $data['lead_lists'], $data['lead_listsoptin']);
             // Prepare special fields
             $this->prepareParametersFromRequest($form, $data, $lead);
             // Submit the data
@@ -1045,6 +1054,30 @@ class LeadModel extends FormModel
     public function removeFromLists($lead, $lists, $manuallyRemoved = true)
     {
         $this->leadListModel->removeLead($lead, $lists, $manuallyRemoved);
+    }
+
+    /**
+     * Add lead to lists.
+     *
+     * @param array|Lead          $lead
+     * @param array|LeadListOptIn $lists
+     * @param bool                $manuallyAdded
+     */
+    public function addToListOptIn($lead, $lists, $manuallyAdded = true)
+    {
+        $this->listOptinModel->addLead($lead, $lists, $manuallyAdded);
+    }
+
+    /**
+     * Remove lead from lists.
+     *
+     * @param      $lead
+     * @param      $lists
+     * @param bool $manuallyRemoved
+     */
+    public function removeFromListOptIn($lead, $lists, $manuallyRemoved = true)
+    {
+        $this->listOptinModel->removeLead($lead, $lists, $manuallyRemoved);
     }
 
     /**
@@ -1444,7 +1477,7 @@ class LeadModel extends FormModel
      *
      * @throws \Exception
      */
-    public function import($fields, $data, $owner = null, $list = null, $tags = null, $persist = true, LeadEventLog $eventLog = null, $importcreatedby=null, $importcreatedbyuser=null, $importId=null)
+    public function import($fields, $data, $owner = null, $list = null, $tags = null, $persist = true, LeadEventLog $eventLog = null, $importcreatedby=null, $importcreatedbyuser=null, $importId=null, $listoptin = null)
     {
         $fields    = array_flip($fields);
         $fieldData = [];
@@ -1706,6 +1739,10 @@ class LeadModel extends FormModel
 
             if ($list !== null) {
                 $this->addToLists($lead, [$list]);
+            }
+
+            if ($listoptin !== null) {
+                $this->addToListOptIn($lead, [$listoptin]);
             }
 
             if ($company !== null) {
@@ -2011,6 +2048,29 @@ class LeadModel extends FormModel
         if (count($segments) > 0) {
             foreach ($segments as $leadSegment => $leadlist) {
                 $this->addToLists($lead, [$leadlist]);
+            }
+        }
+    }
+
+    /**
+     * Modify segments for lead.
+     *
+     * @param Lead $lead
+     * @param $lists
+     */
+    public function modifyListOptIn(Lead $lead, $lists)
+    {
+        // See which companies belong to the lead already
+        $leadlists = $this->listOptinModel->getListLeadRepository()->getListIDbyLeads($lead->getId());
+        foreach ($leadlists as $key => $leadlist) {
+            if (array_search($leadlist['leadlist_id'], $lists) === false) {
+                $this->removeFromListOptIn($lead, [$leadlist['leadlist_id']]);
+            }
+        }
+
+        if (count($lists) > 0) {
+            foreach ($lists as $leadlistOptin => $leadlist) {
+                $this->addToListOptIn($lead, [$leadlist]);
             }
         }
     }

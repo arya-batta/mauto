@@ -111,6 +111,7 @@ class FilterType extends AbstractType
                 'asset_downloads_list',
                 'drip_email_received',
                 'drip_email_list',
+                'listoptin',
             ]
         );
 

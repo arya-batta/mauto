@@ -278,9 +278,13 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-4">
                                                 <?php echo $view['form']->label($form['lead_lists']); ?>
                                                 <?php echo $view['form']->widget($form['lead_lists']); ?>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <?php echo $view['form']->label($form['lead_listsoptin']); ?>
+                                                <?php echo $view['form']->widget($form['lead_listsoptin']); ?>
                                             </div>
                                         </div>
                                     </div>

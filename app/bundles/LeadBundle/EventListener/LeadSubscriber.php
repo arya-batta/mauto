@@ -15,12 +15,14 @@ use Mautic\CoreBundle\EventListener\ChannelTrait;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Model\AuditLogModel;
+use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Event as Events;
 use Mautic\LeadBundle\Helper\LeadChangeEventDispatcher;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\ChannelTimelineInterface;
+use Mautic\LeadBundle\Model\ListOptInModel;
 
 /**
  * Class LeadSubscriber.
@@ -63,15 +65,18 @@ class LeadSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            LeadEvents::LEAD_POST_SAVE       => ['onLeadPostSave', 0],
-            LeadEvents::LEAD_POST_DELETE     => ['onLeadDelete', 0],
-            LeadEvents::LEAD_PRE_MERGE       => ['preLeadMerge', 0],
-            LeadEvents::LEAD_POST_MERGE      => ['onLeadMerge', 0],
-            LeadEvents::FIELD_POST_SAVE      => ['onFieldPostSave', 0],
-            LeadEvents::FIELD_POST_DELETE    => ['onFieldDelete', 0],
-            LeadEvents::NOTE_POST_SAVE       => ['onNotePostSave', 0],
-            LeadEvents::NOTE_POST_DELETE     => ['onNoteDelete', 0],
-            LeadEvents::TIMELINE_ON_GENERATE => ['onTimelineGenerate', 0],
+            LeadEvents::LEAD_POST_SAVE               => ['onLeadPostSave', 0],
+            LeadEvents::LEAD_POST_DELETE             => ['onLeadDelete', 0],
+            LeadEvents::LEAD_PRE_MERGE               => ['preLeadMerge', 0],
+            LeadEvents::LEAD_POST_MERGE              => ['onLeadMerge', 0],
+            LeadEvents::FIELD_POST_SAVE              => ['onFieldPostSave', 0],
+            LeadEvents::FIELD_POST_DELETE            => ['onFieldDelete', 0],
+            LeadEvents::NOTE_POST_SAVE               => ['onNotePostSave', 0],
+            LeadEvents::NOTE_POST_DELETE             => ['onNoteDelete', 0],
+            LeadEvents::TIMELINE_ON_GENERATE         => ['onTimelineGenerate', 0],
+            LeadEvents::LEAD_LIST_SEND_EMAIL         => ['LeadListSendEmail', 0],
+            LeadEvents::LEAD_LIST_SENDTHANKYOU_EMAIL => ['LeadListSendThankyouEmail', 0],
+            LeadEvents::LEAD_LIST_SENDGOODBYE_EMAIL  => ['LeadListSendGoodbyeEmail', 0],
         ];
     }
 
@@ -674,6 +679,94 @@ class LeadSubscriber extends CommonSubscriber
             }
         } else {
             // Purposively not including this
+        }
+    }
+
+    /**
+     * Send a Email for the Lead.
+     *
+     * @param Events\LeadListOptInEvent $event
+     */
+    public function LeadListSendEmail(Events\LeadListOptInEvent $event)
+    {
+        $list          = $event->getList();
+        $lead          = $event->getLeadFields();
+        $listid        = $event->getListId();
+        $isdoubleOptin = $list->getListtype() == 'single' ? false : true;
+        $emailId       = $list->getThankyouemail();
+
+        if ($isdoubleOptin) {
+            $emailId = $list->getDoubleoptinemail();
+        } elseif (!$list->getThankyou()) {
+            return;
+        }
+        /** @var EmailModel $emailModel */
+        $emailModel = $this->factory->getModel('email');
+        /** @var ListOptInModel $listoptinmodel */
+        $listoptinmodel = $this->factory->getModel('lead.listoptin');
+        $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listid);
+        if (!empty($emailId)) {
+            $email      = $emailModel->getEntity($emailId);
+            $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
+            $email->setCustomHtml($customHtml);
+            $emailModel->sendEmail($email, $lead);
+            /*if(!$isdoubleOptin && $list->isGoodbye()){
+                $goodbyeemail  = $list->getGoodbyeemail();
+                if(!empty($goodbyeemail)) {
+                    $goodbyeemail = $emailModel->getEntity($goodbyeemail);
+                    $emailModel->sendEmail($goodbyeemail, $lead);
+                }
+            }*/
+        }
+    }
+
+    /**
+     * Send a Email for the Lead.
+     *
+     * @param Events\LeadListOptInEvent $event
+     */
+    public function LeadListSendGoodbyeEmail(Events\LeadListOptInEvent $event)
+    {
+        $list          = $event->getList();
+        $lead          = $event->getLeadFields();
+        $isdoubleOptin = $list->getListtype() == 'single' ? false : true;
+        $emailId       = $list->getGoodbyeemail();
+
+        if ($list->isGoodbye()) {
+            /** @var EmailModel $emailModel */
+            $emailModel = $this->factory->getModel('email');
+            if (!empty($emailId)) {
+                $email = $emailModel->getEntity($emailId);
+                $emailModel->sendEmail($email, $lead);
+            }
+        }
+    }
+
+    /**
+     * Send a Email for the Lead.
+     *
+     * @param Events\LeadListOptInEvent $event
+     */
+    public function LeadListSendThankyouEmail(Events\LeadListOptInEvent $event)
+    {
+        $list          = $event->getList();
+        $lead          = $event->getLeadFields();
+        $listid        = $event->getListId();
+        $isdoubleOptin = $list->getListtype() == 'single' ? false : true;
+        $emailId       = $list->getThankyouemail();
+
+        /** @var ListOptInModel $listoptinmodel */
+        $listoptinmodel = $this->factory->getModel('lead.listoptin');
+        $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listid);
+        if ($list->getThankyou()) {
+            /** @var EmailModel $emailModel */
+            $emailModel = $this->factory->getModel('email');
+            if (!empty($emailId)) {
+                $email      = $emailModel->getEntity($emailId);
+                $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
+                $email->setCustomHtml($customHtml);
+                $emailModel->sendEmail($email, $lead);
+            }
         }
     }
 }

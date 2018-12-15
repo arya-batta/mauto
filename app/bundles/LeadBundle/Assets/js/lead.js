@@ -542,7 +542,7 @@ Le.convertLeadFilterInput = function(el) {
     var operatorId  = '#' + prefix + '_filters_' + filterNum + '_operator';
     var typeId  = '#' + prefix + '_filters_' + filterNum + '_type';
     var fieldtype = mQuery(typeId).val();
-    var isSpecial = (mQuery.inArray(fieldtype, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list','drip_email_received','drip_email_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldtype, ['leadlist','listoptin', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list','drip_email_received','drip_email_list']) != -1);
     // Reset has-error
     if (mQuery(filterId).parent().hasClass('has-error')) {
         mQuery(filterId).parent().find('div.help-block').hide();
@@ -703,7 +703,7 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     var fieldType = mQuery(filterId).data('field-type');
     var fieldObject = mQuery(filterId).data('field-object');
     var customObject = mQuery(filterId).data('field-customobject');
-    var isSpecial = (mQuery.inArray(fieldType, ['leadlist', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list','drip_email_received','drip_email_list']) != -1);
+    var isSpecial = (mQuery.inArray(fieldType, ['leadlist','listoptin', 'device_type',  'device_brand', 'device_os','owner_id','lead_email_received', 'lead_email_sent', 'tags', 'multiselect', 'boolean', 'select', 'country', 'timezone', 'region', 'stage', 'locale', 'globalcategory','landingpage_list','score_list','formsubmit_list','asset_downloads_list','drip_email_received','drip_email_list']) != -1);
 
     var prefix = 'leadlist';
     // var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');

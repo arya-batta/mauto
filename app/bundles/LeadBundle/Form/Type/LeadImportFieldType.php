@@ -140,6 +140,23 @@ class LeadImportFieldType extends AbstractType
                     ],
                 ]
             );
+
+            $builder->add(
+                $builder->create(
+                    'listoptin',
+                    'listoptin_choices',
+                    [
+                        'label'      => 'le.lead.list.optin.form.list',
+                        'label_attr' => ['class' => 'control-label'],
+                        'attr'       => [
+                            'class' => 'form-control',
+                        ],
+
+                        'required'    => false,
+                        'multiple'    => false,
+                    ]
+                )
+            );
         }
 
         $buttons = ['cancel_icon' => 'fa fa-times', 'cancel_class' => ' btn  btn-cancel le-btn-default btn-copy'];

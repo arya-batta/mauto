@@ -80,6 +80,29 @@ class FormEventHelper
      * @param $action
      * @param $factory
      */
+    public static function changeListOptins($action, $factory)
+    {
+        $properties = $action->getProperties();
+
+        /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
+        $leadModel  = $factory->getModel('lead');
+        $lead       = $leadModel->getCurrentLead();
+        $addTo      = $properties['addToLists'];
+        $removeFrom = $properties['removeFromLists'];
+
+        if (!empty($addTo)) {
+            $leadModel->addToListOptIn($lead, $addTo);
+        }
+
+        if (!empty($removeFrom)) {
+            $leadModel->removeFromListOptIn($lead, $removeFrom);
+        }
+    }
+
+    /**
+     * @param $action
+     * @param $factory
+     */
     public static function scoreContactsCompanies($action, $factory)
     {
         $properties = $action->getProperties();

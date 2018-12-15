@@ -23,10 +23,13 @@ class BatchType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if($options['label'] == 'list'){
+        if ($options['label'] == 'list') {
             $addlabel = 'le.lead.batch.add_to_segment';
             $remlabel = 'le.lead.batch.remove_from_segment';
-        }else{
+        } elseif ($options['label'] == 'listoptin') {
+            $addlabel = 'le.lead.batch.add_to_listoptin';
+            $remlabel = 'le.lead.batch.remove_from_listoptin';
+        } else {
             $addlabel = 'le.lead.batch.add_to_workfolw';
             $remlabel = 'le.lead.batch.remove_from_workfolw';
         }

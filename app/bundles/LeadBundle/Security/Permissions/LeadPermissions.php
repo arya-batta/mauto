@@ -33,6 +33,12 @@ class LeadPermissions extends AbstractPermissions
             'fields' => [
                 'full' => 1024,
             ],
+            'listoptin' => [
+                'viewother'   => 2,
+                'editother'   => 8,
+                'deleteother' => 64,
+                'full'        => 1024,
+            ],
         ];
         $this->addExtendedPermissions('leads', false);
         $this->addStandardPermissions('imports');
@@ -82,6 +88,19 @@ class LeadPermissions extends AbstractPermissions
             'level'  => 'fields',
         ]);
 
+        $builder->add('lead:listoptin', 'permissionlist', [
+            'choices' => [
+                'viewother'   => 'mautic.core.permissions.viewother',
+                'editother'   => 'mautic.core.permissions.editother',
+                'deleteother' => 'mautic.core.permissions.deleteother',
+                'full'        => 'mautic.core.permissions.full',
+            ],
+            'label'  => 'le.lead.permissions.listoptin',
+            'data'   => (!empty($data['listoptin']) ? $data['listoptin'] : []),
+            'bundle' => 'lead',
+            'level'  => 'listoptin',
+        ]);
+
         $this->addStandardFormFields($this->getName(), 'imports', $builder, $data);
     }
 
@@ -96,7 +115,7 @@ class LeadPermissions extends AbstractPermissions
         $viewPerms = ['viewown', 'viewother', 'full'];
         if (
             (!isset($permissions['leads']) || (array_intersect($viewPerms, $permissions['leads']) == $viewPerms)) &&
-            (isset($permissions['lists']) || isset($permission['fields']))
+            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin']))
         ) {
             $permissions['leads'][] = 'viewown';
         }
@@ -125,6 +144,15 @@ class LeadPermissions extends AbstractPermissions
         }
 
         if ($name === 'lists') {
+            switch ($level) {
+                case 'view':
+                case 'viewown':
+                    $name = 'leads';
+                    break;
+            }
+        }
+
+        if ($name === 'listoptin') {
             switch ($level) {
                 case 'view':
                 case 'viewown':

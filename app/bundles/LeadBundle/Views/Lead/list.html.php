@@ -17,51 +17,63 @@ $customButtons = [];
 $changeStage   =[];
 if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) {
     $customButton = [
-            [
-                'attr' => [
-                    'class'       => 'btn btn-default btn-sm btn-nospin',
-                    'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#leSharedModal',
-                    'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchLists']),
-                    'data-header' => $view['translator']->trans('le.lead.batch.lists'),
-                ],
-                'btnText'   => $view['translator']->trans('le.lead.batch.lists'),
-                'iconClass' => 'fa fa-pie-chart',
+        [
+            'attr' => [
+                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchLists']),
+                'data-header' => $view['translator']->trans('le.lead.batch.lists'),
             ],
-            [
-                'attr' => [
-                    'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin ' : 'hide',
-                    'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#leSharedModal',
-                    'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchCampaigns']),
-                    'data-header' => $view['translator']->trans('le.lead.batch.campaigns'),
-                ],
-                'btnText'   => $view['translator']->trans('le.lead.batch.campaigns'),
-                'iconClass' => 'fa fa-clock-o',
+            'btnText'   => $view['translator']->trans('le.lead.batch.lists'),
+            'iconClass' => 'fa fa-pie-chart',
+        ],
+        [
+            'attr' => [
+                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchListOptin']),
+                'data-header' => $view['translator']->trans('le.lead.batch.listoptin'),
             ],
-            [
-                'attr' => [
-                    'class'       => 'btn btn-default btn-sm btn-nospin',
-                    'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#leSharedModal',
-                    'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchOwners']),
-                    'data-header' => $view['translator']->trans('le.lead.batch.owner'),
-                ],
-                'btnText'   => $view['translator']->trans('le.lead.batch.owner'),
-                'iconClass' => 'fa fa-user',
+            'btnText'   => $view['translator']->trans('le.lead.batch.listoptin'),
+            'iconClass' => 'fa fa-list-ul',
+        ],
+        [
+            'attr' => [
+                'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin ' : 'hide',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchCampaigns']),
+                'data-header' => $view['translator']->trans('le.lead.batch.campaigns'),
             ],
-            [
-                'attr' => [
-                    'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin',
-                    'data-toggle' => 'ajaxmodal',
-                    'data-target' => '#leSharedModal',
-                    'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchDnc']),
-                    'data-header' => $view['translator']->trans('le.lead.batch.dnc'),
-                ],
-                'btnText'   => $view['translator']->trans('le.lead.batch.dnc'),
-                'iconClass' => 'fa fa-ban text-danger',
+            'btnText'   => $view['translator']->trans('le.lead.batch.campaigns'),
+            'iconClass' => 'fa fa-clock-o',
+        ],
+        [
+            'attr' => [
+                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchOwners']),
+                'data-header' => $view['translator']->trans('le.lead.batch.owner'),
             ],
-        ];
+            'btnText'   => $view['translator']->trans('le.lead.batch.owner'),
+            'priority'  => 1,
+            'iconClass' => 'fa fa-user',
+        ],
+        [
+            'attr' => [
+                'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchDnc']),
+                'data-header' => $view['translator']->trans('le.lead.batch.dnc'),
+            ],
+            'btnText'   => $view['translator']->trans('le.lead.batch.dnc'),
+            'iconClass' => 'fa fa-ban text-danger',
+        ],
+    ];
     if ($stageaccess) {
         $changeStage= [
                 [

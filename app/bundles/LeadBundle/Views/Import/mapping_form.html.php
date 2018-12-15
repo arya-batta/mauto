@@ -20,8 +20,11 @@
             <div class="col-xs-4">
                 <?php echo $view['form']->rowIfExists($form, 'owner'); ?>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-4 hide">
                 <?php echo $view['form']->rowIfExists($form, 'list'); ?>
+            </div>
+            <div class="col-xs-4">
+                <?php echo $view['form']->rowIfExists($form, 'listoptin'); ?>
             </div>
             <div class="col-xs-4">
                 <?php echo $view['form']->rowIfExists($form, 'tags'); ?>

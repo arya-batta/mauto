@@ -14,6 +14,7 @@ namespace Mautic\LeadBundle\Report;
 use Mautic\LeadBundle\Entity\LeadField;
 use Mautic\LeadBundle\Model\FieldModel;
 use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
 use Mautic\UserBundle\Model\UserModel;
 
 class FieldsBuilder
@@ -33,11 +34,17 @@ class FieldsBuilder
      */
     private $userModel;
 
-    public function __construct(FieldModel $fieldModel, ListModel $listModel, UserModel $userModel)
+    /**
+     * @var ListOptInModel
+     */
+    private $listOptInModel;
+
+    public function __construct(FieldModel $fieldModel, ListModel $listModel, UserModel $userModel, ListOptInModel $listOptInModel)
     {
-        $this->fieldModel = $fieldModel;
-        $this->listModel  = $listModel;
-        $this->userModel  = $userModel;
+        $this->fieldModel     = $fieldModel;
+        $this->listModel      = $listModel;
+        $this->userModel      = $userModel;
+        $this->listOptInModel = $listOptInModel;
     }
 
     /**
@@ -79,6 +86,48 @@ class FieldsBuilder
         $filters[$segmentKey] = [
             'alias'     => 'segment_id',
             'label'     => 'mautic.core.filter.lists',
+            'type'      => 'select',
+            'list'      => $list,
+            'operators' => [
+                'eq' => 'mautic.core.operator.equals',
+            ],
+        ];
+
+        $ownerPrefix           = $prefix.'owner_id';
+        $filters[$ownerPrefix] = [
+            'label' => 'le.lead.list.filter.owner',
+            'type'  => 'select',
+            'list'  => $this->userModel->getUserList('', 0),
+        ];
+
+        return $filters;
+    }
+
+    /**
+     * @param string $prefix
+     * @param string $segmentPrefix
+     *
+     * @return array
+     */
+    public function getLeadListOptinFilter($prefix, $listPrefix)
+    {
+        $filters = $this->getLeadFieldsColumns($prefix);
+
+        $segmentPrefix = $this->sanitizePrefix($listPrefix);
+        $prefix        = $this->sanitizePrefix($prefix);
+
+        // Append Lists filters
+        $userlists = $this->listOptInModel->getListsOptIn();
+
+        $list = [];
+        foreach ($userlists as $userlist) {
+            $list[$userlist['id']] = $userlist['name'];
+        }
+
+        $segmentKey           = $segmentPrefix.'leadlist_id';
+        $filters[$segmentKey] = [
+            'alias'     => 'list_id',
+            'label'     => 'le.core.filter.listoptin',
             'type'      => 'select',
             'list'      => $list,
             'operators' => [

@@ -397,6 +397,12 @@ class ImportController extends FormController
                             unset($matchedFields['tags']);
                         }
 
+                        $listoptin = null;
+                        if (array_key_exists('listoptin', $matchedFields)) {
+                            $listoptin = $matchedFields['listoptin'];
+                            unset($matchedFields['listoptin']);
+                        }
+
                         foreach ($matchedFields as $k => $f) {
                             if (empty($f)) {
                                 unset($matchedFields[$k]);
@@ -439,6 +445,7 @@ class ImportController extends FormController
                                 ->setDefault('owner', $defaultOwner)
                                 ->setDefault('list', $list)
                                 ->setDefault('tags', $tags)
+                                ->setDefault('listoptin', $listoptin)
                                 ->setHeaders($session->get('mautic.'.$object.'.import.headers'))
                                 ->setParserConfig($session->get('mautic.'.$object.'.import.config'));
 
@@ -514,7 +521,7 @@ class ImportController extends FormController
                     'contentTemplate' => $contentTemplate,
                     'passthroughVars' => [
                         'activeLink'    => $activeLink,
-                        'leContent' => 'leadImport',
+                        'leContent'     => 'leadImport',
                         'step'          => $step,
                         'progress'      => $progress,
                     ],

@@ -266,6 +266,16 @@ class ListModel extends FormModel
             $filter['force'][]= ['column' => 'f.object', 'expr' => 'neq', 'value' => 'company'];
             $filter['force'][]= ['column' => 'f.alias', 'expr' => 'notIn', 'value' => ['company']];
         }
+        $choices['list_listoptin'] = [
+            'listoptin' => [
+                'label'      => $this->translator->trans('le.lead.list.optin.filter.lists'),
+                'properties' => [
+                    'type' => 'listoptin',
+                ],
+                'operators' => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'    => 'lead',
+            ],
+        ];
         $choices['list_leadlist'] = [
             'leadlist' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lists'),

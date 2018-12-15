@@ -788,6 +788,137 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin'):
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0)
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.confirm'):
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.confirm', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$eqExpr('list_lead.confirmed_lead', 1)
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.unconfirm'):
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.unconfirm', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$eqExpr('list_lead.unconfirmed_lead', 1)
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.unsubscribe'):
+            case $this->translator->trans('le.lead.lead.searchcommand.listoptin.unsubscribe', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$eqExpr('list_lead.unsubscribed_lead', 1)
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
             case $this->translator->trans('mautic.core.searchcommand.ip'):
             case $this->translator->trans('mautic.core.searchcommand.ip', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
@@ -947,6 +1078,10 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'mautic.core.searchcommand.ismine',
             'le.lead.lead.searchcommand.isunowned',
             'le.lead.lead.searchcommand.list',
+            'le.lead.lead.searchcommand.listoptin',
+            'le.lead.lead.searchcommand.listoptin.confirm',
+            'le.lead.lead.searchcommand.listoptin.unconfirm',
+            'le.lead.lead.searchcommand.listoptin.unsubscribe',
             'mautic.core.searchcommand.name',
             'mautic.lead.lead.searchcommand.company_new',
             'mautic.core.searchcommand.email',
@@ -1293,12 +1428,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         if ($this->currentUser->getId() != 1 && $viewOthers) {
             $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere("l.owner_id  IS NULL");
+            $q->orWhere('l.owner_id  IS NULL');
             $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
                ->setParameter('dateAdded', $last7daysAddedLeads);
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere("l.created_by  IS NULL");
+            $q->orWhere('l.created_by  IS NULL');
             $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
                 ->setParameter('dateAdded', $last7daysAddedLeads);
         }
@@ -1320,15 +1455,16 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
-        if ($this->currentUser->getId() != 1&& $viewOthers) {
+        if ($this->currentUser->getId() != 1 && $viewOthers) {
             /*$q->andWhere($q->expr()->neq('l.owner_id', ':id'))
                 ->setParameter('id', '1');*/
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere("l.created_by  IS NULL");
+            $q->orWhere('l.created_by  IS NULL');
         }
 
         $results = $q->execute()->fetchAll();
+
         return $results[0]['allleads'];
     }
 
@@ -1351,10 +1487,11 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere("l.created_by  IS NULL");
+            $q->orWhere('l.created_by  IS NULL');
         }
 
         $results = $q->execute()->fetchAll();
+
         return $results[0]['activeleads'];
     }
 

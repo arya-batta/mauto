@@ -43,6 +43,7 @@ $templates = [
     'assets'            => 'asset_downloads_list-template',
     'drip_campaign'     => 'drip_email_received-template',
     'drip_campaign_list'=> 'drip_email_list-template',
+    'listoptin'         => 'listoptin-template',
 ];
 
 $mainErrors   = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';

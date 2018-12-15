@@ -74,7 +74,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'       => 'campaignevent_assetdownload',
             'group'          => 'le.campaign.source.group.name',
             'sourcetype'     => 'assertDownload',
-            'order'          => '3',
+            'order'          => '4',
         ];
 
         $event->addSources('assertDownload', $source);

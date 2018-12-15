@@ -53,7 +53,7 @@ class LeadController extends FormController
             ],
             'RETURN_ARRAY'
         );
-       
+
         $videoarg       = $this->request->get('login');
         $loginsession   = $this->get('session');
         $loginarg       = $loginsession->get('isLogin');
@@ -128,7 +128,7 @@ class LeadController extends FormController
             $anonymousShowing = true;
         }*/
         $values         = [];
-        $currentFilters = $session->get('mautic.email.list_filters', []);
+        $currentFilters = $session->get('mautic.lead.list_filters', []);
         $updatedFilters = $this->request->get('filters', false);
         $ignoreListJoin = true;
 
@@ -151,11 +151,11 @@ class LeadController extends FormController
                 $currentFilters = [];
             }
         }
-        $session->set('mautic.email.list_filters', $currentFilters);
+        $session->set('mautic.lead.list_filters', $currentFilters);
 
         if (!empty($currentFilters)) {
-            $listIds = [];
-
+            $listIds      = [];
+            $listOptinIds = [];
             foreach ($currentFilters as $type => $typeFilters) {
                 switch ($type) {
                     case 'list':
@@ -164,12 +164,17 @@ class LeadController extends FormController
                     case 'category':
                         $key = 'categories';
                         break;
+                    case 'listoptin':
+                        $key = 'listoptins';
+                        break;
                 }
                 $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
 
                 foreach ($typeFilters as $fltr) {
                     if ($type == 'list') {
                         $listIds[] = (int) $fltr;
+                    } elseif ($type == 'listoptin') {
+                        $listOptinIds[] = (int) $fltr;
                     }
                 }
             }
@@ -190,6 +195,23 @@ class LeadController extends FormController
                     }
                 }
                 $filter['string'] .= $leadlist_search;
+                // $filter['string'] = "segment:sadmin-segment OR segment:test-segement1";
+            }
+            if (!empty($listOptinIds)) {
+                $listoptinmodel       = $this->getModel('lead.listoptin');
+                $leadlistoptin_search = '';
+                for ($lid = 0; $lid < sizeof($listOptinIds); ++$lid) {
+                    $leadlistoptin = $listoptinmodel->getEntity($listOptinIds[$lid]);
+                    if ($li = 0) {
+                        $leadlistoptin_search = 'list:';
+                    } else {
+                        $leadlistoptin_search .= ' or list:';
+                    }
+                    if ($leadlistoptin != null) {
+                        $leadlistoptin_search .= $leadlistoptin->getId();
+                    }
+                }
+                $filter['string'] .= $leadlistoptin_search;
                 // $filter['string'] = "segment:sadmin-segment OR segment:test-segement1";
             }
         }
@@ -230,7 +252,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Lead:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'lead',
+                        'leContent'     => 'lead',
                     ],
                 ]
             );
@@ -252,6 +274,11 @@ class LeadController extends FormController
             'options' => $lists,
             'prefix'  => 'list',
             'values'  => $values,
+        ];
+        $listFilters['filters']['groups']['le.core.filter.listoptin'] = [
+            'options' => $this->getModel('lead.listoptin')->getListsOptIn(),
+            'prefix'  => 'listoptin',
+            'values'  => (empty($currentFilters) || !isset($currentFilters['listoptin'])) ? [] : array_values($currentFilters['listoptin']),
         ];
         //check to see if in a single list
         $inSingleList = (substr_count($search, "$listCommand:") === 1) ? true : false;
@@ -314,7 +341,7 @@ class LeadController extends FormController
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'route'         => $this->generateUrl('le_contact_index', ['page' => $page]),
                 ],
             ]
@@ -431,7 +458,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Lead:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'contact',
+                        'leContent'     => 'contact',
                     ],
                     'flashes' => [
                         [
@@ -498,6 +525,14 @@ class LeadController extends FormController
             $segmentName[] = $listRepository->getSegmentNameByID($segment['leadlist_id']);
         }
 
+        $listoptinRepository  = $this->getModel('lead.listoptin')->getListLeadRepository();
+        $lists                = $listoptinRepository->getListIDbyLeads($lead->getId());
+
+        $listName    = [];
+        foreach ($lists as $list) {
+            $listName[] = $listoptinRepository->getlistnameByID($list['leadlist_id']);
+        }
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -526,11 +561,12 @@ class LeadController extends FormController
                     )->getContent(),
                     'security'         => $this->get('mautic.security'),
                     'segmentName'      => $segmentName,
+                    'listName'         => $listName,
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:lead.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -616,7 +652,7 @@ class LeadController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_contact_index',
-                            'leContent' => 'lead',
+                            'leContent'     => 'lead',
                             'closeModal'    => 1, //just in case in quick form
                         ],
                     ]
@@ -650,6 +686,11 @@ class LeadController extends FormController
                         $segment = $data['lead_lists'];
                         unset($data['lead_lists']);
                     }
+                    $lists = [];
+                    if (isset($data['lead_listsoptin'])) {
+                        $lists = $data['lead_listsoptin'];
+                        unset($data['lead_listsoptin']);
+                    }
                     $model->setFieldValues($lead, $data, true);
 
                     if ($isValidRecordAdd) {
@@ -671,6 +712,9 @@ class LeadController extends FormController
                     }
                     if (!empty($segment)) {
                         $model->modifySegments($lead, $segment);
+                    }
+                    if (!empty($lists)) {
+                        $model->modifyListOptIn($lead, $lists);
                     }
                     $model->isTagsChanged($lead);
                     // Upload avatar if applicable
@@ -735,7 +779,7 @@ class LeadController extends FormController
                             'contentTemplate' => $template,
                             'passthroughVars' => [
                                 'activeLink'    => '#le_contact_index',
-                                'leContent' => 'lead',
+                                'leContent'     => 'lead',
                                 'closeModal'    => 1, //just in case in quick form
                             ],
                         ]
@@ -749,7 +793,7 @@ class LeadController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_contact_index',
-                            'leContent' => 'lead',
+                            'leContent'     => 'lead',
                             'closeModal'    => 1, //just in case in quick form
                         ],
                     ]
@@ -771,7 +815,7 @@ class LeadController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Lead:'.$formtemplate.'.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -814,7 +858,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
         //lead not found
@@ -874,6 +918,13 @@ class LeadController extends FormController
                         $segment = $data['lead_lists'];
                         unset($data['lead_lists']);
                     }
+
+                    $lists = [];
+                    if (isset($data['lead_listsoptin'])) {
+                        $lists = $data['lead_listsoptin'];
+                        unset($data['lead_listsoptin']);
+                    }
+
                     $model->setFieldValues($lead, $data, true);
 
                     //form is valid so process the data
@@ -886,6 +937,7 @@ class LeadController extends FormController
                     $model->saveEntity($lead, $form->get('buttons')->get('save')->isClicked());
                     $model->modifyCompanies($lead, $companies);
                     $model->modifySegments($lead, $segment);
+                    $model->modifyListOptIn($lead, $lists);
                     $model->isTagsChanged($lead);
                     // Upload avatar if applicable
                     $image = $form['preferred_profile_image']->getData();
@@ -958,7 +1010,7 @@ class LeadController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Lead:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'route'         => $this->generateUrl(
                         'le_contact_action',
                         [
@@ -1014,7 +1066,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
 
@@ -1139,7 +1191,7 @@ class LeadController extends FormController
                         'contentTemplate' => 'MauticLeadBundle:Lead:view',
                         'passthroughVars' => [
                             'closeModal'    => 1,
-                            'leContent' => 'lead',
+                            'leContent'     => 'lead',
                         ],
                     ]
                 );
@@ -1272,7 +1324,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
 
@@ -1312,8 +1364,8 @@ class LeadController extends FormController
                 }
 
                 $primaryidentifier = $this->get('translator')->trans($entity->getPrimaryIdentifier());
-                $identifier = !empty($primaryidentifier) ? $primaryidentifier : $entity->getEmail();
-                $flashes[]  = [
+                $identifier        = !empty($primaryidentifier) ? $primaryidentifier : $entity->getEmail();
+                $flashes[]         = [
                     'type'    => 'notice',
                     'msg'     => $falshMsg,
                     'msgVars' => [
@@ -1353,7 +1405,7 @@ class LeadController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Lead:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contact_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
 
@@ -1770,7 +1822,7 @@ class LeadController extends FormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => 'MauticLeadBundle:Lead:'.$func,
                     'passthroughVars' => [
-                        'leContent' => 'lead',
+                        'leContent'     => 'lead',
                         'closeModal'    => 1,
                     ],
                 ]
@@ -1787,7 +1839,7 @@ class LeadController extends FormController
                     'mailertransport'=> $mailertransport,
                 ],
                 'passthroughVars' => [
-                    'leContent' => 'leadEmail',
+                    'leContent'     => 'leadEmail',
                     'route'         => false,
                 ],
             ]
@@ -1892,7 +1944,113 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'leadBatch',
+                        'leContent'     => 'leadBatch',
+                        'route'         => $route,
+                    ],
+                ]
+            );
+        }
+    }
+
+    /**
+     * Bulk edit lead lists.
+     *
+     * @param int $objectId
+     *
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function batchListOptinAction($objectId = 0)
+    {
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            return $this->redirectToPricing();
+        }
+        if ($this->request->getMethod() == 'POST') {
+            /** @var \Mautic\LeadBundle\Model\LeadModel $model */
+            $model = $this->getModel('lead');
+            $data  = $this->request->request->get('lead_batch', [], true);
+            $ids   = json_decode($data['ids'], true);
+
+            $entities = [];
+            if (is_array($ids)) {
+                $entities = $model->getEntities(
+                    [
+                        'filter' => [
+                            'force' => [
+                                [
+                                    'column' => 'l.id',
+                                    'expr'   => 'in',
+                                    'value'  => $ids,
+                                ],
+                            ],
+                        ],
+                        'ignore_paginator' => true,
+                    ]
+                );
+            }
+
+            $count = 0;
+            foreach ($entities as $lead) {
+                if ($this->get('mautic.security')->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getPermissionUser())) {
+                    ++$count;
+
+                    if (!empty($data['add'])) {
+                        $model->addToListOptIn($lead, $data['add']);
+                    }
+
+                    if (!empty($data['remove'])) {
+                        $model->removeFromListOptIn($lead, $data['remove']);
+                    }
+                }
+            }
+
+            $this->addFlash(
+                'le.lead.batch_leads_affected',
+                [
+                    'pluralCount' => $count,
+                    '%count%'     => $count,
+                ]
+            );
+
+            return new JsonResponse(
+                [
+                    'closeModal' => true,
+                    'flashes'    => $this->getFlashContent(),
+                ]
+            );
+        } else {
+            // Get a list of lists
+            /** @var \Mautic\LeadBundle\Model\ListOptInModel $model */
+            $model = $this->getModel('lead.listoptin');
+            $lists = $model->getListsOptIn();
+            $items = [];
+            foreach ($lists as $list) {
+                $items[$list['id']] = $list['name'];
+            }
+
+            $route = $this->generateUrl(
+                'le_contact_action',
+                [
+                    'objectAction' => 'batchListOptin',
+                ]
+            );
+
+            return $this->delegateView(
+                [
+                    'viewParameters' => [
+                        'form' => $this->createForm(
+                            'lead_batch',
+                            [],
+                            [
+                                'items'  => $items,
+                                'action' => $route,
+                                'label'  => 'listoptin',
+                            ]
+                        )->createView(),
+                    ],
+                    'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
+                    'passthroughVars' => [
+                        'activeLink'    => '#le_contact_index',
+                        'leContent'     => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2021,7 +2179,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'leadBatch',
+                        'leContent'     => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2115,7 +2273,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'leadBatch',
+                        'leContent'     => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2225,7 +2383,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'leadBatch',
+                        'leContent'     => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2328,7 +2486,7 @@ class LeadController extends FormController
                     'contentTemplate' => 'MauticLeadBundle:Batch:form.html.php',
                     'passthroughVars' => [
                         'activeLink'    => '#le_contact_index',
-                        'leContent' => 'leadBatch',
+                        'leContent'     => 'leadBatch',
                         'route'         => $route,
                     ],
                 ]
@@ -2364,9 +2522,8 @@ class LeadController extends FormController
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model      = $this->getModel('lead');
         $leadcount  = count($model->getEntities());
-        if($leadcount == 0){
-            return $this->redirectToRoute('le_contact_index', ['leadcount' => "true"]);
-
+        if ($leadcount == 0) {
+            return $this->redirectToRoute('le_contact_index', ['leadcount' => 'true']);
         }
         $session    = $this->get('session');
         $search     = $session->get('mautic.lead.filter', '');
