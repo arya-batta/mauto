@@ -147,7 +147,7 @@ class ListOptInController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_listoptin_index',
                 'route'         => $this->generateUrl('le_listoptin_index', ['page' => $page]),
-                'leContent'     => 'leadlist',
+                'leContent'     => 'listoptin',
             ],
         ]);
     }
