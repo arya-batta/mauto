@@ -20,7 +20,7 @@ if ($support['data']) {
 
 ?>
 
-<div class="panel ovf-h bg-auto bg-light-xs abtest-bar-chart">
+<div class="panel ovf-h bg-auto bg-light-xs abtest-bar-chart" style="width: 86%">
     <div class="panel-body box-layout">
         <div class="col-xs-8 va-m">
             <h5 class="text-white dark-md fw-sb mb-xs">

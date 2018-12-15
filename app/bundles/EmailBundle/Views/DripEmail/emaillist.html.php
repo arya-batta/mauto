@@ -207,7 +207,7 @@
                             <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;width:63%;margin-left: -29px">
-                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
+                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime-<?php echo $item->getId(); ?>" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
                                     <option <?php echo $scheduleFrequency == 1 ? 'selected' : ''; ?> value="days">day</option>
                                     <option <?php echo $scheduleFrequency == 2 ? 'selected' : ''; ?> value="hours">hours</option>
                                     <option <?php echo $scheduleFrequency == 3 ? 'selected' : ''; ?> value="minutes">minutes</option>
@@ -217,7 +217,7 @@
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                           <a class="text-primary le-send-button custom-preview-button"
-                             href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => 'noBluePrint'], true)?>" data-toggle="tooltip"
+                             href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => '1'], true)?>" data-toggle="tooltip"
                              title="<?php echo $view['translator']->trans('le.drip.email.preview.tooltip'); ?>"
                              target="_blank">
                               <span><i class="fa fa-eye le-send-icon"></i></span>

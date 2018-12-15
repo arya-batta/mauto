@@ -142,12 +142,13 @@ Le.dripemailOnLoad = function (container, response) {
         mQuery('#drip-email-delay .chosen-single').addClass('chosen-dripemail-single');
     }
     Le.loadDripEmailStatCounts();
-    mQuery(function() {
+    Le.hideFlashMessage();
+   /* mQuery(function() {
         mQuery('#flashes').delay(2000).fadeIn('normal', function() {
             mQuery(this).delay(1500).fadeOut();
             mQuery('#flashes').addClass('hide');
         });
-    });
+    });*/
 
     if(mQuery('#dripEmail_PublicName').hasClass('has-error')){
         mQuery('#ui-tab-header3').addClass('ui-tabs-selected ui-state-active');
@@ -436,8 +437,7 @@ Le.editSelectedEmail = function(){
     Le.loadEmailStatCounts();*/
 }
 Le.updateFrequencyValue = function(EmailId){
-    //var frequencyUnit = mQuery('#drip_emailform_scheduleTime').val();
-    var frequencyUnit = mQuery('#drip-email-frequency-value-'+EmailId).attr('frequencyUnitValue');
+    var frequencyUnit = mQuery('#drip_emailform_scheduleTime-'+EmailId).val();
     Le.updateDripEmailFrequency(frequencyUnit,EmailId);
 }
 

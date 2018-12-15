@@ -1,12 +1,12 @@
 <?php
 ?>
-<div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">
+<div class="col-md-7 col-md-offset-3 mt-md" style="white-space: normal;">
     <p class="drip-col-stats"><h3 style="text-align: center;"><?php echo $view['translator']->trans('le.drip.email.blueprint.desc')?></h3></p>
     <div class="row drip-col-stats" style="border:1px solid;margin-top: 20px;">
         <div class="col-md-6" style="border-right:1px solid;">
             <div>
                 <img height="125px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/blueprint.png')?>"/>
-                <h2 class="drip-col-stats"><?php echo $view['translator']->trans('le.drip.email.choose.blueprint')?></h2>
+                <h2 class="drip-col-stats" style="margin-left: -4%"><?php echo $view['translator']->trans('le.drip.email.choose.blueprint')?></h2>
                 <br>
                 <a class="btn btn-default text-primary le-btn-default" onclick="Le.openBluePrintPage();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
                     <span>

@@ -939,6 +939,9 @@ class DripEmailController extends FormController
             if (!$cancelled = $this->isFormCancelled($emailform)) {
                 if ($valid = $this->isFormValid($emailform)) {
                     $emailentity->setScheduleTime($scheduledTime);
+                    if($emailentity->getBeeJSON() == 'RichTextEditor'){
+                        $emailentity->setTemplate('');
+                    }
 
                     $emailmodel->saveEntity($emailentity);
 
@@ -1137,6 +1140,9 @@ class DripEmailController extends FormController
                     if (sizeof($totalitems) > 0) {
                         $scheduleTime = '1 days';
                     }
+                    if(!$isBeeEditor){
+                        $emailentity->setBeeJSON('RichTextEditor');
+                    }
                     $templatename = $isBeeEditor ? $emailentity->getTemplate() : '';
                     $emailentity->setTemplate($templatename);
                     $emailentity->setScheduleTime($scheduleTime);
@@ -1213,7 +1219,7 @@ class DripEmailController extends FormController
         /** @var EmailModel $emailmodel */
         $emailmodel = $this->getModel('email');
         $email      = [];
-        if ($objectid != 'noBluePrint') {
+        if ($objectid != '1') {
             $email = $driprepo->getEmailsByEmailId($objectid);
         } else {
             /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
@@ -1239,5 +1245,74 @@ class DripEmailController extends FormController
                 ],
             ]
         );
+    }
+
+    public function emailblueprintAction($objectid, $subobjectId)
+    {
+        $driprepo    = $this->get('le.core.repository.signup');
+
+        /** @var DripEmailModel $dripmodel */
+        $dripmodel = $this->getModel('email.dripemail');
+        $dripemail = $dripmodel->getEntity($subobjectId);
+        $items     = $driprepo->getEmailsByDripId($objectid);
+        //set some permissions
+        $permissions = $this->get('mautic.security')->isGranted(
+            [
+                'email:emails:viewown',
+                'email:emails:viewother',
+                'email:emails:create',
+                'email:emails:editown',
+                'email:emails:editother',
+                'email:emails:deleteown',
+                'email:emails:deleteother',
+                'email:emails:publishown',
+                'email:emails:publishother',
+            ],
+            'RETURN_ARRAY'
+        );
+
+        /** @var EmailModel $emailmodel */
+        $emailmodel = $this->getModel('email');
+        /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
+        $usermodel     = $this->getModel('user.user');
+        $userentity    = $usermodel->getCurrentUserEntity();
+
+        $dripOrder = 0;
+        foreach ($items as $item) {
+            $dripOrder = $dripOrder + 1;
+            $newEntity = $emailmodel->getEntity();
+            //file_put_contents("/var/www/log.txt",$item->getName()."\n",FILE_APPEND);
+            $newEntity->setName($item['name']);
+            $newEntity->setSubject($item['subject']);
+            $newEntity->setPreviewText($item['preview_text']);
+            $newEntity->setCustomHtml($item['custom_html']);
+            $newEntity->setBeeJSON($item['bee_json']);
+            $newEntity->setDripEmail($dripemail);
+            $newEntity->setCreatedBy($userentity);
+            $newEntity->setIsPublished(true);
+            $newEntity->setGoogleTags(true);
+            $newEntity->setEmailType('dripemail');
+            /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+            // $configurator= $this->get('mautic.configurator');
+
+            // $params          = $configurator->getParameters();
+            // $fromname        = $params['mailer_from_name'];
+            //  $fromadress      = $params['mailer_from_email'];
+            $defaultsender=$emailmodel->getDefaultSenderProfile();
+            if (sizeof($defaultsender) > 0) {
+                $newEntity->setFromName($defaultsender[0]);
+                $newEntity->setFromAddress($defaultsender[1]);
+            }
+            $newEntity->setDripEmailOrder($dripOrder);
+            $newEntity->setScheduleTime($item['scheduleTime']);
+            $emailmodel->saveEntity($newEntity);
+        }
+        return $this->delegateRedirect($this->generateUrl(
+            'le_dripemail_campaign_action',
+            [
+                'objectAction' => 'edit',
+                'objectId'     => $dripemail->getId(),
+            ]
+        ));
     }
 }

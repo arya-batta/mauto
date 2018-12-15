@@ -411,8 +411,16 @@ class EventController extends CommonFormController
         } elseif ($event['type'] == 'email.send.to.user' || $event['type'] == 'sms.send_text_sms.to.user') {
             $choices=$formView->children['properties']->children['user_id']->vars['choices'];
             $user   =$event['properties']['user_id'];
-            $label  =$this->getFormattedEventLabel($label, $user, $choices);
-        } elseif ($event['type'] == 'email.send.to.dripcampaign' || $event['type'] == 'remove.dripcampaign' || $event['type'] == 'restart.dripcampaign') {
+            if(sizeof($user) > 0) {
+                $label = $this->getFormattedEventLabel($label, $user, $choices);
+            }else{
+                if($event['properties']['to_owner'] == 1){
+                    $label =$label.'[Lead Owner]';
+                }elseif ($event['properties']['to'] != null){
+                    $label =$label.' ['.$event['properties']['to'].']';
+                }
+            }
+        } elseif ($event['type'] == 'email.send.to.dripcampaign' || $event['type'] == 'remove.dripcampaign' || $event['type'] == 'restart.dripcampaign' || $event['type'] == 'dripcampaign_completed') {
             $choices     =$formView->children['properties']->children['dripemail']->vars['choices'];
             $dripemail   =$event['properties']['dripemail'];
             $label       =$this->getFormattedEventLabel($label, [$dripemail], $choices);
@@ -422,6 +430,10 @@ class EventController extends CommonFormController
             $removeDripchoices  =$formView->children['properties']->children['movedripto']->vars['choices'];
             $removeDrip         =$event['properties']['movedripto'];
             $label              =$this->getLabelFromMultiChoices($label, $addDripchoices, $removeDripchoices, [$addDrip], [$removeDrip]);
+        } elseif($event['type'] == 'leadtags.remove'){
+            $tags=$event['properties']['tags'];
+            $label =$label.json_encode($tags);
+            $label =  str_replace('"','',$label);
         }
 
         return $label;
@@ -449,7 +461,7 @@ class EventController extends CommonFormController
         for ($index=0; $index < sizeof($data); ++$index) {
             $line .= $this->getChoiceLabel($choices, $data[$index]);
             if (sizeof($data) - 1 != $index) {
-                $line .= ',';
+                $line .= ', ';
             }
         }
         if ($line != '') {
@@ -473,7 +485,7 @@ class EventController extends CommonFormController
             $label=$label.', '.$label1;
         }
         if ($label2 != '' && $label1 != '') {
-            $label=$label.','.$label2;
+            $label=$label.', '.$label2;
         } elseif ($label2 != '') {
             $label=$label.', '.$label2;
         }
@@ -540,6 +552,8 @@ class EventController extends CommonFormController
                     $list=$options['landingpage_list']['en'];
                 } elseif ($object == 'emails') {
                     $list=$options['emails']['en'];
+                } elseif ($object == 'one_of_campaign') {
+                    $list=$options['emails']['en'];
                 } elseif ($object == 'list_categories') {
                     $list=$options['globalcategory'];
                 } elseif ($object == 'list_leadlist') {
@@ -552,33 +566,69 @@ class EventController extends CommonFormController
                     $list=$options['formsubmit_list'];
                 } elseif ($object == 'assets') {
                     $list=$options['asset_downloads_list']['en'];
+                }elseif ($object == 'drip_campaign'){
+                    $list=$options['drip_email_receive'];
                 }
                 if (!empty($list)) {
                     $displaystring='';
                     if (sizeof($value) > 0) {
+                       if($object == 'drip_campaign'){
+                           $keys=array_keys($list);
+                           foreach ($keys as $key){
+                               $lists=$list[$key];
+                               for ($v = 0; $v < sizeof($value); ++$v) {
+                                   if(isset($lists[$value[$v]])) {
+                                       $displaystring .=$key.':'.$lists[$value[$v]];
+                                       if ($v < sizeof($value) - 1) {
+                                           $displaystring .= ', ';
+                                       }
+                                   }
+                               }
+                           }
+
+                       }
+                       else{
                         for ($v = 0; $v < sizeof($value); ++$v) {
                             $displaystring .= $list[$value[$v]];
                             if ($v < sizeof($value) - 1) {
-                                $displaystring .= ',';
+                                $displaystring .= ', ';
                             }
                         }
-                    } else {
+                       }
+                    }else {
                         $value = '';
                     }
                     if ($displaystring != '') {
-                        $value='['.$displaystring.']';
+                        if($object == 'emails'){
+                            if(sizeof($value > 0)) {
+                                $value = '['.$displaystring.'] emails';
+                            }else{
+                                $value = '['.$displaystring.'] email';
+                            }
+                        }else {
+                            $value = '[' . $displaystring . ']';
+                        }
                     }
                 } else {
-                    $value='['.implode(',', $value).']';
+                    $value='['.implode(', ', $value).']';
                 }
             } else {
                 if ($value != '') {
-                    $value = '['.$value.']';
+                    if($fieldlabel == 'Lead Score'){
+                        $v =ucwords($value);
+                        $value='['.$v.']';
+                      }elseif ($fieldlabel == 'Email activity'){
+                        $value = '['.$value.'] emails';
+                      }elseif (is_int($value)){
+                          $value= $value == 1 ? '[ Yes ]' : '[ No ]' ;
+                      }else{
+                        $value = '['.$value.']';
+                      }
                 }
             }
             if ($index > 0) {
                 if ($glue == 'or') {
-                    $label .= ',';
+                    $label .= ', ';
                 }
                 $label .= ' '.$glue.' ';
             }

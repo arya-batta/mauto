@@ -289,7 +289,7 @@ $isAdmin              = $view['security']->isAdmin();
                                 <li>
                                     <?php foreach ($verifiedemail as $key=> $value): ?>
                                 <li >
-                                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $key; ?></a>
+                                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
                                 </li>
                                 <?php endforeach; ?>
                                 </li>
@@ -314,13 +314,13 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <?php echo $view['form']->row($form['scheduleDate']); ?>
                         <a class="btn btn-default le-btn-default btn-nospin custom-preview-button pink-background reset-time-button" onclick="Le.ClearScheduleTimeWidget();">
                             <span><i class="fa fa-refresh" style="font-size: 15px;"></i></span>
                         </a>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
 
                     </div>
                     <div class="col-md-6">

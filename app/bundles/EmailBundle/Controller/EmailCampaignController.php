@@ -929,7 +929,9 @@ class EmailCampaignController extends FormController
                     $currentutmtags=$entity->getUtmTags();
                     $currentsubject=$entity->getSubject();
                     $currentname   =$entity->getName();
-
+                    if($entity->getBeeJSON() == 'RichTextEditor'){
+                        $entity->setTemplate('');
+                    }
                     if (!empty($formData['unsubscribe_text'])) {
                         $entity->setUnsubscribeText($formData['unsubscribe_text']);
                     }
@@ -2072,8 +2074,7 @@ class EmailCampaignController extends FormController
 
     public function templatePreviewAction($template)
     {
-        echo $this->factory->getBeeTemplateHTMLByName($template);
-
-        return new Response();
+        $content = $this->factory->getBeeTemplateHTMLByName($template);
+        return $this->render('MauticEmailBundle:DripEmail:preview.html.php',['content' => $content]);
     }
 }

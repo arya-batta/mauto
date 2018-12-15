@@ -13,7 +13,7 @@
             <div class="col-md-3" style="margin-bottom:10px;">
                 <p><span style="font-size:18px;font-weight: bold;"><?php echo $drips[$key]['name']; ?></span></p>
                 <p><span style="font-size:13px;"><?php echo $drips[$key]['description']; ?></span></p>
-                <a class="btn btn-default text-primary le-btn-default custom-preview-button custom-use-button" id="use-this-blueprint" dripvalue="<?php echo $entity->getId(); ?>" onclick="Le.useBluePrintDrip(this);" value="<?php echo $drips[$key]['id']; ?>" style="background-color: #ffda24;color:#000000;margin-top:10px;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                <a class="btn btn-default text-primary le-btn-default custom-preview-button custom-use-button" id="use-this-blueprint" dripvalue="<?php echo $entity->getId(); ?>" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'blueprint', 'subobjectId' => $drips[$key]['id']]); ?>" value="<?php echo $drips[$key]['id']; ?>" style="background-color: #ffda24;color:#000000;margin-top:10px;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
                     <span>
                     <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.use.this'); ?></span>
                     </span>
