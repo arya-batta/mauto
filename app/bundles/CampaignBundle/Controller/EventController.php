@@ -624,7 +624,7 @@ class EventController extends CommonFormController
                 }
             } else {
                 if ($value != '') {
-                    if ($fieldlabel == 'Lead Score') {
+                    if ($fieldlabel == 'Lead score') {
                         $v    =ucwords($value);
                         $value='['.$v.']';
                     } elseif ($fieldlabel == 'Email activity') {

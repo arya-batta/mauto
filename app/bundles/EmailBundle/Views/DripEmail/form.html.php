@@ -316,7 +316,7 @@ $isAdmin              = $view['security']->isAdmin();
                 <div class="row">
                     <div class="col-md-4">
                         <?php echo $view['form']->row($form['scheduleDate']); ?>
-                        <a class="btn btn-default le-btn-default btn-nospin custom-preview-button pink-background reset-time-button" onclick="Le.ClearScheduleTimeWidget();">
+                        <a class="btn btn-default le-btn-default btn-nospin pink-background reset-time-button" style="padding: 2px 7px 2px 7px" onclick="Le.ClearScheduleTimeWidget();">
                             <span><i class="fa fa-refresh" style="font-size: 15px;"></i></span>
                         </a>
                     </div>
