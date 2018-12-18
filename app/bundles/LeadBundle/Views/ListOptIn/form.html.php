@@ -30,7 +30,7 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;margin-top: 135px;">
     <li class="<?php echo ($isSetupError) ? '' : 'active'; ?> detail" id="detailstab">
         <a href="#details" style="padding: 3px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">

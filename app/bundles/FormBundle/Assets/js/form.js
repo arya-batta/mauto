@@ -140,6 +140,7 @@ Le.formOnLoad = function (container) {
 
     Le.initHideItemButton('#leforms_fields');
     Le.initHideItemButton('#leforms_actions');
+    Le.enableGDPRFormWidget();
     if(mQuery('#Form_post_action').hasClass('has-error')){
         mQuery('.check_required').addClass('required');
     }
@@ -295,7 +296,12 @@ Le.formFieldOnLoad = function (container, response) {
     var $icontxt =   Le.getBgColorHex(txtcolor);
     mQuery('#formfield_btnbgcolor').minicolors('value',$iconbg);
     mQuery('#formfield_btntxtcolor').minicolors('value',$icontxt);
-
+    Le.enableGDPRFormWidget();
+    var formAlias = mQuery('#formfield_alias').val();
+    if(formAlias == 'gdpr' || formAlias =='eu_gdpr_consent') {
+        mQuery('#default-optionlist').val(mQuery('.leform-checkboxgrp-label').text().trim());
+        mQuery('#remove-GDPR-form').remove();
+    }
 };
 
 Le.getBgColorHex = function (color){
@@ -433,4 +439,17 @@ Le.openNewFormAction = function(url){
 
 Le.updatePlaceholdervalue = function(ele){
     mQuery('#formfield_properties_placeholder').val(ele);
-}
+};
+Le.toggleGDPRButtonClass = function (changedId) {
+    changedId = '#' + changedId;
+    if(mQuery(changedId).parent().attr('class').includes('btn-yes')){
+        mQuery('.gdpr-content').removeClass('hide');
+    } else {
+        mQuery('.gdpr-content').addClass('hide');
+    }
+};
+Le.enableGDPRFormWidget = function () {
+    if (mQuery('#leform_isGDPRPublished_1').prop('checked')) {
+        mQuery('.gdpr-content').removeClass('hide');
+    }
+};
