@@ -6934,3 +6934,6 @@ ol, ul {
 .col-listoptin{
   width:20%;
 }
+.leform-checkboxgrp-checkbox {
+  width: inherit !important;
+}

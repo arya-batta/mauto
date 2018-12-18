@@ -658,7 +658,17 @@ class LeadModel extends FormModel
             );
 
             // Unset stage and owner from the form because it's already been handled
-            unset($data['stage'], $data['owner'], $data['tags'], $data['lead_lists'], $data['lead_listsoptin']);
+            unset($data['stage'], $data['owner'], $data['tags'], $data['lead_lists'], $data['lead_listsoptin'][0]);
+
+            if (isset($data['eu_gdpr_consent'])) {
+                $timezone = date_default_timezone_get();
+                if (!empty($data['eu_gdpr_consent'][0])) {
+                    $data['eu_gdpr_consent'] = $data['eu_gdpr_consent'][0];
+                } else {
+                    $data['eu_gdpr_consent'] = 'Denied';
+                }
+                $data['gdpr_timezone'] = $timezone;
+            }
             // Prepare special fields
             $this->prepareParametersFromRequest($form, $data, $lead);
             // Submit the data

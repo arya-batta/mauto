@@ -119,6 +119,11 @@ class Form extends FormEntity
     private $formType;
 
     /**
+     * @var bool
+     */
+    public $isGDPRPublished = false;
+
+    /**
      * This var is used to cache the result once gained from the loop.
      *
      * @var bool
@@ -210,6 +215,11 @@ class Form extends FormEntity
             ->fetchExtraLazy()
             ->build();
 
+        $builder->createField('isGDPRPublished', 'boolean')
+            ->columnName('is_gdpr_Published')
+            ->nullable()
+            ->build();
+
         $builder->addNullableField('formType', 'string', 'form_type');
     }
 
@@ -294,6 +304,7 @@ class Form extends FormEntity
                     'formType',
                     'postAction',
                     'postActionProperty',
+                    'isGDPRPublished',
                 ]
             )
             ->build();
@@ -749,6 +760,22 @@ class Form extends FormEntity
     public function isInKioskMode()
     {
         return $this->getInKioskMode();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGDPRPublished()
+    {
+        return $this->isGDPRPublished;
+    }
+
+    /**
+     * @param mixed $isGDPRPublished
+     */
+    public function setGDPRPublished($isGDPRPublished)
+    {
+        $this->isGDPRPublished = $isGDPRPublished;
     }
 
     /**

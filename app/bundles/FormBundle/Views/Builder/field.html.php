@@ -43,6 +43,15 @@ endif;
 // Check for validation errors to show on tabs
 $generalTabError    = (isset($form['label']) && ($view['form']->containsErrors($form['label'])));
 $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErrors($form['properties'])));
+$gdprRestriction    = '';
+if (isset($form->vars['value']['leadField'])) {
+    $gdprRestriction = $form->vars['value']['leadField'] == 'eu_gdpr_consent' ? 'hide' : '';
+}
+$hideOptionList = !empty($gdprRestriction) ? '' : 'hide';
+$html           = '<div class="form-group col-xs-12 ">
+<label class="control-label required" for="formfield_label">Content</label> 
+<input type="text" id="default-optionlist" name="formfield[properties][optionlist][list][0][label]" class="form-control sortable-label le-input" placeholder="Label" autocomplete="false" required>
+<input type="text" name="formfield[properties][optionlist][list][0][value]" class="form-control sortable-value le-input hide" placeholder="Value" autocomplete="false" value="Granted"></div> ';
 ?>
 
 
@@ -54,7 +63,7 @@ $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErr
     <?php echo $view['form']->start($form); ?>
 
     <div role="tabpanel">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs <?php echo $gdprRestriction; ?>" role="tablist">
             <li role="presentation" class="active">
                 <a<?php if ($generalTabError) {
     echo ' class="text-danger" ';
@@ -115,8 +124,13 @@ $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErr
         <!-- Tab panes -->
         <div class="tab-content pa-lg">
             <div role="tabpanel" class="tab-pane active" id="general">
-                <div class="row">
+               <div class="row">
                     <?php echo $view['form']->rowIfExists($form, 'label', $template); ?>
+                     <?php if ($gdprRestriction): ?>
+                        <?php echo $html; ?>
+                     <?php endif; ?>
+               </div>
+              <div class="row <?php echo $gdprRestriction; ?>">
                     <?php echo $view['form']->rowIfExists($form, 'showLabel', $toggleTemplate); ?>
                     <?php echo $view['form']->rowIfExists($form, 'saveResult', $toggleTemplate); ?>
                     <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
