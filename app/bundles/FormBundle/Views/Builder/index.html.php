@@ -254,8 +254,8 @@ echo $view['form']->end($form); */
     );
 endif;*/ ?>
 <?php echo $view['form']->start($form); ?>
-<div class="page-wrap  tab-content" >
-    <div  style="margin-top: -8px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
+<div class="page-wrap  tab-content">
+    <div  style="margin-top: 0px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header1" rel = 1>
                 <a class="info_tab text-start" style="padding: 3px 42px;">
@@ -329,14 +329,17 @@ endif;*/ ?>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <?php echo $view['form']->label($form['isPublished']); ?>
                     <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>
-                <div class="col-md-12 hide" >
-                    <br>
-                    <?php echo $view['form']->label($form['description']); ?>
-                    <?php echo $view['form']->widget($form['description']); ?>
+                <div class="col-md-6" >
+                    <?php echo $view['form']->row($form['isGDPRPublished']); ?>
+                </div>
+            </div>
+            <div class="row hide">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['description']); ?>
                 </div>
             </div>
             <br>

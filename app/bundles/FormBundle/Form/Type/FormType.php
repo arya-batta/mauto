@@ -75,6 +75,8 @@ class FormType extends AbstractType
             'bundle' => 'form',
         ]);
 
+        $builder->add('isPublished', 'yesno_button_group');
+
         $builder->add('template', 'theme_list', [
             'feature'     => 'form',
             'empty_value' => ' ',
@@ -109,6 +111,14 @@ class FormType extends AbstractType
             'label' => 'mautic.form.form.kioskmode',
             'attr'  => [
                 'tooltip' => 'mautic.form.form.kioskmode.tooltip',
+            ],
+        ]);
+
+        $builder->add('isGDPRPublished', 'yesno_button_group', [
+            'label' => 'le.form.form.isGDPRpublished',
+            'attr'  => [
+                'class'    => 'gdpr-checkbox',
+                'onchange' => "Le.toggleGDPRButtonClass(mQuery(this).attr('id'))",
             ],
         ]);
 

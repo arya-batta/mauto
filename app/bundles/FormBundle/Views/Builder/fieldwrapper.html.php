@@ -12,16 +12,22 @@
 if (!isset($inBuilder)) {
     $inBuilder = false;
 }
-
+$style ='';
+if (isset($contactFields[$field['leadField']]['alias'])) {
+    if ($contactFields[$field['leadField']]['alias'] == 'eu_gdpr_consent') {
+        $style       = 'gdpr-content hide';
+        $disableGDPR = true;
+    }
+}
 ?>
-<div class="panel form-field-wrapper" data-sortable-id="leform_<?php echo $field['id']; ?>">
+<div class="panel form-field-wrapper <?php echo $style; ?>" data-sortable-id="leform_<?php echo $field['id']; ?>">
     <?php
     echo $view->render('MauticFormBundle:Builder:actions.html.php',
         [
             'id'             => $field['id'],
             'formId'         => $formId,
             'formName'       => '',
-            'disallowDelete' => ('button' == $field['type']),
+            'disallowDelete' => ('button' == $field['type'] || !empty($disableGDPR)),
         ]);
     ?>
     <div class="row ml-0 mr-0"><?php // wrap in a row to keep bootstrap container classes from affecting builder layout?>
