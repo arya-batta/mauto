@@ -417,6 +417,7 @@ class AjaxController extends CommonAjaxController
         $verifylink        = $this->generateUrl('le_sender_profile_verify_link', ['idhash' => $idHash], true);
         $message           = \Swift_Message::newInstance();
         $message->setTo([$fromemail => $fromname]);
+        $message->setReplyTo($this->factory->getUser()->getEmail());
         $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
         $message->setSubject($this->translator->trans('le.sender.verification.subject'));
         $text = "<!DOCTYPE html>
