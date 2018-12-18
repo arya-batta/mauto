@@ -57,13 +57,13 @@ class FormEventHelper
      * @param $action
      * @param $factory
      */
-    public static function changeLists($action, $factory)
+    public static function changeLists($action, $factory,$lead = null)
     {
         $properties = $action->getProperties();
 
         /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
         $leadModel  = $factory->getModel('lead');
-        $lead       = $leadModel->getCurrentLead();
+        $lead       = $lead != null ? $lead : $leadModel->getCurrentLead();
         $addTo      = $properties['addToLists'];
         $removeFrom = $properties['removeFromLists'];
 

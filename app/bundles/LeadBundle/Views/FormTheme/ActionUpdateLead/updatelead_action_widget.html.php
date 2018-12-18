@@ -18,9 +18,10 @@
                     <?php echo $view['form']->widget($child); ?>
                 </div>
             <?php else:?>
-                <div class="form-group col-xs-6">
+                <div class="form-group col-xs-6 <?php echo (count($child->vars['errors'])) ? ' has-error' : ''; ?>">
                     <?php echo $view['form']->label($child); ?>
                     <?php echo $view['form']->widget($child); ?>
+                    <?php echo $view['form']->errors($child);?>
                 </div>
             <?php endif; ?>
         <?php else: ?>

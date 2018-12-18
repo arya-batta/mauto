@@ -345,7 +345,7 @@ class LeadSubscriber extends CommonSubscriber
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
                     $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                    if ($email != null && in_array($email->getId(), $properties['email'])) {
+                    if ($email != null && in_array($email->getId(), $properties['emails'])) {
                         if ($event['goal'] != 'interrupt') {
                             $this->campaignModel->addLead($campaign, $lead);
                             $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
@@ -376,7 +376,7 @@ class LeadSubscriber extends CommonSubscriber
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
                     $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                    if ($email != null && in_array($email->getId(), $properties['email'])) {
+                    if ($email != null && in_array($email->getId(), $properties['emails'])) {
                         if ($event['goal'] != 'interrupt') {
                             $this->campaignModel->addLead($campaign, $lead);
                             $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
