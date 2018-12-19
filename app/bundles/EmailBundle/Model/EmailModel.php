@@ -2245,7 +2245,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             if (!$mailer->setTo($user['email'], $user['firstname'].' '.$user['lastname'])) {
                 $errors[] = "{$user['email']}: ".$this->translator->trans('le.email.bounce.reason.bad_email');
             } else {
-                if (!$mailer->queue(false)) {
+                if (!$mailer->queue(true)) {
                     $errorArray = $mailer->getErrors();
                     unset($errorArray['failures']);
                     $errors[] = "{$user['email']}: ".implode('; ', $errorArray);

@@ -23,7 +23,7 @@ class FormSubmitHelper
      * @param MauticFactory $factory
      * @param               $feedback
      */
-    public static function sendEmail($tokens, Action $action, MauticFactory $factory, $feedback)
+    public static function sendEmail($tokens, Action $action, MauticFactory $factory, $feedback,$lead=null)
     {
         $properties = $action->getProperties();
         $emailId    = (isset($properties['useremail'])) ? (int) $properties['useremail']['email'] : (int) $properties['email'];
@@ -48,7 +48,7 @@ class FormSubmitHelper
                         //the lead was just created via the lead.create action
                         $currentLead = $feedback['lead.create']['lead'];
                     } else {
-                        $currentLead = $leadModel->getCurrentLead();
+                        $currentLead = $lead!=null ?$lead:$leadModel->getCurrentLead();
                     }
 
                     if ($currentLead instanceof Lead) {
