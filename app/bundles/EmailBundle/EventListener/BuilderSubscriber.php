@@ -283,11 +283,11 @@ class BuilderSubscriber extends CommonSubscriber
         if (!$updateLead) {
             $updateLead = $this->translator->trans('le.email.updatelead.text', ['%link%' => '|URL|']);
         }
-        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash, 'type' => $type]), $updateLead);
+        $updateLead = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $updateLead);
 
         $event->addToken('{update_your_profile_link}', EmojiHelper::toHtml($updateLead));
 
-        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash, 'type' => $type]));
+        $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]));
 
         $webviewText = $this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
@@ -343,7 +343,7 @@ class BuilderSubscriber extends CommonSubscriber
             $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_subscribe', ['idHash' => $idHash]), $footerText);
 
             $footerText = str_replace('{update_your_profile_link}', "<a href='|URL|'>Update Your Profile</a>", $footerText);
-            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash, 'type' => $type]), $footerText);
+            $footerText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]), $footerText);
 
             if ($helper != null && !empty($helper->message->getFrom())) {
                 foreach ($helper->message->getFrom() as $fromemail => $fromname) {

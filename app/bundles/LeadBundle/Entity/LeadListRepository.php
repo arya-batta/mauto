@@ -379,7 +379,7 @@ class LeadListRepository extends CommonRepository
             }
 
             $parameters    = [];
-            $customcreated = true;
+
             if ($dynamic && count($filters)) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                 if ($countOnly) {
@@ -440,6 +440,7 @@ class LeadListRepository extends CommonRepository
                     }
                     $customcreated = true;
                         } else { */
+                    $customcreated = true;
                     $expr = $this->generateSegmentExpression($filters, $parameters, $q, null, $id);
 
                     if (!$this->hasCompanyFilter && !$expr->count()) {
@@ -580,7 +581,7 @@ class LeadListRepository extends CommonRepository
                     }
                 }
 
-                if ($customcreated) {
+                if (isset($customcreated)) {
                     $leads['list_id']=$id;
                 }
             } elseif (!$dynamic) {

@@ -46,7 +46,7 @@ class EmailSendType extends AbstractType
             'email',
             'email_list',
             [
-                'label'      => 'le.email.send.email.list',
+                'label'      => ($email_list_type == 'list') ? 'le.email.send.email.list':'le.email.send.notification.email.list',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control',

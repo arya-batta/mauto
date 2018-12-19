@@ -308,7 +308,11 @@ class PointModel extends CommonFormModel
             }
             $score = $action->getScore();
 
-            if ($lead !== null && !empty($score)) {
+            if($action->getType() == 'url.hit'){
+                if ($lead !== null && !empty($score) && $eventDetails->getUrl()==$action->getProperties()['page_url']) {
+                    $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                }
+            }elseif ($lead !== null && !empty($score)) {
                 $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
             }
         }

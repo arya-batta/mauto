@@ -2520,10 +2520,10 @@ class LeadController extends FormController
         }
 
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
-        $model      = $this->getModel('lead');
-        $leadcount  = count($model->getEntities());
-        if ($leadcount == 0) {
-            return $this->redirectToRoute('le_contact_index', ['leadcount' => 'true']);
+        $model       = $this->getModel('lead');
+        $leadcount   = count($model->getEntities());
+        if($leadcount == 0){
+            return  $this->redirectToRoute('le_contact_index', ['leadcount' => 'true']);
         }
         $session    = $this->get('session');
         $search     = $session->get('mautic.lead.filter', '');

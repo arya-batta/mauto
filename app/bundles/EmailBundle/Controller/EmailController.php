@@ -84,8 +84,8 @@ class EmailController extends FormController
             $start = 0;
         }
 
-        $search = $this->request->get('search', $session->get('mautic.email.filter', ''));
-        $session->set('mautic.email.filter', $search);
+        $search = $this->request->get('search', $session->get('mautic.email.notification.filter', ''));
+        $session->set('mautic.email.notification.filter', $search);
 
         $filter = [
             'string' => $search,

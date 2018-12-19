@@ -18,6 +18,7 @@ if (!$isAdmin) {
     $style =  ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;display:none;']];
 }
 $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
+$btnstyle = "pointer-events: none;background-color: #E489A8;opacity: 1;";
 ?>
  <div class="row">
      <div style="text-align:center;width:100%;">
@@ -49,7 +50,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                                         'btnClass'        => 'btn btn-primary send-btn'.((!$pending) ? ' disabled' : ''),
                                     ]);
                                     ?>-->
-                                    <a class="butnew" style="margin-left:2px;border-radius: 3px;" href="javascript: void(0);" onclick="Le.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;font-size: 16px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
+                                    <a class="butnew" style="margin-left:2px;border-radius: 3px;padding-bottom: 9px;padding-top: 9px;padding-left: 27px;padding-right: 27px;<?php echo $pending == 0 ? $btnstyle: '' ?>" href="javascript: void(0);" onclick="Le.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;font-size: 16px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>
                                 </span>
                                          <?php echo $view['form']->errors($form['batchlimit']); ?>
                                          <div class="text-center">
@@ -58,7 +59,7 @@ $btnclass = 'btn btn-primary '.((!$pending) ? ' disabled' : '');
                                          </div>
                                  <?php echo $view['form']->end($form); ?>
                          <div class="butnew" style="padding-top: 0px;padding-bottom: 0px;line-height: 36px;width: 92px !important;">
-                             <a style="margin-left:10px;color:#FFF;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"> <span style="font-family:Open Sans, Helvetica, Roboto, Arial;font-size:16px;line-height:32px;"><span style="font-size: 16px; line-height: 22px;    margin-left: -15px;font-family: Georgia, Times, 'Times New Roman', serif;text-align: center;">Cancel</span></span></div></div></a>
+                             <a style="margin-left:10px;color:#FFF;" href="<?php echo $view['router']->path($actionRoute, ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax"> <span style="font-family:Open Sans, Helvetica, Roboto, Arial;font-size:16px;line-height:32px;"><span style="font-size: 16px; line-height: 22px;    margin-left: -15px;font-family: Open Sans, Helvetica, Roboto, Arial;text-align: center;">Cancel</span></span></div></div></a>
                      <div style="font-size:12px;margin-top:5px;line-height:10px;font-family:Open Sans, Helvetica, Roboto, Arial;text-align:center;color:#555555;">
                          <span style="font-size:14px; line-height:20px;">Or<br>
                              <a href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $email->getId()]); ?>" data-toggle = "ajaxmodal" data-target="#leSharedModal"data-header="<?php echo $view['translator']->trans('le.email.send.example');?>" style="text-decoration: underline;"><?php echo $view['translator']->trans('le.email.send.an.example'); ?></a> before sending this campaign.</span><span style="font-size:16px; line-height:32px;"></span><span style="font-size:16px; line-height:32px;"></span></div>

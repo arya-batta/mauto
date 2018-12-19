@@ -449,7 +449,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     <div class="col-md-2">
 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 <?php echo (count($form['daysEmailSend']->vars['errors'])) ? ' has-error' : ''; ?>" id="drip_daysEmailSend" >
                         <?php echo $view['form']->row($form['daysEmailSend']); ?>
                     </div>
                 </div>
