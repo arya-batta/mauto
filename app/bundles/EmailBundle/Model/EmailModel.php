@@ -1551,7 +1551,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             unset($errorArray['failures']);
             $errors[] = implode('; ', $errorArray);
         }
-        if($errors == null){
+        if ($errors == null) {
             foreach ($to as $toAddress) {
                 $this->getRepository()->upCount($email->getId(), 'sent', 1);
             }
@@ -2497,10 +2497,44 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     {
         $emailId = trim(preg_replace('/\s\s+/', ' ', $email));
         $q       = $this->em->getConnection()->createQueryBuilder();
-        $q->delete(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
-           ->where('verified_emails = :emails')
-           ->setParameter('emails', $emailId)
-           ->execute();
+
+        $verificationStatus = $this->getRepository()->getLinkedEmailsVerificationStatus($emailId);
+        $emailLinkedStatus  = $this->getRepository()->getLinkedEmailsStatus($emailId);
+
+        if ($verificationStatus == 0) {
+            $q->select('count(id) as activeTotalCount')
+                ->from(MAUTIC_TABLE_PREFIX.'awsverifiedemails', 'aws')
+                ->andWhere('aws.verification_status = :verificationStatus')
+                ->setParameter('verificationStatus', 0);
+
+            $results          = $q->execute()->fetchAll();
+            $totalActiveCount = $results[0]['activeTotalCount'];
+
+            if ($totalActiveCount == 1) {
+                return 'failure';
+            }
+            if (!$emailLinkedStatus) {
+                $q->delete(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
+                    ->where('verified_emails = :emails')
+                    ->setParameter('emails', $emailId)
+                    ->execute();
+
+                return 'success';
+            } else {
+                return 'linked';
+            }
+        } else {
+            if (!$emailLinkedStatus) {
+                $q->delete(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
+                    ->where('verified_emails = :emails')
+                    ->setParameter('emails', $emailId)
+                    ->execute();
+
+                return 'success';
+            } else {
+                return 'linked';
+            }
+        }
     }
 
     public function getEmailTemplateGroupNames()

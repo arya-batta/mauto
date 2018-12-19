@@ -2290,6 +2290,9 @@ class MailHelper
                             $mailer->setSimpleemailservice($sesmailer);
                         }
                     } elseif ('le.transport.sendgrid_api' == $transport) {
+                        if (empty($settings['api_key'])) {
+                            $settings['api_key'] = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_api_key');
+                        }
                         $sendgrid = new \SendGrid($settings['api_key']);
                         if ($mailer instanceof SendgridApiTransport) {
                             $mailer->getSendGridApiFacade()->getSendGridWrapper()->setSendGrid($sendgrid);
@@ -2418,6 +2421,7 @@ class MailHelper
             'AWS Secret Access Key',
             'is not authorized to perform',
             'Request is missing Authentication Token',
+            'Authenticated user is not authorized to send mail',
        ];
         $errormsg = [
             'le.email.config.invalidemail.error',
@@ -2434,6 +2438,7 @@ class MailHelper
             'le.email.config.aws.passwd.invalid.error',
             'le.email.config.aws.permission.denie.error',
             'le.email.config.aws.missing.error',
+            'le.email.config.sendgrid.user.not.authorized',
        ];
         for ($i = 0; $i < sizeof($errors); ++$i) {
             if (strpos($geterror, $errors[$i]) !== false) {

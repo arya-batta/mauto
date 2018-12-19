@@ -1077,4 +1077,35 @@ class EmailRepository extends CommonRepository
 
         return $newResult;
     }
+
+    public function getLinkedEmailsStatus($emailId)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('count(id) as totalCount')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->andWhere($q->expr()->eq('e.from_address', ':fromAddress'))
+            ->setParameter('fromAddress', $emailId);
+
+        $results = $q->execute()->fetchAll();
+
+        $totalCount =  $results[0]['totalCount'];
+        if ($totalCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getLinkedEmailsVerificationStatus($emailId)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('verification_status as verificationStatus')
+            ->from(MAUTIC_TABLE_PREFIX.'awsverifiedemails', 'aws')
+            ->andWhere($q->expr()->eq('aws.verified_emails', ':email'))
+            ->setParameter('email', $emailId);
+
+        $results = $q->execute()->fetchAll();
+
+        return  $results[0]['verificationStatus'];
+    }
 }

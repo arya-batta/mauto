@@ -404,7 +404,7 @@ class AjaxController extends CommonAjaxController
             $mailer->send($message);
         } catch (\Exception $ex) {
             $dataArray['success'] = false;
-            $dataArray['message'] = '<b>'.$transportlabel.':</b><br>'.$mailHelper->geterrormsg($ex->getMessage());
+            $dataArray['message'] = $mailHelper->geterrormsg($ex->getMessage()).'<b>'.' ('.$transportlabel.')'.'</b>';
         }
 
         return $dataArray;
@@ -588,12 +588,19 @@ class AjaxController extends CommonAjaxController
     {
         $emailModel = $this->factory->getModel('email');
         $email      = $request->request->get('email');
-        $emailModel->deleteAwsVerifiedEmails($email);
+        $response   = $emailModel->deleteAwsVerifiedEmails($email);
 
-        $returnUrl = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
-
-        $dataArray['success']  =true;
-        $dataArray['redirect'] =$returnUrl;
+        if ($response == 'success') {
+            $returnUrl             = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
+            $dataArray['success']  =true;
+            $dataArray['redirect'] =$returnUrl;
+        } elseif ($response == 'linked') {
+            $dataArray['success']  = false;
+            $dataArray['message']  = $this->translator->trans('le.email.delete.verified.email.linked');
+        } else {
+            $dataArray['success']  = false;
+            $dataArray['message']  = $this->translator->trans('le.email.delete.verified.email');
+        }
 
         return $this->sendJsonResponse($dataArray);
     }
