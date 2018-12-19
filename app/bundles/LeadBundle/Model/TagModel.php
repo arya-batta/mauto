@@ -132,4 +132,25 @@ class TagModel extends FormModel
 
         return null;
     }
+    /**
+     * @return array
+     */
+    public function getTagBlocks()
+    {
+        $totalTag =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.all'),
+            $this->getRepository()->getTotalTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
+        ];
+        $activeTag = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.active'),
+            $this->getRepository()->getTotalActiveTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
+        ];
+        $inactiveTag = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.inactive'),
+            $this->getRepository()->getTotalInactiveTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
+        ];
+
+        $allBlockDetails[] = $totalTag;
+        $allBlockDetails[] = $activeTag;
+        $allBlockDetails[] = $inactiveTag;
+
+        return $allBlockDetails;
+    }
 }

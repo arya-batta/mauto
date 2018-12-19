@@ -39,6 +39,9 @@ class LeadPermissions extends AbstractPermissions
                 'deleteother' => 64,
                 'full'        => 1024,
             ],
+            'tags' => [
+                'full'        => 1024,
+            ],
         ];
         $this->addExtendedPermissions('leads', false);
         $this->addStandardPermissions('imports');
@@ -101,6 +104,16 @@ class LeadPermissions extends AbstractPermissions
             'level'  => 'listoptin',
         ]);
 
+        $builder->add('lead:tags', 'permissionlist', [
+            'choices' => [
+                'full'        => 'mautic.core.permissions.full',
+            ],
+            'label'  => 'le.lead.permissions.tags',
+            'data'   => (!empty($data['tags']) ? $data['tags'] : []),
+            'bundle' => 'lead',
+            'level'  => 'tags',
+        ]);
+
         $this->addStandardFormFields($this->getName(), 'imports', $builder, $data);
     }
 
@@ -115,7 +128,7 @@ class LeadPermissions extends AbstractPermissions
         $viewPerms = ['viewown', 'viewother', 'full'];
         if (
             (!isset($permissions['leads']) || (array_intersect($viewPerms, $permissions['leads']) == $viewPerms)) &&
-            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin']))
+            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin'])  || isset($permission['tags']))
         ) {
             $permissions['leads'][] = 'viewown';
         }
@@ -157,6 +170,14 @@ class LeadPermissions extends AbstractPermissions
                 case 'view':
                 case 'viewown':
                     $name = 'leads';
+                    break;
+            }
+        }
+        if ($name === 'tags') {
+            switch ($level) {
+                case 'publishown':
+                case 'publishother':
+                    $level = 'full';
                     break;
             }
         }

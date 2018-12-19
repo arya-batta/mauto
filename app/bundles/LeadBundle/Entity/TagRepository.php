@@ -166,4 +166,121 @@ class TagRepository extends CommonRepository
 
         return $tag;
     }
+    /**
+     * @param $tagIds
+     * @return array|mixed
+     */
+    public function getLeadCount($tagIds)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $q->select('count(x.lead_id) as thecount, x.tag_id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref', 'x');
+        $returnArray = (is_array($tagIds));
+        if (!$returnArray) {
+            $tagIds = [$tagIds];
+        }
+        $q->groupBy('x.tag_id');
+        $result = $q->execute()->fetchAll();
+        $return = [];
+        foreach ($result as $r) {
+            $return[$r['tag_id']] = $r['thecount'];
+        }
+        // Ensure lists without leads have a value
+        foreach ($tagIds as $l) {
+            if (!isset($return[$l])) {
+                $return[$l] = 0;
+            }
+        }
+        return ($returnArray) ? $return : $return[$tagIds[0]];
+    }
+
+    /**
+     * @param bool $viewOthers
+     * @return mixed
+     */
+    public function getTotalTagsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as totaltags')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l');
+      /*  if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }*/
+        $results = $q->execute()->fetchAll();
+        return $results[0]['totaltags'];
+    }
+
+    /**
+     * @param bool $viewOthers
+     * @return mixed
+     */
+    public function getTotalActiveTagsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as activetags')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
+            ->andWhere('l.is_published = 1 ');
+
+      /*  if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }*/
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['activetags'];
+    }
+
+    /**
+     * @param bool $viewOthers
+     * @return mixed
+     */
+    public function getTotalInactiveTagsCount($viewOthers = false)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count(*) as inactivetags')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
+            ->andWhere('l.is_published != 1 ');
+
+       /* if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+        }*/
+
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactivetags'];
+    }
+    public function deleteRefLead($id){
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->delete(MAUTIC_TABLE_PREFIX.'lead_tags_xref')
+            ->andWhere($q->expr()->eq('tag_id',':tag_id'))
+            ->setParameter('tag_id',$id);
+        $q->execute();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableAlias()
+    {
+        return 't';
+    }
 }

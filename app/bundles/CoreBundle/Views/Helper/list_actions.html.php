@@ -17,8 +17,13 @@ if (is_array($item)) {
     $id   = $item['id'];
     $name = $item['name'];
 } else {
-    $id   = $item->getId();
-    $name = $item->$nameGetter();
+    if(isset($source)){
+        $id   = $item->getId();
+        $name = $item->getTag();
+    }else {
+        $id = $item->getId();
+        $name = $item->$nameGetter();
+    }
 }
 
 ?>

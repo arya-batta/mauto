@@ -13,7 +13,8 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * Class TagEntityType.
  */
@@ -24,9 +25,49 @@ class TagEntityType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('tag', 'text');
+        $builder->add('tag', 'text',
+            [
+                'label'      => 'le.lead.tags',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class' => 'form-control le-input',
+                ],
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => 'le.lead.tags.name.required',
+                        ]
+                    ),
+                ],
+                'required' => true,
+            ]);
+        $builder->add('is_published', 'yesno_button_group');
+        $builder->add(
+            'buttons',
+            'form_buttons',
+            [
+                'apply_text'   => $options['isNew'] ? 'le.lead.tags.header.new' : 'le.lead.tags.header.edit',
+                'save_text'    => false,
+                'save_icon'    => false,
+                'cancel_attr'  => [
+                    'data-dismiss' => 'modal',
+                    'href'         => '#',
+                ],
+            ]
+        );
     }
-
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => 'Mautic\LeadBundle\Entity\Tag',
+            ]
+        );
+        $resolver->setDefined(['isNew']);
+    }
     /**
      * {@inheritdoc}
      */

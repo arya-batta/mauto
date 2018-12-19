@@ -28,7 +28,10 @@ class Tag
      * @var string
      */
     private $tag;
-
+    /**
+     * @var boolean
+     */
+    private $is_published;
     /**
      * @param string $tag
      */
@@ -49,6 +52,7 @@ class Tag
 
         $builder->addId();
         $builder->addField('tag', Type::STRING);
+        $builder->addField('is_published', Type::BOOLEAN);
     }
 
     /**
@@ -61,6 +65,7 @@ class Tag
                 [
                     'id',
                     'tag',
+                    'is_published',
                 ]
             )
             ->build();
@@ -103,4 +108,38 @@ class Tag
     {
         return InputHelper::clean($tag);
     }
+    /**
+     * @return mixed
+     */
+    public function getisPublished()
+    {
+        return $this->is_published;
+    }
+
+    /**
+     * @param mixed $is_published
+     */
+    public function setIsPublished($is_published)
+    {
+        $this->is_published = $is_published;
+    }
+
+    /**
+     * Check the publish status of an entity based on publish up and down datetimes.
+     *
+     * @return string early|expired|published|unpublished
+     *
+     * @throws \BadMethodCallException
+     */
+    public function getPublishStatus()
+    {
+       if (!$this->getisPublished(false)) {
+            return 'unpublished';
+        }
+
+        $status = 'published';
+
+        return $status;
+    }
+
 }

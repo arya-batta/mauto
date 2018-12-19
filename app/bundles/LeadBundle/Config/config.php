@@ -47,6 +47,14 @@ return [
                 'path'       => '/leads/{page}',
                 'controller' => 'MauticLeadBundle:Lead:index',
             ],
+            'le_tags_index' => [
+                'path'       => '/tags/{page}',
+                'controller' => 'MauticLeadBundle:Tag:index',
+            ],
+            'le_tags_action' => [
+                'path'       => '/tags/{objectAction}/{objectId}',
+                'controller' => 'MauticLeadBundle:Tag:execute',
+            ],
             'le_contactnote_index' => [
                 'path'       => '/leads/notes/{leadId}/{page}',
                 'controller' => 'MauticLeadBundle:Note:index',
@@ -353,7 +361,13 @@ return [
                     'priority'  => 55,
                     'parent'    => 'le.core.leads',
                 ],
-
+                'le.lead.tags.menu.index' => [
+                    'iconClass' => 'fa-tags',
+                    'access'    => ['lead:tags:full'],
+                    'route'     => 'le_tags_index',
+                    'priority'  => 55,
+                    'parent'    => 'le.core.leads',
+                ],
                'le.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
                     'route'      => 'le_contactfield_index',
