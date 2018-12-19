@@ -36,6 +36,10 @@ return [
                 'path'       => '/oneoff/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
+            'le_dripemail_contacts' => [
+                'path'       => '/drip/contacts/{objectId}',
+                'controller' => 'MauticEmailBundle:DripEmail:contacts',
+            ],
             'le_email_usage' => [
                 'path'       => '/oneoffsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',

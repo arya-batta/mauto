@@ -835,6 +835,24 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     }
 
     /**
+     * @param           $email
+     * @param           $unit
+     * @param \DateTime $dateFrom
+     * @param \DateTime $dateTo
+     *
+     * @return array
+     */
+    public function getDripEmailGeneralStats($email, $unit, \DateTime $dateFrom, \DateTime $dateTo)
+    {
+        $filter = [
+            'email_id' => $email,
+            'flag'     => 'all',
+        ];
+
+        return $this->getEmailsLineChartData($unit, $dateFrom, $dateTo, null, $filter);
+    }
+
+    /**
      * Get an array of tracked links.
      *
      * @param $emailId

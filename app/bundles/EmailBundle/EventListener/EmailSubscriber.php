@@ -63,11 +63,13 @@ class EmailSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            EmailEvents::EMAIL_POST_SAVE   => ['onEmailPostSave', 0],
-            EmailEvents::EMAIL_POST_DELETE => ['onEmailDelete', 0],
-            EmailEvents::EMAIL_FAILED      => ['onEmailFailed', 0],
-            EmailEvents::EMAIL_RESEND      => ['onEmailResend', 0],
-            QueueEvents::EMAIL_HIT         => ['onEmailHit', 0],
+            EmailEvents::EMAIL_POST_SAVE       => ['onEmailPostSave', 0],
+            EmailEvents::EMAIL_POST_DELETE     => ['onEmailDelete', 0],
+            EmailEvents::EMAIL_FAILED          => ['onEmailFailed', 0],
+            EmailEvents::EMAIL_RESEND          => ['onEmailResend', 0],
+            QueueEvents::EMAIL_HIT             => ['onEmailHit', 0],
+            EmailEvents::DRIPEMAIL_POST_SAVE   => ['onDripEmailPostSave', 0],
+            EmailEvents::DRIPEMAIL_POST_DELETE => ['onDripEmailDelete', 0],
         ];
     }
 
@@ -152,7 +154,7 @@ class EmailSubscriber extends CommonSubscriber
                     $reason = $this->translator->trans('le.email.dnc.retries', [
                         '%subject%' => EmojiHelper::toShort($message->getSubject()),
                     ]);
-                    //$this->emailModel->setDoNotContact($stat, $reason);
+                //$this->emailModel->setDoNotContact($stat, $reason);
                 } else {
                     //set it to try again
                     $event->tryAgain();
@@ -174,5 +176,45 @@ class EmailSubscriber extends CommonSubscriber
         $idHash  = $payload['idHash'];
         $this->emailModel->hitEmail($idHash, $request, false, false);
         $event->setResult(QueueConsumerResults::ACKNOWLEDGE);
+    }
+
+    /**
+     * Add an entry to the audit log.
+     *
+     * @param Events\DripEmailEvent $event
+     */
+    public function onDripEmailPostSave(Events\DripEmailEvent $event)
+    {
+        $email = $event->getDrip();
+        if ($details = $event->getChanges()) {
+            $log = [
+                'bundle'    => 'email',
+                'object'    => 'dripemail',
+                'objectId'  => $email->getId(),
+                'action'    => ($event->isNew()) ? 'create' : 'update',
+                'details'   => $details,
+                'ipAddress' => $this->ipLookupHelper->getIpAddressFromRequest(),
+            ];
+            $this->auditLogModel->writeToLog($log);
+        }
+    }
+
+    /**
+     * Add a delete entry to the audit log.
+     *
+     * @param Events\DripEmailEvent $event
+     */
+    public function onDripEmailDelete(Events\DripEmailEvent $event)
+    {
+        $email = $event->getDrip();
+        $log   = [
+            'bundle'    => 'email',
+            'object'    => 'dripemail',
+            'objectId'  => $email->deletedId,
+            'action'    => 'delete',
+            'details'   => ['name' => $email->getName()],
+            'ipAddress' => $this->ipLookupHelper->getIpAddressFromRequest(),
+        ];
+        $this->auditLogModel->writeToLog($log);
     }
 }

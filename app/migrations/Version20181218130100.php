@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: cratio
+ * Date: 27/12/18
+ * Time: 7:42 PM.
+ */
 
 namespace Mautic\Migrations;
 
@@ -6,7 +12,7 @@ use Doctrine\DBAL\Migrations\SkipMigrationException;
 use Doctrine\DBAL\Schema\Schema;
 use Mautic\CoreBundle\Doctrine\AbstractMauticMigration;
 
-class Version20181218193800 extends AbstractMauticMigration
+class Version20181218130100 extends AbstractMauticMigration
 {
     /**
      * @param Schema $schema
@@ -16,7 +22,7 @@ class Version20181218193800 extends AbstractMauticMigration
      */
     public function preUp(Schema $schema)
     {
-        if ($schema->getTable('lead_tags')->hasColumn('is_Published')) {
+        if ($schema->getTable(MAUTIC_TABLE_PREFIX.'dripemail')->hasColumn('recipients')) {
             throw new SkipMigrationException('Schema includes this migration');
         }
     }
@@ -29,6 +35,6 @@ class Version20181218193800 extends AbstractMauticMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql("ALTER TABLE {$this->prefix}lead_tags ADD is_Published TINYINT(1) COLLATE utf8_unicode_ci DEFAULT NULL");
+        $this->addSql("ALTER TABLE {$this->prefix}dripemail ADD recipients LONGTEXT NOT NULL COMMENT '(DC2Type:array)'");
     }
 }

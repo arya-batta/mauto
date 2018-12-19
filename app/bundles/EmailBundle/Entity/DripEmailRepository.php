@@ -233,7 +233,7 @@ class DripEmailRepository extends CommonRepository
             ->setParameter('emailType', 'dripemail');
         $q->andWhere(
             $q->expr()->eq('es.is_unsubscribe', 1),
-            $q->expr()->neq('e.dripemail_id','"NULL"')
+            $q->expr()->neq('e.dripemail_id', '"NULL"')
         );
         if (!$viewOthers) {
             $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
@@ -323,5 +323,80 @@ class DripEmailRepository extends CommonRepository
         $results = $q->execute()->fetchAll();
 
         return $results;
+    }
+
+    public function getEmailIdsByDrip($dripId)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('e.id as id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('e.email_type', ':emailType')
+                )
+            )->andWhere($q->expr()->andX(
+                    $q->expr()->eq('e.dripemail_id', ':dripemailID')
+                )
+            )
+            ->setParameter('emailType', 'dripemail')
+            ->setParameter('dripemailID', $dripId);
+
+        $results  = $q->execute()->fetchAll();
+        $response = [];
+        foreach ($results as $id) {
+            $response[] = $id['id'];
+        }
+
+        return $response;
+    }
+
+    public function getLeadsByDrip($drip, $countOnly)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $dlQ = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $dlQ->select('dl.lead_id')
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl');
+
+        if ($countOnly) {
+            // distinct with an inner join seems faster
+            $q->select('count(distinct(l.id)) as count');
+        } else {
+            $q->select('l.*');
+        }
+        if ($drip instanceof DripEmail) {
+            if (isset($drip->getRecipients()['filters']) && !empty($drip->getRecipients()['filters'])) {
+                $leadlistRepo = $this->getEntityManager()->getRepository('MauticLeadBundle:LeadList');
+                $parameters   =[];
+                $expr         = $leadlistRepo->generateSegmentExpression($drip->getRecipients()['filters'], $parameters, $q, null, null, false, 'l', null);
+                if ($expr->count()) {
+                    $q->andWhere($expr);
+                }
+            } else {
+                return ($countOnly) ? 0 : [];
+            }
+        } else {
+            return ($countOnly) ? 0 : [];
+        }
+        $q->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->andWhere(sprintf('l.id NOT IN (%s)', $dlQ->getSQL()));
+
+        if (!empty($limit)) {
+            $q->setFirstResult(0)
+                ->setMaxResults($limit);
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        if ($countOnly) {
+            return (isset($results[0])) ? $results[0]['count'] : 0;
+        } else {
+            $leads = [];
+            foreach ($results as $r) {
+                $leads[$r['id']] = $r;
+            }
+
+            return $leads;
+        }
     }
 }

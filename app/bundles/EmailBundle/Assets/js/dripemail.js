@@ -2,6 +2,7 @@
 Le.dripemailOnLoad = function (container, response) {
     Le.initSelectBeeTemplate(mQuery('#emailform_template'),'dripemail');
     Le.initEmailDynamicContent();
+    Le.leadlistOnLoad(container);
     mQuery('#unsubscribe_text_div').find('.fr-element').attr('style','min-height:100px;');
     /*mQuery(".ui-tabs-panel").each(function(i){
         var totalSize = mQuery(".ui-tabs-panel").size() - 1;
@@ -517,3 +518,22 @@ Le.useBluePrintDrip = function(ele){
 Le.ClearScheduleTimeWidget = function(){
     mQuery('#dripemailform_scheduleDate').val('');
 }
+Le.toggleDripEmailPublisedListVisibility = function () {
+    setTimeout(function () {
+        var warningtxt = "This campaign does not have any emails. Would you like to continue with activation?";
+        if(mQuery('table.dripemail-list').length){
+            warningtxt = "Are you sure you want to activate this Campaign? Recipients will start receiving the emails as you configured in this campaign.";
+        }
+        if (mQuery('#dripemailform_isPublished_1').prop('checked')) {
+            if(confirm(Le.translate(warningtxt))){
+
+            } else {
+                mQuery('#dripemailform_isPublished_0').prop('checked',true);
+                mQuery('#dripemailform_isPublished_1').prop('checked',false);
+                Le.toggleYesNoButtonClass('dripemailform_isPublished_0');
+                mQuery('#dripemailform_isPublished_1').parent().removeClass('active');
+                mQuery('#dripemailform_isPublished_0').parent().addClass('active');
+            }
+        }
+    }, 10);
+};
