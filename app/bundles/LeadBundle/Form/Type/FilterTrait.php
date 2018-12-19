@@ -476,6 +476,12 @@ trait FilterTrait
                     }
                 }
             }
+
+            $emptyFilterType = '';
+            if ($type == 'integer' || $type == 'number') {
+                $emptyFilterType = 0;
+            }
+
             $form->add(
                 'filter',
                 $type,
@@ -483,7 +489,7 @@ trait FilterTrait
                     [
                         'label'          => false,
                         'attr'           => $attr,
-                        'data'           => isset($data['filter']) ? $data['filter'] : '',
+                        'data'           => !empty($data['filter']) ? $data['filter'] : $emptyFilterType,
                         'error_bubbling' => false,
                     ],
                     $customOptions

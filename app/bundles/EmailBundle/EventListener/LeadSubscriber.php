@@ -103,6 +103,10 @@ class LeadSubscriber extends CommonSubscriber
             foreach ($stats['results'] as $stat) {
                 if (!empty($stat['email_name'])) {
                     $label = $stat['email_name'];
+                    if (!empty($stat['dripEmailId'])) {
+                        $dripCampaignName = $statRepository->getDripName($stat['dripEmailId']);
+                        $label            = $stat['email_name'].'/'.$dripCampaignName;
+                    }
                 } elseif (!empty($stat['storedSubject'])) {
                     $label = $this->translator->trans('le.email.timeline.event.custom_email').': '.$stat['storedSubject'];
                 } else {
