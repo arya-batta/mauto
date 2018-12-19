@@ -16,7 +16,7 @@ class Version20181218193800 extends AbstractMauticMigration
      */
     public function preUp(Schema $schema)
     {
-        if ($schema->getTable('leadsengage_signup.lead_tags')->hasColumn('is_Published')) {
+        if ($schema->getTable('lead_tags')->hasColumn('is_Published')) {
             throw new SkipMigrationException('Schema includes this migration');
         }
     }
