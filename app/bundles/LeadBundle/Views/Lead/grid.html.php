@@ -58,7 +58,16 @@ if ($tmpl == 'index') {
                     'orderBy'    => 'l.city, l.state',
                     'text'       => 'le.lead.lead.thead.location',
                     'class'      => 'col-lead-location visible-md visible-lg',
-                ]); ?>
+                ]);
+                if ($sessionName == 'dripemail'):
+                    echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                        'sessionVar' => 'lead',
+                        'orderBy'    => '',
+                        'text'       => 'mautic.core.actions',
+                        'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    ]);
+                endif;
+                ?>
                 </tr>
                 </thead>
                 <tbody>
@@ -121,6 +130,19 @@ if ($tmpl == 'index') {
                 ?>
                 <div class="clearfix"></div>
             </td>
+            <?php  if ($sessionName == 'dripemail'):?>
+                <td>
+                    <div style="position: relative;" class="fab-list-container">
+                        <div class="md-fab-wrapper">
+                            <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
+                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $objectId, 'subobjectAction' => 'delete', 'subobjectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.drip.email.lead.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('le.drip.email.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('le.drip.email.lead.form.tooltop'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                    <span><i class="fa fa-times-circle material-icons md-color-white" style="font-size:20px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            <?php endif; ?>
             </tr>
         <?php endforeach; ?>
                 </tbody>

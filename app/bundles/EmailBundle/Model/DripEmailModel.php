@@ -15,6 +15,7 @@ use Mautic\ChannelBundle\Model\MessageQueueModel;
 use Mautic\CoreBundle\Helper\Chart\ChartQuery;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Helper\LicenseInfoHelper;
+use Mautic\CoreBundle\Helper\ProgressBarHelper;
 use Mautic\CoreBundle\Helper\ThemeHelper;
 use Mautic\CoreBundle\Model\BuilderModelTrait;
 use Mautic\CoreBundle\Model\FormModel;
@@ -25,13 +26,14 @@ use Mautic\EmailBundle\Entity\DripEmail;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Entity\Lead as DripLead;
 use Mautic\EmailBundle\Entity\LeadEventLog as DripLeadEvent;
-use Mautic\EmailBundle\Event\EmailEvent;
+use Mautic\EmailBundle\Event\DripEmailEvent;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\EmailBundle\MonitoredEmail\Mailbox;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\UserBundle\Model\UserModel;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -253,7 +255,13 @@ class DripEmailModel extends FormModel
      */
     public function saveEntity($entity, $unlock = true)
     {
+        $isNew = ($entity->getId()) ? false : true;
+        if ($isNew) {
+            $entity->setIsPublished(false);
+        }
         parent::saveEntity($entity, $unlock);
+
+        $this->dispatchEvent('post_save', $entity, $isNew);
     }
 
     /**
@@ -262,6 +270,8 @@ class DripEmailModel extends FormModel
     public function deleteEntity($entity)
     {
         parent::deleteEntity($entity);
+
+        $this->dispatchEvent('post_delete', $entity, false);
     }
 
     /**
@@ -330,30 +340,28 @@ class DripEmailModel extends FormModel
                 $name = EmailEvents::EMAIL_PRE_SAVE;
                 break;
             case 'post_save':
-                $name = EmailEvents::EMAIL_POST_SAVE;
+                $name = EmailEvents::DRIPEMAIL_POST_SAVE;
                 break;
             case 'pre_delete':
                 $name = EmailEvents::EMAIL_PRE_DELETE;
                 break;
             case 'post_delete':
-                $name = EmailEvents::EMAIL_POST_DELETE;
+                $name = EmailEvents::DRIPEMAIL_POST_DELETE;
                 break;
             default:
                 return null;
         }
 
-        /*if ($this->dispatcher->hasListeners($name)) {
-            if (empty($event)) {
-                $event = new EmailEvent($entity, $isNew);
-                $event->setEntityManager($this->em);
-            }
+        if ($this->dispatcher->hasListeners($name)) {
+            $event = new DripEmailEvent($entity, $isNew);
+            $event->setEntityManager($this->em);
 
             $this->dispatcher->dispatch($name, $event);
 
             return $event;
-        } else {*/
-        return null;
-        //}
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -589,5 +597,144 @@ class DripEmailModel extends FormModel
             $dripevent->setIsScheduled(true);
             $this->saveCampaignLeadEvent($dripevent);
         }
+    }
+
+    /**
+     * Batch sleep according to settings.
+     */
+    protected function batchSleep()
+    {
+        $leadSleepTime = $this->coreParametersHelper->getParameter('batch_lead_sleep_time', false);
+        if ($leadSleepTime === false) {
+            $leadSleepTime = $this->coreParametersHelper->getParameter('batch_sleep_time', 1);
+        }
+
+        if (empty($leadSleepTime)) {
+            return;
+        }
+
+        if ($leadSleepTime < 1) {
+            usleep($leadSleepTime * 1000000);
+        } else {
+            sleep($leadSleepTime);
+        }
+    }
+
+    public function rebuildLeadRecipients(DripEmail $entity, $limit = 1000, $maxLeads = false, OutputInterface $output = null)
+    {
+        $id       = $entity->getId();
+        $drip     = ['id' => $id, 'filters' => $entity->getRecipients()];
+
+        // Get a count of leads to add
+        $newLeadsCount = $this->getLeadsByDrip(
+            $entity,
+            true
+        );
+
+        // Number of total leads to process
+        $leadCount = (int) $newLeadsCount;
+
+        if ($output) {
+            $output->writeln($this->translator->trans('le.drip.email.lead.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit]));
+        }
+
+        // Handle by batches
+        $start = $lastRoundPercentage = $leadsProcessed = 0;
+
+        // Try to save some memory
+        gc_enable();
+        if ($leadCount) {
+            $maxCount = ($maxLeads) ? $maxLeads : $leadCount;
+
+            if ($output) {
+                $progress = ProgressBarHelper::init($output, $maxCount);
+                $progress->start();
+            }
+
+            // Add leads
+            while ($start < $leadCount) {
+                // Keep CPU down for large lists; sleep per $limit batch
+                $this->batchSleep();
+
+                $newLeadList = $this->getLeadsByDrip(
+                    $entity,
+                    false
+                );
+
+                if (empty($newLeadList)) {
+                    // Somehow ran out of leads so break out
+                    break;
+                }
+                foreach ($newLeadList as $id => $l) {
+                    $lead = $this->leadModel->getEntity($l['id']);
+                    if ($this->checkLeadLinked($lead, $entity)) {
+                        $this->addLead($entity, $lead);
+                        $items = $this->emailModel->getEntities(
+                            [
+                                'filter' => [
+                                    'force' => [
+                                        [
+                                            'column' => 'e.dripEmail',
+                                            'expr'   => 'eq',
+                                            'value'  => $entity,
+                                        ],
+                                    ],
+                                ],
+                                'orderBy'          => 'e.dripEmailOrder',
+                                'orderByDir'       => 'asc',
+                                'ignore_paginator' => true,
+                            ]
+                        );
+
+                        $this->scheduleEmail($items, $entity, $lead);
+                        $processedLeads[] = $l;
+                        unset($l);
+
+                        ++$leadsProcessed;
+                        if ($output && $leadsProcessed < $maxCount) {
+                            $progress->setProgress($leadsProcessed);
+                        }
+
+                        if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                            break;
+                        }
+                    }
+                }
+                $start += $limit;
+
+                unset($newLeadList);
+
+                // Free some memory
+                gc_collect_cycles();
+
+                if ($maxLeads && $leadsProcessed >= $maxLeads) {
+                    if ($output) {
+                        $progress->finish();
+                        $output->writeln('');
+                    }
+
+                    return $leadsProcessed;
+                }
+            }
+
+            if ($output) {
+                $progress->finish();
+                $output->writeln('');
+            }
+        }
+
+        return $leadsProcessed;
+    }
+
+    /**
+     * @param       $lists
+     * @param bool  $idOnly
+     * @param array $args
+     *
+     * @return mixed
+     */
+    public function getLeadsByDrip($drip, $countOnly = false)
+    {
+        return $this->getRepository()->getLeadsByDrip($drip, $countOnly);
     }
 }

@@ -334,7 +334,6 @@ class ListOptInController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 $formData = $this->request->request->get('leadlistoptin');
                 if (!empty($formData['footerText'])) {
-                    file_put_contents('/var/www/log.txt', $formData['footerText']."\n", FILE_APPEND);
                     $list->setFooterText($formData['footerText']);
                 }
                 if ($this->isFormValid($form) && $this->validateListoptinForm($form)) {

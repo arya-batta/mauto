@@ -121,6 +121,11 @@ class DripEmail extends FormEntity
      */
     private $google_tags = 1;
 
+    /**
+     * @var array
+     */
+    private $recipients = [];
+
     public function __clone()
     {
         $this->id                      = null;
@@ -198,6 +203,8 @@ class DripEmail extends FormEntity
         $builder->createField('google_tags', 'boolean')
             ->columnName('google_tags')
             ->build();
+
+        $builder->addField('recipients', 'array');
     }
 
     /**
@@ -564,5 +571,21 @@ class DripEmail extends FormEntity
     public function setGoogleTags($google_tags)
     {
         $this->google_tags = $google_tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRecipients()
+    {
+        return $this->recipients;
+    }
+
+    /**
+     * @param array $recipients
+     */
+    public function setRecipients($recipients)
+    {
+        $this->recipients = $recipients;
     }
 }

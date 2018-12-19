@@ -142,10 +142,11 @@ trait EntityContactsTrait
                     'objectId'        => $entityId,
                     'noContactList'   => $dnc,
                     'target'          => $paginationTarget,
+                    'sessionName'     => $sessionVar,
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:grid.html.php',
                 'passthroughVars' => [
-                    'leContent' => $sessionVar.'Contacts',
+                    'leContent'     => $sessionVar.'Contacts',
                     'route'         => false,
                 ],
             ]

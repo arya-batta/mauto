@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class DripEmailType.
@@ -229,7 +230,15 @@ class DripEmailType extends AbstractType
                 ]
             );
 
-            $builder->add('isPublished', 'yesno_button_group');
+            $builder->add(
+                'isPublished',
+                'yesno_button_group',
+                [
+                    'attr'  => [
+                        'onchange' => 'Le.toggleDripEmailPublisedListVisibility();',
+                    ],
+                ]
+            );
             $builder->add(
                 'google_tags',
                 'yesno_button_group',
@@ -331,6 +340,32 @@ class DripEmailType extends AbstractType
                     'data'        => $options['data']->getDaysEmailSend() ? $options['data']->getDaysEmailSend() : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                 ]
             );
+
+            $recipients = null;
+            if (!empty($options['data'])) {
+                if (is_array($options['data'])) {
+                    $recipients = (!empty($options['data']['recipients'])) ? $options['data']['recipients'] : null;
+
+                    // Merge the parent data over so the child forms could use them
+                    if (is_array($recipients)) {
+                        $recipients = array_merge($options['data'], $recipients);
+                    }
+                } elseif (is_object($options['data']) && method_exists($options['data'], 'getRecipients')) {
+                    $recipients = $options['data']->getRecipients();
+                }
+            }
+            $builder->add('recipients', 'dripemailrecipientsfilter', [
+                'label'       => false,
+                'data'        => $recipients,
+                'required'    => true,
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => 'le.email.recipients.filter.value.required',
+                        ]
+                    ),
+                ],
+            ]);
 
             $builder->add(
                 'buttons',

@@ -88,6 +88,16 @@ final class EmailEvents
     const EMAIL_POST_SAVE = 'mautic.email_post_save';
 
     /**
+     * The mautic.dripemail_post_save event is dispatched right after a dripemail is persisted.
+     *
+     * The event listener receives a
+     * Mautic\EmailBundle\Event\EmailEvent instance.
+     *
+     * @var string
+     */
+    const DRIPEMAIL_POST_SAVE = 'mautic.dripemail_post_save';
+
+    /**
      * The mautic.email_pre_delete event is dispatched prior to when a email is deleted.
      *
      * The event listener receives a
@@ -106,6 +116,16 @@ final class EmailEvents
      * @var string
      */
     const EMAIL_POST_DELETE = 'mautic.email_post_delete';
+
+    /**
+     * The mautic.dripemail_post_delete event is dispatched after a dripemail is deleted.
+     *
+     * The event listener receives a
+     * Mautic\EmailBundle\Event\EmailEvent instance.
+     *
+     * @var string
+     */
+    const DRIPEMAIL_POST_DELETE = 'mautic.dripemail_post_delete';
 
     /**
      * The mautic.monitored_email_config event is dispatched during the configuration in order to inject custom folder locations.

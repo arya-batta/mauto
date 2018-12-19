@@ -459,7 +459,6 @@ class ListOptInModel extends FormModel
             $unsubscribeurl = $this->buildUrl('le_subscribe_list', ['idhash' => $listlead->getId()]);
             $confirmurl     = $this->buildUrl('le_confirm_list', ['idhash' => $listlead->getId()]);
 
-            file_put_contents('/var/www/log.txt', $content."\n", FILE_APPEND);
             $content = str_replace('%7B%7Bconfirmation_link%7D%7D', $confirmurl, $content);
             $content = str_replace('{{list_unsubscribe_link}}', $unsubscribeurl, $content);
         }

@@ -479,6 +479,8 @@ Le.registerEventsForFilterRemove=function(prefix){
                     prefix='campaignevent_properties';
                 }else if(mQuery('#emailform_plainText').length){
                     prefix='emailform_recipients';
+                }else if(mQuery('#dripemailform_name').length){
+                    prefix='dripemailform_recipients';
                 }
                 Le.updateFilterGlueValue(prefix);
             }, 1000);
@@ -526,6 +528,8 @@ Le.convertLeadFilterInput = function(el) {
         prefix = 'campaignevent_properties';
     }else if(mQuery('#emailform_plainText').length){
         prefix = 'emailform_recipients';
+    }else if(mQuery('#dripemailform_name').length){
+        prefix='dripemailform_recipients';
     }
     // var parent = mQuery(el).parents('.dynamic-content-filter, .dwc-filter');
     // if (parent.length) {
@@ -673,6 +677,10 @@ if(mQuery('#CampaignEventModal').length){
     filterBase  = "emailform[recipients][filters][" + filterNum + "]";
     filterIdBase = "emailform_recipients_filters_" + filterNum + "_";
     formBase="emailform_recipients_filters_";
+}else if(mQuery('#dripemailform_name').length){
+    filterBase  = "dripemailform[recipients][filters][" + filterNum + "]";
+    filterIdBase = "dripemailform_recipients_filters_" + filterNum + "_";
+    formBase="dripemailform_recipients_filters_";
 }
     // mQuery(prototype).find("a.remove-selected").on('click', function() {
     //     mQuery(this).closest('.panel').animate(
@@ -718,6 +726,9 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     }else if(mQuery('#emailform_plainText').length){
         filterBase  = "emailform[recipients][filters][" + filterNum + "]";
         filterIdBase = "emailform_recipients_filters_" + filterNum + "_";
+    }else if(mQuery('#dripemailform_name').length){
+        filterBase  = "dripemailform[recipients][filters][" + filterNum + "]";
+        filterIdBase = "dripemailform_recipients_filters_" + filterNum + "_";
     }
     var operator = mQuery('#' + filterIdBase + 'operator').val();
     try{

@@ -15,7 +15,7 @@
     <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
 </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $drip->getId()]); ?>" data-toggle="ajax">
+<a href="<?php echo $view['router']->generate('le_dripemail_campaign_action', ['objectAction' => 'view', 'objectId' => $drip->getId()]); ?>" data-toggle="ajax">
     <?php echo $drip->getName(); ?>
 </a>
 <?php endif; ?>

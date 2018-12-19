@@ -21,6 +21,32 @@ $hidebasiceditor      = 'hide';
 $hideadvanceeditor    = 'hide';
 $isAdmin              = $view['security']->isAdmin();
 
+$filter_fields    = $form['recipients']->vars['fields'];
+$filter_index     = count($form['recipients']['filters']->vars['value']) ? max(array_keys($form['recipients']['filters']->vars['value'])) : 0;
+$filter_templates = [
+    'countries'         => 'country-template',
+    'regions'           => 'region-template',
+    'timezones'         => 'timezone-template',
+    'select'            => 'select-template',
+    'lists'             => 'leadlist-template',
+    'deviceTypes'       => 'device_type-template',
+    'deviceBrands'      => 'device_brand-template',
+    'deviceOs'          => 'device_os-template',
+    'emails'            => 'lead_email_received-template',
+    'tags'              => 'tags-template',
+    'stage'             => 'stage-template',
+    'locales'           => 'locale-template',
+    'globalcategory'    => 'globalcategory-template',
+    'landingpage_list'  => 'landingpage_list-template',
+    'score_list'        => 'score_list-template',
+    'users'             => 'owner_id-template',
+    'forms'             => 'formsubmit_list-template',
+    'assets'            => 'asset_downloads_list-template',
+    'drip_campaign'     => 'drip_email_received-template',
+    'drip_campaign_list'=> 'drip_email_list-template',
+    'listoptin'         => 'listoptin-template',
+];
+$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 <?php echo $view['form']->start($form); ?>
 <div id="page-wrap" class="tab-content align-tab-center">
@@ -41,8 +67,14 @@ $isAdmin              = $view['security']->isAdmin();
 
             </li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
-                <a class="text-start" style="padding: 3px 34px;"><div class="content-wrapper-first">
+                <a class="text-start" style="padding: 3px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 02</span></div>
+                        <label><?php echo $view['translator']->trans('le.core.email.recipients'); ?></label>
+                    </div></a>
+            </li>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header4" rel = 4>
+                <a class="text-start" style="padding: 3px 34px;"><div class="content-wrapper-first">
+                        <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>
                     </div></a>
             </li>
@@ -50,7 +82,7 @@ $isAdmin              = $view['security']->isAdmin();
         <div id="fragment-1" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-1" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" id="next-tab-1" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -179px;margin-right: 107px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -228,7 +260,100 @@ $isAdmin              = $view['security']->isAdmin();
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:-82px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons email-toolbar-buttons">
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
+                    <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+                <p><?php echo $view['translator']->trans('le.drip.email.wizard.notification'); ?></p>
+            </div>
+            <div class="form-group hide">
+                <div style="margin-top:18px;" class="available-filters pl-0 col-md-6" data-prototype="<?php echo $view->escape($view['form']->widget($form['recipients']['filters']->vars['prototype'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn])); ?>" data-index="<?php echo $filter_index + 1; ?>">
+                    <select class="chosen form-control" id="available_filters" data-placeholder="Choose filter...">
+                        <option value=""></option>
+                        <?php
+                        foreach ($filter_fields as $object => $field):
+                            $header = $object;
+                            $icon   = ($object == 'company') ? 'building' : 'user';
+
+                            ?>
+                            <optgroup label="<?php echo $view['translator']->trans('le.leadlist.'.$header); ?>">
+                                <?php foreach ($field as $value => $params):
+                                    $list      = (!empty($params['properties']['list'])) ? $params['properties']['list'] : [];
+                                    $choices   = \Mautic\LeadBundle\Helper\FormFieldHelper::parseList($list, true, ('boolean' === $params['properties']['type']));
+                                    $list      = json_encode($choices);
+                                    $callback  = (!empty($params['properties']['callback'])) ? $params['properties']['callback'] : '';
+                                    $operators = (!empty($params['operators'])) ? $view->escape(json_encode($params['operators'])) : '{}';
+                                    ?>
+                                    <option value="<?php echo $view->escape($value); ?>"
+                                            id="available_<?php echo $value; ?>"
+                                            data-field-object="<?php echo $object; ?>"
+                                            data-field-type="<?php echo $params['properties']['type']; ?>"
+                                            data-field-list="<?php echo $view->escape($list); ?>"
+                                            data-field-callback="<?php echo $callback; ?>"
+                                            data-field-operators="<?php echo $operators; ?>"
+                                            data-field-customobject="<?php echo $params['object']; ?>"
+                                            class="segment-filter <?php echo $icon; ?>">
+
+                                        <?php echo $view['translator']->trans($params['label']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </optgroup>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div style="margin-bottom: 30px;" class="selected-filters" id="leadlist_filters">
+                <div class='filter-group-template leadlist-filter-group filter-and-group'>
+                    <div class='filter-panel-holder'>
+                    </div>
+                    <?php echo $filter_addconditionbtn?>
+                </div>
+                <div class="filter-and-group-holder">
+                    <?php echo $view['form']->widget($form['recipients']['filters'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn]); ?>
+                </div>
+                <div class="leadlist-filter-group filter-or-group">
+                    <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                </div>
+            </div>
+            <div class="hide" id="templates">
+                <?php foreach ($filter_templates as $dataKey => $filter_template): ?>
+                    <?php $attr = ($dataKey == 'tags') ? ' data-placeholder="'.$view['translator']->trans('le.lead.tags.select_or_create').'" data-no-results-text="'.$view['translator']->trans('le.lead.tags.enter_to_create').'" data-allow-add="true" onchange="Le.createLeadTag(this)"' : ''; ?>
+                    <select class="form-control not-chosen <?php echo $filter_template; ?>" name="dripemailform[recipients][filters][__name__][filter]" id="dripemailform_recipients_filters___name___filter"<?php echo $attr; ?> disabled>
+                        <?php
+                        if (isset($form['recipients']->vars[$dataKey])):
+                            foreach ($form['recipients']->vars[$dataKey] as $value => $label):
+                                if (is_array($label)):
+                                    echo "<optgroup label=\"$value\">\n";
+                                    foreach ($label as $optionValue => $optionLabel):
+                                        echo "<option value=\"$optionValue\">$optionLabel</option>\n";
+                                    endforeach;
+                                    echo "</optgroup>\n";
+                                else:
+                                    if ($dataKey == 'lists' && (isset($currentListId) && (int) $value === (int) $currentListId)) {
+                                        continue;
+                                    }
+                                    echo "<option value=\"$value\">$label</option>\n";
+                                endif;
+                            endforeach;
+                        endif;
+                        ?>
+                    </select>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
+            <div class="fragment-4-buttons fixed-header">
+                <a href="#" style="margin-left:-82px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -247,7 +372,7 @@ $isAdmin              = $view['security']->isAdmin();
                         <div class="help-block custom-help"></div>
                     </div>
                     <div class="col-md-6">
-                        <?php echo $view['form']->row($form['category']); ?>
+                        <?php echo $view['form']->row($form['isPublished']); ?>
                     </div>
                 </div>
                 <div class="row hide">
@@ -306,8 +431,9 @@ $isAdmin              = $view['security']->isAdmin();
                     </div>
                 </div>
                 <div class="row">
+
                     <div class="col-md-6">
-                        <?php echo $view['form']->row($form['isPublished']); ?>
+                        <?php echo $view['form']->row($form['category']); ?>
                     </div>
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['google_tags']); ?>
