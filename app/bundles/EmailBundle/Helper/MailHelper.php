@@ -517,7 +517,7 @@ class MailHelper
      */
     public function alterEmailBodyContent($bodyContent)
     {
-        if (strpos($this->body['content'], '{{list_footer_text}}') !== false) {
+        if (strpos($this->body['content'], 'list_footerText') !== false) {
             return $bodyContent;
         }
         $doc                      = new \DOMDocument();

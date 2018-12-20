@@ -272,7 +272,7 @@ class ListModel extends FormModel
                 'properties' => [
                     'type' => 'listoptin',
                 ],
-                'operators' => $this->getOperatorsForFieldType('selecttemplate'),
+                'operators' => $this->getOperatorsForFieldType('multiselect'),
                 'object'    => 'lead',
             ],
         ];
