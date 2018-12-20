@@ -368,7 +368,7 @@ return [
                     'priority'  => 55,
                     'parent'    => 'le.core.leads',
                 ],
-               'le.lead.field.menu.index' => [
+              /* 'le.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
                     'route'      => 'le_contactfield_index',
                     'access'     => 'lead:fields:full',
@@ -382,7 +382,7 @@ return [
                      'access'     => 'lead:imports:create',
                      'priority'   => 40,
                      'parent'     => 'le.core.leads',
-                ],
+                ],*/
 
                'mautic.point.menu.index' => [
                     'route'      => 'le_point_index',

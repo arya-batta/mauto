@@ -27,7 +27,7 @@ class TagEntityType extends AbstractType
     {
         $builder->add('tag', 'text',
             [
-                'label'      => 'le.lead.tags',
+                'label'      => 'le.lead.tags.name',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control le-input',
@@ -46,7 +46,7 @@ class TagEntityType extends AbstractType
             'buttons',
             'form_buttons',
             [
-                'apply_text'   => $options['isNew'] ? 'le.lead.tags.header.new' : 'le.lead.tags.header.edit',
+                'apply_text'   => 'le.lead.tags.save.close',
                 'save_text'    => false,
                 'save_icon'    => false,
                 'cancel_attr'  => [
@@ -59,7 +59,7 @@ class TagEntityType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+  /*  public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
@@ -67,7 +67,7 @@ class TagEntityType extends AbstractType
             ]
         );
         $resolver->setDefined(['isNew']);
-    }
+    }*/
     /**
      * {@inheritdoc}
      */

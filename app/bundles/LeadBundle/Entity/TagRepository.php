@@ -162,6 +162,7 @@ class TagRepository extends CommonRepository
 
         if (!$tag) {
             $tag = new Tag($name);
+            $tag->setIsPublished(1);
         }
 
         return $tag;
