@@ -42,7 +42,7 @@ class TagModel extends FormModel
      */
     public function getPermissionBase()
     {
-        return 'lead:leads';
+        return 'lead:tags';
     }
 
     /**
@@ -132,6 +132,7 @@ class TagModel extends FormModel
 
         return null;
     }
+
     /**
      * @return array
      */
