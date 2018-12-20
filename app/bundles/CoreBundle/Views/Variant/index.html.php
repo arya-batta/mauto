@@ -75,7 +75,8 @@ $totalWeight = 0;
                     'nameGetter'    => $nameGetter,
                 ]
             );
-        endforeach;
+
+    endforeach;
     endif;
     ?>
 </ul>
