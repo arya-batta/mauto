@@ -88,6 +88,8 @@ try {
                 $fcolname = 'f30';
             } elseif ($operation == 'le:oneoff:send') {
                 $fcolname = 'f23';
+            } elseif ($operation == 'le:dripemail:rebuild') {
+                $fcolname = 'f22';
             }
         } else {
             exit('Please Configure Valid Parameter');
