@@ -273,7 +273,7 @@ endif; ?>
                 <a class="info_tab text-start" style="padding: 3px 42px;">
                 <div class="content-wrapper-first">
                     <div><span class="small-xx">Step 01</span></div>
-                    <label><?php echo $view['translator']->trans('Set Up Form.'); ?></label>
+                    <label><?php echo $view['translator']->trans('Configure Settings.'); ?></label>
                 </div>
                 </a>
             </li>

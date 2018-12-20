@@ -220,6 +220,19 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                         </div>
                                         <hr class="mnr-md mnl-md">
                                     <?php endif; ?>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <?php echo $view['form']->label($form['gdpr_timezone']); ?>
+                                            <?php echo $view['form']->widget($form['gdpr_timezone']); ?>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <?php echo $view['form']->label($form['eu_gdpr_consent']); ?>
+                                            <?php echo $view['form']->widget($form['eu_gdpr_consent']); ?>
+                                        </div>
+                                    </div>
+                                </div>
+
                                     <?php if (isset($form['attribution']) && isset($form['attribution_date'])): ?>
                                         <div class="form-group mb-0">
                                             <label
