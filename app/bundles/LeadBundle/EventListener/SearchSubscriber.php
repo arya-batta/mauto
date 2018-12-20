@@ -13,6 +13,7 @@ namespace Mautic\LeadBundle\EventListener;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\ChannelBundle\Entity\MessageQueue;
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event as MauticEvents;
@@ -23,7 +24,6 @@ use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Event\LeadBuildSearchEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
-use Mautic\CampaignBundle\Model\CampaignModel;
 
 /**
  * Class SearchSubscriber.
@@ -48,6 +48,7 @@ class SearchSubscriber extends CommonSubscriber
      * @var CampaignModel
      */
     protected $CampaignModel;
+
     /**
      * SearchSubscriber constructor.
      *
@@ -55,7 +56,7 @@ class SearchSubscriber extends CommonSubscriber
      * @param EntityManager $entityManager
      * @param CampaignModel $campaignmodel
      */
-    public function __construct(LeadModel $leadModel, EntityManager $entityManager,CampaignModel $campaignModel)
+    public function __construct(LeadModel $leadModel, EntityManager $entityManager, CampaignModel $campaignModel)
     {
         $this->leadModel       = $leadModel;
         $this->leadRepo        = $leadModel->getRepository();
@@ -268,14 +269,14 @@ class SearchSubscriber extends CommonSubscriber
             $nq->select('l.id'); // select only id
             $nsql = $nq->getSQL();
             foreach ($nq->getParameters() as $pk => $pv) { // replace all parameters
-                if(!is_array($pv)) {
-                    $nsql = preg_replace('/:' . $pk . '/', is_bool($pv) ? (int)$pv : $pv, $nsql);
-                }else{
-                    $temp=json_encode($pv);
-                    $remov = array("[", "]");
-                    $replc   = array("", "");
-                    $pv = str_replace($remov, $replc, $temp);
-                    $nsql = preg_replace('/:' . $pk . '/',$pv, $nsql);
+                if (!is_array($pv)) {
+                    $nsql = preg_replace('/:'.$pk.'/', is_bool($pv) ? (int) $pv : "'".$pv."'", $nsql);
+                } else {
+                    $temp    =json_encode($pv);
+                    $remov   = ['[', ']'];
+                    $replc   = ['', ''];
+                    $pv      = str_replace($remov, $replc, $temp);
+                    $nsql    = preg_replace('/:'.$pk.'/', $pv, $nsql);
                 }
             }
             $query = $q->expr()->in('l.id', sprintf('(%s)', $nsql));
@@ -376,6 +377,7 @@ class SearchSubscriber extends CommonSubscriber
 
         $this->buildJoinQuery($event, $tables, $config);
     }
+
     private function buildEmailClickQuery(LeadBuildSearchEvent $event)
     {
         $tables = [
@@ -527,7 +529,9 @@ class SearchSubscriber extends CommonSubscriber
 
         $this->buildJoinQuery($event, $tables, $config);
     }
-    private function buildDripScheduledQuery(LeadBuildSearchEvent $event){
+
+    private function buildDripScheduledQuery(LeadBuildSearchEvent $event)
+    {
         $tables = [
             [
                 'from_alias' => 'l',
@@ -540,11 +544,12 @@ class SearchSubscriber extends CommonSubscriber
             'column'  => 'el.email_id',
             'params'  => [
                 'is_scheduled' => 1,
-            ]
+            ],
         ];
 
         $this->buildJoinQuery($event, $tables, $config);
     }
+
     /**
      * @param LeadBuildSearchEvent $event
      */
@@ -603,13 +608,14 @@ class SearchSubscriber extends CommonSubscriber
         //$this->buildJoinQuery($event, $tables, $config);
     }
 
-    private function buildWfProgressQuery($event){
-        $campaignid=$event->getString();
-        $campaign=$this->CampaignModel->getEntity($campaignid);
+    private function buildWfProgressQuery($event)
+    {
+        $campaignid    =$event->getString();
+        $campaign      =$this->CampaignModel->getEntity($campaignid);
         $canvassettings=json_decode($campaign->getCanvasSettings());
         $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
-        $completedleads= $this->CampaignModel->getRepository()->getWfCompletedLeads($campaignid,$exitevents);
-        $tables = [
+        $completedleads= $this->CampaignModel->getRepository()->getWfCompletedLeads($campaignid, $exitevents);
+        $tables        = [
             [
                 'from_alias' => 'l',
                 'table'      => 'campaign_lead_event_log',
@@ -619,17 +625,19 @@ class SearchSubscriber extends CommonSubscriber
         ];
         $q     = $event->getQueryBuilder();
 
-            $expr = $q->expr()->andX($q->expr()->eq('cl.campaign_id', $campaignid),
+        $expr = $q->expr()->andX($q->expr()->eq('cl.campaign_id', $campaignid),
                      $q->expr()->notin('cl.lead_id', $completedleads));
 
         $this->leadRepo->applySearchQueryRelationship($q, $tables, false, $expr);
     }
-    private function buildWfCompletedQuery($event){
-        $campaignid=$event->getString();
-        $campaign=$this->CampaignModel->getEntity($campaignid);
+
+    private function buildWfCompletedQuery($event)
+    {
+        $campaignid    =$event->getString();
+        $campaign      =$this->CampaignModel->getEntity($campaignid);
         $canvassettings=json_decode($campaign->getCanvasSettings());
         $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
-        $tables = [
+        $tables        = [
             [
                 'from_alias' => 'l',
                 'table'      => 'campaign_lead_event_log',
@@ -639,15 +647,17 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $q     = $event->getQueryBuilder();
-        $expr  = $q->expr()->andX($q->expr()->in('cl.event_id',$exitevents));
+        $expr  = $q->expr()->andX($q->expr()->in('cl.event_id', $exitevents));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
     }
-    private function buildWfGoalQuery($event){
-        $campaignid=$event->getString();
-        $campaign=$this->CampaignModel->getEntity($campaignid);
+
+    private function buildWfGoalQuery($event)
+    {
+        $campaignid    =$event->getString();
+        $campaign      =$this->CampaignModel->getEntity($campaignid);
         $canvassettings=json_decode($campaign->getCanvasSettings());
         $exitevents    =$this->CampaignModel->getExitEvent($canvassettings);
-        $tables = [
+        $tables        = [
             [
                 'from_alias' => 'l',
                 'table'      => 'campaign_lead_event_log',
@@ -658,20 +668,20 @@ class SearchSubscriber extends CommonSubscriber
                 'from_alias' => 'cl',
                 'table'      => 'campaign_events',
                 'alias'      => 'ce',
-                'condition'  => 'cl.event_id = ce.id'
+                'condition'  => 'cl.event_id = ce.id',
             ],
         ];
         $q     = $event->getQueryBuilder();
-        $expr = $q->expr()->andX($q->expr()->eq('ce.trigger_mode','"interrupt"'),
-            $q->expr()->eq('cl.campaign_id',$campaignid));
+        $expr  = $q->expr()->andX($q->expr()->eq('ce.trigger_mode', '"interrupt"'),
+            $q->expr()->eq('cl.campaign_id', $campaignid));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
-
     }
 
     /**
      * @param $event
      */
-    private function buildDripLeadQuery($event){
+    private function buildDripLeadQuery($event)
+    {
         $tables = [
             [
               'from_alias'  => 'l',
@@ -689,10 +699,11 @@ class SearchSubscriber extends CommonSubscriber
     /**
      * @param $event
      */
-    private function buildDripSentQuery($event){
-        $dripid =$event->getString();
+    private function buildDripSentQuery($event)
+    {
+        $dripid   =$event->getString();
         $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
-        $tables = [
+        $tables   = [
             [
                 'from_alias' => 'l',
                 'table'      => 'email_stats',
@@ -702,7 +713,7 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $q     = $event->getQueryBuilder();
-        $expr = $q->expr()->andX($q->expr()->eq('es.is_failed', '"0"'),
+        $expr  = $q->expr()->andX($q->expr()->eq('es.is_failed', '"0"'),
             $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
         //$this->buildJoinQuery($event, $tables, $config);
@@ -711,10 +722,11 @@ class SearchSubscriber extends CommonSubscriber
     /**
      * @param $event
      */
-    private function buildDripReadQuery($event){
-        $dripid =$event->getString();
+    private function buildDripReadQuery($event)
+    {
+        $dripid   =$event->getString();
         $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
-        $tables = [
+        $tables   = [
             [
                 'from_alias' => 'l',
                 'table'      => 'email_stats',
@@ -724,19 +736,19 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $q     = $event->getQueryBuilder();
-        $expr = $q->expr()->andX($q->expr()->eq('es.is_read', '"1"'),
+        $expr  = $q->expr()->andX($q->expr()->eq('es.is_read', '"1"'),
             $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
-
     }
 
     /**
      * @param $event
      */
-    private function buildDripClickQuery($event){
-        $dripid =$event->getString();
+    private function buildDripClickQuery($event)
+    {
+        $dripid   =$event->getString();
         $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
-        $tables = [
+        $tables   = [
             [
                 'from_alias' => 'l',
                 'table'      => 'page_hits',
@@ -746,18 +758,18 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $q     = $event->getQueryBuilder();
-        $expr  = $q->expr()->andX($q->expr()->in('ph.email_id',$emailIds));
+        $expr  = $q->expr()->andX($q->expr()->in('ph.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
-
     }
 
     /**
      * @param $event
      */
-    private function buildDripUnsubscribeQuery($event){
-        $dripid =$event->getString();
+    private function buildDripUnsubscribeQuery($event)
+    {
+        $dripid   =$event->getString();
         $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
-        $tables = [
+        $tables   = [
             [
                 'from_alias' => 'l',
                 'table'      => 'email_stats',
@@ -766,12 +778,10 @@ class SearchSubscriber extends CommonSubscriber
             ],
         ];
         $q     = $event->getQueryBuilder();
-        $expr = $q->expr()->andX($q->expr()->eq('es.is_unsubscribe', '"1"'),
+        $expr  = $q->expr()->andX($q->expr()->eq('es.is_unsubscribe', '"1"'),
             $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
-
     }
-
 
     /**
      * @param LeadBuildSearchEvent $event
