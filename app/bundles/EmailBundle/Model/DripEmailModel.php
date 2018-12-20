@@ -462,7 +462,7 @@ class DripEmailModel extends FormModel
     {
         $isFirstmailToday      = false;
         $timezone              = $this->coreParametersHelper->getParameter('default_timezone');
-        date_default_timezone_set($timezone);
+        date_default_timezone_set('UTC');
         $previousDate     = date('Y-m-d H:i:s');
         $isLastEmail      = false;
         $emailCount       = 0;

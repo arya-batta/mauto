@@ -60,19 +60,33 @@ $formId = $form->getId();
 
                 $fields     = $form->getFields();
                 $fieldCount = ($canDelete) ? 4 : 3;
-                foreach ($fields as $f):
-                    if (in_array($f->getType(), $viewOnlyFields) || $f->getSaveResult() === false) {
-                        continue;
-                    }
-                    echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                        'sessionVar' => 'formresult.'.$formId,
-                        'orderBy'    => 'r.'.$f->getAlias(),
-                        'text'       => $f->getLabel(),
-                        'class'      => 'col-formresult-field col-formresult-field'.$f->getId(),
-                        'filterBy'   => 'r.'.$f->getAlias(),
-                    ]);
+                if ($form->isSmartForm()) {
+                    foreach ($form->getSmartFields() as $index => $f):
+                        echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                            'sessionVar' => 'formresult.'.$formId,
+                            'orderBy'    => 'r.'.$f['smartfield'],
+                            'text'       => $f['smartfield'],
+                            'class'      => 'col-formresult-field col-formresult-field'.$index,
+                            'filterBy'   => 'r.'.$f['smartfield'],
+                        ]);
                     ++$fieldCount;
-                endforeach;
+                    endforeach;
+                } else {
+                    foreach ($fields as $f):
+                        if (in_array($f->getType(), $viewOnlyFields) || $f->getSaveResult() === false) {
+                            continue;
+                        }
+                    echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                            'sessionVar' => 'formresult.'.$formId,
+                            'orderBy'    => 'r.'.$f->getAlias(),
+                            'text'       => $f->getLabel(),
+                            'class'      => 'col-formresult-field col-formresult-field'.$f->getId(),
+                            'filterBy'   => 'r.'.$f->getAlias(),
+                        ]);
+                    ++$fieldCount;
+                    endforeach;
+                }
+
                 ?>
             </tr>
         </thead>
@@ -112,11 +126,11 @@ $formId = $form->getId();
                 </td>
                 <td><?php echo $item['ipAddress']; ?></td>
                 <?php foreach ($item['results'] as $key => $r): ?>
-                    <?php $isTextarea = $r['type'] === 'textarea'; ?>
+                    <?php $isTextarea = isset($r['type']) && $r['type'] === 'textarea'; ?>
                     <td <?php echo $isTextarea ? 'class="long-text"' : ''; ?>>
                         <?php if ($isTextarea) : ?>
                             <?php echo nl2br($r['value']); ?>
-                        <?php elseif ($r['type'] === 'file') : ?>
+                        <?php elseif (isset($r['type']) && $r['type'] === 'file') : ?>
                             <a href="<?php echo $view['router']->path('le_form_file_download', ['submissionId' => $item['id'], 'field' => $key]); ?>">
                                 <?php echo $r['value']; ?>
                             </a>

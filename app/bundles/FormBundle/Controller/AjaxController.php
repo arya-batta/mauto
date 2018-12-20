@@ -138,4 +138,111 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($data);
     }
+
+    public function scanFormUrlAction(Request $request)
+    {
+        $dataArray           = ['success' => true];
+        $scanurl             = $request->request->get('scanurl'); //InputHelper::int();
+        $dataArray['scanurl']=$scanurl;
+        $response            =$this->sendFormUrlScanRequest($scanurl);
+        if (!isset($response['error'])) {
+            if (empty($response) || (isset($response['totalcount']) && $response['totalcount'] == 0)) {
+                $dataArray['success']=false;
+                $dataArray['message']='No forms found in given url!';
+            } else {
+                $htmlContent = $this->renderView(
+                    'MauticFormBundle:Builder:formlist.html.php',
+                   ['forms'    => $response['forms'],
+                   'totalcount'=> $response['totalcount'], ]
+                );
+                $dataArray['newContent']=$htmlContent;
+            }
+        } else {
+            $dataArray['success']=false;
+            $dataArray['message']=$response['error'];
+        }
+
+        return $this->sendJsonResponse($dataArray);
+    }
+
+    private function sendFormUrlScanRequest($scanurl)
+    {
+        try {
+            $apikey                      = $this->coreParametersHelper->getParameter('Phantom_JS_Cloud_Apikey');
+            $requestpayload              =[];
+            $requestpayload['url']       =$scanurl; //http://cloud.cratio.com/maxm/form.html
+            $requestpayload['renderType']='html';
+            $requestpayload              = json_encode($requestpayload);
+            $ch                          = curl_init("http://PhantomJScloud.com/api/browser/v2/$apikey/");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $requestpayload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER,
+                ['Content-Type:application/json',
+                    'Content-Length: '.strlen($requestpayload), 'Accept:', ]
+            );
+            $html = curl_exec($ch);
+            curl_close($ch);
+            $response=[];
+            if ($html != '' && !$this->isJsonResponse($html)) {
+                libxml_use_internal_errors(true);
+                $dom = new \DOMDocument();
+                $dom->loadHTML($html);
+                $dom->preserveWhiteSpace = false;
+                $dom->validateOnParse    = true;
+                $xpath                   = new \DOMXPath($dom);
+                $formlist                = $xpath->query('//form');
+                $formcount               =0;
+                $forms                   =[];
+                foreach ($formlist as $formindex=>$form) {
+                    $name        =$form->getAttribute('name');
+                    $id          =$form->getAttribute('id');
+                    $form        =[];
+                    $form['name']=$name;
+                    $form['id']  =$id;
+                    $query       ='';
+                    if ($id != '') {
+                        $query="//form[@id='$id']//input|//form[@id='$id']//select|//form[@id='$id']//textarea";
+                    } elseif ($name != '') {
+                        $query="//form[@name='$name']//input|//form[@name='$name']//select|//form[@name='$name']//textarea";
+                    }
+                    if ($query != '') {
+                        $fieldlist = $xpath->query($query);
+                        $fields    =[];
+                        foreach ($fieldlist as $fieldindex=>$fieldel) {
+                            $field=[];
+                            $type =$fieldel->getAttribute('type');
+                            if ($type != 'submit' && $type != 'checkbox' && $type != 'password' && $type != 'hidden') {
+                                $fieldname     =$fieldel->getAttribute('name');
+                                $fieldvalue    =$fieldel->getAttribute('value');
+                                $field['name'] =$fieldname;
+                                $field['value']=$fieldvalue;
+                                $field['type'] =$type;
+                                $fields[]      =$field;
+                            }
+                        }
+                        $form['fields']=$fields;
+                    }
+                    ++$formcount;
+                    $forms[]=$form;
+                }
+                $response['totalcount']=$formcount;
+                $response['forms']     =$forms;
+            }
+        } catch (Exception $ex) {
+            $response['error']=$ex->getMessage();
+        }
+
+        return $response;
+    }
+
+    public function isJsonResponse($string)
+    {
+        json_decode($string);
+
+        return json_last_error() == JSON_ERROR_NONE;
+    }
 }

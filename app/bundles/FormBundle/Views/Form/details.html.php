@@ -11,7 +11,34 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'form');
 $view['slots']->set('headerTitle', $activeForm->getName());
-
+$custombuttons=[
+    [
+        'attr' => [
+            'data-toggle' => 'ajax',
+            'href'        => $view['router']->path(
+                'le_form_action',
+                ['objectAction' => 'results', 'objectId' => $activeForm->getId()]
+            ),
+        ],
+        'iconClass' => 'fa fa-database',
+        'btnText'   => 'mautic.form.form.results',
+    ],
+];
+if (!$activeForm->isSmartForm()) {
+    $custombuttons[]= [
+        'attr' => [
+            'data-toggle' => '',
+            'target'      => '_blank',
+            'href'        => $view['router']->path(
+                'le_form_action',
+                ['objectAction' => 'preview', 'objectId' => $activeForm->getId()]
+            ),
+        ],
+        'iconClass' => 'fa fa-camera',
+        'btnText'   => 'mautic.form.form.preview',
+        'btnClass'  => 'btn btn-default btn-nospin',
+    ];
+}
 $view['slots']->set(
     'actions',
     $view->render(
@@ -24,7 +51,7 @@ $view['slots']->set(
                     $permissions['form:forms:editother'],
                     $activeForm->getCreatedBy()
                 ),
-                'clone'  => $permissions['form:forms:create'],
+                'clone'  => !$activeForm->isSmartForm() && $permissions['form:forms:create'],
                 'delete' => $view['security']->hasEntityAccess(
                     $permissions['form:forms:deleteown'],
                     $permissions['form:forms:deleteother'],
@@ -38,32 +65,7 @@ $view['slots']->set(
             ],
             'routeBase'     => 'form',
             'langVar'       => 'form',
-            'customButtons' => [
-                [
-                    'attr' => [
-                        'data-toggle' => '',
-                        'target'      => '_blank',
-                        'href'        => $view['router']->path(
-                            'le_form_action',
-                            ['objectAction' => 'preview', 'objectId' => $activeForm->getId()]
-                        ),
-                    ],
-                    'iconClass' => 'fa fa-camera',
-                    'btnText'   => 'mautic.form.form.preview',
-                    'btnClass'  => 'btn btn-default btn-nospin',
-                ],
-                [
-                    'attr' => [
-                        'data-toggle' => 'ajax',
-                        'href'        => $view['router']->path(
-                            'le_form_action',
-                            ['objectAction' => 'results', 'objectId' => $activeForm->getId()]
-                        ),
-                    ],
-                    'iconClass' => 'fa fa-database',
-                    'btnText'   => 'mautic.form.form.results',
-                ],
-            ],
+            'customButtons' => $custombuttons,
         ]
     )
 );
@@ -162,13 +164,15 @@ $isadmin     =$view['security']->isAdmin();
                         </a>
                     </li>
                 <?php endif; ?>
-                <li class="<?php if (!$showActions) {
+                <?php if (!$activeForm->isSmartForm()):?>
+                    <li class="<?php if (!$showActions) {
                                     echo 'active';
                                 } ?>">
-                    <a href="#fields-container" role="tab" data-toggle="tab">
-                        <?php echo $view['translator']->trans('mautic.form.tab.fields'); ?>
-                    </a>
-                </li>
+                        <a href="#fields-container" role="tab" data-toggle="tab">
+                            <?php echo $view['translator']->trans('mautic.form.tab.fields'); ?>
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
             <!--/ tabs controls -->
         </div>
@@ -219,45 +223,46 @@ $isadmin     =$view['security']->isAdmin();
                 </div>
                 <!--/ #actions-container -->
             <?php endif; ?>
-
-            <!-- #fields-container -->
-            <div class="tab-pane fade<?php if (!$showActions) {
+<?php if (!$activeForm->isSmartForm()):?>
+    <!-- #fields-container -->
+    <div class="tab-pane fade<?php if (!$showActions) {
                                             echo ' active in';
                                         } ?> bdr-w-0" id="fields-container">
-                <h5 class="fw-sb mb-xs">Form Field</h5>
-                <ul class="list-group mb-xs">
-                    <?php /** @var \Mautic\FormBundle\Entity\Field $field */
-                    foreach ($activeFormFields as $field) : ?>
-                        <li class="list-group-item bg-auto bg-light-xs">
-                            <div class="box-layout">
-                                <div class="col-md-1 va-m">
-                                    <?php $requiredTitle = $field->getIsRequired() ? 'mautic.core.required'
-                                        : 'mautic.core.not_required'; ?>
-                                    <h3><span class="fa fa-<?php echo $field->getIsRequired() ? 'check'
-                                            : 'times'; ?> text-white dark-xs" data-toggle="tooltip"
-                                              data-placement="left"
-                                              title="<?php echo $view['translator']->trans($requiredTitle); ?>"></span>
-                                    </h3>
-                                </div>
-                                <div class="col-md-7 va-m">
-                                    <h5 class="fw-sb text-primary mb-xs"><?php echo $field->getLabel(); ?></h5>
-                                    <h6 class="text-white dark-md"><?php echo $view['translator']->trans(
-                                            'mautic.form.details.field_type',
-                                            ['%type%' => $field->getType()]
-                                        ); ?></h6>
-                                </div>
-                                <div class="col-md-4 va-m text-right">
-                                    <em class="text-white dark-sm"><?php echo $view['translator']->trans(
-                                            'mautic.form.details.field_order',
-                                            ['%order%' => $field->getOrder()]
-                                        ); ?></em>
-                                </div>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <!--/ #fields-container -->
+        <h5 class="fw-sb mb-xs">Form Field</h5>
+        <ul class="list-group mb-xs">
+            <?php /** @var \Mautic\FormBundle\Entity\Field $field */
+            foreach ($activeFormFields as $field) : ?>
+                <li class="list-group-item bg-auto bg-light-xs">
+                    <div class="box-layout">
+                        <div class="col-md-1 va-m">
+                            <?php $requiredTitle = $field->getIsRequired() ? 'mautic.core.required'
+                                : 'mautic.core.not_required'; ?>
+                            <h3><span class="fa fa-<?php echo $field->getIsRequired() ? 'check'
+                                    : 'times'; ?> text-white dark-xs" data-toggle="tooltip"
+                                      data-placement="left"
+                                      title="<?php echo $view['translator']->trans($requiredTitle); ?>"></span>
+                            </h3>
+                        </div>
+                        <div class="col-md-7 va-m">
+                            <h5 class="fw-sb text-primary mb-xs"><?php echo $field->getLabel(); ?></h5>
+                            <h6 class="text-white dark-md"><?php echo $view['translator']->trans(
+                                    'mautic.form.details.field_type',
+                                    ['%type%' => $field->getType()]
+                                ); ?></h6>
+                        </div>
+                        <div class="col-md-4 va-m text-right">
+                            <em class="text-white dark-sm"><?php echo $view['translator']->trans(
+                                    'mautic.form.details.field_order',
+                                    ['%order%' => $field->getOrder()]
+                                ); ?></em>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <!--/ #fields-container -->
+<?php endif; ?>
         </div>
         <!--/ end: tab-content -->
     </div>
@@ -269,10 +274,10 @@ $isadmin     =$view['security']->isAdmin();
         <div class="pa-md">
             <div class="panel bg-info bg-light-lg bdr-w-0 mb-0">
                 <div class="panel-body">
-                    <h5 class="fw-sb mb-sm"><?php echo $view['translator']->trans(
-                            'mautic.form.form.header.copy'
+                    <h5 class="fw-sb mb-sm"><?php echo $view['translator']->trans(!$activeForm->isSmartForm() ?
+                            'mautic.form.form.header.copy' : 'le.smart.form.tracker.header.copy'
                         ); ?></h5>
-                    <p class="mb-sm"><?php echo $view['translator']->trans('mautic.form.form.help.landingpages'); ?></p>
+                    <p class="mb-sm"><?php echo $view['translator']->trans(!$activeForm->isSmartForm() ? 'mautic.form.form.help.landingpages' : 'le.smart.form.help.tracker'); ?></p>
 
                     <a href="#" class="btn btn-info" data-toggle="modal" style="border-color: #ffffff; "
                        data-target="#modal-automatic-copy"><?php echo $view['translator']->trans(
@@ -314,33 +319,46 @@ $isadmin     =$view['security']->isAdmin();
                         ); ?></h5>
                 </div>
                 <div class="modal-body">
-                    <p><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy'); ?></p>
-                    <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
-                    <textarea id="javascipt_textarea" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
-                            'le_form_generateform',
-                            ['id' => $activeForm->getId()]
-                        ); ?>"&gt;&lt;/script&gt;</textarea>
-                    <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
-                        <i aria-hidden="true" class="fa fa-clipboard"></i>
-                        <?php echo $view['translator']->trans(
-                            'leadsengage.subs.clicktocopy'
-                        ); ?>
-                    </a>
-                    <h3 class="pt-lg"><?php echo $view['translator']->trans(
-                            'mautic.form.form.help.automaticcopy.iframe'
-                        ); ?></h3>
-                    <textarea id="iframe_textarea" class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
-                            'le_form_preview',
-                            ['id' => $activeForm->getId()]
-                        ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
-                    <a id="iframe_textarea_atag" onclick="Le.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>
-                        <?php echo $view['translator']->trans(
-                            'leadsengage.subs.clicktocopy'
-                        ); ?></a>
-                    <br>
-                    <br>
-                    <i><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.iframe.note'); ?></i>
-
+                    <?php if ($activeForm->isSmartForm()):?>
+                        <p><?php echo $view['translator']->trans('le.smart.form.tracker.help.automaticcopy'); ?></p>
+                        <h3><?php echo $view['translator']->trans('le.smart.form.tracker.help.automaticcopy.js'); ?></h3>
+                        <textarea id="javascipt_textarea" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
+                                'le_smart_form_tracker'); ?>"&gt;&lt;/script&gt;</textarea>
+                        <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
+                            <i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <?php echo $view['translator']->trans(
+                                'leadsengage.subs.clicktocopy'
+                            ); ?>
+                        </a>
+                    <?php endif; ?>
+                    <?php if (!$activeForm->isSmartForm()):?>
+                        <p><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy'); ?></p>
+                        <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
+                        <textarea id="javascipt_textarea" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
+                                'le_form_generateform',
+                                ['id' => $activeForm->getId()]
+                            ); ?>"&gt;&lt;/script&gt;</textarea>
+                        <a id="javascipt_textarea_atag" onclick="Le.copytoClipboardforms('javascipt_textarea');">
+                            <i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <?php echo $view['translator']->trans(
+                                'leadsengage.subs.clicktocopy'
+                            ); ?>
+                        </a>
+                        <h3 class="pt-lg"><?php echo $view['translator']->trans(
+                                'mautic.form.form.help.automaticcopy.iframe'
+                            ); ?></h3>
+                        <textarea id="iframe_textarea" class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
+                                'le_form_preview',
+                                ['id' => $activeForm->getId()]
+                            ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
+                        <a id="iframe_textarea_atag" onclick="Le.copytoClipboardforms('iframe_textarea');"><i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <?php echo $view['translator']->trans(
+                                'leadsengage.subs.clicktocopy'
+                            ); ?></a>
+                        <br>
+                        <br>
+                        <i><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.iframe.note'); ?></i>
+                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $view['translator']->trans(

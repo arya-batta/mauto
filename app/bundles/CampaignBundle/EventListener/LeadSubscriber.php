@@ -343,9 +343,13 @@ class LeadSubscriber extends CommonSubscriber
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
                 foreach ($c as $event) {
-                    $properties = unserialize($event['properties']);
+                    $properties   = unserialize($event['properties']);
+                    $eventEmailId = $properties['emails'];
+                    if ($properties['campaigntype'] == 'drip') {
+                        $eventEmailId = $properties['driplist'];
+                    }
                     $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                    if ($email != null && in_array($email->getId(), $properties['emails'])) {
+                    if ($email != null && in_array($email->getId(), $eventEmailId)) {
                         if ($event['goal'] != 'interrupt') {
                             $this->campaignModel->addLead($campaign, $lead);
                             $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
@@ -374,9 +378,14 @@ class LeadSubscriber extends CommonSubscriber
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
                 foreach ($c as $event) {
-                    $properties = unserialize($event['properties']);
+                    $properties   = unserialize($event['properties']);
+                    $eventEmailId = $properties['emails'];
+                    if ($properties['campaigntype'] == 'drip') {
+                        $eventEmailId = $properties['driplist'];
+                    }
                     $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                    if ($email != null && in_array($email->getId(), $properties['emails'])) {
+
+                    if ($email != null && in_array($email->getId(), $eventEmailId)) {
                         if ($event['goal'] != 'interrupt') {
                             $this->campaignModel->addLead($campaign, $lead);
                             $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);

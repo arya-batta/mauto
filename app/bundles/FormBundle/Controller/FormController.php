@@ -350,11 +350,11 @@ class FormController extends CommonFormController
             $objectEntity   = $objectvalues[0];
             $objectformtype = $objectvalues[1];
         }
-        $signuprepository = $this->get('le.core.repository.signup');
-        $formitems        = $signuprepository->selectformItems();
-        if (empty($formitems)) {
-            $objectEntity = 'scratch';
-        }
+        // $signuprepository = $this->get('le.core.repository.signup');
+        // $formitems        = $signuprepository->selectformItems();
+        // if (empty($formitems)) {
+        //  $objectEntity = 'scratch';
+        // }
         if (!$this->get('mautic.security')->isGranted('form:forms:create')) {
             return $this->accessDenied();
         }
@@ -385,11 +385,15 @@ class FormController extends CommonFormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
+                    $formType = $this->request->request->get('leform[formType]', '', true);
+                    if ($formType == 'smart') {
+                        $modifiedFields=[];
+                    }
                     //only save fields that are not to be deleted
                     $fields = array_diff_key($modifiedFields, array_flip($deletedFields));
 
                     //make sure that at least one field is selected
-                    if (empty($fields)) {
+                    if (empty($fields) && $formType != 'smart') {
                         //set the error
                         $form->addError(
                             new FormError(
@@ -519,11 +523,11 @@ class FormController extends CommonFormController
                     'deletedActions' => $deletedActions,
                     //'tmpl'           => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                     'activeForm'     => $entity,
-                    'form'           => $form->createView(),
+                    'form'           => $this->setFormTheme($form, 'MauticFormBundle:Builder:index.html.php', 'MauticFormBundle:FormTheme\SmartField'),
                     'contactFields'  => $this->getModel('lead.field')->getFieldListWithProperties(),
                     'companyFields'  => $this->getModel('lead.field')->getFieldListWithProperties('company'),
                     'inBuilder'      => true,
-                    'formItems'      => $formitems,
+                   // 'formItems'      => $formitems,
                     'objectID'       => $objectEntity,
                     'newFormURL'     => $newactionurl,
                 ],
@@ -631,6 +635,11 @@ class FormController extends CommonFormController
                 $deletedFields  = $session->get('mautic.form.'.$objectId.'.fields.deleted', []);
                 $fields         = array_diff_key($modifiedFields, array_flip($deletedFields));
 
+                $formType = $this->request->request->get('leform[formType]', '', true);
+                if ($formType == 'smart') {
+                    $modifiedFields=[];
+                }
+
                 //set added/updated actions
                 $modifiedActions = $session->get('mautic.form.'.$objectId.'.actions.modified', []);
                 $deletedActions  = $session->get('mautic.form.'.$objectId.'.actions.deleted', []);
@@ -638,7 +647,7 @@ class FormController extends CommonFormController
 
                 if ($valid = $this->isFormValid($form)) {
                     //make sure that at least one field is selected
-                    if (empty($fields)) {
+                    if (empty($fields) && $formType != 'smart') {
                         //set the error
                         $form->addError(
                             new FormError(
@@ -820,7 +829,8 @@ class FormController extends CommonFormController
                     $usedLeadFields[$id] = $field['leadField'];
                 }
             }
-            if (!$submitButton) { //means something deleted the submit button from the form
+            $formType=$entity->getFormType();
+            if (!$submitButton && $formType != 'smart') { //means something deleted the submit button from the form
                 //add a submit button
                 $modifiedFields = $this->createDefaultFields($sessionId);
                 $session->set('mautic.form.'.$sessionId.'.fields.modified', $modifiedFields);
@@ -888,7 +898,7 @@ class FormController extends CommonFormController
                     'deletedActions'     => $deletedActions,
                     //'tmpl'               => $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index',
                     'activeForm'         => $entity,
-                    'form'               => $form->createView(),
+                    'form'               => $this->setFormTheme($form, 'MauticFormBundle:Builder:index.html.php', 'MauticFormBundle:FormTheme\SmartField'),
                     'forceTypeSelection' => $forceTypeSelection,
                     'contactFields'      => $this->getModel('lead.field')->getFieldListWithProperties('lead'),
                     'companyFields'      => $this->getModel('lead.field')->getFieldListWithProperties('company'),

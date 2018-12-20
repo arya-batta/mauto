@@ -20,6 +20,7 @@ use Mautic\SubscriptionBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class PublicController.
@@ -484,5 +485,150 @@ class PublicController extends CommonFormController
         }
 
         return str_replace(array_keys($this->tokens), array_values($this->tokens), $string);
+    }
+
+    public function getSmartFormTrackerAction()
+    {
+        $js       = $this->getSmartFormTrackerContent();
+        $response = new Response();
+        $response->setContent($js);
+        $response->setStatusCode(Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'text/javascript');
+
+        return $response;
+    }
+
+    public function getSmartFormTrackerContent()
+    {
+        $postUrl=$this->generateUrl('le_smart_form_post_results', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        return <<<JS
+function includeJQuery(filename, onload) {
+            if(!window.jQuery)
+            {
+                var head = document.getElementsByTagName('head')[0];
+                var script = document.createElement('script');
+                script.src = filename;
+                script.type = 'text/javascript';
+                script.onload = script.onreadystatechange = function() {
+                    if (script.readyState) {
+                        if (script.readyState === 'complete' || script.readyState === 'loaded') {
+                            script.onreadystatechange = null;
+                            onload(false);
+                        }
+                    }
+                    else {
+                        onload(false);
+                    }
+                };
+                head.appendChild(script);
+            }
+            else
+            {
+                onload(true);
+            }
+        }
+        includeJQuery('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js?t=' + Date.now(), function(isJqueryAvailable) {
+            var LeJQ;
+            if(isJqueryAvailable) {
+                LeJQ = jQuery;
+            } else {
+                LeJQ = $.noConflict();
+            }
+            LeJQ(document).ready(function() {               
+                TrackingForm = function() {                   
+                    this.init();
+                }
+
+                LeJQ.extend(TrackingForm.prototype, {                    
+                    API_METHOD: "POST",
+                    API_ENDPOINT: "{$postUrl}",                  
+
+                    init: function() {
+                        LeJQ(document).on('submit','form', function(e) {
+                            var formElemId = "";
+                            var formElemName = "";
+                            if(LeJQ(this).attr('id') !== undefined) {
+                                formElemId = LeJQ(this).attr('id');                                
+                            }
+                            if(LeJQ(this).attr('name') !== "undefined") {
+                                formElemName = LeJQ(this).attr('name');                              
+                            }
+                            var formData = LeJQ(this).serialize();                            
+                            var filePath = document.location.pathname;
+                            var domain = TrackingForm.prototype.getDomain(document.location.origin);
+                            var dataToPost = {'smartformid': formElemId, 'smartformname': formElemName, 'smartformdata': formData, 'file_path': filePath, 'domain': domain};
+                            TrackingForm.prototype.sendData(dataToPost);
+                        });
+                    },
+
+                    getDomain: function(url) {
+                        var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+                        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+                            return match[2];
+                        } else {
+                            return null;
+                        }
+                    },
+
+                    sendData: function(dataToPost) {                        
+                        LeJQ.ajax({
+                            type: this.API_METHOD,
+                            url: this.API_ENDPOINT,
+                            data: LeJQ.param(dataToPost),
+                            async:false,
+                            success: function (e) {
+                                if (e == '1') {
+                                    exists();
+                                }
+                                if (e == '2') {
+                                    success();
+                                }
+                                if (e == '3') {
+                                    error();
+                                }
+                                if (e == '4') {
+                                    confirm();
+                                }
+                                return;
+                            }
+                        })
+                    }
+                });
+                var form = new TrackingForm();
+            });
+        });
+JS;
+    }
+
+    public function smartFormSubmitAction()
+    {
+        $response        =['message'=> 'Lead created successfully!.'];
+        $formid          = $this->request->get('smartformid', '');
+        $formname        = $this->request->get('smartformname', '');
+        $formdata        = $this->request->get('smartformdata', '');
+        $filepath        = $this->request->get('file_path', '');
+        $domain          = $this->request->get('domain', '');
+        parse_str($formdata, $post_results);
+        $server        = $this->request->server->all();
+        $formmodel     =$this->getModel('form');
+        $formrepository=$formmodel->getRepository();
+        $forms         =$formrepository->findBy(
+            [
+                'smartformname' => $formname,
+                'smartformid'   => $formid,
+            ]
+        );
+        if (sizeof($forms) > 0 && sizeof($post_results) > 0) {
+            try {
+                $result = $this->getModel('form.submission')->saveSubmission($post_results, $server, $forms[0], $this->request, true);
+            } catch (\Exception $ex) {
+                $response['message']='Lead creation failed due to technical error';
+            }
+        } else {
+            $response['message']='Form not found';
+        }
+
+        return new JsonResponse($response);
     }
 }

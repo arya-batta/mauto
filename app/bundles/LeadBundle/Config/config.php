@@ -345,7 +345,7 @@ return [
                     'iconClass' => 'fa-user',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'le_contact_index',
-                    'priority'  => 60,
+                    'priority'  => 70,
                     'parent'    => 'le.core.leads',
                 ],
                 /*   'le.companies.menu.index' => [
@@ -358,7 +358,7 @@ return [
                     'iconClass' => 'fa-pie-chart',
                     'access'    => ['lead:leads:viewown', 'lead:leads:viewother'],
                     'route'     => 'le_segment_index',
-                    'priority'  => 55,
+                    'priority'  => 60,
                     'parent'    => 'le.core.leads',
                 ],
                 'le.lead.tags.menu.index' => [
@@ -368,7 +368,7 @@ return [
                     'priority'  => 55,
                     'parent'    => 'le.core.leads',
                 ],
-               'le.lead.field.menu.index' => [
+              /* 'le.lead.field.menu.index' => [
                     'iconClass'  => 'fa-cog',
                     'route'      => 'le_contactfield_index',
                     'access'     => 'lead:fields:full',
@@ -382,7 +382,7 @@ return [
                      'access'     => 'lead:imports:create',
                      'priority'   => 40,
                      'parent'     => 'le.core.leads',
-                ],
+                ],*/
 
                'mautic.point.menu.index' => [
                     'route'      => 'le_point_index',
@@ -395,7 +395,7 @@ return [
                     'iconClass' => 'fa-list-ul',
                     'access'    => ['lead:listoptin:viewown', 'lead:listoptin:viewother'],
                     'route'     => 'le_listoptin_index',
-                    'priority'  => 60,
+                    'priority'  => 65,
                     'parent'    => 'le.core.leads',
                ],
                /*

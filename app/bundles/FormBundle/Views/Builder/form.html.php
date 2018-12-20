@@ -68,6 +68,7 @@ if (!isset($isAjax)) {
                     else:
                         if (!$form->getGDPRPublished() && $f->getLeadField() == 'eu_gdpr_consent') {
                             $f->setType('hidden');
+                            $f->setDefaultValue('UnKnown');
                         }
                         if (!$f->getShowWhenValueExists() && $f->getLeadField() && $f->getIsAutoFill() && $lead && !empty($lead->getFieldValue($f->getLeadField()))) {
                             $f->setType('hidden');

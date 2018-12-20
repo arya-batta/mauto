@@ -295,6 +295,14 @@ class Field
     }
 
     /**
+     * @param $id
+     */
+    public function setId($id)
+    {
+        $this->id=$id;
+    }
+
+    /**
      * Set label.
      *
      * @param string $label

@@ -20,7 +20,7 @@ $pageButtons[] = [
         'href'        => $view['router']->path('le_tags_action', ['objectAction' => 'new']),
         'data-header' => $view['translator']->trans('le.lead.tags.header.new'),
     ],
-    'iconClass' => 'fa fa-bolt',
+    'iconClass' => 'fa fa-plus',
     'btnText'   => 'le.lead.tags.new',
     'primary'   => true,
 ];

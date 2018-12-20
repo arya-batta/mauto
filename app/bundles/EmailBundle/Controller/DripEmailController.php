@@ -747,6 +747,7 @@ class DripEmailController extends FormController
                 $newEmail      = clone $email;
                 //$newEmail->setIsPublished(true);
                 $newEmail->setTemplate($email->getTemplate());
+                $newEmail->setEmailType('dripemail');
                 $newEmail->setDripEmail($newEntity);
                 $emailmodel->saveEntity($newEmail);
                 unset($newemail);

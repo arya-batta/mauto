@@ -102,25 +102,19 @@ return [
                 ],
             ],
             'le_email_unsubscribe' => [
-                'path'       => '/oneoff/unsubscribe/{idHash}',
+                'path'       => '/unsubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:unsubscribe',
             ],
             'le_email_subscribe' => [
-                'path'       => '/{type}/subscribers/{idHash}',
+                'path'       => '/subscribers/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:subscribe',
-                'defaults'   => [
-                    'type' => 'one-off',
-                ],
             ],
             'le_email_updatelead' => [
-                'path'       => '/{type}/updatelead/{idHash}',
+                'path'       => '/updatelead/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:updatelead',
-                'defaults'   => [
-                    'type' => 'one-off',
-                ],
             ],
             'le_email_resubscribe' => [
-                'path'       => '/oneoff/resubscribe/{idHash}',
+                'path'       => '/resubscribe/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:resubscribe',
             ],
             'le_mailer_transport_callback' => [

@@ -18,7 +18,7 @@ $isAdmin     =$view['security']->isAdmin();
 
 <?php if (count($items)): ?>
     <div class="table-responsive">
-        <table class="table table-hover table-striped table-bordered" id="leadListTable">
+        <table class="table table-hover table-striped table-bordered" id="leadTagTable">
             <thead>
             <tr>
                 <?php
@@ -59,7 +59,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'tags',
                         'text'       => 'le.lead.list.thead.leadcount',
-                        'class'      => 'visible-md visible-lg col-leadlist-leadcount',
+                        'class'      => 'visible-md visible-lg col-leadlist-leadcount text-center',
                     ]
                 );
                 if ($isAdmin):
@@ -123,12 +123,19 @@ $isAdmin     =$view['security']->isAdmin();
                         );
                         //file_put_contents('/var/www/log1.txt',json_encode($items))?>
                     </td>
-                    <td class="table-description">
+                    <td class="table-description" style="width:70%;">
                         <div>
+                            <a href="<?php echo $view['router']->path(
+                                'le_tags_action',
+                                ['objectAction' => 'edit', 'objectId' => $item->getId()]
+                            ); ?>" data-toggle="ajaxmodal"
+                               data-target = "#leSharedModal"
+                               data-header="<?php echo $view['translator']->trans('le.lead.tags.header.edit')?>">
                                     <?php echo $item->getTag();?>
+                            </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg" style="width: 30%;">
+                    <td class="visible-md visible-lg text-center" style="width: 30%;">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag').':'.$item->getTag()]
@@ -143,7 +150,7 @@ $isAdmin     =$view['security']->isAdmin();
                     <?php  if ($isAdmin):?>
                         <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
-                    <td>
+                    <td style="width: 30%;">
                         <?php $hasEditAccess   = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'],$item->getId());
                         $hasDeleteAccess = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'],$item->getId());?>
                         <div style="position: relative;" class="fab-list-container">

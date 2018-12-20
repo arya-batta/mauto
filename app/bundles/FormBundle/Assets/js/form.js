@@ -144,6 +144,34 @@ Le.formOnLoad = function (container) {
     if(mQuery('#Form_post_action').hasClass('has-error')){
         mQuery('.check_required').addClass('required');
     }
+
+    mQuery('#smart-form-scan-url-btn').off().on('click', function() {
+        var currentbtn=mQuery(this);
+        var scanurl=mQuery('#leform_formurl').val();
+        var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        if (!pattern.test(scanurl)) {
+            alert("Enter valid url to scan");
+            return false;
+        }
+        Le.activateButtonLoadingIndicator(currentbtn);
+        Le.ajaxActionRequest(
+            'form:scanFormUrl',
+            {scanurl: scanurl},
+            function (response) {
+                if (response.success) {
+                    mQuery("#fragment-1 #next-page-1").trigger( "click" );
+                    mQuery("#le_smart_form_list").html(response.newContent);
+                    Le.showSmartFormListPanel();
+                    //alert("Success-->"+response.message);
+                }else{
+                    alert(response.message);
+                }
+                Le.removeButtonLoadingIndicator(currentbtn);
+            },
+            false,
+            true
+        );
+    });
 };
 
 Le.setBtnBackgroundColor = function () {
@@ -412,13 +440,19 @@ Le.onPostSubmitActionChange = function(value) {
 
 Le.selectFormType = function(formType) {
     if (formType == 'standalone') {
-        mQuery("#form_template_campaign").removeClass('hide').addClass('hide');
-        mQuery('option.action-standalone-only').removeClass('hide');
+       // mQuery("#form_template_campaign").removeClass('hide').addClass('hide');
+       // mQuery('option.action-standalone-only').removeClass('hide');
+        mQuery('.fg1-standalone-form-specific').removeClass('hide');
+        mQuery('.fg1-smart-form-specific').removeClass('hide').addClass('hide');
         mQuery('.page-header h3').text(leLang.newStandaloneForm);
     } else {
-        mQuery("#form_template_standalone").removeClass('hide').addClass('hide');
-        mQuery('option.action-standalone-only').addClass('hide');
-        mQuery('.page-header h3').text(leLang.newCampaignForm);
+       // mQuery("#form_template_standalone").removeClass('hide').addClass('hide');
+       // mQuery('option.action-standalone-only').addClass('hide');
+        mQuery('.fg1-smart-form-specific').removeClass('hide');
+        mQuery('#leforms_fields').remove();
+        mQuery('.fg1-standalone-form-specific').removeClass('hide').addClass('hide');
+        mQuery('.fg2-standalone-form-specific').removeClass('hide').addClass('hide');
+        mQuery('.page-header h3').text(leLang.newSmartForm);
     }
 
     mQuery('.available-actions select').trigger('chosen:updated');
@@ -453,3 +487,48 @@ Le.enableGDPRFormWidget = function () {
         mQuery('.gdpr-content').removeClass('hide');
     }
 };
+Le.showSmartFormListPanel=function(){
+    mQuery('#le_smart_form_list').removeClass('hide');
+    mQuery('#le_smart_form_fields_mapping').removeClass('hide').addClass('hide');
+    mQuery('.smart-form-field-mapper-header-holder').removeClass('hide').addClass('hide');
+}
+Le.showSmartFormFieldPanel=function(){
+    mQuery('#le_smart_form_fields_mapping').removeClass('hide');
+    mQuery('.smart-form-field-mapper-header-holder').removeClass('hide');
+    mQuery('#le_smart_form_list').removeClass('hide').addClass('hide');
+}
+Le.openSmartFormPanel=function(event){
+    event = event || window.event;
+    var currentlink = event.target || event.srcElement;
+    var formname=mQuery(currentlink).attr('data-formname');
+    var formid=mQuery(currentlink).attr('data-formid');
+    var header=formname;
+    if(formname == ""){
+        header=formid;
+    }
+    mQuery('.smart-form-field-mapper-header').html(header);
+    mQuery('#leform_smartformname').val(formname);
+    mQuery('#leform_smartformid').val(formid);
+    var fieldjson=mQuery(currentlink).attr('data-formfield');
+    try{
+        mQuery('#le_smart_form_fields_mapping').empty();
+        var prototype = mQuery('#le_smart_form_fields_mapping').data('prototype');
+        fieldjson=mQuery.parseJSON(fieldjson);
+        mQuery.each(fieldjson, function (index, field) {
+            // alert(field.name+"----->"+field.type);
+            var smartfieldid="#leform_smartfields_"+index+"_smartfield";
+            var leadfieldid="#leform_smartfields_"+index+"_leadfield";
+            var fieldmapper = prototype.replace(/__name__/g,index);
+            // Convert to DOM
+            fieldmapper = mQuery(fieldmapper);
+            var smartfield=fieldmapper.find(smartfieldid);
+            smartfield.val(field.name);
+            var leadfield=fieldmapper.find(leadfieldid);
+            Le.activateChosenSelect(leadfield);
+            fieldmapper.appendTo(mQuery('#le_smart_form_fields_mapping'));
+        });
+        Le.showSmartFormFieldPanel();
+    }catch(err){
+        alert(err);
+    }
+}

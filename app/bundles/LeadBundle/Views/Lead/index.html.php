@@ -72,7 +72,7 @@ $view['slots']->set(
             'langVar'       => 'lead.lead',
             'customButtons' => $pageButtons,
             'extraHtml'     => $extraHtml,
-            'onlyexport'    => 'true',
+            //'onlyexport'    => 'true',
         ]
     )
 );

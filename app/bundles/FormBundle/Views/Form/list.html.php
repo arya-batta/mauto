@@ -212,7 +212,12 @@ $isAdmin=$view['security']->isAdmin();
                         <?php
                         $hasEditAccess   = $security->hasEntityAccess($permissions['form:forms:editown'], $permissions['form:forms:editother'], $item->getCreatedBy());
                         $hasDeleteAccess = $security->hasEntityAccess($permissions['form:forms:deleteown'], $permissions['form:forms:deleteother'], $item->getCreatedBy());
-                        $hasCloneAccess  = $permissions['form:forms:create']; ?>
+                        $hasCloneAccess  = $permissions['form:forms:create'];
+                        $hasPreviewAccess=!$item->isSmartForm();
+                        if ($hasCloneAccess) {
+                            $hasCloneAccess=!$item->isSmartForm();
+                        }
+                        ?>
                         <div style="position: relative;" class="fab-list-container">
                             <div class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">
@@ -222,13 +227,15 @@ $isAdmin=$view['security']->isAdmin();
                                             <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_form_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
-                                        <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+<!--                                        --><?php //if ($hasCloneAccess) :?>
+                                            <a class="hidden-xs <?php echo $hasCloneAccess ? '' : 'hide'?>" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
-                                        <?php endif; ?>
-                                        <a target="_blank" title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
-                                           href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
-                                            <i class="material-icons md-color-white">  </i> </a>
+<!--                                        --><?php //endif;?>
+<!--                                        --><?php //if ($hasPreviewAccess) :?>
+                                            <a <?php echo $hasPreviewAccess ? '' : 'class=\'hide\''?> target="_blank" title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
+                                               href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
+                                                <i class="material-icons md-color-white">  </i> </a>
+<!--                                        --><?php //endif;?>
                                         <a data-toggle="ajax"
                                            title="<?php echo $view['translator']->trans('mautic.form.form.results'); ?>"
                                            href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'results']); ?>">

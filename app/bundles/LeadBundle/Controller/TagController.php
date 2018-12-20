@@ -154,7 +154,7 @@ class TagController extends FormController
         $tag = new Tag();
         $tag->setIsPublished(1);
         $action    = $this->generateUrl('le_tags_action', ['objectAction' => 'new']);
-        $form      = $model->createForm($tag, $this->get('form.factory'), $action,['isNew' => true]);
+        $form      = $model->createForm($tag, $this->get('form.factory'), $action);
         //set the page we came from
         $page = $this->get('session')->get('mautic.tags.page', 1);
         //set the return URL
@@ -238,7 +238,7 @@ class TagController extends FormController
             ],
         ];
         $action = $this->generateUrl('le_tags_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
-        $form   = $model->createForm($tag, $this->get('form.factory'), $action,['isNew' => false]);
+        $form   = $model->createForm($tag, $this->get('form.factory'), $action);
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($this->isFormValid($form)) {

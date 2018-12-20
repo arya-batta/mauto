@@ -36,6 +36,7 @@ use Mautic\FormBundle\Form\Type\FormFieldTextType;
 use Mautic\FormBundle\Form\Type\FormListType;
 use Mautic\FormBundle\Form\Type\FormType;
 use Mautic\FormBundle\Form\Type\PointActionFormSubmitType;
+use Mautic\FormBundle\Form\Type\SmartFormFieldType;
 use Mautic\FormBundle\Form\Type\SubmitActionEmailType;
 use Mautic\FormBundle\Helper\FormFieldHelper;
 use Mautic\FormBundle\Helper\FormUploader;
@@ -128,6 +129,15 @@ return [
             'le_form_generateform' => [
                 'path'       => '/form/generate.js',
                 'controller' => 'MauticFormBundle:Public:generate',
+            ],
+            'le_smart_form_post_results' => [
+                'path'       => 'smart/form/submit',
+                'controller' => 'MauticFormBundle:Public:smartFormSubmit',
+                'method'     => ['GET', 'POST'],
+            ],
+            'le_smart_form_tracker' => [
+                'path'       => '/form/tracker.js',
+                'controller' => 'MauticFormBundle:Public:getSmartFormTracker',
             ],
             'le_form_postmessage' => [
                 'path'       => '/form/message',
@@ -310,6 +320,11 @@ return [
                 'arguments' => 'mautic.factory',
                 'alias'     => 'form_list',
             ],
+            'le.form.type.smart.form.field.type' => [
+                'class'     => SmartFormFieldType::class,
+                'arguments' => 'mautic.factory',
+                'alias'     => 'smart_form_fields',
+            ],
             'mautic.form.type.campaignevent_formsubmit' => [
                 'class' => CampaignEventFormSubmitType::class,
                 'alias' => 'campaignevent_formsubmit',
@@ -439,5 +454,6 @@ return [
     'parameters' => [
         'form_upload_dir'        => '%kernel.root_dir%/../media/files/form',
         'blacklisted_extensions' => ['php', 'sh'],
+        'Phantom_JS_Cloud_Apikey'=> '',
     ],
 ];

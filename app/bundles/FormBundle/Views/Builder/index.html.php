@@ -39,7 +39,20 @@ if (($activeForm->getName() == '' || $activeForm->getName() == null) && $objectI
     $hideformpanel = '';
     $hidetemplate  = 'hide';
 }
-
+$formType              =$activeForm->getFormType();
+$hidestandalonedpecific='';
+$hidesmartformspecific ='';
+if ($formType == 'smart') {
+    $hidestandalonedpecific='hide';
+} elseif ($formType == 'standalone') {
+    $hidesmartformspecific='hide';
+}
+$smartformname=$activeForm->getSmartFormName();
+$smartformid  =$activeForm->getSmartFormID();
+$isNewAction  =true;
+if ($activeForm->getId()) {
+    $isNewAction=false;
+}
 ?>
 <?php /** echo $view['form']->start($form); ?>
 <div class="box-layout">
@@ -228,23 +241,22 @@ echo $view['form']->row($form['renderStyle']);
 <?php
 
 echo $view['form']->end($form); */
-
-/*if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($activeForm->getName() == '' || $activeForm->getName() == null) && $objectID == null):
+if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($activeForm->getName() == '' || $activeForm->getName() == null) && $objectID == null):
     echo $view->render(
         'MauticCoreBundle:Helper:form_selecttype.html.php',
         [
             'item'       => $activeForm,
-            'leLang' => [
+            'leLang'     => [
                 'newStandaloneForm' => 'mautic.form.type.standalone.header',
-                'newCampaignForm'   => 'mautic.form.type.campaign.header',
+                'newSmartForm'      => 'le.form.type.smart.header',
             ],
             'typePrefix'         => 'form',
             'cancelUrl'          => 'le_form_index',
             'header'             => 'mautic.form.type.header',
-            'typeOneHeader'      => 'mautic.form.type.campaign.header',
+            'typeOneHeader'      => 'le.form.type.smart.header',
             'typeOneIconClass'   => 'fa-cubes',
-            'typeOneDescription' => 'mautic.form.type.campaign.description',
-            'typeOneOnClick'     => "Le.selectFormType('campaign');",
+            'typeOneDescription' => 'le.form.type.smart.description',
+            'typeOneOnClick'     => "Le.selectFormType('smart');",
             'typeTwoHeader'      => 'mautic.form.type.standalone.header',
             'typeTwoIconClass'   => 'fa-list',
             'typeTwoDescription' => 'mautic.form.type.standalone.description',
@@ -252,7 +264,7 @@ echo $view['form']->end($form); */
             'typeThreeHeader'    => 'le.email.editor.codeeditor.header',
         ]
     );
-endif;*/ ?>
+endif; ?>
 <?php echo $view['form']->start($form); ?>
 <div class="page-wrap  tab-content">
     <div  style="margin-top: 0px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
@@ -261,7 +273,7 @@ endif;*/ ?>
                 <a class="info_tab text-start" style="padding: 3px 42px;">
                 <div class="content-wrapper-first">
                     <div><span class="small-xx">Step 01</span></div>
-                    <label><?php echo $view['translator']->trans('Set Up Form.'); ?></label>
+                    <label><?php echo $view['translator']->trans('Configure Settings.'); ?></label>
                 </div>
                 </a>
             </li>
@@ -304,7 +316,7 @@ endif;*/ ?>
                     <?php echo $view['form']->widget($form['category']); ?>
                 </div>
             </div>
-            <div class="row">
+            <div class="row fg1-standalone-form-specific <?php echo $hidestandalonedpecific?>">
                 <br>
                 <div class="col-md-6">
                     <?php echo $view['form']->label($form['postAction']); ?>
@@ -315,6 +327,15 @@ endif;*/ ?>
                     <?php echo $view['form']->widget($form['postActionProperty']); ?>
                     <?php echo $view['form']->errors($form['postActionProperty']); ?>
                     <div class="help-block custom-help"></div>
+                </div>
+            </div>
+            <div class="row fg1-smart-form-specific <?php echo $hidesmartformspecific?>">
+                <div class="col-md-6">
+                    <?php echo $view['form']->label($form['formurl']); ?>
+                    <?php echo $view['form']->widget($form['formurl'], $isNewAction ? [] : ['attr' => ['disabled' => 'disabled']]); ?>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" id="smart-form-scan-url-btn" class="btn btn-default le-btn-default" <?php echo $isNewAction ? '' : "disabled='disabled'"?>><?php echo $view['translator']->trans('le.smart.form.scan.button.label'); ?></a>
                 </div>
             </div>
             <div class="row hide">
@@ -378,6 +399,15 @@ endif;*/ ?>
             </div>
             <?php  echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
            <div>
+               <div id="le_smart_form_list" class="col-md-8 <?php echo !$isNewAction || $hidesmartformspecific != '' ? 'hide' : ''?>">
+               </div>
+               <div class="smart-form-field-mapper-header-holder <?php echo $isNewAction || $hidesmartformspecific != '' ? 'hide' : '' ?>" style="display: flex;">
+                   <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a style="color:#ec407a" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
+                   <div style="padding: 10px;font-size: 14px;"><b style="margin-right: 5px;">Form Name:</b><span class="smart-form-field-mapper-header" ><?php echo $smartformname == '' ? $smartformid : $smartformname?></span></div>
+               </div>
+               <div id="le_smart_form_fields_mapping" class="col-md-8 <?php echo $hidesmartformspecific?>" data-prototype="<?php echo $view->escape($view['form']->widget($form['smartfields']->vars['prototype'], [])); ?>">
+                   <?php echo $view['form']->widget($form['smartfields'], []); ?>
+               </div>
             <div id="leforms_fields" class="col-md-8">
                 <div class="drop-here">
                     <?php foreach ($formFields as $field): ?>
@@ -405,7 +435,7 @@ endif;*/ ?>
                     <?php endforeach; ?>
                 </div>
             </div>
-            <div class="col-md-4" >
+            <div class="col-md-4 fg2-standalone-form-specific <?php echo $hidestandalonedpecific?>" >
                 <div class="available-fields">
                     <div class="alert alert-info le-alert-info" id="form-field-placeholder" style="width: 92%;margin-left: 14px;">
                         <p><?php echo $view['translator']->trans('mautic.form.form.addfield'); ?></p>

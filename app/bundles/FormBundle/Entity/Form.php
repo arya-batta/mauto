@@ -130,6 +130,26 @@ class Form extends FormEntity
      */
     private $usesProgressiveProfiling = null;
 
+    /**
+     * @var string
+     */
+    private $formurl;
+
+    /**
+     * @var string
+     */
+    private $smartformname;
+
+    /**
+     * @var string
+     */
+    private $smartformid;
+
+    /**
+     * @var array
+     */
+    private $smartfields = [];
+
     public function __clone()
     {
         $this->id = null;
@@ -208,7 +228,16 @@ class Form extends FormEntity
             ->columnName('render_style')
             ->nullable()
             ->build();
-
+        $builder->createField('formurl', 'string')
+            ->nullable()
+            ->build();
+        $builder->createField('smartformname', 'string')
+            ->nullable()
+            ->build();
+        $builder->createField('smartformid', 'string')
+            ->nullable()
+            ->build();
+        $builder->addField('smartfields', 'array');
         $builder->createOneToMany('submissions', 'Submission')
             ->setOrderBy(['dateSubmitted' => 'DESC'])
             ->mappedBy('form')
@@ -304,6 +333,10 @@ class Form extends FormEntity
                     'formType',
                     'postAction',
                     'postActionProperty',
+                    'formurl',
+                    'smartfields',
+                    'smartformname',
+                    'smartformid',
                     'isGDPRPublished',
                 ]
             )
@@ -733,6 +766,22 @@ class Form extends FormEntity
     /**
      * @return mixed
      */
+    public function getFormUrl()
+    {
+        return $this->formurl;
+    }
+
+    /**
+     * @param mixed $formurl
+     */
+    public function setFormUrl($formurl)
+    {
+        $this->formurl = $formurl;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getInKioskMode()
     {
         return $this->inKioskMode;
@@ -787,6 +836,14 @@ class Form extends FormEntity
     }
 
     /**
+     * @return bool
+     */
+    public function isSmartForm()
+    {
+        return $this->formType == 'smart';
+    }
+
+    /**
      * @param mixed $formType
      *
      * @return Form
@@ -804,6 +861,61 @@ class Form extends FormEntity
     public function isStandalone()
     {
         return $this->formType != 'campaign';
+    }
+
+    /**
+     * @param array $smartfields
+     *
+     * @return $this
+     */
+    public function setSmartFields(array $smartfields)
+    {
+        $this->isChanged('smartfields', $smartfields);
+        $this->smartfields = $smartfields;
+
+        return $this;
+    }
+
+    /**
+     * Get SmartFields.
+     *
+     * @return array
+     */
+    public function getSmartFields()
+    {
+        return $this->smartfields;
+    }
+
+    /**
+     * @param $formname
+     */
+    public function setSmartFormName($formname)
+    {
+        $this->smartformname=$formname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSmartFormName()
+    {
+        return $this->smartformname;
+    }
+
+    /**
+     * @param $id
+     */
+    public function setSmartFormID($id)
+    {
+        $this->smartformid=$id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSmartFormID()
+    {
+        return $this->smartformid;
     }
 
     /**

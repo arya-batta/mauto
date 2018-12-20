@@ -171,7 +171,7 @@ class Configurator
      */
     public function mergeParameters($parameters)
     {
-        $unset = array('le_account_sender_id',
+        $unset = ['le_account_sender_id',
                      'le_account_url',
                      'le_account_api_key',
                      'le_db_host',
@@ -181,13 +181,14 @@ class Configurator
                      'beeeditor_client_id',
                      'beeeditor_client_secret',
                      'mailer_user_transactions',
-                     'mailer_password_transactions');
-        for($i = 0;$i < sizeof($unset); $i++){
-            if(isset($this->parameters[$unset[$i]])){
+                     'mailer_password_transactions',
+                      'Phantom_JS_Cloud_Apikey', ];
+        for ($i = 0; $i < sizeof($unset); ++$i) {
+            if (isset($this->parameters[$unset[$i]])) {
                 unset($this->parameters[$unset[$i]]);
             }
         }
-       $this->parameters = array_merge($this->parameters, $parameters);
+        $this->parameters = array_merge($this->parameters, $parameters);
     }
 
     /**

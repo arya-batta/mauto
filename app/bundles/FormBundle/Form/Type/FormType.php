@@ -34,15 +34,21 @@ class FormType extends AbstractType
     private $security;
 
     private $factory;
+    private $leadfieldChoices       = [];
 
     /**
      * @param MauticFactory $factory
      */
     public function __construct(MauticFactory $factory)
     {
-        $this->translator = $factory->getTranslator();
-        $this->security   = $factory->getSecurity();
-        $this->factory    = $factory;
+        $this->translator           = $factory->getTranslator();
+        $this->security             = $factory->getSecurity();
+        $this->factory              = $factory;
+        $leadfields                 =$this->factory->getModel('lead.field')->getFieldListWithProperties('lead');
+        $this->leadfieldChoices[''] = '';
+        foreach ($leadfields as $leadfield) {
+            $this->leadfieldChoices[$leadfield['alias']] = $leadfield['label'];
+        }
     }
 
     /**
@@ -207,6 +213,37 @@ class FormType extends AbstractType
             'save_icon'  => false,
         ]);
         $builder->add('formType', 'hidden', ['empty_data' => 'standalone']);
+
+        $builder->add('formurl', 'text', [
+            'label'      => 'le.smart.form.url',
+            'label_attr' => ['class' => 'control-label'],
+            'attr'       => ['class' => 'form-control le-input',
+                'placeholder'        => 'le.smart.form.scan.url.placeholder',
+                'tooltip'            => 'le.smart.form.scan.url.tooltip',
+                'autocomplete'       => 'off', ],
+            'required'   => false,
+        ]);
+        $builder->add(
+            $builder->create(
+                'smartfields',
+                'collection',
+                [
+                    'type'    => 'smart_form_fields',
+                    'options' => [
+                        'label'                       => false,
+                        'leadfieldchoices'            => $this->leadfieldChoices,
+                    ],
+                    'error_bubbling' => false,
+                    'mapped'         => true,
+                    'allow_add'      => true,
+                    'allow_delete'   => true,
+                    'label'          => false,
+                ]
+            )
+        );
+
+        $builder->add('smartformname', 'hidden');
+        $builder->add('smartformid', 'hidden');
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

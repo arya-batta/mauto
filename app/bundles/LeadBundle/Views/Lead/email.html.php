@@ -29,7 +29,7 @@ if ($dnc && $dnc['bounced']) {
                 <li>
                     <?php foreach ($verifiedemail as $key=> $value): ?>
                 <li>
-                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $key; ?></a>
+                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
                 </li>
                 <?php endforeach; ?>
                 </li>
