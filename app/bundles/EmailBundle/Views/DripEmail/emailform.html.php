@@ -41,7 +41,7 @@ if (!$isBeeEditor) {
 }
 $customHtml = $entity->getCustomHtml();
 ?>
-<div class="row" style="position: absolute;z-index: 520;right: 0;<?php echo $marginRight; ?>">
+<div class="row" style="position: fixed;z-index: 520;right: 0;<?php echo $marginRight; ?>">
         <div class="toolbar-form-buttons" style="<?php echo $buttonpanelcss; ?>">
             <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
             <div class="btn-group toolbar-dropdown hidden-md hidden-lg">

@@ -406,7 +406,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
     var templateHTML = mQuery('textarea.builder-html');
     var url = window.location.href;
     if((url.indexOf('emails/new') != -1 || url.indexOf('oneoff/new') != -1 || url.indexOf('pages/new') != -1 || (typeof templateHTML.val() === 'undefined' || !templateHTML.val().length))){
-       if((mQuery('#email-preview-container').hasClass('hide'))){
+       if((mQuery('#email-content-preview').hasClass('hide'))){
            Le.beeTemplate = "";
        }
     }
@@ -459,7 +459,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
             // Set the theme field value
             themeField.val(theme);
             // Load the template JSON to the source textarea
-            Le.setBeeTemplateJSON(theme);
+            //Le.setBeeTemplateJSON(theme);
 
             // Manipulate classes to achieve the theme selection illusion
             mQuery('.theme-list .panel').removeClass('theme-selected');
