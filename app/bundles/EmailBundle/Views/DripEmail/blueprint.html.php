@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="col-md-7 col-md-offset-3 mt-md" style="white-space: normal;">
+<div class="col-md-7 col-md-offset-3 mt-md bluprint" style="white-space: normal;">
     <p class="drip-col-stats"><h3 style="text-align: center;"><?php echo $view['translator']->trans('le.drip.email.blueprint.desc')?></h3></p>
     <div class="row drip-col-stats" style="border:1px solid;margin-top: 20px;">
         <div class="col-md-6" style="border-right:1px solid;">
@@ -32,7 +32,7 @@
                         <a class="btn btn-nospin hidden-xs le-btn-default"  onclick="Le.TriggerNewClick();" style="background-color: #ec407a;color:#ffffff;padding-top: 5px;border-radius:4px;z-index:1003;" data-toggle="dropdown" href="#">
                             <span><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.create.your.own')?></span></span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: -117%;margin-right:-118%;">
+                        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: -108%;margin-right:-71%;">
                             <div class="insert-drip-options">
                                 <div style="background:#fff;padding:24px 30px;;width:450px;height:auto;">
                                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('Which email builder would you like to use?')?></h1>

@@ -205,7 +205,7 @@ $isAdmin=$view['security']->isAdmin();
                             <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                             <a href="<?php echo $view['router']->path(
                                 $actionRoute,
-                                ['objectAction' => 'edit', 'objectId' => $item->getId()]
+                                ['objectAction' => $notificationemail ? 'edit' : 'view', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
                                 <?php if ($hasVariants): ?>

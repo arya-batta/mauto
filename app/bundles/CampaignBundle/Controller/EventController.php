@@ -441,8 +441,8 @@ class EventController extends CommonFormController
             $removeDrip         =$event['properties']['movedripto'];
             $label              =$this->getLabelFromMultiChoices($label, $addDripchoices, $removeDripchoices, [$addDrip], [$removeDrip]);
         } elseif ($event['type'] == 'leadtags.remove') {
-            $tags  =$event['properties']['tags'];
-            $label =$label.json_encode($tags);
+            $tags  = $event['properties']['tags'];
+            $label = $label.' '.str_replace(',', ', ', json_encode($tags));
             $label =  str_replace('"', '', $label);
         }
 
@@ -579,7 +579,7 @@ class EventController extends CommonFormController
                 } elseif ($object == 'assets') {
                     $list=$options['asset_downloads_list']['en'];
                 } elseif ($object == 'drip_campaign') {
-                    $list=$options['drip_email_receive'];
+                    $list=$options['drip_email_received'];
                 }
                 if (!empty($list)) {
                     $displaystring='';
@@ -623,18 +623,16 @@ class EventController extends CommonFormController
                     $value='['.implode(', ', $value).']';
                 }
             } else {
-                if ($value != '') {
                     if ($fieldlabel == 'Lead score') {
                         $v    =ucwords($value);
                         $value='['.$v.']';
                     } elseif ($fieldlabel == 'Email activity') {
                         $value = '['.$value.'] emails';
-                    } elseif (is_int($value)) {
-                        $value= $value == 1 ? '[ Yes ]' : '[ No ]';
+                    } elseif ($fieldlabel == 'Email bounced' || $fieldlabel == "Email unsubscribed") {
+                       $value = $value == 1 ? '[ Yes ]' : '[ No ]';
                     } else {
                         $value = '['.$value.']';
                     }
-                }
             }
             if ($index > 0) {
                 if ($glue == 'or') {
