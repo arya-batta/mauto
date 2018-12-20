@@ -797,10 +797,23 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
         mQuery(prototype).find('.email-activity-label').removeClass('hide');
         mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-5').addClass('col-sm-2 lead_filter_padding_right');
         mQuery(prototype).find('.filter-operator-segment').removeClass('col-sm-2').addClass('col-sm-3');
+        mQuery(prototype).find('.filter-operator-segment').removeClass('col-sm-2').addClass('col-sm-3');
     } else {
         mQuery(prototype).find('.email-activity-label').removeClass('hide lead_filter_padding_right').addClass('hide');
     }
-
+    var fields=['date_identified',
+        'last_active',
+        'date_modified',
+        'lead_email_read_date',
+        'lead_email_click_date',
+        'hit_url_date',
+        'lead_email_activity'];
+    for(var i=0;i<fields.length;i++){
+        if(fields[i]== elId){
+            mQuery(prototype).find('.filter-operator-segment').removeClass('col-sm-2').addClass('col-sm-3');
+            mQuery(prototype).find('.filter-field-segment').removeClass('col-sm-4').addClass('col-sm-3');
+        }
+    }
     var filter = '#' + filterIdBase + 'filter';
 
     //activate fields

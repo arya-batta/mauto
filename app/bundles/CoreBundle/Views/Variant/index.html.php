@@ -85,7 +85,8 @@ $totalWeight = 0;
     'MauticCoreBundle:Helper:modal.html.php',
     [
         'id'     => 'abStatsModal',
-        'header' => false,
+        'header' => 'A/B Test Stats',
+        'dismissible'    => true,
         'body'   => (isset($abTestResults['supportTemplate'])) ? $view->render(
             $abTestResults['supportTemplate'],
             ['results' => $abTestResults, 'variants' => $variants]

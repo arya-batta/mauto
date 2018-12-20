@@ -101,7 +101,7 @@ $customHtml = $entity->getCustomHtml();
                         </div>
                     </div>
                 </div>
-                <div class="row <?php echo ($isBeeEditor && $customHtml == '') ? 'le-border' : 'hide'; ?>">
+                <div class="row <?php echo ($isBeeEditor) ? 'le-border' : 'hide'; ?>">
                     <div class="col-md-12">
                         <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo ($isBeeEditor && $customHtml == '') ? '' : 'hide'; ?>" id="dripemail_advance_editor" style="margin-top:-30px;">
                             <br>
@@ -150,7 +150,7 @@ $customHtml = $entity->getCustomHtml();
                                 </span>
                         </a>
                     </div>
-                    <div class="<?php echo ($isBeeEditor && $customHtml != '') ? '' : 'hide'; ?>" id="email-content-preview" style="padding:10px;width:95%;margin-left:3%;border: 1px solid #000000;">
+                    <div class="<?php echo ($isBeeEditor && $customHtml != '') ? '' : 'hide'; ?>" id="email-content-preview" style="padding:10px;width:95%;margin-left:3%;">
                         <?php echo $customHtml; ?>
                     </div>
                 </div>

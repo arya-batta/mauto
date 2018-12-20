@@ -406,7 +406,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
     var templateHTML = mQuery('textarea.builder-html');
     var url = window.location.href;
     if((url.indexOf('emails/new') != -1 || url.indexOf('oneoff/new') != -1 || url.indexOf('pages/new') != -1 || (typeof templateHTML.val() === 'undefined' || !templateHTML.val().length))){
-       if((mQuery('email-preview-container').hasClass('hide'))){
+       if((mQuery('#email-preview-container').hasClass('hide'))){
            Le.beeTemplate = "";
        }
     }

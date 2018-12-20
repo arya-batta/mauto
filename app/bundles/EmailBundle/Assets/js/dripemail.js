@@ -401,6 +401,7 @@ Le.removeEmailfromDrip = function(Emailid, DripEmail){
         Le.ajaxActionRequest('email:deleteDripEmails', data, function (response) {
             if (response.success){
                 Le.refreshDripEmailList(response.content);
+                Le.reorderEmailsData('#app-content');
             }
         });
     } else {

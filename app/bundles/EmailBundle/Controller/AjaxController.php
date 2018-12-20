@@ -849,7 +849,7 @@ class AjaxController extends CommonAjaxController
         if (strpos($htmlContent, '<div class="table-responsive">') !== false) {
             $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
         } elseif (strpos($htmlContent, '<p class="drip-col-stats">') !== false) {
-            $htmlContent = strstr($htmlContent, '<div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">');
+            $htmlContent = strstr($htmlContent, '<div class="col-md-7 col-md-offset-3 mt-md bluprint" style="white-space: normal;">');
         }
         $responseArr                = [];
         $responseArr['success']     = true;

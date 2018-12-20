@@ -17,6 +17,19 @@ $filterindex =$form->vars['name'];
 if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
     return;
 }
+$fieldslist=['date_identified',
+    'last_active',
+    'date_modified',
+    'lead_email_read_date',
+    'lead_email_click_date',
+    'hit_url_date',
+    'lead_email_activity'];
+$datefield=false;
+foreach ($fieldslist as $field){
+    if($field == $filterType){
+        $datefield  = true;
+    }
+}
 ?>
 <div class="panel">
     <div class="panel-heading hide">
@@ -49,11 +62,11 @@ if (!$isPrototype && !isset($fields[$object][$filterType]['label'])) {
                 </select>
             </div>
         <?php endif; ?>
-        <div class="col-xs-6 col-sm-2 padding-none filter-operator-segment">
+        <div class="col-xs-6 <?php echo $datefield ? 'col-sm-3' : 'col-sm-2'; ?> padding-none filter-operator-segment">
             <?php echo $view['form']->widget($form['operator']); ?>
         </div>
         <?php $hasErrors = count($form['filter']->vars['errors']) || count($form['display']->vars['errors']); ?>
-        <div class="col-xs-10 <?php echo $filterType == 'lead_email_activity' ? 'col-sm-1 lead_filter_padding_right' : 'col-sm-4'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
+        <div class="col-xs-10 <?php echo $datefield ? $filterType=='lead_email_activity'?'col-sm-2 lead_filter_padding_right':'col-sm-3' : 'col-sm-4'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
             <?php echo $view['form']->widget($form['filter']); ?>
             <?php echo $view['form']->widget($form['display']); ?>
             <?php echo $view['form']->errors($form['filter']); ?>
