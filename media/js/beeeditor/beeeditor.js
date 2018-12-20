@@ -222,7 +222,7 @@ Le.launchBeeEditor = function (formName, actionName) {
                     }else{
                         request(
                             'GET',
-                            mQuery('#builder_url').val()+'?beetemplate=blank',
+                            mQuery('#builder_url').val()+'?beetemplate='+Le.beeTemplate,
                             null,
                             null,
                             function(template) {
