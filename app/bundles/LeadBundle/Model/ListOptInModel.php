@@ -486,6 +486,7 @@ class ListOptInModel extends FormModel
             $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
             font-weight: normal;');
             $ptag1      = $doc->createElement('span', '{{list_footer_text}}');
+            $divelement->setAttribute('class', 'list_footerText');
             $divelement->appendChild($ptag1);
 
             //actually append the element

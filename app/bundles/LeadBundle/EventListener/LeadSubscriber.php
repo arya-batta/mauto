@@ -707,9 +707,11 @@ class LeadSubscriber extends CommonSubscriber
         $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listid);
         if (!empty($emailId)) {
             $email      = $emailModel->getEntity($emailId);
-            $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
-            $email->setCustomHtml($customHtml);
-            $emailModel->sendEmail($email, $lead);
+            if ($email !== null && $email->getIsPublished()) {
+                $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
+                $email->setCustomHtml($customHtml);
+                $emailModel->sendEmail($email, $lead);
+            }
             /*if(!$isdoubleOptin && $list->isGoodbye()){
                 $goodbyeemail  = $list->getGoodbyeemail();
                 if(!empty($goodbyeemail)) {
@@ -737,7 +739,9 @@ class LeadSubscriber extends CommonSubscriber
             $emailModel = $this->factory->getModel('email');
             if (!empty($emailId)) {
                 $email = $emailModel->getEntity($emailId);
-                $emailModel->sendEmail($email, $lead);
+                if ($email !== null && $email->getIsPublished()) {
+                    $emailModel->sendEmail($email, $lead);
+                }
             }
         }
     }
@@ -757,15 +761,17 @@ class LeadSubscriber extends CommonSubscriber
 
         /** @var ListOptInModel $listoptinmodel */
         $listoptinmodel = $this->factory->getModel('lead.listoptin');
-        $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listid);
+        $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $list);
         if ($list->getThankyou()) {
             /** @var EmailModel $emailModel */
             $emailModel = $this->factory->getModel('email');
             if (!empty($emailId)) {
                 $email      = $emailModel->getEntity($emailId);
-                $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
-                $email->setCustomHtml($customHtml);
-                $emailModel->sendEmail($email, $lead);
+                if ($email !== null && $email->getIsPublished()) {
+                    $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
+                    $email->setCustomHtml($customHtml);
+                    $emailModel->sendEmail($email, $lead);
+                }
             }
         }
     }

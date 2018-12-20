@@ -572,7 +572,7 @@ class ListOptInController extends FormController
 
                 $flashes[] = [
                     'type'    => 'notice',
-                    'msg'     => 'le.lead.list.notice.batch_deleted',
+                    'msg'     => 'le.lead.listoptin.notice.batch_deleted',
                     'msgVars' => [
                         '%count%' => count($entities),
                     ],
