@@ -98,3 +98,42 @@ textarea.form-html {
 #leforms_fields input.leform-radiogrp-radio {
     width: auto;
 }
+
+#smart-form-scan-url-btn{
+background-color: #ec407a;
+    color: #fff;
+    margin-top: 20px;
+}
+.smart-form-list{
+    display: flex;
+    background: #fff;
+    margin-bottom: 20px;
+}
+.smart-form-icon{
+    background: #ec407a;
+    width: 35px;
+    padding: 2px;
+    margin-right: 10px;
+}
+.smart-form-type-icon{
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    stroke-width: 0;
+    stroke: #fff;
+    fill: #fff;
+    margin-top: 4px;
+    margin-left: 2px;
+}
+.smart-form-info-holder{
+    font-size: 15px;
+}
+.smart-form-link,.smart-form-scan-url-back-btn{
+    color: #ec407a;
+    text-decoration: underline;
+}
+.smart-form-link:hover,.smart-form-scan-url-back-btn:hover{
+    color: #ec407a;
+    font-weight: 700;
+    text-decoration: underline;
+}

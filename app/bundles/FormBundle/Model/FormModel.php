@@ -688,6 +688,16 @@ class FormModel extends CommonFormModel
                 ];
             }
         }
+        $smartfields=$form->getSmartFields();
+        foreach ($smartfields as $f) {
+            $columns[] = [
+                    'name'    => $f['smartfield'],
+                    'type'    => 'text',
+                    'options' => [
+                        'notnull' => false,
+                    ],
+                ];
+        }
 
         return $columns;
     }

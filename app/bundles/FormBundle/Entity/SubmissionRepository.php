@@ -58,28 +58,32 @@ class SubmissionRepository extends CommonRepository
             },
             $args['viewOnlyFields']
         );
-
-        //Get the list of custom fields
-        $fq = $this->_em->getConnection()->createQueryBuilder();
-        $fq->select('f.id, f.label, f.alias, f.type')
-            ->from(MAUTIC_TABLE_PREFIX.'form_fields', 'f')
-            ->where('f.form_id = '.$form->getId())
-            ->andWhere(
-                $fq->expr()->notIn('f.type', $viewOnlyFields),
-                $fq->expr()->eq('f.save_result', ':saveResult')
-            )
-            ->orderBy('f.field_order', 'ASC')
-            ->setParameter('saveResult', true);
-        $results = $fq->execute()->fetchAll();
-
         $fields = [];
-        foreach ($results as $r) {
-            $fields[$r['alias']] = $r;
+        if ($form->isSmartForm()) {
+            $smartfields=$form->getSmartFields();
+            foreach ($smartfields as $f) {
+                $fields[$f['smartfield']] = [];
+            }
+        } else {
+            //Get the list of custom fields
+            $fq = $this->_em->getConnection()->createQueryBuilder();
+            $fq->select('f.id, f.label, f.alias, f.type')
+                ->from(MAUTIC_TABLE_PREFIX.'form_fields', 'f')
+                ->where('f.form_id = '.$form->getId())
+                ->andWhere(
+                    $fq->expr()->notIn('f.type', $viewOnlyFields),
+                    $fq->expr()->eq('f.save_result', ':saveResult')
+                )
+                ->orderBy('f.field_order', 'ASC')
+                ->setParameter('saveResult', true);
+            $results = $fq->execute()->fetchAll();
+            foreach ($results as $r) {
+                $fields[$r['alias']] = $r;
+            }
+            unset($results);
         }
-        unset($results);
         $fieldAliases = array_keys($fields);
-
-        $dq = $this->_em->getConnection()->createQueryBuilder();
+        $dq           = $this->_em->getConnection()->createQueryBuilder();
         $dq->select('count(r.submission_id) as count')
             ->from($this->getResultsTableName($form->getId(), $form->getAlias()), 'r')
             ->innerJoin('r', MAUTIC_TABLE_PREFIX.'form_submissions', 's', 'r.submission_id = s.id')

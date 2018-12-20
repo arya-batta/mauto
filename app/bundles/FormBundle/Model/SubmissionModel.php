@@ -228,7 +228,7 @@ class SubmissionModel extends CommonFormModel
         // Get a list of components to build custom fields from
         $components = $this->formModel->getCustomComponents();
 
-        $fields           = $form->getFields();
+        $fields           = $form->isSmartForm() ? $this->getSmartFormFields($form) : $form->getFields();
         $fieldArray       = [];
         $results          = [];
         $tokens           = [];
@@ -238,11 +238,10 @@ class SubmissionModel extends CommonFormModel
 
         /** @var Field $f */
         foreach ($fields as $f) {
-            $id    = $f->getId();
-            $type  = $f->getType();
-            $alias = $f->getAlias();
-            $value = (isset($post[$alias])) ? $post[$alias] : '';
-
+            $id              = $f->getId();
+            $type            = $f->getType();
+            $alias           = $f->getAlias();
+            $value           = (isset($post[$alias])) ? $post[$alias] : '';
             $fieldArray[$id] = [
                 'id'    => $id,
                 'type'  => $type,
@@ -431,7 +430,9 @@ class SubmissionModel extends CommonFormModel
 
         // Now handle post submission actions
         try {
-            $this->executeFormActions($submissionEvent, $lead);
+            if ($lead != null) {
+                $this->executeFormActions($submissionEvent, $lead);
+            }
         } catch (ValidationException $exception) {
             // The action invalidated the form for whatever reason
             $this->deleteEntity($submission);
@@ -1179,5 +1180,28 @@ class SubmissionModel extends CommonFormModel
         }
 
         unset($args, $actions, $availableActions);
+    }
+
+    /**
+     * @param Form $form
+     *
+     * @return array
+     */
+    private function getSmartFormFields(Form $form)
+    {
+        $smartformfields=[];
+        $fields         =$form->getSmartFields();
+        foreach ($fields as $index=>$field) {
+            $newfield=new Field();
+            $newfield->setId($index);
+            $newfield->setType('text');
+            $newfield->setAlias($field['smartfield']);
+            $newfield->setLeadField($field['leadfield']);
+            $newfield->setIsRequired(false);
+            $newfield->setIsCustom(false);
+            $smartformfields[]=$newfield;
+        }
+
+        return $smartformfields;
     }
 }
