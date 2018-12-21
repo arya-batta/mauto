@@ -383,7 +383,7 @@ class CampaignSubscriber extends CommonSubscriber
         $email   = $this->emailModel->getEntity($emailId);
         $status  = $this->emailModel->mailHelper->emailstatus();
         if (!$email || !$email->isPublished()) {
-            return $event->setFailed('Email not found or published');
+            return $event->setFailed('Email not found or unpublished');
         }
         if (!$status) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
@@ -483,6 +483,9 @@ class CampaignSubscriber extends CommonSubscriber
         $lead      = $event->getLead();
         $dripEmail = $config['dripemail'];
         $entity    = $this->dripEmailModel->getEntity($dripEmail);
+        if (!$entity || !$entity->isPublished()) {
+            return $event->setFailed('Drip Campaign not found or unpublished');
+        }
         if ($entity == null) {
             $event->setResult(true);
 

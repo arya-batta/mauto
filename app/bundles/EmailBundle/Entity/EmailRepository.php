@@ -843,7 +843,7 @@ class EmailRepository extends CommonRepository
         $fromdate = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select('count(DISTINCT e.id) as sentcount')
+        $q->select('count( e.id) as sentcount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->where(
@@ -889,7 +889,7 @@ class EmailRepository extends CommonRepository
         $fromdate = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select(' count(DISTINCT e.id) as opencount')
+        $q->select(' count(e.id) as opencount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->where(
@@ -929,7 +929,7 @@ class EmailRepository extends CommonRepository
     public function getUnsubscribeCount($viewOthers = false)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select('count(DISTINCT e.id) as unsubscribecount')
+        $q->select('count(e.id) as unsubscribecount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->where(
@@ -1012,7 +1012,7 @@ class EmailRepository extends CommonRepository
           return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;*/
         $dateinterval = date('Y-m-d', strtotime('-29 days'));
         $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $q->select('count(DISTINCT e.id) as clickcount')
+        $q->select('count(e.id) as clickcount')
             ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
             ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
             ->where(
