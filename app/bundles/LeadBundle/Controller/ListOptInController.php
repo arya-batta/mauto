@@ -13,6 +13,7 @@ namespace Mautic\LeadBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Mautic\CoreBundle\Controller\FormController;
+use Mautic\EmailBundle\Entity\Email;
 use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Entity\LeadListOptIn;
 use Mautic\LeadBundle\Model\ListOptInModel;
@@ -602,6 +603,23 @@ class ListOptInController extends FormController
         if ($formData['listtype'] != 'single' && empty($formData['doubleoptinemail'])) {
             $isValidForm = false;
             $form['doubleoptinemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
+        }
+        if ($formData['listtype'] != 'single' && !empty($formData['doubleoptinemail'])) {
+            $emailid    = $formData['doubleoptinemail'];
+            $tokenvalue = '{{confirmation_link}}';
+
+            if ($emailid == '') {
+                return $isValidForm;
+            }
+            /** @var Email */
+            $email      = $this->getModel('email')->getEntity($emailid);
+
+            if ((strpos($email->getCustomHtml(), $tokenvalue) !== false)) {
+                return $isValidForm;
+            } else {
+                $isValidForm = false;
+                $form['doubleoptinemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation Link'])));
+            }
         }
         /*if ($eventType == 'source' && $type == 'pagehit') {
             if (empty($formData['properties']['pages']) && empty($formData['properties']['url']) && empty($formData['properties']['referer'])) {

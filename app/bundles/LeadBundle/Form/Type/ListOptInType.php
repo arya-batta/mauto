@@ -13,7 +13,6 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
-use Mautic\LeadBundle\Form\Validator\Constraints\EmailContentVerifier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -116,13 +115,6 @@ class ListOptInType extends AbstractType
             'email_type'  => 'template',
             'multiple'    => false,
             'required'    => true,
-            'constraints' => [
-                new EmailContentVerifier(
-                    [
-                        'message' => 'le.lead.list.optin.token.missing',
-                    ]
-                ),
-            ],
         ]);
 
         $builder->add('thankyouemail', 'email_list', [
