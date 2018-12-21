@@ -421,6 +421,11 @@ abstract class AbstractStandardFormController extends AbstractFormController
         if ($model instanceof CampaignModel) {
             if($entity->getCanvasSettings() == null){
                 $action = 'new';
+            }else {
+                $canvassettings=json_decode($entity->getCanvasSettings());
+                if($canvassettings->triggers[0]->view->incomplete){
+                    $action = 'new';
+                }
             }
         }
         $this->beforeFormProcessed($entity, $form, $action, $isPost, $objectId, $isClone);
