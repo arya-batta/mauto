@@ -579,21 +579,31 @@ class EventController extends CommonFormController
                 } elseif ($object == 'assets') {
                     $list=$options['asset_downloads_list']['en'];
                 } elseif ($object == 'drip_campaign') {
-                    $list=$options['drip_email_received'];
+                    $list=$options[$data['type']];
                 }
                 if (!empty($list)) {
                     $displaystring='';
                     if (sizeof($value) > 0) {
                         if ($object == 'drip_campaign') {
-                            $keys=array_keys($list);
-                            foreach ($keys as $key) {
-                                $lists=$list[$key];
-                                for ($v = 0; $v < sizeof($value); ++$v) {
-                                    if (isset($lists[$value[$v]])) {
-                                        $displaystring .= $key.':'.$lists[$value[$v]];
-                                        if ($v < sizeof($value) - 1) {
-                                            $displaystring .= ', ';
+                            if($data['type'] != "drip_email_list" ) {
+                                $keys = array_keys($list);
+                                foreach ($keys as $key) {
+                                    $lists = $list[$key];
+                                    for ($v = 0; $v < sizeof($value); ++$v) {
+                                        if (isset($lists[$value[$v]])) {
+                                            $displaystring .= $key . ':' . $lists[$value[$v]];
+                                            if ($v < sizeof($value) - 1) {
+                                                $displaystring .= ', ';
+                                            }
                                         }
+                                    }
+                                }
+                            } else {
+                                for ($v = 0; $v < sizeof($value); ++$v) {
+                                    $stringvalue = $list[$value[$v]];
+                                    $displaystring .= $stringvalue;
+                                    if ($v < sizeof($value) - 1) {
+                                        $displaystring .= ', ';
                                     }
                                 }
                             }

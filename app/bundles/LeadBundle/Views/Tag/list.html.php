@@ -138,7 +138,7 @@ $isAdmin     =$view['security']->isAdmin();
                     <td class="visible-md visible-lg text-center" style="width: 30%;">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'le_contact_index',
-                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag').':'.$item->getTag()]
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag').':'.$item->getAlias()]
                         ); ?>" data-toggle="ajax"<?php  echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',

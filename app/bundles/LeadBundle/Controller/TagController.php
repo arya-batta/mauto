@@ -67,7 +67,7 @@ class TagController extends FormController
             'where'  => [
                 [
                     'expr' => 'like',
-                    'col'  => 't.tag',
+                    'col'  => 't.alias',
                     'val'  => '%'.$search.'%',
                 ],
             ],
@@ -173,6 +173,8 @@ class TagController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
+                    $alies=str_replace(' ','_',$tag->getTag());
+                    $tag->setAlias($alies);
                     $model->saveEntity($tag);
                     $this->addFlash('mautic.core.notice.created', [
                         '%name%'      => $tag->getTag(),
@@ -242,6 +244,8 @@ class TagController extends FormController
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($this->isFormValid($form)) {
+                    $alies=str_replace(' ','_',$tag->getTag());
+                    $tag->setAlias($alies);
                     //form is valid so process the data
                     $model->saveEntity($tag);
 

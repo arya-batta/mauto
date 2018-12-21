@@ -33,8 +33,9 @@ class Tag
      */
     private $is_published;
     /**
-     * @param string $tag
+     * @param string
      */
+    private $alias;
     public function __construct($tag = null)
     {
         $this->tag = $this->validateTag($tag);
@@ -53,6 +54,7 @@ class Tag
         $builder->addId();
         $builder->addField('tag', Type::STRING);
         $builder->addField('is_published', Type::BOOLEAN);
+        $builder->addField('alias',Type::STRING);
     }
 
     /**
@@ -66,6 +68,7 @@ class Tag
                     'id',
                     'tag',
                     'is_published',
+                    'alias',
                 ]
             )
             ->build();
@@ -140,6 +143,22 @@ class Tag
         $status = 'published';
 
         return $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param mixed $alias
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
     }
 
 }

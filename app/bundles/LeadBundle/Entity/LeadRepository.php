@@ -992,7 +992,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                         ],
                     ],
                     $innerJoinTables,
-                    $this->generateFilterExpression($q, 'tag.tag', $likeExpr, $unique, null)
+                    $this->generateFilterExpression($q, 'tag.alias', $likeExpr, $unique, null)
                 );
                 $returnParameter = true;
                 break;
