@@ -4980,8 +4980,9 @@ figcaption {
    right: 0;
    left: 0;
    width: 100%;
-   z-index: 1030;
+   z-index: 1035;
   padding: 10px;
+  height: 55px;
  }
 
 #bee-plugin-viewpanel {

@@ -239,9 +239,9 @@ Le.launchBeeEditor = function (formName, actionName) {
 Le.setCustomHeader = function (formName) {
     var TitleValue = "";
     if(formName == "pageform"){
-        TitleValue = mQuery('#page_title').val();
+        TitleValue ="Page Title- "+ mQuery('#page_title').val();
     } else if( formName == "emailform"){
-        TitleValue = mQuery('#emailform_subject').val();
+        TitleValue = "Subject- "+ mQuery('#emailform_subject').val();
     }
     mQuery('#BeeEditor_Header').html(TitleValue);
 }
