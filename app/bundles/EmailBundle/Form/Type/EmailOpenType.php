@@ -82,6 +82,7 @@ class EmailOpenType extends AbstractType
             'label_attr'  => ['class' => 'control-label'],
             'attr'        => [
                 'class'    => 'form-control le-input',
+                'tooltip' => 'le.email.open.email.type.descr',
                 'onchange' => 'Le.getSelectedCampaignValue(this.value)',
             ],
             'required'     => true,
