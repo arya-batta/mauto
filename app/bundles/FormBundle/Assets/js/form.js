@@ -161,6 +161,10 @@ Le.formOnLoad = function (container) {
                 if (response.success) {
                     mQuery("#fragment-1 #next-page-1").trigger( "click" );
                     mQuery("#le_smart_form_list").html(response.newContent);
+                    var totalFormCount = response.totalCount;
+                    var msg = "We have found "+ totalFormCount +" forms in the given page. Please choose the one you want to integrate.";
+                    mQuery("#smart-action-form").removeClass('hide');
+                    mQuery("#smart-action-form").html(msg);
                     Le.showSmartFormListPanel();
                     //alert("Success-->"+response.message);
                 }else{
@@ -172,6 +176,14 @@ Le.formOnLoad = function (container) {
             true
         );
     });
+       var formType = mQuery('#leform_formType').val();
+        if(formType == 'smart') {
+            mQuery('#gdprpublished').addClass('hide');
+            if (!mQuery('.smart-form-field-mapper-header-holder').hasClass('hide')) {
+                mQuery('.smart-action-panel').removeClass('hide');
+                mQuery('.smart-form-field-mapper-header-holder').css('marginLeft', '-34px');
+            }
+        }
 };
 
 Le.setBtnBackgroundColor = function () {
@@ -448,6 +460,7 @@ Le.selectFormType = function(formType) {
     } else {
        // mQuery("#form_template_standalone").removeClass('hide').addClass('hide');
        // mQuery('option.action-standalone-only').addClass('hide');
+        mQuery('#gdprpublished').addClass('hide');
         mQuery('.fg1-smart-form-specific').removeClass('hide');
         mQuery('#leforms_fields').remove();
         mQuery('.fg1-standalone-form-specific').removeClass('hide').addClass('hide');
@@ -488,14 +501,17 @@ Le.enableGDPRFormWidget = function () {
     }
 };
 Le.showSmartFormListPanel=function(){
+    mQuery('#smart-action-form').removeClass('hide');
     mQuery('#le_smart_form_list').removeClass('hide');
     mQuery('#le_smart_form_fields_mapping').removeClass('hide').addClass('hide');
     mQuery('.smart-form-field-mapper-header-holder').removeClass('hide').addClass('hide');
+    mQuery('.smart-action-panel').addClass('hide');
 }
 Le.showSmartFormFieldPanel=function(){
     mQuery('#le_smart_form_fields_mapping').removeClass('hide');
     mQuery('.smart-form-field-mapper-header-holder').removeClass('hide');
     mQuery('#le_smart_form_list').removeClass('hide').addClass('hide');
+    mQuery('.smart-action-panel').removeClass('hide');
 }
 Le.openSmartFormPanel=function(event){
     event = event || window.event;
@@ -527,6 +543,7 @@ Le.openSmartFormPanel=function(event){
             Le.activateChosenSelect(leadfield);
             fieldmapper.appendTo(mQuery('#le_smart_form_fields_mapping'));
         });
+        mQuery('#smart-action-form').addClass('hide');
         Le.showSmartFormFieldPanel();
     }catch(err){
         alert(err);

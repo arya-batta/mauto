@@ -148,7 +148,7 @@ class AjaxController extends CommonAjaxController
         if (!isset($response['error'])) {
             if (empty($response) || (isset($response['totalcount']) && $response['totalcount'] == 0)) {
                 $dataArray['success']=false;
-                $dataArray['message']='No forms found in given url!';
+                $dataArray['message']=$this->translator->trans('le.smart.form.scan.error');
             } else {
                 $htmlContent = $this->renderView(
                     'MauticFormBundle:Builder:formlist.html.php',
@@ -156,6 +156,7 @@ class AjaxController extends CommonAjaxController
                    'totalcount'=> $response['totalcount'], ]
                 );
                 $dataArray['newContent']=$htmlContent;
+                $dataArray['totalCount']=$response['totalcount'];
             }
         } else {
             $dataArray['success']=false;

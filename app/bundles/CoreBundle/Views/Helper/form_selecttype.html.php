@@ -11,8 +11,8 @@
 ?>
 <?php
 $hideclass  = '';
-$modalwidth = '70%';
-$formwidth  = '33%';
+$modalwidth = '';
+$formwidth  = '50%';
 if (!isset($typeThreeIconClass)) {
     $hideclass  = 'hide';
     $modalwidth = '';
@@ -26,9 +26,11 @@ if (!isset($typeThreeIconClass)) {
 </script>
 <div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
 
-<div class="modal fade in <?php echo $typePrefix; ?>-type-modal" style="display: block; z-index: 9999;">
-    <div class="modal-dialog" style="width: <?php echo $modalwidth ?>">
-        <div class="modal-content">
+<div class="modal fade in <?php echo $typePrefix; ?>-type-modal le-modal-box-align" style="display: block; z-index: 9999;margin-left: 20.55555%;">
+
+    <div class="le-modal-gradient" style="margin-right: 90px;">
+    <div class="modal-dialog le-gradient-align" style="margin-right: 120px;width: <?php echo $modalwidth ?>">
+        <div class="modal-content le-modal-content" style="width: 120%;">
             <div class="modal-header">
                 <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($cancelUrl); ?>');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title">
@@ -36,33 +38,35 @@ if (!isset($typeThreeIconClass)) {
                 </h4>
                 <div class="modal-loading-bar"></div>
             </div>
-            <div class="modal-body form-select-modal">
+            <div class="modal-body form-select-modal" style="background-color:#eee;">
                 <div class="row">
-                    <div class="col-md-6" style="width:<?php echo $formwidth ?>">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <div class="col-xs-8 col-sm-10 np">
-                                    <h3 class="panel-title"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
-                                </div>
-                                <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
-                                    <i class="hidden-xs fa <?php echo $typeOneIconClass; ?> fa-lg"></i>
-                                    <button class="visible-xs pull-right btn btn-sm btn-default btn-nospin text-primary" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <?php echo $view['translator']->trans($typeOneDescription); ?>
-                            </div>
-                            <div class="hidden-xs panel-footer text-center">
-                                <button class="btn btn-lg btn-default btn-nospin text-success" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
+                    <div class="white-block" style="margin-left:36px;width:43%;text-align:left">
+                        <div class="col-md-6" style="width:<?php echo $formwidth ?>">
+                            <div class="panel-primary" style="margin-left: -28px;">
+                                <h3 style="width: 130%;" class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
+                                <p style="width:230%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
+                                <button class="le-btn-primary" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+
                             </div>
                         </div>
                     </div>
+                    <div class="white-block" style="margin-left:25px;width:43%;text-align:left;height: 238px;">
+                        <div class="col-md-6" style="width:<?php echo $formwidth ?>">
+                            <div class="panel-primary" style="margin-left: -28px;">
+                                <h3 style="width: 140%;"  class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
+                                <p style="width:220%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
+                                <button style="margin-top: 18px" class="le-btn-primary" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <?php if (isset($typeThreeIconClass)): ?>
                     <div class="col-md-6 <?php echo $hideclass ?>" style="width:<?php echo $formwidth ?>">
                         <div class="panel panel-success" >
                             <div class="panel-heading" style="background-color: #6B7F82;">
                                 <div class="col-xs-8 col-sm-10 np">
-                                    <h3 class="panel-title"><?php echo $view['translator']->trans($typeThreeHeader); ?></h3>
+                                    <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeThreeHeader); ?></h3>
                                 </div>
                                 <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
                                     <i class="hidden-xs fa <?php echo $typeThreeIconClass; ?> fa-lg"></i>
@@ -78,27 +82,9 @@ if (!isset($typeThreeIconClass)) {
                         </div>
                     </div>
                     <?php endif; ?>
-                    <div class="col-md-6" style="width:<?php echo $formwidth ?>">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="col-xs-8 col-sm-10 np">
-                                    <h3 class="panel-title"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
-                                </div>
-                                <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
-                                    <i class="hidden-xs fa <?php echo $typeTwoIconClass; ?> fa-lg"></i>
-                                    <button class="visible-xs pull-right btn btn-sm btn-default btn-nospin text-primary" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <?php echo $view['translator']->trans($typeTwoDescription); ?>
-                            </div>
-                            <div class="hidden-xs panel-footer text-center">
-                                <button class="btn btn-lg btn-default btn-nospin text-primary" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>

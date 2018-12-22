@@ -50,7 +50,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'sessionVar' => 'segment',
                         'orderBy'    => 'l.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-leadlist-name',
+                        'class'      => 'col-leadsegment-name',
                     ]
                 );
 

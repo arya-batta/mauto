@@ -329,6 +329,7 @@ endif; ?>
                     <div class="help-block custom-help"></div>
                 </div>
             </div>
+            <br>
             <div class="row fg1-smart-form-specific <?php echo $hidesmartformspecific?>">
                 <div class="col-md-6">
                     <?php echo $view['form']->label($form['formurl']); ?>
@@ -354,7 +355,7 @@ endif; ?>
                     <?php echo $view['form']->label($form['isPublished']); ?>
                     <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>
-                <div class="col-md-6" >
+                <div class="col-md-6" id="gdprpublished">
                     <?php echo $view['form']->row($form['isGDPRPublished']); ?>
                 </div>
             </div>
@@ -399,11 +400,27 @@ endif; ?>
             </div>
             <?php  echo $view->render('MauticFormBundle:Builder:style.html.php'); ?>
            <div>
+               <div id="smart-action-form" class="alert alert-info le-alert-info hide" style="display: flex;" >
+
+               </div>
                <div id="le_smart_form_list" class="col-md-8 <?php echo !$isNewAction || $hidesmartformspecific != '' ? 'hide' : ''?>">
                </div>
                <div class="smart-form-field-mapper-header-holder <?php echo $isNewAction || $hidesmartformspecific != '' ? 'hide' : '' ?>" style="display: flex;">
                    <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a style="color:#ec407a" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
                    <div style="padding: 10px;font-size: 14px;"><b style="margin-right: 5px;">Form Name:</b><span class="smart-form-field-mapper-header" ><?php echo $smartformname == '' ? $smartformid : $smartformname?></span></div>
+               </div>
+               <div class="smart-action-panel hide" >
+                   <div id="smart-action-form" class="alert alert-info le-alert-info " style="display: flex;margin-top: 5px;" >
+                       <p><?php echo $view['translator']->trans('le.smart.form.child.header'); ?></p>
+                   </div>
+                   <div class="smart-field-holder" style="display: flex;margin-bottom: 10px">
+                       <div class="smartfield" style="width: 50%;padding: 10px;pointer-events: none;">
+                           <label style="margin-left: 18px;">Form Fields</label>
+                       </div>
+                       <div class="leadfield" style="width: 50%;padding: 10px;">
+                           <label style="margin-left: -176px;">Lead Fields</label>
+                       </div>
+                   </div>
                </div>
                <div id="le_smart_form_fields_mapping" class="col-md-8 <?php echo $hidesmartformspecific?>" data-prototype="<?php echo $view->escape($view['form']->widget($form['smartfields']->vars['prototype'], [])); ?>">
                    <?php echo $view['form']->widget($form['smartfields'], []); ?>
