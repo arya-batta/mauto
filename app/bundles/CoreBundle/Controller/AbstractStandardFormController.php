@@ -417,18 +417,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $form    = $model->createForm($entity, $this->get('form.factory'), $action, $options);
 
         $isPost = !$ignorePost && $this->request->getMethod() == 'POST';
-        $action = 'edit';
-        if ($model instanceof CampaignModel) {
-            if($entity->getCanvasSettings() == null){
-                $action = 'new';
-            }else {
-                $canvassettings=json_decode($entity->getCanvasSettings());
-                if($canvassettings->triggers[0]->view->incomplete){
-                    $action = 'new';
-                }
-            }
-        }
-        $this->beforeFormProcessed($entity, $form, $action, $isPost, $objectId, $isClone);
+        $this->beforeFormProcessed($entity, $form, 'edit', $isPost, $objectId, $isClone);
 
         ///Check for a submitted form and process it
         if ($isPost) {
@@ -518,7 +507,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $delegateArgs = [
             'viewParameters' => [
                 'permissionBase'  => $this->getPermissionBase(),
-                'leContent'   => $this->getJsLoadMethodPrefix(),
+                'leContent'       => $this->getJsLoadMethodPrefix(),
                 'actionRoute'     => $this->getActionRoute(),
                 'indexRoute'      => $this->getIndexRoute(),
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
@@ -531,7 +520,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('form.html.php'),
             'passthroughVars' => [
-                'leContent' => $this->getJsLoadMethodPrefix(),
+                'leContent'     => $this->getJsLoadMethodPrefix(),
                 'route'         => $this->generateUrl(
                     $this->getActionRoute(),
                     [
@@ -980,7 +969,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
 
         $viewParameters = [
             'permissionBase'  => $this->getPermissionBase(),
-            'leContent'   => $this->getJsLoadMethodPrefix(),
+            'leContent'       => $this->getJsLoadMethodPrefix(),
             'sessionVar'      => $this->getSessionBase(),
             'actionRoute'     => $this->getActionRoute(),
             'indexRoute'      => $this->getIndexRoute(),
@@ -1002,7 +991,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                     'viewParameters'  => $viewParameters,
                     'contentTemplate' => $this->getTemplateName('list.html.php'),
                     'passthroughVars' => [
-                        'leContent' => $this->getJsLoadMethodPrefix(),
+                        'leContent'     => $this->getJsLoadMethodPrefix(),
                         'route'         => $this->generateUrl($this->getIndexRoute(), ['page' => $page]),
                     ],
                 ],
@@ -1174,7 +1163,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         $delegateArgs = [
             'viewParameters' => [
                 'permissionBase'  => $this->getPermissionBase(),
-                'leContent'   => $this->getJsLoadMethodPrefix(),
+                'leContent'       => $this->getJsLoadMethodPrefix(),
                 'actionRoute'     => $this->getActionRoute(),
                 'indexRoute'      => $this->getIndexRoute(),
                 'tablePrefix'     => $model->getRepository()->getTableAlias(),
@@ -1187,7 +1176,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('form.html.php'),
             'passthroughVars' => [
-                'leContent' => $this->getJsLoadMethodPrefix(),
+                'leContent'     => $this->getJsLoadMethodPrefix(),
                 'route'         => $this->generateUrl(
                     $this->getActionRoute(),
                     [
@@ -1317,7 +1306,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             ],
             'contentTemplate' => $this->getTemplateName('details.html.php'),
             'passthroughVars' => [
-                'leContent' => $this->getJsLoadMethodPrefix(),
+                'leContent'     => $this->getJsLoadMethodPrefix(),
                 'route'         => $route,
             ],
             'objectId' => $objectId,

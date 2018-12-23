@@ -316,7 +316,7 @@ if(type != 'interrupt'){
         gelement1.setAttributeNS(null, "width", rectwidth);
     gelement2.appendChild(rectelement);
     gelement2.appendChild(gelement3);
-    gelement2.appendChild(gelement3);
+   // gelement2.appendChild(gelement3);
     gelement1.appendChild(gelement2);
     if(type != 'fork' && type != 'decision' && Le.WF_SHOW_STATSTICS){
        gelement1.appendChild(Le.getCountNode(rootelement,rectwidth,type,id));
@@ -325,7 +325,7 @@ if(type != 'interrupt'){
     if(type != 'trigger'){
         rootelement.appendChild(gelement1);
         var bcr = gelement1.getBoundingClientRect();
-        var xposition=(width-(bcr.width))/2;
+        var xposition=(width-(rectwidth))/2;
         removenodexposition=(xposition + +rectwidth)-8;
         gelement1.setAttributeNS(null, "transform", 'translate('+xposition+',20)');
         gelement1.parentNode.removeChild(gelement1);
@@ -1351,6 +1351,7 @@ Le.refreshWorkFlowCanvas=function(){
     if(Le.campaignupdatedjson.width > svgwidth){
         svgwidth=Le.campaignupdatedjson.width;
     }
+    svgwidth=Math.ceil(svgwidth);
     Le.iterateJSONOBJECT(Le.campaignupdatedjson,svgwidth,newsvg,'',false);
     //save('inserted.txt',JSON.stringify(Le.campaignupdatedjson));
 }
@@ -1599,12 +1600,13 @@ Le.launchCampaignEditor = function() {
         if(svgwidth > 0){
             svgwidth=svgwidth-20;
         }
-        if(typeof Le.campaignupdatedjson.width != 'undefined'){
+        if(typeof Le.campaignupdatedjson.width != 'number'){
             Le.campaignupdatedjson['width']=svgwidth;
         }
         if(Le.campaignupdatedjson.width > svgwidth){
             svgwidth=Le.campaignupdatedjson.width;
         }
+        svgwidth=Math.ceil(svgwidth);
         var svgelement = document.createElementNS(Le.SVGNAMESPACEURI,"svg");
         svgelement.setAttributeNS(null, "id", 'workflow'+'-'+ Le.randomString(8));
         svgelement.setAttributeNS(null, "width", svgwidth);
@@ -1913,6 +1915,7 @@ Le.adjustSizeforSVG=function(svgnode,stepsnode,yposition){
     }else{
         svgwidth=svgwidth-20;
     }
+    svgwidth=Math.ceil(svgwidth);
     Le.campaignupdatedjson.width=svgwidth;
     svgnode.setAttributeNS(null,"height",yposition + +Le.SVG_NODE_HEIGHT_ADJUST);
     svgnode.setAttributeNS(null,"width",svgwidth);

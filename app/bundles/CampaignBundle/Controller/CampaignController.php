@@ -204,8 +204,10 @@ class CampaignController extends AbstractStandardFormController
                         $catId     = $campaign->getCategory()->getId();
                     }
                     $model->saveEntity($campaign);
+                    $this->prepareCampaignEventsForNew($campaign, $campaign->getId());
+                    $model->saveEntity($campaign);
                     $actionurl = $this->generateUrl('le_campaign_action',
-                        ['objectAction'    => 'edit','objectId'=> $campaign->getId(),
+                        ['objectAction'    => 'edit', 'objectId'=> $campaign->getId(),
                     ]);
 
                     return $this->delegateRedirect($actionurl);
@@ -222,7 +224,7 @@ class CampaignController extends AbstractStandardFormController
                 'contentTemplate' => 'MauticCampaignBundle:Campaign:quickadd.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_campaign_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'route'         => $this->generateUrl(
                         'le_campaign_action',
                         [
