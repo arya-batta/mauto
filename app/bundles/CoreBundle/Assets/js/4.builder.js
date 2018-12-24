@@ -459,7 +459,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
             // Set the theme field value
             themeField.val(theme);
             // Load the template JSON to the source textarea
-            //Le.setBeeTemplateJSON(theme);
+            Le.setBeeTemplateJSON(theme);
 
             // Manipulate classes to achieve the theme selection illusion
             mQuery('.theme-list .panel').removeClass('theme-selected');

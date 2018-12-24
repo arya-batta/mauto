@@ -924,8 +924,8 @@ return [
         'footer_text'                            => null,
         'postal_address'                         => null,
         'mailer_transport_name'                  => null,
-        'beeeditor_client_id'                    => '',
-        'beeeditor_client_secret'                => '',
+        'beeeditor_client_id'                    => '7a3386c7-5900-484a-971c-f0959fa366f3',
+        'beeeditor_client_secret'                => 'OGZ8sd7KKlJmKSH8F4apUV9P4y1j9VSvD3FQvuGf8gVT6Dihxmx',
         'email_status'                           => null,
     ],
 ];

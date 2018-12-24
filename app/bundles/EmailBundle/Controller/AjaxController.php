@@ -344,6 +344,7 @@ class AjaxController extends CommonAjaxController
                     $entity->setFromName($fromname);
                     $entity->setVerificationStatus('1');
                     $entity->setIdHash($idHash);
+                    $entity->setInboxverified(0);
                     $verifiedemailRepo->saveEntity($entity);
                     $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idHash);
                     if ($mailresponse == '') {
@@ -358,8 +359,19 @@ class AjaxController extends CommonAjaxController
                         ]
                     );
                     if (sizeof($senderprofiles) > 0) {
-                        $senderprofile=$senderprofiles[0];
-                        $senderprofile->setVerificationStatus('0');
+                        $senderprofile      =$senderprofiles[0];
+                        $verificationStatus = '0';
+                        if (!$senderprofile->getInboxverified()) {
+                            $idhash      = $senderprofile->getIdHash();
+                            $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
+                            if ($mailresponse == '') {
+                                $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
+                            } else {
+                                $this->addFlash('le.config.sender.email.verification.error');
+                            }
+                            $verificationStatus = '1';
+                        }
+                        $senderprofile->setVerificationStatus($verificationStatus);
                         $verifiedemailRepo->saveEntity($senderprofile);
                     }
                 }

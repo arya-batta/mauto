@@ -39,6 +39,11 @@ class AwsVerifiedEmails
     private $idhash;
 
     /**
+     * @var bool
+     */
+    private $inboxverified;
+
+    /**
      * @param ORM\ClassMetadata $metadata
      */
     public static function loadMetadata(ORM\ClassMetadata $metadata)
@@ -67,6 +72,11 @@ class AwsVerifiedEmails
             ->build();
         $builder->createField('idhash', 'string')
             ->columnName('id_hash')
+            ->nullable()
+            ->build();
+
+        $builder->createField('inboxverified', 'boolean')
+            ->columnName('inbox_verified')
             ->nullable()
             ->build();
     }
@@ -155,5 +165,21 @@ class AwsVerifiedEmails
     public function setVerificationStatus($verificationstatus)
     {
         $this->verificationstatus = $verificationstatus;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInboxverified()
+    {
+        return $this->inboxverified;
+    }
+
+    /**
+     * @param mixed $inboxverified
+     */
+    public function setInboxverified($inboxverified)
+    {
+        $this->inboxverified = $inboxverified;
     }
 }
