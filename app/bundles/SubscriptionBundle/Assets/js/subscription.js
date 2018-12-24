@@ -144,14 +144,14 @@ Le.validatePersonalInfo = function(){
         isvalid = false;
     }
     if(lastName == ""){
-        mQuery('#user_Lastname').removeClass('has-success has-error').addClass(theClass);
-        mQuery('#user_Lastname .help-block').html("Lastname can't be empty");
-        isvalid = false;
+        //mQuery('#user_Lastname').removeClass('has-success has-error').addClass(theClass);
+        //mQuery('#user_Lastname .help-block').html("Lastname can't be empty");
+        //isvalid = false;
     }
     if (phonenumber == ""){
-        mQuery('#account_Mobile').removeClass('has-success has-error').addClass(theClass);
-        mQuery('#account_Mobile .help-block').html("Mobile can't be empty");
-        isvalid = false;
+        //mQuery('#account_Mobile').removeClass('has-success has-error').addClass(theClass);
+        //mQuery('#account_Mobile .help-block').html("Mobile can't be empty");
+        //isvalid = false;
     } else if(phonenumber != ""){
         if (phonenumber.length < 10 || isNaN(phonenumber)){
             mQuery('#account_Mobile').removeClass('has-success has-error').addClass(theClass);

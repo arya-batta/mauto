@@ -1879,16 +1879,17 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $data = $query->loadAndBuildTimeData($q);
             $chart->setDataset($this->translator->trans('le.email.read.emails'), $data);
         }
-
-        if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
-            $q = $query->prepareTimeDataQuery('email_stats', 'date_sent', $filter);
-            if (!$canViewOthers) {
-                $this->limitQueryToCreator($q);
+        if($this->security->isAdmin()){
+            if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
+                $q = $query->prepareTimeDataQuery('email_stats', 'date_sent', $filter);
+                if (!$canViewOthers) {
+                    $this->limitQueryToCreator($q);
+                }
+                $q->andWhere($q->expr()->eq('t.is_failed', ':true'))
+                    ->setParameter('true', true, 'boolean');
+                $data = $query->loadAndBuildTimeData($q);
+                $chart->setDataset($this->translator->trans('le.email.failed.emails'), $data);
             }
-            $q->andWhere($q->expr()->eq('t.is_failed', ':true'))
-                ->setParameter('true', true, 'boolean');
-            $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('le.email.failed.emails'), $data);
         }
 
         if ($flag == 'all' || $flag == 'clicked') {

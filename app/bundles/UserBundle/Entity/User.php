@@ -272,9 +272,9 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
             ['message' => 'mautic.user.user.firstname.notblank']
         ));
 
-        $metadata->addPropertyConstraint('lastName', new Assert\NotBlank(
+       /** $metadata->addPropertyConstraint('lastName', new Assert\NotBlank(
             ['message' => 'mautic.user.user.lastname.notblank']
-        ));
+        )); */
 
         $metadata->addPropertyConstraint('email', new Assert\NotBlank(
             ['message' => 'mautic.user.user.email.valid']
@@ -313,9 +313,9 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
                 'groups'     => ['CheckPassword'],
             ]
         ));
-        $metadata->addPropertyConstraint('mobile', new Assert\NotBlank(
+        /**$metadata->addPropertyConstraint('mobile', new Assert\NotBlank(
             ['message' => 'mautic.user.user.mobile.notblank']
-        ));
+        )); */
         $metadata->setGroupSequence(['User', 'SecondPass', 'CheckPassword']);
     }
 

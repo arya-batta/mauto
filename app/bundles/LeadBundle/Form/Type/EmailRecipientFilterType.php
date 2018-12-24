@@ -110,7 +110,7 @@ class EmailRecipientFilterType extends AbstractType
 
         $emailRepo->setCurrentUser($currentUser);
 
-        $emails = $emailRepo->getEmailList('', 0, 0, $viewOther, true);
+        $emails = $emailRepo->getEmailList('', 0, 0, $viewOther, true,'list');
 
         foreach ($emails as $email) {
             $this->emailChoices[$email['language']][$email['id']] = $email['name'];

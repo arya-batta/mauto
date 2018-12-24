@@ -72,6 +72,22 @@ class EmailOpenType extends AbstractType
             $defaultOptions = array_merge($defaultOptions, $options['list_options']);
         }
 
+        $iscampaign = true;
+            if (isset($options['iscampaign'])){
+                $iscampaign = $options['iscampaign'];
+             }
+        if(!$iscampaign){
+            $required=false;
+            $constraints = [];
+        }else{
+            $required=true;
+            $constraints = [
+                new NotBlank(
+                    ['message' => 'mautic.core.value.required']
+                ),
+            ];
+        }
+
         $builder->add('campaigntype', 'choice', [
             'choices' => [
                 'broadcast' => 'One-Off Campaign',
@@ -85,12 +101,8 @@ class EmailOpenType extends AbstractType
                 'tooltip' => 'le.email.open.email.type.descr',
                 'onchange' => 'Le.getSelectedCampaignValue(this.value)',
             ],
-            'required'     => true,
-            'constraints'  => [
-                new NotBlank(
-                    ['message' => 'mautic.core.value.required']
-                ),
-            ],
+            'required'     => $required,
+            'constraints'  => $constraints,
         ]);
 
         $builder->add('emails', 'email_list', $defaultOptions);
@@ -156,7 +168,7 @@ class EmailOpenType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(['list_options']);
+        $resolver->setOptional(['list_options','iscampaign']);
     }
 
     /**

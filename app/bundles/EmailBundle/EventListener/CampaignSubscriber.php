@@ -245,7 +245,10 @@ class CampaignSubscriber extends CommonSubscriber
                 'sourcetype'      => 'openEmail',
                 'formTheme'       => 'MauticPointBundle:FormTheme\Action',
                 'formType'        => 'emailopen_list',
-                'order'           => '7',
+                'formTypeOptions' => [
+                    'iscampaign' => true,
+                ],
+                'order'           => '9',
                 'group'           => 'le.campaign.source.group.name',
             ]
         );
@@ -258,7 +261,10 @@ class CampaignSubscriber extends CommonSubscriber
                 'sourcetype'      => 'clickEmail',
                 'formTheme'       => 'MauticPointBundle:FormTheme\Action',
                 'formType'        => 'emailopen_list',
-                'order'           => '8',
+                'formTypeOptions' => [
+                    'iscampaign' => true,
+                ],
+                'order'           => '9',
                 'group'           => 'le.campaign.source.group.name',
             ]
         );

@@ -137,7 +137,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.lead.events.onscorechange_descr',
             'formType'        => 'leadscore_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 8,
+            'order'           => 9,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.scorechange', $action);
