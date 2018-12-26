@@ -711,7 +711,7 @@ class AssetModel extends FormModel
         $activeAsset = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-folder-open-o', $this->translator->trans('mautic.asset.active.assets'),
             $this->getRepository()->getTotalActiveAssets($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
         ];
-        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-folder-open-o', $this->translator->trans('le.index.blocks.conversion'),
+        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-folder-open-o', $this->translator->trans('le.index.blocks.conversion.downloads'),
             $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
         ];
 

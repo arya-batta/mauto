@@ -488,7 +488,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
 <?php echo $view->render('MauticEmailBundle:Email:beeeditor.html.php', ['objectId'      => $emailEntity->getSessionId(), 'type'          => 'email']); ?>
 
-<drip class="drip-blue-prints builder-active hide" style="overflow-y: scroll">
+<drip class="drip-blue-prints builder-active hide">
     <?php echo $view->render('MauticEmailBundle:DripEmail:blueprintlist.html.php', [
         'items'           => $bluePrints,
         'entity'          => $entity,
