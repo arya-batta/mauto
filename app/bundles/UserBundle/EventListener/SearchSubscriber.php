@@ -63,7 +63,6 @@ class SearchSubscriber extends CommonSubscriber
         }
 
         if ($this->security->isGranted('user:users:view')) {
-            file_put_contents('/var/www/mauto/app/logs/track.txt',"Filter:". $str."\n",FILE_APPEND);
             $users = $this->userModel->getEntities(
                 [
                     'limit'  => 5,

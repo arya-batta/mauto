@@ -492,6 +492,9 @@ return [
                 'class'     => \Mautic\LeadBundle\EventListener\SearchSubscriber::class,
                 'arguments' => [
                     'mautic.lead.model.lead',
+                    'mautic.lead.model.tag',
+                    'mautic.lead.model.list',
+                    'mautic.lead.model.listoptin',
                     'doctrine.orm.entity_manager',
                     'mautic.campaign.model.campaign',
                 ],

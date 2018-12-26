@@ -25,7 +25,7 @@
     .leform-errormsg { display: block; color: red; margin-top: 0px;margin-bottom: -15px;}
     .leform-selectbox, .leform-input, .leform-textarea { width: 100%; padding: 0.75em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; font-size:14px;  font-family: "Open Sans",Helvetica,Arial,sans-serif;  }
     .leform-checkboxgrp-row {}
-    .leform-checkboxgrp-label { font-weight: normal; }
+    .leform-checkboxgrp-label { font-weight: normal;font-family: "Open Sans",Helvetica,Arial,sans-serif; }
     .leform-checkboxgrp-checkbox {}
     .leform-radiogrp-row {}
     .leform-radiogrp-label { font-weight: normal; }
