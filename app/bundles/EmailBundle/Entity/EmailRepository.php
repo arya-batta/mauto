@@ -929,29 +929,31 @@ class EmailRepository extends CommonRepository
     public function getUnsubscribeCount($viewOthers = false)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select('count(e.id) as unsubscribecount')
+        $q->select(' count(Distinct e.id) as unsubscribecount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
-            ->where(
+            ->Where(
                 $q->expr()->andX(
                     $q->expr()->eq('es.is_failed', ':false')
+                ),
+                $q->expr()->andX(
+                    $q->expr()->eq('e.email_type', ':emailType')
                 )
-            )->setParameter('false', false, 'boolean');
+            )->andWhere(
+                $q->expr()->orX(
+                    $q->expr()->orX(
+                        $q->expr()->eq('es.is_unsubscribe', 1)
+                    ),
+                    $q->expr()->orX(
+                        $q->expr()->eq('es.is_spam', 1)
+                    ),
+                    $q->expr()->orX(
+                        $q->expr()->eq('es.is_bounce', 1)
+                    )
+                )
+            )->setParameter('false', false, 'boolean')
+            ->setParameter('emailType', 'list', 'string');
 
-        $q->orWhere('e.email_type = :emailType')
-            ->setParameter('emailType', 'list');
-
-        $q->andWhere(
-            $q->expr()->eq('es.is_unsubscribe', 1)
-        );
-
-        $q->orWhere(
-            $q->expr()->eq('es.is_spam', 1)
-        );
-
-        $q->andWhere(
-            $q->expr()->eq('es.is_bounce', 1)
-        );
         if (!$viewOthers) {
             $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
                 ->setParameter('currentUserId', $this->currentUser->getId());

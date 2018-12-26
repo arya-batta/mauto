@@ -24,6 +24,9 @@ use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\LeadBundle\Event\LeadBuildSearchEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\LeadBundle\Model\ListModel;
+use Mautic\LeadBundle\Model\ListOptInModel;
+use Mautic\LeadBundle\Model\TagModel;
 
 /**
  * Class SearchSubscriber.
@@ -34,7 +37,18 @@ class SearchSubscriber extends CommonSubscriber
      * @var LeadModel
      */
     protected $leadModel;
-
+    /**
+     * @var TagModel
+     */
+    protected $tagModel;
+    /**
+     * @var ListModel
+     */
+    protected $listModel;
+    /**
+     * @var ListOptInModel
+     */
+    protected $listOptInModel;
     /**
      * @var LeadRepository
      */
@@ -52,13 +66,19 @@ class SearchSubscriber extends CommonSubscriber
     /**
      * SearchSubscriber constructor.
      *
-     * @param LeadModel     $leadModel
-     * @param EntityManager $entityManager
-     * @param CampaignModel $campaignmodel
+     * @param LeadModel      $leadModel
+     * @param TagModel       $tagModel
+     * @param ListModel      $listModel
+     * @param ListOptInModel $listOptInModel
+     * @param EntityManager  $entityManager
+     * @param CampaignModel  $campaignmodel
      */
-    public function __construct(LeadModel $leadModel, EntityManager $entityManager, CampaignModel $campaignModel)
+    public function __construct(LeadModel $leadModel,TagModel $tagModel,ListModel $listModel,ListOptInModel $listOptInModel, EntityManager $entityManager, CampaignModel $campaignModel)
     {
         $this->leadModel       = $leadModel;
+        $this->tagModel        = $tagModel;
+        $this->listModel       = $listModel;
+        $this->listOptInModel  = $listOptInModel;
         $this->leadRepo        = $leadModel->getRepository();
         $this->emailRepository = $entityManager->getRepository(Email::class);
         $this->CampaignModel   = $campaignModel;
@@ -96,7 +116,13 @@ class SearchSubscriber extends CommonSubscriber
         }
 
         $permissions = $this->security->isGranted(
-            ['lead:leads:viewown', 'lead:leads:viewother'],
+            [   'lead:leads:viewown',
+                'lead:leads:viewother',
+                'lead:tags:full',
+                'lead:lists:viewother',
+                'lead:listoptin:viewown',
+                'lead:listoptin:viewother',
+            ],
             'RETURN_ARRAY'
         );
 
@@ -138,6 +164,153 @@ class SearchSubscriber extends CommonSubscriber
                 }
                 $leadResults['count'] = $results['count'];
                 $event->addResults('le.lead.leads', $leadResults);
+            }
+        }
+        if($permissions['lead:tags:full']){
+            $filter = [
+                'string' => $str,
+                'where'  => [
+                    [
+                        'expr' => 'like',
+                        'col'  => 't.alias',
+                        'val'  => '%'.$str.'%',
+                    ],
+                ],
+            ];
+            $results = $this->tagModel->getEntities(
+                [
+                    'filter'         => $filter,
+                    'withTotalCount' => true,
+                ]);
+        foreach ($results as $result){
+            $tags[]=$result;
+         }
+
+         $count = isset($tags) ? sizeof($tags): 0;
+
+            if ($count > 0) {
+                $tagResults = [];
+                $itrate=0;
+                foreach ($tags as $tag) {
+                    if($itrate < 5) {
+                        $tagResults[] = $this->templating->renderResponse(
+                            'MauticLeadBundle:SubscribedEvents\Search:tagGlobal.html.php',
+                            ['tag' => $tag]
+                        )->getContent();
+                        $itrate++;
+                    }
+                }
+
+                if ($count > 5) {
+                    $tagResults[] = $this->templating->renderResponse(
+                        'MauticLeadBundle:SubscribedEvents\Search:tagGlobal.html.php',
+                        [
+                            'showMore'     => true,
+                            'searchString' => $str,
+                            'remaining'    => ($count - 5),
+                        ]
+                    )->getContent();
+                }
+                $tagResults['count'] = $count;
+                $event->addResults('le.lead.tags', $tagResults);
+            }
+        }
+        if($permissions['lead:lists:viewother']){
+            $filter = [
+                'string' => $str,
+                'where'  => [
+                    [
+                        'expr' => 'like',
+                        'col'  => 'l.name',
+                        'val'  => '%'.$str.'%',
+                    ],
+                ],
+            ];
+            $results = $this->listModel->getEntities(
+                [
+                    'filter'         => $filter,
+                    'withTotalCount' => true,
+                ]);
+          foreach ($results as $result){
+                 $lists[]=$result;
+                }
+
+            $count = isset($lists) ? sizeof($lists): 0;
+
+            if ($count > 0) {
+                $listResults = [];
+                $itrate=0;
+                foreach ($lists as $list) {
+                    if($itrate < 5) {
+                        $listResults[] = $this->templating->renderResponse(
+                            'MauticLeadBundle:SubscribedEvents\Search:listGlobal.html.php',
+                            ['list' => $list]
+                        )->getContent();
+                        $itrate++;
+                    }
+                }
+
+                if ($count > 5) {
+                    $listResults[] = $this->templating->renderResponse(
+                        'MauticLeadBundle:SubscribedEvents\Search:listGlobal.html.php',
+                        [
+                            'showMore'     => true,
+                            'searchString' => $str,
+                            'remaining'    => ($count - 5),
+                        ]
+                    )->getContent();
+                }
+                $listResults['count'] = $count;
+                $event->addResults('le.lead.form.list', $listResults);
+            }
+        }
+        if($permissions['lead:lists:viewother']){
+            $filter = [
+                'string' => $str,
+                'where'  => [
+                    [
+                        'expr' => 'like',
+                        'col'  => 'l.name',
+                        'val'  => '%'.$str.'%',
+                    ],
+                ],
+            ];
+            $results = $this->listOptInModel->getEntities(
+                [
+                    'filter'         => $filter,
+                    'withTotalCount' => true,
+                ]);
+            foreach ($results as $result){
+                $lists[]=$result;
+            }
+
+            $count = isset($lists) ? sizeof($lists): 0;
+
+            if ($count > 0) {
+                $listResults = [];
+                $itrate=0;
+                foreach ($lists as $list) {
+                    if($itrate < 5) {
+                        $listResults[] = $this->templating->renderResponse(
+                            'MauticLeadBundle:SubscribedEvents\Search:listOptinGlobal.html.php',
+                            ['listOptin' => $list]
+                        )->getContent();
+                        $itrate++;
+                    }
+                }
+
+                if ($count > 5) {
+                    $listResults[] = $this->templating->renderResponse(
+                        'MauticLeadBundle:SubscribedEvents\Search:listOptinGlobal.html.php',
+                        [
+                            'showMore'     => true,
+                            'searchString' => $str,
+                            'remaining'    => ($count - 5),
+                        ]
+                    )->getContent();
+                }
+                $listResults['count'] = $count;
+                $event->addResults('le.lead.list.optin', $listResults);
             }
         }
     }
