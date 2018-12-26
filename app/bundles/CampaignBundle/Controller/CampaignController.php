@@ -12,6 +12,7 @@
 namespace Mautic\CampaignBundle\Controller;
 
 use Mautic\CampaignBundle\Entity\Campaign;
+use Mautic\CampaignBundle\Entity\Event;
 use Mautic\CampaignBundle\Entity\LeadEventLogRepository;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CampaignBundle\Model\EventModel;
@@ -906,7 +907,8 @@ class CampaignController extends AbstractStandardFormController
      */
     protected function prepareCampaignEventsForNew($entity, $objectId)
     {
-        $events              =$this->getModel('campaign')->getEvents();
+        $campaignModel       = $this->getModel('campaign');
+        $events              = $campaignModel->getEvents();
         $tempsourceid        =hash('sha1', uniqid(mt_rand()));
         $defaultdrigger      = [
             'id'              => $tempsourceid,
@@ -919,7 +921,28 @@ class CampaignController extends AbstractStandardFormController
             'settings'        => $events['source']['campaign.defaultsource'],
             'name'            => $this->get('translator')->trans($events['source']['campaign.defaultsource']['label']),
         ];
-        $campaignEvents[$tempsourceid]=$defaultdrigger;
+        $eventRepo   = $campaignModel->getEventRepository();
+        $sourceEvent = new Event();
+        $sourceEvent->setName($this->get('translator')->trans($events['source']['campaign.defaultsource']['label']));
+        $sourceEvent->setType('campaign.defaultsource');
+        $sourceEvent->setEventType('source');
+        $sourceEvent->setCampaign($entity);
+        $eventRepo->saveEntity($sourceEvent);
+
+        $actionEvent = new Event();
+        $actionEvent->setName($this->get('translator')->trans($events['action']['campaign.defaultexit']['label']));
+        $actionEvent->setType('campaign.defaultexit');
+        $actionEvent->setEventType('action');
+        $actionEvent->setCampaign($entity);
+        $eventRepo->saveEntity($actionEvent);
+
+        $actionEvent->setTempId($actionEvent->getId());
+        $sourceEvent->setTempId($sourceEvent->getId());
+        $eventRepo->saveEntity($sourceEvent);
+        $eventRepo->saveEntity($actionEvent);
+
+        $campaignEvents[$sourceEvent->getId()]=$defaultdrigger;
+
         $tempactionid                 =hash('sha1', uniqid(mt_rand()));
         $defaultaction                = [
             'id'              => $tempactionid,
@@ -932,21 +955,21 @@ class CampaignController extends AbstractStandardFormController
             'settings'        => $events['action']['campaign.defaultexit'],
             'name'            => $this->get('translator')->trans($events['action']['campaign.defaultexit']['label']),
         ];
-        $campaignEvents[$tempactionid]=$defaultaction;
-        $this->modifiedEvents         = $this->campaignEvents         = $campaignEvents;
-        $this->get('session')->set('mautic.campaign.'.$objectId.'.events.modified', $campaignEvents);
+        $campaignEvents[$actionEvent->getId()]=$defaultaction;
+        //$this->modifiedEvents         = $this->campaignEvents         = $campaignEvents;
+        // $this->get('session')->set('mautic.campaign.'.$objectId.'.events.modified', $campaignEvents);
         $defaultcanvassettings            =[];
         $defaultcanvassettings['id']      =hash('sha1', uniqid(mt_rand()));
         $defaultcanvassettings['type']    ='path';
         $defaulttriggers                  =[];
-        $defaulttriggers['id']            =$tempsourceid;
+        $defaulttriggers['id']            =$sourceEvent->getId();
         $defaulttriggers['type']          ='trigger';
         $defaulttriggers['category']      ='source';
         $defaulttriggers['subcategory']   ='campaign.defaultsource';
         $defaulttriggers['entry_point']   =true;
         $defaulttriggers['view']          =['label'=> 'Define your trigger...', 'incomplete'=>true];
         $defaultaction                    =[];
-        $defaultaction['id']              =$tempactionid;
+        $defaultaction['id']              =$actionEvent->getId();
         $defaultaction['type']            ='exit';
         $defaultaction['category']        ='action';
         $defaultaction['subcategory']     ='campaign.defaultexit';
