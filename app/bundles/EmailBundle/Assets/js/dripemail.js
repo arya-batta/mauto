@@ -160,6 +160,7 @@ Le.dripemailOnLoad = function (container, response) {
         mQuery('#fragment-3').addClass('ui-tabs-hide');
         mQuery('#fragment-4').removeClass('ui-tabs-hide');
     }
+    mQuery('body').css('overflow-y', '');
 
 };
 
@@ -496,11 +497,13 @@ Le.allowEditEmailfromDrip = function (emailId){
 Le.openBluePrintPage = function(){
     mQuery('.drip-blue-prints').removeClass('hide');
     mQuery('.dripemail-body').addClass('hide');
+    mQuery('body').css('overflow-y', 'hidden');
 }
 
 Le.closeBluePrintPage = function(){
     mQuery('.drip-blue-prints').addClass('hide');
     mQuery('.dripemail-body').removeClass('hide');
+    mQuery('body').css('overflow-y', '');
 }
 Le.useBluePrintDrip = function(ele){
     var dripId = mQuery(ele).attr('value');

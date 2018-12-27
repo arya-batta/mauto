@@ -52,7 +52,7 @@ class ProcessDripEmailCommand extends ModeratedCommand
             $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
             $leadModel             = $container->get('mautic.lead.model.lead');
             $timezone              = $coreParameterHelper->getParameter('default_timezone');
-            date_default_timezone_set('UTC');
+            date_default_timezone_set($timezone);
             $currentDate       = date('Y-m-d H:i:s');
             $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate);
             $emailsCount       = 0;
