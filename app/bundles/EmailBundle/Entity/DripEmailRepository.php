@@ -244,6 +244,7 @@ class DripEmailRepository extends CommonRepository
             $q->andWhere($q->expr()->neq('e.created_by', ':id'))
                 ->setParameter('id', '1');
         }
+
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 

@@ -1048,7 +1048,7 @@ Le.checkemailstatus = function(){
                         mQuery('.license-notifiation').css('table-layout','fixed');
                         mQuery('.button-notification').addClass('hide');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
-                        mQuery('#fixed-content').attr('style', 'margin-top:215px;');
+                        mQuery('#fixed-content').attr('style', 'margin-top:190px;');
                         mQuery('.content-body').attr('style', 'padding-top:82px;');
                     }
                 } else {

@@ -21,7 +21,7 @@ $pageButtons[] = [
         'href'        => $view['router']->path('le_dripemail_campaign_action', ['objectAction' => 'quickadd']),
         'data-header' => $view['translator']->trans('le.drip.email.new.header'),
     ],
-    'iconClass' => 'fa fa-bolt',
+    'iconClass' => 'fa fa-plus',
     'btnText'   => 'le.drip.email.new',
     'primary'   => true,
 ];

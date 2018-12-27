@@ -600,9 +600,9 @@ class AjaxController extends CommonAjaxController
             $welcomemsg                   = str_replace('|ACTUAL|', $actualcount, $welcomemsg);
             $welcomemsg                   = str_replace('|TOTAL|', $totalcount, $welcomemsg);
             $dataArray['info']            = $welcomemsg;
-            $dataArray['needClosebutton'] = false;
+            $dataArray['needClosebutton'] = true;
             $dataArray['success']         = true;
-            $dataArray['isalertneeded']   = true;
+            $dataArray['isalertneeded']   = $isClosed;
         }
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
             $configurl                    = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);

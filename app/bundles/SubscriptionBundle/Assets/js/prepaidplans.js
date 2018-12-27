@@ -197,8 +197,11 @@ Le.loadLicenseUsageInfo = function() {
      //     }
      // });
     mQuery('#licenseclosebutton').click(function(e) {
+        Le.closeLicenseButton();
        Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
+        mQuery('#fixed-content').attr('style','margin-top:120px;');
+        mQuery('.content-body').attr('style','padding-top:0px;');
     });
 
     Le.ajaxActionRequest('subscription:licenseusageinfo', {}, function(response) {
@@ -207,6 +210,7 @@ Le.loadLicenseUsageInfo = function() {
                 mQuery('.license-notifiation').removeClass('hide');
                 mQuery('.license-notifiation').css('display','table');
                 mQuery('.license-notifiation').css('table-layout','fixed');
+                mQuery('.license-notifiation').css('text-align','left');
                 mQuery('.license-notifiation #license-alert-message').html('');
                 mQuery('.license-notifiation #license-alert-message').html(response.info);
                 if(!response.needClosebutton){

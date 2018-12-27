@@ -389,10 +389,8 @@ class MailHelper
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
-                    if ((strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false) && (strpos($this->body['content'], '{{list_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{{confirmation_link}}') === false))) {
                         $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                         $this->body['content'] = $bodycontent;
-                    }
                 }
 
                 // Generate tokens from listeners
@@ -517,9 +515,6 @@ class MailHelper
      */
     public function alterEmailBodyContent($bodyContent)
     {
-        if (strpos($this->body['content'], 'list_footerText') !== false) {
-            return $bodyContent;
-        }
         $doc                      = new \DOMDocument();
         $doc->strictErrorChecking = false;
         libxml_use_internal_errors(true);
@@ -535,38 +530,43 @@ class MailHelper
                 //$body->appendChild($previewtext);
                 $body->insertBefore($previewtext, $body->firstChild);
             }
-            //create the div element to append to body element
-            $divelement = $doc->createElement('div');
-            $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
+            if (strpos($this->body['content'], 'list_footerText') !== false) {
+                $bodyContent = $doc->saveHTML();
+                return $bodyContent;
+            }
+            if(($this->getEmail()->getEmailType() != 'template') && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
+                //create the div element to append to body element
+                $divelement = $doc->createElement('div');
+                $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
             font-weight: normal;');
-            $ptag1      = $doc->createElement('span', '{footer_text}');
-            $divelement->appendChild($ptag1);
+                $ptag1 = $doc->createElement('span', '{footer_text}');
+                $divelement->appendChild($ptag1);
 
-            $accountmodel  = $this->factory->getModel('subscription.accountinfo');
-            $accrepo       = $accountmodel->getRepository();
-            $accountentity = $accrepo->findAll();
-            if (sizeof($accountentity) > 0) {
-                $account = $accountentity[0]; //$model->getEntity(1);
-            } else {
-                $account = new Account();
+                $accountmodel = $this->factory->getModel('subscription.accountinfo');
+                $accrepo = $accountmodel->getRepository();
+                $accountentity = $accrepo->findAll();
+                if (sizeof($accountentity) > 0) {
+                    $account = $accountentity[0]; //$model->getEntity(1);
+                } else {
+                    $account = new Account();
+                }
+                if (false) { //$account->getNeedpoweredby()
+                    $ptag1->setAttribute('style', 'display:block;padding-top:20px;width:60%;float:left;text-align:right;');
+                    $powerspan = $doc->createElement('span');
+                    $powerspan->setAttribute('style', 'width:40%;float:right;text-align:left;');
+
+                    $imgtag = $doc->createElement('img');
+                    $imgtag->setAttribute('src', 'https://s3-eu-west-1.amazonaws.com/cdn.supporthero.io/account/1829/00854641-cbd0-4e19-a4db-9ac4370d6b89.png');
+                    $imgtag->setAttribute('style', 'height:100px;width:250px;');
+
+                    $powerspan->appendChild($imgtag);
+                    $divelement->appendChild($powerspan);
+                } else {
+                    $ptag1->setAttribute('style', 'display:block;padding-top:20px;');
+                }
+                //actually append the element
+                $body->appendChild($divelement);
             }
-            if (false) { //$account->getNeedpoweredby()
-                $ptag1->setAttribute('style', 'display:block;padding-top:20px;width:60%;float:left;text-align:right;');
-                $powerspan = $doc->createElement('span');
-                $powerspan->setAttribute('style', 'width:40%;float:right;text-align:left;');
-
-                $imgtag = $doc->createElement('img');
-                $imgtag->setAttribute('src', 'https://s3-eu-west-1.amazonaws.com/cdn.supporthero.io/account/1829/00854641-cbd0-4e19-a4db-9ac4370d6b89.png');
-                $imgtag->setAttribute('style', 'height:100px;width:250px;');
-
-                $powerspan->appendChild($imgtag);
-                $divelement->appendChild($powerspan);
-            } else {
-                $ptag1->setAttribute('style', 'display:block;padding-top:20px;');
-            }
-            //actually append the element
-            $body->appendChild($divelement);
-
             $bodyContent = $doc->saveHTML();
         }
         libxml_clear_errors();
@@ -593,10 +593,9 @@ class MailHelper
     {
         if ($this->tokenizationEnabled) {
             if ($dispatchSendEvent && !empty($this->body['content'])) {
-                if ((strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false) && (strpos($this->body['content'], '{{list_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{{confirmation_link}}') === false))) {
                     $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
                     $this->body['content'] = $bodycontent;
-                }
+
             }
             // Dispatch event to get custom tokens from listeners
             if ($dispatchSendEvent) {

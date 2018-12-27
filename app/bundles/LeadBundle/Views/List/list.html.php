@@ -130,10 +130,10 @@ $isAdmin     =$view['security']->isAdmin();
                                     'le_segment_action',
                                     ['objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajax">
-                                    <?php echo $item->getName(); ?> (<?php echo $item->getAlias(); ?>)
+                                    <?php echo $item->getName(); ?> <!--(<?php /** echo $item->getAlias(); */ ?>) -->
                                 </a>
                             <?php else : ?>
-                                <?php echo $item->getName(); ?> (<?php echo $item->getAlias(); ?>)
+                                <?php echo $item->getName(); ?> <!-- (<?php /** echo $item->getAlias(); */ ?>)-->
                             <?php endif; ?>
                             <?php if (!$item->isGlobal() && $currentUser->getId() != $item->getCreatedBy()): ?>
                                 <br/>

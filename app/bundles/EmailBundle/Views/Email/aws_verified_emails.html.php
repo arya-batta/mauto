@@ -57,10 +57,10 @@
 
     <tr>
         <th>
-          <span class="header">New sender name<span>
+          <span class="header">Sender name<span>
         </th>
         <th>
-          <span class="header">New sender email<span>
+          <span class="header">Sender email<span>
         </th>
         <th>
          <span class="header">Status<span>
