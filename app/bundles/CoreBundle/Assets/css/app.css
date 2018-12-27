@@ -5032,7 +5032,7 @@ figcaption {
   max-height: inherit;
   display: block;
   color : #000000;
-  min-height: 50px;
+  min-height:auto;
   padding: 15px;
   font-family: Sans-Serif;
   padding-left: 50px;

@@ -72,10 +72,10 @@ class EmailOpenType extends AbstractType
             $defaultOptions = array_merge($defaultOptions, $options['list_options']);
         }
 
-        $iscampaign = true;
-            if (isset($options['iscampaign'])){
-                $iscampaign = $options['iscampaign'];
-             }
+        $iscampaign = false;
+        if (isset($options['iscampaign'])){
+            $iscampaign = $options['iscampaign'];
+        }
         if(!$iscampaign){
             $required=false;
             $constraints = [];

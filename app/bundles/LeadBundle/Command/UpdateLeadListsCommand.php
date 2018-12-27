@@ -57,7 +57,7 @@ class UpdateLeadListsCommand extends ModeratedCommand
 
             if ($id) {
                 $list = $listModel->getEntity($id);
-                if ($list !== null) {
+                if ($list !== null && $list->isPublished()) {
                     $output->writeln('<info>'.$translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $id]).'</info>');
                     $processed = $listModel->rebuildListLeads($list, $batch, $max, $output);
                     $output->writeln(
@@ -75,16 +75,17 @@ class UpdateLeadListsCommand extends ModeratedCommand
 
                 while (($l = $lists->next()) !== false) {
                     // Get first item; using reset as the key will be the ID and not 0
-                    $l = reset($l);
+                        $l = reset($l);
+                        if($l->isPublished()) {
+                            $output->writeln('<info>' . $translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]) . '</info>');
 
-                    $output->writeln('<info>'.$translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]).'</info>');
+                            $processed = $listModel->rebuildListLeads($l, $batch, $max, $output);
+                            $output->writeln(
+                                '<comment>' . $translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]) . '</comment>' . "\n"
+                            );
 
-                    $processed = $listModel->rebuildListLeads($l, $batch, $max, $output);
-                    $output->writeln(
-                    '<comment>'.$translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
-                );
-
-                    unset($l);
+                            unset($l);
+                        }
                 }
 
                 unset($lists);

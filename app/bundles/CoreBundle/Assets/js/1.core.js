@@ -911,7 +911,7 @@ var Le = {
      * License Notification Closes Button
      */
     closeLicenseButton: function() {
-        var x = document.getElementById("licenseclosebutton");
+        var x = document.getElementById("licenseclosediv");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
@@ -922,7 +922,7 @@ var Le = {
      * SMS Notification Closes Button
      */
     closeSMSNotification: function() {
-        var x = document.getElementById("licenseclosebutton");
+        var x = document.getElementById("licenseclosediv");
 
         if (x.style.display === "none") {
             x.style.display = "block";

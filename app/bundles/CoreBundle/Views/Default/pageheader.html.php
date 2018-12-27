@@ -1,7 +1,7 @@
 <div id="fixed-header">
-<div class="license-notifiation hide" id="licenseclosebutton">
-    <span id="license-alert-message"></span>
-    <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="Le.closeLicenseButton()" width="10" height="10"> </div>
+<div class="license-notifiation hide" id="licenseclosediv">
+    <img style="cursor: pointer;position: fixed" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" id="licenseclosebutton"  width="10" height="10">
+    <span id="license-alert-message"></span></div>
 <div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
         <div class="col-xs-5 col-sm-6 col-md-6 va-m">
