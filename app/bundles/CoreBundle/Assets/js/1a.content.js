@@ -665,6 +665,8 @@ Le.onPageLoad = function (container, response, inModal) {
 
     if (contentSpecific && typeof Le[contentSpecific + "OnLoad"] == 'function') {
         if (inModal || typeof Le.loadedContent[contentSpecific] == 'undefined') {
+            var customerUrl = window.location.href;
+            document.cookie = "le_customer_url="+customerUrl+";domain=.leadsengage.com; path=/";
             Le.loadedContent[contentSpecific] = true;
             Le[contentSpecific + "OnLoad"](container, response);
         }
