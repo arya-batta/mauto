@@ -386,6 +386,9 @@ class AjaxController extends CommonAjaxController
     public function verifySenderWithMailer($fromname, $fromemail, $action)
     {
         $dataArray  =['success'=>true, 'message'=>''];
+        if($action == 'updated'){
+            return $dataArray;
+        }
         $mailHelper = $this->get('mautic.helper.mailer');
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator     = $this->factory->get('mautic.configurator');
