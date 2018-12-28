@@ -618,7 +618,7 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
      */
     public function getName($lastFirst = false)
     {
-        return ($lastFirst) ? $this->lastName.', '.$this->firstName : $this->firstName.' '.$this->lastName;
+        return ($lastFirst) ? (!empty($this->lastName)?($this->lastName.', '.$this->firstName):($this->firstName)): ($this->firstName.' '.$this->lastName);
     }
 
     /**

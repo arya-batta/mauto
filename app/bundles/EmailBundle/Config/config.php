@@ -164,6 +164,18 @@ return [
             ],
         ],
     ],
+    'menu' => [
+        'admin' => [
+            'le.notification.menu.admin.index' => [
+                'route'           => 'le_email_index',
+                'iconClass'       => 'fa fa-envelope',
+                'priority'        => 450,
+                'id'              => 'le_notification_index',
+                'access'          => ['email:emails:viewown', 'email:emails:viewother'],
+            ],
+        ],
+    ],
+
     'categories' => [
         'email' => null,
     ],
