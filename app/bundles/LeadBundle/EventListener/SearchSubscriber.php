@@ -284,7 +284,7 @@ class SearchSubscriber extends CommonSubscriber
             foreach ($results as $result){
                 $lists[]=$result;
             }
-
+ 
             $count = isset($lists) ? sizeof($lists): 0;
 
             if ($count > 0) {
