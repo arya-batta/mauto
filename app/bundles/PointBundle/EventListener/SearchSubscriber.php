@@ -95,7 +95,7 @@ class SearchSubscriber extends CommonSubscriber
                     )->getContent();
                 }
                 $pointsResults['count'] = $pointCount;
-                $event->addResults('mautic.point.actions.header.index', $pointsResults);
+                $event->addResults('mautic.point.actions.header.search', $pointsResults);
             }
         }
 

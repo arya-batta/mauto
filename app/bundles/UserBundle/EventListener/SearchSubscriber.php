@@ -106,7 +106,7 @@ break;
             }
         }
 
-        if ($this->security->isGranted('user:roles:view')) {
+       /* if ($this->security->isGranted('user:roles:view')) {
             $roles = $this->userRoleModel->getEntities(
                 [
                     'limit'  => 5,
@@ -138,7 +138,7 @@ break;
                 $roleResults['count'] = count($roles);
                 $event->addResults('mautic.user.roles', $roleResults);
             }
-        }
+        }*/
     }
 
     /**

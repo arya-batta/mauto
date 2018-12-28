@@ -798,7 +798,10 @@ class FormController extends CommonFormController
 
             foreach ($existingFields as $formField) {
                 // Check to see if the field still exists
-
+                if($formField->getAlias() == 'gdpr'){
+                    $formField->setType('checkboxgrp');
+                    $formField->setDefaultValue('null');
+                }
                 if ($formField->getType() == 'button') {
                     //submit button found
                     $submitButton = true;

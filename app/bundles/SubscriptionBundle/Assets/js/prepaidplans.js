@@ -216,7 +216,7 @@ Le.loadLicenseUsageInfo = function() {
                 if(!response.needClosebutton){
                     mQuery('.button-notification').addClass('hide');
                 }
-                mQuery('#fixed-content').attr('style','margin-top:190px;');
+                mQuery('#fixed-content').attr('style','margin-top:205px;');
                 mQuery('.content-body').attr('style','padding-top:82px;');
             }else{
                 mQuery('.license-notifiation').addClass('hide');
