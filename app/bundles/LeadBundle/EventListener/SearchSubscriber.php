@@ -284,7 +284,6 @@ class SearchSubscriber extends CommonSubscriber
             foreach ($results as $result){
                 $lists[]=$result;
             }
-            file_put_contents('/var/www/log12.txt',json_encode($lists)."\n",FILE_APPEND);
 
             $count = isset($lists) ? sizeof($lists): 0;
 
