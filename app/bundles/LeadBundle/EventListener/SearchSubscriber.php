@@ -264,7 +264,7 @@ class SearchSubscriber extends CommonSubscriber
                 $event->addResults('le.lead.form.list', $listResults);
             }
         }
-        if($permissions['lead:lists:viewother']){
+        if($permissions['lead:listoptin:viewother'] ||$permissions['lead:listoptin:viewown']){
             $filter = [
                 'string' => $str,
                 'where'  => [
@@ -275,6 +275,7 @@ class SearchSubscriber extends CommonSubscriber
                     ],
                 ],
             ];
+            $lists=[];
             $results = $this->listOptInModel->getEntities(
                 [
                     'filter'         => $filter,
@@ -283,6 +284,7 @@ class SearchSubscriber extends CommonSubscriber
             foreach ($results as $result){
                 $lists[]=$result;
             }
+            file_put_contents('/var/www/log12.txt',json_encode($lists)."\n",FILE_APPEND);
 
             $count = isset($lists) ? sizeof($lists): 0;
 
