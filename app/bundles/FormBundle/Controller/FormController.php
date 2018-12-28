@@ -384,7 +384,7 @@ class FormController extends CommonFormController
         if ($this->request->getMethod() == 'POST') {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateFormData($form)) {
                     $formType = $this->request->request->get('leform[formType]', '', true);
                     if ($formType == 'smart') {
                         $modifiedFields=[];
@@ -460,7 +460,7 @@ class FormController extends CommonFormController
                             $valid = false;
                         } catch (\Exception $e) {
                             $form['name']->addError(
-                                new FormError($this->get('translator')->trans('mautic.form.schema.failed', [], 'validators'))
+                                new FormError($this->get('translator')->trans($e->getMessage(), [], 'validators'))
                             );
                             $valid = false;
 
@@ -798,7 +798,7 @@ class FormController extends CommonFormController
 
             foreach ($existingFields as $formField) {
                 // Check to see if the field still exists
-                if($formField->getAlias() == 'gdpr'){
+                if ($formField->getAlias() == 'gdpr') {
                     $formField->setType('checkboxgrp');
                     $formField->setDefaultValue('null');
                 }
@@ -1414,5 +1414,19 @@ class FormController extends CommonFormController
         unset($modifiedFields[$submitId]['form']);
 
         return $modifiedFields;
+    }
+
+    public function validateFormData($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('leform'); //$form->getData();
+        if ($formData['formType'] == 'smart' && empty($formData['formurl'])) {
+            $isValidForm = false;
+            $form['formurl']->addError(
+                new FormError($this->get('translator')->trans('mautic.core.value.required', [], 'validators'))
+            );
+        }
+
+        return $isValidForm;
     }
 }

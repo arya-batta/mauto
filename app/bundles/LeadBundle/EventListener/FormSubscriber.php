@@ -17,6 +17,7 @@ use Mautic\FormBundle\Event\FormBuilderEvent;
 use Mautic\FormBundle\Event\SubmissionEvent;
 use Mautic\FormBundle\FormEvents;
 use Mautic\LeadBundle\LeadEvents;
+use Mautic\LeadBundle\Model\LeadModel;
 
 /**
  * Class FormSubscriber.
@@ -29,13 +30,20 @@ class FormSubscriber extends CommonSubscriber
     protected $emailModel;
 
     /**
+     * @var LeadModel
+     */
+    public $leadModel;
+
+    /**
      * FormSubscriber constructor.
      *
      * @param EmailModel $emailModel
+     * @param LeadModel  $leadModel
      */
-    public function __construct(EmailModel $emailModel)
+    public function __construct(EmailModel $emailModel, LeadModel $leadModel)
     {
         $this->emailModel = $emailModel;
+        $this->leadModel  = $leadModel;
     }
 
     /**
@@ -143,6 +151,7 @@ class FormSubscriber extends CommonSubscriber
     public function removeFromDoNotContact(SubmissionEvent $event)
     {
         $form = $event->getResults();
+        $lead = $event->getLead();
         if (isset($form['email']) && !empty($form['email'])) {
             $stat = $this->emailModel->getStatRepository()->findOneBy(
                 [
@@ -152,6 +161,13 @@ class FormSubscriber extends CommonSubscriber
             );
             if (!empty($stat)) {
                 $this->emailModel->removeDoNotContact($stat);
+            }
+        }
+        if (!empty($lead) && $lead != null) {
+            foreach ($lead->getDoNotContact() as $dnc) {
+                $lead->removeDoNotContactEntry($dnc);
+
+                $this->leadModel->saveEntity($lead);
             }
         }
 

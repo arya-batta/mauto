@@ -445,6 +445,7 @@ return [
                 'class'     => 'Mautic\LeadBundle\EventListener\FormSubscriber',
                 'arguments' => [
                     'mautic.email.model.email',
+                    'mautic.lead.model.lead',
                 ],
             ],
             'mautic.lead.campaignbundle.subscriber' => [

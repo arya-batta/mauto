@@ -62,7 +62,7 @@ class SubmissionRepository extends CommonRepository
         if ($form->isSmartForm()) {
             $smartfields=$form->getSmartFields();
             foreach ($smartfields as $f) {
-                $fields[$f['smartfield']] = [];
+                $fields[$f['dbfield']] = [];
             }
         } else {
             //Get the list of custom fields

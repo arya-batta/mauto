@@ -691,7 +691,7 @@ class FormModel extends CommonFormModel
         $smartfields=$form->getSmartFields();
         foreach ($smartfields as $f) {
             $columns[] = [
-                    'name'    => $f['smartfield'],
+                    'name'    => $f['dbfield'],
                     'type'    => 'text',
                     'options' => [
                         'notnull' => false,

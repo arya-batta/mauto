@@ -64,10 +64,10 @@ $formId = $form->getId();
                     foreach ($form->getSmartFields() as $index => $f):
                         echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                             'sessionVar' => 'formresult.'.$formId,
-                            'orderBy'    => 'r.'.$f['smartfield'],
+                            'orderBy'    => 'r.'.$f['dbfield'],
                             'text'       => $f['smartfield'],
                             'class'      => 'col-formresult-field col-formresult-field'.$index,
-                            'filterBy'   => 'r.'.$f['smartfield'],
+                            'filterBy'   => 'r.'.$f['dbfield'],
                         ]);
                     ++$fieldCount;
                     endforeach;

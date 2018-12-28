@@ -142,6 +142,11 @@ class Field
     private $showAfterXSubmissions;
 
     /**
+     * @var string
+     */
+    private $dbField;
+
+    /**
      * Reset properties on clone.
      */
     public function __clone()
@@ -231,6 +236,8 @@ class Field
         $builder->addNullableField('showWhenValueExists', 'boolean', 'show_when_value_exists');
 
         $builder->addNullableField('showAfterXSubmissions', 'integer', 'show_after_x_submissions');
+
+        $builder->addNullableField('dbField', 'string', 'db_field');
     }
 
     /**
@@ -882,5 +889,21 @@ class Field
     public function isFileType()
     {
         return $this->type === 'file';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbField()
+    {
+        return $this->dbField;
+    }
+
+    /**
+     * @param string $dbField
+     */
+    public function setDbField($dbField)
+    {
+        $this->dbField = $dbField;
     }
 }

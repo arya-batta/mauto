@@ -47,6 +47,11 @@ class SmartFormFieldType extends AbstractType
             'label'          => false,
             'required'       => false,
         ]);
+        $builder->add('dbfield', 'text', [
+            'attr'           => ['class' => 'form-control le-input'],
+            'label'          => false,
+            'required'       => false,
+        ]);
         $formModifier = function (FormEvent $event, $eventName) {
             $data      = $event->getData();
             $form      = $event->getForm();

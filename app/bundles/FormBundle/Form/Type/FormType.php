@@ -221,7 +221,7 @@ class FormType extends AbstractType
                 'placeholder'        => 'le.smart.form.scan.url.placeholder',
                 'tooltip'            => 'le.smart.form.scan.url.tooltip',
                 'autocomplete'       => 'off', ],
-            'required'   => false,
+            'required'   => true,
         ]);
         $builder->add(
             $builder->create(

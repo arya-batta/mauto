@@ -8,4 +8,7 @@
 <div class="leadfield" style="width: 50%;padding: 10px;">
     <?php echo $view['form']->widget($form['leadfield']); ?>
 </div>
+<div class="dbfield" style="width: 50%;padding: 10px;pointer-events: none;display:none;">
+    <?php echo $view['form']->widget($form['dbfield']); ?>
+</div>
 </div>

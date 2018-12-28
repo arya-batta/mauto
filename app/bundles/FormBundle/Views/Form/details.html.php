@@ -320,7 +320,7 @@ $isadmin     =$view['security']->isAdmin();
                 </div>
                 <div class="modal-body">
                     <?php if ($activeForm->isSmartForm()):?>
-                        <h3 style="font-weight: 600;"><?php echo $view['translator']->trans('le.smart.form.tracker.help.automaticcopy.js'); ?></h3>
+                        <h3 style="font-weight: bold;"><?php echo $view['translator']->trans('le.smart.form.tracker.help.automaticcopy.js'); ?></h3>
                         <p style="margin-top: 10px;"><?php echo $view['translator']->trans('le.smart.form.tracker.help.automaticcopy'); ?></p>
                         <textarea id="javascipt_textarea" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
                                 'le_smart_form_tracker'); ?>"&gt;&lt;/script&gt;</textarea>

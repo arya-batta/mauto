@@ -331,9 +331,10 @@ endif; ?>
             </div>
             <br>
             <div class="row fg1-smart-form-specific <?php echo $hidesmartformspecific?>">
-                <div class="col-md-6">
+                <div class="col-md-6 <?php echo (count($form['formurl']->vars['errors'])) ? ' has-error' : ''; ?> ">
                     <?php echo $view['form']->label($form['formurl']); ?>
-                    <?php echo $view['form']->widget($form['formurl'], $isNewAction ? [] : ['attr' => ['disabled' => 'disabled']]); ?>
+                    <?php echo $view['form']->widget($form['formurl'], $isNewAction ? [] : ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
+                    <?php echo $view['form']->errors($form['formurl']); ?>
                 </div>
                 <div class="col-md-6">
                     <a href="#" id="smart-form-scan-url-btn" class="btn btn-default le-btn-default" <?php echo $isNewAction ? '' : "disabled='disabled'"?>><?php echo $view['translator']->trans('le.smart.form.scan.button.label'); ?></a>
@@ -384,7 +385,7 @@ endif; ?>
                 </div>
             </div>
         </div>
-        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="overflow: hidden;">
+        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="overflow-y: scroll;min-height:700px;">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
@@ -405,20 +406,23 @@ endif; ?>
                </div>
                <div id="le_smart_form_list" class="col-md-8 <?php echo !$isNewAction || $hidesmartformspecific != '' ? 'hide' : ''?>">
                </div>
-               <div class="smart-form-field-mapper-header-holder <?php echo $isNewAction || $hidesmartformspecific != '' ? 'hide' : '' ?>" style="display: flex;">
-                   <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a style="color:#ec407a" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
-                   <div style="padding: 10px;font-size: 14px;"><b style="margin-right: 5px;">Form Name:</b><span class="smart-form-field-mapper-header" ><?php echo $smartformname == '' ? $smartformid : $smartformname?></span></div>
-               </div>
-               <div class="smart-action-panel hide" >
+               <div class="smart-form-field-mapper-header-holder <?php echo $isNewAction || $hidesmartformspecific != '' ? 'hide' : '' ?>">
                    <div id="smart-action-form" class="alert alert-info le-alert-info " style="display: flex;margin-top: 5px;" >
                        <p><?php echo $view['translator']->trans('le.smart.form.child.header'); ?></p>
                    </div>
+                   <div class="smart-form-field-mapper-formname-holder" style="display: flex;margin-top: 5px;">
+                   <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a style="color:#ec407a" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
+                   <div style="padding: 10px;font-size: 14px;"><b style="margin-right: 5px;">Form Name:</b><span class="smart-form-field-mapper-header" ><?php echo $smartformname == '' ? $smartformid : $smartformname?></span></div>
+                   </div>
+               </div>
+               <div class="smart-action-panel hide" >
+
                    <div class="smart-field-holder" style="display: flex;margin-bottom: 10px">
                        <div class="smartfield" style="width: 50%;padding: 10px;pointer-events: none;">
                            <label style="margin-left: 18px;">Form Fields</label>
                        </div>
                        <div class="leadfield" style="width: 50%;padding: 10px;">
-                           <label style="margin-left: -176px;">Lead Fields</label>
+                           <label style="margin-left: -192px;">Lead Fields</label>
                        </div>
                    </div>
                </div>

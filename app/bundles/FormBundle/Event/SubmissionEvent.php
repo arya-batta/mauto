@@ -13,6 +13,7 @@ namespace Mautic\FormBundle\Event;
 
 use Mautic\CoreBundle\Event\CommonEvent;
 use Mautic\FormBundle\Entity\Submission;
+use Mautic\LeadBundle\Entity\Lead;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -95,6 +96,11 @@ class SubmissionEvent extends CommonEvent
      * @var Request
      */
     private $request;
+
+    /**
+     * @var Lead
+     */
+    private $lead;
 
     /**
      * SubmissionEvent constructor.
@@ -338,5 +344,21 @@ class SubmissionEvent extends CommonEvent
         $this->callbackResponses[$key] = $callbackResponse;
 
         return $this;
+    }
+
+    /**
+     * @return Lead
+     */
+    public function getLead()
+    {
+        return $this->lead;
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function setLead($lead)
+    {
+        $this->lead = $lead;
     }
 }
