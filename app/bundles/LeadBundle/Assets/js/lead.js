@@ -148,6 +148,11 @@ Le.leadOnLoad = function (container, response) {
         });
     });*/
 
+    mQuery("#leadfield_eu_gdpr_consent .chosen-container").attr('tabindex','-1');
+    mQuery("#leadfield_eu_gdpr_consent .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_eu_gdpr_timezone .chosen-container").attr('tabindex','-1');
+    mQuery("#leadfield_eu_gdpr_timezone .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+
 };
 Le.segment_filter = function(id){
     if(mQuery('#segment-filter-block_'+id).css("display") != 'none')

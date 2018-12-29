@@ -127,7 +127,7 @@ class NoteController extends FormController
                 ],
                 'passthroughVars' => [
                     'route'         => false,
-                    'leContent' => 'leadNote',
+                    'leContent'     => 'leadNote',
                     'noteCount'     => count($items),
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Note:list.html.php',
@@ -189,7 +189,7 @@ class NoteController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'leContent' => 'leadNote',
+                'leContent'     => 'leadNote',
             ];
 
             if ($valid && !$cancelled) {
@@ -340,15 +340,22 @@ class NoteController extends FormController
 
         $model->deleteEntity($note);
 
-        $response = new JsonResponse(
+        /*  $response = new JsonResponse(
+              [
+                  'deleteId'      => $objectId,
+                  'leContent' => 'leadNote',
+                  'downNoteCount' => 1,
+              ]
+          ); */
+        return $this->redirect($this->generateUrl(
+            'le_contact_action',
             [
-                'deleteId'      => $objectId,
-                'leContent' => 'leadNote',
-                'downNoteCount' => 1,
+                'objectAction' => 'view',
+                'objectId'     => $lead->getId(),
             ]
-        );
+        ));
 
-        return $response;
+        // return $response;
     }
 
     /**

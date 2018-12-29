@@ -116,7 +116,7 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
         <div class="row" style="width: 125%;">
             <div class="col-md-10">
-                <div class="pull-left" id="email_FromAddress" style="max-width:80%;">
+                <div class="pull-left" id="email_FromAddress" style="width:80%;">
                     <?php echo $view['form']->row($form['fromAddress'],
                         ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                 </div>

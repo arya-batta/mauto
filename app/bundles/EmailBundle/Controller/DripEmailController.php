@@ -251,7 +251,7 @@ class DripEmailController extends FormController
         $page = $this->get('session')->get('mautic.dripemail.page', 1);
 
         // Init the date range filter form
-        $dateRangeValues = $this->request->get('dripemaildaterange', []);
+        $dateRangeValues = $this->request->get('daterange', []);
         $action          = $this->generateUrl('le_dripemail_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
@@ -878,6 +878,31 @@ class DripEmailController extends FormController
                     foreach ($leadEvents as $event) {
                         $leadEventLog->deleteEntity($event);
                     }
+
+                    $dripEmailsRepository   = $this->getModel('email')->getRepository();
+                    $dripemails             = $dripEmailsRepository->getEntities(
+                        [
+                            'filter'           => [
+                                'force' => [
+                                    [
+                                        'column' => 'e.dripEmail',
+                                        'expr'   => 'eq',
+                                        'value'  => $entity,
+                                    ],
+                                    [
+                                        'column' => 'e.emailType',
+                                        'expr'   => 'eq',
+                                        'value'  => 'dripemail',
+                                    ],
+                                ],
+                            ],
+                            'ignore_paginator' => true,
+                        ]
+                    );
+
+                    foreach ($dripemails as $dripemail) {
+                        $dripEmailsRepository->deleteEntity($dripemail);
+                    }
                 }
             }
 
@@ -967,8 +992,33 @@ class DripEmailController extends FormController
                     'ignore_paginator' => true,
                 ]
             );
+            $dripEmailsRepository   = $this->getModel('email')->getRepository();
+            $dripemails             = $dripEmailsRepository->getEntities(
+                [
+                    'filter'           => [
+                        'force' => [
+                            [
+                                'column' => 'e.dripEmail',
+                                'expr'   => 'eq',
+                                'value'  => $entity,
+                            ],
+                            [
+                                'column' => 'e.emailType',
+                                'expr'   => 'eq',
+                                'value'  => 'dripemail',
+                            ],
+                        ],
+                    ],
+                    'ignore_paginator' => true,
+                ]
+            );
+
             foreach ($leadEvents as $event) {
                 $leadEventLog->deleteEntity($event);
+            }
+
+            foreach ($dripemails as $dripemail) {
+                $dripEmailsRepository->deleteEntity($dripemail);
             }
 
             $model->deleteEntity($entity);

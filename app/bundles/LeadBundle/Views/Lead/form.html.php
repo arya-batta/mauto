@@ -222,11 +222,11 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                     <?php endif; ?>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4" id="leadfield_eu_gdpr_timezone">
                                             <?php echo $view['form']->label($form['gdpr_timezone']); ?>
-                                            <?php echo $view['form']->widget($form['gdpr_timezone'],['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
+                                            <?php echo $view['form']->widget($form['gdpr_timezone']); ?>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4" id="leadfield_eu_gdpr_consent">
                                             <?php echo $view['form']->label($form['eu_gdpr_consent']); ?>
                                             <?php echo $view['form']->widget($form['eu_gdpr_consent']); ?>
                                         </div>
