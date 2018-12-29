@@ -161,8 +161,8 @@ class SubscriptionRepository
         $validitydays = round($datediff / (60 * 60 * 24));
 
         $licentity=$this->licenseinforepo->findAll()[0];
-        $licentity->setTotalRecordCount($credits);
-        $licentity->setTotalEmailCount('UL');
+        $licentity->setTotalRecordCount('UL');
+        $licentity->setTotalEmailCount($credits);
         $licentity->setLicensedDays($validitydays);
         $licentity->setEmailValidity($validitytill);
         $licentity->setLicenseStart($startdate);

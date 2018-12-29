@@ -39,15 +39,16 @@ if ($transport == 'le.transport.sendgrid_api') {
 if ($formConfig['parameters']['mailer_transport_name'] == 'le.transport.vialeadsengage' && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api')) {
     $hidespamurl = $hidebounceurl = 'hide';
 }
-$hidefield  = '<div class="col-md-6" style="display: none;">{content}</div>';
+$hidefield        = '<div class="col-md-6" style="display: none;">{content}</div>';
+$hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'leplan2') ? 'style="display: none;"' : '';
 ?>
 
 <?php if (count(array_intersect($fieldKeys, ['mailer_from_name', 'mailer_from_email', 'mailer_transport', 'mailer_spool_type']))): ?>
     <div class="panel panel-primary emailconfig">
-        <div class="panel-heading emailconfig">
+        <div class="panel-heading emailconfig" <?php echo $hidesmtpsettings?>>
             <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.mail'); ?></h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" <?php echo $hidesmtpsettings?>>
             <div class="row hide">
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_from_name', $template); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_from_email', $template); ?>

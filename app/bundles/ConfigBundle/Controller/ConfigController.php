@@ -230,6 +230,8 @@ class ConfigController extends FormController
         $emailModel          = $this->factory->getModel('email');
         $awsEmailRepository  =$emailModel->getAwsVerifiedEmailsRepository();
         $awsemailstatus      =$awsEmailRepository->getEntities();
+        $paymentrepository   =$this->get('le.subscription.repository.payment');
+        $lastpayment         = $paymentrepository->getLastPayment();
 
         return $this->delegateView(
             [
@@ -240,6 +242,7 @@ class ConfigController extends FormController
                     'formConfigs'    => $formConfigs,
                     'isWritable'     => $isWritabale,
                     'verifiedEmails' => $awsemailstatus,
+                    'lastPayment'    => $lastpayment,
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

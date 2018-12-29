@@ -982,19 +982,21 @@ class AjaxController extends CommonAjaxController
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
                     $lastpayment        = $paymentrepository->getLastPayment();
                     $todaydate          = date('Y-m-d');
+                    $emailplancredits   = $planname == 'leplan1' ? 'UL' : '100000';
                     if ($lastpayment != null) {
-                        $validityend = $lastpayment->getValidityTill();
+                        $emailplancredits = $lastpayment->getTotalEmailCount();
+                        $validityend      = $lastpayment->getValidityTill();
                         if ($todaydate != $validityend) {
                             $todaydate    = $validityend;
                             $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
                         }
                     } else {
-                        $planname     = '90 Days Success Offer';
-                        $validitytill = date('Y-m-d', strtotime('-1 day +90 days'));
+                        //$planname     = '90 Days Success Offer';
+                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
-                    $subsrepository->updateContactCredits($plancredits, $validitytill, $todaydate);
+                    $subsrepository->updateContactCredits($emailplancredits, $validitytill, $todaydate);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
                     $signuprepository     =$this->get('le.core.repository.signup');
                     $dbname               = $this->coreParametersHelper->getParameter('db_name');

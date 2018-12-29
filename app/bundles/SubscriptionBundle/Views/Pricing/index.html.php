@@ -18,44 +18,77 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
         Click Here
     </a> to connect it.</div>
 <br>
-<div class="hide" style="text-align:center;width:100%;">
-    <div style="display:inline-block;">
-        <div class="pricingtables">
-
-            <div class="pricing-table hide">
-                <div class="pricing-head">
-                    <h3>Pay Monthly</h3>
-                    <div class="pricing-body">
-                        <ul>
-                            <li class="dollar"><span class="bill">$</span>49<br><span class="billing">Per Month, Billed Monthly</span></li>
-                            <li style="margin-left:55px;">Unlimited Contacts</li>
-                            <li style="margin-left:55px;">Unlimited Features</li>
-                            <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="79" data-plancredits="UL" data-validity="1" class="btn btn-success buttonle plan-btn">
-                                Subscribe
-                            </a>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pricing-tables hide">
-                <div class="pricing-heads">
-                    <h3>Pay Annually</h3>
-                    <span class="discounted-price--tag">37% Off</span>
-                    <div class="pricing-body">
-                        <ul>
-                            <li class="dollar"><span class="bill">$</span>49<br><span class="billing">Per Month, Billed Annually - <b>$588</b>/Yr</span></li>
-                            <li style="margin-left:55px;">Unlimited Contacts</li>
-                            <li style="margin-left:55px;">Unlimited Features</li>
-                            <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="588" data-plancredits="UL" data-validity="12" class="btn btn-success buttonles plan-btn">
-                                Subscribe
-                            </a>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div></div></div>
 <div style="text-align:center;width:100%;">
+    <div style="display:inline-block;">
+        <div class="row">
+
+            <div class="plan-card col-md-8">
+                <div class="plan-name">
+                    <h2>Engage</h2>
+                    <div class="">
+                        <ul class="plan-pricing">
+                            <li class="price">
+                                <span class="currency-symbol">$</span>49
+                            </li>
+                            <li class="terms">Per Month,<br> Billed Monthly</li>
+                        </ul>
+                        <hr>
+                        <h3>Features</h3>
+                        <p class="pricepara">Unlimited <b>Contacts</b></p>
+                        <p class="pricepara">Unlimited <b>Campaigns</b></p>
+                        <p class="pricepara">Unlimited <b>Drip Sequence</b></p>
+                        <p class="pricepara">Unlimited <b>Automations</b></p>
+                        <p class="pricepara">Unlimited <b>Tracking</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Teammates</b></p>
+                        <br>
+                        <h3>Emails</h3>
+                        <p class="pricepara">Connect your 3rd Party Email Service Provider for emails (Amazon SES, Sendgrid, Spark Post or Elastic Email)</p>
+                        <!--<a href="/signup-free-trial" class="buttonfooter" id="plancardbutt"style="margin-top: 115px;">Try for Free</a>-->
+                        <br>
+                        <br>
+                        <br>
+
+                        <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="49" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="plan-card col-md-8" id="plan-card">
+                <div class="plan-name">
+                    <h2 >Engage Pro</h2>
+                    <div class="">
+                        <ul class="plan-pricing">
+                            <li class="price">
+                                <span class="currency-symbol">$</span>79
+                            </li>
+                            <li class="terms">Per Month,<br> Billed Monthly</li>
+                        </ul>
+                        <hr>
+                        <h3>Features</h3>
+                        <p class="pricepara">Unlimited <b>Contacts</b></p>
+                        <p class="pricepara">Unlimited <b>Campaigns</b></p>
+                        <p class="pricepara">Unlimited <b>Drip Sequence</b></p>
+                        <p class="pricepara">Unlimited <b>Automations</b></p>
+                        <p class="pricepara">Unlimited <b>Tracking</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Teammates</b></p>
+                        <br>
+                        <h3>Emails</h3>
+                        <p class="pricepara">No 3rd party email service provider required.</p>
+                        <p class="pricepara">The plan includes <b>100,000 free emails</b> every month.</p>
+                        <p class="pricepara">And Pay for additional emails on actual usage if required ($9 for every 10,000 additional emails).</p>
+                        <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="79" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hide" style="text-align:center;width:100%;">
     <div style="display:inline-block;">
         <div class="pricingtable1">
             <div class="pricing-table1">
@@ -88,91 +121,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                     </div>
                 </div>
             </div>
-        </div></div></div>
-<div class="pricing-plan-holder " data-email-transaport="<?php echo $transport ?>">
-    <div class="col-md-4 pricing-plan-list plan-monthly hide">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="pricing-plan-header">
-                    <div class="sub-plan-header">Pay Monthly</div>
-                    <div class="price">
-                        <span>$</span>
-                        <span>149</span>
-                    </div>
-                    <div class="price-desc">Per Month, Billed Monthly</div>
-                </div>
-                <div class="details-list">
-                    <span>Unlimited Contacts</span>
-                   <span>Priority Support Via Email</span>
-                    <span>Unlimited Team Members</span>
-                    <span>All Leadsengage Features </span>
-                </div>
-                <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="149" data-plancredits="UL" data-validity="1" class="btn btn-success plan-btn">
-                    Subscribe
-                </a>
-            </div>
         </div>
     </div>
-
-    <div class="col-md-4 pricing-plan-list plan-yearly hide">
-        <div class="panel panel-default">
-            <div class="highlight-ribbon">
-                <span class="highlight-ribbon-span">Save 33%</span>
-            </div>
-            <div class="panel-body">
-                <div class="pricing-plan-header">
-                    <div class="sub-plan-header">Pay Annually</div>
-                    <div class="price">
-                        <span>$</span>
-                        <span>99</span>
-                    </div>
-                    <div class="price-desc">Per Month, Billed Annually - $1188/yr</div>
-                </div>
-                <div class="details-list">
-                    <span>Unlimited Contacts</span>
-                                      <span>Priority Support Via Email</span>
-                    <span>Unlimited Team Members</span>
-                    <span>All Leadsengage Features </span>
-                </div>
-                <a href="#" type="button" data-planname="leplan1" data-plancurrency="$" data-planamount="<?php echo 12 * 99; ?>" data-plancredits="UL" data-validity="12" class="btn btn-success plan-btn">
-                    Subscribe
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-10 pricing-plan-list plan-monthly pricing_panel hide" style="margin-left:8%;">
-        <div class="col-sm-6 details-list">
-            <!--<div class="sub-plan-header">Up to 25,000 Leads</div>
-            <div class="price">
-                <span>$</span>
-                <span>49</span>
-            </div>
-            <div class="col-sm-6">
-                <a href="#" type="button" data-planname="leplan2" data-plancurrency="$" data-planamount="<?php echo 49; ?>" data-plancredits="25000" data-validity="1" class="btn btn-success plan-btn" style="margin-top:5%;margin-left:60%;">
-                Subscribe
-                </a>
-            </div>
-            <div class="col-sm-6 price-desc">
-                <br>
-                <b>Addtional Leads</b> <br> $10/month per 5,000 additional Leads.
-            </div>-->
-            <p style="font-size:20px;"><b>Feature Includes</b></p>
-            <span>Send Unlimited Email, SMS Campaigns</span>
-            <!--                    <span>Priority Support Via Email</span>-->
-            <span>Create Unlimited Automation Workflows</span>
-            <span>Create Unlimited Landing Pages & Lead Capture Forms</span>
-        </div>
-        <div class="col-sm-6 details-list">
-            <span>Track Unlimited Email Opens, Clicks</span>
-            <!--                    <span>Priority Support Via Email</span>-->
-            <span>Track Unlimited Website Visits & Events</span>
-            <span>Manage Lead Scoring, Points, Segments, Tagss</span>
-            <span>Zapier, Webhooks & API Integrations</span>
-        </div>
-
-    </div>
-
 </div>
+
 <div class="pricing-type-modal-backdrop hide" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
 
 <div class="modal fade in pricing-type-modal hide" style="display: block; z-index: 9999;">

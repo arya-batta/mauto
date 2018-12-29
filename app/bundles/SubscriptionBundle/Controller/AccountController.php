@@ -109,7 +109,7 @@ class AccountController extends FormController
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',
-                'leContent' => 'accountinfo',
+                'leContent'     => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']),
             ],
         ]);
@@ -165,6 +165,7 @@ class AccountController extends FormController
         $contactUsage         =$licenseinfo->getActualRecordCount();
         $totalContactCredits  =$licenseinfo->getTotalRecordCount();
         $totalEmailCredits    =$licenseinfo->getTotalEmailCount();
+        $actualEmailCredits   = $licenseinfo->getActualEmailCount();
         $currentDate          = date('Y-m-d');
         $monthStartDate       = date('Y-m-01');
         $emailValidityEndDate = $this->get('mautic.helper.licenseinfo')->getEmailValidityEndDate();
@@ -180,15 +181,15 @@ class AccountController extends FormController
         $custplanamount       = '';
         $planname             = '';
         if ($lastpayment != null) {
-            $planType    = $lastpayment->getPlanLabel();
-            $validityTill=$datehelper->toDate($lastpayment->getValidityTill());
-            $planAmount  =$lastpayment->getCurrency().$lastpayment->getAmount();
+            $planType       = $lastpayment->getPlanLabel();
+            $validityTill   =$datehelper->toDate($lastpayment->getValidityTill());
+            $planAmount     = $lastpayment->getCurrency().$lastpayment->getAmount();
+            $custplanamount = $planAmount;
             if ($lastpayment->getPlanName() == 'leplan2') {
-                $planAmount = ($lastpayment->getAmount() / 12);
-                $planAmount = $lastpayment->getCurrency().$planAmount;
+                $custplanamount = ((($totalEmailCredits - 100000) / 10000) * 10) + 49;
+                $custplanamount = $lastpayment->getCurrency().$custplanamount;
             }
-            $custplanamount = ((($totalContactCredits - 25000) / 5000) * 10) + 49;
-            $custplanamount = $lastpayment->getCurrency().$custplanamount;
+
             $planname       = $lastpayment->getPlanName();
         }
 
@@ -209,11 +210,12 @@ class AccountController extends FormController
                 'totalEmailCredits'  => $totalEmailCredits,
                 'custplanamount'     => $custplanamount,
                 'planname'           => $planname,
+                'actualEmailCredits' => $actualEmailCredits,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',
-                'leContent' => 'accountinfo',
+                'leContent'     => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']),
             ],
         ]);
@@ -261,7 +263,7 @@ class AccountController extends FormController
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:payment.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',
-                'leContent' => 'accountinfo',
+                'leContent'     => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'payment']),
             ],
         ]);
@@ -319,7 +321,7 @@ class AccountController extends FormController
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',
-                'leContent' => 'accountinfo',
+                'leContent'     => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cancel']),
             ],
         ]);
@@ -363,7 +365,7 @@ class AccountController extends FormController
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cardinfo.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',
-                'leContent' => 'accountinfo',
+                'leContent'     => 'accountinfo',
                 'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']),
             ],
         ]);

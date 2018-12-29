@@ -713,8 +713,10 @@ class LicenseInfoHelper
         $totalEmailCount  = $entity->getTotalEmailCount();
         $actualEmailCount = $entity->getActualEmailCount();
 
-        $configtransport = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
-        if ($configtransport == 'le.transport.vialeadsengage') {
+        $configtransport    = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
+        $paymentrepository  = $this->factory->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($configtransport == 'le.transport.vialeadsengage' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
             $totalEmailCount = 100;
         }
 

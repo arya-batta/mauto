@@ -47,11 +47,11 @@ Le.pricingplansOnLoad = function (container) {
         var plancredits = currentLink.attr('data-plancredits');
         var planvalidity = currentLink.attr('data-validity');
         var paynowbtn=mQuery('.pay-now-btn');
-        var emailtransport=mQuery('.pricing-plan-holder').attr('data-email-transaport');
+        /*var emailtransport=mQuery('.pricing-plan-holder').attr('data-email-transaport');
         if(emailtransport == 'viale'){
             mQuery('#pricing-plan-alert-info').removeClass('hide');
-        }else{
-            mQuery('#pricing-plan-alert-info').addClass('hide');
+        }else{*/
+            //mQuery('#pricing-plan-alert-info').addClass('hide');
             paynowbtn.html("Pay Now"+" ("+plancurrency+planamount+")");
             paynowbtn.attr("planamount",planamount);
             paynowbtn.attr("plancurrency",plancurrency);
@@ -61,7 +61,7 @@ Le.pricingplansOnLoad = function (container) {
             mQuery('.pricing-type-modal-backdrop').removeClass('hide');
             mQuery('.pricing-type-modal').removeClass('hide');
             mountStripeCard(stripe,card,'#card-holder-widget');
-        }
+        //}
     });
     mQuery('.pay-now-btn').click(function(e) {
         e.preventDefault();

@@ -27,6 +27,7 @@ class PublicController extends CommonFormController
         $billingmodel  = $this->getModel('subscription.billinginfo');
         $billingrepo   = $billingmodel->getRepository();
         $billingentity = $billingrepo->findAll();
+        $billing       = '';
         if (sizeof($billingentity) > 0) {
             $billing = $billingentity[0]; //$model->getEntity(1);
         }

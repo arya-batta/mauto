@@ -21,13 +21,27 @@ if ($billing->getState() == 'Tamil Nadu') {
 if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
     $showcgst = $showgst = 'hide';
 }
+$isaddon          = false;
+$excesscredit     = 0;
 $planaftercredit  = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
+if ($payment->getAfterCredits() != 'UL' && $payment->getBeforeCredits() != 'UL') {
+    if ($planaftercredit > number_format($payment->getBeforeCredits())) {
+        $isaddon      = true;
+        $excesscredit = number_format(($payment->getAfterCredits() - ($payment->getBeforeCredits())));
+    }
+}
+
 $plancustomcredit = $payment->getNetamount() * 500;
-$planinfo         = $payment->getPlanName() == 'leplan1' ? 'LeadsEngage Subscription Charges, $49 per Month.' : 'LeadsEngage Subscription Charges, $49 for first 90 days.';
+$planinfo         = $payment->getPlanName() == 'leplan1' ? 'Subscription charges for Engage plan.' : 'Subscription charges for Engage Pro plan.';
+$planlabel        = $payment->getPlanLabel();
+if ($isaddon) {
+    $planlabel = 'Email Add-On';
+    $planinfo  = 'Charges for Email Add-On ('.$excesscredit.')';
+}
 ?>
 <html>
 <head>
-    <title>Receipt : <?php echo $payment->getPlanLabel(); ?></title>
+    <title>Receipt : <?php echo $planlabel; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
@@ -187,7 +201,7 @@ $planinfo         = $payment->getPlanName() == 'leplan1' ? 'LeadsEngage Subscrip
             <tbody>
             <tr>
                 <td class="table_body planname_body">
-                    <?php echo $payment->getPlanLabel(); ?>
+                    <?php echo $planlabel; ?>
                 </td>
                 <td class="table_body description_body">
                     <span class="<?php echo ($payment->getTaxamount() == 1) ? 'hide' : 'hide'; ?>"><?php echo 'Up To '.$planaftercredit.' leads credits '; ?></span> <!--Email Credits-->

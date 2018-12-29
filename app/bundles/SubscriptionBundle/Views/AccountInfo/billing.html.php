@@ -11,11 +11,11 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
-$contactusageper='';
-if ($totalContactCredits != 'UL') {
-    $contactusageper=($contactUsage / $totalContactCredits) * 100;
-    $contactusageper=ceil($contactusageper);
-    $contactusageper='('.$contactusageper.'%)';
+$emailuseage='';
+if ($totalEmailCredits != 'UL') {
+    $emailuseage=($actualEmailCredits / $totalEmailCredits) * 100;
+    $emailuseage=ceil($emailuseage);
+    $emailuseage='('.$emailuseage.'%)';
 }
 ?>
 <!-- start: box layout -->
@@ -42,20 +42,21 @@ if ($totalContactCredits != 'UL') {
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits ?></b> Leads & Features.  Your free trial <?php echo $trialEndDays < 0 ? '<b>expired</b>' : 'ends in <b>'.$trialEndDays.'</b> days '?></span>
+                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b> and includes unlimited Leads & Features. Your free trial <?php echo $trialEndDays < 0 ? '<b>expired</b>' : 'ends in <b>'.$trialEndDays.'</b> days '?></span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planname == 'leplan1' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month <?php echo $planname == 'leplan1' ? ' paid monthly' : ' paid annually' ?> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> Leads & Features. </span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month paid monthly and includes <b>unlimited</b> leads and access to all features. </span>
                                 <span class='plan-info-lbl2'>Your next billing date is <b> <?php echo $vallidityTill ?> </b>.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo ($planname != '' && $planname != 'leplan1') ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Special Success Offer</b> and includes <b><?php echo $totalContactCredits == 'UL' ? 'unlimited' : $totalContactCredits?></b> Leads & Features. Your next billing date is <b> <?php echo $vallidityTill ?> </b>.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month paid monthly and includes <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : number_format($totalEmailCredits)?></b> email sends, unlimited leads and access to all features.
+                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo $actualEmailCredits.' emails '.$emailuseage?> out of <?php echo number_format($totalEmailCredits)?> emails.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>

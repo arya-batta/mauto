@@ -1879,7 +1879,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $data = $query->loadAndBuildTimeData($q);
             $chart->setDataset($this->translator->trans('le.email.read.emails'), $data);
         }
-        if($this->security->isAdmin()){
+        if ($this->security->isAdmin()) {
             if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
                 $q = $query->prepareTimeDataQuery('email_stats', 'date_sent', $filter);
                 if (!$canViewOthers) {
@@ -2449,6 +2449,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         if (sizeof($senderprofiles) > 0) {
             $senderprofile=$senderprofiles[0];
             $senderprofile->setVerificationStatus('0');
+            $senderprofile->setInboxverified(1);
             $respository->saveEntity($senderprofile);
             $response['email']=$senderprofile->getVerifiedEmails();
         } else {

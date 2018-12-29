@@ -53,8 +53,8 @@ class UpdatePaymentCommand extends ModeratedCommand
             if ($lastpayment != null) {
                 $paymenthelper     =$container->get('le.helper.payment');
                 if ($licenseinfo != null) {
-                    $totalrecordcount =$licenseinfo->getTotalRecordCount();
-                    $actualrecordcount=$licenseinfo->getActualRecordCount();
+                    $totalrecordcount =$licenseinfo->getTotalEmailCount();
+                    $actualrecordcount=$licenseinfo->getActualEmailCount();
                     $validitytill     = $lastpayment->getValidityTill();
                     $currentdate      = date('Y-m-d');
                     $planname         = $lastpayment->getPlanName();
@@ -67,12 +67,14 @@ class UpdatePaymentCommand extends ModeratedCommand
                     if (sizeof($stripecards) > 0) {
                         $stripecard = $stripecards[0];
                     }
-                    $monthcount = 1;
-                    if ($planname != 'leplan1') {
+                    $monthcount  = 1;
+                    $plancredits = 'UL';
+                    /*if ($planname != 'leplan1') {
                         $planname = 'leplan1';
-                    }
+                    }*/
                     if ($planname == 'leplan2') {
-                        $monthcount = 12;
+                        //$monthcount = 12;
+                        $plancredits = $licenseinfo->getTotalEmailCount();
                     }
                     if ($stripecard != null) {
                         $ismoreusage=false;
@@ -88,10 +90,13 @@ class UpdatePaymentCommand extends ModeratedCommand
                             $output->writeln('<info>'.'Actual Record Count:'.$actualrecordcount.'</info>');
                             $multiplx=1;
                             if ($actualrecordcount > 0) {
-                                $multiplx   = ceil($actualrecordcount / 5000);
-                                $multiplx   = $multiplx - 5;
+                                $multiplx   = ceil($actualrecordcount / 10000);
+                                $multiplx   = $multiplx - 10;
                             }
                             if ($isvalidityexpired) {
+                                if ($planname == 'leplan2') {
+                                    $plancredits = '100000';
+                                }
                                 $netamount   = (($planamount)); // + (10 * $multiplx));
                                 $netcredits  = (($plancredits)); // + (5000 * $multiplx));
                                 $validitytill=date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
@@ -100,11 +105,11 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $excesscount=$actualrecordcount - $totalrecordcount;
                                 $amtmultiplx=1;
                                 if ($excesscount > 0) {
-                                    $amtmultiplx   =ceil($excesscount / 5000);
+                                    $amtmultiplx   =ceil($excesscount / 10000);
                                 }
-                                $netamount   = (10 * $amtmultiplx);
-                                $netcredits  = (($plancredits) + (5000 * $multiplx));
-                                $netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
+                                $netamount   = (9 * $amtmultiplx);
+                                $netcredits  = (($plancredits) + (10000 * $multiplx));
+                                //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
                                 //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
                                 // $output->writeln('<info>'.'Charged Amount:'.$amount2.'</info>');
                                 // $netamount=$amount2 - $amount1;
