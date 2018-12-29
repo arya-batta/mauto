@@ -163,8 +163,6 @@ return [
                 ],*/
             ],
         ],
-    ],
-    'menu' => [
         'admin' => [
             'le.notification.menu.admin.index' => [
                 'route'           => 'le_email_index',
