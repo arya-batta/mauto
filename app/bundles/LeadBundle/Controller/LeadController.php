@@ -512,7 +512,7 @@ class LeadController extends FormController
         $repo  = $noteModel->getRepository();
         $repo->setCurrentUser($noteModel->getCurrentUser());
 
-        // We need the EmailRepository to check if a lead is flagged as do not contact
+        // We need the EmailRepository to check if a lead is flagged  as do not contact
         /** @var \Mautic\EmailBundle\Entity\EmailRepository $emailRepo */
         $emailRepo       = $this->getModel('email')->getRepository();
         $integrationRepo = $this->get('doctrine.orm.entity_manager')->getRepository('MauticPluginBundle:IntegrationEntity');
@@ -2522,7 +2522,7 @@ class LeadController extends FormController
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model       = $this->getModel('lead');
         $leadcount   = count($model->getEntities());
-        if($leadcount == 0){
+        if ($leadcount == 0) {
             return  $this->redirectToRoute('le_contact_index', ['leadcount' => 'true']);
         }
         $session    = $this->get('session');
