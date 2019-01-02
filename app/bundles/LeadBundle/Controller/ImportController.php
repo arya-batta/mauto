@@ -410,8 +410,14 @@ class ImportController extends FormController
                                 $matchedFields[$k] = trim($matchedFields[$k]);
                             }
                         }
+                        $emailfield=[];
+                        foreach ($matchedFields as $matchedField){
+                          if($matchedField == "email"){
+                              $emailfield =$matchedField;
 
-                        if (empty($matchedFields['email'])) {
+                          }
+                        }
+                        if (empty($emailfield)) {
                             $form->addError(
                                 new FormError(
                                     $this->get('translator')->trans('le.lead.import.matchfields.email', [], 'validators')

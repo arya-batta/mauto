@@ -1432,6 +1432,7 @@ class DripEmailController extends FormController
             /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
             $emailentity             = $emailmodel->getEntity($subobjectId);
             $email[0]['custom_html'] = $emailentity->getCustomHtml();
+            $email[1]['footer']      = $this->coreParametersHelper->getParameter('footer_text');
         }
         $dripRoute = ['objectId' => $subobjectId, 'objectAction' => 'edit'];
         //echo $email[0]['custom_html'];

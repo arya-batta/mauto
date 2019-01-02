@@ -23,5 +23,9 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 </head>
 <body>
 <?php echo $content; ?>
+<?php if(isset($email[1]['footer'])):?>
+<hr>
+<?php echo $email[1]['footer']?>
+<?php endif;?>
 </body>
 </html>

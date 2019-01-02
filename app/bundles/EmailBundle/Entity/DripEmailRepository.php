@@ -356,7 +356,8 @@ class DripEmailRepository extends CommonRepository
 
         $dlQ = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $dlQ->select('dl.lead_id')
-            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl');
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl')
+            ->andWhere($dlQ->expr()->eq('dl.dripemail_id',$drip->getId()));
 
         if ($countOnly) {
             // distinct with an inner join seems faster

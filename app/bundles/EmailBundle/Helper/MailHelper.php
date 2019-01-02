@@ -534,7 +534,17 @@ class MailHelper
                 $bodyContent = $doc->saveHTML();
                 return $bodyContent;
             }
-            if(($this->getEmail()->getEmailType() != 'template') && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
+
+          if($this->getEmail() instanceof Email){
+              if(($this->getEmail()->getEmailType() != 'template')){
+                  $emailtype=true;
+              }else{
+                  $emailtype=false;
+              }
+          }else{
+              $emailtype=true;
+          }
+            if($emailtype && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');
                 $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
