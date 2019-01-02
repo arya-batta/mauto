@@ -31,12 +31,45 @@ class PointEventHelper
             return false;
         }
 
+        if ($eventDetails->getEmailType() == 'template') {
+            return false;
+        }
         $emailId      = $eventDetails->getId();
 
         if (isset($action['properties']['campaigntype'])) {
             if ($action['properties']['campaigntype'] == 'drip') {
                 if (isset($action['properties']['driplist'])) {
-                    $limitToEmails = $action['properties']['driplist'];
+                    if ($action['properties']['driplist'] == null) {
+                        $dripEmailModel = $action['dripemailmodel'];
+                        $emailModel     = $action['emailmodel'];
+                        $dripentity     = $dripEmailModel->getEntity($action['properties']['dripemail']);
+
+                        $dripemailsrepository = $emailModel->getRepository();
+
+                        $dripemails = $dripemailsrepository->getEntities(
+                            [
+                                'filter'=> [
+                                    'force' => [
+                                        [
+                                        'column'  => 'e.dripEmail',
+                                         'expr'   => 'eq',
+                                         'value'  => $dripentity,
+                                        ],
+                                        [
+                                            'column' => 'e.emailType',
+                                            'expr'   => 'eq',
+                                            'value'  => 'dripemail',
+                                        ],
+                                        ],
+                                    ],
+                                //'ignore_paginator' => true,
+                                ]);
+                        foreach ($dripemails as $dripemail) {
+                            $limitToEmails[] = $dripemail->getId();
+                        }
+                    } else {
+                        $limitToEmails = $action['properties']['driplist'];
+                    }
                 }
             } else {
                 if (isset($action['properties']['emails'])) {

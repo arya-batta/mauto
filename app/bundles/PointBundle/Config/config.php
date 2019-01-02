@@ -158,6 +158,8 @@ return [
                     'session',
                     'mautic.helper.ip_lookup',
                     'mautic.lead.model.lead',
+                    'mautic.email.model.email',
+                    'mautic.email.model.dripemail',
                 ],
             ],
             'mautic.point.model.triggerevent' => [

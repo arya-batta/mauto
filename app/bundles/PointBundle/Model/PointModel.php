@@ -11,10 +11,13 @@
 
 namespace Mautic\PointBundle\Model;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\Chart\ChartQuery;
 use Mautic\CoreBundle\Helper\Chart\LineChart;
 use Mautic\CoreBundle\Helper\IpLookupHelper;
 use Mautic\CoreBundle\Model\FormModel as CommonFormModel;
+use Mautic\EmailBundle\Model\DripEmailModel;
+use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PointBundle\Entity\Action;
@@ -56,17 +59,31 @@ class PointModel extends CommonFormModel
     protected $leadModel;
 
     /**
+     * @var EmailModel
+     */
+    protected $emailModel;
+
+    /**
+     * @var DripEmailModel
+     */
+    protected $dripEmailModel;
+
+    /**
      * PointModel constructor.
      *
      * @param Session        $session
      * @param IpLookupHelper $ipLookupHelper
      * @param LeadModel      $leadModel
+     * @param LeadModel      $leadModel
+     * @param EmailModel     $emailModel
      */
-    public function __construct(Session $session, IpLookupHelper $ipLookupHelper, LeadModel $leadModel)
+    public function __construct(Session $session, IpLookupHelper $ipLookupHelper, LeadModel $leadModel, EmailModel $emailModel, DripEmailModel $dripEmailModel)
     {
-        $this->session        = $session;
-        $this->ipLookupHelper = $ipLookupHelper;
-        $this->leadModel      = $leadModel;
+        $this->session         = $session;
+        $this->ipLookupHelper  = $ipLookupHelper;
+        $this->leadModel       = $leadModel;
+        $this->emailModel      = $emailModel;
+        $this->dripEmailModel  = $dripEmailModel;
     }
 
     /**
@@ -247,12 +264,14 @@ class PointModel extends CommonFormModel
 
             $args = [
                 'action' => [
-                    'id'         => $action->getId(),
-                    'type'       => $action->getType(),
-                    'name'       => $action->getName(),
-                    'properties' => $action->getProperties(),
-                    'points'     => $action->getDelta(),
-                    'score'      => $action->getScore(),
+                    'id'             => $action->getId(),
+                    'type'           => $action->getType(),
+                    'name'           => $action->getName(),
+                    'properties'     => $action->getProperties(),
+                    'points'         => $action->getDelta(),
+                    'score'          => $action->getScore(),
+                    'dripemailmodel' => $this->dripEmailModel,
+                    'emailmodel'     => $this->emailModel,
                 ],
                 'lead'         => $lead,
                 'factory'      => $this->factory, // WHAT?
@@ -304,16 +323,17 @@ class PointModel extends CommonFormModel
                     $log->setDateFired(new \DateTime());
 
                     $persist[] = $log;
-                }
-            }
-            $score = $action->getScore();
 
-            if($action->getType() == 'url.hit'){
-                if ($lead !== null && !empty($score) && $eventDetails->getUrl()==$action->getProperties()['page_url']) {
-                    $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                    $score = $action->getScore();
+
+                    if ($action->getType() == 'url.hit') {
+                        if ($lead !== null && !empty($score) && $eventDetails->getUrl() == $action->getProperties()['page_url']) {
+                            $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                        }
+                    } elseif ($lead !== null && !empty($score)) {
+                        $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                    }
                 }
-            }elseif ($lead !== null && !empty($score)) {
-                $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
             }
         }
 
