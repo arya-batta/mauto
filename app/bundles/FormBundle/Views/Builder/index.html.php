@@ -331,10 +331,11 @@ endif; ?>
             </div>
             <br>
             <div class="row fg1-smart-form-specific <?php echo $hidesmartformspecific?>">
-                <div class="col-md-6 <?php echo (count($form['formurl']->vars['errors'])) ? ' has-error' : ''; ?> ">
+                <div class="col-md-6 <?php echo (count($form['formurl']->vars['errors'])) ? ' has-error' : ''; ?> "  id="form_url_div">
                     <?php echo $view['form']->label($form['formurl']); ?>
                     <?php echo $view['form']->widget($form['formurl'], $isNewAction ? [] : ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                     <?php echo $view['form']->errors($form['formurl']); ?>
+                    <div class="help-block custom-help"></div>
                 </div>
                 <div class="col-md-6">
                     <a href="#" id="smart-form-scan-url-btn" class="btn btn-default le-btn-default" <?php echo $isNewAction ? '' : "disabled='disabled'"?>><?php echo $view['translator']->trans('le.smart.form.scan.button.label'); ?></a>

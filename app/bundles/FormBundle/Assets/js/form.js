@@ -61,6 +61,8 @@ Le.formOnLoad = function (container) {
         mQuery('#Form_post_action').removeClass('has-success has-error');
         mQuery('#Form_Name .help-block').addClass('hide').html("");
         mQuery('#Form_post_action .help-block').addClass('hide').html("");
+        mQuery('#form_url_div').removeClass('has-success has-error');
+        mQuery('#form_url_div .help-block').addClass('hide').html("");
         if(mQuery('#leform_name').val() == "" && mQuery('#leform_postActionProperty').val() == ""){
             if(mQuery('.check_required').hasClass('required'))
             {
@@ -83,6 +85,11 @@ Le.formOnLoad = function (container) {
         } else if (mQuery('#leform_postActionProperty').val() == "" && mQuery('.check_required').hasClass('required')){
             mQuery('#Form_post_action').removeClass('has-success has-error').addClass('has-error');
             mQuery('#Form_post_action .custom-help').removeClass('hide').html("Redirect URL/Message can't be empty");
+            return;
+        }
+        if(mQuery('#leform_formType').val() == 'smart' && mQuery('#leform_formurl').val() == ""){
+            mQuery('#form_url_div').removeClass('has-success has-error').addClass('has-error');
+            mQuery('#form_url_div .custom-help').removeClass('hide').html("A value is required.");
             return;
         }
         var selectrel = mQuery(this).attr("rel");
@@ -522,10 +529,11 @@ Le.openSmartFormPanel=function(event){
     if(formname == ""){
         header=formid;
     }
+    var fieldjson = mQuery('#data_formfield_'+formid).text();
     mQuery('.smart-form-field-mapper-header').html(header);
     mQuery('#leform_smartformname').val(formname);
     mQuery('#leform_smartformid').val(formid);
-    var fieldjson=mQuery(currentlink).attr('data-formfield');
+   // var fieldjson=mQuery(currentlink).attr('data-formfield');
     try{
         mQuery('#le_smart_form_fields_mapping').empty();
         var prototype = mQuery('#le_smart_form_fields_mapping').data('prototype');

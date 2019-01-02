@@ -613,6 +613,9 @@ JS;
         $server        = $this->request->server->all();
         $formmodel     =$this->getModel('form');
         $formrepository=$formmodel->getRepository();
+        if ($formname == 'undefined') {
+            $formname = null;
+        }
         $forms         =$formrepository->findBy(
             [
                 'smartformname' => $formname,

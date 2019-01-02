@@ -138,7 +138,7 @@ Le.launchBeeEditor = function (formName, actionName) {
         }
     }
     if(Le.beeTemplate == ""){
-        alert("Please Select the Template.");
+        alert("Select a template based on the type of email you want to create and click 'DRAG N DROP EDITOR' button to design your email message.");
         return;
     }
     //if(formName == "dripemail") {

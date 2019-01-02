@@ -242,11 +242,11 @@ class SubmissionModel extends CommonFormModel
             $type            = $f->getType();
             $alias           = $f->getAlias();
             $dbalias         = $f->getDbField();
-            $value           = (isset($post[$alias])) ? $post[$alias] : '';
+            $value           = (isset($post[$dbalias]) || isset($post[$alias])) ? $form->isSmartForm() ? $post[$dbalias] : $post[$alias] : '';
             $fieldArray[$id] = [
                 'id'    => $id,
                 'type'  => $type,
-                'alias' => $form->isSmartForm() ? $dbalias : $alias,
+                'alias' => $alias,
             ];
 
             if ($f->isCaptchaType()) {
@@ -1197,11 +1197,11 @@ class SubmissionModel extends CommonFormModel
             $newfield=new Field();
             $newfield->setId($index);
             $newfield->setType('text');
-            $newfield->setAlias($field['smartfield']);
+            $newfield->setAlias($field['dbfield']);
             $newfield->setLeadField($field['leadfield']);
             $newfield->setIsRequired(false);
             $newfield->setIsCustom(false);
-            $newfield->setDbField($field['dbfield']);
+            $newfield->setDbField($field['smartfield']);
             $smartformfields[]=$newfield;
         }
 
