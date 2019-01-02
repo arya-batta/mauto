@@ -184,9 +184,6 @@ class ListOptInController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 $formData = $this->request->request->get('leadlistoptin');
-                if (!empty($formData['footerText'])) {
-                    $list->setFooterText($formData['footerText']);
-                } else
                 if ($valid = $this->isFormValid($form) && $this->validateListoptinForm($form)) {
                     //form is valid so process the data
                     $model->saveEntity($list);
