@@ -23,7 +23,7 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 </head>
 <body>
 <?php echo $content; ?>
-<?php if(isset($email[1]['footer'])):?>
+<?php if(isset($email[1]['footer']) && $email[2]['type']=='RichTextEditor'):?>
 <hr>
 <?php echo $email[1]['footer']?>
 <?php endif;?>

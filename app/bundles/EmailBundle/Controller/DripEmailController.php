@@ -1433,6 +1433,7 @@ class DripEmailController extends FormController
             $emailentity             = $emailmodel->getEntity($subobjectId);
             $email[0]['custom_html'] = $emailentity->getCustomHtml();
             $email[1]['footer']      = $this->coreParametersHelper->getParameter('footer_text');
+            $email[2]['type']        = $emailentity->getBeeJSON();
         }
         $dripRoute = ['objectId' => $subobjectId, 'objectAction' => 'edit'];
         //echo $email[0]['custom_html'];
