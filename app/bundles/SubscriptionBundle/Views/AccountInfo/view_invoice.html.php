@@ -256,7 +256,7 @@ if ($isaddon) {
         <br>
         <br>
         <p>If you have any questions about this invoice, please contact <a href="mailto:support@leadsengage.com"><b>support@leadsengage.com</b></a>.</p>
-        <p>The Leadsengage Team</p>
+        <p>The LeadsEngage Team</p>
     </div>
 </div>
 

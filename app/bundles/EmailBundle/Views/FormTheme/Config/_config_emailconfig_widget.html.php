@@ -40,7 +40,7 @@ if ($formConfig['parameters']['mailer_transport_name'] == 'le.transport.vialeads
     $hidespamurl = $hidebounceurl = 'hide';
 }
 $hidefield        = '<div class="col-md-6" style="display: none;">{content}</div>';
-$hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'leplan2') ? 'style="display: none;"' : '';
+$hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'leplan2' && !$isadmin) ? 'style="display: none;"' : '';
 ?>
 
 <?php if (count(array_intersect($fieldKeys, ['mailer_from_name', 'mailer_from_email', 'mailer_transport', 'mailer_spool_type']))): ?>

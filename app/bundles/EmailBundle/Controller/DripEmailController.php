@@ -1333,6 +1333,7 @@ class DripEmailController extends FormController
         if ($this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($emailform)) {
                 if ($valid = $this->isFormValid($emailform)) {
+                    $currentutmtags=[];
                     $emailentity->setName('DripEmail - '.$emailentity->getSubject());
                     $emailentity->setIsPublished(true);
                     $emailentity->setDripEmail($entity);
@@ -1341,7 +1342,21 @@ class DripEmailController extends FormController
                     $emailentity->setCreatedBy($userentity);
                     $emailentity->setFromName($fromname);
                     $emailentity->setFromAddress($fromadress);
-
+                    if ($entity->isGoogleTags()) {
+                        if (empty($currentutmtags['utmSource'])) {
+                            $currentutmtags['utmSource'] = 'leadsengage';
+                        }
+                        if (empty($currentutmtags['utmMedium'])) {
+                            $currentutmtags['utmMedium'] = 'email';
+                        }
+                        if (empty($currentutmtags['utmCampaign'])) {
+                            $currentutmtags['utmCampaign'] = 'DripEmail - '.$emailentity->getSubject();
+                        }
+                        if (empty($currentutmtags['utmContent'])) {
+                            $currentutmtags['utmContent'] = $emailentity->getSubject();
+                        }
+                        $emailentity->setUtmTags($currentutmtags);
+                    }
                     $emailentity->setDripEmailOrder(sizeof($totalitems) + 1);
                     $scheduleTime = '0 days';
                     if (sizeof($totalitems) > 0) {

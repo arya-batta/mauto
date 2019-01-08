@@ -583,15 +583,20 @@ class AjaxController extends CommonAjaxController
     public function licenseusageinfoAction(Request $request)
     {
         $isClosed                     = $this->factory->get('session')->get('isalert_needed');
-        $dataArray['success']         = false;
+        $dataArray['success']         = true;
         $dataArray['info']            = $this->getLicenseNotifyMessage();
         $dataArray['isalertneeded']   = false;
         $dataArray['needClosebutton'] = $isClosed;
         $paymentrepository            = $this->get('le.subscription.repository.payment');
         $lastpayment                  = $paymentrepository->getLastPayment();
         $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+        $isleplan2                    =false;
 
-        if ($licenseinfo->getEmailProvider() == 'LeadsEngage') {
+        if ($lastpayment != null && $lastpayment->getPlanName() == 'leplan2') {
+            $isleplan2 =true;
+        }
+
+        if ($licenseinfo->getEmailProvider() == 'LeadsEngage' && !$isleplan2) {
             $welcomemsg                   = $this->get('translator')->trans('le.account.signup.message');
             $action                       = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
             $welcomemsg                   = str_replace('|URL|', $action, $welcomemsg);
@@ -654,16 +659,20 @@ class AjaxController extends CommonAjaxController
         $paramater             = $configurator->getParameters();
         $transport             = $paramater['mailer_transport'];
 
-        $accountsuspendmsg  ='';
-        $notifymessage      ='';
-        $usageMsg           ='';
-        $maxEmailUsage      = 80;
-        $maxBounceUsage     =3;
-        $maxEmailValidity   =7;
-        $maxRecordUsage     =80;
-        $buyNowButon        = 'Buy Now';
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        =$paymentrepository->getLastPayment();
+        $accountsuspendmsg   ='';
+        $notifymessage       ='';
+        $usageMsg            ='';
+        $maxEmailUsage       = 80;
+        $maxBounceUsage      =3;
+        $maxEmailValidity    =7;
+        $maxRecordUsage      =80;
+        $buyNowButon         = 'Buy Now';
+        $paymentrepository   =$this->get('le.subscription.repository.payment');
+        $lastpayment         =$paymentrepository->getLastPayment();
+        $lastpaymentplanname = '';
+        if ($lastpayment != null) {
+            $lastpaymentplanname      = $paymentrepository->getLastPayment()->getPlanName();
+        }
         if ($accountStatus) {
             $accountsuspendmsg = $this->translator->trans('leadsengage.account.suspended');
         }
@@ -703,7 +712,9 @@ class AjaxController extends CommonAjaxController
         if ($emailUssage) {
             if ($emailCountExpired == 0) {
                 if ($transport != 'le.transport.vialeadsengage') {
-                    $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
+                    if ($lastpaymentplanname != 'leplan2') {
+                        $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
+                    }
                 } else {
                     $usageMsg=$this->translator->trans('le.emailusage.count.expired');
                 }
@@ -738,7 +749,9 @@ class AjaxController extends CommonAjaxController
         }
 
         if ($smsUssage) {
-            $usageMsg .= $this->translator->trans('le.sms.count.exceeds');
+            if ($lastpaymentplanname != 'leplan2') {
+                //$usageMsg .= $this->translator->trans('le.sms.count.exceeds');
+            }
         }
 
         if ($emailUssage || $emailsValidity) {
@@ -758,11 +771,14 @@ class AjaxController extends CommonAjaxController
             $usageMsg .= $this->translator->trans('le.bounce.count.exceeds', ['%bounceUsageCount%' => $bounceUsageCount]);
         }
         $notificationPriority= false;
+        $leUssageMsg         ='';
         if (($recordUsage && $emailUssage && $smsUssage) || ($recordUsage && $emailUssage) || ($recordUsage && $smsUssage)) {
             $leUssageMsg         = $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
             $notificationPriority= true;
         } elseif ($emailUssage && $smsUssage) {
-            $leUssageMsg         = $this->translator->trans('le.emailusage.count.expired.freecredit');
+            if ($lastpaymentplanname != 'leplan2') {
+                $leUssageMsg = $this->translator->trans('le.emailusage.count.expired.freecredit');
+            }
             $notificationPriority= true;
         }
 
@@ -984,7 +1000,7 @@ class AjaxController extends CommonAjaxController
                     $todaydate          = date('Y-m-d');
                     $emailplancredits   = $planname == 'leplan1' ? 'UL' : '100000';
                     if ($lastpayment != null) {
-                        $emailplancredits = $lastpayment->getTotalEmailCount();
+                        $emailplancredits = $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
                         $validityend      = $lastpayment->getValidityTill();
                         if ($todaydate != $validityend) {
                             $todaydate    = $validityend;
@@ -996,7 +1012,7 @@ class AjaxController extends CommonAjaxController
                     }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
-                    $subsrepository->updateContactCredits($emailplancredits, $validitytill, $todaydate);
+                    $subsrepository->updateContactCredits($emailplancredits, $validitytill, $todaydate, true);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
                     $signuprepository     =$this->get('le.core.repository.signup');
                     $dbname               = $this->coreParametersHelper->getParameter('db_name');

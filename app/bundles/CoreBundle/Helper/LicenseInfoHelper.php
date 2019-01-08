@@ -1100,7 +1100,7 @@ class LicenseInfoHelper
             return false;
         }
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if (($this->getLicenseRemainingDays() == 0 || $this->getLicenseRemainingDays() < 0)) {
+        if ($this->getLicenseRemainingDays() < 0) {
             return true;
         } else {
             return false;

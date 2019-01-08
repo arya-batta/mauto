@@ -103,6 +103,17 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
                         <div class="row">
                             <div class="col-md-12" id="unsubscribe_text_div">
                                 <?php echo $view['form']->row($form['footerText']); ?>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
                             </div>
                         </div>
                     </div>

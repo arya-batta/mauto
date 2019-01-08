@@ -55,8 +55,8 @@ if ($totalEmailCredits != 'UL') {
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo ($planname != '' && $planname != 'leplan1') ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month paid monthly and includes <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : number_format($totalEmailCredits)?></b> email sends, unlimited leads and access to all features.
-                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo $actualEmailCredits.' emails '.$emailuseage?> out of <?php echo number_format($totalEmailCredits)?> emails.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month paid monthly and includes <b><?php echo $totalEmailCredits == 'UL' ? 'unlimited' : number_format($totalEmailCredits) ?></b> email sends, unlimited leads and access to all features.
+                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo $actualEmailCredits.' emails '.$emailuseage?> out of <?php echo $totalEmailCredits == 'UL' ? 'unlimited' : number_format($totalEmailCredits)?> emails.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>

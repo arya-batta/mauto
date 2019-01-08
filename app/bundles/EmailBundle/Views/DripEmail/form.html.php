@@ -477,6 +477,17 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     <div class="col-md-12" id="unsubscribe_text_div">
                         <?php echo $view['form']->label($form['unsubscribe_text']); ?>
                         <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                     </div>
                 </div>
             </div>
