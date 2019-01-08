@@ -68,11 +68,12 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
             }
             $emailLimit = (!empty($options['email-limit'])) ? $options['email-limit'] : 300;
             foreach ($emails as $email) {
-                $leads       = $emailmodel->getPendingLeads($email, null, false, $emailLimit); //$list->getId()
+                $leads       = $emailmodel->getPendingLeads($email, null, false); //$list->getId()
                 $leadCount   = count($leads);
                 $batch       = false;
                 $failed      = [];
                 $sentCount   = 0;
+                $emailsCount = 0;
                 $failedCount = 0;
                 $options     = [
                     'source'        => ['email', $email->getId()],
@@ -83,11 +84,11 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
                 ];
                 while ($leadCount) {
                     $sentCount += $leadCount;
-
-                    if (!$batch && $emailLimit != null) {
+                    $emailsCount = $emailsCount++;
+                    /* if (!$batch && $emailLimit != null) {
                         // Only retrieve the difference between what has already been sent and the limit
                         $emailLimit -= $leadCount;
-                    }
+                    }*/
 
                     $listErrors = $emailmodel->sendEmail($email, $leads, $options);
 
@@ -99,14 +100,17 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
 
                         $failed = $listErrors; //[$options['listId']]
                     }
-
-                    if ($batch) {
+                    if ($emailLimit == $sentCount) {
+                        sleep(2);
+                        $emailsCount = 0;
+                    }
+                    /*if ($batch) {
                         // Get the next batch of leads
                         $leads     = $emailmodel->getPendingLeads($email, null, false, $emailLimit); //$list->getId()
                         $leadCount = count($leads);
                     } else {
                         $leadCount = 0;
-                    }
+                    }*/
                 }
                 if ($leadCount == 0) {
                     $email->setIsScheduled(false);

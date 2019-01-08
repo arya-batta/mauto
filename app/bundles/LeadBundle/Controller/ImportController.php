@@ -411,11 +411,10 @@ class ImportController extends FormController
                             }
                         }
                         $emailfield=[];
-                        foreach ($matchedFields as $matchedField){
-                          if($matchedField == "email"){
-                              $emailfield =$matchedField;
-
-                          }
+                        foreach ($matchedFields as $matchedField) {
+                            if ($matchedField == 'email') {
+                                $emailfield =$matchedField;
+                            }
                         }
                         if (empty($emailfield)) {
                             $form->addError(
@@ -477,7 +476,7 @@ class ImportController extends FormController
 
                             // In case the user decided to queue the import
                             if ($this->importInCli($form)) {
-                                $this->addFlash('mautic.'.$object.'.batch.import.created');
+                                $this->addFlash('le.'.$object.'.batch.import.created');
                                 $this->resetImport($fullPath, false);
 
                                 return $this->listAction();
