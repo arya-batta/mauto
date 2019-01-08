@@ -628,7 +628,7 @@ class PublicController extends CommonFormController
             $body = $doc->getElementsByTagName('body');
             $head = $doc->getElementsByTagName('head');
 
-            if (($body and $body->length > 0) && ((strpos($content, '{{global_unsubscribe_link}}') == 0) && (strpos($content, '{unsubscribe_link}') == 0) && (strpos($content, '{update_your_profile_link}') == 0))) {
+            if (($body and $body->length > 0) && ((strpos($content, '{{global_unsubscribe_link}}') == 0) && (strpos($content, '{unsubscribe_link}') == 0) && (strpos($content, '{update_your_profile_link}') == 0))&& $emailEntity->getEmailType() !='template') {
                 $body = $body->item(0);
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');

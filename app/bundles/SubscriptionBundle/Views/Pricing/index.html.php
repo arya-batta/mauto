@@ -36,10 +36,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                         <h3>Features</h3>
                         <p class="pricepara">Unlimited <b>Contacts</b></p>
                         <p class="pricepara">Unlimited <b>Campaigns</b></p>
-                        <p class="pricepara">Unlimited <b>Drip Sequence</b></p>
+                        <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring Rules</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
                         <br>
                         <h3>Emails</h3>
@@ -69,10 +69,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                         <h3>Features</h3>
                         <p class="pricepara">Unlimited <b>Contacts</b></p>
                         <p class="pricepara">Unlimited <b>Campaigns</b></p>
-                        <p class="pricepara">Unlimited <b>Drip Sequence</b></p>
+                        <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring Rules</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
                         <br>
                         <h3>Emails</h3>

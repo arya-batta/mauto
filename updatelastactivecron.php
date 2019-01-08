@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: cratio
  * Date: 31/12/18
- * Time: 4:06 PM
+ * Time: 4:06 PM.
  */
 chdir('/var/www/mauto');
 
@@ -35,7 +35,7 @@ function displayCronlog($domain, $msg)
     $currenttime = date('Y-m-d H:i:s');
     error_log($remoteaddr.' : '.$currenttime." : $msg\n", 3, $logfile);
 }
-try{
+try {
     $pdoconn = new PDOConnection('');
     if ($pdoconn) {
         $con = $pdoconn->getConnection();
@@ -45,12 +45,12 @@ try{
     } else {
         throw new Exception('Not able to connect to DB');
     }
+    date_default_timezone_set('UTC');
     $curtime = date('Y-m-d H:i:s');
-    $sql = "update leads set last_active=$curtime ";
+    $sql     = "update leads set last_active='$curtime'";
     displayCronlog('general', 'SQL QUERY:'.$sql);
     $result = execSQL($con, $sql);
-
-}catch(Exception $ex){
+} catch (Exception $ex) {
     $msg = $ex->getMessage();
     displayCronlog('general', 'Exception Occur:'.$msg);
 }

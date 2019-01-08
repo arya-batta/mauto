@@ -148,6 +148,7 @@ Le.getSelectedCampaignValue = function (value) {
     } else {
         mQuery('#pointdripemailaction').addClass('hide');
         mQuery('#pointemailaction').addClass('hide');
+        mQuery('#dripemaillist').addClass('hide');
     }
 };
 Le.convertDripFilterInput = function (templateId) {

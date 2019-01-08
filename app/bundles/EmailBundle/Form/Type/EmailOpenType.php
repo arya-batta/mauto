@@ -73,14 +73,14 @@ class EmailOpenType extends AbstractType
         }
 
         $iscampaign = false;
-        if (isset($options['iscampaign'])){
+        if (isset($options['iscampaign'])) {
             $iscampaign = $options['iscampaign'];
         }
-        if(!$iscampaign){
-            $required=false;
+        if (!$iscampaign) {
+            $required    =false;
             $constraints = [];
-        }else{
-            $required=true;
+        } else {
+            $required    =true;
             $constraints = [
                 new NotBlank(
                     ['message' => 'mautic.core.value.required']
@@ -98,7 +98,7 @@ class EmailOpenType extends AbstractType
             'label_attr'  => ['class' => 'control-label'],
             'attr'        => [
                 'class'    => 'form-control le-input',
-                'tooltip' => 'le.email.open.email.type.descr',
+                'tooltip'  => 'le.email.open.email.type.descr',
                 'onchange' => 'Le.getSelectedCampaignValue(this.value)',
             ],
             'required'     => $required,
@@ -149,11 +149,11 @@ class EmailOpenType extends AbstractType
 
         $form->add('driplist', 'choice', [
          'label'         => 'le.email.open.limittoemails',
-         'label_attr'    => ['class' => 'control-label required'],
+         'label_attr'    => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',
             ],
-         'required'    => true,
+         'required'    => false,
          'multiple'    => true,
          'choices'     => $dripEmails,
      ]);
@@ -168,7 +168,7 @@ class EmailOpenType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setOptional(['list_options','iscampaign']);
+        $resolver->setOptional(['list_options', 'iscampaign']);
     }
 
     /**

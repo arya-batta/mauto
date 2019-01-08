@@ -206,7 +206,7 @@ Le.loadLicenseUsageInfo = function() {
 
     Le.ajaxActionRequest('subscription:licenseusageinfo', {}, function(response) {
         if (response.success) {
-            if(response.info != "" && response.isalertneeded != "true"){
+            if((response.info.trim() != '') && response.isalertneeded != true){
                 mQuery('.license-notifiation').removeClass('hide');
                 mQuery('.license-notifiation').css('display','table');
                 mQuery('.license-notifiation').css('table-layout','fixed');

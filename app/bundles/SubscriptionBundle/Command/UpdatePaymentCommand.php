@@ -97,9 +97,10 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 if ($planname == 'leplan2') {
                                     $plancredits = '100000';
                                 }
-                                $netamount   = (($planamount)); // + (10 * $multiplx));
-                                $netcredits  = (($plancredits)); // + (5000 * $multiplx));
-                                $validitytill=date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
+                                $netamount            = (($planamount)); // + (10 * $multiplx));
+                                $netcredits           = (($plancredits)); // + (5000 * $multiplx));
+                                $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
+                                $clearactualmailcount = true;
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;
@@ -107,8 +108,9 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 if ($excesscount > 0) {
                                     $amtmultiplx   =ceil($excesscount / 10000);
                                 }
-                                $netamount   = (9 * $amtmultiplx);
-                                $netcredits  = (($plancredits) + (10000 * $multiplx));
+                                $netamount            = (9 * $amtmultiplx);
+                                $netcredits           = (($plancredits) + (10000 * $amtmultiplx));
+                                $clearactualmailcount = false;
                                 //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
                                 //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
                                 // $output->writeln('<info>'.'Charged Amount:'.$amount2.'</info>');
@@ -116,7 +118,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
                             }
                             if ($netamount > 0) {
-                                $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill);
+                                $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount);
                             } else {
                                 $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
                             }
@@ -182,7 +184,7 @@ class UpdatePaymentCommand extends ModeratedCommand
         }
     }
 
-    protected function attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill)
+    protected function attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount)
     {
         $container  = $this->getContainer();
         $apikey     =$container->get('mautic.helper.core_parameters')->getParameter('stripe_api_key');
@@ -208,7 +210,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $todaydate     = date('Y-m-d');
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
                 $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateContactCredits($netcredits, $validitytill, $todaydate);
+                $subsrepository->updateContactCredits($netcredits, $validitytill, $todaydate, $clearactualmailcount);
                 $output->writeln('<info>'.'Plan Renewed Successfully'.'</info>');
                 $output->writeln('<info>'.'Transaction ID:'.$chargeid.'</info>');
                 $output->writeln('<info>'.'Amount($):'.$netamount.'</info>');

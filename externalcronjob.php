@@ -126,7 +126,9 @@ try {
             if ($domain == '') {
                 continue;
             }
-
+            if (checkLicenseAvailablity($con, $domain)) {
+                continue;
+            }
             if ($operation == 'mautic:import') {
                 $importstatus = checkImportAvailablity($con, $domain);
                 if (!$importstatus) {
@@ -159,7 +161,7 @@ try {
             if (strpos($output, 'exception->') !== false) {
                 $errormsg = $output;
             }
-            if (strpos($a, 'exceeded the timeout') !== false) {
+            if (strpos($output, 'exceeded the timeout') !== false) {
                 $errormsg = '';
             }
             //	    displayCronlog('general', $domain.'errorinfo:  '.$errormsg);
@@ -326,6 +328,30 @@ function checkTriggerAvailablity($con, $domain)
         displayCronlog('general', 'No more contacts available against any campaign');
 
         return false;
+    } else {
+        return false;
+    }
+}
+
+function checkLicenseAvailablity($con, $domain)
+{
+    $sql                =  "select appid from applicationlist where f5 = '$domain';";
+    $appidarr           =  getResultArray($con, $sql);
+    $appid              =  $appidarr[0][0];
+    $dbname             =  DBINFO::$COMMONDBNAME.$appid.'.licenseinfo';
+    $sql                =  "select licensed_days,license_end_date  from $dbname";
+    $licenseresultsarr  =  getResultArray($con, $sql);
+    $licenseRemDays     =  $licenseresultsarr[0][0];
+    $licenseEnd         =  $licenseresultsarr[0][1];
+    $currentDate        =date('Y-m-d');
+
+    if ($licenseRemDays == 'UL') {
+        return false;
+    }
+    $licenseremdays = round((strtotime($licenseEnd) - strtotime($currentDate)) / 86400);
+
+    if ($licenseremdays < 0) {
+        return true;
     } else {
         return false;
     }

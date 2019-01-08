@@ -294,21 +294,13 @@ class ListOptInModel extends FormModel
             $unconfirmedLead  = $listentity->getListtype() == 'single' ? 0 : 1;
             $unsubscribedLead = 0;
             if ($listLead != null) {
-                if ($manuallyAdded) {
-                    $listLead->setManuallyRemoved(false);
-                    $listLead->setManuallyAdded($manuallyAdded);
-                    $listLead->setConfirmedLead($confirmedLead);
-                    $listLead->setUnconfirmedLead($unconfirmedLead);
-                    $listLead->setUnsubscribedLead($unsubscribedLead);
+                $listLead->setManuallyRemoved(false);
+                $listLead->setManuallyAdded($manuallyAdded);
+                $listLead->setConfirmedLead($confirmedLead);
+                $listLead->setUnconfirmedLead($unconfirmedLead);
+                $listLead->setUnsubscribedLead($unsubscribedLead);
 
-                    $persistLists[]   = $listLead;
-                    $dispatchEvents[] = $listId;
-                } else {
-                    // Detach from Doctrine
-                    $this->em->detach($listLead);
-
-                    continue;
-                }
+                $dispatchEvents[] = $listId;
             } else {
                 $listLead = new ListLeadOptIn();
                 $listLead->setList($this->leadChangeLists[$listId]);
@@ -319,14 +311,15 @@ class ListOptInModel extends FormModel
                 $listLead->setUnconfirmedLead($unconfirmedLead);
                 $listLead->setUnsubscribedLead($unsubscribedLead);
 
-                $persistLists[]   = $listLead;
+                //  $persistLists[]   = $listLead;
                 $dispatchEvents[] = $listId;
+                $this->getRepository()->saveEntity($listLead);
             }
         }
 
-        if (!empty($persistLists)) {
-            $this->getRepository()->saveEntities($persistLists);
-        }
+        /* if (!empty($persistLists)) {
+             $this->getRepository()->saveEntities($persistLists);
+         } */
 
         // Clear ListLead entities from Doctrine memory
         $this->em->clear('Mautic\LeadBundle\Entity\ListLeadOptIn');
@@ -342,7 +335,7 @@ class ListOptInModel extends FormModel
             }
         }
 
-        unset($lead, $persistLists, $lists);
+        unset($lead, $lists);
     }
 
     /**

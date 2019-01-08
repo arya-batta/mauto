@@ -430,7 +430,7 @@ endif; ?>
                <div id="le_smart_form_fields_mapping" class="col-md-8 <?php echo $hidesmartformspecific?>" data-prototype="<?php echo $view->escape($view['form']->widget($form['smartfields']->vars['prototype'], [])); ?>">
                    <?php echo $view['form']->widget($form['smartfields'], []); ?>
                </div>
-            <div id="leforms_fields" class="col-md-8">
+            <div id="leforms_fields" class="col-md-8 <?php echo $hidestandalonedpecific?>">
                 <div class="drop-here">
                     <?php foreach ($formFields as $field): ?>
                         <?php if (!in_array($field['id'], $deletedFields)) : ?>

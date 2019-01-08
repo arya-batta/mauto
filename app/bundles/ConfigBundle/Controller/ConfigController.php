@@ -164,6 +164,13 @@ class ConfigController extends FormController
                             } else {
                                 $configurator->mergeParameters(['mailer_user' => $params['mailer_user']]);
                             }
+                            $licenseinfo          =$this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+                            $licenseemailprovider = $licenseinfo->getEmailProvider();
+
+                            if ($this->translator->trans($params['mailer_transport_name']) != $licenseemailprovider) {
+                                $emailModel = $this->factory->getModel('email');
+                                $emailModel->resetAllSenderProfiles();
+                            }
                             $emailTransport = '';
                             $smsTransport   = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
@@ -185,10 +192,6 @@ class ConfigController extends FormController
                                 $configurator->mergeParameters(['mailer_transport_name' => $emailTransport]);
                                 $this->container->get('mautic.helper.licenseinfo')->intEmailProvider($this->translator->trans($emailTransport));
                                 $this->container->get('mautic.helper.licenseinfo')->intSMSProvider($this->translator->trans($smsTransport));
-                            }
-                            if ($mailertransport != $params['mailer_transport_name']) {
-                                $emailModel = $this->factory->getModel('email');
-                                $emailModel->resetAllSenderProfiles();
                             }
                             $configurator->write();
 

@@ -105,7 +105,7 @@ class PaymentHelper
         $invoicelink  = $this->factory->getRouter()->generate('le_viewinvoice_action', ['id' => $paymenthistory->getId()], true);
         $message      = \Swift_Message::newInstance();
         $message->setTo([$billing->getAccountingemail() => $billing->getCompanyname()]);
-        $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);
+        $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
         $message->setReplyTo(['support@leadsengage.com' => 'LeadsEngage']);
         $message->setBcc(['sales@leadsengage.com' => 'LeadsEngage']);
         $message->setSubject($this->factory->getTranslator()->trans('le.payment.received.alert'));

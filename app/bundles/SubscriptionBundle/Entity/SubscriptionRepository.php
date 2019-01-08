@@ -153,7 +153,7 @@ class SubscriptionRepository
         }
     }
 
-    public function updateContactCredits($credits, $validitytill, $startdate)
+    public function updateContactCredits($credits, $validitytill, $startdate, $clearactualmailcount=false)
     {
         $starttime    =strtotime($startdate);
         $endtime      = strtotime($validitytill);
@@ -167,6 +167,9 @@ class SubscriptionRepository
         $licentity->setEmailValidity($validitytill);
         $licentity->setLicenseStart($startdate);
         $licentity->setLicenseEnd($validitytill);
+        if ($clearactualmailcount) {
+            $licentity->setActualEmailCount(0);
+        }
         $this->licenseinforepo->saveEntity($licentity);
     }
 
