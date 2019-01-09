@@ -191,6 +191,52 @@ class DripEmailRepository extends CommonRepository
     {
         $dateinterval = date('Y-m-d', strtotime('-29 days'));
         $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $q->select('t.unique_hits,t.channel_id')
+            ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
+            ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
+                $q->expr()->andX(
+                    $q->expr()->eq('r.id', 't.redirect_id'),
+                    $q->expr()->eq('t.channel', ':channel')
+                )
+            )
+            ->setParameter('channel', 'email')
+            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
+                $q->expr()->andX(
+                    $q->expr()->eq('t.channel_id', 'es.id')
+                ))
+            ->andWhere($q->expr()->gte('r.date_added', ':dateAdded'))
+            ->setParameter('dateAdded', $dateinterval)
+            ->orderBy('r.url');
+
+        if (!$viewOthers) {
+            $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('r.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+
+        $results = $q->execute()->fetchAll();
+        $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $sq->select('id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails' )
+            ->andWhere($sq->expr()->eq('email_type','"dripemail"'));
+        $ids = $sq->execute()->fetchAll();
+        $result=0;
+        for($i =0;$i < sizeof($results);$i++){
+            for($j=0;$j < sizeof($ids);$j++){
+                if($results[$i]['channel_id'] == $ids[$j]['id']){
+                    $result += $results[$i]['unique_hits'];
+                }
+            }
+        }
+        return $result;
+
+      /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
+        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $q->select('count(e.id) as clickcount')
             ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
             ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
@@ -214,7 +260,7 @@ class DripEmailRepository extends CommonRepository
 
         $results = $q->execute()->fetchAll();
 
-        return $results[0]['clickcount'];
+        return $results[0]['clickcount'];*/
     }
 
     public function getDripUnsubscribeCounts($viewOthers = false)

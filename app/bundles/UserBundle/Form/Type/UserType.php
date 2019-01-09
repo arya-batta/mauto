@@ -249,8 +249,8 @@ class UserType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'multiple'    => false,
-                'data'        => $timeZone,
-                'empty_value' => 'mautic.user.user.form.defaulttimezone',
+                'data'        => empty($options['data']->getTimezone()) ? $timeZone : $options['data']->getTimezone(),
+              //  'empty_value' => 'mautic.user.user.form.defaulttimezone',
             ]
         );
 

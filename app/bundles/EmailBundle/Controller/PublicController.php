@@ -619,7 +619,10 @@ class PublicController extends CommonFormController
         $emailEntity->setCustomHtml($content);
 
         $model->saveEntity($emailEntity);
-        if($content != null) {
+       // if($content != null) {
+           if(empty($content)){
+               $content ="No Preview Available...!";
+           }
             $doc                      = new \DOMDocument();
             $doc->strictErrorChecking = false;
             libxml_use_internal_errors(true);
@@ -628,7 +631,7 @@ class PublicController extends CommonFormController
             $body = $doc->getElementsByTagName('body');
             $head = $doc->getElementsByTagName('head');
 
-            if (($body and $body->length > 0) && ((strpos($content, '{{global_unsubscribe_link}}') == 0) && (strpos($content, '{unsubscribe_link}') == 0) && (strpos($content, '{update_your_profile_link}') == 0))&& $emailEntity->getEmailType() !='template') {
+            if (($body and $body->length > 0) && ((strpos($content, '{{global_unsubscribe_link}}') == 0) && (strpos($content, '{unsubscribe_link}') == 0) && (strpos($content, '{update_your_profile_link}') == 0)) && $emailEntity->getEmailType() !='template') {
                 $body = $body->item(0);
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');
@@ -709,9 +712,9 @@ class PublicController extends CommonFormController
             $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_DISPLAY, $event);
 
             $content = $event->getContent(true);
-        } else {
+       /* } else {
             $content = 'No Preview Available...!';
-        }
+        }*/
         return new Response($content);
     }
 

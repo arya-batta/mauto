@@ -1267,27 +1267,27 @@ class DripEmailController extends FormController
         // $params          = $configurator->getParameters();
         //  $fromname        = $params['mailer_from_name'];
         // $fromadress      = $params['mailer_from_email'];
-        $fromname     ='';
+       /* $fromname     ='';
         $fromadress   ='';
         $defaultsender=$emailmodel->getDefaultSenderProfile();
         if (sizeof($defaultsender) > 0) {
             $fromname  =$defaultsender[0];
             $fromadress=$defaultsender[1];
-        }
-        $fromName        = $emailentity->getFromName();
-        $fromAdress      = $emailentity->getFromAddress();
+        }*/
+        $fromName        = $entity->getFromName();
+        $fromAdress      = $entity->getFromAddress();
         $emailentity->setName('DripEmail - ');
         $emailentity->setIsPublished(false);
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => $subobjectId]);
         //create the form
         $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
 
-        if (empty($fromName)) {
+     /*   if (empty($fromName)) {
             $emailentity->setFromName($fromname);
         }
         if (empty($fromAdress)) {
             $emailentity->setFromAddress($fromadress);
-        }
+        }*/
 
         $isBeeEditor   = $subobjectId;
         $groupFilters  = [
@@ -1340,8 +1340,8 @@ class DripEmailController extends FormController
                     $emailentity->setGoogleTags(true);
                     $emailentity->setEmailType('dripemail');
                     $emailentity->setCreatedBy($userentity);
-                    $emailentity->setFromName($fromname);
-                    $emailentity->setFromAddress($fromadress);
+                    $emailentity->setFromName($fromName);
+                    $emailentity->setFromAddress($fromAdress);
                     if ($entity->isGoogleTags()) {
                         if (empty($currentutmtags['utmSource'])) {
                             $currentutmtags['utmSource'] = 'leadsengage';

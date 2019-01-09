@@ -137,7 +137,7 @@ class EmailSendType extends AbstractType
 
             // create button preview email
 
-            if($options['update_select'] == 'campaignevent_properties_useremail_email'){
+            if($options['update_select'] == 'campaignevent_properties_useremail_email' || $options['update_select'] =='formaction_properties_useremail_email'){
                 $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type' => 'emailnotifications','objectId' => 'emailId']);
             }else{
                 $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type'=> 'oneoff','objectId' => 'emailId']);
