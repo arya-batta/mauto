@@ -550,6 +550,8 @@ class DripEmailController extends FormController
                     //$changes = $entity->getChanges(true);
                     //if (!empty($changes['fromAddress']) || !empty($changes['fromName'])) {
                     $model->getRepository()->updateFromInfoinEmail($entity);
+                    $email = $this->getModel('email');
+                    $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
                     $model->saveEntity($entity);
                     $this->addFlash(
@@ -1267,13 +1269,13 @@ class DripEmailController extends FormController
         // $params          = $configurator->getParameters();
         //  $fromname        = $params['mailer_from_name'];
         // $fromadress      = $params['mailer_from_email'];
-       /* $fromname     ='';
-        $fromadress   ='';
-        $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }*/
+        /* $fromname     ='';
+         $fromadress   ='';
+         $defaultsender=$emailmodel->getDefaultSenderProfile();
+         if (sizeof($defaultsender) > 0) {
+             $fromname  =$defaultsender[0];
+             $fromadress=$defaultsender[1];
+         }*/
         $fromName        = $entity->getFromName();
         $fromAdress      = $entity->getFromAddress();
         $emailentity->setName('DripEmail - ');
@@ -1282,12 +1284,12 @@ class DripEmailController extends FormController
         //create the form
         $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
 
-     /*   if (empty($fromName)) {
-            $emailentity->setFromName($fromname);
-        }
-        if (empty($fromAdress)) {
-            $emailentity->setFromAddress($fromadress);
-        }*/
+        /*   if (empty($fromName)) {
+               $emailentity->setFromName($fromname);
+           }
+           if (empty($fromAdress)) {
+               $emailentity->setFromAddress($fromadress);
+           }*/
 
         $isBeeEditor   = $subobjectId;
         $groupFilters  = [
@@ -1333,7 +1335,6 @@ class DripEmailController extends FormController
         if ($this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($emailform)) {
                 if ($valid = $this->isFormValid($emailform)) {
-                    $currentutmtags=[];
                     $emailentity->setName('DripEmail - '.$emailentity->getSubject());
                     $emailentity->setIsPublished(true);
                     $emailentity->setDripEmail($entity);
@@ -1342,21 +1343,6 @@ class DripEmailController extends FormController
                     $emailentity->setCreatedBy($userentity);
                     $emailentity->setFromName($fromName);
                     $emailentity->setFromAddress($fromAdress);
-                    if ($entity->isGoogleTags()) {
-                        if (empty($currentutmtags['utmSource'])) {
-                            $currentutmtags['utmSource'] = 'leadsengage';
-                        }
-                        if (empty($currentutmtags['utmMedium'])) {
-                            $currentutmtags['utmMedium'] = 'email';
-                        }
-                        if (empty($currentutmtags['utmCampaign'])) {
-                            $currentutmtags['utmCampaign'] = 'DripEmail - '.$emailentity->getSubject();
-                        }
-                        if (empty($currentutmtags['utmContent'])) {
-                            $currentutmtags['utmContent'] = $emailentity->getSubject();
-                        }
-                        $emailentity->setUtmTags($currentutmtags);
-                    }
                     $emailentity->setDripEmailOrder(sizeof($totalitems) + 1);
                     $scheduleTime = '0 days';
                     if (sizeof($totalitems) > 0) {

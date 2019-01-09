@@ -27,6 +27,10 @@ return [
                     'leadId'      => '\d+',
                 ],
             ],
+            'le_featuresandideas_index' => [
+                'path'       => '/featuresandideas/{page}',
+                'controller' => 'MauticLeadBundle:Lead:featuresAndIdeas',
+            ],
             'le_segment_index' => [
                 'path'       => '/segments/{page}',
                 'controller' => 'MauticLeadBundle:List:index',
@@ -416,6 +420,18 @@ return [
                      'access'    => 'lead:fields:full',
                 ],
             ],   */
+            'le.beamer.menu.index' => [
+                'iconClass'       => 'fa  fa-bell',
+                'priority'        => 450,
+                'id'              => 'le_beamer_index',
+            ],
+
+            'le.feauturesandideas.menu.index' => [
+                'route'           => 'le_featuresandideas_index',
+                'iconClass'       => 'fa fa-question-circle',
+                'priority'        => 450,
+                'id'              => 'le_feauturesandideas_index',
+            ],
         ],
     ],
     'services' => [

@@ -83,6 +83,58 @@ class DripEmailRepository extends CommonRepository
             ->execute();
     }
 
+    public function updateUtmInfoinEmail(DripEmail $entity, $email)
+    {
+        $dripEmailsRepository   = $email->getRepository();
+        $dripemails             = $dripEmailsRepository->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                        [
+                            'column' => 'e.emailType',
+                            'expr'   => 'eq',
+                            'value'  => 'dripemail',
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+
+        foreach ($dripemails as $dripemail) {
+            if ($entity->isGoogleTags()) {
+                if (empty($currentutmtags['utmSource'])) {
+                    $currentutmtags['utmSource'] = 'leadsengage';
+                }
+                if (empty($currentutmtags['utmMedium'])) {
+                    $currentutmtags['utmMedium'] = 'email';
+                }
+                if (empty($currentutmtags['utmCampaign'])) {
+                    $currentutmtags['utmCampaign'] = 'DripEmail - '.$dripemail->getSubject();
+                }
+                if (empty($currentutmtags['utmContent'])) {
+                    $currentutmtags['utmContent'] = $dripemail->getSubject();
+                }
+            } else {
+                if (empty($currentutmtags['utmSource'])) {
+                    $currentutmtags['utmSource'] = 'leadsengage';
+                }
+                if (empty($currentutmtags['utmMedium'])) {
+                    $currentutmtags['utmMedium'] = 'email';
+                }
+                $currentutmtags['utmCampaign'] = null;
+                $currentutmtags['utmContent']  =  null;
+            }
+            $dripemail->setUtmTags($currentutmtags);
+            $dripEmailsRepository->saveEntity($dripemail);
+        }
+    }
+
     /**
      * Get sent counts based on date(Last 30 Days).
      *
@@ -219,48 +271,49 @@ class DripEmailRepository extends CommonRepository
                 ->setParameter('id', '1');
         }
 
-        $results = $q->execute()->fetchAll();
+        $results       = $q->execute()->fetchAll();
         $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $sq->select('id')
-            ->from(MAUTIC_TABLE_PREFIX.'emails' )
-            ->andWhere($sq->expr()->eq('email_type','"dripemail"'));
-        $ids = $sq->execute()->fetchAll();
+            ->from(MAUTIC_TABLE_PREFIX.'emails')
+            ->andWhere($sq->expr()->eq('email_type', '"dripemail"'));
+        $ids   = $sq->execute()->fetchAll();
         $result=0;
-        for($i =0;$i < sizeof($results);$i++){
-            for($j=0;$j < sizeof($ids);$j++){
-                if($results[$i]['channel_id'] == $ids[$j]['id']){
+        for ($i =0; $i < sizeof($results); ++$i) {
+            for ($j=0; $j < sizeof($ids); ++$j) {
+                if ($results[$i]['channel_id'] == $ids[$j]['id']) {
                     $result += $results[$i]['unique_hits'];
                 }
             }
         }
+
         return $result;
 
-      /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
-        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $q->select('count(e.id) as clickcount')
-            ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
-            ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
-            ->where(
-                $q->expr()->andX(
-                    $q->expr()->gte('ph.date_hit', ':clickdate')
-                )
-            )->setParameter('clickdate', $dateinterval);
-        $q->andWhere($q->expr()->eq('e.email_type', ':emailType'),
-            $q->expr()->neq('e.dripemail_id', '"NULL"'))
-            ->setParameter('emailType', 'dripemail');
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
+        /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
+          $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+          $q->select('count(e.id) as clickcount')
+              ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
+              ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
+              ->where(
+                  $q->expr()->andX(
+                      $q->expr()->gte('ph.date_hit', ':clickdate')
+                  )
+              )->setParameter('clickdate', $dateinterval);
+          $q->andWhere($q->expr()->eq('e.email_type', ':emailType'),
+              $q->expr()->neq('e.dripemail_id', '"NULL"'))
+              ->setParameter('emailType', 'dripemail');
+          if (!$viewOthers) {
+              $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
+                  ->setParameter('currentUserId', $this->currentUser->getId());
+          }
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
+          if ($this->currentUser->getId() != 1) {
+              $q->andWhere($q->expr()->neq('e.created_by', ':id'))
+                  ->setParameter('id', '1');
+          }
 
-        $results = $q->execute()->fetchAll();
+          $results = $q->execute()->fetchAll();
 
-        return $results[0]['clickcount'];*/
+          return $results[0]['clickcount'];*/
     }
 
     public function getDripUnsubscribeCounts($viewOthers = false)
@@ -402,8 +455,8 @@ class DripEmailRepository extends CommonRepository
 
         $dlQ = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $dlQ->select('dl.lead_id')
-            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl') 
-            ->andWhere($dlQ->expr()->eq('dl.dripemail_id',$drip->getId()));
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl')
+            ->andWhere($dlQ->expr()->eq('dl.dripemail_id', $drip->getId()));
 
         if ($countOnly) {
             // distinct with an inner join seems faster

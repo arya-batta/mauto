@@ -929,7 +929,7 @@ class EmailCampaignController extends FormController
                     $currentutmtags=$entity->getUtmTags();
                     $currentsubject=$entity->getSubject();
                     $currentname   =$entity->getName();
-                    if($entity->getBeeJSON() == 'RichTextEditor'){
+                    if ($entity->getBeeJSON() == 'RichTextEditor') {
                         $entity->setTemplate('');
                     }
                     if (!empty($formData['unsubscribe_text'])) {
@@ -952,8 +952,17 @@ class EmailCampaignController extends FormController
                         } elseif ($currentsubject != $lastsubject && $currentutmtags['utmContent'] == $lastsubject) {
                             $currentutmtags['utmContent'] = $currentsubject;
                         }
-                        $entity->setUtmTags($currentutmtags);
+                    } else {
+                        if (empty($currentutmtags['utmSource'])) {
+                            $currentutmtags['utmSource'] = 'leadsengage';
+                        }
+                        if (empty($currentutmtags['utmMedium'])) {
+                            $currentutmtags['utmMedium'] = 'email';
+                        }
+                        $currentutmtags['utmCampaign']=null;
+                        $currentutmtags['utmContent'] =null;
                     }
+                    $entity->setUtmTags($currentutmtags);
                     $assets         = $form['assetAttachments']->getData();
                     $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
                     if ($attachmentSize != 0 && $attachmentSize == 'failed') {
@@ -1486,9 +1495,10 @@ class EmailCampaignController extends FormController
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
             if (!$this->get('mautic.helper.mailer')->emailstatus()) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
-            }else {
+            } else {
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
             }
+
             return $this->postActionRedirect(
                 [
                     'returnUrl'=> $this->generateUrl('le_email_campaign_index'),
@@ -1800,13 +1810,13 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-       if (!$this->get('mautic.helper.mailer')->emailstatus() || empty($entity->getCustomHtml())) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus() || empty($entity->getCustomHtml())) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-           if (!$this->get('mautic.helper.mailer')->emailstatus()) {
-               $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
-           }else {
-               $this->addFlash($this->translator->trans('le.email.content.empty'));
-           }
+            if (!$this->get('mautic.helper.mailer')->emailstatus()) {
+                $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
+            } else {
+                $this->addFlash($this->translator->trans('le.email.content.empty'));
+            }
 
             return $this->postActionRedirect(
                 [
@@ -1827,15 +1837,15 @@ class EmailCampaignController extends FormController
         if ($this->request->getMethod() == 'POST') {
             $isCancelled = $this->isFormCancelled($form);
             $isValid     = $this->isFormValid($form);
-            $lists=$form['emails']->getData()['list'];
-            $emails=[];
-            foreach ($lists as $list){
-                 if(!empty($list) && !is_int($list)){
-                     $emails[]=$list;
-                 }
+            $lists       =$form['emails']->getData()['list'];
+            $emails      =[];
+            foreach ($lists as $list) {
+                if (!empty($list) && !is_int($list)) {
+                    $emails[]=$list;
+                }
             }
             $count=sizeof($emails);
-            if (!$isCancelled && $isValid && $count != 0 ) {
+            if (!$isCancelled && $isValid && $count != 0) {
                 //$emails = $form['emails']->getData()['list'];
 
                 // Prepare a fake lead
@@ -1874,9 +1884,9 @@ class EmailCampaignController extends FormController
                 if (count($errors) != 0) {
                     $this->addFlash(implode('; ', $errors));
                 } else {
-                        $this->addFlash('le.email.notice.test_sent_multiple.success');
+                    $this->addFlash('le.email.notice.test_sent_multiple.success');
                 }
-            }elseif ($count == 0){
+            } elseif ($count == 0) {
                 $this->addFlash('le.email.notice.test_sent.address.required');
             }
 
@@ -2086,6 +2096,7 @@ class EmailCampaignController extends FormController
     public function templatePreviewAction($template)
     {
         $content = $this->factory->getBeeTemplateHTMLByName($template);
-        return $this->render('MauticEmailBundle:DripEmail:preview.html.php',['content' => $content]);
+
+        return $this->render('MauticEmailBundle:DripEmail:preview.html.php', ['content' => $content]);
     }
 }

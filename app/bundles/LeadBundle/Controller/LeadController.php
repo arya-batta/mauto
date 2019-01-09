@@ -2574,4 +2574,16 @@ class LeadController extends FormController
 
         return $this->exportResultsAs($iterator, $dataType, 'leads');
     }
+
+    public function featuresAndIdeasAction()
+    {
+        return $this->delegateView(
+            [
+                'contentTemplate' => 'MauticLeadBundle:FeaturesAndIdeas:features_and_ideas.html.php',
+                'passthroughVars' => [
+                    'leContent'     => 'featuresandideas',
+                ],
+            ]
+        );
+    }
 }
