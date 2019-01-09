@@ -205,6 +205,9 @@ class AjaxController extends CommonAjaxController
                     $form['name']=$name;
                     $form['id']  =$id;
                     $query       ='';
+                    if (strpos($id, 'leform') !== false) {
+                        continue;
+                    }
                     if ($id != '') {
                         $query="//form[@id='$id']//input|//form[@id='$id']//select|//form[@id='$id']//textarea";
                     } elseif ($name != '') {

@@ -72,6 +72,7 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
                 $leadCount   = count($leads);
                 $batch       = false;
                 $failed      = [];
+                $start       = 0;
                 $sentCount   = 0;
                 $emailsCount = 0;
                 $failedCount = 0;
@@ -82,7 +83,8 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
                         'Precedence' => 'Bulk',
                     ],
                 ];
-                while ($leadCount) {
+                while ($start < $leadCount) {
+                    $start += $emailLimit;
                     $sentCount += $leadCount;
                     $emailsCount = $emailsCount++;
                     /* if (!$batch && $emailLimit != null) {
@@ -104,13 +106,13 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
                         sleep(2);
                         $emailsCount = 0;
                     }
-                    /*if ($batch) {
+                    if ($batch) {
                         // Get the next batch of leads
                         $leads     = $emailmodel->getPendingLeads($email, null, false, $emailLimit); //$list->getId()
                         $leadCount = count($leads);
                     } else {
                         $leadCount = 0;
-                    }*/
+                    }
                 }
                 if ($leadCount == 0) {
                     $email->setIsScheduled(false);
