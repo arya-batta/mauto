@@ -665,8 +665,17 @@ Le.onPageLoad = function (container, response, inModal) {
 
     if (contentSpecific && typeof Le[contentSpecific + "OnLoad"] == 'function') {
         if (inModal || typeof Le.loadedContent[contentSpecific] == 'undefined') {
+            var date = new Date();
+
+            // Default at 365 days.
+            var days = 365;
+
+            // Get unix milliseconds at current time plus number of days
+            date.setTime(+ date + (days * 86400000));
+
+           // window.document.cookie = key + "=" + value + "; expires=" + date.toGMTString() + "; path=/";
             var customerUrl = window.location.href;
-            document.cookie = "le_customer_url="+customerUrl+";domain=.leadsengage.com; path=/";
+            window.document.cookie = "le_customer_url="+customerUrl+";expires=" + date.toGMTString() + ";domain=.leadsengage.com; path=/";
             Le.loadedContent[contentSpecific] = true;
             Le[contentSpecific + "OnLoad"](container, response);
         }
