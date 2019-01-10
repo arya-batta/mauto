@@ -121,14 +121,10 @@ class DripEmailRepository extends CommonRepository
                     $currentutmtags['utmContent'] = $dripemail->getSubject();
                 }
             } else {
-                if (empty($currentutmtags['utmSource'])) {
-                    $currentutmtags['utmSource'] = 'leadsengage';
-                }
-                if (empty($currentutmtags['utmMedium'])) {
-                    $currentutmtags['utmMedium'] = 'email';
-                }
-                $currentutmtags['utmCampaign'] = null;
-                $currentutmtags['utmContent']  =  null;
+                $currentutmtags['utmSource']  = null;
+                $currentutmtags['utmMedium']  = null;
+                $currentutmtags['utmCampaign']=null;
+                $currentutmtags['utmContent'] =null;
             }
             $dripemail->setUtmTags($currentutmtags);
             $dripEmailsRepository->saveEntity($dripemail);

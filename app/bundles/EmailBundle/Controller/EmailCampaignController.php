@@ -953,12 +953,8 @@ class EmailCampaignController extends FormController
                             $currentutmtags['utmContent'] = $currentsubject;
                         }
                     } else {
-                        if (empty($currentutmtags['utmSource'])) {
-                            $currentutmtags['utmSource'] = 'leadsengage';
-                        }
-                        if (empty($currentutmtags['utmMedium'])) {
-                            $currentutmtags['utmMedium'] = 'email';
-                        }
+                        $currentutmtags['utmSource']  = null;
+                        $currentutmtags['utmMedium']  = null;
                         $currentutmtags['utmCampaign']=null;
                         $currentutmtags['utmContent'] =null;
                     }
