@@ -520,11 +520,13 @@ Le.showSmartFormFieldPanel=function(){
     mQuery('#le_smart_form_list').removeClass('hide').addClass('hide');
     mQuery('.smart-action-panel').removeClass('hide');
 }
-Le.openSmartFormPanel=function(event){
-    event = event || window.event;
-    var currentlink = event.target || event.srcElement;
-    var formname=mQuery(currentlink).attr('data-formname');
-    var formid=mQuery(currentlink).attr('data-formid');
+Le.openSmartFormPanel=function(ele){
+    //alert(event);
+    //event = event || window.event;
+    //var currentlink = event.target || event.srcElement;
+    //alert(currentlink);
+    var formname=mQuery(ele).attr('data-formname');
+    var formid=mQuery(ele).attr('data-formid');
     var header=formname;
     if(formname == ""){
         header=formid;
