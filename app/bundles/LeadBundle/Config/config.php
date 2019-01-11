@@ -125,8 +125,8 @@ return [
                 'controller' => 'MauticLeadBundle:Import:list',
             ],
             'le_import_action' => [
-                'path'       => '/import/leads',
-                'controller' => 'MauticLeadBundle:Import:index',
+                'path'       => '/import/{objectAction}/{objectId}',
+                'controller' => 'MauticLeadBundle:Import:execute',
             ],
             'le_contact_action' => [
                 'path'       => '/leads/{objectAction}/{objectId}',
