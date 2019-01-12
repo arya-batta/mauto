@@ -351,6 +351,8 @@ class LeadListRepository extends CommonRepository
         $newOnly = (!array_key_exists('newOnly', $args)) ? false : $args['newOnly'];
         // Return leads that do not belong to a list based on filters
         $nonMembersOnly = (!array_key_exists('nonMembersOnly', $args)) ? false : $args['nonMembersOnly'];
+        // Return only
+        $removeAction = (!array_key_exists('removeAction', $args)) ? false : $args['removeAction'];
         // Use filters to dynamically generate the list
         $dynamic = ($newOnly || $nonMembersOnly || (!$newOnly && !$nonMembersOnly && $countOnly));
         // Limiters
@@ -607,6 +609,50 @@ class LeadListRepository extends CommonRepository
                 $q->setParameter('list', (int) $id)
                     ->setParameter('false', false, 'boolean');
 
+                // Set limits if applied
+                if (!empty($limit)) {
+                    $q->setFirstResult($start)
+                        ->setMaxResults($limit);
+                }
+                if (!empty($expr) && $expr->count() > 0) {
+                    $q->where($expr);
+                }
+
+                $results = $q->execute()->fetchAll();
+
+                foreach ($results as $r) {
+                    if ($countOnly) {
+                        $leads = [
+                            'count' => $r['lead_count'],
+                            'maxId' => $r['max_id'],
+                        ];
+                    } elseif ($idOnly) {
+                        $leads[] = $r['id'];
+                    } else {
+                        $leads[] = $r;
+                    }
+                }
+            }elseif (count($filters) == 0 && $removeAction){
+                $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+                if ($countOnly) {
+                    $q->select('max(ll.lead_id) as max_id, count(ll.lead_id) as lead_count')
+                        ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll');
+                } elseif ($idOnly) {
+                    $q->select('ll.lead_id as id')
+                        ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll');
+                } else {
+                    $q->select('l.*')
+                        ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+                        ->join('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll', 'l.id = ll.lead_id');
+                }
+
+                $expr = $q->expr()->andX(
+                    $q->expr()->eq('ll.leadlist_id', ':list'),
+                    $q->expr()->eq('ll.manually_removed', ':false')
+                );
+
+                $q->setParameter('list', (int) $id)
+                    ->setParameter('false', false, 'boolean');
                 // Set limits if applied
                 if (!empty($limit)) {
                     $q->setFirstResult($start)

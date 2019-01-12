@@ -979,10 +979,10 @@ class EmailRepository extends CommonRepository
      */
     public function getLast30DaysClickCounts($viewOthers =false)
     {
-        /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
+          $dateinterval = date('Y-m-d', strtotime('-29 days'));
           $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-          $q->select('SUM(t.hits)')
+          $q->select('t.unique_hits,t.channel_id')
               ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
               ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
                   $q->expr()->andX(
@@ -1009,10 +1009,22 @@ class EmailRepository extends CommonRepository
                   ->setParameter('id', '1');
           }
 
-          $results = $q->execute()->fetchAll();
-
-          return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;*/
-        $dateinterval = date('Y-m-d', strtotime('-29 days'));
+        $results = $q->execute()->fetchAll();
+        $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $sq->select('e.id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->andWhere($sq->expr()->eq('e.email_type','"list"'));
+        $ids = $sq->execute()->fetchAll();
+        $count=0;
+        for($i =0;$i < sizeof($results);$i++){
+         for($j=0;$j < sizeof($ids);$j++){
+             if($results[$i]['channel_id'] == $ids[$j]['id']){
+                 $count += $results[$i]['unique_hits'];
+             }
+         }
+        }
+        return $count;
+      /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
         $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $q->select('count(e.id) as clickcount')
             ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
@@ -1036,7 +1048,7 @@ class EmailRepository extends CommonRepository
 
         $results = $q->execute()->fetchAll();
 
-        return $results[0]['clickcount'];
+        return $results[0]['clickcount'];*/
     }
 
     /**

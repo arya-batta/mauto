@@ -59,6 +59,17 @@ $notificationAccess = $view['security']->isGranted('email:emails:viewown');
             </a>
         </li>
       <?php endif; */ ?>
+        <li>
+            <a class="le_beamer">
+                <i class="margin-right  fa  fa-bell "></i><span><?php echo $view['translator']->trans('le.beamer.menu.index'); ?></span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?php echo $view['router']->path('le_featuresandideas_index'); ?>" data-toggle="ajax">
+                <i class="margin-right fa fa-question-circle"></i><span><?php echo $view['translator']->trans('le.feauturesandideas.menu.index'); ?></span>
+            </a>
+        </li>
       <?php if ($apiAccess): ?>
         <li>
             <a href="<?php echo $view['router']->path('le_client_index'); ?>" data-toggle="ajax">

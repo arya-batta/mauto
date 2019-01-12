@@ -952,8 +952,13 @@ class EmailCampaignController extends FormController
                         } elseif ($currentsubject != $lastsubject && $currentutmtags['utmContent'] == $lastsubject) {
                             $currentutmtags['utmContent'] = $currentsubject;
                         }
-                        $entity->setUtmTags($currentutmtags);
+                    } else {
+                        $currentutmtags['utmSource']  = null;
+                        $currentutmtags['utmMedium']  = null;
+                        $currentutmtags['utmCampaign']=null;
+                        $currentutmtags['utmContent'] =null;
                     }
+                    $entity->setUtmTags($currentutmtags);
                     $assets         = $form['assetAttachments']->getData();
                     $attachmentSize = $this->getModel('asset')->getTotalFilesize($assets);
                     if ($attachmentSize != 0 && $attachmentSize == 'failed') {

@@ -5535,7 +5535,7 @@ figcaption {
   margin-top: -293px;
 }
 #next-page-1{
-  margin-top: -294px;
+  margin-top: -292px;
 }
 #previous-3 {
   margin-left: 518px;
@@ -5550,8 +5550,14 @@ figcaption {
 .fragment-1-buttons{
   float: right;
 }
+.fragment-drip-3-buttons{
+  margin-top: -7px;
+}
 .fragment-1-buttons,.fragment-2-buttons,.fragment-3-buttons,.fragment-4-buttons{
-  margin-top: -4px;
+  margin-top: -3px;
+}
+.fragment-drip-1-buttons,.fragment-drip-2-buttons,.fragment-drip-3-buttons,.fragment-drip-4-buttons{
+  margin-top: 0px;
 }
 .tab-pane .email_custom_builderbutton{
   margin-left:90%;

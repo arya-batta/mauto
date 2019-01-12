@@ -530,7 +530,7 @@ Le.standardEmailUrl = function(options) {
         var url = options.windowUrl;
         var editEmailKey = '/oneoff/edit/emailId';
         var previewEmailKey = '/oneoff/preview/emailId';
-        if(options.origin == '#campaignevent_properties_useremail_email'){
+        if(options.origin == '#campaignevent_properties_useremail_email' || options.origin == '#formaction_properties_useremail_email'){
              previewEmailKey = '/emailnotifications/preview/emailId';
         }
         if (url.indexOf(editEmailKey) > -1 ||

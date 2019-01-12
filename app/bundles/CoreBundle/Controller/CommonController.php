@@ -272,7 +272,7 @@ class CommonController extends Controller implements MauticController
      */
     public function redirectSecureRootAction()
     {
-        return $this->redirect($this->generateUrl('le_dashboard_index'), 301);
+        return $this->redirect($this->generateUrl('le_contact_index'), 301);
     }
 
     /**
@@ -844,7 +844,7 @@ class CommonController extends Controller implements MauticController
                 'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_contact_index',
-                    'leContent' => 'lead',
+                    'leContent'     => 'lead',
                     'closeModal'    => 1, //just in case in quick form
                 ],
             ]

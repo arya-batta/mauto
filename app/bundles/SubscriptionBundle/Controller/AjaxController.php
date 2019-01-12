@@ -683,17 +683,17 @@ class AjaxController extends CommonAjaxController
         } else {
             $accountsuspendmsg = str_replace('%ATAG%', '', $accountsuspendmsg);
         }
-        if (!empty($licenseRemDays)) {
-            if ($licenseRemDays == 1) {
-                $notifymessage = $this->translator->trans('leadsengage.msg.license.expired.today');
-            } elseif ($licenseRemDays == 2) {
-                $notifymessage = $this->translator->trans('leadsengage.msg.license.expired.tommorow');
-            } elseif ($licenseRemDays < 7) {
-                $notifymessage = $this->translator->trans('leadsengage.msg.license.expired', ['%licenseRemDate%' => $licenseRemDate]);
-            }
-            //  $notifymessage .= $this->translator->trans('le.record.usage.count', ['%contact_usage%' => $availablerecordcount, '%email_usage%' => $availableemailcount]);
-            //$notifymessage .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Subscribe', '%url%' => $pricingplanRoute]);
-        }
+        /* if (!empty($licenseRemDays)) {
+             if ($licenseRemDays == 1) {
+                 $notifymessage = $this->translator->trans('leadsengage.msg.license.expired.today');
+             } elseif ($licenseRemDays == 2) {
+                 $notifymessage = $this->translator->trans('leadsengage.msg.license.expired.tommorow');
+             } elseif ($licenseRemDays < 7) {
+                 $notifymessage = $this->translator->trans('leadsengage.msg.license.expired', ['%licenseRemDate%' => $licenseRemDate]);
+             }
+             //  $notifymessage .= $this->translator->trans('le.record.usage.count', ['%contact_usage%' => $availablerecordcount, '%email_usage%' => $availableemailcount]);
+             //$notifymessage .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Subscribe', '%url%' => $pricingplanRoute]);
+         } */
         if (isset($emailUsageCount) && $emailUsageCount > $maxEmailUsage) {
             $emailUssage=true;
         }
@@ -716,25 +716,25 @@ class AjaxController extends CommonAjaxController
                         $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
                     }
                 } else {
-                    $usageMsg=$this->translator->trans('le.emailusage.count.expired');
+                    // $usageMsg=$this->translator->trans('le.emailusage.count.expired');
                 }
             } else {
-                $usageMsg=$this->translator->trans('le.emailusage.count.exceeds', ['%maxEmailUsage%' => $maxEmailUsage]);
+                // $usageMsg=$this->translator->trans('le.emailusage.count.exceeds', ['%maxEmailUsage%' => $maxEmailUsage]);
             }
         }
-        if ($emailsValidity && $lastpayment == null) {
-            if ($emailValidityDays < 0) {
-                $emailMsg=$this->translator->trans('le.emailvalidity.count.expired');
-            } elseif ($emailValidityDays == 0) {
-                $emailMsg=$this->translator->trans('le.emailvalidity.count.expired.today');
-            } elseif ($emailValidityDays == 1) {
-                $emailMsg=$this->translator->trans('le.emailvalidity.count.expired.tommorow');
-            } else {
-                $emailMsg=$this->translator->trans('le.emailvalidity.count.exceeds', ['%emailValidityEndDate%' => $emailValidityDays]);
-            }
-            $emailMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Subscribe', '%url%' => $pricingplanRoute]);
-            $notifymessage .= $emailMsg;
-            //            if ($usageMsg != '') {
+        /* if ($emailsValidity && $lastpayment == null) {
+             if ($emailValidityDays < 0) {
+                 $emailMsg=$this->translator->trans('le.emailvalidity.count.expired');
+             } elseif ($emailValidityDays == 0) {
+                 $emailMsg=$this->translator->trans('le.emailvalidity.count.expired.today');
+             } elseif ($emailValidityDays == 1) {
+                 $emailMsg=$this->translator->trans('le.emailvalidity.count.expired.tommorow');
+             } else {
+                 $emailMsg=$this->translator->trans('le.emailvalidity.count.exceeds', ['%emailValidityEndDate%' => $emailValidityDays]);
+             }
+             $emailMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Subscribe', '%url%' => $pricingplanRoute]);
+             $notifymessage .= $emailMsg;
+             //            if ($usageMsg != '') {
 //                $usageMsg .= ' and ';
 //            }
 //            $usageMsg .= $emailMsg;
@@ -746,7 +746,7 @@ class AjaxController extends CommonAjaxController
 //            } elseif ($emailValidity < 0 && $emailUssage) {
 //                $usageMsg=$this->translator->trans('le.emailvalidity.count.expired');
 //            }
-        }
+         } */
 
         if ($smsUssage) {
             if ($lastpaymentplanname != 'leplan2') {
@@ -1000,7 +1000,6 @@ class AjaxController extends CommonAjaxController
                     $todaydate          = date('Y-m-d');
                     $emailplancredits   = $planname == 'leplan1' ? 'UL' : '100000';
                     if ($lastpayment != null) {
-                        $emailplancredits = $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
                         $validityend      = $lastpayment->getValidityTill();
                         if ($todaydate != $validityend) {
                             $todaydate    = $validityend;
@@ -1018,7 +1017,7 @@ class AjaxController extends CommonAjaxController
                     $dbname               = $this->coreParametersHelper->getParameter('db_name');
                     $appid                = str_replace('leadsengage_apps', '', $dbname);
                     $signuplead           = $signuprepository->getSignupLeadinfo($appid);
-                    if (!empty($signuplead)) {
+                    if (!empty($signuplead) && $lastpayment == null) {
                         $signupleadid = $signuplead[0]['id'];
                         $signuprepository->updateLeadwithTag($this->translator->trans('le.payment.done.tag.name'), $signupleadid);
                         $campaignid   = $this->coreParametersHelper->getParameter('campaign_id');

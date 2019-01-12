@@ -80,7 +80,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             </li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel ui-tabs-hide">
-            <div class="fragment-1-buttons fixed-header">
+            <div class="fragment-drip-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-1" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -179px;margin-right: 107px;">
@@ -96,7 +96,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
         </div>
         <div id="fragment-2" class="ui-tabs-panel ">
-            <div class="fragment-2-buttons fixed-header">
+            <div class="fragment-drip-2-buttons fixed-header">
                 <a href="#" id="#previous-button" style="margin-top: -307px;" class="prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
@@ -259,7 +259,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
-            <div class="fragment-3-buttons fixed-header">
+            <div class="fragment-drip-3-buttons fixed-header" style="margin-top: -7px;">
                 <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
@@ -352,7 +352,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             </div>
         </div>
         <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
-            <div class="fragment-4-buttons fixed-header">
+            <div class="fragment-drip-4-buttons fixed-header">
                 <a href="#" style="margin-left:-82px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>

@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
-$object = $app->getRequest()->get('object', 'leads');
+$object ='leads';// $app->getRequest()->get('object', 'leads');
 
 $view['slots']->set('leContent', 'leadImport');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.leads', ['%object%' => $object]));
@@ -97,7 +97,7 @@ $indexRoute = $object === 'leads' ? 'le_contact_index' : 'le_company_index';
                         <br>
                         <a class="btn btn-success" href="<?php echo $view['router']->path(
                             'le_import_action',
-                            ['objectAction' => 'view', 'objectId' => $import->getId(), 'object' => $object]
+                            ['objectAction' => 'view', 'objectId' => $import->getId()]
                         ); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.import.result.info', ['%import%' => $import->getName()]); ?>
                         </a>

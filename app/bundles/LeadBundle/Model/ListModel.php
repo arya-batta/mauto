@@ -842,6 +842,7 @@ class ListModel extends FormModel
                 'countOnly'     => true,
                 'newOnly'       => true,
                 'batchLimiters' => $batchLimiters,
+                'removeAction'   => false,
             ]
         );
 
@@ -882,6 +883,7 @@ class ListModel extends FormModel
                         // No start set because of newOnly thus always at 0
                         'limit'         => $limit,
                         'batchLimiters' => $batchLimiters,
+                        'removeAction'   => false,
                     ]
                 );
 
@@ -970,6 +972,7 @@ class ListModel extends FormModel
                 'countOnly'      => true,
                 'nonMembersOnly' => true,
                 'batchLimiters'  => $batchLimiters,
+                'removeAction'    => true,
             ]
         );
 
@@ -1005,6 +1008,7 @@ class ListModel extends FormModel
                         'limit'          => $limit,
                         'nonMembersOnly' => true,
                         'batchLimiters'  => $batchLimiters,
+                        'removeAction'    => true,
                     ]
                 );
 

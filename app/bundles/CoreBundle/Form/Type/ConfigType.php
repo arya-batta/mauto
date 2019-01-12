@@ -344,7 +344,8 @@ class ConfigType extends AbstractType
                     'tooltip' => 'mautic.core.config.form.default.timezone.tooltip',
                 ],
                 'multiple'    => false,
-                'empty_value' => 'mautic.user.user.form.defaulttimezone',
+                'data'        => empty($options['data']['default_timezone']) ? "" : $options['data']['default_timezone'],
+                //'empty_value' => 'mautic.user.user.form.defaulttimezone',
                 'required'    => false,
             ]
         );

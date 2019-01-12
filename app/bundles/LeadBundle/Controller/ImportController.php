@@ -145,7 +145,11 @@ class ImportController extends FormController
 
         $this->resetImport($fullPath, false);
 
-        return $this->listAction();
+        //return $this->listAction();
+        return $this->postActionRedirect([
+            'returnUrl'  => $this->generateUrl('le_contact_index'),
+            'viewParameters' => ['page' => 1],
+        ]);
     }
 
     /**

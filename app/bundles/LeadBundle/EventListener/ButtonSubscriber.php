@@ -57,7 +57,7 @@ class ButtonSubscriber extends CommonSubscriber
             $event->addButton(
                 ['buttons',
                     'attr' => [
-                        'href' => $this->router->generate('le_import_action', ['object' => 'leads', 'objectAction' => 'new']),
+                        'href' => $this->router->generate('le_import_action', ['objectAction' => 'new']),
                     ],
                     'iconClass' => 'fa fa-upload',
                     'btnText'   => 'le.lead.lead.import',

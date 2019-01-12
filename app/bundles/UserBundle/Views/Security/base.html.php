@@ -10,6 +10,7 @@
     <?php $view['assets']->outputSystemStylesheets(); ?>
     <?php echo $view->render('MauticCoreBundle:Default:script.html.php'); ?>
     <?php $view['assets']->outputHeadDeclarations(); ?>
+    <div class="beamer_avoid"></div>
 </head>
 <body>
 <section id="wrapper" class="le-new-login-register">
