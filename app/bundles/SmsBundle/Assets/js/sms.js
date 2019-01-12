@@ -86,7 +86,7 @@ Le.CheckSMSStatus = function () {
                         mQuery('.license-notifiation #license-alert-message').html('');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('.button-notification').addClass('hide');
-                        mQuery('#fixed-content').attr('style', 'margin-top:215px;');
+                        mQuery('#fixed-content').attr('style', 'margin-top:195px;');
                         mQuery('.content-body').attr('style', 'padding-top:82px;');
                     }
                 } else {
