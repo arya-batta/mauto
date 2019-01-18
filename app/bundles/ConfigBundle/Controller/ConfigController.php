@@ -64,9 +64,12 @@ class ConfigController extends FormController
         $mailertransport= $paramater['mailer_transport'];
         $maileruser     = $paramater['mailer_user'];
         $emailstatus    = $paramater['email_status'];
-        $emailpassword  = $paramater['mailer_password'];
+        $emailpassword  = "";
         if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
+        }
+        if (isset($paramater['mailer_password'])) {
+            $emailpassword                = $paramater['mailer_password'];
         }
         //$region         = $paramater['mailer_amazon_region'];
 

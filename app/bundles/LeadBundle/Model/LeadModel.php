@@ -1669,10 +1669,6 @@ class LeadModel extends FormModel
             $lead->setOwner($this->em->getReference('MauticUserBundle:User', $owner));
         }
 
-        if ($tags !== null) {
-            $this->modifyTags($lead, $tags, null, false);
-        }
-
         if (empty($this->leadFields)) {
             $this->leadFields = $this->leadFieldModel->getEntities(
                 [
@@ -1768,6 +1764,9 @@ class LeadModel extends FormModel
 
             if ($eventLog) {
                 $lead->addEventLog($eventLog);
+            }
+            if ($tags !== null) {
+                $this->modifyTags($lead, $tags, null, true);
             }
         }
 

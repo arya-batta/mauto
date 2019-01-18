@@ -1057,6 +1057,11 @@ class CampaignModel extends CommonFormModel
                     $progress = ProgressBarHelper::init($output, $maxCount);
                     $progress->start();
                 }
+                    // Add leads
+                while ($start < $leadCount) {
+                    // Keep CPU down for large lists; sleep per $limit batch
+                    $this->batchSleep();
+                    // Get a List of new leads
                     $newLeadList = $repo->getCampaignLeadsFromLists(
                         $campaign->getId(),
                         $lists,
@@ -1065,12 +1070,6 @@ class CampaignModel extends CommonFormModel
                             'batchLimiters' => $batchLimiters,
                         ]
                     );
-                    // Add leads
-                while ($start < $leadCount) {
-                    // Keep CPU down for large lists; sleep per $limit batch
-                    $this->batchSleep();
-
-                    // Get a count of new leads
 
                     $start += $limit;
 
