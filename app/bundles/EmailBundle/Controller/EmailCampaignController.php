@@ -1638,9 +1638,10 @@ class EmailCampaignController extends FormController
                     $configtransport     = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
                     $pending             = $model->getPendingLeads($entity, null, true);
                     $availableemailcount =  $this->get('mautic.helper.licenseinfo')->getAvailableEmailCount();
+                    $totalemailcount     =  $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
                     $paymentrepository   = $this->factory->get('le.subscription.repository.payment');
                     $lastpayment         = $paymentrepository->getLastPayment();
-                    if ($configtransport == 'le.transport.vialeadsengage' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
+                    if ($configtransport == 'le.transport.vialeadsengage' && $totalemailcount != 'UL' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
                         if ($pending > $availableemailcount) {
                             $this->addFlash('le.email.broadcast.usage.error');
                         } else {
