@@ -335,9 +335,9 @@ class DripEmailType extends AbstractType
                     'empty_value' => false,
                     'required'    => true,
                     'attr'        => [
-                        'class'   => 'form-control',
+                        'class'   => 'form-control sideorder',
                     ],
-                    'data'        => $options['data']->getDaysEmailSend() ? $options['data']->getDaysEmailSend() : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    'data'         => $options['data']->getDaysEmailSend() ? $options['data']->getDaysEmailSend() : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     'constraints'  => [
                         new NotBlank(
                             ['message' => 'le.drip.email.daysEmailSend.required']

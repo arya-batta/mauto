@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'Webhook');
-
+$isAdmin=$view['security']->isAdmin();
 $header = ($entity->getId()) ?
     $view['translator']->trans('mautic.webhook.webhook.header.edit',
         ['%name%' => $view['translator']->trans($entity->getName())]) :
@@ -44,7 +44,7 @@ $view['slots']->set('headerTitle', $header);
                     </div>
 
                 </div>
-                <div class="col-md-6" id="event-types">
+                <div class="col-md-3" id="event-types">
                     <?php echo $view['form']->row($form['events']); ?>
                 </div>
             </div>
@@ -53,7 +53,9 @@ $view['slots']->set('headerTitle', $header);
     <div class="col-md-3 bg-white height-auto bdr-l">
         <div class="pr-lg pl-lg pt-md pb-md">
             <?php echo $view['form']->row($form['category']); ?>
-            <?php echo $view['form']->row($form['eventsOrderbyDir']); ?>
+            <div class="<?php echo $isAdmin ? '' : 'hide' ?>" >
+            <?php  echo $view['form']->row($form['eventsOrderbyDir']); ?>
+            </div>
             <?php echo $view['form']->row($form['isPublished']); ?>
         </div>
     </div>

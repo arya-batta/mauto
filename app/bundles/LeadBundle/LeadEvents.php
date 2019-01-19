@@ -574,13 +574,13 @@ final class LeadEvents
     const ADD_LEAD_WITH_CAMPAIGN = 'mautic.add_lead_with_campaign';
 
     /**
-     * The mautic.modify_tag_with_campaign event registers Lead Tag Modify.
+     * The le.modify_tag_with_campaign event registers Lead Tag Modify.
      *
      * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
      *
      * @var string
      */
-    const MODIFY_TAG_EVENT = 'mautic.modify_tag_with_campaign';
+    const MODIFY_TAG_EVENT = 'le.lead_modify_tag_with_campaign';
 
     /**
      * The mautic.remove_tag_with_campaign event registers Lead Tag Modify.
@@ -589,7 +589,7 @@ final class LeadEvents
      *
      * @var string
      */
-    const REMOVE_TAG_EVENT = 'mautic.remove_tag_with_campaign';
+    const REMOVE_TAG_EVENT = 'le.remove_tag_with_campaign';
     /**
      * The mautic.modify_lead_field_with_campaign event registers Lead Field Value Modify.
      *

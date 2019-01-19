@@ -67,13 +67,13 @@ class WebhookBuilderEvent extends Event
     {
         static $sorted = false;
 
-        if (empty($sorted)) {
-            uasort($this->events, function ($a, $b) {
-                return strnatcasecmp(
-                    $a['label'], $b['label']);
-            });
-            $sorted = true;
-        }
+        /*  if (empty($sorted)) {  //disabled sorts GS
+              uasort($this->events, function ($a, $b) {
+                  return strnatcasecmp(
+                      $a['label'], $b['label']);
+              });
+              $sorted = true;
+          } */
 
         return $this->events;
     }
