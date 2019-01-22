@@ -79,7 +79,8 @@ $leContent = $view['slots']->get(
         //user_id : "user_id" /*Optional : Input your user ID for better statistics*/
     };
 </script>
-<script type="text/javascript" src="https://app.getbeamer.com/js/beamer-embed.js" defer="defer"></script>
+<?php /** src= https://app.getbeamer.com/js/beamer-embed.js   modified by GS*/ ?>
+<script type="text/javascript" src="" defer="defer"></script>
 
 
 

@@ -31,7 +31,7 @@ class WebhookSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 0],
+            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 8],
             FormEvents::FORM_ON_SUBMIT      => ['onFormSubmit', 0],
         ];
     }

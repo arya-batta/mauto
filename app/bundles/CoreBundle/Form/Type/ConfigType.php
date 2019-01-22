@@ -12,6 +12,7 @@
 namespace Mautic\CoreBundle\Form\Type;
 
 use Mautic\CoreBundle\Factory\IpLookupFactory;
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\DataTransformer\ArrayLinebreakTransformer;
 use Mautic\CoreBundle\Form\DataTransformer\ArrayStringTransformer;
 use Mautic\CoreBundle\Helper\LanguageHelper;
@@ -62,6 +63,11 @@ class ConfigType extends AbstractType
     private $ipLookup;
 
     /**
+     * @var MauticFactory
+     */
+    private $factory;
+
+    /**
      * ConfigType constructor.
      *
      * @param TranslatorInterface $translator
@@ -70,6 +76,7 @@ class ConfigType extends AbstractType
      * @param array               $supportedLanguages
      * @param array               $ipLookupServices
      * @param AbstractLookup      $ipLookup
+     * @param MauticFactory       $factory
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -77,13 +84,15 @@ class ConfigType extends AbstractType
         IpLookupFactory $ipLookupFactory,
         array $supportedLanguages,
         array $ipLookupServices,
-        AbstractLookup $ipLookup = null
+        AbstractLookup $ipLookup = null,
+        MauticFactory $factory
     ) {
         $this->translator         = $translator;
         $this->langHelper         = $langHelper;
         $this->ipLookupFactory    = $ipLookupFactory;
         $this->ipLookup           = $ipLookup;
         $this->supportedLanguages = $supportedLanguages;
+        $this->factory            = $factory;
 
         $choices = [];
         foreach ($ipLookupServices as $name => $service) {
@@ -332,6 +341,7 @@ class ConfigType extends AbstractType
                 'empty_value' => false,
             ]
         );
+        $timeZone =$this->factory->getModel('user')->getUserTimeZone();
 
         $builder->add(
             'default_timezone',
@@ -344,8 +354,8 @@ class ConfigType extends AbstractType
                     'tooltip' => 'mautic.core.config.form.default.timezone.tooltip',
                 ],
                 'multiple'    => false,
-                'data'        => empty($options['data']['default_timezone']) ? "" : $options['data']['default_timezone'],
-                //'empty_value' => 'mautic.user.user.form.defaulttimezone',
+                'data'        => empty($options['data']['default_timezone']) ? '' : $options['data']['default_timezone'],
+                'empty_value' => $timeZone, //'mautic.user.user.form.defaulttimezone',
                 'required'    => false,
             ]
         );

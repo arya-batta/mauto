@@ -157,7 +157,7 @@ $isAdmin    =$view['security']->isAdmin();
                                     <span><i class="material-icons md-color-white">  </i></span></a>
                             <?php endif; ?>
                             <?php if ($hasDeleteAccess):?>
-                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.lead.events.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
+                                <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('le.lead.lead.list.delete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                     <span><i class="material-icons md-color-white">  </i></span>
                                 </a>
                             <?php endif; ?>

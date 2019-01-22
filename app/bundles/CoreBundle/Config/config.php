@@ -278,6 +278,7 @@ return [
                     '%mautic.supported_languages%',
                     '%mautic.ip_lookup_services%',
                     'mautic.ip_lookup',
+                    'mautic.factory',
                 ],
                 'alias' => 'coreconfig',
             ],

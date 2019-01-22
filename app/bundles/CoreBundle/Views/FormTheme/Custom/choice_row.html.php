@@ -4,6 +4,12 @@ $feedbackClass = (!empty($hasErrors)) ? ' has-error' : '';
 
 //apply attributes to radios
 $attr          = $form->vars['attr'];
+$class         = 'check-col-md-2';
+if (isset($attr['class'])) {
+    if (strpos($attr['class'], 'sideorder') !== false) {
+        $class= 'col-md-1 check-col-md-1';
+    }
+}
 $attr['class'] = 'le-input';
 ?>
 <div class="row">
@@ -12,7 +18,7 @@ $attr['class'] = 'le-input';
         <div class="choice-wrapper">
             <?php if ($expanded && $multiple): ?>
             <?php foreach ($form->children as $child): ?>
-                <div class="col-md-1 check-col-md-1">
+                <div class= "<?php echo $class ?>" >
                     <label class="checkboxcontroller checkboxcontroller-checkbox">
                         <?php echo $view['form']->widget($child, ['attr' => $attr]); ?>
                         <?php echo $view['translator']->trans($child->vars['label']); ?>

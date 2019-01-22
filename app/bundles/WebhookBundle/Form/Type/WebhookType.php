@@ -54,7 +54,7 @@ class WebhookType extends AbstractType
             [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => true,
             ]
         );
@@ -66,7 +66,7 @@ class WebhookType extends AbstractType
                 'label'    => 'mautic.webhook.form.description',
                 'required' => false,
                 'attr'     => [
-                    'class' => 'form-control',
+                    'class' => 'form-control le-input',
                 ],
             ]
         );
@@ -77,7 +77,7 @@ class WebhookType extends AbstractType
             [
                 'label'      => 'mautic.webhook.form.webhook_url',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
                 'required'   => true,
             ]
         );

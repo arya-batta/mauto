@@ -20,6 +20,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
         'edit'   => $view['security']->hasEntityAccess($permissions['webhook:webhooks:editown'], $permissions['webhook:webhooks:editother'], $item->getCreatedBy()),
         'clone'  => $permissions['webhook:webhooks:create'],
         'delete' => $view['security']->hasEntityAccess($permissions['webhook:webhooks:deleteown'], $permissions['webhook:webhooks:deleteown'], $item->getCreatedBy()),
+        'close'  => $view['security']->hasEntityAccess($permissions['webhook:webhooks:viewown'], $permissions['webhook:webhooks:viewother'], $item->getCreatedBy()),
     ],
     'routeBase' => 'webhook',
 ]));

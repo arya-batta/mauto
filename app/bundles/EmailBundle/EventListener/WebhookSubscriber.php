@@ -32,7 +32,7 @@ class WebhookSubscriber extends CommonSubscriber
     {
         return [
             EmailEvents::EMAIL_ON_OPEN      => ['onEmailOpen', 0],
-            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 0],
+            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 7],
         ];
     }
 

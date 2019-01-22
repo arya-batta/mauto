@@ -33,11 +33,12 @@ class WebhookSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            WebhookEvents::WEBHOOK_ON_BUILD          => ['onWebhookBuild', 0],
+            WebhookEvents::WEBHOOK_ON_BUILD          => ['onWebhookBuild', 10],
             LeadEvents::LEAD_POST_SAVE               => ['onLeadNewUpdate', 0],
             LeadEvents::LEAD_POINTS_CHANGE           => ['onLeadPointChange', 0],
             LeadEvents::LEAD_POST_DELETE             => ['onLeadDelete', 0],
             LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED => ['onChannelSubscriptionChange', 0],
+            LeadEvents::MODIFY_TAG_EVENT             => ['onLeadTagModified', 0],
         ];
     }
 
@@ -84,12 +85,23 @@ class WebhookSubscriber extends CommonSubscriber
             ]
         );
 
-        // add a checkbox for do not contact changes
+        if ($this->security->isAdmin()) {
+            // add a checkbox for do not contact changes
+            $event->addEvent(
+                LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED,
+                [
+                    'label'       => 'le.lead.webhook.event.lead.dnc',
+                    'description' => 'le.lead.webhook.event.lead.dnc_desc',
+                ]
+            );
+        }
+
+        // add a checkbox for lead tag modified
         $event->addEvent(
-            LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED,
+            LeadEvents::MODIFY_TAG_EVENT,
             [
-                'label'       => 'le.lead.webhook.event.lead.dnc',
-                'description' => 'le.lead.webhook.event.lead.dnc_desc',
+                'label'       => 'le.lead.webhook.event.lead.tag.modified',
+                'description' => 'le.lead.webhook.event.lead.tag.modified_desc',
             ]
         );
     }
@@ -136,6 +148,27 @@ class WebhookSubscriber extends CommonSubscriber
                     'old_points' => $event->getOldPoints(),
                     'new_points' => $event->getNewPoints(),
                 ],
+            ],
+            [
+                'leadDetails',
+                'userList',
+                'publishDetails',
+                'ipAddress',
+            ]
+        );
+    }
+
+    /**
+     * @param LeadEvent $event
+     */
+    public function onLeadTagModified(LeadEvent $event)
+    {
+        $this->webhookModel->queueWebhooksByType(
+            LeadEvents::MODIFY_TAG_EVENT,
+            [
+                'lead'     => $event->getLead(),
+                'contact'  => $event->getLead(),
+                'tags'     => $event->getLead()->getTags(),
             ],
             [
                 'leadDetails',
