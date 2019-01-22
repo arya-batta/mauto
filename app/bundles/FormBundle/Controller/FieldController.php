@@ -132,7 +132,7 @@ class FieldController extends CommonFormController
         }
 
         $passthroughVars = [
-            'leContent' => 'formField',
+            'leContent'     => 'formField',
             'success'       => $success,
             'route'         => false,
         ];
@@ -275,7 +275,7 @@ class FieldController extends CommonFormController
             }
 
             $passthroughVars = [
-                'leContent' => 'formField',
+                'leContent'     => 'formField',
                 'success'       => $success,
                 'route'         => false,
             ];
@@ -349,12 +349,13 @@ class FieldController extends CommonFormController
 
         if ($this->request->getMethod() == 'POST' && $formField !== null) {
             $usedLeadFields = $session->get('mautic.form.'.$formId.'.fields.leadfields');
-
-            // Allow to select the lead field from the delete field again
-            $unusedLeadField = array_search($formField['leadField'], $usedLeadFields);
-            if (!empty($formField['leadField']) && false !== $unusedLeadField) {
-                unset($usedLeadFields[$unusedLeadField]);
-                $session->set('mautic.form.'.$formId.'.fields.leadfields', $usedLeadFields);
+            if ($usedLeadFields != null) {
+                // Allow to select the lead field from the delete field again
+                $unusedLeadField = array_search($formField['leadField'], $usedLeadFields);
+                if (!empty($formField['leadField']) && false !== $unusedLeadField) {
+                    unset($usedLeadFields[$unusedLeadField]);
+                    $session->set('mautic.form.'.$formId.'.fields.leadfields', $usedLeadFields);
+                }
             }
 
             //add the field to the delete list
@@ -364,7 +365,7 @@ class FieldController extends CommonFormController
             }
 
             $dataArray = [
-                'leContent' => 'formField',
+                'leContent'     => 'formField',
                 'success'       => 1,
                 'route'         => false,
             ];
