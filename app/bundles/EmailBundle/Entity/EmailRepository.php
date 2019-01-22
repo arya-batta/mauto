@@ -979,10 +979,10 @@ class EmailRepository extends CommonRepository
      */
     public function getLast30DaysClickCounts($viewOthers =false)
     {
-          $dateinterval = date('Y-m-d', strtotime('-29 days'));
-          $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $dateinterval = date('Y-m-d', strtotime('-29 days'));
+        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-          $q->select('t.unique_hits,t.channel_id')
+        $q->select('t.unique_hits,t.channel_id')
               ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
               ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
                   $q->expr()->andX(
@@ -999,56 +999,56 @@ class EmailRepository extends CommonRepository
               ->setParameter('dateAdded', $dateinterval)
               ->orderBy('r.url');
 
+        $results       = $q->execute()->fetchAll();
+        $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $sq->select('e.id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->andWhere($sq->expr()->eq('e.email_type', '"list"'));
+        if ($viewOthers) {
+            $sq->andWhere($sq->expr()->eq('e.created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() == 1) {
+            $sq->andWhere($sq->expr()->neq('e.created_by', ':id'))
+                ->setParameter('id', '1');
+        }
+        $ids  = $sq->execute()->fetchAll();
+        $count=0;
+        for ($i =0; $i < sizeof($results); ++$i) {
+            for ($j=0; $j < sizeof($ids); ++$j) {
+                if ($results[$i]['channel_id'] == $ids[$j]['id']) {
+                    $count += $results[$i]['unique_hits'];
+                }
+            }
+        }
+
+        return $count;
+        /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
+          $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
+          $q->select('count(e.id) as clickcount')
+              ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
+              ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
+              ->where(
+                  $q->expr()->andX(
+                      $q->expr()->gte('ph.date_hit', ':clickdate')
+                  )
+              )->setParameter('clickdate', $dateinterval);
+          $q->andWhere($q->expr()->eq('e.email_type', ':emailType'))
+              ->setParameter('emailType', 'list');
           if (!$viewOthers) {
-              $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
+              $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
                   ->setParameter('currentUserId', $this->currentUser->getId());
           }
 
           if ($this->currentUser->getId() != 1) {
-              $q->andWhere($q->expr()->neq('r.created_by', ':id'))
+              $q->andWhere($q->expr()->neq('e.created_by', ':id'))
                   ->setParameter('id', '1');
           }
 
-        $results = $q->execute()->fetchAll();
-        $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $sq->select('e.id')
-            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
-            ->andWhere($sq->expr()->eq('e.email_type','"list"'));
-        $ids = $sq->execute()->fetchAll();
-        $count=0;
-        for($i =0;$i < sizeof($results);$i++){
-         for($j=0;$j < sizeof($ids);$j++){
-             if($results[$i]['channel_id'] == $ids[$j]['id']){
-                 $count += $results[$i]['unique_hits'];
-             }
-         }
-        }
-        return $count;
-      /*  $dateinterval = date('Y-m-d', strtotime('-29 days'));
-        $q            = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $q->select('count(e.id) as clickcount')
-            ->from(MAUTIC_TABLE_PREFIX.'page_hits', 'ph')
-            ->leftJoin('ph', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = ph.email_id')
-            ->where(
-                $q->expr()->andX(
-                    $q->expr()->gte('ph.date_hit', ':clickdate')
-                )
-            )->setParameter('clickdate', $dateinterval);
-        $q->andWhere($q->expr()->eq('e.email_type', ':emailType'))
-            ->setParameter('emailType', 'list');
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('e.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
+          $results = $q->execute()->fetchAll();
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
-
-        $results = $q->execute()->fetchAll();
-
-        return $results[0]['clickcount'];*/
+          return $results[0]['clickcount'];*/
     }
 
     /**

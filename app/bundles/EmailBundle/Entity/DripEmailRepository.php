@@ -257,21 +257,20 @@ class DripEmailRepository extends CommonRepository
             ->setParameter('dateAdded', $dateinterval)
             ->orderBy('r.url');
 
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('r.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
-
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('r.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
-
         $results       = $q->execute()->fetchAll();
         $sq            = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $sq->select('id')
             ->from(MAUTIC_TABLE_PREFIX.'emails')
             ->andWhere($sq->expr()->eq('email_type', '"dripemail"'));
+        if (!$viewOthers) {
+            $sq->andWhere($sq->expr()->eq('created_by', ':currentUserId'))
+                ->setParameter('currentUserId', $this->currentUser->getId());
+        }
+
+        if ($this->currentUser->getId() != 1) {
+            $sq->andWhere($sq->expr()->neq('created_by', ':id'))
+                ->setParameter('id', '1');
+        }
         $ids   = $sq->execute()->fetchAll();
         $result=0;
         for ($i =0; $i < sizeof($results); ++$i) {
