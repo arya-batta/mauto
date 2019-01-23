@@ -277,11 +277,11 @@ class ConfigType extends AbstractType
                             'message' => 'le.core.email.required',
                         ]
                     ),
-                    new EmailVerify(
+                   /* new EmailVerify(
                         [
                             'message' => 'le.email.verification.error',
                         ]
-                    ),
+                    ),*/
                     new EmailDomain(
                         [
                             'message' => 'le.email.verification.error',

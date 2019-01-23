@@ -292,7 +292,7 @@ function checkImportAvailablity($con, $domain)
     $appidarr    = getResultArray($con, $sql);
     $appid       = $appidarr[0][0];
     $dbname      = DBINFO::$COMMONDBNAME.$appid.'.imports';
-    $sql         = "select count(*) from $dbname where is_published = 1 and status in ('1','2')";
+    $sql         = "select count(*) from $dbname where is_published = 1 and status in ('1','7')";
     $result      = getResultArray($con, $sql);
     $count       = $result[0][0];
     displayCronlog('general', 'Import Live Count:'.$count);

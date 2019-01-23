@@ -151,7 +151,9 @@ class ConfigController extends FormController
                                     unset($object[$checkMe]);
                                 }
                             }
-
+                            if($object['mailer_transport_name']=="le.transport.vialeadsengage"){
+                                $object['mailer_transport'] ="le.transport.sendgrid_api";
+                            }
                             $configurator->mergeParameters($object);
                         }
 

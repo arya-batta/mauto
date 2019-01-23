@@ -2242,11 +2242,12 @@ class MailHelper
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
-                return true;
+              return true;
             } else {
-                $configurator->mergeParameters(['email_status' => 'InActive']);
-                $configurator->write();
-
+                if(!empty($result['from_email'])) {
+                    $configurator->mergeParameters(['email_status' => 'InActive']);
+                    $configurator->write();
+                }
                 return false;
             }
         } else {
@@ -2273,10 +2274,17 @@ class MailHelper
         $transport    = $settings['transport'];
         $user         = $this->factory->get('mautic.helper.user')->getUser();
         $emailmodel   = $this->factory->getModel('email');
+        $translator = $this->factory->get('translator');
         $defaultsender=$emailmodel->getDefaultSenderProfile();
         if (sizeof($defaultsender) > 0) {
             $settings['from_name'] =$defaultsender[0];
             $settings['from_email']=$defaultsender[1];
+        }else{
+            $dataArray['success']         = 0;
+            $dataArray['from_email']      = $settings['from_email'];
+            $dataArray['to_address_empty']=true;
+            $dataArray['message']         = $translator->trans('mautic.email.activation.failed');
+            return $dataArray;
         }
         switch ($transport) {
             case 'gmail':
