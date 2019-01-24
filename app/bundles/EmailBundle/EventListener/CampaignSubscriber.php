@@ -387,7 +387,7 @@ class CampaignSubscriber extends CommonSubscriber
         $config  = $event->getConfig();
         $emailId = (int) $config['email'];
         $email   = $this->emailModel->getEntity($emailId);
-        $status  = $this->emailModel->mailHelper->emailstatus();
+        $status  = $this->emailModel->mailHelper->emailstatus(false);
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or unpublished');
         }
@@ -456,7 +456,7 @@ class CampaignSubscriber extends CommonSubscriber
 
         $config = $event->getConfig();
         $lead   = $event->getLead();
-        $status = $this->emailModel->mailHelper->emailstatus();
+        $status = $this->emailModel->mailHelper->emailstatus(false);
         if (!$status) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
 

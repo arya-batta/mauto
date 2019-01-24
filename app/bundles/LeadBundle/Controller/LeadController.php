@@ -1637,7 +1637,7 @@ class LeadController extends FormController
             return $this->modalAccessDenied();
         }
 
-        if (!$this->get('mautic.helper.mailer')->emailstatus()) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
 

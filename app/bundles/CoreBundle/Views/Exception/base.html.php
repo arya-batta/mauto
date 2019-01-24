@@ -41,6 +41,7 @@ $src = $view['mautibot']->getImage($img);
             <h3><i class="fa fa-warning fa-fw text-danger"></i><strong><?php echo $status_code; ?></strong> <?php echo $status_text; ?><?php echo $exceptionMessage; ?></h3>
         </div>
         <?php else: ?>
+        <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
         <div class="mautibot-image col-xs-4 col-md-3">
             <img class="img-responsive mautibot" src="<?php echo $src; ?>" />
         </div>

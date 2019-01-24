@@ -400,7 +400,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     <div class="col-md-6">
                         <?php echo $view['form']->row($form['fromName']); ?>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 <?php echo (count($form['fromAddress']->vars['errors'])) ? ' has-error' : ''; ?>" id="email_FromAddress">
                         <div class="pull-left" id="email_FromAddress" style="max-width:70%;">
                             <?php echo $view['form']->row($form['fromAddress'],
                                 ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>

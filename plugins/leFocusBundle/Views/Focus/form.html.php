@@ -83,6 +83,7 @@ echo $view['form']->start($form);
             <div class="website-preview">
                 <div class="website-placeholder hide well well-lg col-md-6 col-md-offset-3 mt-lg">
                     <div class="row">
+                        <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
                         <div class="mautibot-image col-xs-3 text-center">
                             <img class="img-responsive" style="max-height: 125px; margin-left: auto; margin-right: auto;" src="<?php echo $view['mautibot']->getImage(
                                 'wave'

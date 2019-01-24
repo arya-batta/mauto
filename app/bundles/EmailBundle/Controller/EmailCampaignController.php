@@ -1487,9 +1487,9 @@ class EmailCampaignController extends FormController
                 'leContent'     => 'email',
             ],
         ];
-        if (!$this->get('mautic.helper.mailer')->emailstatus() || empty($entity->getCustomHtml())) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false) || empty($entity->getCustomHtml())) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-            if (!$this->get('mautic.helper.mailer')->emailstatus()) {
+            if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
             } else {
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
@@ -1822,9 +1822,9 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus() || empty($entity->getCustomHtml())) {
+        if (!$this->get('mautic.helper.mailer')->emailstatus(false) || empty($entity->getCustomHtml())) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-            if (!$this->get('mautic.helper.mailer')->emailstatus()) {
+            if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
             } else {
                 $this->addFlash($this->translator->trans('le.email.content.empty'));

@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 
 /**
  * Class DripEmailType.
@@ -195,8 +196,15 @@ class DripEmailType extends AbstractType
                         'preaddon' => 'fa fa-envelope',
                         'tooltip'  => $tooltip,
                     ],
-                    'required' => false,
+                    'required' => true,
                     'data'     => $options['data']->getFromAddress() ? $options['data']->getFromAddress() : $fromadress,
+                    'constraints' => [
+                        new EmailDomain(
+                            [
+                                'message' => 'le.email.verification.error',
+                            ]
+                        ),
+                    ],
                 ]
             );
 

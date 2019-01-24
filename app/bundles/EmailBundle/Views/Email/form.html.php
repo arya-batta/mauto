@@ -139,7 +139,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         <label><?php echo $view['translator']->trans('le.core.email.compose'); ?></label>
                     </div></a>
             </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $settingsulactive; ?> <?php echo $isVariant ? 'disable_ele' : '' ?>" role = "tab" id = "ui-tab-header3" rel = 3>
+            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $isVariant ? 'disable_ele' : '' ?>" role = "tab" id = "ui-tab-header3" rel = 3>
                 <a class="text-start" style="padding: 3px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.recipients'); ?></label>

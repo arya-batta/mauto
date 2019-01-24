@@ -33,7 +33,7 @@ $message = $view['slots']->get('message', 'mautic.core.error.generic');
                 <h4 class="mt-5 hide"><strong><?php echo $status_code; ?></strong> <?php echo $status_text; ?></h4>
             </div>
         <?php else: ?>
-
+            <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
             <div class="mautibot-image col-xs-4 col-md-3" style="position:relative;bottom:45px;">
                 <img class="img-responsive" src="<?php echo $src; ?>" />
             </div>

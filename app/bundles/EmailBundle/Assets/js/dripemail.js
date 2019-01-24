@@ -151,7 +151,7 @@ Le.dripemailOnLoad = function (container, response) {
         });
     });*/
 
-    if(mQuery('#dripEmail_PublicName').hasClass('has-error') || mQuery('#drip_daysEmailSend').hasClass('has-error')){
+    if(mQuery('#dripEmail_PublicName').hasClass('has-error') || mQuery('#drip_daysEmailSend').hasClass('has-error') || mQuery('#email_FromAddress').hasClass('has-error')){
         mQuery('#ui-tab-header4').addClass('ui-tabs-selected ui-state-active');
         mQuery('#ui-tab-header3').removeClass('ui-tabs-selected ui-state-active');
         mQuery('#ui-tab-header2').removeClass('ui-tabs-selected ui-state-active');
