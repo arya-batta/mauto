@@ -154,4 +154,17 @@ class TagModel extends FormModel
 
         return $allBlockDetails;
     }
+
+    /**
+     * Get a list of global lead Tags.
+     *
+     * @return mixed
+     */
+    public function getTagsList()
+    {
+        $tagRepo = $this->getRepository();
+        $tags    = $tagRepo->getTagsList();
+
+        return $tags;
+    }
 }

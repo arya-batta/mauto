@@ -120,7 +120,7 @@ class BuilderSubscriber extends CommonSubscriber
             '<a href=\'{{list_unsubscribe_link}}\'>Unsubscribe</a>'     => $this->translator->trans('le.lead.list.unsubscribe.text'),
             '{update_your_profile_link}'                                => $this->translator->trans('le.email.token.updatelead_text'),
             '<a href=\'{{confirmation_link}}\'>Confirm Here</a>'        => $this->translator->trans('le.lead.list.confirm.text'),
-            //'{webview_text}'     => $this->translator->trans('le.email.token.webview_text'),
+            '{webview_link}'                                            => $this->translator->trans('le.email.token.webview_text'),
             //'{signature}'        => $this->translator->trans('le.email.token.signature'),
             //'{subject}'          => $this->translator->trans('le.email.subject'),
         ];
@@ -289,12 +289,12 @@ class BuilderSubscriber extends CommonSubscriber
 
         $event->addToken('{updatelead_url}', $this->emailModel->buildUrl('le_email_updatelead', ['idHash' => $idHash]));
 
-        $webviewText = $this->coreParametersHelper->getParameter('webview_text');
+        $webviewText = false; //$this->coreParametersHelper->getParameter('webview_text');
         if (!$webviewText) {
             $webviewText = $this->translator->trans('le.email.webview.text', ['%link%' => '|URL|']);
         }
         $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash]), $webviewText);
-        $event->addToken('{webview_text}', EmojiHelper::toHtml($webviewText));
+        $event->addToken('{webview_link}', EmojiHelper::toHtml($webviewText));
 
         // Show public email preview if the lead is not known to prevent 404
         if (empty($lead['id']) && $email) {

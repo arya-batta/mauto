@@ -126,12 +126,13 @@ $isgoogletags= false; //$email->getGoogletags();
                         <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
-                        <li>
-                            <?php foreach ($verifiedemail as $key=> $value): ?>
+                        <?php foreach ($verifiedemail as $key=> $value): ?>
                         <li >
                             <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
                         </li>
                         <?php endforeach; ?>
+                        <li >
+                            <a style="text-transform: none" href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']); ?>" class="verified-emails" ><?php echo $view['translator']->trans('le.email.add.new.profile'); ?></a>
                         </li>
                     </ul>
                 </li>

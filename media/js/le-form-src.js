@@ -528,6 +528,17 @@
 
                         Form.customCallbackHandler(formId, 'onResponseStart', response);
                         if (response.download) {
+                            var link = document.createElement("a");
+                            link.download = "Test";
+                            link.target = "_blank";
+
+                            // Construct the URI
+                            link.href = response.download;
+                            document.body.appendChild(link);
+                            link.click();
+
+                            // Cleanup the DOM
+                            document.body.removeChild(link);
                             // Hit the download in the iframe
                             document.getElementById('leiframe_' + formId).src = response.download;
 

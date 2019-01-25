@@ -116,6 +116,7 @@ class TagRepository extends CommonRepository
 
         return (bool) $q->execute()->fetchColumn();
     }
+
     /**
      * @param string $name
      *
@@ -127,10 +128,11 @@ class TagRepository extends CommonRepository
         $q->select('l.tag')
           ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
           ->where($q->expr()->eq('l.tag', ':newtag'))
-            ->setParameter('newtag',$name );
+            ->setParameter('newtag', $name);
 
         return (bool) $q->execute()->fetchColumn();
     }
+
     /**
      * @param string $name
      *
@@ -142,7 +144,7 @@ class TagRepository extends CommonRepository
         $q->select('l.id')
             ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
             ->where($q->expr()->eq('l.id', ':newtagid'))
-            ->setParameter('newtagid',$name );
+            ->setParameter('newtagid', $name);
 
         return (bool) $q->execute()->fetchColumn();
     }
@@ -163,14 +165,16 @@ class TagRepository extends CommonRepository
         if (!$tag) {
             $tag = new Tag($name);
             $tag->setIsPublished(1);
-            $alias=str_replace(' ','_',$tag->getTag());
+            $alias=str_replace(' ', '_', $tag->getTag());
             $tag->setAlias($alias);
         }
 
         return $tag;
     }
+
     /**
      * @param $tagIds
+     *
      * @return array|mixed
      */
     public function getLeadCount($tagIds)
@@ -195,11 +199,13 @@ class TagRepository extends CommonRepository
                 $return[$l] = 0;
             }
         }
+
         return ($returnArray) ? $return : $return[$tagIds[0]];
     }
 
     /**
      * @param bool $viewOthers
+     *
      * @return mixed
      */
     public function getTotalTagsCount($viewOthers = false)
@@ -207,20 +213,22 @@ class TagRepository extends CommonRepository
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count(*) as totaltags')
             ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l');
-      /*  if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
-                ->setParameter('id', '1');
-        }*/
+        /*  if (!$viewOthers) {
+              $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                  ->setParameter('currentUserId', $this->currentUser->getId());
+          }
+          if ($this->currentUser->getId() != 1) {
+              $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                  ->setParameter('id', '1');
+          }*/
         $results = $q->execute()->fetchAll();
+
         return $results[0]['totaltags'];
     }
 
     /**
      * @param bool $viewOthers
+     *
      * @return mixed
      */
     public function getTotalActiveTagsCount($viewOthers = false)
@@ -231,15 +239,15 @@ class TagRepository extends CommonRepository
             ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
             ->andWhere('l.is_published = 1 ');
 
-      /*  if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
+        /*  if (!$viewOthers) {
+              $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                  ->setParameter('currentUserId', $this->currentUser->getId());
+          }
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
-                ->setParameter('id', '1');
-        }*/
+          if ($this->currentUser->getId() != 1) {
+              $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                  ->setParameter('id', '1');
+          }*/
 
         $results = $q->execute()->fetchAll();
 
@@ -248,6 +256,7 @@ class TagRepository extends CommonRepository
 
     /**
      * @param bool $viewOthers
+     *
      * @return mixed
      */
     public function getTotalInactiveTagsCount($viewOthers = false)
@@ -257,26 +266,46 @@ class TagRepository extends CommonRepository
             ->from(MAUTIC_TABLE_PREFIX.'lead_tags', 'l')
             ->andWhere('l.is_published != 1 ');
 
-       /* if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
+        /* if (!$viewOthers) {
+             $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
+                 ->setParameter('currentUserId', $this->currentUser->getId());
+         }
 
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
-                ->setParameter('id', '1');
-        }*/
+         if ($this->currentUser->getId() != 1) {
+             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                 ->setParameter('id', '1');
+         }*/
 
         $results = $q->execute()->fetchAll();
 
         return $results[0]['inactivetags'];
     }
-    public function deleteRefLead($id){
+
+    public function deleteRefLead($id)
+    {
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->delete(MAUTIC_TABLE_PREFIX.'lead_tags_xref')
-            ->andWhere($q->expr()->eq('tag_id',':tag_id'))
-            ->setParameter('tag_id',$id);
+            ->andWhere($q->expr()->eq('tag_id', ':tag_id'))
+            ->setParameter('tag_id', $id);
         $q->execute();
+    }
+
+    /**
+     * Return a list of global lists.
+     *
+     * @return array
+     */
+    public function getTagsList()
+    {
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->from('MauticLeadBundle:Tag', 't');
+
+        $q->select('t.id as id, t.tag as name')
+            ->where($q->expr()->eq('t.is_published', 1))
+            ->orderBy('t.tag');
+        $results = $q->getQuery()->getArrayResult();
+
+        return $results;
     }
 
     /**

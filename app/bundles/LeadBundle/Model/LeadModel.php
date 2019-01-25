@@ -660,7 +660,10 @@ class LeadModel extends FormModel
             // Unset stage and owner from the form because it's already been handled
             unset($data['stage'], $data['owner'], $data['tags'], $data['lead_lists'], $data['lead_listsoptin'][0]);
 
-            $timezone = date_default_timezone_get();
+            $timezone          = date_default_timezone_get();
+            $licenseinfohelper = $this->factory->get('mautic.helper.licenseinfo');
+            $countrydetails    = $licenseinfohelper->getCountryName();
+            $timezone          = $countrydetails['timezone'];
 
             if (!empty($data['eu_gdpr_consent'])) {
                 if ($data['eu_gdpr_consent'] == 'UnKnown') {

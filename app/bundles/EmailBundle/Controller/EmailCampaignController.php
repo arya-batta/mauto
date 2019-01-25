@@ -1495,11 +1495,7 @@ class EmailCampaignController extends FormController
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
             }
 
-            return $this->postActionRedirect(
-                [
-                    'returnUrl'=> $this->generateUrl('le_email_campaign_index'),
-                ]
-            );
+            return $this->viewAction($objectId);
         }
         //not found
         if ($entity === null) {
@@ -1635,20 +1631,10 @@ class EmailCampaignController extends FormController
                         'email'      => $entity,
                         'batchlimit' => $batchlimit,
                     ];*/
-                    $configtransport     = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
-                    $pending             = $model->getPendingLeads($entity, null, true);
-                    $availableemailcount =  $this->get('mautic.helper.licenseinfo')->getAvailableEmailCount();
-                    $totalemailcount     =  $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
-                    $paymentrepository   = $this->factory->get('le.subscription.repository.payment');
-                    $lastpayment         = $paymentrepository->getLastPayment();
-                    if ($configtransport == 'le.transport.vialeadsengage' && $totalemailcount != 'UL' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
-                        if ($pending > $availableemailcount) {
-                            $this->addFlash('le.email.broadcast.usage.error');
-                        } else {
-                            $entity->setIsScheduled(true);
-                            $model->saveEntity($entity);
-                            $this->addFlash('le.email.broadcast.send');
-                        }
+                    $pending                   = $model->getPendingLeads($entity, null, true);
+                    $licenseinfohelper         =  $this->get('mautic.helper.licenseinfo');
+                    if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
+                        $this->addFlash('le.email.broadcast.usage.error');
                     } else {
                         $entity->setIsScheduled(true);
                         $model->saveEntity($entity);
@@ -1830,14 +1816,7 @@ class EmailCampaignController extends FormController
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
             }
 
-            return $this->postActionRedirect(
-                [
-                    'passthroughVars' => [
-                        'closeModal' => 1,
-                        'route'      => false,
-                    ],
-                ]
-            );
+            return $this->viewAction($objectId);
         }
         // Get the quick add form
         $action = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $objectId]);

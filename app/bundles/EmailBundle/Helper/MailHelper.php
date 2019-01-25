@@ -389,8 +389,8 @@ class MailHelper
 
                 // Search/replace tokens if this is not a queue flush
                 if ($dispatchSendEvent && !empty($this->body['content'])) {
-                        $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
-                        $this->body['content'] = $bodycontent;
+                    $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
+                    $this->body['content'] = $bodycontent;
                 }
 
                 // Generate tokens from listeners
@@ -532,19 +532,20 @@ class MailHelper
             }
             if (strpos($this->body['content'], 'list_footerText') !== false) {
                 $bodyContent = $doc->saveHTML();
+
                 return $bodyContent;
             }
 
-          if($this->getEmail() instanceof Email){
-              if(($this->getEmail()->getEmailType() != 'template')){
-                  $emailtype=true;
-              }else{
-                  $emailtype=false;
-              }
-          }else{
-              $emailtype=true;
-          }
-            if($emailtype && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
+            if ($this->getEmail() instanceof Email) {
+                if (($this->getEmail()->getEmailType() != 'template')) {
+                    $emailtype=true;
+                } else {
+                    $emailtype=false;
+                }
+            } else {
+                $emailtype=true;
+            }
+            if ($emailtype && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');
                 $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
@@ -552,8 +553,8 @@ class MailHelper
                 $ptag1 = $doc->createElement('span', '{footer_text}');
                 $divelement->appendChild($ptag1);
 
-                $accountmodel = $this->factory->getModel('subscription.accountinfo');
-                $accrepo = $accountmodel->getRepository();
+                $accountmodel  = $this->factory->getModel('subscription.accountinfo');
+                $accrepo       = $accountmodel->getRepository();
                 $accountentity = $accrepo->findAll();
                 if (sizeof($accountentity) > 0) {
                     $account = $accountentity[0]; //$model->getEntity(1);
@@ -603,9 +604,8 @@ class MailHelper
     {
         if ($this->tokenizationEnabled) {
             if ($dispatchSendEvent && !empty($this->body['content'])) {
-                    $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
-                    $this->body['content'] = $bodycontent;
-
+                $bodycontent           = $this->alterEmailBodyContent($this->body['content']);
+                $this->body['content'] = $bodycontent;
             }
             // Dispatch event to get custom tokens from listeners
             if ($dispatchSendEvent) {
@@ -2242,13 +2242,7 @@ class MailHelper
             $cacheHelper->clearContainerFile();
             $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
-              return true;
-            } else {
-                if(!empty($result['from_email'])) {
-                    $configurator->mergeParameters(['email_status' => 'InActive']);
-                    $configurator->write();
-                }
-                return false;
+                return true;
             }
         } else {
             if (!$sendEmail) {
@@ -2274,17 +2268,11 @@ class MailHelper
         $transport    = $settings['transport'];
         $user         = $this->factory->get('mautic.helper.user')->getUser();
         $emailmodel   = $this->factory->getModel('email');
-        $translator = $this->factory->get('translator');
+        $translator   = $this->factory->get('translator');
         $defaultsender=$emailmodel->getDefaultSenderProfile();
         if (sizeof($defaultsender) > 0) {
             $settings['from_name'] =$defaultsender[0];
             $settings['from_email']=$defaultsender[1];
-        }else{
-            $dataArray['success']         = 0;
-            $dataArray['from_email']      = $settings['from_email'];
-            $dataArray['to_address_empty']=true;
-            $dataArray['message']         = $translator->trans('mautic.email.activation.failed');
-            return $dataArray;
         }
         switch ($transport) {
             case 'gmail':
@@ -2415,6 +2403,9 @@ class MailHelper
                 $geterror             = $e->getMessage();
                 $dataArray['message'] = $this->geterrormsg($geterror);
             }
+        }
+        if ($dataArray['success']) {
+            $emailmodel->updateDefaultSenderProfile($defaultsender[1]);
         }
 
         return $dataArray;

@@ -466,6 +466,7 @@ class DripEmailModel extends FormModel
         $previousDate     = date('Y-m-d H:i:s');
         $isLastEmail      = false;
         $emailCount       = 0;
+        $dateHelper       = $this->factory->get('mautic.helper.template.date');
         foreach ($entities as $entity) {
             $emailCount = $emailCount + 1;
             if (!$entity->getIsPublished()) { //!$this->checkLeadCompleted($lead, $dripemail, $entity) ||
@@ -475,7 +476,12 @@ class DripEmailModel extends FormModel
                 $dayscount        = 0;
                 $configdays       = $dripemail->getDaysEmailSend();
                 $dripScheduleTime = $dripemail->getScheduleDate();
-                if ($dripScheduleTime == '') {
+                if ($dripScheduleTime != '') {
+                    $date             = date('Y-m-d').' '.$dripScheduleTime;
+                    $newTime          = $dateHelper->toTime($date, $timezone);
+                    $dripScheduleTime = explode(' ', $newTime)[0];
+                }
+                if ($dripScheduleTime == '' || strtotime($dripScheduleTime) < strtotime(date('H:i'))) {
                     $dripScheduleTime = date('H:i');
                 }
                 if (!empty($configdays)) {

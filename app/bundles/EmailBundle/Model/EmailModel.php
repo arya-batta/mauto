@@ -2621,4 +2621,20 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
         return $allBlockDetails;
     }
+
+    public function updateDefaultSenderProfile($fromemail)
+    {
+        $verifiedemailRepo=$this->getAwsVerifiedEmailsRepository();
+        $senderprofiles   =$verifiedemailRepo->findBy(
+            [
+                'verifiedemails' => $fromemail,
+            ]
+        );
+        if (sizeof($senderprofiles) > 0) {
+            $senderprofile      =$senderprofiles[0];
+            $verificationStatus = '0';
+            $senderprofile->setVerificationStatus($verificationStatus);
+            $verifiedemailRepo->saveEntity($senderprofile);
+        }
+    }
 }

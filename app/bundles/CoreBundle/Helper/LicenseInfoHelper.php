@@ -1106,4 +1106,22 @@ class LicenseInfoHelper
             return false;
         }
     }
+
+    public function isLeadsEngageEmailExpired($pending)
+    {
+        $configtransport     = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
+        $availableemailcount =  $this->getAvailableEmailCount();
+        $totalemailcount     =  $this->getTotalEmailCount();
+        $paymentrepository   = $this->factory->get('le.subscription.repository.payment');
+        $lastpayment         = $paymentrepository->getLastPayment();
+        if ($configtransport == 'le.transport.vialeadsengage' && $totalemailcount != 'UL' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
+            if ($pending > $availableemailcount) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
 }

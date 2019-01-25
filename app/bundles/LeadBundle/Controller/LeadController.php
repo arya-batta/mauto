@@ -156,6 +156,7 @@ class LeadController extends FormController
         if (!empty($currentFilters)) {
             $listIds      = [];
             $listOptinIds = [];
+            $TagIds       = [];
             foreach ($currentFilters as $type => $typeFilters) {
                 switch ($type) {
                     case 'list':
@@ -167,6 +168,9 @@ class LeadController extends FormController
                     case 'listoptin':
                         $key = 'listoptins';
                         break;
+                    case 'tag':
+                        $key = 'tags';
+                        break;
                 }
                 $listFilters['filters']['groups']['mautic.core.filter.'.$key]['values'] = $typeFilters;
 
@@ -175,6 +179,8 @@ class LeadController extends FormController
                         $listIds[] = (int) $fltr;
                     } elseif ($type == 'listoptin') {
                         $listOptinIds[] = (int) $fltr;
+                    } elseif ($type == 'tag') {
+                        $TagIds[] = (int) $fltr;
                     }
                 }
             }
@@ -185,7 +191,7 @@ class LeadController extends FormController
                 for ($lid = 0; $lid < sizeof($listIds); ++$lid) {
                     $leadlist = $listmodel->getEntity($listIds[$lid]);
                     $values[] = $listIds[$lid];
-                    if ($li = 0) {
+                    if ($lid == 0) {
                         $leadlist_search = 'segment:';
                     } else {
                         $leadlist_search .= ' or segment:';
@@ -202,7 +208,7 @@ class LeadController extends FormController
                 $leadlistoptin_search = '';
                 for ($lid = 0; $lid < sizeof($listOptinIds); ++$lid) {
                     $leadlistoptin = $listoptinmodel->getEntity($listOptinIds[$lid]);
-                    if ($li = 0) {
+                    if ($li == 0) {
                         $leadlistoptin_search = 'list:';
                     } else {
                         $leadlistoptin_search .= ' or list:';
@@ -212,6 +218,24 @@ class LeadController extends FormController
                     }
                 }
                 $filter['string'] .= $leadlistoptin_search;
+                // $filter['string'] = "segment:sadmin-segment OR segment:test-segement1";
+            }
+            if (!empty($TagIds)) {
+                $tagmodel         = $this->getModel('lead.tag');
+                $tagssearchString = '';
+                for ($tid = 0; $tid < sizeof($TagIds); ++$tid) {
+                    $tagEntity = $tagmodel->getEntity($TagIds[$tid]);
+                    if ($tid == 0) {
+                        $tagssearchString = 'tag:';
+                    } else {
+                        $tagssearchString .= ' or tag:';
+                    }
+                    if ($tagEntity != null) {
+                        $tagssearchString .= $tagEntity->getAlias();
+                    }
+                }
+
+                $filter['string'] .= $tagssearchString;
                 // $filter['string'] = "segment:sadmin-segment OR segment:test-segement1";
             }
         }
@@ -279,6 +303,11 @@ class LeadController extends FormController
             'options' => $this->getModel('lead.listoptin')->getListsOptIn(),
             'prefix'  => 'listoptin',
             'values'  => (empty($currentFilters) || !isset($currentFilters['listoptin'])) ? [] : array_values($currentFilters['listoptin']),
+        ];
+        $listFilters['filters']['groups']['le.core.filter.tags'] = [
+            'options' => $this->getModel('lead.tag')->getTagsList(),
+            'prefix'  => 'tag',
+            'values'  => (empty($currentFilters) || !isset($currentFilters['tag'])) ? [] : array_values($currentFilters['tag']),
         ];
         //check to see if in a single list
         $inSingleList = (substr_count($search, "$listCommand:") === 1) ? true : false;

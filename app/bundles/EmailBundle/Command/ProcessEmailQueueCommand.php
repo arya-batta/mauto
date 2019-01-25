@@ -60,11 +60,12 @@ EOT
             $container  = $this->getContainer();
             $dispatcher = $container->get('event_dispatcher');
 
-            $skipClear      = $input->getOption('do-not-clear');
-            $quiet          = $input->getOption('quiet');
-            $timeout        = $input->getOption('clear-timeout');
-            $queueMode      = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
-            $sendResultText = 'Success';
+            $skipClear         = $input->getOption('do-not-clear');
+            $quiet             = $input->getOption('quiet');
+            $timeout           = $input->getOption('clear-timeout');
+            $queueMode         = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
+            $licenseinfohelper = $container->get('mautic.helper.licenseinfo');
+            $sendResultText    = 'Success';
             if ($queueMode != 'file') {
                 $output->writeln('Mautic is not set to queue email.');
 
@@ -89,8 +90,15 @@ EOT
 
                 $spoolPath = $container->getParameter('mautic.mailer_spool_path');
                 if (file_exists($spoolPath)) {
-                    $finder = Finder::create()->in($spoolPath)->name('*.{finalretry,sending,tryagain}');
+                    $finder  = Finder::create()->in($spoolPath)->name('*.{finalretry,sending,tryagain}');
+                    $pending = count($finder);
+                    if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
+                        $output->writeln('<info>========================================</info>');
+                        $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
+                        $output->writeln('<info>========================================</info>');
 
+                        return 1;
+                    }
                     foreach ($finder as $failedFile) {
                         $file = $failedFile->getRealPath();
 

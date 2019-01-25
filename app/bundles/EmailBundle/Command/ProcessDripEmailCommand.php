@@ -52,12 +52,20 @@ class ProcessDripEmailCommand extends ModeratedCommand
             $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
             $leadModel             = $container->get('mautic.lead.model.lead');
             $timezone              = $coreParameterHelper->getParameter('default_timezone');
-            date_default_timezone_set($timezone);
+            date_default_timezone_set('UTC');
             $currentDate       = date('Y-m-d H:i:s');
             $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate);
             $emailsCount       = 0;
             $emailLimit        = (!empty($options['email-limit'])) ? $options['email-limit'] : 300;
             $completedDripsIds = [];
+            /*$licenseinfohelper = $container->get('mautic.helper.licenseinfo');
+            $pending = count($eventList);
+            if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
+                $output->writeln('<info>========================================</info>');
+                $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
+                $output->writeln('<info>========================================</info>');
+                return 1;
+            }*/
             foreach ($eventList as $leadEvent) {
                 $completedDrips = $leadEvent->getRotation();
                 if ($completedDrips == '1') {
