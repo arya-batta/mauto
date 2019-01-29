@@ -386,7 +386,7 @@ class AjaxController extends CommonAjaxController
     public function verifySenderWithMailer($fromname, $fromemail, $action)
     {
         $dataArray  =['success'=>true, 'message'=>''];
-        if($action == 'updated'){
+        if ($action == 'updated') {
             return $dataArray;
         }
         $mailHelper = $this->get('mautic.helper.mailer');
@@ -627,6 +627,16 @@ class AjaxController extends CommonAjaxController
         $response      =$this->verifyNewSenderProfile($fromemail, $fromname, 'updated');
 
         return $this->sendJsonResponse($response);
+    }
+
+    public function DisableAllSenderProfileAction(Request $request)
+    {
+        /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
+        $emailModel       = $this->factory->getModel('email');
+        $emailModel->resetAllSenderProfiles();
+        $dataArray['success']  =true;
+
+        return $this->sendJsonResponse($dataArray);
     }
 
     public function emailstatusAction()

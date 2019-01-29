@@ -72,12 +72,16 @@ Le.testEmailServerConnection = function(sendEmail) {
         trackingcode = mQuery('#script_preTag').html();
         additionalinfo = mQuery('#config_trackingconfig_emailAdditionainfo').val();
     }
+    var fromemail = "";
+    if(typeof mQuery('#activate_sender_email') !== "undefined" && mQuery('#activate_sender_email') != null && sendEmail){
+        fromemail = mQuery('#activate_sender_email').val();
+    }
     var data = {
         amazon_region: mQuery('#config_emailconfig_mailer_amazon_region').val(),
         api_key:       mQuery('#config_emailconfig_mailer_api_key').val(),
         authMode:      mQuery('#config_emailconfig_mailer_auth_mode').val(),
         encryption:    mQuery('#config_emailconfig_mailer_encryption').val(),
-        from_email:    mQuery('#config_emailconfig_mailer_from_email').val(),
+        from_email:    (sendEmail) ? fromemail : mQuery('#config_emailconfig_mailer_from_email').val(),
         from_name:     mQuery('#config_emailconfig_mailer_from_name').val(),
         host:          mQuery('#config_emailconfig_mailer_host').val(),
         password:      mQuery('#config_emailconfig_mailer_password').val(),
@@ -89,7 +93,7 @@ Le.testEmailServerConnection = function(sendEmail) {
         trackingcode:  trackingcode,
         additionalinfo:additionalinfo
     };
-
+    mQuery('#emailActivateModel').modal('hide');
     mQuery('#mailerTestButtonContainer .fa-spinner').removeClass('hide');
 
     Le.ajaxActionRequest('email:testEmailServerConnection', data, function(response) {
@@ -99,6 +103,7 @@ Le.testEmailServerConnection = function(sendEmail) {
             mQuery('#config_emailconfig_email_status').val('Active');
             mQuery('#config_emailconfig_email_status').css('background-color','#008000');
             mQuery('#config_emailconfig_email_status').css('border-color','#008000');
+
         }
         if(theClass == 'has-error'){
             mQuery('#config_emailconfig_email_status').val('InActive');
@@ -120,7 +125,11 @@ Le.testEmailServerConnection = function(sendEmail) {
                mQuery('.trackingconfig .emailinstructions').removeClass('has-error');
            }
        }
-
+        if((response.success)){
+            Le.changeSenderProfileStatusFrontEnd(true,fromemail);
+        } else {
+            Le.changeSenderProfileStatusFrontEnd(false,fromemail);
+        }
     });
 };
 
@@ -266,4 +275,27 @@ Le.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
     mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
     mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');
+    Le.updateSenderProfileStatus();
+}
+Le.updateSenderProfileStatus = function(){
+    Le.ajaxActionRequest('email:DisableAllSenderProfile', {}, function(response) {
+        if(response.success) {
+            mQuery('.pending_verify_button').html("Pending");
+            mQuery('.pending_verify_button').css('background','#ff4d4d');
+            mQuery('.verify_sender_profile_btn').removeClass('hide');
+            return;
+        }
+    });
+}
+Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail){
+    if(isActive){
+        mQuery('#pending-verified-button-'+fromemail).html("Verified");
+        mQuery('#pending-verified-button-'+fromemail).css('background','#39ac73');
+        mQuery("#re-verify-button-"+fromemail).addClass('hide');
+    } else {
+        mQuery('#pending-verified-button-'+fromemail).html("Pending");
+        mQuery('#pending-verified-button-'+fromemail).css('background','#ff4d4d');
+        mQuery("#re-verify-button-"+fromemail).removeClass('hide');
+    }
+    return;
 }

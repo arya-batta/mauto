@@ -2492,6 +2492,18 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         }
     }
 
+    public function getInboxVerifiedSenderProfile()
+    {
+        $defaultprofile=[];
+        $q             = $this->em->createQueryBuilder();
+        $q->select('a.verifiedemails,a.fromname')
+            ->from('MauticEmailBundle:AwsVerifiedEmails', 'a');
+        $q->where($q->expr()->eq('a.inboxverified', 1));
+        $results = $q->getQuery()->getArrayResult();
+
+        return $results;
+    }
+
     public function resetAllSenderProfiles()
     {
         $q = $this->em->getConnection()->createQueryBuilder();
@@ -2500,6 +2512,26 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 ->set('verification_status', ':status')
                 ->setParameter('status', '1');
         $q->execute();
+    }
+
+    public function enableFirstSenderProfiles()
+    {
+        $inboxverified = $this->getInboxVerifiedSenderProfile();
+        if (sizeof($inboxverified) > 0) {
+            for ($i = 0; $i < sizeof($inboxverified); ++$i) {
+                $respository    = $this->getAwsVerifiedEmailsRepository();
+                $senderprofiles = $respository->findBy(
+                    [
+                        'verifiedemails' => $inboxverified[$i]['verifiedemails'],
+                    ]
+                );
+                if (sizeof($senderprofiles) > 0) {
+                    $senderprofile = $senderprofiles[0];
+                    $senderprofile->setVerificationStatus('0');
+                    $respository->saveEntity($senderprofile);
+                }
+            }
+        }
     }
 
     public function upAwsDeletedEmailVerificationStatus($email)

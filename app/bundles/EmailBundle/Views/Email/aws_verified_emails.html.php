@@ -80,11 +80,11 @@
          <span class="data sender_profile_from_email_col" ><?php echo $verifiedEmail->getVerifiedEmails()?><span>
           </td>
           <td style="width: 20%;">
-              <a type="button" style="color: #fff;padding: 2px 5px;margin-top: 5px;pointer-events: none;background:<?php echo $verifiedEmail->getVerificationStatus() == 0 ? '#39ac73' : '#ff4d4d' ?>;" class="btn"  data-target="#" ><?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'Verified' : 'Pending' ?></a>
-              <a type="button" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger verify_sender_profile_btn <?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'hide' : '' ?>"   data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to resend verification email">Re-Verify</a>
+              <a type="button" id = "pending-verified-button-<?php echo $verifiedEmail->getVerifiedEmails()?>" style="color: #fff;padding: 2px 5px;margin-top: 5px;pointer-events: none;background:<?php echo $verifiedEmail->getVerificationStatus() == 0 ? '#39ac73' : '#ff4d4d' ?>;" class="btn pending_verify_button"  data-target="#" ><?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'Verified' : 'Pending' ?></a>
+              <a type="button" id = "re-verify-button-<?php echo $verifiedEmail->getVerifiedEmails()?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger verify_sender_profile_btn <?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'hide' : '' ?>"   data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to resend verification email">Re-Verify</a>
           </td>
           <td style="width: 10%;">
-           <a type="button" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger remove_sender_profile_btn"  data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to remove sender profile">Remove</a>
+           <a type="button" id="remove-sender-button-<?php echo $verifiedEmail->getVerifiedEmails()?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger remove_sender_profile_btn"  data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to remove sender profile">Remove</a>
           </td>
         </tr>
     <?php endforeach; ?>

@@ -64,7 +64,7 @@ class ConfigController extends FormController
         $mailertransport= $paramater['mailer_transport'];
         $maileruser     = $paramater['mailer_user'];
         $emailstatus    = $paramater['email_status'];
-        $emailpassword  = "";
+        $emailpassword  = '';
         if (isset($paramater['mailer_amazon_region'])) {
             $region                = $paramater['mailer_amazon_region'];
         }
@@ -151,12 +151,12 @@ class ConfigController extends FormController
                                     unset($object[$checkMe]);
                                 }
                             }
-                            if(isset($object['mailer_transport_name'])){
-                                if($object['mailer_transport_name']=="le.transport.vialeadsengage") {
-                                    $object['mailer_transport'] = "le.transport.sendgrid_api";
+                            if (isset($object['mailer_transport_name'])) {
+                                if ($object['mailer_transport_name'] == 'le.transport.vialeadsengage') {
+                                    $object['mailer_transport'] = 'le.transport.sendgrid_api';
                                 }
                             }
-                            if(isset($object['mailer_api_key'])){
+                            if (isset($object['mailer_api_key'])) {
                                 $object['mailer_password']=$object['mailer_api_key'];
                             }
                             $configurator->mergeParameters($object);
@@ -176,10 +176,14 @@ class ConfigController extends FormController
                             }
                             $licenseinfo          =$this->get('mautic.helper.licenseinfo')->getLicenseEntity();
                             $licenseemailprovider = $licenseinfo->getEmailProvider();
-
-                            if ($this->translator->trans($params['mailer_transport_name']) != $licenseemailprovider) {
+                            $configprovider       = $params['mailer_transport_name'];
+                            if ($this->get('mautic.helper.user')->getUser()->isAdmin()) {
+                                $configprovider = $params['mailer_transport'];
+                            }
+                            if ($this->translator->trans($configprovider) == $licenseemailprovider) {
+                                $configurator->mergeParameters(['email_status' => 'Active']);
                                 $emailModel = $this->factory->getModel('email');
-                                $emailModel->resetAllSenderProfiles();
+                                $emailModel->enableFirstSenderProfiles();
                             }
                             $emailTransport = '';
                             $smsTransport   = '';
@@ -256,6 +260,7 @@ class ConfigController extends FormController
                     'isWritable'     => $isWritabale,
                     'verifiedEmails' => $awsemailstatus,
                     'lastPayment'    => $lastpayment,
+                    'EmailList'      => $emailModel->getAllEmailAddress(),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

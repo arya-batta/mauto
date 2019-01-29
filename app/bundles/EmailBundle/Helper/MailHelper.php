@@ -2270,7 +2270,7 @@ class MailHelper
         $emailmodel   = $this->factory->getModel('email');
         $translator   = $this->factory->get('translator');
         $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
+        if (sizeof($defaultsender) > 0 && $settings['from_email'] == '') {
             $settings['from_name'] =$defaultsender[0];
             $settings['from_email']=$defaultsender[1];
         }
@@ -2405,7 +2405,7 @@ class MailHelper
             }
         }
         if ($dataArray['success']) {
-            $emailmodel->updateDefaultSenderProfile($defaultsender[1]);
+            $emailmodel->updateDefaultSenderProfile($settings['from_email']);
         }
 
         return $dataArray;

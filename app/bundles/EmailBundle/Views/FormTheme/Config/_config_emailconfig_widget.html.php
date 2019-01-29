@@ -108,6 +108,11 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
             </div>
             <div class="row">
                 <div class="col-sm-3">
+                    <?php echo $view->render('MauticEmailBundle:Email:recipient_list.html.php', [
+                        'EmailList'  => $EmailList,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3 hide">
                     <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
                     <?php /** echo $view['form']->widget($fields['mailer_test_send_button']); */ ?>
                 </div>
