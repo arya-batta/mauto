@@ -128,7 +128,7 @@ class LeadPermissions extends AbstractPermissions
         $viewPerms = ['viewown', 'viewother', 'full'];
         if (
             (!isset($permissions['leads']) || (array_intersect($viewPerms, $permissions['leads']) == $viewPerms)) &&
-            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin'])  || isset($permission['tags']))
+            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin']) || isset($permission['tags']))
         ) {
             $permissions['leads'][] = 'viewown';
         }
@@ -151,6 +151,7 @@ class LeadPermissions extends AbstractPermissions
             switch ($level) {
                 case 'publishown':
                 case 'publishother':
+                case 'view':
                     $level = 'full';
                     break;
             }
@@ -177,6 +178,7 @@ class LeadPermissions extends AbstractPermissions
             switch ($level) {
                 case 'publishown':
                 case 'publishother':
+                case 'view':
                     $level = 'full';
                     break;
             }

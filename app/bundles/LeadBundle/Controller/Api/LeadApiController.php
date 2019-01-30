@@ -44,8 +44,8 @@ class LeadApiController extends CommonApiController
     {
         $this->model            = $this->getModel(self::MODEL_ID);
         $this->entityClass      = Lead::class;
-        $this->entityNameOne    = 'contact';
-        $this->entityNameMulti  = 'contacts';
+        $this->entityNameOne    = 'lead'; //previous it was contact
+        $this->entityNameMulti  = 'leads'; //previous it was contacts
         $this->serializerGroups = ['leadDetails', 'frequencyRulesList', 'doNotContactList', 'userList', 'stageList', 'publishDetails', 'ipAddress', 'tagList', 'utmtagsList'];
 
         parent::initialize($event);
