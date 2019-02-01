@@ -43,15 +43,16 @@ class FieldApiController extends CommonApiController
 
         $repo                = $this->model->getRepository();
         $tableAlias          = $repo->getTableAlias();
-        $this->listFilters[] = [[
+        $this->listFilters[] = [
             'column' => $tableAlias.'.object',
             'expr'   => 'eq',
             'value'  => $this->fieldObject,
-        ], [
+        ];
+        $this->listFilters[]=[
             'column' => $tableAlias.'.isPublished',
             'expr'   => 'eq',
             'value'  => true,
-        ]];
+        ];
 
         parent::initialize($event);
     }
@@ -65,15 +66,16 @@ class FieldApiController extends CommonApiController
     {
         $where = parent::getWhereFromRequest();
 
-        $where[] = [[
+        $where[] = [
             'col'  => 'object',
             'expr' => 'eq',
             'val'  => $this->fieldObject,
-        ], [
+        ];
+        $where[]=[
             'column' => 'isPublished',
             'expr'   => 'eq',
             'value'  => true,
-        ]];
+        ];
 
         return $where;
     }
