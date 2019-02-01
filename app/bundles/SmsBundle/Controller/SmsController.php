@@ -370,12 +370,15 @@ class SmsController extends FormController
                     );
 
                     if ($form->get('buttons')->get('save')->isClicked()) {
-                        $viewParameters = [
+                        $viewParameters = ['page' => $page];
+                        $returnUrl      = $this->generateUrl('le_sms_index', $viewParameters);
+                        $template       = 'MauticSmsBundle:Sms:index';
+                       /* $viewParameters = [
                             'objectAction' => 'view',
                             'objectId'     => $entity->getId(),
                         ];
                         $returnUrl = $this->generateUrl('le_sms_action', $viewParameters);
-                        $template  = 'MauticSmsBundle:Sms:view';
+                        $template  = 'MauticSmsBundle:Sms:view';*/
                     } else {
                         //return edit view so that all the session stuff is loaded
                         return $this->editAction($entity->getId(), true);
@@ -561,7 +564,8 @@ class SmsController extends FormController
             }
 
             if ($cancelled || ($valid && $form->get('buttons')->get('save')->isClicked())) {
-                $viewParameters = [
+                return $this->postActionRedirect($postActionVars);
+               /* $viewParameters = [
                     'objectAction' => 'view',
                     'objectId'     => $entity->getId(),
                 ];
@@ -576,7 +580,7 @@ class SmsController extends FormController
                             'passthroughVars' => $passthrough,
                         ]
                     )
-                );
+                );*/
             }
         } else {
             //lock the entity

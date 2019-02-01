@@ -20,6 +20,7 @@ return [
                     'mautic.helper.notification',
                     'mautic.sms.model.send_sms_to_user',
                     'mautic.helper.sms',
+                    'mautic.security'
                 ],
             ],
             'mautic.sms.smsbundle.subscriber' => [
@@ -76,7 +77,7 @@ return [
             'mautic.form.type.sms.config.form' => [
                 'class'     => \Mautic\SmsBundle\Form\Type\ConfigType::class,
                 'alias'     => 'smsconfig',
-                'arguments' => ['mautic.sms.transport_chain', 'translator'],
+                'arguments' => ['mautic.sms.transport_chain', 'translator','mautic.helper.user'],
             ],
         ],
         'helpers' => [

@@ -16,6 +16,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Mautic\CoreBundle\Helper\UserHelper;
 
 /**
  * Class ConfigType.
@@ -37,11 +38,13 @@ class ConfigType extends AbstractType
      *
      * @param TransportChain      $transportChain
      * @param TranslatorInterface $translator
+     * @param UserHelper $userHelper
      */
-    public function __construct(TransportChain $transportChain, TranslatorInterface $translator)
+    public function __construct(TransportChain $transportChain, TranslatorInterface $translator,UserHelper $userHelper)
     {
         $this->transportChain = $transportChain;
         $this->translator     = $translator;
+        $this->isadmin = $userHelper->getUser()->isAdmin();
     }
 
     /**
@@ -51,14 +54,22 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices    = [];
-        $transports = $this->transportChain->getEnabledTransports();
-        foreach ($transports as $transportServiceId=>$transport) {
-            if ($transportServiceId == 'le.sms.transport.solutioninfini') {
-                $choices[$transportServiceId] = $this->translator->trans('le.sms.transport.solutioninfini.choice');
-            } else {
-                $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
+        $alltransports = $this->transportChain->getEnabledTransports();
+        if(!$this->isadmin) {
+            foreach ($alltransports as $transportServiceId => $transport) {
+                if ($transportServiceId != 'le.sms.transport.solutioninfini' && $transportServiceId != 'le.sms.transport.leadsengage') {
+                    $transports[$transportServiceId] = $alltransports[$transportServiceId];
+                }
             }
+            $alltransports = $transports;
         }
+            foreach ($alltransports as $transportServiceId => $transport) {
+                if ($transportServiceId == 'le.sms.transport.solutioninfini') {
+                    $choices[$transportServiceId] = $this->translator->trans('le.sms.transport.solutioninfini.choice');
+                } else {
+                    $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
+                }
+            }
 
         $builder->add('sms_transport', ChoiceType::class, [
             'label'      => 'mautic.sms.config.select_default_transport',
@@ -227,6 +238,7 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'   => 'form-control',
                     'data-hide-on' => $LeadsEngageShowConditions,
+                    'onChange'    => 'Le.updateTextMessageStatus()',
                 ],
                 'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
                 'required'   => false,
@@ -241,9 +253,10 @@ class ConfigType extends AbstractType
             'sms_status',
             'text',
             [
-                'label'     => false,
+                'label'     => 'le.sms.avtivate.status.label',
+                'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control btn btn-primary '.$class,
+                    'class'        => 'form-control col-md-3 btn btn-primary '.$class,
                 ],
                 'data'     => (isset($options['data']['sms_status'])) ? $options['data']['sms_status'] : 'Active',
             ]

@@ -97,7 +97,7 @@ EOT
                         $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
                         $output->writeln('<info>========================================</info>');
 
-                        return 1;
+                        return 0;
                     }
                     foreach ($finder as $failedFile) {
                         $file = $failedFile->getRealPath();

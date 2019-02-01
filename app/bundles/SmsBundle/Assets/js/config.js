@@ -1,4 +1,11 @@
-Le.testSmsServerConnection = function(sendSMS) {
+Le.configOnLoad= function(container){
+    var status=mQuery('#config_smsconfig_sms_status').val();
+    if(status == "InActive"){
+        mQuery('#config_smsconfig_sms_status').removeClass('status_success');
+         mQuery('#config_smsconfig_sms_status').addClass('status_fail');
+    }
+}
+Le.testSmsServerConnection = function(sendSMS,mobile) {
     var data = {
         transport: mQuery('#config_smsconfig_sms_transport').val(),
         url:       mQuery('#config_smsconfig_account_url').val(),
@@ -7,6 +14,7 @@ Le.testSmsServerConnection = function(sendSMS) {
         username:  mQuery('#config_smsconfig_account_auth_token').val(),
         password:  mQuery('#config_smsconfig_account_sid').val(),
         fromnumber:mQuery('#config_smsconfig_sms_from_number').val(),
+        mobile    : mobile,
     };
 
     mQuery('#smsTestButtonContainer .fa-spinner').removeClass('hide');
@@ -40,5 +48,18 @@ Le.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
     mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
     mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
+}
 
+Le.testSmsConnection = function() {
+    var mobile = mQuery('#sms_config_mobile').val();
+    mQuery('#sms_config_mobile').val("");
+    if(mobile == ""){
+        mQuery('#sms_config_mobile_errors').removeClass('hide');
+        mQuery('#sms_config_mobile_errors').html("Mobile Number cannot be empty!");
+        return;
+    }else {
+        mQuery('#sms_config_mobile_errors').addClass('hide');
+    }
+    mQuery('#activateSmsModel').modal('hide');
+    Le.testSmsServerConnection(true,mobile)
 }

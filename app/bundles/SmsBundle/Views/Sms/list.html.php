@@ -156,7 +156,7 @@ if (count($items)):
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 'le_sms_action',
-                                ['objectAction' => 'view', 'objectId' => $item->getId()]
+                                ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>" data-toggle="ajax">
                                 <?php echo $item->getName(); ?>
                                 <?php if ($type == 'list'): ?>

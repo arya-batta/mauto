@@ -242,6 +242,7 @@ class AjaxController extends CommonController
     protected function togglePublishStatusAction(Request $request)
     {
         $dataArray = ['success' => 0];
+        $dataArray['senderprofile'] =0;
         $name      = InputHelper::clean($request->request->get('model'));
         $id        = InputHelper::int($request->request->get('id'));
         $model     = $this->getModel($name);
@@ -253,7 +254,17 @@ class AjaxController extends CommonController
         } else {
             $extra = '';
         }
-
+        if($name == "email.dripemail") {
+            $emailmodel = $this->getModel('email');
+            $defaultsender = $emailmodel->getDefaultSenderProfile();
+            if (!sizeof($defaultsender) > 0) {
+                $this->addFlash($this->translator->trans('le.drip.emails.publish.error'));
+                $dataArray['success'] = 1;
+                $dataArray['senderprofile'] = 1;
+                $dataArray['flashes'] = $this->getFlashContent();
+                return $this->sendJsonResponse($dataArray);
+            }
+        }
         $entity = $model->getEntity($id);
         if ($entity !== null) {
             $permissionBase = $model->getPermissionBase();

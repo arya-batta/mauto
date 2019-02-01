@@ -176,7 +176,8 @@ class SmsHelper
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
         if ($standardnumber){
-            $sendnumber = $user->getMobile();
+           // $sendnumber = $user->getMobile();
+            $sendnumber = $settings['mobile'];
         }
         else{
             $sendnumber = '123456789';

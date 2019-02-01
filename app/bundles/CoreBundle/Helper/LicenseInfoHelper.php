@@ -606,11 +606,15 @@ class LicenseInfoHelper
         $entity           = $this->licenseinfo->findAll()[0];
         $totalEmailCount  = $entity->getTotalEmailCount();
         $actualEmailCount = $entity->getActualEmailCount();
+        $email_provider   = $entity->getEmailProvider();
         if ($totalEmailCount == 'UL') {
             return -1;
         } else {
-            $availablecredits=$totalEmailCount - $actualEmailCount;
-
+            if($email_provider != "LeadsEngage") {
+                $availablecredits = $totalEmailCount - $actualEmailCount;
+            }else{
+                $availablecredits = 100 - $actualEmailCount;
+            }
             return $availablecredits > 0 ? $availablecredits : 0;
         }
     }

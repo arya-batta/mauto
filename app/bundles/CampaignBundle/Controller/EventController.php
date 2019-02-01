@@ -396,7 +396,7 @@ class EventController extends CommonFormController
         } elseif ($event['type'] == 'sms.send_text_sms') {
             $choices=$formView->children['properties']->children['sms']->vars['choices'];
             $sms    =$event['properties']['sms'];
-            $label  =$this->getFormattedEventLabel($label, $sms, $choices['en']);
+            $label  =$this->getFormattedEventLabel($label, [$sms], $choices['en']);
         } elseif ($event['type'] == 'lead.changelist' || $event['type'] == 'lead.changelistoptin') {
             $addToListschoices     =$formView->children['properties']->children['addToLists']->vars['choices'];
             $addToLists            =$event['properties']['addToLists'];

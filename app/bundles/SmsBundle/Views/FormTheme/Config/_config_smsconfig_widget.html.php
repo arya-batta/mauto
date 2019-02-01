@@ -19,15 +19,9 @@
             <div class="col-md-6">
                 <?php echo $view['form']->row($form['sms_transport']); ?>
             </div>
-            <div>
-                <div class="col-md-2 pt-lg mt-3">
+            <div class="col-md-4">
+                <div class=" pt-lg mt-3">
                     <?php echo $view['form']->row($form['sms_status'],['attr' => ['tabindex' => '-1']]); ?>
-                </div>
-                <div class="col-sm-3 pt-lg mt-3" >
-                    <div class="button_container">
-                        <?php echo $view['form']->widget($form['sms_test_connection_button']); ?>
-                        <span class="fa fa-spinner fa-spin hide"></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -51,6 +45,14 @@
             </div>
             <div id="smsTestButtonContainer">
                 <div class="col-md-12 help-block"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3" >
+                <div class="button_container">
+                    <?php echo $view->render('MauticSmsBundle:Sms:config.html.php', []); ?>
+                    <span class="fa fa-spinner fa-spin hide"></span>
+                </div>
             </div>
         </div>
     </div>

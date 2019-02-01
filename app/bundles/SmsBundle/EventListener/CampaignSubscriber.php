@@ -22,6 +22,7 @@ use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
 use Mautic\SmsBundle\Helper\SmsHelper;
+use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 
 /**
  * Class CampaignSubscriber.
@@ -52,6 +53,7 @@ class CampaignSubscriber extends CommonSubscriber
     * @var SmsHelper
     */
     protected $smsHelper;
+    protected $security;
 
     /**
      * CampaignSubscriber constructor.
@@ -64,13 +66,15 @@ class CampaignSubscriber extends CommonSubscriber
         SmsModel $smsModel,
         NotificationHelper $notificationhelper,
         SendSmsToUser $sendSmstoUser,
-        SmsHelper $smsHelper
+        SmsHelper $smsHelper,
+        CorePermissions $security
     ) {
         $this->integrationHelper  = $integrationHelper;
         $this->smsModel           = $smsModel;
         $this->notificationhelper = $notificationhelper;
         $this->sendSmstoUser      = $sendSmstoUser;
         $this->smsHelper          = $smsHelper;
+        $this->security           = $security;
     }
 
     /**
@@ -92,7 +96,7 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-       if ($this->security->isGranted('sms:smses:viewown')) {
+       //if ($this->security->isGranted('sms:smses:viewown')) {
         $transportChain = $this->factory->get('mautic.sms.transport_chain');
         $transports     = $transportChain->getEnabledTransports();
         $isEnabled      = false;
@@ -136,7 +140,7 @@ class CampaignSubscriber extends CommonSubscriber
                 }
             }
             $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
-        }
+       // }
     }
 
     /**
