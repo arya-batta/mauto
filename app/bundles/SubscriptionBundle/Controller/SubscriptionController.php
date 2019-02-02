@@ -397,7 +397,7 @@ class SubscriptionController extends CommonController
         $loginarg          = $loginsession->get('isLogin');
         $dbhost            = $this->coreParametersHelper->getParameter('le_db_host');
         $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
-        $kycview           = $licenseinfoHelper->getFirstTimeSetup($dbhost, true);
+        $kycview           = $licenseinfoHelper->getFirstTimeSetup($dbhost, $loginarg);
         $stepstring        = $this->request->get('step', 'flname');
         $billformview      = $kycview[0];
         $accformview       = $kycview[1];
