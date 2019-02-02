@@ -68,12 +68,35 @@ class LeadController extends FormController
 
         $ismobile = InputHelper::isMobile();
         if (sizeof($kycview) > 0) {
-            $showsetup      = true;
+            $showsetup      = false;
             $billformview   = $kycview[0];
             $accformview    = $kycview[1];
             $userformview   = $kycview[2];
             $videoURL       = '';
             $showvideo      = false;
+            $billing        = $kycview[3];
+            $account        = $kycview[4];
+            $userEntity     = $kycview[5];
+            /** @var \Mautic\SubscriptionBundle\Model\KYCModel $kycmodel */
+            $kycmodel         = $this->getModel('subscription.kycinfo');
+            $kycrepo          = $kycmodel->getRepository();
+            $kycentity        = $kycrepo->findAll();
+            if (sizeof($kycentity) > 0) {
+                $kyc = $kycentity[0]; //$model->getEntity(1);
+            } else {
+                $kyc = new KYC();
+            }
+            $step = '';
+            if ($userEntity->getFirstName() == '' || $userEntity->getLastName() == '' || $userEntity->getMobile() == '') {
+                $step = 'flname';
+            } elseif ($kyc->getKnowus() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+                $step = 'aboutyourbusiness';
+            } elseif ($billing->getCompanyaddress() == '' || $billing->getCity() == '') {
+                $step = 'addressinfo';
+            }
+            if ($step != '') {
+                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => $step]));
+            }
         } else {
             $loginsession->set('isLogin', false);
         }

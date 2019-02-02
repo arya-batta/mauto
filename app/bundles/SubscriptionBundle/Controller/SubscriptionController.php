@@ -5,6 +5,7 @@ namespace Mautic\SubscriptionBundle\Controller;
 use Mautic\CoreBundle\Controller\CommonController;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\SubscriptionBundle\Entity\Billing;
+use Mautic\SubscriptionBundle\Entity\KYC;
 use PayPal\Api\Agreement;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
@@ -388,5 +389,134 @@ class SubscriptionController extends CommonController
         } else {
             return $this->delegateRedirect($this->generateUrl('le_contact_index'));
         }
+    }
+
+    public function welcomeAction()
+    {
+        $loginsession      = $this->get('session');
+        $loginarg          = $loginsession->get('isLogin');
+        $dbhost            = $this->coreParametersHelper->getParameter('le_db_host');
+        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+        $kycview           = $licenseinfoHelper->getFirstTimeSetup($dbhost, true);
+        $stepstring        = $this->request->get('step', 'flname');
+        $billformview      = $kycview[0];
+        $accformview       = $kycview[1];
+        $userformview      = $kycview[2];
+        /** @var \Mautic\SubscriptionBundle\Entity\Billing $billingEntity */
+        $billingEntity  = $kycview[3];
+        /** @var \Mautic\SubscriptionBundle\Entity\Account $accountEntity */
+        $accountEntity  = $kycview[4];
+        /** @var \Mautic\UserBundle\Entity\User $userEntity */
+        $userEntity     = $kycview[5];
+        $ismobile       = InputHelper::isMobile();
+
+        /** @var \Mautic\UserBundle\Model\UserModel $userModel */
+        $userModel = $this->getModel('user.user');
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
+        $accountModel  = $this->getModel('subscription.accountinfo');
+        /** @var \Mautic\SubscriptionBundle\Model\BillingModel $billingmodel */
+        $billingmodel  = $this->getModel('subscription.billinginfo');
+
+        /** @var \Mautic\SubscriptionBundle\Model\KYCModel $kycmodel */
+        $kycmodel         = $this->getModel('subscription.kycinfo');
+        $kycrepo          = $kycmodel->getRepository();
+        $kycentity        = $kycrepo->findAll();
+        if (sizeof($kycentity) > 0) {
+            $kyc = $kycentity[0]; //$model->getEntity(1);
+        } else {
+            $kyc = new KYC();
+        }
+        $countrydetails  = $licenseinfoHelper->getCountryName();
+        $timezone        = $countrydetails['timezone'];
+        $countryname     = $countrydetails['countryname'];
+        $city            = $countrydetails['city'];
+        $state           = $countrydetails['state'];
+        $repository      =$this->get('le.core.repository.subscription');
+        $dbname          = $this->coreParametersHelper->getParameter('db_name');
+        $appid           = str_replace('leadsengage_apps', '', $dbname);
+        $signuprepository=$this->get('le.core.repository.signup');
+        if ($this->request->getMethod() == 'POST') {
+            $data = $this->request->request->get('welcome');
+            if ($stepstring == 'flname') {
+                $userEntity->setFirstName($data['firstname']);
+                $userEntity->setLastName($data['lastname']);
+                $userEntity->setMobile($data['phone']);
+                $accountEntity->setPhonenumber($data['phone']);
+                $signupinfo     =$repository->getSignupInfo($userEntity->getEmail());
+                if (!empty($signupinfo)) {
+                    $accountEntity->setDomainname($signupinfo[0]['f5']);
+                    $accountEntity->setAccountname($signupinfo[0]['f2']);
+                }
+                $userModel->saveEntity($userEntity);
+                $accountModel->saveEntity($accountEntity);
+                $signupData          = $data;
+                $signupData['email'] = $userEntity->getEmail();
+                $signuprepository->updateSignupUserInfo($signupData);
+
+                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => 'aboutyourbusiness']));
+            } elseif ($stepstring == 'aboutyourbusiness') {
+                $accountEntity->setWebsite($data['websiteurl']);
+                $accountEntity->setAccountname($data['business']);
+                $accountModel->saveEntity($accountEntity);
+                $kyc->setIndustry($data['industry']);
+                $kyc->setUsercount($data['empcount']);
+                $kyc->setYearsactive($data['org_experience']);
+                $kyc->setSubscribercount($data['emailvol']);
+                $kyc->setSubscribersource($data['listsize']);
+                $kyc->setPrevioussoftware($data['currentesp']);
+                $kycmodel->saveEntity($kyc);
+                $businessData          = $data;
+                $businessData['email'] = $userEntity->getEmail();
+                $signuprepository->updateSignupUserBusinessInfo($businessData);
+
+                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => 'addressinfo']));
+            } elseif ($stepstring == 'addressinfo') {
+                $address = $data['address-line-1'];
+                if ($data['address-line-2'] != '') {
+                    $address = $address.','.$data['address-line-2'];
+                }
+                $billingEntity->setCompanyaddress($address);
+                $billingEntity->setCity($data['city']);
+                $billingEntity->setState($data['state']);
+                $billingEntity->setCountry($data['country']);
+                $billingEntity->setGstnumber($data['taxid']);
+                $billingEntity->setPostalcode($data['zip']);
+                $billingmodel->saveEntity($billingEntity);
+                $accountEntity->setTimezone($data['timezone']);
+                $accountModel->saveEntity($accountEntity);
+                $addressData          = $data;
+                $addressData['email'] = $userEntity->getEmail();
+                $signuprepository->updateSignupUserAddressInfo($addressData);
+
+                return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+            }
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form'       => $accformview,
+                    'billform'   => $billformview,
+                    'userform'   => $userformview,
+                    'user'       => $userEntity,
+                    'billing'    => $billingEntity,
+                    'account'    => $accountEntity,
+                    'kyc'        => $kyc,
+                    'isMobile'   => $ismobile,
+                    'setupUrl'   => $this->generateUrl('le_welcome_action'),
+                    'step'       => $stepstring,
+                    'timezone'   => $accountEntity->getTimezone() == '' ? $timezone : $accountEntity->getTimezone(),
+                    'country'    => $billingEntity->getCountry() == '' ? $countryname : $billingEntity->getCountry(),
+                    'city'       => $billingEntity->getCity() == '' ? $city : $billingEntity->getCity(),
+                    'state'      => $billingEntity->getState() == '' ? $state : $billingEntity->getState(),
+                ],
+                'contentTemplate' => 'MauticSubscriptionBundle:Subscription:setup.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_welcome_action',
+                    'leContent'     => 'welcome',
+                    'route'         => $this->generateUrl('le_welcome_action'),
+                ],
+            ]
+        );
     }
 }

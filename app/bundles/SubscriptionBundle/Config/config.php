@@ -39,6 +39,10 @@ return [
                 'path'       => '/success',
                 'controller' => 'MauticSubscriptionBundle:Subscription:offer',
             ],
+            'le_welcome_action' => [
+                'path'       => '/welcome',
+                'controller' => 'MauticSubscriptionBundle:Subscription:welcome',
+            ],
         ],
         'public' => [
         ],

@@ -610,11 +610,12 @@ class LicenseInfoHelper
         if ($totalEmailCount == 'UL') {
             return -1;
         } else {
-            if($email_provider != "LeadsEngage") {
+            if ($email_provider != 'LeadsEngage') {
                 $availablecredits = $totalEmailCount - $actualEmailCount;
-            }else{
+            } else {
                 $availablecredits = 100 - $actualEmailCount;
             }
+
             return $availablecredits > 0 ? $availablecredits : 0;
         }
     }
@@ -908,7 +909,7 @@ class LicenseInfoHelper
             $accformview  = '';
             $userformview = '';
             $kycview      = [];
-            $showsetup    = false;
+            $showsetup    = true;
             /** @var \Mautic\UserBundle\Model\UserModel $usermodel */
             $usermodel  = $this->factory->getModel('user.user');
             $userentity = $usermodel->getCurrentUserEntity();
@@ -968,6 +969,9 @@ class LicenseInfoHelper
                 $kycview[]    = $billformview;
                 $kycview[]    = $accformview;
                 $kycview[]    = $userformview;
+                $kycview[]    = $billing;
+                $kycview[]    = $account;
+                $kycview[]    = $userentity;
             } else {
                 $kycview = [];
             }
@@ -985,6 +989,9 @@ class LicenseInfoHelper
         $countrycode                   = $dataArray->{'geoplugin_countryName'};
         $lat                           = $dataArray->{'geoplugin_latitude'};
         $lon                           = $dataArray->{'geoplugin_longitude'};
+        $city                          = $dataArray->{'geoplugin_city'};
+        $state                         = $dataArray->{'geoplugin_region'};
+
         $countrydetails                = [];
         $countrydetails['countryname'] = $countrycode;
         $timezone                      = 'Asia/Calcutta';
@@ -997,6 +1004,8 @@ class LicenseInfoHelper
             }
         }
         $countrydetails['timezone']    = $timezone;
+        $countrydetails['city']        = $city;
+        $countrydetails['state']       = $state;
 
         return $countrydetails;
     }

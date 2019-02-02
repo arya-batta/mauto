@@ -519,4 +519,114 @@ class SignupRepository
 
         return $drips;
     }
+
+    public function updateSignupUserInfo($userData)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $firstName      = $userData['firstname'];
+        $lastName       = $userData['lastname'];
+        $email          = $userData['email'];
+        $phonenumber    = $userData['phone'];
+
+        $recordid = $this->checkisRecordAvailable($email);
+        if (!$recordid) {
+        } else {
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('lead_stage', ':stage')
+                ->set('lastname', ':lastname')
+                ->set('firstname', ':firstname')
+                ->set('mobile', ':mobile')
+                ->setParameter('lastname', $lastName)
+                ->setParameter('firstname', $firstName)
+                ->setParameter('mobile', $phonenumber)
+                ->setParameter('stage', 'Trial- Activated')
+                ->where(
+                    $qb->expr()->in('id', $recordid)
+                )
+                ->execute();
+        }
+    }
+
+    public function updateSignupUserBusinessInfo($businessData)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $website     = $businessData['websiteurl'];
+        $business    = $businessData['business'];
+        $email       = $businessData['email'];
+        $industry    = $businessData['industry'];
+        $empcount    = $businessData['empcount'];
+        $orgexp      = $businessData['org_experience'];
+        $emailvol    = $businessData['emailvol'];
+        $listsize    = $businessData['listsize'];
+        $currentesp  = $businessData['currentesp'];
+
+        $recordid = $this->checkisRecordAvailable($email);
+        if (!$recordid) {
+        } else {
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('website1', ':website')
+                ->set('company_new', ':company')
+                ->set('industry', ':industry')
+                ->set('employees_count', ':empcount')
+                ->set('company_age', ':org_experience')
+                ->set('monthly_email_volume', ':emailvol')
+                ->set('your_current_list_size', ':listsize')
+                ->set('current_email_marketing_p', ':currentesp')
+                ->setParameter('website', $website)
+                ->setParameter('company', $business)
+                ->setParameter('industry', $industry)
+                ->setParameter('empcount', $empcount)
+                ->setParameter('org_experience', $orgexp)
+                ->setParameter('emailvol', $emailvol)
+                ->setParameter('listsize', $listsize)
+                ->setParameter('currentesp', $currentesp)
+                ->where(
+                    $qb->expr()->in('id', $recordid)
+                )
+                ->execute();
+        }
+    }
+
+    public function updateSignupUserAddressInfo($addressData)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $address1 = $addressData['address-line-1'];
+        $address2 = $addressData['address-line-2'];
+        $city     = $addressData['city'];
+        $state    = $addressData['state'];
+        $country  = $addressData['country'];
+        $taxid    = $addressData['taxid'];
+        $zip      = $addressData['zip'];
+        $timezone = $addressData['timezone'];
+        $email    = $addressData['email'];
+
+        $recordid = $this->checkisRecordAvailable($email);
+        if (!$recordid) {
+        } else {
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('address1', ':address1')
+                ->set('address2', ':address2')
+                ->set('city', ':city')
+                ->set('state', ':state')
+                ->set('zipcode', ':zipcode')
+                ->set('country', ':country')
+                ->set('timezone1', ':timezone1')
+                ->set('gst_no', ':gst_no')
+                ->setParameter('address1', $address1)
+                ->setParameter('address2', $address2)
+                ->setParameter('city', $city)
+                ->setParameter('state', $state)
+                ->setParameter('zipcode', $zip)
+                ->setParameter('country', $country)
+                ->setParameter('timezone1', $timezone)
+                ->setParameter('gst_no', $taxid)
+                ->where(
+                    $qb->expr()->in('id', $recordid)
+                )
+                ->execute();
+        }
+    }
 }
