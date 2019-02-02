@@ -292,4 +292,104 @@ class FormApiController extends CommonApiController
             ]
         );
     }
+
+    /**
+     * Obtains a list of entities as defined by the API URL.
+     *
+     * @return Response
+     */
+    public function getEntitiesAction()
+    {
+        $parameters = $this->request->request->all();
+        $repo       = $this->model->getRepository();
+        $tableAlias = $repo->getTableAlias();
+        //$publishedOnly = $this->request->get('published', 0);
+        //$minimal       = $this->request->get('minimal', 0);
+        $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
+        $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+
+        try {
+            if (!$this->security->isGranted($this->permissionBase.':view')) {
+                return $this->accessDenied();
+            }
+        } catch (PermissionException $e) {
+            return $this->accessDenied($e->getMessage());
+        }
+
+        if ($this->security->checkPermissionExists($this->permissionBase.':viewother')
+            && !$this->security->isGranted($this->permissionBase.':viewother')
+        ) {
+            $this->listFilters = [
+                'column' => $tableAlias.'.createdBy',
+                'expr'   => 'eq',
+                'value'  => $this->user->getId(),
+            ];
+        }
+
+        if ($publishedOnly) {
+            $this->listFilters[] = [
+                'column' => $tableAlias.'.isPublished',
+                'expr'   => 'eq',
+                'value'  => true,
+            ];
+        }
+
+        if ($minimal) {
+            if (isset($this->serializerGroups[0])) {
+                $this->serializerGroups[0] = str_replace('Details', 'List', $this->serializerGroups[0]);
+            }
+        }
+
+        $args = array_merge(
+            [
+                'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
+                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : $this->coreParametersHelper->getParameter('default_pagelimit'), //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
+                'filter' => [
+                    'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
+                    'force'  => $this->listFilters,
+                ],
+                'orderBy'        => $this->addAliasIfNotPresent(isset($parameters['orderBy']) ? $parameters['orderBy'] : '', $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC', //$this->request->query->get('orderByDir', 'ASC'),
+                'withTotalCount' => true, //for repositories that break free of Paginator
+            ],
+            $this->extraGetEntitiesArguments
+        );
+        $selectdata = isset($parameters['select']) ? $parameters['select'] : [];
+        if ($select = InputHelper::cleanArray($selectdata)) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if ($where = $this->getWhereFromRequest()) {
+            $args['filter']['where'] = $where;
+        }
+
+        if ($order = $this->getOrderFromRequest()) {
+            $args['filter']['order'] = $order;
+        }
+
+        $results = $this->model->getEntities($args);
+
+        list($entities, $totalCount) = $this->prepareEntitiesForView($results);
+        $specificvalues              = [];
+        foreach ($entities as $entity) {
+            $specificvalue['id']            = $entity->getId();
+            $specificvalue['name']          = $entity->getName();
+            $specificvalue['alias']         = $entity->getAlias();
+            $specificvalue['isPublished']   = $entity->getIsPublished();
+            $specificvalue['dateAdded']     = $entity->getDateAdded();
+            $specificvalues[]               = $specificvalue;
+        }
+
+        $view = $this->view(
+            [
+                'total'                => $totalCount,
+                $this->entityNameMulti => $specificvalues,
+            ],
+            Codes::HTTP_OK
+        );
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
 }

@@ -58,7 +58,7 @@ class TagType extends AbstractType
                 'label'         => 'le.lead.tags',
                 'class'         => 'MauticLeadBundle:Tag',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('t')->andWhere('t.is_published = 1')->orderBy('t.tag', 'ASC');
+                    return $er->createQueryBuilder('t')->andWhere('t.isPublished = 1')->orderBy('t.tag', 'ASC');
                 },
                 'property'        => 'tag',
                 'multiple'        => true,

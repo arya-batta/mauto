@@ -46,7 +46,7 @@ class WebhookSubscriber extends CommonSubscriber
         // add checkbox to the webhook form for new leads
         $pageHit = [
             'label'       => 'le.page.webhook.event.hit',
-            'description' => 'mautic.page.webhook.event.hit_desc',
+            'description' => 'le.page.webhook.event.hit_desc',
         ];
 
         // add it to the list
