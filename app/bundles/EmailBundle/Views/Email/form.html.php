@@ -298,7 +298,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-3" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-3" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3" style="<?php echo !$isbasiceditor ? 'margin-left:78%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
-                    <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:184px;' : ''?>"></div>
+                    <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:148px;' : ''?>"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
@@ -457,7 +457,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
         <div id="fragment-4" class="ui-tabs-panel <?php echo $settingshide?>">
             <div class="fragment-4-buttons fixed-header">
-                <a href="#" style="margin-left:-82px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" style="margin-left:-75px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">

@@ -48,7 +48,9 @@ class FormModel extends AbstractCommonModel
      */
     public function isLocked($entity)
     {
-        return false; //Always false Asked to Stop override concept by Kaviyarasan
+        if($this->userHelper->getUser()->isAdmin()) {
+            return false; //Always false Asked to Stop override concept by Kaviyarasan
+        }
         if (method_exists($entity, 'getCheckedOut')) {
             $checkedOut = $entity->getCheckedOut();
             if (!empty($checkedOut) && $checkedOut instanceof \DateTime) {

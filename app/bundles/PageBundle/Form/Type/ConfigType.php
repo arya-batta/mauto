@@ -31,6 +31,8 @@ class ConfigType extends AbstractType
             [
                 'label' => 'le.page.config.form.cat.in.url',
                 'data'  => (bool) $options['data']['cat_in_page_url'],
+                'no_label'   => 'No',
+                'yes_label'  => 'Yes',
                 'attr'  => [
                     'tooltip' => 'le.page.config.form.cat.in.url.tooltip',
                 ],

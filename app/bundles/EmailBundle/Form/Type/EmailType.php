@@ -258,6 +258,8 @@ class EmailType extends AbstractType
             [
                 'label'      => 'le.email.config.show.google.analytics',
                 'label_attr' => ['class' => 'control-label '],
+                'no_label'   => 'No',
+                'yes_label'  => 'Yes',
                 'attr'       => [
                     'class'   => 'form-control ',
                 ],

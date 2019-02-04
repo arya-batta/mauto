@@ -6,7 +6,7 @@
  * Time: 10:41 AM
  */?>
 <div style="float: left;width: 100%;">
-    <button id="open-model-btn" type="button" class="btn btn-info sender_profile_create_btn" style="float: left;margin-bottom: 15px;" data-toggle="modal" data-target="#activateSmsModel"><?php echo $view['translator']->trans('le.sms.config.test_connection'); ?></button>
+    <button id="open-model-btn" type="button" class="btn btn-info sender_profile_create_btn" style="float: left;margin-bottom: 15px;"  onclick="Le.validateSmsConfig()"><?php echo $view['translator']->trans('le.sms.config.test_connection'); ?></button>
 </div>
 <div class="help-block" id ="sms_config_errors"></div>
 <table class="payment-history">

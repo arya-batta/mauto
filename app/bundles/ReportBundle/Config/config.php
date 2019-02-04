@@ -63,16 +63,49 @@ return [
 
     'menu' => [
         'main' => [
-            'mautic.report.reports' => [
-                'route'     => 'le_report_index',
+            'items' => [
+            'mautic.report.reports.menu.1' => [
+                'route'     => 'le_report_action',
+                'routeParameters' => ['objectAction' => 'view','objectId' => '30'],
                 'iconClass' => 'fa-line-chart',
-                'access'    => [
-                    'report:reports:viewown',
-                    'report:reports:viewother',
-                ],
-                'priority' => 20,
+                'access'    => ['report:reports:viewown', 'report:reports:viewother',],
+                'parent' =>'mautic.report.reports',
+                'priority' =>25,
+            ],
+            'mautic.report.reports.menu.2' => [
+                    'route'     => 'le_report_action',
+                    'routeParameters' => ['objectAction' => 'view','objectId' => '32'],
+                    'iconClass' => 'fa-line-chart',
+                    'access'    => ['report:reports:viewown', 'report:reports:viewother',],
+                    'parent' =>'mautic.report.reports',
+                    'priority' => 24,
+            ],
+            'mautic.report.reports.menu.3' => [
+                    'route'     => 'le_report_action',
+                    'routeParameters' => ['objectAction' => 'view','objectId' => '33'],
+                    'iconClass' => 'fa-line-chart',
+                    'access'    => ['report:reports:viewown', 'report:reports:viewother',],
+                    'parent' =>'mautic.report.reports',
+                    'priority' => 23,
+            ],
+            'mautic.report.reports.menu.4' => [
+                    'route'     => 'le_report_action',
+                    'routeParameters' => ['objectAction' => 'view','objectId' => '34'],
+                    'iconClass' => 'fa-line-chart',
+                    'access'    => ['report:reports:viewown', 'report:reports:viewother',],
+                    'parent' =>'mautic.report.reports',
+                    'priority' => 22,
+            ],
+            'mautic.report.reports.menu.5' => [
+                    'route'     => 'le_report_action',
+                    'routeParameters' => ['objectAction' => 'view','objectId' => '35'],
+                    'iconClass' => 'fa-line-chart',
+                    'access'    => ['report:reports:viewown', 'report:reports:viewother',],
+                    'parent' =>'mautic.report.reports',
+                    'priority' => 21,
             ],
         ],
+       ],
     ],
 
     'services' => [

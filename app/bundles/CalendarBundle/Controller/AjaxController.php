@@ -79,6 +79,7 @@ class AjaxController extends CommonAjaxController
             $this->addFlash(
                 'mautic.core.error.locked',
                 [
+                    '%screen%'    => 'le.override.screen'.$model,
                     '%name%'      => $entity->getTitle(),
                     '%menu_link%' => 'le_'.$source.'_index',
                     '%url%'       => $this->generateUrl(

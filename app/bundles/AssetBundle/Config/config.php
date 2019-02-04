@@ -47,7 +47,7 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'mautic.asset.assets' => [
+                'mautic.asset.assets.menu' => [
                     'iconClass' => 'fa fa-folder-open-o',
                     'route'     => 'le_asset_index',
                     'access'    => ['asset:assets:viewown', 'asset:assets:viewother'],

@@ -353,7 +353,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-4-buttons fixed-header">
-                <a href="#" style="margin-left:-82px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" style="margin-left:-74px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">

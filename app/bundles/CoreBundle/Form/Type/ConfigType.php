@@ -614,6 +614,8 @@ class ConfigType extends AbstractType
             [
                 'label' => 'mautic.core.config.cors.restrict.domains',
                 'data'  => (array_key_exists('cors_restrict_domains', $options['data']) && !empty($options['data']['cors_restrict_domains'])),
+                'no_label'   => 'No',
+                'yes_label'  => 'Yes',
                 'attr'  => [
                     'class'   => 'form-control',
                     'tooltip' => 'mautic.core.config.cors.restrict.domains.tooltip',

@@ -90,6 +90,8 @@ class AssetType extends AbstractType
             'yesno_button_group',
             [
                 'label' => 'mautic.asset.asset.form.disallow.crawlers',
+                'no_label'   => 'No',
+                'yes_label'  => 'Yes',
                 'attr'  => [
                     'tooltip'      => 'mautic.asset.asset.form.disallow.crawlers.descr',
                     'data-show-on' => '{"asset_storageLocation_0":"checked"}',

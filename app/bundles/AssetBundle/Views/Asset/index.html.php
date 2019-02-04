@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'asset');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.assets'));
+$view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.assets.menu'));
 
 $view['slots']->set(
     'actions',

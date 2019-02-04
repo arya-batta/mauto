@@ -222,9 +222,8 @@ return [
                     'iconClass'=> 'fa fa-weixin',
                     'route'    => 'le_sms_index',
                     'access'   => ['sms:smses:viewown', 'sms:smses:viewother'],
-                    'parent'   => 'mautic.core.channels',
-
-                    'priority' => 50,
+                    'parent'   => 'mautic.core.components',
+                    'priority' => 430,
                 ],
             ],
         ],

@@ -47,6 +47,7 @@ abstract class AbstractFormController extends CommonController
                 'mautic.core.action.entity.unlocked',
                 [
                     '%name%' => urldecode($this->request->get('name')),
+                    '%screen%'=>'le.override.screen'.$model,
                 ]
             );
 
@@ -102,6 +103,7 @@ abstract class AbstractFormController extends CommonController
             'type'    => 'error',
             'msg'     => 'mautic.core.error.locked',
             'msgVars' => [
+                '%screen%'     => 'le.override.screen'.$model,
                 '%name%'       => $entity->$nameFunction(),
                 '%user%'       => $entity->getCheckedOutByUser(),
                 '%contactUrl%' => $this->generateUrl(
@@ -252,8 +254,8 @@ abstract class AbstractFormController extends CommonController
                                                 : $returnUrl;
         $vars['returnUrl']                      = $returnUrl;
 
-        $urlMatcher                             = explode('/s/', $returnUrl);
-        $actionRoute                            = $this->get('router')->match('/s/'.$urlMatcher[1]);
+        $urlMatcher                             = explode('/app/', $returnUrl);
+        $actionRoute                            = $this->get('router')->match('/app/'.$urlMatcher[1]);
         $objAction                              = isset($actionRoute['objectAction'])
                                                 ? $actionRoute['objectAction']
                                                 : 'index';

@@ -353,12 +353,12 @@
 .campaign-custom-save-button{
     /*right:1%;*/
     margin-top: 8px;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .campaign-custom-apply-button{
     margin-right: 5px;
     margin-top: 8px;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 .campaign-custom-btn{
     right:3%;

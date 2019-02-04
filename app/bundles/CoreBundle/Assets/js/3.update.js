@@ -264,7 +264,7 @@ Le.processUpdate = function (container, step, state) {
                 },
                 error: function (request, textStatus, errorThrown) {
                     // Redirect to the update/schema page in a last ditch attempt instead of just failing
-                    window.location = leBaseUrl + '/s/update/schema?update=1';
+                    window.location = leBaseUrl + '/app/update/schema?update=1';
                 }
             });
             break;
