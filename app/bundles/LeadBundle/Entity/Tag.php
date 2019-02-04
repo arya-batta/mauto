@@ -29,13 +29,14 @@ class Tag
      */
     private $tag;
     /**
-     * @var boolean
+     * @var bool
      */
-    private $is_published;
+    private $isPublished = true;
     /**
      * @param string
      */
     private $alias;
+
     public function __construct($tag = null)
     {
         $this->tag = $this->validateTag($tag);
@@ -53,8 +54,10 @@ class Tag
 
         $builder->addId();
         $builder->addField('tag', Type::STRING);
-        $builder->addField('is_published', Type::BOOLEAN);
-        $builder->addField('alias',Type::STRING);
+        $builder->createField('isPublished', Type::BOOLEAN)
+            ->columnName('is_published')
+            ->build();
+        $builder->addField('alias', Type::STRING);
     }
 
     /**
@@ -67,7 +70,7 @@ class Tag
                 [
                     'id',
                     'tag',
-                    'is_published',
+                    'isPublished',
                     'alias',
                 ]
             )
@@ -111,20 +114,24 @@ class Tag
     {
         return InputHelper::clean($tag);
     }
+
     /**
      * @return mixed
      */
     public function getisPublished()
     {
-        return $this->is_published;
+        return $this->isPublished;
     }
 
     /**
-     * @param mixed $is_published
+     * @param mixed $isPublished
      */
-    public function setIsPublished($is_published)
+    public function setIsPublished($isPublished)
     {
-        $this->is_published = $is_published;
+        if ($isPublished == null) {
+            $isPublished=true;
+        }
+        $this->isPublished = $isPublished;
     }
 
     /**
@@ -136,7 +143,7 @@ class Tag
      */
     public function getPublishStatus()
     {
-       if (!$this->getisPublished(false)) {
+        if (!$this->getisPublished(false)) {
             return 'unpublished';
         }
 
@@ -160,5 +167,4 @@ class Tag
     {
         $this->alias = $alias;
     }
-
 }

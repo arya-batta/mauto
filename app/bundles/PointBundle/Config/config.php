@@ -60,7 +60,7 @@ return [
                 'method'     => 'DELETE',
             ],
             'mautic_api_adjustcontactpoints' => [
-                'path'       => '/contacts/{leadId}/points/{operator}/{delta}',
+                'path'       => '/leads/{leadId}/leadscoring/{operator}/{delta}',
                 'controller' => 'MauticPointBundle:Api\PointApi:adjustPoints',
                 'method'     => 'POST',
             ],

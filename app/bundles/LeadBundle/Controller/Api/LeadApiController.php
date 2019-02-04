@@ -161,7 +161,7 @@ class LeadApiController extends CommonApiController
                         ],
                     ],
                 ],
-                'orderBy'    => $this->request->query->get('orderBy', 'n.dateAdded'),
+                'orderBy'    => $this->addAliasIfNotPresent($this->request->query->get('orderBy', 'n.dateAdded'), 'n'),
                 'orderByDir' => $this->request->query->get('orderByDir', 'DESC'),
             ]
         );
@@ -344,7 +344,7 @@ class LeadApiController extends CommonApiController
             $view = $this->view(
                 [
                     'total'     => count($campaigns),
-                    'campaigns' => $campaigns,
+                    'workflows' => $campaigns,
                 ],
                 Codes::HTTP_OK
             );
@@ -427,7 +427,8 @@ class LeadApiController extends CommonApiController
 
         $channelId = (int) $this->request->request->get('channelId');
         if ($channelId) {
-            $channel = [$channel, $channelId];
+            $channeldata[$channel] = $channelId;
+            $channel               = $channeldata;
         }
         $reason   = (int) $this->request->request->get('reason');
         $comments = InputHelper::clean($this->request->request->get('comments'));

@@ -47,6 +47,9 @@ class NoteApiController extends CommonApiController
     protected function preSaveEntity(&$entity, $form, $parameters, $action = 'edit')
     {
         if (!empty($parameters['lead'])) {
+            if ($action == 'new') {
+                $action ='view';
+            }
             $lead = $this->checkLeadAccess($parameters['lead'], $action);
 
             if ($lead instanceof Response) {

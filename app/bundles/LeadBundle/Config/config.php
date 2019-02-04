@@ -194,6 +194,7 @@ return [
             'mautic_api_getcontactevents' => [
                 'path'       => '/leads/{id}/activity',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getActivity',
+                'method'     => 'POST',
             ],
             'mautic_api_getcontactsevents' => [
                 'path'       => '/leads/activity',
@@ -208,7 +209,7 @@ return [
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getDevices',
             ],
             'mautic_api_getcontactcampaigns' => [
-                'path'       => '/leads/{id}/campaigns',
+                'path'       => '/leads/{id}/workflows',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getCampaigns',
             ],
             'mautic_api_getcontactssegments' => [
@@ -248,12 +249,12 @@ return [
                 'controller'      => 'MauticLeadBundle:Api\ListApi',
             ],
             'mautic_api_segmentaddcontact' => [
-                'path'       => '/segments/{id}/contact/{leadId}/add',
+                'path'       => '/segments/{id}/lead/{leadId}/add',
                 'controller' => 'MauticLeadBundle:Api\ListApi:addLead',
                 'method'     => 'POST',
             ],
             'mautic_api_segmentremovecontact' => [
-                'path'       => '/segments/{id}/contact/{leadId}/remove',
+                'path'       => '/segments/{id}/lead/{leadId}/remove',
                 'controller' => 'MauticLeadBundle:Api\ListApi:removeLead',
                 'method'     => 'POST',
             ],
@@ -303,12 +304,12 @@ return [
 
             // @deprecated 2.6.0 to be removed in 3.0
             'bc_mautic_api_segmentaddcontact' => [
-                'path'       => '/segments/{id}/contact/add/{leadId}',
+                'path'       => '/segments/{id}/lead/add/{leadId}',
                 'controller' => 'MauticLeadBundle:Api\ListApi:addLead',
                 'method'     => 'POST',
             ],
             'bc_mautic_api_segmentremovecontact' => [
-                'path'       => '/segments/{id}/contact/remove/{leadId}',
+                'path'       => '/segments/{id}/lead/remove/{leadId}',
                 'controller' => 'MauticLeadBundle:Api\ListApi:removeLead',
                 'method'     => 'POST',
             ],

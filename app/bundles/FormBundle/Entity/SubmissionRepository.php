@@ -487,6 +487,6 @@ class SubmissionRepository extends CommonRepository
      */
     public function getTableAlias()
     {
-        return 'fs';
+        return 's';
     }
 }

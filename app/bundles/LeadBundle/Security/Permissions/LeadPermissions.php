@@ -42,6 +42,9 @@ class LeadPermissions extends AbstractPermissions
             'tags' => [
                 'full'        => 1024,
             ],
+            'notes' => [
+                'full'        => 1024,
+            ],
         ];
         $this->addExtendedPermissions('leads', false);
         $this->addStandardPermissions('imports');
@@ -114,6 +117,16 @@ class LeadPermissions extends AbstractPermissions
             'level'  => 'tags',
         ]);
 
+        $builder->add('lead:notes', 'permissionlist', [
+            'choices' => [
+                'full'        => 'mautic.core.permissions.full',
+            ],
+            'label'  => 'le.lead.permissions.notes',
+            'data'   => (!empty($data['notes']) ? $data['notes'] : []),
+            'bundle' => 'lead',
+            'level'  => 'notes',
+        ]);
+
         $this->addStandardFormFields($this->getName(), 'imports', $builder, $data);
     }
 
@@ -128,7 +141,7 @@ class LeadPermissions extends AbstractPermissions
         $viewPerms = ['viewown', 'viewother', 'full'];
         if (
             (!isset($permissions['leads']) || (array_intersect($viewPerms, $permissions['leads']) == $viewPerms)) &&
-            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin']) || isset($permission['tags']))
+            (isset($permissions['lists']) || isset($permission['fields']) || isset($permission['listoptin']) || isset($permission['tags']) || isset($permission['notes']))
         ) {
             $permissions['leads'][] = 'viewown';
         }
@@ -176,9 +189,27 @@ class LeadPermissions extends AbstractPermissions
         }
         if ($name === 'tags') {
             switch ($level) {
+                case 'view':
+                case 'publishown':
+                case 'publishother':
+                case 'viewown':
+                case 'viewother':
+                    $level = 'full';
+                    break;
+            }
+        }
+
+        if ($name === 'notes') {
+            switch ($level) {
                 case 'publishown':
                 case 'publishother':
                 case 'view':
+                case 'viewown':
+                case 'viewother':
+                case 'editown':
+                case 'editother':
+                case 'deleteown':
+                case 'deleteother':
                     $level = 'full';
                     break;
             }
