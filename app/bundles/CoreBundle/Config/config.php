@@ -54,11 +54,11 @@ return [
                 'controller' => 'MauticCoreBundle:Default:index',
             ],
             'le_secure_root' => [
-                'path'       => '/s',
+                'path'       => '/app',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_secure_root_slash' => [
-                'path'       => '/s/',
+                'path'       => '/app/',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_remove_trailing_slash' => [
@@ -133,6 +133,15 @@ return [
                 'id'        => 'le_Workflows_root',
                 'iconClass' => 'fa-cogs',
                 'priority'  => 60,
+            ],
+            'mautic.report.reports' => [
+                //'route'     => 'le_report_index',
+                'iconClass' => 'fa-line-chart',
+                'access'    => [
+                    'report:reports:viewown',
+                    'report:reports:viewother',
+                ],
+                'priority' => 20,
             ],
            /*'le.segments.root' => [
                 'id'        => 'le_segments_root',
