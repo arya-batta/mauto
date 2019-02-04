@@ -89,7 +89,7 @@ class LeadController extends FormController
             $step = '';
             if ($userEntity->getFirstName() == '' || $userEntity->getLastName() == '' || $userEntity->getMobile() == '') {
                 $step = 'flname';
-            } elseif ($kyc->getKnowus() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+            } elseif ($account->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
                 $step = 'aboutyourbusiness';
             } elseif ($billing->getCompanyaddress() == '' || $billing->getCity() == '') {
                 $step = 'addressinfo';
