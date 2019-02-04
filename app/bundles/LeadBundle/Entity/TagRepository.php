@@ -301,7 +301,7 @@ class TagRepository extends CommonRepository
             ->from('MauticLeadBundle:Tag', 't');
 
         $q->select('t.id as id, t.tag as name')
-            ->where($q->expr()->eq('t.is_published', 1))
+            ->where($q->expr()->eq('t.isPublished', 1))
             ->orderBy('t.tag');
         $results = $q->getQuery()->getArrayResult();
 
