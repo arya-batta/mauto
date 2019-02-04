@@ -48,13 +48,13 @@ $isAdmin=$view['security']->isAdmin();
                         </div>
                         <div style="float: left;margin-left: 15px;">
                             <div class="form-group">
-                                <label class="control-label" style="color:#fff;">Start Workflow</label>        <div class="choice-wrapper">
+                                <label class="control-label" style="color:#fff;">Status</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-no <?php echo !$entity->isPublished() ? 'active ' : ''?>">
-                                            <input type="radio" onchange="Le.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                            <input type="radio" onchange="Le.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>Draft</span>
                                         </label>
                                         <label class="btn btn-default le-btn-published le-btn-small <?php echo $entity->isPublished() ? 'active ' : ''?> btn-success btn-yes">
-                                            <input type="radio" onchange="Le.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                            <input type="radio" onchange="Le.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Active</span>
                                         </label>
                                     </div>
                                 </div>

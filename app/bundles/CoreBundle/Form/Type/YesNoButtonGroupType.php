@@ -60,12 +60,12 @@ class YesNoButtonGroupType extends AbstractType
                 'expanded'    => true,
                 'multiple'    => false,
                 'label_attr'  => ['class' => 'control-label'],
-                'label'       => 'mautic.core.form.published',
+                'label'       => 'mautic.core.forms.published',
                 'empty_value' => false,
                 'required'    => false,
-                'no_label'    => 'mautic.core.form.no',
+                'no_label'    => 'mautic.core.forms.no',
                 'no_value'    => 0,
-                'yes_label'   => 'mautic.core.form.yes',
+                'yes_label'   => 'mautic.core.forms.yes',
                 'yes_value'   => 1,
             ]
         );

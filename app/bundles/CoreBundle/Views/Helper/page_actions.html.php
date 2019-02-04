@@ -125,11 +125,15 @@ if(isset($onlyexport))
     echo '</div>';
 }else
 {
+    $data="";
     if ($view['buttons']->getButtonCount() > 0) {
         echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
-
-        $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
-        ."\n";
+        if(isset($routeBase)){
+            if($routeBase == "report"){
+                $data ="Export ";
+            }
+        }
+        $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><span>'.$data.'</span><i class="fa fa-caret-down"></i></button>' ."\n";
         $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
         echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
 

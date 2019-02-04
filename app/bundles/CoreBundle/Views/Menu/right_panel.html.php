@@ -39,11 +39,11 @@ $notificationAccess = $view['security']->isGranted('email:emails:viewown');
         </li>
       <?php endif; ?>
       <?php if ($notificationAccess): ?>
-            <li>
-                <a href="<?php echo $view['router']->path('le_email_index'); ?>" data-toggle="ajax">
-                    <i class="margin-right fa fa-envelope"></i><span><?php echo $view['translator']->trans('le.notification.menu.index'); ?></span>
+        <!--  <li>
+                <a href="<?php //echo $view['router']->path('le_email_index'); ?>" data-toggle="ajax">
+                    <i class="margin-right fa fa-envelope"></i><span><?php // echo $view['translator']->trans('le.notification.menu.index'); ?></span>
                 </a>
-            </li>
+            </li> -->
       <?php endif; ?>
       <?php if ($categoryAccess): ?>
         <li>

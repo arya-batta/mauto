@@ -1284,7 +1284,7 @@ h6,
   font-weight: 300;
 }
 .tt-u {
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 .text-muted {
   color: #8393a2;
@@ -1807,7 +1807,7 @@ label.list-group-item:focus {
   margin-top: -1px;
   font-weight: 600;
   padding: 5px 20px;
-  text-transform: uppercase;
+  text-transform: capitalize;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
@@ -5334,7 +5334,7 @@ figcaption {
   padding: 2px 16px;
   text-align: center;
   text-shadow: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
   -webkit-transition: all 280ms ease;
   transition: all 280ms ease;
   color: #010101;
@@ -5355,7 +5355,7 @@ figcaption {
   padding: 2px 16px;
   text-align: center;
   text-shadow: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
   -webkit-transition: all 280ms ease;
   transition: all 280ms ease;
   color: #010101;
@@ -5502,7 +5502,7 @@ figcaption {
   bottom: 0;
   right: 0;
   z-index:1003;
-  margin-left:64.1%;
+  margin-left:61.1%;
   background-color: #ec407a;
   color: #fff;
 }
@@ -5768,7 +5768,7 @@ figcaption {
   padding: 2px 16px;
   text-align: center;
   text-shadow: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
   -webkit-transition: all 280ms ease;
   transition: all 280ms ease;
   color: #fff;

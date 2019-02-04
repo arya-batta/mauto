@@ -82,7 +82,7 @@ class ConfigType extends AbstractType
             'data'        => $options['data']['sms_transport'],
             'required'    => false,
             'choices'     => $choices,
-            'empty_value' => false,
+            'empty_value' => 'mautic.core.form.chooseone'
 
         ]);
         $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["le.sms.transport.solutioninfini"]}';

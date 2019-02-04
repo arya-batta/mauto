@@ -8,6 +8,7 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+$isadmin       =$view['security']->isAdmin();
 ?>
 
 <div class="panel panel-primary">
@@ -19,8 +20,8 @@
             <div class="col-md-6">
                 <?php echo $view['form']->row($form['sms_transport']); ?>
             </div>
-            <div class="col-md-4">
-                <div class=" pt-lg mt-3">
+            <div class="col-md-4" >
+                <div id="smsStatus">
                     <?php echo $view['form']->row($form['sms_status'],['attr' => ['tabindex' => '-1']]); ?>
                 </div>
             </div>
@@ -40,7 +41,7 @@
                 <?php echo $view['form']->row($form['account_api_key']); ?>
                 <?php echo $view['form']->row($form['account_sid']); ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="smsPublish">
                 <?php echo $view['form']->row($form['publish_account']); ?>
             </div>
             <div id="smsTestButtonContainer">
@@ -48,7 +49,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3" >
+            <div class="col-sm-3" id="smsActivatebtn">
                 <div class="button_container">
                     <?php echo $view->render('MauticSmsBundle:Sms:config.html.php', []); ?>
                     <span class="fa fa-spinner fa-spin hide"></span>
@@ -58,7 +59,7 @@
     </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-primary <?php echo $isadmin?"":"hide"?>">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.core.config.form.link.shortener');?></h3>
     </div>

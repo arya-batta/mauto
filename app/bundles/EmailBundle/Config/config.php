@@ -139,7 +139,7 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'le.email.emails' => [
+                'le.email.emails.menu' => [
                     'iconClass'  => 'fa fa-envelope',
                    // 'route'      => 'le_email_index',
                     'route'      => 'le_email_campaign_index',
@@ -147,7 +147,7 @@ return [
                     'parent'     => 'mautic.core.channels',
                     'priority'   => 400,
                 ],
-                'le.email.drip.email' => [
+                'le.email.drip.email.menu' => [
                     'iconClass'  => 'fa fa-tint',
                     // 'route'      => 'le_email_index',
                     'route'      => 'le_dripemail_index',
@@ -161,15 +161,14 @@ return [
                     'parent'   => 'le.campaigns.root',
                     'priority' => 100,
                 ],*/
-            ],
-        ],
-        'admin' => [
-            'le.notification.menu.admin.index' => [
-                'route'           => 'le_email_index',
-                'iconClass'       => 'fa fa-envelope',
-                'priority'        => 450,
-                'id'              => 'le_notification_index',
-                'access'          => ['email:emails:viewown', 'email:emails:viewother'],
+                'le.notification.menu.admin.index' => [
+                    'route'           => 'le_email_index',
+                    'iconClass'       => 'fa fa-envelope',
+                    'parent'          => 'mautic.core.components',
+                    'priority'        => 450,
+                    'id'              => 'le_notification_index',
+                    'access'          => ['email:emails:viewown', 'email:emails:viewother'],
+                ],
             ],
         ],
     ],

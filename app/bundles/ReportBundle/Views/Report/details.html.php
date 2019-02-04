@@ -87,8 +87,8 @@ $header = $view['translator']->trans(
                         $report->getCreatedBy()
                     ),
                     'close' => $view['security']->hasEntityAccess(
-                        $permissions['report:reports:viewown'],
-                        $permissions['report:reports:viewother'],
+                        $permissions['report:reports:editown'],
+                        $permissions['report:reports:editother'],
                         $report->getCreatedBy()
                     ),
                 ],

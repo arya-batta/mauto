@@ -4,6 +4,12 @@ Le.configOnLoad= function(container){
         mQuery('#config_smsconfig_sms_status').removeClass('status_success');
          mQuery('#config_smsconfig_sms_status').addClass('status_fail');
     }
+    if(mQuery('#config_smsconfig_sms_transport').val() == ""){
+        alert(mQuery('#config_smsconfig_sms_transport').val());
+        mQuery('#smsStatus').addClass('hide');
+        mQuery('#smsPublish').addClass('hide');
+        mQuery('#smsActivatebtn').addClass('hide');
+    }
 }
 Le.testSmsServerConnection = function(sendSMS,mobile) {
     var data = {
@@ -48,6 +54,15 @@ Le.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
     mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
     mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
+    if(mQuery('#config_smsconfig_sms_transport').val() !="") {
+        mQuery('#smsStatus').removeClass('hide');
+        mQuery('#smsPublish').removeClass('hide');
+        mQuery('#smsActivatebtn').removeClass('hide');
+    }else{
+        mQuery('#smsStatus').addClass('hide');
+        mQuery('#smsPublish').addClass('hide');
+        mQuery('#smsActivatebtn').addClass('hide');
+    }
 }
 
 Le.testSmsConnection = function() {
@@ -62,4 +77,30 @@ Le.testSmsConnection = function() {
     }
     mQuery('#activateSmsModel').modal('hide');
     Le.testSmsServerConnection(true,mobile)
+}
+Le.validateSmsConfig = function(){
+   if( mQuery('#config_smsconfig_account_sid').val() == "" && mQuery('#config_smsconfig_sms_from_number').val() == ""&& mQuery('#config_smsconfig_account_auth_token').val()==""){
+       var theMessage = "<strong>Sending Phone Number</strong> and <strong>Account SID </strong>and <strong>Authentication Token</strong> cannot be empty.";
+       mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');
+       mQuery('#smsconfig #smsTestButtonContainer .help-block').html(theMessage);
+       mQuery('#activateSmsModel').modal('hide');
+   }else if(mQuery('#config_smsconfig_account_sid').val()==""){
+           var theMessage = "<strong>Sending Phone Number</strong> or <strong>Account SID </strong> or <strong>Authentication Token</strong> cannot be empty.";
+       mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');
+       mQuery('#smsconfig #smsTestButtonContainer .help-block').html(theMessage);
+       mQuery('#activateSmsModel').modal('hide');
+   }else if(mQuery('#config_smsconfig_sms_from_number').val() == ""){
+           var theMessage = "<strong>Sending Phone Number</strong> or <strong>Account SID </strong> or <strong>Authentication Token</strong> cannot be empty.";
+       mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');
+       mQuery('#smsconfig #smsTestButtonContainer .help-block').html(theMessage);
+       mQuery('#activateSmsModel').modal('hide');
+   }else if(mQuery('#config_smsconfig_account_auth_token').val()==""){
+           var theMessage = "<strong>Sending Phone Number</strong> or <strong>Account SID </strong> or <strong>Authentication Token</strong> cannot be empty.";
+       mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');
+       mQuery('#smsconfig #smsTestButtonContainer .help-block').html(theMessage);
+       mQuery('#activateSmsModel').modal('hide');
+   }else{
+       mQuery('#smsconfig #smsTestButtonContainer .help-block').html("");
+       mQuery('#activateSmsModel').modal('show');
+   }
 }

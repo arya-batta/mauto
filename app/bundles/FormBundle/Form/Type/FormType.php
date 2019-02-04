@@ -122,6 +122,8 @@ class FormType extends AbstractType
 
         $builder->add('isGDPRPublished', 'yesno_button_group', [
             'label' => 'le.form.form.isGDPRpublished',
+            'no_label'   => 'No',
+            'yes_label'  => 'Yes',
             'attr'  => [
                 'class'    => 'gdpr-checkbox',
                 'onchange' => "Le.toggleGDPRButtonClass(mQuery(this).attr('id'))",

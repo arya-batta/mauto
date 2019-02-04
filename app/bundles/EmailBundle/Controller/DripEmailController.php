@@ -209,7 +209,7 @@ class DripEmailController extends FormController
                     'model'                => $model,
                     'actionRoute'          => 'le_dripemail_campaign_action',
                     'indexRoute'           => 'le_dripemail_index',
-                    'headerTitle'          => 'Drip Campaigns',
+                    'headerTitle'          => 'Drip Emails',
                     'translationBase'      => 'mautic.email.broadcast',
                     'dripEmailBlockDetails'=> $dripEmailBlockDetails,
                     'EmailsCount'          => $emailscount,
