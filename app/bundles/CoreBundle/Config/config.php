@@ -54,11 +54,11 @@ return [
                 'controller' => 'MauticCoreBundle:Default:index',
             ],
             'le_secure_root' => [
-                'path'       => '/app',
+                'path'       => '/l',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_secure_root_slash' => [
-                'path'       => '/app/',
+                'path'       => '/l/',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_remove_trailing_slash' => [
@@ -1101,6 +1101,6 @@ return [
         'le_db_host'                => 'localhost',
         'le_db_port'                => 3306,
         'le_db_user'                => 'root',
-        'le_db_password'            => 'dacam',
+        'le_db_password'            => 'cratio',
     ],
 ];
