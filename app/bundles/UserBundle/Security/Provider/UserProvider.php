@@ -144,17 +144,17 @@ class UserProvider implements UserProviderInterface
 
         $getAppStatus = $this->licenseInfoHelper->getAppStatus();
 
-        //if ($getAppStatus == 'Active') {
-        //if ($licenseRemDays > 0) {
-        return $this->loadUserByUsername($user->getUsername());
-        //} else {
-        //    $this->session->set(Security::AUTHENTICATION_ERROR, 'License Expired Please Contact Support Team');
-        //    throw new AuthenticationException();
-        //}
-        /*} else {
+        if ($getAppStatus == 'Active') {
+            if ($licenseRemDays > 0) {
+                return $this->loadUserByUsername($user->getUsername());
+            } else {
+                $this->session->set(Security::AUTHENTICATION_ERROR, 'License Expired Please Contact Support Team');
+                throw new AuthenticationException();
+            }
+        } else {
             $this->session->set(Security::AUTHENTICATION_ERROR, 'Your Account Suspended. Please Contact Support');
             throw new AuthenticationException();
-        }*/
+        }
     }
 
     /**

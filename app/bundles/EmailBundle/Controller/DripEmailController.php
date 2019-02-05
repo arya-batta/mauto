@@ -20,6 +20,7 @@ use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\SubscriptionBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -1432,9 +1433,24 @@ class DripEmailController extends FormController
         } else {
             /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
             $emailentity             = $emailmodel->getEntity($subobjectId);
-            $email[0]['custom_html'] = $emailentity->getCustomHtml();
+            $content                 = $emailentity->getCustomHtml();
+            $accountmodel            = $this->getModel('subscription.accountinfo');
+            $accrepo                 = $accountmodel->getRepository();
+            $accountentity           = $accrepo->findAll();
+            if (sizeof($accountentity) > 0) {
+                $account = $accountentity[0]; //$model->getEntity(1);
+            } else {
+                $account = new Account();
+            }
+            $email[0]['custom_html'] = $content;
             $email[1]['footer']      = $this->coreParametersHelper->getParameter('footer_text');
             $email[2]['type']        = $emailentity->getBeeJSON();
+            if (true) {
+                $url                     = 'https://leadsengage.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
+                $icon                    = $this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 54px;width:139px;' src='$icon'></a></div>";
+                $email[3]['branding']    = $atag;
+            }
         }
         $dripRoute = ['objectId' => $subobjectId, 'objectAction' => 'edit'];
         //echo $email[0]['custom_html'];

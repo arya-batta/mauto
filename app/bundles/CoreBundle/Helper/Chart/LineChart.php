@@ -137,10 +137,13 @@ class LineChart extends AbstractChart implements ChartInterface
         $color = $this->configureColorHelper($datasetId);
 
         return [
-            'backgroundColor'           => $color->toRgba(0.5),
-            'borderColor'               => $color->toRgba(0.8),
-            'pointHoverBackgroundColor' => $color->toRgba(0.75),
+            'fill'                      => false,
+            'backgroundColor'           => $color->toRgba(1),
+            'borderColor'               => $color->toRgba(1),
+            'pointHoverBackgroundColor' => $color->toRgba(1),
             'pointHoverBorderColor'     => $color->toRgba(1),
+            'pointHoverRadius'          => 15,
+            'borderWidth'               => 2,
         ];
     }
 }

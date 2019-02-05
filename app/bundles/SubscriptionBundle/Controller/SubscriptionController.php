@@ -71,6 +71,7 @@ class SubscriptionController extends CommonController
                 'contentOnly'     => 0,
                 'letoken'         => $paymenthelper->getUUIDv4(),
                 'transport'       => $transport,
+                'tmpl'            => 'index',
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
             'passthroughVars' => [
@@ -397,7 +398,7 @@ class SubscriptionController extends CommonController
         $loginarg          = $loginsession->get('isLogin');
         $dbhost            = $this->coreParametersHelper->getParameter('le_db_host');
         $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
-        $kycview           = $licenseinfoHelper->getFirstTimeSetup($dbhost, $loginarg);
+        $kycview           = $licenseinfoHelper->getFirstTimeSetup('sdasda', true);
         $stepstring        = $this->request->get('step', 'flname');
         $billformview      = $kycview[0];
         $accformview       = $kycview[1];
@@ -459,10 +460,10 @@ class SubscriptionController extends CommonController
                 $accountEntity->setAccountname($data['business']);
                 $accountModel->saveEntity($accountEntity);
                 $kyc->setIndustry($data['industry']);
-                $kyc->setUsercount($data['empcount']);
-                $kyc->setYearsactive($data['org_experience']);
+                //$kyc->setUsercount($data['empcount']);
+                //$kyc->setYearsactive($data['org_experience']);
                 $kyc->setSubscribercount($data['emailvol']);
-                $kyc->setSubscribersource($data['listsize']);
+                //$kyc->setSubscribersource($data['listsize']);
                 $kyc->setPrevioussoftware($data['currentesp']);
                 $kycmodel->saveEntity($kyc);
                 $businessData          = $data;

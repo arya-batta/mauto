@@ -545,7 +545,15 @@ class MailHelper
             } else {
                 $emailtype=true;
             }
-            if ($emailtype && (strpos($this->body['content'], '{footer_text}') === false) && ((strpos($this->body['content'], '{{global_unsubscribe_link}}') === false) && (strpos($this->body['content'], '{unsubscribe_link}') === false) && (strpos($this->body['content'], '{update_your_profile_link}') === false))) {
+            $accountmodel  = $this->factory->getModel('subscription.accountinfo');
+            $accrepo       = $accountmodel->getRepository();
+            $accountentity = $accrepo->findAll();
+            if (sizeof($accountentity) > 0) {
+                $account = $accountentity[0]; //$model->getEntity(1);
+            } else {
+                $account = new Account();
+            }
+            if ($emailtype && (strpos($bodyContent, '{footer_text}') === false) && ((strpos($bodyContent, '{{global_unsubscribe_link}}') === false) && (strpos($bodyContent, '{unsubscribe_link}') === false) && (strpos($bodyContent, '{update_your_profile_link}') === false))) {
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');
                 $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
@@ -553,14 +561,6 @@ class MailHelper
                 $ptag1 = $doc->createElement('span', '{footer_text}');
                 $divelement->appendChild($ptag1);
 
-                $accountmodel  = $this->factory->getModel('subscription.accountinfo');
-                $accrepo       = $accountmodel->getRepository();
-                $accountentity = $accrepo->findAll();
-                if (sizeof($accountentity) > 0) {
-                    $account = $accountentity[0]; //$model->getEntity(1);
-                } else {
-                    $account = new Account();
-                }
                 if (false) { //$account->getNeedpoweredby()
                     $ptag1->setAttribute('style', 'display:block;padding-top:20px;width:60%;float:left;text-align:right;');
                     $powerspan = $doc->createElement('span');
@@ -577,6 +577,26 @@ class MailHelper
                 }
                 //actually append the element
                 $body->appendChild($divelement);
+            }
+            if ($account->getNeedpoweredby()) {
+                $br          = $doc->createElement('br');
+                $brandfooter = $doc->createElement('div');
+                $brandfooter->setAttribute('style', 'background-color:#ffffff;text-align:center;');
+                $url  = 'https://leadsengage.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
+                $atag = $doc->createElement('a');
+                $atag->setAttribute('href', $url);
+                $atag->setAttribute('target', '_blank');
+
+                $imgtag = $doc->createElement('img');
+                $icon   = $this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $imgtag->setAttribute('src', $icon);
+                $imgtag->setAttribute('style', 'height:54px;width:139px;margin-top:10px;margin-bottom:5px;');
+                $imgtag->setAttribute('title', 'Free Marketing Automation Software');
+                $atag->appendChild($imgtag);
+                $brandfooter->appendChild($atag);
+                $body->appendChild($br);
+                $body->appendChild($brandfooter);
+                $content = $doc->saveHTML();
             }
             $bodyContent = $doc->saveHTML();
         }

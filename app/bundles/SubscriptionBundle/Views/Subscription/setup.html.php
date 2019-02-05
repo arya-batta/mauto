@@ -34,7 +34,7 @@
             user-select: none;
         }
         h2 {
-            font-weight: normal;
+            font-weight: bold;
         }
         p{
             font-family: "Graphik Web","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
@@ -66,30 +66,30 @@
             width: 8.33333333%;
         }
         input[type=text] {
-            width: 100%;
+            width: 94%;
             margin-bottom: 20px;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
         input[type=tel] {
-            width: 100%;
+            width: 94%;
             margin-bottom: 20px;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
         input[type=url] {
-            width: 100%;
+            width: 94%;
             margin-bottom: 20px;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
         .selop{
-            width: 105%;
+            width: 99%;
             margin-bottom: 20px;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #ccc;
             border-radius: 3px;
 
@@ -108,7 +108,7 @@
             padding: 12px;
             margin: 10px 0;
             border: none;
-            width: 25%;
+            width: 50%;
             border-radius: 3px;
             cursor: pointer;
             font-size: 17px;
@@ -120,6 +120,9 @@
             padding-left: 5%!important;
             width:50%!important;
         }
+        .secondtab-page2{
+            width:50%!important;
+        }
         .firsttab{
             width:50%!important;
         }
@@ -128,11 +131,11 @@
             display:inline-flex;
         }
         .head2{
-            font-size: 2.4rem;
+            font-size: 2.2rem;
+            font-family: "Graphik Web","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
         }
         .para{
-            font-size: 0.9rem;
-            opacity: .8;
+            font-size: 14px;
             margin-top:-25px;
             margin-bottom:30px;
         }
@@ -162,14 +165,11 @@
         .main-division{position: absolute;left:30%;}
         .welcome-page-body{ position:absolute;left:2%;width:100%;}
         .welcome-page-header{
-            width: 40%;
-            float:left;
+
         }
         .btn-disabled{
             pointer-events: none;
-            border: 1px solid #dedddc;
-            color: #bdbbb9;
-            background-color: transparent;
+            opacity: 0.6;
         }
         .welcome-page-footer{
         }
@@ -181,25 +181,33 @@
             color: rgba(36,28,21,0.65);
         }
         .error_input{
-            border-color: red !important;
         }
-        .website_error{
+        .error_tag{
             color: red;
             font-size:14px;
             margin-top:-15px;
+            width:100%;
+            word-wrap:break-word;
         }
         .error_input:focus {
-            border-color: red;
         }
         .container-header{
             margin-top:-10px;
-            padding-left: 13%;
+            text-align:center;
         }
         .dotted-container{
 
         }
         .welcome-container{
-            padding-left:26%;
+            padding-left:34%;
+        }
+        #welcome_websiteurl, #welcome_industry, #welcome_currentesp{
+            width:88%;
+        }
+        #select_emailvol{
+            width:98%;
+        }
+        .websiteurl_error, .industry_error, .currentesp_error{
         }
     </style>
 
@@ -207,6 +215,10 @@
 <body>
 <div class="dotted-container">
 <div class="welcome-container">
+    <div style="margin-left:120px;">
+        <img style="width: 150px;margin-top: 10px;" src="<?php echo $view['assets']->getUrl('media/images/leadsengage_logo-black.png') ?>">
+    </div>
+
     <div class="bs-wizard">
         <div class="col-xs-1 welcome-page-col-1 bs-wizard-step <?php echo $step == 'flname' ? 'complete' : 'disabled'; ?>">
             <a href="#" class="bs-wizard-dot"></a>
@@ -224,12 +236,8 @@
 </div>
 </div>
 <br>
-<br>
 <div style="width:100%;margin-top:2%;">
 <div class="modal-header welcome-page-header">
-    <div style="margin-left:190px;">
-        <img style="width: 150px;margin-top: 10px;" src="<?php echo $view['assets']->getUrl('media/images/leadsengage_logo-black.png') ?>">
-    </div>
     <div class="container-header">
         <div class="for-step1 <?php echo $step == 'flname' ? '' : 'hide'; ?>">
             <h2 class="head2">Welcome to LeadsEngage</h2>
@@ -238,7 +246,7 @@
         </div>
         <div class="for-step2 <?php echo $step == 'aboutyourbusiness' ? '' : 'hide'; ?>">
             <h2 class="head2">Tell us about your business</h2>
-            <p class="para">Let us know a little bit more about what you do. This information will appear in your emails to help your recipients find your organization.</p>
+            <p class="para">Let us know a little bit more about what you do.</p>
 
         </div>
         <div class="for-step3 <?php echo $step == 'addressinfo' ? '' : 'hide'; ?>">
@@ -248,36 +256,46 @@
         </div>
     </div>
 </div>
-    <div style="width:58%;float:right;">
+    <div style="width:58%;padding-left:24%">
         <form novalidate="" autocomplete="false" data-toggle="ajax" role="form" name="welcome" method="post" action="<?php echo $view['router']->generate('le_welcome_action', ['step' => $step]); ?>">
             <div class="container">
                 <div class="part1 <?php echo $step == 'flname' ? '' : 'hide'; ?>">
                     <label for="fname">First Name</label>
-                    <input type="text" id="welcome_firstname" class="welcome-input-text-1" name="welcome[firstname]" value="<?php echo $user->getFirstName()?>">
+                    <input type="text" id="welcome_firstname" class="welcome-input-text-1 firstname" name="welcome[firstname]" value="<?php echo $user->getFirstName()?>">
+                    <p class="error_tag firstname_error hide">First name can't be empty</p>
                     <br>
                     <label for="lname">Last Name</label>
-                    <input type="text" id="welcome_lastname" class="welcome-input-text-1" name="welcome[lastname]" value="<?php echo $user->getLastName()?>">
+                    <input type="text" id="welcome_lastname" class="welcome-input-text-1 lastname" name="welcome[lastname]" value="<?php echo $user->getLastName()?>">
+                    <p class="error_tag lastname_error hide"></p>
                     <br>
                     <label for="phone">Phone</label>
-                    <input type="tel" id="welcome_phone" class="welcome-input-text-1" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
+                    <input type="tel" id="welcome_phone" class="welcome-input-text-1 phone" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
+                    <p class="error_tag phone_error hide">Phone can't be empty</p>
                     <br>
                 </div>
 
                 <div class="part2 <?php echo $step == 'aboutyourbusiness' ? '' : 'hide'; ?>">
 
                     <label for="businessname">What's your name of your business?</label>
-                    <input type="text" id="welcome_business" class="welcome-input-text-2" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
+                    <input type="text" id="welcome_business" class="welcome-input-text-2 business" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
+                    <p class="error_tag business_error hide">Business name can't be empty</p>
                     <br>
 
-                    <label for="weburl">What's your website URL?</label>
-                    <input type="url" id="welcome_websiteurl" class="welcome-input-text-2 website_url" name="welcome[websiteurl]" value="<?php echo $account->getWebsite(); ?>">
-                    <p class="website_error hide">Please provide a valid website url.</p>
+                    <div class="twotab">
+                        <div class="firsttab">
+                            <label for="weburl">What's your website URL?</label>
+                            <input type="url" id="welcome_websiteurl" class="welcome-input-text-2 website_url" name="welcome[websiteurl]" value="<?php echo $account->getWebsite(); ?>">
+                            <p class="error_tag website_error hide">Website URL can't be empty</p>
+                            <br>
+                        </div>
+                        <div class="secondtab-page2">
+                            <label for="industry">What industry are you in?</label>
+                            <input type="text" id="welcome_industry" class="welcome-input-text-2 industry" name="welcome[industry]" value="<?php echo $kyc->getIndustry(); ?>">
+                            <p class="error_tag industry_error hide">Industry can't be empty</p>
+                        </div>
+                    </div>
+                    <div class="hide">
                     <br>
-
-                    <label for="industry">What industry are you in?</label>
-                    <input type="text" id="welcome_industry" class="welcome-input-text-2" name="welcome[industry]" value="<?php echo $kyc->getIndustry(); ?>">
-                    <br>
-
                     <label for="org_experience">How old is your organization?</label>
                     <select name="welcome[org_experience]" class="selop" id="select_org_year">
                         <option value="blank">Choose One</option>
@@ -313,20 +331,27 @@
                         <option value="1l+">More than 1 L</option>
                     </select>
                     <br>
+                    </div>
                     <br>
-                    <label for="emailvol">How many emails you send monthly? </label>
-                    <select name="welcome[emailvol]" class="selop" id="select_emailvol">
-                        <option value="blank">Choose One</option>
-                        <option value="less10k">Less than 10K</option>
-                        <option value="less25k">10K to 25K</option>
-                        <option value="less50k">25K to 50K</option>
-                        <option value="less1l">50K to 1L</option>
-                        <option value="more1l">More than 1 L</option>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="esp">Current email marketing platform</label>
-                    <input type="text" id="welcome_currentesp" class="welcome-input-text-2" name="welcome[currentesp]"  value="<?php echo $kyc->getPrevioussoftware(); ?>">
+                    <div class="twotab">
+                        <div class="firsttab">
+                            <label for="esp">Current email marketing platform?</label>
+                            <input type="text" id="welcome_currentesp" class="welcome-input-text-2 currentesp" name="welcome[currentesp]"  value="<?php echo $kyc->getPrevioussoftware(); ?>">
+                            <p class="error_tag currentesp_error hide">Current email marketing platform can't be empty</p>
+                        </div>
+                        <div class="secondtab-page2">
+                            <label for="emailvol">Emails you send monthly? </label>
+                            <select name="welcome[emailvol]" class="selop" id="select_emailvol">
+                                <option value="blank">Choose One</option>
+                                <option value="less10k">Less than 10K</option>
+                                <option value="less25k">10K to 25K</option>
+                                <option value="less50k">25K to 50K</option>
+                                <option value="less1l">50K to 1L</option>
+                                <option value="more1l">More than 1 L</option>
+                            </select>
+                            <br>
+                        </div>
+                    </div>
                     <br>
                 </div>
 
@@ -334,7 +359,8 @@
                 <div class="part3 <?php echo $step == 'addressinfo' ? '' : 'hide'; ?>">
 
                     <label for="adr"> Address line 1 (Street address or post office box)</label>
-                    <input type="text" id="welcome_address" class="welcome-input-text-3" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>"><br>
+                    <input type="text" id="welcome_address" class="welcome-input-text-3 address" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>">
+                    <p class="error_tag address_error hide">Address line 1 can't be empty</p><br>
                     <label for="adr"> Address line 2 (Optional)</label>
                     <input type="text" id="adr" name="welcome[address-line-2]" ><br>
 
@@ -343,7 +369,9 @@
                     <div class="twotab">
                         <div class="firsttab">
                             <label for="city"> City</label>
-                            <input type="text" id="welcome_city" class="welcome-input-text-3" id="city" name="welcome[city]" value="<?php echo $city; ?>"><br></div>
+                            <input type="text" id="welcome_city" class="welcome-input-text-3 city" id="city" name="welcome[city]" value="<?php echo $city; ?>">
+                            <p class="error_tag city_error hide">City can't be empty</p>
+                            <br></div>
                         <div class="secondtab">
                             <label for="state">State</label>
                             <select name="welcome[state]" class="selop" id="selectstate">
@@ -4254,7 +4282,9 @@
                     <div class="twotab">
                         <div class="firsttab">
                             <label for="zip">Zip</label>
-                            <input type="text" id="welcome_zip" class="welcome-input-text-3" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>"><br></div>
+                            <input type="text" id="welcome_zip" class="welcome-input-text-3 zip" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>">
+                            <p class="error_tag zip_error hide">Zip/ Postal code can't be empty</p>
+                            <br></div>
                         <div class="secondtab">
                             <label for="country">Country</label>
 
@@ -4882,16 +4912,20 @@
                     </div>
 
                 </div>
+                <div>
+                <div style="width:50%;float:left;">
+                    <input type="submit" id="continue-btn" class="btn" value="<?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?>">
+                </div>
+                <div class="welcome-page-footer" style="width: 50%;float: right;text-align: right;">
+                    <p>©2019 All Rights Reserved, LeadsEngage Inc<br>
+                        <a href="https://leadsengage.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="https://leadsengage.com/terms-of-service/" target="_blank">Terms of Service</a></p>
 
-                <input type="submit" id="continue-btn" class="btn" value="<?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?>">
+                </div>
+                </div>
             </div>
 
         </form>
-        <div class="welcome-page-footer">
-            <p>©2019 All Rights Reserved, LeadsEngage Inc<br>
-                <a href="https://leadsengage.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="https://leadsengage.com/terms-of-service/" target="_blank">Terms of Service</a></p>
 
-        </div>
     </div>
 
 </div>

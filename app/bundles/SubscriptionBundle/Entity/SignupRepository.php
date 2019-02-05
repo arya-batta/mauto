@@ -556,10 +556,10 @@ class SignupRepository
         $business    = $businessData['business'];
         $email       = $businessData['email'];
         $industry    = $businessData['industry'];
-        $empcount    = $businessData['empcount'];
-        $orgexp      = $businessData['org_experience'];
+        //$empcount    = $businessData['empcount'];
+        //$orgexp      = $businessData['org_experience'];
         $emailvol    = $businessData['emailvol'];
-        $listsize    = $businessData['listsize'];
+        //$listsize    = $businessData['listsize'];
         $currentesp  = $businessData['currentesp'];
 
         $recordid = $this->checkisRecordAvailable($email);
@@ -569,18 +569,18 @@ class SignupRepository
                 ->set('website1', ':website')
                 ->set('company_new', ':company')
                 ->set('industry', ':industry')
-                ->set('employees_count', ':empcount')
-                ->set('company_age', ':org_experience')
+                //->set('employees_count', ':empcount')
+                //->set('company_age', ':org_experience')
                 ->set('monthly_email_volume', ':emailvol')
-                ->set('your_current_list_size', ':listsize')
+                //->set('your_current_list_size', ':listsize')
                 ->set('current_email_marketing_p', ':currentesp')
                 ->setParameter('website', $website)
                 ->setParameter('company', $business)
                 ->setParameter('industry', $industry)
-                ->setParameter('empcount', $empcount)
-                ->setParameter('org_experience', $orgexp)
+                //->setParameter('empcount', $empcount)
+                //->setParameter('org_experience', $orgexp)
                 ->setParameter('emailvol', $emailvol)
-                ->setParameter('listsize', $listsize)
+                //->setParameter('listsize', $listsize)
                 ->setParameter('currentesp', $currentesp)
                 ->where(
                     $qb->expr()->in('id', $recordid)

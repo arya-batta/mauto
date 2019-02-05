@@ -190,6 +190,8 @@ class AccountType extends AbstractType
             'yesno_button_group',
             [
                 'label'      => 'leadsengage.subs.accountpowered',
+                'no_label'   => 'No',
+                'yes_label'  => 'Yes',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'disabled'   => $ispoweredby,

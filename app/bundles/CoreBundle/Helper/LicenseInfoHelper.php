@@ -985,27 +985,35 @@ class LicenseInfoHelper
     public function getCountryName()
     {
         $clientip                      = $this->factory->getRequest()->getClientIp();
-        $dataArray                     = json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.$clientip));
-        $countrycode                   = $dataArray->{'geoplugin_countryName'};
-        $lat                           = $dataArray->{'geoplugin_latitude'};
-        $lon                           = $dataArray->{'geoplugin_longitude'};
-        $city                          = $dataArray->{'geoplugin_city'};
-        $state                         = $dataArray->{'geoplugin_region'};
-
         $countrydetails                = [];
-        $countrydetails['countryname'] = $countrycode;
-        $timezone                      = 'Asia/Calcutta';
-        $ipInfo                        = file_get_contents('http://ip-api.com/json/'.$clientip);
-        $ipInfo                        = json_decode($ipInfo);
-        if ($ipInfo->status != 'fail') {
-            $timezone = $ipInfo->timezone;
-            if ($timezone == 'Asia/Kolkata') {
-                $timezone = 'Asia/Calcutta';
+        $countrydetails['countryname'] = '';
+        $countrydetails['timezone']    = '';
+        $countrydetails['city']        = '';
+        $countrydetails['state']       = '';
+        try {
+            $dataArray                     = json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.$clientip));
+            $countrycode                   = $dataArray->{'geoplugin_countryName'};
+            $lat                           = $dataArray->{'geoplugin_latitude'};
+            $lon                           = $dataArray->{'geoplugin_longitude'};
+            $city                          = $dataArray->{'geoplugin_city'};
+            $state                         = $dataArray->{'geoplugin_region'};
+
+            $countrydetails                = [];
+            $countrydetails['countryname'] = $countrycode;
+            $timezone                      = 'Asia/Calcutta';
+            $ipInfo                        = file_get_contents('http://ip-api.com/json/'.$clientip);
+            $ipInfo                        = json_decode($ipInfo);
+            if ($ipInfo->status != 'fail') {
+                $timezone = $ipInfo->timezone;
+                if ($timezone == 'Asia/Kolkata') {
+                    $timezone = 'Asia/Calcutta';
+                }
             }
+            $countrydetails['timezone']    = $timezone;
+            $countrydetails['city']        = $city;
+            $countrydetails['state']       = $state;
+        } catch (\Exception $ex) {
         }
-        $countrydetails['timezone']    = $timezone;
-        $countrydetails['city']        = $city;
-        $countrydetails['state']       = $state;
 
         return $countrydetails;
     }

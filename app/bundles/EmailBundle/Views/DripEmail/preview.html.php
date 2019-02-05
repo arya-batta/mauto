@@ -8,8 +8,9 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if (!isset($content)){
-    $content = 'No Preview Available...!';}
+if (!isset($content)) {
+    $content = 'No Preview Available...!';
+}
 if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
     $content = $email[0]['custom_html'];
 }
@@ -23,9 +24,10 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 </head>
 <body>
 <?php echo $content; ?>
-<?php if(isset($email[1]['footer']) && isset($email[2]['type'])=='RichTextEditor' || isset($email[2]['type'])== null):?>
+<?php if (isset($email[1]['footer']) && isset($email[2]['type']) == 'RichTextEditor' || isset($email[2]['type']) == null):?>
 <hr>
 <?php echo isset($email[1]['footer'])?>
-<?php endif;?>
+<?php endif; ?>
+<?php echo isset($email[3]) ? $email[3]['branding'] : ''?>
 </body>
 </html>

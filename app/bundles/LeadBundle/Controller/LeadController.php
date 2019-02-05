@@ -88,7 +88,7 @@ class LeadController extends FormController
                 $kyc = new KYC();
             }
             $step = '';
-            if ($userEntity->getFirstName() == '' || $userEntity->getLastName() == '' || $userEntity->getMobile() == '') {
+            if ($userEntity->getFirstName() == '' || $userEntity->getMobile() == '') {
                 $step = 'flname';
             } elseif ($account->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
                 $step = 'aboutyourbusiness';

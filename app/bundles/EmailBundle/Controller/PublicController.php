@@ -619,102 +619,90 @@ class PublicController extends CommonFormController
         $emailEntity->setCustomHtml($content);
 
         $model->saveEntity($emailEntity);
-       // if($content != null) {
-           if(empty($content)){
-               $content ="No Preview Available...!";
-           }
-            $doc                      = new \DOMDocument();
-            $doc->strictErrorChecking = false;
-            libxml_use_internal_errors(true);
-            $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
-            // Get body tag.
-            $body = $doc->getElementsByTagName('body');
-            $head = $doc->getElementsByTagName('head');
+        // if($content != null) {
+        if (empty($content)) {
+            $content ='No Preview Available...!';
+        }
+        $doc                      = new \DOMDocument();
+        $doc->strictErrorChecking = false;
+        libxml_use_internal_errors(true);
+        $doc->loadHTML('<?xml encoding="UTF-8">'.$content);
+        // Get body tag.
+        $body       = $doc->getElementsByTagName('body');
+        $head       = $doc->getElementsByTagName('head');
+        $mailhelper = $this->get('mautic.helper.mailer');
+        $content    = $mailhelper->alterEmailBodyContent($content);
 
-            if (($body and $body->length > 0) && ((strpos($content, '{{global_unsubscribe_link}}') == 0) && (strpos($content, '{unsubscribe_link}') == 0) && (strpos($content, '{update_your_profile_link}') == 0)) && $emailEntity->getEmailType() !='template') {
-                $body = $body->item(0);
-                //create the div element to append to body element
-                $divelement = $doc->createElement('div');
-                $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
-            font-weight: normal;');
-                $ptag1      = $doc->createElement('span', '{footer_text}');
-                $ptag1->setAttribute('style', 'display:block;padding-top:20px;');
-                $divelement->appendChild($ptag1);
+        if ($head->length == 0) {
+            $content = $this->get('mautic.helper.mailer')->appendHeadTag($content);
+        }
+        $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
+        $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
 
-                //actually append the element
-                $body->appendChild($divelement);
-                $content  = $doc->saveHTML();
-            }
-            if ($head->length == 0) {
-                $content = $this->get('mautic.helper.mailer')->appendHeadTag($content);
-            }
-            $content = $this->get('mautic.helper.mailer')->replaceTitleinContent($title, $content);
-            $content = $this->get('mautic.helper.mailer')->replaceLinkinContent($content);
+        if (empty($content) && !empty($BCcontent)) {
+            $template = $emailEntity->getTemplate();
+            $slots    = $this->factory->getTheme($template)->getSlots('email');
 
-            if (empty($content) && !empty($BCcontent)) {
-                $template = $emailEntity->getTemplate();
-                $slots    = $this->factory->getTheme($template)->getSlots('email');
+            $assetsHelper = $this->factory->getHelper('template.assets');
 
-                $assetsHelper = $this->factory->getHelper('template.assets');
+            $assetsHelper->addCustomDeclaration('<meta name="robots" content="noindex">');
 
-                $assetsHelper->addCustomDeclaration('<meta name="robots" content="noindex">');
+            $this->processSlots($slots, $emailEntity);
 
-                $this->processSlots($slots, $emailEntity);
+            $logicalName = $this->factory->getHelper('theme')->checkForTwigTemplate(':'.$template.':email.html.php');
 
-                $logicalName = $this->factory->getHelper('theme')->checkForTwigTemplate(':'.$template.':email.html.php');
-
-                $response = $this->render(
-                    $logicalName,
-                    [
-                        'inBrowser' => true,
-                        'slots'     => $slots,
-                        'content'   => $emailEntity->getContent(),
-                        'email'     => $emailEntity,
-                        'lead'      => null,
-                        'template'  => $template,
-                    ]
-                );
-
-                //replace tokens
-                $content = $response->getContent();
-            }
-
-            // Convert emojis
-            $content = EmojiHelper::toEmoji($content, 'short');
-
-            // Override tracking_pixel
-            $tokens = ['{tracking_pixel}' => ''];
-
-            // Prepare a fake lead
-            /** @var \Mautic\LeadBundle\Model\FieldModel $fieldModel */
-            $fieldModel = $this->getModel('lead.field');
-            $fields     = $fieldModel->getFieldList(false, false);
-            array_walk(
-                $fields,
-                function (&$field) {
-                    $field = "[$field]";
-                }
-            );
-            $fields['id'] = 0;
-
-            // Generate and replace tokens
-            $event = new EmailSendEvent(
-                null,
+            $response = $this->render(
+                $logicalName,
                 [
-                    'content'      => $content,
-                    'email'        => $emailEntity,
-                    'idHash'       => $idHash,
-                    'tokens'       => $tokens,
-                    'internalSend' => true,
-                    'lead'         => $fields,
+                    'inBrowser' => true,
+                    'slots'     => $slots,
+                    'content'   => $emailEntity->getContent(),
+                    'email'     => $emailEntity,
+                    'lead'      => null,
+                    'template'  => $template,
                 ]
             );
-            $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_DISPLAY, $event);
 
-            $content = $event->getContent(true);
-       /* } else {
-            $content = 'No Preview Available...!';
-        }*/
+            //replace tokens
+            $content = $response->getContent();
+        }
+
+        // Convert emojis
+        $content = EmojiHelper::toEmoji($content, 'short');
+
+        // Override tracking_pixel
+        $tokens = ['{tracking_pixel}' => ''];
+
+        // Prepare a fake lead
+        /** @var \Mautic\LeadBundle\Model\FieldModel $fieldModel */
+        $fieldModel = $this->getModel('lead.field');
+        $fields     = $fieldModel->getFieldList(false, false);
+        array_walk(
+            $fields,
+            function (&$field) {
+                $field = "[$field]";
+            }
+        );
+        $fields['id'] = 0;
+
+        // Generate and replace tokens
+        $event = new EmailSendEvent(
+            null,
+            [
+                'content'      => $content,
+                'email'        => $emailEntity,
+                'idHash'       => $idHash,
+                'tokens'       => $tokens,
+                'internalSend' => true,
+                'lead'         => $fields,
+            ]
+        );
+        $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_DISPLAY, $event);
+
+        $content = $event->getContent(true);
+        /* } else {
+             $content = 'No Preview Available...!';
+         }*/
         return new Response($content);
     }
 

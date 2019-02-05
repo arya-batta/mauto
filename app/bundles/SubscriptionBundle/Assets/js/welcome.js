@@ -3,7 +3,14 @@ Le.welcomeOnLoad = function() {
         var firstname = mQuery("#welcome_firstname").val();
         var lastname = mQuery("#welcome_lastname").val();
         var phone = mQuery("#welcome_phone").val();
-        if(firstname == "" || lastname == "" || phone == ""){
+        mQuery(".firstname_error").addClass('hide');
+        mQuery(".phone_error").addClass('hide');
+        if(firstname == "" || phone == ""){
+            if(mQuery(this).hasClass('firstname') && firstname == ""){
+                mQuery(".firstname_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('phone') && phone == ""){
+                mQuery(".phone_error").removeClass('hide');
+            }
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
             mQuery('#continue-btn').attr('disabled',false).removeClass('btn-disabled');
@@ -14,16 +21,32 @@ Le.welcomeOnLoad = function() {
         var website = mQuery("#welcome_websiteurl").val();
         var industry = mQuery("#welcome_industry").val();
         var currentesp = mQuery("#welcome_currentesp").val();
+        mQuery(".business_error").addClass('hide');
+        mQuery(".website_error").addClass('hide');
+        mQuery(".industry_error").addClass('hide');
+        mQuery(".currentesp_error").addClass('hide');
         if(business == "" || website == "" || industry == "" || currentesp == ""){
+            if(mQuery(this).hasClass('business') && business == ""){
+                mQuery(".business_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('website_url') && website == ""){
+                mQuery(".website_error").text('');
+                mQuery(".website_error").text("Website URL can't be empty");
+                mQuery(".website_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('industry') && industry == ""){
+                mQuery(".industry_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('currentesp') && currentesp == ""){
+                mQuery(".currentesp_error").removeClass('hide');
+            }
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
             if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
                 mQuery("#welcome_websiteurl").addClass('error_input');
                 mQuery(".website_error").removeClass('hide');
+                mQuery(".website_error").text('');
+                mQuery(".website_error").text("Please provide valid website URL.");
                 mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
             } else {
                 mQuery("#welcome_websiteurl").removeClass('error_input');
-                mQuery(".website_error").addClass('hide');
                 mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
             }
         }
@@ -38,7 +61,17 @@ Le.welcomeOnLoad = function() {
         var address = mQuery("#welcome_address").val();
         var city = mQuery("#welcome_city").val();
         var zipcode = mQuery("#welcome_zip").val();
+        mQuery(".address_error").addClass('hide');
+        mQuery(".city_error").addClass('hide');
+        mQuery(".zip_error").addClass('hide');
         if(address == "" || city == "" || zipcode == ""){
+            if(mQuery(this).hasClass('address') && address == ""){
+                mQuery(".address_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('city') && city == ""){
+                mQuery(".city_error").removeClass('hide');
+            } else if (mQuery(this).hasClass('zip') && zipcode == ""){
+                mQuery(".zip_error").removeClass('hide');
+            }
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
             mQuery('#continue-btn').attr('disabled',false).removeClass('btn-disabled');
@@ -51,7 +84,7 @@ Le.welcomeOnLoad = function() {
         var firstname = mQuery("#welcome_firstname").val();
         var lastname = mQuery("#welcome_lastname").val();
         var phone = mQuery("#welcome_phone").val();
-        if(firstname == "" || lastname == "" || phone == ""){
+        if(firstname == "" || phone == ""){
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
             mQuery('#continue-btn').attr('disabled',false).removeClass('btn-disabled');
