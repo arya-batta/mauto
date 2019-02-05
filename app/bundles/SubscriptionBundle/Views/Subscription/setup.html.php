@@ -334,7 +334,7 @@
                 <div class="part3 <?php echo $step == 'addressinfo' ? '' : 'hide'; ?>">
 
                     <label for="adr"> Address line 1 (Street address or post office box)</label>
-                    <input type="text" id="adr" id="welcome_address" class="welcome-input-text-3" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>"><br>
+                    <input type="text" id="welcome_address" class="welcome-input-text-3" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>"><br>
                     <label for="adr"> Address line 2 (Optional)</label>
                     <input type="text" id="adr" name="welcome[address-line-2]" ><br>
 
@@ -4254,7 +4254,7 @@
                     <div class="twotab">
                         <div class="firsttab">
                             <label for="zip">Zip</label>
-                            <input type="text" id="welcome_zip" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>"><br></div>
+                            <input type="text" id="welcome_zip" class="welcome-input-text-3" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>"><br></div>
                         <div class="secondtab">
                             <label for="country">Country</label>
 
