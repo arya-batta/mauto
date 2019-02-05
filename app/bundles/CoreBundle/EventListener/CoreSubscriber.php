@@ -290,7 +290,7 @@ class CoreSubscriber extends CommonSubscriber
                         $standards = [
                             'getall' => [
                                 'action' => 'getEntities',
-                                'method' => 'POST',
+                                'method' => 'GET',
                                 'path'   => '',
                             ],
                             'getone' => [
