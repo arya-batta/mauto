@@ -272,9 +272,9 @@ class LicenseInfoHelper
     public function isValidRecordAdd()
     {
         $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if ($lastpayment != null) {
+        /*if ($lastpayment != null) {
             return true;
-        }
+        }*/
         $data=$this->em->getRepository('Mautic\CoreBundle\Entity\LicenseInfo')->findAll();
         if (sizeof($data) > 0 && $data != null) {
             $entity = $data[0];
@@ -961,6 +961,7 @@ class LicenseInfoHelper
             if ($timezone != '') {
                 $account->setTimezone($timezone);
             }
+            $account->setNeedpoweredby(true);
             $accform = $model->createForm($account, $this->factory->get('form.factory'));
             if ($showsetup) {
                 $billformview = $billform->createView();

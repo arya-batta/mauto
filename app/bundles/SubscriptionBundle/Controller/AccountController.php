@@ -48,7 +48,7 @@ class AccountController extends FormController
         }
         $disablepoweredby   = 1;
         $lastpayment        = $paymentrepository->getLastPayment();
-        if ($lastpayment != null) {
+        if ($lastpayment != null && $lastpayment->getAmount() != 0 && $lastpayment->getPlanName() != 'leplan1') {
             $disablepoweredby = 0;
         }
         $form          = $model->createForm($account, $this->get('form.factory'), $action, ['isPoweredBy' => $disablepoweredby]);
@@ -162,6 +162,7 @@ class AccountController extends FormController
         $statrepo             =$emailModel->getStatRepository();
         $licenseinfo          =$this->get('mautic.helper.licenseinfo')->getLicenseEntity();
         $licensestart         =$licenseinfo->getLicenseStart();
+        $licenseend           =$licenseinfo->getLicenseEnd();
         $contactUsage         =$licenseinfo->getActualRecordCount();
         $totalContactCredits  =$licenseinfo->getTotalRecordCount();
         $totalEmailCredits    =$licenseinfo->getTotalEmailCount();
@@ -175,9 +176,9 @@ class AccountController extends FormController
         $planType             ='Free Trial';
         $paymentrepository    =$this->get('le.subscription.repository.payment');
         $lastpayment          =$paymentrepository->getLastPayment();
-        $validityTill         ='';
-        $planAmount           ='';
         $datehelper           =$this->get('mautic.helper.template.date');
+        $validityTill         =$datehelper->toDate($licenseend);
+        $planAmount           ='';
         $custplanamount       = '';
         $planname             = '';
         if ($lastpayment != null) {
@@ -211,6 +212,7 @@ class AccountController extends FormController
                 'custplanamount'     => $custplanamount,
                 'planname'           => $planname,
                 'actualEmailCredits' => $actualEmailCredits,
+                'totalContactCredits'=> $totalContactCredits,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [

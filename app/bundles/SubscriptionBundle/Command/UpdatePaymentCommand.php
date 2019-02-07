@@ -38,7 +38,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 return 0;
             }
             $container  = $this->getContainer();
-            // $translator = $container->get('translator');
+            $translator = $container->get('translator');
             // $translator->trans('mautic.campaign.rebuild.leads_affected', ['%leads%' => $processed])
             $paymentrepository  =$container->get('le.subscription.repository.payment');
             $lastpayment        =$paymentrepository->getLastPayment();
@@ -79,7 +79,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                     if ($stripecard != null) {
                         $ismoreusage=false;
                         if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
-                            $ismoreusage=true;
+                            $ismoreusage=false;
                         }
                         $isvalidityexpired=false;
                         if (strtotime($validitytill) < strtotime($currentdate)) {
@@ -94,13 +94,19 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $multiplx   = $multiplx - 10;
                             }
                             if ($isvalidityexpired) {
+                                $plancredits = $translator->trans('le.pricing.plan.plancredits1');
+                                $planamount  = $translator->trans('le.pricing.plan.amount1');
                                 if ($planname == 'leplan2') {
-                                    $plancredits = '100000';
+                                    $plancredits = $translator->trans('le.pricing.plan.plancredits2');
+                                    $planamount  = $translator->trans('le.pricing.plan.amount2');
+                                } elseif ($planname == 'leplan3') {
+                                    $plancredits = $translator->trans('le.pricing.plan.plancredits3');
+                                    $planamount  = $translator->trans('le.pricing.plan.amount3');
                                 }
                                 $netamount            = (($planamount)); // + (10 * $multiplx));
                                 $netcredits           = (($plancredits)); // + (5000 * $multiplx));
                                 $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
-                                $clearactualmailcount = true;
+                                $clearactualmailcount = false;
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;

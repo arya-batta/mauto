@@ -11,6 +11,12 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'pricingplans');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepaidplans'));
+$plan2amount = $view['translator']->trans('le.pricing.plan.amount2');
+$plan3amount = $view['translator']->trans('le.pricing.plan.amount3');
+if ($proamount != 0) {
+    $plan2amount = $plan2amount - $proamount;
+    $plan3amount = $plan3amount - $proamount;
+}
 ?>
 
 <div style="display: block;text-align: center" class="alert alert-danger hide" id="pricing-plan-alert-info" role="alert"> You're not quite ready to process the payment.
@@ -21,10 +27,38 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
 <div style="text-align:center;width:100%;">
     <div style="display:inline-block;">
         <div class="row">
-
             <div class="plan-card col-md-8">
                 <div class="plan-name">
-                    <h2>Engage</h2>
+                    <h2>STARTER</h2>
+                    <div class="">
+                        <ul class="plan-pricing">
+                            <li class="price">
+                                <span class="currency-symbol">$</span>29
+                            </li>
+                            <li class="terms">Per Month,<br> Billed Monthly</li>
+                        </ul>
+                        <hr>
+                        <h3>Features</h3>
+                        <p class="pricepara"><b>10K Contacts</b></p>
+                        <p class="pricepara">Unlimited <b>Campaigns</b></p>
+                        <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
+                        <p class="pricepara">Unlimited <b>Automations</b></p>
+                        <p class="pricepara">Unlimited <b>Tracking</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Teammates</b></p>
+
+                        <br>
+                        <br>
+
+                        <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="29" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter <?php echo $planname != '' ? 'buttonfooter-disabled' : '' ?>">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="plan-card col-md-8">
+                <div class="plan-name">
+                    <h2>GROWTH</h2>
                     <div class="">
                         <ul class="plan-pricing">
                             <li class="price">
@@ -34,22 +68,18 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                         </ul>
                         <hr>
                         <h3>Features</h3>
-                        <p class="pricepara">Unlimited <b>Contacts</b></p>
+                        <p class="pricepara"><b>25K Contacts</b></p>
                         <p class="pricepara">Unlimited <b>Campaigns</b></p>
                         <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring Rules</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
-                        <br>
-                        <h3>Emails</h3>
-                        <p class="pricepara">Connect your 3rd Party Email Service Provider for emails (Amazon SES, Sendgrid, Spark Post or Elastic Email)</p>
-                        <!--<a href="/signup-free-trial" class="buttonfooter" id="plancardbutt"style="margin-top: 115px;">Try for Free</a>-->
-                        <br>
+
                         <br>
                         <br>
 
-                        <a href="#" type="button"  data-planname="leplan1" data-plancurrency="$" data-planamount="49" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter">
+                        <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="<?php echo $plan2amount?>" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter <?php echo $planname == 'leplan1' || $planname == 'freeplan1' ? '' : 'buttonfooter-disabled' ?>">
                             Subscribe
                         </a>
                     </div>
@@ -57,11 +87,11 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
             </div>
             <div class="plan-card col-md-8" id="plan-card">
                 <div class="plan-name">
-                    <h2 >Engage Pro</h2>
+                    <h2 >ULTIMATE</h2>
                     <div class="">
                         <ul class="plan-pricing">
                             <li class="price">
-                                <span class="currency-symbol">$</span>79
+                                <span class="currency-symbol">$</span>99
                             </li>
                             <li class="terms">Per Month,<br> Billed Monthly</li>
                         </ul>
@@ -72,14 +102,11 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                         <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring Rules</b></p>
+                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
                         <br>
-                        <h3>Emails</h3>
-                        <p class="pricepara">No 3rd party email service provider required.</p>
-                        <p class="pricepara">The plan includes <b>100,000 free emails</b> every month.</p>
-                        <p class="pricepara">And Pay for additional emails on actual usage if required ($9 for every 10,000 additional emails).</p>
-                        <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="79" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter">
+                        <br>
+                        <a href="#" type="button"  data-planname="leplan3" data-plancurrency="$" data-planamount="<?php echo $plan3amount?>" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter <?php echo $planname == 'leplan3' ? 'buttonfooter-disabled' : '' ?>">
                             Subscribe
                         </a>
                     </div>
@@ -149,6 +176,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepa
                 <div id="card-holder-errors" role="alert"></div>
                 <button type="button" class="btn btn-default pay-now-btn">
                 </button>
+                <p id="pro-data-text" style="color:red;" class="hide"></p>
             </div>
         </div>
     </div>

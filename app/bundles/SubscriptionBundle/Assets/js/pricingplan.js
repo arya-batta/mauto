@@ -52,6 +52,12 @@ Le.pricingplansOnLoad = function (container) {
             mQuery('#pricing-plan-alert-info').removeClass('hide');
         }else{*/
             //mQuery('#pricing-plan-alert-info').addClass('hide');
+            var prodatatext=mQuery('#pro-data-text');
+            prodatatext.addClass('hide');
+            if(planamount != Le.translate('le.pricing.plan.amount1') && planamount != Le.translate('le.pricing.plan.amount2') && planamount != Le.translate('le.pricing.plan.amount3')){
+                prodatatext.html("Paying "+plancurrency+planamount+" pro-rata amount, as per your selected plan.");
+                prodatatext.removeClass('hide');
+            }
             paynowbtn.html("Pay Now"+" ("+plancurrency+planamount+")");
             paynowbtn.attr("planamount",planamount);
             paynowbtn.attr("plancurrency",plancurrency);
@@ -88,7 +94,7 @@ Le.pricingplansOnLoad = function (container) {
 }
 function getStripeClient(){
     // Create a Stripe client.
-    var stripe = Stripe('pk_live_SaCvf4xx8HojET3eQfTBhiY2');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
+    var stripe = Stripe('pk_test_6ZK3IyRbtk82kqU1puGcg9i6');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
     return stripe;
 }
 function getStripeCard(stripe){

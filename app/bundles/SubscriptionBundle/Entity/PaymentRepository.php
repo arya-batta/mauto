@@ -58,6 +58,13 @@ class PaymentRepository extends CommonRepository
         if (strtotime($validitytill) < strtotime($currentdate)) {
             $isvalidityexpired=1;
         }
+        $trans     = $this->factory->get('translator');
+        $planlabel = $trans->trans('le.pricing.plan.amount1');
+        if ($planname == 'leplan2') {
+            $planlabel = $trans->trans('le.pricing.plan.amount2');
+        } elseif ($planname == 'leplan3') {
+            $planlabel = $trans->trans('le.pricing.plan.amount3');
+        }
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);
         $paymenthistory->setPaymentID($chargeid);
@@ -70,7 +77,7 @@ class PaymentRepository extends CommonRepository
         $paymenthistory->setAfterCredits($netcredits);
         $paymenthistory->setValidityTill($validitytill);
         $paymenthistory->setPlanName($planname);
-        $paymenthistory->setPlanLabel($planname == 'leplan1' ? 'Engage' : 'Engage Pro');
+        $paymenthistory->setPlanLabel($planlabel);
         $paymenthistory->setcreatedBy($createdby);
         $paymenthistory->setcreatedByUser($createdbyuser);
         $paymenthistory->setcreatedOn(new \DateTime());

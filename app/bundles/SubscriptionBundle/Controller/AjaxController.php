@@ -606,7 +606,7 @@ class AjaxController extends CommonAjaxController
             $welcomemsg                   = str_replace('|TOTAL|', $totalcount, $welcomemsg);
             $dataArray['info']            = $welcomemsg;
             $dataArray['needClosebutton'] = true;
-            $dataArray['success']         = true;
+            $dataArray['success']         = false;
             $dataArray['isalertneeded']   = $isClosed;
         }
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
@@ -645,7 +645,9 @@ class AjaxController extends CommonAjaxController
         $availablerecordcount     = $this->get('mautic.helper.licenseinfo')->getAvailableRecordCount();
         $availableemailcount      =  $this->get('mautic.helper.licenseinfo')->getAvailableEmailCount();
         $actualrecordcount        =  $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $totalrecordcount         =  $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $smsCountExpired          =  $this->get('mautic.helper.licenseinfo')->smsCountExpired();
+        $totalrecordcount         = $totalrecordcount != 'UL' ? number_format($totalrecordcount) : $totalrecordcount;
         $emailUssage              = false;
         $bouceUsage               = false;
         $emailsValidity           = false;
@@ -759,7 +761,11 @@ class AjaxController extends CommonAjaxController
         }
         $contactNotification = $availablerecordcount > 0 ? 'le.record.count.about.expired' : 'le.record.count.expired';
         if ($recordUsage) {
-            $usageMsg .= $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            if ($contactNotification != 'le.record.count.expired') {
+                $usageMsg .= $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            } else {
+                $usageMsg .= $this->translator->trans($contactNotification, ['%TOTAL%' => $totalrecordcount, '%ACTUAL%' => $actualrecordcount]);
+            }
             if ($lastpayment == null) {
                 $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
             } else {
@@ -773,7 +779,11 @@ class AjaxController extends CommonAjaxController
         $notificationPriority= false;
         $leUssageMsg         ='';
         if (($recordUsage && $emailUssage && $smsUssage) || ($recordUsage && $emailUssage) || ($recordUsage && $smsUssage)) {
-            $leUssageMsg         = $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            if ($contactNotification != 'le.record.count.expired') {
+                $leUssageMsg = $this->translator->trans($contactNotification, ['%record_count%' => $actualrecordcount]);
+            } else {
+                $leUssageMsg = $this->translator->trans($contactNotification, ['%TOTAL%' => $totalrecordcount, '%ACTUAL%' => $actualrecordcount]);
+            }
             $notificationPriority= true;
         } elseif ($emailUssage && $smsUssage) {
             if ($lastpaymentplanname != 'leplan2') {
@@ -999,19 +1009,26 @@ class AjaxController extends CommonAjaxController
                     $lastpayment        = $paymentrepository->getLastPayment();
                     $todaydate          = date('Y-m-d');
                     $emailplancredits   = $planname == 'leplan1' ? 'UL' : '100000';
+                    $contactcredites    = $this->translator->trans('le.pricing.plan.plancredits1');
+                    if ($planname == 'leplan2') {
+                        $contactcredites =$this->translator->trans('le.pricing.plan.plancredits2');
+                    } elseif ($planname == 'leplan3') {
+                        $contactcredites = $this->translator->trans('le.pricing.plan.plancredits3');
+                    }
                     if ($lastpayment != null) {
                         $validityend      = $lastpayment->getValidityTill();
-                        if ($todaydate != $validityend) {
+                        /*if ($todaydate != $validityend) {
                             $todaydate    = $validityend;
                             $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
-                        }
+                        }*/
+                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     } else {
                         //$planname     = '90 Days Success Offer';
                         $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
-                    $subsrepository->updateContactCredits($emailplancredits, $validitytill, $todaydate, true);
+                    $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
                     $signuprepository     =$this->get('le.core.repository.signup');
                     $dbname               = $this->coreParametersHelper->getParameter('db_name');

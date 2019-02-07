@@ -64,6 +64,18 @@ class SubscriptionController extends CommonController
         if ($configtransport == 'le.transport.vialeadsengage') {
             $transport='viaothers';
         }
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $propayment         = 0;
+        $planname           = '';
+        if ($lastpayment != null) {
+            $currentdate      = date('Y-m-d');
+            $validityend      = $this->get('mautic.helper.licenseinfo')->getLicenseEndDate();
+            $amount           = $lastpayment->getAmount();
+            $planname         = $lastpayment->getPlanName();
+
+            $propayment = $this->getProrataAmount($currentdate, $validityend, $amount);
+        }
 
         return $this->delegateView([
             'viewParameters' => [
@@ -72,6 +84,8 @@ class SubscriptionController extends CommonController
                 'letoken'         => $paymenthelper->getUUIDv4(),
                 'transport'       => $transport,
                 'tmpl'            => 'index',
+                'proamount'       => $propayment,
+                'planname'        => $planname,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
             'passthroughVars' => [
@@ -519,5 +533,16 @@ class SubscriptionController extends CommonController
                 ],
             ]
         );
+    }
+
+    protected function getProrataAmount($start, $end, $amount)
+    {
+        $date1        = new \DateTime($start);
+        $date2        = new \DateTime($end);
+        $diff         = $date2->diff($date1)->format('%a');
+        $diff         = $diff + 1;
+        $prorataamount=$amount * ($diff / 31);
+
+        return round($prorataamount);
     }
 }

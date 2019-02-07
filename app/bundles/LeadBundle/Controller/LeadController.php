@@ -687,15 +687,28 @@ class LeadController extends FormController
             $action = $this->generateUrl('le_contact_action', ['objectAction' => 'new']);
             $fields = $this->getModel('lead.field')->getPublishedFieldArrays('lead');
         }
-
+        $viewParameters = ['page' => $page];
+        $returnUrl      = $this->generateUrl('le_contact_index', $viewParameters);
         if (!$isValidRecordAdd) {
             $inQuickForm = $this->request->get('qf', false);
             $this->addFlash('mautic.record.count.exceeds');
             if (!$inQuickForm) {
-                return $this->indexAction();
+                $postActionVars = [
+                    'returnUrl'       => $returnUrl,
+                    'viewParameters'  => ['page' => $page],
+                    'contentTemplate' => 'MauticLeadBundle:Lead:index',
+                    'passthroughVars' => [
+                        'activeLink'    => '#le_contact_index',
+                        'leContent'     => 'lead',
+                    ],
+                ];
+
+                return $this->postActionRedirect(
+                    array_merge(
+                        $postActionVars
+                    )
+                );
             } else {
-                $viewParameters = ['page' => $page];
-                $returnUrl      = $this->generateUrl('le_contact_index', $viewParameters);
                 $template       = 'MauticLeadBundle:Lead:index';
 
                 return $this->postActionRedirect(

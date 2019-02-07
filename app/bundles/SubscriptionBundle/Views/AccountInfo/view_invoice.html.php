@@ -24,19 +24,21 @@ if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
 $isaddon          = false;
 $excesscredit     = 0;
 $planaftercredit  = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
-if ($payment->getAfterCredits() != 'UL' && $payment->getBeforeCredits() != 'UL') {
-    if ($planaftercredit > number_format($payment->getBeforeCredits())) {
-        $isaddon      = true;
-        $excesscredit = number_format(($payment->getAfterCredits() - ($payment->getBeforeCredits())));
-    }
+if ($payment->getAmount() != '0' && $payment->getAmount() != $view['translator']->trans('le.pricing.plan.amount1') && $payment->getAmount() != $view['translator']->trans('le.pricing.plan.amount2') && $payment->getAmount() != $view['translator']->trans('le.pricing.plan.amount3')) {
+    $isaddon      = true;
 }
 
 $plancustomcredit = $payment->getNetamount() * 500;
 $planinfo         = $payment->getPlanName() == 'leplan1' ? 'Subscription charges for Engage plan.' : 'Subscription charges for Engage Pro plan.';
 $planlabel        = $payment->getPlanLabel();
+$planinfo         = 'le.pricing.plan.invoice.description';
 if ($isaddon) {
-    $planlabel = 'Email Add-On';
-    $planinfo  = 'Charges for Email Add-On ('.$excesscredit.')';
+    $planinfo  = 'le.pricing.plan.invoice.description1';
+}
+$planinfo = $view['translator']->trans($planinfo, ['%PLANLABEL%' => $planlabel]);
+$country  = '';
+if ($billing->getCountry() != 'blank') {
+    $country = $billing->getCountry();
 }
 ?>
 <html>
@@ -168,7 +170,7 @@ if ($isaddon) {
         <p>
             <b><?php echo $billing->getCompanyname(); ?></b><br>
             <?php echo $billing->getCompanyaddress(); ?><br>
-            <span style="word-wrap:break-word;"><?php echo $billing->getCity().'-'.$billing->getPostalcode().','.'<br>'.$billing->getState().', '.$billing->getCountry().'.'; ?></span><br>
+            <span style="word-wrap:break-word;"><?php echo $billing->getCity().'-'.$billing->getPostalcode().','.'<br>'.$billing->getState().', '.$country.'.'; ?></span><br>
             <b style="<?php echo ($billing->getGstnumber() == '') ? 'display:none' : ''; ?>">TAXID:</b> <?php echo $billing->getGstnumber(); ?><br>
         </p>
     </div>
