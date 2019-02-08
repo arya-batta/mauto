@@ -194,7 +194,7 @@ return [
             'mautic_api_getcontactevents' => [
                 'path'       => '/leads/{id}/activity',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getActivity',
-                'method'     => 'GET', //POST
+                'method'     => 'POST', //POST
             ],
             'mautic_api_getcontactsevents' => [
                 'path'       => '/leads/activity',
