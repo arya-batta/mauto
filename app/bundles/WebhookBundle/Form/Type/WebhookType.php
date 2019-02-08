@@ -48,7 +48,7 @@ class WebhookType extends AbstractType
     {
         $builder->addEventSubscriber(new CleanFormSubscriber(['description' => 'strict_html']));
 
-        $builder->add(
+      /*  $builder->add(
             'name',
             'text',
             [
@@ -69,7 +69,7 @@ class WebhookType extends AbstractType
                     'class' => 'form-control le-input',
                 ],
             ]
-        );
+        );*/
 
         $builder->add(
             'webhookUrl',
@@ -98,7 +98,8 @@ class WebhookType extends AbstractType
                 'expanded'   => true,
                 'label'      => 'mautic.webhook.form.webhook.events',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => ''],
+                'attr'       => ['class' => 'webhook'],
+                'required'   => true,
             ]
         );
 

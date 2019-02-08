@@ -9,6 +9,7 @@ Le.userOnLoad = function (container) {
             Le.activateSearchAutocomplete('list-search', 'user.user');
         }
     }
+    mQuery('.user_img').removeClass('required');
     if (mQuery('#user_preferred_profile_image').length) {
         mQuery('#user_preferred_profile_image').on('change', function() {
             if (mQuery(this).val() == 'custom') {

@@ -77,7 +77,7 @@ class LeadType extends AbstractType
                     'choices'    => $imageChoices,
                     'label'      => 'le.lead.lead.field.preferred_profile',
                     'label_attr' => ['class' => 'control-label'],
-                    'required'   => true,
+                   // 'required'   => true,
                     'multiple'   => false,
                     'attr'       => [
                         'class' => 'form-control tt-input',

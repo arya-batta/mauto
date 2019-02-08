@@ -248,6 +248,7 @@ class ClientController extends FormController
                         'passthroughVars' => [
                             'activeLink'    => '#le_client_index',
                             'leContent' => 'client',
+                            'closeModal'    => 1,
                         ],
                     ]
                 );
@@ -293,10 +294,11 @@ class ClientController extends FormController
 
         $postActionVars = [
             'returnUrl'       => $returnUrl,
-            'contentTemplate' => 'MauticApiBundle:Client:index',
+            'contentTemplate' => 'MauticApiBundle:Client:edit.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_client_index',
                 'leContent' => 'client',
+                'closeModal'    => 1,
             ],
         ];
 
