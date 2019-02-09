@@ -99,10 +99,10 @@ $header = $view['translator']->trans(
         )
     );
 
-    $view['slots']->set(
+   /* $view['slots']->set(
         'publishStatus',
         $view->render('MauticCoreBundle:Helper:publishstatus_badge.html.php', ['entity' => $report])
-    );
+    );*/
 //}
 ?>
 
@@ -155,10 +155,10 @@ $header = $view['translator']->trans(
     <div class="bg-auto bg-dark-xs">
         <!-- report detail collapseable toggler -->
         <div class="hr-expand nm">
-            <a href="#report-details" class="arrow text-muted collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="report-details">
+            <a href="#report-details" class="arrow text-muted collapsed hide" data-toggle="collapse" aria-expanded="false" aria-controls="report-details">
                 <span class="caret"></span> <?php echo $view['translator']->trans('mautic.core.details'); ?>
             </a>
-            <a href="#report-filters" class="arrow text-muted <?php if (!$showDynamicFilters): ?>collapsed<?php endif; ?>" data-toggle="collapse" aria-expanded="false" aria-controls="report-filters">
+            <a href="#report-filters" class="arrow text-muted hide <?php if (!$showDynamicFilters): ?>collapsed<?php endif; ?>" data-toggle="collapse" aria-expanded="false" aria-controls="report-filters">
                 <span class="caret"></span> <?php echo $view['translator']->trans('mautic.core.filters'); ?>
             </a>
         </div>

@@ -219,7 +219,7 @@ $isAdmin     =$view['security']->isAdmin();
                         </a>
                     </td>
                     <td class="visible-md visible-lg text-center">
-                        <a class="label label-primary" href="<?php echo $view['router']->path(
+                        <a class="label le-label-danger" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.unsubscribe').':'.$item->getId()]
                         ); ?>" data-toggle="ajax"<?php echo ($unSubscribedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>

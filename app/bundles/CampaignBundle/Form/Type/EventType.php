@@ -106,7 +106,7 @@ class EventType extends AbstractType
                     'attr'        => [
                         'class'    => 'decision-widget-width',
                         'onchange' => 'Le.campaignToggleTimeframes();',
-                        'tooltip'  => 'mautic.campaign.form.type.help',
+                        //'tooltip'  => 'mautic.campaign.form.type.help',
                     ],
                     'data' => $triggerMode,
                 ]

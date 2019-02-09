@@ -464,9 +464,15 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         }
 
                         if (!$this->isFormApplied($form) && method_exists($this, 'viewAction')) {
-                            $viewParameters                    = ['objectId' => $objectId, 'objectAction' => 'view'];
-                            $returnUrl                         = $this->generateUrl($this->getActionRoute(), $viewParameters);
-                            $postActionVars['contentTemplate'] = $this->getControllerBase().':view';
+                            if($this->getModelName() !="webhook.webhook") {
+                                $viewParameters = ['objectId' => $objectId, 'objectAction' => 'view'];
+                                $returnUrl = $this->generateUrl($this->getActionRoute(), $viewParameters);
+                                $postActionVars['contentTemplate'] = $this->getControllerBase() . ':view';
+                            }else{
+                                $viewParameters = [ 'page' => $page];
+                                $returnUrl = $this->generateUrl($this->getIndexRoute(), $viewParameters);
+                                $postActionVars['contentTemplate'] = $this->getControllerBase() . ':index';
+                            }
                         }
                     }
 
@@ -1073,9 +1079,15 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         $this->afterEntitySave($entity, $form, 'new', $valid);
 
                         if (method_exists($this, 'viewAction')) {
-                            $viewParameters = ['objectId' => $entity->getId(), 'objectAction' => 'view'];
-                            $returnUrl      = $this->generateUrl($this->getActionRoute(), $viewParameters);
-                            $template       = $this->getControllerBase().':view';
+                            if($this->getModelName() !="webhook.webhook") {
+                                $viewParameters = ['objectId' => $entity->getId(), 'objectAction' => 'view'];
+                                $returnUrl = $this->generateUrl($this->getActionRoute(), $viewParameters);
+                                $template = $this->getControllerBase() . ':view';
+                            }else{
+                                $viewParameters = ['page' => $page];
+                                $returnUrl      = $this->generateUrl($this->getIndexRoute(), $viewParameters);
+                                $template       = $this->getControllerBase().':'.$this->getPostActionControllerAction('index');
+                            }
                         } else {
                             $viewParameters = ['page' => $page];
                             $returnUrl      = $this->generateUrl($this->getIndexRoute(), $viewParameters);

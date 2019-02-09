@@ -33,8 +33,22 @@ $isAdmin=$view['security']->isAdmin();
                 ]
             );
             ?>
-            <th class="visible-md visible-lg col-user-avatar"></th>
+
             <?php
+            if($isAdmin){
+                echo '<th class="visible-md visible-lg col-user-avatar"></th>';
+            }else{
+                echo '<!-- <th class="visible-md visible-lg col-user-avatar"></th> -->';
+            }
+            echo $view->render(
+                'MauticCoreBundle:Helper:tableheader.html.php',
+                [
+                    'sessionVar' => 'user',
+                    'orderBy'    => 'u.username',
+                    'text'       => 'mautic.core.forms.published',
+                    'class'      => 'col-user-username',
+                ]
+            );
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -45,7 +59,7 @@ $isAdmin=$view['security']->isAdmin();
                     'default'    => true,
                 ]
             );
-
+            if ($isAdmin):
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -55,7 +69,7 @@ $isAdmin=$view['security']->isAdmin();
                     'class'      => 'col-user-username',
                 ]
             );
-
+            endif;
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -65,6 +79,7 @@ $isAdmin=$view['security']->isAdmin();
                     'class'      => 'visible-md visible-lg col-user-email',
                 ]
             );
+            if ($isAdmin):
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -74,6 +89,7 @@ $isAdmin=$view['security']->isAdmin();
                     'class'      => 'visible-md visible-lg col-user-mobile',
                 ]
             );
+            endif;
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -118,8 +134,19 @@ $isAdmin=$view['security']->isAdmin();
                     );
                     ?>
                 </td>
-                <td class="visible-md visible-lg">
-                    <img class="img img-responsive img-thumbnail w-44" src="<?php echo $view['gravatar']->getImage($item->getEmail(), '50'); ?>"/>
+                <?php if ($isAdmin) : ?>
+                    <td class="visible-md visible-lg">
+                        <img class="img img-responsive img-thumbnail w-44" src="<?php echo $view['gravatar']->getImage($item->getEmail(), '50'); ?>"/>
+                    </td>
+                <?php endif; ?>
+                <td>
+                    <?php echo $view->render(
+                        'MauticCoreBundle:Helper:publishstatus_icon.html.php',
+                        [
+                            'item'  => $item,
+                            'model' => 'user.user',
+                        ]
+                    ); ?>
                 </td>
                 <td>
                     <div>
@@ -136,11 +163,15 @@ $isAdmin=$view['security']->isAdmin();
                     </div>
                     <div class="small"><em><?php echo $item->getPosition(); ?></em></div>
                 </td>
+                <?php if ($isAdmin) : ?>
                 <td><?php echo $item->getUsername(); ?></td>
+                <?php endif; ?>
                 <td class="visible-md visible-lg">
                     <a href="mailto: <?php echo $item->getEmail(); ?>"><?php echo $item->getEmail(); ?></a>
                 </td>
+                <?php if ($isAdmin) : ?>
                 <td class="visible-md visible-lg"><?php echo $item->getMobile(); ?></td>
+                <?php endif; ?>
                 <td class="visible-md visible-lg"><?php echo $item->getRole()->getName(); ?></td>
                 <?php if ($isAdmin) : ?>
                 <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>

@@ -12,6 +12,7 @@
 if ($tmpl == 'index'):
     $view->extend('MauticApiBundle:Client:index.html.php');
 endif;
+$isAdmin=$view['security']->isAdmin();
 ?>
 
 <div class="table-responsive panel-collapse pull out page-list">
@@ -44,6 +45,7 @@ endif;
             <th class="visible-md visible-lg col-client-publicid"><?php echo $view['translator']->trans('mautic.api.client.thead.publicid'); ?></th>
             <th class="visible-md visible-lg col-client-secret"><?php echo $view['translator']->trans('mautic.api.client.thead.secret'); ?></th>
             <?php
+            if($isAdmin){
             echo $view->render(
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
@@ -52,7 +54,7 @@ endif;
                     'text'       => 'mautic.core.id',
                     'class'      => 'visible-md visible-lg col-client-id',
                 ]
-            );
+            );}
             ?>
         </tr>
         </thead>
@@ -85,7 +87,9 @@ endif;
                 <td class="visible-md visible-lg">
                     <input onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly value="<?php echo $view->escape($item->getSecret()); ?>"/>
                 </td>
-                <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                <?php if($isAdmin):?>
+                <td class="visible-md visible-lg "><?php echo $item->getId(); ?></td>
+                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
         </tbody>

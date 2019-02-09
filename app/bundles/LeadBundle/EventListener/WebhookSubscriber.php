@@ -55,7 +55,7 @@ class WebhookSubscriber extends CommonSubscriber
             [
                 'label'       => 'le.lead.webhook.event.lead.new',
                 'description' => 'le.lead.webhook.event.lead.new_desc',
-            ]
+                ]
         );
 
         // checkbox for lead updates
@@ -67,6 +67,14 @@ class WebhookSubscriber extends CommonSubscriber
             ]
         );
 
+        // lead deleted checkbox label & desc
+        $event->addEvent(
+            LeadEvents::LEAD_POST_DELETE,
+            [
+                'label'       => 'le.lead.webhook.event.lead.deleted',
+                'description' => 'le.lead.webhook.event.lead.deleted_desc',
+            ]
+        );
         // add a checkbox for points
         $event->addEvent(
             LeadEvents::LEAD_POINTS_CHANGE,
@@ -76,12 +84,12 @@ class WebhookSubscriber extends CommonSubscriber
             ]
         );
 
-        // lead deleted checkbox label & desc
+        // add a checkbox for lead tag modified
         $event->addEvent(
-            LeadEvents::LEAD_POST_DELETE,
+            LeadEvents::MODIFY_TAG_EVENT,
             [
-                'label'       => 'le.lead.webhook.event.lead.deleted',
-                'description' => 'le.lead.webhook.event.lead.deleted_desc',
+                'label'       => 'le.lead.webhook.event.lead.tag.modified',
+                'description' => 'le.lead.webhook.event.lead.tag.modified_desc',
             ]
         );
 
@@ -95,15 +103,6 @@ class WebhookSubscriber extends CommonSubscriber
                 ]
             );
         }
-
-        // add a checkbox for lead tag modified
-        $event->addEvent(
-            LeadEvents::MODIFY_TAG_EVENT,
-            [
-                'label'       => 'le.lead.webhook.event.lead.tag.modified',
-                'description' => 'le.lead.webhook.event.lead.tag.modified_desc',
-            ]
-        );
     }
 
     /**

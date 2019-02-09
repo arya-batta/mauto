@@ -30,6 +30,24 @@ $isAdmin=$view['security']->isAdmin();
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto">
         <div class="pa-md">
+            <div class="panel panel-default form-group mb-0">
+                <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['title']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['alias']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['category']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isPublished']); ?>
+                </div>
+            </div>
 	        <div class="row">
 		        <div class="col-md-6">
 					<div class="col-md-7 pl-0">
@@ -78,23 +96,7 @@ $isAdmin=$view['security']->isAdmin();
 		    		</div>
 		    	</div>
 		    </div>
-		    <div class="row">
-				<div class="col-md-6">
-					<?php echo $view['form']->row($form['title']); ?>
-				</div>
-				<div class="col-md-6">
-					<?php echo $view['form']->row($form['alias']); ?>
-				</div>
-			</div>
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['category']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isPublished']); ?>
-                </div>
-            </div>
-            <div class="row">
+            <div class="row <?php echo $isAdmin ? "":"hide";?>">
                 <div class="col-xs-12">
                     <?php echo $view['form']->row($form['description']); ?>
                 </div>
@@ -113,6 +115,8 @@ $isAdmin=$view['security']->isAdmin();
                     <?php echo $view['form']->row($form['disallow']); ?>
                 </div>
             </div>
+                </div>
+                </div>
 		</div>
 	</div>
 </div>

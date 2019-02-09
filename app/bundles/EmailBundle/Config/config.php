@@ -166,7 +166,6 @@ return [
                     'iconClass'       => 'fa fa-envelope',
                     'parent'          => 'mautic.core.components',
                     'priority'        => 450,
-                    'id'              => 'le_notification_index',
                     'access'          => ['email:emails:viewown', 'email:emails:viewother'],
                 ],
             ],

@@ -18,6 +18,7 @@ if (!isset($typeThreeIconClass)) {
     $modalwidth = '';
     $formwidth  = '';
 }
+$isAdmin=$view['security']->isAdmin();
 ?>
 <script>
     <?php foreach ($leLang as $key => $string): ?>
@@ -39,29 +40,28 @@ if (!isset($typeThreeIconClass)) {
             </div>
             <div class="modal-body form-select-modal" style="background-color: #eee;">
                 <div class="row">
-                    <div class="white-block" style="margin-left:15px;width:94%;text-align:left">
-                        <div class="col-md-6" style="width:<?php echo $formwidth ?>">
+                    <div class="white-block" style="margin-left:15px;width:47%;min-height:219px;text-align:left">
+                        <div class="col-md-6" style="width:62%">
                             <div class="panel-primary">
-                                <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
+                                <h3 class="panel-title le-email-editor-header" style="width: 200px;"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
                                 <p style="width:200%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
-                                <button class="le-btn-primary" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button class="le-btn-primary"  onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                         <div class="panel panel-success">
                             <div class="white-block"style="text-align: left">
                                 <div>
                                     <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                     <p class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                    <button class="le-btn-primary" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                    <button class="le-btn-primary" style="margin-top: 35px;" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php if ($isAdmin): ?>
                     <?php if (isset($typeThreeIconClass)): ?>
                         <div class="col-md-6 <?php echo $hideclass ?>"style="<?php echo $formwidth ?>">
                             <div class="panel panel-success" >
@@ -74,6 +74,7 @@ if (!isset($typeThreeIconClass)) {
                                 </div>
                             </div>
                         </div>
+                    <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>

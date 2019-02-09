@@ -137,10 +137,12 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
         <?php echo $view['form']->row($form['triggerMode']); ?>
 
         <div<?php echo ($form['triggerMode']->vars['data'] != 'date') ? ' class="hide"' : ''; ?> id="triggerDate">
+            <label class="control-label"><?php echo $view['translator']->trans('le.campaign.delay.event.wait.till'); ?></label>
             <?php echo $view['form']->row($form['triggerDate']); ?>
         </div>
 
         <div<?php echo ($form['triggerMode']->vars['data'] != 'interval') ? ' class="hide"' : ''; ?> id="triggerInterval">
+            <label class="control-label"><?php echo $view['translator']->trans('le.campaign.delay.event.wait.for'); ?></label>
             <div class="row">
                 <div class="col-sm-4">
                     <?php echo $view['form']->row($form['triggerInterval']); ?>

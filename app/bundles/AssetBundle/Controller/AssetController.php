@@ -418,12 +418,13 @@ class AssetController extends FormController
                         return $this->editAction($entity->getId(), true);
                     }
 
-                    $viewParameters = [
-                        'objectAction' => 'view',
-                        'objectId'     => $entity->getId(),
+                   $viewParameters = [
+                        'objectAction' => 'index',
+                        'page' => $page,
+                        //'objectId'     => $entity->getId(),
                     ];
-                    $returnUrl = $this->generateUrl('le_asset_action', $viewParameters);
-                    $template  = 'MauticAssetBundle:Asset:view';
+                    $returnUrl = $this->generateUrl('le_asset_index');
+                    $template  = 'MauticAssetBundle:Asset:index';
                 }
             } else {
                 $viewParameters = ['page' => $page];
@@ -575,12 +576,9 @@ class AssetController extends FormController
                         ]),
                     ]);
 
-                    $returnUrl = $this->generateUrl('le_asset_action', [
-                        'objectAction' => 'view',
-                        'objectId'     => $entity->getId(),
-                    ]);
-                    $viewParams = ['objectId' => $entity->getId()];
-                    $template   = 'MauticAssetBundle:Asset:view';
+                    $returnUrl  = $this->generateUrl('le_asset_index', ['page' => $page]);
+                    $viewParams = ['page' => $page];
+                    $template   = 'MauticAssetBundle:Asset:index';
                 }
             } else {
                 //clear any modified content

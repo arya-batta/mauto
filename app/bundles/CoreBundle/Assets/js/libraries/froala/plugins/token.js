@@ -92,7 +92,7 @@
                     var badge = (val.match(/page link/i))?
                         str.replace(/_BADGE_/, 'page') :
                             (val.match(/asset link/i))?
-                                str.replace(/_BADGE_/, 'asset') :
+                                str.replace(/_BADGE_/, 'File') :
                                     (val.match(/form=/i))?
                                         str.replace(/_BADGE_/,'form') :
                                             (val.match(/focus=/i))?

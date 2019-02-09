@@ -177,14 +177,14 @@ class Webhook extends FormEntity
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint(
+       /* $metadata->addPropertyConstraint(
             'name',
             new NotBlank(
                 [
                     'message' => 'mautic.core.name.required',
                 ]
             )
-        );
+        );*/
 
         $metadata->addPropertyConstraint(
             'webhookUrl',

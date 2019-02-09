@@ -104,8 +104,8 @@ class UserType extends AbstractType
             [
                 'choices'    => $imageChoices,
                 'label'      => 'le.lead.lead.field.preferred_profile',
-                'label_attr' => ['class' => 'control-label'],
-                'required'   => true,
+                'label_attr' => ['class' => 'control-label user_img'],
+                //'required'   => true,
                 'multiple'   => false,
                 'attr'       => [
                     'class' => 'form-control tt-input',
@@ -136,7 +136,7 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control le-input',
-                    'preaddon'     => 'fa fa-user',
+                    //'preaddon'     => 'fa fa-user',
                     'autocomplete' => 'off',
                 ],
             ]
@@ -187,7 +187,7 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
-                    'preaddon' => 'fa fa-envelope',
+                   // 'preaddon' => 'fa fa-envelope',
                 ],
             ]
         );
@@ -208,7 +208,7 @@ class UserType extends AbstractType
                         'class'        => 'form-control le-input',
                         'placeholder'  => $placeholder,
                         'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
-                        'preaddon'     => 'fa fa-lock',
+                      //  'preaddon'     => 'fa fa-lock',
                         'autocomplete' => 'off',
                     ],
                     'required'       => $required,
@@ -222,7 +222,7 @@ class UserType extends AbstractType
                         'class'        => 'form-control le-input',
                         'placeholder'  => $placeholder,
                         'tooltip'      => 'mautic.user.user.form.help.passwordrequirements',
-                        'preaddon'     => 'fa fa-lock',
+                       // 'preaddon'     => 'fa fa-lock',
                         'autocomplete' => 'off',
                     ],
                     'required'       => $required,
@@ -298,7 +298,7 @@ class UserType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
-                    'preaddon' => 'fa fa-mobile',
+                   // 'preaddon' => 'fa fa-mobile',
                 ],
                 'required'     => false,
             ]
@@ -332,7 +332,7 @@ class UserType extends AbstractType
             );
 
             $builder->add('isPublished', 'yesno_button_group',
-             ['label' => 'le.users.config.form.published','no_label'   => 'No', 'yes_label'  => 'Yes',]);
+             ['label' => 'le.users.config.form.published',]);
 
             $builder->add('buttons', 'form_buttons');
         } else {

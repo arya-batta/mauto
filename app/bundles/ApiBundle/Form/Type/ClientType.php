@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class ClientType.
@@ -76,7 +77,7 @@ class ClientType extends AbstractType
                     'label'      => 'mautic.api.client.form.auth_protocol',
                     'label_attr' => ['class' => 'control-label'],
                     'attr'       => [
-                        'class'    => 'form-control',
+                        'class'    => 'form-control le-input',
                         'onchange' => 'Le.refreshApiClientForm(\''.$this->router->generate('le_client_action', ['objectAction' => 'new']).'\', this)',
                     ],
                     'choices' => [
@@ -96,7 +97,7 @@ class ClientType extends AbstractType
             [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control le-input'],
             ]
         );
 
@@ -185,10 +186,15 @@ class ClientType extends AbstractType
                         'label'      => 'mautic.api.client.form.callback',
                         'label_attr' => ['class' => 'control-label'],
                         'attr'       => [
-                            'class'   => 'form-control',
+                            'class'   => 'form-control le-input',
                             'tooltip' => 'mautic.api.client.form.help.callback',
                         ],
-                        'required' => false,
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(
+                                ['message' => 'mautic.api.client.form.callback.error']
+                            ),
+                        ],
                     ]
                 )->addModelTransformer(new Transformers\NullToEmptyTransformer())
             );
@@ -254,7 +260,10 @@ class ClientType extends AbstractType
             );
         }
 
-        $builder->add('buttons', 'form_buttons');
+        $builder->add('buttons', 'form_buttons',[
+            'apply_text' => false,
+            'save_text'  => 'mautic.core.form.save',
+        ]);
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

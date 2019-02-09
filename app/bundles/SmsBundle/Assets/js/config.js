@@ -5,7 +5,6 @@ Le.configOnLoad= function(container){
          mQuery('#config_smsconfig_sms_status').addClass('status_fail');
     }
     if(mQuery('#config_smsconfig_sms_transport').val() == ""){
-        alert(mQuery('#config_smsconfig_sms_transport').val());
         mQuery('#smsStatus').addClass('hide');
         mQuery('#smsPublish').addClass('hide');
         mQuery('#smsActivatebtn').addClass('hide');

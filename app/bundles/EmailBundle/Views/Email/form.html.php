@@ -506,7 +506,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6" id="Emailasset_Attachments">
+                    <div class="col-md-6 <?php echo $isAdmin?"":" hide"?>" id="Emailasset_Attachments">
                         <div class="pull-left">
                             <?php echo $view['form']->label($form['assetAttachments']); ?>
                         </div>

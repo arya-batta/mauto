@@ -47,6 +47,7 @@ class WebhookSubscriber extends CommonSubscriber
         $formSubmit = [
             'label'       => 'mautic.form.webhook.event.form.submit',
             'description' => 'le.form.webhook.event.form.submit_desc',
+            'priority'    => 1,
         ];
 
         // add it to the list

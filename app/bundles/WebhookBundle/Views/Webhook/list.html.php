@@ -34,11 +34,7 @@ if ($tmpl == 'index') {
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'mautic_webhook',
-                        'orderBy'    => 'e.name',
-                        'text'       => 'mautic.core.name',
-                        'class'      => 'col-webhook-name',
-                        'default'    => true,
+                        'text'       => 'le.lead.import.status',
                     ]
                 );
 
@@ -50,8 +46,10 @@ if ($tmpl == 'index') {
                         'text'       => 'mautic.webhook.webhook_url',
                         'class'      => 'col-webhook-id visible-md visible-lg',
                     ]
-                );
-
+                );?>
+                <th class="col-webhook-response" style="color: #000000;text-align: -webkit-center;"><?php echo $view['translator']->trans('mautic.webhook.webhook_response'); ?></th>
+                <th class="col-webhook-runtime" style="color: #000000;"><?php echo $view['translator']->trans('mautic.webhook.webhook_runtime'); ?></th>
+                <?php
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -98,20 +96,33 @@ if ($tmpl == 'index') {
                                 'MauticCoreBundle:Helper:publishstatus_icon.html.php',
                                 ['item' => $item, 'model' => 'webhook']
                             ); ?>
-                            <a data-toggle="ajax" href="<?php echo $view['router']->path(
-                                'le_webhook_action',
-                                ['objectId' => $item->getId(), 'objectAction' => 'view']
-                            ); ?>">
-                                <?php echo $item->getName(); ?>
-                            </a>
-                            <?php if ($description = $item->getDescription()): ?>
-                                <div class="text-muted mt-4">
-                                    <small><?php echo $description; ?></small>
-                                </div>
-                            <?php endif; ?>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg"><?php echo $item->getWebhookUrl(); ?></td>
+                    <td class="visible-md visible-lg">
+                        <a data-toggle="ajax" href="<?php echo $view['router']->path(
+                            'le_webhook_action',
+                            ['objectId' => $item->getId(), 'objectAction' => 'edit']
+                        ); ?>">
+                            <?php echo $item->getWebhookUrl(); ?>
+                        </a>
+                    </td>
+                    <?php $logs=$item->getLogs();
+                    $response="";
+                    $note="";
+                    $runtime="";
+                    $date="";
+
+                    foreach ($logs as $log){
+                        $response  =$log->getStatusCode() == '200'?"200-":"";
+                        $note      = $response =='200-'?"Success":$log->getNote();
+                        $date      =$view['date']->toFull($log->getDateAdded());
+                        break;
+                    }
+                    $class= $note != "Success"? $note==""?"label-default":"le-label-danger":"label-success";
+                    $value= $note != "Success"? $note==""?"UnAvailable":"Failed":"Success";
+                    ?>
+                    <td class="visible-md visible-lg" style="text-align: center"><span class="label <?php echo $class;?>" data-toggle="tooltip" data-original-title="<?php echo $note;?>"><?php echo $value; ?></span></td>
+                    <td class="visible-md visible-lg"><?php echo $date; ?></td>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                 </tr>
             <?php endforeach; ?>

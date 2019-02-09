@@ -182,3 +182,19 @@ Le.initializeDropzone = function() {
 
     });
 }
+Le.copyAssetUrl = function(id) {
+    var copyValue =id.getAttribute('url');
+    var $temp = mQuery("<input>");
+    mQuery("body").append($temp);
+    $temp.val(copyValue).select();
+    document.execCommand("copy");
+    $temp.remove();
+    var copyTexts = id;
+    copyTexts.innerHTML = 'copied';
+    setTimeout(function() {
+        var copyTexta = id;
+        copyTextval = 'Copy';
+        copyTexta.innerHTML = copyTextval;
+    }, 1000);
+
+};

@@ -13,15 +13,15 @@ return [
     'routes' => [
         'main' => [
             'le_asset_index' => [
-                'path'       => '/assets/{page}',
+                'path'       => '/files/{page}',
                 'controller' => 'MauticAssetBundle:Asset:index',
             ],
             'le_asset_remote' => [
-                'path'       => '/assets/remote',
+                'path'       => '/files/remote',
                 'controller' => 'MauticAssetBundle:Asset:remote',
             ],
             'le_asset_action' => [
-                'path'       => '/assets/{objectAction}/{objectId}',
+                'path'       => '/files/{objectAction}/{objectId}',
                 'controller' => 'MauticAssetBundle:Asset:execute',
             ],
         ],

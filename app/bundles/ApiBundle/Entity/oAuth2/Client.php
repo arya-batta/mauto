@@ -118,6 +118,9 @@ class Client extends BaseClient
         $metadata->addPropertyConstraint('name', new Assert\NotBlank(
             ['message' => 'mautic.core.name.required']
         ));
+        $metadata->addPropertyConstraint('callback', new Assert\NotBlank(
+            ['message' => 'mautic.api.client.form.callback.error']
+        ));
 
         $metadata->addPropertyConstraint('redirectUris', new Assert\NotBlank(
             ['message' => 'mautic.api.client.redirecturis.notblank']
