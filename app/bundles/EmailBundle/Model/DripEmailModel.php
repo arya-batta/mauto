@@ -743,4 +743,53 @@ class DripEmailModel extends FormModel
     {
         return $this->getRepository()->getLeadsByDrip($drip, $countOnly);
     }
+
+    public function getCustomEmailStats($drip)
+    {
+        $emails = $this->emailModel->getEntities(
+            [
+                'filter' => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $drip,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        $sentcount        = 0;
+        $uopencount       = 0;
+        $topencount       = 0;
+        $nopencount       = 0;
+        $clickcount       = 0;
+        $unsubscribecount = 0;
+        $bouncecount      = 0;
+        $spamcount        = 0;
+        foreach ($emails as $item) {
+            $sentcount += $this->emailModel->getRepository()->getTotalSentCounts($item->getId());
+            $uopencount += $this->emailModel->getRepository()->getTotalUniqueOpenCounts($item->getId());
+            $topencount += $this->emailModel->getRepository()->getTotalOpenCounts($item->getId());
+            $nopencount += $this->emailModel->getRepository()->getTotalNotOpenCounts($item->getId());
+            $clickcount += $this->emailModel->getRepository()->getEmailClickCounts($item->getId());
+            $unsubscribecount += $this->emailModel->getRepository()->getTotalUnsubscribedCounts($item->getId());
+            $bouncecount += $this->emailModel->getRepository()->getTotalBounceCounts($item->getId());
+            $spamcount += $this->emailModel->getRepository()->getTotalSpamCounts($item->getId());
+        }
+        $emailStats                = [];
+        $emailStats['sent']        = $sentcount;
+        $emailStats['uopen']       = $uopencount;
+        $emailStats['topen']       = $topencount;
+        $emailStats['click']       = $clickcount;
+        $emailStats['unsubscribe'] = $unsubscribecount;
+        $emailStats['bounce']      = $bouncecount;
+        $emailStats['spam']        = $spamcount;
+        $emailStats['nopen']       = $nopencount;
+
+        return $emailStats;
+    }
 }

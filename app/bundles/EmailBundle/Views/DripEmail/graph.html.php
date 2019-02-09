@@ -27,10 +27,12 @@ $actionRoute = $view['router']->path('le_dripemail_campaign_action',
 <div class="pa-md">
     <div class="row">
         <div class="col-sm-12">
+            <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.stat.graph.name'); ?> </h2>
+            <br>
             <div class="panel">
                 <div class="panel-body box-layout">
                     <div class="col-xs-4 va-m">
-                        <h5 class="text-white dark-md fw-sb mb-xs">
+                        <h5 class="text-white hide dark-md fw-sb mb-xs">
                             <span class="fa fa-envelope"></span>
                             <?php  echo $view['translator']->trans($label); ?>
                         </h5>
@@ -42,7 +44,7 @@ $actionRoute = $view['router']->path('le_dripemail_campaign_action',
                 <div class="row">
                     <?php if (!empty($stats)): ?>
                     <div class="pt-0 pl-15 pb-10 pr-15">
-                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 300]); ?>
+                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 500]); ?>
                     </div>
                     <?php endif; ?>
                 </div>

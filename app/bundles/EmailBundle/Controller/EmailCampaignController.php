@@ -426,7 +426,12 @@ class EmailCampaignController extends FormController
         $logs = $this->getModel('core.auditLog')->getLogForObject('email', $email->getId(), $email->getDateAdded());
 
         // Get click through stats
-        $trackableLinks = $model->getEmailClickStats($email->getId());
+        $trackableLinks         = $model->getEmailClickStats($email->getId());
+        $emailStats             = $model->getCustomEmailStats($email->getId());
+        $last10openleads        = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_read').':'.$email->getId());
+        $last10clickleads       = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_click').':'.$email->getId());
+        $last10unsubscribeleads = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_unsubscribe').':'.$email->getId());
+        $last10bounceleads      = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_bounce').':'.$email->getId());
 
         return $this->delegateView(
             [
@@ -489,6 +494,11 @@ class EmailCampaignController extends FormController
                     'actionRoute'      => 'le_email_campaign_action',
                     'indexRoute'       => 'le_email_campaign_index',
                     'notificationemail'=> false,
+                    'emailStats'       => $emailStats,
+                    'openLeads'        => $last10openleads,
+                    'clickLeads'       => $last10clickleads,
+                    'unsubscribeLeads' => $last10unsubscribeleads,
+                    'bounceLeads'      => $last10bounceleads,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [

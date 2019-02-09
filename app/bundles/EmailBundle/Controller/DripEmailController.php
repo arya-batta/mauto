@@ -299,7 +299,35 @@ class DripEmailController extends FormController
         }
 
         // Audit Log
-        $logs = $this->getModel('core.auditLog')->getLogForObject('dripemail', $dripemail->getId(), $dripemail->getDateAdded());
+        $logs                   = $this->getModel('core.auditLog')->getLogForObject('dripemail', $dripemail->getId(), $dripemail->getDateAdded());
+        $emailStats             = $model->getCustomEmailStats($dripemail);
+        $last10openleads        = [];
+        $last10clickleads       = [];
+        $last10unsubscribeleads = [];
+        $last10bounceleads      = [];
+
+        $emails = $emailmodel->getEntities(
+            [
+                'filter' => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $dripemail,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+        if (count($emails)) {
+            $last10openleads        = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.read').':'.$dripemail->getId());
+            $last10clickleads       = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.click').':'.$dripemail->getId());
+            $last10unsubscribeleads = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.unsubscribe').':'.$dripemail->getId());
+            $last10bounceleads      = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.bounce').':'.$dripemail->getId());
+        }
 
         return $this->delegateView(
             [
@@ -341,6 +369,12 @@ class DripEmailController extends FormController
                     'actionRoute'      => 'le_dripemail_campaign_action',
                     'indexRoute'       => 'le_dripemail_index',
                     'notificationemail'=> false,
+                    'emailStats'       => $emailStats,
+                    'openLeads'        => $last10openleads,
+                    'clickLeads'       => $last10clickleads,
+                    'unsubscribeLeads' => $last10unsubscribeleads,
+                    'bounceLeads'      => $last10bounceleads,
+                    'emailList'        => $emails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:details.html.php',
                 'passthroughVars' => [

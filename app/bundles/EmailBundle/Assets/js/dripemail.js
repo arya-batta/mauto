@@ -50,6 +50,8 @@ Le.dripemailOnLoad = function (container, response) {
     var url = window.location.href;
     if (url.indexOf('drip/edit') != -1) {
         Le.loadEmailsinDripStatCounts();
+    } else if (url.indexOf('drip/view') != -1){
+        Le.loadEmailsViewDripStatCounts();
     }
     Le.reorderEmailsData(container);
     Le.getTokens('email:getBuilderTokens', function(tokens) {
@@ -234,6 +236,44 @@ Le.loadEmailsinDripStatCounts = function(){
                         mQuery('#read-count-' + id + ' > a').html(response.readCount);
                         mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
                         mQuery('#scheduled-count-' + id + ' > a').html(response.scheduledcount);
+                    }
+                },
+                false,
+                true
+            );
+
+        });
+    }
+}
+
+Le.loadEmailsViewDripStatCounts = function(){
+    if (mQuery('table.dripemail-list').length) {
+        mQuery('tr.drip-emailcol-stats').each(function () {
+            var id = mQuery(this).attr('data-stats');
+
+            // Process the request one at a time or the xhr will cancel the previous
+            Le.ajaxActionRequest(
+                'email:getEmailsViewDripCountStats',
+                {id: id},
+                function (response) {
+                    if (response.success && mQuery('#sent-count-' + id + ' div').length) {
+                        /* if (response.pending) {
+                             mQuery('#pending-' + id + ' > a').html(response.pending);
+                             mQuery('#pending-' + id).removeClass('hide');
+                         }*/
+
+                        /*if (response.queued) {
+                            mQuery('#queued-' + id + ' > a').html(response.queued);
+                            mQuery('#queued-' + id).removeClass('hide');
+                        }*/
+
+                        mQuery('#sent-count-' + id + ' > span').html(response.sentCount);
+                        mQuery('#read-count-' + id + ' > span').html(response.readCount);
+                        mQuery('#not-read-count-' + id + ' > span').html(response.noreadCount);
+                        mQuery('#read-percent-' + id + ' > span').html(response.readPercent);
+                        mQuery('#unsubscribe-count-' + id + ' > span').html(response.unsubscribeCount);
+                        mQuery('#bounced-count-' + id + ' > span').html(response.bounceCount);
+                        mQuery('#spam-count-' + id + ' > span').html(response.spamCount);
                     }
                 },
                 false,

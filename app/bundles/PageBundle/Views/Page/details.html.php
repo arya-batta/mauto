@@ -162,7 +162,7 @@ $view['slots']->set(
                             <div class="pt-0 pl-15 pb-10 pr-15">
                                 <?php echo $view->render(
                                     'MauticCoreBundle:Helper:chart.html.php',
-                                    ['chartData' => $stats['pageviews'], 'chartType' => 'line', 'chartHeight' => 300]
+                                    ['chartData' => $stats['pageviews'], 'chartType' => 'line', 'chartHeight' => 500]
                                 ); ?>
                             </div>
                         </div>

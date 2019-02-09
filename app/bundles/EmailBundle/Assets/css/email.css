@@ -32,3 +32,93 @@
     margin-top: -171px;
     margin-right: 120px;
 }
+.email-dataview-stats{
+    font-size:18px;
+    line-height: 36px;
+    font-weight: bold;
+}
+.link-url{
+    width:80%;
+}
+.link-unique{
+    width:5%;
+}
+.link-total{
+    width:5%;
+}
+.link-redirect{
+    width:10%;
+}
+.bg-grey{
+    background-color: #f5f5f5;
+}
+.email-campaign-stats{
+    padding: 40px 10px 40px 57px;
+    border-radius: 5px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+}
+.email-badge {
+    display: inline-block;
+    min-width:50px;
+    max-width: 100px;
+    padding: 3px 7px;
+    font-size: 15.5px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 18px;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 5px;
+    /*background-color: #a0acb8;*/
+    /*border-radius: 9px;*/
+}
+.email-badge-open{
+    background-color: #28a745;
+}
+.email-badge-click{
+    background-color: #3292e0;
+}
+.email-badge-notopen{
+    background-color: #fd7e14;
+}
+.email-badge-unsubscribe{
+    background-color: #6f42c1;
+}
+.email-badge-bounce{
+    background-color: #dc3545;
+}
+.email-badge-spam{
+    background-color: #343a40;
+}
+.h3-stat{
+    font-size: 16px;
+    line-height: 27px;
+    font-weight: bold;
+    text-rendering: optimizelegibility;
+}
+.stat-label{
+    font-size: 10.998px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #ffffff;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #999999;
+    padding: 2px 4px 2px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.email_stats_box{
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+    min-height: 250px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+}

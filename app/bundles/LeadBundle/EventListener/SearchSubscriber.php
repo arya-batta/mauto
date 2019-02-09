@@ -73,7 +73,7 @@ class SearchSubscriber extends CommonSubscriber
      * @param EntityManager  $entityManager
      * @param CampaignModel  $campaignmodel
      */
-    public function __construct(LeadModel $leadModel,TagModel $tagModel,ListModel $listModel,ListOptInModel $listOptInModel, EntityManager $entityManager, CampaignModel $campaignModel)
+    public function __construct(LeadModel $leadModel, TagModel $tagModel, ListModel $listModel, ListOptInModel $listOptInModel, EntityManager $entityManager, CampaignModel $campaignModel)
     {
         $this->leadModel       = $leadModel;
         $this->tagModel        = $tagModel;
@@ -116,7 +116,7 @@ class SearchSubscriber extends CommonSubscriber
         }
 
         $permissions = $this->security->isGranted(
-            [   'lead:leads:viewown',
+            ['lead:leads:viewown',
                 'lead:leads:viewother',
                 'lead:tags:full',
                 'lead:lists:viewother',
@@ -166,7 +166,7 @@ class SearchSubscriber extends CommonSubscriber
                 $event->addResults('le.lead.leads', $leadResults);
             }
         }
-        if($permissions['lead:tags:full']){
+        if ($permissions['lead:tags:full']) {
             $filter = [
                 'string' => $str,
                 'where'  => [
@@ -182,22 +182,22 @@ class SearchSubscriber extends CommonSubscriber
                     'filter'         => $filter,
                     'withTotalCount' => true,
                 ]);
-        foreach ($results as $result){
-            $tags[]=$result;
-         }
+            foreach ($results as $result) {
+                $tags[]=$result;
+            }
 
-         $count = isset($tags) ? sizeof($tags): 0;
+            $count = isset($tags) ? sizeof($tags) : 0;
 
             if ($count > 0) {
                 $tagResults = [];
-                $itrate=0;
+                $itrate     =0;
                 foreach ($tags as $tag) {
-                    if($itrate < 5) {
+                    if ($itrate < 5) {
                         $tagResults[] = $this->templating->renderResponse(
                             'MauticLeadBundle:SubscribedEvents\Search:tagGlobal.html.php',
                             ['tag' => $tag]
                         )->getContent();
-                        $itrate++;
+                        ++$itrate;
                     }
                 }
 
@@ -215,7 +215,7 @@ class SearchSubscriber extends CommonSubscriber
                 $event->addResults('le.lead.tags', $tagResults);
             }
         }
-        if($permissions['lead:lists:viewother']){
+        if ($permissions['lead:lists:viewother']) {
             $filter = [
                 'string' => $str,
                 'where'  => [
@@ -231,22 +231,22 @@ class SearchSubscriber extends CommonSubscriber
                     'filter'         => $filter,
                     'withTotalCount' => true,
                 ]);
-          foreach ($results as $result){
-                 $lists[]=$result;
-                }
+            foreach ($results as $result) {
+                $lists[]=$result;
+            }
 
-            $count = isset($lists) ? sizeof($lists): 0;
+            $count = isset($lists) ? sizeof($lists) : 0;
 
             if ($count > 0) {
                 $listResults = [];
-                $itrate=0;
+                $itrate      =0;
                 foreach ($lists as $list) {
-                    if($itrate < 5) {
+                    if ($itrate < 5) {
                         $listResults[] = $this->templating->renderResponse(
                             'MauticLeadBundle:SubscribedEvents\Search:listGlobal.html.php',
                             ['list' => $list]
                         )->getContent();
-                        $itrate++;
+                        ++$itrate;
                     }
                 }
 
@@ -264,7 +264,7 @@ class SearchSubscriber extends CommonSubscriber
                 $event->addResults('le.lead.form.list', $listResults);
             }
         }
-        if($permissions['lead:listoptin:viewother'] ||$permissions['lead:listoptin:viewown']){
+        if ($permissions['lead:listoptin:viewother'] || $permissions['lead:listoptin:viewown']) {
             $filter = [
                 'string' => $str,
                 'where'  => [
@@ -275,28 +275,28 @@ class SearchSubscriber extends CommonSubscriber
                     ],
                 ],
             ];
-            $lists=[];
+            $lists   =[];
             $results = $this->listOptInModel->getEntities(
                 [
                     'filter'         => $filter,
                     'withTotalCount' => true,
                 ]);
-            foreach ($results as $result){
+            foreach ($results as $result) {
                 $lists[]=$result;
             }
- 
-            $count = isset($lists) ? sizeof($lists): 0;
+
+            $count = isset($lists) ? sizeof($lists) : 0;
 
             if ($count > 0) {
                 $listResults = [];
-                $itrate=0;
+                $itrate      =0;
                 foreach ($lists as $list) {
-                    if($itrate < 5) {
+                    if ($itrate < 5) {
                         $listResults[] = $this->templating->renderResponse(
                             'MauticLeadBundle:SubscribedEvents\Search:listOptinGlobal.html.php',
                             ['listOptin' => $list]
                         )->getContent();
-                        $itrate++;
+                        ++$itrate;
                     }
                 }
 
@@ -412,6 +412,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.drip.searchcommand.unsubscribe'):
             case $this->translator->trans('le.lead.drip.searchcommand.unsubscribe', [], null, 'en_US'):
                     $this->buildDripUnsubscribeQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.bounce'):
+            case $this->translator->trans('le.lead.drip.searchcommand.bounce', [], null, 'en_US'):
+                $this->buildDripBounceQuery($event);
                 break;
             case $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled'):
             case $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled', [], null, 'en_US'):
@@ -953,6 +957,27 @@ class SearchSubscriber extends CommonSubscriber
         ];
         $q     = $event->getQueryBuilder();
         $expr  = $q->expr()->andX($q->expr()->eq('es.is_unsubscribe', '"1"'),
+            $q->expr()->in('es.email_id', $emailIds));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripBounceQuery($event)
+    {
+        $dripid   =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables   = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andX($q->expr()->eq('es.is_bounce', '"1"'),
             $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
     }

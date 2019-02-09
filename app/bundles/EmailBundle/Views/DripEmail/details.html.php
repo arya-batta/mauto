@@ -60,7 +60,7 @@ $view['slots']->set(
     <div class="col-md-9 bg-white height-auto">
         <div class="bg-auto">
             <!-- email detail header -->
-            <div class="pr-md pl-md pt-lg pb-lg">
+            <div class="pr-md pl-md hide pt-lg pb-lg">
                 <div class="box-layout">
                     <div class="col-xs-10">
                         <div>
@@ -123,7 +123,7 @@ $view['slots']->set(
 
         <div class="bg-auto bg-dark-xs">
             <!-- email detail collapseable toggler -->
-            <div class="hr-expand nm">
+            <div class="hr-expand hide nm">
                 <span data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.details'); ?>">
                     <a href="javascript:void(0)" class="arrow text-muted collapsed" data-toggle="collapse"
                        data-target="#dripemail-details">
@@ -131,8 +131,26 @@ $view['slots']->set(
                     </a>
                 </span>
             </div>
+            <div class="col-md-6">
+                <br>
+                <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.stat.name'); ?> </h2>
+                <br>
+            </div>
             <!--/ email detail collapseable toggler -->
-
+            <div class="row" style="padding-left:2.5%;padding-right:2.5%;">
+                <?php echo $view->render('MauticEmailBundle:Email:campaign_stats.html.php',
+                    [
+                        'sentcount'        => $emailStats['sent'],
+                        'uniqueopen'       => $emailStats['uopen'],
+                        'totalopen'        => $emailStats['topen'],
+                        'notopencount'     => $emailStats['nopen'],
+                        'click'            => $emailStats['click'],
+                        'unsubscribecount' => $emailStats['unsubscribe'],
+                        'bouncecount'      => $emailStats['bounce'],
+                        'spamcount'        => $emailStats['spam'],
+                    ]
+                ); ?>
+            </div>
             <?php echo $view->render(
                 'MauticEmailBundle:DripEmail:graph.html.php',
                 [
@@ -141,9 +159,52 @@ $view['slots']->set(
                     'dateRangeForm' => $dateRangeForm,
                 ]
             ); ?>
+            <div class="col-md-12 bdr-w-0">
+                <div>
+                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.email.activity')?></h2>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:DripEmail:emails.html.php', ['items' => $emailList, 'security' => $security]); ?>
+            </div>
+            <div class="col-md-12 bdr-w-0">
+                <div>
+                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10openleads')?><a class="" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.drip.searchcommand.read').':'.$entity->getId()]
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $openLeads, 'security' => $security]); ?>
+            </div>
+            <div class="col-md-12 bdr-w-0">
+                <div>
+                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10clickleads')?><a class="" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.drip.searchcommand.click').':'.$entity->getId()]
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $clickLeads, 'security' => $security]); ?>
+            </div>
+            <div class="col-md-12 bdr-w-0">
+                <div>
+                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10unsubscribeleads')?><a class="" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.drip.searchcommand.unsubscribe').':'.$entity->getId()]
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $unsubscribeLeads, 'security' => $security]); ?>
+            </div>
+            <div class="col-md-12 bdr-w-0">
+                <div>
+                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10bouncedleads')?><a class="" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.drip.searchcommand.bounce').':'.$entity->getId()]
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                </div>
+                <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $bounceLeads, 'security' => $security]); ?>
+            </div>
+
 
             <!-- tabs controls -->
-            <ul class="nav nav-tabs pr-md pl-md">
+            <ul class="nav hide nav-tabs pr-md pl-md">
                 <li class="active">
                     <a href="#contacts-container" role="tab" data-toggle="tab">
                         <?php echo $view['translator']->trans('le.email.associated.contacts'); ?>
@@ -155,7 +216,7 @@ $view['slots']->set(
         </div>
 
         <!-- start: tab-content -->
-        <div class="tab-content pa-md">
+        <div class="tab-content hide pa-md">
             <div class="tab-pane active bdr-w-0" id="contacts-container">
                 <?php echo $contacts; ?>
             </div>
@@ -164,7 +225,7 @@ $view['slots']->set(
     <!--/ left section -->
 
     <!-- right section -->
-    <div class="col-md-3 bg-white bdr-l height-auto">
+    <div class="col-md-3 bg-white hide bdr-l height-auto">
         <!-- activity feed -->
         <?php echo $view->render('MauticCoreBundle:Helper:recentactivity.html.php', ['logs' => $logs]); ?>
     </div>

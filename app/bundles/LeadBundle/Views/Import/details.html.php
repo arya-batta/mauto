@@ -170,7 +170,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                                     [
                                         'chartData'   => $importedRowsChart,
                                         'chartType'   => 'line',
-                                        'chartHeight' => 210,
+                                        'chartHeight' => 500,
                                     ]
                                 ); ?>
                             </div>

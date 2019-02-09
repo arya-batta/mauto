@@ -32,29 +32,12 @@ $actionRoute = $view['router']->path('le_email_campaign_action',
 <div class="pa-md">
     <div class="row">
         <div class="col-sm-12">
-            <?php if ($isVariant): ?>
-            <div class="text-right small" id="variant-chart-switcher">
-                <span>
-                    <a data-toggle="ajax" class="btn btn-xs<?php if (!$showAllStats) {
-    echo ' disabled';
-} ?>" href="<?php echo $actionRoute.'&stats=variant'; ?>">
-                        <?php echo $view['translator']->trans('le.email.variant.graph.variant'); ?>
-                    </a>
-                </span>
-                </span> | </span>
-                <span>
-                    <a data-toggle="ajax" class="btn btn-xs<?php  if ($showAllStats) {
-    echo ' disabled';
-} ?>" href="<?php echo $actionRoute.'&stats=all'; ?>">
-                        <?php echo $view['translator']->trans('le.email.variant.graph.all'); ?>
-                    </a>
-                </span>
-            </div>
-            <?php endif; ?>
+            <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.stat.graph.name'); ?> </h2>
+            <br>
             <div class="panel">
                 <div class="panel-body box-layout">
                     <div class="col-xs-4 va-m">
-                        <h5 class="text-white dark-md fw-sb mb-xs">
+                        <h5 class="text-white hide dark-md fw-sb mb-xs">
                             <span class="fa fa-envelope"></span>
                             <?php  echo $view['translator']->trans($label); ?>
                         </h5>
@@ -65,10 +48,10 @@ $actionRoute = $view['router']->path('le_email_campaign_action',
                 </div>
                 <div class="row">
                     <div class="pt-0 pl-15 pb-10 pr-15">
-                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 300]); ?>
+                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 500]); ?>
                     </div>
                     <div class="pt-0 pl-15 pb-10 pr-15 col-xs-6 hide">
-                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $statsDevices, 'chartType' => 'horizontal-bar', 'chartHeight' => 300]); ?>
+                        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $statsDevices, 'chartType' => 'horizontal-bar', 'chartHeight' => 500]); ?>
                     </div>
                 </div>
             </div>

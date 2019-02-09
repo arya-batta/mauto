@@ -1868,7 +1868,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $this->limitQueryToCreator($q);
             }
             $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('le.email.sent.emails'), $data);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.sent'), $data);
         }
 
         if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'sent_and_opened' || $flag == 'opened') {
@@ -1877,7 +1877,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $this->limitQueryToCreator($q);
             }
             $data = $query->loadAndBuildTimeData($q);
-            $chart->setDataset($this->translator->trans('le.email.read.emails'), $data);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.open'), $data);
         }
         if ($this->security->isAdmin()) {
             if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
@@ -1912,17 +1912,22 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
             $data = $query->loadAndBuildTimeData($q);
 
-            $chart->setDataset($this->translator->trans('le.email.clicked'), $data);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.click'), $data);
         }
 
         if ($flag == 'all' || $flag == 'unsubscribed') {
             $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::UNSUBSCRIBED, $canViewOthers);
-            $chart->setDataset($this->translator->trans('le.email.unsubscribed'), $data);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.unsubscribe'), $data);
         }
 
         if ($flag == 'all' || $flag == 'bounced') {
             $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::BOUNCED, $canViewOthers);
-            $chart->setDataset($this->translator->trans('le.email.bounced'), $data);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.bounce'), $data);
+        }
+
+        if ($flag == 'all' || $flag == 'spam') {
+            $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::SPAM, $canViewOthers);
+            $chart->setDataset($this->translator->trans('le.dripemail.stat.spam'), $data);
         }
 
         return $chart->render();
@@ -2668,5 +2673,47 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $senderprofile->setVerificationStatus($verificationStatus);
             $verifiedemailRepo->saveEntity($senderprofile);
         }
+    }
+
+    public function getCustomEmailStats($emailid)
+    {
+        $emailStats                = [];
+        $emailStats['sent']        = $this->getRepository()->getTotalSentCounts($emailid);
+        $emailStats['uopen']       = $this->getRepository()->getTotalUniqueOpenCounts($emailid);
+        $emailStats['topen']       = $this->getRepository()->getTotalOpenCounts($emailid);
+        $emailStats['click']       = $this->getRepository()->getEmailClickCounts($emailid);
+        $emailStats['unsubscribe'] = $this->getRepository()->getTotalUnsubscribedCounts($emailid);
+        $emailStats['bounce']      = $this->getRepository()->getTotalBounceCounts($emailid);
+        $emailStats['spam']        = $this->getRepository()->getTotalSpamCounts($emailid);
+        $emailStats['nopen']       = $this->getRepository()->getTotalNotOpenCounts($emailid);
+
+        return $emailStats;
+    }
+
+    public function getLeadsBasedonAction($searchString)
+    {
+        $start          = 0;
+        $limit          = 10;
+        $filter         = ['string' => $searchString, 'force' => ''];
+        $orderBy        = 'l.last_active';
+        $orderByDir     = 'DESC';
+        $ignoreListJoin = true;
+        $results        = $this->leadModel->getEntities([
+            'start'          => $start,
+            'limit'          => $limit,
+            'filter'         => $filter,
+            'orderBy'        => $orderBy,
+            'orderByDir'     => $orderByDir,
+            'withTotalCount' => true,
+            'ignoreListJoin' => $ignoreListJoin,
+        ]);
+
+        $count = $results['count'];
+        unset($results['count']);
+
+        $leads = $results['results'];
+        unset($results);
+
+        return $leads;
     }
 }

@@ -17,7 +17,8 @@ $totalWeight = 0;
 <?php if ($variants['parent']->getVariantStartDate() != null): ?>
 <div class="box-layout mb-lg">
     <div class="col-xs-10 va-m">
-        <h4>
+        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.abtest.activity'); ?></h2>
+        <h5>
             <?php echo $view['translator']->trans(
                 'mautic.core.variant_start_date',
                 [
@@ -32,7 +33,7 @@ $totalWeight = 0;
                     ),
                 ]
             ); ?>
-        </h4>
+        </h5>
     </div>
     <!-- button -->
     <div class="col-xs-2 va-m text-right">
@@ -85,10 +86,10 @@ $totalWeight = 0;
 <?php echo $view->render(
     'MauticCoreBundle:Helper:modal.html.php',
     [
-        'id'     => 'abStatsModal',
-        'header' => 'A/B Test Stats',
+        'id'             => 'abStatsModal',
+        'header'         => 'A/B Test Stats',
         'dismissible'    => true,
-        'body'   => (isset($abTestResults['supportTemplate'])) ? $view->render(
+        'body'           => (isset($abTestResults['supportTemplate'])) ? $view->render(
             $abTestResults['supportTemplate'],
             ['results' => $abTestResults, 'variants' => $variants]
         ) : $view['translator']->trans('mautic.core.ab_test.noresults'),

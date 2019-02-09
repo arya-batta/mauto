@@ -482,7 +482,7 @@ $view['slots']->set(
                                 </div>
                                 <?php echo $view->render(
                                     'MauticCoreBundle:Helper:chart.html.php',
-                                    ['chartData' => $engagementData, 'chartType' => 'line', 'chartHeight' => 250]
+                                    ['chartData' => $engagementData, 'chartType' => 'line', 'chartHeight' => 500]
                                 ); ?>
                             </div>
                         </div>

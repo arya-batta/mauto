@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $graph, 'chartType' => 'line', 'chartHeight' => 300]); ?>
+        <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $graph, 'chartType' => 'line', 'chartHeight' => 500]); ?>
     </div>
 </div>
 

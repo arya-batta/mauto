@@ -6640,6 +6640,7 @@ text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 101%;
+  font-weight: bold;
 }
 .disable_ele{
   pointer-events:none;

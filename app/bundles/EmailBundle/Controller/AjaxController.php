@@ -1326,4 +1326,52 @@ class AjaxController extends CommonAjaxController
 
         return new JsonResponse($data);
     }
+
+    /**
+     * @param Request $request
+     */
+    protected function getEmailsViewDripCountStatsAction(Request $request)
+    {
+        /** @var EmailModel $model */
+        $model = $this->getModel('email');
+
+        /** @var DripEmailModel $dripmodel */
+        $dripmodel = $this->getModel('email.dripemail');
+
+        $data = [];
+        if ($id = $request->get('id')) {
+            if ($email = $model->getEntity($id)) {
+                $sentCount   = $email->getSentCount(true);
+
+                $clickCount = $model->getEmailClickCount($email->getId());
+                if ($clickCount > 0 && $sentCount > 0) {
+                    $clickCountPercentage = round($clickCount / $sentCount * 100);
+                } else {
+                    $clickCountPercentage = 0;
+                    $clickCount           =0;
+                }
+
+                $eventLogRepo     = $dripmodel->getCampaignLeadEventRepository();
+                $events           = $eventLogRepo->getScheduledEventsbyDripEmail($email);
+                $scheduledlead    = sizeof($events);
+                $readCount        = $email->getReadCount(true);
+                $unsubscribeCount = $email->getUnsubscribeCount(true);
+                $bounceCount      = $email->getBounceCount(true);
+                $spamCount        = $email->getSpamCount(true);
+                $notreadcount     = $sentCount != 0 ? ($sentCount - $readCount) : 0;
+                $data             = [
+                    'success'            => 1,
+                    'sentCount'          => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%' =>$sentCount]),
+                    'readCount'          => $this->translator->trans('le.drip.email.stat.readcount', ['%count%' => $readCount]),
+                    'readPercent'        => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' => $clickCount]),
+                    'noreadCount'        => $this->translator->trans('le.drip.email.stat.notopencount', ['%count%' =>$notreadcount]),
+                    'unsubscribeCount'   => $this->translator->trans('le.drip.email.stat.unsubscribecount', ['%count%' =>$unsubscribeCount]),
+                    'bounceCount'        => $this->translator->trans('le.drip.email.stat.bouncecount', ['%count%' =>$bounceCount]),
+                    'spamCount'          => $this->translator->trans('le.drip.email.stat.spamcount', ['%count%' =>$spamCount]),
+                ];
+            }
+        }
+
+        return new JsonResponse($data);
+    }
 }
