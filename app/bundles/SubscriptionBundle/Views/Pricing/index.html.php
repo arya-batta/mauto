@@ -79,7 +79,7 @@ if ($proamount != 0) {
                         <br>
                         <br>
 
-                        <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="<?php echo $plan2amount?>" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter <?php echo $planname == 'leplan1' || $planname == 'freeplan1' ? '' : 'buttonfooter-disabled' ?>">
+                        <a href="#" type="button"  data-planname="leplan2" data-plancurrency="$" data-planamount="<?php echo $plan2amount?>" data-plancredits="UL" data-validity="1" class="btn plan-btn buttonfooter <?php echo $planname == '' || $planname == 'freeplan1' || $planname == 'leplan1' ? '' : 'buttonfooter-disabled' ?>">
                             Subscribe
                         </a>
                     </div>
