@@ -386,7 +386,13 @@ class CommonApiController extends FOSRestController implements MauticController
                 'value'  => $this->user->getId(),
             ];
         }
-
+        if ($this->entityNameOne == 'user') {
+            $this->listFilters[] = [
+        'column' => $tableAlias.'.email',
+        'expr'   => 'neq',
+        'value'  => 'sadmin@leadsengage.com',
+    ];
+        }
         if ($publishedOnly) {
             $this->listFilters[] = [
                 'column' => $tableAlias.'.isPublished',
@@ -394,7 +400,6 @@ class CommonApiController extends FOSRestController implements MauticController
                 'value'  => true,
             ];
         }
-
         if ($minimal) {
             if (isset($this->serializerGroups[0])) {
                 $this->serializerGroups[0] = str_replace('Details', 'List', $this->serializerGroups[0]);
@@ -642,7 +647,11 @@ class CommonApiController extends FOSRestController implements MauticController
         $entity     = $this->getNewEntity($parameters);
 
         if (!$this->checkEntityAccess($entity, 'create')) {
-            return $this->accessDenied();
+            if ($this->entityNameOne == 'hook') {
+                return $this->accessDenied('le.web.hook.access.denied.error');
+            } else {
+                return $this->accessDenied();
+            }
         }
 
         return $this->processForm($entity, $parameters, 'POST');
