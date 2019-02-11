@@ -56,7 +56,11 @@ class LeadSubscriber extends CommonSubscriber
         $this->addEmailEvents($event, 'read');
         $this->addEmailEvents($event, 'sent');
         $this->addEmailEvents($event, 'failed');
-        $this->addDripCampaignEvents($event, 'campaign.event', $this->translator->trans('le.drip.campaign.completed'));
+
+        if ($this->security->isAdmin()) {
+            $this->addDripCampaignEvents($event, 'campaign.event', $this->translator->trans('le.drip.campaign.completed'));
+        }
+
         $this->addDripCampaignEvents($event, 'campaign.event.scheduled', $this->translator->trans('le.drip.campaign.scheduled'));
         $this->addEmailReplies($event);
     }
@@ -102,7 +106,26 @@ class LeadSubscriber extends CommonSubscriber
             // Add the events to the event array
             foreach ($stats['results'] as $stat) {
                 if (!empty($stat['email_name'])) {
-                    $label = $stat['email_name'];
+                    if ('sent' == $state) {
+                        if (!empty($stat['idHash'])) {
+                            $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;']);
+                        } else {
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%href%' => '', '%style%' => '']);
+                        }
+                    } elseif ('read' == $state) {
+                        $open_date=$this->factory->get('mautic.helper.template.date')->toFull($stat['dateRead']);
+                        if (!empty($stat['idHash'])) {
+                            $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $stat['readCount'], '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;']);
+                        } else {
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $stat['readCount'], '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => '', '%style%' => '']);
+                        }
+                    } elseif ('failed' == $state) {
+                        $label            = $stat['email_name'];
+                    }
+
+                    //$label = $stat['email_name'];
                     if (!empty($stat['dripEmailId'])) {
                         $dripCampaignName = $statRepository->getDripName($stat['dripEmailId']);
                         $label            = $stat['email_name'].'/'.$dripCampaignName;
@@ -110,13 +133,13 @@ class LeadSubscriber extends CommonSubscriber
                 } elseif (!empty($stat['storedSubject'])) {
                     $label = $this->translator->trans('le.email.timeline.event.custom_email').': '.$stat['storedSubject'];
                 } else {
-                    $label = $this->translator->trans('le.email.timeline.event.custom_email');
+                    //$label = $this->translator->trans('le.email.timeline.event.custom_email');
                 }
 
                 if (!empty($stat['idHash'])) {
                     $eventName = [
                         'label'      => $label,
-                        'href'       => $this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]),
+                        /**'href'       => $this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]),*/
                         'isExternal' => true,
                     ];
                 } else {
@@ -221,10 +244,11 @@ class LeadSubscriber extends CommonSubscriber
                 } else {
                     continue;
                 }
-                $eventName = $label;
-                $eventName = [
-                    'label'      => $label,
-                    'href'       => $this->router->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign['dripemail_id']]),
+                $schedule_date=$this->factory->get('mautic.helper.template.date')->toFull($campaign['dateTriggered']);
+                $eventName    = $label;
+                $eventName    = [
+                    'label'      => $eventTypeKey == 'campaign.event.scheduled' ? $this->translator->trans('le.email.timeline.event.drip.scheduled.eventlabel', ['%emailname%' => $campaign['drip_name'], '%scheduleddate%' =>$schedule_date, '%href%' =>$this->router->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign['dripemail_id']])]) : $label,
+                    /**'href'       => $this->router->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign['dripemail_id']]),*/
                     'isExternal' => true,
                 ];
 

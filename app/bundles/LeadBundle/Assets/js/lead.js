@@ -208,6 +208,10 @@ Le.leadTimelineOnLoad = function (container, response) {
         mQuery('#TimelineCount').html(response.timelineCount);
     }
 };
+Le.showAllEvents = function(){
+    mQuery('.le-timeline-event').removeClass('hide');
+    mQuery('.le-timeline-event-end').remove();
+}
 
 Le.leadAuditlogOnLoad = function (container, response) {
     mQuery("#contact-auditlog a[data-activate-details='all']").on('click', function() {

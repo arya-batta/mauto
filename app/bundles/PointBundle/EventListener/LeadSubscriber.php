@@ -12,7 +12,6 @@
 namespace Mautic\PointBundle\EventListener;
 
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
-use Mautic\LeadBundle\Entity\PointsChangeLog;
 use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
 use Mautic\LeadBundle\Event\LeadTimelineEvent;
@@ -102,11 +101,16 @@ class LeadSubscriber extends CommonSubscriber
         if (!$event->isEngagementCount()) {
             // Add the logs to the event array
             foreach ($logs['results'] as $log) {
+                $operation = 'added';
+
+                if (strpos($log['delta'], '-') !== false) {
+                    $operation='deducted';
+                }
                 $event->addEvent(
                     [
                         'event'      => $eventTypeKey,
                         'eventId'    => $eventTypeKey.$log['id'],
-                        'eventLabel' => $log['eventName'].' / '.$log['delta'],
+                        'eventLabel' => $this->translator->trans('mautic.point.event.'.$operation.'.eventlabel').'"'.$log['eventName'].' / '.$log['delta'].'"',
                         'eventType'  => $eventTypeName,
                         'timestamp'  => $log['dateAdded'],
                         'extra'      => [

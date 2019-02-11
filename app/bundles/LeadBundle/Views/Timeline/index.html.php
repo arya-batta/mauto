@@ -8,8 +8,9 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+$isAdmin       =$view['security']->isAdmin();
 ?>
-
+<?php if ($isAdmin): ?>
 <!-- filter form -->
 <form method="post" action="<?php echo $view['router']->path('le_contacttimeline_action', ['leadId' => $lead->getId()]); ?>" class="panel" id="timeline-filters">
     <div class="form-control-icon pa-xs">
@@ -53,6 +54,7 @@
     leLang['showMore'] = '<?php echo $view['translator']->trans('mautic.core.more.show'); ?>';
     leLang['hideMore'] = '<?php echo $view['translator']->trans('mautic.core.more.hide'); ?>';
 </script>
+<?php endif; ?>
 
 <div id="timeline-table">
     <?php $view['slots']->output('_content'); ?>

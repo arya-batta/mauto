@@ -11,6 +11,7 @@
 if ($tmpl == 'index'):
     $view->extend('MauticLeadBundle:Import:index.html.php');
 endif;
+$isAdmin=$view['security']->isAdmin();
 ?>
 
 <?php if (count($items)): ?>
@@ -78,13 +79,14 @@ endif;
                     'class'      => 'col-date-added visible-md visible-lg',
                     'default'    => true,
                 ]);
-
+                if ($isAdmin):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => $sessionVar,
                     'orderBy'    => $tablePrefix.'.id',
                     'text'       => 'mautic.core.id',
                     'class'      => 'col-lead-id visible-md visible-lg',
                 ]);
+                endif;
                 ?>
             </tr>
         </thead>

@@ -326,11 +326,11 @@ class StatRepository extends CommonRepository
 
         if (!empty($options['basic_select'])) {
             $query->select(
-                's.email_id, s.id, s.date_read as dateRead, s.date_sent as dateSent, e.subject, e.name as email_name, s.is_read as isRead, s.is_failed as isFailed, ec.subject as storedSubject ,e.dripemail_id as dripEmailId'
+                's.email_id, s.id, s.date_read as dateRead, s.date_sent as dateSent, e.subject, e.name as email_name, s.is_read as isRead, s.is_failed as isFailed, ec.subject as storedSubject ,e.dripemail_id as dripEmailId,e.email_type as emailType,read_count as readCount'
             );
         } else {
             $query->select(
-                's.email_id, s.id, s.date_read as dateRead, s.date_sent as dateSent,e.subject, e.name as email_name, s.is_read as isRead, s.is_failed as isFailed, s.viewed_in_browser as viewedInBrowser, s.retry_count as retryCount, s.list_id, l.name as list_name, s.tracking_hash as idHash, s.open_details as openDetails, ec.subject as storedSubject, s.lead_id,e.dripemail_id as dripEmailId'
+                's.email_id, s.id, s.date_read as dateRead, s.date_sent as dateSent,e.subject, e.name as email_name, s.is_read as isRead, s.is_failed as isFailed, s.viewed_in_browser as viewedInBrowser, s.retry_count as retryCount, s.list_id, l.name as list_name, s.tracking_hash as idHash, s.open_details as openDetails, ec.subject as storedSubject, s.lead_id,e.dripemail_id as dripEmailId,e.email_type as emailType,read_count as readCount'
             )
                 ->leftJoin('s', MAUTIC_TABLE_PREFIX.'lead_lists', 'l', 's.list_id = l.id');
         }

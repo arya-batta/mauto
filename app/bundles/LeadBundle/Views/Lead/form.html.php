@@ -24,60 +24,9 @@ $img = $view['lead_avatar']->getAvatar($lead);
 ?>
 <?php echo $view['form']->start($form); ?>
 <!-- start: box layout -->
-<div class="box-layout">
-    <!-- step container -->
-    <div class="col-md-3 bg-white height-auto">
-        <div class="pr-lg pl-lg pt-md pb-md">
-            <div class="media">
-                <div class="media-body">
-                    <img class="img-rounded img-bordered img-responsive media-object" src="<?php echo $img; ?>" alt="">
-                </div>
-            </div>
-
-            <div class="row mt-xs">
-                <div class="col-sm-12">
-                    <?php echo $view['form']->label($form['preferred_profile_image']); ?>
-                    <?php echo $view['form']->widget($form['preferred_profile_image']); ?>
-                </div>
-                <div
-                        class="col-sm-12<?php if ($view['form']->containsErrors($form['custom_avatar'])) {
-    echo ' has-error';
-} ?>"
-                        id="customAvatarContainer"
-                        style="<?php if ($form['preferred_profile_image']->vars['data'] != 'custom') {
-    echo 'display: none;';
-} ?>">
-                    <?php echo $view['form']->widget($form['custom_avatar']); ?>
-                    <?php echo $view['form']->errors($form['custom_avatar']); ?>
-                </div>
-            </div>
-
-            <hr/>
-
-            <ul class="list-group list-group-tabs">
-                <?php $step = 1; ?>
-                <?php foreach ($groups as $g): ?>
-                    <?php if (!empty($fields[$g])): ?>
-                        <?php  if ($isAdmin): ?>
-                        <li class="list-group-item <?php if ($step === 1) {
-    echo 'active';
-} ?>">
-                            <a href="#<?php echo $g; ?>" class="steps" data-toggle="tab">
-                                <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
-                            </a>
-                        </li>
-                        <?php endif; ?>
-                        <?php ++$step; ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-    <!--/ step container -->
-
+<div class="box-layout row lead-edit-outer">
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-l">
-        <div class="tab-content">
+    <div class="col-md-9 lead-edit-inside">
             <!-- pane -->
             <?php
             foreach ($groups as $key => $group):
@@ -86,7 +35,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                     if (!empty($groupFields)): ?>
                         <div class="tab-pane fade<?php if ($key === 0): echo ' in active'; endif; ?> bdr-rds-0 bdr-w-0"
                              id="<?php echo $group; ?>">
-                            <div class="pa-md bg-auto bg-light-xs bdr-b">
+                            <div class="pa-md bg-auto bg-light-xs bdr-b hide">
                                 <h4 class="fw-sb"><?php echo $view['translator']->trans('le.lead.field.group.'.$group); ?></h4>
                             </div>
                             <div class="pa-md" style="width: 150%;">
@@ -124,38 +73,33 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                                 </div>
                                             </div>
                                         <?php endif; ?>
-                                        <label
-                                                class="control-label mb-xs"><?php echo $form['email']->vars['label']; ?></label>
-                                        <div class="row">
-                                            <div class="form-group col-sm-8 <?php if ($view['form']->containsErrors($form['email'])) {
+                                        <div class="row" style="max-width: 68%;">
+                                        <div class="form-group col-sm-6 <?php if ($view['form']->containsErrors($form['email'])) {
                         echo ' has-error';
                     } ?>">
+                                                <?php echo $view['form']->label($form['email']); ?>
                                                 <?php echo $view['form']->widget($form['email'], ['attr' => ['placeholder' => $form['email']->vars['label']]]); ?>
                                                 <?php echo $view['form']->errors($form['email']); ?>
                                             </div>
 
-                                        </div>
                                         <?php if (isset($form['mobile'])): ?>
-                                            <div class="row">
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-6">
                                                     <?php echo $view['form']->row($form['mobile']); ?>
                                                 </div>
-                                            </div>
                                         <?php endif; ?>
+                                        </div>
+                                        <div class="row" style="max-width: 68%;">
                                         <?php if (isset($form['points'])): ?>
-                                            <div class="row">
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-6">
                                                     <?php echo $view['form']->row($form['points'], ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
                                                 </div>
-                                            </div>
                                         <?php endif; ?>
                                         <?php if (isset($form['score'])): ?>
-                                            <div class="row" >
-                                             <div class="col-sm-8">
+                                             <div class="col-sm-6">
                                               <?php echo $view['form']->row($form['score'], ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;text-transform: capitalize;']]); ?>
                                              </div>
-                                            </div>
                                         <?php endif; ?>
+                                        </div>
                                     </div>
                                     <hr class="mnr-md mnl-md" >
                                     <div class="form-group mb-0" <?php echo $stagehideattr ?>>
@@ -282,29 +226,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                         <?php endif; ?>
                                     </div>
                                     <hr class="mnr-md mnl-md" <?php echo $stagehideattr ?>>
-                                    <div class="form-group le-mb-footer">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <?php echo $view['form']->label($form['owner']); ?>
-                                                <?php echo $view['form']->widget($form['owner']); ?>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <?php echo $view['form']->label($form['tags']); ?>
-                                                <?php echo $view['form']->widget($form['tags']); ?>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <?php echo $view['form']->label($form['lead_lists']); ?>
-                                                <?php echo $view['form']->widget($form['lead_lists']); ?>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <?php echo $view['form']->label($form['lead_listsoptin']); ?>
-                                                <?php echo $view['form']->widget($form['lead_listsoptin']); ?>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -315,8 +237,79 @@ $img = $view['lead_avatar']->getAvatar($lead);
             ?>
             <!--/ #pane -->
         </div>
+    <div class="col-sm-1" style="width: 1%">
     </div>
+   <?php /** </div>*/ ?>
     <!--/ end: container -->
+    <!-- step container -->
+    <div class="col-md-3 pa-md" style="border: 1px solid #ccc;border-radius: 3px;margin-left: 10px;" >
+        <div class="pr-lg pl-lg pt-md pb-md">
+            <div class="media">
+                <div class="media-body" style="align:center;">
+                    <img class="img-rounded img-bordered img-responsive media-object" style="margin-top: 0px;border-radius: 120px;height: 150px;margin-left: auto;margin-right: auto;" src="<?php echo $img; ?>" alt="">
+                </div>
+            </div>
+
+            <div class="row mt-xs">
+                <div class="col-sm-12">
+                    <?php // echo $view['form']->label($form['preferred_profile_image']);?>
+                    <?php echo $view['form']->widget($form['preferred_profile_image']); ?>
+                </div>
+                <div
+                        class="col-sm-12<?php if ($view['form']->containsErrors($form['custom_avatar'])) {
+                echo ' has-error';
+            } ?>"
+                        id="customAvatarContainer"
+                        style="<?php if ($form['preferred_profile_image']->vars['data'] != 'custom') {
+                echo 'display: none;';
+            } ?>">
+                    <?php echo $view['form']->widget($form['custom_avatar']); ?>
+                    <?php echo $view['form']->errors($form['custom_avatar']); ?>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="form-group le-mb-footer">
+                <div class="row">
+                        <?php echo $view['form']->label($form['owner']); ?>
+                        <?php echo $view['form']->widget($form['owner']); ?>
+                </div>
+                <br>
+                <div class="row">
+                    <?php echo $view['form']->label($form['lead_listsoptin']); ?>
+                    <?php echo $view['form']->widget($form['lead_listsoptin']); ?>
+                </div>
+                <br>
+                <div class="row">
+                    <?php echo $view['form']->label($form['lead_lists']); ?>
+                    <?php echo $view['form']->widget($form['lead_lists']); ?>
+                </div>
+                <br>
+                <div class="row">
+                        <?php echo $view['form']->label($form['tags']); ?>
+                        <?php echo $view['form']->widget($form['tags']); ?>
+                </div>
+            </div>
+            <ul class="list-group list-group-tabs">
+                <?php $step = 1; ?>
+                <?php foreach ($groups as $g): ?>
+                    <?php if (!empty($fields[$g])): ?>
+                        <?php  if ($isAdmin): ?>
+                            <li class="list-group-item <?php if ($step === 1) {
+                echo 'active';
+            } ?>">
+                                <a href="#<?php echo $g; ?>" class="steps" data-toggle="tab">
+                                    <?php echo $view['translator']->trans('le.lead.field.group.'.$g); ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php ++$step; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+    <!--/ step container -->
 </div>
 <?php echo $view['form']->end($form); ?>
 <!--/ end: box layout -->

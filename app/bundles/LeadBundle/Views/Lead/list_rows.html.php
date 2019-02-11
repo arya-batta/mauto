@@ -76,6 +76,7 @@ $isAdmin    =$view['security']->isAdmin();
                 <div><?php echo $fields['core']['email']['value']; ?></div>
             </a>
         </td>
+        <?php if ($isAdmin): ?>
         <td class="visible-md visible-lg">
             <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
             <?php $tags   = $item->getTags(); ?>
@@ -88,6 +89,7 @@ $isAdmin    =$view['security']->isAdmin();
             <?php ++$count; ?>
             <?php endforeach; ?>
         </td>
+        <?php endif; ?>
         <td class="visible-md visible-lg text-center">
            <?php
             $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : '';
@@ -101,6 +103,11 @@ $isAdmin    =$view['security']->isAdmin();
             $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
             ?>
             <span class="label label-primary"><?php echo $item->getPoints(); ?></span>
+        </td>
+        <td class="visible-md visible-lg">
+            <abbr title="<?php echo $view['date']->toFull($item->getDateAdded()); ?>">
+                <?php echo $view['date']->toText($item->getDateAdded()); ?>
+            </abbr>
         </td>
         <td class="visible-md visible-lg">
             <abbr title="<?php echo $view['date']->toFull($item->getLastActive()); ?>">

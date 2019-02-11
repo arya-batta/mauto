@@ -10,6 +10,7 @@
  */
 
 /** @var \Mautic\LeadBundle\Entity\Import $item */
+$isAdmin=$view['security']->isAdmin();
 ?>
 <?php foreach ($items as $item): ?>
     <tr>
@@ -26,7 +27,7 @@
                     ['item' => $item, 'model' => 'lead.import']
                 ); ?>
                 <?php endif; ?>
-                <?php if ($view['security']->hasEntityAccess(true, $permissions[$permissionBase.':viewother'], $item->getCreatedBy())) : ?>
+                <?php if ($isAdmin) : ?>
                     <a href="<?php echo $view['router']->path(
                         $actionRoute,
                         ['objectAction' => 'view', 'objectId' => $item->getId(), 'object' => $app->getRequest()->get('object', 'contacts')]
@@ -46,10 +47,9 @@
         <td class="visible-md visible-lg"><?php
             if ($item->getIgnoredCount() == 1) {
                 echo 'Success!';
-            }elseif($item->getIgnoredCount() == 0){
+            } elseif ($item->getIgnoredCount() == 0) {
                 echo 0;
-            }
-            else {
+            } else {
                 echo $item->getIgnoredCount() - 1;
             }
              ?></td>
@@ -58,6 +58,8 @@
                 <?php echo $view['date']->toText($item->getDateAdded()); ?>
             </abbr>
         </td>
-        <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+        <?php if ($isAdmin): ?>
+            <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+        <?php endif; ?>
     </tr>
 <?php endforeach; ?>

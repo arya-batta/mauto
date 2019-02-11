@@ -132,22 +132,32 @@ class LeadSubscriber extends CommonSubscriber
                         }
                     }
                 }
-
+                $href    ='';
+                $opentype='';
+                $label   ='';
                 if (!empty($hit['page_id'])) {
                     $page       = $this->pageModel->getEntity($hit['page_id']);
                     $eventLabel = [
                         'label' => $page->getTitle(),
-                        'href'  => $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $hit['page_id']]),
+                        /**'href'  => $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $hit['page_id']]),*/
                     ];
+
+                    $href    = $this->router->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $hit['page_id']]);
+                    $opentype='data-toggle="ajax"';
+                    $label   =$eventLabel['label'];
                 } else {
                     $eventLabel = [
                         'label'      => (isset($hit['urlTitle'])) ? $hit['urlTitle'] : $hit['url'],
-                        'href'       => $hit['url'],
+                        /**'href'       => $hit['url'],*/
                         'isExternal' => true,
                     ];
-                }
 
-                $contactId = $hit['lead_id'];
+                    $href    = $hit['url'];
+                    $opentype='target="_new"';
+                    $label   =$eventLabel['label'];
+                }
+                $eventLabel['label'] = $this->translator->trans('le.page.event.hit.eventlabel', ['%href%' => $href, '%opentype%' => $opentype, '%label%' =>$label]);
+                $contactId           = $hit['lead_id'];
                 unset($hit['lead_id']);
 
                 $event->addEvent(

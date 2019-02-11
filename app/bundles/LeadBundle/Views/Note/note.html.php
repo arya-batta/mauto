@@ -39,6 +39,7 @@ switch ($type) {
 }
 
 ?>
+<?php /** ?>
 <li id="LeadNote<?php echo $id; ?>">
     <div class="panel ">
         <div class="panel-body np box-layout">
@@ -68,3 +69,46 @@ switch ($type) {
         </div>
     </div>
 </li>
+ */ ?>
+
+        <div class="le-notes-panel" id="LeadNote<?php echo $id; ?>" >
+            <div class="le-notes-panel-body">
+                <div class="le-notes-list clearfix" >
+                    <div class="le-notes-icon"><i class="fa <?php echo $icon; ?>" style="height: 12px;width: 12px"></i></div>
+                    <div class="le-notes-content">
+                        <div><p><?php echo $text; ?></p></div>
+                        <div class="col-sm-7" style="width: 60%;padding-left: 0">
+                        <div class="le-small">
+                            <i class="fa fa-user le-icon-user" style="color:#ffa800"></i>
+                            <span class=""><?php echo $author; ?></span>
+                        </div>
+                            <small class="le-small le-text-muted"><span class="small"><?php echo $view['date']->toFullConcat($date); ?></small>
+                        </div><div class="col-sm-3" style="margin-top: 9px;margin-left: 42px;">
+                            <ul class="le-option-list le-list-divided">
+                                <div>
+                                <li data-toggle="" title="Edit" ><?php /**class="le-option-list-item"*/ ?>
+                                    <?php if ($permissions['edit']): ?>
+                                        <a class="le-option-list-item-link" style="margin-left: -1px;" href="<?php echo $view['router']->generate('le_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'edit', 'objectId' => $id]); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.edit'); ?>"><i class="fa fa-pencil"></i></a>
+                                    <?php endif; ?>
+                                </li>
+                                </div>
+                                <div>
+                                <li data-toggle="" title="Delete" ><?php /**class="le-option-list-item"*/ ?>
+                                    <?php if ($permissions['delete']): ?>
+                                        <a class="le-option-list-item-link" data-toggle="confirmation" style="margin-left: 28px;"
+                                           href="<?php echo $view['router']->path('le_contactnote_action', ['objectAction' => 'delete', 'objectId' => $id, 'leadId' => $lead->getId()]); ?>"
+                                           data-message="<?php echo $view->escape($view['translator']->trans('le.lead.note.confirmdelete')); ?>"
+                                           data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>"
+                                           data-confirm-callback="executeAction"
+                                           data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>"><i class="fa fa-trash"></i></a>
+                                    <?php endif; ?>
+                                </li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+

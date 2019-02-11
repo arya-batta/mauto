@@ -145,12 +145,13 @@ if ($showsetup) {
                     'text'       => 'mautic.core.type.contact',
                     'class'      => 'col-lead-email',
                 ]);*/
+               if ($isAdmin):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'text'       => 'mautic.core.type.tags',
                     'class'      => 'col-lead-tags',
                 ]);
-
+               endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.score',
@@ -178,6 +179,12 @@ if ($showsetup) {
                         'class'      => 'col-lead-stage',
                     ]);
                 }*/
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'lead',
+                    'text'       => 'le.lead.dateadded',
+                    'class'      => 'col-lead-lastactive visible-md visible-lg',
+                ]);
+
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',

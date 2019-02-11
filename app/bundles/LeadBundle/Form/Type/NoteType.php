@@ -42,7 +42,7 @@ class NoteType extends AbstractType
         $builder->add('text', 'textarea', [
             'label'      => 'le.lead.note.form.text',
             'label_attr' => ['class' => 'control-label sr-only'],
-            'attr'       => ['class' => 'mousetrap form-control editor', 'rows' => 10, 'autofocus' => 'autofocus'],
+            'attr'       => ['class' => 'mousetrap form-control', 'rows' => 10, 'autofocus' => 'autofocus'],
         ]);
 
         $builder->add('type', 'choice', [

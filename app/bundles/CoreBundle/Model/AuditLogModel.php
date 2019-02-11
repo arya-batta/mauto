@@ -42,8 +42,10 @@ class AuditLogModel extends AbstractCommonModel
         $action    = (isset($args['action'])) ? $args['action'] : '';
         $details   = (isset($args['details'])) ? $args['details'] : '';
         $ipAddress = (isset($args['ipAddress'])) ? $args['ipAddress'] : '';
-        if($object == "lead"){
-            return;
+        if ($object == 'lead') {
+            if ($action != 'update') {
+                return;
+            }
         }
         $log = new AuditLog();
         $log->setBundle($bundle);

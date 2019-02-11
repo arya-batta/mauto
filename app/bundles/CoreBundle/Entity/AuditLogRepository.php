@@ -30,16 +30,20 @@ class AuditLogRepository extends CommonRepository
      */
     public function getAuditLogsCount(Lead $lead, array $filters = null)
     {
-        $userfilter="";
-        if($this->currentUser != null && !$this->currentUser->isAdmin()){
-            $userfilter="al.user_id != 1 and ";
+        $userfilter='';
+        if ($this->currentUser != null && !$this->currentUser->isAdmin()) {
+            $userfilter='al.user_id != 1 and ';
         }
         $query = $this->_em->getConnection()->createQueryBuilder()
             ->from(MAUTIC_TABLE_PREFIX.'audit_log', 'al')
             ->select('count(*)')
-            ->where( $userfilter.'al.object = \'lead\'')
+            ->where($userfilter.'al.object = \'lead\'')
             ->andWhere('al.object_id = :id')
             ->setParameter('id', $lead->getId());
+        if (!empty($filters['action'])) {
+            $query->andWhere('al.action = :action')
+                ->setParameter('action', $filters['action']);
+        }
 
         if (is_array($filters) && !empty($filters['search'])) {
             $query->andWhere('al.details like \'%'.$filters['search'].'%\'');
@@ -69,10 +73,9 @@ class AuditLogRepository extends CommonRepository
      */
     public function getAuditLogs(Lead $lead, array $filters = null, array $orderBy = null, $page = 1, $limit = 25)
     {
-
-        $userfilter="";
-        if($this->currentUser != null && !$this->currentUser->isAdmin()){
-            $userfilter="al.userId != 1 and ";
+        $userfilter='';
+        if ($this->currentUser != null && !$this->currentUser->isAdmin()) {
+            $userfilter='al.userId != 1 and ';
         }
         $query = $this->createQueryBuilder('al')
             ->select('al.userName, al.userId, al.bundle, al.object, al.objectId, al.action, al.details, al.dateAdded, al.ipAddress')
@@ -80,6 +83,10 @@ class AuditLogRepository extends CommonRepository
             ->andWhere('al.object = \'lead\'')
             ->andWhere('al.objectId = :id')
             ->setParameter('id', $lead->getId());
+        if (!empty($filters['action'])) {
+            $query->andWhere('al.action = :action')
+                ->setParameter('action', $filters['action']);
+        }
 
         if (is_array($filters) && !empty($filters['search'])) {
             $query->andWhere('al.details like \'%'.$filters['search'].'%\'');
@@ -183,7 +190,7 @@ class AuditLogRepository extends CommonRepository
      *
      * @return array
      */
-    public function getLogForObject($object = null, $id = null, $limit = 10, $afterDate = null, $bundle = null,$isAdmin = false)
+    public function getLogForObject($object = null, $id = null, $limit = 10, $afterDate = null, $bundle = null, $isAdmin = false)
     {
         $query = $this->createQueryBuilder('al')
             ->select('al.userName, al.userId, al.bundle, al.object, al.objectId, al.action, al.details, al.dateAdded, al.ipAddress')
@@ -210,7 +217,7 @@ class AuditLogRepository extends CommonRepository
             )
                 ->setParameter('date', $afterDate);
         }
-        if(!$isAdmin){
+        if (!$isAdmin) {
             $query->andWhere('al.userId != 1');
         }
         $query->orderBy('al.dateAdded', 'DESC')

@@ -84,8 +84,8 @@ class LeadSubscriber extends CommonSubscriber
                         'event'      => $eventTypeKey,
                         'eventId'    => $eventTypeKey.$download['download_id'],
                         'eventLabel' => [
-                            'label' => $download['title'],
-                            'href'  => $this->router->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $download['asset_id']]),
+                            'label' => $this->translator->trans('le.asset.event.download.eventlabel', ['%file%' => $download['title'], '%href%' => $this->router->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $download['asset_id']])]),
+                            /**'href'  => $this->router->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $download['asset_id']]),*/
                         ],
                         'extra' => [
                             'asset'            => $asset,

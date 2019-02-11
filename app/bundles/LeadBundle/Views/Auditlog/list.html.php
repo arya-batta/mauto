@@ -91,7 +91,7 @@ $baseUrl = $view['router']->path(
                 </td>
                 <td class="timeline-name"><?php echo $eventLabel; ?></td>
                 <td class="timeline-type"><?php if (isset($event['eventType'])) {
-                echo $view['translator']->trans('mautic.lead.event.'.$event['eventType']);
+                echo $view['translator']->trans('le.lead.event.'.$event['eventType']);
             } ?></td>
                 <td class="timeline-timestamp"><?php echo $view['date']->toText($event['timestamp'], 'local', 'Y-m-d H:i:s', true); ?></td>
             </tr>

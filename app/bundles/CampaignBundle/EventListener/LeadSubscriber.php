@@ -602,6 +602,8 @@ class LeadSubscriber extends CommonSubscriber
 
                 $label = $log['event_name'].' / '.$log['campaign_name'];
 
+                $href = $this->router->generate('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]);
+
                 if (empty($log['isScheduled']) && empty($log['dateTriggered'])) {
                     // Note as cancelled
                     $label .= ' <i data-toggle="tooltip" title="'.$this->translator->trans('mautic.campaign.event.cancelled')
@@ -612,7 +614,9 @@ class LeadSubscriber extends CommonSubscriber
                     $label .= ' <i data-toggle="tooltip" title="'.$this->translator->trans('mautic.campaign.event.has_last_attempt_error')
                         .'" class="fa fa-warning text-danger"></i>';
                 }
-
+                if (empty($log['metadata']['errors']) && !empty($log['dateTriggered']) && empty($log['metadata']['failed'])) {
+                    $label = $this->translator->trans('le.workflow.event.triggered.eventlabel', ['%eventname%' => $log['event_name'], '%workflowname%' => $log['campaign_name'], '%href%' => $href]);
+                }
                 $extra = [
                     'log' => $log,
                 ];
@@ -633,21 +637,25 @@ class LeadSubscriber extends CommonSubscriber
                         $subeventTypeKey ='campaign.event.goal';
                         $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.goal.acheived');
                         $subeventTypeIcon='fa-trophy';
+                        $label           = $this->translator->trans('le.campaign.workflow.goal.acheived.eventlabel', ['%workflowname%' => $log['campaign_name'], '%eventname%' => $log['event_name'], '%href%' => $href]);
                     } else {
                         $subeventTypeKey ='campaign.event.started';
                         $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.started');
                         $subeventTypeIcon='fa-sign-in';
+                        $label           = $this->translator->trans('le.campaign.workflow.started.eventlabel', ['%workflowname%' => $log['campaign_name'], '%href%' => $href]);
                     }
                     $event->addEventType($subeventTypeKey, $subeventTypeName);
                 } elseif ($eventtype == 'condition') {
                     $subeventTypeKey ='campaign.event.condition';
-                    $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.condition');
+                    $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.decision');
                     $subeventTypeIcon='fa-hourglass';
+                    $label           = $this->translator->trans('le.campaign.workflow.decision.eventlabel', ['%workflowname%' => $log['campaign_name'], '%eventname%' => $log['event_name'], '%href%' => $href]);
                     $event->addEventType($subeventTypeKey, $subeventTypeName);
                 } elseif ($type == 'campaign.defaultexit') {
                     if ($this->campaignModel->isWorkFlowCompleteEvent($campaignid, $eventid)) {
                         $subeventTypeKey ='campaign.event.completed';
                         $subeventTypeName=$this->translator->trans('mautic.campaign.workflow.completed');
+                        $label           = $this->translator->trans('le.campaign.workflow.completed.eventlabel', ['%workflowname%' => $log['campaign_name'], '%href%' => $href]);
                     }
                     $subeventTypeIcon='fa-sign-out';
                     $event->addEventType($subeventTypeKey, $subeventTypeName);
@@ -669,10 +677,10 @@ class LeadSubscriber extends CommonSubscriber
                         'eventId'    => $subeventTypeKey.$log['log_id'],
                         'eventLabel' => [
                             'label' => $label,
-                            'href'  => $this->router->generate(
+                            /**'href'  => $this->router->generate(
                                 'le_campaign_action',
                                 ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]
-                            ),
+                            ),*/
                         ],
                         'eventType'       => $subeventTypeName,
                         'timestamp'       => $log['dateTriggered'],

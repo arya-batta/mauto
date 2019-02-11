@@ -13,6 +13,7 @@
 /** @var array $fields */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 
+$isAdmin     =$view['security']->isAdmin();
 $isAnonymous = $lead->isAnonymous();
 
 $flag = (!empty($fields['core']['country'])) ? $view['assets']->getCountryFlag($fields['core']['country']['value']) : '';
@@ -28,8 +29,9 @@ if (!$isAnonymous) {
     $img    = $view['lead_avatar']->getAvatar($lead);
     $avatar = '<span class="pull-left img-wrapper img-rounded mr-10" style="width:33px"><img src="'.$img.'" alt="" /></span>';
 }
-
-$view['slots']->set('headerTitle', $leadActualName);
+if ($isAdmin) {
+    $view['slots']->set('headerTitle', $leadActualName);
+}
 
 $groups = array_keys($fields);
 $edit   = $view['security']->hasEntityAccess(
@@ -109,7 +111,7 @@ if (($view['security']->hasEntityAccess(
         $permissions['lead:leads:deleteother'],
         $lead->getPermissionUser()
     ))
-    && $edit
+    && $edit && $isAdmin
 ) {
     $buttons[] = [
         'attr' => [
@@ -159,8 +161,10 @@ $view['slots']->set(
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- left section -->
-    <div class="col-md-9 bg-white height-auto">
-        <div class="bg-auto">
+    <div class="table-responsive">
+    <div class="row">
+    <div class="col-md-7 bg-white height-auto leadcontainer" id="lead-container">
+        <div class="bg-auto" >
             <!--/ lead detail header -->
 
             <!-- lead detail collapseable -->
@@ -229,13 +233,13 @@ $view['slots']->set(
             <div class="pa-md">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="panel col-md-12" style="padding-bottom: 3%;">
+                        <div class="panel col-md-12" style="padding-bottom: 3%;width: 102%;">
                             <?php // if (!$isAnonymous):?>
-                            <div class="col-md-3" style="margin-left: -2%;">
+                            <div class="col-md-3" style="width: 18%;text-align: center;">
                                <img class="le-avatar-panel" src="<?php echo isset($img) ? $img : $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>
                             </div>
                             <?php // endif;?>
-                            <div class="col-md-9"style="margin-left: 2%">
+                            <div class="col-md-9"style="margin-left: -18px;width: 82%;">
                               <div>
                                 <div class="row">
                                     <div  class="col-md-12"style="margin-top: 13px;" >
@@ -306,34 +310,49 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
+                                        <?php $count  =  0; ?>
                                         <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.lists.belongsto'); ?></h6>
                                         <div class="leadprofile">
                                             <?php foreach ($listName as $list): ?>
-                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $list['name']; ?></span></h5>
-                                            <?php endforeach; ?></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
-                                        <div class="leadprofile">
-                                            <?php foreach ($segmentName as $segment): ?>
-                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary"><?php echo $segment['name']; ?></span></h5>
+                                                <?php if ($count == 7):
+                                                    $count=0;
+                                                endif; ?>
+                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $list['name']; ?></span></h5>
+                                                <?php ++$count; ?>
                                             <?php endforeach; ?></div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
                                   <br>
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
+                                          <?php $count  =  0; ?>
+                                          <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
+                                          <div class="leadprofile">
+                                              <?php foreach ($segmentName as $segment): ?>
+                                                  <?php if ($count == 7):
+                                                      $count=0;
+                                                  endif; ?>
+                                                  <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $segment['name']; ?></span></h5>
+                                                  <?php ++$count; ?>
+                                              <?php endforeach; ?></div>
+                                          <div class="clearfix"></div>
+                                      </div>
+                                  </div>
+                                  <br>
                                   <div class="row" >
-                                      <div class="col-md-6">
-                                          <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+                                      <div class="col-md-12">
+                                          <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; ?>
                                           <?php $tags   = $lead->getTags(); ?>
                                           <?php $count  =  0; ?>
                                           <h6 class="fw-b">
                                               <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
                                           <div class="leadprofile">
                                               <?php foreach ($tags as $tag): ?>
-                                                  <?php if ($count == 5):
+                                                  <?php if ($count == 7):
                                                       $count=0;
                                                   endif; ?>
                                                   <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
@@ -342,27 +361,30 @@ $view['slots']->set(
                                               <?php endforeach; ?></div>
                                           <div class="clearfix"></div>
                                       </div>
-                                    <div class="col-md-6">
-                                            <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
-                                            <div class="lead_page_hit_url_div">
-                                                <?php if (!empty($pageHitDetails)): ?>
-                                                    <?php foreach ($pageHitDetails as $counter => $event): ?>
-                                                        <?php if ($event['url'] != ''):?>
-                                                            <?php
-                                                            $linkType       = 'target="_new"';
-                                                            $string         = (strlen($event['url']) > 50) ? substr($event['url'], 0, 50).'....' : $event['url'];
-                                                            $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
-                                                            <h5 class="mt-xs mr-xs">
-                                                                <b><?php echo $event['pagehits'].'x '?></b>
-                                                                <?php echo $eventLabel.'<br>'?>
-                                                            </h5>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                    <div class="clearfix"></div>
-                                                <?php endif; ?>
-                                            </div>
-                                    </div>
                                 </div>
+                                  <br>
+                                  <div class="row" >
+                                      <div class="col-md-12">
+                                          <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
+                                          <div class="lead_page_hit_url_div">
+                                              <?php if (!empty($pageHitDetails)): ?>
+                                                  <?php foreach ($pageHitDetails as $counter => $event): ?>
+                                                      <?php if ($event['url'] != ''):?>
+                                                          <?php
+                                                          $linkType       = 'target="_new"';
+                                                          $string         = (strlen($event['url']) > 74) ? substr($event['url'], 0, 74).'....' : $event['url'];
+                                                          $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
+                                                          <h5 class="mt-xs mr-xs" style="font-size: 13px">
+                                                              <b><?php echo $event['pagehits'].'x '?></b>
+                                                              <?php echo $eventLabel.'<br>'?>
+                                                          </h5>
+                                                      <?php endif; ?>
+                                                  <?php endforeach; ?>
+                                                  <div class="clearfix"></div>
+                                              <?php endif; ?>
+                                          </div>
+                                      </div>
+                                  </div>
                               </div>
 
                                 <?php if ($doNotContact) : ?>
@@ -410,8 +432,10 @@ $view['slots']->set(
                     </div>
                 </div>
             </div>
-            <div class="uk-grid">
-            <div class="le-lead-card-alignment">
+
+            <div class="uk-grid col-md-12">
+            <div class="row" style="padding: 0px;width: 102%">
+            <div class="le-lead-card-alignment col-md-3" style="margin-left: 15px;width: 24.5%;">
                 <div class="md-card">
                     <div class="md-card-content">
                         <div class="uk-float-right">
@@ -422,18 +446,18 @@ $view['slots']->set(
                 </div>
             </div>
                 <?php  $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : ''; ?>
-            <div class="le-lead-card-alignment">
+            <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="">
-                                <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('mautic.core.type.score'); ?> </span><br>
-                                <span class="le-lead-card-content" style="text-transform: capitalize;"><?php echo  $lead->getScore(); ?></span>
+                                <span  class="le-lead-card-header" style="margin-right: 16px;"> <?php echo $view['translator']->trans('mautic.core.type.score'); ?> </span><br>
+                                <span class="le-lead-card-content" style="text-transform: capitalize;margin-right: 16px;"><?php echo  $lead->getScore(); ?></span>
                                 <img class="le-lead-card-score-content" src="<?php echo $score; ?>"/>
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="le-lead-card-alignment">
+                </div>
+                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
@@ -443,7 +467,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-                <div class="le-lead-card-alignment">
+                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
@@ -454,6 +478,8 @@ $view['slots']->set(
                     </div>
                 </div>
             </div>
+            </div>
+
             <!-- lead detail collapseable toggler -->
            <!-- <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="<?php /*echo $view['translator']->trans('mautic.core.details'); */?>">
@@ -468,7 +494,7 @@ $view['slots']->set(
             <?php if (!$isAnonymous): ?>
                 <div class="pa-md">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="width: 102%;">
                             <div class="panel">
                                 <div class="panel-body box-layout">
                                     <div class="col-xs-8 va-m">
@@ -490,64 +516,66 @@ $view['slots']->set(
                 </div>
             <?php endif; ?>
             <!-- tabs controls -->
-            <ul class="nav nav-tabs pr-md pl-md mt-10">
+            <?php /** ?>
+            <ul class="nav nav-tabs pr-md pl-md mt-10 hide">
                 <li class="active">
                     <a href="#timeline-container" role="tab" data-toggle="tab">
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.history'); ?>
                         <span class="label label-primary mr-sm" id="TimelineCount">
                             <?php echo $events['total']; ?>
                         </span>
-                        <?php echo $view['translator']->trans('le.lead.lead.tab.history'); ?>
                     </a>
                 </li>
-                <li class="">
+                <li class="hide">
                     <a href="#notes-container" role="tab" data-toggle="tab">
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
                         <span class="label label-primary mr-sm" id="NoteCount">
                             <?php echo $noteCount; ?>
                         </span>
-                        <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
                     </a>
                 </li>
                 <?php if (!$isAnonymous && $security->isAdmin()): ?>
                     <li class="">
                         <a href="#social-container" role="tab" data-toggle="tab">
-                        <span class="label label-primary mr-sm" id="SocialCount">
-                            <?php echo count($socialProfiles); ?>
-                        </span>
                             <?php echo $view['translator']->trans('le.lead.lead.tab.social'); ?>
+                            <span class="label label-primary mr-sm" id="SocialCount">
+                                <?php echo count($socialProfiles); ?>
+                            </span>
                         </a>
                     </li>
                 <?php endif; ?>
                 <?php if ($view['security']->isAdmin()): ?>
                 <li class="">
                     <a href="#integration-container" role="tab" data-toggle="tab">
-                    <span class="label label-primary mr-sm" id="IntegrationCount">
+                        <?php echo $view['translator']->trans('le.lead.lead.tab.integration'); ?>
+                        <span class="label label-primary mr-sm" id="IntegrationCount">
                         <?php echo count($integrations); ?>
                     </span>
-                        <?php echo $view['translator']->trans('le.lead.lead.tab.integration'); ?>
                     </a>
                 </li>
                 <?php endif; ?>
                 <li class="hide">
                     <a href="#auditlog-container" role="tab" data-toggle="tab">
-                    <span class="label label-primary mr-sm" id="AuditLogCount">
-                        <?php echo $auditlog['total']; ?>
-                    </span>
                         <?php echo $view['translator']->trans('le.lead.lead.tab.auditlog'); ?>
+                        <span class="label label-primary mr-sm" id="AuditLogCount">
+                            <?php echo $auditlog['total']; ?>
+                    </span>
                     </a>
                 </li>
                 <?php if ($places): ?>
                     <li class="">
                         <a href="#place-container" role="tab" data-toggle="tab" id="load-lead-map">
-                        <span class="label label-primary mr-sm" id="PlaceCount">
-                            <?php echo count($places); ?>
-                        </span>
                             <?php echo $view['translator']->trans('le.lead.lead.tab.places'); ?>
+                            <span class="label label-primary mr-sm" id="PlaceCount">
+                                <?php echo count($places); ?>
+                        </span>
                         </a>
                     </li>
                 <?php endif; ?>
-                
+
                 <?php echo $view['content']->getCustomContent('tabs', $mauticTemplateVars); ?>
             </ul>
+            <?php */ ?>
             <!--/ tabs controls -->
 
 
@@ -567,9 +595,11 @@ $view['slots']->set(
             <!--/ #history-container -->
 
             <!-- #notes-container -->
+            <?php /** ?>
             <div class="tab-pane fade bdr-w-0" id="notes-container">
                 <?php echo $leadNotes; ?>
             </div>
+            <?php */ ?>
             <!--/ #notes-container -->
 
             <!-- #social-container -->
@@ -642,7 +672,9 @@ $view['slots']->set(
                     </div>
                     <div class="collapse<?php echo ($avatarPanelState == 'expanded') ? ' in' : ''; ?>"
                          id="lead-avatar-block">
-                        <img class="img-responsive" src="<?php echo $img; ?>" alt="<?php echo $leadName; ?> "/>
+                        <center>
+                            <img class="img-responsive"  src="<?php echo $img; ?>" alt="<?php echo $leadName; ?> "/>
+                        </center>
                     </div>
                 </div>
 
@@ -836,4 +868,14 @@ $view['slots']->set(
     </div>-->
     <!--/ right section -->
 </div>
+    </div>
+    <div class="col-md-3 notescontainer" id="notes-container">
+        <div>
+        <?php echo $leadNotes; ?>
+        </div
+    </div>
+    </div>
+    </div>
+</div>
+
 <!--/ end: box layout -->

@@ -9,8 +9,9 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
+$isAdmin=$view['security']->isAdmin();
 
-$object ='leads';// $app->getRequest()->get('object', 'leads');
+$object ='leads'; // $app->getRequest()->get('object', 'leads');
 
 $view['slots']->set('leContent', 'leadImport');
 $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.import.leads', ['%object%' => $object]));
@@ -95,12 +96,14 @@ $indexRoute = $object === 'leads' ? 'le_contact_index' : 'le_company_index';
                             <?php echo $view['translator']->trans('le.lead.view.imports'); ?>
                         </a>
                         <br>
+                        <?php if ($isAdmin): ?>
                         <a class="btn btn-success" href="<?php echo $view['router']->path(
                             'le_import_action',
                             ['objectAction' => 'view', 'objectId' => $import->getId()]
                         ); ?>" data-toggle="ajax">
                             <?php echo $view['translator']->trans('le.lead.import.result.info', ['%import%' => $import->getName()]); ?>
                         </a>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>

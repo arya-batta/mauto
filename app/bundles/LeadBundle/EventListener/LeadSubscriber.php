@@ -317,6 +317,7 @@ class LeadSubscriber extends CommonSubscriber
         // where we are getting events for all leads.
         if ($event->isForTimeline()) {
             $eventTypes['lead.create']     = 'le.lead.event.create';
+            $eventTypes['lead.update']     = 'le.lead.event.update';
             //$eventTypes['lead.identified'] = 'le.lead.event.identified';
             //$eventTypes['lead.ipadded']    = 'le.lead.event.ipadded';
         }
@@ -334,6 +335,10 @@ class LeadSubscriber extends CommonSubscriber
             switch ($type) {
                 case 'lead.create':
                     $this->addTimelineDateCreatedEntry($event, $type, $name);
+                    break;
+
+                case 'lead.update':
+                    $this->addTimelineDateUpdatedEntry($event, $type, $name);
                     break;
 
                 case 'lead.identified':
@@ -424,7 +429,7 @@ class LeadSubscriber extends CommonSubscriber
                     [
                         'event'         => $eventTypeKey,
                         'eventId'       => $eventTypeKey.$event->getLead()->getId(),
-                        'icon'          => 'fa-user-secret',
+                        'icon'          => ' fa fa-user le-mg-5',
                         'eventType'     => $eventTypeName,
                         'eventPriority' => -5, // Usually something happened to create the lead so this should display afterward
                         'timestamp'     => $dateAdded,
@@ -433,6 +438,65 @@ class LeadSubscriber extends CommonSubscriber
             }
         } else {
             // Purposively not including this in engagements graph as it's info only
+        }
+    }
+
+    /**
+     * @param Events\LeadTimelineEvent $event
+     * @param                          $eventTypeKey
+     * @param                          $eventTypeName
+     */
+    protected function addTimelineDateUpdatedEntry(Events\LeadTimelineEvent $event, $eventTypeKey, $eventTypeName)
+    {
+        // Do nothing if the lead is not set
+        if (!$event->getLead() instanceof Lead) {
+            return;
+        }
+
+        $lead     = $event->getLead();
+        $filters  = ['action' => 'update'];
+        $logcount = $this->auditLogModel->getRepository()->getAuditLogsCount($lead, $filters);
+        $rows     = $this->auditLogModel->getRepository()->getAuditLogs($lead, $filters);
+        if (!$event->isEngagementCount()) {
+            $event->addToCounter($eventTypeKey, $logcount);
+
+            $start = $event->getEventLimit()['start'];
+            if (empty($start)) {
+                foreach ($rows as $row) {
+                    $label = '';
+                    if (isset($row['details']['fields'])) {
+                        foreach ($row['details']['fields'] as $key => $fields) {
+                            $label .= $key.' - '.$fields['1'].', ';
+                        }
+                        $label     = substr($label, 0, -2).'.';
+                        $eventlabel=$this->translator->trans('le.lead.event.timeline.leadupdate').$label;
+                    } elseif (isset($row['details']['tags'])) {
+                        foreach ($row['details']['tags'] as $key => $fields) {
+                            foreach ($fields as $fieldkey => $fieldvalue) {
+                                $label .= $fieldvalue.', ';
+                            }
+                        }
+                        $label     = substr($label, 0, -2).'';
+                        $eventlabel=$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$label.'".';
+                    } else {
+                        $eventlabel = $eventTypeName;
+                    }
+
+                    $event->addEvent(
+                        [
+                            'event'         => $eventTypeKey,
+                            'eventId'       => $eventTypeKey.$event->getLead()->getId(),
+                            'eventLabel'    => $eventlabel,
+                            'icon'          => 'fa fa-fw fa-history',
+                            'eventType'     => $eventTypeName,
+                            'eventPriority' => -1, // Usually something happened to create the lead so this should display afterward
+                            'timestamp'     => $row['dateAdded'],
+                        ]
+                    );
+                }
+            } else {
+                // Purposively not including this in engagements graph as it's info only
+            }
         }
     }
 
@@ -552,18 +616,23 @@ class LeadSubscriber extends CommonSubscriber
 
         if (!$event->isEngagementCount()) {
             foreach ($rows['results'] as $row) {
+                $type = '';
                 switch ($row['reason']) {
                     case DoNotContact::UNSUBSCRIBED:
                         $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_unsubscribed');
+                        $type          ='unsubscribed';
                         break;
                     case DoNotContact::BOUNCED:
                         $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_bounce');
+                        $type          ='bounced';
                         break;
                     case DoNotContact::SPAM:
                         $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_spam');
+                        $type          ='spam';
                         break;
                     case DoNotContact::MANUAL:
                         $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_manual');
+                        $type          ='manual';
                         break;
                 }
 
@@ -604,9 +673,22 @@ class LeadSubscriber extends CommonSubscriber
                                 $row['itemName']  = $item['name'];
                                 $row['itemRoute'] = $item['url'];
                             }
+                            $email   = $this->factory->getModel('email')->getEntity($row['channel_id']);
+                            $subject = $email->getSubject();
                         }
                     }
                 }
+                if ($type != 'manual') {
+                    if (isset($row['itemRoute'])) {
+                        $label = $this->translator->trans('le.lead.event.timeline.donotcontact.'.$type.'.eventlabel', ['%subject%' => $subject, '%emailname%' => $row['itemName'], '%href%' => $row['itemRoute']]);
+                    } else {
+                        $label=ucfirst($row['channel']);
+                    }
+                } else {
+                    $row['itemName'] = true;
+                    $label           = $this->translator->trans('le.lead.event.timeline.donotcontact.'.$type.'.eventlabel', ['%reason%' => $row['comments']]);
+                }
+
                 $contactId = $row['lead_id'];
                 unset($row['lead_id']);
                 $event->addEvent(
@@ -615,8 +697,8 @@ class LeadSubscriber extends CommonSubscriber
                         'eventId'    => $eventTypeKey.$row['id'],
                         'eventLabel' => (isset($row['itemName'])) ?
                             [
-                                'label' => ucfirst($row['channel']).' / '.$row['itemName'],
-                                'href'  => $row['itemRoute'],
+                                'label' => $label,
+                                /**'href'  => $row['itemRoute'],*/
                             ] : ucfirst($row['channel']),
                         'eventType' => $eventTypeName,
                         'timestamp' => $row['date_added'],
@@ -656,7 +738,12 @@ class LeadSubscriber extends CommonSubscriber
                 } elseif ($import['object_id']) {
                     $eventLabel = $import['object_id'];
                 }
-                $eventLabel = $this->translator->trans('le.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel]);
+                if (!empty($import['object_id'])) {
+                    $eventLabel = $this->translator->trans('le.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel, '%href%' => $this->router->generate(
+                        'le_contact_import_action',
+                        ['objectAction' => 'view', 'objectId' => $import['object_id']]
+                    )]);
+                }
                 $event->addEvent(
                         [
                             'event'      => $eventTypeKey,
@@ -664,10 +751,10 @@ class LeadSubscriber extends CommonSubscriber
                             'eventType'  => $eventTypeName,
                             'eventLabel' => !empty($import['object_id']) ? [
                                 'label' => $eventLabel,
-                                'href'  => $this->router->generate(
+                                /**'href'  => $this->router->generate(
                                     'le_contact_import_action',
                                     ['objectAction' => 'view', 'objectId' => $import['object_id']]
-                                ),
+                                ),*/
                             ] : $eventLabel,
                             'timestamp'       => $import['date_added'],
                             'icon'            => 'fa-download',
