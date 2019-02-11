@@ -245,7 +245,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
     <div class="col-md-3 pa-md" style="border: 1px solid #ccc;border-radius: 3px;margin-left: 10px;" >
         <div class="pr-lg pl-lg pt-md pb-md">
             <div class="media">
-                <div class="media-body" style="align:center;">
+                <div class="media-body">
                     <img class="img-rounded img-bordered img-responsive media-object" style="margin-top: 0px;border-radius: 120px;height: 150px;margin-left: auto;margin-right: auto;" src="<?php echo $img; ?>" alt="">
                 </div>
             </div>
