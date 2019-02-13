@@ -233,9 +233,9 @@ class LeadField extends FormEntity
                     'label',
                     'alias',
                     'type',
-                    'group',
+                    //'group',
                     'order',
-                    'object',
+                    //'object',
                 ]
             )
             ->addProperties(

@@ -151,8 +151,9 @@ class ApiSubscriber extends CommonSubscriber
                                         ],
                                     ],
                                     // @deprecated 2.6.0 to be removed in 3.0
-                                    'error'             => $data['error'],
+                                   /* 'error'             => $data['error'],
                                     'error_description' => $message.' (`error` and `error_description` are deprecated as of 2.6.0 and will be removed in 3.0. Use the `errors` array instead.)',
+                                    */
                                 ]
                             )
                         );

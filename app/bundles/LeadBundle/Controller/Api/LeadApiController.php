@@ -256,6 +256,7 @@ class LeadApiController extends CommonApiController
             foreach ($lists as &$l) {
                 unset($l['leads'][0]['leadlist_id']);
                 unset($l['leads'][0]['lead_id']);
+                unset($l['alias']);
 
                 $l = array_merge($l, $l['leads'][0]);
 
@@ -264,8 +265,8 @@ class LeadApiController extends CommonApiController
 
             $view = $this->view(
                 [
-                    'total' => count($lists),
-                    'lists' => $lists,
+                    'total'    => count($lists),
+                    'segments' => $lists,
                 ],
                 Codes::HTTP_OK
             );
@@ -436,7 +437,7 @@ class LeadApiController extends CommonApiController
         $this->model->addDncForLead($entity, $channel, $comments, $reason);
         $view = $this->view([$this->entityNameOne => $entity]);
 
-        return $this->handleView($view);
+        return  $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
     }
 
     /**
@@ -467,7 +468,7 @@ class LeadApiController extends CommonApiController
             ]
         );
 
-        return $this->handleView($view);
+        return $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
     }
 
     /**
@@ -708,5 +709,227 @@ class LeadApiController extends CommonApiController
         $form->submit($data, 'PATCH' !== $this->request->getMethod());
 
         return $form->isValid();
+    }
+
+    /**
+     * Obtains a list of entities as defined by the API URL.
+     *
+     * @return Response
+     */
+    public function getEntitiesAction()
+    {
+        $parameters = $this->request->request->all();
+        $repo       = $this->model->getRepository();
+        $tableAlias = $repo->getTableAlias();
+        //$publishedOnly = $this->request->get('published', 0);
+        //$minimal       = $this->request->get('minimal', 0);
+        $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
+        $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+
+        try {
+            if (!$this->security->isGranted($this->permissionBase.':view')) {
+                return $this->accessDenied();
+            }
+        } catch (PermissionException $e) {
+            return $this->accessDenied($e->getMessage());
+        }
+
+        if ($this->security->checkPermissionExists($this->permissionBase.':viewother')
+            && !$this->security->isGranted($this->permissionBase.':viewother')
+        ) {
+            $this->listFilters = [
+                'column' => $tableAlias.'.createdBy',
+                'expr'   => 'eq',
+                'value'  => $this->user->getId(),
+            ];
+        }
+        if ($this->entityNameOne == 'user') {
+            $this->listFilters[] = [
+                'column' => $tableAlias.'.email',
+                'expr'   => 'neq',
+                'value'  => 'sadmin@leadsengage.com',
+            ];
+        }
+        if ($publishedOnly) {
+            $this->listFilters[] = [
+                'column' => $tableAlias.'.isPublished',
+                'expr'   => 'eq',
+                'value'  => true,
+            ];
+        }
+        if ($minimal) {
+            if (isset($this->serializerGroups[0])) {
+                $this->serializerGroups[0] = str_replace('Details', 'List', $this->serializerGroups[0]);
+            }
+        }
+
+        $args = array_merge(
+            [
+                'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
+                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : $this->coreParametersHelper->getParameter('default_pagelimit'), //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
+                'filter' => [
+                    'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
+                    'force'  => $this->listFilters,
+                ],
+                'orderBy'        => $this->addAliasIfNotPresent(isset($parameters['orderBy']) ? strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $parameters['orderBy'])) : '', $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC', //$this->request->query->get('orderByDir', 'ASC'),
+                'withTotalCount' => true, //for repositories that break free of Paginator
+            ],
+            $this->extraGetEntitiesArguments
+        );
+        $selectdata = isset($parameters['select']) ? $parameters['select'] : [];
+        if ($select = InputHelper::cleanArray($selectdata)) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if ($where = $this->getWhereFromRequest()) {
+            $args['filter']['where'] = $where;
+        }
+
+        if ($order = $this->getOrderFromRequest()) {
+            $args['filter']['order'] = $order;
+        }
+
+        $results = $this->model->getEntities($args);
+
+        $fielddata = [];
+        foreach ($results['results'] as $key => $entityvalue) {
+            $fielddata[$key] = $entityvalue->getProfileFields();
+        }
+
+        list($entities, $totalCount) = $this->prepareEntitiesForView($results);
+
+        $modifiedentities = [];
+        foreach ($entities as $entity) {
+            $leadId = $entity->getId();
+            //$profilefields[] = $entity->getProfileFields();
+            $listoptinmodel      = $this->factory->getModel('lead.listoptin');
+            $listoptinrepository = $this->factory->getModel('lead.listoptin')->getListLeadRepository();
+            $listId              = $listoptinrepository->getListIDbyLeads($leadId);
+            $listdatas           = [];
+            foreach ($listId as $key => $detail) {
+                foreach ($detail as $name => $value) {
+                    $listentity            = $listoptinmodel->getEntity($value);
+                    $listdata['id']        = $listentity->getId();
+                    $listdata['name']      = $listentity->getName();
+                    $listdata['listtype']  = $listentity->getListType();
+                    $listdata['dateAdded'] = $listentity->getDateAdded();
+                }
+                $listdatas[] = $listdata;
+            }
+            $modifieddata[] = [$entity->getId() => $entity, 'all' => $fielddata[$entity->getId()], 'listoptin' => $listdatas];
+        }
+        $modifiedentities[] = $modifieddata;
+
+        $view = $this->view(
+            [
+                'total'                => $totalCount,
+                $this->entityNameMulti => $modifiedentities,
+            ],
+            Codes::HTTP_OK
+        );
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Obtains a specific entity as defined by the API URL.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function getEntityAction($id)
+    {
+        $args = [];
+        if ($select = InputHelper::cleanArray($this->request->get('select', []))) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if (!empty($args)) {
+            $args['id'] = $id;
+            $entity     = $this->model->getEntity($args);
+        } else {
+            $entity = $this->model->getEntity($id);
+        }
+
+        if (!$entity instanceof $this->entityClass) {
+            return $this->notFound();
+        }
+
+        if (!$this->checkEntityAccess($entity, 'view')) {
+            return $this->accessDenied();
+        }
+        $leadId              = $entity->getId();
+        $listoptinmodel      = $this->factory->getModel('lead.listoptin');
+        $listoptinrepository = $this->factory->getModel('lead.listoptin')->getListLeadRepository();
+        $listId              = $listoptinrepository->getListIDbyLeads($leadId);
+        $listdatas           = [];
+        foreach ($listId as $key => $detail) {
+            foreach ($detail as $name => $value) {
+                $listentity            = $listoptinmodel->getEntity($value);
+                $listdata['id']        = $listentity->getId();
+                $listdata['name']      = $listentity->getName();
+                $listdata['listtype']  = $listentity->getListType();
+                $listdata['dateAdded'] = $listentity->getDateAdded();
+            }
+            $listdatas[] = $listdata;
+        }
+        $modifieddata[$entity->getId()] = $entity;
+        $modifieddata['all']            = $entity->getProfileFields();
+        $modifieddata['listoptin']      = $listdatas;
+        $this->preSerializeEntity($modifieddata);
+        $view = $this->view([$this->entityNameOne => $modifieddata], Codes::HTTP_OK);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Edits an existing entity or creates one on PUT if it doesn't exist.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function editEntityAction($id)
+    {
+        $entity     = $this->model->getEntity($id);
+        $parameters = $this->request->request->all();
+        $method     = $this->request->getMethod();
+
+        if ($entity === null || !$entity->getId()) {
+            if ($method === 'PATCH') {
+                if ($method === 'PATCH') {
+                    //PATCH requires that an entity exists
+                    return $this->notFound();
+                }
+                if (isset($parameters['email'])) {
+                    $result = $this->model->getRepository()->findBy([
+                        'email' => $parameters['email'],
+                    ]);
+
+                    if (count($result) > 0) {
+                        $entity = $this->model->getEntity($result[0]->getId());
+
+                        return $this->processForm($entity, $parameters, $method);
+                    }
+                }
+                //PUT can create a new entity if it doesn't exist
+                $entity = $this->model->getEntity();
+                if (!$this->checkEntityAccess($entity, 'create')) {
+                    return $this->accessDenied();
+                }
+            }
+
+            if (!$this->checkEntityAccess($entity, 'edit')) {
+                return $this->accessDenied();
+            }
+
+            return $this->processForm($entity, $parameters, $method);
+        }
     }
 }

@@ -243,7 +243,7 @@ class CommonApiController extends FOSRestController implements MauticController
             $view = $this->view([$this->entityNameOne => $entity], Codes::HTTP_OK);
             $this->setSerializationContext($view);
 
-            return $this->handleView($view);
+            return  $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
         }
 
         return $this->notFound();
@@ -644,6 +644,9 @@ class CommonApiController extends FOSRestController implements MauticController
     public function newEntityAction()
     {
         $parameters = $this->request->request->all();
+        if (isset($parameters['score'])) {
+            $parameters['score'] = 'cold';
+        }
         $entity     = $this->getNewEntity($parameters);
 
         if (!$this->checkEntityAccess($entity, 'create')) {
@@ -1122,7 +1125,9 @@ class CommonApiController extends FOSRestController implements MauticController
             //get from request
             $parameters = $this->request->request->all();
         }
-
+        if (isset($parameters['score'])) {
+            $parameters['score'] = 'cold';
+        }
         // Store the original parameters from the request so that callbacks can have access to them as needed
         $this->entityRequestParameters = $parameters;
 
@@ -1252,12 +1257,12 @@ class CommonApiController extends FOSRestController implements MauticController
                     $error,
                 ],
                 // @deprecated 2.6.0 to be removed in 3.0
-                'error' => [
+               /* 'error' => [
                     'message' => $this->get('translator')->trans($msg, [], 'flashes')
                         .' (`error` is deprecated as of 2.6.0 and will be removed in 3.0. Use the `errors` array instead.)',
                     'code'    => $code,
                     'details' => $details,
-                ],
+                ],*/
             ],
             $code
         );

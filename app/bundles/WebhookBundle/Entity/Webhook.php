@@ -161,11 +161,11 @@ class Webhook extends FormEntity
             ->addListProperties(
                 [
                     'id',
-                    'name',
-                    'description',
+                    //'name',
+                    //'description',
                     'webhookUrl',
-                    'eventsOrderbyDir',
-                    'category',
+                    //'eventsOrderbyDir',
+                    //'category',
                     'triggers',
                 ]
             )
@@ -177,14 +177,14 @@ class Webhook extends FormEntity
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-       /* $metadata->addPropertyConstraint(
-            'name',
-            new NotBlank(
-                [
-                    'message' => 'mautic.core.name.required',
-                ]
-            )
-        );*/
+        /* $metadata->addPropertyConstraint(
+             'name',
+             new NotBlank(
+                 [
+                     'message' => 'mautic.core.name.required',
+                 ]
+             )
+         );*/
 
         $metadata->addPropertyConstraint(
             'webhookUrl',

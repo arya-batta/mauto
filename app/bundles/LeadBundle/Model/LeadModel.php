@@ -2862,10 +2862,17 @@ class LeadModel extends FormModel
                 if (!$override && $dnc->getReason() !== DoNotContact::UNSUBSCRIBED) {
                     $override = true;
                 }
+                if (is_array($channel)) {
+                    $channelId = reset($channel);
+                    $channel   = key($channel);
+
+                    $dnc->setChannelId((int) $channelId);
+                }
+
                 if ($dnc->getChannel() === $channel && $override) {
                     // Remove the outdated entry
                     $lead->removeDoNotContactEntry($dnc);
-
+                    $dnc = new DoNotContact();
                     // Update the DNC entry
                     $dnc->setChannel($channel);
                     $dnc->setReason($reason);
