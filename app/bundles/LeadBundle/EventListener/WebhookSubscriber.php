@@ -122,7 +122,7 @@ class WebhookSubscriber extends CommonSubscriber
             !empty($changes['dateIdentified']) ? LeadEvents::LEAD_POST_SAVE.'_new' : LeadEvents::LEAD_POST_SAVE.'_update',
             [
                 'lead'    => $event->getLead(),
-                'contact' => $event->getLead(),
+                //'contact' => $event->getLead(),
             ],
             [
                 'leadDetails',
@@ -142,7 +142,7 @@ class WebhookSubscriber extends CommonSubscriber
             LeadEvents::LEAD_POINTS_CHANGE,
             [
                 'lead'    => $event->getLead(),
-                'contact' => $event->getLead(),
+                //'contact' => $event->getLead(),
                 'points'  => [
                     'old_points' => $event->getOldPoints(),
                     'new_points' => $event->getNewPoints(),
@@ -166,7 +166,7 @@ class WebhookSubscriber extends CommonSubscriber
             LeadEvents::MODIFY_TAG_EVENT,
             [
                 'lead'     => $event->getLead(),
-                'contact'  => $event->getLead(),
+                //'contact'  => $event->getLead(),
                 'tags'     => $event->getLead()->getTags(),
             ],
             [
@@ -189,7 +189,7 @@ class WebhookSubscriber extends CommonSubscriber
             [
                 'id'      => $lead->deletedId,
                 'lead'    => $lead,
-                'contact' => $lead,
+                //'contact' => $lead,
             ],
             [
                 'leadDetails',
@@ -208,7 +208,7 @@ class WebhookSubscriber extends CommonSubscriber
         $this->webhookModel->queueWebhooksByType(
             LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED,
             [
-                'contact'    => $event->getLead(),
+                'lead'       => $event->getLead(),
                 'channel'    => $event->getChannel(),
                 'old_status' => $event->getOldStatusVerb(),
                 'new_status' => $event->getNewStatusVerb(),

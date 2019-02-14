@@ -857,7 +857,7 @@ class LeadApiController extends CommonApiController
         }
 
         if (!$entity instanceof $this->entityClass) {
-            return $this->notFound();
+            return $this->returnError('le.core.error.id.notfound', Codes::HTTP_NOT_FOUND, [], ['%id%'=> $id]); // Previous it was
         }
 
         if (!$this->checkEntityAccess($entity, 'view')) {
@@ -903,33 +903,34 @@ class LeadApiController extends CommonApiController
 
         if ($entity === null || !$entity->getId()) {
             if ($method === 'PATCH') {
-                if ($method === 'PATCH') {
-                    //PATCH requires that an entity exists
-                    return $this->notFound();
-                }
-                if (isset($parameters['email'])) {
-                    $result = $this->model->getRepository()->findBy([
+                //PATCH requires that an entity exists
+                return $this->notFound();
+            }
+            if (isset($parameters['email'])) {
+                $result = $this->model->getRepository()->findBy([
                         'email' => $parameters['email'],
                     ]);
 
-                    if (count($result) > 0) {
-                        $entity = $this->model->getEntity($result[0]->getId());
-
-                        return $this->processForm($entity, $parameters, $method);
+                if (count($result) > 0) {
+                    $entity = $this->model->getEntity($result[0]->getId());
+                    if (!$this->checkEntityAccess($entity, 'create')) {
+                        return $this->accessDenied();
                     }
-                }
-                //PUT can create a new entity if it doesn't exist
-                $entity = $this->model->getEntity();
-                if (!$this->checkEntityAccess($entity, 'create')) {
-                    return $this->accessDenied();
+
+                    return $this->processForm($entity, $parameters, $method);
                 }
             }
-
-            if (!$this->checkEntityAccess($entity, 'edit')) {
+            //PUT can create a new entity if it doesn't exist
+            $entity = $this->model->getEntity();
+            if (!$this->checkEntityAccess($entity, 'create')) {
                 return $this->accessDenied();
             }
-
-            return $this->processForm($entity, $parameters, $method);
         }
+
+        if (!$this->checkEntityAccess($entity, 'edit')) {
+            return $this->accessDenied();
+        }
+
+        return $this->processForm($entity, $parameters, $method);
     }
 }

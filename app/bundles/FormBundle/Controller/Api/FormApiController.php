@@ -376,6 +376,7 @@ class FormApiController extends CommonApiController
             $specificvalue['id']            = $entity->getId();
             $specificvalue['name']          = $entity->getName();
             $specificvalue['alias']         = $entity->getAlias();
+            $specificvalue['formType']      = $entity->getFormType() == 'standalone' ? 'classic' : $entity->getFormType();
             $specificvalue['isPublished']   = $entity->getIsPublished();
             $specificvalue['dateAdded']     = $entity->getDateAdded();
             $specificvalues[]               = $specificvalue;

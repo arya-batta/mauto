@@ -39,7 +39,8 @@ class Tag
 
     public function __construct($tag = null)
     {
-        $this->tag = $this->validateTag($tag);
+        $this->tag   = $this->validateTag($tag);
+        $this->alias = str_replace(' ', '_', $this->validateTag($tag));
     }
 
     /**

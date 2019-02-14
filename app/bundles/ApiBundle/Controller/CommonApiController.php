@@ -437,7 +437,9 @@ class CommonApiController extends FOSRestController implements MauticController
         $results = $this->model->getEntities($args);
 
         list($entities, $totalCount) = $this->prepareEntitiesForView($results);
-
+        if ($this->entityNameMulti == 'lists') {
+            $this->entityNameMulti = 'segments';
+        }
         $view = $this->view(
             [
                 'total'                => $totalCount,
@@ -532,7 +534,7 @@ class CommonApiController extends FOSRestController implements MauticController
         }
 
         if (!$entity instanceof $this->entityClass) {
-            return $this->notFound();
+            return $this->returnError('le.core.error.id.notfound', Codes::HTTP_NOT_FOUND, [], ['%id%'=> $id]); // Previous it was return $this->notFound();
         }
 
         if (!$this->checkEntityAccess($entity, 'view')) {
@@ -540,6 +542,9 @@ class CommonApiController extends FOSRestController implements MauticController
         }
 
         $this->preSerializeEntity($entity);
+        if ($this->entityNameOne == 'list') {
+            $this->entityNameOne = 'segment';
+        }
         $view = $this->view([$this->entityNameOne => $entity], Codes::HTTP_OK);
         $this->setSerializationContext($view);
 
@@ -1205,6 +1210,9 @@ class CommonApiController extends FOSRestController implements MauticController
             if ($this->inBatchMode) {
                 return $entity;
             } else {
+                if ($this->entityNameOne == 'list') {
+                    $this->entityNameOne = 'segment';
+                }
                 $view = $this->view([$this->entityNameOne => $entity], $statusCode, $headers);
             }
 
@@ -1232,12 +1240,12 @@ class CommonApiController extends FOSRestController implements MauticController
      *
      * @return Response|array
      */
-    protected function returnError($msg, $code = Codes::HTTP_OK, $details = [])
+    protected function returnError($msg, $code = Codes::HTTP_OK, $details = [], $parameter = [])
     {
         if ($this->get('translator')->hasId($msg, 'flashes')) {
-            $msg = $this->get('translator')->trans($msg, [], 'flashes');
+            $msg = $this->get('translator')->trans($msg, $parameter, 'flashes');
         } elseif ($this->get('translator')->hasId($msg, 'messages')) {
-            $msg = $this->get('translator')->trans($msg, [], 'messages');
+            $msg = $this->get('translator')->trans($msg, $parameter, 'messages');
         }
 
         $error = [

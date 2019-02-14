@@ -29,8 +29,8 @@ class ListApiController extends CommonApiController
     {
         $this->model            = $this->getModel('lead.list');
         $this->entityClass      = 'Mautic\LeadBundle\Entity\LeadList';
-        $this->entityNameOne    = 'segment';
-        $this->entityNameMulti  = 'segments';
+        $this->entityNameOne    = 'list';
+        $this->entityNameMulti  = 'lists';
         $this->serializerGroups = ['leadListDetails', 'userList', 'publishDetails', 'ipAddress'];
 
         parent::initialize($event);
@@ -102,7 +102,7 @@ class ListApiController extends CommonApiController
         $entity = $this->model->getEntity($id);
 
         if (null === $entity) {
-            return $this->notFound();
+            return $this->notFound('le.lead.list.notfound.error');
         }
 
         $contact = $this->checkLeadAccess($leadId, 'edit');

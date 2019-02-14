@@ -272,9 +272,9 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
             ['message' => 'mautic.user.user.firstname.notblank']
         ));
 
-       /** $metadata->addPropertyConstraint('lastName', new Assert\NotBlank(
-            ['message' => 'mautic.user.user.lastname.notblank']
-        )); */
+        /* $metadata->addPropertyConstraint('lastName', new Assert\NotBlank(
+             ['message' => 'mautic.user.user.lastname.notblank']
+         )); */
 
         $metadata->addPropertyConstraint('email', new Assert\NotBlank(
             ['message' => 'mautic.user.user.email.valid']
@@ -356,15 +356,15 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
             ->addProperties(
                 [
                     'email',
-                    'position',
-                    'role',
+                    'mobile',
+                    //'position',
+                    //'role',
                     'timezone',
-                    'locale',
+                    //'locale',
                     'lastLogin',
                     'lastActive',
                     'onlineStatus',
-                    'signature',
-                    'mobile',
+                    //'signature',
                 ]
             )
             ->build();
@@ -618,7 +618,7 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
      */
     public function getName($lastFirst = false)
     {
-        return ($lastFirst) ? (!empty($this->lastName)?($this->lastName.', '.$this->firstName):($this->firstName)): ($this->firstName.' '.$this->lastName);
+        return ($lastFirst) ? (!empty($this->lastName) ? ($this->lastName.', '.$this->firstName) : ($this->firstName)) : ($this->firstName.' '.$this->lastName);
     }
 
     /**

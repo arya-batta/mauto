@@ -78,7 +78,7 @@ class PointApiController extends CommonApiController
         }
 
         if (!is_numeric($delta)) {
-            return $this->handleView($this->view(['success' => 0], Codes::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view(['failed' => 1], Codes::HTTP_BAD_REQUEST));
         }
         try {
             $this->logApiPointChange($lead, $delta, $operator);

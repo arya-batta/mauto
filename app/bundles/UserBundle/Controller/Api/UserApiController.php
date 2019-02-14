@@ -208,4 +208,44 @@ class UserApiController extends CommonApiController
 
         return $this->handleView($view);
     }
+
+    /**
+     * Obtains a specific entity as defined by the API URL.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function getEntityAction($id)
+    {
+        if ($id == 1) {
+            return $this->accessDenied('le.user.error.id.notfound');
+        }
+        $args = [];
+        if ($select = InputHelper::cleanArray($this->request->get('select', []))) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if (!empty($args)) {
+            $args['id'] = $id;
+            $entity     = $this->model->getEntity($args);
+        } else {
+            $entity = $this->model->getEntity($id);
+        }
+
+        if (!$entity instanceof $this->entityClass) {
+            return $this->notFound();
+        }
+
+        if (!$this->checkEntityAccess($entity, 'view')) {
+            return $this->accessDenied();
+        }
+
+        $this->preSerializeEntity($entity);
+        $view = $this->view([$this->entityNameOne => $entity], Codes::HTTP_OK);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
 }

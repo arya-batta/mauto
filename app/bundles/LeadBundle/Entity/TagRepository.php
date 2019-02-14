@@ -165,7 +165,7 @@ class TagRepository extends CommonRepository
         if (!$tag) {
             $tag = new Tag($name);
             $tag->setIsPublished(1);
-            $alias=str_replace(' ', '_', $tag->getTag());
+            $alias=str_replace(' ', '_', $name);
             $tag->setAlias($alias);
         }
 
