@@ -156,7 +156,7 @@ foreach ($responsiveViewports as $viewport):
                     $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                     ?>
                     <li<?php echo $class; ?> style="font-size: 9px;margin-top:5px">
-                        <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
+                        <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if($sessionVar =="form.results"):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif;?>>
                             <span><?php echo $i; ?></span>
                         </a>
                     </li>

@@ -31,8 +31,6 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'le.page.config.form.track_contact_by_ip',
                 'data'  => (bool) $options['data']['track_contact_by_ip'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
                 'attr'  => [
                     'tooltip' => 'le.page.config.form.track_contact_by_ip.tooltip',
                 ],
@@ -45,8 +43,6 @@ class ConfigTrackingPageType extends AbstractType
             [
             'label' => 'le.page.config.form.track.by.tracking.url',
             'data'  => (bool) $options['data']['track_by_tracking_url'],
-            'no_label'   => 'No',
-            'yes_label'  => 'Yes',
             'attr'  => [
                 'tooltip' => 'le.page.config.form.track.by.tracking.url.tooltip',
             ],
@@ -58,8 +54,6 @@ class ConfigTrackingPageType extends AbstractType
             [
             'label' => 'le.page.config.form.track.by.fingerprint',
             'data'  => (bool) $options['data']['track_by_fingerprint'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
             'attr'  => [
                 'tooltip' => 'le.page.config.form.track.by.fingerprint.tooltip',
             ],
@@ -83,8 +77,6 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'le.page.config.form.tracking.trackingpage.enabled',
                 'data'  => (bool) $options['data']['facebook_pixel_trackingpage_enabled'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
             ]
         );
 
@@ -94,8 +86,6 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'le.page.config.form.tracking.landingpage.enabled',
                 'data'  => (bool) $options['data']['facebook_pixel_landingpage_enabled'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
             ]
         );
 
@@ -117,8 +107,6 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'le.page.config.form.tracking.trackingpage.enabled',
                 'data'  => (bool) $options['data']['google_analytics_trackingpage_enabled'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
             ]
         );
 
@@ -128,8 +116,6 @@ class ConfigTrackingPageType extends AbstractType
             [
                 'label' => 'le.page.config.form.tracking.landingpage.enabled',
                 'data'  => (bool) $options['data']['google_analytics_landingpage_enabled'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
             ]
         );
 

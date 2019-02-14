@@ -453,6 +453,8 @@ class FieldType extends AbstractType
             [
                 'disabled' => ($options['data']->getIsFixed() == 1),
                 'data'     => ($options['data']->getIsFixed() == 1) ? true : $options['data']->getIsPublished(),
+                'no_label'   => 'mautic.core.form.unpublished',
+                'yes_label'  => 'mautic.core.form.published',
             ]
         );
 

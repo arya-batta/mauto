@@ -14,11 +14,11 @@ $size   = (empty($size)) ? 'fa-lg' : $size;
 switch ($status) {
     case 'published':
         $icon = ' fa-toggle-on text-success';
-        $text = $view['translator']->trans('mautic.core.forms.yes');
+        $text = $view['translator']->trans('mautic.core.form.published');
         break;
     case 'unpublished':
         $icon = ' fa-toggle-off text-danger';
-        $text = $view['translator']->trans('mautic.core.forms.no');
+        $text = $view['translator']->trans('mautic.core.form.unpublished');
         break;
     case 'expired':
         $icon = ' fa-clock-o text-danger';

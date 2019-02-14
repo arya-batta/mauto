@@ -211,6 +211,11 @@ class ChartQuery extends AbstractChart
         return $query;
     }
 
+    public function getTableQuery($table,$alies){
+        $query = $this->connection->createQueryBuilder();
+        $query->from($this->prepareTable($table), $alies);
+        return $query;
+    }
     /**
      * Modify database query for fetching the line time chart data.
      *

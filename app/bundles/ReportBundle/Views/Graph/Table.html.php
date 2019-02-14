@@ -15,7 +15,7 @@
         <div class="panel-heading">
                 <h3 class="panel-title">
                     <?php echo $view['translator']->trans($graph['name']); ?>
-                    <div class="pull-right">
+                    <div class="pull-right hide">
                         <span class="fa <?php echo isset($graph['iconClass']) ? $graph['iconClass'] : ''; ?>"></span>
                     </div>
                 </h3>

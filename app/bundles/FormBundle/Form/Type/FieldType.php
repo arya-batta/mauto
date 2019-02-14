@@ -37,17 +37,16 @@ class FieldType extends AbstractType
             'containerAttributes' => 'string',
             'label'               => 'strict_html',
         ];
-
+        $allowCustomAlias       =
+        $addSaveResult          =
+        $addContainerAttributes =
+        $addLabelAttributes     =
+        $addBehaviorFields      =false;
         $addHelpMessage         =
         $addShowLabel           =
-        $allowCustomAlias       =
         $addDefaultValue        =
-        $addLabelAttributes     =
-        $addInputAttributes     =
-        $addContainerAttributes =
         $addLeadFieldList       =
-        $addSaveResult          =
-        $addBehaviorFields      =
+        $addInputAttributes     =
         $addIsRequired          = true;
 
         $createcolor = false;
@@ -126,10 +125,14 @@ class FieldType extends AbstractType
                     break;
                 case 'select':
                     $cleanMasks['properties']['list']['list']['label'] = 'strict_html';
+                    $addDefaultValue = false;
                     break;
                 case 'checkboxgrp':
+                    $addDefaultValue = false;
+                    break;
                 case 'radiogrp':
                     $cleanMasks['properties']['optionlist']['list']['label'] = 'strict_html';
+                    $addDefaultValue = false;
                     break;
                 case 'file':
                     $addShowLabel = $addDefaultValue = $addLeadFieldList = $addBehaviorFields = false;

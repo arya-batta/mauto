@@ -782,8 +782,6 @@ class ConfigType extends AbstractType
             [
                 'label'      => 'le.email.config.mailer.is.owner',
                 'label_attr' => ['class' => 'control-label'],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
                 'attr'       => [
                     'class'   => 'form-control',
                     'tooltip' => 'le.email.config.mailer.is.owner.tooltip',

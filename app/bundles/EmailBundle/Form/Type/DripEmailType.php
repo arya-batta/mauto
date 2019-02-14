@@ -244,7 +244,8 @@ class DripEmailType extends AbstractType
                 [
                     'attr'  => [
                         'onchange' => 'Le.toggleDripEmailPublisedListVisibility();',
-                    ],
+                        'no_label'   => 'mautic.core.form.unpublished',
+                        'yes_label'  => 'mautic.core.form.published',],
                 ]
             );
             $builder->add(
@@ -253,8 +254,6 @@ class DripEmailType extends AbstractType
                 [
                     'label'      => 'le.email.config.show.google.analytics',
                     'label_attr' => ['class' => 'control-label '],
-                    'no_label'   => 'No',
-                    'yes_label'  => 'Yes',
                     'attr'       => [
                         'class'   => 'form-control ',
                     ],

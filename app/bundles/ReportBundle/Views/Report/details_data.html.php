@@ -55,7 +55,7 @@ $graphContent = $view->render(
     <div class="col-xs-12">
         <div class="panel panel-default bdr-t-wdh-0 mb-0">
             <div class="page-list">
-                <div class="table-responsive table-responsive-force">
+                <div class="table-responsive table-responsive-force ">
                     <table class="table table-hover table-striped table-bordered report-list" id="reportTable">
                         <thead>
                         <tr>

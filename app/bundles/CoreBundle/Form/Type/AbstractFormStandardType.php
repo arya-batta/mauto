@@ -122,6 +122,8 @@ abstract class AbstractFormStandardType extends AbstractType
                 [
                     'read_only' => $readonly,
                     'data'      => $data,
+                    'no_label'   => 'mautic.core.form.unpublished',
+                    'yes_label'  => 'mautic.core.form.published',
                 ]
             );
 

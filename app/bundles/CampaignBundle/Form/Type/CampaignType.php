@@ -110,6 +110,8 @@ class CampaignType extends AbstractType
             $builder->add('isPublished', 'yesno_button_group', [
                 'read_only' => $readonly,
                 'data'      => $data,
+                'no_label'   => 'mautic.core.form.unpublished',
+                'yes_label'  => 'mautic.core.form.published',
             ]);
 
             $builder->add('publishUp', 'datetime', [

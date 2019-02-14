@@ -12,7 +12,7 @@
 ?>
 
 <?php if (!empty($graphOrder) && !empty($graphs)): ?>
-    <div class="mt-lg pa-md" style="clear: both">
+    <div class="pa-md" style="clear: both;margin-top: -8px;">
         <div class="row equal">
             <?php
             $rowCount = 0;

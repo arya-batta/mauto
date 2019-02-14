@@ -11,6 +11,7 @@
 if ($tmpl == 'index') {
     $view->extend('MauticWebhookBundle:Webhook:index.html.php');
 }
+$isAdmin=$view['security']->isAdmin();
 ?>
 
 <?php if (count($items)): ?>
@@ -50,6 +51,7 @@ if ($tmpl == 'index') {
                 <th class="col-webhook-response" style="color: #000000;text-align: -webkit-center;"><?php echo $view['translator']->trans('mautic.webhook.webhook_response'); ?></th>
                 <th class="col-webhook-runtime" style="color: #000000;"><?php echo $view['translator']->trans('mautic.webhook.webhook_runtime'); ?></th>
                 <?php
+                if($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -59,6 +61,7 @@ if ($tmpl == 'index') {
                         'class'      => 'col-webhook-id visible-md visible-lg',
                     ]
                 );
+                endif;
                 ?>
             </tr>
             </thead>
@@ -123,7 +126,9 @@ if ($tmpl == 'index') {
                     ?>
                     <td class="visible-md visible-lg" style="text-align: center"><span class="label <?php echo $class;?>" data-toggle="tooltip" data-original-title="<?php echo $note;?>"><?php echo $value; ?></span></td>
                     <td class="visible-md visible-lg"><?php echo $date; ?></td>
+                    <?php if($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
             </tbody>

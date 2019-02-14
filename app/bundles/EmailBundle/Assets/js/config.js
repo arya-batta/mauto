@@ -145,6 +145,18 @@ Le.copytoClipboardforms = function(id) {
         copyTexta.innerHTML = copyTextval;
     }, 1000);
 };
+Le.copyClipboardforms = function(id) {
+    var copyText = document.getElementById(id);
+    copyText.select();
+    document.execCommand("Copy");
+    var copyTexts = document.getElementById(id+"_atag");
+    copyTexts.innerHTML = '<i aria-hidden="true" class="fa fa-clipboard"> </i> Copied';
+    setTimeout(function() {
+        var copyTexta = document.getElementById(id+"_atag");
+        copyTextval = '<i aria-hidden="true" class="fa fa-clipboard"> </i> Copy Script';
+        copyTexta.innerHTML = copyTextval;
+    }, 1000);
+};
 
 Le.showBounceCallbackURL = function(modeEl) {
     var mode = mQuery(modeEl).val();
@@ -269,6 +281,7 @@ Le.configOnLoad = function (container) {
         });
     });
    Le.hideFlashMessage();
+   Le.smsconfigOnLoad(container);
 }
 
 Le.updateEmailStatus = function(){

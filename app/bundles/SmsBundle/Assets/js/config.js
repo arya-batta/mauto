@@ -1,4 +1,4 @@
-Le.configOnLoad= function(container){
+Le.smsconfigOnLoad= function(container){
     var status=mQuery('#config_smsconfig_sms_status').val();
     if(status == "InActive"){
         mQuery('#config_smsconfig_sms_status').removeClass('status_success');
