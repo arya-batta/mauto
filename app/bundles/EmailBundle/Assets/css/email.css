@@ -59,6 +59,9 @@
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
 }
+.lead-email-campaign-stats{
+    padding: 10px 10px 40px 60px;
+}
 .email-badge {
     display: inline-block;
     min-width:50px;
@@ -75,23 +78,32 @@
     /*background-color: #a0acb8;*/
     /*border-radius: 9px;*/
 }
-.email-badge-open{
+.email-badge-open, .email-badge-green{
     background-color: #28a745;
 }
 .email-badge-click{
     background-color: #3292e0;
 }
-.email-badge-notopen{
+.email-badge-notopen, .email-badge-orange{
     background-color: #fd7e14;
 }
 .email-badge-unsubscribe{
     background-color: #6f42c1;
 }
-.email-badge-bounce{
+.email-badge-bounce, .email-badge-red{
     background-color: #dc3545;
 }
 .email-badge-spam{
     background-color: #343a40;
+}
+.email-badge-pink{
+    background-color: #e83e8c;
+}
+.email-badge-dark-blue{
+    background-color: #0000cd;
+}
+.email-badge-light-green{
+    background-color: #7fff00;
 }
 .h3-stat{
     font-size: 16px;

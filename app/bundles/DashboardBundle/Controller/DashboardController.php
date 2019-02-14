@@ -24,12 +24,242 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class DashboardController extends FormController
 {
+    public function indexAction()
+    {
+        $paymentrepository = $this->get('le.subscription.repository.payment');
+        $lastpayment       = $paymentrepository->getLastPayment();
+        //if ($lastpayment == null) {
+        $videoarg       = $this->request->get('login');
+        $loginsession   = $this->get('session');
+        $loginarg       = $loginsession->get('isLogin');
+        $dbhost         = $this->coreParametersHelper->getParameter('le_db_host');
+        $showsetup      = false;
+        $billformview   = '';
+        $accformview    = '';
+        $userformview   = '';
+        $videoURL       = '';
+        $showvideo      = false;
+        $kycview        = $this->get('mautic.helper.licenseinfo')->getFirstTimeSetup($dbhost, $loginarg);
+
+        $ismobile = InputHelper::isMobile();
+        if (sizeof($kycview) > 0) {
+            $showsetup      = false;
+            $billformview   = $kycview[0];
+            $accformview    = $kycview[1];
+            $userformview   = $kycview[2];
+            $videoURL       = '';
+            $showvideo      = false;
+            $billing        = $kycview[3];
+            $account        = $kycview[4];
+            $userEntity     = $kycview[5];
+            /** @var \Mautic\SubscriptionBundle\Model\KYCModel $kycmodel */
+            $kycmodel         = $this->getModel('subscription.kycinfo');
+            $kycrepo          = $kycmodel->getRepository();
+            $kycentity        = $kycrepo->findAll();
+            if (sizeof($kycentity) > 0) {
+                $kyc = $kycentity[0]; //$model->getEntity(1);
+            } else {
+                $kyc = new KYC();
+            }
+            $step = '';
+            if ($userEntity->getFirstName() == '' || $userEntity->getMobile() == '') {
+                $step = 'flname';
+            } elseif ($account->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+                $step = 'aboutyourbusiness';
+            } elseif ($billing->getCompanyaddress() == '' || $billing->getCity() == '') {
+                $step = 'addressinfo';
+            }
+            if ($step != '') {
+                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => $step]));
+            }
+        } else {
+            $loginsession->set('isLogin', false);
+        }
+
+        $emailProvider          = false;
+        $websiteTrackingEnabled = false;
+        $isSegmentCreated       = false;
+        $isImportDone           = false;
+        $isCampaignCreated      = false;
+        $isDripCreated          = false;
+        $isOneOffCreated        = false;
+        $isListCreated          = false;
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
+        $accountModel  = $this->getModel('subscription.accountinfo');
+
+        $licenseinfo   = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+        if ($licenseinfo->getEmailProvider() != 'LeadsEngage') {
+            $emailProvider = true;
+        }
+        /** @var \Mautic\PageBundle\Model\PageModel $pagemodel */
+        $pagemodel = $this->getModel('page.page');
+        $hitrepo   = $pagemodel->getHitRepository();
+        $pages     = $hitrepo->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'h.organization',
+                            'expr'   => 'neq',
+                            'value'  => 'sampletracking',
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+        if (!empty($pages)) {
+            $websiteTrackingEnabled = true;
+        }
+
+        $listmodel       = $this->getModel('lead.list');
+        $currentUser     = $this->get('security.context')->getToken()->getUser();
+        $lists           = $listmodel->getEntities([
+            'filter' => [
+                'force' => [
+                    [
+                        'column' => 'l.createdBy',
+                        'expr'   => 'eq',
+                        'value'  => $currentUser->getId(),
+                    ],
+                ],
+            ],
+            'ignore_paginator' => true,
+        ]);
+
+        if (!empty($lists)) {
+            $isSegmentCreated = true;
+        }
+
+        $importmodel       = $this->getModel('lead.import');
+        $Importlists       = $importmodel->getEntities(
+            [
+                'filter'           => [],
+                'ignore_paginator' => true,
+            ]
+        );
+
+        if (!empty($Importlists)) {
+            $isImportDone = true;
+        }
+
+        $campaignmodel     = $this->getModel('campaign');
+        $campaignList      = $campaignmodel->getEntities(
+            [
+                'filter'           => [],
+                'ignore_paginator' => true,
+            ]
+        );
+        if (!empty($campaignList)) {
+            $isCampaignCreated = true;
+        }
+
+        $dripcampaignmodel     = $this->getModel('email.dripemail');
+        $dripcampaign          = $dripcampaignmodel->getEntities(
+            [
+                'filter'           => [],
+                'ignore_paginator' => true,
+            ]
+        );
+        if (!empty($dripcampaign)) {
+            $isDripCreated = true;
+        }
+
+        $filter = [
+            'string' => '',
+            'force'  => [
+                ['column' => 'e.variantParent', 'expr' => 'isNull'],
+                ['column' => 'e.translationParent', 'expr' => 'isNull'],
+                ['column' => 'e.emailType', 'expr' => 'eq', 'value' => 'list'],
+            ],
+        ];
+        $emailmodel    = $this->getModel('email');
+        $emailList     = $emailmodel->getEntities(
+            [
+                'filter'           => $filter,
+                'ignore_paginator' => true,
+            ]
+        );
+
+        if (!empty($emailList)) {
+            $isOneOffCreated = true;
+        }
+
+        $listOptinmodel   = $this->getModel('lead.listoptin');
+        $listOptin        = $listOptinmodel->getEntities(
+            [
+                'filter'           => [],
+                'ignore_paginator' => true,
+            ]
+        );
+
+        if (!empty($listOptin)) {
+            $isListCreated = true;
+        }
+
+        // Init the date range filter form
+        $dateRangeValues = $this->request->get('daterange', []);
+        $action          = $this->generateUrl('le_pricing_index');
+        $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
+
+        // Account stats per time period
+        $timeStats = $accountModel->getAccountLineChartData(
+            null,
+            new \DateTime($dateRangeForm->get('date_from')->getData()),
+            new \DateTime($dateRangeForm->get('date_to')->getData())
+        );
+
+        $emailStats   = $accountModel->getCustomEmailStats();
+        $leadStats    = $accountModel->getCustomLeadStats();
+        $overallstats = $accountModel->getOverAllStats();
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'showvideo'            => $showvideo,
+                    'videoURL'             => $videoURL,
+                    'showsetup'            => $showsetup,
+                    'billingform'          => $billformview,
+                    'accountform'          => $accformview,
+                    'userform'             => $userformview,
+                    'isMobile'             => $ismobile,
+                    'isProviderChanged'    => $emailProvider,
+                    'isWebsiteTracking'    => $websiteTrackingEnabled,
+                    'isSegmentCreated'     => $isSegmentCreated,
+                    'isCampaignCreated'    => $isCampaignCreated,
+                    'isDripCreated'        => $isDripCreated,
+                    'isOneOffCreated'      => $isOneOffCreated,
+                    'isListCreated'        => $isListCreated,
+                    'isImportDone'         => $isImportDone,
+                    'pricingUrl'           => $this->generateUrl('le_pricing_index'),
+                    'tmpl'                 => 'index',
+                    'stats'                => $timeStats,
+                    'dateRangeForm'        => $dateRangeForm->createView(),
+                    'emailStats'           => $emailStats,
+                    'leadStats'            => $leadStats,
+                    'overallstats'         => $overallstats,
+                    'username'             => $this->user->getName(),
+                    'isPaid'               => ($lastpayment != null),
+                ],
+                'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_dashboard_index',
+                    'leContent'     => 'subscription',
+                    'route'         => $this->generateUrl('le_dashboard_index'),
+                ],
+            ]
+        );
+        //} else {
+        //    return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+        //}
+    }
+
     /**
      * Generates the default view.
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function index1Action()
     {
         $videoarg     = $this->request->get('login');
         $loginsession = $this->get('session');
@@ -141,7 +371,7 @@ class DashboardController extends FormController
             'contentTemplate' => 'MauticDashboardBundle:Dashboard:index.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_dashboard_index',
-                'leContent' => 'dashboard',
+                'leContent'     => 'dashboard',
                 'route'         => $this->generateUrl('le_dashboard_index'),
             ],
         ]);
@@ -183,7 +413,7 @@ class DashboardController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'leContent' => 'widget',
+                'leContent'     => 'widget',
             ];
 
             $filter = $model->getDefaultFilter();
@@ -247,7 +477,7 @@ class DashboardController extends FormController
             //just close the modal
             $passthroughVars = [
                 'closeModal'    => 1,
-                'leContent' => 'widget',
+                'leContent'     => 'widget',
             ];
 
             $filter = $model->getDefaultFilter();
@@ -295,7 +525,7 @@ class DashboardController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_dashboard_index',
                 'success'       => $success,
-                'leContent' => 'dashboard',
+                'leContent'     => 'dashboard',
             ],
         ];
 
@@ -577,7 +807,7 @@ class DashboardController extends FormController
                 'contentTemplate' => 'MauticDashboardBundle:Dashboard:import.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dashboard_index',
-                    'leContent' => 'dashboardImport',
+                    'leContent'     => 'dashboardImport',
                     'route'         => $this->generateUrl(
                         'le_dashboard_action',
                         [

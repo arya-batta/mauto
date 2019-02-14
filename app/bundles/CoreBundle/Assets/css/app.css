@@ -7429,3 +7429,102 @@ ul.list-unstyled, ul#list-unstyled  {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+.dashboard-title{
+  font-size:18px;
+  font-weight: bold;
+}
+.dashboard-email-campaign-stats{
+  padding: 40px 5px 10px 5px;
+}
+.welcome-stats{
+  padding: 10px 10px 10px 10px;
+}
+.todolist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.todolist-input {
+  font-size: 14px;
+  text-align: center;
+}
+
+.todolist-input, .todolist-title, .todolist-status {
+  display: table-cell;
+  padding: 10px;
+}
+.img-responsive{
+  margin-top:60px;
+}
+.todolist-title, .todolist-status {
+  font-size: 16px;
+}
+.todolist-title {
+  width: 100%;
+}
+.todolist-title a, .todolist-title a:focus {
+  outline: none !important;
+}
+.todolist-title a {
+  color: #55aeea;
+}
+.todolist-title a, .todolist-title a:focus, .todolist-title a:hover, .todolist-title a:active {
+  text-decoration: none;
+  outline: 0 none;
+}
+.todolist-title a {
+  color: #337ab7;
+  text-decoration: none;
+}
+.todolist-title a {
+  background-color: transparent;
+}
+.todolist-input i {
+  width: 18px;
+  text-align: center;
+  color: #999;
+}
+.todolist > li.active > div .todolist-input i:before {
+  color: #1ab394;
+  content: "";
+  opacity: 1;
+}
+.todolist > li.active > div .todolist-title a, .todolist > li.active > div .todolist-status {
+  color: #1ab394;
+}
+.todolist > li.active > div .todolist-title a, .todolist > li.active > div .todolist-title {
+  text-decoration: line-through;
+}
+.todolist > li {
+  margin-bottom: -1px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.schedule_demo {
+  margin-top:15px;
+  transition: all .1s ease;
+  color: #FFF;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-block;
+  text-transform: uppercase;
+  border: 1px solid #0071ff;
+  background-color: #0071ff;
+  letter-spacing: .6px;
+  padding: 10px 35px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.36);
+  white-space: nowrap;
+  text-decoration:none;
+}
+.schedule_demo:hover {
+  text-decoration:none;
+  background-color: #0071ff;
+  color: #fff;
+  border: 1px solid #0071ff;
+  transform: scale(1.03);
+  box-shadow: 0 8px 8px rgba(0,0,0,0.24);
+}
+.row-padding{
+  padding-left:1.3%;
+  padding-right:1.3%;
+}

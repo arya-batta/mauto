@@ -66,7 +66,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             return $response;
         } else {
             $request->getSession()->set('isLogin', true);
-            $redirectUrl = $request->getSession()->get('_security.main.target_path', $this->router->generate('le_success_action'));
+            $redirectUrl = $request->getSession()->get('_security.main.target_path', $this->router->generate('le_dashboard_index'));
 
             return new RedirectResponse($redirectUrl);
         }

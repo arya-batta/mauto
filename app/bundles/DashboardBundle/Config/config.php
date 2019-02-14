@@ -34,15 +34,15 @@ return [
     ],
 
     'menu' => [
-        /*'main' => [
-            'priority' => 100,
+        'main' => [
+            'priority' => 150,
             'items'    => [
                 'mautic.dashboard.menu.index' => [
                     'route'     => 'le_dashboard_index',
-                    'iconClass' => 'fa-th-large',
+                    'iconClass' => 'fa-home',
                 ],
             ],
-        ],*/
+        ],
     ],
     'services' => [
         'events' => [

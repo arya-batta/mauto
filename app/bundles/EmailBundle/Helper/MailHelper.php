@@ -588,7 +588,7 @@ class MailHelper
                 $atag->setAttribute('target', '_blank');
 
                 $imgtag = $doc->createElement('img');
-                $icon   = $this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $icon   = 'https://leadsengage.com/wp-content/uploads/leadsengage/footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $imgtag->setAttribute('src', $icon);
                 $imgtag->setAttribute('style', 'height:54px;width:139px;margin-top:10px;margin-bottom:5px;');
                 $imgtag->setAttribute('title', 'Free Marketing Automation Software');

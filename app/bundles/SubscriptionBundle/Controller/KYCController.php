@@ -125,7 +125,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', false);
 
-            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+            return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
         }
 
         return $this->delegateView(
@@ -140,7 +140,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step1.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'leContent' => 'kyc',
+                    'leContent'     => 'kyc',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [
@@ -221,7 +221,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step2.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'leContent' => 'kyc',
+                    'leContent'     => 'kyc',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [
@@ -257,7 +257,7 @@ class KYCController extends FormController
             $loginsession = $this->get('session');
             $loginsession->set('isLogin', true);
 
-            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+            return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
         }
 
         return $this->delegateView(
@@ -271,7 +271,7 @@ class KYCController extends FormController
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:step3.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_kyc_action',
-                    'leContent' => 'condition',
+                    'leContent'     => 'condition',
                     'route'         => $this->generateUrl(
                         'le_kyc_action',
                         [

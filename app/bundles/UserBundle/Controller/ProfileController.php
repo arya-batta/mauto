@@ -228,7 +228,7 @@ class ProfileController extends FormController
                     );
                 }
             } else {
-                return $this->redirect($this->generateUrl('le_contact_index'));
+                return $this->redirect($this->generateUrl('le_dashboard_index'));
             }
         }
         $this->get('session')->set('formProcessed', 0);
@@ -246,7 +246,7 @@ class ProfileController extends FormController
                 'contentTemplate' => 'MauticUserBundle:Profile:index.html.php',
                 'passthroughVars' => [
                     'route'         => $this->generateUrl('le_user_account'),
-                    'leContent' => 'user',
+                    'leContent'     => 'user',
                 ],
             ]
         );

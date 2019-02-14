@@ -35,7 +35,7 @@ class SecurityController extends CommonController
         if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY') ||
             $authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ) {
-            $redirectUrl = $this->generateUrl('le_contact_index');
+            $redirectUrl = $this->generateUrl('le_dashboard_index');
             $event->setController(function () use ($redirectUrl) {
                 return new RedirectResponse($redirectUrl);
             });
@@ -117,7 +117,7 @@ class SecurityController extends CommonController
             'contentTemplate' => 'MauticUserBundle:Security:login.html.php',
             'passthroughVars' => [
                 'route'          => $this->generateUrl('login'),
-                'leContent'  => 'user',
+                'leContent'      => 'user',
                 'sessionExpired' => true,
             ],
         ]);

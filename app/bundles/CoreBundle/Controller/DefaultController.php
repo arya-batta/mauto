@@ -32,7 +32,7 @@ class DefaultController extends CommonController
         $root = $this->coreParametersHelper->getParameter('webroot');
 
         if (empty($root)) {
-            return $this->redirect($this->generateUrl('le_contact_index'));
+            return $this->redirect($this->generateUrl('le_dashboard_index'));
         } else {
             /** @var \Mautic\PageBundle\Model\PageModel $pageModel */
             $pageModel = $this->getModel('page');

@@ -272,7 +272,7 @@ class CommonController extends Controller implements MauticController
      */
     public function redirectSecureRootAction()
     {
-        return $this->redirect($this->generateUrl('le_contact_index'), 301);
+        return $this->redirect($this->generateUrl('le_dashboard_index'), 301);
     }
 
     /**
