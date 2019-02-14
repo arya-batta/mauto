@@ -13,13 +13,19 @@ if ($tmpl == 'index'):
 endif;
 
 $formId = $form->getId();
+$isAdmin=$view['security']->isAdmin();
 
 ?>
+<div class="col-xs-6 va-m hide" style="margin-bottom: 10px;margin-left: -17px;">
+    <h5 class="text-white dark-md fw-sb mb-xs">
+        <span class="fa fa-database"></span><?php echo $view['translator']->trans('mautic.form.results.result'); ?></h5>
+</div>
 <div class="table-responsive table-responsive-force">
-    <table class="table table-striped table-bordered formresult-list" id="formResultTable">
+    <table class="table  table-hover table-striped table-bordered formresult-list" id="formResultTable">
         <thead>
             <tr>
                 <?php
+                if ($isAdmin):
                 if ($canDelete):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'checkall'        => 'true',
@@ -29,35 +35,35 @@ $formId = $form->getId();
                     'templateButtons' => [
                         'delete' => $canDelete,
                     ],
+                  //  'default'         => true,
                 ]);
                 endif;
-
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
                     'orderBy'    => 's.id',
                     'text'       => 'mautic.core.id',
                     'class'      => 'col-formresult-id',
-                    'filterBy'   => 's.id',
+                  //  'filterBy'   => 's.id',
                 ]);
-
+                endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
                     'orderBy'    => 's.date_submitted',
                     'text'       => 'mautic.form.result.thead.date',
-                    'class'      => 'col-formresult-date',
+                    //'class'      => 'col-formresult-date',
                     'default'    => true,
-                    'filterBy'   => 's.date_submitted',
+                    //'filterBy'   => 's.date_submitted',
                     'dataToggle' => 'date',
                 ]);
-
+                if ($isAdmin):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
                     'orderBy'    => 'i.ip_address',
                     'text'       => 'mautic.core.ipaddress',
                     'class'      => 'col-formresult-ip',
-                    'filterBy'   => 'i.ip_address',
+                   // 'filterBy'   => 'i.ip_address',
                 ]);
-
+                endif;
                 $fields     = $form->getFields();
                 $fieldCount = ($canDelete) ? 4 : 3;
                 if ($form->isSmartForm()) {
@@ -67,7 +73,7 @@ $formId = $form->getId();
                             'orderBy'    => 'r.'.$f['dbfield'],
                             'text'       => $f['smartfield'],
                             'class'      => 'col-formresult-field col-formresult-field'.$index,
-                            'filterBy'   => 'r.'.$f['dbfield'],
+                           // 'filterBy'   => 'r.'.$f['dbfield'],
                         ]);
                     ++$fieldCount;
                     endforeach;
@@ -81,7 +87,7 @@ $formId = $form->getId();
                             'orderBy'    => 'r.'.$f->getAlias(),
                             'text'       => $f->getLabel(),
                             'class'      => 'col-formresult-field col-formresult-field'.$f->getId(),
-                            'filterBy'   => 'r.'.$f->getAlias(),
+                           // 'filterBy'   => 'r.'.$f->getAlias(),
                         ]);
                     ++$fieldCount;
                     endforeach;
@@ -95,7 +101,8 @@ $formId = $form->getId();
         <?php foreach ($items as $item): ?>
             <?php $item['name'] = $view['translator']->trans('mautic.form.form.results.name', ['%id%' => $item['id']]); ?>
             <tr>
-                <?php if ($canDelete): ?>
+                <?php if ($isAdmin): ?>
+                   <?php if ($canDelete): ?>
                 <td>
                     <?php
                     echo $view->render('MauticCoreBundle:Helper:list_actions.html.php', [
@@ -112,9 +119,9 @@ $formId = $form->getId();
                     ]);
                     ?>
                 </td>
-                <?php endif; ?>
-
+                   <?php endif; ?>
                 <td><?php echo $item['id']; ?></td>
+                <?php endif; ?>
                 <td>
                     <?php if (!empty($item['lead']['id'])): ?>
                     <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item['lead']['id']]); ?>" data-toggle="ajax">
@@ -124,7 +131,9 @@ $formId = $form->getId();
                     <?php echo $view['date']->convertUTCtoIST($item['dateSubmitted']); ?>
                     <?php endif; ?>
                 </td>
+                <?php if ($isAdmin): ?>
                 <td><?php echo $item['ipAddress']; ?></td>
+                <?php endif; ?>
                 <?php foreach ($item['results'] as $key => $r): ?>
                     <?php $isTextarea = isset($r['type']) && $r['type'] === 'textarea'; ?>
                     <td <?php echo $isTextarea ? 'class="long-text"' : ''; ?>>
@@ -142,21 +151,17 @@ $formId = $form->getId();
             </tr>
         <?php endforeach; ?>
         <?php else: ?>
-            <tr>
-                <td colspan="<?php echo $fieldCount; ?>">
-                    <?php echo $view->render('MauticCoreBundle:Helper:noresults.html.php'); ?>
-                </td>
-            </tr>
+            <?php echo $view->render('MauticEmailBundle:Email:noresults.html.php', ['tip' => 'mautic.form.noresults.tip', 'colspan' => $fieldCount]); ?>
         <?php endif; ?>
         </tbody>
     </table>
 </div>
 <div class="panel-footer">
-    <?php echo $view->render('MauticCoreBundle:Helper:pagination.html.php', [
+    <?php  echo $view->render('MauticCoreBundle:Helper:pagination.html.php', [
         'totalItems' => $totalCount,
         'page'       => $page,
         'limit'      => $limit,
-        'baseUrl'    => $view['router']->path('le_form_results', ['objectId' => $form->getId()]),
-        'sessionVar' => 'formresult.'.$formId,
+        'baseUrl'    => $view['router']->path('le_form_action', ['objectAction'=>'view','objectId' => $form->getId()]),
+        'sessionVar' => 'form.results',
     ]); ?>
 </div>

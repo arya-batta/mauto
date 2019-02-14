@@ -30,7 +30,10 @@ class PagePublishDatesType extends AbstractType
         $builder->addEventSubscriber(new CleanFormSubscriber(['content' => 'html', 'customHtml' => 'html']));
         $builder->addEventSubscriber(new FormExitSubscriber('page.page', $options));
 
-        $builder->add('isPublished', 'yesno_button_group');
+        $builder->add('isPublished', 'yesno_button_group',[
+            'no_label'   => 'mautic.core.form.unpublished',
+            'yes_label'  => 'mautic.core.form.published',
+            ]);
 
         $builder->add('publishUp', 'datetime', [
             'widget'     => 'single_text',

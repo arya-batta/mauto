@@ -332,7 +332,10 @@ class UserType extends AbstractType
             );
 
             $builder->add('isPublished', 'yesno_button_group',
-             ['label' => 'le.users.config.form.published',]);
+             ['label' => 'le.users.config.form.published',
+                 'no_label'   => 'mautic.core.form.unpublished',
+                 'yes_label'  => 'mautic.core.form.published',
+                 ]);
 
             $builder->add('buttons', 'form_buttons');
         } else {

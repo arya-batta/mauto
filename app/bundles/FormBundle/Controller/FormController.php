@@ -215,7 +215,9 @@ class FormController extends CommonFormController
 
         //set the page we came from
         $page = $this->get('session')->get('mautic.form.page', 1);
-
+        if ($this->request->getMethod() == 'POST') {
+            $this->setListFilters('form.results');
+        }
         if ($activeForm === null) {
             //set the return URL
             $returnUrl = $this->generateUrl('le_form_index', ['page' => $page]);
@@ -300,6 +302,32 @@ class FormController extends CommonFormController
 
             $activeFormFields[] = $field;
         }
+        //set limits
+        $limit = $this->get('session')->get('mautic.form.results.limit', 50);
+        $resultPage = $this->get('session')->get('mautic.form.results.pageId');
+        $start = ($resultPage === 1) ? 0 : (($resultPage - 1) * $limit);
+        if ($start < 0) {
+            $start = 0;
+        }
+        $Resultmodel = $this->getModel('form.submission');
+        $formModel      = $this->getModel('form.form');
+        $viewOnlyFields = $formModel->getCustomComponents()['viewOnlyFields'];
+        $form           = $formModel->getEntity($objectId);
+        $entities = $Resultmodel->getEntities(
+            [
+                'start'          => $start,
+                'limit'          => $limit,
+                'filter'         => ['force' => []],
+                'orderBy'        => 's.date_submitted',
+                'orderByDir'     => 'DESC',
+                'form'           => $form,
+                'withTotalCount' => true,
+                'simpleResults'  => true,
+            ]
+        );
+
+        $count   = $entities['count'];
+        $results = $entities['results'];
 
         return $this->delegateView(
             [
@@ -317,6 +345,12 @@ class FormController extends CommonFormController
                     'formScript'        => htmlspecialchars($model->getFormScript($activeForm), ENT_QUOTES, 'UTF-8'),
                     'formContent'       => htmlspecialchars($model->getContent($activeForm, false), ENT_QUOTES, 'UTF-8'),
                     'availableActions'  => $customComponents['actions'],
+                    'results'      => $results,
+                    'resultPage'=>$resultPage,
+                    'form'         => $form,
+                    'count'        => $count,
+                    'limit'        => $limit,
+                    'viewOnlyFields'=> $viewOnlyFields,
                 ],
                 'contentTemplate' => 'MauticFormBundle:Form:details.html.php',
                 'passthroughVars' => [

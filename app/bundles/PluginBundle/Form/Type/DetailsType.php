@@ -27,7 +27,10 @@ class DetailsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('isPublished', 'yesno_button_group');
+        $builder->add('isPublished', 'yesno_button_group',[
+            'no_label'   => 'mautic.core.form.unpublished',
+            'yes_label'  => 'mautic.core.form.published',
+            ]);
 
         $keys          = $options['integration_object']->getRequiredKeyFields();
         $decryptedKeys = $options['integration_object']->decryptApiKeys($options['data']->getApiKeys());

@@ -107,6 +107,7 @@ $header = $view['translator']->trans(
 ?>
 
 <!-- report detail header -->
+<div class="report-content">
 <?php if ($report->getDescription()): ?>
 <div class="pr-md pl-md pt-lg pb-lg">
     <div class="text-white dark-sm mb-0"><?php echo $report->getDescription(); ?></div>
@@ -166,7 +167,7 @@ $header = $view['translator']->trans(
     </div>
 </div>
 
-<div class="report-content">
+<div class="">
     <?php $view['slots']->output('_content'); ?>
 </div>
 <?php if (!empty($debug)): ?>
@@ -177,3 +178,4 @@ $header = $view['translator']->trans(
 <?php endif; ?>
 <!--/ end: box layout -->
 <input type="hidden" name="entityId" id="entityId" value="<?php echo $view->escape($report->getId()); ?>"/>
+</div>

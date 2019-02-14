@@ -27,10 +27,6 @@ class FormFieldSelectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['field_type'] == 'select') {
-            $this->addSortableList($builder, $options);
-        }
-
         $builder->add(
             'empty_value',
             'text',
@@ -41,20 +37,23 @@ class FormFieldSelectType extends AbstractType
                 'required'   => false,
             ]
         );
+        if ($options['field_type'] == 'select') {
+            $this->addSortableList($builder, $options);
+        }
 
         if (!empty($options['parentData'])) {
             $default = (empty($options['parentData']['properties']['multiple'])) ? false : true;
         } else {
             $default = false;
         }
-        $builder->add(
+       /* $builder->add(
             'multiple',
             'yesno_button_group',
             [
                 'label' => 'mautic.form.field.form.multiple',
                 'data'  => $default,
             ]
-        );
+        );*/
     }
 
     /**

@@ -484,7 +484,7 @@ class ReportSubscriber extends CommonSubscriber
                     $chart->setDataset($options['translator']->trans('le.lead.all.leads'), $leads);
                     $queryBuilder->andwhere($qb->expr()->isNotNull('l.date_identified'));
                     $identified = $chartQuery->loadAndBuildTimeData($queryBuilder);
-                    $chart->setDataset($options['translator']->trans('le.lead.identified'), $identified);
+                   // $chart->setDataset($options['translator']->trans('le.lead.identified'), $identified);
                     $data         = $chart->render();
                     $data['name'] = $g;
                     $event->setGraph($g, $data);

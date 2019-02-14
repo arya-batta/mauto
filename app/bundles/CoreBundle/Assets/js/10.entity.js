@@ -86,6 +86,16 @@ Le.limitTableData = function (name, limit, tmpl, target, baseUrl) {
     var route = baseUrl + "&name=" + name + "&limit=" + limit;
     Le.loadContent(route, '', 'POST', target);
 };
+Le.pageTableData = function (name, page, tmpl, target, baseUrl){
+    if (typeof baseUrl == 'undefined') {
+        baseUrl = window.location.pathname;
+    }
+    if (baseUrl.indexOf('tmpl') == -1) {
+        baseUrl = baseUrl + "?tmpl=" + tmpl
+    }
+    var route = baseUrl + "&name=" + name + "&pageId=" + page;
+    Le.loadContent(route, '', 'POST', target);
+}
 
 
 /**

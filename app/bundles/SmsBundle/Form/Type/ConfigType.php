@@ -242,6 +242,8 @@ class ConfigType extends AbstractType
                 ],
                 'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
                 'required'   => false,
+                'no_label'   => 'mautic.core.form.unpublished',
+                'yes_label'  => 'mautic.core.form.published',
             ]
         );
         $class = 'status_success';

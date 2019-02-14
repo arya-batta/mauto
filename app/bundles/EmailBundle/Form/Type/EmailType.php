@@ -251,15 +251,16 @@ class EmailType extends AbstractType
             ]
         );
 
-        $builder->add('isPublished', 'yesno_button_group');
+        $builder->add('isPublished', 'yesno_button_group',[
+            'no_label'   => 'mautic.core.form.unpublished',
+            'yes_label'  => 'mautic.core.form.published',
+            ]);
         $builder->add(
             'google_tags',
             'yesno_button_group',
             [
                 'label'      => 'le.email.config.show.google.analytics',
                 'label_attr' => ['class' => 'control-label '],
-                'no_label'   => 'No',
-                'yes_label'  => 'Yes',
                 'attr'       => [
                     'class'   => 'form-control ',
                 ],

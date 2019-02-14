@@ -41,7 +41,10 @@ class TagEntityType extends AbstractType
                 ],
                 'required' => true,
             ]);
-        $builder->add('is_published', 'yesno_button_group');
+        $builder->add('is_published', 'yesno_button_group',[
+            'no_label'   => 'mautic.core.form.unpublished',
+            'yes_label'  => 'mautic.core.form.published',
+            ]);
         $builder->add(
             'buttons',
             'form_buttons',

@@ -2,7 +2,7 @@
 
 ?>
 <div style="float: left;width: 100%;">
-    <button id="open-model-btn" type="button" class="btn btn-info sender_profile_create_btn" style="float: left;margin-bottom: 15px;" data-toggle="modal" data-target="#emailActivateModel"><?php echo $view['translator']->trans('le.email.config.mailer.transport.test_connection'); ?></button>
+    <button id="open-model-btn" type="button" class="btn btn-info" style="float: left;margin-bottom: 15px;" data-toggle="modal" data-target="#emailActivateModel"><?php echo $view['translator']->trans('le.email.config.mailer.transport.test_connection'); ?></button>
 </div>
 <table class="payment-history">
     <thead>

@@ -437,18 +437,24 @@ class ReportSubscriber extends CommonSubscriber
                     $readQuery = clone $origQuery;
                     $readQuery->andWhere($qb->expr()->isNotNull('date_read'));
                     $failedQuery = clone $queryBuilder;
-                    $failedQuery->andWhere($qb->expr()->eq('es.is_failed', ':true'));
-                    $failedQuery->setParameter('true', true, 'boolean');
+                    $bouncedQuery = clone $queryBuilder;
                     $chartQuery->applyDateFilters($readQuery, 'date_read', 'es');
                     $chartQuery->modifyTimeDataQuery($sendQuery, 'date_sent', 'es');
                     $chartQuery->modifyTimeDataQuery($readQuery, 'date_read', 'es');
-                    $chartQuery->modifyTimeDataQuery($failedQuery, 'date_sent', 'es');
+                    $chartQuery->modifyTimeDataQuery($failedQuery, 'is_unsubscribe', 'es');
+                    $chartQuery->modifyTimeDataQuery($bouncedQuery, 'is_bounce', 'es');
+                    $clquery=$chartQuery->getTableQuery('page_hits','ph');
+                    $chartQuery->modifyTimeDataQuery($clquery,'date_hit','ph');
                     $sends  = $chartQuery->loadAndBuildTimeData($sendQuery);
                     $reads  = $chartQuery->loadAndBuildTimeData($readQuery);
                     $failes = $chartQuery->loadAndBuildTimeData($failedQuery);
+                    $bounes = $chartQuery->loadAndBuildTimeData($bouncedQuery);
+                    $clicks = $chartQuery->loadAndBuildTimeData($clquery);
                     $chart->setDataset($options['translator']->trans('le.email.sent.emails'), $sends);
                     $chart->setDataset($options['translator']->trans('le.email.read.emails'), $reads);
-                    $chart->setDataset($options['translator']->trans('le.email.failed.emails'), $failes);
+                    $chart->setDataset($options['translator']->trans('le.email.report.is_hit'), $clicks);
+                    $chart->setDataset($options['translator']->trans('le.email.bounce.emails'), $bounes);
+                    $chart->setDataset($options['translator']->trans('le.email.unsubscribe.emails'), $failes);
                     $data         = $chart->render();
                     $data['name'] = $g;
 

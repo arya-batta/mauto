@@ -66,10 +66,11 @@ return [
             'items' => [
             'mautic.report.reports.menu.1' => [
                 'route'     => 'le_report_action',
-                'routeParameters' => ['objectAction' => 'view','objectId' => '30'],
+                'routeParameters' => ['objectAction' => 'view','objectId' => '31'],
                 'iconClass' => 'fa-line-chart',
                 'access'    => ['report:reports:viewown', 'report:reports:viewother',],
                 'parent' =>'mautic.report.reports',
+                'id'=>'le_report_action_1',
                 'priority' =>25,
             ],
             'mautic.report.reports.menu.2' => [
@@ -78,6 +79,7 @@ return [
                 'iconClass' => 'fa-line-chart',
                 'access'    => ['report:reports:viewown', 'report:reports:viewother',],
                 'parent' =>'mautic.report.reports',
+                'id'=>'le_report_action_2',
                 'priority' => 24,
             ],
             'mautic.report.reports.menu.3' => [
@@ -86,6 +88,7 @@ return [
                 'iconClass' => 'fa-line-chart',
                 'access'    => ['report:reports:viewown', 'report:reports:viewother',],
                 'parent' =>'mautic.report.reports',
+                'id'=>'le_report_action_3',
                 'priority' => 23,
             ],
             'mautic.report.reports.menu.4' => [
@@ -94,6 +97,7 @@ return [
                 'iconClass' => 'fa-line-chart',
                 'access'    => ['report:reports:viewown', 'report:reports:viewother',],
                 'parent' =>'mautic.report.reports',
+                'id'=>'le_report_action_4',
                 'priority' => 22,
             ],
             'mautic.report.reports.menu.5' => [
@@ -102,6 +106,7 @@ return [
                 'iconClass' => 'fa-line-chart',
                 'access'    => ['report:reports:viewown', 'report:reports:viewother',],
                 'parent' =>'mautic.report.reports',
+                'id'=>'le_report_action_5',
                 'priority' => 21,
             ],
         ],

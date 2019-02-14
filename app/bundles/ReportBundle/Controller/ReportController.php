@@ -560,7 +560,18 @@ class ReportController extends FormController
         $model    = $this->getModel('report');
         $entity   = $model->getEntity($objectId);
         $security = $this->container->get('mautic.security');
-
+        $activelink='#le_report_index';
+        if($objectId=='mautic.report.reports.menu.1.id'){
+            $activelink='#le_report_action_1';
+        }elseif ($objectId=='mautic.report.reports.menu.2.id'){
+            $activelink='#le_report_action_2';
+        }elseif ($objectId=='mautic.report.reports.menu.3.id'){
+            $activelink='#le_report_action_3';
+        }elseif ($objectId=='mautic.report.reports.menu.4.id'){
+            $activelink='#le_report_action_4';
+        }elseif ($objectId=='mautic.report.reports.menu.5.id'){
+            $activelink='#le_report_action_5';
+        }
         if ($entity === null) {
             $page = $this->container->get('session')->get('mautic.report.page', 1);
 
@@ -570,7 +581,7 @@ class ReportController extends FormController
                     'viewParameters'  => ['page' => $page],
                     'contentTemplate' => 'MauticReportBundle:Report:index',
                     'passthroughVars' => [
-                        'activeLink'    => '#le_report_index',
+                        'activeLink'    => $activelink,
                         'leContent' => 'report',
                     ],
                     'flashes' => [
@@ -699,7 +710,7 @@ class ReportController extends FormController
                 ],
                 'contentTemplate' => $reportData['contentTemplate'],
                 'passthroughVars' => [
-                    'activeLink'    => '#le_report_index',
+                    'activeLink'    => $activelink,
                     'leContent' => 'report',
                     'route'         => $this->generateUrl(
                         'le_report_view',

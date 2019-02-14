@@ -40,12 +40,12 @@ if (!isset($typeThreeIconClass)) {
             </div>
             <div class="modal-body form-select-modal" style="background-color:#eee;">
                 <div class="row">
-                    <div class="white-block" style="margin-left:36px;width:43%;text-align:left">
+                    <div class="white-block" style="margin-left:36px;width:43%;text-align:left;min-height: 238px;">
                         <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                             <div class="panel-primary" style="margin-left: -28px;">
                                 <h3 style="width: 130%;" class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                 <p style="width:230%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                <button class="le-btn-primary" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button class="le-btn-primary" style="margin-top: 55px;"onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
                         </div>

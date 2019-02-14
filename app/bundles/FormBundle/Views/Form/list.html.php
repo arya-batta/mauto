@@ -143,6 +143,7 @@ $isAdmin=$view['security']->isAdmin();
                                         ],
                                         'iconClass' => 'fa fa-camera',
                                         'btnText'   => 'mautic.form.form.preview',
+                                        'primary'   => true,
                                     ],
                                     [
                                         'attr' => [
@@ -195,8 +196,8 @@ $isAdmin=$view['security']->isAdmin();
                     <td class="visible-md visible-lg">
                         <a href="<?php echo $view['router']->path(
                             'le_form_action',
-                            ['objectAction' => 'results', 'objectId' => $item->getId()]
-                        ); ?>" data-toggle="ajax" data-menu-link="le_form_index" class="label label-primary" <?php echo ($i['submission_count']
+                            ['objectAction' => 'view', 'objectId' => $item->getId()]
+                        ); ?>#form-Results" data-toggle="ajax" data-menu-link="le_form_index" class="label label-primary" <?php echo ($i['submission_count']
                             == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'mautic.form.form.viewresults',
@@ -232,15 +233,17 @@ $isAdmin=$view['security']->isAdmin();
                                                 <i class="material-icons md-color-white">  </i> </a>
 <!--                                        --><?php //endif;?>
 <!--                                        --><?php //if ($hasPreviewAccess) :?>
+                                          <?php if($isAdmin):?>
                                             <a <?php echo $hasPreviewAccess ? '' : 'class=\'hide\''?> target="_blank" title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
                                                href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
                                                 <i class="material-icons md-color-white">  </i> </a>
 <!--                                        --><?php //endif;?>
-                                        <a data-toggle="ajax"
-                                           title="<?php echo $view['translator']->trans('mautic.form.form.results'); ?>"
-                                           href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'results']); ?>">
-                                            <i class="material-icons md-color-white">  </i>
-                                        </a>
+                                             <a data-toggle="ajax"
+                                                title="<?php echo $view['translator']->trans('mautic.form.form.results'); ?>"
+                                                href="<?php echo $view['router']->path('le_form_action', ['objectId' => $item->getId(), 'objectAction' => 'results']); ?>">
+                                                 <i class="material-icons md-color-white">  </i>
+                                             </a>
+                                           <?php endif;?>
                                         <?php if ($hasDeleteAccess):?>
                                             <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_form_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.form.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>
