@@ -499,9 +499,9 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
             ->addListProperties(
                 [
                     'id',
-                    //'points',
+                    'points',
                     //'color',
-                    //'fields',
+                    'fields',
                 ]
             )
             ->addProperties(
@@ -512,10 +512,10 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                     'tags',
                     //'utmtags',
                     //'stage',
-                    //'dateIdentified',
+                    'dateIdentified',
                     //'preferredProfileImage',
                     'doNotContact',
-                    //'frequencyRules',
+                    'frequencyRules',
                 ]
             )
             ->build();
