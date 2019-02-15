@@ -457,7 +457,9 @@ class CampaignSubscriber extends CommonSubscriber
         $somethingHappened = false;
 
         if ($lead !== null && !empty($score)) {
-            $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+            //$this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+            $lead->setScore($score);
+            $this->leadModel->saveEntity($lead);
             $somethingHappened = true;
         }
 

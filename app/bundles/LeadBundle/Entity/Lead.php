@@ -270,6 +270,11 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     private $channelRules = [];
 
     /**
+     * @var
+     */
+    private $score;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -621,6 +626,23 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score = 'cold')
+    {
+        $this->isChanged('score', $score);
+        $this->score = $score;
     }
 
     /**
