@@ -204,6 +204,23 @@ class TagRepository extends CommonRepository
     }
 
     /**
+     * @param $tagIds
+     *
+     * @return array|mixed
+     */
+    public function getLinkedTags($LeadId)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $q->select('x.tag_id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref', 'x')
+            ->where($q->expr()->eq('x.lead_id', ':leadId'))
+            ->setParameter('leadId', $LeadId);
+
+        return $results = $q->execute()->fetchAll();
+    }
+
+    /**
      * @param bool $viewOthers
      *
      * @return mixed
