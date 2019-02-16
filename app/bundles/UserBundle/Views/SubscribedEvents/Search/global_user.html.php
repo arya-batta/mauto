@@ -11,23 +11,21 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_user_index', ['filter-user' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
-<?php else: ?>
-<div>
-    <span class="pull-left pr-xs pt-xs" style="width:36px">
-        <span class="img-wrapper img-rounded"><img src="<?php echo $view['gravatar']->getImage($user->getEmail(), '100'); ?>" /></span>
-    </span>
-    <?php if ($canEdit): ?>
-    <a href="<?php echo $view['router']->generate('le_user_action', ['objectAction' => 'edit', 'objectId' => $user->getId()]); ?>" data-toggle="ajax">
-        <?php echo $user->getName(true); ?>
+    <a href="<?php echo $view['router']->generate('le_user_index', ['filter-user' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
+<?php else: ?>
+    <?php if ($canEdit): ?>
+        <a href="<?php echo $view['router']->generate('le_user_action', ['objectAction' => 'edit', 'objectId' => $user->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+            <div class="media">
+                <div class="media-heading"><?php echo $user->getName(true); ?></div>
+            </div>
+        </a>
     <?php else: ?>
-        <?php echo $user->getName(true); ?>
+        <a href="javascript:void(0);">
+            <div class="media">
+                <div class="media-heading"><?php echo $user->getName(true); ?></div>
+            </div>
+        </a>
     <?php endif; ?>
-
-    <div><small><?php echo $user->getPosition(); ?></small></div>
-    <div class="clearfix"></div>
-</div>
 <?php endif; ?>

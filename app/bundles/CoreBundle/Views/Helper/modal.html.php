@@ -22,7 +22,7 @@ $footerButtonClass = (!isset($footerButtonClass)) ? 'modal-form-buttons' : $foot
 $dismissible       = (!isset($dismissible)) ? true : $dismissible;
 ?>
 
-<div class="modal fade<?php echo $containerClass; ?> le-modal-box-align" style="<?php echo $id == 'abStatsModal' ? 'margin-left:10%;' :  '' ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>-label" aria-hidden="true"<?php echo $containerAttr; ?>>
+<div class="modal fade<?php echo $containerClass; ?> le-modal-box-align" style="<?php echo $id == 'abStatsModal' ? 'margin-left:10%;' : '' ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>-label" aria-hidden="true"<?php echo $containerAttr; ?>>
     <div class="le-modal-gradient">
         <div class="modal-dialog<?php echo $size; ?> le-gradient-align">
             <div class="modal-content<?php echo $class; ?> le-modal-content">
@@ -59,7 +59,7 @@ $dismissible       = (!isset($dismissible)) ? true : $dismissible;
                     <?php if (is_array($footerButtons)): ?>
                     <?php foreach ($footerButtons as $button): ?>
                         <button type="button"
-                                class="btn <?php echo !empty($button['class']) ? $button['class'] : 'btn-default'; ?>"
+                                class="waves-effect btn <?php echo !empty($button['class']) ? $button['class'] : 'btn-default'; ?>"
                                 <?php if (!empty($button['attr'])): echo ' '.$button['attr']; endif; ?>>
                             <?php if (!empty($button['textIcon'])): ?><i class="<?php echo $button['textIcon']; ?>"></i><?php endif; ?>
                             <?php echo $button['label']; ?>

@@ -28,10 +28,10 @@ $view['slots']->set(
 
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.form.forms'); ?></h3></div>
-<div style="padding-top: 15px;">
+<div class="info-box-holder">
     <?php foreach ($formBlockDetails as $key => $formBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="background-color:<?php echo $formBlock[0]; ?>;>">
+                <span class="info-box-icon">
                     <i class="<?php echo $formBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $formBlock[2]; ?></span>
@@ -41,7 +41,7 @@ $view['slots']->set(
         </div>
     <?php endforeach; ?>
 </div>
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

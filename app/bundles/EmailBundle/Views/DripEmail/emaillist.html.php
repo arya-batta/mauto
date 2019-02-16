@@ -224,7 +224,7 @@
                           </a>
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
-                            <a class="text-primary le-send-button custom-preview-button" style="background-color: #ec407a;color:#FFFFFF;font-size:13px;" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" data-toggle="tooltip"
+                            <a class="text-primary le-send-button custom-preview-button blue-theme-bg" style="color:#FFFFFF;font-size:13px;" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.drip.email.wizard.sendexample.tooltip'); ?>">
                                 <span><i class="fa fa-send-o le-send-icon" style="margin-left: -2px;margin-right: 2px;"></i></span>
                             </a>

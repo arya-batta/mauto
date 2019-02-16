@@ -11,7 +11,7 @@
 $index = 0;
 ?>
 
-<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
+<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.9; z-index: 9000"></div>
 
 <div class="modal fade in <?php echo $typePrefix; ?>-type-modal" style="display: block; z-index: 9999;">
     <div class="modal-dialog-workflow">

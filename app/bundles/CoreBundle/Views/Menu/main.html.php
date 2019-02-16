@@ -40,7 +40,7 @@ if ($item->hasChildren() && $options['depth'] !== 0 && $item->getDisplayChildren
         /* Menu link start */
         if ($showChildren) {
             //Main item
-            echo '<a href="javascript:void(0);" data-target="#'.$linkAttributes['id'].'_child" data-toggle="submenu" data-parent=".nav" '.$view['menu']->parseAttributes($linkAttributes).">\n";
+            echo '<a class="waves-effect" href="javascript:void(0);" data-target="#'.$linkAttributes['id'].'_child" data-toggle="submenu" data-parent=".nav" '.$view['menu']->parseAttributes($linkAttributes).">\n";
             echo '<span class="arrow pull-right text-right"></span>'."\n";
         } else {
             //Submenu item
@@ -51,8 +51,7 @@ if ($item->hasChildren() && $options['depth'] !== 0 && $item->getDisplayChildren
             }
             echo "<a href=\"$url\"{$view['menu']->parseAttributes($linkAttributes)}>";
         }
-
-        if (!empty($extras['iconClass'])) {
+        if (!empty($extras['iconClass']) && $extras['depth'] == 0) {//to hide submenu icons
             echo "<i class=\"icon pull-left fa {$extras['iconClass']}\"></i>";
         }
 

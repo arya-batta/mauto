@@ -1,14 +1,11 @@
 <?php if (!empty($showMore)): ?>
-    <a href="<?php echo $view['router']->generate('le_tags_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-        <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
+    <a href="<?php echo $view['router']->generate('le_tags_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_tags_index'); ?>" data-toggle="ajax">
-        <span><?php echo $tag->getTag(); ?></span>
-        <?php
-        $color = "#bbbbbb";
-        $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
-        ?>
+    <a href="<?php echo $view['router']->generate('le_tags_index'); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $tag->getTag(); ?></div>
+        </div>
     </a>
-    <div class="clearfix"></div>
 <?php endif; ?>

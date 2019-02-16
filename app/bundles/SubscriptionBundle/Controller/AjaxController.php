@@ -616,6 +616,13 @@ class AjaxController extends CommonAjaxController
             $dataArray['success']         = true;
             $dataArray['isalertneeded']   = false;
         }
+        $infomeesage=$dataArray['info'];
+        $breakstring=substr($infomeesage, -4);
+        if ($breakstring == '<br>') {
+            $infomeesage=substr($infomeesage, 0, strlen($infomeesage) - 4);
+            $infomeesage .= $this->get('translator')->trans('le.license.dismiss.btn');
+            $dataArray['info']=$infomeesage;
+        }
 
         return $this->sendJsonResponse($dataArray);
     }

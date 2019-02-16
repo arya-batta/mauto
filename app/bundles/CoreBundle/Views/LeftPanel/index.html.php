@@ -18,7 +18,7 @@ $extraMenu = $view['menu']->render('extra');
     width: 200px;
     margin-top: 15px;
     padding: 2px;
-" src="<?php echo $view['assets']->getUrl('media/images/leadsengage-new-logo.png') ?>"></div>
+" src="<?php echo $view['assets']->getUrl('media/images/leadsengage-blue-logo.png') ?>"></div>
     <!--<a class="le-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#">-->
     <!-- logo figure -->
     <!--<svg version="1.1" class="le-logo-figure" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 128 128" enable-background="new 0 0 128 128" xml:space="preserve">

@@ -25,13 +25,16 @@ if (isset($isMobile) && $isMobile) {
 }
 $enableHeader     =true;
 $marginforcontent = 'fixed-content';
+    $contentstyle ='style="margin-top: 10%;"';
 if (!empty($tmpl)) {
     $enableHeader     = (($tmpl == 'index') ? 'hide' : '');
     $marginforcontent = (($tmpl == 'index') ? '' : 'fixed-content');
+    $contentstyle     = (($tmpl == 'index') ? '' : $contentstyle);
 }
 ?>
 <?php if (!$modalView): ?>
-    <div class="content-body">
+    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
+    <div class="content-body" <?php echo $contentstyle ?>>
         <?php if ($view['slots']->get('leContent', '') == 'dashboard' && $showvideo): ?>
             <div id="dashboard-widgets" class="dashboard-widgets cards">
                 <div class="card-flex widget" style="width:100%;" role="document">
@@ -68,14 +71,13 @@ if (!empty($tmpl)) {
                 </div>
             </div>
         <?php endif; ?>
-    </div>
-    <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
+<!--    </div>-->
     <?php if (!empty($campaignBlocks)): ?>
         <div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaigns.root'); ?></h3></div>
-        <div style="padding-top: 15px;">
+        <div class="info-box-holder">
             <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
                 <div class="info-box" id="leads-info-box-container" style="width: 25%;">
-                <span class="info-box-icon" style="background-color:<?php echo $segmentBlock[0]; ?>;>">
+                <span class="info-box-icon">
                     <i class="<?php echo $segmentBlock[1]; ?>" id="icon-class-leads"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text"><?php echo $segmentBlock[2]; ?></span>
@@ -86,9 +88,6 @@ if (!empty($tmpl)) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <div id="<?php echo $marginforcontent; ?>">
-
-    </div>
     <?php $view['slots']->output('_content'); ?>
 </div>
 

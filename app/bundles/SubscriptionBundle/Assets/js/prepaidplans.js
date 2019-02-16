@@ -196,13 +196,7 @@ Le.loadLicenseUsageInfo = function() {
      //         }
      //     }
      // });
-    mQuery('#licenseclosebutton').click(function(e) {
-        Le.closeLicenseButton();
-       Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
-        });
-        mQuery('#fixed-content').attr('style','margin-top:120px;');
-        mQuery('.content-body').attr('style','padding-top:0px;');
-    });
+
 
     Le.ajaxActionRequest('subscription:licenseusageinfo', {}, function(response) {
         if (response.success) {
@@ -214,10 +208,9 @@ Le.loadLicenseUsageInfo = function() {
                 mQuery('.license-notifiation #license-alert-message').html('');
                 mQuery('.license-notifiation #license-alert-message').html(response.info);
                 if(!response.needClosebutton){
-                    mQuery('.button-notification').addClass('hide');
+                  //  mQuery('.licenseclosebtn').addClass('hide');
                 }
-                mQuery('#fixed-content').attr('style','margin-top:175px;');
-                mQuery('.content-body').attr('style','padding-top:82px;');
+                Le.registerLicenseCloseBtnListener();
             }else{
                 mQuery('.license-notifiation').addClass('hide');
             }
@@ -234,5 +227,12 @@ Le.loadLicenseUsageInfo = function() {
             mQuery('#upgrade-now').addClass('hide');
             mQuery('#upgrade-info-trial-info').addClass('hide');
         }
+    });
+};
+Le.registerLicenseCloseBtnListener=function(){
+    mQuery('.licenseclosebtn').click(function(e) {
+        Le.closeLicenseButton();
+        Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
+        });
     });
 };

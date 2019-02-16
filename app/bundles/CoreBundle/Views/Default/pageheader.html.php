@@ -1,7 +1,4 @@
 <div id="fixed-header">
-<div class="license-notifiation hide" id="licenseclosediv">
-    <img style="cursor: pointer;position: fixed" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" id="licenseclosebutton"  width="10" height="10">
-    <span id="license-alert-message"></span></div>
 <div class="page-header <?php echo $enableHeader; ?>">
     <div class="box-layout">
         <div class="col-xs-5 col-sm-6 col-md-6 va-m">
@@ -19,8 +16,8 @@
                 <div class="toolbar-form-buttons hide pull-right" style="margin-left: -35px">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-main"></button>
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect"></button>
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>

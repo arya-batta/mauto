@@ -31,10 +31,10 @@ $view['slots']->set(
     <img style="cursor: pointer" class="button-notification" src="<?php echo $view['assets']->getUrl('media/images/button.png') ?>" onclick="Le.closeSMSNotification()" width="10" height="10">
 </div>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.sms.smses'); ?></h3></div>
-<div style="padding-top: 15px;">
+<div class="info-box-holder">
     <?php foreach ($smsBlockDetails as $key =>  $smsBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="background-color:<?php echo $smsBlock[0]; ?>;>">
+                <span class="info-box-icon">
                     <i class="<?php echo $smsBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $smsBlock[2]; ?></span>
@@ -44,7 +44,7 @@ $view['slots']->set(
         </div>
     <?php endforeach; ?>
 </div>
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

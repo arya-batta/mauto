@@ -14,7 +14,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.theme
 $view['slots']->set('actions', $view->render('MauticCoreBundle:Theme:form.html.php', ['form' => $form]));
 ?>
 
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

@@ -49,13 +49,13 @@ $templates = [
 
 $mainErrors     = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
 $filterErrors   = ($view['form']->containsErrors($form['filters'])) ? 'class="text-danger"' : '';
-$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group waves-effect\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;margin-top: 135px;">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md">
     <li class="active detail" id="detailstab" onclick="Le.addHide()">
-        <a href="#details" style="padding: 3px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
+        <a href="#details" style="padding: 0px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 01</span></div>
                 <label><?php echo $view['translator']->trans('le.core.segment.setup'); ?>
@@ -66,7 +66,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
         </a>
     </li>
     <li id="filterstab" data-toggle="tooltip" title="" onclick="Le.removeHide()" data-placement="top">
-        <a id="segment_filters_tab" href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
+        <a id="segment_filters_tab" href="#filters" style="padding: 0px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 02</span></div>
                 <label>  <?php echo $view['translator']->trans('le.core.segment.filter'); ?>
@@ -77,7 +77,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
         </a>
     </li>
 </ul>
-<div class="box-layout" style="border: 1px solid #ccc;margin-left: 15px;width: 97%;border-radius: 2px;">
+<div class="box-layout" style="margin-left: 15px;width: 97%;">
     <div class="col-md-8 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">
@@ -157,7 +157,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
                             <?php echo $view['form']->widget($form['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
                             </div>
                             <div class="leadlist-filter-group filter-or-group">
-                                <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                                <button type="button" class="btn btn-default lead-list btn-filter-group waves-effect" data-filter-group='or'>Add another set of conditions</button>
                             </div>
                         </div>
                     </div>

@@ -23,10 +23,10 @@ $fieldslist=['date_identified',
     'lead_email_read_date',
     'lead_email_click_date',
     'hit_url_date',
-    'lead_email_activity'];
+    'lead_email_activity', ];
 $datefield=false;
-foreach ($fieldslist as $field){
-    if($field == $filterType){
+foreach ($fieldslist as $field) {
+    if ($field == $filterType) {
         $datefield  = true;
     }
 }
@@ -66,7 +66,7 @@ foreach ($fieldslist as $field){
             <?php echo $view['form']->widget($form['operator']); ?>
         </div>
         <?php $hasErrors = count($form['filter']->vars['errors']) || count($form['display']->vars['errors']); ?>
-        <div class="col-xs-10 <?php echo $datefield ? $filterType=='lead_email_activity'?'col-sm-2 lead_filter_padding_right':'col-sm-3' : 'col-sm-4'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
+        <div class="col-xs-10 <?php echo $datefield ? $filterType == 'lead_email_activity' ? 'col-sm-2 lead_filter_padding_right' : 'col-sm-3' : 'col-sm-4'?> padding-none<?php if ($hasErrors): echo ' has-error'; endif; ?> filter-field-segment">
             <?php echo $view['form']->widget($form['filter']); ?>
             <?php echo $view['form']->widget($form['display']); ?>
             <?php echo $view['form']->errors($form['filter']); ?>
@@ -76,7 +76,7 @@ foreach ($fieldslist as $field){
             <span>emails</span>
         </div>
         <div class="col-xs-2 col-sm-1">
-            <a href="javascript: void(0);" class="remove-selected btn btn-default text-danger pull-right"><i class="fa fa-trash-o"></i></a>
+            <a href="javascript: void(0);" class="remove-selected btn btn-default text-danger pull-right waves-effect"><i class="fa fa-trash-o"></i></a>
         </div>
         <?php echo $view['form']->widget($form['field']); ?>
         <?php echo $view['form']->widget($form['type']); ?>

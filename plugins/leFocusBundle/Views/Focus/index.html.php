@@ -27,10 +27,10 @@ $view['slots']->set(
 echo $view['assets']->includeScript('plugins/leFocusBundle/Assets/js/focus.js');
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.focus'); ?></h3></div>
-<div style="padding-top: 15px;">
+<div class="info-box-holder">
     <?php foreach ($focusBlockDetails as $key => $focusBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="background-color:<?php echo $focusBlock[0]; ?>;>">
+                <span class="info-box-icon">
                     <i class="<?php echo $focusBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $focusBlock[2]; ?></span>

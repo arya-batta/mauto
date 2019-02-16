@@ -1,7 +1,7 @@
 <div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">
     <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
-    <div class="mautibot-image col-xs-6 text-center">
-        <img class="img-responsive noresult-alert-image" src="<?php echo $view['mautibot']->getImage('openMouth'); ?>" />
+    <div class="text-center">
+        <img class="img-responsive noresult-alert-image" src="<?php echo $view['assets']->getUrl('media/images/no-record.png') ?>" /><?php //<?php echo $view['mautibot']->getImage('openMouth');?>
     <?php if (!isset($header)) {
     $header = 'mautic.core.noresults.header';
 } ?>

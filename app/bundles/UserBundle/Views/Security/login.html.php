@@ -42,7 +42,7 @@
 
     <input type="hidden" name="_csrf_token" value="<?php echo $view->escape($view['form']->csrfToken('authenticate')) ?>" />
     <div class="le-button-container">
-        <button class="btn btn-lg btn-primary btn-block le-login-button" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
+        <button class="btn btn-lg btn-primary btn-block le-login-button waves-effect" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
         <a class="le-password-reset" href="<?php echo $view['router']->path('le_user_passwordreset'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.link'); ?></a>
     </div>
     <div class="le-copyright-content">

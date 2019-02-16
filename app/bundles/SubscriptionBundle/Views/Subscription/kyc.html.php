@@ -33,7 +33,7 @@ if ($isMobile) {
     $exitstyle   = 'margin-left:15%;';
 }
 ?>
-<div class="type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 1500"></div>
+<div class="type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.9; z-index: 1500"></div>
 
 <div class="modal fade in kyc" style="display: block;z-index: 1500; <?php echo $popupstyle; ?>">
     <div class="modal-dialog steps" style="<?php echo $style; ?>" role="document">

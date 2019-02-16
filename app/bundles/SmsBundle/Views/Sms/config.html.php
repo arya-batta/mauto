@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: cratio
  * Date: 25/1/19
- * Time: 10:41 AM
+ * Time: 10:41 AM.
  */?>
 <div style="float: left;width: 100%;">
     <button id="open-model-btn" type="button" class="btn btn-info sender_profile_create_btn" style="float: left;margin-bottom: 15px;"  onclick="Le.validateSmsConfig()"><?php echo $view['translator']->trans('le.sms.config.test_connection'); ?></button>
@@ -28,8 +28,8 @@
                         </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                                <button type="button"  class="btn btn-success sms_config_btn" data-toggle="#" onclick="Le.testSmsConnection()"> <?php echo $view['translator']->trans('le.sms.config.activate'); ?></button>
-                                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                                <button type="button"  class="btn btn-success sms_config_btn waves-effect" data-toggle="#" onclick="Le.testSmsConnection()"> <?php echo $view['translator']->trans('le.sms.config.activate'); ?></button>
+                                <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

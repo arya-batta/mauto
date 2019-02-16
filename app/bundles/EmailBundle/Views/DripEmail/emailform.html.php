@@ -27,9 +27,9 @@ $custombutton = [
         'name'    => 'beeeditor',
         'btnText' => 'le.drip.email.open.editor',
         'attr'    => [
-            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down',
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down blue-theme-bg',
             'onclick' => "Le.launchBeeEditor('dripemail', 'email');",
-            'style'   => 'background-color: #ec407a;color:#ffffff;border-radius:4px;z-index:499;margin-top:-35px;right:-189px;',
+            'style'   => 'color:#ffffff;border-radius:4px;z-index:499;margin-top:-35px;right:-189px;',
         ],
     ],
 ];
@@ -64,7 +64,7 @@ $customHtml = $entity->getCustomHtml();
 <?php echo $view['form']->start($form); ?>
     <div class="box-layout le-email-border">
         <div class="col-md-12 bg-auto height-auto">
-            <div class="tab-content align-tab-center">
+            <div class="align-tab-center">
                 <div class="row le-border" style="margin-top: 20px;">
                     <div class="col-md-8" style="top: 6px;">
                         <div class="col-md-10 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" id="DripEmail_Subject" style="right:15px;">
@@ -74,12 +74,12 @@ $customHtml = $entity->getCustomHtml();
                         </div>
                         <div class="col-md-2" style="right:25px;">
                             <li class="dropdown dropdown-menu-right" style="display: block;">
-                                <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 30px;vertical-align: super;" data-toggle="dropdown" href="#">
                                     <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-left" style="margin-top: 21px;">
                                     <li>
-                                        <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                                        <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
                                         </div>
                                     </li>
                                 </ul>
@@ -139,12 +139,12 @@ $customHtml = $entity->getCustomHtml();
                     </div>
                 <div class="tab-pane fade in bdr-w-0 <?php echo ($isBeeEditor && $customHtml != '') ? '' : 'hide'; ?>" style="width:100%;" id="email-preview-container">
                     <div id="builder_btn">
-                        <a class="btn btn-default text-primary hide le-btn-default" onclick="Le.showDripEmailTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                        <a class="btn btn-default text-primary hide le-btn-default blue-theme-bg" onclick="Le.showDripEmailTemplateview();" style="color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                                 </span>
                         </a>
-                        <a class="btn btn-default text-primary hide le-btn-default" onclick="Le.launchBeeEditor('dripemail', 'email');" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                        <a class="btn btn-default text-primary hide le-btn-default blue-theme-bg" onclick="Le.launchBeeEditor('dripemail', 'email');" style="color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.edit'); ?></span>
                                 </span>

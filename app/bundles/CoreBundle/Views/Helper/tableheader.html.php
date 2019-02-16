@@ -44,7 +44,7 @@ if (!empty($checkall)):
     </span>
 
     <div class="input-group-btn">
-        <button type="button" disabled class="btn btn-default btn-sm dropdown-toggle btn-nospin" data-toggle="dropdown">
+        <button type="button" disabled class="btn btn-default btn-sm dropdown-toggle btn-nospin waves-effect" data-toggle="dropdown">
             <center><i class="fa fa-angle-down " style="margin-left: -2px;"></i></center>
         </button>
         <ul class="pull-<?php echo $pull; ?> page-list-actions dropdown-menu" role="menu">
@@ -75,7 +75,7 @@ $tmpl         = (!empty($tmpl)) ? $tmpl : 'list';
             <?php endif; ?>
         </a>
         <?php else: ?>
-            <span style="color: black;"><?php echo $view['translator']->trans($text); ?></span>
+            <span><?php echo $view['translator']->trans($text); ?></span>
         <?php endif; ?>
 
         <?php if (!empty($filterBy)): ?>

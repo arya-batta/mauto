@@ -23,7 +23,7 @@ $isMobile       = $view['security']->isMobile();
     <?php  if ($isAdmin): ?>
         <?php if (!empty($searchHelp)): ?>
             <div class="input-group-btn">
-                <button class="btn btn-default btn-nospin" data-toggle="modal" data-target="#<?php echo $searchId; ?>-search-help">
+                <button class="btn btn-default btn-nospin waves-effect" data-toggle="modal" data-target="#<?php echo $searchId; ?>-search-help">
                     <i class="fa fa-question-circle"></i>
                 </button>
             </div>

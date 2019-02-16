@@ -16,7 +16,7 @@
         <div class="modal-content le-modal-content">
             <div class="modal-header">
                 <a href="javascript: void(0);" onclick="Le.closeCampaignTypeModel()" class="close" ><span aria-hidden="true">&times;</span></a>
-                <h4 class="modal-title" style="color: #000;">
+                <h4 class="modal-title">
                     <?php echo $view['translator']->trans('le.campaignevent.type.header'); ?>
                 </h4>
                 <div class="modal-loading-bar"></div>

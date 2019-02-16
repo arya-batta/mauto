@@ -36,7 +36,7 @@ $custombuttons                      = [
         'name'  => 'beeeditor',
         'label' => 'mautic.core.beeeditor',
         'attr'  => [
-            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default',
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default waves-effect',
             'icon'    => 'fa fa-cube',
             'onclick' => "Le.launchBeeEditor('pageform', 'page');",
         ],
@@ -47,7 +47,7 @@ $custombutton = [
         'name'    => 'beeeditor',
         'btnText' => 'le.drip.email.open.editor',
         'attr'    => [
-            'class'   => 'btn btn-default btn-save le-btn-default btn-copy m_down',
+            'class'   => 'btn btn-default btn-save le-btn-default btn-copy m_down waves-effect',
             'onclick' => "Le.launchBeeEditor('pageform', 'page');",
         ],
     ],
@@ -64,8 +64,8 @@ $custombutton = [
                 <!-- tabs controls -->
                 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
                     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ">
-                        <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
-                        <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
+                        <li class="ui-state-default ui-corner-top btn btn-default btn-group ui-tabs-selected ui-state-active waves-effect" rel = 1 id="ui-tab-page-header1"><a ><?php echo $view['translator']->trans('mautic.core.form.info'); ?></a></li>
+                        <li class="ui-state-default ui-corner-top btn btn-default btn-group" id="ui-tab-page-header2 waves-effect" rel = 2><a ><?php echo $view['translator']->trans('mautic.core.form.theme'); ?></a></li>
                         <div class="le-builder-btn col-md-6 hide" style="width: 50%;float: right;position: absolute;top: 5px;right: 0;">
                             <div id="builder_btn" class="hide" style="margin-left: 385px;">
                                 <?php echo $view->render(
@@ -76,7 +76,7 @@ $custombutton = [
                                         'customButtons' => $custombutton,
                                     ]
                                 ); ?>
-                                <a class="btn btn-default text-primary btn-beeditor le-btn-default change-template-button" onclick="Le.showTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
+                                <a class="btn btn-default text-primary btn-beeditor le-btn-default change-template-button blue-theme-bg waves-effect" onclick="Le.showTemplateview();" style="color:#ffffff;padding-top: 7px;float: right;border-radius:4px;z-index:1003;margin-right: 145px;" data-toggle="ajax">
                                 <span>
                                     <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                                 </span>
@@ -86,12 +86,12 @@ $custombutton = [
                     </ul>
                     <div id="fragment-page-1" class="pr-lg pl-lg pt-md pb-md ui-tabs-panel">
                         <div class="fragment-1-buttons fixed-header">
-                            <a href="<?php echo $view['router']->path('le_page_index')?>" id="cancel-page-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                            <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                            <a href="<?php echo $view['router']->path('le_page_index')?>" id="cancel-page-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                            <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -172px;margin-right: 106px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                             aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                                 </div>
@@ -190,11 +190,11 @@ $custombutton = [
                         <!--/ tabs controls
                         <input type="text" style="height:1px;width:1px;border:0px solid;" tabindex="-1" id="builder_url_text" value="" />-->
                         <div class="fragment-3-buttons fixed-header">
-                            <a href="#" style="margin-left:-75px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                            <a href="#" style="margin-left:-75px;" class="prevv-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                             <div class="toolbar-form-buttons" style="margin-top: -195px;margin-right: 30px;">
                                 <div class="btn-group toolbar-standard hidden-xs hidden-sm " style="margin-right:146px;"></div>
                                 <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                                    <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                             aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                                 </div>

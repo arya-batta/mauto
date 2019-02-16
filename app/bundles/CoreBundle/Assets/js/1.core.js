@@ -1,7 +1,7 @@
 var leVars  = {};
 var mQuery      = jQuery.noConflict(true);
 window.jQuery   = mQuery;
-
+window.$   = mQuery;
 // Polyfil for ES6 startsWith method
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function(searchString, position){

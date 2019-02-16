@@ -35,7 +35,7 @@ if ($page <= 0) {
 $linkType            = !empty($inModal) ? 'ajaxmodal' : 'ajax';
 $pageClass           = (!isset($paginationClass)) ? '' : " pagination-$paginationClass";
 $menuLink            = (!empty($menuLinkId)) ? " data-menu-link=\"$menuLinkId\"" : '';
-$paginationWrapper   = isset($paginationWrapper) ? $paginationWrapper : 'le-pagination-wrapper pagination-wrapper ml-md mr-md';
+$paginationWrapper   = isset($paginationWrapper) ? $paginationWrapper : 'le-pagination-wrapper pagination-wrapper';
 $queryString         = '?tmpl='.$tmpl.(isset($queryString) ? $queryString : '');
 $formExit            = (!empty($ignoreFormExit)) ? ' data-ignore-formexit="true"' : '';
 $responsiveViewports = ['desktop', 'mobile'];
@@ -85,37 +85,58 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
 
     return "href=\"$baseUrl/$page{$queryString}\"";
 };
-
-foreach ($responsiveViewports as $viewport):
-
-    if ($viewport == 'mobile'):
-        $paginationClass   = 'sm';
-        $pageClass         = 'pagination-sm';
-        $responsiveClass   = 'visible-xs hidden-sm hidden-md hidden-lg';
-        $paginationWrapper = 'pagination-wrapper pull-left nm';
-    else:
-        $responsiveClass = 'hidden-xs visible-sm visible-md visible-lg le-mb-footer';
-    endif;
+//foreach ($responsiveViewports as $viewport):
+//
+//    if ($viewport == 'mobile'):
+//        $paginationClass   = 'sm';
+//        $pageClass         = 'pagination-sm';
+//        $responsiveClass   = 'visible-xs hidden-sm hidden-md hidden-lg';
+//        $paginationWrapper = 'pagination-wrapper pull-left nm';
+//    else:
+//        $responsiveClass = 'hidden-xs visible-sm visible-md visible-lg le-mb-footer';
+//    endif;
 
     ?>
-    <div class="<?php echo $responsiveClass; ?>">
-        <?php if (empty($fixedLimit)): ?>
-            <div class="pull-right">
-                <?php $class = (!empty($paginationClass)) ? " input-{$paginationClass}" : ''; ?>
-                <select autocomplete="false" class="le-pagination-limit form-control not-chosen pagination-limit<?php echo $class; ?>" onchange="Le.limitTableData('<?php echo $sessionVar; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
-                    <?php foreach ($limitOptions as $value => $label): ?>
-                        <?php $selected = ($limit === $value) ? ' selected="selected"' : ''; ?>
-                        <option<?php echo $selected; ?> value="<?php echo $view->escape($value); ?>">
-                            <?php echo $view['translator']->trans('mautic.core.pagination.'.$label); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        <?php endif; ?>
+<!--    <div class="--><?php //echo $responsiveClass;?><!--">-->
+<div class="row">
+    <div class="col-sm-12 col-md-3">
 
-        <div class="<?php echo $paginationWrapper; ?> text-center">
-            <ul class="pagination np nm <?php echo $pageClass; ?>">
+        <div class="le-footer-items">
+<!--            <small class="text-muted">-->
                 <?php
+                $itemstart=1;
+                $itemend  =$page * $limit;
+                if ($page > 1) {
+                    $itemstart= ($page - 1) * $limit;
+                    $itemend  =$itemstart + $limit;
+                }
+                if ($itemend > $totalItems) {
+                    $itemend=  $totalItems;
+                }
+                ?>
+                <?php echo $view['translator']->trans(
+                    'le.core.pagination.total', ['%start%'=>$itemstart, '%end%'=>$itemend, '%total%'=>$totalItems]
+                ); ?>
+                <!-- <?php echo $view['translator']->transChoice(
+                    'mautic.core.pagination.items',
+                    $totalItems,
+                    ['%count%' => $totalItems]
+                ); ?>,
+            <?php echo $view['translator']->transChoice(
+                    'mautic.core.pagination.pages',
+                    $totalPages,
+                    ['%count%' => $totalPages]
+                ); ?>
+            <?php echo $view['translator']->trans(
+                    'mautic.core.pagination.total'
+                ); ?>-->
+<!--            </small>-->
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="<?php echo $paginationWrapper; ?> text-center">
+            <ul class="pagination <?php echo $pageClass; ?>">
+                <!--      <?php
                 $action = $getAction(1, ($page > 1));
                 $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                 $class  = ($page <= 1) ? ' class="disabled"' : '';
@@ -125,7 +146,7 @@ foreach ($responsiveViewports as $viewport):
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
                         <i class="fa fa-angle-double-left"></i>
                     </a>
-                </li>
+                </li>-->
 
                 <?php
                 $action = $getAction(($page - 1), ($page - 1) >= 1);
@@ -135,7 +156,7 @@ foreach ($responsiveViewports as $viewport):
                 <li<?php echo $class; ?>>
                     <?php ?>
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
-                        <i class="fa fa-angle-left"></i>
+                        <span>Previous</span>
                     </a>
                 </li>
 
@@ -155,8 +176,8 @@ foreach ($responsiveViewports as $viewport):
                     $action = $getAction($i, ($page !== (int) $i));
                     $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                     ?>
-                    <li<?php echo $class; ?> style="font-size: 9px;margin-top:5px">
-                        <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if($sessionVar =="form.results"):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif;?>>
+                    <li<?php echo $class; ?>>
+                        <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if ($sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                             <span><?php echo $i; ?></span>
                         </a>
                     </li>
@@ -170,11 +191,11 @@ foreach ($responsiveViewports as $viewport):
                 <li<?php echo $class; ?>>
                     <?php ?>
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
-                        <i class="fa fa-angle-right"></i>
+                        <span>Next</span>
                     </a>
                 </li>
 
-                <?php
+                <!--     <?php
                 $action = $getAction($totalPages, ($page < $totalPages));
                 $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                 $class  = ($page === $totalPages) ? ' class="disabled"' : '';
@@ -184,26 +205,31 @@ foreach ($responsiveViewports as $viewport):
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
                         <i class="fa fa-angle-double-right"></i>
                     </a>
-                </li>
+                </li>-->
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="le-footer-items">
-        <small class="text-muted">
-            <?php echo $view['translator']->transChoice(
-                'mautic.core.pagination.items',
-                $totalItems,
-                ['%count%' => $totalItems]
-            ); ?>,
-            <?php echo $view['translator']->transChoice(
-                'mautic.core.pagination.pages',
-                $totalPages,
-                ['%count%' => $totalPages]
-            ); ?>
-            <?php echo $view['translator']->trans(
-                'mautic.core.pagination.total'
-            ); ?>
-        </small>
-        </div>
     </div>
-<?php endforeach; ?>
+    <div class="col-sm-12 col-md-3">
+        <?php if (empty($fixedLimit)): ?>
+            <div class="pull-right le-pagination-limit-holder">
+                <?php $class = (!empty($paginationClass)) ? " input-{$paginationClass}" : ''; ?>
+                <span>Show </span>
+                <select autocomplete="false" class="le-pagination-limit form-control form-control-sm not-chosen pagination-limit<?php echo $class; ?>" onchange="Le.limitTableData('<?php echo $sessionVar; ?>',this.value,'<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);">
+                    <?php foreach ($limitOptions as $value => $label): ?>
+                        <?php $selected = ($limit === $value) ? ' selected="selected"' : ''; ?>
+                        <option<?php echo $selected; ?> value="<?php echo $view->escape($value); ?>">
+                            <?php echo $view['translator']->trans('mautic.core.pagination.'.$label); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <span>entries </span>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+
+
+<!--    </div>-->
+<?php //endforeach;?>

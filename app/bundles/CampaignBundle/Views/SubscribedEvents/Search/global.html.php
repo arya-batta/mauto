@@ -11,12 +11,14 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-    <a href="<?php echo $view['router']->generate('le_campaign_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-        <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
+    <a href="<?php echo $view['router']->generate('le_campaign_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
 </div>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign->getId()]); ?>" data-toggle="ajax">
-    <?php echo $campaign->getName(); ?>
-</a>
+    <a href="<?php echo $view['router']->generate('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $campaign->getName(); ?></div>
+        </div>
+    </a>
 <?php endif; ?>

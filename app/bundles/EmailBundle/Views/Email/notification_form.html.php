@@ -100,7 +100,7 @@ $isgoogletags= false; //$email->getGoogletags();
       <?php */ ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <div class="center-align-container">
-    <div class="template-content" style="padding: 26px;display: block;border-width: 0;background: none;border: 1px solid #ccc;border-radius: 2px;min-height: 500px;max-width: 942px;align-items: center;margin-top: 12px;">
+    <div class="notification-template-content">
         <div class="row">
             <div class="col-md-12 <?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>" id="Email_TemplateName">
                 <?php echo $view['form']->label($form['name']); ?>
@@ -147,12 +147,12 @@ $isgoogletags= false; //$email->getGoogletags();
             </div>
             <div>
                 <li class="dropdown dropdown-menu-right" style="display: block;">
-                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
+                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 30px;vertical-align: super;" data-toggle="dropdown" href="#">
                         <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 23px;margin-right: 130px;">
                         <li>
-                            <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                            <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
                             </div
                         </li>
                     </ul>

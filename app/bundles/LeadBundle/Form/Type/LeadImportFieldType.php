@@ -166,10 +166,10 @@ class LeadImportFieldType extends AbstractType
                 $buttons,
                 [
                     'apply_text'  => 'le.lead.import.in.background',
-                    'apply_class' => 'btn le-btn-default ',
+                    'apply_class' => 'btn le-btn-default waves-effect',
                     'apply_icon'  => 'fa fa-history',
                     'save_text'   => 'le.lead.import.start',
-                    'save_class'  => 'btn le-btn-default btn-copy import_btn_align',
+                    'save_class'  => 'btn le-btn-default btn-copy import_btn_align waves-effect',
                     'save_icon'   => 'fa fa-upload',
                 ]
             );
@@ -179,7 +179,7 @@ class LeadImportFieldType extends AbstractType
                 [
                     'apply_text' => false,
                     'save_text'  => 'le.lead.import',
-                    'save_class' => 'btn le-btn-default btn-copy',
+                    'save_class' => 'btn le-btn-default btn-copy waves-effect',
                     'save_icon'  => 'fa fa-upload',
                 ]
             );

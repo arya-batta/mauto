@@ -9,8 +9,22 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 ?>
-
-<div class="media pt-sm pb-sm pr-md pl-md nm bdr-b notification" id="notification<?php echo $n['id']; ?>">
+        <!-- list item-->
+        <div style="font-size: 14px;cursor: pointer" class="list-group-item notification" id="notification<?php echo $n['id']; ?>">
+                <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right do-not-close waves-effect" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clear'); ?>" onclick="Le.clearNotification(<?php echo $n['id']; ?>);"><i class="fa fa-times do-not-close"></i></a>
+            <div class="media">
+                <?php if (!empty($n['header'])): ?>
+                    <div class="media-heading"><?php echo $view['formatter']->_($n['header']); ?></div>
+                <?php endif; ?>
+                <p class="m-0">
+                    <small><?php echo $view['formatter']->_($n['message'], 'html'); ?></small>
+                </p>
+                <p class="m-0">
+                    <small><?php echo $view['date']->toText($n['dateAdded']); ?></small>
+                </p>
+            </div>
+        </div>
+<!--<div class="media pt-sm pb-sm pr-md pl-md nm bdr-b notification" id="notification<?php echo $n['id']; ?>">
     <span class="pull-left mt-xs" style="width:36px">
         <?php if (strpos($n['iconClass'], 'img:') === 0): ?>
         <span class="img-wrapper img-rounded">
@@ -35,4 +49,4 @@
             <span class="fs-10 text-muted pull-left"><?php echo $view['date']->toText($n['dateAdded']); ?></span>
         </div>
     </div>
-</div>
+</div>-->

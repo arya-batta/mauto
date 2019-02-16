@@ -17,11 +17,11 @@ if (is_array($item)) {
     $id   = $item['id'];
     $name = $item['name'];
 } else {
-    if(isset($source)){
+    if (isset($source)) {
         $id   = $item->getId();
         $name = $item->getTag();
-    }else {
-        $id = $item->getId();
+    } else {
+        $id   = $item->getId();
         $name = $item->$nameGetter();
     }
 }
@@ -33,7 +33,7 @@ if (is_array($item)) {
     </span>
 
     <div class="input-group-btn hide">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle btn-nospin" data-toggle="dropdown">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle btn-nospin waves-effect" data-toggle="dropdown">
             <i class="fa fa-angle-down "></i>
         </button>
         <?php if (!empty($tooltip)): ?> <i class="fa fa-question-circle"></i><?php endif; ?>
@@ -64,7 +64,7 @@ if (is_array($item)) {
                     [
                         'attr' => array_merge(
                             [
-                                'class' => 'hidden-xs btn btn-default btn-sm btn-nospin',
+                                'class' => 'hidden-xs btn btn-default btn-sm btn-nospin waves-effect',
                                 'href'  => $view['router']->path(
                                     $actionRoute,
                                     array_merge(['objectAction' => 'clone', 'objectId' => $id], $query)

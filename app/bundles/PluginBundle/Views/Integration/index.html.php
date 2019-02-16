@@ -35,7 +35,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
 ]));
 ?>
 
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <div class="panel-body">
         <div class="box-layout">
             <div class="row">

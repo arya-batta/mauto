@@ -266,11 +266,11 @@ if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($ac
     );
 endif; ?>
 <?php echo $view['form']->start($form); ?>
-<div class="page-wrap  tab-content">
+<div class="page-wrap">
     <div  style="margin-top: 0px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header1" rel = 1>
-                <a class="info_tab text-start" style="padding: 3px 42px;">
+                <a class="info_tab text-start" style="padding: 0px 42px;">
                 <div class="content-wrapper-first">
                     <div><span class="small-xx">Step 01</span></div>
                     <label><?php echo $view['translator']->trans('Configure Settings.'); ?></label>
@@ -286,19 +286,19 @@ endif; ?>
                 </a></li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
 
-                <a class="text-start" style="padding: 3px 17px;"> <div class="content-wrapper-first">
+                <a class="text-start" style="padding: 0px 17px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('Choose Form Actions.'); ?></label>
                     </div></a></li>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
             <div class="fragment-1-buttons fixed-header">
-                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-page-1" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 125px;">
+                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="#" id="next-page-1" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 122px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -338,7 +338,7 @@ endif; ?>
                     <div class="help-block custom-help"></div>
                 </div>
                 <div class="col-md-6">
-                    <a href="#" id="smart-form-scan-url-btn" class="btn btn-default le-btn-default" <?php echo $isNewAction ? '' : "disabled='disabled'"?>><?php echo $view['translator']->trans('le.smart.form.scan.button.label'); ?></a>
+                    <a href="#" id="smart-form-scan-url-btn" class="btn btn-default le-btn-default waves-effect" <?php echo $isNewAction ? '' : "disabled='disabled'"?>><?php echo $view['translator']->trans('le.smart.form.scan.button.label'); ?></a>
                 </div>
             </div>
             <div class="row hide">
@@ -386,15 +386,15 @@ endif; ?>
                 </div>
             </div>
         </div>
-        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="overflow-y: scroll;min-height:700px;">
+        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="min-height:700px;">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 121px;">
+                <a href="#" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 115px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -412,7 +412,7 @@ endif; ?>
                        <p><?php echo $view['translator']->trans('le.smart.form.child.header'); ?></p>
                    </div>
                    <div class="smart-form-field-mapper-formname-holder" style="display: flex;margin-top: 5px;">
-                   <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a style="color:#ec407a" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
+                   <div style="margin-top: 10px;margin-left: 25px;color: red;"> <a class="blue-theme-fg" href="#" class="smart-form-scan-url-back-btn <?php echo !$isNewAction ? 'hide' : '' ?>" onclick='Le.showSmartFormListPanel()'>Go Back</a></div>
                    <div style="padding: 10px;font-size: 14px;"><b style="margin-right: 5px;">Form Name:</b><span class="smart-form-field-mapper-header" ><?php echo $smartformname == '' ? $smartformid : $smartformname?></span></div>
                    </div>
                </div>
@@ -466,8 +466,8 @@ endif; ?>
                         <div class="form_fragment2_tite" >Add a New Field</div><br></center>
                     <div style="margin-left: 11px">
                         <?php foreach ($fields as $fieldType => $field): ?>
-                            <?php $unset = array("text","textarea","email","tel","number","select","radiogrp","checkboxgrp");
-                            if (!$isadmin && !in_array($fieldType,$unset)): continue; endif; ?>
+                            <?php $unset = ['text', 'textarea', 'email', 'tel', 'number', 'select', 'radiogrp', 'checkboxgrp'];
+                            if (!$isadmin && !in_array($fieldType, $unset)): continue; endif; ?>
                             <div class=" form_fragment2_data" data-toggle="ajaxmodal"
                                  data-target="#formComponentModal"
                                  data-href="<?php echo $view['router']->path(
@@ -492,11 +492,11 @@ endif; ?>
         </div>
         <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" style="margin-left:-72px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -171px;margin-right: 15px;">
+                <a href="#" style="margin-left:-72px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 15px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>

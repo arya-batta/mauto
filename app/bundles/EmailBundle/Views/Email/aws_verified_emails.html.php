@@ -45,8 +45,8 @@
                     </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                            <button type="button"  class="btn btn-success sender_profile_verify_btn"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                            <button type="button"  class="btn btn-success sender_profile_verify_btn waves-effect"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
+                            <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Close</button>
                             </div>
                        </div>
                 </div>

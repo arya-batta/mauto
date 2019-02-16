@@ -25,7 +25,7 @@ $isAdmin=$view['security']->isAdmin();
     leLang.<?php echo $key; ?> = "<?php echo $view['translator']->trans($string); ?>";
     <?php endforeach; ?>
 </script>
-<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
+<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.9; z-index: 9000"></div>
 
 <div class="modal fade in <?php echo $typePrefix; ?>-type-modal le-modal-box-align" style="display: block; z-index: 9999;margin-left: 20.55555%;">
     <div class="le-modal-gradient" style="margin-right: 120px;">
@@ -45,7 +45,7 @@ $isAdmin=$view['security']->isAdmin();
                             <div class="panel-primary">
                                 <h3 class="panel-title le-email-editor-header" style="width: 200px;"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
                                 <p style="width:200%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
-                                <button class="le-btn-primary"  onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button class="le-btn-primary waves-effect"  onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
                         </div>
@@ -56,7 +56,7 @@ $isAdmin=$view['security']->isAdmin();
                                 <div>
                                     <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                     <p class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                    <button class="le-btn-primary" style="margin-top: 35px;" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                    <button class="le-btn-primary waves-effect" style="margin-top: 35px;" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
                                 </div>
                             </div>
                         </div>

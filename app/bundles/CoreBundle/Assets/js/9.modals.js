@@ -303,8 +303,49 @@ Le.showConfirmation = function (el) {
     var confirmCallback = mQuery(el).data('confirm-callback');
     var cancelText = mQuery(el).data('cancel-text');
     var cancelCallback = mQuery(el).data('cancel-callback');
-
-    var confirmContainer = mQuery("<div />").attr({"class": "modal fade confirmation-modal"});
+    swal({
+        title: 'Are you sure?',
+        text: message,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger m-l-10',
+        buttonsStyling: false
+    }).then(function (response) {
+       // alert(JSON.stringify(response));
+        if(response.value){
+            if (typeof Le[confirmCallback] === "function") {
+                window["Le"][confirmCallback].apply('window', [confirmAction, el]);
+            }
+            swal(
+                'Deleted!',
+                'Your record has been deleted.',
+                'success'
+            )
+        }else  if (response.dismiss === 'cancel') {
+            if (cancelCallback && typeof Le[cancelCallback] === "function") {
+                window["Le"][cancelCallback].apply('window', []);
+            }
+            // swal(
+            //     'Cancelled',
+            //     'Your imaginary file is safe :)',
+            //     'error'
+            // )
+        }
+    }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // // 'close', and 'timer'
+        // if (dismiss === 'cancel') {
+        //     swal(
+        //         'Cancelled',
+        //         'Your imaginary file is safe :)',
+        //         'error'
+        //     )
+        // }
+    })
+   /* var confirmContainer = mQuery("<div />").attr({"class": "modal fade confirmation-modal"});
     var confirmDialogDiv = mQuery("<div />").attr({"class": "modal-dialog"});
     var confirmContentDiv = mQuery("<div />").attr({"class": "modal-content"});
     var confirmFooterDiv = mQuery("<div />").attr({"class": "modal-body text-center"});
@@ -349,7 +390,7 @@ Le.showConfirmation = function (el) {
         mQuery(this).remove();
     });
 
-    mQuery('.confirmation-modal').modal('show');
+    mQuery('.confirmation-modal').modal('show');*/
 };
 
 /**

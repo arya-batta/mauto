@@ -32,33 +32,21 @@ $isAdmin=$view['security']->isAdmin();
                         <div style="width: 20%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['category']); ?>
                         </div>
-                        <div style="float: left;margin-left: 15px;">
+                        <div style="float: left;margin-left: 15px;color:#fff !important;">
                             <div class="form-group">
-                                <label class="control-label" style="color:#fff;">Show Analytics</label>        <div class="choice-wrapper">
+                                <label class="control-label">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
-                                        <label class="btn btn-default le-btn-published le-btn-small  btn-no">
-                                            <input type="radio" onchange="Le.showStatistics(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>No</span>
+                                        <label class="btn le-btn-published le-btn-small  btn-no btn-danger active">
+                                            <input type="radio" id="campaign_showAnalytics_0" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0">            <span>Draft</span>
                                         </label>
-                                        <label class="btn btn-default le-btn-published le-btn-small active btn-yes btn-success">
-                                            <input type="radio" onchange="Le.showStatistics(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Yes</span>
+                                        <label class="btn btn-default le-btn-published le-btn-small  btn-yes">
+                                            <input type="radio" id="campaign_showAnalytics_1" name="campaign[isPublished]" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked">            <span>Active</span>
                                         </label>
-                                    </div>
-                                </div>
-                                              </div>
-                        </div>
-                        <div style="float: left;margin-left: 15px;">
-                            <div class="form-group">
-                                <label class="control-label" style="color:#fff;">Status</label>        <div class="choice-wrapper">
-                                    <div class="btn-group btn-block" data-toggle="buttons">
-                                        <label class="btn btn-default le-btn-published le-btn-small  btn-no <?php echo !$entity->isPublished() ? 'active ' : ''?>">
-                                            <input type="radio" onchange="Le.publishCampaign(false);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0"><span>Draft</span>
-                                        </label>
-                                        <label class="btn btn-default le-btn-published le-btn-small <?php echo $entity->isPublished() ? 'active ' : ''?> btn-success btn-yes">
-                                            <input type="radio" onchange="Le.publishCampaign(true);" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked"><span>Active</span>
-                                        </label>
-                                    </div>
-                                </div>
+                                    </div>                    </div>
                             </div>
+                        </div>
+                        <div style="float: left;margin-left: 15px;color:#fff !important;">
+                            <?php echo $view['form']->row($form['isPublished']); ?>
                         </div>
                     </div>
                     <div class="hide row">
@@ -71,7 +59,6 @@ $isAdmin=$view['security']->isAdmin();
                 <div class="pr-lg pl-lg pt-md pb-md">
                     <div class="hide">
                         <?php
-                        echo $view['form']->row($form['isPublished']);
                         echo $view['form']->row($form['publishUp']);
                         echo $view['form']->row($form['publishDown']);
                         ?>

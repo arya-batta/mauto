@@ -14,7 +14,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.lead.tags.head
 
 $pageButtons[] = [
     'attr' => [
-        'class'       => 'btn btn-default btn-nospin quickadd le-btn-default',
+        'class'       => 'btn btn-default btn-nospin quickadd le-btn-default waves-effect',
         'data-toggle' => 'ajaxmodal',
         'data-target' => '#leSharedModal',
         'href'        => $view['router']->path('le_tags_action', ['objectAction' => 'new']),
@@ -38,10 +38,10 @@ $view['slots']->set(
 );
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaign.lead.tags'); ?></h3></div>
-<div style="padding-top: 15px;">
+<div class="info-box-holder">
     <?php foreach ($allBlockDetails as $key => $tagBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="background-color:<?php echo $tagBlock[0]; ?>;>">
+                <span class="info-box-icon">
                     <i class="<?php echo $tagBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $tagBlock[2]; ?></span>
@@ -51,7 +51,7 @@ $view['slots']->set(
         </div>
     <?php endforeach; ?>
 </div>
-<div class="panel panel-default bdr-t-wdh-0">
+<div class="panel panel-default bdr-t-wdh-0 list-panel-padding">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

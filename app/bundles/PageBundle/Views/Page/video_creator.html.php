@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 ?>
-<div class="email-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.7; z-index: 9000"></div>
+<div class="email-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.7; z-index: 9000"></div>
 
 <div class="modal fade in email-type-modal" style="display: block; z-index: 9999;margin-top:5%;">
     <div class="le-modal-gradient " style="margin-left: 25%;">

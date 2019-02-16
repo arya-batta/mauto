@@ -19,7 +19,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
     $customButton = [
         [
             'attr' => [
-                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'class'       => 'btn btn-default btn-sm btn-nospin waves-effect',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchLists']),
@@ -30,7 +30,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
         ],
         [
             'attr' => [
-                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'class'       => 'btn btn-default btn-sm btn-nospin waves-effect',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchListOptin']),
@@ -41,7 +41,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
         ],
         [
             'attr' => [
-                'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin ' : 'hide',
+                'class'       => $isAdmin ? 'btn btn-default btn-sm btn-nospin waves-effect' : 'hide',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchCampaigns']),
@@ -52,7 +52,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
         ],
         [
             'attr' => [
-                'class'       => 'btn btn-default btn-sm btn-nospin',
+                'class'       => 'btn btn-default btn-sm btn-nospin waves-effect',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchOwners']),
@@ -64,7 +64,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
         ],
         [
             'attr' => [
-                'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin',
+                'class'       => 'hidden-xs btn btn-default btn-sm btn-nospin waves-effect',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchDnc']),
@@ -78,7 +78,7 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
         $changeStage= [
                 [
                 'attr' => [
-                    'class'       => 'btn btn-default btn-sm btn-nospin',
+                    'class'       => 'btn btn-default btn-sm btn-nospin waves-effect',
                     'data-toggle' => 'ajaxmodal',
                     'data-target' => '#leSharedModal',
                     'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchStages']),

@@ -18,12 +18,9 @@ if (!isset($item)) {
 if (!isset($tooltip)) {
     $tooltip = null;
 }
-if(isset($onlyexport))
-{
+if (isset($onlyexport)) {
     $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_PAGE_ACTIONS, ButtonHelper::TYPE_GROUP, $item);
-
-}else
-{
+} else {
     $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_PAGE_ACTIONS, ButtonHelper::TYPE_BUTTON_DROPDOWN, $item);
 }
 include 'action_button_helper.php';
@@ -97,7 +94,7 @@ foreach ($templateButtons as $action => $enabled) {
             [
                 'attr' => array_merge(
                     [
-                        'class'       => 'btn btn-default le-btn-default',
+                        'class'       => 'btn btn-default le-btn-default waves-effect',
                         'href'        => $path,
                         'data-toggle' => 'ajax',
                     ],
@@ -113,27 +110,24 @@ foreach ($templateButtons as $action => $enabled) {
     }
 }
 
-
-if(isset($onlyexport))
-{
+if (isset($onlyexport)) {
     echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
 
-    $dropdownOpenHtml = '<button type="button" class="btn btn-default  le-btn-default"  >';
+    $dropdownOpenHtml = '<button type="button" class="btn btn-default  le-btn-default waves-effect"  >';
 
     echo $view['buttons']->renderButtons($dropdownOpenHtml, '</button>');
 
     echo '</div>';
-}else
-{
-    $data="";
+} else {
+    $data='';
     if ($view['buttons']->getButtonCount() > 0) {
         echo '<div class="std-toolbar btn-group" style="margin-left: -32px;float:right;">';
-        if(isset($routeBase)){
-            if($routeBase == "report"){
-                $data ="Export ";
+        if (isset($routeBase)) {
+            if ($routeBase == 'report') {
+                $data ='Export ';
             }
         }
-        $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default" data-toggle="dropdown" aria-expanded="false"><span>'.$data.'</span><i class="fa fa-caret-down"></i></button>' ."\n";
+        $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default waves-effect" data-toggle="dropdown" aria-expanded="false"><span>'.$data.'</span><i class="fa fa-caret-down"></i></button>'."\n";
         $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
         echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
 

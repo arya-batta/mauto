@@ -580,7 +580,7 @@ $view['slots']->set(
 
 
         <!-- start: tab-content -->
-        <div class="tab-content pa-md">
+        <div class="pa-md">
             <!-- #history-container -->
             <div class="tab-pane fade in active bdr-w-0" id="timeline-container">
                 <?php echo $view->render(

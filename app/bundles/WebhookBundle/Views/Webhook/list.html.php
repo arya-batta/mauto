@@ -47,11 +47,11 @@ $isAdmin=$view['security']->isAdmin();
                         'text'       => 'mautic.webhook.webhook_url',
                         'class'      => 'col-webhook-id visible-md visible-lg',
                     ]
-                );?>
-                <th class="col-webhook-response" style="color: #000000;text-align: -webkit-center;"><?php echo $view['translator']->trans('mautic.webhook.webhook_response'); ?></th>
-                <th class="col-webhook-runtime" style="color: #000000;"><?php echo $view['translator']->trans('mautic.webhook.webhook_runtime'); ?></th>
+                ); ?>
+                <th class="col-webhook-response" style="color: #2a323c;text-align: -webkit-center;"><?php echo $view['translator']->trans('mautic.webhook.webhook_response'); ?></th>
+                <th class="col-webhook-runtime" style="color: #2a323c;"><?php echo $view['translator']->trans('mautic.webhook.webhook_runtime'); ?></th>
                 <?php
-                if($isAdmin):
+                if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -110,23 +110,23 @@ $isAdmin=$view['security']->isAdmin();
                         </a>
                     </td>
                     <?php $logs=$item->getLogs();
-                    $response="";
-                    $note="";
-                    $runtime="";
-                    $date="";
+                    $response  ='';
+                    $note      ='';
+                    $runtime   ='';
+                    $date      ='';
 
-                    foreach ($logs as $log){
-                        $response  =$log->getStatusCode() == '200'?"200-":"";
-                        $note      = $response =='200-'?"Success":$log->getNote();
+                    foreach ($logs as $log) {
+                        $response  =$log->getStatusCode() == '200' ? '200-' : '';
+                        $note      = $response == '200-' ? 'Success' : $log->getNote();
                         $date      =$view['date']->toFull($log->getDateAdded());
                         break;
                     }
-                    $class= $note != "Success"? $note==""?"label-default":"le-label-danger":"label-success";
-                    $value= $note != "Success"? $note==""?"UnAvailable":"Failed":"Success";
+                    $class= $note != 'Success' ? $note == '' ? 'label-default' : 'le-label-danger' : 'label-success';
+                    $value= $note != 'Success' ? $note == '' ? 'UnAvailable' : 'Failed' : 'Success';
                     ?>
-                    <td class="visible-md visible-lg" style="text-align: center"><span class="label <?php echo $class;?>" data-toggle="tooltip" data-original-title="<?php echo $note;?>"><?php echo $value; ?></span></td>
+                    <td class="visible-md visible-lg" style="text-align: center"><span class="label <?php echo $class; ?>" data-toggle="tooltip" data-original-title="<?php echo $note; ?>"><?php echo $value; ?></span></td>
                     <td class="visible-md visible-lg"><?php echo $date; ?></td>
-                    <?php if($isAdmin):?>
+                    <?php if ($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                 </tr>

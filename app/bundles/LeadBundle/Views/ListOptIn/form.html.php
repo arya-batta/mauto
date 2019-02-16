@@ -30,9 +30,9 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md" style="margin-left: -7px;margin-top: 135px;">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md">
     <li class="<?php echo ($isSetupError) ? '' : 'active'; ?> detail" id="detailstab">
-        <a href="#details" style="padding: 3px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
+        <a href="#details" style="padding: 0px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 01</span></div>
                 <label><?php echo $view['translator']->trans('le.core.lists.name'); ?>
@@ -43,7 +43,7 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
         </a>
     </li>
     <li class="<?php echo ($isSetupError) ? 'active' : ''; ?>" id="filterstab" data-toggle="tooltip" title="" data-placement="top" >
-        <a href="#filters" style="padding: 3px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
+        <a href="#filters" style="padding: 0px 38px;" role="tab" data-toggle="tab"<?php echo $filterErrors; ?>>
             <div class="content-wrapper-first">
                 <div><span class="small-xx">Step 02</span></div>
                 <label>  <?php echo $view['translator']->trans('le.core.lists.setup'); ?>
@@ -54,7 +54,7 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
         </a>
     </li>
 </ul>
-<div class="box-layout" style="border: 1px solid #ccc;margin-left: 15px;width: 97%;border-radius: 2px;">
+<div class="box-layout" style="margin-left: 15px;width: 97%;">
     <div class="col-md-8 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">

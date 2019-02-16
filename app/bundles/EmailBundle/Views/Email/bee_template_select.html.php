@@ -32,11 +32,11 @@
                             </i>
                         </a>
                         <a type="button" class=" btn-nospin col-md-6 select-theme-selected bee_template <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled"style="margin-top: 0px;">
-                            <i class="fa fa-check-circle template_icon" style="color: rgb(249, 4, 86)">
+                            <i class="fa fa-check-circle template_icon blue-theme-fg">
                             <span style="margin-left: 24px;font-size: 15px;color: #6A7474;">Selected</span>
                             </i>
                         </a>
-                        <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey,'route' => $route]); ?>" target="_blank" type="button" class="col-md-6 bee_template btn-nospin" onclick="">
+                        <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey, 'route' => $route]); ?>" target="_blank" type="button" class="col-md-6 bee_template btn-nospin" onclick="">
                             <i class="fa fa-eye  template_icon" style="color: #6A7474">
                             <span style="margin-left: 24px;font-size: 15px;color: #6A7474">Preview</span>
                             </i>
@@ -95,11 +95,11 @@
                                  </i>
                               </a>
                               <a type="button" class=" btn-nospin col-md-6 select-theme-selected  bee_template <?php echo $isSelected ? '' : 'hide' ?>" disabled="disabled"style="margin-top: 0px;">
-                                  <i class="fa fa-check-circle template_icon " style="color: rgb(249, 4, 86);">
+                                  <i class="fa fa-check-circle template_icon blue-theme-fg">
                                   <span style="margin-left: 24px;font-size: 15px;color: #6A7474;">Selected</span>
                                   </i>
                               </a>
-                            <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey,'route' => $route]); ?>" target="_blank" type="button" class=" col-md-6 bee_template btn-nospin" onclick="">
+                            <a href="<?php echo $view['router']->path('le_email_preview_action', ['template' => $themeKey, 'route' => $route]); ?>" target="_blank" type="button" class=" col-md-6 bee_template btn-nospin" onclick="">
                                 <i class="fa fa-eye template_icon" style="color: #6A7474">
                                 <span style="margin-left: 24px;font-size: 15px;">Preview</span>
                                 </i>

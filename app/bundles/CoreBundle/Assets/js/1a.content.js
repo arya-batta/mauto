@@ -662,7 +662,6 @@ Le.onPageLoad = function (container, response, inModal) {
             mQuery("html").removeClass('sidebar-open-rtl');
         });
     }
-
     if (contentSpecific && typeof Le[contentSpecific + "OnLoad"] == 'function') {
         if (inModal || typeof Le.loadedContent[contentSpecific] == 'undefined') {
             var date = new Date();
@@ -690,7 +689,7 @@ Le.onPageLoad = function (container, response, inModal) {
         });
 
         if (mQuery('#globalSearchContainer').length) {
-            mQuery('#globalSearchContainer .search-button').click(function () {
+           mQuery('#globalSearchContainer .search-button').click(function () {
                 mQuery('#globalSearchContainer').addClass('active');
                 if (mQuery('#globalSearchInput').val()) {
                     mQuery('#globalSearchDropdown').addClass('open');
@@ -698,17 +697,12 @@ Le.onPageLoad = function (container, response, inModal) {
                 setTimeout(function () {
                     mQuery('#globalSearchInput').focus();
                 }, 100);
-                mQuery('body').on('click.globalsearch', function (event) {
-                    var target = event.target;
-                    if (!mQuery(target).parents('#globalSearchContainer').length && !mQuery(target).parents('#globalSearchDropdown').length) {
-                        Le.closeGlobalSearchResults();
-                    }
-                });
             });
-
+            Le.enableGlobalSearchListener();
             mQuery("#globalSearchInput").on('change keyup paste', function () {
                 if (mQuery(this).val()) {
                     mQuery('#globalSearchDropdown').addClass('open');
+                    Le.enableGlobalSearchListener();
                 } else {
                     mQuery('#globalSearchDropdown').removeClass('open');
                 }
@@ -729,9 +723,18 @@ Le.onPageLoad = function (container, response, inModal) {
         Le.loadLicenseUsageInfo();
         Le.checkemailstatus();
     }
+    Le.configureFullScreenSettings();
     //Le.CheckSMSStatus();
 };
 
+Le.enableGlobalSearchListener=function(){
+    mQuery('body').on('click.globalsearch', function (event) {
+        var target = event.target;
+        if (!mQuery(target).parents('#globalSearchContainer').length && !mQuery(target).parents('#globalSearchDropdown').length) {
+            Le.closeGlobalSearchResults();
+        }
+    });
+}
 /**
  *
  * @param jQueryObject
@@ -1727,5 +1730,40 @@ Le.hideFlashMessage = function () {
                 mQuery(this).delay(3000).fadeOut();
             }
         });
+    });
+};
+Le.exitFullscreen = function() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+};
+Le.launchFullscreen  = function(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+};
+Le.toggle_fullscreen  = function() {
+    var fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled;
+    if (fullscreenEnabled) {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            Le.launchFullscreen(document.documentElement);
+        } else {
+            Le.exitFullscreen();
+        }
+    }
+};
+Le.configureFullScreenSettings = function() {
+    mQuery("#btn-fullscreen").off().on('click', function () {
+        Le.toggle_fullscreen();
     });
 };

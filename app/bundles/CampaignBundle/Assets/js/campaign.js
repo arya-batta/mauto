@@ -1397,24 +1397,10 @@ Le.CloseStatisticsWidget = function(){
 Le.publishCampaign = function(flag){
     var campaignname = mQuery('#campaign_name').val();
     var msg = "Workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
-  if(flag){
-      Le.toggleYesNoButtonClass('campaign_isPublished_1');
-      mQuery('#campaign_isPublished_1').attr('checked',true);
-      mQuery('#campaign_isPublished_0').attr('checked',false);
-      var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
-      mQuery(potherLabel).addClass('active');
-      var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
-      mQuery(uotherLabel).removeClass('active');
+  if(flag){  
       mQuery('#flash').css('display','inline-block');
       mQuery('#flash').html(msg+' started.');
-  }else{
-      Le.toggleYesNoButtonClass('campaign_isPublished_0');
-      mQuery('#campaign_isPublished_0').attr('checked',true);
-      mQuery('#campaign_isPublished_1').attr('checked',false);
-      var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
-      mQuery(uotherLabel).addClass('active');
-      var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
-      mQuery(potherLabel).removeClass('active');
+  }else{    
       mQuery('#flash').css('display','inline-block');
       mQuery('#flash').html(msg+' stopped.');
   }

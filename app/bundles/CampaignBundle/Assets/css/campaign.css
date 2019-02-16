@@ -138,25 +138,25 @@
 .list-campaign-decision {
     background: #fff6cc;
     border: solid 2px #ffda24;
-    color: #000;
+    color: #2a323c;
 }
 
 .list-campaign-condition {
     background: #fff6cc;
     border: solid 2px #ffda24;
-    color: #000;
+    color: #2a323c;
 }
 
 .list-campaign-action {
     background: #c3e9fb;
     border: solid 2px #24aef2;
-    color: #000;
+    color: #2a323c;
 }
 
 .list-campaign-leadsource,.list-campaign-source {
     background: #dbfdec;
     border: solid 2px #24f28c;
-    color: #000;
+    color: #2a323c;
 }
 
 #CampaignEventSelector_chosen .list-campaign-action,
@@ -204,7 +204,7 @@
 }
 
 .campaign-event-buttons .btn-edit {
-    background: #ec407a;
+    background: #3292e0;
 }
 
 .stat-boxes .pie-legend li {
@@ -280,7 +280,7 @@
 }
 
 .custom-campaign-builder{
-    background-color: #000;
+    background-color: #2a323c;
     padding-top: 3px;
     padding-right: 30px;
     padding-left: 15px;
@@ -315,8 +315,8 @@
 
 .background-pink, .background-pink:hover{
     color: #fff;
-    background: #ec407a;
-    border: 1px solid #ec407a;
+    background: #3292e0;
+    border: 1px solid #3292e0;
 }
 
 .background-orange, .background-orange:hover{
@@ -352,21 +352,22 @@
 }
 .campaign-custom-save-button{
     /*right:1%;*/
-    margin-top: 8px;
-    text-transform: capitalize;
+    /*margin-top: 8px;*/
+    /*text-transform: capitalize;*/
 }
 .campaign-custom-apply-button{
-    margin-right: 5px;
-    margin-top: 8px;
-    text-transform: capitalize;
+    margin-right: 10px;
+    /*margin-top: 8px;*/
+    /*text-transform: capitalize;*/
 }
 .campaign-custom-btn{
     right:3%;
 }
 .campaign-custom-button-div{
-    position:relative;
-    top:15px;
+    position: relative;
+    top: 27px;
     float: left;
+    left: 15px;
 }
 .custom-campaign-builder .help-block{
     color: #ffffff !important;
@@ -393,7 +394,7 @@
     /*margin-right: 10px;*/
 /*}*/
 .campaign-event-type-anchor{
-    height: 120px;
+    height: 140px;
 }
 .campaign-event-type-anchor-action{
    background: #24f28c;
@@ -405,7 +406,7 @@
     background: #24aef2;
 }
 .campaign-event-type-anchor-fork{
-    background:  #ec407a;
+    background:  #3292e0;
 }
 .campaign-event-type-anchor-delay{
     background: #ff8c66;
@@ -551,7 +552,7 @@
     pointer-events: none;
 }
 .workflow-canvas [class*="insertion-point"] .wf-insert-button {
-    fill: #f1749e;
+    fill: #4ea1e4;
     -webkit-transition: fill 150ms, stroke 150ms;
     transition: fill 150ms, stroke 150ms;
 }
@@ -700,11 +701,11 @@
 }
 
 .workflow-canvas .wf-fork-primary-label .wf-enclosure {
-    stroke: #ec407a;
+    stroke: #3292e0;
     cursor: default;
     fill: #fad1df;
 }
 
 .workflow-canvas .wf-fork-primary-label .wf-fork-icon {
-    fill: #ec407a;
+    fill: #3292e0;
 }

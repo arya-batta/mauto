@@ -11,15 +11,16 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_client_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_client_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
+    </a>
 <?php else: ?>
 <?php if ($canEdit): ?>
-<a href="<?php echo $view['router']->generate('le_client_action', ['objectAction' => 'edit', 'objectId' => $client->getId()]); ?>" data-toggle="ajax">
-    <?php echo $client->getName(); ?>
-</a>
+        <a href="<?php echo $view['router']->generate('le_client_action', ['objectAction' => 'edit', 'objectId' => $client->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+            <div class="media">
+                <div class="media-heading"><?php echo $client->getName(); ?></div>
+            </div>
+        </a>
 <?php else: ?>
-<span><?php echo $client->getName(); ?></span>
 <?php endif; ?>
 <?php endif; ?>

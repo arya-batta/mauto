@@ -242,7 +242,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
    <?php /** </div>*/ ?>
     <!--/ end: container -->
     <!-- step container -->
-    <div class="col-md-3 pa-md" style="border: 1px solid #ccc;border-radius: 3px;margin-left: 10px;" >
+    <div class="col-md-3 pa-md lead-edit-inside">
         <div class="pr-lg pl-lg pt-md pb-md">
             <div class="media">
                 <div class="media-body">

@@ -50,9 +50,9 @@ $indexRoute = $object === 'leads' ? 'le_contact_index' : 'le_company_index';
                     </h4>
                 <?php endif; ?>
                 <div class="progress mt-md" style="height:50px;">
-                    <div class="progress-bar-import progress-bar progress-bar-striped<?php if (!$complete) {
+                    <div class="progress-bar-import progress-bar progress-bar-striped blue-theme-bg <?php if (!$complete) {
                                echo ' active';
-                           } ?>" role="progressbar" aria-valuenow="<?php echo $progress->getDone(); ?>" aria-valuemin="0" aria-valuemax="<?php echo $progress->getTotal(); ?>" style="width: <?php echo $percent; ?>%; height: 50px;background-color: #ec407a">
+                           } ?>" role="progressbar" aria-valuenow="<?php echo $progress->getDone(); ?>" aria-valuemin="0" aria-valuemax="<?php echo $progress->getTotal(); ?>" style="width: <?php echo $percent; ?>%; height: 50px;">
                         <span class="sr-only"><?php echo $percent; ?>%</span>
                     </div>
                 </div>

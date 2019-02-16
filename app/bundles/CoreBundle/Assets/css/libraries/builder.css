@@ -27,7 +27,7 @@
   outline: 0px solid transparent;
 }
 .fr-box.fr-basic .fr-element {
-  color: #000000;
+  color: #2a323c;
   padding: 10px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -164,11 +164,11 @@ iframe.fr-iframe {
 }
 .fr-wrapper ::selection {
   background: #b5d6fd;
-  color: #000000;
+  color: #2a323c;
 }
 .fr-wrapper ::-moz-selection {
   background: #b5d6fd;
-  color: #000000;
+  color: #2a323c;
 }
 .fr-box.fr-basic .fr-wrapper {
   background: #ffffff;
@@ -657,7 +657,7 @@ body.prevent-scroll.fr-mobile {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #000000;
+  background: #2a323c;
   -webkit-opacity: 0.5;
   -moz-opacity: 0.5;
   opacity: 0.5;
@@ -1610,7 +1610,7 @@ textarea.fr-code {
   font-family: "Courier New", monospace;
   font-size: 14px;
   background: #ffffff;
-  color: #000000;
+  color: #2a323c;
   outline: none;
 }
 .fr-box.fr-rtl textarea.fr-code {
@@ -2168,7 +2168,7 @@ div.fr-modal-body div.fr-image-list div.fr-image-container.fr-image-deleting::af
   -moz-transition: opacity 0.2s ease 0s;
   -ms-transition: opacity 0.2s ease 0s;
   -o-transition: opacity 0.2s ease 0s;
-  background: #000000;
+  background: #2a323c;
   content: "";
   top: 0;
   left: 0;

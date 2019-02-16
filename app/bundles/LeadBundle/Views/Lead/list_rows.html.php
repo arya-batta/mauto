@@ -78,7 +78,7 @@ $isAdmin    =$view['security']->isAdmin();
         </td>
         <?php if ($isAdmin): ?>
         <td class="visible-md visible-lg">
-            <?php $colors = ['#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
+            <?php $colors = ['#3292e0', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
             <?php $tags   = $item->getTags(); ?>
             <?php $count  =  0; ?>
             <?php foreach ($tags as $tag):  ?>

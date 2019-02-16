@@ -483,7 +483,6 @@ Le.updateEntitySelect = function (response) {
  */
 Le.toggleYesNoButtonClass = function (changedId) {
     changedId = '#' + changedId;
-
     var isYesButton   = mQuery(changedId).parent().hasClass('btn-yes');
     var isExtraButton = mQuery(changedId).parent().hasClass('btn-extra');
 
@@ -518,7 +517,15 @@ Le.toggleYesNoButtonClass = function (changedId) {
         mQuery(changedId).parent().removeClass(thisRemove).addClass(thisAdd);
         mQuery(otherLabel).removeClass(otherRemove).addClass(otherAdd);
     }
-
+ if(changedId == '#campaign_isPublished_0'){
+     Le.publishCampaign(false);
+ }else if(changedId == '#campaign_isPublished_1'){
+     Le.publishCampaign(true);
+ }else if(changedId == '#campaign_showAnalytics_0'){
+Le.showStatistics(false);
+ }else if(changedId == '#campaign_showAnalytics_1'){
+     Le.showStatistics(true);
+ }
     return true;
 };
 

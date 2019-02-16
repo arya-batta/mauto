@@ -14,7 +14,7 @@ $view['slots']->set('leContent', 'asset');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.asset.remote.file.browse'));
 ?>
 
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <div class="page-list">
 <?php endif; ?>
         <?php if (count($integrations)): ?>

@@ -9,30 +9,17 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 ?>
-
-<li class="dropdown dropdown-custom" id="globalSearchDropdown">
-    <div class="dropdown-menu" style="margin-top: 41px;margin-left: 32px;">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h6 class="fw-sb"><?php echo $view['translator']->trans('mautic.core.search.results'); ?></h6>
-                </div>
-            </div>
-            <div class="pt-0 pb-xs pl-0 pr-0">
-                <div class="scroll-content slimscroll" style="height:250px;" id="globalSearchResults">
-                    <?php echo $view->render('MauticCoreBundle:GlobalSearch:results.html.php', [
-                        'results' => $results,
-                    ]); ?>
-                </div>
-            </div>
+    <li  class="dropdown d-none d-sm-block" id="globalSearchDropdown">
+    <ul style="margin-left: 60px;margin-top: 60px;width: 300px;" class="dropdown-menu dropdown-menu-lg">
+        <div class="scroll-content slimscroll" style="height:250px;width: 300px;" id="globalSearchResults">
+            <?php echo $view->render('MauticCoreBundle:GlobalSearch:results.html.php', [
+                'results' => $results,
+            ]); ?>
         </div>
-    </div>
-</li>
-<li>
-    <div class="search-container" id="globalSearchContainer">
-        <a href="javascript: void(0);" class="search-button">
-            <i class="fa fa-search fs-16"></i>
-        </a>
-        <input type="search" style="border: none;/*border-bottom: 1px solid #d5d5d5;*/background: none;box-shadow: none;-webkit-box-shadow: none;border-radius: 0;" value="<?php echo $view->escape($searchString); ?>" class="form-control search" id="globalSearchInput" name="global_search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.everything.placeholder'); ?>" value="" autocomplete="false" data-toggle="livesearch" data-target="#globalSearchResults" data-action="<?php echo $view['router']->path('le_core_ajax', ['action' => 'globalSearch']); ?>" data-overlay="true" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" />
+    </ul>
+    </li>
+<li class="hide-phone app-search float-left">
+    <div class="search-container navbar-form" id="globalSearchContainer">
+        <input type="text" value="" placeholder="<?php echo $view['translator']->trans('mautic.core.search.everything.placeholder'); ?>" id="globalSearchInput" name="global_search" autocomplete="false" data-toggle="livesearch" data-target="#globalSearchResults" data-action="<?php echo $view['router']->path('le_core_ajax', ['action' => 'globalSearch']); ?>" data-overlay="true" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" class="search-bar">
     </div>
 </li>

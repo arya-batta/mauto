@@ -42,7 +42,7 @@ include 'action_button_helper.php';
         <div class="col-xs-6 col-lg-4 va-m text-right hide">
             <?php if (!empty($buttonHelp)): ?>
                  <div class="input-group-btn">
-                    <button class="btn btn-default btn-nospin" data-toggle="modal" data-target="#<?php echo $searchId; ?>-search-help">
+                    <button class="btn btn-default btn-nospin waves-effect" data-toggle="modal" data-target="#<?php echo $searchId; ?>-search-help">
                         <i class="fa fa-question-circle"></i>
                     </button>
                 </div>
@@ -57,8 +57,8 @@ include 'action_button_helper.php';
                 <div class="toolbar-form-buttons hide pull-right">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-main"></button>
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect"></button>
+                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>

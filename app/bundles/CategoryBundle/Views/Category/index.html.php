@@ -27,7 +27,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
 ]));
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.category.menu.index'); ?></h3></div>
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php //TODO - Restore these buttons to the listactions when custom content is supported
     /*<div class="btn-group">
         <button type="button" class="btn btn-default"><i class="fa fa-upload"></i></button>

@@ -53,7 +53,7 @@ $graphContent = $view->render(
 <?php if (!empty($columnOrder) || !empty($aggregatorOrder)): ?>
     <!-- table section -->
     <div class="col-xs-12">
-        <div class="panel panel-default bdr-t-wdh-0 mb-0">
+        <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
             <div class="page-list">
                 <div class="table-responsive table-responsive-force ">
                     <table class="table table-hover table-striped table-bordered report-list" id="reportTable">

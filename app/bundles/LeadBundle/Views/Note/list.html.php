@@ -27,7 +27,7 @@ if ($tmpl == 'index') {
 <?php */ ?>
 <div class="pa-md">
     <div class="row">
-        <div class="col-sm-12" style="width: 106%;margin-left: -16px;padding-right: 0px;">
+        <div class="col-sm-12">
             <div class="panel">
                 <div class="box-layout">
                     <div class="le-view">

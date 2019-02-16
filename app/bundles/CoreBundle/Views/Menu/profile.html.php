@@ -12,28 +12,42 @@
 /** @var \Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables $app */
 $inline = $view['menu']->render('profile');
 ?>
-<li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="margin-right: 4px;">
-        <span class="img-wrapper img-rounded" style="width:18px;"><img src="<?php echo $img = $view['lead_avatar']->getUserAvatar($app->getUser()); ?>"></span>
-        <span class="text fw-sb ml-xs hidden-xs"><?php echo $app->getUser()->getName(); ?></span>
-        <span class="caret ml-xs"></span>
+<li class="dropdown d-none d-sm-block">
+    <a href="" class="dropdown-toggle profile waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="false">
+        <img src="<?php echo $img = $view['lead_avatar']->getUserAvatar($app->getUser()); ?>" alt="user-img">
     </a>
-    <ul class="dropdown-menu dropdown-menu-right">
+    <ul class="dropdown-menu">
         <li>
-            <a href="<?php echo $view['router']->path('le_user_account'); ?>" data-toggle="ajax">
-                <i class="fa fa-user fs-14"></i><span><?php echo $view['translator']->trans('mautic.user.account.settings'); ?></span>
+            <a class="dropdown-item" class="le_beamer">
+                <i class="margin-right  fa  fa-bell "></i><span><?php echo $view['translator']->trans('le.beamer.menu.index'); ?></span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="<?php echo $view['translator']->trans('le.help.tutorials.menu.link'); ?> " target="_blank">
+                <i class="margin-right fa fa-question-circle"></i><span><?php echo $view['translator']->trans('le.help.tutorials.menu.index'); ?></span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="<?php echo $view['router']->path('le_featuresandideas_index'); ?>" data-toggle="ajax">
+                <i class="margin-right mdi mdi-alert-decagram"></i><span><?php echo $view['translator']->trans('le.feauturesandideas.menu.index'); ?></span>
             </a>
         </li>
 
         <li>
-            <a href="<?php echo $view['router']->path('le_user_logout'); ?>">
-                <i class="fa fa-sign-out fs-14"></i><span><?php echo $view['translator']->trans('mautic.user.auth.logout'); ?></span>
+            <a class="dropdown-item" href="<?php echo $view['router']->path('le_user_account'); ?>" data-toggle="ajax">
+                <i class="margin-right fa fa-user fs-14"></i><span><?php echo $view['translator']->trans('mautic.user.account.settings'); ?></span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="<?php echo $view['router']->path('le_user_logout'); ?>">
+                <i class="margin-right fa fa-sign-out fs-14"></i><span><?php echo $view['translator']->trans('mautic.user.auth.logout'); ?></span>
             </a>
         </li>
 
         <?php if (!empty($inline)): ?>
-        <li role="separator" class="divider"></li>
-        <?php echo $inline; ?>
+            <li role="separator" class="divider"></li>
+            <?php echo $inline; ?>
         <?php endif; ?>
     </ul>
 </li>

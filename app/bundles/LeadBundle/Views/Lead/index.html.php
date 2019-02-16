@@ -53,10 +53,10 @@ $extraHtml = <<<button
 <div class="btn-group ml-5 sr-only ">
     <span data-toggle="tooltip" title="{$view['translator']->trans(
     'le.lead.tooltip.list'
-)}" data-placement="left"><a id="table-view" href="{$view['router']->path('le_contact_index', ['page' => $page, 'view' => 'list'])}" data-toggle="ajax" class="btn btn-default"><i class="fa fa-fw fa-table"></i></span></a>
+)}" data-placement="left"><a id="table-view" href="{$view['router']->path('le_contact_index', ['page' => $page, 'view' => 'list'])}" data-toggle="ajax" class="btn btn-default waves-effect"><i class="fa fa-fw fa-table"></i></span></a>
     <span data-toggle="tooltip" title="{$view['translator']->trans(
     'le.lead.tooltip.grid'
-)}" data-placement="left"><a id="card-view" href="{$view['router']->path('le_contact_index', ['page' => $page, 'view' => 'grid'])}" data-toggle="ajax" class="btn btn-default"><i class="fa fa-fw fa-th-large"></i></span></a>
+)}" data-placement="left"><a id="card-view" href="{$view['router']->path('le_contact_index', ['page' => $page, 'view' => 'grid'])}" data-toggle="ajax" class="btn btn-default waves-effect"><i class="fa fa-fw fa-th-large"></i></span></a>
 </div>
 button;
 
@@ -80,7 +80,7 @@ $view['slots']->set(
 $toolbarButtons = [
     [
         'attr' => [
-            'class'       => 'hidden-xs le-btn-default btn btn-default btn-sm btn-nospin',
+            'class'       => 'hidden-xs le-btn-default btn btn-default btn-sm btn-nospin waves-effect',
             'href'        => 'javascript: void(0)',
             'onclick'     => 'Le.toggleLiveLeadListUpdate();',
             'id'          => 'liveModeButton',
@@ -95,7 +95,7 @@ $toolbarButtons = [
 if ($indexMode == 'list') {
     $toolbarButtons[] = [
         'attr' => [
-            'class'          => 'hidden-xs btn btn-default btn-sm btn-nospin le-btn-default'.(($anonymousShowing) ? ' le-btn-default' : ''),
+            'class'          => 'hidden-xs btn btn-default btn-sm btn-nospin le-btn-default waves-effect '.(($anonymousShowing) ? ' le-btn-default' : ''),
             'href'           => 'javascript: void(0)',
             'onclick'        => 'Le.toggleAnonymousLeads();',
             'id'             => 'anonymousLeadButton',
@@ -108,10 +108,10 @@ if ($indexMode == 'list') {
 $toolbarButtons = [];
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.list.thead.leadcount.all'); ?></h3></div>
-<div style="padding-top: 15px;">
-        <div class="info-box" id="leads-info-box-container">
+<div class="info-box-holder">
+        <div class="info-box waves-effect" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> '']); ?>" data-toggle="ajax">
-                <span class="info-box-icon" style="background-color:#00c0ef;>">
+                <span class="info-box-icon waves-effect">
                     <i class="fa fa-users" id="icon-class-leads"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.lifecycle.graph.pie.all.lists'); ?></span>
@@ -119,9 +119,9 @@ $toolbarButtons = [];
                 </div>
             </a>
         </div>
-    <div class="info-box" id="leads-info-box-container">
-        <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'recentlyaddedleads']); ?>" data-toggle="ajax">
-                <span class="info-box-icon" style="background-color: #f39c12;>">
+    <div class="info-box waves-effect" id="leads-info-box-container">
+        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'recentlyaddedleads']); ?>" data-toggle="ajax">
+                <span class="info-box-icon waves-effect">
                      <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.recently.added'); ?></span>
@@ -129,9 +129,9 @@ $toolbarButtons = [];
             </div>
         </a>
     </div>
-    <div class="info-box" id="leads-info-box-container">
-        <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'activeleads']); ?>" data-toggle="ajax">
-                <span class="info-box-icon" style="background-color: #42CC39;>">
+    <div class="info-box waves-effect" id="leads-info-box-container">
+        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'activeleads']); ?>" data-toggle="ajax">
+                <span class="info-box-icon">
                     <i class="fa fa-history" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.active.leads'); ?></span>
@@ -140,9 +140,9 @@ $toolbarButtons = [];
         </a>
     </div>
     <div>
-        <div class="info-box" id="leads-info-box-container">
+        <div class="info-box waves-effect" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'donotcontact']); ?>" data-toggle="ajax">
-            <span class="info-box-icon" style="background-color:#FF0000;>">
+            <span class="info-box-icon waves-effect">
                   <i class="fa fa-user-times" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.churn.leads'); ?></span>
@@ -153,7 +153,7 @@ $toolbarButtons = [];
     </div>
 </div>
 
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

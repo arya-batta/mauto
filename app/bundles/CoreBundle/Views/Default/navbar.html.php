@@ -11,73 +11,44 @@
 $isAdmin      = $view['security']->isAdmin();
 $isCustomAdmin= $view['security']->isCustomAdmin();
 ?>
+<div class="license-notifiation hide" id="licenseclosediv">
+    <span id="license-alert-message"></span></div>
+
+<!--<div class="navbar-nocollapse" style="height: 60px">-->
+    <!-- LOGO -->
+
+    <!-- Button mobile view to collapse sidebar menu -->
+    <div class="navbar navbar-default" style="height: 60px" role="navigation">
+        <div class="container-fluid" style="height: 60px">
+            <ul class="list-inline menu-left mb-0">
+                <li class="float-left">
+                    <button class="button-menu-mobile open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </li>
+                <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:globalSearch')); ?>
+            </ul>
+
+            <ul class="nav-topbar navbar-right float-right list-inline">
+                <li class="d-none d-sm-block">
+                    <a href="#" id="btn-fullscreen" class="waves-effect waves-light notification-icon-box"><i class="mdi mdi-fullscreen"></i></a>
+                </li>
+                <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:notifications')); ?>
+                <?php echo $view->render('MauticCoreBundle:Menu:profile.html.php'); ?>
+                <?php if ($isCustomAdmin): ?>
+                    <?php echo $view->render('MauticCoreBundle:Menu:right_panel.html.php'); ?>
+                <?php endif; ?>
+                <?php if ($isAdmin):?>
+                    <li>
+                        <a href="javascript: void(0);"  class="dropdown-toggle waves-effect waves-light notification-icon-box" data-toggle="sidebar" data-direction="rtl"><i class="mdi mdi-settings"></i></a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+<!--</div>-->
 <!-- start: loading bar -->
 <div class="loading-bar">
     <?php echo $view['translator']->trans('mautic.core.loading'); ?>
 </div>
 <!--/ end: loading bar -->
-
-<!-- start: navbar nocollapse -->
-<div class="navbar-nocollapse">
-    <!-- start: left nav -->
-    <ul class="nav navbar-nav navbar-left">
-        <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer" onclick="Le.changeButtonPanelStyle();">
-            <span class="fa fa-bars w3-xxlarge le-sidebar-minimizer"></span>
-        </a>
-    </ul>
-    <ul class="nav navbar-nav navbar-left">
-        <li class="hidden-xs" data-toggle="tooltip" data-placement="right" title="Minimize Sidebar">
-            <a href="javascript:void(0)" data-toggle="minimize" class="sidebar-minimizer"><span class="arrow fs-14"></span></a>
-        </li>
-        <li class="visible-xs">
-            <a href="javascript: void(0);" data-toggle="sidebar" data-direction="ltr">
-                <i class="fa fa-navicon fs-16"></i>
-            </a>
-        </li>
-        <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:notifications')); ?>
-        <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:globalSearch')); ?>
-    </ul>
-    <!--/ end: left nav -->
-
-    <!-- start: right nav -->
-    <ul class="nav navbar-nav navbar-right" style="margin-left: -25px;">
-        <?php if ($isCustomAdmin): ?>
-        <?php echo $view->render('MauticCoreBundle:Menu:right_panel.html.php'); ?>
-        <?php endif; ?>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <?php echo $view->render('MauticCoreBundle:Menu:profile.html.php'); ?>
-    <!-- Hided Right Panel -->
-      <?php if ($isAdmin):?>
-            <li>
-                <a href="javascript: void(0);" data-toggle="sidebar" data-direction="rtl">
-                    <i class="fa fa-cog fs-16"></i>
-                </a>
-            </li>
-        <?php endif; ?>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <div>
-        <span id="upgrade-now" class="mailbox-read-time hide">
-
-        </span>
-        <span id="upgrade-info-trial-info" class="mailbox-read-time hide">
-
-        </span>
-        </div>
-    </ul>
-    <!-- start: right nav -->
-   <!-- <ul class="nav navbar-nav navbar-right">
-        <?php /*echo $view->render('MauticCoreBundle:Menu:support.html.php'); */?>
-    </ul>-->
-    <div class="navbar-toolbar pull-right mt-15 mr-10">
-    <?php
-    echo $view['buttons']->reset($app->getRequest(), \Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR)
-        ->renderButtons();
-    ?>
-    </div>
-
-
-    <!--/ end: right nav -->
-</div>
-<!--/ end: navbar nocollapse -->

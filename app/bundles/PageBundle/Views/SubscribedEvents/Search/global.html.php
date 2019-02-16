@@ -10,14 +10,13 @@
  */
 ?>
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_page_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_page_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['router']->generate('le_page_index', ['search' => $searchString]); ?></small>
+    </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page->getId()]); ?>" data-toggle="ajax">
-    <?php echo $page->getTitle(); ?>
-    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.page.hits'); ?>" data-placement="left">
-        <?php echo $page->getHits(); ?>
-    </span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $page->getTitle(); ?></div>
+        </div>
+    </a>
 <?php endif; ?>

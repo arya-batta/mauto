@@ -11,14 +11,13 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate($type=='list'?'le_email_campaign_index':'le_email_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate($type == 'list' ? 'le_email_campaign_index' : 'le_email_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
+    </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate($type=='list'?'le_email_campaign_action':'le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" data-toggle="ajax">
-    <?php echo $email->getName(); ?>
-    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.email.readcount'); ?>" data-placement="left">
-        <?php echo $email->getReadCount(); ?>
-    </span>
-</a>
+    <a href="<?php echo $view['router']->generate($type == 'list' ? 'le_email_campaign_action' : 'le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $email->getName(); ?></div>
+        </div>
+    </a>
 <?php endif; ?>

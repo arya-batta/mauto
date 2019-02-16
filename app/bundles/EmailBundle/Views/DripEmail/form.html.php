@@ -49,7 +49,7 @@ $filter_templates = [
 $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
 ?>
 <?php echo $view['form']->start($form); ?>
-<div id="page-wrap" class="tab-content align-tab-center">
+<div id="page-wrap" class="align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
             <!--<li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active hide" role = "tab" id = "ui-tab-header1" rel = 1>
@@ -67,13 +67,13 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
             </li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
-                <a class="text-start" style="padding: 3px 35px;"> <div class="content-wrapper-first">
+                <a class="text-start" style="padding: 0px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 02</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.recipients'); ?></label>
                     </div></a>
             </li>
             <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header4" rel = 4>
-                <a class="text-start" style="padding: 3px 34px;"><div class="content-wrapper-first">
+                <a class="text-start" style="padding: 0px 34px;"><div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>
                     </div></a>
@@ -82,7 +82,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         <div id="fragment-1" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-1" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" id="next-tab-1" style="margin-top: -306px;" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -179px;margin-right: 107px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -97,10 +97,10 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-2" class="ui-tabs-panel ">
             <div class="fragment-drip-2-buttons fixed-header">
-                <a href="#" id="#previous-button" style="margin-top: -307px;" class="prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="#previous-button" style="margin-top: -307px;" class="waves-effect prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" style="margin-top: -306px;" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 124px;">
+                <a href="#" id="next-tab-2" style="margin-top: -285px;" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <div class="toolbar-form-buttons" style="margin-top: -168px;margin-right: 124px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -119,7 +119,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
                             <div class="insert-drip-options">
-                                <div style="background:#fff;padding:24px 30px;;width:450px;height:auto;">
+                                <div class='drip-options-panel'>
                                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('Which email builder would you like to use?')?></h1>
                                     <br>
                                     <div class="row">
@@ -174,12 +174,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             </div>
                             <div class="col-md-2" style="right:25px;">
                                 <li class="dropdown dropdown-menu-right" style="display: block;">
-                                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 30px;vertical-align: super;" data-toggle="dropdown" href="#">
                                         <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-left" style="margin-top: 21px;">
                                         <li>
-                                            <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                                            <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
                                             </div>
                                         </li>
                                     </ul>
@@ -227,12 +227,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                     <div class="tab-pane fade in bdr-w-0 hide" style="width:100%;" id="email-preview-container">
                         <div id="builder_btn">
-                            <a class="btn btn-default text-primary le-btn-default" onclick="Le.showDripEmailTemplateview();" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                            <a class="btn btn-default text-primary le-btn-default blue-theme-bg" onclick="Le.showDripEmailTemplateview();" style="color:#ffffff;padding-top: 7px;float: right;margin-right: 3%;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.change.template'); ?></span>
                                 </span>
                             </a>
-                            <a class="btn btn-default text-primary le-btn-default" onclick="Le.launchBeeEditor('dripemail', 'email');" style="background-color: #ec407a;color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
+                            <a class="btn btn-default text-primary le-btn-default blue-theme-bg" onclick="Le.launchBeeEditor('dripemail', 'email');" style="color:#ffffff;padding-top: 7px;float: right;margin-right: 5px;border-radius:4px;z-index:1003;" data-toggle="ajax">
                                 <span>
                                 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.core.edit'); ?></span>
                                 </span>
@@ -260,9 +260,9 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-3-buttons fixed-header" style="margin-top: -7px;">
-                <a href="#" id="#previous-button" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" class="next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -353,8 +353,8 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-4-buttons fixed-header">
-                <a href="#" style="margin-left:-74px;margin-top: -306px;" class="prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -178px;margin-right: 27px;">
+                <a href="#" style="margin-left:-72px;margin-top: -285px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="margin-top: -168px;margin-right: 27px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
@@ -384,12 +384,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                     <div>
                         <li class="dropdown dropdown-menu-right" style="display: block;">
-                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 22px;vertical-align: super;" data-toggle="dropdown" href="#">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 30px;vertical-align: super;" data-toggle="dropdown" href="#">
                                 <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
                                 <li>
-                                    <div class="insert-tokens" style="background-color: whitesmoke;/*width: 350px;*/overflow-y: scroll;max-height: 154px;">
+                                    <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
                                     </div
                                 </li>
                             </ul>

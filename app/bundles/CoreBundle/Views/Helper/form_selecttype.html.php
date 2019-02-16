@@ -24,7 +24,7 @@ if (!isset($typeThreeIconClass)) {
     leLang.<?php echo $key; ?> = "<?php echo $view['translator']->trans($string); ?>";
     <?php endforeach; ?>
 </script>
-<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.9; z-index: 9000"></div>
+<div class="<?php echo $typePrefix; ?>-type-modal-backdrop" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.9; z-index: 9000"></div>
 
 <div class="modal fade in <?php echo $typePrefix; ?>-type-modal le-modal-box-align" style="display: block; z-index: 9999;margin-left: 20.55555%;">
 
@@ -45,7 +45,7 @@ if (!isset($typeThreeIconClass)) {
                             <div class="panel-primary" style="margin-left: -28px;">
                                 <h3 style="width: 130%;" class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                 <p style="width:230%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                <button class="le-btn-primary" style="margin-top: 55px;"onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button class="le-btn-primary waves-effect" style="margin-top: 55px;"onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
                         </div>
@@ -55,7 +55,7 @@ if (!isset($typeThreeIconClass)) {
                             <div class="panel-primary" style="margin-left: -28px;">
                                 <h3 style="width: 140%;"  class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
                                 <p style="width:220%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
-                                <button style="margin-top: 18px" class="le-btn-primary" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button style="margin-top: 18px" class="le-btn-primary waves-effect" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -70,14 +70,14 @@ if (!isset($typeThreeIconClass)) {
                                 </div>
                                 <div class="col-xs-4 col-sm-2 pl-0 pr-0 pt-10 pb-10 text-right">
                                     <i class="hidden-xs fa <?php echo $typeThreeIconClass; ?> fa-lg"></i>
-                                    <button class="visible-xs pull-right btn btn-sm btn-default btn-nospin text-primary" onclick="<?php echo $typeThreeOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
+                                    <button class="visible-xs pull-right btn btn-sm btn-default btn-nospin text-primary waves-effect" onclick="<?php echo $typeThreeOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
                                 </div>
                             </div>
                             <div class="panel-body">
                                 <?php echo $view['translator']->trans($typeThreeDescription); ?>
                             </div>
                             <div class="hidden-xs panel-footer text-center">
-                                <button class="btn btn-lg btn-default btn-nospin text-success" style="color : #6B7F82;" onclick="<?php echo $typeThreeOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
+                                <button class="btn btn-lg btn-default btn-nospin text-success waves-effect" style="color : #6B7F82;" onclick="<?php echo $typeThreeOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.select'); ?></button>
                             </div>
                         </div>
                     </div>

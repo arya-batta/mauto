@@ -221,7 +221,7 @@ class NotificationModel extends FormModel
             return [[], false, ''];
         }
 
-        $this->updateUpstreamNotifications();
+        // $this->updateUpstreamNotifications();
 
         $showNewIndicator = false;
         $userId           = ($this->userHelper->getUser()) ? $this->userHelper->getUser()->getId() : 0;
@@ -240,41 +240,41 @@ class NotificationModel extends FormModel
         $updateMessage = '';
         $newUpdate     = false;
 
-        if (!$this->disableUpdates && $this->userHelper->getUser()->isAdmin()) {
-            $updateData = [];
-            $cacheFile  = $this->pathsHelper->getSystemPath('cache').'/lastUpdateCheck.txt';
-
-            //check to see when we last checked for an update
-            $lastChecked = $this->session->get('mautic.update.checked', 0);
-
-            if (time() - $lastChecked > 3600) {
-                $this->session->set('mautic.update.checked', time());
-
-                $updateData = $this->updateHelper->fetchData();
-            } elseif (file_exists($cacheFile)) {
-                $updateData = json_decode(file_get_contents($cacheFile), true);
-            }
-
-            // If the version key is set, we have an update
-            if (isset($updateData['version'])) {
-                $announcement = $this->translator->trans(
-                    'mautic.core.updater.update.announcement_link',
-                    ['%announcement%' => $updateData['announcement']]
-                );
-
-                $updateMessage = $this->translator->trans(
-                    $updateData['message'],
-                    ['%version%' => $updateData['version'], '%announcement%' => $announcement]
-                );
-
-                $alreadyNotified = $this->session->get('mautic.update.notified');
-
-                if (empty($alreadyNotified) || $alreadyNotified != $updateData['version']) {
-                    $newUpdate = true;
-                    $this->session->set('mautic.update.notified', $updateData['version']);
-                }
-            }
-        }
+//        if (!$this->disableUpdates && $this->userHelper->getUser()->isAdmin()) {
+//            $updateData = [];
+//            $cacheFile  = $this->pathsHelper->getSystemPath('cache').'/lastUpdateCheck.txt';
+//
+//            //check to see when we last checked for an update
+//            $lastChecked = $this->session->get('mautic.update.checked', 0);
+//
+//            if (time() - $lastChecked > 3600) {
+//                $this->session->set('mautic.update.checked', time());
+//
+//                $updateData = $this->updateHelper->fetchData();
+//            } elseif (file_exists($cacheFile)) {
+//                $updateData = json_decode(file_get_contents($cacheFile), true);
+//            }
+//
+//            // If the version key is set, we have an update
+//            if (isset($updateData['version'])) {
+//                $announcement = $this->translator->trans(
+//                    'mautic.core.updater.update.announcement_link',
+//                    ['%announcement%' => $updateData['announcement']]
+//                );
+//
+//                $updateMessage = $this->translator->trans(
+//                    $updateData['message'],
+//                    ['%version%' => $updateData['version'], '%announcement%' => $announcement]
+//                );
+//
+//                $alreadyNotified = $this->session->get('mautic.update.notified');
+//
+//                if (empty($alreadyNotified) || $alreadyNotified != $updateData['version']) {
+//                    $newUpdate = true;
+//                    $this->session->set('mautic.update.notified', $updateData['version']);
+//                }
+//            }
+//        }
 
         return [$notifications, $showNewIndicator, ['isNew' => $newUpdate, 'message' => $updateMessage]];
     }

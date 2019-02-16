@@ -10,14 +10,13 @@
  */
 ?>
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_asset_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view->escape($view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining])); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_asset_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view->escape($view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining])); ?></small>
+    </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $asset->getId()]); ?>" data-toggle="ajax">
-    <?php echo $view->escape($asset->getTitle()); ?>
-    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.asset.downloadcount'); ?>" data-placement="left">
-        <?php echo $asset->getDownloadCount(); ?>
-    </span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_asset_action', ['objectAction' => 'view', 'objectId' => $asset->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $view->escape($asset->getTitle()); ?></div>
+        </div>
+    </a>
 <?php endif; ?>

@@ -126,7 +126,7 @@ class CompanyType extends AbstractType
                     'name'  => 'merge',
                     'label' => 'le.lead.merge',
                     'attr'  => [
-                        'class'       => 'btn btn-default btn-dnd',
+                        'class'       => 'btn btn-default btn-dnd waves-effect',
                         'icon'        => 'fa fa-building',
                         'data-toggle' => 'ajaxmodal',
                         'data-target' => '#leSharedModal',

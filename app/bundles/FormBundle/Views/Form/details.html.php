@@ -36,7 +36,7 @@ if (!$activeForm->isSmartForm()) {
         ],
         'iconClass' => 'fa fa-eye',
         'btnText'   => 'mautic.form.form.preview',
-        'btnClass'  => 'btn le-btn-default btn-nospin',
+        'btnClass'  => 'btn le-btn-default btn-nospin waves-effect',
         'primary'   => true,
         'priority'  => 150,
     ];
@@ -51,8 +51,7 @@ $custombuttons[]= [
     'priority'  => 100,
     'btnText'   => 'mautic.form.form.header.automaticcopy',
     'iconClass' => 'fa fa-file-code-o',
-    'btnClass'  => 'btn le-btn-default btn-nospin',
-
+    'btnClass'  => 'btn le-btn-default btn-nospin waves-effect',
 ];
 $view['slots']->set(
     'actions',
@@ -98,7 +97,7 @@ $isadmin     =$view['security']->isAdmin();
 <div class="box-layout">
     <!-- left section -->
     <div class="col-md-12 bg-white height-auto">
-        <div class="bg-auto <?php echo $isadmin ? "":"hide"?>">
+        <div class="bg-auto <?php echo $isadmin ? '' : 'hide'?>">
             <!-- form detail header -->
             <div class="pr-md pl-md pt-lg pb-lg">
                 <div class="box-layout">
@@ -129,7 +128,7 @@ $isadmin     =$view['security']->isAdmin();
 
         <div class="bg-auto bg-dark-xs">
             <!-- form detail collapseable toggler -->
-            <div class="hr-expand nm <?php echo $isadmin ? "":"hide"?>">
+            <div class="hr-expand nm <?php echo $isadmin ? '' : 'hide'?>">
                 <span data-toggle="tooltip"
                       title="<?php echo $view['translator']->trans('mautic.form.details.detail'); ?>">
                     <a href="javascript:void(0)" class="arrow text-muted collapsed" data-toggle="collapse"
@@ -186,7 +185,7 @@ $isadmin     =$view['security']->isAdmin();
                 'totalCount'     => $count,
                 'limit'          => $limit,
                 'tmpl'           => 'list',
-                'canDelete'      => false,/*$this->get('mautic.security')->hasEntityAccess(
+                'canDelete'      => false, /*$this->get('mautic.security')->hasEntityAccess(
                     'form:forms:editown',
                     'form:forms:editother',
                     $form->getCreatedBy()
@@ -207,8 +206,8 @@ $isadmin     =$view['security']->isAdmin();
                 <?php endif; ?>
                 <?php if (!$activeForm->isSmartForm()):?>
                     <li class="<?php if (!$showActions) {
-                                    echo 'active';
-                                } ?>">
+                        echo 'active';
+                    } ?>">
                         <a href="#fields-container" role="tab" data-toggle="tab">
                             <?php echo $view['translator']->trans('mautic.form.tab.fields'); ?>
                         </a>
@@ -219,7 +218,7 @@ $isadmin     =$view['security']->isAdmin();
         </div>
 
         <!-- start: tab-content -->
-        <div class="tab-content pa-md <?php echo $isadmin ? "":"hide"?>">
+        <div class="tab-content pa-md <?php echo $isadmin ? '' : 'hide'?>">
             <?php if ($showActions): ?>
                 <!-- #actions-container -->
                 <div class="tab-pane active fade in bdr-w-0" id="actions-container">
@@ -353,7 +352,7 @@ $isadmin     =$view['security']->isAdmin();
     <!--/ right section -->
 
     <!-- #modal-automatic-copy -->
-    <div class="modal fade le-modal-gradient" id="modal-automatic-copy" style="position:fixed;margin-top: 2%;margin-left: 25%;width: 612px;<?php echo $activeForm->isSmartForm()? 'height:368px  ':'height:598px';?>">
+    <div class="modal fade le-modal-gradient" id="modal-automatic-copy" style="position:fixed;margin-top: 2%;margin-left: 25%;width: 612px;<?php echo $activeForm->isSmartForm() ? 'height:368px  ' : 'height:598px'; ?>">
         <div class="modal-dialog le-gradient-align" >
             <div class="modal-content le-modal-content" >
                 <div class="modal-header">
@@ -374,13 +373,13 @@ $isadmin     =$view['security']->isAdmin();
                         </div>
                     </div>
                 </div>
-                <div class="modal-body" style="background-color: #EEE">
+                <div class="modal-body">
                     <?php if ($activeForm->isSmartForm()):?>
                         <div class="white-box" style="margin-bottom: 10px;">
                         <textarea id="javascipt_textarea" style="min-height: 69px;" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
                                 'le_smart_form_tracker'); ?>"&gt;&lt;/script&gt;</textarea>
-                            <button class="le-btn-default" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;background-color: #ec407a;">
-                            <a id="javascipt_textarea_atag" style="color:#FFFF;font-size: 13px;" >
+                            <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;">
+                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 13px;" >
                                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
@@ -396,8 +395,8 @@ $isadmin     =$view['security']->isAdmin();
                                     'le_form_generateform',
                                     ['id' => $activeForm->getId()]
                                 ); ?>"&gt;&lt;/script&gt;</textarea>
-                            <button class="le-btn-default" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;background-color: #ec407a;">
-                            <a id="javascipt_textarea_atag" style="color:#FFFF;font-size: 13px;" >
+                            <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;">
+                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 13px;" >
                                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
@@ -413,8 +412,8 @@ $isadmin     =$view['security']->isAdmin();
                                     'le_form_preview',
                                     ['id' => $activeForm->getId()]
                                 ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
-                            <button class="le-btn-default" onclick="Le.copyClipboardforms('iframe_textarea');" style=" margin-top: 10px;background-color: #ec407a;">
-                            <a id="iframe_textarea_atag" style="color:#FFFF;font-size: 13px;"><i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('iframe_textarea');" style=" margin-top: 10px;">
+                            <a id="iframe_textarea_atag" style="color:#fff;font-size: 13px;"><i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
                                 ); ?></a>
@@ -457,7 +456,7 @@ $isadmin     =$view['security']->isAdmin();
                               onclick="this.setSelectionRange(0, this.value.length);"><?php echo $formContent; ?></textarea>
                 </div>
                 <div class="panel-footer text-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $view['translator']->trans(
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"><?php echo $view['translator']->trans(
                             'mautic.core.close'
                         ); ?></button>
                 </div>

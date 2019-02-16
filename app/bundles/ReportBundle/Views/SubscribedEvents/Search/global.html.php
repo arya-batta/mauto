@@ -10,11 +10,13 @@
  */
 ?>
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_report_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_report_index', ['search' => $searchString]); ?>" class="list-group-item">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
+    </a>
 <?php else: ?>
-<a href="<?php echo $view['router']->generate('le_report_view', ['objectId' => $item->getId()]); ?>" data-toggle="ajax">
-    <?php echo $item->getName(); ?>
-</a>
+    <a href="<?php echo $view['router']->generate('le_report_view', ['objectId' => $item->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $item->getName(); ?></div>
+        </div>
+    </a>
 <?php endif; ?>

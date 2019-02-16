@@ -30,7 +30,7 @@ $view['slots']->set(
 
 ?>
 
-<div class="panel panel-default bdr-t-wdh-0 mb-0">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <?php // todo
     // echo $view->render(
     //     'MauticCoreBundle:Helper:list_toolbar.html.php',

@@ -1,7 +1,7 @@
 <?php
 ?>
 <div class="row" style="padding-top:5px;padding-bottom:15px;border-bottom: 1px solid;margin-left:15px;margin-right:15px;">
-<a class="btn btn-default text-primary le-btn-default custom-preview-button" onclick="Le.closeBluePrintPage();" style="background-color: #ec407a;color:#ffffff;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
+<a class="btn btn-default text-primary le-btn-default custom-preview-button blue-theme-bg" onclick="Le.closeBluePrintPage();" style="color:#ffffff;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
 <span>
 <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.backtoeamils'); ?></span>
 </span>
@@ -72,7 +72,7 @@
                                     <span><?php echo $item['scheduleTime']; ?></span>
                                 </td>
                                 <td class="visible-sm visible-md visible-lg email-col-stats col-page-category drip-col-stats" data-stats="<?php echo $item['id']; ?>">
-                                    <a class="btn btn-default text-primary le-btn-default custom-preview-button" href="<?php echo $previewUrl; ?>" target="_blank" style="background-color: #ec407a;color:#ffffff;float: right;border-radius:4px;z-index:1003;">
+                                    <a class="btn btn-default text-primary le-btn-default custom-preview-button blue-theme-bg" href="<?php echo $previewUrl; ?>" target="_blank" style="color:#ffffff;float: right;border-radius:4px;z-index:1003;">
                                             <span>
                                             <span class="hidden-xs hidden-sm" id="view-emailtemplate-button"><?php echo $view['translator']->trans('View Email'); ?></span>
                                             </span>

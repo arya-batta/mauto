@@ -200,7 +200,7 @@ Le.showBounceCallbackURL = function(modeEl) {
 };
 
 
-Le.configOnLoad = function (container) {
+Le.configOnLoad = function (container){
     mQuery('#emailVerifyModel').on("hidden.bs.modal", function(){
         mQuery('#aws_email_verification').val('');
         mQuery('#user_email .help-block').addClass('hide');

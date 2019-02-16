@@ -11,14 +11,13 @@
 ?>
 
 <?php if (!empty($showMore)): ?>
-<a href="<?php echo $view['router']->generate('le_form_index', ['search' => $searchString]); ?>" data-toggle="ajax">
-    <span><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_form_index', ['search' => $searchString]); ?>" class="list-group-item" data-toggle="ajax">
+        <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
+    </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_form_action', ['objectAction' => 'view', 'objectId' => $form->getId()]); ?>" data-toggle="ajax">
-    <?php echo $form->getName(); ?>
-    <span class="label label-default pull-right" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.form.form.resultcount'); ?>" data-placement="left">
-        <?php echo $form->getResultCount(); ?>
-    </span>
-</a>
+    <a href="<?php echo $view['router']->generate('le_form_action', ['objectAction' => 'view', 'objectId' => $form->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <div class="media">
+            <div class="media-heading"><?php echo $form->getName(); ?></div>
+        </div>
+    </a>
 <?php endif; ?>
