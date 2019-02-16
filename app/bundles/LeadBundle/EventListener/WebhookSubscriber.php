@@ -117,26 +117,13 @@ class WebhookSubscriber extends CommonSubscriber
             return;
         }
 
-        $changes  = $lead->getChanges(true);
-        $leadId   = $event->getLead()->getId();
-        $tagmodel = $this->factory->getModel('lead.tag');
-        $tags     = $tagmodel->getRepository()->getLinkedTags($leadId);
-        foreach ($tags as $tag) {
-            $tagentity              = $tagmodel->getEntity($tag['tag_id']);
-            $newtag['id']           = $tagentity->getId();
-            $newtag['tag']          = $tagentity->getTag();
-            $newtag['is_published'] = $tagentity->getisPublished();
-            $newtag['alias']        = $tagentity->getAlias();
-            $newtags[]              = $newtag;
-        }
-        $lead['lead'] = $event->getLead();
-        $lead['tags'] = $newtags;
-        $data[]      =$lead;
+        $changes = $lead->getChanges(true);
+
         $this->webhookModel->queueWebhooksByType(
         // Consider this a new contact if it was just identified, otherwise consider it updated
             !empty($changes['dateIdentified']) ? LeadEvents::LEAD_POST_SAVE.'_new' : LeadEvents::LEAD_POST_SAVE.'_update',
             [
-                'lead'    => $data,
+                'lead'    => $event->getLead(),
                 //'contact' => $event->getLead(),
             ],
             [
@@ -144,6 +131,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'userList',
                 'publishDetails',
                 'ipAddress',
+                'tagList',
             ]
         );
     }
@@ -172,6 +160,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'userList',
                 'publishDetails',
                 'ipAddress',
+                'tagList',
             ]
         );
     }
@@ -181,24 +170,10 @@ class WebhookSubscriber extends CommonSubscriber
      */
     public function onLeadTagModified(LeadEvent $event)
     {
-        $leadId   = $event->getLead()->getId();
-        $tagmodel = $this->factory->getModel('lead.tag');
-        $tags     = $tagmodel->getRepository()->getLinkedTags($leadId);
-        foreach ($tags as $tag) {
-            $tagentity              = $tagmodel->getEntity($tag['tag_id']);
-            $newtag['id']           = $tagentity->getId();
-            $newtag['tag']          = $tagentity->getTag();
-            $newtag['is_published'] = $tagentity->getisPublished();
-            $newtag['alias']        = $tagentity->getAlias();
-            $newtags[]              = $newtag;
-        }
-        $lead['lead'] = $event->getLead();
-        $lead['tags'] = $newtags;
-        $data[]      =$lead;
         $this->webhookModel->queueWebhooksByType(
             LeadEvents::MODIFY_TAG_EVENT,
             [
-                'lead'     => $data,
+                'lead'     => $event->getLead(),
                 //'contact'  => $event->getLead(),
                 'tags'     => $event->getLead()->getTags(),
             ],
@@ -207,6 +182,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'userList',
                 'publishDetails',
                 'ipAddress',
+                'tagList',
             ]
         );
     }
@@ -229,6 +205,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'userList',
                 'publishDetails',
                 'ipAddress',
+                'tagList',
             ]
         );
     }
@@ -251,6 +228,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'userList',
                 'publishDetails',
                 'ipAddress',
+                'tagList',
             ]
         );
     }

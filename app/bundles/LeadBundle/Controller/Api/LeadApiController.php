@@ -801,6 +801,7 @@ class LeadApiController extends CommonApiController
         list($entities, $totalCount) = $this->prepareEntitiesForView($results);
 
         $modifiedentities = [];
+        $modifieddata     = [];
         foreach ($entities as $entity) {
             $leadId = $entity->getId();
             //$profilefields[] = $entity->getProfileFields();

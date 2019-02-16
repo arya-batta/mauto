@@ -24,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
@@ -307,7 +308,7 @@ class InstallController extends CommonController
                 'contentTemplate' => 'MauticInstallBundle:Install:final.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_installer_index',
-                    'leContent' => 'installer',
+                    'leContent'     => 'installer',
                     'route'         => $this->generateUrl('le_installer_final'),
                 ],
             ]
@@ -470,6 +471,23 @@ class InstallController extends CommonController
         $status_text    ='Domain Invalid';
         $contenttemplate='MauticCoreBundle:Error:domain.html.php';
         $basetemplate   ='MauticCoreBundle:Default:slim.html.php';
+        $autherize      = $request->headers->get('authorization', '');
+
+        if (isset($autherize)) {
+            if (strpos($autherize, 'Basic') !== false) {
+                $dataArray = [
+                    'errors' => [
+                        [
+                            'message' => 'domain not found',
+                            'code'    => '',
+                            'type'    => null,
+                        ],
+                    ],
+                ];
+
+                return new JsonResponse($dataArray, 200);
+            }
+        }
 
         return $this->delegateView(
             [
@@ -490,7 +508,7 @@ class InstallController extends CommonController
                         'exception' => '',
                         'trace'     => '',
                     ],
-                    'leContent' => 'invalidDomain',
+                    'leContent'     => 'invalidDomain',
                     'route'         => $urlParts['path'],
                 ],
                 'responseCode' => $code,
