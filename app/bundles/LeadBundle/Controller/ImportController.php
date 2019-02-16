@@ -147,7 +147,7 @@ class ImportController extends FormController
 
         //return $this->listAction();
         return $this->postActionRedirect([
-            'returnUrl'  => $this->generateUrl('le_contact_index'),
+            'returnUrl'      => $this->generateUrl('le_contact_index'),
             'viewParameters' => ['page' => 1],
         ]);
     }
@@ -466,11 +466,13 @@ class ImportController extends FormController
                             }
                             $lineCount         = $import->getLineCount() - 1;
                             $toBeinsertedCount = $actualRecordCount + $lineCount;
-
-                            if ($totalRecordCount >= $toBeinsertedCount || $totalRecordCount == 'UL' || $lastpayment != null) {
+                            $actualrecord      = number_format($actualRecordCount);
+                            $totalrecord       = $totalRecordCount == 'UL' ? 'Unlimited' : number_format($totalRecordCount);
+                            if ($totalRecordCount >= $toBeinsertedCount || $totalRecordCount == 'UL') {
                                 $importModel->saveEntity($import);
                             } else {
-                                $this->addFlash('mautic.record.count.exceeds');
+                                $msg = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+                                $this->addFlash($msg);
                                 $this->resetImport($fullPath);
 
                                 return $this->listAction();

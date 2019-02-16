@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Form\DataTransformer\ArrayStringTransformer;
 use Mautic\CoreBundle\Helper\LanguageHelper;
 use Mautic\CoreBundle\IpLookup\AbstractLookup;
 use Mautic\CoreBundle\IpLookup\IpLookupFormInterface;
+use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -342,11 +343,12 @@ class ConfigType extends AbstractType
             ]
         );
         $timeZone =$this->factory->getModel('user')->getUserTimeZone();
-
+        $choices  = FormFieldHelper::getCustomTimezones();
         $builder->add(
             'default_timezone',
-            'timezone',
+            'choice',
             [
+                'choices'    => $choices,
                 'label'      => 'mautic.core.config.form.default.timezone',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [

@@ -126,6 +126,7 @@ class AccountType extends AbstractType
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
+                'data'        => $options['data']->getEmail(),
             ]
         );
 
@@ -137,6 +138,7 @@ class AccountType extends AbstractType
                 'label_attr'  => ['class' => 'control-label required'],
                 'attr'        => ['class' => 'form-control le-input', 'type'  => 'number'],
                 'required'    => false,
+                'data'        => $options['data']->getPhonenumber(),
             ]
         );
 
@@ -193,7 +195,7 @@ class AccountType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'disabled'   => $ispoweredby,
-                'data'       => false,
+                'data'       => $options['data']->getNeedpoweredby(),
             ]
         );
 

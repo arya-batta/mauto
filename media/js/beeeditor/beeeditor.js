@@ -142,17 +142,18 @@ Le.launchBeeEditor = function (formName, actionName) {
         return;
     }
     //if(formName == "dripemail") {
-        mQuery('#builder_url_text').focus();
+        //mQuery('#builder_url_text').focus();
+    mQuery('html, body').animate({scrollTop:0}, '100');
    // }
     mQuery('body').css('overflow-y', 'hidden');
     // mQuery('#bee-plugin-viewpanel').css('height', height+"px");
           Le.getTokens(actionName+':getBuilderTokens', function(tokens) {
         mergeTags.length=0;
         mQuery.each(tokens, function(k,v){
-            if (k.match(/assetlink=/i) && v.match(/a:/)){
+            if (k.match(/filelink=/i) && v.match(/a:/)){
                 delete tokens[k];
                 var nv = v.replace('a:', '');
-                k = '<a title=\'Asset Link\' href=\'' + k + '\'>' + nv + '</a>';
+                k = "<a title='File Link' href='" + k + "'>" + nv + "</a>";
                 tokens[k] = nv;
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
                 delete tokens[k];
@@ -168,6 +169,10 @@ Le.launchBeeEditor = function (formName, actionName) {
         });
         var k, keys = [];
         for (k in tokens) {
+            if (k.match(/list_unsubscribe_link/i) || k.match(/confirmation_link/i) ){
+                delete tokens[k];
+                continue;
+            }
             if (tokens.hasOwnProperty(k)) {
                 keys.push(k);
             }
@@ -178,8 +183,8 @@ Le.launchBeeEditor = function (formName, actionName) {
             var str = ' (_BADGE_)';
             var badge = (val.match(/page link/i))?
                 str.replace(/_BADGE_/, 'page') :
-                (val.match(/asset link/i))?
-                    str.replace(/_BADGE_/, 'asset') :
+                (val.match(/file link/i))?
+                    str.replace(/_BADGE_/, 'files') :
                     (val.match(/form=/i))?
                         str.replace(/_BADGE_/,'form') :
                         (val.match(/focus=/i))?

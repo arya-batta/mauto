@@ -835,6 +835,26 @@ class CommonController extends Controller implements MauticController
         return $data->getDataForExport($start, $model, $args, $resultsCallback);
     }
 
+    public function redirectToCardInfo()
+    {
+        $viewParameters = [];
+        $returnUrl      = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);
+        $template       = 'MauticSubscriptionBundle:Account:cardinfo';
+
+        return $this->postActionRedirect(
+            [
+                'returnUrl'       => $returnUrl,
+                'viewParameters'  => $viewParameters,
+                'contentTemplate' => $template,
+                'passthroughVars' => [
+                    'activeLink'    => '#le_contact_index',
+                    'leContent'     => 'lead',
+                    'closeModal'    => 1, //just in case in quick form
+                ],
+            ]
+        );
+    }
+
     public function redirectToPricing()
     {
         $viewParameters = [];

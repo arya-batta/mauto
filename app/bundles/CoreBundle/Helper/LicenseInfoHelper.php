@@ -1136,7 +1136,7 @@ class LicenseInfoHelper
         $totalemailcount     =  $this->getTotalEmailCount();
         $paymentrepository   = $this->factory->get('le.subscription.repository.payment');
         $lastpayment         = $paymentrepository->getLastPayment();
-        if ($configtransport == 'le.transport.vialeadsengage' && $totalemailcount != 'UL' && ($lastpayment == null || $lastpayment->getPlanName() == 'leplan1')) {
+        if ($configtransport == 'le.transport.vialeadsengage') {
             if ($pending > $availableemailcount) {
                 return true;
             } else {

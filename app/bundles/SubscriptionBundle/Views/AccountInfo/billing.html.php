@@ -54,22 +54,22 @@ if ($planname == 'leplan2') {
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planname == 'freeplan1' || $planname == 'freeplan2' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts , unlimited email sends and access to all features. </span>
-                                <span class='plan-info-lbl2'>Your current usage is <?php echo $contactUsage.' contacts out of '?><?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?>.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts , unlimited email sends and access to all features.
+                                Your current usage is <?php echo $contactUsage.' contacts out of '?><?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?>.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planname == 'leplan1' || $planname == 'leplan2' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month/ paid monthly. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features. </span>
-                                <span class='plan-info-lbl2'>Your next billing date is <b> <?php echo $vallidityTill ?> </b> is <?php echo $contactUsage.' contacts out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?>.</span>
+                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month/ paid monthly. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features.
+                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo number_format($contactUsage).' contacts out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?>.</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planname == 'leplan3' ? '' : 'hide' ?>">
                                 <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month/ paid monthly. Plan includes- Unlimited contacts, unlimited email sends and access to all features.
-                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo $contactUsage.' contacts '?></span>
+                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo number_format($contactUsage).' contacts '?></span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>

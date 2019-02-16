@@ -614,7 +614,7 @@ class AjaxController extends CommonAjaxController
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
-            $dataArray['isalertneeded']   = true;
+            $dataArray['isalertneeded']   = false;
         }
 
         return $this->sendJsonResponse($dataArray);
@@ -648,6 +648,7 @@ class AjaxController extends CommonAjaxController
         $totalrecordcount         =  $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $smsCountExpired          =  $this->get('mautic.helper.licenseinfo')->smsCountExpired();
         $totalrecordcount         = $totalrecordcount != 'UL' ? number_format($totalrecordcount) : $totalrecordcount;
+        $actualrecordcount        = number_format($actualrecordcount);
         $emailUssage              = false;
         $bouceUsage               = false;
         $emailsValidity           = false;

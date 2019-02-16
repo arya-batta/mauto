@@ -29,7 +29,7 @@ class BuilderSubscriber extends CommonSubscriber
     /**
      * @var string
      */
-    protected $assetToken = '{assetlink=(.*?)}';
+    protected $assetToken = '{filelink=(.*?)}';
 
     /**
      * @var TokenHelper

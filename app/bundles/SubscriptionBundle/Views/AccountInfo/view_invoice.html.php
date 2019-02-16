@@ -35,7 +35,7 @@ $planinfo         = 'le.pricing.plan.invoice.description';
 if ($isaddon) {
     $planinfo  = 'le.pricing.plan.invoice.description1';
 }
-$planinfo = $view['translator']->trans($planinfo, ['%PLANLABEL%' => $planlabel]);
+$planinfo = $view['translator']->trans($planinfo);
 $country  = '';
 if ($billing->getCountry() != 'blank') {
     $country = $billing->getCountry();

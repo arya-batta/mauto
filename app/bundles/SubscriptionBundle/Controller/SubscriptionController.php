@@ -532,6 +532,7 @@ class SubscriptionController extends CommonController
                 $userEntity->setLastName($data['lastname']);
                 $userEntity->setMobile($data['phone']);
                 $accountEntity->setPhonenumber($data['phone']);
+                $accountEntity->setEmail($userEntity->getEmail());
                 $signupinfo     =$repository->getSignupInfo($userEntity->getEmail());
                 if (!empty($signupinfo)) {
                     $accountEntity->setDomainname($signupinfo[0]['f5']);
@@ -548,6 +549,8 @@ class SubscriptionController extends CommonController
                 $accountEntity->setWebsite($data['websiteurl']);
                 $accountEntity->setAccountname($data['business']);
                 $accountModel->saveEntity($accountEntity);
+                $billingEntity->setCompanyname($data['business']);
+                $billingmodel->saveEntity($billingEntity);
                 $kyc->setIndustry($data['industry']);
                 //$kyc->setUsercount($data['empcount']);
                 //$kyc->setYearsactive($data['org_experience']);
@@ -574,11 +577,27 @@ class SubscriptionController extends CommonController
                 $billingmodel->saveEntity($billingEntity);
                 $accountEntity->setTimezone($data['timezone']);
                 $accountModel->saveEntity($accountEntity);
+                $userEntity->setTimezone($data['timezone']);
+                $userModel->saveEntity($userEntity);
                 $addressData          = $data;
                 $addressData['email'] = $userEntity->getEmail();
                 $signuprepository->updateSignupUserAddressInfo($addressData);
+                /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+                $configurator = $this->get('mautic.configurator');
+                $isWritabale  = $configurator->isFileWritable();
+                if ($isWritabale) {
+                    if ($data['timezone'] != '') {
+                        $configurator->mergeParameters(['default_timezone' => $data['timezone']]);
+                        $configurator->write();
+                    }
+                    if ($address != '') {
+                        $postaladdress = $address.','.$data['zip'].','.$data['city'].','.$data['state'].','.$data['country'];
+                        $configurator->mergeParameters(['postal_address' => $postaladdress]);
+                        $configurator->write();
+                    }
+                }
 
-                return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+                return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
             }
         }
 

@@ -661,7 +661,10 @@ class LeadController extends FormController
             return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
         }
         $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
-
+        $actualrecord     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $totalrecord      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
+        $actualrecord     = number_format($actualrecord);
+        $totalrecord      = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
         if (!$this->get('mautic.security')->isGranted('lead:leads:create')) {
             return $this->accessDenied();
         }
@@ -691,7 +694,8 @@ class LeadController extends FormController
         $returnUrl      = $this->generateUrl('le_contact_index', $viewParameters);
         if (!$isValidRecordAdd) {
             $inQuickForm = $this->request->get('qf', false);
-            $this->addFlash('mautic.record.count.exceeds');
+            $msg         = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+            $this->addFlash($msg);
             if (!$inQuickForm) {
                 $postActionVars = [
                     'returnUrl'       => $returnUrl,
@@ -770,7 +774,8 @@ class LeadController extends FormController
                         $model->saveEntity($lead);
                         $this->get('mautic.helper.licenseinfo')->intRecordCount('1', true);
                     } else {
-                        $this->addFlash('mautic.record.count.exceeds');
+                        $msg = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+                        $this->addFlash($msg);
                     }
 
                     if (!empty($companies)) {

@@ -207,11 +207,13 @@ class UpdatePaymentCommand extends ModeratedCommand
             'idempotency_key' => $paymenthelper->getUUIDv4(),
         ]);
         if (isset($charges)) {
-            $orderid         = uniqid();
-            $chargeid        = $charges->id;
-            $status          = $charges->status;
-            $failure_code    = $charges->failure_code;
-            $failure_message = $charges->failure_message;
+            $orderid              = uniqid();
+            $chargeid             = $charges->id;
+            $status               = $charges->status;
+            $failure_code         = $charges->failure_code;
+            $failure_message      = $charges->failure_message;
+            $dbname               = $container->get('mautic.helper.core_parameters')->getParameter('db_name');
+            $appid                = str_replace('leadsengage_apps', '', $dbname);
             if ($status == 'succeeded') {
                 $todaydate     = date('Y-m-d');
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
@@ -234,8 +236,11 @@ class UpdatePaymentCommand extends ModeratedCommand
                     $paymenthelper=$container->get('le.helper.payment');
                     $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
                 }
+                $subsrepository->updateAppStatus($appid, 'Active');
             } else {
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
+                $subsrepository=$container->get('le.core.repository.subscription');
+                $subsrepository->updateAppStatus($appid, 'Inactive');
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');
                 $output->writeln('<error>'.'Failure Message:'.$failure_message.'</error>');

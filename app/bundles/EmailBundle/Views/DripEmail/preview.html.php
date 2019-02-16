@@ -26,7 +26,7 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 <?php echo $content; ?>
 <?php if (isset($email[1]['footer']) && isset($email[2]['type']) == 'RichTextEditor' || isset($email[2]['type']) == null):?>
 <hr>
-<?php echo isset($email[1]['footer'])?>
+<?php echo isset($email[1]['footer']) ? $email[1]['footer'] : '' ?>
 <?php endif; ?>
 <?php echo isset($email[3]) ? $email[3]['branding'] : ''?>
 </body>

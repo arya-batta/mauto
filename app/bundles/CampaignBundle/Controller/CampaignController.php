@@ -185,7 +185,7 @@ class CampaignController extends AbstractStandardFormController
     public function quickaddAction()
     {
         if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
+            return $this->redirectToCardInfo();
         }
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->redirectToPricing();

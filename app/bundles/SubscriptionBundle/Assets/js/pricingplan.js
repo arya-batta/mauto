@@ -54,7 +54,7 @@ Le.pricingplansOnLoad = function (container) {
             //mQuery('#pricing-plan-alert-info').addClass('hide');
             var prodatatext=mQuery('#pro-data-text');
             prodatatext.addClass('hide');
-            if(planamount != Le.translate('le.pricing.plan.amount1') && planamount != Le.translate('le.pricing.plan.amount2') && planamount != Le.translate('le.pricing.plan.amount3')){
+            if(planamount != 29 && planamount != 49 && planamount != 99){
                 prodatatext.html("Paying "+plancurrency+planamount+" pro-rata amount, as per your selected plan.");
                 prodatatext.removeClass('hide');
             }

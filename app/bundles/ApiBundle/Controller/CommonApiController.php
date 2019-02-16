@@ -652,8 +652,31 @@ class CommonApiController extends FOSRestController implements MauticController
         if (isset($parameters['score'])) {
             $parameters['score'] = 'cold';
         }
-        $entity     = $this->getNewEntity($parameters);
+        $entity           = $this->getNewEntity($parameters);
+        $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
+        $actualrecord     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $totalrecord      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
+        $actualrecord     = number_format($actualrecord);
+        $totalrecord      = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
+        if (!$isValidRecordAdd) {
+            $msg   = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+            $error = [
+                'code'    => Codes::HTTP_OK,
+                'message' => $msg,
+                'type'    => null,
+            ];
 
+            $view = $this->view(
+                [
+                    'errors' => [
+                        $error,
+                    ],
+                ],
+                Codes::HTTP_OK
+            );
+
+            return  $this->handleView($view);
+        }
         if (!$this->checkEntityAccess($entity, 'create')) {
             if ($this->entityNameOne == 'hook') {
                 return $this->accessDenied('le.web.hook.access.denied.error');

@@ -219,7 +219,7 @@ class SubmissionModel extends CommonFormModel
         }
 
         //clean the referer by removing mauticError and mauticMessage
-        $referer = InputHelper::url($referer, null, null, ['mauticError', 'mauticMessage']);
+        $referer = InputHelper::url($referer, null, null, ['leError', 'leMessage']);
         $submission->setReferer($referer);
 
         // Create an event to be dispatched through the processes
@@ -379,7 +379,13 @@ class SubmissionModel extends CommonFormModel
                 $lead = $this->createLeadFromSubmit($form, $leadFieldMatches, $leadFields);
                 $this->licenseInfoHelper->intRecordCount('1', true);
             } else {
-                return ['errors' => 'InSufficient Record Count Please Contact Support Team'];
+                $actualrecord = $this->licenseInfoHelper->getActualRecordCount();
+                $totalrecord  = $this->licenseInfoHelper->getTotalRecordCount();
+                $actualrecord = number_format($actualrecord);
+                $totalrecord  = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
+                $msg          = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+
+                return ['errors' => 'Insufficient Record Count Please Contact Support Team'];
             }
         }
 

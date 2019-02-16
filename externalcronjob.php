@@ -113,7 +113,7 @@ try {
             displayCronlog('general', 'SQL QUERY:'.$sql);
             $result = execSQL($con, $sql);
         }
-        $sql        ='select f5 from applicationlist where '.$fcolname.'=\'1\'';
+        $sql        ='select f5 from applicationlist where '.$fcolname."='1' and f7 = 'Active'";
         $domainlist = getResultArray($con, $sql);
         //$SKIP_MAX_LIMIT=5;
         $errormsg = '';

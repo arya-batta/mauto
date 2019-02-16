@@ -210,7 +210,7 @@ Le.loadLicenseUsageInfo = function() {
                 mQuery('.license-notifiation').removeClass('hide');
                 mQuery('.license-notifiation').css('display','table');
                 mQuery('.license-notifiation').css('table-layout','fixed');
-                mQuery('.license-notifiation').css('text-align','left');
+                mQuery('.license-notifiation').css('text-align','center');
                 mQuery('.license-notifiation #license-alert-message').html('');
                 mQuery('.license-notifiation #license-alert-message').html(response.info);
                 if(!response.needClosebutton){

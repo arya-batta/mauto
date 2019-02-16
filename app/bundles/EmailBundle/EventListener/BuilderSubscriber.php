@@ -353,6 +353,12 @@ class BuilderSubscriber extends CommonSubscriber
                 $fromAddress = $fromEmail; //$this->coreParametersHelper->getParameter('mailer_from_email');
                 $footerText  = str_replace('{from_email}', $fromAddress, $footerText);
             }
+            $webviewText = false; //$this->coreParametersHelper->getParameter('webview_text');
+            if (!$webviewText) {
+                $webviewText = $this->translator->trans('le.email.webview.text', ['%link%' => '|URL|']);
+            }
+            $webviewText = str_replace('|URL|', $this->emailModel->buildUrl('le_email_webview', ['idHash' => $idHash]), $webviewText);
+            $footerText  = str_replace('{webview_link}', $webviewText, $footerText);
             if ($postal_address != '') {
                 $footerText = str_replace('{postal_address}', $postal_address, $footerText);
             }

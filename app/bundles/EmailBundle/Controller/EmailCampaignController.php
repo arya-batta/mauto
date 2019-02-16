@@ -1826,7 +1826,15 @@ class EmailCampaignController extends FormController
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
             }
 
-            return $this->viewAction($objectId);
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+            //return $this->viewAction($objectId);
         }
         // Get the quick add form
         $action = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $objectId]);

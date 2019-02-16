@@ -290,6 +290,8 @@ class AccountController extends FormController
 
         if ($recordCount == 'UL') {
             $recordCount= 'unlimited';
+        } else {
+            $recordCount = number_format($recordCount);
         }
         $planType           ='Trial';
         $lastpayment        = $paymentrepository->getLastPayment();

@@ -1481,8 +1481,8 @@ class DripEmailController extends FormController
             $email[2]['type']        = $emailentity->getBeeJSON();
             if (true) {
                 $url                     = 'https://leadsengage.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
-                $icon                    = 'https://leadsengage.com/wp-content/uploads/leadsengage/footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
-                $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 54px;width:139px;' src='$icon'></a></div>";
+                $icon                    = 'https://leadsengage.com/wp-content/uploads/leadsengage/email-footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 35px;width:160px;' src='$icon'></a></div>";
                 $email[3]['branding']    = $atag;
             }
         }
