@@ -956,7 +956,7 @@ class LicenseInfoHelper
                 $account   = new Account();
             }
             if (!empty($signupinfo)) {
-                $account->setPhonenumber($signupinfo[0]['f11']);
+                //$account->setPhonenumber($signupinfo[0]['f11']);
             }
             if ($timezone != '') {
                 $account->setTimezone($timezone);
