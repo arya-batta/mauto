@@ -34,7 +34,7 @@ if (!empty($tmpl)) {
 ?>
 <?php if (!$modalView): ?>
     <?php echo $view->render('MauticCoreBundle:Default:pageheader.html.php', ['enableHeader' => $enableHeader]); ?>
-    <div class="content-body" <?php echo $contentstyle ?>>
+    <div class="content-body" <?php echo $contentstyle ?> data-pagemode="<?php echo !empty($tmpl) ? $tmpl : ''?>">
         <?php if ($view['slots']->get('leContent', '') == 'dashboard' && $showvideo): ?>
             <div id="dashboard-widgets" class="dashboard-widgets cards">
                 <div class="card-flex widget" style="width:100%;" role="document">

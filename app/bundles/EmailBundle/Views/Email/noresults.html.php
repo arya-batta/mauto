@@ -1,7 +1,7 @@
 <tbody>
 <tr>
     <td colspan="<?php echo $colspan?>">
-<div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">
+<div class="col-md-12 col-md-offset-3 mt-md" style="white-space: normal;">
     <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
     <div class="mautibot-image col-xs-6 text-center">
     <?php if (!isset($header)) {

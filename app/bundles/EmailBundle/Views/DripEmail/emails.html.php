@@ -12,7 +12,7 @@
 
 <br>
 <div class="table-responsive email_stats_box">
-    <table class="table table-hover table-striped table-bordered dripemail-list">
+    <table class="table table-hover <?php echo count($items) ? 'table-striped' : ''?> table-bordered dripemail-list">
         <thead>
         <tr>
             <?php
@@ -87,7 +87,7 @@
         <?php if (count($items)): ?>
             <tbody>
             <?php foreach ($items as $item): ?>
-                <tr class="drip-emailcol-stats" data-stats="<?php echo $item->getId(); ?>">
+                <tr class="drip-emailcol-stats-view" data-stats="<?php echo $item->getId(); ?>">
                     <td class="table-description">
                         <span><span><?php echo $item->getSubject(); ?></span></span>
                     </td>
@@ -164,6 +164,8 @@
                 </tr>
             <?php endforeach; ?>
             </tbody>
+        <?php else: ?>
+            <?php echo $view->render('MauticEmailBundle:Email:noresults.html.php', ['tip' => 'mautic.form.noresults.tip', 'colspan' => '8']); ?>
         <?php endif; ?>
     </table>
 </div>

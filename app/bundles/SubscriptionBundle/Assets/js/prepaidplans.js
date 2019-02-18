@@ -211,8 +211,10 @@ Le.loadLicenseUsageInfo = function() {
                   //  mQuery('.licenseclosebtn').addClass('hide');
                 }
                 Le.registerLicenseCloseBtnListener();
+                Le.adJustFixedHeader(true);
             }else{
                 mQuery('.license-notifiation').addClass('hide');
+                Le.adJustFixedHeader(false);
             }
         }
     });
@@ -232,7 +234,20 @@ Le.loadLicenseUsageInfo = function() {
 Le.registerLicenseCloseBtnListener=function(){
     mQuery('.licenseclosebtn').click(function(e) {
         Le.closeLicenseButton();
+        Le.adJustFixedHeader(false);
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });
+};
+Le.adJustFixedHeader = function(isadd){
+    var pagemode = mQuery('.content-body').attr('data-pagemode');
+    if(pagemode == '') {
+        if (isadd) {
+            mQuery('#fixed-header').css('top', '100px');
+            mQuery('.content-body').css('margin-top', '15%');
+        } else {
+            mQuery('#fixed-header').css('top', '50px');
+            mQuery('.content-body').css('margin-top', '10%');
+        }
+    }
 };

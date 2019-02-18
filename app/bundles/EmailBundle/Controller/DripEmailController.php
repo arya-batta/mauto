@@ -379,7 +379,7 @@ class DripEmailController extends FormController
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dripemail_index',
-                    'leContent'     => 'email',
+                    'leContent'     => 'dripemail',
                 ],
             ]
         );

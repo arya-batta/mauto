@@ -46,6 +46,12 @@ $actionRoute = $view['router']->path('le_dripemail_campaign_action',
                     <div class="pt-0 pl-15 pb-10 pr-15">
                         <?php echo $view->render('MauticCoreBundle:Helper:chart.html.php', ['chartData' => $stats, 'chartType' => $type, 'chartHeight' => 500]); ?>
                     </div>
+                    <?php else: ?>
+                        <div class="pt-0 pl-15 pb-10 pr-15">
+                            <div style="height:200px;">
+
+                            </div>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>

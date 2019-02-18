@@ -200,7 +200,7 @@ class DashboardController extends FormController
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
-        $action          = $this->generateUrl('le_pricing_index');
+        $action          = $this->generateUrl('le_dashboard_index');
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
         // Account stats per time period

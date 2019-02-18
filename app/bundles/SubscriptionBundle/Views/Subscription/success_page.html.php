@@ -47,11 +47,11 @@ if ($isImportDone) {
 }
 ?>
 
-<div style="width:100%;background-color:#f5f5f5;">
+<div style="width:100%;">
     <div class="<?php echo $isPaid ? 'hide' : ''?>">
         <div>
             <div>
-                <p style="margin-top: 30px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: center">
+                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: center">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
                             <span style="line-height: 39px; font-size: 22px;"><i  style="color:orange;" class="fa fa-hand-paper-o"></i> <?php echo $view['translator']->trans('le.dashboard.welcome.message', ['%USERNAME%'=> $username]); ?>
@@ -60,7 +60,7 @@ if ($isImportDone) {
                     </span>
                 </p>
             </div>
-
+            
             <div class="row row-padding" style="text-align: center">
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
@@ -169,7 +169,7 @@ if ($isImportDone) {
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
         <div class="">
-            <img style="margin-top:-15px;" src="<?php echo $view['assets']->getUrl('media/images/dashboard.png') ?>"> </img>
+            <img style="<?php echo $isPaid ? 'margin-top:60px;' : ''?>" src="<?php echo $view['assets']->getUrl('media/images/dashboard.png') ?>"> </img>
         </div>
     </div class="col-sm-4">
     <div></div>

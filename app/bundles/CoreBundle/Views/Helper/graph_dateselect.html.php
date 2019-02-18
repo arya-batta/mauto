@@ -13,7 +13,7 @@ if (!isset($class)) {
 }
 ?>
 
-<?php echo $view['form']->start($dateRangeForm, ['attr' => ['class' => 'form-filter '.$class, 'style' => 'max-width: 380px']]); ?>
+<?php echo $view['form']->start($dateRangeForm, ['attr' => ['class' => 'form-filter '.$class, 'style' => 'max-width: 400px']]); ?>
     <div class="input-group">
         <span class="input-group-addon">
             <?php echo $view['form']->label($dateRangeForm['date_from']); ?>

@@ -248,7 +248,7 @@ Le.loadEmailsinDripStatCounts = function(){
 
 Le.loadEmailsViewDripStatCounts = function(){
     if (mQuery('table.dripemail-list').length) {
-        mQuery('tr.drip-emailcol-stats').each(function () {
+        mQuery('tr.drip-emailcol-stats-view').each(function () {
             var id = mQuery(this).attr('data-stats');
 
             // Process the request one at a time or the xhr will cancel the previous
