@@ -3,8 +3,8 @@ Template Name: Webadmin - Bootstrap 4 Admin Dashboard
 Author: Themesdesign
 File: Main Css File
 */
-/*  Google Fonts */
-@import url("https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700|Roboto:500|Crete+Round:400i");
+/*  Google Fonts 
+@import url("https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700|Roboto:500|Crete+Round:400i");*/
 /*
  - Buttons
   - cards
@@ -4154,4 +4154,3 @@ File: Responsive
 .table .table-description >  a{
   color:#797979;
 }
-/*# sourceMappingURL123=style.css.map */
