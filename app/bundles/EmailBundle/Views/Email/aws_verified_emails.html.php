@@ -79,8 +79,8 @@
           <td style="width: 45%;">
          <span class="data sender_profile_from_email_col" ><?php echo $verifiedEmail->getVerifiedEmails()?><span>
           </td>
-            <?php $ids= explode("@",$verifiedEmail->getVerifiedEmails());
-              $id=$ids['0'];?>
+            <?php $emailId= explode("@",$verifiedEmail->getVerifiedEmails());
+              $id=$emailId['0'];?>
           <td style="width: 20%;">
               <a type="button" id = "pending-verified-button-<?php echo $id?>" style="color: #fff;padding: 2px 5px;margin-top: 5px;pointer-events: none;background:<?php echo $verifiedEmail->getVerificationStatus() == 0 ? '#39ac73' : '#ff4d4d' ?>;" class="btn pending_verify_button"  data-target="#" ><?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'Verified' : 'Pending' ?></a>
               <a type="button" id = "re-verify-button-<?php echo $id?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger verify_sender_profile_btn <?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'hide' : '' ?>"   data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to resend verification email">Re-Verify</a>

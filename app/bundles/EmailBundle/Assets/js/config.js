@@ -301,15 +301,15 @@ Le.updateSenderProfileStatus = function(){
     });
 }
 Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail){
-    var ids=fromemail.split('@');
+    var email=fromemail.split('@');
     if(isActive){
-        mQuery('#pending-verified-button-'+ids['0']).html("Verified");
-        mQuery('#pending-verified-button-'+ids['0']).css('background','#39ac73');
-        mQuery("#re-verify-button-"+ids['0']).addClass('hide');
+        mQuery('#pending-verified-button-'+email['0']).html("Verified");
+        mQuery('#pending-verified-button-'+email['0']).css('background','#39ac73');
+        mQuery("#re-verify-button-"+email['0']).addClass('hide');
     } else {
-        mQuery('#pending-verified-button-'+ids['0']).html("Pending");
-        mQuery('#pending-verified-button-'+ids['0']).css('background','#ff4d4d');
-        mQuery("#re-verify-button-"+ids['0']).removeClass('hide');
+        mQuery('#pending-verified-button-'+email['0']).html("Pending");
+        mQuery('#pending-verified-button-'+email['0']).css('background','#ff4d4d');
+        mQuery("#re-verify-button-"+email['0']).removeClass('hide');
     }
     return;
 }
