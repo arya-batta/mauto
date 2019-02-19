@@ -563,7 +563,6 @@ endif; ?>
         </div>
     </div>
 </div>
-</div>
 
 <?php echo $view['form']->end($form); ?>
 <?php
