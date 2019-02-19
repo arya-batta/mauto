@@ -272,11 +272,11 @@ Le.configOnLoad = function (container){
         Le.activateButtonLoadingIndicator(currentLink);
         Le.ajaxActionRequest('email:reVerifySenderProfile', {'email': email,'name':name}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
-            if(!response.success) {
-                mQuery('#sender_profile_errors').html(response.message);
-                return;
+            if(response.response != "") {
+                mQuery('#sender_profile_errors').html('Failed to add a new sender due to the technical error. Please contact support.');
             }else{
-                Le.redirectWithBackdrop(response.redirect);
+                Le.changeSenderProfileStatusFrontEnd(true,email);
+               // Le.redirectWithBackdrop(response.redirect);
             }
         });
     });
@@ -301,14 +301,15 @@ Le.updateSenderProfileStatus = function(){
     });
 }
 Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail){
+    var email=fromemail.split('@');
     if(isActive){
-        mQuery('#pending-verified-button-'+fromemail).html("Verified");
-        mQuery('#pending-verified-button-'+fromemail).css('background','#39ac73');
-        mQuery("#re-verify-button-"+fromemail).addClass('hide');
+        mQuery('#pending-verified-button-'+email['0']).html("Verified");
+        mQuery('#pending-verified-button-'+email['0']).css('background','#39ac73');
+        mQuery("#re-verify-button-"+email['0']).addClass('hide');
     } else {
-        mQuery('#pending-verified-button-'+fromemail).html("Pending");
-        mQuery('#pending-verified-button-'+fromemail).css('background','#ff4d4d');
-        mQuery("#re-verify-button-"+fromemail).removeClass('hide');
+        mQuery('#pending-verified-button-'+email['0']).html("Pending");
+        mQuery('#pending-verified-button-'+email['0']).css('background','#ff4d4d');
+        mQuery("#re-verify-button-"+email['0']).removeClass('hide');
     }
     return;
 }

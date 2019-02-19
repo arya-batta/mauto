@@ -613,14 +613,14 @@ class ReportController extends FormController
 
         if (!empty($dateRangeValues['date_from'])) {
             $from = new \DateTime($dateRangeValues['date_from']);
-            $session->set('mautic.report.date.from', $from->format($mysqlFormat));
-        } elseif ($fromDate = $session->get('mautic.report.date.from')) {
+            $session->set('mautic.report.date.'.$objectId.'from', $from->format($mysqlFormat));
+        } elseif ($fromDate = $session->get('mautic.report.date.'.$objectId.'from')) {
             $dateRangeValues['date_from'] = $fromDate;
         }
         if (!empty($dateRangeValues['date_to'])) {
             $to = new \DateTime($dateRangeValues['date_to']);
-            $session->set('mautic.report.date.to', $to->format($mysqlFormat));
-        } elseif ($toDate = $session->get('mautic.report.date.to')) {
+            $session->set('mautic.report.date.'.$objectId.'to', $to->format($mysqlFormat));
+        } elseif ($toDate = $session->get('mautic.report.date.'.$objectId.'to')) {
             $dateRangeValues['date_to'] = $toDate;
         }
 
@@ -629,11 +629,11 @@ class ReportController extends FormController
             if ($this->isFormValid($dateRangeForm)) {
                 $to                         = new \DateTime($dateRangeForm['date_to']->getData());
                 $dateRangeValues['date_to'] = $to->format($mysqlFormat);
-                $session->set('mautic.report.date.to', $dateRangeValues['date_to']);
+                $session->set('mautic.report.date.'.$objectId.'to', $dateRangeValues['date_to']);
 
                 $from                         = new \DateTime($dateRangeForm['date_from']->getData());
                 $dateRangeValues['date_from'] = $from->format($mysqlFormat);
-                $session->set('mautic.report.date.from', $dateRangeValues['date_from']);
+                $session->set('mautic.report.date.'.$objectId.'from', $dateRangeValues['date_from']);
             }
         }
 
@@ -803,8 +803,8 @@ class ReportController extends FormController
         }
 
         $session  = $this->get('session');
-        $fromDate = $session->get('mautic.report.date.from', (new \DateTime('-30 days'))->format('Y-m-d'));
-        $toDate   = $session->get('mautic.report.date.to', (new \DateTime())->format('Y-m-d'));
+        $fromDate = $session->get('mautic.report.date.'.$objectId.'from', (new \DateTime('-30 days'))->format('Y-m-d'));
+        $toDate   = $session->get('mautic.report.date.'.$objectId.'to', (new \DateTime())->format('Y-m-d'));
 
         $date    = (new DateTimeHelper())->toLocalString();
         $name    = str_replace(' ', '_', $date).'_'.InputHelper::alphanum($entity->getName(), false, '-');

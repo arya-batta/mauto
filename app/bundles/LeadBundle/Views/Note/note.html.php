@@ -77,7 +77,7 @@ switch ($type) {
                     <div class="le-notes-icon"><i class="fa <?php echo $icon; ?>" style="height: 12px;width: 12px"></i></div>
                     <div class="le-notes-content">
                         <div><p><?php echo $text; ?></p></div>
-                        <div class="col-sm-7" style="width: 60%;padding-left: 0">
+                        <div class="col-sm-7" style="width: 58%;padding-left: 0">
                         <div class="le-small">
                             <i class="fa fa-user le-icon-user" style="color:#ffa800"></i>
                             <span class=""><?php echo $author; ?></span>

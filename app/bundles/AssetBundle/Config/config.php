@@ -35,7 +35,7 @@ return [
         ],
         'public' => [
             'le_asset_download' => [
-                'path'       => '/asset/{slug}',
+                'path'       => '/files/{slug}',
                 'controller' => 'MauticAssetBundle:Public:download',
                 'defaults'   => [
                     'slug' => '',

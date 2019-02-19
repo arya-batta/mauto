@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Translation\TranslatorInterface;
+use Mautic\EmailBundle\Model\EmailModel;
 
 /**
  * Class SubmitActionEmailType.
@@ -41,17 +42,18 @@ class SubmitActionEmailType extends AbstractType
      * @var CoreParametersHelper
      */
     protected $coreParametersHelper;
-
+    protected $emailModel;
     /**
      * SubmitActionEmailType constructor.
      *
      * @param TranslatorInterface  $translator
      * @param CoreParametersHelper $coreParametersHelper
      */
-    public function __construct(TranslatorInterface $translator, CoreParametersHelper $coreParametersHelper)
+    public function __construct(TranslatorInterface $translator, CoreParametersHelper $coreParametersHelper,EmailModel $emailModel)
     {
         $this->translator           = $translator;
         $this->coreParametersHelper = $coreParametersHelper;
+        $this->emailModel           = $emailModel;
     }
 
     /**
@@ -154,7 +156,39 @@ class SubmitActionEmailType extends AbstractType
                 'data'  => false,
             ]
         );
+        $defaultsender =$this->emailModel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname =$defaultsender[0];
+            $fromemail=$defaultsender[1];
+        }
 
+            $default = (empty($options['data']['fromname'])) ? $fromname : $options['data']['fromname'];
+            $builder->add(
+                'fromname',
+                'text',
+                [
+                    'label'      => 'le.lead.email.from_name',
+                    'label_attr' => ['class' => 'control-label'],
+                    'attr'       => ['class'     => 'form-control le-input',
+                        'disabled'                   => false,
+                    ],
+                    'required'    => true,
+                    'data'        => $default,
+                ]
+            );
+        $default = (empty($options['data']['from'])) ? $fromemail : $options['data']['from'];
+        $builder->add(
+            'from',
+            'text',
+            [
+                'label'       => 'le.lead.email.from_email',
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class'   => 'form-control le-input'],
+                'required'    => true,
+                'data'        => $default,
+
+            ]
+        );
         $builder->add(
             'templates',
             EmailListType::class,
@@ -189,5 +223,6 @@ class SubmitActionEmailType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['formFields'] = $this->getFormFields($options['attr']['data-formid']);
+        $view->vars['verifiedEmails']=$this->emailModel->getVerifiedEmailAddress();
     }
 }

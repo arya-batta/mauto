@@ -164,7 +164,7 @@ $graphContent = $view->render(
                                 <?php endforeach; ?>
                             </tr>
                         <?php endif; ?>
-                        <tr class="cm-strong">
+                        <tr class="cm-strong hide">
                             <td><?php echo $view['translator']->trans('mautic.report.report.groupby.totals'); ?></td>
                             <?php
                             $index = 0;

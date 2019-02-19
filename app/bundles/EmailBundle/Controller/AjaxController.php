@@ -319,7 +319,7 @@ class AjaxController extends CommonAjaxController
 //        if(true){
 //         return  ['success'=>false,'message'=> 'test'];
 //        }
-        $dataArray=['success'=>true, 'message'=> ''];
+        $dataArray=['success'=>true, 'message'=> '','response'=>''];
         /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
         $emailModel       = $this->factory->getModel('email');
         $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
@@ -347,11 +347,12 @@ class AjaxController extends CommonAjaxController
                     $entity->setInboxverified(0);
                     $verifiedemailRepo->saveEntity($entity);
                     $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idHash);
-                    if ($mailresponse == '') {
+                    $dataArray['response'] = $mailresponse;
+                    /*if ($mailresponse == '') {
                         $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
                     } else {
                         $this->addFlash('le.config.sender.email.verification.error');
-                    }
+                    }*/
                 } else {
                     $senderprofiles=$verifiedemailRepo->findBy(
                         [
@@ -364,11 +365,12 @@ class AjaxController extends CommonAjaxController
                         if (!$senderprofile->getInboxverified()) {
                             $idhash      = $senderprofile->getIdHash();
                             $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
-                            if ($mailresponse == '') {
+                            $dataArray['response'] = $mailresponse;
+                           /* if ($mailresponse == '') {
                                 $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
                             } else {
                                 $this->addFlash('le.config.sender.email.verification.error');
-                            }
+                            }*/
                             $verificationStatus = '1';
                         }
                         $senderprofile->setVerificationStatus($verificationStatus);

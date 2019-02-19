@@ -215,7 +215,7 @@ class LeadController extends FormController
                 for ($lid = 0; $lid < sizeof($listIds); ++$lid) {
                     $leadlist = $listmodel->getEntity($listIds[$lid]);
                     $values[] = $listIds[$lid];
-                    if ($lid == 0) {
+                    if ($lid == 0 && $filter['string'] == '') {
                         $leadlist_search = 'segment:';
                     } else {
                         $leadlist_search .= ' or segment:';
@@ -232,7 +232,7 @@ class LeadController extends FormController
                 $leadlistoptin_search = '';
                 for ($lid = 0; $lid < sizeof($listOptinIds); ++$lid) {
                     $leadlistoptin = $listoptinmodel->getEntity($listOptinIds[$lid]);
-                    if ($li == 0) {
+                    if ($lid == 0 && $filter['string'] == '') {
                         $leadlistoptin_search = 'list:';
                     } else {
                         $leadlistoptin_search .= ' or list:';
@@ -249,7 +249,7 @@ class LeadController extends FormController
                 $tagssearchString = '';
                 for ($tid = 0; $tid < sizeof($TagIds); ++$tid) {
                     $tagEntity = $tagmodel->getEntity($TagIds[$tid]);
-                    if ($tid == 0) {
+                    if ($tid == 0 && $filter['string'] == '') {
                         $tagssearchString = 'tag:';
                     } else {
                         $tagssearchString .= ' or tag:';

@@ -49,7 +49,7 @@
             var method = location.href.match(/(email|dwc|config|drip|leads|list|oneoff)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
             Le.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
-                    if (k.match(/assetlink=/i) && v.match(/a:/)){
+                    if (k.match(/filelink=/i) && v.match(/a:/)){
                         delete tokens[k];
                         var nv = v.replace('a:', '');
                         k = '<a title=\'Asset Link\' href=\'' + k + '\'>' + nv + '</a>';

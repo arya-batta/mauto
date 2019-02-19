@@ -281,7 +281,7 @@ ul.tag-cloud li {
 .leadlist-filter-group .btn-filter-group{
     margin-top: 10px;
     margin-bottom: 10px;
-    text-transform: uppercase;
+   /* text-transform: uppercase;*/
     font-weight: 600;
     letter-spacing: 0.1em;
 }

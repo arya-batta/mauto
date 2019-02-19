@@ -159,12 +159,12 @@ $baseUrl = $view['router']->path(
                                 //$rowStripe = ($counter % 2 === 0) ? ' timeline-row-highlighted' : '';
                                 ?>
                                 <div class="le-timeline-event <?php echo $hide; ?>">
-                                    <span class="le-timeline-event-icon" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.timeline.toggle_details'); ?>">
+                                    <span class="le-timeline-event-icon" data-toggle="tooltip" title="<?php /** echo $view['translator']->trans('le.lead.timeline.toggle_details');*/ ?>">
                                         <i class=" fa <?php echo $icon ?>"></i>
                                     </span>
                                     <div class="timeline-event-title mg-0">
                                         <div class="le-text-ellipsis">
-                                            <a style="color: #47535f !important;text-decoration:none;font-weight:700;font-size:13px;">
+                                            <a style="color: #47535f !important;text-decoration:none;font-weight:700;font-size:13px;cursor:text;">
                                                 <div style="    margin-top: -5px;z-index: 1000000000;">
                                                     <?php if (isset($event['eventType'])) {
                                     echo $event['eventType'];

@@ -266,6 +266,13 @@ class AjaxController extends CommonController
             }
         }
         $entity = $model->getEntity($id);
+        if($name == "lead.tag"){
+            $status=$entity->getPublishStatus();
+            if($status =="published"){
+                 $tagRepo=$model->getRepository();
+                 $tagRepo->deleteRefLead($id);
+            }
+        }
         if ($entity !== null) {
             $permissionBase = $model->getPermissionBase();
             $security       = $this->get('mautic.security');

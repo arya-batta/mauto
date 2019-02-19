@@ -114,22 +114,23 @@ class LeadSubscriber extends CommonSubscriber
                             $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%href%' => '', '%style%' => '']);
                         }
                     } elseif ('read' == $state) {
-                        $open_date=$this->factory->get('mautic.helper.template.date')->toFull($stat['dateRead']);
+                        $open_date      =$this->factory->get('mautic.helper.template.date')->toFull($stat['dateRead']);
+                        $totalreadcount = $this->factory->getModel('email')->getRepository()->getTotalOpenCounts($stat['email_id']);
                         if (!empty($stat['idHash'])) {
                             $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $stat['readCount'], '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;']);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;']);
                         } else {
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $stat['readCount'], '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => '', '%style%' => '']);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%emailname%' => $stat['email_name'], '%href%' => '', '%style%' => '']);
                         }
                     } elseif ('failed' == $state) {
                         $label            = $stat['email_name'];
                     }
 
                     //$label = $stat['email_name'];
-                    if (!empty($stat['dripEmailId'])) {
+                   /* if (!empty($stat['dripEmailId'])) {
                         $dripCampaignName = $statRepository->getDripName($stat['dripEmailId']);
                         $label            = $stat['email_name'].'/'.$dripCampaignName;
-                    }
+                    }*/
                 } elseif (!empty($stat['storedSubject'])) {
                     $label = $this->translator->trans('le.email.timeline.event.custom_email').': '.$stat['storedSubject'];
                 } else {
@@ -244,7 +245,7 @@ class LeadSubscriber extends CommonSubscriber
                 } else {
                     continue;
                 }
-                $schedule_date=$this->factory->get('mautic.helper.template.date')->toFull($campaign['dateTriggered']);
+                $schedule_date=$this->factory->get('mautic.helper.template.date')->toFull($campaign['triggerDate']);
                 $eventName    = $label;
                 $eventName    = [
                     'label'      => $eventTypeKey == 'campaign.event.scheduled' ? $this->translator->trans('le.email.timeline.event.drip.scheduled.eventlabel', ['%emailname%' => $campaign['drip_name'], '%scheduleddate%' =>$schedule_date, '%href%' =>$this->router->generate('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign['dripemail_id']])]) : $label,

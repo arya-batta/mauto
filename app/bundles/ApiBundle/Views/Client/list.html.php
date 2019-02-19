@@ -27,7 +27,9 @@ $isAdmin=$view['security']->isAdmin();
                     'target'          => '.client-list',
                     'action'          => $currentRoute,
                     'routeBase'       => 'client',
-                    'templateButtons' => [],
+                    'templateButtons' => [
+                        'delete' => $permissions['delete'],
+                    ],
                 ]
             );
 

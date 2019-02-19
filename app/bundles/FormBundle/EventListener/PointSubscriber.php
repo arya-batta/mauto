@@ -72,6 +72,6 @@ class PointSubscriber extends CommonSubscriber
      */
     public function onFormSubmit(SubmissionEvent $event)
     {
-        $this->pointModel->triggerAction('form.submit', $event->getSubmission());
+        $this->pointModel->triggerAction('form.submit', $event->getSubmission(), '', $event->getSubmission()->getLead());
     }
 }

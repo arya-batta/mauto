@@ -315,7 +315,8 @@ class UserModel extends FormModel
         $resetLink  = $this->router->generate('le_user_passwordresetconfirm', ['token' => $resetToken->getSecret()], true);
         $message    = \Swift_Message::newInstance();
         $message->setTo([$user->getEmail() => $user->getName()]);
-        $message->setFrom(['support@leadsengage.com' => 'LeadsEngage']);
+        $message->setFrom(['notifications@leadsengage.io' => 'LeadsEngage']);
+        $message->setReplyTo(['support@leadsengage.com' => 'LeadsEngage']);
         $message->setSubject($this->translator->trans('mautic.user.user.passwordreset.subject'));
         /*$text = $this->translator->trans(
             'mautic.user.user.passwordreset.email.body',

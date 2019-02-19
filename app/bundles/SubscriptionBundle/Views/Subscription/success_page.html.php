@@ -131,14 +131,14 @@ if ($isImportDone) {
             <br><br>
             <div class="row row-padding">
                 <div class="col-sm-6">
-                    <div class="bg-white dashboard-email-campaign-stats" style="height:500px;">
+                    <div class="bg-white dashboard-email-campaign-stats" style="height:550px;">
                     <div>
                         <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script><a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe"><img style="width:100%;" src="https://leadsengage.com/wp-content/uploads/leadsengage/play-video.png"></a>
                     </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="bg-white lead-email-campaign-stats" style="height:500px;text-align: center;">
+                    <div class="bg-white lead-email-campaign-stats" style="height:550px;text-align: center;">
                     <div style="font-size:12px;line-height:24px;font-family:Open Sans, Helvetica, Roboto, Arial;color:#555555;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 24px;text-align: left;"><span style="font-size: 17px; line-height: 34px;"><strong><span style="line-height: 34px; font-size: 17px;">We believe your success is our success. Please do not hesitate to ask our team member to do first time setup on your behalf.</span></strong></span><br /><span style="font-size: 16px; line-height: 32px;"></span></p><br>
 
                         <p style="margin: 0;font-size: 12px;line-height: 24px;text-align: left;"><span style="font-size: 17px; line-height: 34px;"><strong><span style="line-height: 34px; font-size: 17px;">What’s Includes in this service?</span></strong></span><br /><span style="font-size: 16px; line-height: 32px;"></span></p>

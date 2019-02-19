@@ -343,6 +343,7 @@ return [
                 'arguments'   => [
                     'translator',
                     'mautic.helper.core_parameters',
+                    'mautic.email.model.email',
                 ],
                 'alias'       => 'form_submitaction_sendemail',
                 'methodCalls' => [

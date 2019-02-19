@@ -444,4 +444,70 @@ class ClientController extends FormController
             )
         );
     }
+
+    /**
+     * Deletes a group of entities.
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function batchDeleteAction()
+    {
+        $returnUrl = $this->generateUrl('le_client_index');
+        $success   = 0;
+        $flashes   = [];
+
+        $postActionVars = [
+            'returnUrl'       => $returnUrl,
+            'contentTemplate' => 'MauticApiBundle:Client:index',
+            'passthroughVars' => [
+                'activeLink'    => '#le_client_index',
+                'success'       => $success,
+                'leContent' => 'client',
+            ],
+        ];
+
+        if ($this->request->getMethod() == 'POST') {
+            /** @var \Mautic\ApiBundle\Model\ClientModel $model */
+            $model  = $this->getModel('api.client');
+            $ids       = json_decode($this->request->query->get('ids', '{}'));
+            $deleteIds = [];
+
+            // Loop over the IDs to perform access checks pre-delete
+            foreach ($ids as $objectId) {
+                $entity    = $model->getEntity($objectId);
+
+                if ($entity === null) {
+                    $flashes[] = [
+                        'type'    => 'error',
+                        'msg'     => 'mautic.api.client.error.notfound',
+                        'msgVars' => ['%id%' => $objectId],
+                    ];
+                } elseif ($model->isLocked($entity)) {
+                    //deny access if the entity is locked
+                    return $this->isLocked($postActionVars, $entity, 'api.client');
+                } else {
+                    $deleteIds[]=$objectId;
+                }
+            }
+
+            // Delete everything we are able to
+            if (!empty($deleteIds)) {
+                $entities = $model->deleteEntities($deleteIds);
+
+                $flashes[] = [
+                    'type'    => 'notice',
+                    'msg'     => 'mautic.api.client.notice.batch_deleted',
+                    'msgVars' => [
+                        '%count%' => count($entities),
+                    ],
+                ];
+            }
+        } //else don't do anything
+
+        return $this->postActionRedirect(
+            array_merge($postActionVars, [
+                'flashes' => $flashes,
+            ])
+        );
+    }
 }

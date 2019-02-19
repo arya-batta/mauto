@@ -204,7 +204,7 @@ class FormSubscriber extends CommonSubscriber
                 $emails = $this->getEmailsFromString($config['bcc']);
                 $this->mailer->setBcc($emails);
             }
-
+            $this->mailer->setFrom($config['from'],$config['fromname']);
             $this->mailer->send(true);
         }
 

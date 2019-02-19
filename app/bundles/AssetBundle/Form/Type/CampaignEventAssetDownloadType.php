@@ -27,7 +27,7 @@ class CampaignEventAssetDownloadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('assets', 'asset_list', [
-            'label'      => 'mautic.asset.campaign.event.assets',
+            'label'      => 'mautic.asset.campaign.event.files',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'   => 'form-control',

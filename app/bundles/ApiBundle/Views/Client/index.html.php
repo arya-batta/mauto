@@ -32,6 +32,7 @@ $view['slots']->set('actions', $view->render('MauticCoreBundle:Helper:page_actio
         'searchValue' => $searchValue,
         'searchHelp'  => 'mautic.api.client.help.searchcommands',
         'filters'     => $filters,
+        'action'      => $currentRoute,
     ]); ?>
     <a class="btn le-btn-default btn-nospin waves-effect" style="float: right;margin-top: -50px; margin-right: 93px;" onclick="window.open('<?php echo $view['translator']->trans('mautic.api.client.list.url'); ?>', '_blank');">
         <i class="fa fa-file-text"> </i><span style="margin-left: 2px;font: "500 14px/31px Roboto, sans-serif !important> Developer Document</span>
