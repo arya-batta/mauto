@@ -176,7 +176,7 @@ class FieldsBuilder
             ],
             'l.date_identified' => [
                 'label'          => 'le.lead.report.date_identified',
-                'type'           => 'datetime',
+                'type'           => 'date',
                 'groupByFormula' => 'DATE(l.date_identified)',
             ],
             'l.points' => [

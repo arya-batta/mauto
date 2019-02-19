@@ -93,7 +93,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 hide">
                                 <?php echo $view['form']->row($form['isGlobal']); ?>
                             </div>
                             <div class="col-md-6">

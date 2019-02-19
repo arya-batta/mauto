@@ -98,12 +98,13 @@ abstract class AbstractFormController extends CommonController
                 ]
             );
         }
-
+        $screen = $this->get('translator')->trans(
+            'le.override.screen.'.$model);
         $flash = [
             'type'    => 'error',
             'msg'     => 'mautic.core.error.locked',
             'msgVars' => [
-                '%screen%'     => 'le.override.screen'.$model,
+                '%screen%'     => $screen,
                 '%name%'       => $entity->$nameFunction(),
                 '%user%'       => $entity->getCheckedOutByUser(),
                 '%contactUrl%' => $this->generateUrl(

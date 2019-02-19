@@ -6695,7 +6695,7 @@ text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 101%;
+  max-width: 105%;
   font-weight: bold;
 }
 .disable_ele{

@@ -129,6 +129,9 @@ class Tag
      */
     public function setIsPublished($isPublished)
     {
+        /*if ($isPublished == null) {
+            $isPublished=true;
+        }*/
         $this->isPublished = $isPublished;
     }
 

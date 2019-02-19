@@ -9,7 +9,7 @@ $customFieldAccess  = $view['security']->isGranted('lead:fields:full');
 $configAccess       = $view['security']->isGranted('lead:leads:viewown');
 $userAccess         = $view['security']->isGranted('user:roles:view');
 $categoryAccess     = $view['security']->isGranted('category:categories:view');
-$apiAccess          = false; //$view['security']->isGranted('api:clients:view');
+$apiAccess          = $view['security']->isGranted('api:clients:view');
 $notificationAccess = $view['security']->isGranted('email:emails:viewown');
 ?>
 <li class="dropdown">
@@ -43,7 +43,7 @@ $notificationAccess = $view['security']->isGranted('email:emails:viewown');
         <?php endif; ?>
         <?php if ($apiAccess): ?>
             <li>
-                <a class="dropdown-item" href="<?php echo $view['router']->path('le_client_index'); ?>" data-toggle="ajax">
+                <a class="dropdown-item" onclick="window.open('<?php echo $view['translator']->trans('mautic.api.client.list.url'); ?>', '_blank');">
                     <i class="margin-right  fa fa-puzzle-piece"></i><span><?php echo $view['translator']->trans('mautic.api.client.menu.index'); ?></span>
                 </a>
             </li>

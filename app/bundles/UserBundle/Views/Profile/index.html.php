@@ -60,19 +60,19 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
                 </div>
             </div>
 
-            <?php if ($permissions['apiAccess']): ?>
-                <div class="tab-pane fade bdr-rds-0 bdr-w-0" id="clients">
-                    <div class="pa-md bg-auto bg-light-xs bdr-b">
-                        <h4 class="fw-sb"><?php echo $view['translator']->trans('mautic.user.account.header.authorizedclients'); ?></h4>
-                    </div>
-                    <div class="pa-md">
-                        <?php echo $authorizedClients; ?>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
             </div>
         </div>
+        <?php if ($permissions['apiAccess']): ?>
+            <div class="tab-pane fade bdr-rds-0 bdr-w-0" id="clients">
+                <div class="pa-md bg-auto bg-light-xs bdr-b">
+                    <h4 class="fw-sb"><?php echo $view['translator']->trans('mautic.user.account.header.authorizedclients'); ?></h4>
+                </div>
+                <div class="pa-md">
+                    <?php echo $authorizedClients; ?>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
     <div class="col-md-3 bg-white height-auto ">
         <div class="pr-lg pl-lg pt-md pb-md">

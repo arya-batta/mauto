@@ -19,6 +19,33 @@
         <?php echo $view['form']->row($form['immediately']); ?>
     </div>
 </div>
+<?php
+echo $view['form']->row($form['fromname']); 
+?>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group col-xs-12" style="width:79%;margin-left: -14px;">
+            <?php echo $view['form']->row($form['from'],
+                ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]
+            ); ?>
+        </div>
+        <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;float:inherit;margin-top:25px;" data-toggle="dropdown" href="#">
+                <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
+                <?php foreach ($verifiedEmails as $key=> $value): ?>
+                    <li>
+                        <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
+                    </li>
+                <?php endforeach; ?>
+                <li >
+                    <a style="text-transform: none" href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']); ?>" class="verified-emails" ><?php echo $view['translator']->trans('le.email.add.new.profile'); ?></a>
+                </li>
+            </ul>
+        </li>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12">
         <?php echo $view['form']->row($form['to']); ?>
