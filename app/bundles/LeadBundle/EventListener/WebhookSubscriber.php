@@ -144,7 +144,7 @@ class WebhookSubscriber extends CommonSubscriber
         $lead      = $event->getLead();
         $newpoints = $event->getNewPoints();
         $lead->setPoints($newpoints);
-
+        $lead->getFields()['core']['points']['value'] =$newpoints;
         $this->webhookModel->queueWebhooksByType(
             LeadEvents::LEAD_POINTS_CHANGE,
             [

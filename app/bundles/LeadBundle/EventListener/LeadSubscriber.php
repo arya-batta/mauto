@@ -463,22 +463,38 @@ class LeadSubscriber extends CommonSubscriber
             $start = $event->getEventLimit()['start'];
             if (empty($start)) {
                 foreach ($rows as $row) {
-                    $label = '';
-                    if (isset($row['details']['fields'])) {
-                        foreach ($row['details']['fields'] as $key => $fields) {
-                            $label .= $key.' - '.$fields['1'].', ';
-                        }
-                        $label     = substr($label, 0, -2).'.';
-                        $eventlabel=$this->translator->trans('le.lead.event.timeline.leadupdate').$label;
-                    } elseif (isset($row['details']['tags'])) {
-                        foreach ($row['details']['tags'] as $key => $fields) {
-                            foreach ($fields as $fieldkey => $fieldvalue) {
-                                $label .= $fieldvalue.', ';
+                    $fieldlabel = '';
+                    $eventlabel = '';
+                    $taglabel   = '';
+
+                    if (isset($row['details']['fields']) || isset($row['details']['fields'])) {
+                        if (isset($row['details']['fields'])) {
+                            foreach ($row['details']['fields'] as $fieldkey => $fields) {
+                                $fieldlabel .= $fieldkey.' - '.$fields['1'].', ';
                             }
                         }
-                        $label     = substr($label, 0, -2).'';
-                        $eventlabel=$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$label.'".';
-                    } else {
+
+                        if (isset($row['details']['owner'])) {
+                            foreach ($row['details']['owner'] as $ownerkey => $ownerfields) {
+                                $fieldlabel .= 'owner - '.$ownerfields.', ';
+                                break;
+                            }
+                        }
+
+                        $fieldlabel = substr($fieldlabel, 0, -2).'.';
+                        $eventlabel = $this->translator->trans('le.lead.event.timeline.leadupdate').$fieldlabel;
+                    }
+
+                    if (isset($row['details']['tags'])) {
+                        foreach ($row['details']['tags'] as $key => $fields) {
+                            foreach ($fields as $fieldkey => $fieldvalue) {
+                                $taglabel .= $fieldvalue.', ';
+                            }
+                        }
+                        $taglabel     = substr($taglabel, 0, -2).'';
+                        $eventlabel   = $eventlabel.$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$taglabel.'".';
+                    }
+                    if (!isset($row['details']['fields']) && !isset($row['details']['tags'])) {
                         $eventlabel = $eventTypeName;
                     }
 
@@ -739,10 +755,11 @@ class LeadSubscriber extends CommonSubscriber
                     $eventLabel = $import['object_id'];
                 }
                 if (!empty($import['object_id'])) {
-                    $eventLabel = $this->translator->trans('le.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel, '%href%' => $this->router->generate(
-                        'le_contact_import_action',
-                        ['objectAction' => 'view', 'objectId' => $import['object_id']]
-                    )]);
+                    $eventLabel = $this->translator->trans('le.lead.import.contact.action.'.$import['action'], ['%name%' => $eventLabel]);
+                    /* '%href%' => $this->router->generate(
+                    'le_contact_import_action',
+                    ['objectAction' => 'view', 'objectId' => $import['object_id']]
+                    )*/
                 }
                 $event->addEvent(
                         [

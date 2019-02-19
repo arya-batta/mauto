@@ -331,7 +331,8 @@ class PointModel extends CommonFormModel
                             $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
                         }
                     } elseif ($lead !== null && !empty($score)) {
-                        $this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
+                        $lead->setScore($score);
+                        //$this->leadModel->getRepository()->updateContactScore($score, $lead->getId());
                     }
                 }
             }

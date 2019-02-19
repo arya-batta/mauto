@@ -1547,7 +1547,7 @@ Le.initSlotListeners = function() {
             if (tokens.length) {
                 mQuery.each(tokens, function(token, label) {
                     if (token.startsWith('{pagelink=') ||
-                        token.startsWith('{assetlink=') ||
+                        token.startsWith('{filelink=') ||
                         token.startsWith('{webview_url') ||
                         token.startsWith('{unsubscribe_url')) {
 
@@ -2021,7 +2021,7 @@ Le.getPredefinedLinks = function(callback) {
         if (tokens.length) {
             mQuery.each(tokens, function(token, label) {
                 if (token.startsWith('{pagelink=') ||
-                    token.startsWith('{assetlink=') ||
+                    token.startsWith('{filelink=') ||
                     token.startsWith('{webview_url') ||
                     token.startsWith('{unsubscribe_url')) {
 

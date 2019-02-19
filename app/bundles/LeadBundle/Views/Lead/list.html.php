@@ -181,6 +181,7 @@ if ($showsetup) {
                 }*/
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
+                    'orderBy'    => 'l.date_added',
                     'text'       => 'le.lead.dateadded',
                     'class'      => 'col-lead-lastactive visible-md visible-lg',
                 ]);

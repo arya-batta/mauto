@@ -115,7 +115,24 @@ class PointController extends AbstractFormController
             }
 
             if (!empty($catIds)) {
-                $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
+                $categorymodel   = $this->getModel('category');
+                $category_search = '';
+                for ($lid = 0; $lid < sizeof($catIds); ++$lid) {
+                    $categorylist = $categorymodel->getEntity($catIds[$lid]);
+                    $values[]     = $catIds[$lid];
+                    if ($lid == 0 && $filter['string'] == '') {
+                        $category_search = 'category:';
+                    } else {
+                        $category_search .= ' or category:';
+                    }
+                    if ($categorylist != null) {
+                        $category_search .= $categorylist->getAlias();
+                    }
+                }
+                $filter['string'] .= $category_search;
+            }
+            if (!empty($catIds)) {
+                // $filter['force'][] = ['column' => 'c.id', 'expr' => 'in', 'value' => $catIds];
             }
         }
         $orderBy    = $this->get('session')->get('mautic.point.orderby', 'p.name');
