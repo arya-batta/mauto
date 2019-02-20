@@ -568,6 +568,7 @@ class SubscriptionController extends CommonController
                 if ($data['address-line-2'] != '') {
                     $address = $address.','.$data['address-line-2'];
                 }
+                $billingEntity->setCompanyname($accountEntity->getAccountname());
                 $billingEntity->setCompanyaddress($address);
                 $billingEntity->setCity($data['city']);
                 $billingEntity->setState($data['state']);
