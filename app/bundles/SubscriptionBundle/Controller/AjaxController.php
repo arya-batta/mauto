@@ -582,15 +582,11 @@ class AjaxController extends CommonAjaxController
 
     public function licenseusageinfoAction(Request $request)
     {
-        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
-        $dataArray['success']         = true;
-        $dataArray['info']            = $this->getLicenseNotifyMessage();
-        $dataArray['isalertneeded']   = false;
-        $dataArray['needClosebutton'] = $isClosed;
         $paymentrepository            = $this->get('le.subscription.repository.payment');
-        $lastpayment                  = $paymentrepository->getLastPayment();
         $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
         $isleplan2                    =false;
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $lastpayment                  = $paymentrepository->getLastPayment();
 
         if ($lastpayment != null && $lastpayment->getPlanName() == 'leplan2') {
             $isleplan2 =true;
@@ -609,6 +605,13 @@ class AjaxController extends CommonAjaxController
             $dataArray['success']         = false;
             $dataArray['isalertneeded']   = $isClosed;
         }
+
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $dataArray['success']         = true;
+        $dataArray['info']            = $this->getLicenseNotifyMessage();
+        $dataArray['isalertneeded']   = false;
+        $dataArray['needClosebutton'] = $isClosed;
+
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
             $configurl                    = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
