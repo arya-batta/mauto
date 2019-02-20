@@ -183,7 +183,7 @@ Le.launchBeeEditor = function (formName, actionName) {
             var str = ' (_BADGE_)';
             var badge = (val.match(/page link/i))?
                 str.replace(/_BADGE_/, 'page') :
-                (val.match(/file link/i))?
+                (val.match(/filelink/i))?
                     str.replace(/_BADGE_/, 'files') :
                     (val.match(/form=/i))?
                         str.replace(/_BADGE_/,'form') :

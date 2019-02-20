@@ -48,7 +48,7 @@ if ($planname == 'leplan2') {
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b>. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features. Your free trial <?php echo $trialEndDays < 0 ? '<b>expired</b> on ('.$vallidityTill.'). Choose a plan to continue.' : 'ends in <b>'.$trialEndDays.'</b> days ('.$vallidityTill.').'?></span>
+                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b>. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features. Your free trial has <?php echo $trialEndDays < 0 ? '<b>expired</b> on '.$vallidityTill.'. Choose a plan to continue.' : 'ends in <b>'.$trialEndDays.'</b> days '.$vallidityTill.'.'?></span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-success plan-btn">
                                     Browse Subscription Plans
                                 </a>
