@@ -246,7 +246,7 @@ if (count($items)):
             ]
         ); ?>
     </div>
-<?php elseif (!$configured): ?>
+<?php elseif (!$isEnabled): ?>
     <?php echo $view->render(
         'MauticCoreBundle:Helper:noresults.html.php',
         ['header' => 'mautic.sms.disabled', 'message' => 'mautic.sms.enable.in.configuration']
