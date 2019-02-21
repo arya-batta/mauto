@@ -330,6 +330,26 @@ class EventRepository extends CommonRepository
             'lead'     => $leadId,
             'campaign' => $campaignId,
         ]);
+
+        $qb    = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->select('*')
+            ->from(MAUTIC_TABLE_PREFIX.'campaign_leads', 'cl');
+        $qb->where(
+            $qb->expr()->andX(
+                $qb->expr()->eq('cl.campaign_id', (int) $campaignId),
+                $qb->expr()->eq('cl.lead_id', (int) $leadId)
+            )
+        );
+        $result        = $qb->execute()->fetchAll();
+        $resultcount   = count($result);
+
+        if ($resultcount == 0) {
+            if ($count == true) {
+                return 0;
+            }
+
+            return $events  = [];
+        }
         $q = $this->getEntityManager()->createQueryBuilder()
             ->from('MauticCampaignBundle:LeadEventLog', 'o');
 
