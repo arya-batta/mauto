@@ -153,7 +153,7 @@ Le.launchBeeEditor = function (formName, actionName) {
             if (k.match(/filelink=/i) && v.match(/a:/)){
                 delete tokens[k];
                 var nv = v.replace('a:', '');
-                k = "<a title='File Link' href='" + k + "'>" + nv + "</a>";
+                k = '<a title=\'File Link\' href=\'' + k + '\'>' + nv + '</a>';
                 tokens[k] = nv;
             } else if (k.match(/pagelink=/i) && v.match(/a:/)){
                 delete tokens[k];
@@ -184,7 +184,7 @@ Le.launchBeeEditor = function (formName, actionName) {
             var badge = (val.match(/page link/i))?
                 str.replace(/_BADGE_/, 'page') :
                 (val.match(/filelink/i))?
-                    str.replace(/_BADGE_/, 'files') :
+                    str.replace(/_BADGE_/, 'file') :
                     (val.match(/form=/i))?
                         str.replace(/_BADGE_/,'form') :
                         (val.match(/focus=/i))?

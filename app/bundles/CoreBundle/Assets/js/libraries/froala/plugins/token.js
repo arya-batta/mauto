@@ -52,7 +52,7 @@
                     if (k.match(/filelink=/i) && v.match(/a:/)){
                         delete tokens[k];
                         var nv = v.replace('a:', '');
-                        k = '<a title=\'Asset Link\' href=\'' + k + '\'>' + nv + '</a>';
+                        k = '<a title=\'File Link\' href=\'' + k + '\'>' + nv + '</a>';
                         tokens[k] = nv;
                     } else if (k.match(/pagelink=/i) && v.match(/a:/)){
                         delete tokens[k];
@@ -91,8 +91,8 @@
                     var str = ' <div class=\'badge-wrapper\'><span class=\'badge\'>_BADGE_</span></div>';
                     var badge = (val.match(/page link/i))?
                         str.replace(/_BADGE_/, 'page') :
-                            (val.match(/asset link/i))?
-                                str.replace(/_BADGE_/, 'File') :
+                            (val.match(/filelink/i))?
+                                str.replace(/_BADGE_/, 'files') :
                                     (val.match(/form=/i))?
                                         str.replace(/_BADGE_/,'form') :
                                             (val.match(/focus=/i))?
