@@ -584,6 +584,7 @@ class AjaxController extends CommonAjaxController
     {
         $paymentrepository            = $this->get('le.subscription.repository.payment');
         $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+        $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         $isleplan2                    =false;
         $isClosed                     = $this->factory->get('session')->get('isalert_needed');
         $lastpayment                  = $paymentrepository->getLastPayment();
@@ -609,7 +610,7 @@ class AjaxController extends CommonAjaxController
         $isClosed                     = $this->factory->get('session')->get('isalert_needed');
         $dataArray['success']         = true;
         $dataArray['info']            = $this->getLicenseNotifyMessage();
-        $dataArray['isalertneeded']   = false;
+        $dataArray['isalertneeded']   = $isClosed;
         $dataArray['needClosebutton'] = $isClosed;
 
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
@@ -617,7 +618,7 @@ class AjaxController extends CommonAjaxController
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
-            $dataArray['isalertneeded']   = false;
+            $dataArray['isalertneeded']   = $isClosed;
         }
         $infomeesage=$dataArray['info'];
         $breakstring=substr($infomeesage, -4);
@@ -626,7 +627,19 @@ class AjaxController extends CommonAjaxController
             $infomeesage .= $this->get('translator')->trans('le.license.dismiss.btn');
             $dataArray['info']=$infomeesage;
         }
-
+        if($licenseRemDays >= 0 && $licenseRemDays < 6){
+            $configurl                    = $this->generateUrl('le_pricing_index');
+            $dataArray['info']            = $this->translator->trans('le.msg.license.before.expired.appheader', ['%URL%'=>$configurl,'%days%'=>$licenseRemDays]);
+            $dataArray['needClosebutton'] = false;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = $isClosed;
+        } elseif ($licenseRemDays < 0){
+            $configurl                    = $this->generateUrl('le_pricing_index');
+            $dataArray['info']            = $this->translator->trans('le.msg.license.expired.appheader', ['%URL%'=>$configurl]);
+            $dataArray['needClosebutton'] = false;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = $isClosed;
+        }
         return $this->sendJsonResponse($dataArray);
     }
 
@@ -778,7 +791,12 @@ class AjaxController extends CommonAjaxController
                 $usageMsg .= $this->translator->trans($contactNotification, ['%TOTAL%' => $totalrecordcount, '%ACTUAL%' => $actualrecordcount]);
             }
             if ($lastpayment == null) {
-                $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
+                if ($contactNotification != 'le.record.count.expired') {
+                    $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade Now!', '%url%' => $pricingplanRoute]);
+                } else {
+                    $usageMsg .= $this->translator->trans('le.upgrade.button.total', ['%upgrade%' => 'Upgrade Now', '%url%' => $pricingplanRoute]);
+                }
+
             } else {
                 $usageMsg .= $this->translator->trans('le.plan.renewal.message');
             }

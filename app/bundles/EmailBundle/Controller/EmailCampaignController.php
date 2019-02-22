@@ -1598,7 +1598,7 @@ class EmailCampaignController extends FormController
                             [
                                 'type'    => 'error',
                                 'msg'     => 'le.email.error.send.unpublished',
-                                'msgVars' => ['%name%' => $entity->getName()],
+                               // 'msgVars' => ['%name%' => $entity->getName()],
                             ],
                         ],
                     ]
@@ -1678,7 +1678,8 @@ class EmailCampaignController extends FormController
                 if (!$isHavingEmailValidity) {
                     $this->addFlash('mautic.email.validity.expired');
                 } else {
-                    $this->addFlash('mautic.email.count.exceeds');
+                    $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
                 }
 
                 return $this->postActionRedirect(

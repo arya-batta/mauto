@@ -724,7 +724,7 @@ Le.onPageLoad = function (container, response, inModal) {
         Le.checkemailstatus();
     }
     Le.configureFullScreenSettings();
-    //Le.CheckSMSStatus();
+    Le.CheckSMSStatus();
 };
 
 Le.enableGlobalSearchListener=function(){

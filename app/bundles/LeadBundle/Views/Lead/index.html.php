@@ -139,8 +139,7 @@ $toolbarButtons = [];
             </div>
         </a>
     </div>
-    <div>
-        <div class="info-box waves-effect" id="leads-info-box-container">
+    <div class="info-box waves-effect" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'donotcontact']); ?>" data-toggle="ajax">
             <span class="info-box-icon waves-effect">
                   <i class="fa fa-user-times" id="icon-class-leads"></i></span>
@@ -149,8 +148,8 @@ $toolbarButtons = [];
                 <span class="info-box-number"><?php echo $donotContact; ?></span>
             </div>
             </a>
-        </div>
     </div>
+
 </div>
 
 <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">

@@ -52,7 +52,7 @@ class PasswordResetValidator extends ConstraintValidator
         if ($user != null) {
             return;
         } else {
-            $this->context->addViolation($this->translator->trans('mautic.user.user.passwordreset.nouserfound11111'));
+            $this->context->addViolation($this->translator->trans('mautic.user.user.passwordreset.notblank'));
         }
     }
 }
