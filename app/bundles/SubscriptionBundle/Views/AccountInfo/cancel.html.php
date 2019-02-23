@@ -21,6 +21,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
         'typePrefix'          => $typePrefix,
         'actionRoute'         => $actionRoute,
         'planType'            => $planType,
+        'planName'            => $planName,
     ]); ?>
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto bdr-l accountinfo">

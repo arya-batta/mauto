@@ -32,9 +32,11 @@ class AccountController extends FormController
 
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $planType           ='Trial';
+        $planName           ='';
         $lastpayment        = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
             $planType    ='Paid';
+            $planName    = $lastpayment->getPlanName();
         }
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
         $model         = $this->getModel('subscription.accountinfo');
@@ -100,11 +102,12 @@ class AccountController extends FormController
         return $this->delegateView([
             'viewParameters' => [
                 //'tmpl'               => $tmpl,
-                'form'               => $form->createView(),
-                'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'le_accountinfo_action',
-                'typePrefix'         => 'form',
-                'planType'           => $planType,
+                'form'                => $form->createView(),
+                'security'            => $this->get('mautic.security'),
+                'actionRoute'         => 'le_accountinfo_action',
+                'typePrefix'          => 'form',
+                'planType'            => $planType,
+                'planName'            => $planName,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:form.html.php',
             'passthroughVars' => [
@@ -180,7 +183,7 @@ class AccountController extends FormController
         $validityTill         =$datehelper->toDate($licenseend);
         $planAmount           ='';
         $custplanamount       = '';
-        $planname             = '';
+        $planName             = '';
         if ($lastpayment != null) {
             $planType       = $lastpayment->getPlanLabel();
             $validityTill   =$datehelper->toDate($lastpayment->getValidityTill());
@@ -191,7 +194,7 @@ class AccountController extends FormController
                 $custplanamount = $lastpayment->getCurrency().$custplanamount;
             }
 
-            $planname       = $lastpayment->getPlanName();
+            $planName       = $lastpayment->getPlanName();
         }
 
         return $this->delegateView([
@@ -210,7 +213,7 @@ class AccountController extends FormController
                 'totalContactCredits'=> $totalContactCredits,
                 'totalEmailCredits'  => $totalEmailCredits,
                 'custplanamount'     => $custplanamount,
-                'planname'           => $planname,
+                'planName'           => $planName,
                 'actualEmailCredits' => $actualEmailCredits,
                 'totalContactCredits'=> $totalContactCredits,
             ],
@@ -231,13 +234,14 @@ class AccountController extends FormController
         if (!$this->user->isAdmin() && !$this->user->isCustomAdmin() && $this->coreParametersHelper->getParameter('accountinfo_disabled')) {
             return $this->accessDenied();
         }
-
+        $planName           = '';
         $tmpl               = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $planType           ='Trial';
         $lastpayment        = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
             $planType    ='Paid';
+            $planName    = $lastpayment->getPlanName();
         }
         $paymentalias       =$paymentrepository->getTableAlias();
         $filter             = [
@@ -261,6 +265,7 @@ class AccountController extends FormController
                 'typePrefix'         => 'form',
                 'payments'           => $payments,
                 'planType'           => $planType,
+                'planName'           => $planName,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:payment.html.php',
             'passthroughVars' => [
@@ -287,7 +292,7 @@ class AccountController extends FormController
         $subcancel            = $this->get('mautic.helper.licenseinfo')->getCancelDate();
         $subcanceldate        = date('F d, Y', strtotime($subcancel));
         $datehelper           =$this->get('mautic.helper.template.date');
-
+        $planName             = '';
         if ($recordCount == 'UL') {
             $recordCount= 'unlimited';
         } else {
@@ -297,6 +302,7 @@ class AccountController extends FormController
         $lastpayment        = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
             $planType    ='Paid';
+            $planName    = $lastpayment->getPlanName();
         }
         $license='';
         if ($planType == 'Trial') {
@@ -320,6 +326,7 @@ class AccountController extends FormController
                 'recordcount'        => $recordCount,
                 'licenseenddate'     => $license,
                 'planType'           => $planType,
+                'planName'           => $planName,
                 'canceldate'         => $subcanceldate,
              ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
@@ -341,9 +348,11 @@ class AccountController extends FormController
         }
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $planType           ='Trial';
+        $planName           ='';
         $lastpayment        = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
             $planType    ='Paid';
+            $planName    = $lastpayment->getPlanName();
         }
         $tmpl               = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
         $stripecardrepo     =$this->get('le.subscription.repository.stripecard');
@@ -364,6 +373,7 @@ class AccountController extends FormController
                 'stripecard'         => $stripecard,
                 'letoken'            => $paymenthelper->getUUIDv4(),
                 'planType'           => $planType,
+                'planName'           => $planName,
                 'lastpayment'        => $lastpayment,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cardinfo.html.php',
