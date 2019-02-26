@@ -15,14 +15,14 @@ use Mautic\CampaignBundle\CampaignEvents;
 use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
 use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
+use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Exception\SmsCouldNotBeSentException;
+use Mautic\SmsBundle\Helper\SmsHelper;
 use Mautic\SmsBundle\Model\SendSmsToUser;
 use Mautic\SmsBundle\Model\SmsModel;
 use Mautic\SmsBundle\SmsEvents;
-use Mautic\SmsBundle\Helper\SmsHelper;
-use Mautic\CoreBundle\Security\Permissions\CorePermissions;
 
 /**
  * Class CampaignSubscriber.
@@ -96,7 +96,7 @@ class CampaignSubscriber extends CommonSubscriber
      */
     public function onCampaignBuild(CampaignBuilderEvent $event)
     {
-       //if ($this->security->isGranted('sms:smses:viewown')) {
+        // if ($this->security->isGranted('sms:smses:viewown')) {
         $transportChain = $this->factory->get('mautic.sms.transport_chain');
         $transports     = $transportChain->getEnabledTransports();
         $isEnabled      = false;
@@ -120,7 +120,7 @@ class CampaignSubscriber extends CommonSubscriber
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                    $event->addAction(
+                $event->addAction(
                     'sms.send_text_sms.to.user',
                     [
                         'label'            => 'le.campaign.sms.send_text_sms.to.user',
@@ -136,11 +136,11 @@ class CampaignSubscriber extends CommonSubscriber
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                    break;
-                }
+                break;
             }
-            $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
-       // }
+        }
+        $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
+        // }
     }
 
     /**
@@ -156,7 +156,7 @@ class CampaignSubscriber extends CommonSubscriber
         $lead  = $event->getLead();
         $smsId = (int) $event->getConfig()['sms'];
         $sms   = $this->smsModel->getEntity($smsId);
-        if (!$this->smsHelper->getSmsTransportStatus()) {
+        if (!$this->smsHelper->getSmsTransportStatus(false)) {
             $this->notificationhelper->sendNotificationonFailure(false, false);
             $event->setFailed($this->translator->trans('Can\'t reach text message provider. Please check the configuration'));
 
