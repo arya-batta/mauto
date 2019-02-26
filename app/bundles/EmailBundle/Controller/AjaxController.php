@@ -319,7 +319,7 @@ class AjaxController extends CommonAjaxController
 //        if(true){
 //         return  ['success'=>false,'message'=> 'test'];
 //        }
-        $dataArray=['success'=>true, 'message'=> '','response'=>''];
+        $dataArray=['success'=>true, 'message'=> '', 'response'=>''];
         /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
         $emailModel       = $this->factory->getModel('email');
         $verifiedemailRepo=$emailModel->getAwsVerifiedEmailsRepository();
@@ -346,13 +346,13 @@ class AjaxController extends CommonAjaxController
                     $entity->setIdHash($idHash);
                     $entity->setInboxverified(0);
                     $verifiedemailRepo->saveEntity($entity);
-                    $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idHash);
+                    $mailresponse          =$this->sendSenderVerificationEmail($fromemail, $fromname, $idHash);
                     $dataArray['response'] = $mailresponse;
-                    /*if ($mailresponse == '') {
-                        $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
-                    } else {
-                        $this->addFlash('le.config.sender.email.verification.error');
-                    }*/
+                /*if ($mailresponse == '') {
+                    $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
+                } else {
+                    $this->addFlash('le.config.sender.email.verification.error');
+                }*/
                 } else {
                     $senderprofiles=$verifiedemailRepo->findBy(
                         [
@@ -363,14 +363,14 @@ class AjaxController extends CommonAjaxController
                         $senderprofile      =$senderprofiles[0];
                         $verificationStatus = '0';
                         if (!$senderprofile->getInboxverified()) {
-                            $idhash      = $senderprofile->getIdHash();
-                            $mailresponse=$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
+                            $idhash                = $senderprofile->getIdHash();
+                            $mailresponse          =$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
                             $dataArray['response'] = $mailresponse;
-                           /* if ($mailresponse == '') {
-                                $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
-                            } else {
-                                $this->addFlash('le.config.sender.email.verification.error');
-                            }*/
+                            /* if ($mailresponse == '') {
+                                 $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
+                             } else {
+                                 $this->addFlash('le.config.sender.email.verification.error');
+                             }*/
                             $verificationStatus = '1';
                         }
                         $senderprofile->setVerificationStatus($verificationStatus);
@@ -450,7 +450,7 @@ class AjaxController extends CommonAjaxController
 			<div style='padding-top: 55px;'>
 				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #EF3F87;'>
 
-					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leadsengage/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
+					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
 					<br>
 					<div style='text-align:center;width:100%;'>
 						<div style='display:inline-block;width: 80%;'>
@@ -643,15 +643,16 @@ class AjaxController extends CommonAjaxController
 
     public function emailstatusAction()
     {
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
         $configurl= $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
             $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
-            $dataArray['isalertneeded'] = 'false';
+            $dataArray['isalertneeded'] = $isClosed;
         } else {
             $dataArray['success']       = false;
             $dataArray['info']          = '';
-            $dataArray['isalertneeded'] = 'false';
+            $dataArray['isalertneeded'] = $isClosed;
         }
 
         return $this->sendJsonResponse($dataArray);

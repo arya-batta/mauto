@@ -582,15 +582,12 @@ class AjaxController extends CommonAjaxController
 
     public function licenseusageinfoAction(Request $request)
     {
-        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
-        $dataArray['success']         = true;
-        $dataArray['info']            = $this->getLicenseNotifyMessage();
-        $dataArray['isalertneeded']   = false;
-        $dataArray['needClosebutton'] = $isClosed;
         $paymentrepository            = $this->get('le.subscription.repository.payment');
-        $lastpayment                  = $paymentrepository->getLastPayment();
         $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+        $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         $isleplan2                    =false;
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $lastpayment                  = $paymentrepository->getLastPayment();
 
         if ($lastpayment != null && $lastpayment->getPlanName() == 'leplan2') {
             $isleplan2 =true;
@@ -609,12 +606,19 @@ class AjaxController extends CommonAjaxController
             $dataArray['success']         = false;
             $dataArray['isalertneeded']   = $isClosed;
         }
+
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $dataArray['success']         = true;
+        $dataArray['info']            = $this->getLicenseNotifyMessage();
+        $dataArray['isalertneeded']   = $isClosed;
+        $dataArray['needClosebutton'] = $isClosed;
+
         if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
             $configurl                    = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);
             $dataArray['info']            = $this->translator->trans('le.msg.payment.failure.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
-            $dataArray['isalertneeded']   = false;
+            $dataArray['isalertneeded']   = $isClosed;
         }
         $infomeesage=$dataArray['info'];
         $breakstring=substr($infomeesage, -4);
@@ -623,7 +627,19 @@ class AjaxController extends CommonAjaxController
             $infomeesage .= $this->get('translator')->trans('le.license.dismiss.btn');
             $dataArray['info']=$infomeesage;
         }
-
+        if($licenseRemDays >= 0 && $licenseRemDays < 6){
+            $configurl                    = $this->generateUrl('le_pricing_index');
+            $dataArray['info']            = $this->translator->trans('le.msg.license.before.expired.appheader', ['%URL%'=>$configurl,'%days%'=>$licenseRemDays]);
+            $dataArray['needClosebutton'] = false;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = $isClosed;
+        } elseif ($licenseRemDays < 0){
+            $configurl                    = $this->generateUrl('le_pricing_index');
+            $dataArray['info']            = $this->translator->trans('le.msg.license.expired.appheader', ['%URL%'=>$configurl]);
+            $dataArray['needClosebutton'] = false;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = $isClosed;
+        }
         return $this->sendJsonResponse($dataArray);
     }
 
@@ -775,7 +791,12 @@ class AjaxController extends CommonAjaxController
                 $usageMsg .= $this->translator->trans($contactNotification, ['%TOTAL%' => $totalrecordcount, '%ACTUAL%' => $actualrecordcount]);
             }
             if ($lastpayment == null) {
-                $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade', '%url%' => $pricingplanRoute]);
+                if ($contactNotification != 'le.record.count.expired') {
+                    $usageMsg .= $this->translator->trans('le.upgrade.button', ['%upgrade%' => 'Upgrade Now!', '%url%' => $pricingplanRoute]);
+                } else {
+                    $usageMsg .= $this->translator->trans('le.upgrade.button.total', ['%upgrade%' => 'Upgrade Now', '%url%' => $pricingplanRoute]);
+                }
+
             } else {
                 $usageMsg .= $this->translator->trans('le.plan.renewal.message');
             }
@@ -1126,7 +1147,7 @@ class AjaxController extends CommonAjaxController
 		<div style='background-color:#eff2f7'>
 			<div style='padding-top: 55px;'>
 				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #0071ff;'>
-					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leadsengage/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
+					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
 					<br>
 					<div style='text-align:center;width:100%;'>
 						<div style='display:inline-block;width: 80%;'>

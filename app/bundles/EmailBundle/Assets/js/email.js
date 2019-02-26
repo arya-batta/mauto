@@ -1049,16 +1049,26 @@ Le.checkemailstatus = function(){
                         mQuery('.button-notification').addClass('hide');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('#fixed-content').attr('style', 'margin-top:190px;');
-                        mQuery('.content-body').attr('style', 'padding-top:82px;');
+                        mQuery('.content-body').attr('style', 'padding-top:64px;');
+                        Le.registerDismissBtn();
+                        Le.adJustFixedHeader(true);
                     }
                 } else {
                     mQuery('.license-notifiation').addClass('hide');
+                    Le.adJustFixedHeader(false);
                 }
             }
         });
     }
 }
-
+Le.registerDismissBtn=function(){
+    mQuery('.emaildismissbtn').click(function(e) {
+        Le.closeLicenseButton();
+        mQuery('.content-body').css('margin-top', '2%');
+        Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
+        });
+    });
+};
 Le.changeButtonPanelStyle = function (){
     /*
     if(!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')){

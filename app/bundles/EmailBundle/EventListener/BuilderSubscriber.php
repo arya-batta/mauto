@@ -393,6 +393,11 @@ class BuilderSubscriber extends CommonSubscriber
          * @var Trackable $trackable
          */
         foreach ($trackables as $token => $trackable) {
+            if ($trackable instanceof Trackable) {
+                if (strpos($trackable->getRedirect()->getUrl(), 'leadsengage.com/?utm-src=email-footer-link') !== false) {
+                    continue;
+                }
+            }
             $url = ($trackable instanceof Trackable)
                 ?
                 $this->pageTrackableModel->generateTrackableUrl($trackable, $clickthrough, false, $utmTags)

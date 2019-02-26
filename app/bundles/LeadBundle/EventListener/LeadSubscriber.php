@@ -467,7 +467,7 @@ class LeadSubscriber extends CommonSubscriber
                     $eventlabel = '';
                     $taglabel   = '';
 
-                    if (isset($row['details']['fields']) || isset($row['details']['fields'])) {
+                    if (isset($row['details']['fields']) || isset($row['details']['owner'])) {
                         if (isset($row['details']['fields'])) {
                             foreach ($row['details']['fields'] as $fieldkey => $fields) {
                                 $fieldlabel .= $fieldkey.' - '.$fields['1'].', ';
@@ -475,10 +475,7 @@ class LeadSubscriber extends CommonSubscriber
                         }
 
                         if (isset($row['details']['owner'])) {
-                            foreach ($row['details']['owner'] as $ownerkey => $ownerfields) {
-                                $fieldlabel .= 'owner - '.$ownerfields.', ';
-                                break;
-                            }
+                            $fieldlabel .= 'owner - '.$row['details']['owner'][1].', ';
                         }
 
                         $fieldlabel = substr($fieldlabel, 0, -2).'.';
@@ -494,7 +491,7 @@ class LeadSubscriber extends CommonSubscriber
                         $taglabel     = substr($taglabel, 0, -2).'';
                         $eventlabel   = $eventlabel.$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$taglabel.'".';
                     }
-                    if (!isset($row['details']['fields']) && !isset($row['details']['tags'])) {
+                    if (!isset($row['details']['fields']) && !isset($row['details']['tags']) && !isset($row['details']['owner'])) {
                         $eventlabel = $eventTypeName;
                     }
 

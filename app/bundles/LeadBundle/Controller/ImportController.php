@@ -185,6 +185,12 @@ class ImportController extends FormController
         $lastpayment        = $paymentrepository->getLastPayment();
         $totalRecordCount   = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $actualRecordCount  = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        if ($actualRecordCount >= $totalRecordCount) {
+            $msg = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualRecordCount, '%ACTUALCOUNT%' => $totalRecordCount]);
+            $this->addFlash($msg);
+
+            return $this->delegateRedirect($this->generateUrl('le_contact_index'));
+        }
 
         // Move the file to cache and rename it
         $forceStop = $this->request->get('cancel', false);

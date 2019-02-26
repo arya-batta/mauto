@@ -88,15 +88,24 @@ Le.CheckSMSStatus = function () {
                         mQuery('.button-notification').addClass('hide');
                         mQuery('#fixed-content').attr('style', 'margin-top:195px;');
                         mQuery('.content-body').attr('style', 'padding-top:82px;');
+                        Le.registerSmsDismissBtn();
+                        Le.adJustFixedHeader(true);
                     }
                 } else {
                     mQuery('.license-notifiation').addClass('hide');
+                    Le.adJustFixedHeader(false);
                 }
             }
         });
     }
 }
-
+Le.registerSmsDismissBtn=function(){
+    mQuery('.smsdismissbtn').click(function(e) {
+        Le.closeLicenseButton();
+        Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
+        });
+    });
+};
 Le.selectSmsType = function(smsType) {
     if (smsType == 'list') {
         mQuery('#leadList').removeClass('hide');

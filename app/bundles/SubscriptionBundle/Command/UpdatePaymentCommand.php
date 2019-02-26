@@ -213,7 +213,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             $failure_code         = $charges->failure_code;
             $failure_message      = $charges->failure_message;
             $dbname               = $container->get('mautic.helper.core_parameters')->getParameter('db_name');
-            $appid                = str_replace('leadsengage_apps', '', $dbname);
+            $appid                = str_replace('leadsengage_int', '', $dbname);
             if ($status == 'succeeded') {
                 $todaydate     = date('Y-m-d');
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');

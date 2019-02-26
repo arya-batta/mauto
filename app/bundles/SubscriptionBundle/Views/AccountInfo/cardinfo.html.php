@@ -29,6 +29,7 @@ if ($lastpayment == null) {
         'typePrefix'          => $typePrefix,
         'actionRoute'         => $actionRoute,
         'planType'            => $planType,
+        'planName'            => $planName,
     ]); ?>
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto bdr-l accountinfo">
@@ -49,7 +50,7 @@ if ($lastpayment == null) {
                                 <div class="card-holder-title">
                                     Credit Card
                                 </div>
-                                <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : '';?>">
+                                <div class="card-holder-sub-title <?php echo empty($stripecard->getlast4digit()) ? 'hide' : ''; ?>">
                                     <?php echo 'Card ending in '.$stripecard->getlast4digit().' on file.' ?>
                                 </div>
 

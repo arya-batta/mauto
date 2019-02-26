@@ -270,7 +270,7 @@
                     <br>
                     <label for="phone">Phone</label>
                     <input type="tel" id="welcome_phone" class="welcome-input-text-1 phone" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
-                    <p class="error_tag phone_error hide">Phone can't be empty</p>
+                    <p class="error_tag phone_error hide">The Phone can't be empty</p>
                     <br>
                 </div>
 
@@ -278,7 +278,7 @@
 
                     <label for="businessname">What's your name of your business?</label>
                     <input type="text" id="welcome_business" class="welcome-input-text-2 business" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
-                    <p class="error_tag business_error hide">Business name can't be empty</p>
+                    <p class="error_tag business_error hide">The Business name can't be empty</p>
                     <br>
 
                     <div class="twotab">
@@ -291,7 +291,7 @@
                         <div class="secondtab-page2">
                             <label for="industry">What industry are you in?</label>
                             <input type="text" id="welcome_industry" class="welcome-input-text-2 industry" name="welcome[industry]" value="<?php echo $kyc->getIndustry(); ?>">
-                            <p class="error_tag industry_error hide">Industry can't be empty</p>
+                            <p class="error_tag industry_error hide">The Industry can't be empty</p>
                         </div>
                     </div>
                     <div class="hide">
@@ -370,7 +370,7 @@
                         <div class="firsttab">
                             <label for="city"> City</label>
                             <input type="text" id="welcome_city" class="welcome-input-text-3 city" id="city" name="welcome[city]" value="<?php echo $city; ?>">
-                            <p class="error_tag city_error hide">City can't be empty</p>
+                            <p class="error_tag city_error hide">The City can't be empty</p>
                             <br></div>
                         <div class="secondtab">
                             <label for="state">State</label>

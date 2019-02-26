@@ -37,10 +37,10 @@ $isAdmin=$view['security']->isAdmin();
                                 <label class="control-label">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
                                         <label class="btn le-btn-published le-btn-small  btn-no btn-danger active">
-                                            <input type="radio" id="campaign_showAnalytics_0" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0">            <span>Draft</span>
+                                            <input type="radio" id="campaign_showAnalytics_0" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="0">            <span>No</span>
                                         </label>
                                         <label class="btn btn-default le-btn-published le-btn-small  btn-yes">
-                                            <input type="radio" id="campaign_showAnalytics_1" name="campaign[isPublished]" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked">            <span>Active</span>
+                                            <input type="radio" id="campaign_showAnalytics_1" name="campaign[isPublished]" onchange="Le.toggleYesNoButtonClass(mQuery(this).attr('id'));" style="width: 1px; height: 1px; top: 0; left: 0; margin-top: 0;" autocomplete="false" value="1" checked="checked">            <span>Yes</span>
                                         </label>
                                     </div>                    </div>
                             </div>

@@ -43,22 +43,23 @@ class AjaxController extends CommonAjaxController
 
     public function smsstatusAction()
     {
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
         if ($this->factory->getParameter('publish_account')) {
             if (!$this->get('mautic.helper.sms')->getSmsTransportStatus(false)) {
                 $configurl                  =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
                 $dataArray['success']       =true;
                 $infotext                   ='mautic.sms.appheader.status.fail';
                 $dataArray['info']          = $this->translator->trans($infotext, ['%url%'=>$configurl]);
-                $dataArray['isalertneeded'] = 'false';
+                $dataArray['isalertneeded'] = $isClosed;
             } else {
                 $dataArray['success']       =false;
                 $dataArray['info']          = '';
-                $dataArray['isalertneeded'] = 'false';
+                $dataArray['isalertneeded'] = $isClosed;
             }
         } else {
             $dataArray['success']       =false;
             $dataArray['info']          = '';
-            $dataArray['isalertneeded'] = 'false';
+            $dataArray['isalertneeded'] = $isClosed;
         }
 
         return $this->sendJsonResponse($dataArray);

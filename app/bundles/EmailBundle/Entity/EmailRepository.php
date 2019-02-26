@@ -1168,7 +1168,7 @@ class EmailRepository extends CommonRepository
         return $results[0]['readcount'];
     }
 
-    public function getTotalOpenCounts($emailid)
+    public function getTotalOpenCounts($emailid, $leadid = null)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('es.open_count as opencount')
@@ -1184,7 +1184,10 @@ class EmailRepository extends CommonRepository
         );
         $q->andWhere('e.id = :emailId')
             ->setParameter('emailId', $emailid);
-
+        if ($leadid != null) {
+            $q->andWhere('es.lead_id = :leadId')
+                ->setParameter('leadId', $leadid);
+        }
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 

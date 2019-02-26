@@ -578,6 +578,20 @@ function includeJQuery(filename, onload) {
                             data: LeJQ.param(dataToPost),
                             async:false,
                             success: function (e) {
+                                if(e.download){
+                                    var link = document.createElement("a");
+                                    link.download = "Test";
+                                    link.target = "_blank";
+
+                                    // Construct the URI
+                                    link.href = e.downloadUrl;
+                                    document.body.appendChild(link);
+                                    link.click();
+
+                                    // Cleanup the DOM
+                                    document.body.removeChild(link);
+                                    
+                                }
                                 if (e == '1') {
                                     exists();
                                 }
@@ -603,7 +617,7 @@ JS;
 
     public function smartFormSubmitAction()
     {
-        $response        =['message'=> 'Lead created successfully!.'];
+        $responses        =['message'=> 'Lead created successfully!.'];
         $formid          = $this->request->get('smartformid', '');
         $formname        = $this->request->get('smartformname', '');
         $formdata        = $this->request->get('smartformdata', '');
@@ -613,6 +627,7 @@ JS;
         $server        = $this->request->server->all();
         $formmodel     =$this->getModel('form');
         $formrepository=$formmodel->getRepository();
+        $messengerMode = true;
         if ($formname == 'undefined') {
             $formname = null;
         }
@@ -625,13 +640,88 @@ JS;
         if (sizeof($forms) > 0 && sizeof($post_results) > 0) {
             try {
                 $result = $this->getModel('form.submission')->saveSubmission($post_results, $server, $forms[0], $this->request, true);
+                if (!empty($result['callback'])) {
+                    /** @var SubmissionEvent $submissionEvent */
+                    $submissionEvent = $result['callback'];
+
+                    // Return the first Response object if one is defined
+                    $firstResponseObject = false;
+                    if ($callbackResponses = $submissionEvent->getPostSubmitCallbackResponse()) {
+                        // Some submit actions already injected it's responses
+                        foreach ($callbackResponses as $key => $callsresponse) {
+                            if ($callsresponse instanceof Response) {
+                                $firstResponseObject = $key;
+                                break;
+                            }
+                        }
+                    }
+
+                    // These submit actions have requested a callback after all is said and done
+                    $callbacksRequested = $submissionEvent->getPostSubmitCallback();
+                    foreach ($callbacksRequested as $key => $callbackRequested) {
+                        $callbackRequested['messengerMode'] = $messengerMode;
+                        if (isset($callbackRequested['eventName'])) {
+                            $submissionEvent->setPostSubmitCallback($key, $callbackRequested);
+
+                            $this->get('event_dispatcher')->dispatch($callbackRequested['eventName'], $submissionEvent);
+                        } elseif (isset($callbackRequested['callback'])) {
+                            // @deprecated - to be removed in 3.0; use eventName instead - be sure to remove callback key support from SubmissionEvent::setPostSubmitCallback
+                            $callback = $callbackRequested['callback'];
+
+                            if (is_callable($callback)) {
+                                if (is_array($callback)) {
+                                    $reflection = new \ReflectionMethod($callback[0], $callback[1]);
+                                } elseif (strpos($callback, '::') !== false) {
+                                    $parts      = explode('::', $callback);
+                                    $reflection = new \ReflectionMethod($parts[0], $parts[1]);
+                                } else {
+                                    $reflection = new \ReflectionMethod(null, $callback);
+                                }
+
+                                //add the factory to the arguments
+                                $callbackRequested['factory'] = $this->factory;
+
+                                $pass = [];
+                                foreach ($reflection->getParameters() as $param) {
+
+                                    if (isset($callbackRequested[$param->getName()])) {
+                                        $pass[] = $callbackRequested[$param->getName()];
+                                    } else {
+                                        $pass[] = null;
+                                    }
+                                }
+
+                                $callbackResponses[$key] = $reflection->invokeArgs($this, $pass);
+
+                            }
+                        }
+
+                        if (!$firstResponseObject && $callbackResponses[$key] instanceof Response) {
+                            $firstResponseObject = $key;
+                        }
+                    }
+
+                    if ($firstResponseObject && !$messengerMode) {
+                        // Return the response given by the sbumit action
+
+                        return $callbackResponses[$firstResponseObject];
+                    }
+                }
+                if ($messengerMode) {
+                        if (!empty($callbackResponses)) {
+                            foreach ($callbackResponses as $key => $callresponse) {
+                                $responses['download'] =true;
+                                $responses['downloadUrl']=$callresponse['download'];
+                            }
+                        }
+                }
             } catch (\Exception $ex) {
-                $response['message']='Lead creation failed due to technical error';
+                $responses['message']='Lead creation failed due to technical error';
             }
         } else {
-            $response['message']='Form not found';
+            $responses['message']='Form not found';
         }
 
-        return new JsonResponse($response);
+        return new JsonResponse($responses);
     }
 }

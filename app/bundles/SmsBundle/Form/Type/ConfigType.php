@@ -238,7 +238,7 @@ class ConfigType extends AbstractType
                 'attr'       => [
                     'class'   => 'form-control',
                     'data-hide-on' => $LeadsEngageShowConditions,
-                    'onChange'    => 'Le.updateTextMessageStatus()',
+                    //'onChange'    => 'Le.updateTextMessageStatus()',
                 ],
                 'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
                 'required'   => false,
