@@ -576,10 +576,6 @@ class CommonController extends Controller implements MauticController
                 $limit = InputHelper::int($this->request->query->get('limit'));
                 $session->set("$name.limit", $limit);
             }
-            if ($this->request->query->has('pageId')) {
-                $page = InputHelper::int($this->request->query->get('pageId'));
-                $session->set("$name.pageId", $page);
-            }
 
             if ($this->request->query->has('filterby')) {
                 $filter  = InputHelper::clean($this->request->query->get('filterby'), true);

@@ -386,7 +386,7 @@ endif; ?>
                 </div>
             </div>
         </div>
-        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide" style="min-height:700px;">
+        <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide row" style="min-height:700px;">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>

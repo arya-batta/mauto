@@ -30,6 +30,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'checkall'        => 'true',
                     'target'          => '#formResultTable',
+                    'tmpl'            => 'index',
                     'routeBase'       => 'form_results',
                     'query'           => ['formId' => $formId],
                     'templateButtons' => [
@@ -40,6 +41,7 @@ $isAdmin=$view['security']->isAdmin();
                 endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
+                    'tmpl'       => 'index',
                     'orderBy'    => 's.id',
                     'text'       => 'mautic.core.id',
                     'class'      => 'col-formresult-id',
@@ -48,6 +50,7 @@ $isAdmin=$view['security']->isAdmin();
                 endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
+                    'tmpl'       => 'index',
                     'orderBy'    => 's.date_submitted',
                     'text'       => 'mautic.form.result.thead.date',
                     //'class'      => 'col-formresult-date',
@@ -58,6 +61,7 @@ $isAdmin=$view['security']->isAdmin();
                 if ($isAdmin):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'formresult.'.$formId,
+                    'tmpl'       => 'index',
                     'orderBy'    => 'i.ip_address',
                     'text'       => 'mautic.core.ipaddress',
                     'class'      => 'col-formresult-ip',
@@ -70,6 +74,7 @@ $isAdmin=$view['security']->isAdmin();
                     foreach ($form->getSmartFields() as $index => $f):
                         echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                             'sessionVar' => 'formresult.'.$formId,
+                            'tmpl'       => 'index',
                             'orderBy'    => 'r.'.$f['dbfield'],
                             'text'       => $f['smartfield'],
                             'class'      => 'col-formresult-field col-formresult-field'.$index,
@@ -84,6 +89,7 @@ $isAdmin=$view['security']->isAdmin();
                         }
                     echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                             'sessionVar' => 'formresult.'.$formId,
+                            'tmpl'       => 'index',
                             'orderBy'    => 'r.'.$f->getAlias(),
                             'text'       => $f->getLabel(),
                             'class'      => 'col-formresult-field col-formresult-field'.$f->getId(),
@@ -151,7 +157,7 @@ $isAdmin=$view['security']->isAdmin();
             </tr>
         <?php endforeach; ?>
         <?php else: ?>
-            <?php echo $view->render('MauticEmailBundle:Email:noresults.html.php', ['tip' => 'mautic.form.noresults.tip', 'colspan' => $fieldCount]); ?>
+                <?php echo $view->render('MauticEmailBundle:Email:noresults.html.php', ['tip' => 'mautic.form.noresults.tip', 'colspan' => $fieldCount, 'removespace' => true]); ?>
         <?php endif; ?>
         </tbody>
     </table>
@@ -161,7 +167,7 @@ $isAdmin=$view['security']->isAdmin();
         'totalItems' => $totalCount,
         'page'       => $page,
         'limit'      => $limit,
-        'baseUrl'    => $view['router']->path('le_form_action', ['objectAction'=>'view','objectId' => $form->getId()]),
+        'baseUrl'    => $view['router']->path('le_form_action', ['objectAction'=>'view', 'objectId' => $form->getId()]),
         'sessionVar' => 'form.results',
     ]); ?>
 </div>

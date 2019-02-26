@@ -12,6 +12,7 @@
 namespace Mautic\FormBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController as CommonFormController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\FormBundle\Entity\Field;
 use Mautic\FormBundle\Entity\Form;
 use Mautic\FormBundle\Exception\ValidationException;
@@ -207,16 +208,31 @@ class FormController extends CommonFormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function viewAction($objectId)
+    public function viewAction($objectId, $pageId = null)
     {
         /** @var \Mautic\FormBundle\Model\FormModel $model */
         $model      = $this->getModel('form');
         $activeForm = $model->getEntity($objectId);
-
+        $session    = $this->get('session');
         //set the page we came from
         $page = $this->get('session')->get('mautic.form.page', 1);
+        $tmpl = '';
         if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters('form.results');
+            $this->setListFilters();
+            $name = 'mautic.form.results';
+
+            if ($this->request->query->has('pageId')) {
+                $page = InputHelper::int($this->request->query->get('pageId'));
+                $session->set("$name.pageId", $page);
+            }
+
+            if ($this->request->query->has('orderby')) {
+                $orderBy = InputHelper::clean($this->request->query->get('orderby'), true);
+                $dir     = $session->get("$name.orderbydir", 'ASC');
+                $dir     = ($dir == 'ASC') ? 'DESC' : 'ASC';
+                $session->set("$name.orderby", $orderBy);
+                $session->set("$name.orderbydir", $dir);
+            }
         }
         if ($activeForm === null) {
             //set the return URL
@@ -303,23 +319,27 @@ class FormController extends CommonFormController
             $activeFormFields[] = $field;
         }
         //set limits
-        $limit = $this->get('session')->get('mautic.form.results.limit', 50);
-        $resultPage = $this->get('session')->get('mautic.form.results.pageId');
-        $start = ($resultPage === 1) ? 0 : (($resultPage - 1) * $limit);
+        $limit      = $this->get('session')->get('mautic.form.results.limit', 50);
+        $resultPage = empty($pageId) ? $this->get('session')->get('mautic.form.results.pageId') : $pageId;
+        $start      = ($resultPage === 1) ? 0 : (($resultPage - 1) * $limit);
         if ($start < 0) {
             $start = 0;
         }
-        $Resultmodel = $this->getModel('form.submission');
+        $Resultmodel    = $this->getModel('form.submission');
         $formModel      = $this->getModel('form.form');
         $viewOnlyFields = $formModel->getCustomComponents()['viewOnlyFields'];
         $form           = $formModel->getEntity($objectId);
+        $session        = $this->get('session');
+        $orderBy        = $session->get('mautic.form.results.orderby', 's.date_submitted');
+        $orderByDir     = $session->get('mautic.form.results.orderbydir', 'DESC');
+
         $entities = $Resultmodel->getEntities(
             [
                 'start'          => $start,
                 'limit'          => $limit,
                 'filter'         => ['force' => []],
-                'orderBy'        => 's.date_submitted',
-                'orderByDir'     => 'DESC',
+                'orderBy'        => $orderBy,
+                'orderByDir'     => $orderByDir,
                 'form'           => $form,
                 'withTotalCount' => true,
                 'simpleResults'  => true,
@@ -345,12 +365,13 @@ class FormController extends CommonFormController
                     'formScript'        => htmlspecialchars($model->getFormScript($activeForm), ENT_QUOTES, 'UTF-8'),
                     'formContent'       => htmlspecialchars($model->getContent($activeForm, false), ENT_QUOTES, 'UTF-8'),
                     'availableActions'  => $customComponents['actions'],
-                    'results'      => $results,
-                    'resultPage'=>$resultPage,
-                    'form'         => $form,
-                    'count'        => $count,
-                    'limit'        => $limit,
-                    'viewOnlyFields'=> $viewOnlyFields,
+                    'results'           => $results,
+                    'resultPage'        => $resultPage,
+                    'form'              => $form,
+                    'count'             => $count,
+                    'limit'             => $limit,
+                    'viewOnlyFields'    => $viewOnlyFields,
+                    'tmpl'              => $tmpl,
                 ],
                 'contentTemplate' => 'MauticFormBundle:Form:details.html.php',
                 'passthroughVars' => [

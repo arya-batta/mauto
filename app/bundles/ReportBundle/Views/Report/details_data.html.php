@@ -71,6 +71,7 @@ $graphContent = $view->render(
                                         'class'      => 'col-report-'.$columns[$key]['type'],
                                         'dataToggle' => in_array($columns[$key]['type'], ['date', 'datetime']) ? 'date' : '',
                                         'target'     => '.report-content',
+                                        'tmpl'       => 'index',
                                     ]);
                                 else:
                                     unset($columnOrder[$key]);
@@ -89,6 +90,7 @@ $graphContent = $view->render(
                                         'text'       => $aggregator['function'].' '.$columnName,
                                         'dataToggle' => '',
                                         'target'     => '.report-content',
+                                        'tmpl'       => 'index',
                                     ]);
                                     ?>
                                     <?php
