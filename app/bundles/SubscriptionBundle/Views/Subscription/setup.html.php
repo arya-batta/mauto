@@ -268,9 +268,9 @@
                     <input type="text" id="welcome_lastname" class="welcome-input-text-1 lastname" name="welcome[lastname]" value="<?php echo $user->getLastName()?>">
                     <p class="error_tag lastname_error hide"></p>
                     <br>
-                    <label for="phone">Phone</label>
+                    <label for="phone">Mobile</label>
                     <input type="tel" id="welcome_phone" class="welcome-input-text-1 phone" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
-                    <p class="error_tag phone_error hide">The Phone can't be empty</p>
+                    <p class="error_tag phone_error hide">Please provide a valid mobile number.</p>
                     <br>
                 </div>
 

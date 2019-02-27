@@ -11,7 +11,7 @@ Le.welcomeOnLoad = function() {
             }
             if (mQuery(this).hasClass('phone') && phone == ""){
                 mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Phone can't be empty");
+                mQuery(".phone_error").text("Please provide a valid mobile number.");
                 mQuery(".phone_error").removeClass('hide');
             } else if (mQuery(this).hasClass('phone') && phone != "" && (/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").addClass('hide');
@@ -54,7 +54,7 @@ Le.welcomeOnLoad = function() {
             } else if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
                 mQuery(".website_error").removeClass('hide');
                 mQuery(".website_error").text('');
-                mQuery(".website_error").text("Please provide valid website URL.");
+                mQuery(".website_error").text("Please provide a valid website URL.");
             }
             if (mQuery(this).hasClass('industry') && industry == ""){
                 mQuery(".industry_error").removeClass('hide');
@@ -72,7 +72,7 @@ Le.welcomeOnLoad = function() {
                 mQuery("#welcome_websiteurl").addClass('error_input');
                 mQuery(".website_error").removeClass('hide');
                 mQuery(".website_error").text('');
-                mQuery(".website_error").text("Please provide valid website URL.");
+                mQuery(".website_error").text("Please provide a valid website URL.");
                 mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
             } else {
                 mQuery(".business_error").addClass('hide');
