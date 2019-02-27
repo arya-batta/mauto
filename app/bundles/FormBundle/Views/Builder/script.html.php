@@ -11,6 +11,7 @@
 
 $scriptSrc = $view['assets']->getUrl('media/js/'.($app->getEnvironment() == 'dev' ? 'le-form-src.js' : 'le-form.js'), null, null, true);
 $scriptSrc = str_replace('/index_dev.php', '', $scriptSrc);
+$scriptSrc = str_replace('/index.php', '', $scriptSrc);
 ?>
 
 <script type="text/javascript">

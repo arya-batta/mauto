@@ -348,9 +348,9 @@ class EventController extends CommonFormController
         $formView = $form->createView();
         $label    =$this->get('translator')->trans($event['settings']['label']);
         if ($event['type'] == 'pagehit') {
-            $choices=$formView->children['properties']->children['pages']->vars['choices'];
-            $pages  =$event['properties']['pages'];
-            $label  =$this->getFormattedEventLabel($label, $pages, $choices['en']);
+            //$choices=$formView->children['properties']->children['pages']->vars['choices'];
+            //$pages  =$event['properties']['pages'];
+           // $label  =$this->getFormattedEventLabel($label, $pages, $choices['en']);
         } elseif ($event['type'] == 'openEmail' || $event['type'] == 'clickEmail') {
             if ($event['properties']['campaigntype'] == 'drip') {
                 $choices = $formView->children['properties']->children['driplist']->vars['choices'];
@@ -585,13 +585,13 @@ class EventController extends CommonFormController
                     $displaystring='';
                     if (sizeof($value) > 0) {
                         if ($object == 'drip_campaign') {
-                            if($data['type'] != "drip_email_list" ) {
+                            if ($data['type'] != 'drip_email_list') {
                                 $keys = array_keys($list);
                                 foreach ($keys as $key) {
                                     $lists = $list[$key];
                                     for ($v = 0; $v < sizeof($value); ++$v) {
                                         if (isset($lists[$value[$v]])) {
-                                            $displaystring .= $key . ':' . $lists[$value[$v]];
+                                            $displaystring .= $key.':'.$lists[$value[$v]];
                                             if ($v < sizeof($value) - 1) {
                                                 $displaystring .= ', ';
                                             }
@@ -633,16 +633,16 @@ class EventController extends CommonFormController
                     $value='['.implode(', ', $value).']';
                 }
             } else {
-                    if ($fieldlabel == 'Lead score') {
-                        $v    =ucwords($value);
-                        $value='['.$v.']';
-                    } elseif ($fieldlabel == 'Email activity') {
-                        $value = '['.$value.'] emails';
-                    } elseif ($fieldlabel == 'Email bounced' || $fieldlabel == "Email unsubscribed") {
-                       $value = $value == 1 ? '[ Yes ]' : '[ No ]';
-                    } else {
-                        $value = '['.$value.']';
-                    }
+                if ($fieldlabel == 'Lead score') {
+                    $v    =ucwords($value);
+                    $value='['.$v.']';
+                } elseif ($fieldlabel == 'Email activity') {
+                    $value = '['.$value.'] emails';
+                } elseif ($fieldlabel == 'Email bounced' || $fieldlabel == 'Email unsubscribed') {
+                    $value = $value == 1 ? '[ Yes ]' : '[ No ]';
+                } else {
+                    $value = '['.$value.']';
+                }
             }
             if ($index > 0) {
                 if ($glue == 'or') {
