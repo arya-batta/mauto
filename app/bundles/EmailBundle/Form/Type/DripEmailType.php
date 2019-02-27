@@ -243,9 +243,10 @@ class DripEmailType extends AbstractType
                 'yesno_button_group',
                 [
                     'attr'  => [
-                        'onchange' => 'Le.toggleDripEmailPublisedListVisibility();',
-                        'no_label'   => 'mautic.core.form.unpublished',
-                        'yes_label'  => 'mautic.core.form.published',],
+                        'onchange' => 'Le.toggleDripEmailPublisedListVisibility()',
+                        ],
+                    'no_label'   => 'mautic.core.form.unpublished',
+                    'yes_label'  => 'mautic.core.form.published',
                 ]
             );
             $builder->add(

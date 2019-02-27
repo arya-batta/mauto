@@ -47,7 +47,7 @@ abstract class AbstractFormController extends CommonController
                 'mautic.core.action.entity.unlocked',
                 [
                     '%name%' => urldecode($this->request->get('name')),
-                    '%screen%'=>'le.override.screen'.$model,
+                    '%screen%'=>'le.override.screen'.$modelName,
                 ]
             );
 

@@ -244,10 +244,22 @@ Le.adJustFixedHeader = function(isadd){
     if(pagemode == '') {
         if (isadd) {
             mQuery('#fixed-header').css('top', '100px');
-            mQuery('.content-body').css('margin-top', '15%');
+            mQuery('.content-body').css('margin-top', '13.5%');
         } else {
             mQuery('#fixed-header').css('top', '50px');
             mQuery('.content-body').css('margin-top', '10%');
+        }
+    }else if(pagemode == 'config'){
+        if (isadd) {
+            mQuery('#fixed-header').css('top', '100px');
+            mQuery('.content-body').css('margin-top', '170px');
+        } else{
+            mQuery('#fixed-header').css('top', '50px');
+            mQuery('.content-body').css('margin-top', '110px');
+        }
+    }else{
+        if (isadd) {
+            mQuery('.content-body').attr('style', 'padding-top:3.5%;');
         }
     }
 };

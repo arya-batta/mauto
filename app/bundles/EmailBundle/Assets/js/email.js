@@ -1049,7 +1049,6 @@ Le.checkemailstatus = function(){
                         mQuery('.button-notification').addClass('hide');
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('#fixed-content').attr('style', 'margin-top:190px;');
-                        mQuery('.content-body').attr('style', 'padding-top:64px;');
                         Le.registerDismissBtn();
                         Le.adJustFixedHeader(true);
                     }
@@ -1064,7 +1063,7 @@ Le.checkemailstatus = function(){
 Le.registerDismissBtn=function(){
     mQuery('.emaildismissbtn').click(function(e) {
         Le.closeLicenseButton();
-        mQuery('.content-body').css('margin-top', '2%');
+        Le.adJustFixedHeader(false);
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });

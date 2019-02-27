@@ -251,7 +251,8 @@ Le.configOnLoad = function (container){
         Le.ajaxActionRequest('email:deleteSenderProfile', {'email': email}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
             if(response.success) {
-                currentrow.remove();
+               // currentrow.remove();
+                Le.redirectWithBackdrop(response.redirect);
             } else {
                 mQuery('#sender_profile_errors').html(response.message);
                 return;

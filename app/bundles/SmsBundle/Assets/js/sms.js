@@ -87,7 +87,6 @@ Le.CheckSMSStatus = function () {
                         mQuery('.license-notifiation #license-alert-message').html(response.info);
                         mQuery('.button-notification').addClass('hide');
                         mQuery('#fixed-content').attr('style', 'margin-top:195px;');
-                        mQuery('.content-body').attr('style', 'padding-top:82px;');
                         Le.registerSmsDismissBtn();
                         Le.adJustFixedHeader(true);
                     }
@@ -102,6 +101,7 @@ Le.CheckSMSStatus = function () {
 Le.registerSmsDismissBtn=function(){
     mQuery('.smsdismissbtn').click(function(e) {
         Le.closeLicenseButton();
+        Le.adJustFixedHeader(true);
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });

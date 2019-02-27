@@ -116,9 +116,11 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
                     <?php echo $view['form']->widget($fields['mailer_test_connection_button']); ?>
                     <?php /** echo $view['form']->widget($fields['mailer_test_send_button']); */ ?>
                 </div>
+            </div>
+            <div class="row">
                 <div width="150px;" id="mailerTestButtonContainer" >
-                    <span class="fa fa-spinner fa-spin hide" style="margin-left: -246px;"></span>
-                    <div class="col-md-6 help-block" style="    float: left;margin-left: -205px;margin-top: 39px;"></div>
+                    <span class="fa fa-spinner fa-spin hide" ></span>
+                    <div class="col-md-6 help-block" ></div>
                 </div>
             </div>
 

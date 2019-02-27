@@ -259,7 +259,7 @@ class AccountController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'               => $tmpl,
+                //'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
                 'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
@@ -318,7 +318,7 @@ class AccountController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'               => $tmpl,
+               // 'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
                 'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',
@@ -366,7 +366,7 @@ class AccountController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'tmpl'               => $tmpl,
+               // 'tmpl'               => $tmpl,
                 'security'           => $this->get('mautic.security'),
                 'actionRoute'        => 'le_accountinfo_action',
                 'typePrefix'         => 'form',

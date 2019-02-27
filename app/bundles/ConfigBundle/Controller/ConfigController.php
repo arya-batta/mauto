@@ -180,11 +180,11 @@ class ConfigController extends FormController
                             if ($this->get('mautic.helper.user')->getUser()->isAdmin()) {
                                 $configprovider = $params['mailer_transport'];
                             }
-                            if ($this->translator->trans($configprovider) == $licenseemailprovider) {
+                           /* if ($this->translator->trans($configprovider) == $licenseemailprovider && $params['mailer_user'] == $maileruser ||$params['mailer_user'] == "") {
                                 $configurator->mergeParameters(['email_status' => 'Active']);
                                 $emailModel = $this->factory->getModel('email');
                                 $emailModel->enableFirstSenderProfiles();
-                            }
+                            }*/
                             $emailTransport = '';
                             $smsTransport   = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
@@ -242,7 +242,7 @@ class ConfigController extends FormController
             }
         }
 
-        $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'config') : 'config';
         /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
         $emailModel          = $this->factory->getModel('email');
         $awsEmailRepository  =$emailModel->getAwsVerifiedEmailsRepository();
@@ -253,7 +253,7 @@ class ConfigController extends FormController
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    //tmpl'           => $tmpl,
+                    'tmpl'           => $tmpl,
                     'security'       => $this->get('mautic.security'),
                     'form'           => $this->setFormTheme($form, 'MauticConfigBundle:Config:form.html.php', $formThemes),
                     'formConfigs'    => $formConfigs,

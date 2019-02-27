@@ -331,8 +331,8 @@ Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
             } else if (response.statusHtml) {
                 mQuery(el).replaceWith(response.statusHtml);
                 mQuery(el).tooltip({html: true, container: 'body'});
-            }else if(response.senderprofile && reponse.success){
-                var addClass = (wasPublished) ? 'fa-toggle-on' : 'fa-toggle-off';
+            }else if(response.senderprofile == "1" && response.success){
+                var addClass = 'fa-toggle-off';
                 mQuery(el).removeClass('fa-spin fa-spinner').addClass(addClass);
             }
         },

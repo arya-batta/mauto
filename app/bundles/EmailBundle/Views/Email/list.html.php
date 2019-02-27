@@ -15,7 +15,7 @@ $isAdmin=$view['security']->isAdmin();
 ?>
 
 <?php if (count($items)): ?>
-    <div class="table-responsive">
+    <div class="table-responsive table-responsive-force">
         <table class="table table-hover table-striped table-bordered email-list">
             <thead>
             <tr>
