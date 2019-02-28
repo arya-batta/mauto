@@ -94,7 +94,7 @@
         <h2 class="email"><?php echo $email; ?></h2>
         <p class="messageContainer" style="border-bottom:0px;">You have been successfully confirmed subscription to the list. Great to have you onboard :)</p>
         <div class="footnote">
-            <p>Powered by <a href="https://leadsengage.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+            <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
         </div>
     </div>
 </div>

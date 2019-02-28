@@ -627,19 +627,20 @@ class AjaxController extends CommonAjaxController
             $infomeesage .= $this->get('translator')->trans('le.license.dismiss.btn');
             $dataArray['info']=$infomeesage;
         }
-        if($licenseRemDays >= 0 && $licenseRemDays < 6){
+        if ($licenseRemDays >= 0 && $licenseRemDays < 6) {
             $configurl                    = $this->generateUrl('le_pricing_index');
-            $dataArray['info']            = $this->translator->trans('le.msg.license.before.expired.appheader', ['%URL%'=>$configurl,'%days%'=>$licenseRemDays]);
+            $dataArray['info']            = $this->translator->trans('le.msg.license.before.expired.appheader', ['%URL%'=>$configurl, '%days%'=>$licenseRemDays]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
             $dataArray['isalertneeded']   = $isClosed;
-        } elseif ($licenseRemDays < 0){
+        } elseif ($licenseRemDays < 0) {
             $configurl                    = $this->generateUrl('le_pricing_index');
             $dataArray['info']            = $this->translator->trans('le.msg.license.expired.appheader', ['%URL%'=>$configurl]);
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
             $dataArray['isalertneeded']   = $isClosed;
         }
+
         return $this->sendJsonResponse($dataArray);
     }
 
@@ -796,7 +797,6 @@ class AjaxController extends CommonAjaxController
                 } else {
                     $usageMsg .= $this->translator->trans('le.upgrade.button.total', ['%upgrade%' => 'Upgrade Now', '%url%' => $pricingplanRoute]);
                 }
-
             } else {
                 $usageMsg .= $this->translator->trans('le.plan.renewal.message');
             }
@@ -1147,7 +1147,7 @@ class AjaxController extends CommonAjaxController
 		<div style='background-color:#eff2f7'>
 			<div style='padding-top: 55px;'>
 				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #0071ff;'>
-					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
+					<p style='text-align:center;'><img src='http://anyfunnels.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
 					<br>
 					<div style='text-align:center;width:100%;'>
 						<div style='display:inline-block;width: 80%;'>

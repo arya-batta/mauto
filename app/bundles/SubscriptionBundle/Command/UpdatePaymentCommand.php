@@ -240,7 +240,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             } else {
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
                 $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateAppStatus($appid, 'Inactive');
+                $subsrepository->updateAppStatus($appid, 'InActive');
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');
                 $output->writeln('<error>'.'Failure Message:'.$failure_message.'</error>');

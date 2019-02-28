@@ -394,7 +394,7 @@ class BuilderSubscriber extends CommonSubscriber
          */
         foreach ($trackables as $token => $trackable) {
             if ($trackable instanceof Trackable) {
-                if (strpos($trackable->getRedirect()->getUrl(), 'leadsengage.com/?utm-src=email-footer-link') !== false) {
+                if (strpos($trackable->getRedirect()->getUrl(), 'anyfunnels.com/?utm-src=email-footer-link') !== false) {
                     continue;
                 }
             }

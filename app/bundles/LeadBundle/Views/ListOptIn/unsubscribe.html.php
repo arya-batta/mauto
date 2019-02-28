@@ -108,7 +108,7 @@
                     </form>
                 </div>
                 <div class="footnote">
-                    <p>Powered by <a href="https://leadsengage.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+                    <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
             <p class="messageContainer"><?php echo $message?></p>
 
             <div class="footnotes">
-                <p>Powered by <a href="https://leadsengage.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+                <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
             </div>
         </div>
     </div>

@@ -230,7 +230,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.subsc
     </div>
     <div class="subscription-desc">
                     <div class="subscription-desc-title">About your subscription</div>
-                    <div class="subscription-desc-notes">All subscriptions will be automatically renewed from your credit card or PayPal account on a recurring basis and we'll send you a receipt each time. You can upgrade, downgrade or cancel anytime. If the subscription is canceled, refunds and termination of access will follow the <a target="_blank" href="https://leadsengage.com/">Terms of Service</a>. Prices are in <span class="prices_in">Indian Rupee</span> and subject to change. Other restrictions and taxes may apply.</div>
+                    <div class="subscription-desc-notes">All subscriptions will be automatically renewed from your credit card or PayPal account on a recurring basis and we'll send you a receipt each time. You can upgrade, downgrade or cancel anytime. If the subscription is canceled, refunds and termination of access will follow the <a target="_blank" href="http://anyfunnels.com/">Terms of Service</a>. Prices are in <span class="prices_in">Indian Rupee</span> and subject to change. Other restrictions and taxes may apply.</div>
     </div>
 </div>
 <div class="clearfix"></div>

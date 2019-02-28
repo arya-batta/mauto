@@ -498,13 +498,13 @@ class ListOptInModel extends FormModel
                 $br          = $doc->createElement('br');
                 $brandfooter = $doc->createElement('div');
                 $brandfooter->setAttribute('style', 'background-color:#ffffff;text-align:center;');
-                $url  = 'https://leadsengage.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
+                $url  = 'http://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
                 $atag = $doc->createElement('a');
                 $atag->setAttribute('href', $url);
                 $atag->setAttribute('target', '_blank');
 
                 $imgtag = $doc->createElement('img');
-                $icon   = 'https://leadsengage.com/wp-content/uploads/leproduct/email-footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $icon   = 'http://anyfunnels.com/wp-content/uploads/leproduct/email-footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $imgtag->setAttribute('src', $icon);
                 $imgtag->setAttribute('style', 'height:35px;width:160px;margin-top:10px;margin-bottom:5px;');
                 $imgtag->setAttribute('title', 'Free Marketing Automation Software');

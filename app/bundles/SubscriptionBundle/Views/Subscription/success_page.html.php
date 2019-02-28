@@ -64,7 +64,7 @@ if ($isImportDone) {
             <div class="row row-padding" style="text-align: center">
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="https://leadsengage.com/wp-content/uploads/leproduct/icon-configuration.png">
+                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-configuration.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
                                 <li class="<?php echo $isProviderChanged ? 'active' : ''; ?>">
@@ -86,7 +86,7 @@ if ($isImportDone) {
 
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="https://leadsengage.com/wp-content/uploads/leproduct/icon-upload.png">
+                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-upload.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
                                 <li class="<?php echo $isListCreated ? 'active' : ''; ?>">
@@ -108,7 +108,7 @@ if ($isImportDone) {
 
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="https://leadsengage.com/wp-content/uploads/leproduct/icon-send-email.png">
+                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-send-email.png">
                         <div style="text-align: left;padding:15px;"
                             <ul class="todolist">
                                 <li class="<?php echo $isOneOffCreated ? 'active' : ''; ?>">
@@ -133,7 +133,7 @@ if ($isImportDone) {
                 <div class="col-sm-6">
                     <div class="bg-white dashboard-email-campaign-stats" style="height:550px;">
                     <div>
-                        <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script><a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe"><img style="width:100%;" src="https://leadsengage.com/wp-content/uploads/leproduct/play-video.png"></a>
+                        <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script><a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe"><img style="width:100%;" src="http://anyfunnels.com/wp-content/uploads/leproduct/play-video.png"></a>
                     </div>
                     </div>
                 </div>
@@ -145,18 +145,18 @@ if ($isImportDone) {
 
                         <ul style="list-style: none;">
 
-                            <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Email services (SES/ SMTP) configuration as you choose (Sendgrid, Sparkpost, Elastic Email or Amazon SES)</span><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li>
-                            <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Email deliverability settings include Domain verification, DKIM,  SPF, DMARC settings.</span></span>
-                            <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Setting up your website tracking, web forms & other custom technical configuration as required.</span></span><br /></li>
+                            <li style="font-size: 12px; line-height: 24px;background: url(http://anyfunnels.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Email services (SES/ SMTP) configuration as you choose (Sendgrid, Sparkpost, Elastic Email or Amazon SES)</span><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li>
+                            <li style="font-size: 12px; line-height: 24px;background: url(http://anyfunnels.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Email deliverability settings include Domain verification, DKIM,  SPF, DMARC settings.</span></span>
+                            <li style="font-size: 12px; line-height: 24px;background: url(http://anyfunnels.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">Setting up your website tracking, web forms & other custom technical configuration as required.</span></span><br /></li>
                         </ul>
                         <p style="margin: 0;font-size: 12px;line-height: 24px;text-align: left;"><span style="font-size: 17px; line-height: 34px;"><strong><span style="line-height: 34px; font-size: 17px;">Is this service charged extra?</span></strong></span><br /><span style="font-size: 16px; line-height: 32px;"></span></p>
 
                         <ul style="list-style: none;">
 
-                            <li style="font-size: 12px; line-height: 24px;background: url(https://leadsengage.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">No, we don’t charges you anything extra.</span><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li>
+                            <li style="font-size: 12px; line-height: 24px;background: url(http://anyfunnels.com/wp-content/uploads/leproduct/check-tick-blue1.png) no-repeat top left; padding: 1px 0px 0px 30px;    margin-left: -15px;"><span style="font-size: 14px; line-height: 28px;"><span style="line-height: 28px; font-size: 14px;">No, we don’t charges you anything extra.</span><span style="line-height: 28px; font-size: 14px;"></span><span style="line-height: 28px; font-size: 14px;"></span></span></li>
                         </ul>
                     </div>
-                    <a href="https://leadsengage.com/online-demo/" target="_blank" class="schedule_demo"><?php echo $view['translator']->trans('le.dashboard.schedule.demo'); ?></a>
+                    <a href="http://anyfunnels.com/online-demo/" target="_blank" class="schedule_demo"><?php echo $view['translator']->trans('le.dashboard.schedule.demo'); ?></a>
                     </div>
                 </div>
             </div>

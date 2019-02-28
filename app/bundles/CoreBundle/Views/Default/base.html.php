@@ -36,10 +36,10 @@
         <?php echo $view->render('MauticCoreBundle:Notification:flashes.html.php'); ?>
     </header>
     <!--/ end: app-header -->
-    <?php $anitSpamUrl    ='https://leadsengage.com/anti-spam-policy/'; ?>
-    <?php $privacyUrl     ='https://leadsengage.com/privacy-policy/'; ?>
-    <?php $termsAndCondUrl='https://leadsengage.com/terms-of-service/'; ?>
-    <?php $GDPRpolicy     ='https://leadsengage.com/gdpr-policy/'; ?>
+    <?php $anitSpamUrl    ='http://anyfunnels.com/anti-spam-policy/'; ?>
+    <?php $privacyUrl     ='http://anyfunnels.com/privacy-policy/'; ?>
+    <?php $termsAndCondUrl='http://anyfunnels.com/terms-of-service/'; ?>
+    <?php $GDPRpolicy     ='http://anyfunnels.com/gdpr-policy/'; ?>
     <!-- start: app-footer(need to put on top of #app-content)-->
     <footer id="app-footer">
         <div class="container-fluid">

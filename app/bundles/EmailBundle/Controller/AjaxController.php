@@ -450,7 +450,7 @@ class AjaxController extends CommonAjaxController
 			<div style='padding-top: 55px;'>
 				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #EF3F87;'>
 
-					<p style='text-align:center;'><img src='https://leadsengage.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
+					<p style='text-align:center;'><img src='http://anyfunnels.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
 					<br>
 					<div style='text-align:center;width:100%;'>
 						<div style='display:inline-block;width: 80%;'>
@@ -644,7 +644,7 @@ class AjaxController extends CommonAjaxController
     public function emailstatusAction()
     {
         $isClosed                     = $this->factory->get('session')->get('isalert_needed');
-        $configurl= $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+        $configurl                    = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
             $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);

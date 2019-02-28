@@ -4918,7 +4918,7 @@
                 </div>
                 <div class="welcome-page-footer" style="width: 50%;float: right;text-align: right;">
                     <p>©2019 All Rights Reserved, LeadsEngage Inc<br>
-                        <a href="https://leadsengage.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="https://leadsengage.com/terms-of-service/" target="_blank">Terms of Service</a></p>
+                        <a href="http://anyfunnels.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="http://anyfunnels.com/terms-of-service/" target="_blank">Terms of Service</a></p>
 
                 </div>
                 </div>

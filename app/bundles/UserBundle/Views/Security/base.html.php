@@ -19,7 +19,7 @@
             <div class="lg-content">
                 <h2 class="lg-content-header"><?php echo $view['translator']->trans('le.users.content.header'); ?></h2>
                 <p class="text-muted le-content-description"> <?php echo $view['translator']->trans('le.users.content.desc'); ?></p>
-                <a class="btn btn-rounded le-btn-danger p-l-20 p-r-20 hide" style="color: #fff;" href="https://leadsengage.com/" target="_blank"><?php echo $view['translator']->trans('le.users.content.button'); ?></a>
+                <a class="btn btn-rounded le-btn-danger p-l-20 p-r-20 hide" style="color: #fff;" href="http://anyfunnels.com/" target="_blank"><?php echo $view['translator']->trans('le.users.content.button'); ?></a>
             </div>
         </div>
     </div>

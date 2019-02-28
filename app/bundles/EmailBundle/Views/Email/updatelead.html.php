@@ -192,7 +192,7 @@
             </div>
         </form>
         <div class="footnote">
-            <p style="margin:10px">Powered by <a href="https://leadsengage.com/?utm_source=app_unsubscribe_page"><u>LeadsEngage</u></a></p>
+            <p style="margin:10px">Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page"><u>LeadsEngage</u></a></p>
         </div>
     </div>
 <?php elseif ($actionName == 'viewlead'): ?>
