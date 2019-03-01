@@ -87,8 +87,11 @@ return [
                 ],
             ],
             'le_form_action' => [
-                'path'       => '/forms/{objectAction}/{objectId}',
+                'path'       => '/forms/{objectAction}/{objectId}/{pageId}',
                 'controller' => 'MauticFormBundle:Form:execute',
+                'defaults'   => [
+                    'pageId' => 1,
+                ],
             ],
         ],
         'api' => [

@@ -285,7 +285,7 @@
                         <div class="firsttab">
                             <label for="weburl">What's your website URL?</label>
                             <input type="url" id="welcome_websiteurl" class="welcome-input-text-2 website_url" name="welcome[websiteurl]" value="<?php echo $account->getWebsite(); ?>">
-                            <p class="error_tag website_error hide">Website URL can't be empty</p>
+                            <p class="error_tag website_error hide">Please provide a valid mobile number</p>
                             <br>
                         </div>
                         <div class="secondtab-page2">

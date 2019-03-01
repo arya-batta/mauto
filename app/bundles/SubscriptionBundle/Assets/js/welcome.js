@@ -18,14 +18,14 @@ Le.welcomeOnLoad = function() {
             } else if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").removeClass('hide');
                 mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Please provide proper mobile number.");
+                mQuery(".phone_error").text("Please provide a valid mobile number.");
             }
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
             if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").removeClass('hide');
                 mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Please provide proper mobile number.");
+                mQuery(".phone_error").text("Please provide a valid mobile number.");
                 mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
             } else {
                 mQuery(".firstname_error").addClass('hide');
@@ -47,7 +47,7 @@ Le.welcomeOnLoad = function() {
             }
             if (mQuery(this).hasClass('website_url') && website == ""){
                 mQuery(".website_error").text('');
-                mQuery(".website_error").text("Website URL can't be empty");
+                mQuery(".website_error").text("Please provide a valid website URL.");
                 mQuery(".website_error").removeClass('hide');
             } else if (mQuery(this).hasClass('website_url') && website != "" && Le.IsProperURL(website)){
                 mQuery(".website_error").addClass('hide');
