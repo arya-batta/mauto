@@ -126,6 +126,22 @@ try {
             if ($domain == '') {
                 continue;
             }
+
+            if (!file_exists("app/config/$domain/local.php")) {
+                continue;
+            }
+
+            $sql         = "select appid from applicationlist where f5 = '$domain';";
+            $appidarr    = getResultArray($con, $sql);
+            $appid       = $appidarr[0][0];
+            $dbname      = DBINFO::$COMMONDBNAME.$appid;
+            $sql         = "SELECT SCHEMA_NAME   FROM INFORMATION_SCHEMA.SCHEMATA  WHERE SCHEMA_NAME = '$dbname';";
+            $result      = getResultArray($con, $sql);
+
+            if (!sizeof($result) > 0) {
+                continue;
+            }
+
             if (checkLicenseAvailablity($con, $domain)) {
                 continue;
             }
