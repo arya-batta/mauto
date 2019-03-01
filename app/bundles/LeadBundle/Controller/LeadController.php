@@ -1853,8 +1853,8 @@ class LeadController extends FormController
                                 if (!$isHavingEmailValidity) {
                                     $this->addFlash('mautic.email.validity.expired');
                                 } else {
-                                    $configurl     = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
-                                    $this->addFlash('mautic.email.count.exceeds', ['%URL%'=>$configurl]);
+                                $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                                $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
                                 }
                             }
                         } else {

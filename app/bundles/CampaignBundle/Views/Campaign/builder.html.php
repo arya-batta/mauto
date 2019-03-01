@@ -24,9 +24,9 @@ $isAdmin=$view['security']->isAdmin();
         <?php echo $view['form']->start($form); ?>
         <!-- start: box layout -->
             <!-- container -->
-            <div style="width: 82%;float: left;">
+            <div  style="width: 80%;float: left;">
                     <div class="row">
-                        <div style="width: 50%;float: left;margin-left: 10px;">
+                        <div style="width: 45%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
                         <div style="width: 20%;float: left;margin-left: 10px;">

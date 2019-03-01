@@ -28,6 +28,7 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
+use Mautic\CoreBundle\Helper\LicenseInfoHelper;
 use Mautic\PageBundle\Entity\Hit;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -72,7 +73,10 @@ class CampaignSubscriber extends CommonSubscriber
      * @var DripEmailModel
      */
     protected $dripEmailModel;
-
+    /*
+     * @var LicenseInfoHelper
+     */
+    protected $licenseinfohelper;
     /**
      * @param LeadModel           $leadModel
      * @param EmailModel          $emailModel
@@ -89,7 +93,8 @@ class CampaignSubscriber extends CommonSubscriber
         SendEmailToUser $sendEmailToUser,
         TranslatorInterface  $translator,
         NotificationHelper $notificationhelper,
-        DripEmailModel $dripEmailModel
+        DripEmailModel $dripEmailModel,
+        LicenseInfoHelper $licenseInfoHelper
     ) {
         $this->leadModel          = $leadModel;
         $this->emailModel         = $emailModel;
@@ -99,6 +104,7 @@ class CampaignSubscriber extends CommonSubscriber
         $this->translator         = $translator;
         $this->notificationhelper = $notificationhelper;
         $this->dripEmailModel     = $dripEmailModel;
+        $this->licenseinfohelper  = $licenseInfoHelper;
     }
 
     /**
@@ -390,6 +396,9 @@ class CampaignSubscriber extends CommonSubscriber
         $status  = $this->emailModel->mailHelper->emailstatus(false);
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or unpublished');
+        }
+        if (!$this->licenseinfohelper->isValidEmailCount()) {
+            return $event->setFailed('You can send up to 100 emails at the moment, please go ahead and configure your email service provider for sending unlimited emails');
         }
         if (!$status) {
             $this->notificationhelper->sendNotificationonFailure(true, false);

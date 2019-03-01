@@ -229,6 +229,7 @@ return [
                     'translator',
                     'mautic.helper.notification',
                     'mautic.email.model.dripemail',
+                    'mautic.helper.licenseinfo',
                 ],
             ],
             'mautic.email.campaignbundle.condition_subscriber' => [

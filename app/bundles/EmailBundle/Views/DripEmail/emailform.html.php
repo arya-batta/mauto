@@ -29,7 +29,7 @@ $custombutton = [
         'attr'    => [
             'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down blue-theme-bg',
             'onclick' => "Le.launchBeeEditor('dripemail', 'email');",
-            'style'   => 'color:#ffffff;border-radius:4px;z-index:499;margin-top:-35px;right:-189px;',
+            'style'   => 'color:#ffffff;border-radius:4px;z-index:499;margin-top:-31px;right:-156px;',
         ],
     ],
 ];
@@ -42,7 +42,7 @@ if (!$isBeeEditor) {
 $customHtml = $entity->getCustomHtml();
 ?>
 <div class="row" style="position: fixed;z-index: 520;right: 0;<?php echo $marginRight; ?>">
-        <div class="toolbar-form-buttons" style="<?php echo $buttonpanelcss; ?>">
+        <div class="toolbar-form-buttons drip-fixed-header" style="<?php echo $buttonpanelcss; ?>">
             <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
             <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                 <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"

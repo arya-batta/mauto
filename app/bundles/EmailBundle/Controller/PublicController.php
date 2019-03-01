@@ -99,8 +99,8 @@ class PublicController extends CommonFormController
 
             return new Response($content);
         }
-
-        return $this->notFound();
+        $content = $this->translator->trans('le.email.stat_record.not_found');
+        return $this->render('MauticEmailBundle:Email:notfound.html.php', ['content' => $content]);
     }
 
     /**

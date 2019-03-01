@@ -6554,6 +6554,9 @@ text-align: center;
 .ui-panel-fixed-button-panel{
   margin-top: 1%;
 }
+.drip-fixed-header-style{
+  padding-top: 15px;
+}
 .kyc-border{
   border-bottom: 1px solid rgba(0,0,0,.12);
   text-align: center;

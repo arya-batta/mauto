@@ -22,7 +22,7 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
         <div class="container-fluid" style="height: 60px">
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button class="button-menu-mobile open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize">
+                    <button class="button-menu-mobile open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize" onclick="Le.changeButtonPanelStyle()">
                         <i class="mdi mdi-menu"></i>
                     </button>
                 </li>

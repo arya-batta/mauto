@@ -738,10 +738,10 @@ class AjaxController extends CommonAjaxController
         }
         if ($emailUssage) {
             if ($emailCountExpired == 0) {
-                if ($transport != 'le.transport.vialeadsengage') {
-                    if ($lastpaymentplanname != 'leplan2') {
+                if ($transport == 'le.transport.vialeadsengage') {
+                   // if ($lastpaymentplanname != 'leplan2') {
                         $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
-                    }
+                   // }
                 } else {
                     // $usageMsg=$this->translator->trans('le.emailusage.count.expired');
                 }

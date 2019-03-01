@@ -1132,8 +1132,10 @@ class LicenseInfoHelper
     public function isLeadsEngageEmailExpired($pending)
     {
         $configtransport     = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
-        $availableemailcount =  $this->getAvailableEmailCount();
-        $totalemailcount     =  $this->getTotalEmailCount();
+       // $availableemailcount =  $this->getAvailableEmailCount();
+        $totalemailcount     =  100;
+        $actualEmailCount    = $this->getActualEmailCount();
+        $availableemailcount = $totalemailcount - $actualEmailCount;
         $paymentrepository   = $this->factory->get('le.subscription.repository.payment');
         $lastpayment         = $paymentrepository->getLastPayment();
         if ($configtransport == 'le.transport.vialeadsengage') {
