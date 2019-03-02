@@ -55,6 +55,11 @@ class PointsChangeLog
     private $delta;
 
     /**
+     * @var string
+     */
+    private $score;
+
+    /**
      * @var \DateTime
      */
     private $dateAdded;
@@ -89,6 +94,8 @@ class PointsChangeLog
             ->build();
 
         $builder->addField('delta', 'integer');
+
+        $builder->addField('score', 'string');
 
         $builder->addDateAdded();
     }
@@ -197,6 +204,22 @@ class PointsChangeLog
     public function getDelta()
     {
         return $this->delta;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param string $score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
     }
 
     /**

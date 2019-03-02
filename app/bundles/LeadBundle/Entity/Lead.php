@@ -961,7 +961,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
      * @param           $pointChanges
      * @param IpAddress $ip
      */
-    public function addPointsChangeLogEntry($type, $name, $action, $pointChanges, IpAddress $ip)
+    public function addPointsChangeLogEntry($type, $name, $action, $pointChanges, IpAddress $ip, $score=null)
     {
         if ($pointChanges === 0) {
             // No need to record no change
@@ -977,6 +977,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
         $event->setDelta($pointChanges);
         $event->setIpAddress($ip);
         $event->setLead($this);
+        $event->setScore($score);
         $this->addPointsChangeLog($event);
     }
 

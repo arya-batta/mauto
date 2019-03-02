@@ -632,7 +632,7 @@ class LeadListRepository extends CommonRepository
                         $leads[] = $r;
                     }
                 }
-            }elseif (count($filters) == 0 && $removeAction){
+            } elseif (count($filters) == 0 && $removeAction) {
                 $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
                 if ($countOnly) {
                     $q->select('max(ll.lead_id) as max_id, count(ll.lead_id) as lead_count')
@@ -1170,6 +1170,7 @@ class LeadListRepository extends CommonRepository
                                     $q->expr()->eq($alias.'.lead_id', 'l.id')
                                 )
                             );
+                            break;
                         default:
                             if ($details['field'] == 'url_title') {
                                 $table            = 'page_hits';

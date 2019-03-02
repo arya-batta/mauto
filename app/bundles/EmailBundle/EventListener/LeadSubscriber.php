@@ -105,6 +105,9 @@ class LeadSubscriber extends CommonSubscriber
         if (!$event->isEngagementCount()) {
             // Add the events to the event array
             foreach ($stats['results'] as $stat) {
+                if ($stat['emailType'] == 'template') {
+                    continue;
+                }
                 $dripurl  = '';
                 $dripname = '';
                 if (!empty($stat['email_name'])) {

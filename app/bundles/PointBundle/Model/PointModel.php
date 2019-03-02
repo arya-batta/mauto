@@ -305,12 +305,14 @@ class PointModel extends CommonFormModel
                     $delta = $action->getDelta();
                     $lead->adjustPoints($delta);
                     $parsed = explode('.', $action->getType());
+                    $score  = $action->getScore();
                     $lead->addPointsChangeLogEntry(
                         $parsed[0],
                         $action->getId().': '.$action->getName(),
                         $parsed[1],
                         $delta,
-                        $ipAddress
+                        $ipAddress,
+                        $score
                     );
 
                     $event = new PointActionEvent($action, $lead);

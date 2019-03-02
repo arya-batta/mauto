@@ -241,13 +241,18 @@ Le.registerLicenseCloseBtnListener=function(){
 };
 Le.adJustFixedHeader = function(isadd){
     var pagemode = mQuery('.content-body').attr('data-pagemode');
+    var url = window.location.href;
     if(pagemode == '') {
         if (isadd) {
             mQuery('#fixed-header').css('top', '100px');
-            mQuery('.content-body').css('margin-top', '13.5%');
+            if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
+                mQuery('.content-body').css('margin-top', '13.5%');
+            }
         } else {
             mQuery('#fixed-header').css('top', '50px');
-            mQuery('.content-body').css('margin-top', '10%');
+            if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
+                mQuery('.content-body').css('margin-top', '10%');
+            }
         }
     }else if(pagemode == 'config'){
         if (isadd) {

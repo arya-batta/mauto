@@ -463,9 +463,10 @@ class LeadSubscriber extends CommonSubscriber
             $start = $event->getEventLimit()['start'];
             if (empty($start)) {
                 foreach ($rows as $row) {
-                    $fieldlabel = '';
-                    $eventlabel = '';
-                    $taglabel   = '';
+                    $fieldlabel       = '';
+                    $eventlabel       = '';
+                    $tagaddlabel      = '';
+                    $tagremovelabel   = '';
 
                     if (isset($row['details']['fields']) || isset($row['details']['owner'])) {
                         if (isset($row['details']['fields'])) {
@@ -483,14 +484,23 @@ class LeadSubscriber extends CommonSubscriber
                     }
 
                     if (isset($row['details']['tags'])) {
-                        foreach ($row['details']['tags'] as $key => $fields) {
-                            foreach ($fields as $fieldkey => $fieldvalue) {
-                                $taglabel .= $fieldvalue.', ';
+                        if (isset($row['details']['tags']['added'])) {
+                            foreach ($row['details']['tags']['added'] as $addkey => $addfields) {
+                                $tagaddlabel .= $addfields.', ';
                             }
+                            $tagaddlabel = substr($tagaddlabel, 0, -2).'';
+                            $eventlabel  = $eventlabel.$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$tagaddlabel.'".';
                         }
-                        $taglabel     = substr($taglabel, 0, -2).'';
-                        $eventlabel   = $eventlabel.$this->translator->trans('le.lead.event.timeline.leadupdate.tagadded').'"'.$taglabel.'".';
+
+                        if (isset($row['details']['tags']['removed'])) {
+                            foreach ($row['details']['tags']['removed'] as $key => $fields) {
+                                $tagremovelabel .= $fields.', ';
+                            }
+                            $tagremovelabel = substr($tagremovelabel, 0, -2).'';
+                            $eventlabel     = $eventlabel.$this->translator->trans('le.lead.event.timeline.leadupdate.tagremoved').'"'.$tagremovelabel.'".';
+                        }
                     }
+
                     if (!isset($row['details']['fields']) && !isset($row['details']['tags']) && !isset($row['details']['owner'])) {
                         $eventlabel = $eventTypeName;
                     }

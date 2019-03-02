@@ -217,6 +217,7 @@ class FormController extends CommonFormController
         //set the page we came from
         $page = $this->get('session')->get('mautic.form.page', 1);
         $tmpl = '';
+        $tmpl = $this->request->get('tmpl');
         if ($this->request->getMethod() == 'POST') {
             $this->setListFilters();
             $name = 'mautic.form.results';

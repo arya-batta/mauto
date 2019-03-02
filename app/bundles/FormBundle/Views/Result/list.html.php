@@ -8,9 +8,9 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-if ($tmpl == 'index'):
+/**if ($tmpl == 'index'):
     $view->extend('MauticFormBundle:Result:index.html.php');
-endif;
+endif;*/
 
 $formId = $form->getId();
 $isAdmin=$view['security']->isAdmin();
@@ -167,6 +167,7 @@ $isAdmin=$view['security']->isAdmin();
         'totalItems' => $totalCount,
         'page'       => $page,
         'limit'      => $limit,
+        'tmpl'       => 'index',
         'baseUrl'    => $view['router']->path('le_form_action', ['objectAction'=>'view', 'objectId' => $form->getId()]),
         'sessionVar' => 'form.results',
     ]); ?>

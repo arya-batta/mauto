@@ -1579,6 +1579,7 @@ Le.launchCampaignEditor = function() {
     Le.stopIconSpinPostEvent();
     mQuery('body').css('overflow-y', 'hidden');
     mQuery('.builder').addClass('builder-active').removeClass('hide');
+    Le.setStatisticsBtn();
     try{
         //save('text.txt',JSON.stringify(Le.campaignBuilderCanvasSettings));
         Le.campaignupdatedjson=Le.campaignBuilderCanvasSettings;
@@ -1905,4 +1906,15 @@ Le.adjustSizeforSVG=function(svgnode,stepsnode,yposition){
     Le.campaignupdatedjson.width=svgwidth;
     svgnode.setAttributeNS(null,"height",yposition + +Le.SVG_NODE_HEIGHT_ADJUST);
     svgnode.setAttributeNS(null,"width",svgwidth);
+}
+
+Le.setStatisticsBtn  = function() {
+
+    if (Le.WF_SHOW_STATSTICS == true){
+        mQuery('#campaign_showAnalytics_1').parent().removeClass('btn-default').addClass('btn-success active');
+        mQuery('#campaign_showAnalytics_0').parent().removeClass('btn-danger active').addClass('btn-default');
+    }else{
+        mQuery('#campaign_showAnalytics_1').parent().removeClass('btn-success active ').addClass('btn-default');
+        mQuery('#campaign_showAnalytics_0').parent().removeClass('btn-default').addClass(' btn-danger active');
+    }
 }

@@ -102,6 +102,18 @@ class LeadSubscriber extends CommonSubscriber
             // Add the logs to the event array
             foreach ($logs['results'] as $log) {
                 $operation = 'added';
+                $score     = '';
+                $point     = '';
+                if ($log['score'] != '') {
+                    $score =  ' / '.ucfirst($log['score']);
+                }
+
+                if ($log['delta'] != '') {
+                    $point =  ' / '.$log['delta'];
+                }
+
+                $split            = explode(':', $log['eventName'], 2);
+                $log['eventName'] = $split[1];
 
                 if (strpos($log['delta'], '-') !== false) {
                     $operation='deducted';
@@ -110,7 +122,7 @@ class LeadSubscriber extends CommonSubscriber
                     [
                         'event'      => $eventTypeKey,
                         'eventId'    => $eventTypeKey.$log['id'],
-                        'eventLabel' => $this->translator->trans('mautic.point.event.'.$operation.'.eventlabel').'"'.$log['eventName'].' / '.$log['delta'].'"',
+                        'eventLabel' => $this->translator->trans('mautic.point.event.'.$operation.'.eventlabel').'"'.$log['eventName'].$point.$score.' "',
                         'eventType'  => $eventTypeName,
                         'timestamp'  => $log['dateAdded'],
                         'extra'      => [
