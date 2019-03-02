@@ -1041,9 +1041,9 @@ Le.checkemailstatus = function(){
     if(mQuery('.license-notifiation').hasClass('hide')) {
         Le.ajaxActionRequest('email:emailstatus', {}, function (response) {
             if (response.success) {
-                if (response.info != "" && response.isalertneeded != "true") {
-                    if (mQuery('.license-notifiation').hasClass('hide')) {
-                        mQuery('.license-notifiation').removeClass('hide');
+                if (response.info != '' && response.isalertneeded != "true") {
+                  //  if (mQuery('.license-notifiation').hasClass('hide')) {
+                    mQuery('.license-notifiation').removeClass('hide');
                         mQuery('.license-notifiation').css('display','table');
                         mQuery('.license-notifiation').css('table-layout','fixed');
                         mQuery('.button-notification').addClass('hide');
@@ -1051,7 +1051,7 @@ Le.checkemailstatus = function(){
                         mQuery('#fixed-content').attr('style', 'margin-top:190px;');
                         Le.registerDismissBtn();
                         Le.adJustFixedHeader(true);
-                    }
+                   // }
                 } else {
                     mQuery('.license-notifiation').addClass('hide');
                     Le.adJustFixedHeader(false);

@@ -125,10 +125,11 @@ Le.testEmailServerConnection = function(sendEmail) {
                mQuery('.trackingconfig .emailinstructions').removeClass('has-error');
            }
        }
+       var id='';
         if((response.success)){
-            Le.changeSenderProfileStatusFrontEnd(true,fromemail);
+            Le.changeSenderProfileStatusFrontEnd(true,fromemail,id);
         } else {
-            Le.changeSenderProfileStatusFrontEnd(false,fromemail);
+            Le.changeSenderProfileStatusFrontEnd(false,fromemail,id);
         }
     });
 };
@@ -270,13 +271,14 @@ Le.configOnLoad = function (container){
         var fromname = currentrow.find(".sender_profile_from_name_col");
         var name = fromname.text();
         name=name.trim();
+        var id=currentLink.attr('id');
         Le.activateButtonLoadingIndicator(currentLink);
         Le.ajaxActionRequest('email:reVerifySenderProfile', {'email': email,'name':name}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
             if(response.response != "") {
                 mQuery('#sender_profile_errors').html('Failed to add a new sender due to the technical error. Please contact support.');
             }else{
-                Le.changeSenderProfileStatusFrontEnd(true,email);
+                Le.changeSenderProfileStatusFrontEnd(true,email,id);
                // Le.redirectWithBackdrop(response.redirect);
             }
         });
@@ -301,16 +303,29 @@ Le.updateSenderProfileStatus = function(){
         }
     });
 }
-Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail){
-    var email=fromemail.split('@');
-    if(isActive){
-        mQuery('#pending-verified-button-'+email['0']).html("Verified");
-        mQuery('#pending-verified-button-'+email['0']).css('background','#39ac73');
-        mQuery("#re-verify-button-"+email['0']).addClass('hide');
-    } else {
-        mQuery('#pending-verified-button-'+email['0']).html("Pending");
-        mQuery('#pending-verified-button-'+email['0']).css('background','#ff4d4d');
-        mQuery("#re-verify-button-"+email['0']).removeClass('hide');
+Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail,id){
+    if(id==''){
+        var email = fromemail.split('@');
+        if (isActive) {
+            mQuery('#pending-verified-button-' + email['0']).html("Verified");
+            mQuery('#pending-verified-button-' + email['0']).css('background', '#39ac73');
+            mQuery('#re-verify-button-' + email['0']).addClass('hide');
+        } else {
+            mQuery('#pending-verified-button-' + email['0']).html("Pending");
+            mQuery('#pending-verified-button-' + email['0']).css('background', '#ff4d4d');
+            mQuery('#re-verify-button-' + email['0']).removeClass('hide');
+        }
+    }else{
+        var id = id.split('re-verify-button-');
+        if (isActive) {
+            mQuery('#pending-verified-button-' + id['1']).html("Verified");
+            mQuery('#pending-verified-button-' + id['1']).css('background', '#39ac73');
+            mQuery('#re-verify-button-' + id['1']).addClass('hide');
+        } else {
+            mQuery('#pending-verified-button-' + id['1']).html("Pending");
+            mQuery('#pending-verified-button-' + id['1']).css('background', '#ff4d4d');
+            mQuery('#re-verify-button-' + id['1']).removeClass('hide');
+        }
     }
-    return;
+        return;
 }

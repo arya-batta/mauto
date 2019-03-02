@@ -43,7 +43,7 @@ class AjaxController extends CommonAjaxController
 
     public function smsstatusAction()
     {
-        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed','false');
         $configurator        = $this->factory->get('mautic.configurator');
         $params              = $configurator->getParameters();
         $smsProvider         = $params['sms_transport'];

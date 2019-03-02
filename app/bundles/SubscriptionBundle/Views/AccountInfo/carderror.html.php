@@ -13,8 +13,8 @@
 
 <div class="modal fade in email-type-modal" style="display: block; z-index: 9999;margin-top:10%;">
     <div class="le-modal-gradient " style="margin-left: 25%;">
-    <div class="modal-dialog le-gradient-align" style="width: 700px;height: 321px;" >
-        <div class="modal-content le-modal-content" style="height: 320px;">
+    <div class="modal-dialog le-gradient-align" style="width: 700px;height: 357px;" >
+        <div class="modal-content le-modal-content" style="height: 352px;">
             <div class="modal-header" style="padding: 25px;">
                 <a href="javascript: void(0);" onclick="Le.closePluginModel('card-error-info');" class="close" ><span aria-hidden="true">&times;</span></a>
                 <b>There are a few reasons why we might be having a problem renewing your account.</b>

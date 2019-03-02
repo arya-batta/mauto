@@ -720,11 +720,12 @@ Le.onPageLoad = function (container, response, inModal) {
         Le.stopPageLoadingBar();
     }
     if (contentSpecific != "invalidDomain") {
+        mQuery('.license-notifiation').addClass('hide');
         Le.loadLicenseUsageInfo();
+        Le.CheckSMSStatus();
         Le.checkemailstatus();
     }
     Le.configureFullScreenSettings();
-    Le.CheckSMSStatus();
 };
 
 Le.enableGlobalSearchListener=function(){

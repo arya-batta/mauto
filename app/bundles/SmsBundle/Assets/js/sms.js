@@ -78,8 +78,8 @@ Le.CheckSMSStatus = function () {
     if(mQuery('.license-notifiation').hasClass('hide')) {
         Le.ajaxActionRequest('sms:smsstatus', {}, function (response) {
             if (response.success) {
-                if (response.info != "" && response.isalertneeded != "true") {
-                    if (mQuery('.license-notifiation').hasClass('hide')) {
+                if (response.info != '' && response.isalertneeded != "true") {
+                  //  if (mQuery('.license-notifiation').hasClass('hide')) {
                         mQuery('.license-notifiation').removeClass('hide');
                         mQuery('.license-notifiation').css('display','table');
                         mQuery('.license-notifiation').css('table-layout','fixed');
@@ -89,7 +89,7 @@ Le.CheckSMSStatus = function () {
                         mQuery('#fixed-content').attr('style', 'margin-top:195px;');
                         Le.registerSmsDismissBtn();
                         Le.adJustFixedHeader(true);
-                    }
+                  //  }
                 } else {
                     mQuery('.license-notifiation').addClass('hide');
                     Le.adJustFixedHeader(false);

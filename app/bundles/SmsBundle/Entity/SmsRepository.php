@@ -201,6 +201,8 @@ class SmsRepository extends CommonRepository
                 $q->expr()->eq('e.smsType', $q->expr()->literal($smsType))
             );
         }
+        $q->andWhere($q->expr()->eq('e.isPublished', ':val'))
+            ->setParameter('val', '1');
 
         $q->orderBy('e.name');
 

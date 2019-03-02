@@ -643,7 +643,7 @@ class AjaxController extends CommonAjaxController
 
     public function emailstatusAction()
     {
-        $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed','false');
         $configurl                    = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
