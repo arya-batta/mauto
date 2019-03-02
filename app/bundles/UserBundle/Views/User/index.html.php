@@ -27,6 +27,9 @@ $view['slots']->set(
 );
 ?>
 <div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.user.users'); ?></h3></div>
+<div class="info-box-holder">
+</div>
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding mt-less-50">
 <?php echo $view->render(
     'MauticCoreBundle:Helper:list_toolbar.html.php',
     [
@@ -38,4 +41,5 @@ $view['slots']->set(
 
 <div class="page-list">
     <?php $view['slots']->output('_content'); ?>
+</div>
 </div>

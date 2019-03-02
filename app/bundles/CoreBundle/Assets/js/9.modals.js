@@ -317,13 +317,13 @@ Le.showConfirmation = function (el) {
        // alert(JSON.stringify(response));
         if(response.value){
             if (typeof Le[confirmCallback] === "function") {
-                window["Le"][confirmCallback].apply('window', [confirmAction, el]);
+                if(confirmCallback == 'executeAction'){
+                    window["Le"][confirmCallback].apply('window', [confirmAction,Le.responseCallBack]);
+                }else{
+                    window["Le"][confirmCallback].apply('window', [confirmAction, el, Le.responseCallBack]);
+                }
+
             }
-            swal(
-                'Deleted!',
-                'Your record has been deleted.',
-                'success'
-            )
         }else  if (response.dismiss === 'cancel') {
             if (cancelCallback && typeof Le[cancelCallback] === "function") {
                 window["Le"][cancelCallback].apply('window', []);
@@ -401,7 +401,37 @@ Le.dismissConfirmation = function () {
         mQuery('.confirmation-modal').modal('hide');
     }
 };
+Le.responseCallBack = function (response) {
+    try{
+        if(response.flashes){
+            var alerthtml=response.flashes;
+            var alerthtmlel = mQuery(alerthtml);
+            var alerttype=alerthtmlel.attr('data-alert-type');
+            var alertmessage=mQuery(alerthtmlel).find('span').html();
+            if(typeof alertmessage != 'undefined'){
+                alertmessage=alertmessage.trim();
+            }else{
+                alertmessage='';
+            }
+            if(alertmessage != ''){
+                if(alerttype != 'error'){
+                    alerttype='success';
+                    alerttitle='Deleted!';
+                }else{
+                    alerttitle='Failed!';
+                }
+                swal(
+                    alerttitle,
+                    alertmessage,
+                    alerttype
+                );
+            }
+        }
+    }catch(err){
+       // alert(err);
+    }
 
+};
 /**
  * Close the given modal and redirect to a URL
  *

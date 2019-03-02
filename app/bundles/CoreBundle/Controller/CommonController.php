@@ -737,7 +737,7 @@ class CommonController extends Controller implements MauticController
         if ($title !== null) {
             $title = $translator->trans($title);
         } else {
-            $title = 'LeadsEngage';
+            $title = $this->coreParametersHelper->getParameter('product_brand_name');
         }
 
         if ($icon == null) {

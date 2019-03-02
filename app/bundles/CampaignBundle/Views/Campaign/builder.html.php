@@ -17,22 +17,30 @@ foreach ($campaignEvents as $event):
         break;
     }
 endforeach;
-$isAdmin=$view['security']->isAdmin();
+$isAdmin     =$view['security']->isAdmin();
+$wfstatelabel='le.campaign.start.workflow.label';
+$wfstateclass='btn-wf-state-start';
+$wfstate     ='false';
+if ($entity->isPublished()) {
+    $wfstatelabel='le.campaign.stop.workflow.label';
+    $wfstateclass='btn-wf-state-stop';
+    $wfstate     ='true';
+}
 ?>
 <div class="hide builder campaign-builder live">
     <div class="btns-builders custom-campaign-builder">
         <?php echo $view['form']->start($form); ?>
         <!-- start: box layout -->
             <!-- container -->
-            <div  style="width: 80%;float: left;">
+            <div  style="width: 60%;float: left;">
                     <div class="row">
-                        <div style="width: 45%;float: left;margin-left: 10px;">
+                        <div style="width: 60%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['name']); ?>
                         </div>
-                        <div style="width: 20%;float: left;margin-left: 10px;">
+                        <div style="width: 35%;float: left;margin-left: 10px;">
                             <?php echo $view['form']->row($form['category']); ?>
                         </div>
-                        <div style="float: left;margin-left: 15px;color:#fff !important;">
+                       <!--<div style="float: left;margin-left: 15px;color:#fff !important;">
                             <div class="form-group">
                                 <label class="control-label">Show Analytics</label>        <div class="choice-wrapper">
                                     <div class="btn-group btn-block" data-toggle="buttons">
@@ -44,10 +52,7 @@ $isAdmin=$view['security']->isAdmin();
                                         </label>
                                     </div>                    </div>
                             </div>
-                        </div>
-                        <div style="float: left;margin-left: 15px;color:#fff !important;">
-                            <?php echo $view['form']->row($form['isPublished']); ?>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="hide row">
                         <div class="col-md-12">
@@ -59,6 +64,7 @@ $isAdmin=$view['security']->isAdmin();
                 <div class="pr-lg pl-lg pt-md pb-md">
                     <div class="hide">
                         <?php
+                        echo $view['form']->row($form['isPublished']);
                         echo $view['form']->row($form['publishUp']);
                         echo $view['form']->row($form['publishDown']);
                         ?>
@@ -67,15 +73,18 @@ $isAdmin=$view['security']->isAdmin();
             </div>
         <div class="campaign-custom-button-div">
             <?php echo $view['form']->end($form); ?>
-        <!--<button type="button" class="btn btn-primary btn-close-campaign-builder campaign-custom-close-button"
-                onclick="Le.closeCampaignBuilder();">
-            <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
-        </button>-->
-            <button type="button" class="btn btn-primary btn-save-builder campaign-custom-save-button" onclick="Le.saveCampaignFromBuilder();">
+            <button type="button" class="waves-effect <?php echo $wfstateclass?>" onclick="Le.changeCampaignState(this);" data-wf-state="<?php echo $wfstate?>">
+                <?php echo $view['translator']->trans($wfstatelabel); ?>
+            </button>
+            <button type="button" class="waves-effect btn-save-builder" onclick="Le.saveCampaignFromBuilder();">
                 <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
-            <button type="button" class="btn btn-primary btn-apply-builder campaign-custom-apply-button" onclick="Le.applyCampaignFromBuilder();">
+            <button type="button" class="waves-effect btn-apply-builder" onclick="Le.applyCampaignFromBuilder();">
                 <?php echo $view['translator']->trans('le.email.beeeditor.save'); ?>
+            </button>
+            <button type="button" class="waves-effect btn-close-builder"
+                onclick="Le.closeCampaignBuilder();">
+            <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
             </button>
 <!--            <div class="custom-fields">-->
 <!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Le.publishCampaign();">-->
@@ -140,7 +149,7 @@ foreach ($acions as $key => $value) {
     }
 }
      $campaigngroupoptions = [
-        ['label'=> 'LeadsEngage', 'order'=> 1],
+        ['label'=> $view['content']->getProductBrandName(), 'order'=> 1],
 /*        ['label'=> 'Drip', 'order'=> 2],
         ['label'=> 'Facebook', 'order'=> 3],*/
     ];

@@ -12,7 +12,7 @@
         <!-- list item-->
         <div style="font-size: 14px;cursor: pointer" class="list-group-item notification" id="notification<?php echo $n['id']; ?>">
                 <a href="javascript:void(0);" class="btn btn-default btn-xs btn-nospin pull-right do-not-close waves-effect" data-toggle="tooltip" title="<?php echo $view['translator']->trans('mautic.core.notifications.clear'); ?>" onclick="Le.clearNotification(<?php echo $n['id']; ?>);"><i class="fa fa-times do-not-close"></i></a>
-            <div class="media">
+            <div style='margin-top: 0px !important;' class="media">
                 <?php if (!empty($n['header'])): ?>
                     <div class="media-heading"><?php echo $view['formatter']->_($n['header']); ?></div>
                 <?php endif; ?>

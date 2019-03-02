@@ -2780,8 +2780,8 @@ select[multiple].input-lg {
 }
 .btn:hover,
 .btn:focus {
-  color:  #3292e0;
-  text-decoration: none;
+  /*color:  #3292e0;*/
+  /*text-decoration: none;*/
 }
 .btn:active,
 .btn.active {
@@ -2805,10 +2805,10 @@ fieldset[disabled] .btn {
   background-color: #ffffff;
   border-color: #dddddd;
 }
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active,
-.btn-default.active,
+/*.btn-default:hover,*/
+/*.btn-default:focus,*/
+/*.btn-default:active,*/
+/*.btn-default.active,*/
 .open > .dropdown-toggle.btn-default {
   color: #ffffff;
   background-color: #3292e0;
@@ -2894,7 +2894,7 @@ fieldset[disabled] .btn-primary.active {
 .btn-success {
   color: #ffffff;
   background-color: #3292e0;
-  border-color: #e25384;
+  border-color: #4ea1e4;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -2919,8 +2919,8 @@ fieldset[disabled] .btn-success:hover,
 .btn-success.disabled:focus,
 .btn-success[disabled]:focus,
 fieldset[disabled] .btn-success:focus {
-  background-color: #e25384;
-  border-color: #e25384;
+  background-color: #4ea1e4;
+  border-color: #4ea1e4;
 }
 .btn-success.disabled:active,
 .btn-success[disabled]:active,
@@ -2928,14 +2928,14 @@ fieldset[disabled] .btn-success:active,
 .btn-success.disabled.active,
 .btn-success[disabled].active,
 fieldset[disabled] .btn-success.active {
-  background-color: #e25384;
+  background-color: #4ea1e4;
 }
 .btn-success .badge {
-  color: #e25384;
+  color: #4ea1e4;
   background-color: #ffffff;
 }
 .btn-success + .dropdown-toggle {
-  border-left-color: #e25384;
+  border-left-color: #4ea1e4;
 }
 .btn-info {
   color: #ffffff;
@@ -2948,8 +2948,8 @@ fieldset[disabled] .btn-success.active {
 .btn-info.active,
 .open > .dropdown-toggle.btn-info {
   color: #ffffff;
-  background-color: #e25384;
-  border-color: #e25384;
+  background-color: #4ea1e4;
+  border-color: #4ea1e4;
 }
 .btn-info:active,
 .btn-info.active,
@@ -2974,7 +2974,7 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: #e25384;
+  background-color: #4ea1e4;
 }
 .btn-info .badge {
   color: #3292e0;
@@ -5198,6 +5198,7 @@ a.list-group-item-danger.active:focus {
 /*  border-top: 1px solid #ebedf0;*/
   border-bottom-right-radius: 2px;
   border-bottom-left-radius: 2px;
+  margin-top: 20px;
 }
 .panel > .list-group {
   margin-bottom: 0;
@@ -5599,16 +5600,16 @@ button.close {
   outline: 0;
 }
 .modal.fade .modal-dialog {
-  -webkit-transform: translate3d(0, -25%, 0);
-  transform: translate3d(0, -25%, 0);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
+  /*-webkit-transform: translate3d(0, -25%, 0);*/
+  /*transform: translate3d(0, -25%, 0);*/
+  /*-webkit-transition: -webkit-transform 0.3s ease-out;*/
+  /*-moz-transition: -moz-transform 0.3s ease-out;*/
+  /*-o-transition: -o-transform 0.3s ease-out;*/
+  /*transition: transform 0.3s ease-out;*/
 }
 .modal.in .modal-dialog {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  /*-webkit-transform: translate3d(0, 0, 0);*/
+  /*transform: translate3d(0, 0, 0);*/
 }
 .modal-open .modal {
   overflow-x: hidden;

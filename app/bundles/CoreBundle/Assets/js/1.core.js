@@ -52,7 +52,21 @@ mQuery.ajaxSetup({
 
 mQuery( document ).ajaxComplete(function(event, xhr, settings) {
     xhr.always(function(response) {
-        if (response.flashes) Le.setFlashes(response.flashes);
+        if (response.flashes) {
+            var alerthtml=response.flashes;
+            var alerthtmlel = mQuery(alerthtml);
+            var alertmessage=mQuery(alerthtmlel).find('span').html();
+            if(typeof alertmessage != 'undefined'){
+                alertmessage=alertmessage.trim();
+            }else{
+                alertmessage='';
+            }
+            if(alertmessage != ''){
+                if(!alertmessage.includes("delete") && !alertmessage.includes("do not have access")){
+                    Le.setFlashes(response.flashes);
+                }
+            }
+        }
     });
 });
 

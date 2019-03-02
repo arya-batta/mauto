@@ -178,6 +178,7 @@ class Configurator
                      'le_db_port',
                      'le_db_user',
                      'le_db_password',
+                     'product_brand_name',
                      'beeeditor_client_id',
                      'beeeditor_client_secret',
                      'mailer_user_transactions',

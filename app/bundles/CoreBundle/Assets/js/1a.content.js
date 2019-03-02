@@ -100,7 +100,6 @@ Le.generatePageTitle = function(route){
     } else if (-1 !== route.indexOf('view')) {
         //loading view of module title
         var currentModule = route.split('/')[3];
-
         //check if we find spans
         var titleWithHTML = mQuery('.page-header h3').find('span.span-block');
         var currentModuleItem = '';
@@ -114,10 +113,10 @@ Le.generatePageTitle = function(route){
         // Encoded entites are decoded by this process and can cause a XSS
         currentModuleItem = mQuery('<div>'+currentModuleItem+'</div>').text();
 
-        mQuery('title').html( currentModule[0].toUpperCase() + currentModule.slice(1) + ' | ' + currentModuleItem + ' | LeadsEngage' );
+        mQuery('title').html( currentModule[0].toUpperCase() + currentModule.slice(1) + ' | ' + currentModuleItem + ' | '+productBrandName );
     } else {
         //loading basic title
-        mQuery('title').html( mQuery('.page-header h3').html() + ' | LeadsEngage' );
+        mQuery('title').html( mQuery('.page-header h3').html() + ' | '+productBrandName);
     }
 };
 
@@ -161,7 +160,7 @@ Le.processPageContent = function (response) {
         if (response.route) {
             //update URL in address bar
             leVars.manualStateChange = false;
-            History.pushState(null, "LeadsEngage", response.route);
+            History.pushState(null, productBrandName, response.route);
 
             //update Title
             Le.generatePageTitle( response.route );
@@ -180,7 +179,6 @@ Le.processPageContent = function (response) {
                 }
 
                 var parent = mQuery(link).parent();
-
                 //remove current classes from menu items
                 mQuery(".nav-sidebar").find(".active").removeClass("active");
 
@@ -194,6 +192,7 @@ Le.processPageContent = function (response) {
                 mQuery(".nav-sidebar").find(".open").each(function () {
                     if (!openParent.hasClass('open') || (openParent.hasClass('open') && openParent[0] !== mQuery(this)[0])) {
                         mQuery(this).removeClass('open');
+                        mQuery(this).find("ul").removeClass("in");
                     }
                 });
 
@@ -1768,3 +1767,7 @@ Le.configureFullScreenSettings = function() {
         Le.toggle_fullscreen();
     });
 };
+Le.errorOnLoad = function (container, response) {
+    mQuery('html').removeClass('sidebar-minimized');
+    mQuery('#app-content').removeClass('container');
+}

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Update Your Profile Information| LeadsEngage</title>
+    <title>Update Your Profile Information| <?php echo $view['content']->getProductBrandName()?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
@@ -192,7 +192,7 @@
             </div>
         </form>
         <div class="footnote">
-            <p style="margin:10px">Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page"><u>LeadsEngage</u></a></p>
+            <p style="margin:10px">Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><u><?php echo $view['content']->getProductBrandName()?></u></a></p>
         </div>
     </div>
 <?php elseif ($actionName == 'viewlead'): ?>

@@ -22,7 +22,7 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
         <div class="container-fluid" style="height: 60px">
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button class="button-menu-mobile open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize" onclick="Le.changeButtonPanelStyle()">
+                    <button class="notification-icon-box open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize" onclick="Le.changeButtonPanelStyle()">
                         <i class="mdi mdi-menu"></i>
                     </button>
                 </li>
@@ -31,7 +31,7 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
 
             <ul class="nav-topbar navbar-right float-right list-inline">
                 <li class="d-none d-sm-block">
-                    <a href="#" id="btn-fullscreen" class="waves-effect waves-light notification-icon-box"><i class="mdi mdi-fullscreen"></i></a>
+                    <a href="#" id="btn-fullscreen" class="waves-effect waves-light notification-icon-box"><i style='font-size: 22px !important' class="mdi mdi-fullscreen"></i></a>
                 </li>
                 <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:notifications')); ?>
                 <?php echo $view->render('MauticCoreBundle:Menu:profile.html.php'); ?>

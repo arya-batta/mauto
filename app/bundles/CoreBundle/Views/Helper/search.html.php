@@ -32,8 +32,8 @@ $isMobile       = $view['security']->isMobile();
     <?php else:?>
         <input type="search" class="form-control search le-filters-button" id="<?php echo $id; ?>" name="search" placeholder="<?php echo $view['translator']->trans('mautic.core.search.placeholder'); ?>" value="<?php echo $view->escape($searchValue); ?>" autocomplete="false" data-toggle="livesearch" data-target="<?php echo $target; ?>" data-tmpl="<?php echo $tmpl; ?>" data-action="<?php echo $action; ?>" data-overlay="<?php echo $overlayEnabled; ?>" data-overlay-text="<?php echo $view['translator']->trans('mautic.core.search.livesearch'); ?>" data-overlay-target="<?php echo $overlayTarget; ?>" />
     <?php endif; ?>
-    <div class="input-group-btn" style="padding-bottom: 29px;">
-        <button type="button" class="btn btn-default btn-search btn-nospin le-filters-button-search" id="btn-filter" data-livesearch-parent="<?php echo $id; ?>">
+    <div class="input-group-btn" style="padding-bottom: 30px;">
+        <button type="button" class="btn btn-search btn-nospin le-filters-button-search" id="btn-filter" data-livesearch-parent="<?php echo $id; ?>">
             <i class="fa fa-search fa-fw"></i>
         </button>
     </div>

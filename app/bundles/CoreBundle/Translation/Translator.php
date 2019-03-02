@@ -81,4 +81,17 @@ class Translator extends BaseTranslator
             return $this->trans($alternative, $parameters, $domain, $locale);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    {
+        if (null === $domain) {
+            $domain = 'messages';
+        }
+        $parameters= array_merge(['%brand_name%'=>'AnyFunnels', '%brand_email%'=>'support@anyfunnels.com', '%brand_domain%'=>'anyfunnels.com'], $parameters);
+
+        return strtr($this->getCatalogue($locale)->get((string) $id, $domain), $parameters);
+    }
 }

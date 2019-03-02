@@ -11,7 +11,7 @@
 ?>
 <html>
 <head>
-    <title><?php echo $name.' | LeadsEngage'; ?></title>
+    <title><?php echo $name.' | '.$view['content']->getProductBrandName(); ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
@@ -108,7 +108,7 @@
                     </form>
                 </div>
                 <div class="footnote">
-                    <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+                    <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
             <p class="messageContainer"><?php echo $message?></p>
 
             <div class="footnotes">
-                <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+                <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
             </div>
         </div>
     </div>

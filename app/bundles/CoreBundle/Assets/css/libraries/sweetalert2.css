@@ -600,7 +600,7 @@ body.swal2-no-backdrop .swal2-shown {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 50px;
   background-color: transparent;
   z-index: 1060;
   overflow-x: hidden;

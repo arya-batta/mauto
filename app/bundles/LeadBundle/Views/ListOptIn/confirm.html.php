@@ -11,7 +11,7 @@
 ?>
 <html>
 <head>
-    <title>Subscriptions | LeadsEngage</title>
+    <title>Subscriptions | <?php echo $view['content']->getProductBrandName()?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
@@ -94,7 +94,7 @@
         <h2 class="email"><?php echo $email; ?></h2>
         <p class="messageContainer" style="border-bottom:0px;">You have been successfully confirmed subscription to the list. Great to have you onboard :)</p>
         <div class="footnote">
-            <p>Powered by <a href="http://anyfunnels.com/?utm_source=app_unsubscribe_page">LeadsEngage</a></p>
+            <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
         </div>
     </div>
 </div>

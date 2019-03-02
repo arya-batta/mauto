@@ -26,7 +26,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
 
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto ">
-        <div class="tab-content panel-body">
+        <div class="panel-body">
             <div class="panel panel-default form-group mb-0">
                 <div class="panel-body">
             <div class="tab-pane fade in active bdr-rds-0 bdr-w-0" id="profile">
@@ -42,7 +42,6 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
                         echo ($permissions['editEmail']) ? $view['form']->row($userForm['email']) : $view['form']->row($userForm['email_unbound']);
                         echo ($permissions['editUsername']) ? $view['form']->row($userForm['username']) : $view['form']->row($userForm['username_unbound']);
 
-
                         ?>
                         <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>> <?php  echo ($permissions['editPosition']) ? $view['form']->row($userForm['position']) : $view['form']->row($userForm['position_unbound']); ?></div>
 
@@ -55,7 +54,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
                         echo $view['form']->row($userForm['plainPassword']['confirm']);
 
                         ?>
-                        <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>> <?php echo $view['form']->rowIfExists($userForm, 'signature');echo $view['form']->row($userForm['locale']); ?></div>
+                        <div <?php echo ($isAdmin) ? '' : 'class="hide"' ?>> <?php echo $view['form']->rowIfExists($userForm, 'signature'); echo $view['form']->row($userForm['locale']); ?></div>
                 </div>
                 </div>
             </div>

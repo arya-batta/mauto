@@ -13,6 +13,7 @@ namespace Mautic\CoreBundle\Templating\Helper;
 
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\CustomContentEvent;
+use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Symfony\Bundle\FrameworkBundle\Templating\DelegatingEngine;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Templating\Helper\Helper;
@@ -30,15 +31,21 @@ class ContentHelper extends Helper
     protected $dispatcher;
 
     /**
+     * @var CoreParametersHelper
+     */
+    protected $coreParametersHelper;
+
+    /**
      * UIHelper constructor.
      *
      * @param DelegatingEngine         $templating
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(DelegatingEngine $templating, EventDispatcherInterface $dispatcher)
+    public function __construct(DelegatingEngine $templating, EventDispatcherInterface $dispatcher, CoreParametersHelper $coreParametersHelper)
     {
-        $this->templating = $templating;
-        $this->dispatcher = $dispatcher;
+        $this->templating           = $templating;
+        $this->dispatcher           = $dispatcher;
+        $this->coreParametersHelper = $coreParametersHelper;
     }
 
     /**
@@ -96,5 +103,10 @@ class ContentHelper extends Helper
     public function getName()
     {
         return 'content';
+    }
+
+    public function getProductBrandName()
+    {
+        return $this->coreParametersHelper->getParameter('product_brand_name');
     }
 }

@@ -3,8 +3,8 @@ Template Name: Webadmin - Bootstrap 4 Admin Dashboard
 Author: Themesdesign
 File: Main Css File
 */
-/*  Google Fonts 
-@import url("https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700|Roboto:500|Crete+Round:400i");*/
+/*  Google Fonts */
+/*@import url("https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700|Roboto:500|Crete+Round:400i");*/
 /*
  - Buttons
   - cards
@@ -55,18 +55,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  line-height: 43px;
-  font-size: 36px;
+  line-height: 39px;
+  font-size: 32px;
 }
 
 h2 {
-  line-height: 35px;
-  font-size: 30px;
+  line-height: 31px;
+  font-size: 26px;
 }
 
 h3 {
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 20px;
+  line-height: 26px;
 }
 
 h3 small {
@@ -319,7 +319,7 @@ code {
   border: 1px solid #eeeeee;
   -webkit-box-shadow: none;
           box-shadow: none;
-  height: 36px;
+  height: 32px;
   color: rgba(0, 0, 0, 0.6);
   font-size: 14px;
 }
@@ -1423,15 +1423,15 @@ File: Components
   border: 1px solid #4ea84d !important;
 }
 
-.btn-info {
-  background-color: #04a2b3 !important;
-  border: 1px solid #04a2b3 !important;
-}
+/*.btn-info {*/
+  /*background-color: #04a2b3 !important;*/
+  /*border: 1px solid #04a2b3 !important;*/
+/*}*/
 
-.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.focus, .btn-info:active, .btn-info:focus, .btn-info:hover, .open > .dropdown-toggle.btn-info {
-  background-color: #038b9a !important;
-  border: 1px solid #038b9a !important;
-}
+/*.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.focus, .btn-info:active, .btn-info:focus, .btn-info:hover, .open > .dropdown-toggle.btn-info {*/
+  /*background-color: #038b9a !important;*/
+  /*border: 1px solid #038b9a !important;*/
+/*}*/
 
 .btn-warning {
   background-color: #f7b543 !important;
@@ -2040,9 +2040,8 @@ tbody {
 
 th {
   color: #2a323c;
-  font-size: 15px;
+  font-size: 14px;
 }
-
 .table-dark td, .table-dark th {
   color: #ffffff !important;
 }
@@ -3188,8 +3187,8 @@ File: Pages
 
 .wrapper-page {
   margin: 7.5% auto;
-  width: 420px;
   position: relative;
+  width: 70%;
 }
 
 .card-pages {
@@ -3210,7 +3209,9 @@ File: Pages
   margin: 0 auto;
   width: 88px;
 }
-
+.ex-page-content{
+  color:#333;
+}
 .ex-page-content h1 {
   font-size: 98px;
   font-weight: 700;
@@ -3329,9 +3330,8 @@ File: Menu
 }
 
 .profile img {
-  border: 2px solid #edf0f0;
-  height: 36px;
-  width: 36px;
+  height: 33px;
+  width: 33px;
   float: left;
 }
 
@@ -3401,19 +3401,18 @@ File: Menu
 
 .notifi-title {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   padding: 10px;
   margin-top: -5px;
   background-color: #3292e0;
-  text-align: left !important;
 }
 
 .notifi-title .badge-success {
   background-color: rgba(255, 255, 255, 0.5);
   color: #2a323c;
   font-weight: bold;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .navbar-form {
@@ -3461,7 +3460,7 @@ File: Menu
 }
 
 .btn-search {
-  display: none;
+  color: #3292e0 !important;
 }
 
 .app-search input::-webkit-input-placeholder {
@@ -3559,6 +3558,8 @@ body.fixed-left .side-menu.left {
   text-align: center;
   border-radius: 50%;
   margin: 8px 8px;
+  background: transparent;
+  color: #fff !important;
 }
 
 .notification-icon-box i {
@@ -4094,7 +4095,7 @@ File: Responsive
   display: none;
   float: left;
   min-width: 12rem;
-  padding: .5rem 0;
+  /*padding: .5rem 0;*/
   margin: .125rem 0 0;
   font-size: 1rem;
   color: #212529;
@@ -4154,3 +4155,5 @@ File: Responsive
 .table .table-description >  a{
   color:#797979;
 }
+
+/*# sourceMappingURL=style.css.map */

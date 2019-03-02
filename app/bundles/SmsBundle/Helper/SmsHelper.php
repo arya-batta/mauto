@@ -80,7 +80,7 @@ class SmsHelper
         $this->integrationHelper    = $integrationHelper;
         $integration                = $integrationHelper->getIntegrationObject('SolutionInfinity');
         $settings                   = $integration->getIntegrationSettings()->getFeatureSettings();
-        $this->smsFrequencyNumber   = isset($settings['frequency_number'])? $settings['frequency_number'] : "";
+        $this->smsFrequencyNumber   = isset($settings['frequency_number']) ? $settings['frequency_number'] : '';
         $this->coreParametersHelper = $coreParametersHelper;
         $this->factory              = $factory;
     }
@@ -175,18 +175,18 @@ class SmsHelper
     {
         $dataArray = ['success' => 0, 'message' => '', 'to_address_empty'=>false];
         $user      = $this->factory->get('mautic.helper.user')->getUser();
-        if ($standardnumber){
-           // $sendnumber = $user->getMobile();
+        if ($standardnumber) {
+            // $sendnumber = $user->getMobile();
             $sendnumber = $settings['mobile'];
-        }
-        else{
+        } else {
             $sendnumber = '123456789';
         }
 
         $transport  = $settings['transport'];
         $translator = $this->factory->get('translator');
         $transport  = $translator->trans($transport);
-        if ($transport == 'LeadsEngage'){
+        $brandname  =$this->factory->get('mautic.helper.core_parameters')->getParameter('product_brand_name');
+        if ($transport == $brandname) {
             $settings['url']        = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_url');
             $settings['apiKey']     = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_api_key');
             $settings['senderid']   = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_sender_id');
@@ -196,7 +196,7 @@ class SmsHelper
         $msgcontent = urlencode($content);
         switch ($transport) {
             case 'SolutionInfinity':
-            case 'LeadsEngage':
+            case $brandname:
                 $result = $this->sendSolutionSMS($settings['url'], $sendnumber, $content, $settings['apiKey'], $settings['senderid'], $standardnumber);
                 break;
             case 'Twilio':
@@ -208,9 +208,9 @@ class SmsHelper
             $dataArray['message'] = $translator->trans('le.send.sms.success', ['%mobile%'=>$sendnumber]);
         } else {
             $dataArray['success'] = 0;
-            if($result == ''){
+            if ($result == '') {
                 $dataArray['message'] = 'Invalid URL.'.$translator->trans('le.send.sms.failed');
-            }else{
+            } else {
                 $dataArray['message'] = $result.'. '.$translator->trans('le.send.sms.failed');
             }
         }
@@ -223,8 +223,8 @@ class SmsHelper
         if ($url == '' || $number == '' || $username == '' || $senderID == '') {
             return '<strong>URL</strong> or <strong>Sender ID</strong> or <strong>Api Key</strong> cannot be empty';
         }
-        if(!$standardnumber){
-            $number = "";
+        if (!$standardnumber) {
+            $number = '';
         }
 
         try {

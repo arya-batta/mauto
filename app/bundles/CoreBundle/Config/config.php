@@ -116,7 +116,7 @@ return [
         'main' => [
             'mautic.core.components' => [
                 'id'        => 'le_components_root',
-                'iconClass' => 'fa-puzzle-piece',
+                'iconClass' => 'fas fa-cubes',
                 'priority'  => 40,
             ],
              'mautic.core.channels' => [
@@ -500,6 +500,7 @@ return [
                 'arguments' => [
                     'templating',
                     'event_dispatcher',
+                    'mautic.helper.core_parameters',
                 ],
                 'alias' => 'content',
             ],
@@ -1101,6 +1102,7 @@ return [
         'le_db_host'                => 'localhost',
         'le_db_port'                => 3306,
         'le_db_user'                => 'root',
-        'le_db_password'            => 'cratio',
+        'le_db_password'            => 'dacam',
+        'product_brand_name'        => 'AnyFunnels',
     ],
 ];

@@ -89,7 +89,8 @@ class DashboardController extends FormController
         $accountModel  = $this->getModel('subscription.accountinfo');
 
         $licenseinfo   = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
-        if ($licenseinfo->getEmailProvider() != 'LeadsEngage') {
+        $brandname     = $this->coreParametersHelper->getParameter('product_brand_name');
+        if ($licenseinfo->getEmailProvider() != $brandname) {
             $emailProvider = true;
         }
         /** @var \Mautic\PageBundle\Model\PageModel $pagemodel */

@@ -15,10 +15,9 @@ if (!$view['slots']->get('leContent')) {
         $view['slots']->set('leContent', $leContent);
     }
 }
-
 if (!$view['slots']->get('headerTitle')) {
     if (!isset($headerTitle)) {
-        $headerTitle = 'LeadsEngage';
+        $headerTitle = $view['content']->getProductBrandName();
     }
     $view['slots']->set('headerTitle', $view['translator']->trans($headerTitle));
 }

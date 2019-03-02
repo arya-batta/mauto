@@ -345,29 +345,36 @@
     position: relative;
     top: 17%;
 }
-
-.campaign-custom-save-button, .campaign-custom-apply-button, .campaign-custom-btn, .campaign-custom-close-button{
-    position:relative;
-    float:right;
+.btn-wf-state-start{
+    background: #ffda24;
+    color: #2a323c;
+    font-weight: 600;
+    min-height: 24px;
+    padding: 3px 12px;
+    border: none;
 }
-.campaign-custom-save-button{
-    /*right:1%;*/
-    /*margin-top: 8px;*/
-    /*text-transform: capitalize;*/
+.btn-wf-state-start:hover{
+    background: #ffee99;
 }
-.campaign-custom-apply-button{
-    margin-right: 10px;
-    /*margin-top: 8px;*/
-    /*text-transform: capitalize;*/
+.btn-save-builder, .btn-apply-builder, .btn-close-builder,.btn-wf-state-stop{
+    background: #2a323c;
+    border: 1px solid #fff;
+    color: #fff;
+    font-weight: 600;
+    min-height: 24px;
+    padding: 3px 12px;
+    border-radius: 2px;
 }
-.campaign-custom-btn{
-    right:3%;
+.btn-save-builder:hover, .btn-apply-builder:hover, .btn-close-builder:hover,.btn-wf-state-stop:hover{
+    border: 1px solid #2a323c;
+    color: #2a323c;
+    background: #fff;
 }
 .campaign-custom-button-div{
     position: relative;
     top: 27px;
     float: left;
-    left: 15px;
+    left: 10%;
 }
 .custom-campaign-builder .help-block{
     color: #ffffff !important;
@@ -697,13 +704,13 @@
 }
 
 .workflow-canvas .wf-fork-primary-label:hover .wf-enclosure {
-    stroke: #e8175d;
+    stroke: #1e7bc8;
 }
 
 .workflow-canvas .wf-fork-primary-label .wf-enclosure {
     stroke: #3292e0;
     cursor: default;
-    fill: #fad1df;
+    fill: #e9f3fc;
 }
 
 .workflow-canvas .wf-fork-primary-label .wf-fork-icon {

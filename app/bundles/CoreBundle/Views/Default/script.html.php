@@ -24,7 +24,9 @@ $leContent = $view['slots']->get(
     var leContent     = '<?php echo $leContent; ?>';
     var leEnv         = '<?php echo $app->getEnvironment(); ?>';
     var leClientID        = '<?php echo $view['assets']->getAppid(); ?>';
+    var productBrandName        = '<?php echo $view['content']->getProductBrandName(); ?>';
     var leLang        = <?php echo $view['translator']->getJsLang(); ?>;
+
    //document.addEventListener("contextmenu", function(e){
      //   alert("Right Click Not Supported");
        // e.preventDefault();

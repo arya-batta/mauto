@@ -27,7 +27,7 @@ $view['slots']->set(
 
 ?>
 <div class="le-header-align" <?php echo $notificationemail ? 'style="padding-bottom:15px;"' : '' ?>><h3><?php  echo $view['translator']->trans($headerTitle); ?></h3></div>
-<div <?php echo $notificationemail ? 'style="padding-left:15px;"' : 'class="info-box-holder"' ?>>
+<div class="info-box-holder">
     <?php if (!$notificationemail): ?>
     <?php foreach ($emailBlockDetails as $key => $emailBlock): ?>
         <div class="info-box" id="leads-info-box-container">
@@ -42,7 +42,7 @@ $view['slots']->set(
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
-<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding" <?php echo $notificationemail ? 'style="margin-top: -50px;"' : '' ?>>
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

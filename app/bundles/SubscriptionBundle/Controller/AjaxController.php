@@ -592,8 +592,8 @@ class AjaxController extends CommonAjaxController
         if ($lastpayment != null && $lastpayment->getPlanName() == 'leplan2') {
             $isleplan2 =true;
         }
-
-        if ($licenseinfo->getEmailProvider() == 'LeadsEngage' && !$isleplan2) {
+        $brandname=$this->coreParametersHelper->getParameter('product_brand_name');
+        if ($licenseinfo->getEmailProvider() == $brandname && !$isleplan2) {
             $welcomemsg                   = $this->get('translator')->trans('le.account.signup.message');
             $action                       = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
             $welcomemsg                   = str_replace('|URL|', $action, $welcomemsg);
@@ -739,9 +739,9 @@ class AjaxController extends CommonAjaxController
         if ($emailUssage) {
             if ($emailCountExpired == 0) {
                 if ($transport == 'le.transport.vialeadsengage') {
-                   // if ($lastpaymentplanname != 'leplan2') {
-                        $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
-                   // }
+                    // if ($lastpaymentplanname != 'leplan2') {
+                    $usageMsg=$this->translator->trans('le.emailusage.count.expired.freecredit');
+                // }
                 } else {
                     // $usageMsg=$this->translator->trans('le.emailusage.count.expired');
                 }

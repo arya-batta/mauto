@@ -1394,7 +1394,7 @@ Le.CloseStatisticsWidget = function(){
         mQuery('.status-body').removeClass('hide');
     }
 };
-Le.publishCampaign = function(flag){
+Le.publishCampaign_old = function(flag){
     var campaignname = mQuery('#campaign_name').val();
     var msg = "Workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
   if(flag){  
@@ -1410,22 +1410,38 @@ Le.publishCampaign = function(flag){
         });
     });
 }
-Le.publishCampaign_old = function(){
-    var value = mQuery('#campaignPublishButton').attr("value");
+
+Le.changeCampaignState=function(el){
+    try{
+        var wfstate=mQuery(el).attr('data-wf-state');
+        if(wfstate == 'true'){
+            mQuery(el).addClass("btn-wf-state-start");
+            mQuery(el).removeClass("btn-wf-state-stop");
+            mQuery(el).html("Start Workflow");
+            mQuery(el).attr("data-wf-state",'false');
+        }else{
+            mQuery(el).addClass("btn-wf-state-stop");
+            mQuery(el).removeClass("btn-wf-state-start");
+            mQuery(el).html("Stop Workflow");
+            mQuery(el).attr("data-wf-state",'true');
+        }
+        Le.publishCampaign(wfstate == 'false');
+    }catch(err){
+        alert(err);
+    }
+}
+
+Le.publishCampaign = function(flag){
     var campaignname = mQuery('#campaign_name').val();
     var msg = "Workflow"+" "+ '"'+campaignname+'"' +" "+" successfully";
-    if(value == "publish"){
-        Le.toggleYesNoButtonClass('campaign_isPublished_1');
+    if(flag){
+      //  Le.toggleYesNoButtonClass('campaign_isPublished_1');
         mQuery('#campaign_isPublished_1').attr('checked',true);
         mQuery('#campaign_isPublished_0').attr('checked',false);
         var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
         mQuery(potherLabel).addClass('active');
         var uotherLabel = mQuery('#campaign_isPublished_0').parent().parent().find('.btn-no');
         mQuery(uotherLabel).removeClass('active');
-        mQuery('#campaignPublishButton').attr("value","unpublish");
-        mQuery('#campaignPublishButton').removeClass('background-orange').addClass('background-pink');
-        mQuery('#campaignPublishButton').html('Stop Workflow');
-        mQuery('#campaignPublishButton').attr("data-original-title","Stop this workflow.");
         mQuery('#flash').css('display','inline-block');
         mQuery('#flash').html(msg+' started.');
     } else {
@@ -1435,10 +1451,6 @@ Le.publishCampaign_old = function(){
         mQuery(uotherLabel).addClass('active');
         var potherLabel = mQuery('#campaign_isPublished_1').parent().parent().find('.btn-yes');
         mQuery(potherLabel).removeClass('active');
-        mQuery('#campaignPublishButton').attr("data-original-title", "Workflow will be in draft/ pause till you start. Tap this button to start this workflow.");
-        mQuery('#campaignPublishButton').attr("value","publish");
-        mQuery('#campaignPublishButton').removeClass('background-pink').addClass('background-orange');
-        mQuery('#campaignPublishButton').html('Start Workflow');
         mQuery('#flash').css('display','inline-block');
         mQuery('#flash').html(msg+' stopped.');
     }

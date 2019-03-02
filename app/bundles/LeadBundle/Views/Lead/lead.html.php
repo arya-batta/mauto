@@ -29,10 +29,11 @@ if (!$isAnonymous) {
     $img    = $view['lead_avatar']->getAvatar($lead);
     $avatar = '<span class="pull-left img-wrapper img-rounded mr-10" style="width:33px"><img src="'.$img.'" alt="" /></span>';
 }
-if ($isAdmin) {
-    $view['slots']->set('headerTitle', $leadActualName);
-}
 
+$view['slots']->set('headerTitle', $leadActualName);
+if (!$isAdmin) {
+    $view['slots']->set('hideHeaderCss', 'hide');
+}
 $groups = array_keys($fields);
 $edit   = $view['security']->hasEntityAccess(
     $permissions['lead:leads:editown'],
@@ -491,7 +492,7 @@ $view['slots']->set(
             </div>-->
             <!--/ lead detail collapseable toggler -->
 
-            <?php if (!$isAnonymous): ?>
+<!--            --><?php //if (!$isAnonymous):?>
                 <div class="pa-md">
                     <div class="row">
                         <div class="col-sm-12" style="width: 102%;">
@@ -514,7 +515,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
+<!--            --><?php //endif;?>
             <!-- tabs controls -->
             <?php /** ?>
             <ul class="nav nav-tabs pr-md pl-md mt-10 hide">
@@ -603,7 +604,7 @@ $view['slots']->set(
             <!--/ #notes-container -->
 
             <!-- #social-container -->
-            <?php if (!$isAnonymous): ?>
+            <?php if (!$isAnonymous && $view['security']->isAdmin()): ?>
                 <div class="tab-pane fade bdr-w-0" id="social-container">
                     <?php echo $view->render(
                         'MauticLeadBundle:Social:index.html.php',
@@ -628,20 +629,19 @@ $view['slots']->set(
                 ); ?>
             </div>
             <!--/ #integration-container -->
-            <?php endif; ?>
             <!-- #auditlog-container -->
-            <div class="tab-pane fade bdr-w-0" id="auditlog-container">
-                <?php echo $view->render(
-                    'MauticLeadBundle:Auditlog:list.html.php',
-                    [
-                        'events' => $auditlog,
-                        'lead'   => $lead,
-                        'tmpl'   => 'index',
-                    ]
-                ); ?>
-            </div>
-            <!--/ #auditlog-container -->
-
+                <div class="tab-pane fade bdr-w-0" id="auditlog-container">
+                    <?php echo $view->render(
+                        'MauticLeadBundle:Auditlog:list.html.php',
+                        [
+                            'events' => $auditlog,
+                            'lead'   => $lead,
+                            'tmpl'   => 'index',
+                        ]
+                    ); ?>
+                </div>
+                <!--/ #auditlog-container -->
+            <?php endif; ?>
             <!-- custom content -->
             <?php echo $view['content']->getCustomContent('tabs.content', $mauticTemplateVars); ?>
             <!-- end: custom content -->

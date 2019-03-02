@@ -14,7 +14,7 @@ if (isset($template)) {
         case 'batchdelete':
             $confirmText = (!isset($confirmText)) ? $view['translator']->trans('mautic.core.form.delete')
                 : $confirmText;
-            $iconClass       = (!isset($iconClass)) ? 'fa fa-trash-o text-danger' : $iconClass;
+            $iconClass       = (!isset($iconClass)) ? '' : $iconClass; //'fa fa-trash-o text-danger'
             $btnText         = (!isset($btnText)) ? $view['translator']->trans('mautic.core.form.delete_selected') : $btnText;
             $btnClass        = (!isset($btnClass)) ? '' : $btnClass;
             $confirmCallback = (!isset($confirmCallback)) ? 'executeBatchAction' : $confirmCallback;

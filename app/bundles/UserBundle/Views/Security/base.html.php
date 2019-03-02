@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8" />
-    <title><?php echo $view['slots']->get('pageTitle', 'LeadsEngage'); ?></title>
+    <title><?php echo $view['slots']->get('pageTitle', $view['content']->getProductBrandName()); ?></title>
     <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon"  sizes="192x192" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
@@ -18,7 +18,7 @@
         <div class="inner-panel">
             <div class="lg-content">
                 <h2 class="lg-content-header"><?php echo $view['translator']->trans('le.users.content.header'); ?></h2>
-                <p class="text-muted le-content-description"> <?php echo $view['translator']->trans('le.users.content.desc'); ?></p>
+                <p class="le-content-description"> <?php echo $view['translator']->trans('le.users.content.desc'); ?></p>
                 <a class="btn btn-rounded le-btn-danger p-l-20 p-r-20 hide" style="color: #fff;" href="http://anyfunnels.com/" target="_blank"><?php echo $view['translator']->trans('le.users.content.button'); ?></a>
             </div>
         </div>

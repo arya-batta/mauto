@@ -736,6 +736,8 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                                     $this.addClass("hover");
                                     if($(target)[0].getBoundingClientRect().bottom >= Response.viewportH()) {
                                         $(target).css("top", "-"+($(target)[0].getBoundingClientRect().bottom-Response.viewportH()+2)+"px");
+                                    }else{
+                                        $(target).css("top", "6px");
                                     }
                                 }
 

@@ -610,7 +610,8 @@ class LicenseInfoHelper
         if ($totalEmailCount == 'UL') {
             return -1;
         } else {
-            if ($email_provider != 'LeadsEngage') {
+            $brandname=$this->factory->get('mautic.helper.core_parameters')->getParameter('product_brand_name');
+            if ($email_provider != $brandname) {
                 $availablecredits = $totalEmailCount - $actualEmailCount;
             } else {
                 $availablecredits = 100 - $actualEmailCount;
@@ -1132,7 +1133,7 @@ class LicenseInfoHelper
     public function isLeadsEngageEmailExpired($pending)
     {
         $configtransport     = $this->factory->get('mautic.helper.core_parameters')->getParameter('mailer_transport_name');
-       // $availableemailcount =  $this->getAvailableEmailCount();
+        // $availableemailcount =  $this->getAvailableEmailCount();
         $totalemailcount     =  100;
         $actualEmailCount    = $this->getActualEmailCount();
         $availableemailcount = $totalemailcount - $actualEmailCount;

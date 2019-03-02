@@ -109,7 +109,6 @@ if ($showsetup) {
 ?>
 
 <?php if (count($items)): ?>
-
     <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered" id="leadTable">
             <thead>

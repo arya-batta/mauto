@@ -39,7 +39,7 @@ return [
             'items'    => [
                 'mautic.dashboard.menu.index' => [
                     'route'     => 'le_dashboard_index',
-                    'iconClass' => 'fa-home',
+                    'iconClass' => 'fas fa-th-large',
                 ],
             ],
         ],

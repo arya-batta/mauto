@@ -350,7 +350,7 @@ Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
  *
  * @param action
  */
-Le.executeBatchAction = function (action, el) {
+Le.executeBatchAction = function (action, el,callback) {
     if (typeof Le.activeActions == 'undefined') {
         Le.activeActions = {};
     } else if (typeof Le.activeActions[action] != 'undefined') {
@@ -364,9 +364,8 @@ Le.executeBatchAction = function (action, el) {
 
     // Append the items to the action to send with the POST
     var action = action + queryGlue + 'ids=' + items;
-
     // Hand over processing to the executeAction method
-    Le.executeAction(action);
+    Le.executeAction(action,callback);
 };
 
 /**

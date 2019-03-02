@@ -14,11 +14,9 @@ $extraMenu = $view['menu']->render('extra');
 <div class="sidebar-header">
     <!-- brand -->
     <div style="text-align: center; padding: 0px 0px 0px 0px; ">
-        <img style="
-    width: 200px;
-    margin-top: 15px;
-    padding: 2px;
-" src="<?php echo $view['assets']->getUrl('media/images/leadsengage-blue-logo.png') ?>"></div>
+        <img class='logo-icon-large' src="<?php echo $view['assets']->getUrl('media/images/anyfunnel_logo_large_icon.png') ?>">
+        <img class='logo-icon-small' src="<?php echo $view['assets']->getUrl('media/images/anyfunnel_logo_small_icon.png') ?>">
+    </div>
     <!--<a class="le-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#">-->
     <!-- logo figure -->
     <!--<svg version="1.1" class="le-logo-figure" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 128 128" enable-background="new 0 0 128 128" xml:space="preserve">

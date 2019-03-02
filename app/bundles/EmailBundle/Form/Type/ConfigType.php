@@ -40,6 +40,10 @@ class ConfigType extends AbstractType
 
     private $licenseHelper   = [];
     private $currentUser     = [];
+    /**
+     * @var MauticFactory
+     */
+    private $factory;
 
     /**
      * ConfigType constructor.
@@ -50,6 +54,7 @@ class ConfigType extends AbstractType
      */
     public function __construct(TranslatorInterface $translator, TransportType $transportType, MauticFactory $factory)
     {
+        $this->factory       = $factory;
         $this->translator    = $translator;
         $this->transportType = $transportType;
         $this->licenseHelper = $factory->getHelper('licenseinfo');
@@ -242,7 +247,8 @@ class ConfigType extends AbstractType
         $disabletransport = false;
         $tabIndex         ='';
         $style            ='';
-        if ($emailProvider == 'LeadsEngage' && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api') && !$currentUser) {
+        $brandname        =$this->factory->get('mautic.helper.core_parameters')->getParameter('product_brand_name');
+        if ($emailProvider == $brandname && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api') && !$currentUser) {
             $datavalue        = 'le.transport.vialeadsengage';
             $disabletransport = false;
         } elseif (!$emailProvider == 'Sparkpost' && !$currentUser) {

@@ -44,10 +44,10 @@
     <footer id="app-footer">
         <div class="container-fluid">
             <div class="col-lg-12">
-                <div class="pull-left hidden-xs">
-                    <?php echo $view['translator']->trans('mautic.core.copyright.anti.spam', ['%anitSpamUrl%' => $anitSpamUrl, '%privacyUrl%' => $privacyUrl, '%termsAndCondUrl%' => $termsAndCondUrl, '%GDPRpolicy%'=> $GDPRpolicy]); ?>
-                </div>
-                <div class="pull-right">
+<!--                <div class="pull-left hidden-xs">-->
+<!--                    --><?php //echo $view['translator']->trans('mautic.core.copyright.anti.spam', ['%anitSpamUrl%' => $anitSpamUrl, '%privacyUrl%' => $privacyUrl, '%termsAndCondUrl%' => $termsAndCondUrl, '%GDPRpolicy%'=> $GDPRpolicy]);?>
+<!--                </div>-->
+                <div class="text-center" style="font-size: 10px;letter-spacing: 1px;">
                     <?php echo $view['translator']->trans('mautic.core.copyright', ['%date%' => date('Y')]); ?></div><?php
                 /** @var \Mautic\CoreBundle\Templating\Helper\VersionHelper $version */
                 $version = $view['version'];

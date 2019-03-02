@@ -177,7 +177,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                     $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                     ?>
                     <li<?php echo $class; ?>>
-                        <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if ($sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
+                        <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                             <span><?php echo $i; ?></span>
                         </a>
                     </li>

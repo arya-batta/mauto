@@ -14,7 +14,6 @@ use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
 if (!isset($target)) {
     $target = '.page-list';
 }
-
 if (!empty($checkall)):
     $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_BULK_ACTIONS, ButtonHelper::TYPE_DROPDOWN);
     include 'action_button_helper.php';

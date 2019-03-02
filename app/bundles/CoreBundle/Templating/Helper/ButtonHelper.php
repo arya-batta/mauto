@@ -356,7 +356,7 @@ class ButtonHelper extends Helper
                 $attr .= " $k=".'"'.$v.'"';
             }
 
-            $buttonContent = (isset($button['iconClass'])) ? '<i class="'.$button['iconClass'].'"></i> ' : '';
+            $buttonContent = (isset($button['iconClass']) && $this->groupType != self::TYPE_DROPDOWN) ? '<i class="'.$button['iconClass'].'"></i> ' : '';
             if (!empty($button['btnText'])) {
                 $buttonContent .= '<span'.$btnTextAttr.'>'.$this->translator->trans($button['btnText']).'</span>';
             }

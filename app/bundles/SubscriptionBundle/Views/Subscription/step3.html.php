@@ -30,8 +30,8 @@
                 </p>
                 <div id="terms">
 
-                    <h4><b>LeadsEngage Anti Spam Policy</b></h4>
-                    <p>LeadsEngage is against spam. We don't allow customers to send unsolicited emails from our platform.</p>
+                    <h4><b><?php echo $view['content']->getProductBrandName()?> Anti Spam Policy</b></h4>
+                    <p><?php echo $view['content']->getProductBrandName()?> is against spam. We don't allow customers to send unsolicited emails from our platform.</p>
                     <br>
                     <p>We are OK if you send emails as mentioned below.</p>
                     <br>

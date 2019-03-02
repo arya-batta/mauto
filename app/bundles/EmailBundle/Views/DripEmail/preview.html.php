@@ -17,7 +17,7 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 ?>
 <html>
 <head>
-    <title>Email Preview | LeadsEngage</title>
+    <title>Email Preview | <?php echo $view['content']->getProductBrandName(); ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>" />
     <link rel="icon" sizes="192x192" href="<?php echo $view['assets']->getUrl('media/images/favicon.ico') ?>">
     <link rel="apple-touch-icon" href="<?php echo $view['assets']->getUrl('media/images/apple-touch-icon.png') ?>" />
