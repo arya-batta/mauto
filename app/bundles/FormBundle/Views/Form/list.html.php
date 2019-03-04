@@ -28,7 +28,7 @@ $isAdmin=$view['security']->isAdmin();
                         'templateButtons' => [
                             'delete' => $permissions['form:forms:deleteown'] || $permissions['form:forms:deleteother'],
                         ],
-                        'customButtons' => [
+                      /*  'customButtons' => [
                             [
                                 'confirm' => [
                                     'message'       => $view['translator']->trans('mautic.form.confirm_batch_rebuild'),
@@ -44,7 +44,7 @@ $isAdmin=$view['security']->isAdmin();
                                 ],
                                 'primary' => true,
                             ],
-                        ],
+                        ],*/
                     ]
                 );
                 echo $view->render(

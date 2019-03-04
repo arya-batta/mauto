@@ -44,18 +44,18 @@ if (!isset($typeThreeIconClass)) {
                         <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                             <div class="panel-primary" style="margin-left: -28px;">
                                 <h3 style="width: 130%;" class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
-                                <p style="width:230%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                <button class="le-btn-primary waves-effect" style="margin-top: 55px;"onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <p style="width:219%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
+                                <button class="le-btn-primary waves-effect" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
                         </div>
                     </div>
-                    <div class="white-block" style="margin-left:25px;width:43%;text-align:left;height: 238px;">
+                    <div class="white-block" style="margin-left:25px;width:43%;text-align:left;height: 261px;">
                         <div class="col-md-6" style="width:<?php echo $formwidth ?>">
                             <div class="panel-primary" style="margin-left: -28px;">
-                                <h3 style="width: 140%;"  class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
+                                <h3 style="width: 150%;"  class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
                                 <p style="width:220%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
-                                <button style="margin-top: 18px" class="le-btn-primary waves-effect" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                <button style="margin-top: 41px" class="le-btn-primary waves-effect" onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
                             </div>
                         </div>
                     </div>

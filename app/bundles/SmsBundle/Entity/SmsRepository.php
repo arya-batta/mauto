@@ -258,6 +258,19 @@ class SmsRepository extends CommonRepository
 
         return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0 ;
     }
+    public function getSmsFailedCount($id='')
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('SUM(e.failed_count) as failedcount')
+            ->from(MAUTIC_TABLE_PREFIX.'sms_messages', 'e')
+            ->andWhere($q->expr()->eq('e.id', ':Id'))
+            ->setParameter('Id', $id);
+
+        $results= $q->execute()->fetchAll();
+
+        return (isset($results[0]['failedcount'])) ? $results[0]['failedcount'] : 0 ;
+    }
 
 
 

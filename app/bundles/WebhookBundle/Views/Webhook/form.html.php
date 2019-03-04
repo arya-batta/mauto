@@ -28,7 +28,7 @@ $view['slots']->set('headerTitle', $header);
     <!-- container -->
 
     <div class="col-md-12 bg-auto height-auto" >
-        <div style="width: 68%;margin-left: 16%">
+        <div>
         <div class="pa-md">
             <div class="panel panel-default form-group mb-0">
                 <div class="panel-body">

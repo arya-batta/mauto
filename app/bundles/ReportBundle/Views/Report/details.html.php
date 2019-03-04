@@ -24,7 +24,7 @@ $header = $view['translator']->trans(
 
     $buttons = [];
     if (!empty($data) || !empty($graphs)) {
-        $buttons[] = [
+       /* $buttons[] = [
             'attr' => [
                 'target'      => '_new',
                 'data-toggle' => '',
@@ -36,7 +36,7 @@ $header = $view['translator']->trans(
             ],
             'btnText'   => $view['translator']->trans('mautic.form.result.export.html'),
             'iconClass' => 'fa fa-file-code-o',
-        ];
+        ];*/
 
         if (!empty($data)) {
             $buttons[] = [
@@ -50,6 +50,7 @@ $header = $view['translator']->trans(
                 ],
                 'btnText'   => $view['translator']->trans('mautic.form.result.export.csv'),
                 'iconClass' => 'fa fa-file-text-o',
+                'primary'   => true,
             ];
 
             if (class_exists('PHPExcel')) {
@@ -64,6 +65,7 @@ $header = $view['translator']->trans(
                     ],
                     'btnText'   => $view['translator']->trans('mautic.form.result.export.xlsx'),
                     'iconClass' => 'fa fa-file-excel-o',
+                    'primary'   => true,
                 ];
             }
         }

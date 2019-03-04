@@ -205,6 +205,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
         }
 
         $sentCount      = 0;
+        $failedCount    = 0;
         $results        = [];
         $contacts       = [];
         $fetchContacts  = [];
@@ -305,11 +306,11 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     );
 
                     $metadata = $this->transport->sendSms($leadPhoneNumber, $tokenEvent->getContent());
-
-                    if (true !== $metadata) {
+                    if ($metadata != "true") {
                         $sendResult['status'] = $metadata;
                         $sendResultText       = 'Failed';
                         $send                 = false;
+                        ++$failedCount;
                     } else {
                         $send               = true;
                         $stats[]            = $this->createStatEntry($sms, $lead, $channel, false);
@@ -338,6 +339,9 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $this->getRepository()->upCount($sms->getId(), 'sent', $sentCount);
             $this->getStatRepository()->saveEntities($stats);
             $this->em->clear(Stat::class);
+        }
+        if($failedCount){
+            $this->getRepository()->upCount($sms->getId(), 'failed', $failedCount);
         }
 
         return $results;
@@ -634,7 +638,12 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
         return $sentcount;
     }
+    public function getFailedCount($id)
+    {
+        $failedcount=$this->getRepository()->getSmsFailedCount($id);
 
+        return $failedcount;
+    }
     public function getClickCount($id)
     {
         $clickcount=$this->getRepository()->getSmsClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'), $id);

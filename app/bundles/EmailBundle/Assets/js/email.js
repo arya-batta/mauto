@@ -1069,25 +1069,27 @@ Le.registerDismissBtn=function(){
     });
 };
 Le.changeButtonPanelStyle = function (){
-    if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
+    if(!mQuery('sidebar-minimizer').hasClass('active')) {
+        if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
             mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
-        /* if(mQuery('.license-notifiation').hasClass('hide')) {
-             mQuery('#fixed-content').attr('style', 'margin-top:145px;');
-         } else {
-             mQuery('#fixed-content').attr('style', 'margin-top:205px;');
-         }*/
+            /* if(mQuery('.license-notifiation').hasClass('hide')) {
+                 mQuery('#fixed-content').attr('style', 'margin-top:145px;');
+             } else {
+                 mQuery('#fixed-content').attr('style', 'margin-top:205px;');
+             }*/
         } else {
-                mQuery('.ui-tabs-panel .fixed-header').removeClass('ui-panel-fixed-button-panel');
+            mQuery('.ui-tabs-panel .fixed-header').removeClass('ui-panel-fixed-button-panel');
             /* if(mQuery('.license-notifiation').hasClass('hide')) {
                  mQuery('#fixed-content').attr('style', 'margin-top:155px;');
              } else {
                  mQuery('#fixed-content').attr('style', 'margin-top:215px;');
              }*/
         }
-        if(!mQuery('.drip-fixed-header').hasClass('drip-fixed-header-style')){
+        if (!mQuery('.drip-fixed-header').hasClass('drip-fixed-header-style')) {
             mQuery('.drip-fixed-header').addClass('drip-fixed-header-style');
-        }else{
+        } else {
             mQuery('.drip-fixed-header').removeClass('drip-fixed-header-style');
         }
+    }
 
 }

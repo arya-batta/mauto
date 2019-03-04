@@ -64,6 +64,7 @@ if (count($items)):
                 ?>
                 <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.sent_count'); ?></th>
                 <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.click_count'); ?></th>
+                <th class="col-email-stats" style="color: #000000"><?php echo $view['translator']->trans('le.sms.failed_count'); ?></th>
                 <?php
                 //<th class="visible-sm visible-md visible-lg col-sms-stats"><?php echo $view['translator']->trans('mautic.core.stats');?></th>
 
@@ -180,6 +181,9 @@ if (count($items)):
                         <?php $clickpercent    = ($sentcount == 0) ? 0 : ($clickcount / $sentcount) * 100;
                         echo '('.$clickpercent.'%)' ?>
 
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats">
+                        <?php echo $sentcount = $model->getFailedCount($item->getId()); ?>
                     </td>
                    <?php /** <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;"> ?>
                         <span class="mt-xs label label-primary has-click-event clickable-stat"

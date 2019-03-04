@@ -4612,7 +4612,7 @@ a.label:focus {
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-  background-color: #2a323c;
+  background-color: #3182CD;
 }
 .label-success {
   background-color: #00b49c;
@@ -4641,6 +4641,10 @@ a.label:focus {
 .label-danger[href]:hover,
 .label-danger[href]:focus {
   background-color: #606b78;
+}
+.le-label-danger[href]:hover,
+.le-label-danger[href]:focus {
+  background-color: #dc3545;
 }
 /*.badge {*/
   /*display: inline-block;*/

@@ -282,6 +282,6 @@ class AssetRepository extends CommonRepository
 
         $result = $q->execute()->fetchAll();
 
-        return $result[0]['conversions'];
+        return empty($result[0]['conversions'])? 0:$result[0]['conversions'];
     }
 }

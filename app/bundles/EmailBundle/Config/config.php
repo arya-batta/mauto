@@ -95,7 +95,7 @@ return [
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'le_email_webview' => [
-                'path'       => '/{type}/view/{idHash}',
+                'path'       => '/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
                 'defaults'   => [
                     'type' => 'one-off',

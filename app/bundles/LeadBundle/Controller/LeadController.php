@@ -1721,6 +1721,18 @@ class LeadController extends FormController
                 ]
             );
         }
+        if (!$isHavingEmailValidity) {
+            $this->addFlash($this->translator->trans('mautic.email.validity.expired'));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
 
         $leadFields       = $lead->getProfileFields();
         $leadFields['id'] = $lead->getId();

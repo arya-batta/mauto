@@ -391,7 +391,7 @@ $isadmin     =$view['security']->isAdmin();
                     <?php if (!$activeForm->isSmartForm()):?>
                         <div class="white-box" style="text-align:start;padding-top:15px;padding-bottom:15px;">
                             <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
-                            <textarea id="javascipt_textarea" style="min-height: 70px;" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
+                            <textarea id="javascipt_textarea" style="min-height: 72px;" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
                                     'le_form_generateform',
                                     ['id' => $activeForm->getId()]
                                 ); ?>"&gt;&lt;/script&gt;</textarea>
@@ -404,11 +404,11 @@ $isadmin     =$view['security']->isAdmin();
                             </a>
                             </button>
                         </div>
-                        <div class="white-box" style="text-align:start;padding-top:15px;padding-bottom:15px;margin-bottom: 15px">
+                        <div class="white-box" style="text-align:start;padding-top:10px;padding-bottom:15px;margin-bottom: 0px">
                             <h3 class=""><?php echo $view['translator']->trans(
                                     'mautic.form.form.help.automaticcopy.iframe'
                                 ); ?></h3>
-                            <textarea id="iframe_textarea" style="min-height: 87px;"class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
+                            <textarea id="iframe_textarea" style="min-height: 93px;"class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
                                     'le_form_preview',
                                     ['id' => $activeForm->getId()]
                                 ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>

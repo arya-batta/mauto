@@ -24,13 +24,13 @@ echo $view['form']->row($form['fromname']);
 ?>
 <div class="row">
     <div class="col-sm-12">
-        <div class="form-group col-xs-12" style="width:79%;margin-left: -14px;">
+        <div class="form-group col-xs-12" style="width:76%;margin-left: -14px;">
             <?php echo $view['form']->row($form['from'],
                 ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]
             ); ?>
         </div>
         <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;">
-            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;float:inherit;margin-top:25px;" data-toggle="dropdown" href="#">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:16px;margin-left:-10px;float:inherit;margin-top:26px;" data-toggle="dropdown" href="#">
                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">

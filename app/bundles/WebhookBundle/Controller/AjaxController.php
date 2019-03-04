@@ -55,10 +55,17 @@ class AjaxController extends CommonAjaxController
         $response = $http->post($url, json_encode($payloads), $headers);
 
         // default to an error message
+        if($response->code == 404){
+          $msg='mautic.webhook.label.notfound';
+        }elseif($response->code == 500){
+           $msg='mautic.webhook.label.error';
+        }else{
+            $msg='mautic.webhook.label.warning';
+        }
         $dataArray = [
             'success' => 1,
             'html'    => '<div class="has-error"><span class="help-block">'
-                .$this->translator->trans('mautic.webhook.label.warning')
+                .$this->translator->trans($msg)
                 .'</span></div>',
         ];
 

@@ -2677,7 +2677,7 @@ ul.line-legend li {
 .table-responsive-force > .table > thead > tr > td,
 .table-responsive-force > .table > tbody > tr > td,
 .table-responsive-force > .table > tfoot > tr > td {
-  white-space: nowrap;
+ /* white-space: nowrap;*/
 }
 .table-responsive-force > .table-bordered {
   border: 0;
@@ -5798,7 +5798,7 @@ figcaption {
   height: auto;
 }
 .le-label-danger{
-  background-color: #dc3545!important;
+  background-color: #E23D4F!important;
 }
 .dnc-alignment{
   position: absolute;
@@ -7008,7 +7008,7 @@ ol, ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  float: left;
+  /* float: left;*/
 }
 .butnew:hover{
   color:#fff;

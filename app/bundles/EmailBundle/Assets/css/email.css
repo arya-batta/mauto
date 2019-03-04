@@ -148,10 +148,11 @@
 }
 .notification-template-content{
     padding: 26px;
+    padding-right: 36px;
     display: block;
     background: none;
     min-height: 500px;
-    max-width: 70%;
+    max-width: 85%;
     align-items: center;
     margin-top: 12px;
     border: 1px solid #ebedf0;
