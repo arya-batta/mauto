@@ -4644,7 +4644,7 @@ a.label:focus {
 }
 .le-label-danger[href]:hover,
 .le-label-danger[href]:focus {
-  background-color: #dc3545;
+  background-color: #BD2D3F !important;
 }
 /*.badge {*/
   /*display: inline-block;*/
