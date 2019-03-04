@@ -311,6 +311,7 @@ class SmsRepository extends CommonRepository
         if ($currentUserId != 1) {
             $q->andWhere($q->expr()->neq('r.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('r.created_by'));
         }
 
         $results = $q->execute()->fetchAll();
