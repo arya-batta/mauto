@@ -394,6 +394,17 @@ Le.showConfirmation = function (el) {
 };
 
 /**
+ * Success
+ */
+Le.successModel = function(title,msg,type){
+    swal(
+        title,
+        msg,
+        type
+    );
+};
+
+/**
  * Dismiss confirmation modal
  */
 Le.dismissConfirmation = function () {

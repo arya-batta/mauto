@@ -604,7 +604,7 @@ $view['slots']->set(
 
             <!-- #social-container -->
             <?php if (!$isAnonymous && $view['security']->isAdmin()): ?>
-                <div class="tab-pane fade bdr-w-0" id="social-container">
+                <div class="tab-pane hide fade bdr-w-0" id="social-container">
                     <?php echo $view->render(
                         'MauticLeadBundle:Social:index.html.php',
                         [
@@ -618,7 +618,7 @@ $view['slots']->set(
             <!--/ #social-container -->
             <?php if ($view['security']->isAdmin()): ?>
             <!-- #integration-container -->
-            <div class="tab-pane fade bdr-w-0" id="integration-container">
+            <div class="tab-pane hide fade bdr-w-0" id="integration-container">
                 <?php echo $view->render(
                     'MauticLeadBundle:Integration:index.html.php',
                     [
@@ -629,7 +629,7 @@ $view['slots']->set(
             </div>
             <!--/ #integration-container -->
             <!-- #auditlog-container -->
-                <div class="tab-pane fade bdr-w-0" id="auditlog-container">
+                <div class="tab-pane hide fade bdr-w-0" id="auditlog-container">
                     <?php echo $view->render(
                         'MauticLeadBundle:Auditlog:list.html.php',
                         [

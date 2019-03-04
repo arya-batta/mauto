@@ -422,11 +422,12 @@ class FieldType extends AbstractType
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('f')
                             ->orWhere('f.createdBy != :nullcreatedby OR f.isPublished = :isPublished')
-                            ->orderBy('f.order', 'ASC')
+                            ->orderBy('f.order', 'DESC')
                             ->setParameter('isPublished', 1)
                             ->setParameter('nullcreatedby', 'isNotNull');
                     },
-                    'required' => false,
+                    'empty_value'   => false,
+                    'required'      => false,
                 ]
             )->addModelTransformer($transformer)
         );
@@ -451,8 +452,8 @@ class FieldType extends AbstractType
             'isPublished',
             'yesno_button_group',
             [
-                'disabled' => ($options['data']->getIsFixed() == 1),
-                'data'     => ($options['data']->getIsFixed() == 1) ? true : $options['data']->getIsPublished(),
+                'disabled'   => ($options['data']->getIsFixed() == 1),
+                'data'       => ($options['data']->getIsFixed() == 1) ? true : $options['data']->getIsPublished(),
                 'no_label'   => 'mautic.core.form.unpublished',
                 'yes_label'  => 'mautic.core.form.published',
             ]

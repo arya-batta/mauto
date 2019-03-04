@@ -205,7 +205,25 @@ trait LeadDetailsTrait
         /** @var LeadModel $model */
         $model       = $this->getModel('lead');
         $engagements = $model->getEngagementCount($lead, $fromDate, $toDate, 'm', $chartQuery);
-        $lineChart->setDataset($translator->trans('le.lead.graph.line.all_engagements'), $engagements['byUnit']);
+        //$lineChart->setDataset($translator->trans('le.lead.graph.line.all_engagements'), $engagements['byUnit']);
+
+        $emailsent = $chartQuery->fetchTimeData('email_stats', 'date_sent', ['lead_id' => $lead->getId(), 'is_failed' => 0]);
+        $lineChart->setDataset($translator->trans('le.email.sent.emails'), $emailsent);
+
+        $emailOpen = $chartQuery->fetchTimeData('email_stats', 'date_sent', ['lead_id' => $lead->getId(), 'is_read' => 1]);
+        $lineChart->setDataset($translator->trans('le.email.read.emails'), $emailOpen);
+
+        $emailclick = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['source' => 'email']);
+        $lineChart->setDataset($translator->trans('le.dashboard.email.click.count'), $emailclick);
+
+        $pagevisit = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['source' => '']);
+        $lineChart->setDataset($translator->trans('le.lead.page.visited'), $pagevisit);
+
+        $formsubmit = $chartQuery->fetchTimeData('form_submissions', 'date_submitted', ['lead_id' => $lead->getId()]);
+        $lineChart->setDataset($translator->trans('mautic.campaign.form.submit'), $formsubmit);
+
+        $filedownload = $chartQuery->fetchTimeData('asset_downloads', 'date_download', ['lead_id' => $lead->getId()]);
+        $lineChart->setDataset($translator->trans('le.dashboard.asset.downloads'), $filedownload);
 
         $pointStats = $chartQuery->fetchTimeData('lead_points_change_log', 'date_added', ['lead_id' => $lead->getId()]);
         $lineChart->setDataset($translator->trans('le.lead.graph.line.points'), $pointStats);

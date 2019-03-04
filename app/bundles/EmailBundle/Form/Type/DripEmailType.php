@@ -15,6 +15,7 @@ use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\CoreBundle\Form\Type\DynamicContentTrait;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
 
 /**
  * Class DripEmailType.
@@ -196,8 +196,8 @@ class DripEmailType extends AbstractType
                         'preaddon' => 'fa fa-envelope',
                         'tooltip'  => $tooltip,
                     ],
-                    'required' => true,
-                    'data'     => $options['data']->getFromAddress() ? $options['data']->getFromAddress() : $fromadress,
+                    'required'    => true,
+                    'data'        => $options['data']->getFromAddress() ? $options['data']->getFromAddress() : $fromadress,
                     'constraints' => [
                         new EmailDomain(
                             [
@@ -243,8 +243,8 @@ class DripEmailType extends AbstractType
                 'yesno_button_group',
                 [
                     'attr'  => [
-                        'onchange' => 'Le.toggleDripEmailPublisedListVisibility()',
-                        ],
+                        'onchange' => 'Le.toggleDripEmailPublisedListVisibility();',
+                    ],
                     'no_label'   => 'mautic.core.form.unpublished',
                     'yes_label'  => 'mautic.core.form.published',
                 ]
@@ -329,7 +329,7 @@ class DripEmailType extends AbstractType
                 'input'          => 'string',
                 'html5'          => false,
                 'empty_value'    => false,
-                'with_seconds'   => true,
+                'with_seconds'   => false,
                 'with_minutes'   => true,
             ]);
 

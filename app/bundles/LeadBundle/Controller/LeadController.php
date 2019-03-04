@@ -96,7 +96,7 @@ class LeadController extends FormController
                 $step = 'addressinfo';
             }
             if ($step != '') {
-                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => $step]));
+                //return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => $step]));
             }
         } else {
             $loginsession->set('isLogin', false);
@@ -1865,8 +1865,8 @@ class LeadController extends FormController
                                 if (!$isHavingEmailValidity) {
                                     $this->addFlash('mautic.email.validity.expired');
                                 } else {
-                                $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                                $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
+                                    $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
                                 }
                             }
                         } else {

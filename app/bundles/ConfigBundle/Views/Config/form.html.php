@@ -46,10 +46,10 @@ $configKeys = array_keys($form->children);
     </div>
 
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-l">
+    <div class="col-md-9 bg-auto height-auto">
         <?php echo $view['form']->start($form); ?>
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="tab-content" style="border:0px;box-shadow: unset;">
             <?php foreach ($configKeys as $i => $key) : ?>
             <?php
                 if (!isset($formConfigs[$key])) {

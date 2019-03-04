@@ -121,7 +121,7 @@ $filter_templates = [
     'listoptin'         => 'listoptin-template',
 ];
 $customHtml            = $email->getCustomHtml();
-$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group waves-effect \" data-filter-group='and'>Add a condition</button>";
+$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group waves-effect add-contition\" data-filter-group='and'>Add a condition</button>";
 ?>
 <?php echo $view['form']->start($form, ['attr' => $attr]); ?>
 <div id="page-wrap" class="align-tab-center">
@@ -425,7 +425,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     <?php echo $view['form']->widget($form['recipients']['filters'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn]); ?>
                 </div>
                 <div class="leadlist-filter-group filter-or-group">
-                    <button type="button" class="btn btn-default lead-list btn-filter-group waves-effect" data-filter-group='or'>Add another set of conditions</button>
+                    <button type="button" class="btn btn-default lead-list btn-filter-group waves-effect add-contition" data-filter-group='or'>Add another set of conditions</button>
                 </div>
             </div>
             <div class="hide" id="templates">
@@ -479,7 +479,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         </div>
                         <?php //echo $view['form']->widget($form['fromAddress']);?>
                         <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;" data-toggle="dropdown" href="#">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;padding:8px !important;" data-toggle="dropdown" href="#">
                                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">

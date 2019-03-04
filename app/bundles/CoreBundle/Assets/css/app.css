@@ -316,7 +316,7 @@ body > #app-wrapper {
 .send-head h4 {
   background: #f5f5f5;
   margin: 0px;
-  padding: 15px 0px 15px 90px;
+  padding: 15px 0px 15px 0px;
   font-weight: 800;
 }
 .send-btn {
@@ -4851,6 +4851,9 @@ label.required:after {
   content: " *";
   color: #f86b4f;
 }
+label.required {
+  margin-top: -10px !important;
+}
 #app-header .nav > li > a {
   /*padding: 10px 12px;*/
 }
@@ -5630,12 +5633,12 @@ figcaption {
   left: 2%;
 }
 .status_success{
-  background-color:#008000;
-  border-color:#008000;
+  background-color:#4ea84d !important;
+  border-color:#4ea84d !important;
   pointer-events: none;
 }.status_fail{
-   background-color:#ff0000;
-   border-color:#ff0000;
+   background-color:#ee1940 !important;
+   border-color:#ee1940 !important;
    pointer-events: none;
 }
 .info-box{
@@ -5680,7 +5683,7 @@ figcaption {
   text-align: center;
   /* font-size: 45px; */
   /* line-height: 57px; */
-  padding-top: 30px;
+  padding-top: 20px;
   /* padding-left: 45px; */
 }
 .info-box-content {
@@ -5690,7 +5693,7 @@ figcaption {
 }
 #icon-class-leads{
   color: #3292e0 !important;
-  font-size: 23px;
+  font-size: 30px;
 }
 .info-box-holder {
   padding-top: 15px;
@@ -5883,6 +5886,9 @@ figcaption {
 }
 .col-page-hits{
   text-align: center;
+}
+.col-email-delay{
+  width:20%;
 }
 .col-stats {
 text-align: center;
@@ -6609,12 +6615,16 @@ text-align: center;
 .custom-preview-button{
   text-transform: inherit;
   padding: 7px 7px 5px 8px;
+  color: #FFFFFF;
+}
+.custom-preview-button:hover{
+  color: #000000;
 }
 .custom-preview-button > span{
   font-size:12px;
 }
 .custom-use-button{
-  padding: 0px 8px 0px 10px;
+  padding: 5px 8px 0px 10px;
 }
 .small-x{
   font-size: 10px;
@@ -6762,7 +6772,7 @@ text-align: center;
   margin-top: 8px;
 }
 .col-page-titledrip{
-  width: 55%;
+  width: 45%;
 }
 .le-send-button:hover{
   box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
@@ -7072,7 +7082,7 @@ ol, ul {
   background: #fff;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
   display: inline-block;
-  width: 300px;
+  width: 350px;
   margin: 16px;
 }
 .plan-card h2 {
@@ -7561,7 +7571,7 @@ ul.list-unstyled, ul#list-unstyled  {
   margin-top:60px;
 }
 .todolist-title, .todolist-status {
-  font-size: 16px;
+  font-size: 14px;
 }
 .todolist-title {
   width: 100%;
@@ -7651,3 +7661,11 @@ ul.list-unstyled, ul#list-unstyled  {
 .page-list{
   margin-top: 15px;
 }
+.btn-no:hover, .btn-yes:hover{
+    background-color: #aaa !important;
+    border: 1px solid #aaa !important;
+}
+.add-contition:hover{
+    color: #fff !important;
+}
+

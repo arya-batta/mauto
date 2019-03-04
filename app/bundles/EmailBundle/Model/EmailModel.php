@@ -2638,16 +2638,16 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
     public function getEmailBlocks()
     {
-        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-o', $this->translator->trans('le.email.sent.last30days.sent'),
+        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-email-outline', $this->translator->trans('le.email.sent.last30days.sent'),
             $this->getRepository()->getLast30DaysSentCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
         ];
-        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.opens'),
+        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-email-open-outline', $this->translator->trans('le.email.sent.last30days.opens'),
             $this->getRepository()->getLast30DaysOpensCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
         ];
-        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'mdi mdi-email-open-outline', $this->translator->trans('le.email.sent.last30days.clicks'),
             $this->getRepository()->getLast30DaysClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
         ];
-        $unSubscribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-user-times', $this->translator->trans('le.email.sent.list.unsubscribe'),
+        $unSubscribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-email-variant', $this->translator->trans('le.email.sent.list.unsubscribe'),
             $this->getRepository()->getUnsubscribeCount($viewOthers = $this->factory->get('mautic.security')->isGranted('email:emails:viewother')),
         ];
 
@@ -2715,5 +2715,14 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         unset($results);
 
         return $leads;
+    }
+
+    public function getEmailFailedCount($emailId)
+    {
+        /** @var \Mautic\EmailBundle\Entity\StatRepository $statRepo */
+        $statRepo           = $this->em->getRepository('MauticEmailBundle:Stat');
+        $failedCounts       = $statRepo->getFailedCount($emailId);
+
+        return $failedCounts;
     }
 }

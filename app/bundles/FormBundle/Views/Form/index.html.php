@@ -31,7 +31,7 @@ $view['slots']->set(
 <div class="info-box-holder">
     <?php foreach ($formBlockDetails as $key => $formBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon">
+                <span class="info-box-icon" style="padding-top:28px;">
                     <i class="<?php echo $formBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $formBlock[2]; ?></span>

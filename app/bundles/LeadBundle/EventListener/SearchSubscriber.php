@@ -421,6 +421,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled', [], null, 'en_US'):
                 $this->buildDripScheduledQuery($event);
                 break;
+            case $this->translator->trans('le.lead.drip.searchcommand.failed'):
+            case $this->translator->trans('le.lead.drip.searchcommand.failed', [], null, 'en_US'):
+                $this->buildDripFailureQuery($event);
+                break;
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
                 $this->buildDripEmailSentQuery($event);
@@ -978,6 +982,27 @@ class SearchSubscriber extends CommonSubscriber
         ];
         $q     = $event->getQueryBuilder();
         $expr  = $q->expr()->andX($q->expr()->eq('es.is_bounce', '"1"'),
+            $q->expr()->in('es.email_id', $emailIds));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripFailureQuery($event)
+    {
+        $dripid   =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables   = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andX($q->expr()->eq('es.is_failed', 1),
             $q->expr()->in('es.email_id', $emailIds));
         $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
     }

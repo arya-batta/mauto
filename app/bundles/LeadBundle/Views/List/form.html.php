@@ -49,7 +49,7 @@ $templates = [
 
 $mainErrors     = ($view['form']->containsErrors($form, ['filters'])) ? 'class="text-danger"' : '';
 $filterErrors   = ($view['form']->containsErrors($form['filters'])) ? 'class="text-danger"' : '';
-$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group waves-effect\" data-filter-group='and'>Add a condition</button>";
+$addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group waves-effect add-contition\" data-filter-group='and'>Add a condition</button>";
 ?>
 
 <?php echo $view['form']->start($form); ?>
@@ -157,7 +157,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
                             <?php echo $view['form']->widget($form['filters'], ['filterfields'=> $fields, 'addconditionbtn'=>$addconditionbtn]); ?>
                             </div>
                             <div class="leadlist-filter-group filter-or-group">
-                                <button type="button" class="btn btn-default lead-list btn-filter-group waves-effect" data-filter-group='or'>Add another set of conditions</button>
+                                <button type="button" class="btn btn-default lead-list btn-filter-group waves-effect add-contition" data-filter-group='or'>Add another set of conditions</button>
                             </div>
                         </div>
                     </div>

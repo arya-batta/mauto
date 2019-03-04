@@ -123,6 +123,16 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
+                    echo $view->render(
+                        'MauticCoreBundle:Helper:tableheader.html.php',
+                        [
+                            'sessionVar' => 'email',
+                            'orderBy'    => '',
+                            'text'       => 'le.email.email.failed',
+                            'class'      => 'col-email-stats',
+                            'default'    => true,
+                        ]
+                    );
                 }
                 if ($isAdmin):
                 echo $view->render(
@@ -342,8 +352,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <?php endif; ?>
-                    <td class="hide" data-stats="<?php echo $item->getId(); ?>">
+                        <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs has-click-event clickable-stat"
                            id="failure-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -356,7 +365,8 @@ $isAdmin=$view['security']->isAdmin();
                                 </div>
                             </a>
                         </span>
-                    </td>
+                        </td>
+                    <?php endif; ?>
                     <?php if ($isAdmin):?>
                     <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>

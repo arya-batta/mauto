@@ -45,8 +45,8 @@
                     </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                            <button type="button"  class="btn btn-success sender_profile_verify_btn waves-effect"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
-                            <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Close</button>
+                            <button type="button"  class="btn le-btn-default sender_profile_verify_btn waves-effect"> <?php echo $view['translator']->trans('le.core.button.aws.verification'); ?></button>
+                            <button type="button" class="btn le-btn-default waves-effect" data-dismiss="modal">Close</button>
                             </div>
                        </div>
                 </div>
@@ -71,7 +71,7 @@
     </tr>
     </thead>
     <tbody>
-    <?php $count=0;?>
+    <?php $count=0; ?>
     <?php foreach ($verifiedEmails as $verifiedEmail): ?>
         <tr>
             <td style="width: 25%;">
@@ -80,17 +80,17 @@
           <td style="width: 45%;">
          <span class="data sender_profile_from_email_col" ><?php echo $verifiedEmail->getVerifiedEmails()?><span>
           </td>
-            <?php $emailId= explode("@",$verifiedEmail->getVerifiedEmails());
-              $id=$emailId['0'];?>
+            <?php $emailId= explode('@', $verifiedEmail->getVerifiedEmails());
+              $id         =$emailId['0']; ?>
           <td style="width: 20%;">
-              <a type="button" id = "pending-verified-button-<?php echo $count;?>" style="color: #fff;padding: 2px 5px;margin-top: 5px;pointer-events: none;background:<?php echo $verifiedEmail->getVerificationStatus() == 0 ? '#39ac73' : '#ff4d4d' ?>;" class="btn pending_verify_button"  data-target="#" ><?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'Verified' : 'Pending' ?></a>
-              <a type="button" id = "re-verify-button-<?php echo $count;?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger verify_sender_profile_btn <?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'hide' : '' ?>"   data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to resend verification email">Re-Verify</a>
+              <a type="button" id = "pending-verified-button-<?php echo $count; ?>" style="color: #fff;padding: 2px 5px;margin-top: 5px;pointer-events: none;background:<?php echo $verifiedEmail->getVerificationStatus() == 0 ? '#39ac73' : '#ff4d4d' ?>;" class="btn pending_verify_button"  data-target="#" ><?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'Verified' : 'Pending' ?></a>
+              <a type="button" id = "re-verify-button-<?php echo $count; ?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger verify_sender_profile_btn <?php echo $verifiedEmail->getVerificationStatus() == 0 ? 'hide' : '' ?>"   data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to resend verification email">Re-Verify</a>
           </td>
           <td style="width: 10%;">
-           <a type="button" id="remove-sender-button-<?php echo $count;?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger remove_sender_profile_btn"  data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to remove sender profile">Remove</a>
+           <a type="button" id="remove-sender-button-<?php echo $count; ?>" style="padding: 2px 5px;margin-top: 5px;" class="btn btn-danger remove_sender_profile_btn"  data-target="#" data-toggle="tooltip" data-container="body" data-placement="bottom" title="" data-original-title="Click here to remove sender profile">Remove</a>
           </td>
         </tr>
-        <?php $count++;?>
+        <?php ++$count; ?>
     <?php endforeach; ?>
     </tbody>
 </table>

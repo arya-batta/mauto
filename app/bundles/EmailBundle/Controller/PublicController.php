@@ -100,6 +100,7 @@ class PublicController extends CommonFormController
             return new Response($content);
         }
         $content = $this->translator->trans('le.email.stat_record.not_found');
+
         return $this->render('MauticEmailBundle:Email:notfound.html.php', ['content' => $content]);
     }
 
@@ -268,6 +269,8 @@ class PublicController extends CommonFormController
         $template   = null;
         /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
         $leadModel = $this->getModel('lead');
+        /** @var \Mautic\EmailBundle\Entity\StatRepository $statRepo */
+        $statRepo = $model->getStatRepository();
 
         if (!empty($stat)) {
             if ($email = $stat->getEmail()) {
@@ -390,6 +393,8 @@ class PublicController extends CommonFormController
                 }
                 $message = $html;
             }
+            $stat->setIsUnsubscribe(true);
+            $statRepo->saveEntity($stat);
         } else {
             $message = $translator->trans('le.email.stat_record.not_found');
         }
@@ -432,7 +437,8 @@ class PublicController extends CommonFormController
         //find the email
         $model = $this->getModel('email');
         $stat  = $model->getEmailStatus($idHash);
-
+        /** @var \Mautic\EmailBundle\Entity\StatRepository $statRepo */
+        $statRepo = $model->getStatRepository();
         if (!empty($stat)) {
             $email = $stat->getEmail();
             $lead  = $stat->getLead();
@@ -473,6 +479,8 @@ class PublicController extends CommonFormController
                 ],
                 $message
             );
+            $stat->setIsUnsubscribe(false);
+            $statRepo->saveEntity($stat);
         } else {
             $email   = $lead   = false;
             $message = $this->translator->trans('le.email.stat_record.not_found');

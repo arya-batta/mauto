@@ -19398,6 +19398,7 @@ padding:5px;
   display: block;
   width:200px;
   cursor: pointer;
+  padding-left:10px;
 }
 .panel-default .highlight-ribbon {
   margin-top: -11%;
@@ -20059,7 +20060,7 @@ ol, ul {
   padding: 10px;
 }
 .check-col-md-1{
-  width:14%;
+  width:11%;
   padding-top:12px;
 }
 .pricing-img-responsive{
@@ -20085,13 +20086,14 @@ ol, ul {
   position: absolute;
   top: 2px;
   left: 0;
-  height: 15px;
-  width: 15px;
+  height: 16px;
+  width: 16px;
   background: #e6e6e6;
   border: 0px solid #2a323c;
+  border-radius: 2px;
 }
 .checkboxcontroller-radio .checkboxcontroller_indicator {
-  border-radius: undefined%;
+  border-radius: 1px;
 }
 
 .checkboxcontroller:hover input ~ .checkboxcontroller_indicator,
@@ -20128,6 +20130,7 @@ ol, ul {
   border: solid #ffffff;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+  border-radius: 10px;
 }
 .checkboxcontroller-checkbox input:disabled ~ .checkboxcontroller_indicator:after {
   border-color: #7b7b7b;

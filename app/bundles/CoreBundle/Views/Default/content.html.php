@@ -25,7 +25,7 @@ if (isset($isMobile) && $isMobile) {
 }
 $enableHeader     =true;
 $marginforcontent = 'fixed-content';
-    $contentstyle ='style="margin-top: 10%;"';
+$contentstyle     ='style="margin-top: 8%;"';
 if (!empty($tmpl)) {
     $enableHeader     = (($tmpl == 'index') ? 'hide' : '');
     $marginforcontent = (($tmpl == 'index') ? '' : 'fixed-content');

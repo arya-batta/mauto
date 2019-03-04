@@ -131,13 +131,7 @@ $view['slots']->set(
                     </a>
                 </span>
             </div>
-            <div class="col-md-6">
-                <br>
-                <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.stat.name'); ?> </h2>
-                <br>
-            </div>
             <!--/ email detail collapseable toggler -->
-            <div class="row" style="padding-left:2.5%;padding-right:2.5%;">
                 <?php echo $view->render('MauticEmailBundle:Email:campaign_stats.html.php',
                     [
                         'sentcount'        => $emailStats['sent'],
@@ -150,7 +144,6 @@ $view['slots']->set(
                         'spamcount'        => $emailStats['spam'],
                     ]
                 ); ?>
-            </div>
             <?php echo $view->render(
                 'MauticEmailBundle:DripEmail:graph.html.php',
                 [
@@ -159,49 +152,50 @@ $view['slots']->set(
                     'dateRangeForm' => $dateRangeForm,
                 ]
             ); ?>
+            <div class="row list-panel-padding">
             <div class="col-md-12 bdr-w-0">
                 <div>
-                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.email.activity')?></h2>
+                    <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.click.email.activity')?></h2>
                 </div>
                 <?php echo $view->render('MauticEmailBundle:DripEmail:emails.html.php', ['items' => $emailList, 'security' => $security]); ?>
             </div>
             <div class="col-md-12 bdr-w-0">
                 <div>
-                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10openleads')?><a class="" href="<?php echo $view['router']->path(
+                    <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.click.last10openleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.drip.searchcommand.read').':'.$entity->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
                 </div>
                 <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $openLeads, 'security' => $security]); ?>
             </div>
             <div class="col-md-12 bdr-w-0">
                 <div>
-                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10clickleads')?><a class="" href="<?php echo $view['router']->path(
+                    <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.click.last10clickleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.drip.searchcommand.click').':'.$entity->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
                 </div>
                 <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $clickLeads, 'security' => $security]); ?>
             </div>
             <div class="col-md-12 bdr-w-0">
                 <div>
-                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10unsubscribeleads')?><a class="" href="<?php echo $view['router']->path(
+                    <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.click.last10unsubscribeleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.drip.searchcommand.unsubscribe').':'.$entity->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
                 </div>
                 <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $unsubscribeLeads, 'security' => $security]); ?>
             </div>
             <div class="col-md-12 bdr-w-0">
                 <div>
-                    <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10bouncedleads')?><a class="" href="<?php echo $view['router']->path(
+                    <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.click.last10bouncedleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.drip.searchcommand.bounce').':'.$entity->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-eye"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
                 </div>
                 <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $bounceLeads, 'security' => $security]); ?>
             </div>
-
+            </div>
 
             <!-- tabs controls -->
             <ul class="nav hide nav-tabs pr-md pl-md">

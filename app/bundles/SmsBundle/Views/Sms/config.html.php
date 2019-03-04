@@ -28,8 +28,8 @@
                         </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                                <button type="button"  class="btn btn-success sms_config_btn waves-effect" data-toggle="#" onclick="Le.testSmsConnection()"> <?php echo $view['translator']->trans('le.sms.config.activate'); ?></button>
-                                <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button"  class="btn le-btn-default sms_config_btn waves-effect" data-toggle="#" onclick="Le.testSmsConnection()"> <?php echo $view['translator']->trans('le.sms.config.activate'); ?></button>
+                                <button type="button" class="btn le-btn-default waves-effect" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

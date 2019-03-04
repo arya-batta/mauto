@@ -23,52 +23,52 @@ if ($sentcount != 0) {
     $spampercentage        = round(($spamcount / $sentcount * 100), 2);
 }
 ?>
-<br>
-<div class="box-layout">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 bg-white">
-                <div class="email-campaign-stats">
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-open"><?php echo $openPercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.opened'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.open', ['%SENT%' => $sentcount, '%UNIQUE%' => $uniqueopen, '%OPEN%' => $totalopen]); ?></span>
-                    </h3>
-                    <br>
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-notopen"><?php echo $notopenpercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.notopened'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.notopened', ['%NOTOPENED%' => $notopencount]); ?></span>
-                    </h3>
-                    <br>
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-click"><?php echo $clickpercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.click'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.click', ['%CLICK%' => $click]); ?></span>
-                    </h3>
-                </div>
-            </div>
-            <div class="col-md-6 bg-white">
-                <div class="email-campaign-stats">
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-unsubscribe"><?php echo $unsubscribepercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.unsubscribed'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.unsubscribed', ['%COUNT%' => $unsubscribecount]); ?></span>
-                    </h3>
-                    <br>
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-bounce"><?php echo $bouncepercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.bounced'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.bounced', ['%COUNT%' => $bouncecount]); ?></span>
-                    </h3>
-                    <br>
-                    <h3 class="h3-stat">
-                        <span class="email-badge email-badge-spam"><?php echo $spampercentage?>%</span>
-                        <?php echo $view['translator']->trans('le.email.stats.spamed'); ?>
-                        <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.spam', ['%COUNT%' => $spamcount]); ?></span>
-                    </h3>
-                </div>
-            </div>
+<div class="col-md-12">
+
+<div class="row" style="margin-left:10px;margin-right:10px;">
+    <h2 class="email-dataview-stats stats-margin" style="margin-left:12px;"><?php echo $view['translator']->trans('le.email.stat.name'); ?> </h2>
+    <div class="col-md-6 bg-white" style="float:left;">
+        <div class="email-campaign-stats">
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-open"><?php echo $openPercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.opened'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.open', ['%SENT%' => $sentcount, '%UNIQUE%' => $uniqueopen, '%OPEN%' => $totalopen]); ?></span>
+            </h3>
+            <br>
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-notopen"><?php echo $notopenpercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.notopened'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.notopened', ['%NOTOPENED%' => $notopencount]); ?></span>
+            </h3>
+            <br>
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-click"><?php echo $clickpercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.click'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.click', ['%CLICK%' => $click]); ?></span>
+            </h3>
+        </div>
+    </div>
+    <div class="col-md-6 bg-white" style="float:right;">
+        <div class="email-campaign-stats">
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-unsubscribe"><?php echo $unsubscribepercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.unsubscribed'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.unsubscribed', ['%COUNT%' => $unsubscribecount]); ?></span>
+            </h3>
+            <br>
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-bounce"><?php echo $bouncepercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.bounced'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.bounced', ['%COUNT%' => $bouncecount]); ?></span>
+            </h3>
+            <br>
+            <h3 class="h3-stat">
+                <span class="email-badge email-badge-spam"><?php echo $spampercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.spamed'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.spam', ['%COUNT%' => $spamcount]); ?></span>
+            </h3>
         </div>
     </div>
 </div>
+</div>
+

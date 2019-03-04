@@ -1112,6 +1112,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.drip.searchcommand.read',
             'le.lead.drip.searchcommand.unsubscribe',
             'le.lead.drip.searchcommand.bounce',
+            'le.lead.drip.searchcommand.failed',
         ];
 
         if (!empty($this->availableSearchFields)) {

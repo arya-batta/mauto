@@ -60,7 +60,7 @@
                         'default'    => true,
                     ]
                 );
-                echo $view->render(
+                /*echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'email',
@@ -79,7 +79,7 @@
                         'class'      => 'col-email-stats drip-email-stats',
                         'default'    => true,
                     ]
-                );
+                );*/
 
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -87,7 +87,7 @@
                         'sessionVar' => 'email',
                         'orderBy'    => '',
                         'text'       => 'le.drip.email.graph.line.stats.delay',
-                        'class'      => 'col-email-stats ',
+                        'class'      => 'col-email-stats col-email-delay',
                         'default'    => true,
                     ]
                 );
@@ -173,7 +173,7 @@
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <!--<td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs has-click-event clickable-stat"
                            id="read-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -200,11 +200,11 @@
                                 </div>
                             </a>
                         </span>
-                    </td>
+                    </td>-->
                     <td class="visible-sm visible-md visible-lg">
                         <div class="row" style="margin-left:0px;margin-right:-25px;width: 140px;">
                             <div class="col-md-5" style="width:50%;">
-                            <input type="text" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
+                            <input type="text" style="height: 33px;background-color: transparent;border-right:0px;" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;width:70%;margin-left: -29px">
                                 <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime-<?php echo $item->getId(); ?>" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">

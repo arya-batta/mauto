@@ -20,7 +20,7 @@ return [
                     'mautic.helper.notification',
                     'mautic.sms.model.send_sms_to_user',
                     'mautic.helper.sms',
-                    'mautic.security'
+                    'mautic.security',
                 ],
             ],
             'mautic.sms.smsbundle.subscriber' => [
@@ -77,7 +77,7 @@ return [
             'mautic.form.type.sms.config.form' => [
                 'class'     => \Mautic\SmsBundle\Form\Type\ConfigType::class,
                 'alias'     => 'smsconfig',
-                'arguments' => ['mautic.sms.transport_chain', 'translator','mautic.helper.user'],
+                'arguments' => ['mautic.sms.transport_chain', 'translator', 'mautic.helper.user'],
             ],
         ],
         'helpers' => [
@@ -238,8 +238,8 @@ return [
         'account_api_key'          => null,
         'account_auth_token'       => null,
         'account_sender_id'        => null,
-        'sms_frequency_number'     => null,
-        'sms_frequency_time'       => null,
+        'sms_frequency_number'     => 3,
+        'sms_frequency_time'       => 'DAY',
         'sms_from_number'          => null,
         'publish_account'          => null,
         'sms_status'               => null,

@@ -159,7 +159,7 @@ class ConfigTrackingPageType extends AbstractType
                 'label'    => 'le.email.config.mailer.transport.send_tracking',
                 'required' => false,
                 'attr'     => [
-                    'class'   => 'btn btn-success',
+                    'class'   => 'btn btn-info',
                     'onclick' => 'Le.testEmailServerConnection()',
                 ],
             ]

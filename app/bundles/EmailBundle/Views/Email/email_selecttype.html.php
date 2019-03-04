@@ -43,8 +43,9 @@ $isAdmin=$view['security']->isAdmin();
                     <div class="white-block" style="margin-left:20px;width:47%;min-height:250px;text-align:left">
                         <div class="col-md-6" style="width:62%">
                             <div class="panel-primary">
-                                <h3 class="panel-title le-email-editor-header" style="width: 200px;"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
+                                <h3 class="panel-title le-email-editor-header" style="width: 250px;"><?php echo $view['translator']->trans($typeTwoHeader); ?></h3>
                                 <p style="width:190%;" class="le-email-editor-desc"><?php echo $view['translator']->trans($typeTwoDescription); ?></p>
+                                <br>
                                 <button class="le-btn-primary waves-effect"  onclick="<?php echo $typeTwoOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
 
                             </div>
@@ -56,7 +57,10 @@ $isAdmin=$view['security']->isAdmin();
                                 <div>
                                     <h3 class="panel-title le-email-editor-header"><?php echo $view['translator']->trans($typeOneHeader); ?></h3>
                                     <p class="le-email-editor-desc"><?php echo $view['translator']->trans($typeOneDescription); ?></p>
-                                    <button class="le-btn-primary waves-effect" style="margin-top: 65px;" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <button class="le-btn-primary waves-effect" onclick="<?php echo $typeOneOnClick; ?>"><?php echo $view['translator']->trans('mautic.core.choose'); ?></button>
                                 </div>
                             </div>
                         </div>

@@ -1643,15 +1643,42 @@ class EmailCampaignController extends FormController
                     ];*/
                     $pending                   = $model->getPendingLeads($entity, null, true);
                     $licenseinfohelper         =  $this->get('mautic.helper.licenseinfo');
+                    $message                   = '';
+                    $flashType                 = '';
                     if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
-                        $this->addFlash('le.email.broadcast.usage.error');
+                        $message   = 'le.email.broadcast.usage.error';
+                        $flashType = 'notice';
                     } else {
                         $entity->setIsScheduled(true);
                         $model->saveEntity($entity);
-                        $this->addFlash('le.email.broadcast.send');
+                        $message   ='le.email.broadcast.send';
+                        $flashType = 'sweetalert';
                     }
+                    $postActionVars = [
+                        'returnUrl'       => $this->generateUrl('le_email_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]),
+                        'viewParameters'  => ['objectAction' => 'view', 'objectId' => $objectId],
+                        'contentTemplate' => 'MauticEmailBundle:EmailCampaign:view',
+                        'passthroughVars' => [
+                            'activeLink'    => 'le_email_campaign_index',
+                            'leContent'     => 'email',
+                        ],
+                    ];
 
-                    return $this->viewAction($objectId);
+                    return $this->postActionRedirect(
+                        array_merge(
+                            $postActionVars,
+                            [
+                                'flashes' => [
+                                    [
+                                        'type'    => $flashType,
+                                        'msg'     => $message,
+                                    ],
+                                ],
+                            ]
+                        )
+                    );
+
+                // return $this->viewAction($objectId);
                 } else {
                     //process and send
                     $contentTemplate = 'MauticEmailBundle:Send:form.html.php';
@@ -1659,6 +1686,7 @@ class EmailCampaignController extends FormController
                         'form'       => $form->createView(),
                         'email'      => $entity,
                         'pending'    => $pending,
+                        'tmpl'       => 'index',
                         'actionRoute'=> 'le_email_campaign_action',
                         'indexRoute' => 'le_email_campaign_index',
                     ];

@@ -234,6 +234,7 @@ class AjaxController extends CommonAjaxController
                 $unsubCount  = $email->getUnsubscribeCount(true);
                 $bounceCount = $email->getBounceCount(true);
                 $spamCount   = $email->getSpamCount(true);
+                $failedCount = $model->getEmailFailedCount($email->getId());
                 $totalCount  = $pending + $sentCount;
 
                 $clickCount = $model->getEmailClickCount($email->getId());
@@ -268,6 +269,10 @@ class AjaxController extends CommonAjaxController
                     $clickCountPercentage = 0;
                     $clickCount           =0;
                 }
+                $failedPercentage = 0;
+                if ($failedCount > 0 && $totalCount > 0) {
+                    $failedPercentage = round($failedCount / $totalCount * 100);
+                }
 
                 $data = [
                     'success' => 1,
@@ -283,6 +288,7 @@ class AjaxController extends CommonAjaxController
                     'unsubscribeCount' => $this->translator->trans('le.email.stat.unsubscribecount', ['%count%' =>$unsubCount, '%percentage%'=>$unSubPercentage]),
                     'bounceCount'      => $this->translator->trans('le.email.stat.bouncecount', ['%count%' => $bounceCount, '%percentage%' => $bouncePercentage]),
                     'spamCount'        => $this->translator->trans('le.email.stat.spamcount', ['%count%' => $spamCount, '%percentage%' => $spamPercentage]),
+                    'failedCount'      => $this->translator->trans('le.email.stat.failedcount', ['%count%' => $failedCount, '%percentage%' => $failedPercentage]),
                 ];
             }
         }
@@ -643,7 +649,7 @@ class AjaxController extends CommonAjaxController
 
     public function emailstatusAction()
     {
-        $isClosed                     = $this->factory->get('session')->get('isalert_needed','false');
+        $isClosed                     = $this->factory->get('session')->get('isalert_needed', 'false');
         $configurl                    = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
             $dataArray['success']       = true;
@@ -1030,23 +1036,35 @@ class AjaxController extends CommonAjaxController
                         'ignore_paginator' => true,
                     ]
                 );
-                $dripSentCount  = 0;
-                $dripReadCount  = 0;
-                $dripClickCount = 0;
-                $dripUnsubCount = 0;
+                $dripSentCount   = 0;
+                $dripReadCount   = 0;
+                $dripClickCount  = 0;
+                $dripUnsubCount  = 0;
+                $dripBounceCount = 0;
+                $dripSpamCount   = 0;
+                $dripFailedCount = 0;
                 foreach ($emailEntities as $email) {
-                    $sentCount       = $email->getSentCount(true);
-                    $readCount       = $email->getReadCount(true);
-                    $clickCount      = $emailmodel->getEmailClickCount($email->getId());
-                    $unsubCount      = $email->getUnsubscribeCount(true);
+                    $sentCount        = $email->getSentCount(true);
+                    $readCount        = $email->getReadCount(true);
+                    $clickCount       = $emailmodel->getEmailClickCount($email->getId());
+                    $failedcount      = $emailmodel->getEmailFailedCount($email->getId());
+                    $unsubCount       = $email->getUnsubscribeCount(true);
+                    $bouncecount      = $email->getBounceCount(true);
+                    $spamcount        = $email->getSpamCount(true);
                     $dripSentCount += $sentCount;
                     $dripReadCount += $readCount;
                     $dripClickCount += $clickCount;
                     $dripUnsubCount += $unsubCount;
+                    $dripBounceCount += $bouncecount;
+                    $dripSpamCount += $spamcount;
+                    $dripFailedCount += $failedcount;
                 }
                 $dripclickCountPercentage  = 0;
                 $dripreadCountPercentage   = 0;
                 $dripunsubsCountPercentage = 0;
+                $dripbounceCountPercentage = 0;
+                $dripspamCountPercentage   = 0;
+                $dripfailedCountPercentage = 0;
                 if ($dripClickCount > 0 && $dripSentCount > 0) {
                     $dripclickCountPercentage  = round($dripClickCount / $dripSentCount * 100);
                 }
@@ -1056,13 +1074,25 @@ class AjaxController extends CommonAjaxController
                 if ($dripUnsubCount > 0 && $dripSentCount > 0) {
                     $dripunsubsCountPercentage = round($dripUnsubCount / $dripSentCount * 100);
                 }
+                if ($dripBounceCount > 0 && $dripSentCount > 0) {
+                    $dripbounceCountPercentage = round($dripBounceCount / $dripSentCount * 100);
+                }
+                if ($dripSpamCount > 0 && $dripSentCount > 0) {
+                    $dripspamCountPercentage = round($dripSpamCount / $dripSentCount * 100);
+                }
+                if ($dripFailedCount > 0 && sizeof($leads) > 0) {
+                    $dripfailedCountPercentage = round($dripFailedCount / sizeof($leads) * 100);
+                }
                 $data = [
-                    'success'     => 1,
-                    'sentcount'   => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
-                    'readcount'   => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
-                    'clickcount'  => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' =>$dripClickCount, '%percentage%' => $dripclickCountPercentage]),
-                    'unsubscribe' => $this->translator->trans('le.drip.email.stat.unsubscribe', ['%count%' =>$dripUnsubCount, '%percentage%' => $dripunsubsCountPercentage]),
-                    'leadcount'   => $this->translator->trans('le.drip.email.stat.leadcount', ['%count%'  => sizeof($leads)]),
+                    'success'          => 1,
+                    'sentcount'        => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
+                    'readcount'        => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
+                    'clickcount'       => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' =>$dripClickCount, '%percentage%' => $dripclickCountPercentage]),
+                    'unsubscribe'      => $this->translator->trans('le.drip.email.stat.unsubscribe', ['%count%' =>$dripUnsubCount, '%percentage%' => $dripunsubsCountPercentage]),
+                    'bouncecount'      => $this->translator->trans('le.drip.email.stat.bounce', ['%count%' =>$dripBounceCount, '%percentage%' => $dripbounceCountPercentage]),
+                    'spam'             => $this->translator->trans('le.drip.email.stat.spam', ['%count%' =>$dripSpamCount, '%percentage%' => $dripspamCountPercentage]),
+                    'failed'           => $this->translator->trans('le.drip.email.stat.failed', ['%count%' =>$dripFailedCount, '%percentage%' => $dripfailedCountPercentage]),
+                    'leadcount'        => $this->translator->trans('le.drip.email.stat.leadcount', ['%count%'  => sizeof($leads)]),
                 ];
             }
         }
@@ -1362,6 +1392,7 @@ class AjaxController extends CommonAjaxController
                 $bounceCount      = $email->getBounceCount(true);
                 $spamCount        = $email->getSpamCount(true);
                 $notreadcount     = $sentCount != 0 ? ($sentCount - $readCount) : 0;
+                $failedCount      = $model->getEmailFailedCount($email->getId());
                 $data             = [
                     'success'            => 1,
                     'sentCount'          => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%' =>$sentCount]),
@@ -1371,6 +1402,7 @@ class AjaxController extends CommonAjaxController
                     'unsubscribeCount'   => $this->translator->trans('le.drip.email.stat.unsubscribecount', ['%count%' =>$unsubscribeCount]),
                     'bounceCount'        => $this->translator->trans('le.drip.email.stat.bouncecount', ['%count%' =>$bounceCount]),
                     'spamCount'          => $this->translator->trans('le.drip.email.stat.spamcount', ['%count%' =>$spamCount]),
+                    'failedCount'        => $this->translator->trans('le.drip.email.stat.failedcount', ['%count%' =>$failedCount]),
                 ];
             }
         }

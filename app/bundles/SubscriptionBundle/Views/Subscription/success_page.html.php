@@ -48,10 +48,11 @@ if ($isImportDone) {
 ?>
 
 <div style="width:100%;">
-    <div class="<?php echo $isPaid ? 'hide' : ''?>">
+    <div class="<?php echo $isHideBlock ? 'hide' : ''?>">
         <div>
-            <div>
-                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: center">
+            <div class="row row-padding">
+            <div class="col-sm-8">
+                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: left">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
                             <span style="line-height: 39px; font-size: 22px;"><i  style="color:orange;" class="fa fa-hand-paper-o"></i> <?php echo $view['translator']->trans('le.dashboard.welcome.message', ['%USERNAME%'=> $username]); ?>
@@ -60,11 +61,27 @@ if ($isImportDone) {
                     </span>
                 </p>
             </div>
-            
+            <div class="col-sm-4">
+                <div style="margin-top:60px;text-align: right;color:#3292e0;font-size:14px;font-weight: bold;padding-right:10px;">
+                    <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
+                    <a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIyNDIx" data-playerId="MTIyNDIx" data-fancybox-type="iframe">
+                        Play the video
+                    </a>
+                    <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
+                    <a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe" style="display: -webkit-inline-box;">
+                        <i class="mdi mdi-play-circle-outline" style="color:#3292e0;font-size:30px;"></i>
+                        <span class="test" style="margin-top: 30px;">Get Started</span>
+                    </a>
+
+                </div>
+            </div>
+            </div>
+
             <div class="row row-padding" style="text-align: center">
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-configuration.png">
+                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step1'); ?> </h2>
+                        <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-configuration.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
                                 <li class="<?php echo $isProviderChanged ? 'active' : ''; ?>">
@@ -86,7 +103,8 @@ if ($isImportDone) {
 
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-upload.png">
+                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step2'); ?> </h2>
+                        <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-upload.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
                                 <li class="<?php echo $isListCreated ? 'active' : ''; ?>">
@@ -108,7 +126,8 @@ if ($isImportDone) {
 
                 <div class="col-sm-4">
                     <div class="bg-white welcome-stats">
-                    <img src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-send-email.png">
+                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step3'); ?> </h2>
+                        <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-send-email.png">
                         <div style="text-align: left;padding:15px;"
                             <ul class="todolist">
                                 <li class="<?php echo $isOneOffCreated ? 'active' : ''; ?>">
@@ -128,16 +147,23 @@ if ($isImportDone) {
                     </div>
                 </div>
             </div>
-            <br><br>
-            <div class="row row-padding">
-                <div class="col-sm-6">
-                    <div class="bg-white dashboard-email-campaign-stats" style="height:550px;">
+            <br>
+            <div class="row row-padding hide">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
                     <div>
-                        <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script><a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe"><img style="width:100%;" src="http://anyfunnels.com/wp-content/uploads/leproduct/play-video.png"></a>
-                    </div>
+                        <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
+                        <a id="play" class="vooPopup-trigger" href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerid="MTIxMjU0" data-popupid="MTIxMjU0-popup-id-https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" style="display: -webkit-inline-box;">
+                            <i class="mdi mdi-play-circle-outline" style="color:#3292e0;font-size:30px;"></i>
+                            <p style="margin-top: 14px;text-decoration: underline;">
+                                Get Started
+                            </p>
+                        </a>
+
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4 hide">
                     <div class="bg-white lead-email-campaign-stats" style="height:550px;text-align: center;">
                     <div style="font-size:12px;line-height:24px;font-family:Open Sans, Helvetica, Roboto, Arial;color:#555555;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 24px;text-align: left;"><span style="font-size: 17px; line-height: 34px;"><strong><span style="line-height: 34px; font-size: 17px;">We believe your success is our success. Please do not hesitate to ask our team member to do first time setup on your behalf.</span></strong></span><br /><span style="font-size: 16px; line-height: 32px;"></span></p><br>
 
@@ -160,12 +186,10 @@ if ($isImportDone) {
                     </div>
                 </div>
             </div>
-        <br>
-        <br>
         </div>
     </div>
 
-<div class="row" style="text-align: center;">
+<div class="row hide" style="text-align: center;">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
         <div class="">
@@ -212,15 +236,12 @@ if ($isImportDone) {
 <div class="pa-md">
     <div class="row">
         <div class="col-sm-12">
-            <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.account.stats'); ?> </h2>
+            <h2 class="hide email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.account.stats'); ?> </h2>
             <br>
             <div class="panel">
                 <div class="panel-body box-layout">
                     <div class="col-xs-6 va-m">
-                        <h5 class="text-white hide dark-md fw-sb mb-xs">
-                            <span class="fa fa-download"></span>
-                            <?php echo $view['translator']->trans('le.dashboard.account.stats'); ?>
-                        </h5>
+                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.account.stats'); ?> </h2>
                     </div>
                     <div class="col-md-8 va-m">
                         <?php echo $view->render(

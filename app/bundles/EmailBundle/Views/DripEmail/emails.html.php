@@ -10,7 +10,6 @@
  */
 ?>
 
-<br>
 <div class="table-responsive email_stats_box">
     <table class="table table-hover <?php echo count($items) ? 'table-striped' : ''?> table-bordered dripemail-list">
         <thead>
@@ -77,6 +76,14 @@
                 'MauticCoreBundle:Helper:tableheader.html.php',
                 [
                     'text'       => 'le.dripemail.stat.spam',
+                    'class'      => 'col-email-stats drip-email-stats',
+                    'default'    => true,
+                ]
+            );
+            echo $view->render(
+                'MauticCoreBundle:Helper:tableheader.html.php',
+                [
+                    'text'       => 'le.dripemail.stat.failed',
                     'class'      => 'col-email-stats drip-email-stats',
                     'default'    => true,
                 ]
@@ -154,6 +161,16 @@
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="spam-count-<?php echo $item->getId(); ?>">
+                            <span>
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </span>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs"
+                            id="failed-count-<?php echo $item->getId(); ?>">
                             <span>
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>

@@ -201,6 +201,9 @@ Le.loadDripEmailStatCounts = function(){
                         mQuery('#drip-read-count-' + id + ' > a').html(response.readcount);
                         mQuery('#drip-click-count-' + id + ' > a').html(response.clickcount);
                         mQuery('#drip-unsubscribe-count-' + id + ' > a').html(response.unsubscribe);
+                        mQuery('#drip-bounce-count-' + id + ' > a').html(response.bouncecount);
+                        mQuery('#drip-spam-count-' + id + ' > a').html(response.spam);
+                        mQuery('#drip-failed-count-' + id + ' > a').html(response.failed);
                         mQuery('#drip-lead-count-' + id + ' > a').html(response.leadcount);
                     }
                 },
@@ -274,6 +277,7 @@ Le.loadEmailsViewDripStatCounts = function(){
                         mQuery('#unsubscribe-count-' + id + ' > span').html(response.unsubscribeCount);
                         mQuery('#bounced-count-' + id + ' > span').html(response.bounceCount);
                         mQuery('#spam-count-' + id + ' > span').html(response.spamCount);
+                        mQuery('#failed-count-' + id + ' > span').html(response.failedCount);
                     }
                 },
                 false,

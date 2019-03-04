@@ -164,15 +164,19 @@ Le.showBounceCallbackURL = function(modeEl) {
     if(mode != "le.transport.amazon" && mode != "le.transport.sendgrid_api" && mode != "le.transport.sparkpost" && mode != "le.transport.elasticemail") {
         mQuery('.transportcallback').addClass('hide');
         mQuery('.transportcallback_spam').addClass('hide');
+        mQuery('#known-providers').addClass('hide');
+        mQuery('#other-providers').removeClass('hide');
     } else {
         var urlvalue = mQuery('#transportcallback').val();
         var replaceval = "";
         mQuery('.transportcallback').removeClass('hide');
         mQuery('.transportcallback_spam').addClass('hide');
         var notificationHelpURL = "http://help.leadsengage.io/container/show/";
+        mQuery("#callback_label_1").text("Bounce/ Spam Notification Callback URL");
         if (mode == "le.transport.amazon"){
             replaceval = "amazon";
             notificationHelpURL += "amazon-ses";
+            mQuery("#callback_label_1").text("Bounce Notification Callback URL");
             mQuery('.transportcallback_spam').removeClass('hide');
         } else if(mode == "le.transport.sendgrid_api") {
             replaceval = "sendgrid_api";
@@ -184,6 +188,8 @@ Le.showBounceCallbackURL = function(modeEl) {
             replaceval = "elasticemail";
             notificationHelpURL += replaceval
         }
+        mQuery('#known-providers').removeClass('hide');
+        mQuery('#other-providers').addClass('hide');
         mQuery('#notificationHelpURL').attr('href',notificationHelpURL);
         var toreplace = urlvalue.split('/');
         toreplace = toreplace[toreplace.length - 2];

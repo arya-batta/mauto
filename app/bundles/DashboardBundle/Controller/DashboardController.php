@@ -103,7 +103,7 @@ class DashboardController extends FormController
                         [
                             'column' => 'h.organization',
                             'expr'   => 'neq',
-                            'value'  => 'sampletracking',
+                            'value'  => '%sampletracking%',
                         ],
                     ],
                 ],
@@ -121,8 +121,8 @@ class DashboardController extends FormController
                 'force' => [
                     [
                         'column' => 'l.createdBy',
-                        'expr'   => 'eq',
-                        'value'  => $currentUser->getId(),
+                        'expr'   => 'neq',
+                        'value'  => '1',
                     ],
                 ],
             ],
@@ -148,7 +148,20 @@ class DashboardController extends FormController
         $campaignmodel     = $this->getModel('campaign');
         $campaignList      = $campaignmodel->getEntities(
             [
-                'filter'           => [],
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'c.name',
+                            'expr'   => 'notLike',
+                            'value'  => '%Sample%',
+                        ],
+                        [
+                            'column' => 'c.createdBy',
+                            'expr'   => 'neq',
+                            'value'  => '1',
+                        ],
+                    ],
+                ],
                 'ignore_paginator' => true,
             ]
         );
@@ -159,7 +172,20 @@ class DashboardController extends FormController
         $dripcampaignmodel     = $this->getModel('email.dripemail');
         $dripcampaign          = $dripcampaignmodel->getEntities(
             [
-                'filter'           => [],
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'd.name',
+                            'expr'   => 'notLike',
+                            'value'  => '%Sample%',
+                        ],
+                        [
+                            'column' => 'd.createdBy',
+                            'expr'   => 'neq',
+                            'value'  => '1',
+                        ],
+                    ],
+                ],
                 'ignore_paginator' => true,
             ]
         );
@@ -170,9 +196,17 @@ class DashboardController extends FormController
         $filter = [
             'string' => '',
             'force'  => [
-                ['column' => 'e.variantParent', 'expr' => 'isNull'],
-                ['column' => 'e.translationParent', 'expr' => 'isNull'],
                 ['column' => 'e.emailType', 'expr' => 'eq', 'value' => 'list'],
+                [
+                    'column' => 'e.name',
+                    'expr'   => 'notLike',
+                    'value'  => '%Sample%',
+                ],
+                [
+                    'column' => 'e.createdBy',
+                    'expr'   => 'neq',
+                    'value'  => '1',
+                ],
             ],
         ];
         $emailmodel    = $this->getModel('email');
@@ -190,7 +224,20 @@ class DashboardController extends FormController
         $listOptinmodel   = $this->getModel('lead.listoptin');
         $listOptin        = $listOptinmodel->getEntities(
             [
-                'filter'           => [],
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'l.name',
+                            'expr'   => 'notLike',
+                            'value'  => '%Sample%',
+                        ],
+                        [
+                            'column' => 'l.createdBy',
+                            'expr'   => 'neq',
+                            'value'  => '1',
+                        ],
+                    ],
+                ],
                 'ignore_paginator' => true,
             ]
         );
@@ -198,6 +245,28 @@ class DashboardController extends FormController
         if (!empty($listOptin)) {
             $isListCreated = true;
         }
+
+        $leadmodel    = $this->getModel('lead');
+        $leads        = $leadmodel->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'l.lastname',
+                            'expr'   => 'notLike',
+                            'value'  => '%Sample%',
+                        ],
+                        [
+                            'column' => 'l.createdBy',
+                            'expr'   => 'neq',
+                            'value'  => '1',
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+        $leadcount = count($leads);
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
@@ -214,6 +283,11 @@ class DashboardController extends FormController
         $emailStats   = $accountModel->getCustomEmailStats();
         $leadStats    = $accountModel->getCustomLeadStats();
         $overallstats = $accountModel->getOverAllStats();
+
+        $isHideBlock = false;
+        if ($leadcount > 100 && $emailProvider && ($isDripCreated || $isOneOffCreated)) {
+            $isHideBlock = true;
+        }
 
         return $this->delegateView(
             [
@@ -242,6 +316,7 @@ class DashboardController extends FormController
                     'overallstats'         => $overallstats,
                     'username'             => $this->user->getName(),
                     'isPaid'               => ($lastpayment != null),
+                    'isHideBlock'          => $isHideBlock,
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                 'passthroughVars' => [

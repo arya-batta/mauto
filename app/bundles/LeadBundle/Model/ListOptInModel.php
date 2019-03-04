@@ -523,13 +523,13 @@ class ListOptInModel extends FormModel
 
     public function getListOptinsBlocks()
     {
-        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-list-ul', $this->translator->trans('le.lead.list.optin.lists.all'),
+        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-format-list-bulleted-type', $this->translator->trans('le.lead.list.optin.lists.all'),
             $this->getRepository()->getTotalListCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:listoptin:viewother')),
         ];
-        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-list-ul', $this->translator->trans('le.lead.list.optin.lists.active'),
+        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-format-list-bulleted-type', $this->translator->trans('le.lead.list.optin.lists.active'),
             $this->getRepository()->getTotalActiveListCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:listoptin:viewother')),
         ];
-        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-list-ul', $this->translator->trans('le.lead.list.optin.lists.inactive'),
+        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-format-list-bulleted-type', $this->translator->trans('le.lead.list.optin.lists.inactive'),
             $this->getRepository()->getTotalInactiveListCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:listoptin:viewother')),
         ];
 

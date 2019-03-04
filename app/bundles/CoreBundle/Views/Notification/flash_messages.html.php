@@ -26,8 +26,13 @@ if (empty($flashes)) {
 ?>
 <?php foreach ($flashes as $type => $messages): ?>
 <?php $message = (is_array($messages)) ? $messages[0] : $messages; ?>
+    <?php if ($type != 'sweetalert'): // to skip delete related flashes?>
+        <div class="alert <?php echo $alertClasses[$type].$dismissible; ?> alert-new">
         <div class="alert <?php echo $alertClasses[$type].$dismissible; ?> alert-new" data-alert-type="<?php echo $type; ?>">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="opacity: 1.2;text-shadow: none;"><i class="fa fa-times"></i></button>
             <span><?php echo $message; ?></span>
         </div>
+    <?php else:?>
+        <?php echo 'Great Job!,'.$message; ?>
+    <?php endif; ?>
 <?php endforeach; ?>

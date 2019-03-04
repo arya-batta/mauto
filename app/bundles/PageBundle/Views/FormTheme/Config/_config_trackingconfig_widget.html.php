@@ -48,27 +48,36 @@ $isAdmin    =$view['security']->isAdmin();
             <?php foreach ($form->children as $name => $f): ?>
                 <?php if (in_array($name, ['track_contact_by_ip', 'track_by_tracking_url', 'track_by_fingerprint'])) {
                     ?>
-                    <div class="col-md-6 <?php echo $isAdmin ? '' : 'hide' ; ?>">
+                    <div class="col-md-6 <?php echo $isAdmin ? '' : 'hide'; ?>">
                         <?php echo $view['form']->row($f); ?>
                     </div>
                     <?php
                 }
             endforeach; ?>
         </div>
-        <div class="row emailinstructions" style="margin:0;">
+
+    </div>
+    <br>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?php echo $view['translator']->trans('le.send.instructions.to.developer'); ?></h3>
+        </div>
+        <div class="panel-body">
+            <div class="row emailinstructions" style="margin:0;">
                 <?php echo $view['form']->row($form['emailInstructionsto']); ?>
-        </div>
-        <div class="row" style="margin:0;">
-            <?php echo $view['form']->row($form['emailAdditionainfo']); ?>
-        </div>
-        <div class="row" style="margin:0;">
-        <div id="mailerTestButtonContainer">
-            <div class="button_container">
-                <?php echo $view['form']->widget($form['send_tracking_instruction']); ?>
-                <span class="fa fa-spinner fa-spin hide"></span>
             </div>
-            <div class="col-md-9 help-block"></div>
-        </div>
+            <div class="row" style="margin:0;">
+                <?php echo $view['form']->row($form['emailAdditionainfo']); ?>
+            </div>
+            <div class="row" style="margin:0;">
+                <div id="mailerTestButtonContainer">
+                    <div class="button_container">
+                        <?php echo $view['form']->widget($form['send_tracking_instruction']); ?>
+                        <span class="fa fa-spinner fa-spin hide"></span>
+                    </div>
+                    <div class="col-md-9 help-block"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="panel-heading <?php echo $isAdmin ? '' : 'hide' ?>" >

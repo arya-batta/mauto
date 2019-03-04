@@ -117,6 +117,10 @@ class AccountInfoModel extends FormModel
 
     public function getCustomEmailStats()
     {
+        $usermodel  =$this->factory->getModel('user.user');
+        $currentuser= $usermodel->getCurrentUserEntity();
+        $this->getRepository()->setCurrentUser($currentuser);
+
         $emailStats                = [];
         $emailStats['sent']        = $this->getRepository()->getTotalSentCounts();
         $emailStats['uopen']       = $this->getRepository()->getTotalUniqueOpenCounts();

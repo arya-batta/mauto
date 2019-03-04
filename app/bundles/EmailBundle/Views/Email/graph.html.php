@@ -29,11 +29,10 @@ $actionRoute = $view['router']->path('le_email_campaign_action',
 );
 
 ?>
-<div class="pa-md">
-    <div class="row">
+    <div class="row list-panel-padding">
         <div class="col-sm-12">
-            <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.stat.graph.name'); ?> </h2>
             <br>
+            <h2 class="email-dataview-stats stats-margin"><?php echo $view['translator']->trans('le.email.stat.graph.name'); ?> </h2>
             <div class="panel">
                 <div class="panel-body box-layout">
                     <div class="col-xs-4 va-m">
@@ -57,5 +56,4 @@ $actionRoute = $view['router']->path('le_email_campaign_action',
             </div>
         </div>
     </div>
-</div>
 <!--/ some stats -->

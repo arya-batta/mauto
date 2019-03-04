@@ -274,7 +274,7 @@ class SmsHelper
             return false;
         }
         if ($fromnumber == '' || $username == '' || $password == '') {
-            return '<strong>Sending Phone Number</strong> or <strong>Account SID</strong> or <strong>Authentication Token</strong> cannot be empty';
+            return '<strong>Sending Phone Number</strong>, <strong>Authentication Token</strong> and <strong>Account SID</strong> cannot be empty.';
         }
         try {
             $client = new \Services_Twilio($password, $username);

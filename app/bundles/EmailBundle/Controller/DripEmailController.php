@@ -580,7 +580,7 @@ class DripEmailController extends FormController
                     //if($scheduleDate == ""){
                     //    $scheduleDate = date("H:i");
                     //}
-                    $entity->setScheduleDate($scheduleDate);
+                    //$entity->setScheduleDate($scheduleDate);
                     //$entity->setDaysEmailSend($formData['daysEmailSend']);
                     //$changes = $entity->getChanges(true);
                     //if (!empty($changes['fromAddress']) || !empty($changes['fromName'])) {

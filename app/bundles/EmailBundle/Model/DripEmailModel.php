@@ -567,16 +567,16 @@ class DripEmailModel extends FormModel
 
     public function getDripEmailBlocks()
     {
-        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-o', $this->translator->trans('le.email.sent.last30days.sent'),
+        $sentCount =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-email-outline', $this->translator->trans('le.email.sent.last30days.sent'),
             $this->getRepository()->getLast30DaysDripSentCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
         ];
-        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.opens'),
+        $openCount = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-email-open-outline', $this->translator->trans('le.email.sent.last30days.opens'),
             $this->getRepository()->getLast30DaysDripOpensCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
         ];
-        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+        $clickCount = [$this->translator->trans('le.form.display.color.blocks.orange'), 'mdi mdi-email-open-outline', $this->translator->trans('le.email.sent.last30days.clicks'),
             $this->getRepository()->getLast30DaysDripClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
         ];
-        $unsubacribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-user-times', $this->translator->trans('le.email.sent.drip.unsubscribe'),
+        $unsubacribeCount = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-email-variant', $this->translator->trans('le.email.sent.drip.unsubscribe'),
             $this->getRepository()->getDripUnsubscribeCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('dripemail:emails:viewother')),
         ];
 

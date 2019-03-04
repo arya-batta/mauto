@@ -24,8 +24,21 @@ if ($proamount != 0) {
         Click Here
     </a> to connect it.</div>
 <br>
+<br>
 <div style="text-align:center;width:100%;">
     <div style="display:inline-block;">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <span style="text-align:center;font-weight: bold;font-size:22px;">
+                    Simple Pricing, Unlimited Access to All Features
+                </span>
+                <br>
+                <span style="text-align:center;font-weight: normal;font-size:16px;">
+                    No Annual Contracts, Pay Month on Month.
+                </span>
+            </div>
+        </div>
         <div class="row">
             <div class="plan-card col-md-8">
                 <div class="plan-name">

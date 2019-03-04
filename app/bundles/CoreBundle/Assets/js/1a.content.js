@@ -1238,7 +1238,8 @@ Le.activateDateTimeInputs = function(el, type) {
             closeOnDateSelect: true
         });
     } else if (type == 'time') {
-        mQuery(el).timepicki();
+        mQuery(el).timepicker({showMeridian: false, minuteStep: 15});
+        //mQuery(el).timepicki();
         /*mQuery(el).datetimepicker({
             datepicker: false,
             format: (format) ? format : 'H:i:s',

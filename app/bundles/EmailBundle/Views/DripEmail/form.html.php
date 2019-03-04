@@ -46,7 +46,7 @@ $filter_templates = [
     'drip_campaign_list'=> 'drip_email_list-template',
     'listoptin'         => 'listoptin-template',
 ];
-$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group\" data-filter-group='and'>Add a condition</button>";
+$filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-filter-group add-contition\" data-filter-group='and'>Add a condition</button>";
 ?>
 <?php echo $view['form']->start($form); ?>
 <div id="page-wrap" class="align-tab-center">
@@ -322,7 +322,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     <?php echo $view['form']->widget($form['recipients']['filters'], ['filterfields'=> $filter_fields, 'addconditionbtn'=>$filter_addconditionbtn]); ?>
                 </div>
                 <div class="leadlist-filter-group filter-or-group">
-                    <button type="button" class="btn btn-default lead-list btn-filter-group" data-filter-group='or'>Add another set of conditions</button>
+                    <button type="button" class="btn btn-default lead-list btn-filter-group add-contition" data-filter-group='or'>Add another set of conditions</button>
                 </div>
             </div>
             <div class="hide" id="templates">
@@ -407,7 +407,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         </div>
                         <?php //echo $view['form']->widget($form['fromAddress']);?>
                         <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;" data-toggle="dropdown" href="#">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:25px;padding:8px !important;" data-toggle="dropdown" href="#">
                                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
@@ -442,10 +442,11 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <?php echo $view['form']->row($form['scheduleDate']); ?>
-                        <a class="btn btn-default le-btn-default btn-nospin pink-background reset-time-button" style="padding: 2px 7px 2px 7px" onclick="Le.ClearScheduleTimeWidget();">
-                            <span><i class="fa fa-refresh" style="font-size: 15px;"></i></span>
-                        </a>
+                        <div class="input-group m-b-15">
+                            <div class="bootstrap-timepicker">
+                                <?php echo $view['form']->row($form['scheduleDate']); ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-2">
 

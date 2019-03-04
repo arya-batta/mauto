@@ -1444,13 +1444,15 @@ File: Components
 }
 
 .btn-danger {
-  background-color: #f03154 !important;
-  border: 1px solid #f03154 !important;
+  background-color: #eee !important;
+  border: 1px solid #eee !important;
+  color: #000000 !important;
 }
 
 .btn-danger:active, .btn-danger:focus, .btn-danger:hover, .btn-danger.active, .btn-danger.focus, .btn-danger:active, .btn-danger:focus, .btn-danger:hover, .open > .dropdown-toggle.btn-danger {
-  background-color: #ee1940 !important;
-  border: 1px solid #ee1940 !important;
+  background-color: #eee !important;
+  border: 1px solid #eee !important;
+  color: #000000 !important;
 }
 
 .btn-dark {
@@ -3310,7 +3312,7 @@ File: Menu
 }
 
 .nav > li > a i {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .nav > li > a .badge {

@@ -381,13 +381,13 @@ class PointModel extends CommonFormModel
 
     public function getPointsBlocks()
     {
-        $totalPoints =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.all'),
+        $totalPoints =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'ti-medall', $this->translator->trans('mautic.point.rules.all'),
             $this->getRepository()->getTotalPointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
         ];
-        $activePoints = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.active'),
+        $activePoints = [$this->translator->trans('le.form.display.color.blocks.green'), 'ti-medall', $this->translator->trans('mautic.point.rules.active'),
             $this->getRepository()->getTotalActivePointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
         ];
-        $inactivePoints = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-sliders', $this->translator->trans('mautic.point.rules.inactive'),
+        $inactivePoints = [$this->translator->trans('le.form.display.color.blocks.red'), 'ti-medall', $this->translator->trans('mautic.point.rules.inactive'),
             $this->getRepository()->getTotalInactivePointsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('point:points:viewother')),
         ];
 

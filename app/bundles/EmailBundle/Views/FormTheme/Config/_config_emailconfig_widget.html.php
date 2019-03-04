@@ -18,11 +18,14 @@ $hidespamurl   = 'hide';
 $helpurl       = 'http://help.leadsengage.io/container/show/';
 $transportname = 'amazon';
 
-$transport = $formConfig['parameters']['mailer_transport'];
+$transport      = $formConfig['parameters']['mailer_transport'];
+$bouncelabel    = 'le.email.bounce.callback';
+$hideothernotes = false;
 if ($transport == 'le.transport.sendgrid_api') {
     $transportname = 'sendgrid_api';
     $helpurl .= $view['translator']->trans('le.email.sendgrid.helpurl.value');
 } elseif ($transport == 'le.transport.amazon') {
+    $bouncelabel   = 'le.email.bounce.amazon.callback';
     $hidebounceurl = '';
     $hidespamurl   = '';
     $transportname = 'amazon';
@@ -34,13 +37,14 @@ if ($transport == 'le.transport.sendgrid_api') {
     $transportname = 'elasticemail';
     $helpurl .= $view['translator']->trans('le.email.elasticemail.helpurl.value');
 } else {
-    $hidespamurl = $hidebounceurl = 'hide';
+    $hidespamurl    = $hidebounceurl    = 'hide';
+    $hideothernotes = true;
 }
 if ($formConfig['parameters']['mailer_transport_name'] == 'le.transport.vialeadsengage' && ($transport == 'le.transport.elasticemail' || $transport == 'le.transport.sendgrid_api')) {
     $hidespamurl = $hidebounceurl = 'hide';
 }
 $hidefield        = '<div class="col-md-6" style="display: none;">{content}</div>';
-$hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'leplan2' && !$isadmin) ? 'style="display: none;"' : '';
+$hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'leplan2' && !$isadmin) ? 'style="display: block;"' : '';
 ?>
 
 <?php if (count(array_intersect($fieldKeys, ['mailer_from_name', 'mailer_from_email', 'mailer_transport', 'mailer_spool_type']))): ?>
@@ -135,7 +139,7 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
             <div class="row transportcallback <?php echo $hidebounceurl; ?>">
                 <div class="col-sm-12">
                 <div class="transportcallback_help" style="width:50%;float:left;">
-                <label class="control-label"><?php echo $view['translator']->trans('le.email.bounce.callback'); ?></label>
+                <label class="control-label" id="callback_label_1"><?php echo $view['translator']->trans($bouncelabel); ?></label>
                 </div>
                 <!--<div class="transportcallback_help" style="width:50%;float:right;text-align:right;">
                     <a href="https://leadsengage.com"><?php /*echo $view['translator']->trans('le.email.amazon.bounce.help'); */?></a>
@@ -154,7 +158,7 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
             <div class="row transportcallback_spam <?php echo $hidespamurl; ?>">
                 <div class="col-sm-12">
                     <div class="transportcallback_help" style="width:40%;float:left;">
-                        <label class="control-label"><?php echo $view['translator']->trans('le.email.spam.callback'); ?></label>
+                        <label class="control-label" id="callback_label_2"><?php echo $view['translator']->trans('le.email.spam.callback'); ?></label>
                     </div>
                     <!--<div class="transportcallback_help" style="width:60%;float:right;text-align:right;">
                         <a href="https://leadsengage.com"><?php /*echo $view['translator']->trans('le.email.amazon.spam.help'); */?></a>
@@ -167,6 +171,14 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
                         ); ?>
                     </a>
                 </div>
+            </div>
+            <br>
+            <div class="alert alert-info le-alert-info <?php echo !$hideothernotes ? '' : 'hide'?>" id="known-providers">
+                <p><?php echo $view['translator']->trans('le.email.spam.bounce.description'); ?></p>
+                <p><?php echo $view['translator']->trans('le.email.complains.description'); ?></p>
+            </div>
+            <div class="alert alert-info le-alert-info <?php echo $hideothernotes ? '' : 'hide' ?>" id="other-providers">
+                <p><?php echo $view['translator']->trans('le.email.other.smtp.note'); ?></p>
             </div>
             <br>
         </div>

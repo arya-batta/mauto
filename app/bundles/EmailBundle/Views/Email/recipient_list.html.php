@@ -26,8 +26,8 @@
                     </div>
                         <div class="modal-footer">
                             <div class="button_container" id="aws_email_verification_button">
-                            <button type="button"  class="btn btn-success waves-effect" onclick="Le.testEmailServerConnection(true);"> <?php echo $view['translator']->trans('le.email.config.mailer.transport.test_connection_activate'); ?></button>
-                            <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Close</button>
+                            <button type="button"  class="btn le-btn-default waves-effect" onclick="Le.testEmailServerConnection(true);"> <?php echo $view['translator']->trans('le.email.config.mailer.transport.test_connection_activate'); ?></button>
+                            <button type="button" class="btn le-btn-default waves-effect" data-dismiss="modal">Close</button>
                             </div>
                        </div>
                 </div>

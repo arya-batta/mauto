@@ -24,10 +24,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
         'planName'            => $planName,
     ]); ?>
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-l accountinfo">
+    <div class="col-md-9 bg-auto height-auto accountinfo">
 
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="">
 
             <div role="tabpanel" class="tab-pane fade in active bdr-w-0" >
                 <div class="pt-md pr-md pl-md pb-md" id="paymenthistory">

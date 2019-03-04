@@ -41,10 +41,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('System Info'));
     </div>
 
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto bdr-l">
+    <div class="col-md-9 bg-auto height-auto">
 
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="">
             <div role="tabpanel" class="tab-pane fade in active bdr-w-0" id="phpinfo">
                 <div class="pt-md pr-md pl-md pb-md">
                     <?php echo $phpInfo; ?>

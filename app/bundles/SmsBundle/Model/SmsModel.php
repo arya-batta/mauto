@@ -306,7 +306,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     );
 
                     $metadata = $this->transport->sendSms($leadPhoneNumber, $tokenEvent->getContent());
-                    if ($metadata != "true") {
+                    if ($metadata != 'true') {
                         $sendResult['status'] = $metadata;
                         $sendResultText       = 'Failed';
                         $send                 = false;
@@ -340,7 +340,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
             $this->getStatRepository()->saveEntities($stats);
             $this->em->clear(Stat::class);
         }
-        if($failedCount){
+        if ($failedCount) {
             $this->getRepository()->upCount($sms->getId(), 'failed', $failedCount);
         }
 
@@ -638,12 +638,14 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
         return $sentcount;
     }
+
     public function getFailedCount($id)
     {
         $failedcount=$this->getRepository()->getSmsFailedCount($id);
 
         return $failedcount;
     }
+
     public function getClickCount($id)
     {
         $clickcount=$this->getRepository()->getSmsClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother'), $id);
@@ -653,10 +655,10 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
 
     public function getSMSBlocks()
     {
-        $smsOpened =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-envelope-o', $this->translator->trans('le.email.sent.last30days.sent'),
+        $smsOpened =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-email-outline', $this->translator->trans('le.email.sent.last30days.sent'),
             $this->getRepository()->getLast30DaysSmsSentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother')),
         ];
-        $smsClicked = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-envelope-open-o', $this->translator->trans('le.email.sent.last30days.clicks'),
+        $smsClicked = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-email-open-outline', $this->translator->trans('le.email.sent.last30days.clicks'),
             $this->getRepository()->getLast30DaysSMSClickCounts($viewOthers = $this->factory->get('mautic.security')->isGranted('sms:smses:viewother')),
         ];
 

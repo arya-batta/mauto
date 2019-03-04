@@ -1012,9 +1012,9 @@ class CampaignModel extends CommonFormModel
         $repo = $this->getRepository();
 
         // Get a list of lead lists this campaign is associated with
-        $listevents = $repo->getCampaignListIds($campaign->getId());
+        $listevents         = $repo->getCampaignListIds($campaign->getId());
         $totalleadsProcessed=0;
-        foreach($listevents as $eventid => $lists) {
+        foreach ($listevents as $eventid => $lists) {
             $batchLimiters = [
                 'dateTime' => (new DateTimeHelper())->toUtcString(),
             ];
@@ -1025,23 +1025,23 @@ class CampaignModel extends CommonFormModel
                     $campaign->getId(),
                     $lists,
                     [
-                        'countOnly' => true,
+                        'countOnly'     => true,
                         'batchLimiters' => $batchLimiters,
                     ]
                 );
 
                 // Ensure the same list is used each batch
-                $batchLimiters['maxId'] = (int)$newLeadsCount['maxId'];
+                $batchLimiters['maxId'] = (int) $newLeadsCount['maxId'];
 
                 // Number of total leads to process
-                $leadCount = (int)$newLeadsCount['count'];
+                $leadCount = (int) $newLeadsCount['count'];
             } else {
                 // No lists to base campaign membership off of so ignore
                 $leadCount = 0;
             }
 
             if ($output) {
-                $output->writeln($this->translator->trans('mautic.campaign.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit,'%eventid%' => $eventid]));
+                $output->writeln($this->translator->trans('mautic.campaign.rebuild.to_be_added', ['%leads%' => $leadCount, '%batch%' => $limit, '%eventid%' => $eventid]));
             }
 
             // Handle by batches
@@ -1057,7 +1057,7 @@ class CampaignModel extends CommonFormModel
                     $progress = ProgressBarHelper::init($output, $maxCount);
                     $progress->start();
                 }
-                    // Add leads
+                // Add leads
                 while ($start < $leadCount) {
                     // Keep CPU down for large lists; sleep per $limit batch
                     $this->batchSleep();
@@ -1066,7 +1066,7 @@ class CampaignModel extends CommonFormModel
                         $campaign->getId(),
                         $lists,
                         [
-                            'limit' => $limit,
+                            'limit'         => $limit,
                             'batchLimiters' => $batchLimiters,
                         ]
                     );
@@ -1110,20 +1110,18 @@ class CampaignModel extends CommonFormModel
 
                         return $leadsProcessed;
                     }
-
                 }
 
                 if ($output && isset($progress)) {
                     $progress->finish();
                     $output->writeln('');
-
                 }
             }
             $totalleadsProcessed += $leadsProcessed;
         }
 
         return $totalleadsProcessed;
-            // Get a count of leads to be removed
+        // Get a count of leads to be removed
            /* $removeLeadCount = $repo->getCampaignOrphanLeads(
                 $campaign->getId(),
                 $lists,
@@ -1209,8 +1207,6 @@ class CampaignModel extends CommonFormModel
                     $output->writeln('');
                 }
             }*/
-
-
     }
 
     /**
@@ -1401,13 +1397,13 @@ class CampaignModel extends CommonFormModel
      */
     public function getCampaignsBlocks()
     {
-        $totalCampaigns =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-sitemap', $this->translator->trans('mautic.campaign.campaigns.all'),
+        $totalCampaigns =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-filter-variant', $this->translator->trans('mautic.campaign.campaigns.all'),
             $this->getRepository()->getTotalCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
-        $activeCampaigns = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-sitemap', $this->translator->trans('mautic.campaign.campaigns.activel'),
+        $activeCampaigns = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-filter-variant', $this->translator->trans('mautic.campaign.campaigns.activel'),
             $this->getRepository()->getTotalActiveCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
-        $inactiveCampaigns = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-sitemap', $this->translator->trans('mautic.campaign.campaigns.inactive'),
+        $inactiveCampaigns = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-filter-variant', $this->translator->trans('mautic.campaign.campaigns.inactive'),
             $this->getRepository()->getTotalInactiveCampaignCount($viewOthers = $this->factory->get('mautic.security')->isGranted('campaign:campaigns:viewother')),
         ];
 

@@ -279,6 +279,7 @@ Le.loadEmailStatCounts = function(){
                         mQuery('#unsubscribe-count-' + id + ' > a').html(response.unsubscribeCount);
                         mQuery('#bounce-count-' + id + ' > a').html(response.bounceCount);
                         mQuery('#spam-count-' + id + ' > a').html(response.spamCount);
+                        mQuery('#failed-count-' + id + ' > a').html(response.failedCount);
                     }
                 },
                 false,
@@ -915,7 +916,8 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
             closeOnDateSelect: true
         });
     } else if (fieldType == 'time') {
-        mQuery(filter).timepicki();
+        mQuery(el).timepicker({defaultTIme: false});
+        //mQuery(el).timepicki();
         /*mQuery(filter).datetimepicker({
             datepicker: false,
             format: 'H:i',

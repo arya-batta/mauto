@@ -103,6 +103,38 @@ $isAdmin=$view['security']->isAdmin();
                     ]
                 );
 
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.config.monitored_email.bounce_folder',
+                        'class'      => 'col-email-stats drip-col-stats',
+                        'default'    => true,
+                    ]
+                );
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.email.spams',
+                        'class'      => 'col-email-stats drip-col-stats',
+                        'default'    => true,
+                    ]
+                );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
+                        'text'       => 'le.email.stat.failed',
+                        'class'      => 'col-email-stats drip-col-stats',
+                        'default'    => true,
+                    ]
+                );
+
                 if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -244,6 +276,51 @@ $isAdmin=$view['security']->isAdmin();
                                    ['search' => $view['translator']->trans('le.lead.drip.searchcommand.unsubscribe').':'.$item->getId()]
                                ); ?>"
                                title="<?php echo $view['translator']->trans('le.email.drip.stat.unsub.tooltip'); ?>">
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs has-click-event clickable-stat"
+                            id="drip-bounce-count-<?php echo $item->getId(); ?>">
+                            <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.bounce').':'.$item->getId()]
+                               ); ?>"
+                               title="<?php echo $view['translator']->trans('le.email.drip.stat.bounce.tooltip'); ?>">
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs has-click-event clickable-stat"
+                            id="drip-spam-count-<?php echo $item->getId(); ?>">
+                            <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.spam').':'.$item->getId()]
+                               ); ?>"
+                               title="<?php echo $view['translator']->trans('le.email.drip.stat.spam.tooltip'); ?>">
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                      <span class="mt-xs has-click-event clickable-stat"
+                            id="drip-failed-count-<?php echo $item->getId(); ?>">
+                            <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.failed').':'.$item->getId()]
+                               ); ?>"
+                               title="<?php echo $view['translator']->trans('le.email.drip.stat.failed.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>
