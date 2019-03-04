@@ -244,7 +244,7 @@ $view['slots']->set(
                               <div>
                                 <div class="row">
                                     <div  class="col-md-12"style="margin-top: 13px;" >
-                                        <h3 class="text-primary fw-b"><?php echo $fields['core']['title']['value']; ?> <?php echo $fields['core']['firstname']['value']; ?> <?php echo $fields['core']['lastname']['value']; ?></h3>
+                                        <h3 class="text-primary fw-b" style="font-weight: bold;" ><?php echo $fields['core']['title']['value']; ?> <?php echo $fields['core']['firstname']['value']; ?> <?php echo $fields['core']['lastname']['value']; ?></h3>
                                         <br>
                                     </div>
                                 </div>
@@ -375,7 +375,7 @@ $view['slots']->set(
                                                           $linkType       = 'target="_new"';
                                                           $string         = (strlen($event['url']) > 74) ? substr($event['url'], 0, 74).'....' : $event['url'];
                                                           $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
-                                                          <h5 class="mt-xs mr-xs" style="font-size: 13px">
+                                                          <h5 class="mt-xs mr-xs" style="font-size: 13px;font-weight: 300;">
                                                               <b><?php echo $event['pagehits'].'x '?></b>
                                                               <?php echo $eventLabel.'<br>'?>
                                                           </h5>
@@ -435,12 +435,12 @@ $view['slots']->set(
             </div>
 
             <div class="uk-grid col-md-12">
-            <div class="row" style="padding: 0px;width: 102%">
+            <div class="row" style="padding: 0px;width: 101%">
             <div class="le-lead-card-alignment col-md-3" style="margin-left: 15px;width: 24.5%;">
                 <div class="md-card">
                     <div class="md-card-content">
                         <div class="uk-float-right">
-                            <i class="le-lead-dialogue material-icons le-text-primary" style="margin-right: -215px;">exposure plus 1</i></div>
+                            <i class="le-lead-dialogue fa fa-line-chart" style="color: #3292e0"></i></div>
                         <span class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.points'); ?> </span><br>
                        <span class="le-lead-card-content"><?php echo  $lead->getPoints(); ?></span>
                     </div>
@@ -462,7 +462,7 @@ $view['slots']->set(
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
-                                <i class="le-lead-dialogue fa fa-history  le-text-danger"></i></div>
+                                <i class="le-lead-dialogue fa fa-calendar-check-o" style="color: #3292e0"></i></div>
                             <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.lastactive'); ?> </span><br>
                             <span class="le-lead-card-content"><?php echo $lastacitve = !empty($lead->getLastActive()) ? $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y') : 'N/A'?> </span>
                         </div>
@@ -472,7 +472,7 @@ $view['slots']->set(
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
-                                <i class="le-lead-dialogue fa fa-clock-o text-warning"></i></div>
+                                <i class="le-lead-dialogue fa fa-calendar-plus-o" style="color: #3292e0"></i></div>
                             <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('le.core.added_first'); ?> </span><br>
                             <span class="le-lead-card-content"><?php echo $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y'); ?></span>
                         </div>
@@ -480,7 +480,6 @@ $view['slots']->set(
                 </div>
             </div>
             </div>
-
             <!-- lead detail collapseable toggler -->
            <!-- <div class="hr-expand nm">
                 <span data-toggle="tooltip" title="<?php /*echo $view['translator']->trans('mautic.core.details'); */?>">
@@ -491,7 +490,7 @@ $view['slots']->set(
                 </span>
             </div>-->
             <!--/ lead detail collapseable toggler -->
-
+            <br><br><br><br>
 <!--            --><?php //if (!$isAnonymous):?>
                 <div class="pa-md">
                     <div class="row">

@@ -5750,7 +5750,7 @@ figcaption {
   width: 20%;
 }
 .le-lead-card-header{
-  font-size: 12px;
+  font-size: 14px;
 }
 .le-lead-card-content{
   font-size: 15px;
@@ -7029,6 +7029,9 @@ ol, ul {
 .col-leadsegment-name{
   width: 75%;
 }
+.col-lead-width{
+  width: 30%;
+}
 .buttonfooter {
   margin-top: 25px;
   transition: all .1s ease;
@@ -7257,7 +7260,7 @@ ul.list-unstyled, ul#list-unstyled  {
 .le-label{
   border-radius: 20px;
   padding: 7px 15px;
-  background: #3292e0;
+  background: #8c8c8c;
   color: #fff;
   font-size: 10px;
   font-weight: 400;
@@ -7285,7 +7288,7 @@ ul.list-unstyled, ul#list-unstyled  {
   bottom: 0;
 }
 .le-timeline-event{
-  border-left: solid 4px #3292e0;
+  border-left: solid 4px #8c8c8c;
   padding: 0 0 30px 40px;
   margin-left: 11px;
   position: relative;
@@ -7303,7 +7306,7 @@ ul.list-unstyled, ul#list-unstyled  {
   line-height: 36px;
   transition: all 150ms linear;
   font-size: 20px;
-  border: 4px solid #3292e0;
+  border: 4px solid #8c8c8c;
   color: #3292e0;
   text-align: center;
 }

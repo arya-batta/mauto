@@ -35,12 +35,12 @@ if (!$isAdmin) {
     <div class="col-sm-offset-3 col-sm-6">
         <div class="ml-lg mr-lg mt-md pa-lg">
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
+                <div class="panel-heading" style="background-color: #ffffff;">
+                    <div class="panel-title" style="color: #212529;"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
                 </div>
                 <div class="panel-body">
                     <?php echo $view['form']->start($form); ?>
-                    <div class="row center-align-container" style="margin-left: -11%;">
+                    <div class="row center-align-container" style="float: none;">
                         <div class="pull-center col-xs-6">
                             <a href="<?php echo $view['assets']->getImportSampleFilePath() ?>" download>
                             <span class="input-group-btn download_sample">

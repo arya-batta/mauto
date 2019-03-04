@@ -1378,6 +1378,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $q->expr()->eq('p.lead_id', $contactId)
             );
             $q->groupBy('p.url');
+            $q->orderBy('count(id)', 'DESC');
         }
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();

@@ -130,7 +130,7 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.lastname, l.firstname, l.company, l.email',
                     'text'       => 'mautic.core.type.lead',
-                    'class'      => 'col-lead-name',
+                    'class'      => 'col-lead-name col-lead-width',
                 ]);
                 /*echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',

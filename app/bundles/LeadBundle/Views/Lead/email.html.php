@@ -16,7 +16,7 @@ if ($dnc && $dnc['bounced']) {
     echo $view['form']->start($form);
     echo $view['form']->row($form['fromname']); ?>
     <div class="row">
-      <div class="form-group col-xs-12" style="width:76%">
+      <div class="form-group col-xs-12" style="width:76%;padding-right: 0px;">
            <?php echo $view['form']->row($form['from'],
                 ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]
             ); ?>

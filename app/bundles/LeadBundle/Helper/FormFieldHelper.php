@@ -42,7 +42,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
                 ],
             ],
         ],
-        'boolean' => [
+        /**'boolean' => [
             'properties' => [
                 'yes' => [
                     'required'  => true,
@@ -58,7 +58,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
             'properties' => [
                 'list' => [],
             ],
-        ],
+        ],*/
         'date' => [
             'properties' => [
                 'format' => [],
@@ -72,7 +72,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
         'time' => [
             'properties' => [],
         ],
-        'timezone' => [
+        /**'timezone' => [
             'properties' => [],
         ],
         'email' => [
@@ -86,11 +86,11 @@ class FormFieldHelper extends AbstractFormFieldHelper
         ],
         'tel' => [
             'properties' => [],
-        ],
+        ],*/
         'url' => [
             'properties' => [],
         ],
-        'country' => [
+       /* 'country' => [
             'properties' => [],
         ],
         'region' => [
@@ -98,7 +98,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
         ],
         'locale' => [
             'properties' => [],
-        ],
+        ],*/
         /*'le_currency' => [
             'properties' => [
                 'roundmode' => [],

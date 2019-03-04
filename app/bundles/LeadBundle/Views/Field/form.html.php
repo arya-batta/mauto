@@ -40,7 +40,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
 <?php echo $view['form']->start($form); ?>
 <div class="box-layout">
     <!-- container -->
-    <div class="col-md-8 bg-auto height-auto bdr-r">
+    <div class="col-md-12 bg-auto height-auto bdr-r">
         <div class="pa-md">
             <div class="row">
                 <div class="col-md-6">
@@ -48,6 +48,22 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
                 </div>
                 <div class="col-md-6">
                     <?php echo $view['form']->row($form['alias']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isPublished']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isRequired']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isListable']); ?>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $view['form']->row($form['isUniqueIdentifer']); ?>
                 </div>
             </div>
             <div class="row">
@@ -64,6 +80,11 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
                 </div>
                 <div class="col-md-6">
                     <?php echo $view['form']->row($form['defaultValue']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" <?php echo $hidepanel?> >
+                    <?php echo $view['form']->row($form['order']); ?>
                 </div>
             </div>
 
@@ -112,29 +133,8 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
             <?php $form['properties']->setRendered(); ?>
         </div>
     </div>
-    <div class="col-md-4 bg-white height-auto">
+    <div class="col-md-4 bg-white height-auto hide">
         <div class="pr-lg pl-lg pt-md pb-md">
-            <div class="row">
-                <div class="col-md-12">
-                    <?php echo $view['form']->row($form['order']); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isPublished']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isRequired']); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isListable']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $view['form']->row($form['isUniqueIdentifer']); ?>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-6" <?php echo $hidepanel; ?>>
                     <?php echo $view['form']->row($form['isVisible']); ?>
