@@ -64,10 +64,6 @@ if ($isImportDone) {
             <div class="col-sm-4">
                 <div style="margin-top:60px;text-align: right;color:#3292e0;font-size:14px;font-weight: bold;padding-right:10px;">
                     <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
-                    <a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIyNDIx" data-playerId="MTIyNDIx" data-fancybox-type="iframe">
-                        Play the video
-                    </a>
-                    <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
                     <a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe" style="display: -webkit-inline-box;">
                         <i class="mdi mdi-play-circle-outline" style="color:#3292e0;font-size:30px;"></i>
                         <span class="test" style="margin-top: 30px;">Get Started</span>

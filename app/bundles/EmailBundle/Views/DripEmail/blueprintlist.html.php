@@ -23,7 +23,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-striped table-bordered email-list">
                         <thead>
-                        <tr style="background: #f2f2f2;">
+                        <tr>
                             <?php
                             echo $view->render(
                                 'MauticCoreBundle:Helper:tableheader.html.php',

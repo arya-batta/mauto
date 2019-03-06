@@ -246,12 +246,12 @@ Le.adJustFixedHeader = function(isadd){
         if (isadd) {
             mQuery('#fixed-header').css('top', '100px');
             if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
-                mQuery('.content-body').css('margin-top', '13%');
+                mQuery('.content-body').css('margin-top', '170px');
             }
         } else {
             mQuery('#fixed-header').css('top', '50px');
             if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
-                mQuery('.content-body').css('margin-top', '8%');
+                mQuery('.content-body').css('margin-top', '110px');
             }
         }
     }else if(pagemode == 'config'){
