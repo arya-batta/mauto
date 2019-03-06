@@ -4850,6 +4850,7 @@ a.inline-token .text-muted {
 label.required:after {
   content: " *";
   color: #f86b4f;
+  font-size: 22px;
 }
 label.required {
   margin-top: -10px !important;
