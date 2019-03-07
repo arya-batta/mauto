@@ -548,10 +548,10 @@ function includeJQuery(filename, onload) {
                         LeJQ(document).on('submit','form', function(e) {
                             var formElemId = "";
                             var formElemName = "";
-                            if(LeJQ(this).attr('id') !== undefined) {
+                            if(typeof LeJQ(this).attr('id') !== "undefined") {
                                 formElemId = LeJQ(this).attr('id');                                
                             }
-                            if(LeJQ(this).attr('name') !== "undefined") {
+                            if(typeof LeJQ(this).attr('name') !== "undefined") {
                                 formElemName = LeJQ(this).attr('name');                              
                             }
                             var formData = LeJQ(this).serialize();                            
@@ -618,17 +618,17 @@ JS;
     public function smartFormSubmitAction()
     {
         $responses        =['message'=> 'Lead created successfully!.'];
-        $formid          = $this->request->get('smartformid', '');
-        $formname        = $this->request->get('smartformname', '');
-        $formdata        = $this->request->get('smartformdata', '');
-        $filepath        = $this->request->get('file_path', '');
-        $domain          = $this->request->get('domain', '');
+        $formid           = $this->request->get('smartformid', '');
+        $formname         = $this->request->get('smartformname', '');
+        $formdata         = $this->request->get('smartformdata', '');
+        $filepath         = $this->request->get('file_path', '');
+        $domain           = $this->request->get('domain', '');
         parse_str($formdata, $post_results);
         $server        = $this->request->server->all();
         $formmodel     =$this->getModel('form');
         $formrepository=$formmodel->getRepository();
         $messengerMode = true;
-        if ($formname == 'undefined') {
+        if ($formname == '') {
             $formname = null;
         }
         $forms         =$formrepository->findBy(
@@ -683,7 +683,6 @@ JS;
 
                                 $pass = [];
                                 foreach ($reflection->getParameters() as $param) {
-
                                     if (isset($callbackRequested[$param->getName()])) {
                                         $pass[] = $callbackRequested[$param->getName()];
                                     } else {
@@ -692,7 +691,6 @@ JS;
                                 }
 
                                 $callbackResponses[$key] = $reflection->invokeArgs($this, $pass);
-
                             }
                         }
 
@@ -708,12 +706,12 @@ JS;
                     }
                 }
                 if ($messengerMode) {
-                        if (!empty($callbackResponses)) {
-                            foreach ($callbackResponses as $key => $callresponse) {
-                                $responses['download'] =true;
-                                $responses['downloadUrl']=$callresponse['download'];
-                            }
+                    if (!empty($callbackResponses)) {
+                        foreach ($callbackResponses as $key => $callresponse) {
+                            $responses['download']   =true;
+                            $responses['downloadUrl']=$callresponse['download'];
                         }
+                    }
                 }
             } catch (\Exception $ex) {
                 $responses['message']='Lead creation failed due to technical error';
