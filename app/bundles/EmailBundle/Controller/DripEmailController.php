@@ -1482,7 +1482,7 @@ class DripEmailController extends FormController
             $email[2]['type']        = $emailentity->getBeeJSON();
             if (true) {
                 $url                     = 'http://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
-                $icon                    = 'http://anyfunnels.com/wp-content/uploads/leproduct/email-footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $icon                    = 'https://anyfunnels.com/wp-content/uploads/leproduct/anyfunnels-footer2.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 35px;width:160px;' src='$icon'></a></div>";
                 $email[3]['branding']    = $atag;
             }
