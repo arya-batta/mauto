@@ -639,7 +639,7 @@ class PublicController extends CommonFormController
         $body       = $doc->getElementsByTagName('body');
         $head       = $doc->getElementsByTagName('head');
         $mailhelper = $this->get('mautic.helper.mailer');
-        $content    = $mailhelper->alterEmailBodyContent($content);
+        $content = $mailhelper->alterEmailBodyContent($content,$emailEntity->getEmailType());
 
         if ($head->length == 0) {
             $content = $this->get('mautic.helper.mailer')->appendHeadTag($content);

@@ -188,7 +188,7 @@
     width: auto;
     bottom: 0;
     overflow: auto;
-    top: 70px;
+    top: 58px;
 }
 
 #CampaignCanvas {
@@ -287,6 +287,8 @@
     /* margin-left: 38%;padding-bottom: 10px;
      */
     width: 100%;
+    height: auto;
+    min-height: 50px;
     position: fixed;
     z-index: 1040;
     float: right;
@@ -372,9 +374,9 @@
 }
 .campaign-custom-button-div{
     position: relative;
-    top: 27px;
-    float: left;
-    left: 8%;
+    top: 8px;
+    float: right;
+ /*   left: 4%;*/
 }
 .custom-campaign-builder .help-block{
     color: #ffffff !important;

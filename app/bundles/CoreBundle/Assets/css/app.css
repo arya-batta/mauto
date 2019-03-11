@@ -5637,7 +5637,8 @@ figcaption {
   background-color:#4ea84d !important;
   border-color:#4ea84d !important;
   pointer-events: none;
-}.status_fail{
+}
+.status_fail{
    background-color:#ee1940 !important;
    border-color:#ee1940 !important;
    pointer-events: none;

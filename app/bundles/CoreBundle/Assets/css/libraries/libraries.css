@@ -2415,6 +2415,7 @@ output {
   -ms-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  margin-top: -5px;
 }
 .form-control:focus {
   border-color: #bcbcbc;
@@ -13957,7 +13958,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   margin-left: 0;
 }
 .xdsoft_datetimepicker .xdsoft_datepicker.active + .xdsoft_timepicker {
-  margin-top: 8px;
+  margin-top: 29px;
   margin-bottom: 3px;
 }
 .xdsoft_datetimepicker .xdsoft_mounthpicker {
@@ -14033,7 +14034,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   margin-top: 0;
 }
 .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-  height: 151px;
+  height: 175px;
   overflow: hidden;
   border-bottom: 1px solid #ddd;
 }

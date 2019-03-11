@@ -138,13 +138,13 @@ class TagModel extends FormModel
      */
     public function getTagBlocks()
     {
-        $totalTag =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.all'),
+        $totalTag =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-tag-text-outline', $this->translator->trans('le.lead.lead.tags.all'),
             $this->getRepository()->getTotalTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
         ];
-        $activeTag = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.active'),
+        $activeTag = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-tag-text-outline', $this->translator->trans('le.lead.lead.tags.active'),
             $this->getRepository()->getTotalActiveTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
         ];
-        $inactiveTag = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-tags', $this->translator->trans('le.lead.lead.tags.inactive'),
+        $inactiveTag = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-tag-text-outline', $this->translator->trans('le.lead.lead.tags.inactive'),
             $this->getRepository()->getTotalInactiveTagsCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:tags:full')),
         ];
 

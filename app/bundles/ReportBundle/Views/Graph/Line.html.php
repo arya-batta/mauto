@@ -10,7 +10,7 @@
  */
 ?>
 <div class="col-sm-12">
-    <div class="panel">
+    <div class="panel" style="width: 100%">
         <div class="panel-body box-layout">
             <div class="col-xs-8 va-m">
                 <h5 class="text-white dark-md fw-sb mb-xs"><?php echo $view['translator']->trans($graph['name']); ?></h5>

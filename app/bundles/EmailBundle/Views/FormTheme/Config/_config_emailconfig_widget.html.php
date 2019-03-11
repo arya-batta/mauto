@@ -20,6 +20,7 @@ $transportname = 'amazon';
 
 $transport      = $formConfig['parameters']['mailer_transport'];
 $bouncelabel    = 'le.email.bounce.callback';
+$bouncenotelabel    = 'le.email.bounce.note.callback';
 $hideothernotes = false;
 if ($transport == 'le.transport.sendgrid_api') {
     $transportname = 'sendgrid_api';
@@ -173,6 +174,9 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
                 </div>
             </div>
             <br>
+            <div class="transportcallback_help" style="width:50%;">
+                <label class="control-label" id="callback_label_1"><?php echo $view['translator']->trans($bouncenotelabel); ?></label>
+            </div>
             <div class="alert alert-info le-alert-info <?php echo !$hideothernotes ? '' : 'hide'?>" id="known-providers">
                 <p><?php echo $view['translator']->trans('le.email.spam.bounce.description'); ?></p>
                 <p><?php echo $view['translator']->trans('le.email.complains.description'); ?></p>
@@ -230,7 +234,7 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
         </div>
             </div>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" style="margin-bottom: 0px">
             <div class="panel-heading">
                 <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.frequency_rules'); ?></h3>
             </div>

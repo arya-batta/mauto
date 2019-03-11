@@ -48,12 +48,12 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group <?php echo (count($form['username']->vars['errors'])) ? ' has-error' : ''; ?>">
-                                <label class="control-label mb-xs"><?php echo $view['form']->label($form['username']); ?></label>
+                                <?php echo $view['form']->label($form['username']); ?>
                                 <?php echo $view['form']->widget($form['username'], ['attr' => ['placeholder' => $form['username']->vars['label']]]); ?>
                                 <?php echo $view['form']->errors($form['username']); ?>
                             </div>
                             <div class="form-group <?php echo (count($form['email']->vars['errors'])) ? ' has-error' : ''; ?>">
-                                <label class="control-label mb-xs"><?php echo $view['form']->label($form['email']); ?></label>
+                                <?php echo $view['form']->label($form['email']); ?>
                                 <?php echo $view['form']->widget($form['email'], ['attr' => ['placeholder' => $form['email']->vars['label']]]); ?>
                                 <?php echo $view['form']->errors($form['email']); ?>
                             </div>

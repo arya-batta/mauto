@@ -89,15 +89,15 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
                                 <?php echo $view['form']->row($form['name']); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php echo $view['form']->row($form['alias']); ?>
+                                <?php echo $view['form']->row($form['isPublished']); ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 hide">
                                 <?php echo $view['form']->row($form['isGlobal']); ?>
                             </div>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['isPublished']); ?>
+                            <div class="col-md-6 hide">
+                                <?php echo $view['form']->row($form['alias']); ?>
                             </div>
                         </div>
                         <div class="row">

@@ -705,13 +705,13 @@ class AssetModel extends FormModel
 
     public function getAssetBlocks()
     {
-        $totalAsset =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-folder-open-o', $this->translator->trans('mautic.asset.all.assets'),
+        $totalAsset =  [$this->translator->trans('le.form.display.color.blocks.blue'), ' far fa-folder-open', $this->translator->trans('mautic.asset.all.assets'),
             $this->getRepository()->getTotalAssetCount($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
         ];
-        $activeAsset = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-folder-open-o', $this->translator->trans('mautic.asset.active.assets'),
+        $activeAsset = [$this->translator->trans('le.form.display.color.blocks.green'), ' far fa-folder-open', $this->translator->trans('mautic.asset.active.assets'),
             $this->getRepository()->getTotalActiveAssets($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
         ];
-        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'fa fa-folder-open-o', $this->translator->trans('le.index.blocks.conversion.downloads'),
+        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), ' far fa-folder-open', $this->translator->trans('le.index.blocks.conversion.downloads'),
             $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('asset:assets:viewother')),
         ];
 

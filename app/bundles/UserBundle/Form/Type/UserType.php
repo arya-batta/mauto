@@ -138,6 +138,7 @@ class UserType extends AbstractType
                     'class'        => 'form-control le-input',
                     //'preaddon'     => 'fa fa-user',
                     'autocomplete' => 'off',
+                    'tooltip'  => 'mautic.user.user.form.help.username',
                 ],
             ]
         );
@@ -188,6 +189,7 @@ class UserType extends AbstractType
                 'attr'       => [
                     'class'    => 'form-control le-input',
                    // 'preaddon' => 'fa fa-envelope',
+                    'tooltip'  => 'mautic.user.user.form.help.email',
                 ],
             ]
         );

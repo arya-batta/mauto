@@ -186,7 +186,7 @@ class ListController extends FormController
                     $model->saveEntity($list);
 
                     $this->addFlash('mautic.core.notice.created', [
-                        '%name%'      => $list->getName().' ('.$list->getAlias().')',
+                        '%name%'      => $list->getName(),
                         '%menu_link%' => 'le_segment_index',
                         '%url%'       => $this->generateUrl('le_segment_action', [
                             'objectAction' => 'edit',
@@ -331,7 +331,7 @@ class ListController extends FormController
                     $segmentModel->saveEntity($segment, $form->get('buttons')->get('save')->isClicked());
 
                     $this->addFlash('mautic.core.notice.updated', [
-                        '%name%'      => $segment->getName().' ('.$segment->getAlias().')',
+                        '%name%'      => $segment->getName(),
                         '%menu_link%' => 'le_segment_index',
                         '%url%'       => $this->generateUrl('le_segment_action', [
                             'objectAction' => 'edit',

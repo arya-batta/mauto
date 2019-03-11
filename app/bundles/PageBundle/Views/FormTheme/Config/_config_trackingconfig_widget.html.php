@@ -20,7 +20,7 @@ $isAdmin    =$view['security']->isAdmin();
         <div class="form-group">
             <p><?php echo $view['translator']->trans('le.config.tab.pagetracking.info'); ?></p>
             <pre id="script_preTag" style="display:none;">&lt;script&gt;
-    (function(w,d,t,u,n,a,m){w['LeadsEngageTrackingObject']=n;
+    (function(w,d,t,u,n,a,m){w['TrackingObject']=n;
         w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
         m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
     })(window,document,'script','<?php echo $view['router']->url('le_js'); ?>','mt');
@@ -29,7 +29,7 @@ $isAdmin    =$view['security']->isAdmin();
 &lt;/script&gt;</pre>
 
             <textarea id="copy_to_clipboard" style="height:180px;" class="form-control" readonly>&lt;script&gt;
-    (function(w,d,t,u,n,a,m){w['LeadsEngageTrackingObject']=n;
+    (function(w,d,t,u,n,a,m){w['TrackingObject']=n;
         w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
         m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
     })(window,document,'script','<?php echo $view['router']->url('le_js'); ?>','mt');
@@ -58,7 +58,7 @@ $isAdmin    =$view['security']->isAdmin();
 
     </div>
     <br>
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" style="margin-bottom: 0px;">
         <div class="panel-heading">
             <h3 class="panel-title"><?php echo $view['translator']->trans('le.send.instructions.to.developer'); ?></h3>
         </div>

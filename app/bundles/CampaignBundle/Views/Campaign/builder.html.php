@@ -32,13 +32,19 @@ if ($entity->isPublished()) {
         <?php echo $view['form']->start($form); ?>
         <!-- start: box layout -->
             <!-- container -->
-            <div  style="width: 60%;float: left;">
+            <div  style="float: left;" class="col-md-7">
                     <div class="row">
-                        <div style="width: 60%;float: left;margin-left: 10px;">
-                            <?php echo $view['form']->row($form['name']); ?>
+                        <div class="hide"style="width: 8%;float: left;margin-top: 10px;">
+                            <?php echo $view['form']->label($form['name']); ?>
                         </div>
-                        <div style="width: 35%;float: left;margin-left: 10px;">
-                            <?php echo $view['form']->row($form['category']); ?>
+                        <div style="width: 63%;float: left;margin-top: 10px;margin-left: 10px;" class="<?php echo (count($form['name']->vars['errors'])) ? ' has-error' : ''; ?>">
+                            <?php echo $view['form']->widget($form['name']); ?>
+                            <?php echo $view['form']->errors($form['name']); ?>
+                        </div>
+                        <div  class="hide"style="width: 8%;float: left;margin-top: 10px;margin-left: 7px; ">
+                            <?php echo $view['form']->label($form['category']); ?>                        </div>
+                        <div style="width: 30%;float: left;margin-left: 22px;margin-top: 5px;">
+                            <?php echo $view['form']->widget($form['category']); ?>
                         </div>
                        <!--<div style="float: left;margin-left: 15px;color:#fff !important;">
                             <div class="form-group">
@@ -69,22 +75,22 @@ if ($entity->isPublished()) {
                         echo $view['form']->row($form['publishDown']);
                         ?>
                     </div>
-                </div>
+                </div>4
             </div>
-        <div class="campaign-custom-button-div">
+        <div class="campaign-custom-button-div ">
             <?php echo $view['form']->end($form); ?>
             <button type="button" class="waves-effect <?php echo $wfstateclass?>" onclick="Le.changeCampaignState(this);" data-wf-state="<?php echo $wfstate?>">
                 <?php echo $view['translator']->trans($wfstatelabel); ?>
             </button>
-            <button type="button" class="waves-effect btn-save-builder" onclick="Le.saveCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
-            </button>
             <button type="button" class="waves-effect btn-apply-builder" onclick="Le.applyCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('le.email.beeeditor.save'); ?>
+                <?php echo $view['translator']->trans('le.email.beeeditor.apply'); ?>
             </button>
             <button type="button" class="waves-effect btn-close-builder"
                 onclick="Le.closeCampaignBuilder();">
             <?php echo $view['translator']->trans('mautic.core.close.builder'); ?>
+            </button>
+            <button type="button" class="waves-effect btn-save-builder" onclick="Le.saveCampaignFromBuilder();">
+                <?php echo $view['translator']->trans('mautic.core.form.saveandclose'); ?>
             </button>
 <!--            <div class="custom-fields">-->
 <!--            <button type="button"  data-toggle="tooltip" title="--><?php //echo $view['translator']->trans('le.campaign.startcampaign.tooltip');?><!--" data-placement="bottom" id="campaignPublishButton" class="campaign-custom-btn --><?php //echo $entity->isPublished() ? 'background-pink' : 'background-orange'?><!--"  onclick="Le.publishCampaign();">-->

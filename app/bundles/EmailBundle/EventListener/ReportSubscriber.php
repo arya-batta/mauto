@@ -438,12 +438,14 @@ class ReportSubscriber extends CommonSubscriber
                     $readQuery->andWhere($qb->expr()->isNotNull('date_read'));
                     $failedQuery = clone $queryBuilder;
                     $bouncedQuery = clone $queryBuilder;
+                    $clquery = clone $queryBuilder;
                     $chartQuery->applyDateFilters($readQuery, 'date_read', 'es');
                     $chartQuery->modifyTimeDataQuery($sendQuery, 'date_sent', 'es');
                     $chartQuery->modifyTimeDataQuery($readQuery, 'date_read', 'es');
                     $chartQuery->modifyTimeDataQuery($failedQuery, 'is_unsubscribe', 'es');
                     $chartQuery->modifyTimeDataQuery($bouncedQuery, 'is_bounce', 'es');
-                    $clquery=$chartQuery->getTableQuery('page_hits','ph');
+                    //$clquery=$chartQuery->getTableQuery('page_hits','ph');
+                    $clquery->leftJoin('e','page_hits','ph','e.id=ph.email_id');
                     $chartQuery->modifyTimeDataQuery($clquery,'date_hit','ph');
                     $sends  = $chartQuery->loadAndBuildTimeData($sendQuery);
                     $reads  = $chartQuery->loadAndBuildTimeData($readQuery);

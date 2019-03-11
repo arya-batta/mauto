@@ -7,7 +7,7 @@ $attr = $form->vars['attr'];
         <?php $class =
             (!empty($child->vars['checked']) ? ' active' : '').
             (!empty($child->vars['disabled']) || !empty($child->vars['read_only']) ? ' disabled' : ''); ?>
-        <label class="btn btn-default<?php echo $class; ?>">
+        <label class="btn btn-default<?php echo $class; ?>" style="z-index: 0 !important;">
             <?php echo $view['form']->widget($child, ['attr' => $attr]); ?>
             <?php echo $view['translator']->trans($child->vars['label']); ?>
         </label>

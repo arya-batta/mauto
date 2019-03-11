@@ -188,7 +188,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.lead.events.changeowner_descr',
             'formType'        => ChangeOwnerType::class,
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 14,
+            'order'           => 12,
             'group'           => 'le.campaign.event.group.name.leadsengage',
          ];
         $event->addAction(self::ACTION_LEAD_CHANGE_OWNER, $action);
@@ -403,7 +403,7 @@ class CampaignSubscriber extends CommonSubscriber
             'description'     => 'le.lead.list.optin.events.changelist_descr',
             'formType'        => 'leadlistoptin_action',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 6,
+            'order'           => 7,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.changelistoptin', $action);

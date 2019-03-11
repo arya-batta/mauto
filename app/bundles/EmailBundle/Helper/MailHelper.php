@@ -513,7 +513,7 @@ class MailHelper
      *
      * @param \Swift_Message $bodyContent
      */
-    public function alterEmailBodyContent($bodyContent)
+    public function alterEmailBodyContent($bodyContent,$Type = null)
     {
         $doc                      = new \DOMDocument();
         $doc->strictErrorChecking = false;
@@ -543,7 +543,11 @@ class MailHelper
                     $emailtype=false;
                 }
             } else {
-                $emailtype=true;
+                if($Type != "template") {
+                    $emailtype = true;
+                }else {
+                    $emailtype = false;
+                }
             }
             $accountmodel  = $this->factory->getModel('subscription.accountinfo');
             $accrepo       = $accountmodel->getRepository();

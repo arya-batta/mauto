@@ -51,7 +51,8 @@ Le.testSmsServerConnection = function(sendSMS,mobile) {
 
 Le.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').val('InActive');
-    mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
+    mQuery('#config_smsconfig_sms_status').removeClass('status_success');
+    mQuery('#config_smsconfig_sms_status').addClass('status_fail')
     mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
     if(mQuery('#config_smsconfig_sms_transport').val() !="") {
         mQuery('#smsStatus').removeClass('hide');
@@ -78,7 +79,7 @@ Le.testSmsConnection = function() {
     Le.testSmsServerConnection(true,mobile)
 }
 Le.validateSmsConfig = function(){
-    if(mQuery('#config_smsconfig_sms_transport_chosen').val()   =='le.sms.transport.twilio') {
+    if(mQuery('#config_smsconfig_sms_transport').val()   =='le.sms.transport.twilio') {
         if (mQuery('#config_smsconfig_account_sid').val() == "" && mQuery('#config_smsconfig_sms_from_number').val() == "" && mQuery('#config_smsconfig_account_auth_token').val() == "") {
             var theMessage = "<strong>Sending Phone Number</strong> and <strong> Authentication Token</strong>and <strong>Account SID</strong> cannot be empty.";
             mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');

@@ -80,7 +80,7 @@ class CampaignType extends AbstractType
             $builder->add('name', 'text', [
                 'label'      => 'mautic.core.name',
                 'label_attr' => ['class' => 'control-label', 'style' => 'color:#fff;'],
-                'attr'       => ['class' => 'form-control'],
+                'attr'       => ['class' => 'form-control','placeholder' => 'Workflow Name']
             ]);
 
             $builder->add('description', 'textarea', [

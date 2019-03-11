@@ -387,8 +387,8 @@ MauticJS.isPixelLoaded = function(domOnly) {
     return false;
 };
 
-if (typeof window[window.LeadsEngageTrackingObject] !== 'undefined') { //MauticTrackingObject
-    MauticJS.input = window[window.LeadsEngageTrackingObject];
+if (typeof window[window.TrackingObject] !== 'undefined') { //MauticTrackingObject
+    MauticJS.input = window[window.TrackingObject];
     if (typeof MauticJS.input.q === 'undefined') {
         // In case mt() is not executed right away
         MauticJS.input.q = [];

@@ -915,14 +915,14 @@ class FormModel extends CommonFormModel
 
     public function getFormDisplayBlocks()
     {
-        $totalForms =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'ti-layers',
+        $totalForms =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-layers',
             $this->translator->trans('mautic.form.forms.all'),
             $this->getRepository()->getTotalFormCount($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
         ];
-        $activeForm = [$this->translator->trans('le.form.display.color.blocks.green'), 'ti-layers', $this->translator->trans('mautic.form.forms.active'),
+        $activeForm = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-layers', $this->translator->trans('mautic.form.forms.active'),
             $this->getRepository()->getTotalActiveForms($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
         ];
-        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'ti-layers', $this->translator->trans('le.index.blocks.conversion'),
+        $conversion = [$this->translator->trans('le.form.display.color.blocks.orange'), 'mdi mdi-layers', $this->translator->trans('le.index.blocks.conversion'),
             $this->getRepository()->getConversions($viewOthers = $this->factory->get('mautic.security')->isGranted('form:forms:viewother')),
         ];
 

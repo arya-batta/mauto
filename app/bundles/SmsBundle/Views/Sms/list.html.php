@@ -179,7 +179,7 @@ if (count($items)):
                     <td class="visible-sm visible-md visible-lg col-stats">
                         <?php echo $clickcount = $model->getClickCount($item->getId()); ?><br>
                         <?php $clickpercent    = ($sentcount == 0) ? 0 : ($clickcount / $sentcount) * 100;
-                        echo '('.$clickpercent.'%)' ?>
+                        echo '('.round($clickpercent,2).'%)' ?>
 
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats">

@@ -1673,13 +1673,13 @@ class ListModel extends FormModel
 
     public function getSegmentBlocks()
     {
-        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.all'),
+        $totalSegment =  [$this->translator->trans('le.form.display.color.blocks.blue'), 'mdi mdi-group', $this->translator->trans('le.lead.lead.lists.all'),
                        $this->getRepository()->getTotalSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
-        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.active'),
+        $activeSegment = [$this->translator->trans('le.form.display.color.blocks.green'), 'mdi mdi-group', $this->translator->trans('le.lead.lead.lists.active'),
                        $this->getRepository()->getTotalActiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
-        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'fa fa-pie-chart', $this->translator->trans('le.lead.lead.lists.inactive'),
+        $inactiveSegment = [$this->translator->trans('le.form.display.color.blocks.red'), 'mdi mdi-group', $this->translator->trans('le.lead.lead.lists.inactive'),
                        $this->getRepository()->getTotalInactiveSegmentCount($viewOthers = $this->factory->get('mautic.security')->isGranted('lead:lists:viewother')),
                        ];
 

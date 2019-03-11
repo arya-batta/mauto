@@ -29,7 +29,7 @@ $view['slots']->set(
 <div class="info-box-holder">
     <?php foreach ($pointsBlockDetails as $key => $pointsBlock): ?>
         <div class="info-box" id="leads-info-box-container">
-                <span class="info-box-icon" style="padding-top:28px;">
+                <span class="info-box-icon">
                     <i class="<?php echo $pointsBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $pointsBlock[2]; ?></span>

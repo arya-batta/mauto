@@ -295,7 +295,8 @@ Le.configOnLoad = function (container){
 
 Le.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
-    mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
+    mQuery('#config_emailconfig_email_status').removeClass('status_success');
+    mQuery('#config_emailconfig_email_status').addClass('status_fail');
     mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');
     Le.updateSenderProfileStatus();
 }
