@@ -214,7 +214,7 @@ class CampaignSubscriber extends CommonSubscriber
                     'condition' => ['none'],
                 ],
             ],
-            'order'                  => 15,
+            'order'                  => 16,
             'group'                  => 'le.campaign.event.group.name.leadsengage',
         ];
         $event->addAction('lead.deletecontact', $trigger);
@@ -223,7 +223,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.set.donotcontact',
             'description'     => 'le.lead.lead.events.set.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 11,
+            'order'           => 15,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 
