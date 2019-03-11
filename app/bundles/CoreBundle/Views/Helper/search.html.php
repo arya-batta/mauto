@@ -14,7 +14,7 @@ $overlayTarget  = (empty($overlayTarget)) ? $target : $overlayTarget;
 $overlayEnabled = (!empty($overlayDisabled)) ? 'false' : 'true';
 $id             = (empty($searchId)) ? 'list-search' : $searchId;
 $tmpl           = (empty($tmpl)) ? 'list' : $tmpl;
-$widthstyle     = (empty($merge_search)) ? 'width: 45%;' : 'width: 100;';
+$widthstyle     = (empty($merge_search)) ? 'width: 45%;padding-top:12px;' : 'width: 100;';
 $isAdmin        = $view['security']->isAdmin();
 $isMobile       = $view['security']->isMobile();
 ?>

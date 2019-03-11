@@ -213,10 +213,10 @@ trait LeadDetailsTrait
         $emailOpen = $chartQuery->fetchTimeData('email_stats', 'date_sent', ['lead_id' => $lead->getId(), 'is_read' => 1]);
         $lineChart->setDataset($translator->trans('le.email.read.emails'), $emailOpen);
 
-        $emailclick = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['source' => 'email']);
-        $lineChart->setDataset($translator->trans('le.dashboard.email.click.count'), $emailclick);
+        //$emailclick = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['source' => 'email','lead_id' => $lead->getId()]);
+        //$lineChart->setDataset($translator->trans('le.dashboard.email.click.count'), $emailclick);
 
-        $pagevisit = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['source' => '']);
+        $pagevisit = $chartQuery->fetchTimeData('page_hits', 'date_hit', ['lead_id' => $lead->getId()]);
         $lineChart->setDataset($translator->trans('le.lead.page.visited'), $pagevisit);
 
         $formsubmit = $chartQuery->fetchTimeData('form_submissions', 'date_submitted', ['lead_id' => $lead->getId()]);

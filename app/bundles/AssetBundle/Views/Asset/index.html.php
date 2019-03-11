@@ -31,7 +31,7 @@ $view['slots']->set(
     <?php foreach ($assetBlockDetails as $key => $assetBlock): ?>
         <div class="info-box" id="leads-info-box-container">
                 <span class="info-box-icon" style="padding-top: 28px;">
-                    <i class="<?php echo $assetBlock[1]; ?>" id="icon-class-leads"></i></span>
+                    <i class="<?php echo $assetBlock[1]; ?>" id="icon-class-leads" style="font-size: 24px;"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $assetBlock[2]; ?></span>
                 <span class="info-box-number"><?php echo $assetBlock[3]; ?></span>

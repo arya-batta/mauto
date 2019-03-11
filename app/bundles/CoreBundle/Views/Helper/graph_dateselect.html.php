@@ -23,7 +23,7 @@ if (!isset($class)) {
             <?php echo $view['form']->label($dateRangeForm['date_to']); ?>
         </span>
         <?php echo $view['form']->widget($dateRangeForm['date_to']); ?>
-        <span class="input-group-btn">
+        <span class="input-group-btn graph-apply" style="top:-5px;">
             <?php echo $view['form']->row($dateRangeForm['apply']); ?>
         </span>
     </div>

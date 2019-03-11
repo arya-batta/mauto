@@ -6184,7 +6184,7 @@ text-align: center;
   position: relative;
   /*border-width: 0 0 2px !important;*/
   /*border: solid #A7A7A7;*/
-  width: 60px;
+  width: 65px;
 }
 .le-pagination-wrapper{
   /*margin-right: 70px !important;*/
@@ -7540,7 +7540,7 @@ ul.list-unstyled, ul#list-unstyled  {
   flex-wrap: wrap;
 }
 .le-pagination-limit-holder > span{
-  margin-top:7px;
+  /*margin-top:7px;*/
   margin-right:7px;
   margin-left: 7px;
 }
@@ -7684,4 +7684,6 @@ ul.list-unstyled, ul#list-unstyled  {
 .adjust-time-width{
   width: 10%;
 }
-
+.graph-apply > button{
+  font-size:12px;
+}
