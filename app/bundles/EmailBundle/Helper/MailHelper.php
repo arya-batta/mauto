@@ -592,7 +592,7 @@ class MailHelper
                 $atag->setAttribute('target', '_blank');
 
                 $imgtag = $doc->createElement('img');
-                $icon   = 'http://anyfunnels.com/wp-content/uploads/leproduct/email-footer.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
+                $icon   = 'https://anyfunnels.com/wp-content/uploads/leproduct/anyfunnels-footer2.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $imgtag->setAttribute('src', $icon);
                 $imgtag->setAttribute('style', 'height:35px;width:160px;margin-top:10px;margin-bottom:5px;');
                 $imgtag->setAttribute('title', 'Free Marketing Automation Software');
