@@ -1440,6 +1440,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
                 ->setParameter('dateAdded', $last7daysAddedLeads);
         }
+        //dump($q->getSQL());
+        //      dump($last7daysAddedLeads);
 
         $results = $q->execute()->fetchAll();
 
@@ -1492,7 +1494,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('id', '1');
             $q->orWhere('l.created_by  IS NULL');
         }
-
+        //dump($q->getSQL());
+        //      dump($last7daysActiveLeads);
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];

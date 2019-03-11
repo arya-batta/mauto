@@ -51,23 +51,18 @@ if ($isImportDone) {
     <div class="<?php echo $isHideBlock ? 'hide' : ''?>">
         <div>
             <div class="row row-padding">
-            <div class="col-sm-8">
-                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: left">
+            <div class="col-sm-12">
+                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: center">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
-                            <span style="line-height: 39px; font-size: 22px;"><i  style="color:orange;" class="fa fa-hand-paper-o"></i> <?php echo $view['translator']->trans('le.dashboard.welcome.message', ['%USERNAME%'=> $username]); ?>
+                            <span style="line-height: 39px; font-size: 22px;"><i  style="color:orange;" class="fa fa-hand-paper-o hide"></i> <?php echo $view['translator']->trans('le.dashboard.welcome.message', ['%USERNAME%'=> $username]); ?>
                             </span>
                         </strong>
                     </span>
                 </p>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 hide">
                 <div style="margin-top:60px;text-align: right;color:#3292e0;font-size:14px;font-weight: bold;padding-right:10px;">
-                    <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
-                    <a class="fancyboxIframe vooplayer " href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerId="MTIxMjU0" data-fancybox-type="iframe" style="display: -webkit-inline-box;">
-                        <i class="mdi mdi-play-circle-outline" style="color:#3292e0;font-size:30px;"></i>
-                        <span class="test" style="margin-top: 30px;">Get Started</span>
-                    </a>
 
                 </div>
             </div>
@@ -149,13 +144,7 @@ if ($isImportDone) {
                 </div>
                 <div class="col-sm-4">
                     <div>
-                        <script src="https://leadsengage.cdn.vooplayer.com/assets/vooplayer.js"></script>
-                        <a id="play" class="vooPopup-trigger" href="https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" data-playerid="MTIxMjU0" data-popupid="MTIxMjU0-popup-id-https://leadsengage.cdn.vooplayer.com/publish/MTIxMjU0" style="display: -webkit-inline-box;">
-                            <i class="mdi mdi-play-circle-outline" style="color:#3292e0;font-size:30px;"></i>
-                            <p style="margin-top: 14px;text-decoration: underline;">
-                                Get Started
-                            </p>
-                        </a>
+
 
                     </div>
                 </div>
@@ -194,7 +183,7 @@ if ($isImportDone) {
     </div class="col-sm-4">
     <div></div>
 </div>
-<div class="pa-md">
+<div class="pa-md" style="<?php echo $isHideBlock ? 'margin-top:30px;' : ''?>">
     <div class="row row-padding">
         <?php echo $view->render('MauticSubscriptionBundle:Subscription:stats.html.php',
             [

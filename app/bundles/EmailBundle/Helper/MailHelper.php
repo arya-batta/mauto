@@ -513,7 +513,7 @@ class MailHelper
      *
      * @param \Swift_Message $bodyContent
      */
-    public function alterEmailBodyContent($bodyContent,$Type = null)
+    public function alterEmailBodyContent($bodyContent, $Type = null)
     {
         $doc                      = new \DOMDocument();
         $doc->strictErrorChecking = false;
@@ -543,9 +543,9 @@ class MailHelper
                     $emailtype=false;
                 }
             } else {
-                if($Type != "template") {
+                if ($Type != 'template') {
                     $emailtype = true;
-                }else {
+                } else {
                     $emailtype = false;
                 }
             }
@@ -2393,9 +2393,9 @@ class MailHelper
                         $mailer->start();
                         $message = \Swift_Message::newInstance()
                                 ->setSubject($translator->trans('le.email.config.mailer.transport.test_send.subject'));
-                        $mailbody = $translator->trans('le.email.config.mailer.transport.test_send.body');
-                        $message->setBody($mailbody, 'text/html');
                         $userFullName = trim($user->getFirstName().' '.$user->getLastName());
+                        $mailbody     = $translator->trans('le.email.config.mailer.transport.test_send.body', ['%name%' => $userFullName]);
+                        $message->setBody($mailbody, 'text/html');
                         if (empty($userFullName)) {
                             $userFullName = null;
                         }

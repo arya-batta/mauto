@@ -113,7 +113,8 @@ Le.generatePageTitle = function(route){
         // Encoded entites are decoded by this process and can cause a XSS
         currentModuleItem = mQuery('<div>'+currentModuleItem+'</div>').text();
 
-        mQuery('title').html( currentModule[0].toUpperCase() + currentModule.slice(1) + ' | ' + currentModuleItem + ' | '+productBrandName );
+        mQuery('title').html( currentModuleItem + ' | '+productBrandName );
+        //mQuery('title').html( currentModule[0].toUpperCase() + currentModule.slice(1) + ' | ' + currentModuleItem + ' | '+productBrandName );
     } else {
         //loading basic title
         mQuery('title').html( mQuery('.page-header h3').html() + ' | '+productBrandName);
@@ -1238,7 +1239,7 @@ Le.activateDateTimeInputs = function(el, type) {
             closeOnDateSelect: true
         });
     } else if (type == 'time') {
-        mQuery(el).timepicker({showMeridian: false, minuteStep: 15});
+        mQuery(el).timepicker({showMeridian: false, minuteStep: 15, defaultTime: '11:00'});
         //mQuery(el).timepicki();
         /*mQuery(el).datetimepicker({
             datepicker: false,

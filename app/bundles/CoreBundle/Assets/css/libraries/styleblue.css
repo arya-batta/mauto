@@ -2038,11 +2038,12 @@ select[multiple], select[size] {
 
 tbody {
   color: #797979;
+  font-size: 13px;
 }
 
 th {
   color: #2a323c;
-  font-size: 14px;
+  font-size: 13px;
 }
 .table-dark td, .table-dark th {
   color: #ffffff !important;

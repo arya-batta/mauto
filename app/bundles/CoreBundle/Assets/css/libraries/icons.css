@@ -4278,7 +4278,7 @@ readers do not read off random characters that represent icons */
   font: normal normal normal 24px/1 "Material Design Icons";
   font-size: inherit;
   text-rendering: auto;
-  line-height: inherit;
+  /*line-height: inherit;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

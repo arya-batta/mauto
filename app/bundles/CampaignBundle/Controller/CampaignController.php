@@ -204,6 +204,7 @@ class CampaignController extends AbstractStandardFormController
                     if (!empty($campaign->getCategory())) {
                         $catId     = $campaign->getCategory()->getId();
                     }
+                    $campaign->setIsPublished(false);
                     $model->saveEntity($campaign);
                     $this->prepareCampaignEventsForNew($campaign, $campaign->getId());
                     $model->saveEntity($campaign);

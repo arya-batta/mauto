@@ -112,7 +112,7 @@ $toolbarButtons = [];
         <div class="info-box waves-effect" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> '']); ?>" data-toggle="ajax">
                 <span class="info-box-icon waves-effect">
-                    <i class="fa fa-users" id="icon-class-leads"></i></span>
+                    <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.lifecycle.graph.pie.all.lists'); ?></span>
                     <span class="info-box-number"><?php echo $totalLeadsCount; ?></span>
@@ -122,7 +122,7 @@ $toolbarButtons = [];
     <div class="info-box waves-effect" id="leads-info-box-container">
         <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'recentlyaddedleads']); ?>" data-toggle="ajax">
                 <span class="info-box-icon waves-effect">
-                     <i class="fa fa-user-plus" id="icon-class-leads"></i></span>
+                     <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.recently.added'); ?></span>
                 <span class="info-box-number"><?php echo $recentlyAdded; ?></span>
@@ -132,7 +132,7 @@ $toolbarButtons = [];
     <div class="info-box waves-effect" id="leads-info-box-container">
         <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'activeleads']); ?>" data-toggle="ajax">
                 <span class="info-box-icon">
-                    <i class="fa fa-history" id="icon-class-leads"></i></span>
+                    <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.active.leads'); ?></span>
                 <span class="info-box-number"><?php echo $activeLeads; ?></span>
@@ -142,7 +142,7 @@ $toolbarButtons = [];
     <div class="info-box waves-effect" id="leads-info-box-container">
             <a href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'donotcontact']); ?>" data-toggle="ajax">
             <span class="info-box-icon waves-effect">
-                  <i class="fa fa-user-times" id="icon-class-leads"></i></span>
+                  <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.churn.leads'); ?></span>
                 <span class="info-box-number"><?php echo $donotContact; ?></span>

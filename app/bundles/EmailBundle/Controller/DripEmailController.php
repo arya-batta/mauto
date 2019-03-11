@@ -427,6 +427,7 @@ class DripEmailController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
+                    $entity->setScheduleDate(null);
                     $entity->setIsPublished(false);
                     $model->saveEntity($entity);
                     $this->editAction($entity->getId());

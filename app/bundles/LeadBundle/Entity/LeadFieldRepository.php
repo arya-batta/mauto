@@ -317,4 +317,17 @@ class LeadFieldRepository extends CommonRepository
 
         return !empty($result['id']);
     }
+
+    public function getMaxFieldOrder($object = 'lead')
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+
+        $result = $qb->select('max(f.field_order) + 1 as fieldorder')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_fields', 'f')
+            ->where($qb->expr()->eq('f.object', ':object'))
+            ->setParameter('object', $object)
+            ->execute()->fetch();
+
+        return $result['fieldorder'];
+    }
 }

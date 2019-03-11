@@ -26,7 +26,7 @@ if ($proamount != 0) {
 <br>
 <br>
 <div style="text-align:center;width:100%;">
-    <div style="display:inline-block;">
+    <div style="">
         <br>
         <div class="row">
             <div class="col-md-12">

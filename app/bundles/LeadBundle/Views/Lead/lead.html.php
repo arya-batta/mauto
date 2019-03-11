@@ -440,7 +440,7 @@ $view['slots']->set(
                 <div class="md-card">
                     <div class="md-card-content">
                         <div class="uk-float-right">
-                            <i class="le-lead-dialogue fa fa-line-chart" style="color: #3292e0"></i></div>
+                            <i class="le-lead-dialogue fa fa-line-chart" style="color: #3292e0;font-size:35px !important;"></i></div>
                         <span class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.points'); ?> </span><br>
                        <span class="le-lead-card-content"><?php echo  $lead->getPoints(); ?></span>
                     </div>
@@ -497,13 +497,13 @@ $view['slots']->set(
                         <div class="col-sm-12" style="width: 102%;">
                             <div class="panel">
                                 <div class="panel-body box-layout">
-                                    <div class="col-xs-8 va-m">
+                                    <div class="col-xs-4 va-m">
                                         <h5 class="text-white dark-md fw-b mb-xs">
                                             <?php echo $view['translator']->trans('le.lead.field.header.engagements'); ?>
                                         </h5>
                                     </div>
-                                    <div class="col-xs-4 va-t text-right">
-                                        <h3 class="text-white dark-sm"><span class="fa fa-eye"></span></h3>
+                                    <div class="col-xs-8 va-m">
+                                        <?php echo $view->render('MauticCoreBundle:Helper:graph_dateselect.html.php', ['dateRangeForm' => $dateRangeForm, 'class' => 'pull-right']); ?>
                                     </div>
                                 </div>
                                 <?php echo $view->render(
@@ -647,7 +647,7 @@ $view['slots']->set(
             
             <!-- #place-container -->
             <?php if ($places): ?>
-                <div class="tab-pane fade bdr-w-0" id="place-container">
+                <div class="tab-pane fade hide bdr-w-0" id="place-container">
                     <?php echo $view->render('MauticLeadBundle:Lead:map.html.php', ['places' => $places]); ?>
                 </div>
             <?php endif; ?>

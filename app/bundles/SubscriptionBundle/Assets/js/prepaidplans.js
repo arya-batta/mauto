@@ -244,22 +244,22 @@ Le.adJustFixedHeader = function(isadd){
     var url = window.location.href;
     if(pagemode == '') {
         if (isadd) {
-            mQuery('#fixed-header').css('top', '100px');
+            mQuery('#fixed-header').css('top', '90px');
             if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
                 mQuery('.content-body').css('margin-top', '170px');
             }
         } else {
-            mQuery('#fixed-header').css('top', '50px');
+            mQuery('#fixed-header').css('top', '45px');
             if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
                 mQuery('.content-body').css('margin-top', '110px');
             }
         }
     }else if(pagemode == 'config'){
         if (isadd) {
-            mQuery('#fixed-header').css('top', '100px');
+            mQuery('#fixed-header').css('top', '90px');
             mQuery('.content-body').css('margin-top', '170px');
         } else{
-            mQuery('#fixed-header').css('top', '50px');
+            mQuery('#fixed-header').css('top', '45px');
             mQuery('.content-body').css('margin-top', '110px');
         }
     }else{

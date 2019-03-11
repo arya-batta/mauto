@@ -152,7 +152,7 @@ if ($billing->getCountry() != 'blank') {
 <body class="canvas">
 <div id="pageheader">
     <div style="text-align: left;float:left; width:50%;">
-        <img style="width: 200px;" src="<?php echo $view['assets']->getUrl('media/images/leadsengage_logo-black.png') ?>">
+        <img style="width: 200px;" src="<?php echo $view['assets']->getUrl('media/images/anyfunnel_logo_large_icon.png') ?>">
     </div>
     <br>
     <div style="float:right;text-align:center; width:50%;position: relative;bottom: 15px;">
@@ -257,8 +257,8 @@ if ($billing->getCountry() != 'blank') {
         </table>
         <br>
         <br>
-        <p>If you have any questions about this invoice, please contact <a href="mailto:support@leadsengage.com"><b>support@leadsengage.com</b></a>.</p>
-        <p>The LeadsEngage Team</p>
+        <p>If you have any questions about this invoice, please contact <a href="mailto:support@anyfunnels.com"><b>support@anyfunnels.com</b></a>.</p>
+        <p>AnyFunnels Team</p>
     </div>
 </div>
 

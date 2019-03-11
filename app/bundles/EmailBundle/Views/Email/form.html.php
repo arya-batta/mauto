@@ -334,7 +334,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                                     'filters' => $template_filters,
                                     'target'  => (empty($target)) ? null : $target,
-                                    'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                    'tmpl'    => (empty($tmpl)) ? 'form' : $tmpl,
                                 ]); ?>
                             <?php endif; ?>
                         </div>

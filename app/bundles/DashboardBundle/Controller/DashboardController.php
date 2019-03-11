@@ -99,18 +99,12 @@ class DashboardController extends FormController
         $pages     = $hitrepo->getEntities(
             [
                 'filter'           => [
-                    'force' => [
-                        [
-                            'column' => 'h.organization',
-                            'expr'   => 'neq',
-                            'value'  => '%sampletracking%',
-                        ],
-                    ],
+                    'force' => [],
                 ],
                 'ignore_paginator' => true,
             ]
         );
-        if (!empty($pages)) {
+        if (count($pages) > 1) {
             $websiteTrackingEnabled = true;
         }
 
@@ -247,26 +241,18 @@ class DashboardController extends FormController
         }
 
         $leadmodel    = $this->getModel('lead');
-        $leads        = $leadmodel->getEntities(
-            [
-                'filter'           => [
-                    'force' => [
-                        [
-                            'column' => 'l.lastname',
-                            'expr'   => 'notLike',
-                            'value'  => '%Sample%',
-                        ],
-                        [
-                            'column' => 'l.createdBy',
-                            'expr'   => 'neq',
-                            'value'  => '1',
-                        ],
-                    ],
-                ],
-                'ignore_paginator' => true,
-            ]
-        );
-        $leadcount = count($leads);
+        $filter       = ['string' => '', 'force' => []];
+
+        $filter['where'][] = [
+            'expr' => 'orX',
+            'val'  => [
+                ['column' => 'l.firstname', 'expr' => 'notLike', 'value' => '%sample%'],
+                ['column' => 'l.createdBy', 'expr' => 'neq', 'value' => 1],
+            ],
+        ];
+
+        $leads        = $leadmodel->getEntities($filter);
+        $leadcount    = count($leads);
 
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);

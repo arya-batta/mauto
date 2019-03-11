@@ -59,7 +59,7 @@ class ButtonSubscriber extends CommonSubscriber
                     'attr' => [
                         'href' => $this->router->generate('le_import_action', ['objectAction' => 'new']),
                     ],
-                    'iconClass' => 'fa fa-upload',
+                    //'iconClass' => 'fa fa-upload',
                     'btnText'   => 'le.lead.lead.import',
                     'priority'  => 3,
                 ],
@@ -69,27 +69,26 @@ class ButtonSubscriber extends CommonSubscriber
                 ['buttons',
                     'attr' => [
                         'href'          => $exportRoute,
-                        'onclick'     => 'Le.exportLeads()',
-                        'data-toggle' => null,
+                        'onclick'       => 'Le.exportLeads()',
+                        'data-toggle'   => null,
                     ],
                     'btnText'   => $this->translator->trans('mautic.core.export'),
-                    'iconClass' => 'fa fa-download btn-nospin',
+                    //'iconClass' => 'fa fa-download btn-nospin',
                     'priority'  => 2,
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );
             $event->addButton(
-            [   'buttons',
+            ['buttons',
                 'attr' => [
                     'href' => $this->router->generate('le_contactfield_index'),
                 ],
-                'iconClass' => 'fa fa-cog',
+                //'iconClass' => 'fa fa-cog',
                 'btnText'   => 'le.lead.field.menu.index',
                 'priority'  => 1,
             ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );
-
         }
     }
 }

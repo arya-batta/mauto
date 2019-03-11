@@ -33,10 +33,10 @@ $custombutton = [
         ],
     ],
 ];
-$buttonpanelcss = 'margin-top: -70px;';
+$buttonpanelcss = 'margin-top: -60px;';
 $marginRight    = 'margin-right: 208px;';
 if (!$isBeeEditor) {
-    $buttonpanelcss = 'margin-top: -70px;';
+    $buttonpanelcss = 'margin-top: -60px;';
     $marginRight    = 'margin-right: 21px;';
 }
 $customHtml = $entity->getCustomHtml();
@@ -106,16 +106,16 @@ $customHtml = $entity->getCustomHtml();
                         <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo ($isBeeEditor && $customHtml == '') ? '' : 'hide'; ?>" id="dripemail_advance_editor" style="margin-top:-30px;">
                             <br>
                             <div id="block_container" style="margin-top: 17px;margin-left: -4px;">
-                                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;">
+                                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;background-color: #FFFFFF;">
                                     <p><?php echo $view['translator']->trans('le.email.notification'); ?></p>
                                 </div>
-                                <div class="le-category-filter alert alert-info le-alert-info">
+                                <div class="le-category-filter alert alert-info le-alert-info" style="background-color: #FFFFFF;" >
                                     <p class="info-box-text" style="margin-top: -8px;"><?php echo $view['translator']->trans('le.email.category.notification'); ?></p>
                                     <?php if (!empty($filters)): ?>
                                         <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                                             'filters' => $filters,
                                             'target'  => (empty($target)) ? null : $target,
-                                            'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                            'tmpl'    => (empty($tmpl)) ? 'form' : $tmpl,
                                         ]); ?>
                                     <?php endif; ?>
                                 </div>

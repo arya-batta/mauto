@@ -272,6 +272,9 @@ class AccountRepository extends CommonRepository
             $q->expr()->eq('es.is_bounce', 1)
         );
         $q->andWhere(
+            $q->expr()->neq('e.email_type', ':emailType')
+        )->setParameter('emailType', 'template');
+        $q->andWhere(
             $q->expr()->isNotNull('es.email_id')
         );
 
@@ -306,6 +309,9 @@ class AccountRepository extends CommonRepository
         $q->andWhere(
             $q->expr()->eq('es.is_spam', 1)
         );
+        $q->andWhere(
+            $q->expr()->neq('e.email_type', ':emailType')
+        )->setParameter('emailType', 'template');
 
         $fromdate = date('Y-m-d', strtotime('-29 days'));
         if ($fromdate !== null) {
@@ -333,6 +339,7 @@ class AccountRepository extends CommonRepository
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
         $results = $q->execute()->fetchAll();
 
@@ -345,13 +352,14 @@ class AccountRepository extends CommonRepository
         $q->select('count( l.id) as activeleads')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
             ->leftJoin('l', MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'd', 'd.lead_id = l.id');
-        $q->andWhere(
-            $q->expr()->isNull('d.lead_id')
-        );
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
+        $q->andWhere(
+            $q->expr()->isNull('d.lead_id')
+        );
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 
@@ -364,13 +372,14 @@ class AccountRepository extends CommonRepository
         $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
 
         $q->select('count(*) as recentlyadded')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
-            ->setParameter('dateAdded', $last7daysAddedLeads);
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
+        $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
+            ->setParameter('dateAdded', $last7daysAddedLeads);
         $results = $q->execute()->fetchAll();
 
         return $results[0]['recentlyadded'];
@@ -383,13 +392,14 @@ class AccountRepository extends CommonRepository
         $q = $this->_em->getConnection()->createQueryBuilder();
 
         $q->select('count(*) as activeleads')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere($q->expr()->gte('l.last_active', ':last7daysActive'))
-            ->setParameter('last7daysActive', $last7daysActiveLeads);
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
+        $q->andWhere($q->expr()->gte('l.last_active', ':last7daysActive'))
+            ->setParameter('last7daysActive', $last7daysActiveLeads);
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];
@@ -400,15 +410,16 @@ class AccountRepository extends CommonRepository
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count( c.id) as activeworkflow')
             ->from(MAUTIC_TABLE_PREFIX.'campaigns', 'c');
-        $q->andWhere(
-        $q->expr()->andX(
-            $q->expr()->eq('c.is_published', 1)
-        )
-        );
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('c.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('c.created_by'));
         }
+        $q->andWhere(
+            $q->expr()->andX(
+                $q->expr()->eq('c.is_published', 1)
+            )
+        );
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 
@@ -420,15 +431,16 @@ class AccountRepository extends CommonRepository
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count( f.id) as activeforms')
             ->from(MAUTIC_TABLE_PREFIX.'forms', 'f');
-        $q->andWhere(
-        $q->expr()->andX(
-            $q->expr()->eq('f.is_published', 1)
-        )
-        );
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('f.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('f.created_by'));
         }
+        $q->andWhere(
+            $q->expr()->andX(
+                $q->expr()->eq('f.is_published', 1)
+            )
+        );
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 
@@ -440,15 +452,16 @@ class AccountRepository extends CommonRepository
         $q = $this->_em->getConnection()->createQueryBuilder();
         $q->select('count( a.id) as activeasset')
             ->from(MAUTIC_TABLE_PREFIX.'assets', 'a');
-        $q->andWhere(
-        $q->expr()->andX(
-            $q->expr()->eq('a.is_published', 1)
-        )
-        );
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('a.created_by', ':id'))
                 ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('a.created_by'));
         }
+        $q->andWhere(
+            $q->expr()->andX(
+                $q->expr()->eq('a.is_published', 1)
+            )
+        );
         //get a total number of sent emails
         $results = $q->execute()->fetchAll();
 
@@ -462,9 +475,14 @@ class AccountRepository extends CommonRepository
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         $q->innerJoin('l', MAUTIC_TABLE_PREFIX.'campaign_lead_event_log', 'cl', 'l.id = cl.lead_id');
         $q->innerJoin('cl', MAUTIC_TABLE_PREFIX.'campaign_events', 'ce', 'cl.event_id = ce.id');
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
+        }
         $q->andWhere(
-        $q->expr()->andX(
-            $q->expr()->eq('ce.trigger_mode', ':triggerMode')
+            $q->expr()->andX(
+                $q->expr()->eq('ce.trigger_mode', ':triggerMode')
             )
         );
         $fromdate = date('Y-m-d', strtotime('-29 days'));
@@ -473,10 +491,7 @@ class AccountRepository extends CommonRepository
                 $q->expr()->gte('cl.date_triggered', $q->expr()->literal($fromdate))
             );
         }
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
+
         $q->setParameter('triggerMode', 'interrupt');
         $results = $q->execute()->fetchAll();
 

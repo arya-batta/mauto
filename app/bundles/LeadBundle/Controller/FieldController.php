@@ -92,7 +92,7 @@ class FieldController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:Field:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_contactfield_index',
-                    'leContent' => 'leadfield',
+                    'leContent'     => 'leadfield',
                 ],
             ]);
         }
@@ -116,7 +116,7 @@ class FieldController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
                 'route'         => $this->generateUrl('le_contactfield_index', ['page' => $page]),
-                'leContent' => 'leadfield',
+                'leContent'     => 'leadfield',
             ],
         ]);
     }
@@ -137,10 +137,11 @@ class FieldController extends FormController
         /** @var FieldModel $model */
         $model = $this->getModel('lead.field');
         //set the return URL for post actions
-        $returnUrl = $this->generateUrl('le_contactfield_index');
-        $action    = $this->generateUrl('le_contactfield_action', ['objectAction' => 'new']);
+        $returnUrl     = $this->generateUrl('le_contactfield_index');
+        $action        = $this->generateUrl('le_contactfield_action', ['objectAction' => 'new']);
+        $maxFieldOrder = $model->getMaxFieldOrder();
         //get the user form factory
-        $form = $model->createForm($field, $this->get('form.factory'), $action);
+        $form = $model->createForm($field, $this->get('form.factory'), $action, ['fieldOrder' => $maxFieldOrder]);
 
         ///Check for a submitted form and process it
         if ($this->request->getMethod() == 'POST') {
@@ -201,7 +202,7 @@ class FieldController extends FormController
                         'contentTemplate' => 'MauticLeadBundle:Field:index',
                         'passthroughVars' => [
                             'activeLink'    => '#le_contactfield_index',
-                            'leContent' => 'leadfield',
+                            'leContent'     => 'leadfield',
                         ],
                     ]
                 );
@@ -210,7 +211,7 @@ class FieldController extends FormController
             } elseif (!$valid) {
                 // some bug in Symfony prevents repopulating list options on errors
                 $field   = $form->getData();
-                $newForm = $model->createForm($field, $this->get('form.factory'), $action);
+                $newForm = $model->createForm($field, $this->get('form.factory'), $action, ['fieldOrder' => $maxFieldOrder]);
                 $this->copyErrorsRecursively($form, $newForm);
                 $form = $newForm;
             }
@@ -225,7 +226,7 @@ class FieldController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_contactfield_index',
                     'route'         => $this->generateUrl('le_contactfield_action', ['objectAction' => 'new']),
-                    'leContent' => 'leadfield',
+                    'leContent'     => 'leadfield',
                 ],
             ]
         );
@@ -257,7 +258,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'leContent' => 'leadfield',
+                'leContent'     => 'leadfield',
             ],
         ];
         //list not found
@@ -278,8 +279,9 @@ class FieldController extends FormController
             return $this->isLocked($postActionVars, $field, 'lead.field');
         }
 
-        $action = $this->generateUrl('le_contactfield_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
-        $form   = $model->createForm($field, $this->get('form.factory'), $action);
+        $action     = $this->generateUrl('le_contactfield_action', ['objectAction' => 'edit', 'objectId' => $objectId]);
+        $fieldOrder = $field->getOrder();
+        $form       = $model->createForm($field, $this->get('form.factory'), $action, ['fieldOrder' => $fieldOrder]);
 
         ///Check for a submitted form and process it
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
@@ -328,11 +330,11 @@ class FieldController extends FormController
             } elseif ($valid) {
                 // Rebuild the form with new action so that apply doesn't keep creating a clone
                 $action = $this->generateUrl('le_contactfield_action', ['objectAction' => 'edit', 'objectId' => $field->getId()]);
-                $form   = $model->createForm($field, $this->get('form.factory'), $action);
+                $form   = $model->createForm($field, $this->get('form.factory'), $action, ['fieldOrder' => $fieldOrder]);
             } else {
                 // some bug in Symfony prevents repopulating list options on errors
                 $field   = $form->getData();
-                $newForm = $model->createForm($field, $this->get('form.factory'), $action);
+                $newForm = $model->createForm($field, $this->get('form.factory'), $action, ['fieldOrder' => $fieldOrder]);
                 $this->copyErrorsRecursively($form, $newForm);
                 $form = $newForm;
             }
@@ -349,7 +351,7 @@ class FieldController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
                 'route'         => $action,
-                'leContent' => 'leadfield',
+                'leContent'     => 'leadfield',
             ],
         ]);
     }
@@ -402,7 +404,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
 
@@ -461,7 +463,7 @@ class FieldController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Field:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_contactfield_index',
-                'leContent' => 'lead',
+                'leContent'     => 'lead',
             ],
         ];
 
@@ -481,7 +483,11 @@ class FieldController extends FormController
                         'msgVars' => ['%id%' => $objectId],
                     ];
                 } elseif ($entity->isFixed()) {
-                    $flashes[] = $this->accessDenied(true);
+                    $flashes[] = [
+                        'type' => 'error',
+                        'msg'  => $this->translator->trans('le.field.system.field.failed'),
+                    ];
+                //$this->accessDenied(true);
                 } elseif ($model->isLocked($entity)) {
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'lead.field', true);
                 } else {

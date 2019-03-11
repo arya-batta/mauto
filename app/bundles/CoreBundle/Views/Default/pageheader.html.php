@@ -1,7 +1,7 @@
 
 <div id="fixed-header">
 <div class="page-header <?php echo $enableHeader; ?>">
-    <div class="box-layout">
+    <div class="box-layout" style="position: relative;top: 6px;">
         <div class="col-xs-5 col-sm-6 col-md-8 va-m">
             <h3 class="pull-left header_text <?php $view['slots']->output('hideHeaderCss'); ?>"><?php $view['slots']->output('headerTitle'); ?></h3>
             <div class="col-xs-2 text-right pull-left">

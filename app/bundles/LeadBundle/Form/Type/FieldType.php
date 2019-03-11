@@ -407,8 +407,20 @@ class FieldType extends AbstractType
             }
         );
 
+        $builder->add(
+            'order',
+            'text',
+            [
+                'label'         => 'mautic.core.order',
+                'label_attr'    => ['class' => 'control-label'],
+                'attr'          => ['class' => 'form-control le-input'],
+                'required'      => false,
+                'data'          => $options['fieldOrder'],
+            ]
+        );
+
         //get order list
-        $transformer = new FieldToOrderTransformer($this->em);
+        /*$transformer = new FieldToOrderTransformer($this->em);
         $builder->add(
             $builder->create(
                 'order',
@@ -430,7 +442,7 @@ class FieldType extends AbstractType
                     'required'      => false,
                 ]
             )->addModelTransformer($transformer)
-        );
+        );*/
 
         $builder->add(
             'alias',
@@ -556,6 +568,7 @@ class FieldType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => 'Mautic\LeadBundle\Entity\LeadField',
+                'fieldOrder' => 0,
             ]
         );
     }

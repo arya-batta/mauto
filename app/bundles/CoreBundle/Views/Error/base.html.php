@@ -12,8 +12,8 @@
 $isInline = !empty($inline);
 if (!$app->getRequest()->isXmlHttpRequest()) {
     $view->extend($baseTemplate);
-    if ($status_text == "Forbidden"){
-        $status_text .= " | LeadsEngage";
+    if ($status_text == 'Forbidden') {
+        $status_text .= ' | LeadsEngage';
     }
     if (!$isInline) {
         $view['slots']->set('pageTitle', $status_text);
@@ -42,11 +42,11 @@ $message = $view['slots']->get('message', 'mautic.core.error.generic');
                     <h1><i class="fa fa-quote-left"></i> <?php echo $view['translator']->trans($message, ['%code%' => $status_code]); ?> <i class="fa fa-quote-right"></i></h1>
                     <h4 class="mt-5 hide"><strong><?php echo $status_code; ?></strong> <?php echo $status_text; ?></h4>
 
-                    <footer class="text-right">LeadsEngageBot</footer>
+                    <footer class="text-right">AnyFunnelsBot</footer>
                 </blockquote>
                 <div class="pull-right">
                     <!--http://mau.tc/report-issue-->
-                    <a class="text-muted" href="https://leadsengage.freshdesk.com/support/login" target="_new"><?php echo $view['translator']->trans('mautic.core.report_issue'); ?></a>
+                    <a class="text-muted" href="https://anyfunnels.freshdesk.com/support/tickets/new" target="_new"><?php echo $view['translator']->trans('mautic.core.report_issue'); ?></a>
                 </div>
             </div>
         <?php endif; ?>

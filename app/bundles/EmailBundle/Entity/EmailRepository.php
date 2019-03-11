@@ -903,7 +903,7 @@ class EmailRepository extends CommonRepository
 
         if ($fromdate !== null) {
             $q->andWhere(
-                $q->expr()->gte('es.date_sent', $q->expr()->literal($fromdate))
+                $q->expr()->gte('es.date_read', $q->expr()->literal($fromdate))
             );
             $q->andWhere(
                 $q->expr()->eq('es.is_read', 1)
@@ -929,7 +929,7 @@ class EmailRepository extends CommonRepository
     public function getUnsubscribeCount($viewOthers = false)
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
-        $q->select(' count(Distinct e.id) as unsubscribecount')
+        $q->select(' count(e.id) as unsubscribecount')
             ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
             ->Where(
@@ -1004,7 +1004,7 @@ class EmailRepository extends CommonRepository
         $sq->select('e.id')
             ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
             ->andWhere($sq->expr()->eq('e.email_type', '"list"'));
-        if ($viewOthers) {
+        if (!$viewOthers) {
             $sq->andWhere($sq->expr()->eq('e.created_by', ':currentUserId'))
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }

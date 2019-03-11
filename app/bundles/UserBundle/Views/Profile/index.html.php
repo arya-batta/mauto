@@ -25,7 +25,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
     <!--/ step container -->
 
     <!-- container -->
-    <div class="col-md-9 bg-auto height-auto ">
+    <div class="col-md-12 bg-auto height-auto ">
         <div class="panel-body">
             <div class="panel panel-default form-group mb-0">
                 <div class="panel-body">
@@ -73,7 +73,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
             </div>
         <?php endif; ?>
     </div>
-    <div class="col-md-3 bg-white height-auto ">
+    <div class="col-md-3 bg-white hide height-auto ">
         <div class="pr-lg pl-lg pt-md pb-md">
             <div class="panel panel-default form-group mb-0">
                 <div class="panel-body" style="min-height: 392px;">

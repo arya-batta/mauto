@@ -191,13 +191,13 @@ trait LeadDetailsTrait
     {
         $translator = $this->get('translator');
 
-        if (null == $fromDate) {
+        /*if (null == $fromDate) {
             $fromDate = new \DateTime('first day of this month 00:00:00');
             $fromDate->modify('-6 months');
         }
         if (null == $toDate) {
             $toDate = new \DateTime();
-        }
+        }*/
 
         $lineChart  = new LineChart(null, $fromDate, $toDate);
         $chartQuery = new ChartQuery($this->getDoctrine()->getConnection(), $fromDate, $toDate);

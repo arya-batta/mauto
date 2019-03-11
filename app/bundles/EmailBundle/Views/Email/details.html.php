@@ -288,7 +288,7 @@ if (!$isEmbedded) {
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10openleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$email->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list email-stat-icon"></i></span></a></h2>
                     <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $openLeads, 'security' => $security]); ?>
                 </div>
             </div>
@@ -297,7 +297,7 @@ if (!$isEmbedded) {
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10clickleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_click').':'.$email->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list email-stat-icon"></i></span></a></h2>
                     <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $clickLeads, 'security' => $security]); ?>
                 </div>
             </div>
@@ -306,7 +306,7 @@ if (!$isEmbedded) {
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10unsubscribeleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_unsubscribe').':'.$email->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list email-stat-icon"></i></span></a></h2>
                     <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $unsubscribeLeads, 'security' => $security]); ?>
                 </div>
             </div>
@@ -315,7 +315,7 @@ if (!$isEmbedded) {
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.last10bouncedleads')?><a class="" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_bounce').':'.$email->getId()]
-                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list"></i></span></a></h2>
+                        ); ?>" title="<?php echo $view['translator']->trans('le.email.click.viewmore')?>"><span> <i class="fa fa-th-list email-stat-icon"></i></span></a></h2>
                     <?php echo $view->render('MauticEmailBundle:Email:leads.html.php', ['items' => $bounceLeads, 'security' => $security]); ?>
                 </div>
             </div>
@@ -353,7 +353,7 @@ if (!$isEmbedded) {
         </div>
 
         <!-- start: tab-content -->
-        <div class="tab-content pa-md">
+        <div class="tab-content pa-md hide">
             <?php if (false): ?>
             <div class="tab-pane bdr-w-0" id="contacts-container">
                 <?php echo $contacts; ?>

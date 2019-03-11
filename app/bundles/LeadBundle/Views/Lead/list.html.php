@@ -162,7 +162,7 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.points',
                     'text'       => 'le.lead.points',
-                    'class'      => 'visible-md visible-lg text-center col-lead-points',
+                    'class'      => 'visible-md visible-lg text-center col-lead-points adjust-points-width',
                 ]);
                /* echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
@@ -182,14 +182,14 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.date_added',
                     'text'       => 'le.lead.dateadded',
-                    'class'      => 'col-lead-lastactive visible-md visible-lg',
+                    'class'      => 'col-lead-lastactive visible-md visible-lg adjust-time-width',
                 ]);
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',
                     'text'       => 'le.lead.lastactive',
-                    'class'      => 'col-lead-lastactive visible-md visible-lg',
+                    'class'      => 'col-lead-lastactive visible-md visible-lg adjust-time-width',
                     'default'    => true,
                 ]);
 

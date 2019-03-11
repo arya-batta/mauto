@@ -216,7 +216,7 @@
 <div class="dotted-container">
 <div class="welcome-container">
     <div style="margin-left:120px;">
-        <img style="width: 150px;margin-top: 10px;" src="<?php echo $view['assets']->getUrl('media/images/leadsengage_logo-black.png') ?>">
+        <img style="width: 150px;margin-top: 10px;" src="<?php echo $view['assets']->getUrl('media/images/anyfunnel_logo_large_icon.png') ?>">
     </div>
 
     <div class="bs-wizard">
@@ -240,7 +240,7 @@
 <div class="modal-header welcome-page-header">
     <div class="container-header">
         <div class="for-step1 <?php echo $step == 'flname' ? '' : 'hide'; ?>">
-            <h2 class="head2">Welcome to LeadsEngage</h2>
+            <h2 class="head2">Welcome to AnyFunnels</h2>
             <p class="para">Alright, let's set this up! Tell us a bit about yourself.</p>
 
         </div>
@@ -4917,7 +4917,7 @@
                     <input type="submit" id="continue-btn" class="btn" value="<?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?>">
                 </div>
                 <div class="welcome-page-footer" style="width: 50%;float: right;text-align: right;">
-                    <p>©2019 All Rights Reserved, LeadsEngage Inc<br>
+                    <p>©2019 AnyFunnels, All Rights Reserved<br>
                         <a href="http://anyfunnels.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="http://anyfunnels.com/terms-of-service/" target="_blank">Terms of Service</a></p>
 
                 </div>

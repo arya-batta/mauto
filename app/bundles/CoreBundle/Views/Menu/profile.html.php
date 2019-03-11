@@ -14,7 +14,8 @@ $inline = $view['menu']->render('profile');
 ?>
 <li class="dropdown d-none d-sm-block">
     <a href="" class="dropdown-toggle profile waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="false">
-        <img src="<?php echo $img = $view['lead_avatar']->getUserAvatar($app->getUser()); ?>" alt="user-img">
+        <i style="font-size: 22px !important;" class="mdi mdi-account"></i>
+        <!--<img src="<?php echo $img = $view['lead_avatar']->getUserAvatar($app->getUser()); ?>" alt="user-img">-->
     </a>
     <ul class="dropdown-menu">
         <li>

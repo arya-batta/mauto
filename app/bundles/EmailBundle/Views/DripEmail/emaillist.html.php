@@ -202,9 +202,9 @@
                         </span>
                     </td>-->
                     <td class="visible-sm visible-md visible-lg">
-                        <div class="row" style="margin-left:0px;margin-right:-25px;width: 140px;">
-                            <div class="col-md-5" style="width:50%;">
-                            <input type="text" style="height: 33px;background-color: transparent;border-right:0px;" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
+                        <div class="row" style="width: 200px;margin-left:0px;">
+                            <div class="col-md-5" style="width:43%;">
+                            <input type="text" style="height: 32px;background-color: transparent;border-right:0px;border-top: 1px solid #d5d5d5;border-left: 1px solid #d5d5d5;border-bottom: 1px solid #d5d5d5;" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;width:70%;margin-left: -29px">
                                 <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime-<?php echo $item->getId(); ?>" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">

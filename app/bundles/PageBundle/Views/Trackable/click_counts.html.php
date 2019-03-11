@@ -1,5 +1,5 @@
 <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.email.click.trackable')?></h2>
-<br>
+
 <div class="table-responsive email_stats_box">
     <table class="table table-hover table-bordered click-list">
         <thead>

@@ -585,6 +585,18 @@ class LeadController extends FormController
         foreach ($lists as $list) {
             $listName[] = $listoptinRepository->getlistnameByID($list['leadlist_id']);
         }
+        $dateRangeValues = $this->request->get('daterange', []);
+        $action          = $this->generateUrl(
+            'le_contact_action',
+            [
+                'objectAction' => 'view',
+                'objectId'     => $lead->getId(),
+            ]
+        );
+        $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
+        $engagements     = $this->getEngagementData($lead,
+            new \DateTime($dateRangeForm->get('date_from')->getData()),
+            new \DateTime($dateRangeForm->get('date_to')->getData()));
 
         return $this->delegateView(
             [
@@ -600,7 +612,7 @@ class LeadController extends FormController
                     'events'            => $this->getEngagements($lead),
                     'pageHitDetails'    => $pageHitDetails,
                     'upcomingEvents'    => $this->getScheduledCampaignEvents($lead),
-                    'engagementData'    => $this->getEngagementData($lead),
+                    'engagementData'    => $engagements,
                     'noteCount'         => $this->getModel('lead.note')->getNoteCount($lead, true),
                     'integrations'      => $integrationRepo->getIntegrationEntityByLead($lead->getId()),
                     'auditlog'          => $this->getAuditlogs($lead),
@@ -615,6 +627,7 @@ class LeadController extends FormController
                     'security'         => $this->get('mautic.security'),
                     'segmentName'      => $segmentName,
                     'listName'         => $listName,
+                    'dateRangeForm'    => $dateRangeForm->createView(),
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:lead.html.php',
                 'passthroughVars' => [

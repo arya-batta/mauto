@@ -109,7 +109,7 @@ class DripEmailRepository extends CommonRepository
         foreach ($dripemails as $dripemail) {
             if ($entity->isGoogleTags()) {
                 if (empty($currentutmtags['utmSource'])) {
-                    $currentutmtags['utmSource'] = 'leadsengage';
+                    $currentutmtags['utmSource'] = 'AnyFunnels';
                 }
                 if (empty($currentutmtags['utmMedium'])) {
                     $currentutmtags['utmMedium'] = 'email';
@@ -205,7 +205,7 @@ class DripEmailRepository extends CommonRepository
 
         if ($fromdate !== null) {
             $q->andWhere(
-                $q->expr()->gte('es.date_sent', $q->expr()->literal($fromdate))
+                $q->expr()->gte('es.date_read', $q->expr()->literal($fromdate))
             );
             $q->andWhere(
                 $q->expr()->eq('es.is_read', 1)

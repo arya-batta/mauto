@@ -1011,4 +1011,11 @@ class FieldModel extends FormModel
             'options' => ['notnull' => false],
         ];
     }
+
+    public function getMaxFieldOrder()
+    {
+        $repo = $this->getRepository();
+
+        return $repo->getMaxFieldOrder();
+    }
 }

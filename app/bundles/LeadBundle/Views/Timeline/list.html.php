@@ -113,7 +113,7 @@ $baseUrl = $view['router']->path(
 <?php */ ?>
 <div class="pa-md">
     <div class="row">
-        <div class="col-sm-12" style="width: 106%;margin-left: -16px;margin-top: -33px;">
+        <div class="col-sm-12" id="timeline-col-12" style="width: 105%;margin-left: -16px;margin-top: -33px;">
             <div class="panel">
                 <div class="panel-body box-layout">
                     <div>

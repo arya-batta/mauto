@@ -567,7 +567,7 @@ class SubscriptionController extends CommonController
             } elseif ($stepstring == 'addressinfo') {
                 $address = $data['address-line-1'];
                 if ($data['address-line-2'] != '') {
-                    $address = $address.','.$data['address-line-2'];
+                    $address = $address.', '.$data['address-line-2'];
                 }
                 $billingEntity->setCompanyname($accountEntity->getAccountname());
                 $billingEntity->setCompanyaddress($address);
@@ -593,7 +593,7 @@ class SubscriptionController extends CommonController
                         $configurator->write();
                     }
                     if ($address != '') {
-                        $postaladdress = $address.','.$data['zip'].','.$data['city'].','.$data['state'].','.$data['country'];
+                        $postaladdress = $address.', '.$data['zip'].', '.$data['city'].', '.$data['state'].', '.$data['country'];
                         $configurator->mergeParameters(['postal_address' => $postaladdress]);
                         $configurator->write();
                     }

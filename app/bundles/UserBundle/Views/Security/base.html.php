@@ -30,7 +30,7 @@
     width: 190px;
     margin-bottom: 25px;
     margin-top: 40px;
-" src="<?php echo $view['assets']->getUrl('media/images/leadsengage_logo-black.png') ?>">
+" src="<?php echo $view['assets']->getUrl('media/images/anyfunnel_logo_large_icon.png') ?>">
             </div>
             <div id="main-panel-flash-msgs">
                 <?php echo $view->render('MauticCoreBundle:Notification:flashes.html.php'); ?>

@@ -63,7 +63,7 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
             }
             if(alertmessage != ''){
                 if(!alertmessage.includes("delete") && !alertmessage.includes("do not have access")){
-                    if(response.flashes.indexOf('Great Job!') > 0){
+                    if(response.flashes.indexOf('Good Job!') > 0){
                         var messages = response.flashes.split(',');
                         Le.successModel(messages[0],messages[1],'success');
                     } else {

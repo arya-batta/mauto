@@ -23,7 +23,6 @@ $permissions = $security->isGranted(
     'RETURN_ARRAY'
 );
 ?>
-<br>
 <div class="table-responsive email_stats_box">
     <table class="table table-hover <?php echo count($items) ? 'table-striped' : ''?> table-bordered" id="leadTable">
         <thead>

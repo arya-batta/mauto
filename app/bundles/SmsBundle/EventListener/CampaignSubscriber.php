@@ -160,7 +160,7 @@ class CampaignSubscriber extends CommonSubscriber
             $this->notificationhelper->sendNotificationonFailure(false, false);
             $event->setFailed($this->translator->trans('Can\'t reach text message provider. Please check the configuration'));
 
-            return;
+            return $event;
         } else {
             if (!$sms) {
                 return $event->setFailed('mautic.sms.campaign.failed.missing_entity');

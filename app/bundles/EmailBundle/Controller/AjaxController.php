@@ -420,9 +420,9 @@ class AjaxController extends CommonAjaxController
             $mailer->start();
             $message = \Swift_Message::newInstance()
                 ->setSubject($this->translator->trans('le.email.config.mailer.transport.sender.verify.subject', ['%action%'=> $sub]));
-            $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%action%'=> $msg, '%sender%'=> $fromemail, '%name%'=> $user->getFirstName()]);
+            $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%action%'=> $msg, '%SenderEmail%'=> $fromemail, '%name%'=> $user->getFirstName(), '%SenderName%' => $fromname]);
             $message->setBody($mailbody, 'text/html');
-            $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
+            $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
             $message->setTo([$user->getEmail() => $userFullName]);
             $mailer->send($message);
         } catch (\Exception $ex) {
@@ -439,9 +439,10 @@ class AjaxController extends CommonAjaxController
         $mailer->start();
         $verifylink        = $this->generateUrl('le_sender_profile_verify_link', ['idhash' => $idHash], true);
         $message           = \Swift_Message::newInstance();
+        $name              = $this->factory->getUser()->getFirstName();
         $message->setTo([$fromemail => $fromname]);
         $message->setReplyTo($this->factory->getUser()->getEmail());
-        $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setSubject($this->translator->trans('le.sender.verification.subject'));
         $text = "<!DOCTYPE html>
 <html>
@@ -449,34 +450,15 @@ class AjaxController extends CommonAjaxController
 
 	<head>
 		<title></title>
-		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
 	</head>
-	<body aria-disabled='false' style='min-height: 300px;margin:0px;'>
-		<div style='background-color:#eff2f7'>
-			<div style='padding-top: 55px;'>
-				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #EF3F87;'>
-
-					<p style='text-align:center;'><img src='http://anyfunnels.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
-					<br>
-					<div style='text-align:center;width:100%;'>
-						<div style='display:inline-block;width: 80%;'>
-
-							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Hi $fromname,</p>
-
-							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>We have received a request to authorize this email address for use with LeadsEnagge Marketing Automation Platform. If you requested this verification, please go to the following button (Verify your email here) to confirm that you are authorized to use this email address.</p><a href=\"$verifylink\" class='butle' style='text-align:center;text-decoration:none;font-family: Montserrat,sans-serif;transition: all .1s ease;color: #fff;font-weight: 400;font-size: 18px;margin-top: 10px;font-family: Montserrat,sans-serif;display: inline-block;letter-spacing: .6px;padding: 15px 30px;box-shadow: 0 1px 2px rgba(0,0,0,.36);white-space: nowrap;border-radius: 35px;background-color: #EF3F87;border: #EF3F87;'>Verify your email here</a>
-							<br><br>
-                            <p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>Note- If you did NOT request to verify this email address, kindly reply to this email and let us know. We can investigate if the request was unauthorized.</p>
-							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Sincerely,
-								<br>LeadsEngage Team.</p>
-						</div>
-					</div>
-				</div>
-				<br>
-				<br>
-				<br>
-			</div>
-		</div>
-		
+	<body>
+	    <div>
+	    Hey, $name!
+<br>
+<br>We have received a request to authorize this email address for use with AnyFunnels Marketing Automation Platform.
+<br>
+<br>If you requested this verification, please <a href='$verifylink'>click here</a> to confirm that you are authorized to use this email address.
+</div>
 	</body>
 </html>";
         $message->setBody($text, 'text/html');

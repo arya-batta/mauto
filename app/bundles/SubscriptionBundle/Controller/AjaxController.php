@@ -1119,9 +1119,9 @@ class AjaxController extends CommonAjaxController
     {
         $mailer->start();
         $message    = \Swift_Message::newInstance();
-        $message->setTo(['support@leadsengage.com' => 'Leadsengage Support']);
-        $message->setFrom(['support@lemailer3.com' => 'LeadsEngage']);
-        $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancelsubs'));
+        $message->setTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancel.sub.description'));
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
         $model         = $this->getModel('subscription.accountinfo');
         $accrepo       = $model->getRepository();
@@ -1141,30 +1141,17 @@ class AjaxController extends CommonAjaxController
 
 	<head>
 		<title></title>
-		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
 	</head>
-	<body aria-disabled='false' style='min-height: 300px;margin:0px;'>
-		<div style='background-color:#eff2f7'>
-			<div style='padding-top: 55px;'>
-				<div class='marle' style='margin: 0% 11.5%;background-color:#fff;padding: 50px 50px 50px 50px;border-bottom:5px solid #0071ff;'>
-					<p style='text-align:center;'><img src='http://anyfunnels.com/wp-content/uploads/leproduct/leadsengage_logo-black.png' class='fr-fic fr-dii' height='40'></p>
-					<br>
-					<div style='text-align:center;width:100%;'>
-						<div style='display:inline-block;width: 80%;'>
-							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Hi Team,</p>
-
-							<p style='text-align:left;font-size:14px;line-height: 30px;font-family: Montserrat,sans-serif;'>This email is regarding cancelling subscription for <b>$name</b> associated with domain <b>$domain</b>and email is <b>$useremail</b></p>
-							<br>
-							<p style='text-align:left;font-size:14px;font-family: Montserrat,sans-serif;'>Thanks,
-								<br><b>$name</b>
-                                </p>
-						</div>
-					</div>
-				</div>
-				<br>
-				<br>
-				<br>
-			</div>
+	<body>
+		<div>
+			Hi,
+<br>
+<br>Below mentioned customer requested for account cancellation.
+<br>
+<br><strong>Domain Name-</strong> $domain.anyfunnels.com
+<br><strong>Email-</strong> $useremail
+<br>
+<br>Please take the necessary action.
 		</div>
 		
 	</body>

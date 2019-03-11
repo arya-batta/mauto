@@ -234,7 +234,7 @@ class LeadField extends FormEntity
                     'alias',
                     'type',
                     //'group',
-                    'order',
+                    //'order',
                     //'object',
                 ]
             )

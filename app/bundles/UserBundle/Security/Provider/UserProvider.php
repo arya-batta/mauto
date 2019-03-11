@@ -146,10 +146,10 @@ class UserProvider implements UserProviderInterface
 
         //if ($getAppStatus == 'Active') {
         //if ($licenseRemDays > 0) {
-             if ($getAppStatus == 'Suspended' || $getAppStatus == "InActive"){
-            $this->session->set(Security::AUTHENTICATION_ERROR, 'Oops! There seems your account has been disabled since you have not configured your ESP or you haven\'t signed into your account for a while. Please contact us at support@leadsengage.com to re-activate your account.');
+        if ($getAppStatus == 'Suspended' || $getAppStatus == 'InActive') {
+            $this->session->set(Security::AUTHENTICATION_ERROR, 'Oops! There seems your account has been disabled since you have not configured your ESP or you haven\'t signed into your account for a while. Please contact us at support@anyfunnels.com to re-activate your account.');
             throw new AuthenticationException();
-        }else {
+        } else {
             return $this->loadUserByUsername($user->getUsername());
         }
         //} else {

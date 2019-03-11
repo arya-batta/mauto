@@ -503,6 +503,7 @@ class LeadSubscriber extends CommonSubscriber
 
                     if (!isset($row['details']['fields']) && !isset($row['details']['tags']) && !isset($row['details']['owner'])) {
                         $eventlabel = $eventTypeName;
+                        continue;
                     }
 
                     $event->addEvent(

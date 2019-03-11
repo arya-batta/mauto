@@ -22,8 +22,8 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
         <div class="container-fluid" style="height: 60px">
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button class="notification-icon-box open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize" onclick="Le.changeButtonPanelStyle()">
-                        <i class="mdi mdi-menu"></i>
+                    <button class="notification-icon-box open-left waves-light waves-effect sidebar-minimizer" data-toggle="minimize"><!-- onclick="Le.changeButtonPanelStyle()"-->
+                        <i class="mdi mdi-menu" style="font-size:22px !important;"></i>
                     </button>
                 </li>
                 <?php echo $view['actions']->render(new \Symfony\Component\HttpKernel\Controller\ControllerReference('MauticCoreBundle:Default:globalSearch')); ?>

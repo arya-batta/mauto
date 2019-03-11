@@ -308,8 +308,8 @@ Le.showConfirmation = function (el) {
         text: message,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, cancel',
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger m-l-10',
         buttonsStyling: false
@@ -429,7 +429,7 @@ Le.responseCallBack = function (response) {
                     alerttype='success';
                     alerttitle='Deleted!';
                 }else{
-                    alerttitle='Failed!';
+                    alerttitle='Sorry!';
                 }
                 swal(
                     alerttitle,

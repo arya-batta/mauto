@@ -133,7 +133,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                         <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 0]); ?>">
                                             <div class="col-md-6 editor_layout editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
                                                 <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
-                                                <h4><?php echo $view['translator']->trans('le.email.editor.basic.header')?></h4>
+                                                <h4><?php echo $view['translator']->trans('le.email.editor.basic.header.drip')?></h4>
                                                 <br>
                                             </div>
                                         </a>
@@ -206,7 +206,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                     <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
                                         'filters' => $template_filters,
                                         'target'  => (empty($target)) ? null : $target,
-                                        'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                        'tmpl'    => (empty($tmpl)) ? 'form' : $tmpl,
                                     ]); ?>
                                 <?php endif; ?>
                             </div>
@@ -441,15 +441,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group m-b-15">
+                    <div class="col-md-6">
+                        <div class="m-b-15">
                             <div class="bootstrap-timepicker">
                                 <?php echo $view['form']->row($form['scheduleDate']); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-
                     </div>
                     <div class="col-md-6 <?php echo (count($form['daysEmailSend']->vars['errors'])) ? ' has-error' : ''; ?>" id="drip_daysEmailSend" >
                         <?php echo $view['form']->row($form['daysEmailSend']); ?>
