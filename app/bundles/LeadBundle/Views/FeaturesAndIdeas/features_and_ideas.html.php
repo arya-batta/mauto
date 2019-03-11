@@ -15,6 +15,6 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.feauturesandid
 ?>
 <html>
 <body>
-<iframe width="100%" height="600" src="https://feedback.userreport.com/7e57b835-35f8-4bf6-83d1-a8d7504f90c1/" style="background: #ffffff;" frameborder="0"></iframe>
+<iframe width="100%" height="600" src="https://feedback.userreport.com/f3ec7d94-2fc5-48ad-ac7c-ef9c80cd6903/" style="background: #ffffff;" frameborder="0"></iframe>
 </body>
 </html>
