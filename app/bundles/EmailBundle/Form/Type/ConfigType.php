@@ -378,6 +378,7 @@ class ConfigType extends AbstractType
         if ($currentUser) {
             $amazonRegionShowConditions = '{"config_emailconfig_mailer_transport":['.$this->transportType->getAmazonService().']}';
         } else {
+            $smtpServiceShowConditions  = '{"config_emailconfig_mailer_transport_name":['.$this->transportType->getSmtpService().']}';
             $amazonRegionShowConditions = '{"config_emailconfig_mailer_transport_name":['.$this->transportType->getAmazonService().']}';
         }
 
@@ -450,7 +451,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.email.config.mailer.port',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $smtpServiceShowConditions,
                     'tooltip'      => 'le.email.config.mailer.port.tooltip',
                 ],
@@ -471,7 +472,7 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => false,
                 'attr'       => [
-                    'class'        => 'form-control',
+                    'class'        => 'form-control le-input',
                     'data-show-on' => $smtpServiceShowConditions,
                     'tooltip'      => 'le.email.config.mailer.auth.mode.tooltip',
                 ],

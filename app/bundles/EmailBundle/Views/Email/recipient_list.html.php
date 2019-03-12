@@ -12,12 +12,12 @@
             <div class="modal-content le-modal-content">
                 <!-- Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Activate SMTP/SES</h4>
+                    <h4 class="modal-title">Activate Email Service</h4>
                 </div>
                 <!-- body -->
                 <div class="modal-body">
                     <div class="form-group" id ="from_name">
-                        <label class="control-label required" for="email">Select one sender profile to activate</label>
+                        <label class="control-label required" for="email">Select a sender email to verify</label>
                         <select id="activate_sender_email">
                             <?php foreach ($EmailList as $key=> $value): ?>
                                 <option value="<?php echo $value; ?>"><?php echo $value; ?></option>

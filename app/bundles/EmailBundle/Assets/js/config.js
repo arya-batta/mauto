@@ -64,6 +64,7 @@ Le.testMonitoredEmailServerConnection = function(mailbox) {
 };
 
 Le.testEmailServerConnection = function(sendEmail) {
+    Le.updateEmailStatus();
     var toemail = "";
     var trackingcode = "";
     var additionalinfo = "";
@@ -73,7 +74,9 @@ Le.testEmailServerConnection = function(sendEmail) {
         additionalinfo = mQuery('#config_trackingconfig_emailAdditionainfo').val();
     }
     var fromemail = "";
+    var selectedid = 0;
     if(typeof mQuery('#activate_sender_email') !== "undefined" && mQuery('#activate_sender_email') != null && sendEmail){
+        selectedid = mQuery("#activate_sender_email").prop('selectedIndex');
         fromemail = mQuery('#activate_sender_email').val();
     }
     var data = {
@@ -127,9 +130,9 @@ Le.testEmailServerConnection = function(sendEmail) {
        }
        var id='';
         if((response.success)){
-            Le.changeSenderProfileStatusFrontEnd(true,fromemail,id);
+            Le.changeSenderProfileStatusFrontEnd(true,fromemail,selectedid);
         } else {
-            Le.changeSenderProfileStatusFrontEnd(false,fromemail,id);
+            Le.changeSenderProfileStatusFrontEnd(false,fromemail,selectedid);
         }
     });
 };
@@ -203,7 +206,6 @@ Le.showBounceCallbackURL = function(modeEl) {
         mQuery('#config_emailconfig_mailer_transport').val(mode);
     }
     mQuery('#config_emailconfig_mailer_amazon_region').val('');
-    Le.updateEmailStatus();
 };
 
 
@@ -278,11 +280,12 @@ Le.configOnLoad = function (container){
         var name = fromname.text();
         name=name.trim();
         var id=currentLink.attr('id');
+        id = id.substr(-1);
         Le.activateButtonLoadingIndicator(currentLink);
         Le.ajaxActionRequest('email:reVerifySenderProfile', {'email': email,'name':name}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
             if(response.response != "") {
-                mQuery('#sender_profile_errors').html('Failed to add a new sender due to the technical error. Please contact support.');
+                mQuery('#sender_profile_errors').html(response.response);
             }else{
                 Le.changeSenderProfileStatusFrontEnd(true,email,id);
                // Le.redirectWithBackdrop(response.redirect);
@@ -311,28 +314,14 @@ Le.updateSenderProfileStatus = function(){
     });
 }
 Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail,id){
-    if(id==''){
-        var email = fromemail.split('@');
-        if (isActive) {
-            mQuery('#pending-verified-button-' + email['0']).html("Verified");
-            mQuery('#pending-verified-button-' + email['0']).css('background', '#39ac73');
-            mQuery('#re-verify-button-' + email['0']).addClass('hide');
-        } else {
-            mQuery('#pending-verified-button-' + email['0']).html("Pending");
-            mQuery('#pending-verified-button-' + email['0']).css('background', '#ff4d4d');
-            mQuery('#re-verify-button-' + email['0']).removeClass('hide');
-        }
-    }else{
-        var id = id.split('re-verify-button-');
-        if (isActive) {
-            mQuery('#pending-verified-button-' + id['1']).html("Verified");
-            mQuery('#pending-verified-button-' + id['1']).css('background', '#39ac73');
-            mQuery('#re-verify-button-' + id['1']).addClass('hide');
-        } else {
-            mQuery('#pending-verified-button-' + id['1']).html("Pending");
-            mQuery('#pending-verified-button-' + id['1']).css('background', '#ff4d4d');
-            mQuery('#re-verify-button-' + id['1']).removeClass('hide');
-        }
+    if (isActive) {
+        mQuery('#pending-verified-button-' + id).html("Verified");
+        mQuery('#pending-verified-button-' + id).css('background', '#39ac73');
+        mQuery('#re-verify-button-' + id).addClass('hide');
+    } else {
+        mQuery('#pending-verified-button-' + id).html("Pending");
+        mQuery('#pending-verified-button-' + id).css('background', '#ff4d4d');
+        mQuery('#re-verify-button-' + id).removeClass('hide');
     }
-        return;
+    return;
 }

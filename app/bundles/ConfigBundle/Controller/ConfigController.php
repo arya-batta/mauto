@@ -99,7 +99,7 @@ class ConfigController extends FormController
         if ($mailertransport == 'le.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
             $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
             if (!empty($emails)) {
-                $emailModel->upAwsEmailVerificationStatus($emails);
+                //$emailModel->upAwsEmailVerificationStatus($emails);
             }
         }
 
@@ -180,11 +180,10 @@ class ConfigController extends FormController
                             if ($this->get('mautic.helper.user')->getUser()->isAdmin()) {
                                 $configprovider = $params['mailer_transport'];
                             }
-                           /* if ($this->translator->trans($configprovider) == $licenseemailprovider && $params['mailer_user'] == $maileruser ||$params['mailer_user'] == "") {
-                                $configurator->mergeParameters(['email_status' => 'Active']);
+                            if ($this->translator->trans($configprovider) != $licenseemailprovider) {
                                 $emailModel = $this->factory->getModel('email');
-                                $emailModel->enableFirstSenderProfiles();
-                            }*/
+                                //$emailModel->resetAllSenderProfiles();
+                            }
                             $emailTransport = '';
                             $smsTransport   = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {

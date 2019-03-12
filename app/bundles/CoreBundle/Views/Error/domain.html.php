@@ -10,4 +10,4 @@
  */
 $view['slots']->set('mautibot', 'openMouth');
 $view['slots']->set('message', 'mautic.core.error.domain');
-$view->extend('MauticCoreBundle:Error:base.html.php');
+$view->extend('MauticCoreBundle:Error:domainbase.html.php');

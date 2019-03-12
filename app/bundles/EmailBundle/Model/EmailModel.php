@@ -2557,19 +2557,16 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
         $verificationStatus = $this->getRepository()->getLinkedEmailsVerificationStatus($emailId);
         $emailLinkedStatus  = $this->getRepository()->getLinkedEmailsStatus($emailId);
+        $q->select('count(id) as activeTotalCount')
+            ->from(MAUTIC_TABLE_PREFIX.'awsverifiedemails', 'aws');
 
+        $results          = $q->execute()->fetchAll();
+        $totalActiveCount = $results[0]['activeTotalCount'];
+
+        if ($totalActiveCount == 1) {
+            return 'failure';
+        }
         if ($verificationStatus == 0) {
-            $q->select('count(id) as activeTotalCount')
-                ->from(MAUTIC_TABLE_PREFIX.'awsverifiedemails', 'aws')
-                ->andWhere('aws.verification_status = :verificationStatus')
-                ->setParameter('verificationStatus', 0);
-
-            $results          = $q->execute()->fetchAll();
-            $totalActiveCount = $results[0]['activeTotalCount'];
-
-            if ($totalActiveCount == 1) {
-                return 'failure';
-            }
             if (!$emailLinkedStatus) {
                 $q->delete(MAUTIC_TABLE_PREFIX.'awsverifiedemails')
                     ->where('verified_emails = :emails')

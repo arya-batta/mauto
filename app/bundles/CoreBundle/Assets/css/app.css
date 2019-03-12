@@ -7687,3 +7687,12 @@ ul.list-unstyled, ul#list-unstyled  {
 .graph-apply > button{
   font-size:12px;
 }
+.filter-field-segment > input{
+  margin-top:0px;
+}
+#campaignevent_properties_value{
+  margin-top:0px;
+}
+.custom-use-button:hover{
+  color:#000000 !important;
+}

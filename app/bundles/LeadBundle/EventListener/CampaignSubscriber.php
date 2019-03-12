@@ -223,7 +223,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.set.donotcontact',
             'description'     => 'le.lead.lead.events.set.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 15,
+            'order'           => 13,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 

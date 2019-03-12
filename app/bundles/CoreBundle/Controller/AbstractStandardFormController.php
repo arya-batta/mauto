@@ -429,7 +429,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                             $currentutmtags=$entity->getUtmTags();
                             $currentname   =$entity->getName();
                             if (empty($currentutmtags['utmSource'])) {
-                                $currentutmtags['utmSource']='leadsengage';
+                                $currentutmtags['utmSource']='anyfunnels';
                             }
                             if (empty($currentutmtags['utmMedium'])) {
                                 $currentutmtags['utmMedium']='focus';
@@ -464,14 +464,14 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         }
 
                         if (!$this->isFormApplied($form) && method_exists($this, 'viewAction')) {
-                            if($this->getModelName() !="webhook.webhook") {
-                                $viewParameters = ['objectId' => $objectId, 'objectAction' => 'view'];
-                                $returnUrl = $this->generateUrl($this->getActionRoute(), $viewParameters);
-                                $postActionVars['contentTemplate'] = $this->getControllerBase() . ':view';
-                            }else{
-                                $viewParameters = [ 'page' => $page];
-                                $returnUrl = $this->generateUrl($this->getIndexRoute(), $viewParameters);
-                                $postActionVars['contentTemplate'] = $this->getControllerBase() . ':index';
+                            if ($this->getModelName() != 'webhook.webhook') {
+                                $viewParameters                    = ['objectId' => $objectId, 'objectAction' => 'view'];
+                                $returnUrl                         = $this->generateUrl($this->getActionRoute(), $viewParameters);
+                                $postActionVars['contentTemplate'] = $this->getControllerBase().':view';
+                            } else {
+                                $viewParameters                    = ['page' => $page];
+                                $returnUrl                         = $this->generateUrl($this->getIndexRoute(), $viewParameters);
+                                $postActionVars['contentTemplate'] = $this->getControllerBase().':index';
                             }
                         }
                     }
@@ -488,6 +488,10 @@ abstract class AbstractStandardFormController extends AbstractFormController
             }
 
             if ($cancelled || ($valid && !$this->isFormApplied($form))) {
+                if ($model instanceof CampaignModel) {
+                    return $this->delegateRedirect($returnUrl);
+                }
+
                 return $this->postActionRedirect(
                     $this->getPostActionRedirectArguments(
                         array_merge(
@@ -1065,7 +1069,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                             $currentutmtags=$entity->getUtmTags();
                             $currentname   =$entity->getName();
                             if (empty($currentutmtags['utmSource'])) {
-                                $currentutmtags['utmSource']='leadsengage';
+                                $currentutmtags['utmSource']='anyfunnels';
                             }
                             if (empty($currentutmtags['utmMedium'])) {
                                 $currentutmtags['utmMedium']='focus';
@@ -1079,11 +1083,11 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         $this->afterEntitySave($entity, $form, 'new', $valid);
 
                         if (method_exists($this, 'viewAction')) {
-                            if($this->getModelName() !="webhook.webhook") {
+                            if ($this->getModelName() != 'webhook.webhook') {
                                 $viewParameters = ['objectId' => $entity->getId(), 'objectAction' => 'view'];
-                                $returnUrl = $this->generateUrl($this->getActionRoute(), $viewParameters);
-                                $template = $this->getControllerBase() . ':view';
-                            }else{
+                                $returnUrl      = $this->generateUrl($this->getActionRoute(), $viewParameters);
+                                $template       = $this->getControllerBase().':view';
+                            } else {
                                 $viewParameters = ['page' => $page];
                                 $returnUrl      = $this->generateUrl($this->getIndexRoute(), $viewParameters);
                                 $template       = $this->getControllerBase().':'.$this->getPostActionControllerAction('index');

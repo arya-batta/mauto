@@ -1419,31 +1419,17 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
 
         $q->select('count(*) as recentlyadded')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
-            ->setParameter('dateAdded', $last7daysAddedLeads);
-
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
-
-        if ($this->currentUser->getId() != 1 && $viewOthers) {
-            $q->andWhere($q->expr()->neq('l.owner_id', ':id'))
-                ->setParameter('id', '1');
-            $q->orWhere('l.owner_id  IS NULL');
-            $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
-               ->setParameter('dateAdded', $last7daysAddedLeads);
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere('l.created_by  IS NULL');
-            $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
-                ->setParameter('dateAdded', $last7daysAddedLeads);
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
+        $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
+            ->setParameter('dateAdded', $last7daysAddedLeads);
+        $results = $q->execute()->fetchAll();
         //dump($q->getSQL());
         //      dump($last7daysAddedLeads);
-
-        $results = $q->execute()->fetchAll();
 
         return $results[0]['recentlyadded'];
     }
@@ -1480,22 +1466,14 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         $q = $this->_em->getConnection()->createQueryBuilder();
 
         $q->select('count(*) as activeleads')
-            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere($q->expr()->gte('l.last_active', ':last7daysActive'))
-            ->setParameter('last7daysActive', $last7daysActiveLeads);
-
-        if (!$viewOthers) {
-            $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
-                ->setParameter('currentUserId', $this->currentUser->getId());
-        }
-
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         if ($this->currentUser->getId() != 1) {
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))
                 ->setParameter('id', '1');
-            $q->orWhere('l.created_by  IS NULL');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
         }
-        //dump($q->getSQL());
-        //      dump($last7daysActiveLeads);
+        $q->andWhere($q->expr()->gte('l.last_active', ':last7daysActive'))
+            ->setParameter('last7daysActive', $last7daysActiveLeads);
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];

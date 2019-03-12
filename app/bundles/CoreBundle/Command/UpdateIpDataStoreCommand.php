@@ -13,8 +13,8 @@ namespace Mautic\CoreBundle\Command;
 
 use Mautic\CoreBundle\IpLookup\AbstractLocalDataLookup;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -50,7 +50,7 @@ EOT
 
         if ($ipService instanceof AbstractLocalDataLookup) {
             if ($ipService->downloadRemoteDataStore()) {
-                $output->writeln('<info>'.$translator->trans('mautic.core.success').'</info>');
+                $output->writeln('<info>'.$translator->trans('le.core.success').'</info>');
             } else {
                 $remoteUrl = $ipService->getRemoteDateStoreDownloadUrl();
                 $localPath = $ipService->getLocalDataStoreFilepath();

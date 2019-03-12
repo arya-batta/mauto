@@ -369,7 +369,7 @@ class AccountRepository extends CommonRepository
     public function getRecentlyAddedLeadsCount()
     {
         $q                   = $this->_em->getConnection()->createQueryBuilder();
-        $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
+        $last7daysAddedLeads = date('Y-m-d', strtotime('-29 days'));
 
         $q->select('count(*) as recentlyadded')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
@@ -387,7 +387,7 @@ class AccountRepository extends CommonRepository
 
     public function getRecentActiveLeadCount()
     {
-        $last7daysActiveLeads = date('Y-m-d', strtotime('-6 days'));
+        $last7daysActiveLeads = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
 

@@ -371,7 +371,11 @@ class AjaxController extends CommonAjaxController
                         if (!$senderprofile->getInboxverified()) {
                             $idhash                = $senderprofile->getIdHash();
                             $mailresponse          =$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
-                            $dataArray['response'] = $mailresponse;
+                            if ($mailresponse == '') {
+                                $dataArray['response'] = $this->translator->trans('le.email.senderverification.inbox.failed');
+                            } else {
+                                $dataArray['response'] = $mailresponse;
+                            }
                             /* if ($mailresponse == '') {
                                  $this->addFlash('le.email.sender.profile.verification.sent.notification', ['%sender%'=>$fromemail]);
                              } else {
@@ -422,7 +426,7 @@ class AjaxController extends CommonAjaxController
                 ->setSubject($this->translator->trans('le.email.config.mailer.transport.sender.verify.subject', ['%action%'=> $sub]));
             $mailbody = $this->translator->trans('le.email.config.mailer.transport.sender.verify.body', ['%action%'=> $msg, '%SenderEmail%'=> $fromemail, '%name%'=> $user->getFirstName(), '%SenderName%' => $fromname]);
             $message->setBody($mailbody, 'text/html');
-            $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+            $message->setFrom([$fromemail => $fromname]);
             $message->setTo([$user->getEmail() => $userFullName]);
             $mailer->send($message);
         } catch (\Exception $ex) {
@@ -865,7 +869,7 @@ class AjaxController extends CommonAjaxController
         if (strpos($htmlContent, '<div class="table-responsive">') !== false) {
             $htmlContent = strstr($htmlContent, '<div class="table-responsive">');
         } elseif (strpos($htmlContent, '<p class="drip-col-stats">') !== false) {
-            $htmlContent = strstr($htmlContent, '<div class="col-md-7 col-md-offset-3 mt-md bluprint" style="white-space: normal;">');
+            $htmlContent = strstr($htmlContent, '<div class="col-md-8 col-md-offset-2 mt-md bluprint" style="white-space: normal;">');
         }
         $responseArr                = [];
         $responseArr['success']     = true;

@@ -25,7 +25,7 @@
                             <i class="fa fa-file-image-o fa-5x text-muted" aria-hidden="true" style="padding-top: 75px; color: #E4E4E4;"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="row" style="margin-top: 30px;">
+                    <div class="row" style="margin-top: 32px;">
                         <a href="#" type="button" data-beetemplate="<?php echo $themeKey; ?>" class="btn-nospin col-md-6 select-theme-link bee_template <?php echo $isSelected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
                             <i class="fa fa-check-circle template_icon" style="color: #6A7474">
                             <span style="margin-left: 24px;font-size: 15px;">Select</span>

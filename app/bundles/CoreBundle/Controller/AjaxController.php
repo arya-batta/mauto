@@ -241,11 +241,11 @@ class AjaxController extends CommonController
      */
     protected function togglePublishStatusAction(Request $request)
     {
-        $dataArray = ['success' => 0];
+        $dataArray                  = ['success' => 0];
         $dataArray['senderprofile'] =0;
-        $name      = InputHelper::clean($request->request->get('model'));
-        $id        = InputHelper::int($request->request->get('id'));
-        $model     = $this->getModel($name);
+        $name                       = InputHelper::clean($request->request->get('model'));
+        $id                         = InputHelper::int($request->request->get('id'));
+        $model                      = $this->getModel($name);
 
         $post = $request->request->all();
         unset($post['model'], $post['id'], $post['action']);
@@ -254,23 +254,24 @@ class AjaxController extends CommonController
         } else {
             $extra = '';
         }
-        if($name == "email.dripemail") {
-            $emailmodel = $this->getModel('email');
+        if ($name == 'email.dripemail') {
+            $emailmodel    = $this->getModel('email');
             $defaultsender = $emailmodel->getDefaultSenderProfile();
             if (!sizeof($defaultsender) > 0) {
                 $this->addFlash($this->translator->trans('le.drip.emails.publish.error'));
-                $dataArray['success'] = 1;
+                $dataArray['success']       = 1;
                 $dataArray['senderprofile'] = 1;
-                $dataArray['flashes'] = $this->getFlashContent();
+                $dataArray['flashes']       = $this->getFlashContent();
+
                 return $this->sendJsonResponse($dataArray);
             }
         }
         $entity = $model->getEntity($id);
-        if($name == "lead.tag"){
+        if ($name == 'lead.tag') {
             $status=$entity->getPublishStatus();
-            if($status =="published"){
-                 $tagRepo=$model->getRepository();
-                 $tagRepo->deleteRefLead($id);
+            if ($status == 'published') {
+                $tagRepo=$model->getRepository();
+                $tagRepo->deleteRefLead($id);
             }
         }
         if ($entity !== null) {
@@ -759,7 +760,7 @@ class AjaxController extends CommonController
             if ($ipService instanceof AbstractLocalDataLookup) {
                 if ($ipService->downloadRemoteDataStore()) {
                     $dataArray['success'] = 1;
-                    $dataArray['message'] = $this->container->get('translator')->trans('mautic.core.success');
+                    $dataArray['message'] = $this->container->get('translator')->trans('le.core.success');
                 } else {
                     $remoteUrl = $ipService->getRemoteDateStoreDownloadUrl();
                     $localPath = $ipService->getLocalDataStoreFilepath();

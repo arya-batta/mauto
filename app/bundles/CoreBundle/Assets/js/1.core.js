@@ -56,6 +56,7 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
             var alerthtml=response.flashes;
             var alerthtmlel = mQuery(alerthtml);
             var alertmessage=mQuery(alerthtmlel).find('span').html();
+            var alertType = alerthtmlel.attr('data-alert-type');
             if(typeof alertmessage != 'undefined'){
                 alertmessage=alertmessage.trim();
             }else{
@@ -63,9 +64,8 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
             }
             if(alertmessage != ''){
                 if(!alertmessage.includes("delete") && !alertmessage.includes("do not have access")){
-                    if(response.flashes.indexOf('Good Job!') > 0){
-                        var messages = response.flashes.split(',');
-                        Le.successModel(messages[0],messages[1],'success');
+                    if(alertType == "sweetalert"){
+                        Le.successModel('Good Job!',alertmessage,'success');
                     } else {
                         Le.setFlashes(response.flashes);
                     }

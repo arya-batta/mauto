@@ -132,8 +132,6 @@ trait OperatorListTrait
             'include' => [
                 '=',
                 '!=',
-                'empty',
-                '!empty',
                 'like',
                 '!like',
             ],

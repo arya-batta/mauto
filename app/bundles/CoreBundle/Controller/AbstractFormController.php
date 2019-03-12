@@ -42,12 +42,12 @@ abstract class AbstractFormController extends CommonController
             if (empty($returnUrl)) {
                 $returnUrl = $this->generateUrl('le_dashboard_index');
             }
-
+            $screenname = $this->translator->trans('le.override.screen.'.$modelName);
             $this->addFlash(
                 'mautic.core.action.entity.unlocked',
                 [
-                    '%name%' => urldecode($this->request->get('name')),
-                    '%screen%'=>'le.override.screen.'.$modelName,
+                    '%name%'  => urldecode($this->request->get('name')),
+                    '%screen%'=> $screenname,
                 ]
             );
 

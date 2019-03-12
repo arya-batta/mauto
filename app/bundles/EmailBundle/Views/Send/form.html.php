@@ -24,7 +24,7 @@ $btnstyle = 'pointer-events: none;background-color: #80bbea;opacity: 1;';
      <div style="text-align:center;width:100%;">
          <div style="display:flex;width:90%;margin-left:5%;">
              <div class="box1" style="margin-left: 270px;">
-                 <div class="send-head"><h4><?php echo $view['translator']->trans('le.email.send.list.header', ['%name%' => $email->getName()]); ?></h4></div>
+                 <div class="send-head"><h4 class="header_text"><?php echo $view['translator']->trans('le.email.send.list.header', ['%name%' => $email->getName()]); ?></h4></div>
                  <div style="color:#555555;font-family:Open Sans, Helvetica, Roboto, Arial;line-height:200%; padding-right: 10px; padding-left: 10px; padding-top: 40px; padding-bottom: 38px;">
                      <div style="font-size:12px;line-height:24px;font-family:Open Sans, Helvetica, Roboto, Arial;color:#555555;"><img style="margin-top: 25px;" src="<?php echo $view['assets']->getUrl('media/images/arrow.png'); ?>"></div>
                  </div>

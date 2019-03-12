@@ -155,19 +155,19 @@ return [
         ],
         'public' => [
             'le_confirm_list' => [
-                'path'       => '/l/listconfirm/{idhash}',
+                'path'       => '/listconfirm/{idhash}',
                 'controller' => 'MauticLeadBundle:Public:listconfirm',
             ],
             'le_subscribe_list' => [
-                'path'       => '/l/listsubscribe/{idhash}',
+                'path'       => '/listsubscribe/{idhash}',
                 'controller' => 'MauticLeadBundle:Public:listsubscribe',
             ],
             'le_unsubscribe_list' => [
-                'path'       => '/l/listunsubscribe/{idhash}',
+                'path'       => '/listunsubscribe/{idhash}',
                 'controller' => 'MauticLeadBundle:Public:listunsubscribe',
             ],
             'le_resubscribe_list' => [
-                'path'       => '/l/listresubscribe/{idhash}',
+                'path'       => '/listresubscribe/{idhash}',
                 'controller' => 'MauticLeadBundle:Public:listresubscribe',
             ],
         ],

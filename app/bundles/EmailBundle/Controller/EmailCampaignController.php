@@ -947,7 +947,7 @@ class EmailCampaignController extends FormController
                     }
                     if ($entity->getGoogletags()) {
                         if (empty($currentutmtags['utmSource'])) {
-                            $currentutmtags['utmSource'] = 'leadsengage';
+                            $currentutmtags['utmSource'] = 'AnyFunnels';
                         }
                         if (empty($currentutmtags['utmMedium'])) {
                             $currentutmtags['utmMedium'] = 'email';

@@ -144,7 +144,7 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
         <div<?php echo ($form['triggerMode']->vars['data'] != 'interval') ? ' class="hide"' : ''; ?> id="triggerInterval">
             <label class="control-label"><?php echo $view['translator']->trans('le.campaign.delay.event.wait.for'); ?></label>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="margin-top:5px;">
                     <?php echo $view['form']->row($form['triggerInterval']); ?>
                 </div>
                 <div class="col-sm-2" style="margin-left: -170px;">

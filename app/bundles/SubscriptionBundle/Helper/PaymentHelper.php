@@ -121,7 +121,7 @@ class PaymentHelper
         $text = "<html>
             <body>
                 <div>
-                    <span style=\"font-size: 14px;\">
+                    <span style=\"font-size: 12px;\">
                     <span style=\"font-family: Verdana,Geneva,sans-serif;\">Hey, $firstname!<br><br>We received your payment $amount on $processedat, for AnyFunnels monthly subscription.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.</span></span>
                 </div>
             </body>

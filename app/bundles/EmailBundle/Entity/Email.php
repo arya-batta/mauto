@@ -485,7 +485,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             ->nullable()
             ->build();
 
-        $builder->createField('dripEmailOrder', 'text')
+        $builder->createField('dripEmailOrder', 'integer')
             ->columnName('dripEmailOrder')
             ->nullable()
             ->build();

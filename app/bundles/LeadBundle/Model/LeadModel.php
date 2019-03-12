@@ -676,7 +676,7 @@ class LeadModel extends FormModel
                     }
                 }
             } else {
-                $data['eu_gdpr_consent'] = 'Denied';
+                $data['eu_gdpr_consent'] = 'UnKnown';
                 $data['gdpr_timezone']   = $timezone;
             }
             // Prepare special fields

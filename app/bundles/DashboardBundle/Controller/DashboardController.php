@@ -104,7 +104,7 @@ class DashboardController extends FormController
                 'ignore_paginator' => true,
             ]
         );
-        if (count($pages) > 1) {
+        if (count($pages) > 12) {
             $websiteTrackingEnabled = true;
         }
 

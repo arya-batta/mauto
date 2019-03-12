@@ -7,18 +7,18 @@ class TransportType
     public function getTransportTypes()
     {
         return [
-            'le.transport.amazon'       => 'le.email.config.mailer_transport.amazon',
-            'le.transport.elasticemail' => 'le.email.config.mailer_transport.elasticemail',
+            'le.transport.amazon'           => 'le.email.config.mailer_transport.amazon',
+            'le.transport.elasticemail'     => 'le.email.config.mailer_transport.elasticemail',
             'gmail'                         => 'le.email.config.mailer_transport.gmail',
-            'le.transport.mandrill'     => 'le.email.config.mailer_transport.mandrill',
-            'le.transport.mailjet'      => 'le.email.config.mailer_transport.mailjet',
+            'le.transport.mandrill'         => 'le.email.config.mailer_transport.mandrill',
+            'le.transport.mailjet'          => 'le.email.config.mailer_transport.mailjet',
             'smtp'                          => 'le.email.config.mailer_transport.smtp',
             'mail'                          => 'le.email.config.mailer_transport.mail',
-            'le.transport.postmark'     => 'le.email.config.mailer_transport.postmark',
-            'le.transport.sendgrid'     => 'le.email.config.mailer_transport.sendgrid',
-            'le.transport.sendgrid_api' => 'le.email.config.mailer_transport.sendgrid_api',
+            'le.transport.postmark'         => 'le.email.config.mailer_transport.postmark',
+            'le.transport.sendgrid'         => 'le.email.config.mailer_transport.sendgrid',
+            'le.transport.sendgrid_api'     => 'le.email.config.mailer_transport.sendgrid_api',
             'sendmail'                      => 'le.email.config.mailer_transport.sendmail',
-            'le.transport.sparkpost'    => 'le.email.config.mailer_transport.sparkpost',
+            'le.transport.sparkpost'        => 'le.email.config.mailer_transport.sparkpost',
         ];
     }
 
@@ -28,7 +28,8 @@ class TransportType
         $customTransport = ['le.transport.amazon'       => 'le.transport.amazon',
             'le.transport.elasticemail'                 => 'le.email.config.mailer_transport.elasticemail',
             'le.transport.sendgrid_api'                 => 'le.email.config.mailer_transport.sendgrid_api',
-            'le.transport.sparkpost'                    => 'le.email.config.mailer_transport.sparkpost', ];
+            'le.transport.sparkpost'                    => 'le.email.config.mailer_transport.sparkpost',
+            'smtp'                                      => 'le.email.config.mailer_transport.smtp', ];
 
         if ($needLeTransport) {
             $customTransport = array_merge($leTrans, $customTransport);
@@ -50,7 +51,8 @@ class TransportType
     public function getCustomServiceForUser()
     {
         return '"le.transport.amazon",
-                "le.transport.elasticemail"';
+                "le.transport.elasticemail",
+                "smtp"';
     }
 
     public function getCustomService()
@@ -59,7 +61,8 @@ class TransportType
                 "le.transport.sparkpost",
                 "le.transport.mandrill",
                 "le.transport.sendgrid_api",
-                "le.transport.elasticemail"';
+                "le.transport.elasticemail",
+                "smtp"';
     }
 
     public function getLeadsEngageService()

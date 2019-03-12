@@ -115,6 +115,10 @@ class PublicController extends FormController
                             $this->request->getSession()->remove('resetToken');
 
                             return $this->redirect($this->generateUrl('login'));
+                        } else {
+                            $this->addFlash('mautic.user.user.notice.passwordreset.completed', [], 'notice', null, false);
+
+                            return $this->redirect($this->generateUrl('login'));
                         }
 
                         return $this->delegateView([
