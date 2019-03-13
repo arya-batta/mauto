@@ -862,8 +862,8 @@ return [
         'mailer_port'                  => null,
         'mailer_user'                  => null,
         'mailer_password'              => null,
-        'mailer_user_transactions'     => 'support@leadsengage.com',
-        'mailer_password_transactions' => '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',
+        'mailer_user_transactions'     => '',
+        'mailer_password_transactions' => '',
         'mailer_encryption'            => null, //tls or ssl,
         'mailer_auth_mode'             => null, //plain, login or cram-md5
         'mailer_amazon_region'         => 'email-smtp.us-east-1.amazonaws.com',
