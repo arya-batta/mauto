@@ -252,7 +252,7 @@ $view['slots']->set(
                                     <div class="col-md-6">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.company'); ?></h6>
                                         <?php if (isset($fields['core']['company_new'])): ?>
-                                            <p class="text-primary"><?php echo $fields['core']['company_new']['value']; ?></p>
+                                            <p class="text-primary custom-font-primary"><?php echo $fields['core']['company_new']['value']; ?></p>
                                         <?php else: ?>
                                             <br>
                                         <?php endif; ?>
@@ -260,7 +260,7 @@ $view['slots']->set(
                                     <div class="col-md-6">
                                         <h6 class="fw-b "><?php echo $view['translator']->trans('le.lead.lead.field.owner'); ?></h6>
                                         <?php if ($lead->getOwner()) : ?>
-                                            <p class="text-primary"><?php echo $lead->getOwner()->getName(); ?></p>
+                                            <p class="text-primary custom-font-primary"><?php echo $lead->getOwner()->getName(); ?></p>
                                         <?php else: ?>
                                             <br>
                                         <?php endif; ?>
@@ -269,13 +269,13 @@ $view['slots']->set(
                                 <div class="row">
                                     <div class="col-md-6" style="word-break: break-all">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.type.email'); ?></h6>
-                                        <p class="text-primary"><?php echo $fields['core']['email']['value']; ?>
+                                        <p class="text-primary custom-font-primary"><?php echo $fields['core']['email']['value']; ?>
                                     </div>
                                     <div class="col-md-6">
                                         <h6 class="fw-b">
                                         <?php echo $view['translator']->trans('le.lead.field.address'); ?>
                                         </h6>
-                                        <address class="text-primary">
+                                        <address class="text-primary custom-font-primary">
                                             <?php if (isset($fields['core']['address1'])): ?>
                                                 <?php echo $fields['core']['address1']['value'] ?>
                                             <?php endif; ?>
@@ -300,12 +300,12 @@ $view['slots']->set(
                                     <div class="col-md-6" style="margin-top: -31px">
                                         <?php if (isset($fields['core']['phone'])): ?>
                                             <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.home'); ?></h6>
-                                            <p class="text-primary"><?php echo $fields['core']['phone']['value']; ?></p>
+                                            <p class="text-primary custom-font-primary"><?php echo $fields['core']['phone']['value']; ?></p>
                                         <?php endif; ?>
 
                                         <?php if (isset($fields['core']['mobile'])): ?>
                                             <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.mobile'); ?></h6>
-                                            <p class="text-primary mb-0"><?php echo $fields['core']['mobile']['value']; ?></p>
+                                            <p class="text-primary mb-0 custom-font-primary"><?php echo $fields['core']['mobile']['value']; ?></p>
                                         <?php endif; ?>
                                         <br>
                                     </div>

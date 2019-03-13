@@ -5968,7 +5968,7 @@ text-align: center;
    padding: 12px 18px;
    -webkit-transition: border-color 150ms;
    transition: border-color 150ms;
-   width:  150% !important;
+   width:  151% !important;
    height: 48px;
 }
 .le-login-widget:hover{
@@ -7695,4 +7695,10 @@ ul.list-unstyled, ul#list-unstyled  {
 }
 .custom-use-button:hover{
   color:#000000 !important;
+}
+.custom-font-primary{
+  font-size:13px;
+}
+.timeline-event-title{
+ font-size: 13px;
 }

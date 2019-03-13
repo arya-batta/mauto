@@ -1379,16 +1379,46 @@ class AjaxController extends CommonAjaxController
                 $spamCount        = $email->getSpamCount(true);
                 $notreadcount     = $sentCount != 0 ? ($sentCount - $readCount) : 0;
                 $failedCount      = $model->getEmailFailedCount($email->getId());
+
+                $dripclickCountPercentage    = 0;
+                $dripreadCountPercentage     = 0;
+                $dripunsubsCountPercentage   = 0;
+                $dripbounceCountPercentage   = 0;
+                $dripspamCountPercentage     = 0;
+                $dripfailedCountPercentage   = 0;
+                $dripnotopenedCountPercentage= 0;
+                if ($clickCount > 0 && $sentCount > 0) {
+                    $dripclickCountPercentage  = round($clickCount / $sentCount * 100);
+                }
+                if ($readCount > 0 && $sentCount > 0) {
+                    $dripreadCountPercentage   = round($readCount / $sentCount * 100);
+                }
+                if ($notreadcount > 0 && $sentCount > 0) {
+                    $dripnotopenedCountPercentage   = round($notreadcount / $sentCount * 100);
+                }
+                if ($unsubscribeCount > 0 && $sentCount > 0) {
+                    $dripunsubsCountPercentage = round($unsubscribeCount / $sentCount * 100);
+                }
+                if ($bounceCount > 0 && $sentCount > 0) {
+                    $dripbounceCountPercentage = round($bounceCount / $sentCount * 100);
+                }
+                if ($spamCount > 0 && $sentCount > 0) {
+                    $dripspamCountPercentage = round($spamCount / $sentCount * 100);
+                }
+                if ($failedCount > 0 && $scheduledlead > 0) {
+                    $dripfailedCountPercentage = round($failedCount / $scheduledlead * 100);
+                }
+
                 $data             = [
                     'success'            => 1,
                     'sentCount'          => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%' =>$sentCount]),
-                    'readCount'          => $this->translator->trans('le.drip.email.stat.readcount', ['%count%' => $readCount]),
-                    'readPercent'        => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' => $clickCount]),
-                    'noreadCount'        => $this->translator->trans('le.drip.email.stat.notopencount', ['%count%' =>$notreadcount]),
-                    'unsubscribeCount'   => $this->translator->trans('le.drip.email.stat.unsubscribecount', ['%count%' =>$unsubscribeCount]),
-                    'bounceCount'        => $this->translator->trans('le.drip.email.stat.bouncecount', ['%count%' =>$bounceCount]),
-                    'spamCount'          => $this->translator->trans('le.drip.email.stat.spamcount', ['%count%' =>$spamCount]),
-                    'failedCount'        => $this->translator->trans('le.drip.email.stat.failedcount', ['%count%' =>$failedCount]),
+                    'readCount'          => $this->translator->trans('le.drip.email.stat.readcount', ['%count%' => $readCount, '%percentage%' => $dripreadCountPercentage]),
+                    'readPercent'        => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' => $clickCount, '%percentage%' => $dripclickCountPercentage]),
+                    'noreadCount'        => $this->translator->trans('le.drip.email.stat.notopencount', ['%count%' =>$notreadcount, '%percentage%' => $dripnotopenedCountPercentage]),
+                    'unsubscribeCount'   => $this->translator->trans('le.drip.email.stat.unsubscribecount', ['%count%' =>$unsubscribeCount, '%percentage%' => $dripunsubsCountPercentage]),
+                    'bounceCount'        => $this->translator->trans('le.drip.email.stat.bouncecount', ['%count%' =>$bounceCount, '%percentage%' => $dripbounceCountPercentage]),
+                    'spamCount'          => $this->translator->trans('le.drip.email.stat.spamcount', ['%count%' =>$spamCount, '%percentage%' => $dripspamCountPercentage]),
+                    'failedCount'        => $this->translator->trans('le.drip.email.stat.failedcount', ['%count%' =>$failedCount, '%percentage%' => $dripfailedCountPercentage]),
                 ];
             }
         }
