@@ -1111,6 +1111,7 @@ class AjaxController extends CommonAjaxController
         $this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
         $mailer = $this->container->get('le.transactions.sendgrid_api');
         $this->sendCancelSubscriptionEmail($mailer);
+        $this->cancelsubsEmailtoUser($mailer);
 
         return $this->sendJsonResponse($dataArray);
     }
@@ -1158,6 +1159,54 @@ class AjaxController extends CommonAjaxController
 </html>";
         $message->setBody($text, 'text/html');
         $mailer->send($message);
+    }
+
+    public function cancelsubsEmailtoUser($mailer){
+        $mailer->start();
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model         = $this->getModel('subscription.accountinfo');
+        $usermodel           = $this->getModel('user.user');
+        $accrepo       = $model->getRepository();
+        $accountentity = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $name      = $account->getAccountname();
+        $useremail = $account->getEmail();
+        $domain    = $account->getDomainname();
+        $message    = \Swift_Message::newInstance();
+        $currentuser=$usermodel->getCurrentUserEntity();
+        $email=$currentuser->getEmail();
+        $message->setTo([$useremail => $name]);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancel.sub.description'));
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+        Hey, $name!
+        <br>
+        <br> We received your request for account cancellation.
+        <br>
+        <br><strong>Domain Name-</strong> $domain.anyfunnels.com
+        <br><strong>Associated Email-</strong> $email
+
+        <br>Our support team member will process your request & keep you informed shortly.
+        </div>
+		
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
+
     }
 
     public function TrialUpgradeAction()

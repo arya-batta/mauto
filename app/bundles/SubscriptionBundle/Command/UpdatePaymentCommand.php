@@ -13,6 +13,7 @@ namespace Mautic\SubscriptionBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
 use Mautic\SubscriptionBundle\Entity\Billing;
+use Mautic\SubscriptionBundle\Helper\PaymentHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -190,7 +191,7 @@ class UpdatePaymentCommand extends ModeratedCommand
         }
     }
 
-    protected function attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount)
+    protected function attemptStripeCharge($output, $stripecard, PaymentHelper $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount)
     {
         $container  = $this->getContainer();
         $apikey     =$container->get('mautic.helper.core_parameters')->getParameter('stripe_api_key');
@@ -241,6 +242,8 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
                 $subsrepository=$container->get('le.core.repository.subscription');
                 $subsrepository->updateAppStatus($appid, 'InActive');
+                $mailer = $container->get('le.transactions.sendgrid_api');
+                $paymenthelper->paymentFailedEmailtoUser($mailer,$planname);
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');
                 $output->writeln('<error>'.'Failure Message:'.$failure_message.'</error>');

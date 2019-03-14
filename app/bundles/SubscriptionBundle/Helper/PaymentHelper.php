@@ -12,6 +12,7 @@
 namespace Mautic\SubscriptionBundle\Helper;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
+use Mautic\SubscriptionBundle\Entity\Account;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 
@@ -133,4 +134,47 @@ class PaymentHelper
 
         $mailer->send($message);
     }
+
+    public function paymentFailedEmailtoUser($mailer,$planname){
+        $mailer->start();
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model         = $this->factory->getModel('subscription.accountinfo');
+        $accrepo       = $model->getRepository();
+        $accountentity = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $name = $account->getAccountname();
+        $useremail =$account->getEmail();
+        $domain    =$account->getDomainname();
+        $message    = \Swift_Message::newInstance();
+        $message->setTo([$useremail => $name]);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject('[IMPORTANT] Your credit card was declined');
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+        Hey, $name!
+        <br>
+       
+        <br>We tried to process a charge of $49 for your AnyFunnels monthly subscription ($planname) for your account ($domain.anyfunnels.com), but your credit card was declined.
+
+        <br>Kindly take necessary action to continue AnyFunnels subscription.
+        </div>
+		
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
+    }
+
 }

@@ -2267,6 +2267,13 @@ class MailHelper
             $result=$this->testEmailServerConnection($settings, false);
             if ($result['success']) {
                 return true;
+            } else {
+                $mailer = $this->container->get('le.transactions.sendgrid_api');
+                $this->failedSMTPEmailtoUser($mailer);
+                $configurator->mergeParameters(['email_status' => 'InActive']);
+                $configurator->write();
+
+                return false;
             }
         } else {
             if (!$sendEmail) {
@@ -2541,5 +2548,50 @@ class MailHelper
         libxml_clear_errors();
 
         return $headContent;
+    }
+    public function failedSMTPEmailtoUser($mailer){
+        $mailer->start();
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model         = $this->getModel('subscription.accountinfo');
+        $usermodel           = $this->getModel('user.user');
+        $licenseHelper = $this->factory->getHelper('licenseinfo');
+        $emailprovider = $licenseHelper->getEmailProvider();
+        $accrepo       = $model->getRepository();
+        $accountentity = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $name      = $account->getAccountname();
+        $useremail = $account->getEmail();
+        $domain    = $account->getDomainname();
+        $message    = \Swift_Message::newInstance();
+        $currentuser=$usermodel->getCurrentUserEntity();
+        $email=$currentuser->getEmail();
+        $message->setTo([$useremail => $name]);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject($this->translator->trans('le.email.smtp.failed.msg'));
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+        Hey, $name!
+        <br>
+       
+        <br>There seems to be an error in your email service ($emailprovider) configuration.
+        <br>Kindly take necessary steps and update your settings in your account to reactivate your email sending.
+        </div>
+		
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
     }
 }

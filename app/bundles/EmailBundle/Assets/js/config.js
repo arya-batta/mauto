@@ -104,14 +104,14 @@ Le.testEmailServerConnection = function(sendEmail) {
         var theMessage = response.message;
         if(theClass == 'has-success'){
             mQuery('#config_emailconfig_email_status').val('Active');
-            mQuery('#config_emailconfig_email_status').css('background-color','#008000');
-            mQuery('#config_emailconfig_email_status').css('border-color','#008000');
+            mQuery('#config_emailconfig_email_status').removeClass('status_fail');
+            mQuery('#config_emailconfig_email_status').addClass('status_success');
 
         }
         if(theClass == 'has-error'){
             mQuery('#config_emailconfig_email_status').val('InActive');
-            mQuery('#config_emailconfig_email_status').css('background-color','#ff0000');
-            mQuery('#config_emailconfig_email_status').css('border-color','#ff0000');
+            mQuery('#config_emailconfig_email_status').removeClass('status_success');
+            mQuery('#config_emailconfig_email_status').addClass('status_fail');
 
         }
        if(!mQuery('.emailconfig #mailerTestButtonContainer').is(':hidden')){
