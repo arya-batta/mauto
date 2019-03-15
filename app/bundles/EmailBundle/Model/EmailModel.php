@@ -2416,7 +2416,11 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $emailids=[];
         $q       = $this->em->createQueryBuilder();
         $q->select('a.verifiedemails')
-            ->from('MauticEmailBundle:AwsVerifiedEmails', 'a');
+            ->from('MauticEmailBundle:AwsVerifiedEmails', 'a')->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('a.inboxverified', ':inbox_verified')
+                )
+            )->setParameter('inbox_verified', '1');
 
         $value = $q->getQuery()->getArrayResult();
 
