@@ -2461,6 +2461,7 @@ class MailHelper
             'is not authorized to perform',
             'Request is missing Authentication Token',
             'Authenticated user is not authorized to send mail',
+            'Name or service not known',
        ];
         $errormsg = [
             'le.email.config.invalidemail.error',
@@ -2478,6 +2479,7 @@ class MailHelper
             'le.email.config.aws.permission.denie.error',
             'le.email.config.aws.missing.error',
             'le.email.config.sendgrid.user.not.authorized',
+            'le.email.config.other.smtp',
        ];
         for ($i = 0; $i < sizeof($errors); ++$i) {
             if (strpos($geterror, $errors[$i]) !== false) {
@@ -2549,26 +2551,28 @@ class MailHelper
 
         return $headContent;
     }
-    public function failedSMTPEmailtoUser($mailer){
+
+    public function failedSMTPEmailtoUser($mailer)
+    {
         $mailer->start();
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
-        $model         = $this->getModel('subscription.accountinfo');
+        $model               = $this->getModel('subscription.accountinfo');
         $usermodel           = $this->getModel('user.user');
-        $licenseHelper = $this->factory->getHelper('licenseinfo');
-        $emailprovider = $licenseHelper->getEmailProvider();
-        $accrepo       = $model->getRepository();
-        $accountentity = $accrepo->findAll();
+        $licenseHelper       = $this->factory->getHelper('licenseinfo');
+        $emailprovider       = $licenseHelper->getEmailProvider();
+        $accrepo             = $model->getRepository();
+        $accountentity       = $accrepo->findAll();
         if (sizeof($accountentity) > 0) {
             $account = $accountentity[0];
         } else {
             $account = new Account();
         }
-        $name      = $account->getAccountname();
-        $useremail = $account->getEmail();
-        $domain    = $account->getDomainname();
+        $name       = $account->getAccountname();
+        $useremail  = $account->getEmail();
+        $domain     = $account->getDomainname();
         $message    = \Swift_Message::newInstance();
         $currentuser=$usermodel->getCurrentUserEntity();
-        $email=$currentuser->getEmail();
+        $email      =$currentuser->getEmail();
         $message->setTo([$useremail => $name]);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);

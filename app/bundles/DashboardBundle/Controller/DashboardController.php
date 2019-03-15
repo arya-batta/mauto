@@ -99,12 +99,18 @@ class DashboardController extends FormController
         $pages     = $hitrepo->getEntities(
             [
                 'filter'           => [
-                    'force' => [],
+                    'force' => [
+                        [
+                            'column' => 'h.organization',
+                            'expr'   => 'neq',
+                            'value'  => 'sampletracking',
+                        ],
+                    ],
                 ],
                 'ignore_paginator' => true,
             ]
         );
-        if (count($pages) > 12) {
+        if (!empty($pages)) {
             $websiteTrackingEnabled = true;
         }
 

@@ -65,6 +65,19 @@ Le.testMonitoredEmailServerConnection = function(mailbox) {
 
 Le.testEmailServerConnection = function(sendEmail) {
     Le.updateEmailStatus();
+    var transport = mQuery('#config_emailconfig_mailer_transport').val();
+    var port = mQuery('#config_emailconfig_mailer_host').val();
+    var host = mQuery('#config_emailconfig_mailer_host').val();
+    var password = mQuery('#config_emailconfig_mailer_password').val();
+    var user = mQuery('#config_emailconfig_mailer_user').val();
+    if(transport == "smtp" && (port == "" || host == "" || user == "" || password == "")){
+        mQuery('#emailActivateModel').modal('hide');
+        mQuery('#mailerTestButtonContainer .fa-spinner').removeClass('hide');
+        mQuery('.emailconfig #mailerTestButtonContainer').removeClass('has-success has-error').addClass("has-error");
+        mQuery('.emailconfig #mailerTestButtonContainer .help-block').html("Please configure all the values.");
+        mQuery('.emailconfig #mailerTestButtonContainer .fa-spinner').addClass('hide');
+        return;
+    }
     var toemail = "";
     var trackingcode = "";
     var additionalinfo = "";
@@ -206,6 +219,7 @@ Le.showBounceCallbackURL = function(modeEl) {
         mQuery('#config_emailconfig_mailer_transport').val(mode);
     }
     mQuery('#config_emailconfig_mailer_amazon_region').val('');
+    Le.updateEmailStatus();
 };
 
 

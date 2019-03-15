@@ -270,7 +270,7 @@ class ConfigType extends AbstractType
                     'tabindex'     => $tabIndex,
                     'style'        => $style,
                     'tooltip'      => 'le.email.config.mailer.from.email.tooltip',
-                    'onkeyup'      => 'Le.updateEmailStatus();',
+                    //'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -438,7 +438,7 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control',
                     'data-show-on' => $amazonRegionShowConditions,
                     'tooltip'      => 'le.email.config.mailer.amazon_host.tooltip',
-                    'onchange'     => 'Le.updateEmailStatus();',
+                    //'onchange'     => 'Le.updateEmailStatus();',
                 ],
                 'empty_value' => false,
             ]
@@ -545,7 +545,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginUserHideConditions,
                     'tooltip'      => 'le.email.config.mailer.user.tooltip',
                     'autocomplete' => 'off',
-                    'onkeyup'      => 'Le.updateEmailStatus();',
+                    //'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -565,7 +565,7 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $mailerLoginPasswordHideConditions,
                     'tooltip'      => 'le.email.config.mailer.password.tooltip',
                     'autocomplete' => 'off',
-                    'onkeyup'      => 'Le.updateEmailStatus();',
+                    //'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]
@@ -587,7 +587,7 @@ class ConfigType extends AbstractType
                     'tooltip'      => 'le.email.config.mailer.apikey.tooltop',
                     'autocomplete' => 'off',
                     'placeholder'  => 'le.email.config.mailer.apikey.placeholder',
-                    'onkeyup'      => 'Le.updateEmailStatus();',
+                    //'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'required' => false,
             ]

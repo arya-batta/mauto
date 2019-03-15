@@ -644,7 +644,9 @@ var Le = {
                 if (response.route && response.route.indexOf("ajax") == -1) {
                     //update URL in address bar
                     leVars.manualStateChange = false;
-                    History.pushState(null, "Mautic", response.route);
+                    if(response.route.indexOf("validate") == -1) {
+                        History.pushState(null, productBrandName, response.route);
+                    }
                 }
             } else if (response.newContent && mQuery('.modal.in').length) {
                 //assume a modal was the recipient of the information

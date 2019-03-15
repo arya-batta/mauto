@@ -56,7 +56,7 @@ Le.updateTextMessageStatus = function(){
     mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
     if(mQuery('#config_smsconfig_sms_transport').val() !="") {
         mQuery('#smsStatus').removeClass('hide');
-        mQuery('#smsPublish').removeClass('hide');
+        //mQuery('#smsPublish').removeClass('hide');
         mQuery('#smsActivatebtn').removeClass('hide');
     }else{
         mQuery('#smsStatus').addClass('hide');

@@ -165,7 +165,7 @@ class TrackableModel extends AbstractCommonModel
         }
 
         foreach ($urls as $key => $url) {
-            if (empty($url)) {
+            if (empty($url) || strpos($url, 'anyfunnels.com/?utm-src=email-footer-link') !== false) {
                 continue;
             }
 

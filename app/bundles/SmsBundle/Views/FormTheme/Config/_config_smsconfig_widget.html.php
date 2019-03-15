@@ -22,7 +22,7 @@ $isadmin       =$view['security']->isAdmin();
             </div>
             <div class="col-md-4" >
                 <div id="smsStatus">
-                    <?php echo $view['form']->row($form['sms_status'],['attr' => ['tabindex' => '-1']]); ?>
+                    <?php echo $view['form']->row($form['sms_status'], ['attr' => ['tabindex' => '-1']]); ?>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@ $isadmin       =$view['security']->isAdmin();
                 <?php echo $view['form']->row($form['account_api_key']); ?>
                 <?php echo $view['form']->row($form['account_sid']); ?>
             </div>
-            <div class="col-md-6" id="smsPublish">
+            <div class="col-md-6 hide" id="smsPublish">
                 <?php echo $view['form']->row($form['publish_account']); ?>
             </div>
             <div id="smsTestButtonContainer">
@@ -59,9 +59,9 @@ $isadmin       =$view['security']->isAdmin();
     </div>
 </div>
 
-<div class="panel panel-primary <?php echo $isadmin?"":"hide"?>">
+<div class="panel panel-primary <?php echo $isadmin ? '' : 'hide'?>">
     <div class="panel-heading">
-        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.core.config.form.link.shortener');?></h3>
+        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.core.config.form.link.shortener'); ?></h3>
     </div>
     <div class="panel-body">
         <div class="row">

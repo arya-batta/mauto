@@ -11,12 +11,12 @@
 
 namespace Mautic\SmsBundle\Form\Type;
 
+use Mautic\CoreBundle\Helper\UserHelper;
 use Mautic\SmsBundle\Sms\TransportChain;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Mautic\CoreBundle\Helper\UserHelper;
 
 /**
  * Class ConfigType.
@@ -38,13 +38,13 @@ class ConfigType extends AbstractType
      *
      * @param TransportChain      $transportChain
      * @param TranslatorInterface $translator
-     * @param UserHelper $userHelper
+     * @param UserHelper          $userHelper
      */
-    public function __construct(TransportChain $transportChain, TranslatorInterface $translator,UserHelper $userHelper)
+    public function __construct(TransportChain $transportChain, TranslatorInterface $translator, UserHelper $userHelper)
     {
         $this->transportChain = $transportChain;
         $this->translator     = $translator;
-        $this->isadmin = $userHelper->getUser()->isAdmin();
+        $this->isadmin        = $userHelper->getUser()->isAdmin();
     }
 
     /**
@@ -53,9 +53,9 @@ class ConfigType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices    = [];
+        $choices       = [];
         $alltransports = $this->transportChain->getEnabledTransports();
-        if(!$this->isadmin) {
+        if (!$this->isadmin) {
             foreach ($alltransports as $transportServiceId => $transport) {
                 if ($transportServiceId != 'le.sms.transport.solutioninfini' && $transportServiceId != 'le.sms.transport.leadsengage') {
                     $transports[$transportServiceId] = $alltransports[$transportServiceId];
@@ -63,30 +63,29 @@ class ConfigType extends AbstractType
             }
             $alltransports = $transports;
         }
-            foreach ($alltransports as $transportServiceId => $transport) {
-                if ($transportServiceId == 'le.sms.transport.solutioninfini') {
-                    $choices[$transportServiceId] = $this->translator->trans('le.sms.transport.solutioninfini.choice');
-                } else {
-                    $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
-                }
+        foreach ($alltransports as $transportServiceId => $transport) {
+            if ($transportServiceId == 'le.sms.transport.solutioninfini') {
+                $choices[$transportServiceId] = $this->translator->trans('le.sms.transport.solutioninfini.choice');
+            } else {
+                $choices[$transportServiceId] = $this->translator->trans($transportServiceId);
             }
+        }
 
         $builder->add('sms_transport', ChoiceType::class, [
             'label'      => 'mautic.sms.config.select_default_transport',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
-                'tooltip' => 'mautic.sms.config.select_default_transport',
+                'class'       => 'form-control',
+                'tooltip'     => 'mautic.sms.config.select_default_transport',
                 'onchange'    => 'Le.updateTextMessageStatus()',
             ],
             'data'        => $options['data']['sms_transport'],
             'required'    => false,
             'choices'     => $choices,
-            'empty_value' => 'mautic.core.form.chooseone'
-
+            'empty_value' => 'mautic.core.form.chooseone',
         ]);
-        $SolutionShowConditions  = '{"config_smsconfig_sms_transport":["le.sms.transport.solutioninfini"]}';
-        $TwilioShowConditions    = '{"config_smsconfig_sms_transport":["le.sms.transport.twilio"]}';
+        $SolutionShowConditions   = '{"config_smsconfig_sms_transport":["le.sms.transport.solutioninfini"]}';
+        $TwilioShowConditions     = '{"config_smsconfig_sms_transport":["le.sms.transport.twilio"]}';
         $LeadsEngageShowConditions= '{"config_smsconfig_sms_transport":["le.sms.transport.leadsengage"]}';
         $builder->add(
             'account_url',
@@ -99,11 +98,10 @@ class ConfigType extends AbstractType
                     'data-show-on' => $SolutionShowConditions,
                     'data-hide-on' => $TwilioShowConditions,
                     'disabled'     => false,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_url'],
-
             ]
         );
         $builder->add(
@@ -117,11 +115,10 @@ class ConfigType extends AbstractType
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_sid'],
-
             ]
         );
         $builder->add(
@@ -135,11 +132,10 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_api_key'],
-
             ]
         );
         $builder->add(
@@ -153,11 +149,10 @@ class ConfigType extends AbstractType
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
                     'disabled'     => false,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_auth_token'],
-
             ]
         );
         $builder->add(
@@ -171,11 +166,10 @@ class ConfigType extends AbstractType
                     'data-hide-on' => $TwilioShowConditions,
                     'data-show-on' => $SolutionShowConditions,
                     'disabled'     => false,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'required' => false,
                 'data'     => $options['data']['account_sender_id'],
-
             ]
         );
         $builder->add(
@@ -189,10 +183,9 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control le-input',
                     'data-show-on' => $TwilioShowConditions,
                     'data-hide-on' => $SolutionShowConditions,
-                    'onkeyup'    => 'Le.updateTextMessageStatus()',
+                    'onkeyup'      => 'Le.updateTextMessageStatus()',
                 ],
                 'data' => $options['data']['sms_from_number'],
-
             ]
         );
         $builder->add(
@@ -207,7 +200,6 @@ class ConfigType extends AbstractType
                     'class' => 'form-control frequency',
                 ],
                 'data' => $options['data']['sms_frequency_number'],
-
             ]
         );
         $builder->add(
@@ -236,26 +228,26 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.account.publish.account',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
-                    'class'   => 'form-control',
+                    'class'        => 'form-control',
                     'data-hide-on' => $LeadsEngageShowConditions,
                     //'onChange'    => 'Le.updateTextMessageStatus()',
                 ],
-                'data'       => (isset($options['data']['publish_account'])) ? $options['data']['publish_account'] : false,
+                'data'       => true,
                 'required'   => false,
                 'no_label'   => 'mautic.core.form.unpublished',
                 'yes_label'  => 'mautic.core.form.published',
             ]
         );
-        $class = 'status_success';
+        $class     = 'status_success';
         $smsStatus = $options['data']['sms_status'];
-        if($smsStatus == "InActive"){
+        if ($smsStatus == 'InActive') {
             $class = 'status_fail';
         }
         $builder->add(
             'sms_status',
             'text',
             [
-                'label'     => 'le.sms.avtivate.status.label',
+                'label'      => 'le.sms.avtivate.status.label',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'        => 'form-control col-md-3 btn btn-primary '.$class,

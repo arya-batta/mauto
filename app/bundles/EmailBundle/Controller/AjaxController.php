@@ -411,10 +411,10 @@ class AjaxController extends CommonAjaxController
         $user             = $this->factory->get('mautic.helper.user')->getUser();
         if ($action == 'created') {
             $msg = 'added';
-            $sub ='added a new';
+            $sub ='Added a new';
         } else {
             $msg = 'verified';
-            $sub ='verified the';
+            $sub ='Verified the';
         }
         try {
             $userFullName = trim($user->getFirstName().' '.$user->getLastName());

@@ -1055,7 +1055,7 @@ Le.checkemailstatus = function(){
                         Le.adJustFixedHeader(true);
                    // }
                 } else {
-                    mQuery('.license-notifiation').addClass('hide');
+                    //mQuery('.license-notifiation').addClass('hide');
                     Le.adJustFixedHeader(false);
                 }
             }

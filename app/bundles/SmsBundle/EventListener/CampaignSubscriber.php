@@ -100,11 +100,11 @@ class CampaignSubscriber extends CommonSubscriber
         $transportChain = $this->factory->get('mautic.sms.transport_chain');
         $transports     = $transportChain->getEnabledTransports();
         $isEnabled      = false;
-        foreach ($transports as $transportServiceId=>$transport) {
-            $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
-            if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-                $isEnabled = true;
-                $event->addAction(
+        //foreach ($transports as $transportServiceId=>$transport) {
+        //    $integration = $this->integrationHelper->getIntegrationObject($this->translator->trans($transportServiceId));
+        //    if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+        //        $isEnabled = true;
+        $event->addAction(
                     'sms.send_text_sms',
                     [
                         'label'            => 'mautic.campaign.sms.send_text_sms',
@@ -120,7 +120,7 @@ class CampaignSubscriber extends CommonSubscriber
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                $event->addAction(
+        $event->addAction(
                     'sms.send_text_sms.to.user',
                     [
                         'label'            => 'le.campaign.sms.send_text_sms.to.user',
@@ -136,10 +136,10 @@ class CampaignSubscriber extends CommonSubscriber
                         'group'            => 'le.campaign.event.group.name.leadsengage',
                     ]
                 );
-                break;
-            }
-        }
-        $this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
+        //        break;
+        //    }
+        //}
+        //$this->notificationhelper->sendNotificationonFailure(false, $isEnabled);
         // }
     }
 

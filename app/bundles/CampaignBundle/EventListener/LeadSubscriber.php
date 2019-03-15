@@ -635,6 +635,9 @@ class LeadSubscriber extends CommonSubscriber
                 $subeventTypeKey =$eventTypeKey;
                 $subeventTypeName=$eventTypeName;
                 $subeventTypeIcon='fa-clock-o';
+                if ($type == 'email.send.to.user') {
+                    continue;
+                }
                 if ($eventtype == 'source') {
                     if ($modeofsource == 'interrupt') {
                         $subeventTypeKey ='campaign.event.goal';
