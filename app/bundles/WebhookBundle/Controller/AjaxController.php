@@ -59,6 +59,8 @@ class AjaxController extends CommonAjaxController
             $msg='mautic.webhook.label.notfound';
         } elseif ($response->code == 500) {
             $msg='mautic.webhook.label.error';
+        } elseif ($response->code == 405) {
+            $msg='le.webhook.label.405';
         } else {
             $msg='mautic.webhook.label.warning';
         }

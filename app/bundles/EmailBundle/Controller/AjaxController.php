@@ -372,7 +372,7 @@ class AjaxController extends CommonAjaxController
                             $idhash                = $senderprofile->getIdHash();
                             $mailresponse          =$this->sendSenderVerificationEmail($fromemail, $fromname, $idhash);
                             if ($mailresponse == '') {
-                                $dataArray['response'] = $this->translator->trans('le.email.senderverification.inbox.failed');
+                                $dataArray['response'] = $this->translator->trans('le.email.senderverification.inbox.failed', ['%EMAIL%' => $fromemail]);
                             } else {
                                 $dataArray['response'] = $mailresponse;
                             }

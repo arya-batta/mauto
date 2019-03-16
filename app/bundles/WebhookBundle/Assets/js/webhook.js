@@ -33,7 +33,16 @@ Le.sendHookTest = function() {
             }
         },
         error: function (request, textStatus, errorThrown) {
-            Le.processAjaxError(request, textStatus, errorThrown);
+            var errorMsg = errorThrown;
+            if (typeof request.responseJSON !== 'undefined') {
+                errorMsg = request.responseJSON;
+                if (errorMsg.errors && errorMsg.errors[0] && errorMsg.errors[0].message) {
+                    errorMsg = errorMsg.errors[0].message;
+                }
+            }
+            var spandiv = '<div class="has-error"><span class="help-block">'+errorMsg+'</span></div>';
+            mQuery('#tester').html(spandiv);
+            //Le.processAjaxError(request, textStatus, errorThrown);
         },
         complete: function(response) {
             spinner.addClass('hide');

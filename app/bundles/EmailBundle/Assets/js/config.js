@@ -219,7 +219,7 @@ Le.showBounceCallbackURL = function(modeEl) {
         mQuery('#config_emailconfig_mailer_transport').val(mode);
     }
     mQuery('#config_emailconfig_mailer_amazon_region').val('');
-    Le.updateEmailStatus();
+    //Le.updateEmailStatus();
 };
 
 

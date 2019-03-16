@@ -129,6 +129,14 @@ class EmailSubscriber extends CommonSubscriber
                 $reason = $this->translator->trans('le.email.dnc.failed', [
                     '%subject%' => EmojiHelper::toShort($message->getSubject()),
                 ]);
+
+                $configurator   = $this->factory->get('mautic.configurator');
+                $mailer         = $this->factory->get('le.transactions.sendgrid_api');
+                $mailhelper     = $this->get('mautic.helper.mailer');
+                $mailhelper->failedSMTPEmailtoUser($mailer);
+                $configurator->mergeParameters(['email_status' => 'InActive']);
+                $configurator->write();
+
                 $this->emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE);
             }
         }
