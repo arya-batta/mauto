@@ -893,6 +893,7 @@ class LeadApiController extends CommonApiController
 
         $modifiedentities = [];
         $modifieddata     = [];
+
         foreach ($entities as $entity) {
             $leadId = $entity->getId();
             //$profilefields[] = $entity->getProfileFields();
