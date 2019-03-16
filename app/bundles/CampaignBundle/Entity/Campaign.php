@@ -193,12 +193,12 @@ class Campaign extends FormEntity
             )
             ->addProperties(
                 [
-                    'publishUp',
-                    'publishDown',
-                    'events',
+                    //'publishUp',
+                    //'publishDown',
+                    //'events',
                    // 'forms',
                    // 'lists', // @deprecated, will be renamed to 'segments' in 3.0.0
-                    'canvasSettings',
+                   // 'canvasSettings',
                 ]
             )
             ->setGroupPrefix('campaignBasic')
@@ -207,9 +207,9 @@ class Campaign extends FormEntity
                     'id',
                     'name',
                     'description',
-                    'events',
-                    'publishUp',
-                    'publishDown',
+                    //'events',
+                    //'publishUp',
+                    //'publishDown',
                 ]
             )
             ->build();

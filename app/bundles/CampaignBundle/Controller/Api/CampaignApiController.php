@@ -31,7 +31,7 @@ class CampaignApiController extends CommonApiController
         $this->entityClass      = 'Mautic\CampaignBundle\Entity\Campaign';
         $this->entityNameOne    = 'campaign';
         $this->entityNameMulti  = 'campaigns';
-        $this->serializerGroups = ['campaignDetails', 'campaignEventDetails', 'categoryList', 'publishDetails', 'leadListList', 'formList'];
+        $this->serializerGroups = ['leadBasicList', 'campaignDetails', 'campaignEventDetails', 'categoryList', 'publishDetails', 'leadListList', 'formList'];
 
         parent::initialize($event);
     }
@@ -46,20 +46,34 @@ class CampaignApiController extends CommonApiController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function addLeadAction($id, $leadId)
+    public function addLeadAction($id, $leadId = null)
     {
         $entity = $this->model->getEntity($id);
+        $email  = $this->request->get('email');
         if (null !== $entity) {
-            $leadModel = $this->getModel('lead');
-            $lead      = $leadModel->getEntity($leadId);
+            if (!$this->inBatchMode) {
+                $leadModel = $this->getModel('lead');
+                $result    = $leadModel->findEmail($email);
 
-            if ($lead == null) {
-                return $this->notFound();
-            } elseif (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getOwner())) {
-                return $this->accessDenied();
+                if (!count($result) > 0) {
+                    return $this->notFound('le.core.contact.error.notfound');
+                }
+
+                $lead   = $result[0];
+                $leadId = $lead->getId();
+
+                if (!$this->security->hasEntityAccess('lead:leads:editown', 'lead:leads:editother', $lead->getOwner())) {
+                    return $this->accessDenied();
+                }
             }
 
             $this->model->addLead($entity, $leadId);
+
+            if ($this->inBatchMode) {
+                $this->inBatchMode = false;
+
+                return;
+            }
 
             $view = $this->view(['success' => 1], Codes::HTTP_OK);
 
@@ -79,16 +93,35 @@ class CampaignApiController extends CommonApiController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function removeLeadAction($id, $leadId)
+    public function removeLeadAction($id, $leadId = null)
     {
         $entity = $this->model->getEntity($id);
+        $email  = $this->request->get('email');
         if (null !== $entity) {
-            $lead = $this->checkLeadAccess($leadId, 'edit');
-            if ($lead instanceof Response) {
-                return $lead;
+            if (!$this->inBatchMode) {
+                $leadModel = $this->getModel('lead');
+                $result    = $leadModel->findEmail($email);
+
+                if (!count($result) > 0) {
+                    return $this->notFound('le.core.contact.error.notfound');
+                }
+
+                $lead   = $result[0];
+                $leadId = $lead->getId();
+
+                $lead = $this->checkLeadAccess($leadId, 'edit');
+                if ($lead instanceof Response) {
+                    return $lead;
+                }
             }
 
             $this->model->removeLead($entity, $leadId);
+
+            if ($this->inBatchMode) {
+                $this->inBatchMode = false;
+
+                return;
+            }
 
             $view = $this->view(['success' => 1], Codes::HTTP_OK);
 
@@ -96,6 +129,75 @@ class CampaignApiController extends CommonApiController
         }
 
         return $this->notFound();
+    }
+
+    /**
+     * Add Or Remove Batch of Leads to Workflow.
+     *
+     * @return array|Response
+     */
+    public function addOrRemoveBatchLeadsAction()
+    {
+        $parameters = $this->request->request->all();
+
+        $valid = $this->validateBatchPayload($parameters);
+        if ($valid instanceof Response) {
+            return $valid;
+        }
+
+        $this->inBatchMode = true;
+        $entities          = [];
+        $errors            = [];
+        $statusCodes       = [];
+        foreach ($parameters as $key => $params) {
+            $entity = $this->model->getEntity($params['workflowId']);
+            $result = $this->getModel('lead')->findEmail($params['email']);
+
+            if (null === $entity) {
+                $this->setBatchError($key, 'mautic.core.error.notfound', Codes::HTTP_NOT_FOUND, $errors, $entities, $entity);
+                $statusCodes[$key] = $key.':Failed'; //Codes::HTTP_NOT_FOUND;
+                continue;
+            }
+
+            if (!count($result) > 0) {
+                $this->setBatchError($key, 'le.core.contact.error.notfound', Codes::HTTP_NOT_FOUND, $errors, $entities);
+                $statusCodes[$key] = $key.':Failed'; //Codes::HTTP_NOT_FOUND;
+                continue;
+            }
+            $leadentity          = $this->getModel('lead')->getEntity($result[0]->getId());
+            $leadId              = $leadentity->getId();
+
+            $contact = $this->checkLeadAccess($leadId, 'edit');
+            if ($contact instanceof Response) {
+                $this->setBatchError($key, 'mautic.core.error.accessdenied', Codes::HTTP_FORBIDDEN, $errors, $entities, $leadentity);
+                $statusCodes[$key] = $key.':Failed'; //Codes::HTTP_FORBIDDEN;
+                continue;
+            }
+
+            $this->inBatchMode = true;
+            if (strpos($this->request->getRequestUri(), '/add') !== false) {
+                $this->addLeadAction($params['workflowId'], $leadId);
+            } else {
+                $this->removeLeadAction($params['workflowId'], $leadId);
+            }
+
+            $statusCodes[$key] = $key.':Success'; //Codes::HTTP_OK;
+            $this->getDoctrine()->getManager()->detach($entity);
+            $this->getDoctrine()->getManager()->detach($leadentity);
+        }
+
+        $payload = [
+            'status'          => $statusCodes,
+        ];
+
+        if (!empty($errors)) {
+            $payload['errors'] = $errors;
+        }
+
+        $view = $this->view($payload, Codes::HTTP_CREATED);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -269,5 +371,23 @@ class CampaignApiController extends CommonApiController
                 'limit'     => $limit,
             ]
         );
+    }
+
+    /**
+     * Get an entity by a specific status.
+     *
+     * @param $id
+     *
+     * @return Response
+     */
+    public function getEntityByStatusAction($id)
+    {
+        if (strpos($this->request->getRequestUri(), '/active') !== false) {
+            $this->fliterCommands = 'wf_progress:'.$id;
+        } elseif (strpos($this->request->getRequestUri(), '/completed') !== false) {
+            $this->fliterCommands = 'wf_completed:'.$id;
+        }
+
+        return parent::getEntityByStatusAction($id);
     }
 }

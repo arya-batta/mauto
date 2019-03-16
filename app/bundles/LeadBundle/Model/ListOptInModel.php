@@ -539,4 +539,9 @@ class ListOptInModel extends FormModel
 
         return $allBlockDetails;
     }
+
+    public function getListOptinByLead($leadId)
+    {
+        return $this->getListLeadRepository()->getListIDbyLeads($leadId);
+    }
 }

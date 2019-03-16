@@ -409,6 +409,36 @@ class DripEmailModel extends FormModel
         }
     }
 
+    public function addLeadToDrip($campaign, $lead)
+    {
+        $this->addLead($campaign, $lead);
+        $items = $this->emailModel->getEntities(
+            [
+                'filter' => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $campaign,
+                        ],
+                    ],
+                ],
+                'orderBy'          => 'e.dripEmailOrder',
+                'orderByDir'       => 'asc',
+                'ignore_paginator' => true,
+            ]
+        );
+
+        $this->scheduleEmail($items, $campaign, $lead);
+    }
+
+    public function removeLead($dripId, $leadId)
+    {
+        $eventLogRepo=$this->getCampaignLeadEventRepository();
+        $eventLogRepo->removeScheduledEvents($dripId, $leadId);
+        $eventLogRepo->removeScheduledDripLead($dripId, $leadId);
+    }
+
     public function checkLeadLinked($lead, $dripemail)
     {
         $leadLog  = $this->factory->get('mautic.email.repository.lead');
@@ -744,6 +774,11 @@ class DripEmailModel extends FormModel
         return $this->getRepository()->getLeadsByDrip($drip, $countOnly);
     }
 
+    public function getLeadIdsByDrip($drip)
+    {
+        return $this->getRepository()->getLeadIdsByDrip($drip);
+    }
+
     public function getCustomEmailStats($drip)
     {
         $emails = $this->emailModel->getEntities(
@@ -791,5 +826,10 @@ class DripEmailModel extends FormModel
         $emailStats['nopen']       = $nopencount;
 
         return $emailStats;
+    }
+
+    public function getDripByLead($leadId, $publishedonly = true)
+    {
+        return $this->getRepository()->getDripByLead($leadId, $publishedonly);
     }
 }

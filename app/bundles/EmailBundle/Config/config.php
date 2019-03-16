@@ -64,6 +64,47 @@ return [
                 'path'            => '/emails',
                 'controller'      => 'MauticEmailBundle:Api\EmailApi',
             ],
+            'mautic_api_dripstandard' => [
+                'standard_entity' => true,
+                'name'            => 'drips',
+                'path'            => '/drips',
+                'controller'      => 'MauticEmailBundle:Api\DripApi',
+            ],
+            'mautic_api_dripaddcontact' => [
+                'path'       => '/drips/{id}/lead/add',
+                'controller' => 'MauticEmailBundle:Api\DripApi:addOrRemoveLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripremovecontact' => [
+                'path'       => '/drips/{id}/lead/remove',
+                'controller' => 'MauticEmailBundle:Api\DripApi:addOrRemoveLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripaddbatchcontact' => [
+                'path'       => '/drips/lead/batch/add',
+                'controller' => 'MauticEmailBundle:Api\DripApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripremovebatchcontact' => [
+                'path'       => '/drips/lead/batch/remove',
+                'controller' => 'MauticEmailBundle:Api\DripApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripgetcontact' => [
+                'path'       => '/drips/{id}/leads',
+                'controller' => 'MauticEmailBundle:Api\DripApi:getLeadsByDrip',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripgetactivecontact' => [
+                'path'       => '/drips/{id}/lead/active',
+                'controller' => 'MauticEmailBundle:Api\DripApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
+            'mautic_api_dripgetcompletedcontact' => [
+                'path'       => '/drips/{id}/lead/completed',
+                'controller' => 'MauticEmailBundle:Api\DripApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
             'mautic_api_sendemail' => [
                 'path'       => '/emails/{id}/send',
                 'controller' => 'MauticEmailBundle:Api\EmailApi:send',
@@ -72,6 +113,16 @@ return [
             'mautic_api_sendcontactemail' => [
                 'path'       => '/emails/{id}/contact/{leadId}/send',
                 'controller' => 'MauticEmailBundle:Api\EmailApi:sendLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_getoneoff' => [
+                'path'       => '/oneoff/{id}',
+                'controller' => 'MauticEmailBundle:Api\EmailApi:getOneoff',
+                'method'     => 'GET',
+            ],
+            'mautic_api_getoneofflist' => [
+                'path'       => '/oneoff',
+                'controller' => 'MauticEmailBundle:Api\EmailApi:getOneoffList',
                 'method'     => 'POST',
             ],
 

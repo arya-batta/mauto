@@ -27,6 +27,8 @@ use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\CoreBundle\Model\AbstractCommonModel;
 use Mautic\CoreBundle\Security\Exception\PermissionException;
+use Mautic\LeadBundle\Controller\LeadAccessTrait;
+use Mautic\LeadBundle\Entity\Tag;
 use Mautic\UserBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Form;
@@ -43,6 +45,7 @@ class CommonApiController extends FOSRestController implements MauticController
 {
     use RequestTrait;
     use FormErrorMessagesTrait;
+    use LeadAccessTrait;
 
     /**
      * @var CoreParametersHelper
@@ -117,6 +120,13 @@ class CommonApiController extends FOSRestController implements MauticController
      * @var array
      */
     protected $listFilters = [];
+
+    /**
+     * Used to set filter commands for entity lists such.
+     *
+     * @var array
+     */
+    protected $fliterCommands = '';
 
     /**
      * Model object for processing the entity.
@@ -439,6 +449,10 @@ class CommonApiController extends FOSRestController implements MauticController
         list($entities, $totalCount) = $this->prepareEntitiesForView($results);
         if ($this->entityNameMulti == 'lists') {
             $this->entityNameMulti = 'segments';
+        } elseif ($this->entityNameMulti == 'campaigns') {
+            $this->entityNameMulti = 'workflows';
+        } elseif ($this->entityNameMulti == 'listoptins') {
+            $this->entityNameMulti = 'lists';
         }
         $view = $this->view(
             [
@@ -544,8 +558,101 @@ class CommonApiController extends FOSRestController implements MauticController
         $this->preSerializeEntity($entity);
         if ($this->entityNameOne == 'list') {
             $this->entityNameOne = 'segment';
+        } elseif ($this->entityNameOne == 'campaign') {
+            $this->entityNameOne = 'workflow';
+        } elseif ($this->entityNameOne == 'listoptin') {
+            $this->entityNameOne = 'list';
         }
         $view = $this->view([$this->entityNameOne => $entity], Codes::HTTP_OK);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Publish Or Unpublish Entity.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function activeOrInActiveEntityAction($id)
+    {
+        $entity     = $this->model->getEntity($id);
+
+        if ($entity === null || !$entity->getId()) {
+            return $this->notFound();
+        }
+
+        if (!$this->checkEntityAccess($entity, 'edit')) {
+            return $this->accessDenied();
+        }
+
+        if (strpos($this->request->getRequestUri(), '/active') !== false) {
+            $entity->setIsPublished(true);
+        } else {
+            $entity->setIsPublished(false);
+        }
+
+        $this->model->saveEntity($entity);
+
+        return $this->handleView($this->view(['success' => 1], Codes::HTTP_OK));
+    }
+
+    /**
+     * Obtains a specific entity by provided status.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function getEntityByStatusAction($id)
+    {
+        $parameters    = $this->request->request->all();
+        $repo          = $this->model->getRepository();
+        $tableAlias    = $repo->getTableAlias();
+
+        $entity = $this->model->getEntity($id);
+
+        if (!$entity instanceof $this->entityClass) {
+            return $this->returnError('le.core.error.id.notfound', Codes::HTTP_NOT_FOUND, [], ['%id%'=> $id]); // Previous it was return $this->notFound();
+        }
+
+        if (!$this->checkEntityAccess($entity, 'view')) {
+            return $this->accessDenied();
+        }
+
+        if ($this->security->checkPermissionExists($this->permissionBase.':viewother')
+            && !$this->security->isGranted($this->permissionBase.':viewother')
+        ) {
+            $this->listFilters = [
+                'column' => $tableAlias.'.createdBy',
+                'expr'   => 'eq',
+                'value'  => $this->user->getId(),
+            ];
+        }
+
+        $args =
+            [
+                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : $this->coreParametersHelper->getParameter('default_pagelimit'), //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
+                'filter' => [
+                    'string' => $this->fliterCommands, //$this->request->query->get('search', ''),
+                    'force'  => $this->listFilters,
+                ],
+                'withTotalCount' => true, //for repositories that break free of Paginator
+            ];
+
+        $results = $this->getModel('lead')->getEntities($args);
+
+        list($entities, $totalCount) = $this->prepareEntitiesForView($results);
+
+        $view = $this->view(
+            [
+                'total'     => $totalCount,
+                'leads'     => $entities,
+            ],
+            Codes::HTTP_OK
+        );
         $this->setSerializationContext($view);
 
         return $this->handleView($view);
@@ -597,11 +704,23 @@ class CommonApiController extends FOSRestController implements MauticController
             return $valid;
         }
 
+        $actualRecordCount     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $totalRecordCount      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
+
+        $toBeinsertedCount = $actualRecordCount + count($parameters);
+
+        if ($totalRecordCount < $toBeinsertedCount && $totalRecordCount !== 'UL' && $this->entityNameOne == 'lead') {
+            return $this->returnError($this->get('translator')->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualRecordCount, '%ACTUALCOUNT%' => $totalRecordCount]));
+        }
+
         $this->inBatchMode = true;
         $entities          = [];
         $errors            = [];
         $statusCodes       = [];
         foreach ($parameters as $key => $params) {
+            if (isset($params['score'])) {
+                $params['score'] = 'cold';
+            }
             // Can be new or an existing on based on params
             $entity       = $this->getNewEntity($params);
             $entityExists = false;
@@ -615,6 +734,14 @@ class CommonApiController extends FOSRestController implements MauticController
                     continue;
                 }
             }
+            if ($this->entityNameOne == 'lead' && $method == 'POST') {
+                if (!isset($params['email'])) {
+                    $this->setBatchError($key, 'le.core.error.email.required', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity);
+                    $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                    continue;
+                }
+            }
+
             $this->processBatchForm($key, $entity, $params, $method, $errors, $entities);
 
             if (isset($errors[$key])) {
@@ -658,7 +785,7 @@ class CommonApiController extends FOSRestController implements MauticController
         $totalrecord      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $actualrecord     = number_format($actualrecord);
         $totalrecord      = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
-        if (!$isValidRecordAdd) {
+        if (!$isValidRecordAdd && $this->entityNameOne == 'lead') {
             $msg   = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
             $error = [
                 'code'    => Codes::HTTP_OK,
@@ -682,6 +809,12 @@ class CommonApiController extends FOSRestController implements MauticController
                 return $this->accessDenied('le.web.hook.access.denied.error');
             } else {
                 return $this->accessDenied();
+            }
+        }
+
+        if ($this->entityNameOne == 'lead') {
+            if (!isset($parameters['email'])) {
+                return $this->returnError('le.core.error.email.required', Codes::HTTP_BAD_REQUEST);
             }
         }
 
@@ -745,7 +878,7 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function postActionRedirect($args = [])
     {
-        return $this->notFound('le.contact.error.notfound');
+        return $this->notFound('le.core.contact.error.notfound');
     }
 
     /**
@@ -1125,12 +1258,12 @@ class CommonApiController extends FOSRestController implements MauticController
                     $entity
                 );
             }
-        } elseif (get_class($formResponse) === get_class($entity)) {
-            // Success
-            $entities[$key] = $formResponse;
         } elseif (is_array($formResponse) && isset($formResponse['code'], $formResponse['message'])) {
             // There was an error
             $errors[$key] = $formResponse;
+        } elseif (get_class($formResponse) === get_class($entity)) {
+            // Success
+            $entities[$key] = $formResponse;
         }
 
         $this->getDoctrine()->getManager()->detach($entity);
@@ -1207,7 +1340,9 @@ class CommonApiController extends FOSRestController implements MauticController
         $this->prepareParametersFromRequest($form, $submitParams, $entity, $this->dataInputMasks);
 
         $form->submit($submitParams, 'PATCH' !== $method);
-
+        if ($entity instanceof Tag) {
+            $entity->setIsPublished(true);
+        }
         if ($form->isValid()) {
             $preSaveError = $this->preSaveEntity($entity, $form, $submitParams, $action);
 
@@ -1216,6 +1351,9 @@ class CommonApiController extends FOSRestController implements MauticController
             }
 
             $this->model->saveEntity($entity);
+            if ($this->entityNameOne == 'lead' && $action == 'new') {
+                $this->get('mautic.helper.licenseinfo')->intRecordCount('1', true);
+            }
             $headers = [];
             //return the newly created entities location if applicable
             if (Codes::HTTP_CREATED === $statusCode) {

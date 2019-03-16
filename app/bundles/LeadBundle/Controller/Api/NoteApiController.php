@@ -31,7 +31,7 @@ class NoteApiController extends CommonApiController
         $this->entityClass      = LeadNote::class;
         $this->entityNameOne    = 'note';
         $this->entityNameMulti  = 'notes';
-        $this->serializerGroups = ['leadNoteDetails', 'leadList'];
+        $this->serializerGroups = ['leadNoteDetails'];
 
         parent::initialize($event);
     }
@@ -46,18 +46,24 @@ class NoteApiController extends CommonApiController
      */
     protected function preSaveEntity(&$entity, $form, $parameters, $action = 'edit')
     {
-        if (!empty($parameters['lead'])) {
+        if (!empty($parameters['email'])) {
             if ($action == 'new') {
                 $action ='view';
             }
-            $lead = $this->checkLeadAccess($parameters['lead'], $action);
+            $result = $this->getModel('lead')->findEmail($parameters['email']);
+
+            if (!count($result) > 0) {
+                return $this->notFound('le.core.contact.error.notfound');
+            }
+            $parameters['lead'] = $result[0]->getId();
+            $lead               = $this->checkLeadAccess($parameters['lead'], $action);
 
             if ($lead instanceof Response) {
                 return $lead;
             }
 
             $entity->setLead($lead);
-            unset($parameters['lead']);
+            unset($parameters['email']);
         } elseif ($action === 'new') {
             return $this->returnError('lead ID is mandatory', Codes::HTTP_BAD_REQUEST);
         }

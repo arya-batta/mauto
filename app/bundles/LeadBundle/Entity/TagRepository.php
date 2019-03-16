@@ -325,6 +325,18 @@ class TagRepository extends CommonRepository
         return $results;
     }
 
+    public function getLeadsBytag($tagId)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('lead_id as leadId')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref')
+            ->Where($q->expr()->eq('tag_id', ':tag_id'))
+            ->setParameter('tag_id', $tagId);
+        $results =  $q->execute()->fetchAll();
+
+        return $results;
+    }
+
     /**
      * @return string
      */

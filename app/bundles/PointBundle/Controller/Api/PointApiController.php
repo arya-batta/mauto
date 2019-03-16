@@ -70,8 +70,19 @@ class PointApiController extends CommonApiController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function adjustPointsAction($leadId, $operator, $delta)
+    public function adjustPointsAction($operator, $delta)
     {
+        $email = $this->request->get('email');
+
+        $result = $this->getModel('lead')->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+
+        $entity              = $this->getModel('lead')->getEntity($result[0]->getId());
+        $leadId              = $entity->getId();
+
         $lead = $this->checkLeadAccess($leadId, 'edit');
         if ($lead instanceof Response) {
             return $lead;

@@ -52,7 +52,7 @@ trait LeadAccessTrait
                         'contentTemplate' => $isPlugin ? 'MauticLeadBundle:Lead:pluginIndex' : 'MauticLeadBundle:Lead:index',
                         'passthroughVars' => [
                             'activeLink'    => $isPlugin ? '#le_plugin_timeline_index' : '#le_contact_index',
-                            'leContent' => 'leadTimeline',
+                            'leContent'     => 'leadTimeline',
                         ],
                         'flashes' => [
                             [
@@ -64,7 +64,7 @@ trait LeadAccessTrait
                     ]
                 );
             } else {
-                return $this->notFound('le.contact.error.notfound');
+                return $this->notFound('le.core.contact.error.notfound');
             }
         } elseif (!$this->get('mautic.security')->hasEntityAccess(
             'lead:leads:'.$action.'own',

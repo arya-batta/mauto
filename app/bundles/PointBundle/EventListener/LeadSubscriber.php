@@ -112,8 +112,10 @@ class LeadSubscriber extends CommonSubscriber
                     $point =  ' / '.$log['delta'];
                 }
 
-                $split            = explode(':', $log['eventName'], 2);
-                $log['eventName'] = $split[1];
+                if (strpos($log['eventName'], ':') !== false) {
+                    $split            = explode(':', $log['eventName'], 2);
+                    $log['eventName'] = $split[1];
+                }
 
                 if (strpos($log['delta'], '-') !== false) {
                     $operation='deducted';

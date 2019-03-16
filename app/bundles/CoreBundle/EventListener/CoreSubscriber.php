@@ -338,6 +338,16 @@ class CoreSubscriber extends CommonSubscriber
                                 'method' => 'DELETE',
                                 'path'   => '/{id}/delete',
                             ],
+                            'active' => [
+                                'action' => 'activeOrInActiveEntity',
+                                'method' => 'POST',
+                                'path'   => '/{id}/active',
+                            ],
+                            'inactive' => [
+                                'action' => 'activeOrInActiveEntity',
+                                'method' => 'POST',
+                                'path'   => '/{id}/inactive',
+                            ],
                         ];
 
                         foreach (['name', 'path', 'controller'] as $required) {

@@ -41,7 +41,7 @@ return [
             'mautic_api_campaignsstandard' => [
                 'standard_entity' => true,
                 'name'            => 'campaigns',
-                'path'            => '/campaigns',
+                'path'            => '/workflows',
                 'controller'      => 'MauticCampaignBundle:Api\CampaignApi',
             ],
             'mautic_api_campaigneventsstandard' => [
@@ -75,17 +75,37 @@ return [
                 'method'     => 'GET',
             ],
             'mautic_api_campaigngetcontacts' => [
-                'path'       => '/campaigns/{id}/contacts',
+                'path'       => '/workflows/{id}/leads',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:getContacts',
             ],
             'mautic_api_campaignaddcontact' => [
-                'path'       => '/workflows/{id}/contact/{leadId}/add',
+                'path'       => '/workflows/{id}/lead/add',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:addLead',
                 'method'     => 'POST',
             ],
             'mautic_api_campaignremovecontact' => [
-                'path'       => '/workflows/{id}/contact/{leadId}/remove',
+                'path'       => '/workflows/{id}/lead/remove',
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:removeLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_campaignaddbatchcontact' => [
+                'path'       => '/workflows/lead/batch/add',
+                'controller' => 'MauticCampaignBundle:Api\CampaignApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_campaignremovebatchcontact' => [
+                'path'       => '/workflows/lead/batch/remove',
+                'controller' => 'MauticCampaignBundle:Api\CampaignApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_campaigngetactivecontact' => [
+                'path'       => '/workflows/{id}/lead/active',
+                'controller' => 'MauticCampaignBundle:Api\CampaignApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
+            'mautic_api_campaigngetcompletedcontact' => [
+                'path'       => '/workflows/{id}/lead/completed',
+                'controller' => 'MauticCampaignBundle:Api\CampaignApi:getEntityByStatus',
                 'method'     => 'POST',
             ],
 

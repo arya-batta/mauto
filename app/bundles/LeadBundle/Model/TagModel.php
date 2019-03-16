@@ -167,4 +167,12 @@ class TagModel extends FormModel
 
         return $tags;
     }
+
+    public function getLeadsBytag($tagId)
+    {
+        $tagRepo  = $this->getRepository();
+        $leads    = $tagRepo->getLeadsBytag($tagId);
+
+        return $leads;
+    }
 }

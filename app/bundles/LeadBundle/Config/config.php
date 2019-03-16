@@ -179,7 +179,7 @@ return [
                 'controller'      => 'MauticLeadBundle:Api\LeadApi',
             ],
             'mautic_api_dncaddcontact' => [
-                'path'       => '/leads/{id}/dnc/{channel}/add',
+                'path'       => '/leads/dnc/{channel}/add',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:addDnc',
                 'method'     => 'POST',
                 'defaults'   => [
@@ -187,8 +187,16 @@ return [
                 ],
             ],
             'mautic_api_dncremovecontact' => [
-                'path'       => '/leads/{id}/dnc/{channel}/remove',
+                'path'       => '/leads/dnc/{channel}/remove',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:removeDnc',
+                'method'     => 'POST',
+                'defaults'   => [
+                    'channel' => 'email',
+                ],
+            ],
+            'mautic_api_batchdncaddcontact' => [
+                'path'       => '/leads/dnc/email/batch/add',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:addBatchDnc',
                 'method'     => 'POST',
             ],
             'mautic_api_getcontactevents' => [
@@ -200,6 +208,16 @@ return [
                 'path'       => '/leads/activity',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getAllActivity',
             ],
+            'mautic_api_getcontacts' => [
+                'path'       => '/leads/get',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:getLeadEntity',
+                'method'     => 'POST',
+            ],
+            'mautic_api_getcontacts' => [
+                'path'       => '/leads/delete',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:deleteLeadEntity',
+                'method'     => 'DELETE',
+            ],
             'mautic_api_getcontactnotes' => [
                 'path'       => '/leads/{id}/notes',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getNotes',
@@ -209,12 +227,29 @@ return [
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getDevices',
             ],
             'mautic_api_getcontactcampaigns' => [
-                'path'       => '/leads/{id}/workflows',
+                'path'       => '/leads/workflows',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getCampaigns',
+                'method'     => 'POST',
             ],
             'mautic_api_getcontactssegments' => [
-                'path'       => '/leads/{id}/segments',
+                'path'       => '/leads/segments',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getLists',
+                'method'     => 'POST',
+            ],
+            'mautic_api_getcontactstags' => [
+                'path'       => '/leads/tags',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:getLeadTags',
+                'method'     => 'POST',
+            ],
+            'mautic_api_getcontactdrips' => [
+                'path'       => '/leads/drips',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:getLeadDrip',
+                'method'     => 'POST',
+            ],
+            'mautic_api_getcontactslists' => [
+                'path'       => '/leads/lists',
+                'controller' => 'MauticLeadBundle:Api\LeadApi:getLeadListOptin',
+                'method'     => 'POST',
             ],
             'mautic_api_getcontactscompanies' => [
                 'path'       => '/leads/{id}/companies',
@@ -249,13 +284,53 @@ return [
                 'controller'      => 'MauticLeadBundle:Api\ListApi',
             ],
             'mautic_api_segmentaddcontact' => [
-                'path'       => '/segments/{id}/lead/{leadId}/add',
+                'path'       => '/segments/{id}/lead/add',
                 'controller' => 'MauticLeadBundle:Api\ListApi:addLead',
                 'method'     => 'POST',
             ],
             'mautic_api_segmentremovecontact' => [
-                'path'       => '/segments/{id}/lead/{leadId}/remove',
+                'path'       => '/segments/{id}/lead/remove',
                 'controller' => 'MauticLeadBundle:Api\ListApi:removeLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_segmentaddbatchcontact' => [
+                'path'       => '/segments/lead/batch/add',
+                'controller' => 'MauticLeadBundle:Api\ListApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_segmentremovebatchcontact' => [
+                'path'       => '/segments/lead/batch/remove',
+                'controller' => 'MauticLeadBundle:Api\ListApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_segmentgetcontact' => [
+                'path'       => '/segments/{id}/leads',
+                'controller' => 'MauticLeadBundle:Api\ListApi:getLeadsByList',
+                'method'     => 'POST',
+            ],
+            'mautic_api_taggetcontact' => [
+                'path'       => '/tags/{id}/leads',
+                'controller' => 'MauticLeadBundle:Api\TagApi:getLeadsByTag',
+                'method'     => 'POST',
+            ],
+            'mautic_api_tagaddcontact' => [
+                'path'       => '/tags/{id}/lead/add',
+                'controller' => 'MauticLeadBundle:Api\TagApi:addOrRemoveTag',
+                'method'     => 'POST',
+            ],
+            'mautic_api_tagremovecontact' => [
+                'path'       => '/tags/{id}/lead/remove',
+                'controller' => 'MauticLeadBundle:Api\TagApi:addOrRemoveTag',
+                'method'     => 'POST',
+            ],
+            'mautic_api_tagaddbatchtag' => [
+                'path'       => '/tags/lead/batch/add',
+                'controller' => 'MauticLeadBundle:Api\TagApi:addOrRemoveBatchTags',
+                'method'     => 'POST',
+            ],
+            'mautic_api_tagremovebatchtag' => [
+                'path'       => '/tags/lead/batch/remove',
+                'controller' => 'MauticLeadBundle:Api\TagApi:addOrRemoveBatchTags',
                 'method'     => 'POST',
             ],
             'mautic_api_companiesstandard' => [
@@ -300,6 +375,47 @@ return [
                 'name'            => 'tags',
                 'path'            => '/tags',
                 'controller'      => 'MauticLeadBundle:Api\TagApi',
+            ],
+            'mautic_api_listsstandard' => [
+                'standard_entity' => true,
+                'name'            => 'listoptins',
+                'path'            => '/lists',
+                'controller'      => 'MauticLeadBundle:Api\ListOptinApi',
+            ],
+            'mautic_api_listaddcontact' => [
+                'path'       => '/lists/{id}/lead/add',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:addOrRemoveLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listremovecontact' => [
+                'path'       => '/lists/{id}/lead/remove',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:addOrRemoveLead',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listaddbatchcontact' => [
+                'path'       => '/lists/lead/batch/add',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listremovebatchcontact' => [
+                'path'       => '/lists/lead/batch/remove',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:addOrRemoveBatchLeads',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listgetconfirmedcontact' => [
+                'path'       => '/lists/{id}/lead/confirmed',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listgetpendingcontact' => [
+                'path'       => '/lists/{id}/lead/pending',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
+            'mautic_api_listgetunsubscribedcontact' => [
+                'path'       => '/lists/{id}/lead/unsubscribed',
+                'controller' => 'MauticLeadBundle:Api\ListOptinApi:getEntityByStatus',
+                'method'     => 'POST',
             ],
 
             // @deprecated 2.6.0 to be removed in 3.0

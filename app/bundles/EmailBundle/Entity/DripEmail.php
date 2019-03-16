@@ -244,6 +244,8 @@ class DripEmail extends FormEntity
                     'fromName',
                     'replyToAddress',
                     'bccAddress',
+                    'scheduleDate',
+                    'daysEmailSend',
                 ]
             )
             ->build();

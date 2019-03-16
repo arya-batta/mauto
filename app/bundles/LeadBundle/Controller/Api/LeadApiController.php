@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Controller\FrequencyRuleTrait;
 use Mautic\LeadBundle\Controller\LeadDetailsTrait;
+use Mautic\LeadBundle\Entity\CustomFieldEntityTrait;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\LeadModel;
@@ -34,6 +35,7 @@ class LeadApiController extends CommonApiController
     use CustomFieldsApiControllerTrait;
     use FrequencyRuleTrait;
     use LeadDetailsTrait;
+    use CustomFieldEntityTrait;
 
     const MODEL_ID = 'lead.lead';
 
@@ -46,7 +48,7 @@ class LeadApiController extends CommonApiController
         $this->entityClass      = Lead::class;
         $this->entityNameOne    = 'lead'; //previous it was contact
         $this->entityNameMulti  = 'leads'; //previous it was contacts
-        $this->serializerGroups = ['leadDetails', 'frequencyRulesList', 'doNotContactList', 'userList', 'stageList', 'publishDetails', 'ipAddress', 'tagList', 'utmtagsList'];
+        $this->serializerGroups = ['leadDetails', 'leadListDetails', 'frequencyRulesList', 'doNotContactList', 'userList', 'stageList', 'publishDetails', 'ipAddress', 'tagList', 'utmtagsList', 'leadList'];
 
         parent::initialize($event);
     }
@@ -243,8 +245,16 @@ class LeadApiController extends CommonApiController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getListsAction($id)
+    public function getListsAction()
     {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+        $id     = $result[0]->getId();
         $entity = $this->model->getEntity($id);
         if ($entity !== null) {
             if (!$this->get('mautic.security')->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
@@ -316,8 +326,16 @@ class LeadApiController extends CommonApiController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getCampaignsAction($id)
+    public function getCampaignsAction()
     {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+        $id     = $result[0]->getId();
         $entity = $this->model->getEntity($id);
         if ($entity !== null) {
             if (!$this->get('mautic.security')->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
@@ -414,27 +432,39 @@ class LeadApiController extends CommonApiController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addDncAction($id, $channel)
+    public function addDncAction($channel='email', $entity = null, $dncchannelId = null, $dncreason = 3, $dnccomments = null)
     {
-        $entity = $this->model->getEntity((int) $id);
+        if (!$this->inBatchMode) {
+            $email = $this->request->get('email');
 
-        if ($entity === null) {
-            return $this->notFound();
+            $result = $this->model->findEmail($email);
+
+            if (!count($result) > 0) {
+                return $this->notFound('le.core.contact.error.notfound');
+            }
+
+            $entity = $this->model->getEntity($result[0]->getId());
+
+            if (!$this->checkEntityAccess($entity, 'edit')) {
+                return $this->accessDenied();
+            }
         }
-
-        if (!$this->checkEntityAccess($entity, 'edit')) {
-            return $this->accessDenied();
-        }
-
-        $channelId = (int) $this->request->request->get('channelId');
+        $channelId = $this->inBatchMode ? (int) $dncchannelId : (int) $this->request->request->get('channelId');
         if ($channelId) {
             $channeldata[$channel] = $channelId;
             $channel               = $channeldata;
         }
-        $reason   = (int) $this->request->request->get('reason');
-        $comments = InputHelper::clean($this->request->request->get('comments'));
+        $reason   = $this->inBatchMode ? (int) $dncreason : (int) $this->request->request->get('reason', 3);
+        $comments = InputHelper::clean($this->inBatchMode ? $dnccomments : $this->request->request->get('comments'));
 
         $this->model->addDncForLead($entity, $channel, $comments, $reason);
+
+        if ($this->inBatchMode) {
+            $this->inBatchMode = false;
+
+            return;
+        }
+
         $view = $this->view([$this->entityNameOne => $entity]);
 
         return  $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
@@ -448,13 +478,17 @@ class LeadApiController extends CommonApiController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function removeDncAction($id, $channel)
+    public function removeDncAction($channel)
     {
-        $entity = $this->model->getEntity((int) $id);
+        $email = $this->request->get('email');
 
-        if ($entity === null) {
-            return $this->notFound();
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
         }
+
+        $entity = $this->model->getEntity($result[0]->getId());
 
         if (!$this->checkEntityAccess($entity, 'edit')) {
             return $this->accessDenied();
@@ -469,6 +503,63 @@ class LeadApiController extends CommonApiController
         );
 
         return $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
+    }
+
+    /**
+     *  Adds a DNC to the Batch Of Leads.
+     *
+     * @return array|Response
+     */
+    public function addBatchDncAction()
+    {
+        $parameters = $this->request->request->all();
+
+        $valid = $this->validateBatchPayload($parameters);
+        if ($valid instanceof Response) {
+            return $valid;
+        }
+
+        $this->inBatchMode = true;
+        $entities          = [];
+        $errors            = [];
+        $statusCodes       = [];
+        foreach ($parameters as $key => $params) {
+            $result = $this->getModel('lead')->findEmail($params['email']);
+
+            if (!count($result) > 0) {
+                $this->setBatchError($key, 'le.core.contact.error.notfound', Codes::HTTP_NOT_FOUND, $errors, $entities);
+                $statusCodes[$key] = $key.':Failed'; //Codes::HTTP_NOT_FOUND;
+                continue;
+            }
+
+            $leadentity          = $this->getModel('lead')->getEntity($result[0]->getId());
+            $leadId              = $leadentity->getId();
+
+            $contact = $this->checkLeadAccess($leadId, 'edit');
+            if ($contact instanceof Response) {
+                $this->setBatchError($key, 'mautic.core.error.accessdenied', Codes::HTTP_FORBIDDEN, $errors, $entities, $leadentity);
+                $statusCodes[$key] = $key.':Failed'; //Codes::HTTP_FORBIDDEN;
+                continue;
+            }
+
+            $this->inBatchMode = true;
+            $this->addDncAction('email', $leadentity);
+            $statusCodes[$key] = $key.':Success'; //Codes::HTTP_OK;
+            $this->getDoctrine()->getManager()->detach($leadentity);
+        }
+
+        $payload = [
+            'status'          => $statusCodes,
+        ];
+
+        if (!empty($errors)) {
+            $payload['errors'] = $errors;
+        }
+
+        $view = $this->view($payload, Codes::HTTP_CREATED);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -890,6 +981,95 @@ class LeadApiController extends CommonApiController
     }
 
     /**
+     * Obtains a specific entity as defined by the API URL.
+     *
+     * @return Response
+     */
+    public function getLeadEntityAction()
+    {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+
+        $entity = $this->model->getEntity($result[0]->getId());
+
+        if (!$this->checkEntityAccess($entity, 'view')) {
+            return $this->accessDenied();
+        }
+
+        $leadId              = $entity->getId();
+        $listoptinmodel      = $this->getModel('lead.listoptin');
+        $listoptinrepository = $this->getModel('lead.listoptin')->getListLeadRepository();
+        $listId              = $listoptinrepository->getListIDbyLeads($leadId);
+        $listdatas           =   [];
+        $listdata            = [];
+        foreach ($listId as $key => $detail) {
+            foreach ($detail as $name => $value) {
+                $listentity            = $listoptinmodel->getEntity($value);
+                $listdata['id']        = $listentity->getId();
+                $listdata['name']      = $listentity->getName();
+                $listdata['listtype']  = $listentity->getListType();
+                $listdata['dateAdded'] = $listentity->getDateAdded();
+            }
+            $listdatas[] = $listdata;
+        }
+        $modifieddata[$entity->getId()] = $entity;
+        $modifieddata['all']            = $entity->getProfileFields();
+        $modifieddata['listoptin']      = $listdatas;
+
+        $this->preSerializeEntity($modifieddata);
+        $view = $this->view([$this->entityNameOne => $modifieddata], Codes::HTTP_OK);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Deletes an entity.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function deleteLeadEntityAction()
+    {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+
+        $entity = $this->model->getEntity($result[0]->getId());
+
+        $currentMonth     =date('Y-m');
+        if (null !== $entity) {
+            if (!$this->checkEntityAccess($entity, 'delete')) {
+                return $this->accessDenied();
+            }
+
+            $this->model->deleteEntity($entity);
+
+            $this->get('mautic.helper.licenseinfo')->intRecordCount('1', false);
+            $this->get('mautic.helper.licenseinfo')->intDeleteCount('1', true);
+            $this->get('mautic.helper.licenseinfo')->intDeleteMonth($currentMonth);
+
+            $this->preSerializeEntity($entity);
+            $view = $this->view([$this->entityNameOne => $entity], Codes::HTTP_OK);
+            $this->setSerializationContext($view);
+
+            return  $this->handleView($this->view(['success' => 1], Codes::HTTP_OK)); //previous it was $this->handleView($view);
+        }
+
+        return $this->notFound();
+    }
+
+    /**
      * Edits an existing entity or creates one on PUT if it doesn't exist.
      *
      * @param int $id Entity ID
@@ -933,5 +1113,136 @@ class LeadApiController extends CommonApiController
         }
 
         return $this->processForm($entity, $parameters, $method);
+    }
+
+    /**
+     * Obtains a list of tags member of a specific lead.
+     *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getLeadTagsAction()
+    {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+        $id     = $result[0]->getId();
+        $entity = $this->model->getEntity($id);
+
+        if ($entity !== null) {
+            if (!$this->get('mautic.security')->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
+                return $this->accessDenied();
+            }
+
+            $tags = $entity->getTags();
+
+            $view = $this->view(
+                [
+                    'total'    => count($tags),
+                    'tags'     => $tags,
+                ],
+                Codes::HTTP_OK
+            );
+
+            return $this->handleView($view);
+        }
+
+        return $this->notFound();
+    }
+
+    /**
+     * Obtains a list of lists member of a specific lead.
+     *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getLeadListOptinAction()
+    {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+        $id     = $result[0]->getId();
+        $entity = $this->model->getEntity($id);
+
+        if ($entity !== null) {
+            if (!$this->get('mautic.security')->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
+                return $this->accessDenied();
+            }
+
+            $listoptin    = $this->getModel('lead.listoptin')->getListOptinByLead($id);
+            $listentities = [];
+            foreach ($listoptin as $key => $value) {
+                $listentity     = $this->getModel('lead.listoptin')->getEntity($value['leadlist_id']);
+                $listentities[] = $listentity;
+            }
+
+            $view = $this->view(
+                [
+                    'total'     => count($listentities),
+                    'lists'     => $listentities,
+                ],
+                Codes::HTTP_OK
+            );
+
+            return $this->handleView($view);
+        }
+
+        return $this->notFound();
+    }
+
+    /**
+     * Obtains a list of drips member of a specific lead.
+     *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getLeadDripAction()
+    {
+        $email = $this->request->get('email');
+
+        $result = $this->model->findEmail($email);
+
+        if (!count($result) > 0) {
+            return $this->notFound('le.core.contact.error.notfound');
+        }
+        $id     = $result[0]->getId();
+        $entity = $this->model->getEntity($id);
+
+        if ($entity !== null) {
+            if (!$this->get('mautic.security')->hasEntityAccess('lead:leads:viewown', 'lead:leads:viewother', $entity->getPermissionUser())) {
+                return $this->accessDenied();
+            }
+
+            $driplist = $this->getModel('email.dripemail')->getDripByLead($id);
+
+            $dripentities = [];
+            foreach ($driplist as $key => $value) {
+                $dripentity     = $this->getModel('email.dripemail')->getEntity($value['dripId']);
+                $dripentities[] = $dripentity;
+            }
+
+            $view = $this->view(
+                [
+                    'total'     => count($dripentities),
+                    'drips'     => $dripentities,
+                ],
+                Codes::HTTP_OK
+            );
+
+            return $this->handleView($view);
+        }
+
+        return $this->notFound();
     }
 }

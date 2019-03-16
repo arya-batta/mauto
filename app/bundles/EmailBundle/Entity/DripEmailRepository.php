@@ -494,4 +494,38 @@ class DripEmailRepository extends CommonRepository
             return $leads;
         }
     }
+
+    public function getDripByLead($leadId, $publishedonly = true)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('dl.dripemail_id as dripId')
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl');
+
+        if ($publishedonly) {
+            $q->leftJoin('dl', MAUTIC_TABLE_PREFIX.'dripemail', 'd', 'dl.dripemail_id = d.id')
+                ->where(
+                    $q->expr()->andX(
+                        $q->expr()->eq('d.is_published', ':isPublished')
+                    )
+                )->setParameter('isPublished', $publishedonly);
+        }
+        $q->andWhere($q->expr()->eq('dl.lead_id', ':leadId'))
+            ->setParameter('leadId', $leadId);
+
+        $results = $q->execute()->fetchAll();
+
+        return $results;
+    }
+
+    public function getLeadIdsByDrip($drip)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('dl.lead_id')
+            ->from(MAUTIC_TABLE_PREFIX.'dripemail_leads', 'dl')
+            ->Where($q->expr()->eq('dl.dripemail_id', $drip->getId()));
+
+        $results = $q->execute()->fetchAll();
+
+        return $results;
+    }
 }

@@ -484,21 +484,21 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                 [
                     'id',
                     'points',
-                    'color',
+                    //'color',
                     'title',
                     'firstname',
                     'lastname',
                     'company',
                     'position',
                     'email',
-                    'phone',
+                    //'phone',
                     'mobile',
                     'address1',
                     'address2',
                     'city',
                     'state',
                     'zipcode',
-                    'timezone',
+                    //'timezone',
                     'country',
                 ]
             )
@@ -515,14 +515,14 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                 [
                     'lastActive',
                     'owner',
-                    'ipAddresses',
+                    //'ipAddresses',
                     'tags',
                     //'utmtags',
                     //'stage',
                     'dateIdentified',
                     //'preferredProfileImage',
                     'doNotContact',
-                    'frequencyRules',
+                    //'frequencyRules',
                 ]
             )
             ->build();

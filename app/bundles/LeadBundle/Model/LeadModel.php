@@ -2081,7 +2081,7 @@ class LeadModel extends FormModel
     {
         // See which companies belong to the lead already
         $leadlists = $this->listOptinModel->getListLeadRepository()->getListIDbyLeads($lead->getId());
-        $leadids = $this->listOptinModel->getRepository()->checkLeadListsByIds($lead,$lists);
+        $leadids   = $this->listOptinModel->getRepository()->checkLeadListsByIds($lead, $lists);
 
         foreach ($leadlists as $key => $leadlist) {
             if (array_search($leadlist['leadlist_id'], $lists) === false) {
@@ -2090,7 +2090,7 @@ class LeadModel extends FormModel
         }
 
         if (count($lists) > 0) {
-            if(!$leadids) {
+            if (!$leadids) {
                 foreach ($lists as $leadlistOptin => $leadlist) {
                     $this->addToListOptIn($lead, [$leadlist]);
                 }
@@ -3032,5 +3032,10 @@ class LeadModel extends FormModel
     public function getIpLookUpHelper()
     {
         return $this->ipLookupHelper;
+    }
+
+    public function findEmail($email)
+    {
+        return $this->getRepository()->findBy(['email' => $email]);
     }
 }

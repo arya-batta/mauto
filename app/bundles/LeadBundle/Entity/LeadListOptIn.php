@@ -161,6 +161,9 @@ class LeadListOptIn extends FormEntity
                     'id',
                     'name',
                     'description',
+                    'listtype',
+                    'thankyou',
+                    'goodbye',
                 ]
             )
             ->build();
