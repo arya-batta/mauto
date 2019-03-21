@@ -78,6 +78,16 @@ final class LeadEvents
     const LEAD_LIST_CHANGE = 'mautic.lead_list_change';
 
     /**
+     * The le.lead_list_add event is dispatched if a lead added to a list.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ListChangeEvent instance.
+     *
+     * @var string
+     */
+    const LEAD_LIST_ADD = 'le.lead_list_add';
+
+    /**
      * The mautic.lead_category_change event is dispatched if a lead's subscribed categories change.
      *
      * The event listener receives a
@@ -156,6 +166,46 @@ final class LeadEvents
      * @var string
      */
     const CHANNEL_SUBSCRIPTION_CHANGED = 'le.lead_channel_subscription_changed';
+
+    /**
+     * The le.lead_unsubscribed_channel event is dispatched when a lead unsubscribed from a channel.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ChannelSubscriptionChange instance.
+     *
+     * @var string
+     */
+    const LEAD_UNSUBSCRIBED_CHANNEL = 'le.lead_unsubscribed_channel';
+
+    /**
+     * The le.lead_subscribed_channel event is dispatched when a lead subscribed to a channel.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ChannelSubscriptionChange instance.
+     *
+     * @var string
+     */
+    const LEAD_SUBSCRIBED_CHANNEL = 'le.lead_subscribed_channel';
+
+    /**
+     * The le.lead_email_bounced event is dispatched when a lead email is bouned.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ChannelSubscriptionChange instance.
+     *
+     * @var string
+     */
+    const LEAD_EMAIL_BOUNCED = 'le.lead_email_bounced';
+
+    /**
+     * The le.lead_marked_spam event is dispatched when a lead marked email as a spam.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ChannelSubscriptionChange instance.
+     *
+     * @var string
+     */
+    const LEAD_MARKED_SPAM = 'le.lead_marked_spam';
 
     /**
      * The mautic.lead_build_search_commands event is dispatched when the search commands are built.
@@ -589,7 +639,16 @@ final class LeadEvents
      *
      * @var string
      */
-    const REMOVE_TAG_EVENT = 'le.remove_tag_with_campaign';
+    const REMOVE_TAG_EVENT = 'le.lead_remove_tag_with_campaign';
+
+    /**
+     * The mautic.remove_tag_with_campaign event registers Lead Tag Modify.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const ADD_TAG_EVENT = 'le.lead_add_tag_with_campaign';
     /**
      * The mautic.modify_lead_field_with_campaign event registers Lead Field Value Modify.
      *
@@ -624,7 +683,7 @@ final class LeadEvents
      *
      * @var string
      */
-    const CLICK_EMAIL_EVENT = 'mautic.click_email_with_campaign';
+    const CLICK_EMAIL_EVENT = 'le.lead_click_email_with_campaign';
 
     /**
      * The mautic.page_hit_with_campaign event registers Page hit Event.
@@ -645,6 +704,42 @@ final class LeadEvents
     const COMPLETED_DRIP_CAMPAIGN = 'mautic.dripcampaign_completed_with_campaign';
 
     /**
+     * The le.lead_completed_drip_campaign event registers Drip Email Sent Event.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const LEAD_COMPLETED_DRIP_CAMPAIGN = 'le.lead_completed_drip_campaign';
+
+    /**
+     * The le.lead_completed_drip_campaign event event is dispatched if a lead added to drip.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const LEAD_DRIP_CAMPAIGN_ADD = 'le.lead_add_drip_campaign';
+
+    /**
+     * The le.lead_add_workflow event event is dispatched if a lead added to workflow.
+     *
+     * The event listener receives a Mautic\CampaignBundle\Event\CampaignLeadChangeEvent instance
+     *
+     * @var string
+     */
+    const LEAD_WORKFLOW_ADD = 'le.lead_add_workflow';
+
+    /**
+     * The le.lead_completed_workflow event registers Drip Email Sent Event.
+     *
+     * The event listener receives a Mautic\LeadBundle\Event\LeadEvent instance
+     *
+     * @var string
+     */
+    const LEAD_COMPLETED_WORKFLOW = 'le.lead_completed_workflow';
+
+    /**
      * The mautic.list_optin_change event is dispatched if a lead's list optin changes.
      *
      * The event listener receives a
@@ -653,6 +748,16 @@ final class LeadEvents
      * @var string
      */
     const LIST_OPT_IN_CHANGE = 'mautic.list_optin_change';
+
+    /**
+     * The le.lead_list_optin_add event is dispatched if a lead added to listoptin.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ListOptInChangeEvent instance.
+     *
+     * @var string
+     */
+    const LEAD_LIST_OPT_IN_ADD = 'le.lead_list_optin_add';
 
     /**
      * The mautic.lead_list_send_email event is dispatched when generating a lead's timeline view.

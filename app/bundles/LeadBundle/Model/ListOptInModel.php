@@ -328,6 +328,7 @@ class ListOptInModel extends FormModel
             foreach ($dispatchEvents as $listId) {
                 $event = new ListOptInChangeEvent($lead, $this->leadChangeLists[$listId]);
                 $this->dispatcher->dispatch(LeadEvents::LIST_OPT_IN_CHANGE, $event);
+                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_OPT_IN_ADD, $event);
                 $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
                 $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
                 unset($event);

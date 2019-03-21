@@ -2114,6 +2114,17 @@ class LeadModel extends FormModel
                 unset($event);
             }
         }
+
+        if (!empty($changes['tags']['added'])) {
+            $addedTags = $changes['tags']['added'];
+            if (($this->dispatcher->hasListeners(LeadEvents::ADD_TAG_EVENT))) {
+                $event = new LeadEvent($lead, true);
+                $event->setLAddedTags($addedTags);
+                $this->dispatcher->dispatch(LeadEvents::ADD_TAG_EVENT, $event);
+                unset($event);
+            }
+        }
+
         if (!empty($changes['tags']['removed'])) {
             $removedTags = $changes['tags']['removed'];
             if (($this->dispatcher->hasListeners(LeadEvents::REMOVE_TAG_EVENT))) {

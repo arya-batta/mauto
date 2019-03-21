@@ -68,6 +68,7 @@ class WebhookSubscriber extends CommonSubscriber
                 'emailDetails',
                 'pageList',
                 'leadList',
+                'ipAddress',
             ]
         );
     }

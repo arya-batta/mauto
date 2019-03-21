@@ -1728,7 +1728,11 @@ class MailHelper
             $this->dispatcher = $this->factory->getDispatcher();
         }
 
-        $event = new EmailSendEvent($this);
+        $event  = new EmailSendEvent($this);
+
+        $leadId = $event->getLead()['id'];
+        $lead   = $this->factory->getModel('lead')->getEntity($leadId);
+        $event->setLead($lead);
 
         $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_SEND, $event);
 

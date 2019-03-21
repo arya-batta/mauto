@@ -28,6 +28,7 @@ use Mautic\CoreBundle\Model\FormModel as CommonFormModel;
 use Mautic\FormBundle\Entity\Form;
 use Mautic\FormBundle\Model\FormModel;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -801,9 +802,11 @@ class CampaignModel extends CommonFormModel
                 $dispatchEvent = $this->saveCampaignLead($campaignLead);
             }
 
-            if ($dispatchEvent && $this->dispatcher->hasListeners(CampaignEvents::CAMPAIGN_ON_LEADCHANGE)) {
+            if ($dispatchEvent && $this->dispatcher->hasListeners(LeadEvents::LEAD_WORKFLOW_ADD)) {
+                $lead  = $this->leadModel->getEntity($lead->getId());
                 $event = new Events\CampaignLeadChangeEvent($campaign, $lead, 'added');
-                $this->dispatcher->dispatch(CampaignEvents::CAMPAIGN_ON_LEADCHANGE, $event);
+                //$this->dispatcher->dispatch(CampaignEvents::CAMPAIGN_ON_LEADCHANGE, $event);
+                $this->dispatcher->dispatch(LeadEvents::LEAD_WORKFLOW_ADD, $event);
 
                 unset($event);
             }

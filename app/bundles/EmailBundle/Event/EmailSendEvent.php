@@ -264,6 +264,22 @@ class EmailSendEvent extends CommonEvent
     }
 
     /**
+     * @return Lead $lead
+     */
+    public function getLeadEntity()
+    {
+        return $this->lead;
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function setLead($lead)
+    {
+        $this->lead = $lead;
+    }
+
+    /**
      * @return string
      */
     public function getIdHash()

@@ -188,7 +188,7 @@ class Campaign extends FormEntity
                     'id',
                     'name',
                     'category',
-                    'description',
+                    //'description',
                 ]
             )
             ->addProperties(
@@ -206,7 +206,8 @@ class Campaign extends FormEntity
                 [
                     'id',
                     'name',
-                    'description',
+                    'category',
+                    //'description',
                     //'events',
                     //'publishUp',
                     //'publishDown',

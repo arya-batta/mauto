@@ -234,7 +234,7 @@ class DripEmail extends FormEntity
                 [
                     'id',
                     'name',
-                    'subject',
+                    //'subject',
                     'category',
                 ]
             )

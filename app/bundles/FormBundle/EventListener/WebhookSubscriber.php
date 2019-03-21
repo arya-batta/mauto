@@ -45,7 +45,7 @@ class WebhookSubscriber extends CommonSubscriber
     {
         // add checkbox to the webhook form for new leads
         $formSubmit = [
-            'label'       => 'mautic.form.webhook.event.form.submit',
+            'label'       => 'le.form.webhook.event.form.submit',
             'description' => 'le.form.webhook.event.form.submit_desc',
             'priority'    => 1,
         ];

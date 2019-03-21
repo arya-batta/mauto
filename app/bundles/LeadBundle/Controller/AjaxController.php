@@ -22,7 +22,6 @@ use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Component\HttpFoundation\Request;
-use Mautic\CoreBundle\Model\IteratorExportDataModel;
 
 /**
  * Class AjaxController.
@@ -457,8 +456,9 @@ class AjaxController extends CommonAjaxController
 
             $lead = $dnc->getLead();
             if ($lead) {
+                $Leadentity = $this->getModel('lead')->getEntity($lead->getId());
                 // Use lead model to trigger listeners
-                $model->removeDncForLead($lead, 'email');
+                $model->removeDncForLead($Leadentity, 'email');
                 $status=$this->removeBounceStatusfromESP($lead->getEmail());
             } else {
                 $this->getModel('email')->getRepository()->deleteDoNotEmailEntry($dncId);
@@ -713,14 +713,15 @@ class AjaxController extends CommonAjaxController
         if (is_array($tags)) {
             $leadModel = $this->getModel('lead');
             $newTags   = [];
-            $result1=$leadModel->getTagRepository()->checkForExistingNumericId($tags[sizeof($tags) - 1]);
-            if($result1){
+            $result1   =$leadModel->getTagRepository()->checkForExistingNumericId($tags[sizeof($tags) - 1]);
+            if ($result1) {
                 $data = ['success' => 0];
-                return $this->sendJsonResponse($data) ;
+
+                return $this->sendJsonResponse($data);
             }
 
             $result=$leadModel->getTagRepository()->checkNumericTag($tags[sizeof($tags) - 1]);
-            if (!$result){
+            if (!$result) {
                 $newTags[] = $leadModel->getTagRepository()->getTagByNameOrCreateNewOne($tags[sizeof($tags) - 1]);
             }
             if (!empty($newTags)) {
@@ -933,26 +934,24 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($dataArray);
     }
-     
-    protected function exportLeadAction(Request $request){
+
+    protected function exportLeadAction(Request $request)
+    {
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model      = $this->getModel('lead');
         $leadcount  = count($model->getEntities());
-        if($leadcount == 0){
-         
-            $this->addFlash("No records to export");
+        if ($leadcount == 0) {
+            $this->addFlash('No records to export');
             $dataArray['success']       = true;
 
             $dataArray['flashes'] = $this->getFlashContent();
-            return $this->sendJsonResponse($dataArray);
 
-        }else{
-           return $this->redirectToRoute(
+            return $this->sendJsonResponse($dataArray);
+        } else {
+            return $this->redirectToRoute(
                 'le_contact_action',
                 ['objectAction' => 'batchExport']
             );
-
         }
-
     }
 }

@@ -118,6 +118,22 @@ class LeadChangeEventDispatcher
 
             $event = new Events\ChannelSubscriptionChange($this->lead, $channel, $oldStatus, $newStatus);
             $this->dispatcher->dispatch(LeadEvents::CHANNEL_SUBSCRIPTION_CHANGED, $event);
+
+            switch ($newStatus) {
+                case DoNotContact::UNSUBSCRIBED:
+                case DoNotContact::MANUAL:
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_UNSUBSCRIBED_CHANNEL, $event);
+                    break;
+                case DoNotContact::IS_CONTACTABLE:
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_SUBSCRIBED_CHANNEL, $event);
+                    break;
+                case DoNotContact::BOUNCED:
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_EMAIL_BOUNCED, $event);
+                    break;
+                case DoNotContact::SPAM:
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_MARKED_SPAM, $event);
+                    break;
+            }
         }
     }
 }

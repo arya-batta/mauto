@@ -29,6 +29,8 @@ use Mautic\EmailBundle\Entity\LeadEventLog as DripLeadEvent;
 use Mautic\EmailBundle\Event\DripEmailEvent;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\EmailBundle\MonitoredEmail\Mailbox;
+use Mautic\LeadBundle\Event\LeadEvent;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PageBundle\Model\TrackableModel;
@@ -406,6 +408,13 @@ class DripEmailModel extends FormModel
             $dripCampaign->setManuallyAdded(true);
 
             $this->saveCampaignLead($dripCampaign);
+
+            if ($this->dispatcher->hasListeners(LeadEvents::LEAD_DRIP_CAMPAIGN_ADD)) {
+                $event = new LeadEvent($lead, true);
+                $event->setDrip($campaign);
+                $this->dispatcher->dispatch(LeadEvents::LEAD_DRIP_CAMPAIGN_ADD, $event);
+                unset($event);
+            }
         }
     }
 

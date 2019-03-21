@@ -32,6 +32,8 @@ use Mautic\CoreBundle\Helper\ProgressBarHelper;
 use Mautic\CoreBundle\Model\FormModel as CommonFormModel;
 use Mautic\CoreBundle\Model\NotificationModel;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\Event\LeadEvent;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -1541,6 +1543,17 @@ class EventModel extends CommonFormModel
             }
             if ($log) {
                 $logRepo->saveEntity($log);
+            }
+
+            $exited = $this->campaignModel->checkCampaignLeadExited($campaign, $lead);
+
+            if ($event['type'] == 'campaign.defaultexit' && $exited) {
+                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_WORKFLOW)) {
+                    $event = new LeadEvent($lead, true);
+                    $event->setWorkflow($campaign);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_WORKFLOW, $event);
+                    unset($event);
+                }
             }
         } else {
             //else do nothing

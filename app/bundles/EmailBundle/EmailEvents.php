@@ -38,14 +38,14 @@ final class EmailEvents
     const EMAIL_ON_OPEN = 'le.email_on_open';
 
     /**
-     * The mautic.email_on_send event is dispatched when an email is sent.
+     * The le.email_on_send event is dispatched when an email is sent.
      *
      * The event listener receives a
      * Mautic\EmailBundle\Event\EmailSendEvent instance.
      *
      * @var string
      */
-    const EMAIL_ON_SEND = 'mautic.email_on_send';
+    const EMAIL_ON_SEND = 'le.email_on_send';
 
     /**
      * The mautic.email_on_display event is dispatched when an email is viewed via a browser.

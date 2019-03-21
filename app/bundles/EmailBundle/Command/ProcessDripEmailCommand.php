@@ -102,6 +102,15 @@ class ProcessDripEmailCommand extends ModeratedCommand
                     $output->writeln('<info>'.'To be Modified Lead ID:'.$leadEvent->getLead()->getId().'</info>');
                     $output->writeln('<info>========================================</info>');
                 }
+                if ($completedDrips == '1') {
+                    if ($this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN)) {
+                        $lead  = $leadEvent->getLead();
+                        $event = new LeadEvent($lead, true);
+                        $event->setDrip($leadEvent->getCampaign());
+                        $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN, $event);
+                        unset($event);
+                    }
+                }
             }
 
             if ($this->dispatcher->hasListeners(LeadEvents::COMPLETED_DRIP_CAMPAIGN)) {

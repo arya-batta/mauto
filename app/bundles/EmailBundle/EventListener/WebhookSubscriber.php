@@ -14,6 +14,7 @@ namespace Mautic\EmailBundle\EventListener;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Event\EmailOpenEvent;
+use Mautic\EmailBundle\Event\EmailSendEvent;
 use Mautic\WebhookBundle\Event\WebhookBuilderEvent;
 use Mautic\WebhookBundle\EventListener\WebhookModelTrait;
 use Mautic\WebhookBundle\WebhookEvents;
@@ -32,7 +33,8 @@ class WebhookSubscriber extends CommonSubscriber
     {
         return [
             EmailEvents::EMAIL_ON_OPEN      => ['onEmailOpen', 0],
-            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 7],
+            EmailEvents::EMAIL_ON_SEND      => ['onEmailSend', 0],
+            WebhookEvents::WEBHOOK_ON_BUILD => ['onWebhookBuild', 9],
         ];
     }
 
@@ -51,6 +53,15 @@ class WebhookSubscriber extends CommonSubscriber
 
         // add it to the list
         $event->addEvent(EmailEvents::EMAIL_ON_OPEN, $mailOpen);
+
+        // add checkbox to the webhook form for new leads
+        $mailSend = [
+            'label'       => 'le.email.webhook.event.send',
+            'description' => 'le.email.webhook.event.send_desc',
+        ];
+
+        // add it to the list
+        $event->addEvent(EmailEvents::EMAIL_ON_SEND, $mailSend);
     }
 
     /**
@@ -67,6 +78,28 @@ class WebhookSubscriber extends CommonSubscriber
                 'statDetails',
                 'leadList',
                 'emailDetails',
+            ]
+        );
+    }
+
+    /**
+     * @param EmailSendEvent $event
+     */
+    public function onEmailSend(EmailSendEvent $event)
+    {
+        $this->webhookModel->queueWebhooksByType(
+            EmailEvents::EMAIL_ON_SEND,
+            [
+                'Lead'    => $event->getLeadEntity(),
+                'email'   => $event->getEmail(),
+            ],
+            [
+                'statDetails',
+                'leadDetails',
+                'emailDetails',
+                'statDetails',
+                'userList',
+                'tagList',
             ]
         );
     }

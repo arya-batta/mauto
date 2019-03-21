@@ -839,9 +839,9 @@ class ListModel extends FormModel
             $list,
             true,
             [
-                'countOnly'     => true,
-                'newOnly'       => true,
-                'batchLimiters' => $batchLimiters,
+                'countOnly'      => true,
+                'newOnly'        => true,
+                'batchLimiters'  => $batchLimiters,
                 'removeAction'   => false,
             ]
         );
@@ -881,8 +881,8 @@ class ListModel extends FormModel
                     [
                         'newOnly' => true,
                         // No start set because of newOnly thus always at 0
-                        'limit'         => $limit,
-                        'batchLimiters' => $batchLimiters,
+                        'limit'          => $limit,
+                        'batchLimiters'  => $batchLimiters,
                         'removeAction'   => false,
                     ]
                 );
@@ -938,6 +938,15 @@ class ListModel extends FormModel
                         LeadEvents::LEAD_LIST_BATCH_CHANGE,
                         new ListChangeEvent($processedLeads, $entity, true)
                     );
+                    $processed = [];
+                    foreach ($processedLeads as $key => $leadId) {
+                        $lead        = $this->factory->getModel('lead')->getEntity($leadId);
+                        $processed[] =  $lead;
+                    }
+                    $this->dispatcher->dispatch(
+                        LeadEvents::LEAD_LIST_ADD,
+                        new ListChangeEvent($processed, $entity, true)
+                    );
                 }
 
                 unset($newLeadList);
@@ -969,9 +978,9 @@ class ListModel extends FormModel
             $list,
             true,
             [
-                'countOnly'      => true,
-                'nonMembersOnly' => true,
-                'batchLimiters'  => $batchLimiters,
+                'countOnly'       => true,
+                'nonMembersOnly'  => true,
+                'batchLimiters'   => $batchLimiters,
                 'removeAction'    => true,
             ]
         );
@@ -1005,9 +1014,9 @@ class ListModel extends FormModel
                     true,
                     [
                         // No start because the items are deleted so always 0
-                        'limit'          => $limit,
-                        'nonMembersOnly' => true,
-                        'batchLimiters'  => $batchLimiters,
+                        'limit'           => $limit,
+                        'nonMembersOnly'  => true,
+                        'batchLimiters'   => $batchLimiters,
                         'removeAction'    => true,
                     ]
                 );
@@ -1195,6 +1204,7 @@ class ListModel extends FormModel
             foreach ($dispatchEvents as $listId) {
                 $event = new ListChangeEvent($lead, $this->leadChangeLists[$listId]);
                 $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_CHANGE, $event);
+                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_ADD, $event);
 
                 unset($event);
             }

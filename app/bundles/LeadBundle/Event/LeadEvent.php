@@ -27,7 +27,22 @@ class LeadEvent extends CommonEvent
     /**
      * @var
      */
+    private $addedtags;
+
+    /**
+     * @var
+     */
     private $dripId;
+
+    /**
+     * @var
+     */
+    private $drip;
+
+    /**
+     * @var
+     */
+    private $workflow;
 
     /**
      * @param Lead   $lead
@@ -78,6 +93,22 @@ class LeadEvent extends CommonEvent
     }
 
     /**
+     * Returns the Added Tags.
+     */
+    public function getAddedTags()
+    {
+        return $this->addedtags;
+    }
+
+    /**
+     * @param  $addedtags
+     */
+    public function setLAddedTags($addedtags)
+    {
+        $this->addedtags = $addedtags;
+    }
+
+    /**
      * Returns the Removed Tags.
      */
     public function getCompletedDripsIds()
@@ -91,5 +122,37 @@ class LeadEvent extends CommonEvent
     public function setCompletedDripsIds($dripId)
     {
         $this->dripId = $dripId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDrip()
+    {
+        return $this->drip;
+    }
+
+    /**
+     * @param mixed $drip
+     */
+    public function setDrip($drip)
+    {
+        $this->drip = $drip;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWorkflow()
+    {
+        return $this->workflow;
+    }
+
+    /**
+     * @param mixed $workflow
+     */
+    public function setWorkflow($workflow)
+    {
+        $this->workflow = $workflow;
     }
 }
