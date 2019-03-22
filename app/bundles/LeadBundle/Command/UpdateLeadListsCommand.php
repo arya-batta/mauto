@@ -21,9 +21,9 @@ class UpdateLeadListsCommand extends ModeratedCommand
     protected function configure()
     {
         $this
-            ->setName('mautic:segments:update')
-            ->setAliases(['mautic:segments:rebuild'])
-            ->setDescription('Update contacts in smart segments based on new contact data.')
+            ->setName('le:segments:update')
+            ->setAliases(['le:segments:rebuild'])
+            ->setDescription('Update leads in smart segments based on new lead data.')
             ->addOption('--batch-limit', '-b', InputOption::VALUE_OPTIONAL, 'Set batch size of contacts to process per round. Defaults to 300.', 300)
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '')
             ->addOption(
@@ -75,17 +75,17 @@ class UpdateLeadListsCommand extends ModeratedCommand
 
                 while (($l = $lists->next()) !== false) {
                     // Get first item; using reset as the key will be the ID and not 0
-                        $l = reset($l);
-                        if($l->isPublished()) {
-                            $output->writeln('<info>' . $translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]) . '</info>');
+                    $l = reset($l);
+                    if ($l->isPublished()) {
+                        $output->writeln('<info>'.$translator->trans('le.lead.list.rebuild.rebuilding', ['%id%' => $l->getId()]).'</info>');
 
-                            $processed = $listModel->rebuildListLeads($l, $batch, $max, $output);
-                            $output->writeln(
-                                '<comment>' . $translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]) . '</comment>' . "\n"
+                        $processed = $listModel->rebuildListLeads($l, $batch, $max, $output);
+                        $output->writeln(
+                                '<comment>'.$translator->trans('le.lead.list.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
                             );
 
-                            unset($l);
-                        }
+                        unset($l);
+                    }
                 }
 
                 unset($lists);

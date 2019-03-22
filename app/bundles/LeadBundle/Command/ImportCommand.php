@@ -29,8 +29,8 @@ class ImportCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
-        $this->setName('mautic:import')
-            ->setDescription('Imports data to Mautic')
+        $this->setName('le:import')
+            ->setDescription('Imports data to LE')
             ->addOption('--id', '-i', InputOption::VALUE_OPTIONAL, 'Specific ID to import. Defaults to next in the queue.', false)
             ->addOption('--limit', '-l', InputOption::VALUE_OPTIONAL, 'Maximum number of records to import for this script execution.', 0)
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '')

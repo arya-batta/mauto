@@ -66,15 +66,15 @@ try {
         $operation=$argv[1];
         if (isset($argv[1])) {
             $fcolname='';
-            if ($operation == 'mautic:import') {
+            if ($operation == 'le:import') {
                 $fcolname = 'f17';
-            } elseif ($operation == 'mautic:segments:update') {
+            } elseif ($operation == 'le:segments:update') {
                 $fcolname = 'f18';
-            } elseif ($operation == 'mautic:campaigns:rebuild') {
+            } elseif ($operation == 'le:campaigns:rebuild') {
                 $fcolname = 'f19';
-            } elseif ($operation == 'mautic:campaigns:trigger') {
+            } elseif ($operation == 'le:campaigns:trigger') {
                 $fcolname = 'f20';
-            } elseif ($operation == 'mautic:emails:send') {
+            } elseif ($operation == 'le:emails:send') {
                 $fcolname = 'f21';
             } elseif ($operation == 'mautic:email:fetch') {
                 $fcolname = 'f26';
@@ -145,19 +145,19 @@ try {
             if (checkLicenseAvailablity($con, $domain)) {
                 continue;
             }
-            if ($operation == 'mautic:import') {
+            if ($operation == 'le:import') {
                 $importstatus = checkImportAvailablity($con, $domain);
                 if (!$importstatus) {
                     displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no import available.");
                     continue;
                 }
-            } elseif ($operation == 'mautic:campaigns:trigger') {
+            } elseif ($operation == 'le:campaigns:trigger') {
                 $emailstatus = checkTriggerAvailablity($con, $domain);
                 if (!$emailstatus) {
                     displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no Contacts available.");
                     continue;
                 }
-            } elseif ($operation == 'mautic:emails:send') {
+            } elseif ($operation == 'le:emails:send') {
                 $triggerstatus = checkEmailAvailablity($domain);
                 if (!$triggerstatus) {
                     displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no email available.");
@@ -184,7 +184,7 @@ try {
             if ($errormsg != '') {
                 displayCronlog('general', 'errorinfo:  '.$errormsg);
                 updatecronFailedstatus($con, $domain, $operation, $errormsg);
-                if ($operation == 'mautic:emails:send') {
+                if ($operation == 'le:emails:send') {
                     require_once "app/config/$domain/local.php";
                     $mailer        = $parameters['mailer_transport'];
                     $elasticapikey = $parameters['mailer_password'];

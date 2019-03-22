@@ -217,7 +217,7 @@ class ListModelFunctionalTest extends MauticWebTestCase
         $repo            = $this->em->getRepository(LeadList::class);
         $segmentTest3Ref = $this->fixtures->getReference('segment-test-3');
 
-        $this->runCommand('mautic:segments:update', [
+        $this->runCommand('le:segments:update', [
             '-i'    => $segmentTest3Ref->getId(),
             '--env' => 'test',
         ]);
@@ -235,7 +235,7 @@ class ListModelFunctionalTest extends MauticWebTestCase
         // Remove the title from all contacts, rebuild the list, and check that list is updated
         $this->em->getConnection()->query(sprintf('UPDATE %sleads SET title = NULL;', MAUTIC_TABLE_PREFIX));
 
-        $this->runCommand('mautic:segments:update', [
+        $this->runCommand('le:segments:update', [
             '-i'    => $segmentTest3Ref->getId(),
             '--env' => 'test',
         ]);

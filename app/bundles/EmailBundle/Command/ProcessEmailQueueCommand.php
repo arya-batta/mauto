@@ -31,7 +31,7 @@ class ProcessEmailQueueCommand extends ModeratedCommand
     protected function configure()
     {
         $this
-            ->setName('mautic:emails:send')
+            ->setName('le:emails:send')
             ->setDescription('Processes SwiftMail\'s mail queue')
             ->addOption('--message-limit', null, InputOption::VALUE_OPTIONAL, 'Limit number of messages sent at a time. Defaults to value set in config.')
             ->addOption('--time-limit', null, InputOption::VALUE_OPTIONAL, 'Limit the number of seconds per batch. Defaults to value set in config.')
@@ -67,7 +67,7 @@ EOT
             $licenseinfohelper = $container->get('mautic.helper.licenseinfo');
             $sendResultText    = 'Success';
             if ($queueMode != 'file') {
-                $output->writeln('Mautic is not set to queue email.');
+                $output->writeln('LE is not set to queue email.');
 
                 return 0;
             }

@@ -21,9 +21,9 @@ class UpdateLeadCampaignsCommand extends ModeratedCommand
     protected function configure()
     {
         $this
-            ->setName('mautic:campaigns:rebuild')
-            ->setAliases(['mautic:campaigns:update'])
-            ->setDescription('Rebuild campaigns based on contact segments.')
+            ->setName('le:campaigns:rebuild')
+            ->setAliases(['le:campaigns:update'])
+            ->setDescription('Rebuild campaigns based on lead segments.')
             ->addOption('--batch-limit', '-l', InputOption::VALUE_OPTIONAL, 'Set batch size of contacts to process per round. Defaults to 300.', 300)
             ->addOption(
                 '--max-contacts',
