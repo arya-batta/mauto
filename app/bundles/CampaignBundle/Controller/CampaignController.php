@@ -17,6 +17,7 @@ use Mautic\CampaignBundle\Entity\LeadEventLogRepository;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CampaignBundle\Model\EventModel;
 use Mautic\CoreBundle\Controller\AbstractStandardFormController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -97,6 +98,11 @@ class CampaignController extends AbstractStandardFormController
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
+            $ismobile = InputHelper::isMobile();
+            if ($ismobile) {
+                return $this->editDenied($this->generateUrl('le_campaign_index'));
+            }
+
             return $this->cloneStandard($objectId);
         }
     }
@@ -150,6 +156,11 @@ class CampaignController extends AbstractStandardFormController
         } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
+            $ismobile = InputHelper::isMobile();
+            if ($ismobile) {
+                return $this->editDenied($this->generateUrl('le_campaign_index'));
+            }
+
             return $this->editStandard($objectId, $ignorePost);
         }
     }
@@ -178,6 +189,11 @@ class CampaignController extends AbstractStandardFormController
         } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         } else {
+            $ismobile = InputHelper::isMobile();
+            if ($ismobile) {
+                return $this->editDenied($this->generateUrl('le_campaign_index'));
+            }
+
             return $this->newStandard($objectId);
         }
     }
@@ -189,6 +205,28 @@ class CampaignController extends AbstractStandardFormController
         }
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->redirectToPricing();
+        }
+
+        $ismobile = InputHelper::isMobile();
+        if ($ismobile) {
+            $this->addFlash(
+                $this->translator->trans('le.drip.email.not.allowedin.mobile'),
+                [],
+                'warning'
+            );
+
+            return $this->postActionRedirect(
+                [
+                    'returnUrl'       => $this->generateUrl('le_campaign_index'),
+                    'viewParameters'  => [],
+                    'contentTemplate' => 'MauticCampaignBundle:Campaign:index',
+                    'passthroughVars' => [
+                        'activeLink' => '#le_campaign_index',
+                        'leContent'  => 'campaign',
+                        'closeModal' => 1, //just in case in quick form
+                    ],
+                ]
+            );
         }
         /** @var CampaignModel $model */
         $model     = $this->getModel('campaign');

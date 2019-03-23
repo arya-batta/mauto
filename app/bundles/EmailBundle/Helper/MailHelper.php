@@ -491,7 +491,11 @@ class MailHelper
                     array_keys((array) $this->message->getCc()),
                     array_keys((array) $this->message->getBcc())
                 );
-
+                $mailer = $this->factory->get('le.transactions.sendgrid_api');
+                $this->failedSMTPEmailtoUser($mailer);
+                $configurator   = $this->factory->get('mautic.configurator');
+                $configurator->mergeParameters(['email_status' => 'InActive']);
+                $configurator->write();
                 $this->logError($e, 'send');
             }
         }
@@ -2560,8 +2564,8 @@ class MailHelper
     {
         $mailer->start();
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
-        $model               = $this->getModel('subscription.accountinfo');
-        $usermodel           = $this->getModel('user.user');
+        $model               = $this->factory->getModel('subscription.accountinfo');
+        $usermodel           = $this->factory->getModel('user.user');
         $licenseHelper       = $this->factory->getHelper('licenseinfo');
         $emailprovider       = $licenseHelper->getEmailProvider();
         $accrepo             = $model->getRepository();
@@ -2580,7 +2584,7 @@ class MailHelper
         $message->setTo([$useremail => $name]);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
-        $message->setSubject($this->translator->trans('le.email.smtp.failed.msg'));
+        $message->setSubject($this->factory->getTranslator()->trans('le.email.smtp.failed.msg'));
         $text = "<!DOCTYPE html>
         <html>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>

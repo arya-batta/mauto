@@ -14,6 +14,7 @@ namespace Mautic\EmailBundle\Controller;
 use Mautic\CoreBundle\Controller\BuilderControllerTrait;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Controller\FormErrorMessagesTrait;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\DripEmail;
 use Mautic\EmailBundle\Entity\LeadEventLogRepository;
 use Mautic\EmailBundle\Model\DripEmailModel;
@@ -1157,6 +1158,15 @@ class DripEmailController extends FormController
         $isBeeEditor = true;
         if ($emailentity->getTemplate() == null || $emailentity->getTemplate() == '') {
             $isBeeEditor = false;
+        }
+        if ($isBeeEditor && InputHelper::isMobile()) {
+            return $this->editDenied($this->generateUrl(
+                'le_dripemail_campaign_action',
+                [
+                    'objectAction' => 'edit',
+                    'objectId'     => $entity->getId(),
+                ]
+            ));
         }
         $groupFilters  = [
             'filters' => [

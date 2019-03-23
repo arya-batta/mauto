@@ -51,9 +51,9 @@ class SecurityController extends CommonController
     {
         // A way to keep the upgrade from failing if the session is lost after
         // the cache is cleared by upgrade.php
-        if (InputHelper::isMobile()) {
-            return $this->delegateRedirect('http://anyfunnels.com/account-login/');
-        }
+        //if (InputHelper::isMobile()) {
+        //    return $this->delegateRedirect('http://anyfunnels.com/account-login/');
+        //}
         if ($this->request->cookies->has('mautic_update')) {
             $step = $this->request->cookies->get('mautic_update');
             if ($step == 'clearCache') {

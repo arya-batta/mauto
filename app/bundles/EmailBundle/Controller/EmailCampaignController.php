@@ -731,6 +731,9 @@ class EmailCampaignController extends FormController
             $routeParams['contentOnly']  = 1;
         }
         $ismobile = InputHelper::isMobile();
+        if ($ismobile) {
+            return $this->editDenied($this->generateUrl('le_email_campaign_index'));
+        }
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(
             [
@@ -1084,6 +1087,16 @@ class EmailCampaignController extends FormController
             $routeParams['contentOnly']  = 1;
         }
         $ismobile      = InputHelper::isMobile();
+        if ($entity->getTemplate() != null && $entity->getTemplate() != '' && $ismobile) {
+            return $this->editDenied($this->generateUrl(
+                'le_email_campaign_action',
+                [
+                    'objectAction' => 'edit',
+                    'objectId'     => $entity->getId(),
+                ]
+            ));
+        }
+
         $verifiedemail = $model->getVerifiedEmailAddress();
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(

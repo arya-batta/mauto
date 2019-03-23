@@ -870,4 +870,15 @@ class CommonController extends Controller implements MauticController
             ]
         );
     }
+
+    public function editDenied($url)
+    {
+        $this->addFlash($this->translator->trans(
+            'le.drip.email.not.allowedin.mobile'),
+            [],
+            'warning'
+        );
+
+        return $this->delegateRedirect($url);
+    }
 }

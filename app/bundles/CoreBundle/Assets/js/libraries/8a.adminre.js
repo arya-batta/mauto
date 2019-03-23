@@ -724,7 +724,7 @@ if (typeof jQuery === "undefined") { throw new Error("This application requires 
                         target      = $this.children(submenuHandler).data("target");
 
                     // run only on tablet view and sidebar-menu collapse
-                    if((isScreensm) || (isMinimize)) {
+                    if((isScreensm) || (isMinimize) || (isScreenxs)) {
                         // if have target
                         if(!!target === true) {
                             // touch devices

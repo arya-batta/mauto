@@ -23,7 +23,7 @@ body > #app-wrapper {
 .sidebar-left-open body > section#app-wrapper {
   overflow-x: hidden;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   body {
     overflow-x: hidden;
   }
@@ -190,7 +190,7 @@ body > #app-wrapper {
   width: 320px;
   overflow: hidden;
 }
-@media (max-width: 480px) {
+@media (max-width: 320px) {
   #app-header.navbar .navbar-nocollapse .navbar-nav .dropdown-custom .dropdown-menu {
     width: auto !important;
     left: 15px !important;
@@ -432,7 +432,7 @@ body > #app-wrapper {
   left: auto;
   right: 15px;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .header-fixed #app-header.navbar ~ .app-sidebar {
     padding-top: 60px;
   }
@@ -882,7 +882,7 @@ body > #app-wrapper {
 .app-sidebar .nav-sidebar .sidebar-minimizer.active .direction:after {
   content: '\f054';
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .app-sidebar.sidebar-left {
     left: 0;
   }
@@ -1053,7 +1053,7 @@ body > #app-wrapper {
   padding-left: 0;
   padding-right: 0;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   #app-content {
     position: static;
   }
@@ -1104,7 +1104,7 @@ body > #app-wrapper {
   height: inherit;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .sidebar-minimized #app-footer {
     margin-left: 60px !important;
   }
@@ -2016,7 +2016,7 @@ ul.dropdown-menu-form {
 .notes li > .panel > .panel-body > .cell {
   width: 100%;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .notes li > .panel > .panel-body > .col-sm-1,
   .notes li > .panel > .panel-body > .col-sm-2,
   .notes li > .panel > .panel-body > .col-sm-3,
@@ -2882,7 +2882,7 @@ ul.line-legend li {
 .box-layout > .cell {
   width: 100%;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .box-layout > .col-sm-1,
   .box-layout > .col-sm-2,
   .box-layout > .col-sm-3,
@@ -3877,7 +3877,7 @@ lesshat-selector { -lh-property: 0 ;
 .pull-left-xs {
   float: left;
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .pull-right-sm {
     float: right;
   }
@@ -3996,7 +3996,7 @@ lesshat-selector { -lh-property: 0 ;
     border-bottom: 1px solid #ebedf0;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 320px) {
   .bdr-l-sm {
     border-left: 1px solid #ebedf0;
   }
@@ -4935,7 +4935,7 @@ body.noscroll {
 .form-select-modal .panel-body {
   min-height: 150px;
 }
-@media (max-width: 768px) {
+@media (max-width: 320px) {
   .form-select-modal .panel-body {
     min-height: 0;
   }

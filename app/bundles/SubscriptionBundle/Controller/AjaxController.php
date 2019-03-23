@@ -1120,7 +1120,7 @@ class AjaxController extends CommonAjaxController
     {
         $mailer->start();
         $message    = \Swift_Message::newInstance();
-        $message->setTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setTo(['rajam@cratio.com']);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancel.sub.description'));
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
@@ -1161,24 +1161,25 @@ class AjaxController extends CommonAjaxController
         $mailer->send($message);
     }
 
-    public function cancelsubsEmailtoUser($mailer){
+    public function cancelsubsEmailtoUser($mailer)
+    {
         $mailer->start();
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
-        $model         = $this->getModel('subscription.accountinfo');
+        $model               = $this->getModel('subscription.accountinfo');
         $usermodel           = $this->getModel('user.user');
-        $accrepo       = $model->getRepository();
-        $accountentity = $accrepo->findAll();
+        $accrepo             = $model->getRepository();
+        $accountentity       = $accrepo->findAll();
         if (sizeof($accountentity) > 0) {
             $account = $accountentity[0];
         } else {
             $account = new Account();
         }
-        $name      = $account->getAccountname();
-        $useremail = $account->getEmail();
-        $domain    = $account->getDomainname();
+        $useremail  = $account->getEmail();
+        $domain     = $account->getDomainname();
         $message    = \Swift_Message::newInstance();
         $currentuser=$usermodel->getCurrentUserEntity();
-        $email=$currentuser->getEmail();
+        $name       = $currentuser->getName();
+        $email      =$currentuser->getEmail();
         $message->setTo([$useremail => $name]);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
@@ -1198,7 +1199,7 @@ class AjaxController extends CommonAjaxController
         <br>
         <br><strong>Domain Name-</strong> $domain.anyfunnels.com
         <br><strong>Associated Email-</strong> $email
-
+        <br>
         <br>Our support team member will process your request & keep you informed shortly.
         </div>
 		
@@ -1206,7 +1207,6 @@ class AjaxController extends CommonAjaxController
 </html>";
         $message->setBody($text, 'text/html');
         $mailer->send($message);
-
     }
 
     public function TrialUpgradeAction()
