@@ -34,8 +34,9 @@ class FacebookApiHelper
         $this->OAUTH_CALLBACK=$this->factory->getParameter('facebook_oauth_callback');
 
         $this->fbconn  = new Facebook([
-            'app_id'     => $this->FBAPPID,
-            'app_secret' => $this->FBSECRET,
+            'app_id'                  => $this->FBAPPID,
+            'app_secret'              => $this->FBSECRET,
+            'persistent_data_handler' => new FacebookSessionPersistentDataHandler($this->factory->getSession()),
         ]);
     }
 
