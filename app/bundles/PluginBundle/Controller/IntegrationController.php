@@ -174,7 +174,7 @@ class IntegrationController extends FormController
     {
         $oauthUrl='';
         $session = $this->get('session');
-        $session->set('le.integration.oauth.referer.url', $this->generateUrl('le_integrations_config', ['name'=>$integration]));
+        $session->set('le.integration.oauth.referer.url', $this->generateUrl('le_integrations_config', ['name'=>$integration], 0));
         $fbapiHelper = $this->factory->getHelper('fbapi');
         if ($integration == 'facebook_lead_ads') {
             $oauthUrl = $fbapiHelper->getOAuthUrlForLeadAds();
