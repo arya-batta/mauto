@@ -167,6 +167,7 @@ class FacebookApiHelper
     public function getOAuthUrlForLeadAds()
     {
         $helper      = $this->fbconn->getRedirectLoginHelper();
+        $helper->getPersistentDataHandler()->set('state', $this->factory->getSession()->getId());
         $permissions = ['email', 'manage_pages', 'leads_retrieval'];
         $oauthUrl    = $helper->getLoginUrl($this->OAUTH_CALLBACK, $permissions);
 
@@ -176,6 +177,7 @@ class FacebookApiHelper
     public function getOAuthUrlForCustomAudience()
     {
         $helper      = $this->fbconn->getRedirectLoginHelper();
+        $helper->getPersistentDataHandler()->set('state', $this->factory->getSession()->getId());
         $permissions = ['email', 'ads_management'];
         $oauthUrl    = $helper->getLoginUrl($this->OAUTH_CALLBACK, $permissions);
 
