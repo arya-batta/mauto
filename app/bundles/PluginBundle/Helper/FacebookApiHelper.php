@@ -36,7 +36,6 @@ class FacebookApiHelper
         $this->fbconn  = new Facebook([
             'app_id'                  => $this->FBAPPID,
             'app_secret'              => $this->FBSECRET,
-            'persistent_data_handler' => new FacebookSessionPersistentDataHandler($this->factory->getSession()),
         ]);
     }
 
