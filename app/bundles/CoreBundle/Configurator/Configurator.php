@@ -183,7 +183,11 @@ class Configurator
                      'beeeditor_client_secret',
                      'mailer_user_transactions',
                      'mailer_password_transactions',
-                      'Phantom_JS_Cloud_Apikey', ];
+                      'Phantom_JS_Cloud_Apikey',
+            'facebook_app_id',
+            'facebook_app_secret',
+            'facebook_oauth_callback',
+        ];
         for ($i = 0; $i < sizeof($unset); ++$i) {
             if (isset($this->parameters[$unset[$i]])) {
                 unset($this->parameters[$unset[$i]]);

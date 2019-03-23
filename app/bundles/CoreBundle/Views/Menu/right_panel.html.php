@@ -11,6 +11,7 @@ $userAccess         = $view['security']->isGranted('user:roles:view');
 $categoryAccess     = $view['security']->isGranted('category:categories:view');
 $apiAccess          = $view['security']->isGranted('api:clients:view');
 $notificationAccess = $view['security']->isGranted('email:emails:viewown');
+$integrationAccess  =true;
 ?>
 <li class="dropdown">
     <a href="#"  class="dropdown-toggle waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="false"><i style='font-size: 20px !important;line-height: 33px;' class="mdi mdi-settings"></i></a>
@@ -58,6 +59,14 @@ $notificationAccess = $view['security']->isGranted('email:emails:viewown');
                 <a class="dropdown-item" href="<?php echo $view['router']->path('le_webhook_index'); ?>" data-toggle="ajax">
 <!--                    <i class="margin-right  fa fa-exchange"></i>-->
                     <span><?php echo $view['translator']->trans('mautic.webhook.webhooks'); ?></span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if ($integrationAccess): ?>
+            <li>
+                <a class="dropdown-item" href="<?php echo $view['router']->path('le_integrations_index'); ?>" data-toggle="ajax">
+                    <!--                    <i class="margin-right  fa fa-exchange"></i>-->
+                    <span><?php echo $view['translator']->trans('le.integrations.menu.name'); ?></span>
                 </a>
             </li>
         <?php endif; ?>

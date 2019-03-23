@@ -115,7 +115,9 @@
         "razorpay/razorpay": "2.*",
         "paypal/rest-api-sdk-php": "1.*",
         "stripe/stripe-php": "6.*",
-        "mautic/api-library": "^2.12"
+        "mautic/api-library": "^2.12",
+        "facebook/graph-sdk": "^5.7",
+        "facebook/php-ads-sdk": "^3.2"
     },
     "require-dev": {
         "symfony/web-profiler-bundle": "~2.8",

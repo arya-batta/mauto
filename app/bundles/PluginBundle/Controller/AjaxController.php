@@ -380,4 +380,60 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($dataArray);
     }
+
+    protected function loadCustomAudienceAction(Request $request)
+    {
+        $dataArray = [
+            'success'   => 0,
+            'values'    => '',
+        ];
+
+        $integrationHelper = $this->factory->getHelper('integration');
+        $fbapiHelper       = $this->factory->getHelper('fbapi');
+
+        $adAccount = InputHelper::clean($request->request->get('adAccount'));
+        if (!empty($adAccount)) {
+            $integrationsettings=$integrationHelper->getIntegrationSettingsbyName('facebook_custom_audiences');
+            if (sizeof($integrationsettings) > 0) {
+                $fbapiHelper->initFBAdsApi($integrationsettings['authtoken']);
+                $audiencemapping=$fbapiHelper->getAudienceListByAdAccount($adAccount);
+                $audienceList   =[];
+                foreach ($audiencemapping as $key => $value) {
+                    $audienceList[$value]=$key;
+                }
+                $dataArray['values']    = $audienceList;
+                $dataArray['success']   = 1;
+            }
+        }
+
+        return $this->sendJsonResponse($dataArray);
+    }
+
+    protected function loadLeadAdsFormAction(Request $request)
+    {
+        $dataArray = [
+            'success'   => 0,
+            'values'    => '',
+        ];
+        $fbPageId = InputHelper::clean($request->request->get('pageId'));
+        if (!empty($fbPageId)) {
+            $integrationHelper    = $this->factory->getHelper('integration');
+            $fbapiHelper          = $this->factory->getHelper('fbapi');
+            $integrationsettings  =$integrationHelper->getIntegrationSettingsbyName('facebook_lead_ads');
+            $leadgenformlist['-1']='Any Form';
+            if (sizeof($integrationsettings) > 0 && !empty($fbPageId)) {
+                if ($fbPageId != '-1') {
+                    $pageToken   =$fbapiHelper->getPageAccessToken($fbPageId, $integrationsettings['authtoken']);
+                    $leadGenForms=$fbapiHelper->getLeadGenFormsByPage($fbPageId, $pageToken);
+                    foreach ($leadGenForms as $leadGenForm) {
+                        $leadgenformlist[$leadGenForm[0]]=$leadGenForm[1];
+                    }
+                }
+            }
+            $dataArray['values']    = $leadgenformlist;
+            $dataArray['success']   = 1;
+        }
+
+        return $this->sendJsonResponse($dataArray);
+    }
 }

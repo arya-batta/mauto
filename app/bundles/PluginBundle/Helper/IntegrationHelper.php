@@ -502,7 +502,7 @@ class IntegrationHelper
         return $this->em->getRepository('MauticPluginBundle:Integration')->getCoreIntegrations();
     }
 
-    public function getIntegrationReporitory()
+    public function getIntegrationRepository()
     {
         return $this->em->getRepository('MauticPluginBundle:Integration');
     }
@@ -736,5 +736,52 @@ class IntegrationHelper
         }
 
         return $genericIcon;
+    }
+
+    /**
+     * @param null $specificintegration
+     *
+     * @return array|mixed
+     */
+    public function getIntegrationDetails($specificintegration =null)
+    {
+        /** @var \Mautic\CoreBundle\Templating\Helper\AssetsHelper $assetsHelper */
+        $assetsHelper = $this->factory->getHelper('template.assets');
+        $integrations =[
+            'facebook_lead_ads'=> [
+                'name'     => 'Facebook Lead Ads',
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/facebook_lead_ads.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'facebook_lead_ads']),
+            ],
+            'facebook_custom_audiences' => [
+                'name'     => 'Facebook Custom Audiences',
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/facebook_custom_audiences.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'facebook_custom_audiences']),
+            ],
+        ];
+        if ($specificintegration != null) {
+            return  $integrations[$specificintegration];
+        }
+
+        return $integrations;
+    }
+
+    public function getIntegrationSettingsbyName($name)
+    {
+        $integrationsettings=[];
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper = $this->factory->getHelper('integration');
+        $integrationrepo   =$integrationHelper->getIntegrationRepository();
+        $integrations      =$integrationrepo->findBy(
+            [
+                'name' => $name,
+            ]
+        );
+        if (sizeof($integrations) > 0) {
+            $integration        =$integrations[0];
+            $integrationsettings=$integration->getApiKeys();
+        }
+
+        return $integrationsettings;
     }
 }

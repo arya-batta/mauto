@@ -156,8 +156,8 @@ foreach ($acions as $key => $value) {
 }
      $campaigngroupoptions = [
         ['label'=> $view['content']->getProductBrandName(), 'order'=> 1],
-/*        ['label'=> 'Drip', 'order'=> 2],
-        ['label'=> 'Facebook', 'order'=> 3],*/
+        ['label'=> 'Facebook', 'order'=> 2],
+         /*        ['label'=> 'Drip', 'order'=> 2],*/
     ];
     $sources      =$eventSettings['source'];
     $sourceoptions=[];

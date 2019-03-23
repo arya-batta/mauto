@@ -309,3 +309,64 @@ Le.getIntegrationCampaigns = function (el, settings) {
         }
     );
 };
+Le.loadLeadAdsForm=function(pageId){
+    var eventType = 'campaignevent_properties_leadgenform';
+    var query = "action=plugin:loadLeadAdsForm&pageId=" + pageId;
+    if(pageId == "-1"){
+       mQuery("#fbldads-leadgenform").addClass('hide');
+    }else{
+        mQuery("#fbldads-leadgenform").removeClass('hide');
+    }
+    Le.activateLabelLoadingIndicator(eventType);
+    mQuery.ajax({
+        url: leAjaxUrl,
+        type: "POST",
+        data: query,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                var templateOptions = response.values;
+                mQuery('#'+eventType).html('');
+                if (mQuery('#'+eventType + '_chosen').length) {
+                    mQuery('#'+eventType).chosen('destroy');
+                }
+                mQuery.each(templateOptions, function (value, label) {
+                    var newOption = mQuery('<option/>').val(value).text(label);
+                    newOption.appendTo(mQuery('#'+eventType));
+                });
+                Le.activateChosenSelect('#'+eventType);
+            }
+        },
+        complete: function() {
+            Le.removeLabelLoadingIndicator();
+        }
+    });
+}
+Le.loadCustomAudiences = function (adAccount) {
+    var eventType = 'campaignevent_properties_customaudience';
+    var query = "action=plugin:loadCustomAudience&adAccount=" + adAccount;
+    Le.activateLabelLoadingIndicator(eventType);
+    mQuery.ajax({
+        url: leAjaxUrl,
+        type: "POST",
+        data: query,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                var templateOptions = response.values;
+                mQuery('#'+eventType).html('');
+                if (mQuery('#'+eventType + '_chosen').length) {
+                    mQuery('#'+eventType).chosen('destroy');
+                }
+                mQuery.each(templateOptions, function (value, label) {
+                    var newOption = mQuery('<option/>').val(value).text(label);
+                    newOption.appendTo(mQuery('#'+eventType));
+                });
+                Le.activateChosenSelect('#'+eventType);
+            }
+        },
+        complete: function() {
+            Le.removeLabelLoadingIndicator();
+        }
+    });
+};

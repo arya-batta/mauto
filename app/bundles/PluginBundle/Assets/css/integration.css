@@ -1,0 +1,67 @@
+.integration_tile_image{
+    display: block;
+    width: 72%;
+    max-width: 140px;
+    position: relative;
+    margin: 10% auto;
+}
+.integration_tile_text{
+    list-style: none;
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+.integration-fields{
+    font-size: 12px;
+    padding-left: 7px;
+}
+
+.integration-step{
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 30px;
+}
+.integration-step .step-content{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 -webkit-calc(100% - 60px);
+    -ms-flex: 1 1 calc(100% - 60px);
+    flex: 1 1 calc(100% - 60px);
+}
+.integration-container{
+    /*margin: 0 auto;*/
+    width: 70%;
+    line-height: 2;
+    padding: 20px;
+}
+.integration-container .integration-help-link{
+    font-weight: 700;
+    text-decoration: underline;
+}
+.integration-container .integration-help-link:hover{
+    color:#3292e0;
+}
+
+.integration-click-btn{
+    margin-top: 15px;
+    background: #3292e0;
+    color: #fff;
+    border: 1px solid #3292e0;
+}
+.integration-click-btn:hover,
+.integration-click-btn:focus{
+    background: #fff;
+    color: #3292e0;
+    border: 1px solid #3292e0;
+}
+.integration-table-box{
+    margin-top:20px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
+}

@@ -36,11 +36,31 @@ return [
                 'path'       => '/plugins/reload',
                 'controller' => 'MauticPluginBundle:Plugin:reload',
             ],
+            'le_integrations_index' => [
+                'path'       => '/integrations',
+                'controller' => 'MauticPluginBundle:Integration:index',
+            ],
+            'le_integrations_config' => [
+                'path'       => '/integrations/{name}',
+                'controller' => 'MauticPluginBundle:Integration:config',
+            ],
+            'le_integrations_fb_page_subscription' => [
+                'path'       => '/integrations/{integration}/page/{pageid}/{action}',
+                'controller' => 'MauticPluginBundle:Integration:fbPageSubscription',
+            ],
+            'le_integrations_fb_account_remove' => [
+                'path'       => '/integrations/{name}/remove',
+                'controller' => 'MauticPluginBundle:Integration:fbAccountRemove',
+            ],
         ],
         'public' => [
             'le_integration_auth_user' => [
                 'path'       => '/plugins/integrations/authuser/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authUser',
+            ],
+            'le_new_integration_auth_user' => [
+                'path'       => '/integrations/authuser/{integration}',
+                'controller' => 'MauticPluginBundle:Integration:authUser',
             ],
             'le_integration_auth_callback' => [
                 'path'       => '/plugins/integrations/authcallback/{integration}',
@@ -139,6 +159,16 @@ return [
                 'class' => 'Mautic\PluginBundle\Form\Type\IntegrationCampaignsType',
                 'alias' => 'integration_campaign_status',
             ],
+            'le.form.type.fb_custom_audience_list' => [
+                'class'     => 'Mautic\PluginBundle\Form\Type\FbCustomAudienceType',
+                'arguments' => 'mautic.factory',
+                'alias'     => 'fb_custom_audience_list',
+            ],
+            'le.form.type.fb_leadads_list' => [
+                'class'     => 'Mautic\PluginBundle\Form\Type\FbLeadAdsType',
+                'arguments' => 'mautic.factory',
+                'alias'     => 'fb_leadads_list',
+            ],
         ],
         'other' => [
             'mautic.helper.integration' => [
@@ -152,7 +182,11 @@ return [
                     'mautic.helper.templating',
                     'mautic.plugin.model.plugin',
                 ],
-            ],
+            ], 'mautic.helper.fbapi' => [
+    'class'     => \Mautic\PluginBundle\Helper\FacebookApiHelper::class,
+    'arguments' => [
+        'mautic.factory', ],
+],
         ],
         'models' => [
             'mautic.plugin.model.plugin' => [
@@ -166,5 +200,10 @@ return [
                 'class' => Mautic\PluginBundle\Model\IntegrationEntityModel::class,
             ],
         ],
+    ],
+    'parameters' => [
+        'facebook_app_id'                                   => '',
+        'facebook_app_secret'                               => '',
+        'facebook_oauth_callback'                           => 'https://apps.anyfunnels.com/integrations/facebook/callback.php',
     ],
 ];
