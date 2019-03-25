@@ -120,7 +120,7 @@ class FbLeadAdsType extends AbstractType
     {
         $integrationHelper  = $this->factory->getHelper('integration');
         $fbapiHelper        = $this->factory->getHelper('fbapi');
-        $integrationsettings=$integrationHelper->getIntegrationSettingsbyName('facebook_custom_audiences');
+        $integrationsettings=$integrationHelper->getIntegrationSettingsbyName('facebook_lead_ads');
         $choices            =[];
         if (sizeof($integrationsettings) > 0) {
             $pageList     =$fbapiHelper->getAllFbPages($integrationsettings['authtoken'], true);
