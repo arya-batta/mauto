@@ -41,36 +41,49 @@ class FacebookApiHelper
 
     public function getAccountDetails($token)
     {
-        $response    = $this->fbconn->get('/me?fields=id,name', $token);
-        $graphNode   = $response->getGraphNode();
-        $responsearr = $graphNode->asArray();
+        $responsearr=[];
+        try {
+            $response    = $this->fbconn->get('/me?fields=id,name', $token);
+            $graphNode   = $response->getGraphNode();
+            $responsearr = $graphNode->asArray();
+        } catch (FacebookResponseException $e) {
+            $responsearr=[];
+        } catch (FacebookSDKException $e) {
+            $responsearr=[];
+        }
 
         return $responsearr;
     }
 
     public function getAllFbPages($token, $subscribedOnly=false)
     {
-        $response =  $this->fbconn->get(
-            '/me/accounts?fields=id,name,access_token',
-            $token
-        );
-        $graphEdge = $response->getGraphEdge();
         $pagelist  =[];
-        foreach ($graphEdge as $graphNode) {
-            $responsearr=$graphNode->asArray();
-            $page       =[];
-            $page[]     =$responsearr['id'].'';
-            $page[]     =$responsearr['name'];
-            // $page[]=$responsearr['access_token'];
-            // $this->subscribeFbPage($fbconn, $page[0], $responsearr['access_token']);
-            $page[]=$this->getFbPageSubscriptionStatus($page[0], $responsearr['access_token']);
-            if ($subscribedOnly) {
-                if ($page[2]) {
+        try {
+            $response =  $this->fbconn->get(
+                '/me/accounts?fields=id,name,access_token',
+                $token
+            );
+            $graphEdge = $response->getGraphEdge();
+            foreach ($graphEdge as $graphNode) {
+                $responsearr=$graphNode->asArray();
+                $page       =[];
+                $page[]     =$responsearr['id'].'';
+                $page[]     =$responsearr['name'];
+                // $page[]=$responsearr['access_token'];
+                // $this->subscribeFbPage($fbconn, $page[0], $responsearr['access_token']);
+                $page[]=$this->getFbPageSubscriptionStatus($page[0], $responsearr['access_token']);
+                if ($subscribedOnly) {
+                    if ($page[2]) {
+                        $pagelist[]=$page;
+                    }
+                } else {
                     $pagelist[]=$page;
                 }
-            } else {
-                $pagelist[]=$page;
             }
+        } catch (FacebookResponseException $e) {
+            $pagelist  =[];
+        } catch (FacebookSDKException $e) {
+            $pagelist  =[];
         }
 
         return $pagelist;
@@ -148,13 +161,20 @@ class FacebookApiHelper
 
     public function getPageAccessToken($pageid, $token)
     {
-        $response = $this->fbconn->get(
-            "/$pageid?fields=access_token",
-            $token
-        );
-        $graphNode   = $response->getGraphNode();
-        $responsearr = $graphNode->asArray();
-        $pagetoken   = $responsearr['access_token'];
+        $pagetoken='';
+        try {
+            $response = $this->fbconn->get(
+                "/$pageid?fields=access_token",
+                $token
+            );
+            $graphNode   = $response->getGraphNode();
+            $responsearr = $graphNode->asArray();
+            $pagetoken   = $responsearr['access_token'];
+        } catch (FacebookResponseException $e) {
+            $pagetoken='';
+        } catch (FacebookSDKException $e) {
+            $pagetoken='';
+        }
 
         return $pagetoken;
     }
@@ -186,18 +206,24 @@ class FacebookApiHelper
 
     public function getLeadGenFormsByPage($pageid, $pageaccesstoken)
     {
-        $response = $this->fbconn->get(
-            "/$pageid/leadgen_forms",
-            $pageaccesstoken
-        );
-        $graphEdge = $response->getGraphEdge();
         $formlist  =[];
-        foreach ($graphEdge as $graphNode) {
-            $responsearr=$graphNode->asArray();
-            $form       =[];
-            $form[]     =$responsearr['id'].'';
-            $form[]     =$responsearr['name'];
-            $formlist[] =$form;
+        try {
+            $response = $this->fbconn->get(
+                "/$pageid/leadgen_forms",
+                $pageaccesstoken
+            );
+            $graphEdge = $response->getGraphEdge();
+            foreach ($graphEdge as $graphNode) {
+                $responsearr=$graphNode->asArray();
+                $form       =[];
+                $form[]     =$responsearr['id'].'';
+                $form[]     =$responsearr['name'];
+                $formlist[] =$form;
+            }
+        } catch (FacebookResponseException $e) {
+            $formlist  =[];
+        } catch (FacebookSDKException $e) {
+            $formlist  =[];
         }
 
         return $formlist;
@@ -205,21 +231,28 @@ class FacebookApiHelper
 
     public function getAllAdAccounts($token)
     {
-        // To list adaccounts
-        $response  = $this->fbconn->get('/me/adaccounts?fields=id,account_id,name,account_status,disable_reason', $token, null, 'v3.2');
-        $graphEdge = $response->getGraphEdge();
-        foreach ($graphEdge as $graphNode) {
-            $responsearr = $graphNode->asArray();
-            $adaccount   = [];
-            foreach ($responsearr as $key => $value) {
-                $adaccount[$key] = $value;
+        $adaccounts=[];
+        try {
+            // To list adaccounts
+            $response  = $this->fbconn->get('/me/adaccounts?fields=id,account_id,name,account_status,disable_reason', $token, null, 'v3.2');
+            $graphEdge = $response->getGraphEdge();
+            foreach ($graphEdge as $graphNode) {
+                $responsearr = $graphNode->asArray();
+                $adaccount   = [];
+                foreach ($responsearr as $key => $value) {
+                    $adaccount[$key] = $value;
+                }
+                //  $adaccount['audience']=FacebookAdsApiHelper::getFBAudiences($adaccount['id']);
+                //ad account status
+                //1 = ACTIVE,2 = DISABLED,3 = UNSETTLED,7 = PENDING_RISK_REVIEW,8 = PENDING_SETTLEMENT,9 = IN_GRACE_PERIOD,100 = PENDING_CLOSURE,101 = CLOSED,201 = ANY_ACTIVE,202 = ANY_CLOSED
+                if ($adaccount['account_status'] < 3) {
+                    $adaccounts[] = $adaccount;
+                }
             }
-            //  $adaccount['audience']=FacebookAdsApiHelper::getFBAudiences($adaccount['id']);
-            //ad account status
-            //1 = ACTIVE,2 = DISABLED,3 = UNSETTLED,7 = PENDING_RISK_REVIEW,8 = PENDING_SETTLEMENT,9 = IN_GRACE_PERIOD,100 = PENDING_CLOSURE,101 = CLOSED,201 = ANY_ACTIVE,202 = ANY_CLOSED
-            if ($adaccount['account_status'] < 3) {
-                $adaccounts[] = $adaccount;
-            }
+        } catch (FacebookResponseException $e) {
+            $adaccounts=[];
+        } catch (FacebookSDKException $e) {
+            $adaccounts=[];
         }
 
         return $adaccounts;
