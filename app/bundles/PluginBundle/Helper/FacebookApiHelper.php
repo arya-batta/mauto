@@ -36,6 +36,7 @@ class FacebookApiHelper
         $this->fbconn  = new Facebook([
             'app_id'                  => $this->FBAPPID,
             'app_secret'              => $this->FBSECRET,
+            'default_graph_version'   => 'v3.2',
         ]);
     }
 
