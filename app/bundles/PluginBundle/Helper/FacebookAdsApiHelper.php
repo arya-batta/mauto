@@ -33,10 +33,14 @@ class FacebookAdsApiHelper
     public static function getFBAudiences($adAccount)
     {
         $name_mapping = [];
-        $account      = new AdAccount($adAccount);
-        foreach ($account->getCustomAudiences([CustomAudienceFields::ID, CustomAudienceFields::NAME]) as $list) {
-            $data                        = $list->getData();
-            $name_mapping[$data['name']] = $data['id'];
+        try {
+            $account      = new AdAccount($adAccount);
+            foreach ($account->getCustomAudiences([CustomAudienceFields::ID, CustomAudienceFields::NAME]) as $list) {
+                $data                        = $list->getData();
+                $name_mapping[$data['name']] = $data['id'];
+            }
+        } catch (\Exception $e) {
+            $name_mapping = [];
         }
 
         return $name_mapping;
