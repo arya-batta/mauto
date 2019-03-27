@@ -70,6 +70,10 @@ return [
                 'path'       => '/plugins/integrations/authstatus/{integration}',
                 'controller' => 'MauticPluginBundle:Auth:authStatus',
             ],
+            'le_integration_auth_webhook_callback' => [
+                'path'       => '/integrations/callback/{integration}',
+                'controller' => 'MauticPluginBundle:Auth:webhookCallback',
+            ],
         ],
     ],
     'menu' => [
