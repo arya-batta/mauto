@@ -125,7 +125,7 @@ class Submission
                     'trackingId',
                     'dateSubmitted',
                     'referer',
-                    'page',
+                    //'page',
                     'results',
                 ]
             )
@@ -138,7 +138,7 @@ class Submission
                     'trackingId',
                     'dateSubmitted',
                     'referer',
-                    'page',
+                    //'page',
                     'results',
                 ]
             )

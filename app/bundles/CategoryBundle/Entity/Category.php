@@ -119,6 +119,13 @@ class Category extends FormEntity
                     'color',
                     'bundle',
                 ]
+            )->setGroupPrefix('categoryBasic')
+            ->addListProperties(
+                [
+                    'id',
+                    'title',
+                    'description',
+                ]
             )
             ->build();
     }

@@ -634,7 +634,7 @@ class CommonApiController extends FOSRestController implements MauticController
 
         $args =
             [
-                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : $this->coreParametersHelper->getParameter('default_pagelimit'), //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
+                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : '', //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
                 'filter' => [
                     'string' => $this->fliterCommands, //$this->request->query->get('search', ''),
                     'force'  => $this->listFilters,
@@ -735,7 +735,7 @@ class CommonApiController extends FOSRestController implements MauticController
                 }
             }
             if ($this->entityNameOne == 'lead' && $method == 'POST') {
-                if (!isset($params['email'])) {
+                if (!isset($params['email']) || empty($params['email'])) {
                     $this->setBatchError($key, 'le.core.error.email.required', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity);
                     $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
                     continue;

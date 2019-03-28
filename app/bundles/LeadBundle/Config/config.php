@@ -213,7 +213,7 @@ return [
                 'controller' => 'MauticLeadBundle:Api\LeadApi:getLeadEntity',
                 'method'     => 'POST',
             ],
-            'mautic_api_getcontacts' => [
+            'mautic_api_deletecontacts' => [
                 'path'       => '/leads/delete',
                 'controller' => 'MauticLeadBundle:Api\LeadApi:deleteLeadEntity',
                 'method'     => 'DELETE',

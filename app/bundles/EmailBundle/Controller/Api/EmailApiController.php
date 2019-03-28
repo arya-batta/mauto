@@ -32,7 +32,7 @@ class EmailApiController extends CommonApiController
         $this->entityClass      = 'Mautic\EmailBundle\Entity\Email';
         $this->entityNameOne    = 'email';
         $this->entityNameMulti  = 'emails';
-        $this->serializerGroups = ['emailDetails', 'categoryList', 'publishDetails', 'assetList', 'formList', 'leadListList'];
+        $this->serializerGroups = ['emailDetails', 'categoryBasicList', 'publishDetails', 'assetList', 'formList', 'leadListList'];
         $this->dataInputMasks   = [
             'customHtml'     => 'html',
             'dynamicContent' => [

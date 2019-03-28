@@ -24,7 +24,7 @@ class DripApiController extends CommonApiController
         $this->entityClass      = 'Mautic\EmailBundle\Entity\DripEmail';
         $this->entityNameOne    = 'drip';
         $this->entityNameMulti  = 'drips';
-        $this->serializerGroups = ['leadBasicList', 'emailDetails', 'dripemailDetails', 'categoryList', 'publishDetails', 'assetList', 'formList', 'leadListList'];
+        $this->serializerGroups = ['leadBasicList', 'emailDetails', 'dripemailDetails', 'categoryBasicList', 'publishDetails', 'assetList', 'formList', 'leadListList'];
 
         parent::initialize($event);
     }

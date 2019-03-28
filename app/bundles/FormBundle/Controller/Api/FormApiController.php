@@ -30,7 +30,7 @@ class FormApiController extends CommonApiController
         $this->entityClass      = 'Mautic\FormBundle\Entity\Form';
         $this->entityNameOne    = 'form';
         $this->entityNameMulti  = 'forms';
-        $this->serializerGroups = ['formDetails', 'categoryList', 'publishDetails'];
+        $this->serializerGroups = ['formDetails', 'categoryBasicList', 'publishDetails'];
 
         parent::initialize($event);
     }

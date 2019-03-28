@@ -489,7 +489,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                     'firstname',
                     'lastname',
                     'company',
-                    'position',
+                    //'position',
                     'email',
                     //'phone',
                     'mobile',

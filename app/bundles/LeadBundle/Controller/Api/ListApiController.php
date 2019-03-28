@@ -31,7 +31,7 @@ class ListApiController extends CommonApiController
         $this->entityClass      = 'Mautic\LeadBundle\Entity\LeadList';
         $this->entityNameOne    = 'list';
         $this->entityNameMulti  = 'lists';
-        $this->serializerGroups = ['leadListDetails', 'userList', 'publishDetails', 'ipAddress', 'leadDetails', 'tagList'];
+        $this->serializerGroups = ['leadListDetails', 'userList', 'publishDetails', 'ipAddress', 'leadBasicList', 'tagList'];
 
         parent::initialize($event);
     }
