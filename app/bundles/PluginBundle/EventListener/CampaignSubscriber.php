@@ -87,6 +87,54 @@ class CampaignSubscriber extends CommonSubscriber
                 'group'           => 'le.campaign.event.group.name.facebook',
             ]
         );
+        $event->addSources(
+            'instapage',
+            [
+                'label'           => 'le.integration.source.instapage.label',
+                'description'     => 'le.integration.source.instapage.desc',
+                'sourcetype'      => 'instapage',
+                'formTheme'       => 'MauticPluginBundle:FormTheme\Source',
+                'formType'        => 'instapage_type',
+                'order'           => '1',
+                'group'           => 'le.campaign.event.group.name.instapage',
+            ]
+        );
+        $event->addSources(
+            'unbounce',
+            [
+                'label'           => 'le.integration.source.unbounce.label',
+                'description'     => 'le.integration.source.unbounce.desc',
+                'sourcetype'      => 'unbounce',
+                'formTheme'       => 'MauticPluginBundle:FormTheme\Source',
+                'formType'        => 'unbounce_type',
+                'order'           => '1',
+                'group'           => 'le.campaign.event.group.name.unbounce',
+            ]
+        );
+        $event->addSources(
+            'invitee.created',
+            [
+                'label'           => 'le.integration.source.calendly.invitee.created.label',
+                'description'     => 'le.integration.source.calendly.invitee.created.desc',
+                'sourcetype'      => 'invitee.created',
+                'formTheme'       => 'MauticPluginBundle:FormTheme\Source',
+                'formType'        => 'calendly_type',
+                'order'           => '1',
+                'group'           => 'le.campaign.event.group.name.calendly',
+            ]
+        );
+        $event->addSources(
+            'invitee.canceled',
+            [
+                'label'           => 'le.integration.source.calendly.invitee.canceled.label',
+                'description'     => 'le.integration.source.calendly.invitee.canceled.desc',
+                'sourcetype'      => 'invitee.canceled',
+                'formTheme'       => 'MauticPluginBundle:FormTheme\Source',
+                'formType'        => 'calendly_type',
+                'order'           => '2',
+                'group'           => 'le.campaign.event.group.name.calendly',
+            ]
+        );
     }
 
     /**
@@ -138,14 +186,14 @@ class CampaignSubscriber extends CommonSubscriber
                 try {
                     $caObj=FacebookAdsApiHelper::getFBAudienceByID($customaudience, $adAccount);
                     if ($caObj) {
-                        $user[]       =$lead->getFirstname();
-                        $user[]       =$lead->getLastname();
-                        $user[]       =$lead->getEmail();
-                        $user[]       =$lead->getMobile();
-                        $user[]       =$lead->getCountry();
+                        $user[]        =$lead->getFirstname();
+                        $user[]        =$lead->getLastname();
+                        $user[]        =$lead->getEmail();
+                        $user[]        =$lead->getMobile();
+                        $user[]        =$lead->getCountry();
                         $isErrorOccured=false;
                         $errorMessage  ='';
-                        $response     =[];
+                        $response      =[];
                         if ($isAddAction) {
                             try {
                                 $response=FacebookAdsApiHelper::addUsers($caObj, [$user]);

@@ -747,6 +747,9 @@ class IntegrationHelper
     {
         /** @var \Mautic\CoreBundle\Templating\Helper\AssetsHelper $assetsHelper */
         $assetsHelper = $this->factory->getHelper('template.assets');
+        $instapage    = $this->factory->getTranslator()->trans('le.integration.name.instapage');
+        $calendly     = $this->factory->getTranslator()->trans('le.integration.name.calendly');
+        $unbounce     = $this->factory->getTranslator()->trans('le.integration.name.unbounce');
         $integrations =[
             'facebook_lead_ads'=> [
                 'name'     => 'Facebook Lead Ads',
@@ -757,6 +760,21 @@ class IntegrationHelper
                 'name'     => 'Facebook Custom Audiences',
                 'image_url'=> $assetsHelper->getUrl('media/images/integrations/facebook_custom_audiences.png'),
                 'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'facebook_custom_audiences']),
+            ],
+            $instapage => [
+                'name'     => $this->factory->getTranslator()->trans('le.integration.label.instapage'),
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/instapage.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>$instapage]),
+            ],
+            $unbounce => [
+                'name'     => $this->factory->getTranslator()->trans('le.integration.label.unbounce'),
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/unbounce.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>$unbounce]),
+            ],
+            $calendly => [
+                'name'     => $this->factory->getTranslator()->trans('le.integration.label.calendly'),
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/calendly.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>$calendly]),
             ],
         ];
         if ($specificintegration != null) {
@@ -783,5 +801,77 @@ class IntegrationHelper
         }
 
         return $integrationsettings;
+    }
+
+    public function parseJsonResponse($jsonData, $integrationName, $properties)
+    {
+        $data            = [];
+        $data['isvalid'] = false;
+        if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.instapage')) {
+            $data['first_name'] = isset($jsonData['first_name']) ? $jsonData['first_name'] : '';
+            $data['last_name']  = isset($jsonData['last_name']) ? $jsonData['last_name'] : '';
+            $data['email']      = isset($jsonData['email']) ? $jsonData['email'] : '';
+            if (isset($jsonData['page_name']) && $data['email'] != '' && ($properties['page_name'] == '' || $properties['page_name'] == $jsonData['page_name'])) {
+                $data['isvalid'] = true;
+            }
+        } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.unbounce')) {
+            $jsonData           = json_decode($jsonData['data_json']);
+            $data['first_name'] = isset($jsonData->first_name) ? $jsonData->first_name[0] : '';
+            $data['last_name']  = isset($jsonData->last_name) ? $jsonData->last_name[0] : '';
+            $data['email']      = isset($jsonData->email) ? $jsonData->email[0] : '';
+            if (isset($jsonData->page_name) && $data['email'] != '' && ($properties['pagename'] == '' || $properties['pagename'] == $jsonData->page_name[0])) {
+                $data['isvalid'] = true;
+            }
+        } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
+            $payload            = $jsonData['payload'];
+            $inviteeData        = $payload['invitee'];
+            $name               = explode(' ', $inviteeData['name']);
+            $data['first_name'] = $name[0];
+            $data['last_name']  = isset($name[1]) ? $name[1] : '';
+            $data['email']      = $inviteeData['email'];
+            $event              = $payload['event_type'];
+            if ($properties['event_name'] == '' || $properties['event_name'] == $event['name']) {
+                $data['isvalid'] = true;
+            }
+        }
+
+        return $data;
+    }
+
+    public function subscribeCalendlyWebhook($token, $webhookUrl)
+    {
+        $events   = [];
+        $events[] = 'invitee.created';
+        $events[] = 'invitee.canceled';
+        $data     = [
+            'url'    => 'https://anyfuncclll.com',
+            'events' => $events,
+        ];
+
+        $encodedData = json_encode($data);
+
+        $handle = curl_init('https://calendly.com/api/v1/hooks');
+        curl_setopt($handle, CURLOPT_POST, 1);
+        curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'X-TOKEN: '.$token]);
+
+        $result = curl_exec($handle);
+        $result = json_decode($result);
+
+        return $result;
+    }
+
+    public function deleteCalendlyWebhook($token, $webhookid)
+    {
+        $handle = curl_init('https://calendly.com/api/v1/hooks/'.$webhookid);
+        curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'X-TOKEN: '.$token]);
+
+        $result = curl_exec($handle);
+        $result = json_decode($result);
+
+        return $result;
     }
 }

@@ -13,6 +13,7 @@ namespace Mautic\PluginBundle\Controller;
 
 use Mautic\CoreBundle\Controller\AjaxController as CommonAjaxController;
 use Mautic\CoreBundle\Helper\InputHelper;
+use Mautic\PluginBundle\Entity\Integration;
 use Mautic\PluginBundle\Model\PluginModel;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -433,6 +434,77 @@ class AjaxController extends CommonAjaxController
             $dataArray['values']    = $leadgenformlist;
             $dataArray['success']   = 1;
         }
+
+        return $this->sendJsonResponse($dataArray);
+    }
+
+    protected function saveTokenvalueAction(Request $request)
+    {
+        $token = $request->request->get('token');
+        $name  = $request->request->get('integrationname');
+
+        $webhookurl = $this->generateUrl('le_integration_auth_webhook_callback', ['integration' => $name], 0);
+
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper                 = $this->factory->getHelper('integration');
+        $integrationrepo                   =$integrationHelper->getIntegrationRepository();
+        $integrationsettings               = [];
+        $integrationsettings['authtoken']  =$token;
+        $integrationentity                 = new Integration();
+        $integrations                      =$integrationrepo->findBy(
+            [
+                'name' => $name,
+            ]
+        );
+        $integrationentity->setName($name);
+        if (sizeof($integrations) > 0) {
+            $integrationentity        =$integrations[0];
+        } else {
+            if ($name == $this->translator->trans('le.integration.name.calendly')) {
+                $result = $integrationHelper->subscribeCalendlyWebhook($token, $webhookurl);
+                if (isset($result->id)) {
+                    $integrationsettings['webhookid'] = $result->id;
+                }
+            }
+        }
+        $integrationentity->setApiKeys($integrationsettings);
+
+        $integrationrepo->saveEntity($integrationentity);
+
+        $dataArray['success']   = 1;
+        $dataArray['message']   = 'Saved Successfully.';
+        $dataArray['redirect']  = $this->generateUrl('le_integrations_config', ['name' => $name]);
+
+        return $this->sendJsonResponse($dataArray);
+    }
+
+    protected function removeTokenvalueAction(Request $request)
+    {
+        $name = $request->request->get('integrationname');
+
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper                 = $this->factory->getHelper('integration');
+        $integrationrepo                   =$integrationHelper->getIntegrationRepository();
+
+        $integrations      =$integrationrepo->findBy(
+            [
+                'name' => $name,
+            ]
+        );
+        if (sizeof($integrations) > 0) {
+            $integrationentity        =$integrations[0];
+            $integrationdetails       = $integrationentity->getApiKeys();
+            if (isset($integrationdetails['webhookid'])) {
+                $webhookid = $integrationdetails['webhookid'];
+                $token     = $integrationdetails['authtoken'];
+                $integrationHelper->deleteCalendlyWebhook($token, $webhookid);
+            }
+            $integrationrepo->deleteEntity($integrationentity);
+        }
+
+        $dataArray['success']    = 1;
+        $dataArray['message']    = 'Saved Successfully.';
+        $dataArray['redirect']   = $this->generateUrl('le_integrations_config', ['name' => $name]);
 
         return $this->sendJsonResponse($dataArray);
     }

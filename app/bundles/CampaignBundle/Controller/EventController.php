@@ -444,6 +444,43 @@ class EventController extends CommonFormController
             $tags  = $event['properties']['tags'];
             $label = $label.' '.str_replace(',', ', ', json_encode($tags));
             $label =  str_replace('"', '', $label);
+        } elseif ($event['type'] == 'instapage') {
+            $name    = $event['properties']['page_name'];
+            $tmpname = 'any';
+            if ($name != '') {
+                $tmpname = '"'.$name.'"';
+            }
+            $label = $this->translator->trans('le.integration.source.instapage.event.label', ['%NAME%' => $tmpname]);
+        } elseif ($event['type'] == 'unbounce') {
+            $name    = $event['properties']['pagename'];
+            $tmpname = 'any';
+            if ($name != '') {
+                $tmpname = '"'.$name.'"';
+            }
+            $label = $this->translator->trans('le.integration.source.unbounce.event.label', ['%NAME%' => $tmpname]);
+        } elseif ($event['type'] == 'invitee.created') {
+            $name    = $event['properties']['event_name'];
+            $tmpname = 'any';
+            if ($name != '') {
+                $tmpname = '"'.$name.'"';
+            }
+            $label = $this->translator->trans('le.integration.source.calendly.invitee.created.event.label', ['%NAME%' => $tmpname]);
+        } elseif ($event['type'] == 'invitee.canceled') {
+            $name    = $event['properties']['event_name'];
+            $tmpname = 'any';
+            if ($name != '') {
+                $tmpname = '"'.$name.'"';
+            }
+            $label = $this->translator->trans('le.integration.source.calendly.invitee.canceled.event.label', ['%NAME%' => $tmpname]);
+        } elseif ($event['type'] == 'fbLeadAds') {
+            $pageid      = $event['properties']['leadgenform'];
+            $choices     = $formView->children['properties']->children['leadgenform']->vars['choices'];
+            $formatlabel = $this->getChoiceLabel($choices, $pageid);
+            $tmpname     = 'a';
+            if ($pageid != '' && $pageid != null && $pageid != '-1') {
+                $tmpname = '"'.$formatlabel.'"';
+            }
+            $label = $this->translator->trans('le.integration.source.facebook.ads.event.label', ['%NAME%' => $tmpname]);
         }
 
         return $label;

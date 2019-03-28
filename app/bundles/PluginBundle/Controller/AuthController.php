@@ -12,6 +12,8 @@
 namespace Mautic\PluginBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
+use Mautic\LeadBundle\Event\IntegrationEvent;
+use Mautic\LeadBundle\LeadEvents;
 use Mautic\PluginBundle\Event\PluginIntegrationAuthRedirectEvent;
 use Mautic\PluginBundle\PluginEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -136,6 +138,26 @@ class AuthController extends FormController
         $oauthUrl = $event->getAuthUrl();
 
         $response = new RedirectResponse($oauthUrl);
+
+        return $response;
+    }
+
+    /**
+     * @param $integration
+     *
+     * @return RedirectResponse
+     */
+    public function webhookCallbackAction($integration)
+    {
+        $payload  = $this->request->getContent();
+        $payload  = json_decode($payload, true);
+        $eventarg = new IntegrationEvent($integration, $payload);
+        $event    = $this->dispatcher->dispatch(LeadEvents::INTEGRATION_EVENT, $eventarg);
+        $message  = 'Lead Created Successfully.';
+        if (!$event->getisSuccess()) {
+            $message = 'Lead creation failed.';
+        }
+        $response = new JsonResponse(['success' => $event->getisSuccess(), 'message' => $message]);
 
         return $response;
     }

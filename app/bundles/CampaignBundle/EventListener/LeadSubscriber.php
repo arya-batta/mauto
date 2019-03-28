@@ -15,7 +15,9 @@ use Mautic\AssetBundle\Event\AssetLoadEvent;
 use Mautic\CampaignBundle\Model\CampaignModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\EmailBundle\Event\EmailOpenEvent;
+use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\ListLeadOptIn;
+use Mautic\LeadBundle\Event\IntegrationEvent;
 use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
 use Mautic\LeadBundle\Event\LeadTimelineEvent;
@@ -74,6 +76,7 @@ class LeadSubscriber extends CommonSubscriber
             LeadEvents::REMOVE_TAG_EVENT         => ['RemoveTagModifiedLead', 0],
             LeadEvents::COMPLETED_DRIP_CAMPAIGN  => ['CompletedDripCampaign', 0],
             LeadEvents::LIST_OPT_IN_CHANGE       => ['onLeadOptInChanged', 0],
+            LeadEvents::INTEGRATION_EVENT        => ['integrationEvent', 0],
         ];
     }
 
@@ -572,6 +575,59 @@ class LeadSubscriber extends CommonSubscriber
         $this->em->getRepository('MauticCampaignBundle:LeadEventLog')->updateLead($event->getLoser()->getId(), $event->getVictor()->getId());
 
         $this->em->getRepository('MauticCampaignBundle:Lead')->updateLead($event->getLoser()->getId(), $event->getVictor()->getId());
+    }
+
+    /**
+     * On Integration Webhook hit.
+     *
+     * @param IntegrationEvent $event
+     */
+    public function integrationEvent(IntegrationEvent $intevent)
+    {
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $integrationName   = $intevent->getIntegrationName();
+        $data              = $intevent->getPayload();
+        $integrationName   = strtolower($integrationName);
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper = $this->factory->getHelper('integration');
+        $eventName         = $integrationName;
+        if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
+            $eventName = $data['event'];
+        }
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType($eventName);
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $data       = $integrationHelper->parseJsonResponse($data, $integrationName, $properties);
+                    if ($data['isvalid']) {
+                        $result = $this->leadModel->findEmail($data['email']);
+                        $lead   = new Lead();
+                        if (count($result) > 0) {
+                            $lead = $this->leadModel->getEntity($result[0]->getId());
+                        }
+                        $lead->setFirstname($data['first_name']);
+                        $lead->setLastname($data['last_name']);
+                        $lead->setEmail($data['email']);
+                        $this->leadModel->saveEntity($lead);
+                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                        if ($event['goal'] != 'interrupt') {
+                            $this->campaignModel->addLead($campaign, $lead);
+                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                        } else {
+                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        }
+                        unset($campaign);
+                        $intevent->setIsSuccess(true);
+                    } else {
+                        $intevent->setIsSuccess(false);
+                    }
+                }
+            }
+        }
+
+        return $intevent;
     }
 
     /**

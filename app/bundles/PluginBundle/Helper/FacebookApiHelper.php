@@ -33,11 +33,13 @@ class FacebookApiHelper
         $this->FBSECRET      =$this->factory->getParameter('facebook_app_secret');
         $this->OAUTH_CALLBACK=$this->factory->getParameter('facebook_oauth_callback');
 
-        $this->fbconn  = new Facebook([
-            'app_id'                  => $this->FBAPPID,
-            'app_secret'              => $this->FBSECRET,
-            'default_graph_version'   => 'v3.2',
-        ]);
+        if ($this->FBAPPID != '' && $this->FBSECRET != '') {
+            $this->fbconn = new Facebook([
+                'app_id'                => $this->FBAPPID,
+                'app_secret'            => $this->FBSECRET,
+                'default_graph_version' => 'v3.2',
+            ]);
+        }
     }
 
     public function getAccountDetails($token)

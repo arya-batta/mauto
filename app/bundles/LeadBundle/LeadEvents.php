@@ -788,4 +788,14 @@ final class LeadEvents
      * @var string
      */
     const LEAD_LIST_SENDTHANKYOU_EMAIL = 'mautic.lead_list_sendthankyou_email';
+
+    /**
+     * The mautic.integration_event event is dispatched when generating a lead's timeline view.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\IntegrationEvent instance.
+     *
+     * @var string
+     */
+    const INTEGRATION_EVENT = 'mautic.integration_event';
 }

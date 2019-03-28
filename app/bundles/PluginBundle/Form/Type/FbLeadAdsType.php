@@ -86,10 +86,12 @@ class FbLeadAdsType extends AbstractType
         $leadgenformlist['-1']='Any Form';
         if (sizeof($integrationsettings) > 0 && !empty($fbPageId)) {
             if ($fbPageId != '-1') {
-                $pageToken   =$fbapiHelper->getPageAccessToken($fbPageId, $integrationsettings['authtoken']);
-                $leadGenForms=$fbapiHelper->getLeadGenFormsByPage($fbPageId, $pageToken);
-                foreach ($leadGenForms as $leadGenForm) {
-                    $leadgenformlist[$leadGenForm[0]]=$leadGenForm[1];
+                if ($fbapiHelper->getFbInstance() != null) {
+                    $pageToken    = $fbapiHelper->getPageAccessToken($fbPageId, $integrationsettings['authtoken']);
+                    $leadGenForms = $fbapiHelper->getLeadGenFormsByPage($fbPageId, $pageToken);
+                    foreach ($leadGenForms as $leadGenForm) {
+                        $leadgenformlist[$leadGenForm[0]] = $leadGenForm[1];
+                    }
                 }
             }
         }
@@ -124,9 +126,11 @@ class FbLeadAdsType extends AbstractType
         $choices            =[];
         $choices['-1']      ='Any Page';
         if (sizeof($integrationsettings) > 0) {
-            $pageList     =$fbapiHelper->getAllFbPages($integrationsettings['authtoken'], true);
-            foreach ($pageList as $page) {
-                $choices[$page[0]]=$page[1];
+            if ($fbapiHelper->getFbInstance() != null) {
+                $pageList = $fbapiHelper->getAllFbPages($integrationsettings['authtoken'], true);
+                foreach ($pageList as $page) {
+                    $choices[$page[0]] = $page[1];
+                }
             }
         }
 

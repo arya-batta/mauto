@@ -54,13 +54,15 @@ class IntegrationController extends FormController
     {
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper = $this->factory->getHelper('integration');
-        $fbapiHelper       = $this->factory->getHelper('fbapi');
         $session           = $this->get('session');
         $error             =$session->get('le.integration.postauth.error', false);
         $token             =$session->get('le.integration.oauth.token', false);
         if ($error) {
             $this->addFlash($error);
             $session->remove('le.integration.postauth.error');
+        }
+        if ($name == 'facebook_lead_ads' || $name == 'facebook_custom_audiences') {
+            $fbapiHelper       = $this->factory->getHelper('fbapi');
         }
         $details                 =$integrationHelper->getIntegrationDetails($name);
         $details['authorization']=false;
@@ -110,6 +112,11 @@ class IntegrationController extends FormController
                 if (sizeof($integrationsettings) > 0) {
                     $details['authorization']=true;
                 }
+            }
+        } elseif ($name == 'calendly') {
+            $integrationsettings=$integrationHelper->getIntegrationSettingsbyName($name);
+            if (sizeof($integrationsettings) > 0) {
+                $details['calendlytoken']=$integrationsettings['authtoken'];
             }
         }
         $details=array_merge($details, $integrationsettings);

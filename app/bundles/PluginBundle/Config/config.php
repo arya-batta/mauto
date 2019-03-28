@@ -173,6 +173,21 @@ return [
                 'arguments' => 'mautic.factory',
                 'alias'     => 'fb_leadads_list',
             ],
+            'le.form.type.instapage_type' => [
+                'class'     => 'Mautic\PluginBundle\Form\Type\InstapageFormType',
+                'arguments' => 'translator',
+                'alias'     => 'instapage_type',
+            ],
+            'le.form.type.unbounce' => [
+                'class'     => 'Mautic\PluginBundle\Form\Type\UnbounceFormType',
+                'arguments' => 'translator',
+                'alias'     => 'unbounce_type',
+            ],
+            'le.form.type.calendly' => [
+                'class'     => 'Mautic\PluginBundle\Form\Type\CalendlyFormType',
+                'arguments' => 'translator',
+                'alias'     => 'calendly_type',
+            ],
         ],
         'other' => [
             'mautic.helper.integration' => [

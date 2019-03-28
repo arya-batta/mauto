@@ -370,3 +370,36 @@ Le.loadCustomAudiences = function (adAccount) {
         }
     });
 };
+Le.saveTokenvalue = function (name){
+    var tokenvalue = mQuery("#"+name+"-token-value").val();
+    mQuery("."+name+"-container .help-block").addClass('hide');
+    mQuery("."+name+"-container").removeClass('has-error');
+    if(tokenvalue == ""){
+        mQuery("."+name+"-container").addClass('has-error');
+        mQuery("."+name+"-container .help-block").removeClass('hide');
+        return;
+    }
+    var data = {
+        token: tokenvalue,
+        integrationname : name,
+    };
+    Le.ajaxActionRequest('plugin:saveTokenvalue', data,
+        function (response) {
+            if (response.success) {
+                Le.redirectWithBackdrop(response.redirect);
+            }
+        }
+    );
+};
+Le.removeTokenvalue = function (name){
+    var data = {
+        integrationname : name,
+    };
+    Le.ajaxActionRequest('plugin:removeTokenvalue', data,
+        function (response) {
+            if (response.success) {
+                Le.redirectWithBackdrop(response.redirect);
+            }
+        }
+    );
+};
