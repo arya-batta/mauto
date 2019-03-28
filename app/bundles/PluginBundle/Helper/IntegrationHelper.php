@@ -844,7 +844,7 @@ class IntegrationHelper
         $events[] = 'invitee.created';
         $events[] = 'invitee.canceled';
         $data     = [
-            'url'    => 'https://anyfuncclll.com',
+            'url'    => $webhookUrl,
             'events' => $events,
         ];
 
