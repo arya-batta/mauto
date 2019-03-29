@@ -55,7 +55,9 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
                 </div>
             </div>
         </div>
-        <div class="integration-step">
+    <img style="height:auto;width:100%;" src="<?php echo $view['assets']->getUrl('media/images/integrations/'.$name.'.gif'); ?>">
+
+    <div class="integration-step">
             <div class="step-content">
                 <h3>Step 2 : Set up workflow rules</h3>
                 <p></p><p>To perform an action any time a person is added via Calendly, <code>creates or cancels an event</code> <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> trigger. Enter your page name or leave it blank to configure your trigger.</p>
