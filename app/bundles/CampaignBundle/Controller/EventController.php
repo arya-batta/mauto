@@ -743,6 +743,21 @@ class EventController extends CommonFormController
                     $isValidForm =false;
                 }
             }
+            if ($type == 'removeFBCustomAudience' || $type == 'addFBCustomAudience') {
+                if (empty($formData['properties']['adaccount'])) {
+                    $form['properties']['adaccount']->addError(
+                        new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                    );
+                    $isValidForm = false;
+                } elseif (!empty($formData['properties']['adaccount'])) {
+                    if (empty($formData['properties']['customaudience'])) {
+                        $form['properties']['customaudience']->addError(
+                            new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                        );
+                        $isValidForm = false;
+                    }
+                }
+            }
 
             return  $isValidForm;
         }
@@ -786,6 +801,22 @@ class EventController extends CommonFormController
                         );
                         $isValidForm = false;
                     }
+                }
+            }
+        }
+
+        if ($type == 'fbLeadAds') {
+            if (empty($formData['properties']['fbpage'])) {
+                $form['properties']['fbpage']->addError(
+                    new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                );
+                $isValidForm = false;
+            } elseif (!empty($formData['properties']['fbpage'])) {
+                if (empty($formData['properties']['leadgenform'])) {
+                    $form['properties']['leadgenform']->addError(
+                        new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
+                    );
+                    $isValidForm = false;
                 }
             }
         }

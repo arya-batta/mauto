@@ -185,7 +185,10 @@ return [
             ],
             'le.form.type.calendly' => [
                 'class'     => 'Mautic\PluginBundle\Form\Type\CalendlyFormType',
-                'arguments' => 'translator',
+                'arguments' => [
+                        'translator',
+                        'mautic.factory',
+                    ],
                 'alias'     => 'calendly_type',
             ],
         ],

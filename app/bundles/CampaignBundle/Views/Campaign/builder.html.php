@@ -154,12 +154,13 @@ foreach ($acions as $key => $value) {
         $eventoptions[]      =$options;
     }
 }
+    //allowedEvents 0 - both 1 - source 2 - action
      $campaigngroupoptions = [
-         ['label'=> $view['content']->getProductBrandName(), 'order'=> 1],
-         ['label'=> 'Facebook', 'order'=> 2],
-         ['label'=> 'Instapage', 'order'=> 3],
-         ['label'=> 'Unbounce', 'order'=> 4],
-         ['label'=> 'Calendly', 'order'=> 5],
+         ['label'=> $view['content']->getProductBrandName(), 'order'=> 1, 'visibleFor' => 0],
+         ['label'=> 'Facebook', 'order'=> 2, 'visibleFor' => 0],
+         ['label'=> 'Instapage', 'order'=> 3, 'visibleFor' => 1],
+         ['label'=> 'Unbounce', 'order'=> 4, 'visibleFor' => 1],
+         ['label'=> 'Calendly', 'order'=> 5, 'visibleFor' => 1],
          /*        ['label'=> 'Drip', 'order'=> 2],*/
     ];
     $sources      =$eventSettings['source'];

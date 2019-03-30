@@ -11,8 +11,11 @@
 
 namespace Mautic\PluginBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -25,12 +28,24 @@ class CalendlyFormType extends AbstractType
      */
     protected $translator;
 
+    protected $isauthorized = false;
+
+    protected $factory;
+
     /**
      * ConfigType constructor.
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, MauticFactory $factory)
     {
         $this->translator = $translator;
+
+        $this->factory = $factory;
+
+        $integrationHelper    = $this->factory->getHelper('integration');
+        $integrationsettings  =$integrationHelper->getIntegrationSettingsbyName('calendly');
+        if (sizeof($integrationsettings) > 0) {
+            $this->isauthorized = true;
+        }
     }
 
     /**
@@ -58,5 +73,13 @@ class CalendlyFormType extends AbstractType
     public function getName()
     {
         return 'calendly_type';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['isauthorized'] = $this->isauthorized;
     }
 }

@@ -41,7 +41,7 @@ class FbCustomAudienceType extends AbstractType
         $builder->add('adaccount', 'choice', [
             'choices'    => $this->getAdAccountsChoices(),
             'label'      => 'le.integration.fbcustomaudience.adaccount',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label required'],
             'attr'       => [
                 'class'    => 'form-control',
                 'onchange' => 'Le.loadCustomAudiences(this.value);',
@@ -96,7 +96,7 @@ class FbCustomAudienceType extends AbstractType
         $form->add('customaudience', 'choice', [
             'choices'    => $audienceList,
             'label'      => 'le.integration.fbcustomaudience.customaudience',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label required'],
             'attr'       => [
                 'class'   => 'form-control',
             ],

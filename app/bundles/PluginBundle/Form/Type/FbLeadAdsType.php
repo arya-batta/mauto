@@ -16,6 +16,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 /**
  * Class FbLeadAdsType.
@@ -24,12 +26,20 @@ class FbLeadAdsType extends AbstractType
 {
     protected $factory;
 
+    protected $isauthorized = false;
+
     /**
      * @param MauticFactory $factory
      */
     public function __construct(MauticFactory $factory)
     {
         $this->factory = $factory;
+
+        $integrationHelper    = $this->factory->getHelper('integration');
+        $integrationsettings  =$integrationHelper->getIntegrationSettingsbyName('facebook_lead_ads');
+        if (sizeof($integrationsettings) > 0) {
+            $this->isauthorized = true;
+        }
     }
 
     /**
@@ -41,7 +51,7 @@ class FbLeadAdsType extends AbstractType
         $builder->add('fbpage', 'choice', [
             'choices'    => $this->getFbPageChoices(),
             'label'      => 'le.integration.fbleadads.page',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label required'],
             'attr'       => [
                 'class'    => 'form-control',
                 'onchange' => 'Le.loadLeadAdsForm(this.value);',
@@ -98,7 +108,7 @@ class FbLeadAdsType extends AbstractType
         $form->add('leadgenform', 'choice', [
             'choices'    => $leadgenformlist,
             'label'      => 'le.integration.fbleadads.leadform',
-            'label_attr' => ['class' => 'control-label'],
+            'label_attr' => ['class' => 'control-label required'],
             'attr'       => [
                 'class'   => 'form-control',
             ],
@@ -135,5 +145,13 @@ class FbLeadAdsType extends AbstractType
         }
 
         return $choices;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['isauthorized'] = $this->isauthorized;
     }
 }

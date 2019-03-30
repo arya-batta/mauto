@@ -13,6 +13,7 @@ Le.WF_COUNT_NODE_HEIGHT_ADJUST=27;
 Le.WF_NODE_PATH_HEIGHT_ADJUST=49;
 Le.SVG_NODE_HEIGHT_ADJUST=200;
 Le.WF_SHOW_STATSTICS=true;
+Le.LAST_SELECTED_GROUPNAME="";
 Le.getActionNodeJSON=function(){
 var json={
     "id":Le.randomString(32),
@@ -1652,6 +1653,7 @@ Le.invokeCampaignEventEditAction=function(lastclickednode){
     Le.ajaxifyModal(divelement);
 };
 Le.invokeCampaignEventAddAction=function(wfjson,callback){
+    Le.LAST_SELECTED_GROUPNAME = "";
     var wfnodetype=wfjson.type;
     if(wfjson.type == 'interrupt'){
       wfjson=wfjson.triggers[0];
@@ -1731,7 +1733,7 @@ Le.campaignEventOnLoad = function (container, response) {
             sortField: [
                 {field: 'order', direction: 'asc'},
             ],
-            options: Le.campaignBuilderGroupOptions,
+            options: [],
             render: {
                 item: function (item, escape) {
                     return '<div>' + escape(item.label) + '</div>';
@@ -1788,27 +1790,41 @@ Le.campaignEventOnLoad = function (container, response) {
             if (cesgselectize.isOpen) {
                 cesgselectize.close();
             }
-
+            if(Le.LAST_SELECTED_GROUPNAME != "" && Le.LAST_SELECTED_GROUPNAME != value){
+                Le.LAST_SELECTED_GROUPNAME = value;
+                var category = '';
+                if(eventType == "source"){
+                    category = "campaign.defaultsource";
+                } else {
+                    category = "campaign.defaultaction";
+                }
+                Le.invokeCampaignEventAction(category, eventType);
+            }
 
         });
+        var groupoptions= [];
+        if(eventType == "source"){
+            groupoptions = Le.getFilteredCampaignSourcegroupOptions();
+        } else {
+            groupoptions = Le.getFilteredCampaignActiongroupOptions();
+        }
+
+        for (var index = 0; index < groupoptions.length; index++) {
+            cegselctize.addOption(groupoptions[index]);
+        }
         cesgselectize.on('change', function (value) {
             var category = this.options[value].category;
-            var campaignId = mQuery('#campaignId').val();
-            var posturl = mQuery('#campaigneventgroup').attr('data-href');
-            var route = posturl + "?type=" + category + "&eventType="+eventType+"&campaignId=" + campaignId + "&keyId=" + Le.lastclickedwfnode.id;
-            var divelement = document.createElement("div");
-            divelement.setAttribute('data-target', '#CampaignEventModal');
-            divelement.setAttribute('data-href', route);
-            //divelement.setAttribute('data-prevent-dismiss',true);
-            Le.updateAjaxModal('#CampaignEventModal', route, 'GET');
+            Le.invokeCampaignEventAction(category, eventType);
         });
         var campaignEventType = mQuery('#campaignevent_type').val();
+        var eventName = "";
         if(eventType == 'source') {
-            cegselctize.setValue(Le.getCampaignSourceGroupName(campaignEventType), false);
+            eventName = Le.getCampaignSourceGroupName(campaignEventType);
+        } else{
+            eventName = Le.getCampaignEventGroupName(campaignEventType);
         }
-        else{
-            cegselctize.setValue(Le.getCampaignEventGroupName(campaignEventType), false);
-        }
+        Le.LAST_SELECTED_GROUPNAME = eventName;
+        cegselctize.setValue(eventName, false);
         if(campaignEventType != 'campaign.defaultsource' && campaignEventType != 'campaign.defaultaction'){
             cesgselectize.setValue(campaignEventType, true);
         }
@@ -1843,6 +1859,37 @@ Le.campaignEventOnLoad = function (container, response) {
     }
 
 };
+
+Le.invokeCampaignEventAction = function(category, eventType){
+    var campaignId = mQuery('#campaignId').val();
+    var posturl = mQuery('#campaigneventgroup').attr('data-href');
+    var route = posturl + "?type=" + category + "&eventType="+eventType+"&campaignId=" + campaignId + "&keyId=" + Le.lastclickedwfnode.id;
+    var divelement = document.createElement("div");
+    divelement.setAttribute('data-target', '#CampaignEventModal');
+    divelement.setAttribute('data-href', route);
+    //divelement.setAttribute('data-prevent-dismiss',true);
+    Le.updateAjaxModal('#CampaignEventModal', route, 'GET');
+};
+Le.getFilteredCampaignSourcegroupOptions=function(){
+    var filteroptions = [];
+    for(var index=0;index < Le.campaignBuilderSourceOptions.length;index++){
+        var options=Le.campaignBuilderGroupOptions[index];
+        if(typeof options !== "undefined" && (options.visibleFor == 0 || options.visibleFor == 1)){
+            filteroptions.push(options);
+        }
+    }
+    return filteroptions;
+};
+Le.getFilteredCampaignActiongroupOptions=function(){
+    var filteroptions = [];
+    for(var index=0;index < Le.campaignBuilderSourceOptions.length;index++){
+        var options=Le.campaignBuilderGroupOptions[index];
+        if(typeof options !== "undefined" && (options.visibleFor == 0 || options.visibleFor == 2)){
+            filteroptions.push(options);
+        }
+    }
+    return filteroptions;
+};
 Le.getFilteredCampaignEventSubgroupOptions=function(groupname){
     var filteroptions = [];
     for(var index=0;index < Le.campaignBuilderEventOptions.length;index++){
@@ -1874,7 +1921,7 @@ Le.getCampaignEventGroupName=function(subgroup){
             break;
         }
     }
-    return Le.campaignBuilderGroupOptions[0].label;
+    return Le.LAST_SELECTED_GROUPNAME == "" ? Le.campaignBuilderGroupOptions[0].label : Le.LAST_SELECTED_GROUPNAME;
 };
 Le.getCampaignSourceGroupName=function(subgroup){
     // alert('Sub Group Matched-->'+subgroup);
@@ -1886,7 +1933,7 @@ Le.getCampaignSourceGroupName=function(subgroup){
             break;
         }
     }
-    return Le.campaignBuilderGroupOptions[0].label;
+    return Le.LAST_SELECTED_GROUPNAME == "" ? Le.campaignBuilderGroupOptions[0].label : Le.LAST_SELECTED_GROUPNAME;
 };
 
 
