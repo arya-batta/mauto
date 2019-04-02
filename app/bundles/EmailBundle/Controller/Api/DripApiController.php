@@ -101,9 +101,16 @@ class DripApiController extends CommonApiController
 
         $this->inBatchMode = true;
         $entities          = [];
+        $entity            = [];
         $errors            = [];
         $statusCodes       = [];
         foreach ($parameters as $key => $params) {
+            if (isset($params['dripId']) && !is_numeric($params['dripId'])) {
+                $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => 'dripId']);
+                $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                continue;
+            }
+
             $entity = $this->model->getEntity($params['dripId']);
             $result = $this->getModel('lead')->findEmail($params['email']);
 

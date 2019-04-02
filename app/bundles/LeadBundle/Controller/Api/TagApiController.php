@@ -206,9 +206,16 @@ class TagApiController extends CommonApiController
 
         $this->inBatchMode = true;
         $entities          = [];
+        $entity            = [];
         $errors            = [];
         $statusCodes       = [];
         foreach ($parameters as $key => $params) {
+            if (isset($params['tagId']) && !is_numeric($params['tagId'])) {
+                $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => 'tagId']);
+                $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                continue;
+            }
+
             $entity = $this->model->getEntity($params['tagId']);
             $result = $this->getModel('lead')->findEmail($params['email']);
 

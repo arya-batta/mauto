@@ -501,6 +501,20 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                     //'timezone',
                     'country',
                 ]
+            )->setGroupPrefix('leadApi')
+            ->addListProperties(
+                [
+                    'id',
+                    'points',
+                ]
+            )->addProperties(
+                [
+                    'lastActive',
+                    'owner',
+                    'tags',
+                    'dateIdentified',
+                    'doNotContact',
+                ]
             )
             ->setGroupPrefix('lead')
             ->addListProperties(

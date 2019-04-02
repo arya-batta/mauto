@@ -382,9 +382,11 @@ class FormApiController extends CommonApiController
             $specificvalues[]               = $specificvalue;
         }
 
+        $payload = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
+
         $view = $this->view(
             [
-                'total'                => $totalCount,
+                'payload'              => $payload,
                 $this->entityNameMulti => $specificvalues,
             ],
             Codes::HTTP_OK

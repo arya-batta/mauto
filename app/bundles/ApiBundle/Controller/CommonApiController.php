@@ -416,6 +416,13 @@ class CommonApiController extends FOSRestController implements MauticController
             }
         }
 
+        if (isset($parameters['start']) && !is_numeric($parameters['start'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
+        }
+        if (isset($parameters['limit']) && !is_numeric($parameters['limit'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+
         $args = array_merge(
             [
                 'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
@@ -454,9 +461,10 @@ class CommonApiController extends FOSRestController implements MauticController
         } elseif ($this->entityNameMulti == 'listoptins') {
             $this->entityNameMulti = 'lists';
         }
-        $view = $this->view(
+        $payload = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
+        $view    = $this->view(
             [
-                'total'                => $totalCount,
+                'payload'              => $payload,
                 $this->entityNameMulti => $entities,
             ],
             Codes::HTTP_OK
@@ -741,6 +749,24 @@ class CommonApiController extends FOSRestController implements MauticController
                     continue;
                 }
             }
+            if ($this->entityNameOne == 'lead') {
+                if (isset($params['owner']) && !is_numeric($params['owner'])) {
+                    $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => 'owner']);
+                    $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                    continue;
+                }
+                if (isset($params['owner'])) {
+                    $result = $this->getModel('user')->getRepository()->findBy([
+                        'id' => $params['owner'],
+                    ]);
+
+                    if (!count($result) > 0) {
+                        $this->setBatchError($key, 'le.core.error.owner.notfound', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity);
+                        $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                        continue;
+                    }
+                }
+            }
 
             $this->processBatchForm($key, $entity, $params, $method, $errors, $entities);
 
@@ -815,6 +841,19 @@ class CommonApiController extends FOSRestController implements MauticController
         if ($this->entityNameOne == 'lead') {
             if (!isset($parameters['email'])) {
                 return $this->returnError('le.core.error.email.required', Codes::HTTP_BAD_REQUEST);
+            }
+
+            if (isset($parameters['owner']) && !is_numeric($parameters['owner'])) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'owner']);
+            }
+            if (isset($parameters['owner'])) {
+                $result = $this->getModel('user')->getRepository()->findBy([
+                    'id' => $parameters['owner'],
+                ]);
+
+                if (!count($result) > 0) {
+                    return $this->returnError('le.core.error.owner.notfound', Codes::HTTP_BAD_REQUEST);
+                }
             }
         }
 
@@ -1412,7 +1451,7 @@ class CommonApiController extends FOSRestController implements MauticController
         $error = [
             'code'    => $code,
             'message' => $msg,
-            'details' => $details,
+           // 'details' => $details,
             'type'    => null,
         ];
 
@@ -1461,7 +1500,7 @@ class CommonApiController extends FOSRestController implements MauticController
      * @param array $entities
      * @param null  $entity
      */
-    protected function setBatchError($key, $msg, $code, &$errors, &$entities = [], $entity = null)
+    protected function setBatchError($key, $msg, $code, &$errors, &$entities = [], $entity = null, $msgparams = [])
     {
         unset($entities[$key]);
         if ($entity) {
@@ -1469,7 +1508,7 @@ class CommonApiController extends FOSRestController implements MauticController
         }
 
         $errors[$key] = [
-            'message' => $this->get('translator')->hasId($msg, 'flashes') ? $this->get('translator')->trans($msg, [], 'flashes') : $msg,
+            'message' => $this->get('translator')->hasId($msg, 'flashes') ? $this->get('translator')->trans($msg, $msgparams, 'flashes') : $msg,
             'code'    => $code,
             'type'    => 'api',
         ];

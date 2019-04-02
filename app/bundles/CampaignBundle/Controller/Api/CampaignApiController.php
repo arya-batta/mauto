@@ -147,9 +147,16 @@ class CampaignApiController extends CommonApiController
 
         $this->inBatchMode = true;
         $entities          = [];
+        $entity            = [];
         $errors            = [];
         $statusCodes       = [];
         foreach ($parameters as $key => $params) {
+            if (isset($params['workflowId']) && !is_numeric($params['workflowId'])) {
+                $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => 'workflowId']);
+                $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                continue;
+            }
+
             $entity = $this->model->getEntity($params['workflowId']);
             $result = $this->getModel('lead')->findEmail($params['email']);
 

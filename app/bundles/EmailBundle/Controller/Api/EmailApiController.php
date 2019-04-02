@@ -255,9 +255,11 @@ class EmailApiController extends CommonApiController
 
         list($entities, $totalCount) = $this->prepareEntitiesForView($results);
 
+        $payload = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
+
         $view = $this->view(
             [
-                'total'                => $totalCount,
+                'payload'              => $payload,
                 'oneoff'               => $entities,
             ],
             Codes::HTTP_OK

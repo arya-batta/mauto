@@ -89,7 +89,7 @@ class PointApiController extends CommonApiController
         }
 
         if (!is_numeric($delta)) {
-            return $this->handleView($this->view(['failed' => 1], Codes::HTTP_BAD_REQUEST));
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'points']);
         }
         try {
             $this->logApiPointChange($lead, $delta, $operator);

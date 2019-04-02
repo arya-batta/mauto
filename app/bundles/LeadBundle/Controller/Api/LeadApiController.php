@@ -48,7 +48,7 @@ class LeadApiController extends CommonApiController
         $this->entityClass      = Lead::class;
         $this->entityNameOne    = 'lead'; //previous it was contact
         $this->entityNameMulti  = 'leads'; //previous it was contacts
-        $this->serializerGroups = ['leadDetails', 'leadListDetails', 'frequencyRulesList', 'doNotContactList', 'userList', 'stageList', 'publishDetails', 'ipAddress', 'tagList', 'utmtagsList', 'leadList'];
+        $this->serializerGroups = ['leadApiDetails', 'leadListDetails', 'frequencyRulesList', 'doNotContactList', 'userList', 'stageList', 'publishDetails', 'ipAddress', 'tagList', 'utmtagsList'];
 
         parent::initialize($event);
     }
@@ -854,6 +854,13 @@ class LeadApiController extends CommonApiController
             }
         }
 
+        if (isset($parameters['start']) && !is_numeric($parameters['start'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
+        }
+        if (isset($parameters['limit']) && !is_numeric($parameters['limit'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+
         $args = array_merge(
             [
                 'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
@@ -914,11 +921,12 @@ class LeadApiController extends CommonApiController
             $modifieddata[] = [$entity->getId() => $entity, 'all' => $fielddata[$entity->getId()], 'listoptin' => $listdatas];
         }
         $modifiedentities[] = $modifieddata;
+        $payload            = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
 
         $view = $this->view(
             [
-                'total'                => $totalCount,
-                $this->entityNameMulti => $modifiedentities,
+                'payload'                => $payload,
+                $this->entityNameMulti   => $modifiedentities,
             ],
             Codes::HTTP_OK
         );

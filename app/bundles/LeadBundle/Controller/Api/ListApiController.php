@@ -179,9 +179,16 @@ class ListApiController extends CommonApiController
 
         $this->inBatchMode = true;
         $entities          = [];
+        $entity            = [];
         $errors            = [];
         $statusCodes       = [];
         foreach ($parameters as $key => $params) {
+            if (isset($params['segmentId']) && !is_numeric($params['segmentId'])) {
+                $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => 'segmentId']);
+                $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                continue;
+            }
+
             $entity = $this->model->getEntity($params['segmentId']);
             $result = $this->getModel('lead')->findEmail($params['email']);
 
