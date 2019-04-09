@@ -390,6 +390,7 @@ class LeadController extends FormController
                     'donotContact'         => $doNotContactLeads,
                     'activeLeads'          => $activeLeads,
                     'totalLeadsCount'      => $totalLeadsCount,
+                    'isEmailSearch'        => $this->isEmailStatSearch($search),
                 ],
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
@@ -2682,5 +2683,38 @@ class LeadController extends FormController
                 ],
             ]
         );
+    }
+
+    public function isEmailStatSearch($search)
+    {
+        $commands = [
+            $this->translator->trans('le.lead.lead.searchcommand.drip_scheduled'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_sent'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_read'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_click'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_queued'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_pending'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_failure'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_unsubscribe'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_bounce'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_spam'),
+            $this->translator->trans('le.lead.drip.searchcommand.lead'),
+            $this->translator->trans('le.lead.drip.searchcommand.sent'),
+            $this->translator->trans('le.lead.drip.searchcommand.click'),
+            $this->translator->trans('le.lead.drip.searchcommand.read'),
+            $this->translator->trans('le.lead.drip.searchcommand.unsubscribe'),
+            $this->translator->trans('le.lead.drip.searchcommand.bounce'),
+            $this->translator->trans('le.lead.drip.searchcommand.failed'),
+            $this->translator->trans('le.lead.lead.searchcommand.email_churn'),
+            $this->translator->trans('le.lead.drip.searchcommand.churn'),
+        ];
+        if (strpos($search, ':') !== false) {
+            $searchcont = explode(':', $search);
+            if (in_array($searchcont[0], $commands)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

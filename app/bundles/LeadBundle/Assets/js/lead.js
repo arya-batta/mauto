@@ -405,13 +405,15 @@ Le.leadlistOnLoad = function(container) {
         //         Le.reorderSegmentFilters();
         //     }
         // });
-       if(mQuery('#' + prefix + '_filters .filter-and-group-holder').length){
-           var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
-       var filterandgroups=filterandgroupholder.children();
-       if(filterandgroups.length == 0){
-           Le.addnewFilterAndGroup(prefix,'or');
-       }
-       }
+        if(mQuery('#' + prefix + '_filters .filter-and-group-holder').length){
+            var filterandgroupholder=mQuery('#' + prefix + '_filters .filter-and-group-holder');
+            var filterandgroups=filterandgroupholder.children();
+            if(filterandgroups.length == 0){
+                Le.addnewFilterAndGroup(prefix,'or');
+                mQuery('#leadlist_filters .list_filter_fields').trigger('change');
+                mQuery('#leadlist_filters .list_filter_fields').trigger('chosen:updated');
+            }
+        }
     }
 
     // segment contact filters
@@ -668,6 +670,9 @@ Le.addLeadListFilter = function (elId,filtergroup,glueval) {
     // Convert to DOM
     prototype = mQuery(prototype);
     var filterlist=mQuery(prototype).find('.list_filter_fields');
+    if(filterNum == 1){
+        mQuery(filterlist).val('listoptin');
+    }
     Le.activateChosenSelect(filterlist);
     var prefix = 'leadlist';
     // var parent = mQuery(filterId).parents('.dynamic-content-filter, .dwc-filter');
@@ -749,7 +754,7 @@ Le.updateLeadListFilter = function (elId,filterNum,prototype) {
     }catch(err){
        alert(err);
     }
-    if (isSpecial && (operator != "empty" && operator != "!empty")) {
+    if (isSpecial) { // && (operator != "empty" && operator != "!empty")
         var templateField = fieldType;
         if (fieldType == 'boolean' || fieldType == 'multiselect') {
             templateField = 'select';

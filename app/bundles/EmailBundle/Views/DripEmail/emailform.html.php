@@ -74,7 +74,7 @@ $customHtml = $entity->getCustomHtml();
                         </div>
                         <div class="col-md-2" style="right:25px;">
                             <li class="dropdown dropdown-menu-right" style="display: block;">
-                                <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 30px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 25px;right:5px;vertical-align: super;" data-toggle="dropdown" href="#">
                                     <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-left" style="margin-top: 21px;">
@@ -106,9 +106,6 @@ $customHtml = $entity->getCustomHtml();
                         <div class="tab-pane fade in bdr-w-0 dripemail_content <?php echo ($isBeeEditor && $customHtml == '') ? '' : 'hide'; ?>" id="dripemail_advance_editor" style="margin-top:-30px;">
                             <br>
                             <div id="block_container" style="margin-top: 17px;margin-left: -4px;">
-                                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;background-color: #FFFFFF;">
-                                    <p><?php echo $view['translator']->trans('le.email.notification'); ?></p>
-                                </div>
                                 <div class="le-category-filter alert alert-info le-alert-info" style="background-color: #FFFFFF;" >
                                     <p class="info-box-text" style="margin-top: -8px;"><?php echo $view['translator']->trans('le.email.category.notification'); ?></p>
                                     <?php if (!empty($filters)): ?>
@@ -119,6 +116,9 @@ $customHtml = $entity->getCustomHtml();
                                         ]); ?>
                                     <?php endif; ?>
                                 </div>
+                                <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:66.5%;margin-left:29px;background-color: #FFFFFF;">
+                                    <p><?php echo $view['translator']->trans('le.email.notification'); ?></p>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 hide">
@@ -128,7 +128,7 @@ $customHtml = $entity->getCustomHtml();
                                     <?php echo $view['form']->row($form['beeJSON']); ?>
                                 </div>
                             </div>
-                            <div style="margin-top:30px;">
+                            <div style="margin-top:10px;">
                             <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                                 'beetemplates' => $beetemplates,
                                 'active'       => '', //$emailform['template']->vars['value'],

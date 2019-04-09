@@ -109,6 +109,11 @@ if ($showsetup) {
 ?>
 
 <?php if (count($items)): ?>
+    <?php if ($isEmailSearch):?>
+        <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:98%;margin-left:10px;margin-right:20px;">
+            <p><?php echo $view['translator']->trans('le.leads.stats.info'); ?></p>
+        </div>
+    <?php endif; ?>
     <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered" id="leadTable">
             <thead>

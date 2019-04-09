@@ -814,6 +814,7 @@ class DripEmailModel extends FormModel
         $unsubscribecount = 0;
         $bouncecount      = 0;
         $spamcount        = 0;
+        $failedcount      = 0;
         foreach ($emails as $item) {
             $sentcount += $this->emailModel->getRepository()->getTotalSentCounts($item->getId());
             $uopencount += $this->emailModel->getRepository()->getTotalUniqueOpenCounts($item->getId());
@@ -823,6 +824,7 @@ class DripEmailModel extends FormModel
             $unsubscribecount += $this->emailModel->getRepository()->getTotalUnsubscribedCounts($item->getId());
             $bouncecount += $this->emailModel->getRepository()->getTotalBounceCounts($item->getId());
             $spamcount += $this->emailModel->getRepository()->getTotalSpamCounts($item->getId());
+            $failedcount += $this->emailModel->getRepository()->getTotalFailedCounts($item->getId());
         }
         $emailStats                = [];
         $emailStats['sent']        = $sentcount;
@@ -833,6 +835,7 @@ class DripEmailModel extends FormModel
         $emailStats['bounce']      = $bouncecount;
         $emailStats['spam']        = $spamcount;
         $emailStats['nopen']       = $nopencount;
+        $emailStats['failed']      = $failedcount;
 
         return $emailStats;
     }

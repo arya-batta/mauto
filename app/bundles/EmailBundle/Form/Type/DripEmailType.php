@@ -386,7 +386,7 @@ class DripEmailType extends AbstractType
                 'buttons',
                 'form_buttons',
                 [
-                    'apply_text' => false,
+                    'apply_text' => 'mautic.core.form.save',
                     'save_icon'  => false,
                 ]
             );

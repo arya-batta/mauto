@@ -1879,18 +1879,6 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $data = $query->loadAndBuildTimeData($q);
             $chart->setDataset($this->translator->trans('le.dripemail.stat.open'), $data);
         }
-        if ($this->security->isAdmin()) {
-            if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
-                $q = $query->prepareTimeDataQuery('email_stats', 'date_sent', $filter);
-                if (!$canViewOthers) {
-                    $this->limitQueryToCreator($q);
-                }
-                $q->andWhere($q->expr()->eq('t.is_failed', ':true'))
-                    ->setParameter('true', true, 'boolean');
-                $data = $query->loadAndBuildTimeData($q);
-                $chart->setDataset($this->translator->trans('le.email.failed.emails'), $data);
-            }
-        }
 
         if ($flag == 'all' || $flag == 'clicked') {
             $q = $query->prepareTimeDataQuery('page_hits', 'date_hit', []);
@@ -1929,6 +1917,18 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $data = $this->getDncLineChartDataset($query, $filter, DoNotContact::SPAM, $canViewOthers);
             $chart->setDataset($this->translator->trans('le.dripemail.stat.spam'), $data);
         }
+        //if ($this->security->isAdmin()) {
+        if ($flag == 'sent_and_opened_and_failed' || $flag == 'all' || $flag == 'failed') {
+            $q = $query->prepareTimeDataQuery('email_stats', 'date_sent', $filter);
+            if (!$canViewOthers) {
+                $this->limitQueryToCreator($q);
+            }
+            $q->andWhere($q->expr()->eq('t.is_failed', ':true'))
+                ->setParameter('true', true, 'boolean');
+            $data = $query->loadAndBuildTimeData($q);
+            $chart->setDataset($this->translator->trans('le.email.failed.emails'), $data);
+        }
+        //}
 
         return $chart->render();
     }
@@ -2687,6 +2687,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $emailStats['bounce']      = $this->getRepository()->getTotalBounceCounts($emailid);
         $emailStats['spam']        = $this->getRepository()->getTotalSpamCounts($emailid);
         $emailStats['nopen']       = $this->getRepository()->getTotalNotOpenCounts($emailid);
+        $emailStats['failed']      = $this->getRepository()->getTotalFailedCounts($emailid);
 
         return $emailStats;
     }

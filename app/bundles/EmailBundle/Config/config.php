@@ -17,11 +17,11 @@ return [
                 'controller' => 'MauticEmailBundle:Email:index',
             ],
             'le_email_campaign_index' => [
-                'path'       => '/oneoff/{page}',
+                'path'       => '/broadcast/{page}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:index',
             ],
             'le_email_campaign_action' => [
-                'path'       => '/oneoff/{objectAction}/{objectId}',
+                'path'       => '/broadcast/{objectAction}/{objectId}',
                 'controller' => 'MauticEmailBundle:EmailCampaign:execute',
             ],
             'le_email_preview_action' => [
@@ -33,7 +33,7 @@ return [
                 'controller' => 'MauticEmailBundle:Email:execute',
             ],
             'le_email_contacts' => [
-                'path'       => '/oneoff/contacts/{objectId}',
+                'path'       => '/broadcast/contacts/{objectId}',
                 'controller' => 'MauticEmailBundle:Email:contacts',
             ],
             'le_dripemail_contacts' => [
@@ -41,7 +41,7 @@ return [
                 'controller' => 'MauticEmailBundle:DripEmail:contacts',
             ],
             'le_email_usage' => [
-                'path'       => '/oneoffsusage',
+                'path'       => '/broadcastsusage',
                 'controller' => 'MauticEmailBundle:EmailUsage:emailstat',
             ],
             'le_dripemail_index' => [
@@ -116,12 +116,12 @@ return [
                 'method'     => 'POST',
             ],
             'mautic_api_getoneoff' => [
-                'path'       => '/oneoff/{id}',
+                'path'       => '/broadcast/{id}',
                 'controller' => 'MauticEmailBundle:Api\EmailApi:getOneoff',
                 'method'     => 'GET',
             ],
             'mautic_api_getoneofflist' => [
-                'path'       => '/oneoff',
+                'path'       => '/broadcast',
                 'controller' => 'MauticEmailBundle:Api\EmailApi:getOneoffList',
                 'method'     => 'POST',
             ],
@@ -142,7 +142,7 @@ return [
                 ],
             ],
             'le_email_tracker' => [
-                'path'       => '/oneoff/{idHash}.gif',
+                'path'       => '/broadcast/{idHash}.gif',
                 'controller' => 'MauticEmailBundle:Public:trackingImage',
             ],
             'le_email_webview' => [

@@ -26,7 +26,7 @@ class ExampleSendType extends AbstractType
                 'entry_type'       => EmailType::class,
                 'label'            => 'le.email.example_recipients',
                 'add_value_button' => 'le.email.add_recipient',
-                'option_notblank'  => false,
+                'option_notblank'  => true,
             ]
         );
 

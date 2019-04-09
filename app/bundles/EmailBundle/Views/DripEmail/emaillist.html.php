@@ -217,7 +217,7 @@
                     </td>
                     <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
                           <a class="text-primary le-send-button custom-preview-button"
-                             href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => '1'], true)?>" data-toggle="tooltip"
+                             href="<?php echo $view['router']->generate('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => '1'], true)?>" data-toggle="tooltip"
                              title="<?php echo $view['translator']->trans('le.drip.email.preview.tooltip'); ?>"
                              target="_blank">
                               <span><i class="fa fa-eye le-send-icon"></i></span>

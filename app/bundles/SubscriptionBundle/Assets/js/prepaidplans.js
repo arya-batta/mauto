@@ -210,6 +210,7 @@ Le.loadLicenseUsageInfo = function() {
                 if(!response.needClosebutton){
                   //  mQuery('.licenseclosebtn').addClass('hide');
                 }
+                Le.changeButtonPanelStyle();
                 Le.registerLicenseCloseBtnListener();
                 Le.adJustFixedHeader(true);
             }else{
@@ -235,6 +236,7 @@ Le.registerLicenseCloseBtnListener=function(){
     mQuery('.licenseclosebtn').click(function(e) {
         Le.closeLicenseButton();
         Le.adJustFixedHeader(false);
+        Le.changeButtonPanelStyle();
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });

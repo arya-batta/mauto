@@ -599,7 +599,7 @@ class EmailController extends FormController
         $verifiedemail = $model->getVerifiedEmailAddress();
 
         //create the form
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false, 'isShortForm' => false]);
 
         ///Check for a submitted form and process it
         if ($method == 'POST') {
@@ -880,7 +880,7 @@ class EmailController extends FormController
             $entity->setEmailType('template');
         }
         /** @var Form $form */
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false, 'isShortForm' => false]);
 
         ///Check for a submitted form and process it
         if (!$ignorePost && $method == 'POST') {
@@ -974,7 +974,7 @@ class EmailController extends FormController
                 );
             } elseif ($valid && $form->get('buttons')->get('apply')->isClicked()) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
-                $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false]);
+                $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => true, 'isDripEmail' => false, 'isShortForm' => false]);
             }
         } else {
             //lock the entity

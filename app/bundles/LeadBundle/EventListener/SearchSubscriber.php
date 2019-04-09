@@ -425,6 +425,14 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.drip.searchcommand.failed', [], null, 'en_US'):
                 $this->buildDripFailureQuery($event);
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.email_churn'):
+            case $this->translator->trans('le.lead.lead.searchcommand.email_churn', [], null, 'en_US'):
+                $this->buildEmailChrunQuery($event);
+                break;
+            case $this->translator->trans('le.lead.drip.searchcommand.churn'):
+            case $this->translator->trans('le.lead.drip.searchcommand.churn', [], null, 'en_US'):
+                $this->buildDripEmailChrunQuery($event);
+                break;
             /*case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent'):
             case $this->translator->trans('mautic.lead.lead.searchcommand.dripemail_sent', [], null, 'en_US'):
                 $this->buildDripEmailSentQuery($event);
@@ -642,6 +650,68 @@ class SearchSubscriber extends CommonSubscriber
             ],
         ];
         $this->buildJoinQuery($event, $tables, $config);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildEmailChrunQuery(LeadBuildSearchEvent $event)
+    {
+        $emailid   =$event->getString();
+        $tables    = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andx(
+            $q->expr()->eq('es.email_id', $emailid),
+            $q->expr()->orX(
+                $q->expr()->eq('es.is_bounce', 1),
+                $q->expr()->eq('es.is_unsubscribe', 1),
+                $q->expr()->eq('es.is_spam', 1)
+            )
+        );
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+    }
+
+    /**
+     * @param $event
+     */
+    private function buildDripEmailChrunQuery(LeadBuildSearchEvent $event)
+    {
+        $dripid   =$event->getString();
+        $emailIds = $this->emailRepository->getEmailIdsByDripid($dripid);
+        $tables   = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+
+        $tables   = [
+            [
+                'from_alias' => 'l',
+                'table'      => 'email_stats',
+                'alias'      => 'es',
+                'condition'  => 'l.id = es.lead_id',
+            ],
+        ];
+        $q     = $event->getQueryBuilder();
+        $expr  = $q->expr()->andx(
+            $q->expr()->in('es.email_id', $emailIds),
+            $q->expr()->orX(
+                $q->expr()->eq('es.is_bounce', 1),
+                $q->expr()->eq('es.is_unsubscribe', 1),
+                $q->expr()->eq('es.is_spam', 1)
+            )
+        );
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
     }
 
     /**

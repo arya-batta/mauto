@@ -211,7 +211,7 @@ class DripEmailController extends FormController
                     'model'                => $model,
                     'actionRoute'          => 'le_dripemail_campaign_action',
                     'indexRoute'           => 'le_dripemail_index',
-                    'headerTitle'          => 'Drip Emails',
+                    'headerTitle'          => 'le.email.drip.email.menu',
                     'translationBase'      => 'mautic.email.broadcast',
                     'dripEmailBlockDetails'=> $dripEmailBlockDetails,
                     'EmailsCount'          => $emailscount,
@@ -306,6 +306,8 @@ class DripEmailController extends FormController
         $last10clickleads       = [];
         $last10unsubscribeleads = [];
         $last10bounceleads      = [];
+        $last10churns           = [];
+        $last10fails            = [];
 
         $emails = $emailmodel->getEntities(
             [
@@ -328,6 +330,8 @@ class DripEmailController extends FormController
             $last10clickleads       = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.click').':'.$dripemail->getId());
             $last10unsubscribeleads = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.unsubscribe').':'.$dripemail->getId());
             $last10bounceleads      = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.bounce').':'.$dripemail->getId());
+            $last10churns           = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.churn').':'.$dripemail->getId());
+            $last10fails            = $emailmodel->getLeadsBasedonAction($this->translator->trans('le.lead.drip.searchcommand.failed').':'.$dripemail->getId());
         }
 
         return $this->delegateView(
@@ -376,6 +380,8 @@ class DripEmailController extends FormController
                     'unsubscribeLeads' => $last10unsubscribeleads,
                     'bounceLeads'      => $last10bounceleads,
                     'emailList'        => $emails,
+                    'emailChurn'       => $last10churns,
+                    'emailfailed'      => $last10fails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:details.html.php',
                 'passthroughVars' => [
@@ -509,7 +515,7 @@ class DripEmailController extends FormController
         $emailentity->setEmailType('list');
         $emailaction = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'new']);
         //create the form
-        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true, 'isShortForm' => false]);
         $returnUrl      = $this->generateUrl('le_dripemail_index');
         $postActionVars = [
             'returnUrl'       => $returnUrl,
@@ -1147,7 +1153,7 @@ class DripEmailController extends FormController
         $fromAdress      = $emailentity->getFromAddress();
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $emailentity->getId()]);
         //create the form
-        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true, 'isShortForm' => false]);
 
         if (empty($fromName)) {
             $emailentity->setFromName($fromname);
@@ -1328,7 +1334,7 @@ class DripEmailController extends FormController
         $emailentity->setIsPublished(false);
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => $subobjectId]);
         //create the form
-        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true]);
+        $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true, 'isShortForm' => false]);
 
         /*   if (empty($fromName)) {
                $emailentity->setFromName($fromname);
@@ -1472,6 +1478,8 @@ class DripEmailController extends FormController
         $driprepo    = $this->get('le.core.repository.signup');
         /** @var EmailModel $emailmodel */
         $emailmodel = $this->getModel('email');
+        /** @var DripEmailModel $dripmodel */
+        $dripmodel  = $this->getModel('email.dripemail');
         $email      = [];
         if ($objectid != '1') {
             $email = $driprepo->getEmailsByEmailId($objectid);
@@ -1487,10 +1495,11 @@ class DripEmailController extends FormController
             } else {
                 $account = new Account();
             }
+            $dripEntity              = $emailentity->getDripEmail();
             $email[0]['custom_html'] = $content;
-            $email[1]['footer']      = $this->coreParametersHelper->getParameter('footer_text');
+            $email[1]['footer']      = $dripEntity->getUnsubscribeText() == '' ? $this->coreParametersHelper->getParameter('footer_text') : $dripEntity->getUnsubscribeText();
             $email[2]['type']        = $emailentity->getBeeJSON();
-            if (true) {
+            if ($account->getNeedpoweredby()) {
                 $url                     = 'http://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
                 $icon                    = 'https://anyfunnels.com/wp-content/uploads/leproduct/anyfunnels-footer2.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 35px;width:160px;' src='$icon'></a></div>";

@@ -13,7 +13,41 @@ if ($tmpl == 'index') {
 }
 $isAdmin=$view['security']->isAdmin();
 ?>
+<div class="newbutton-container" style="margin-top:-25px;position:relative;top:-40px;margin-right:15px;">
+    <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
+        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 13px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
+            <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.email.new')?></span></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
+            <div class="insert-drip-options">
+                <div class='drip-options-panel'>
+                    <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('le.email.editor.header')?></h1>
+                    <br>
+                    <div class="row">
+                        <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 1]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
+                            <div class="col-md-6 editor_layout"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                                <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
+                                <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
+                                <br>
+                            </div>
+                        </a>
+                        <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 0]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
+                            <div class="col-md-6 editor_layout editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                                <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
+                                <h4><?php echo $view['translator']->trans('le.email.editor.basic.header.drip')?></h4>
+                                <br>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </li>
 
+    <a class="btn hide btn-default le-btn-default btn-nospin" id="new-drip-email" value="basic_editor" onclick="Le.openDripEmailEditor();" style="float:right;z-index:10000;">
+        <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
+    </a>
+</div>
 <?php if (count($items)): ?>
     <div class="table-responsive table-responsive-force">
         <table class="table table-hover table-striped table-bordered email-list">
@@ -102,7 +136,7 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-                if (!$notificationemail) {
+                if ($isAdmin) {//!$notificationemail ||
                     echo $view->render(
                         'MauticCoreBundle:Helper:tableheader.html.php',
                         [
@@ -323,7 +357,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <?php if (!$notificationemail): ?>
+                    <?php if ($isAdmin): //!$notificationemail ||?>
                     <td class="visible-sm visible-md visible-lg col-stats">
                            <span class="mt-xs has-click-event clickable-stat"
                                  id="bounce-count-<?php echo $item->getId(); ?>">

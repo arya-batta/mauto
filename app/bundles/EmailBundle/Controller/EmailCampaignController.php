@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Helper\EmojiHelper;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Form\Type\ExampleSendType;
+use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Mautic\LeadBundle\Model\ListModel;
 use MauticPlugin\MauticCitrixBundle\Helper\CitrixHelper;
@@ -432,6 +433,8 @@ class EmailCampaignController extends FormController
         $last10clickleads       = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_click').':'.$email->getId());
         $last10unsubscribeleads = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_unsubscribe').':'.$email->getId());
         $last10bounceleads      = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_bounce').':'.$email->getId());
+        $last10churns           = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_churn').':'.$email->getId());
+        $last10fails            = $model->getLeadsBasedonAction($this->translator->trans('le.lead.lead.searchcommand.email_failure').':'.$email->getId());
 
         return $this->delegateView(
             [
@@ -499,6 +502,8 @@ class EmailCampaignController extends FormController
                     'clickLeads'       => $last10clickleads,
                     'unsubscribeLeads' => $last10unsubscribeleads,
                     'bounceLeads'      => $last10bounceleads,
+                    'emailChurn'       => $last10churns,
+                    'emailfailed'      => $last10fails,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:details.html.php',
                 'passthroughVars' => [
@@ -599,7 +604,7 @@ class EmailCampaignController extends FormController
         }
 
         //create the form
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => false]);
 
         ///Check for a submitted form and process it
         if ($method == 'POST') {
@@ -789,6 +794,62 @@ class EmailCampaignController extends FormController
         );
     }
 
+    public function quickaddAction($objectId)
+    {
+        $isBeeEditor = $objectId;
+        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
+            $this->redirectToPricing();
+        }
+        /** @var EmailModel $model */
+        $model        = $this->getModel('email');
+        $email        = $model->getEntity();
+        $action       = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => $objectId]);
+        $templatename = '';
+        $beeJson      = 'RichTextEditor';
+        if ($isBeeEditor) {
+            $templatename = 'blank';
+            $beeJson      = '';
+        }
+        //create the form
+        $form = $model->createForm($email, $this->get('form.factory'), $action, ['update_select' => false, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => true]);
+        if ($this->request->getMethod() == 'POST') {
+            $valid = false;
+            if (!$cancelled = $this->isFormCancelled($form)) {
+                if ($valid = $this->isFormValid($form)) {
+                    $email->setEmailType('list');
+                    $email->setTemplate($templatename);
+                    $email->setBeeJSON($beeJson);
+                    $model->saveEntity($email);
+                    $viewParameters = [];
+                    $returnUrl      = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'edit', 'objectId' => $email->getId()]);
+                    $template       = 'MauticEmailBundle:Email:edit';
+
+                    return $this->delegateRedirect($returnUrl);
+                }
+            }
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'form'        => $form->createView(),
+                    'email'       => $email,
+                ],
+                'contentTemplate' => 'MauticEmailBundle:Email:quickadd.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_email_campaign_index',
+                    'leContent'     => 'email',
+                    'route'         => $this->generateUrl(
+                        'le_email_campaign_action',
+                        [
+                            'objectAction' => 'new',
+                        ]
+                    ),
+                ],
+            ]
+        );
+    }
+
     public function sendTestAction($id)
     {
         $model         = $this->getModel('email');
@@ -930,7 +991,7 @@ class EmailCampaignController extends FormController
             $entity->setEmailType('list');
         }
         /** @var Form $form */
-        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
+        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => false]);
 
         ///Check for a submitted form and process it
         if (!$ignorePost && $method == 'POST') {
@@ -1050,7 +1111,7 @@ class EmailCampaignController extends FormController
                 );
             } elseif ($valid && $form->get('buttons')->get('sendtest')->isClicked()) {
                 // Rebuild the form in the case apply is clicked so that DEC content is properly populated if all were removed
-                //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false]);
+                //$form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => false]);
                 $id = $entity->getId();
 
                 return $this->sendAction($id);
@@ -1896,49 +1957,51 @@ class EmailCampaignController extends FormController
                 }
             }
             $count=sizeof($emails);
-            if (!$isCancelled && $isValid && $count != 0) {
-                //$emails = $form['emails']->getData()['list'];
+            if (!$isCancelled && $isValid) {
+                if ($count != 0) {
+                    //$emails = $form['emails']->getData()['list'];
 
-                // Prepare a fake lead
-                /** @var \Mautic\LeadBundle\Model\FieldModel $fieldModel */
-                $fieldModel = $this->getModel('lead.field');
-                $fields     = $fieldModel->getFieldList(false, false);
-                array_walk(
-                    $fields,
-                    function (&$field) {
-                        $field = "[$field]";
-                    }
-                );
-                $fields['id'] = 0;
+                    // Prepare a fake lead
+                    /** @var \Mautic\LeadBundle\Model\FieldModel $fieldModel */
+                    $fieldModel = $this->getModel('lead.field');
+                    $fields     = $fieldModel->getFieldList(false, false);
+                    array_walk(
+                        $fields,
+                        function (&$field) {
+                            $field = "[$field]";
+                        }
+                    );
+                    $fields['id'] = 0;
 
-                $errors  = [];
-                foreach ($emails as $email) {
-                    if (!empty($email)) {
-                        $users   = [
-                            [
-                                // Setting the id, firstname and lastname to null as this is a unknown user
-                                'id'        => '',
-                                'firstname' => '',
-                                'lastname'  => '',
-                                'email'     => $email,
-                            ],
-                        ];
+                    $errors  = [];
+                    foreach ($emails as $email) {
+                        if (!empty($email)) {
+                            $users   = [
+                                [
+                                    // Setting the id, firstname and lastname to null as this is a unknown user
+                                    'id'        => '',
+                                    'firstname' => '',
+                                    'lastname'  => '',
+                                    'email'     => $email,
+                                ],
+                            ];
 
-                        // Send to current user
-                        $error = $model->sendSampleEmailToUser($entity, $users, $fields, [], [], false);
-                        if (count($error)) {
-                            array_push($errors, $error[0]);
+                            // Send to current user
+                            $error = $model->sendSampleEmailToUser($entity, $users, $fields, [], [], false);
+                            if (count($error)) {
+                                array_push($errors, $error[0]);
+                            }
                         }
                     }
-                }
 
-                if (count($errors) != 0) {
-                    $this->addFlash(implode('; ', $errors));
-                } else {
-                    $this->addFlash('le.email.notice.test_sent_multiple.success');
+                    if (count($errors) != 0) {
+                        $this->addFlash(implode('; ', $errors));
+                    } else {
+                        $this->addFlash('le.email.notice.test_sent_multiple.success');
+                    }
+                } elseif ($count == 0) {
+                    $this->addFlash('le.email.notice.test_sent.address.required');
                 }
-            } elseif ($count == 0) {
-                $this->addFlash('le.email.notice.test_sent.address.required');
             }
 
             if ($isValid || $isCancelled) {

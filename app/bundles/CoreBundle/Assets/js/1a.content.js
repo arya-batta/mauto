@@ -496,7 +496,7 @@ Le.onPageLoad = function (container, response, inModal) {
                     }
 
                 });
-                if(!location.href.match(/(form|page|drip|oneoff)/i)){
+                if(!location.href.match(/(form|page|drip|broadcast)/i)){
                     mQuery('.toolbar-form-buttons').removeClass('hide');
                 }
             }

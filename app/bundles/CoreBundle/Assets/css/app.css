@@ -5566,7 +5566,7 @@ figcaption {
   box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   position: relative;
-  min-height: 500px;
+  min-height: 550px;
   margin-top: 10px;
 }
 .ui-tabs .ui-tabs-hide {
@@ -6598,10 +6598,10 @@ text-align: center;
   right: 0;
 }
 .ui-panel-fixed-button-panel{
-  /*margin-top: 1%;*/
+  margin-top: -15px;
 }
 .drip-fixed-header-style{
-  /*padding-top: 15px;*/
+  margin-top: -75px !important;
 }
 .kyc-border{
   border-bottom: 1px solid rgba(0,0,0,.12);
@@ -6777,7 +6777,7 @@ text-align: center;
 }
 .le-category-filter{
   width: 31.5%;
-  margin-left: 29px;
+  /*margin-left: 29px;*/
   height: 64px;
 }
 .le-send-button{
@@ -7709,4 +7709,7 @@ ul.list-unstyled, ul#list-unstyled  {
 }
 .timeline-event-title{
  font-size: 13px;
+}
+.choice-wrapper .help-block{
+  float:left;
 }

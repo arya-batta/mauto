@@ -42,7 +42,7 @@ Le.emailOnLoad = function (container, response) {
             prev = i;
         }
     });
-    if(!mQuery("#fragment-4").hasClass('ui-tabs-hide')){
+    if(!mQuery("#fragment-3").hasClass('ui-tabs-hide')){
         mQuery('.sendEmailTest').removeClass('hide');
     } else {
         mQuery('.sendEmailTest').addClass('hide');
@@ -130,7 +130,7 @@ Le.emailOnLoad = function (container, response) {
                 //return;
             }
             var url = window.location.href;
-            if (url.indexOf('oneoff/new') == -1 && mQuery('textarea.bee-editor-json').val() != "RichTextEditor") {
+            if (url.indexOf('broadcast/new') == -1 && mQuery('textarea.bee-editor-json').val() != "RichTextEditor") {
                 if (mQuery('textarea.builder-html').val() != 'false' && mQuery('textarea.builder-html').val().indexOf("false") < 0 && mQuery('textarea.builder-html').val() != '') {
                     //Le.showpreviewoftemplate(mQuery('textarea.builder-html').val());
                 }
@@ -140,7 +140,7 @@ Le.emailOnLoad = function (container, response) {
         mQuery("#fragment-"+selectrel).removeClass('ui-tabs-hide');
         mQuery(".ui-state-default").removeClass('ui-tabs-selected ui-state-active');
         mQuery("#ui-tab-header"+selectrel).addClass('ui-tabs-selected ui-state-active');
-        if(selectrel == 4){
+        if(selectrel == 3){
             mQuery('.sendEmailTest').removeClass('hide');
         } else {
             mQuery('.sendEmailTest').addClass('hide');
@@ -247,7 +247,7 @@ Le.emailOnLoad = function (container, response) {
     };
     Le.removeActionButtons();
     if (mQuery('.filter-field-segment').hasClass('has-error')){
-        mQuery('#ui-tab-header3').click();
+        mQuery('#ui-tab-header2').click();
     }
 };
 
@@ -529,8 +529,8 @@ Le.getTotalAttachmentSize = function() {
 Le.standardEmailUrl = function(options) {
     if (options && options.windowUrl && options.origin) {
         var url = options.windowUrl;
-        var editEmailKey = '/oneoff/edit/emailId';
-        var previewEmailKey = '/oneoff/preview/emailId';
+        var editEmailKey = '/broadcast/edit/emailId';
+        var previewEmailKey = '/broadcast/preview/emailId';
         if(options.origin == '#campaignevent_properties_useremail_email' || options.origin == '#formaction_properties_useremail_email'){
              previewEmailKey = '/emailnotifications/preview/emailId';
         }
@@ -1053,6 +1053,7 @@ Le.checkemailstatus = function(){
                         mQuery('#fixed-content').attr('style', 'margin-top:190px;');
                         Le.registerDismissBtn();
                         Le.adJustFixedHeader(true);
+                        Le.changeButtonPanelStyle();
                    // }
                 } else {
                     //mQuery('.license-notifiation').addClass('hide');
@@ -1066,32 +1067,18 @@ Le.registerDismissBtn=function(){
     mQuery('.emaildismissbtn').click(function(e) {
         Le.closeLicenseButton();
         Le.adJustFixedHeader(false);
+        Le.changeButtonPanelStyle();
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });
 };
 Le.changeButtonPanelStyle = function (){
-    if(!mQuery('sidebar-minimizer').hasClass('active')) {
-        if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
-            mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
-            /* if(mQuery('.license-notifiation').hasClass('hide')) {
-                 mQuery('#fixed-content').attr('style', 'margin-top:145px;');
-             } else {
-                 mQuery('#fixed-content').attr('style', 'margin-top:205px;');
-             }*/
-        } else {
-            mQuery('.ui-tabs-panel .fixed-header').removeClass('ui-panel-fixed-button-panel');
-            /* if(mQuery('.license-notifiation').hasClass('hide')) {
-                 mQuery('#fixed-content').attr('style', 'margin-top:155px;');
-             } else {
-                 mQuery('#fixed-content').attr('style', 'margin-top:215px;');
-             }*/
-        }
-        if (!mQuery('.drip-fixed-header').hasClass('drip-fixed-header-style')) {
-            mQuery('.drip-fixed-header').addClass('drip-fixed-header-style');
-        } else {
-            mQuery('.drip-fixed-header').removeClass('drip-fixed-header-style');
-        }
+    if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
+        mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
     }
-
+    if (!mQuery('.drip-fixed-header').hasClass('drip-fixed-header-style')) {
+        mQuery('.drip-fixed-header').addClass('drip-fixed-header-style');
+    } else {
+        mQuery('.drip-fixed-header').removeClass('drip-fixed-header-style');
+    }
 }

@@ -102,7 +102,7 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-
+            if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -134,7 +134,7 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-
+            endif;
                 if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -282,6 +282,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
+                    <?php if ($isAdmin) : ?>
                     <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-bounce-count-<?php echo $item->getId(); ?>">
@@ -327,6 +328,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
+                    <?php endif; ?>
                     <?php if ($isAdmin) : ?>
                         <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php endif; ?>

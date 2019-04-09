@@ -47,7 +47,7 @@ $btnstyle = 'pointer-events: none;background-color: #80bbea;opacity: 1;';
                                         'confirmCallback' => 'submitSendForm',
                                         'iconClass'       => 'fa fa-send-o',
                                         'btnText'         => $view['translator']->trans('le.email.send'),
-                                        'btnClass'        => 'btn btn-primary send-btn'.((!$pending) ? ' disabled' : ''),
+                                        'btnClass'        => 'btn btn-primary send-btn'.((!$pending) || $email->getisScheduled() ? ' disabled' : ''),
                                     ]);
                                     ?>-->
                                     <a class="butnew" style="margin-left:2px;border-radius: 3px;padding-bottom: 9px;padding-top: 9px;padding-left: 27px;padding-right: 27px;<?php echo $pending == 0 ? $btnstyle : '' ?>" href="javascript: void(0);" onclick="Le.submitSendForm();" ><span><i class="fa fa-send-o"></i><span style="padding:4px;font-size: 16px;"><?php echo $view['translator']->trans('le.email.send'); ?></span></span></a>

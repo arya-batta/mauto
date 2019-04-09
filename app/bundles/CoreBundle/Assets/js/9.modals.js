@@ -303,12 +303,16 @@ Le.showConfirmation = function (el) {
     var confirmCallback = mQuery(el).data('confirm-callback');
     var cancelText = mQuery(el).data('cancel-text');
     var cancelCallback = mQuery(el).data('cancel-callback');
+    var buttonText = 'Yes, delete it';
+    if(typeof confirmText !== "undefined" && confirmText == "Activate"){
+        buttonText = 'Yes, '+confirmText+' it';
+    }
     swal({
         title: 'Are you sure?',
         text: message,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it',
+        confirmButtonText: buttonText,
         cancelButtonText: 'No, cancel',
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger m-l-10',

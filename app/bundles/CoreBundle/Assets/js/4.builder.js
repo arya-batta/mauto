@@ -405,7 +405,7 @@ Le.initSelectBeeTemplate = function(themeField,formname) {
     var templateJSON = mQuery('textarea.bee-editor-json');
     var templateHTML = mQuery('textarea.builder-html');
     var url = window.location.href;
-    if((url.indexOf('emails/new') != -1 || url.indexOf('oneoff/new') != -1 || url.indexOf('pages/new') != -1 || (typeof templateHTML.val() === 'undefined' || !templateHTML.val().length))){
+    if((url.indexOf('emails/new') != -1 || url.indexOf('broadcast/new') != -1 || url.indexOf('pages/new') != -1 || (typeof templateHTML.val() === 'undefined' || !templateHTML.val().length))){
        if((mQuery('#email-content-preview').hasClass('hide'))){
            Le.beeTemplate = "";
        }

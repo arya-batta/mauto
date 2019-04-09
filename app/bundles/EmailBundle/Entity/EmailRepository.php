@@ -1064,7 +1064,7 @@ class EmailRepository extends CommonRepository
             ->andWhere($q->expr()->eq('e.dripemail_id', ':dripemail_id'))
             ->setParameter('dripemail_id', $dripid);
         $emails   = $q->execute()->fetchAll();
-        $emailids = [];
+        $emailids = ['-1'];
         foreach ($emails as $email) {
             $emailids[]=$email['id'];
         }
@@ -1319,5 +1319,26 @@ class EmailRepository extends CommonRepository
         $results = $q->execute()->fetchAll();
 
         return $results[0]['notopencount'];
+    }
+
+    public function getTotalFailedCounts($emailid)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count( e.id) as sentcount')
+            ->from(MAUTIC_TABLE_PREFIX.'email_stats', 'es')
+            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e', 'e.id = es.email_id')
+            ->where(
+                $q->expr()->andX(
+                    $q->expr()->eq('es.is_failed', ':true')
+                )
+            )->setParameter('true', true, 'boolean');
+
+        $q->andWhere('e.id = :emailId')
+            ->setParameter('emailId', $emailid);
+
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['sentcount'];
     }
 }

@@ -17,6 +17,7 @@ use Mautic\CoreBundle\Helper\TrackingPixelHelper;
 use Mautic\EmailBundle\BeeEditor\BeeFree;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Entity\Email;
+use Mautic\EmailBundle\Entity\Stat;
 use Mautic\EmailBundle\Event\EmailSendEvent;
 use Mautic\EmailBundle\Helper\MailHelper;
 use Mautic\EmailBundle\Model\EmailModel;
@@ -923,9 +924,11 @@ class PublicController extends CommonFormController
      *
      * @return mixed
      */
-    public function getUnsubscribeMessage($idHash, $model, $stat, $translator)
+    public function getUnsubscribeMessage($idHash, $model, Stat $stat, $translator)
     {
-        $model->setDoNotContact($stat, $translator->trans('le.email.dnc.unsubscribed'), DoNotContact::UNSUBSCRIBED);
+        if (!$stat->getIsUnsubscribe()) {
+            $model->setDoNotContact($stat, $translator->trans('le.email.dnc.unsubscribed'), DoNotContact::UNSUBSCRIBED);
+        }
 
         //$message = $this->coreParametersHelper->getParameter('unsubscribe_message');
         $message = false;

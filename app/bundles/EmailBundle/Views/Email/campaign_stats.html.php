@@ -14,6 +14,9 @@ $clickpercentage       = 0;
 $unsubscribepercentage = 0;
 $bouncepercentage      = 0;
 $spampercentage        = 0;
+$spamandbounce         = $bouncecount + $spamcount;
+$bspercentage          = 0;
+$failedpercentage      = 0;
 if ($sentcount != 0) {
     $openPercentage        = round(($uniqueopen / $sentcount * 100), 2);
     $notopenpercentage     = round(($notopencount / $sentcount * 100), 2);
@@ -21,6 +24,8 @@ if ($sentcount != 0) {
     $unsubscribepercentage = round(($unsubscribecount / $sentcount * 100), 2);
     $bouncepercentage      = round(($bouncecount / $sentcount * 100), 2);
     $spampercentage        = round(($spamcount / $sentcount * 100), 2);
+    $bspercentage          = round(($spamandbounce / $sentcount * 100), 2);
+    $failedpercentage      = round(($failedcount / $sentcount * 100), 2);
 }
 ?>
 <div class="col-md-12">
@@ -58,14 +63,14 @@ if ($sentcount != 0) {
             <br>
             <h3 class="h3-stat">
                 <span class="email-badge email-badge-bounce"><?php echo $bouncepercentage?>%</span>
-                <?php echo $view['translator']->trans('le.email.stats.bounced'); ?>
-                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.bounced', ['%COUNT%' => $bouncecount]); ?></span>
+                <?php echo $view['translator']->trans('le.email.stats.bounce.and.spam'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.spamandbounce', ['%COUNT%' => $bouncecount, '%SPAM%' => $spamcount]); ?></span>
             </h3>
             <br>
             <h3 class="h3-stat">
-                <span class="email-badge email-badge-spam"><?php echo $spampercentage?>%</span>
-                <?php echo $view['translator']->trans('le.email.stats.spamed'); ?>
-                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.spam', ['%COUNT%' => $spamcount]); ?></span>
+                <span class="email-badge email-badge-spam"><?php echo $failedpercentage?>%</span>
+                <?php echo $view['translator']->trans('le.email.stats.failed'); ?>
+                <span class="stat-label"><?php echo $view['translator']->trans('le.email.stat.label.failed', ['%COUNT%' => $failedcount]); ?></span>
             </h3>
         </div>
     </div>

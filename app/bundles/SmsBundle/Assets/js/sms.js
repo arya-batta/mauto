@@ -88,6 +88,7 @@ Le.CheckSMSStatus = function () {
                         mQuery('.button-notification').addClass('hide');
                         mQuery('#fixed-content').attr('style', 'margin-top:195px;');
                         Le.registerSmsDismissBtn();
+                        Le.changeButtonPanelStyle();
                         Le.adJustFixedHeader(true);
                   //  }
                 } else {
@@ -102,6 +103,7 @@ Le.registerSmsDismissBtn=function(){
     mQuery('.smsdismissbtn').click(function(e) {
         Le.closeLicenseButton();
         Le.adJustFixedHeader(true);
+        Le.changeButtonPanelStyle();
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });
