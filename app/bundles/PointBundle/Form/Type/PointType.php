@@ -130,8 +130,8 @@ class PointType extends AbstractType
         }
 
         $builder->add('isPublished', 'yesno_button_group', [
-            'read_only' => $readonly,
-            'data'      => $data,
+            'read_only'  => $readonly,
+            'data'       => $data,
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);
@@ -165,7 +165,11 @@ class PointType extends AbstractType
             'bundle' => 'point',
         ]);
 
-        $builder->add('buttons', 'form_buttons');
+        $builder->add('buttons', 'form_buttons',
+            [
+                'apply_text'   => false,
+            ]
+        );
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

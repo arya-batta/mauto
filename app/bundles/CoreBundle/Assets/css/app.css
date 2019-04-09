@@ -783,6 +783,11 @@ body > #app-wrapper {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
+.sidebar-minimized .nav-sidebar > .nav > li > a .mdi-layers {
+  font-size: 26px;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 .app-sidebar .nav-sidebar > .nav > li > a .arrow {
   -webkit-transition: opacity 0.3s ease 0.1s, margin-left 0s ease 0.2s;
   -moz-transition: opacity 0.3s ease 0.1s, margin-left 0s ease 0.2s;

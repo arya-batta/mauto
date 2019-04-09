@@ -101,7 +101,7 @@ $detailRowTmpl = 'MauticCoreBundle:Helper:detail_row.html.php';
                                     'value' => $view['formatter']->arrayToString($item->getDefaults()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [
-                                    'label' => 'mautic.lead.import.csv.headers',
+                                    'label' => 'le.lead.import.csv.headers',
                                     'value' => $view['formatter']->arrayToString($item->getHeaders()),
                                 ]); ?>
                                 <?php echo $view->render($detailRowTmpl, [

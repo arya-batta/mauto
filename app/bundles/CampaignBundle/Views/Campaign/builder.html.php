@@ -75,7 +75,7 @@ if ($entity->isPublished()) {
                         echo $view['form']->row($form['publishDown']);
                         ?>
                     </div>
-                </div>4
+                </div>
             </div>
         <div class="campaign-custom-button-div ">
             <?php echo $view['form']->end($form); ?>
@@ -83,7 +83,7 @@ if ($entity->isPublished()) {
                 <?php echo $view['translator']->trans($wfstatelabel); ?>
             </button>
             <button type="button" class="waves-effect btn-apply-builder" onclick="Le.applyCampaignFromBuilder();">
-                <?php echo $view['translator']->trans('le.email.beeeditor.apply'); ?>
+                <?php echo $view['translator']->trans('le.email.beeeditor.save'); ?>
             </button>
             <button type="button" class="waves-effect btn-close-builder"
                 onclick="Le.closeCampaignBuilder();">

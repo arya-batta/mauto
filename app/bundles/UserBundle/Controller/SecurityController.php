@@ -103,7 +103,7 @@ class SecurityController extends CommonController
             //$this->addFlash($msg, [], 'error', null, false);
         }
         $this->request->query->set('tmpl', 'login');
-        $this->request->query->set('ignoreAjax', true);
+        $this->request->query->set('ignoreAjax', false);
         // Get a list of SSO integrations
         $integrationHelper = $this->get('mautic.helper.integration');
         $integrations      = $integrationHelper->getIntegrationObjects(null, ['sso_service'], true, null, true);

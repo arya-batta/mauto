@@ -674,7 +674,7 @@ Le.onPageLoad = function (container, response, inModal) {
 
            // window.document.cookie = key + "=" + value + "; expires=" + date.toGMTString() + "; path=/";
             var customerUrl = window.location.href;
-            window.document.cookie = "le_customer_url="+customerUrl+";expires=" + date.toGMTString() + ";domain=.leadsengage.com; path=/";
+            window.document.cookie = "le_customer_url="+customerUrl+";expires=" + date.toGMTString() + ";domain=."+productBrandName+".com; path=/";
             Le.loadedContent[contentSpecific] = true;
             Le[contentSpecific + "OnLoad"](container, response);
         }

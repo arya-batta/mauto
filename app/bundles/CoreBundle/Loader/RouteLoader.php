@@ -101,7 +101,7 @@ class RouteLoader extends Loader
             $collection->addCollection($apiCollection);
         }
 
-        $secureCollection->addPrefix('/l');
+        $secureCollection->addPrefix('/a');
         if ($forceSSL) {
             $secureCollection->setSchemes('https');
         }

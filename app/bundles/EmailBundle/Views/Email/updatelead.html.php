@@ -61,7 +61,7 @@
         }
         .unsubscribe-intent .inner{
             margin: 0 auto;
-            padding: 30px 60px;
+            padding: 30px 200px;
             width: 820px;
         }
         .unsubscribe-intent .inner h3{
@@ -162,7 +162,7 @@
 <body>
 <div class="unsubscribe-intent">
     <div class="inner">
-        <h3>Manage Subscription...</h3>
+        <h3 style="<?php if ($actionName != 'updatelead' || $actionName != 'viewlead'): echo 'text-align: center;'; endif; ?>">Manage Subscription...</h3>
     </div>
 </div>
 
@@ -202,7 +202,7 @@
 <?php else : ?>
     <div class="unsubscribe-intent">
         <div class="inner">
-            <h2><?php echo $message?></h2>
+            <h2 style="text-align: center;"><?php echo $message?></h2>
         </div>
     </div>
 <?php endif; ?>

@@ -44,6 +44,7 @@
     <div class="le-button-container">
         <button class="btn btn-lg btn-primary btn-block le-login-button waves-effect" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
         <a class="le-password-reset" href="<?php echo $view['router']->path('le_user_passwordreset'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.link'); ?></a>
+        <a class="le-password-reset" style="float:right;" href="https://<?php echo strtolower($view['content']->getProductBrandName()); ?>.com/signup/" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link.help'); ?>"><?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link'); ?></a>
     </div>
     <div class="le-copyright-content">
         <?php echo $view['translator']->trans('mautic.core.copyright', ['%date%' => date('Y')]); ?>

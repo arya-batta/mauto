@@ -54,11 +54,11 @@ return [
                 'controller' => 'MauticCoreBundle:Default:index',
             ],
             'le_secure_root' => [
-                'path'       => '/l',
+                'path'       => '/a',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_secure_root_slash' => [
-                'path'       => '/l/',
+                'path'       => '/a/',
                 'controller' => 'MauticCoreBundle:Default:redirectSecureRoot',
             ],
             'le_remove_trailing_slash' => [
@@ -117,7 +117,7 @@ return [
             'mautic.core.components' => [
                 'id'        => 'le_components_root',
                 'iconClass' => 'fas fa-cubes',
-                'priority'  => 40,
+                'priority'  => 20,
             ],
              'mautic.core.channels' => [
                  'id'        => 'le_channels_root',
@@ -141,7 +141,12 @@ return [
                     'report:reports:viewown',
                     'report:reports:viewother',
                 ],
-                'priority' => 20,
+                'priority' => 40,
+            ],
+            'mautic.form.forms' => [
+                'id'        => 'le_forms_root',
+                'iconClass' => 'mdi mdi-layers',
+                'priority'  => 50,
             ],
            /*'le.segments.root' => [
                 'id'        => 'le_segments_root',

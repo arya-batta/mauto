@@ -152,10 +152,17 @@ class ImportModel extends FormModel
      */
     public function generateLink(Import $import)
     {
-        return '<a href="'.$this->router->generate(
-            'le_contact_import_action',
-            ['objectAction' => 'view', 'objectId' => $import->getId()]
-        ).'" data-toggle="ajax">'.$import->getOriginalFile().' ('.$import->getId().')</a>';
+        if ($this->userHelper->getUser()->isAdmin()) {
+            return '<a href="'.$this->router->generate(
+                     'le_contact_import_action',
+                     ['objectAction' => 'view', 'objectId' => $import->getId()]
+                 ).'" data-toggle="ajax">'.$import->getOriginalFile().' ('.$import->getId().')</a>';
+        } else {
+            return '<a href="'.$this->router->generate(
+                     'le_import_index',
+                     ['object' => 'leads']
+                 ).'" data-toggle="ajax">'.$import->getOriginalFile().'</a>';
+        }
     }
 
     /**

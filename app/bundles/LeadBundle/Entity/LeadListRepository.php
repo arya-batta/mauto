@@ -918,9 +918,10 @@ class LeadListRepository extends CommonRepository
                         case 'next_15':
                         case 'next_60':
                         case 'next_90':
-                            $daycount = substr($timeframe, -2);
+                        $requiresBetween = 'true';
+                            $daycount    = substr($timeframe, -2);
                             if (strpos($timeframe, 'next') !== false) {
-                                $dtHelper->modify('+'.$daycount.' day');
+                                //  $dtHelper->modify('+'.$daycount.' day');
                             } else {
                                 $dtHelper->modify('-'.$daycount.' day');
                             }
@@ -936,7 +937,8 @@ class LeadListRepository extends CommonRepository
                         case 'week_last':
                         case 'week_next':
                         case 'week_this':
-                            $interval = str_replace('week_', '', $timeframe);
+                        $requiresBetween = 'true';
+                            $interval    = str_replace('week_', '', $timeframe);
                             $dtHelper->setDateTime('midnight monday '.$interval.' week', null);
                             if ($interval == 'this') {
                                 $requiresBetween = 'true';
@@ -971,7 +973,8 @@ class LeadListRepository extends CommonRepository
                         case 'month_last':
                         case 'month_next':
                         case 'month_this':
-                            $interval = substr($key, -4);
+                        $requiresBetween = 'true';
+                            $interval    = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of '.$interval.' month', null);
                             if ($interval == 'this') {
                                 $requiresBetween = 'true';
@@ -1005,7 +1008,8 @@ class LeadListRepository extends CommonRepository
                         case 'year_last':
                         case 'year_next':
                         case 'year_this':
-                            $interval = substr($key, -4);
+                        $requiresBetween = 'true';
+                            $interval    = substr($key, -4);
                             $dtHelper->setDateTime('midnight first day of January '.$interval.' year', null);
                                 if ($interval == 'this') {
                                     $requiresBetween = 'true';

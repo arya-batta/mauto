@@ -249,14 +249,14 @@ abstract class AbstractFormController extends CommonController
         if (empty($this->request->server->get('HTTP_REFERER'))) {
             return $vars;
         }
-
+        $returnUrl                              = [];
         $returnUrl                              = !empty($this->request->server->get('HTTP_REFERER'))
                                                 ? $this->request->server->get('HTTP_REFERER')
                                                 : $returnUrl;
         $vars['returnUrl']                      = $returnUrl;
 
-        $urlMatcher                             = explode('/l/', $returnUrl);
-        $actionRoute                            = $this->get('router')->match('/l/'.$urlMatcher[1]);
+        $urlMatcher                             = explode('/a/', $returnUrl);
+        $actionRoute                            = $this->get('router')->match('/a/'.$urlMatcher[1]);
         $objAction                              = isset($actionRoute['objectAction'])
                                                 ? $actionRoute['objectAction']
                                                 : 'index';

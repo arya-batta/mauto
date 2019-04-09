@@ -22,18 +22,18 @@ $firewalls = [
         'anonymous' => true,
     ],
     'login' => [
-        'pattern'   => '^/l/login$',
+        'pattern'   => '^/a/login$',
         'anonymous' => true,
         'context'   => 'mautic',
     ],
     'sso_login' => [
-        'pattern'            => '^/l/sso_login',
+        'pattern'            => '^/a/sso_login',
         'anonymous'          => true,
         'mautic_plugin_auth' => true,
         'context'            => 'mautic',
     ],
     'saml_login' => [
-        'pattern'   => '^/l/saml/login$',
+        'pattern'   => '^/a/saml/login$',
         'anonymous' => true,
         'context'   => 'mautic',
     ],
@@ -81,29 +81,29 @@ $firewalls = [
         'http_basic'         => '%mautic.api_enable_basic_auth%',
     ],
     'main' => [
-        'pattern'       => '^/l/',
+        'pattern'       => '^/a/',
         'light_saml_sp' => [
             'provider'        => 'user_provider',
             'success_handler' => 'mautic.security.authentication_handler',
             'failure_handler' => 'mautic.security.authentication_handler',
             'user_creator'    => 'mautic.security.saml.user_creator',
-            'login_path'      => '/l/saml/login',
-            'check_path'      => '/l/saml/login_check',
+            'login_path'      => '/a/saml/login',
+            'check_path'      => '/a/saml/login_check',
         ],
         'simple_form' => [
             'authenticator'        => 'mautic.user.form_authenticator',
             'csrf_token_generator' => 'security.csrf.token_manager',
             'success_handler'      => 'mautic.security.authentication_handler',
             'failure_handler'      => 'mautic.security.authentication_handler',
-            'login_path'           => '/l/login',
-            'check_path'           => '/l/login_check',
+            'login_path'           => '/a/login',
+            'check_path'           => '/a/login_check',
         ],
         'logout' => [
             'handlers' => [
                 'mautic.security.logout_handler',
             ],
-            'path'   => '/l/logout',
-            'target' => '/l/login',
+            'path'   => '/a/logout',
+            'target' => '/a/login',
         ],
         'remember_me' => [
             'secret'   => '%mautic.rememberme_key%',

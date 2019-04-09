@@ -136,7 +136,7 @@ class CategoryController extends FormController
                     'contentTemplate' => 'MauticCategoryBundle:Category:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_'.$bundle.'category_index',
-                        'leContent' => 'category',
+                        'leContent'     => 'category',
                     ],
                 ]
             );
@@ -173,7 +173,7 @@ class CategoryController extends FormController
                 'contentTemplate' => 'MauticCategoryBundle:Category:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_'.$bundle.'category_index',
-                    'leContent' => 'category',
+                    'leContent'     => 'category',
                     'route'         => $this->generateUrl('le_category_index', $viewParams),
                 ],
             ]
@@ -231,7 +231,7 @@ class CategoryController extends FormController
         if ($closeModal) {
             if ($inForm) {
                 return new JsonResponse([
-                    'leContent' => 'category',
+                    'leContent'     => 'category',
                     'closeModal'    => 1,
                     'inForm'        => 1,
                     'categoryName'  => $entity->getName(),
@@ -250,7 +250,7 @@ class CategoryController extends FormController
                 'contentTemplate' => 'MauticCategoryBundle:Category:index',
                 'passthroughVars' => [
                     'activeLink'    => '#mautic_'.$bundle.'category_index',
-                    'leContent' => 'category',
+                    'leContent'     => 'category',
                     'closeModal'    => 1,
                 ],
             ]);
@@ -266,7 +266,7 @@ class CategoryController extends FormController
                     'bundle'         => $bundle,
                 ],
                 'passthroughVars' => [
-                    'leContent' => 'category',
+                    'leContent'     => 'category',
                     'success'       => $success,
                     'route'         => false,
                 ],
@@ -327,18 +327,18 @@ class CategoryController extends FormController
                         ]
                     );
 
-                    if ($form->get('buttons')->get('apply')->isClicked()) {
-                        // Rebuild the form with new action so that apply doesn't keep creating a clone
-                        $action = $this->generateUrl(
-                            'le_category_action',
-                            [
-                                'objectAction' => 'edit',
-                                'objectId'     => $entity->getId(),
-                                'bundle'       => $bundle,
-                            ]
-                        );
-                        $form = $model->createForm($entity, $this->get('form.factory'), $action, ['bundle' => $bundle]);
-                    }
+                    /*  if ($form->get('buttons')->get('apply')->isClicked()) {
+                          // Rebuild the form with new action so that apply doesn't keep creating a clone
+                          $action = $this->generateUrl(
+                              'le_category_action',
+                              [
+                                  'objectAction' => 'edit',
+                                  'objectId'     => $entity->getId(),
+                                  'bundle'       => $bundle,
+                              ]
+                          );
+                          $form = $model->createForm($entity, $this->get('form.factory'), $action, ['bundle' => $bundle]);
+                      }*/
                 }
             } else {
                 $success = 1;
@@ -357,7 +357,7 @@ class CategoryController extends FormController
             if ($inForm) {
                 return new JsonResponse(
                     [
-                        'leContent' => 'category',
+                        'leContent'     => 'category',
                         'closeModal'    => 1,
                         'inForm'        => 1,
                         'categoryName'  => $entity->getTitle(),
@@ -378,7 +378,7 @@ class CategoryController extends FormController
                     'contentTemplate' => 'MauticCategoryBundle:Category:index',
                     'passthroughVars' => [
                         'activeLink'    => '#mautic_'.$bundle.'category_index',
-                        'leContent' => 'category',
+                        'leContent'     => 'category',
                         'closeModal'    => 1,
                     ],
                 ]
@@ -393,7 +393,7 @@ class CategoryController extends FormController
                         'bundle'         => $bundle,
                     ],
                     'passthroughVars' => [
-                        'leContent' => 'category',
+                        'leContent'     => 'category',
                         'success'       => $success,
                         'route'         => false,
                     ],
@@ -426,7 +426,7 @@ class CategoryController extends FormController
             'contentTemplate' => 'MauticCategoryBundle:Category:index',
             'passthroughVars' => [
                 'activeLink'    => 'mautic_'.$bundle.'category_index',
-                'leContent' => 'category',
+                'leContent'     => 'category',
             ],
         ];
 
@@ -489,7 +489,7 @@ class CategoryController extends FormController
             'contentTemplate' => 'MauticCategoryBundle:Category:index',
             'passthroughVars' => [
                 'activeLink'    => 'mautic_'.$bundle.'category_index',
-                'leContent' => 'category',
+                'leContent'     => 'category',
             ],
         ];
 

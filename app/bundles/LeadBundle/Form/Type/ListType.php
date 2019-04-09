@@ -282,7 +282,7 @@ class ListType extends AbstractType
             ]
         );
 
-        $builder->add('isPublished', 'yesno_button_group',[
+        $builder->add('isPublished', 'yesno_button_group', [
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);
@@ -331,6 +331,7 @@ class ListType extends AbstractType
             [
                 'apply_icon'   => false,
                 'save_icon'    => false,
+                'apply_text'   => false,
             ]
         );
 

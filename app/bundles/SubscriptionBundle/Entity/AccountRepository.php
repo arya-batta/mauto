@@ -189,7 +189,7 @@ class AccountRepository extends CommonRepository
             ->setParameter('channel', 'email')
             ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
                 $q->expr()->andX(
-                    $q->expr()->eq('t.channel_id', 'es.id')
+                    $q->expr()->eq('t.channel_id', 'es.email_id')
                 ))
             ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e',
                 $q->expr()->andX(

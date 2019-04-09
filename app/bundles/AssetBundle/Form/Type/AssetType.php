@@ -142,7 +142,7 @@ class AssetType extends AbstractType
             'required' => false,
         ]);
 
-        $builder->add('isPublished', 'yesno_button_group',[
+        $builder->add('isPublished', 'yesno_button_group', [
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);
@@ -175,7 +175,12 @@ class AssetType extends AbstractType
             'required' => false,
         ]);
 
-        $builder->add('buttons', 'form_buttons', ['save_icon'  => false]);
+        $builder->add('buttons', 'form_buttons',
+            [
+                'save_icon'  => false,
+                'apply_text' => false,
+            ]
+        );
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

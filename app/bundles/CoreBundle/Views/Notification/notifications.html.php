@@ -18,8 +18,8 @@ if ($view['security']->isAdmin() || $view['security']->isCustomAdmin()) {
 
     <li class="dropdown d-none d-sm-block" id="notificationsDropdown">
         <?php $hideClass2 = (!empty($updateMessage['isNew']) || !empty($showNewIndicator)) ? '' : ' hide'; ?>
-        <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-bell"></i> <span class="badge badge-xs badge-danger <?php echo $hideClass2; ?>" id="newNotificationIndicator"></span>
+        <a href="#" data-target="#" onclick="Le.showNotifications();" class="dropdown-toggle waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-bell"></i> <span class="badge badge-xs badge-danger <?php echo $hideClass2; ?>" style="display: inline-block;margin-left: -12px;" id="newNotificationIndicator"></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg">
             <?php $hideclass3 = (empty($notifications)) ? ' hide' : ''; ?>

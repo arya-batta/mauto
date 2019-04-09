@@ -27,10 +27,10 @@ $view['slots']->set(
     )
 );
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaign.lead.segments'); ?></h3></div>
+<div class="le-header-align" style="padding-bottom:15px;"><h3><?php echo $view['translator']->trans('le.campaign.lead.segments'); ?></h3></div>
 <div class="info-box-holder">
     <?php foreach ($allBlockDetails as $key => $segmentBlock): ?>
-    <div class="info-box" id="leads-info-box-container">
+    <div class="info-box hide" id="leads-info-box-container">
                 <span class="info-box-icon">
                     <i class="<?php echo $segmentBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">
@@ -41,7 +41,7 @@ $view['slots']->set(
     </div>
     <?php endforeach; ?>
 </div>
-<div class="panel panel-default bdr-t-wdh-0 list-panel-padding">
+<div class="panel panel-default bdr-t-wdh-0 list-panel-padding" style="margin-top: -50px;">
     <?php echo $view->render(
         'MauticCoreBundle:Helper:list_toolbar.html.php',
         [

@@ -138,7 +138,7 @@ class UserType extends AbstractType
                     'class'        => 'form-control le-input',
                     //'preaddon'     => 'fa fa-user',
                     'autocomplete' => 'off',
-                    'tooltip'  => 'mautic.user.user.form.help.username',
+                    'tooltip'      => 'mautic.user.user.form.help.username',
                 ],
             ]
         );
@@ -334,18 +334,22 @@ class UserType extends AbstractType
             );
 
             $builder->add('isPublished', 'yesno_button_group',
-             ['label' => 'le.users.config.form.published',
+             ['label'         => 'le.users.config.form.published',
                  'no_label'   => 'mautic.core.form.unpublished',
                  'yes_label'  => 'mautic.core.form.published',
                  ]);
 
-            $builder->add('buttons', 'form_buttons');
+            $builder->add('buttons', 'form_buttons',
+                [
+                    'apply_text'   => false,
+                ]
+            );
         } else {
             $builder->add(
                 'buttons',
                 'form_buttons',
                 [
-                    'save_text'  => 'mautic.core.form.apply',
+                    'save_text'  => 'mautic.core.form.save',
                     'apply_text' => false,
                 ]
             );

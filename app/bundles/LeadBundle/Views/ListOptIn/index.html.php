@@ -26,10 +26,10 @@ $view['slots']->set(
     )
 );
 ?>
-<div class="le-header-align"><h3><?php echo $view['translator']->trans('le.lead.list.optin'); ?></h3></div>
+<div class="le-header-align" style="padding-bottom:15px;"><h3><?php echo $view['translator']->trans('le.lead.list.optin'); ?></h3></div>
 <div class="info-box-holder">
     <?php foreach ($allBlockDetails as $key => $ListBlock): ?>
-    <div class="info-box" id="leads-info-box-container">
+    <div class="info-box hide" id="leads-info-box-container">
                 <span class="info-box-icon">
                     <i class="<?php echo $ListBlock[1]; ?>" id="icon-class-leads"></i></span>
             <div class="info-box-content">

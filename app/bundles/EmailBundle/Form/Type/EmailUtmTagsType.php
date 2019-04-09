@@ -30,7 +30,7 @@ class EmailUtmTagsType extends AbstractType
             'text',
             [
                 'label'      => 'le.email.campaign_source',
-                'data'       => 'leadsengage',
+                'data'       => 'le.core.email.utm.source',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class' => 'form-control le-input',

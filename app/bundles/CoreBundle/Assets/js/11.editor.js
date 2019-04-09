@@ -8,9 +8,9 @@ Le.builderTokensRequestInProgress = false;
 Le.activateGlobalFroalaOptions = function() {
     Le.basicFroalaOptions = {
         enter: mQuery.FroalaEditor.ENTER_BR,
-        imageUploadURL: leBaseUrl + 's/file/upload',
-        imageManagerLoadURL: leBaseUrl + 's/file/list',
-        imageManagerDeleteURL: leBaseUrl + 's/file/delete',
+        imageUploadURL: leBaseUrl + 'a/file/upload',
+        imageManagerLoadURL: leBaseUrl + 'a/file/list',
+        imageManagerDeleteURL: leBaseUrl + 'a/file/delete',
         imageDefaultWidth: 0,
         pastePlain: true,
         htmlAllowedTags: ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo', 'blockquote', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'menuitem', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'queue', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'style', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr', 'center'],

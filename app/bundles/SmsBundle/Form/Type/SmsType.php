@@ -80,7 +80,7 @@ class SmsType extends AbstractType
             ]
         );
 
-        $builder->add('isPublished', 'yesno_button_group',[
+        $builder->add('isPublished', 'yesno_button_group', [
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);
@@ -139,7 +139,7 @@ class SmsType extends AbstractType
             ]
         );
 
-        $builder->add('buttons', 'form_buttons');
+        //$builder->add('buttons', 'form_buttons');
 
         if (!empty($options['update_select'])) {
             $builder->add(
@@ -161,7 +161,10 @@ class SmsType extends AbstractType
         } else {
             $builder->add(
                 'buttons',
-                'form_buttons'
+                'form_buttons',
+                [
+                    'apply_text' => false,
+                ]
             );
         }
 

@@ -193,7 +193,10 @@ class BillingType extends AbstractType
         if ($options['isBilling']) {
             $builder->add(
                 'buttons',
-                'form_buttons'
+                'form_buttons',
+                [
+                    'apply_text' => 'mautic.core.form.save',
+                ]
             );
         }
 

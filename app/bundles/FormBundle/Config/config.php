@@ -167,12 +167,19 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'mautic.form.forms' => [
+                'le.form.embeded' => [
                     'iconClass' => 'fa fa-edit',
                     'route'     => 'le_form_index',
                     'access'    => ['form:forms:viewown', 'form:forms:viewother'],
-                    'parent'    => 'mautic.core.components',
+                    'parent'    => 'mautic.form.forms',
                     'priority'  => 200,
+                ],
+                'le.form.smart' => [
+                    'iconClass' => 'fa fa-edit',
+                    'route'     => 'le_form_index',
+                    'access'    => ['form:forms:viewown', 'form:forms:viewother'],
+                    'parent'    => 'mautic.form.forms',
+                    'priority'  => 100,
                 ],
             ],
         ],

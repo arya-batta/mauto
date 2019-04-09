@@ -60,18 +60,18 @@ class ListOptInController extends FormController
         }
 
         //set limits
-        $limit = $session->get('le.listoptin.limit', $this->coreParametersHelper->getParameter('default_pagelimit'));
+        $limit = $session->get('mautic.listoptin.limit', $this->coreParametersHelper->getParameter('default_pagelimit'));
         $start = ($page === 1) ? 0 : (($page - 1) * $limit);
         if ($start < 0) {
             $start = 0;
         }
 
         $search = $this->request->get('search', $session->get('le.listoptin.filter', ''));
-        $session->set('le.listoptin.filter', $search);
+        $session->set('mautic.listoptin.filter', $search);
 
         //do some default filtering
-        $orderBy    = $session->get('le.listoptin.orderby', 'l.name');
-        $orderByDir = $session->get('le.listoptin.orderbydir', 'ASC');
+        $orderBy    = $session->get('mautic.listoptin.orderby', 'l.name');
+        $orderByDir = $session->get('mautic.listoptin.orderbydir', 'ASC');
 
         $filter = [
             'string' => $search,
@@ -347,31 +347,32 @@ class ListOptInController extends FormController
                         ]),
                     ]);
 
-                    if ($form->get('buttons')->get('apply')->isClicked()) {
-                        $contentTemplate                     = 'MauticLeadBundle:ListOptIn:form.html.php';
-                        $postActionVars['contentTemplate']   = $contentTemplate;
-                        $postActionVars['forwardController'] = false;
-                        $postActionVars['returnUrl']         = $this->generateUrl('le_listoptin_action', [
-                            'objectAction' => 'edit',
-                            'objectId'     => $list->getId(),
-                        ]);
+                    /*  if ($form->get('buttons')->get('apply')->isClicked()) {
+                          $contentTemplate                     = 'MauticLeadBundle:ListOptIn:form.html.php';
+                          $postActionVars['contentTemplate']   = $contentTemplate;
+                          $postActionVars['forwardController'] = false;
+                          $postActionVars['returnUrl']         = $this->generateUrl('le_listoptin_action', [
+                              'objectAction' => 'edit',
+                              'objectId'     => $list->getId(),
+                          ]);
 
-                        // Re-create the form once more with the fresh segment and action.
-                        // The alias was empty on redirect after cloning.
-                        $editAction = $this->generateUrl('le_listoptin_action', ['objectAction' => 'edit', 'objectId' => $list->getId()]);
-                        $form       = $listmodel->createForm($list, $this->get('form.factory'), $editAction);
+                          // Re-create the form once more with the fresh segment and action.
+                          // The alias was empty on redirect after cloning.
+                          $editAction = $this->generateUrl('le_listoptin_action', ['objectAction' => 'edit', 'objectId' => $list->getId()]);
+                          $form       = $listmodel->createForm($list, $this->get('form.factory'), $editAction);
 
-                        $postActionVars['viewParameters'] = [
-                            'objectAction' => 'edit',
-                            'objectId'     => $list->getId(),
-                            'form'         => $form->createView(),
-                            'entity'       => $list,
-                        ];
+                          $postActionVars['viewParameters'] = [
+                              'objectAction' => 'edit',
+                              'objectId'     => $list->getId(),
+                              'form'         => $form->createView(),
+                              'entity'       => $list,
+                          ];
 
-                        return $this->postActionRedirect($postActionVars);
-                    } else {
-                        return $this->indexAction();
-                    }
+                          return $this->postActionRedirect($postActionVars);
+                      } else {
+                          return $this->indexAction();
+                      }*/
+                    return $this->indexAction();
                 }
             } else {
                 //unlock the entity

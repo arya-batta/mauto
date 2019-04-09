@@ -260,7 +260,7 @@ class EmailApiController extends CommonApiController
         $view = $this->view(
             [
                 'payload'              => $payload,
-                'oneoff'               => $entities,
+                'broadcasts'           => $entities,
             ],
             Codes::HTTP_OK
         );
@@ -297,7 +297,7 @@ class EmailApiController extends CommonApiController
         }
 
         $this->preSerializeEntity($entity);
-        $view = $this->view(['oneoff' => $entity], Codes::HTTP_OK);
+        $view = $this->view(['broadcast' => $entity], Codes::HTTP_OK);
         $this->setSerializationContext($view);
 
         return $this->handleView($view);

@@ -48,28 +48,28 @@ class WebhookType extends AbstractType
     {
         $builder->addEventSubscriber(new CleanFormSubscriber(['description' => 'strict_html']));
 
-      /*  $builder->add(
-            'name',
-            'text',
-            [
-                'label'      => 'mautic.core.name',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control le-input'],
-                'required'   => true,
-            ]
-        );
+        /*  $builder->add(
+              'name',
+              'text',
+              [
+                  'label'      => 'mautic.core.name',
+                  'label_attr' => ['class' => 'control-label'],
+                  'attr'       => ['class' => 'form-control le-input'],
+                  'required'   => true,
+              ]
+          );
 
-        $builder->add(
-            'description',
-            'textarea',
-            [
-                'label'    => 'mautic.webhook.form.description',
-                'required' => false,
-                'attr'     => [
-                    'class' => 'form-control le-input',
-                ],
-            ]
-        );*/
+          $builder->add(
+              'description',
+              'textarea',
+              [
+                  'label'    => 'mautic.webhook.form.description',
+                  'required' => false,
+                  'attr'     => [
+                      'class' => 'form-control le-input',
+                  ],
+              ]
+          );*/
 
         $builder->add(
             'webhookUrl',
@@ -105,7 +105,13 @@ class WebhookType extends AbstractType
 
         $builder->get('events')->addModelTransformer(new EventsToArrayTransformer($options['data']));
 
-        $builder->add('buttons', 'form_buttons');
+        $builder->add(
+            'buttons',
+            'form_buttons',
+            [
+                'apply_text' => false,
+            ]
+        );
 
         $builder->add(
             'sendTest',
@@ -125,7 +131,7 @@ class WebhookType extends AbstractType
             ]
         );
 
-        $builder->add('isPublished', 'yesno_button_group',[
+        $builder->add('isPublished', 'yesno_button_group', [
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);

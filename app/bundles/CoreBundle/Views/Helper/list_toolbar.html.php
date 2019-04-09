@@ -14,8 +14,13 @@ use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
 $wrap = true;
 $view['buttons']->reset($app->getRequest(), ButtonHelper::LOCATION_TOOLBAR_ACTIONS, ButtonHelper::TYPE_GROUP);
 include 'action_button_helper.php';
+$marginStyle = '';
+if (strpos($_SERVER['REQUEST_URI'], '/workflows') !== false || strpos($_SERVER['REQUEST_URI'], '/list') !== false) {
+    $marginStyle = 'margin-top: -50px;';
+}
+
 ?>
-<div class="panel-body" style="background-color: white;">
+<div class="panel-body" style="background-color: white;<?php echo $marginStyle ?>">
     <div class="box-layout">
         <div class="col-xs-6 col-lg-9 va-m form-inline">
             <?php if (isset($searchValue)): ?>

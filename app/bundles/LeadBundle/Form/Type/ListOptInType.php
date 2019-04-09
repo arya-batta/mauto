@@ -72,7 +72,7 @@ class ListOptInType extends AbstractType
             ]
         );
 
-        $builder->add('isPublished', 'yesno_button_group',[
+        $builder->add('isPublished', 'yesno_button_group', [
             'no_label'   => 'mautic.core.form.unpublished',
             'yes_label'  => 'mautic.core.form.published',
             ]);
@@ -89,6 +89,7 @@ class ListOptInType extends AbstractType
                 'required'    => false,
                 'attr'        => [
                     'class'    => 'form-control le-input',
+                    'tooltip'  => 'le.lead.list.optin.listtype.tooltip',
                     'onchange' => 'Le.showDoubleOptInList(this)',
                 ],
             ]
@@ -166,6 +167,7 @@ class ListOptInType extends AbstractType
             [
                 'apply_icon'   => false,
                 'save_icon'    => false,
+                'apply_text'   => false,
             ]
         );
 

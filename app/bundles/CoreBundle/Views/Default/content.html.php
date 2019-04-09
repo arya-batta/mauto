@@ -73,10 +73,10 @@ if (!empty($tmpl)) {
         <?php endif; ?>
 <!--    </div>-->
     <?php if (!empty($campaignBlocks)): ?>
-        <div class="le-header-align"><h3><?php echo $view['translator']->trans('le.campaigns.root'); ?></h3></div>
+        <div class="le-header-align" style="padding-bottom:15px;"><h3><?php echo $view['translator']->trans('le.campaigns.root'); ?></h3></div>
         <div class="info-box-holder">
             <?php foreach ($campaignBlocks as $key => $segmentBlock): ?>
-                <div class="info-box" id="leads-info-box-container" style="width: 25%;">
+                <div class="info-box hide" id="leads-info-box-container" style="width: 25%;">
                 <span class="info-box-icon">
                     <i class="<?php echo $segmentBlock[1]; ?>" id="icon-class-leads"></i></span>
                     <div class="info-box-content">

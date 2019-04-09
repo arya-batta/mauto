@@ -77,6 +77,7 @@ class ConfigType extends AbstractType
             'buttons',
             'form_buttons',
             [
+                'apply_text'    => 'mautic.core.form.save',
                 'apply_onclick' => 'Le.activateBackdrop()',
                 'save_onclick'  => 'Le.activateBackdrop()',
             ]

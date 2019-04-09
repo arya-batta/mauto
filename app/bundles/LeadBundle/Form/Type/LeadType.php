@@ -15,7 +15,6 @@ use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\DataTransformer\IdToEntityModelTransformer;
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
-use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Mautic\LeadBundle\Model\ListModel;
 use Mautic\LeadBundle\Model\ListOptInModel;
@@ -230,7 +229,13 @@ class LeadType extends AbstractType
             );
         }
         if (!$options['isShortForm']) {
-            $builder->add('buttons', 'form_buttons');
+            $builder->add(
+                'buttons',
+                'form_buttons',
+                [
+                    'apply_text' => false,
+                ]
+            );
         } else {
             $builder->add(
                 'buttons',

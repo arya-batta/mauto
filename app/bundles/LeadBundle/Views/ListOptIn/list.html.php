@@ -51,6 +51,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'orderBy'    => 'l.name',
                         'text'       => 'mautic.core.name',
                         'class'      => 'col-leadlist-name',
+                        'default'    => true,
                     ]
                 );
 
@@ -58,6 +59,7 @@ $isAdmin     =$view['security']->isAdmin();
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
                         'sessionVar' => 'listoptin',
+                        'orderBy'    => 'l.listtype',
                         'text'       => 'le.lead.list.optin.thead.type',
                         'class'      => 'visible-md visible-lg text-center',
                     ]

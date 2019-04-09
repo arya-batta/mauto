@@ -201,7 +201,10 @@ class AccountType extends AbstractType
 
         $builder->add(
             'buttons',
-            'form_buttons'
+            'form_buttons',
+            [
+                'apply_text' => 'mautic.core.form.save',
+            ]
         );
 
         // Get the list of available languages

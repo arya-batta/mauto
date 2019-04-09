@@ -13,7 +13,7 @@
         }
         .unsubscribe-intent .inner{
             margin: 0 auto;
-            padding: 30px 60px;
+            padding: 30px 200px;
             width: 820px;
         }
         .unsubscribe-intent .inner h3{
@@ -24,12 +24,19 @@
             font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;
             font-weight: normal;
         }
+        .inner-font {
+            text-align: center;
+            font-weight: 500;
+            font-size: 30px;
+            color:#333333;
+            font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
         </style>
 </head>
 <body>
 <div class="unsubscribe-intent">
     <div class="inner">
-        <h3><?php echo $content ?></h3>
+        <h2 class="inner-font"><?php echo $content ?></h2>
     </div>
 </div>
 </body>

@@ -329,7 +329,7 @@ class UserModel extends FormModel
 <div>
 <span style=\"font-family: Verdana,Geneva,sans-serif;\">
 <span style=\"font-size: 14px;\">Hey, $name!<br><br>Someone (hopefully you) requested to reset your password. If you'd like to continue with this request, 
-<a href='$resetLink'>click here</a>.<br><br>In case you're unable to click that link, go here: <a href='$resetLink'>$resetLink</a>.
+<a href='$resetLink'>click here</a>.<br><br>In case, if the above doesn't work, copy & paste this in your browser <a href='$resetLink'>$resetLink</a>.
 </span></span>
 </div>
 </body>

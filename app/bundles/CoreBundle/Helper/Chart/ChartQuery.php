@@ -211,11 +211,14 @@ class ChartQuery extends AbstractChart
         return $query;
     }
 
-    public function getTableQuery($table,$alies){
+    public function getTableQuery($table, $alies)
+    {
         $query = $this->connection->createQueryBuilder();
         $query->from($this->prepareTable($table), $alies);
+
         return $query;
     }
+
     /**
      * Modify database query for fetching the line time chart data.
      *
@@ -224,7 +227,7 @@ class ChartQuery extends AbstractChart
      * @param string       $tablePrefix
      * @param string       $countColumn
      */
-    public function modifyTimeDataQuery(&$query, $column, $tablePrefix = 't', $countColumn = '*', $isEnumerable = true)
+    public function modifyTimeDataQuery(&$query, $column, $tablePrefix = 't', $countColumn = '*', $isEnumerable = true, $filters = [])
     {
         // Convert time unitst to the right form for current database platform
         $dbUnit  = $this->translateTimeUnit($this->unit);

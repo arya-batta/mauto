@@ -73,7 +73,7 @@ class RequestSubscriber extends CommonSubscriber
      */
     private function isSecurePath(Request $request)
     {
-        return preg_match('/^\/s\//', $request->getPathinfo()) === 1;
+        return preg_match('/^\/a\//', $request->getPathinfo()) === 1;
     }
 
     /**

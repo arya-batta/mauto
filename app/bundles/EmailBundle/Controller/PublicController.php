@@ -183,19 +183,21 @@ class PublicController extends CommonFormController
             return $this->render($contentTemplate, $viewParams);
         }
 
-        // Replacing email id with star
-        $position     = strrpos($email, '@');
-        $result1      =  substr($email, 0, $position);
-        $result2      =  substr($email, $position);
-        $len          = strlen($result1);
-        $result1      = substr($result1, 0, 1).str_repeat('*', $len - 2).substr($result1, $len - 1, 1);
-        $emailAddress = $result1.$result2;
+        if (!empty($email)) {
+            // Replacing email id with star
+            $position = strrpos($email, '@');
+            $result1  = substr($email, 0, $position);
+            $result2  = substr($email, $position);
+            $len      = strlen($result1);
+            $result1  = substr($result1, 0, 1).str_repeat('*', $len - 2).substr($result1, $len - 1, 1);
+            $email    = $result1.$result2;
+        }
 
         if (empty($message)) {
             $actionName = 'updatelead';
         }
         $viewParams  = [
-            'email'       => $emailAddress,
+            'email'       => $email,
             'message'     => $message,
             'actionroute' => $actionRoute,
             'actionName'  => $actionName,
@@ -639,7 +641,7 @@ class PublicController extends CommonFormController
         $body       = $doc->getElementsByTagName('body');
         $head       = $doc->getElementsByTagName('head');
         $mailhelper = $this->get('mautic.helper.mailer');
-        $content = $mailhelper->alterEmailBodyContent($content,$emailEntity->getEmailType());
+        $content    = $mailhelper->alterEmailBodyContent($content, $emailEntity->getEmailType());
 
         if ($head->length == 0) {
             $content = $this->get('mautic.helper.mailer')->appendHeadTag($content);

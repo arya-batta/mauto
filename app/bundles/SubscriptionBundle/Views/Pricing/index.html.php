@@ -57,7 +57,7 @@ if ($proamount != 0) {
                         <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Scoring</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
 
                         <br>
@@ -86,7 +86,7 @@ if ($proamount != 0) {
                         <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Scoring</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
 
                         <br>
@@ -115,7 +115,7 @@ if ($proamount != 0) {
                         <p class="pricepara">Unlimited <b>Drip Sequences</b></p>
                         <p class="pricepara">Unlimited <b>Automations</b></p>
                         <p class="pricepara">Unlimited <b>Tracking</b></p>
-                        <p class="pricepara">Unlimited <b>Lead Scoring</b></p>
+                        <p class="pricepara">Unlimited <b>Scoring</b></p>
                         <p class="pricepara">Unlimited <b>Teammates</b></p>
                         <br>
                         <br>
@@ -155,7 +155,7 @@ if ($proamount != 0) {
                             <li style="margin-left:55px;">Create Unlimited Landing Pages & Lead Capture Forms</li>
                             <li style="margin-left:55px;">Track Unlimited Email Opens, Clicks</li>
                             <li style="margin-left:55px;">Track Unlimited Website Visits & Events</li>
-                            <li style="margin-left:55px;">Manage Lead Scoring, Points, Segments, Tags</li>
+                            <li style="margin-left:55px;">Manage Scoring, Points, Segments, Tags</li>
                             <li style="margin-left:55px;">Zapier, Webhooks & API Integrations (Coming Soon)</li>
                         </ul>
                     </div>

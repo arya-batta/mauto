@@ -149,7 +149,7 @@ class AjaxController extends CommonController
 
         $dataArray['newContent'] = $this->renderView(
             'MauticCoreBundle:GlobalSearch:results.html.php',
-            ['results' => $event->getResults()]
+            ['results' => $event->getResults(), 'searchstr' => $searchStr]
         );
 
         return $this->sendJsonResponse($dataArray);
