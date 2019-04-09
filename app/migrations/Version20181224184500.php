@@ -2,6 +2,7 @@
 
 namespace Mautic\Migrations;
 
+use Doctrine\DBAL\Migrations\SkipMigrationException;
 use Doctrine\DBAL\Schema\Schema;
 use Mautic\CoreBundle\Doctrine\AbstractMauticMigration;
 

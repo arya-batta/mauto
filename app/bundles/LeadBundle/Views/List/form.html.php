@@ -11,7 +11,6 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'leadlist');
 $fields = $form->vars['fields'];
-//dump($fields);
 $id     = $form->vars['data']->getId();
 $index  = count($form['filters']->vars['value']) ? max(array_keys($form['filters']->vars['value'])) : 0;
 

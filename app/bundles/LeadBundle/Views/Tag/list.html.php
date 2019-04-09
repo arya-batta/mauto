@@ -91,9 +91,9 @@ $isAdmin     =$view['security']->isAdmin();
                             'MauticCoreBundle:Helper:list_actions.html.php',
                             [
                                 'item'            => $item,
-                                'source'          => "tag",
+                                'source'          => 'tag',
                                 'templateButtons' => [
-                                    'delete' =>true,// $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'], $item->getCreatedBy()),
+                                    'delete' => true, // $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'], $item->getCreatedBy()),
                                 ],
                                 'routeBase' => 'tags',
                                 'langVar'   => 'lead.tag',
@@ -121,7 +121,7 @@ $isAdmin     =$view['security']->isAdmin();
                             'MauticCoreBundle:Helper:publishstatus_icon.html.php',
                             ['item' => $item, 'model' => 'lead.tag']
                         );
-                        //file_put_contents('/var/www/log1.txt',json_encode($items))?>
+                       ?>
                     </td>
                     <td class="table-description" style="width:70%;">
                         <div>
@@ -131,7 +131,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>" data-toggle="ajaxmodal"
                                data-target = "#leSharedModal"
                                data-header="<?php echo $view['translator']->trans('le.lead.tags.header.edit')?>">
-                                    <?php echo $item->getTag();?>
+                                    <?php echo $item->getTag(); ?>
                             </a>
                         </div>
                     </td>
@@ -151,8 +151,8 @@ $isAdmin     =$view['security']->isAdmin();
                         <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
                     <td style="width: 30%;">
-                        <?php $hasEditAccess   = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'],$item->getId());
-                        $hasDeleteAccess = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'],$item->getId());?>
+                        <?php $hasEditAccess   = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'], $item->getId());
+                        $hasDeleteAccess       = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'], $item->getId()); ?>
                         <div style="position: relative;" class="fab-list-container">
                             <div class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-primary" id="mainClass-<?php echo $item->getId(); ?>" style="">

@@ -191,6 +191,16 @@ return [
                     ],
                 'alias'     => 'calendly_type',
             ],
+            'le.form.type.lead_field_mapping' => [
+                'class'       => 'Mautic\PluginBundle\Form\Type\FieldMappingType',
+                'alias'       => 'lead_field_mapping',
+                'arguments'   => ['mautic.factory'],
+            ],
+            'le.form.type.integration_field_mapping' => [
+                'class'       => 'Mautic\PluginBundle\Form\Type\IntegrationFieldMapping',
+                'alias'       => 'integration_field_mapping',
+                'arguments'   => ['mautic.factory'],
+            ],
         ],
         'other' => [
             'mautic.helper.integration' => [

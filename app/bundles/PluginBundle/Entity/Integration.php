@@ -11,6 +11,7 @@
 
 namespace Mautic\PluginBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 use Mautic\CoreBundle\Entity\CommonEntity;
@@ -56,6 +57,22 @@ class Integration extends CommonEntity
     private $featureSettings = [];
 
     /**
+     * @var ArrayCollection
+     */
+    private $fieldmapping;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $payload;
+
+    public function __construct()
+    {
+        $this->fieldmapping = new ArrayCollection();
+        $this->payload      = new ArrayCollection();
+    }
+
+    /**
      * @param ORM\ClassMetadata $metadata
      */
     public static function loadMetadata(ORM\ClassMetadata $metadata)
@@ -93,6 +110,19 @@ class Integration extends CommonEntity
         $builder->createField('featureSettings', 'array')
             ->columnName('feature_settings')
             ->nullable()
+            ->build();
+
+        $builder->createOneToMany('fieldmapping', 'IntegrationFieldMapping')
+            ->setIndexBy('id')
+            ->mappedBy('integration')
+            ->fetchExtraLazy()
+            ->build();
+
+        $builder->createOneToMany('payload', 'IntegrationPayLoadHistory')
+            ->setOrderBy(['createdOn' => 'DESC'])
+            ->setIndexBy('id')
+            ->mappedBy('integration')
+            ->fetchExtraLazy()
             ->build();
     }
 
@@ -230,5 +260,21 @@ class Integration extends CommonEntity
         $this->featureSettings = $featureSettings;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFieldMapping()
+    {
+        return $this->fieldmapping;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayLoad($limit)
+    {
+        return $this->payload->slice(0, $limit);
     }
 }

@@ -19,6 +19,8 @@ use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\CoreBundle\Helper\PathsHelper;
 use Mautic\CoreBundle\Helper\TemplatingHelper;
 use Mautic\PluginBundle\Entity\Integration;
+use Mautic\PluginBundle\Entity\IntegrationFieldMapping;
+use Mautic\PluginBundle\Entity\IntegrationPayLoadHistory;
 use Mautic\PluginBundle\Entity\Plugin;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
 use Mautic\PluginBundle\Model\PluginModel;
@@ -803,35 +805,317 @@ class IntegrationHelper
         return $integrationsettings;
     }
 
+    public function getFieldMappingObject($group, $integration)
+    {
+        try {
+            $fieldmapping      =false;
+            $integrationrepo   =$this->getIntegrationRepository();
+            $mappings          =$integrationrepo->getAllFieldMapping($group, $integration->getId());
+            foreach ($mappings as $id => $mapping) {
+                $fieldmapping=$mapping;
+                break;
+            }
+            if (!$fieldmapping) {
+                $fieldmapping=new IntegrationFieldMapping();
+            }
+        } catch (\Exception $ex) {
+        }
+
+        return $fieldmapping;
+    }
+
+    public function getIntegrationInfobyName($name)
+    {
+        $integrationrepo   =$this->getIntegrationRepository();
+        $integrations      =$integrationrepo->findBy(
+            [
+                'name' => $name,
+            ]
+        );
+        if (sizeof($integrations) > 0) {
+            return $integrations[0];
+        } else {
+            $integrationentity=new Integration();
+            $integrationentity->setName($name);
+            $integrationrepo->saveEntity($integrationentity);
+
+            return $integrationentity;
+        }
+    }
+
+    public function putPayLoadHistory($jsonData, $integrationName)
+    {
+        $payload      ='';
+        $enocodeNeeded=false;
+        if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.instapage')) {
+            $payload      =$jsonData;
+            $enocodeNeeded=true;
+        } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.unbounce')) {
+            $payload=$jsonData->data_json;
+        } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
+            $payload= $jsonData->payload;
+            if (isset($payload->invitee)) {
+                $payload = $payload->invitee;
+            }
+            $enocodeNeeded=true;
+        } elseif ($integrationName == 'facebook_lead_ads') {
+            $payload  =$jsonData;
+            $leadgenid='';
+            if (isset($payload->leadgen_id)) {
+                $leadgenid=$payload->leadgen_id;
+            }
+            $fbapiHelper        = $this->factory->getHelper('fbapi');
+            $integrationsettings=$this->getIntegrationSettingsbyName($integrationName);
+            if (sizeof($integrationsettings) > 0 && !empty($leadgenid)) {
+                $fbapiHelper->initFBAdsApi($integrationsettings['authtoken']);
+                $payload = $fbapiHelper->getLeadDetailsByID($leadgenid);
+            }
+        }
+        if ($enocodeNeeded) {
+            $payload=json_encode($payload);
+        }
+        $integration=$this->getIntegrationInfobyName($integrationName);
+        if ($integration) {
+            $newHistory=new IntegrationPayLoadHistory();
+            $newHistory->setIntegration($integration);
+            $newHistory->setPayLoad($payload);
+            $newHistory->setCreatedOn(new \DateTime());
+            $intgrepo=$this->getIntegrationRepository();
+            $intgrepo->saveEntity($newHistory);
+        }
+    }
+
+    public function updateIntegrationFieldInfo($payload, $integrationName)
+    {
+        $integrationsettings=$this->getIntegrationSettingsbyName($integrationName);
+        if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.instapage')) {
+            $response=$this->getInstaPageFieldInformation($payload);
+        } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.unbounce')) {
+            $payload =json_decode($payload->data_json);
+            $response=$this->getUnBounceFieldInformation($payload);
+        } elseif ($integrationName == 'facebook_lead_ads') {
+            $response=$this->getFBLeadFieldInformation($payload, $integrationsettings);
+        }
+        if (isset($response['groupname']) && !empty($response['groupname']) && isset($response['fields']) && !empty($response['fields'])) {
+            $integration=$this->getIntegrationInfobyName($integrationName);
+            if ($integration) {
+                $fieldmapping=$this->getFieldMappingObject($response['groupname'], $integration);
+                try {
+                    $fieldmapping->setIntegration($integration);
+                    $fieldmapping->setGroup($response['groupname']);
+                    $fieldmapping->setFields($response['fields']);
+                    $intgrepo=$this->getIntegrationRepository();
+                    $intgrepo->saveEntity($fieldmapping);
+                } catch (\Exception $ex) {
+                }
+            }
+        }
+    }
+
     public function parseJsonResponse($jsonData, $integrationName, $properties)
     {
         $data            = [];
         $data['isvalid'] = false;
+        $integration     =$this->getIntegrationInfobyName($integrationName);
         if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.instapage')) {
-            $data['first_name'] = isset($jsonData['first_name']) ? $jsonData['first_name'] : '';
-            $data['last_name']  = isset($jsonData['last_name']) ? $jsonData['last_name'] : '';
-            $data['email']      = isset($jsonData['email']) ? $jsonData['email'] : '';
-            if (isset($jsonData['page_name']) && $data['email'] != '' && ($properties['page_name'] == '' || $properties['page_name'] == $jsonData['page_name'])) {
-                $data['isvalid'] = true;
+            if (isset($jsonData->page_name) && ($properties['page_name'] == '' || $properties['page_name'] == $jsonData->page_name)) {
+                $data['firstname']  = isset($jsonData->first_name) ? $jsonData->first_name : '';
+                $data['lastname']   = isset($jsonData->last_name) ? $jsonData->last_name : '';
+                $data['email']      = isset($jsonData->email) ? $jsonData->email : '';
+                $data               =$this->parseInstaPageData($integration, $data, $jsonData);
             }
         } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.unbounce')) {
-            $jsonData           = json_decode($jsonData['data_json']);
-            $data['first_name'] = isset($jsonData->first_name) ? $jsonData->first_name[0] : '';
-            $data['last_name']  = isset($jsonData->last_name) ? $jsonData->last_name[0] : '';
-            $data['email']      = isset($jsonData->email) ? $jsonData->email[0] : '';
-            if (isset($jsonData->page_name) && $data['email'] != '' && ($properties['pagename'] == '' || $properties['pagename'] == $jsonData->page_name[0])) {
-                $data['isvalid'] = true;
+            $jsonData           = json_decode($jsonData->data_json);
+            if (isset($jsonData->page_name) && ($properties['pagename'] == '' || $properties['pagename'] == $jsonData->page_name[0])) {
+                $data['firstname']  = isset($jsonData->first_name) ? $jsonData->first_name[0] : '';
+                $data['lastname']   = isset($jsonData->last_name) ? $jsonData->last_name[0] : '';
+                $data['email']      = isset($jsonData->email) ? $jsonData->email[0] : '';
+                $data               =$this->parseUnBounceData($integration, $data, $jsonData);
             }
         } elseif ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
-            $payload            = $jsonData['payload'];
-            $inviteeData        = $payload['invitee'];
-            $name               = explode(' ', $inviteeData['name']);
-            $data['first_name'] = $name[0];
-            $data['last_name']  = isset($name[1]) ? $name[1] : '';
-            $data['email']      = $inviteeData['email'];
-            $event              = $payload['event_type'];
-            if ($properties['event_name'] == '' || $properties['event_name'] == $event['name']) {
-                $data['isvalid'] = true;
+            $payload            = $jsonData->payload;
+            $event              = $payload->event_type;
+            if ($properties['event_name'] == '' || $properties['event_name'] == $event->name) {
+                $inviteeData        = $payload->invitee;
+                $name               = explode(' ', $inviteeData->name);
+                $data['firstname']  = $name[0];
+                $data['lastname']   = isset($name[1]) ? $name[1] : '';
+                $data['email']      = $inviteeData->email;
+                $data               =$this->applydefaultData($integration, $data);
+            }
+        } elseif ($integrationName == 'facebook_lead_ads') {
+            $leadgenData = $jsonData;
+            $leadgenid   ='';
+            $fbpageid    ='';
+            $fbformid    ='';
+            if (isset($leadgenData->leadgen_id)) {
+                $leadgenid=$leadgenData->leadgen_id;
+            }
+            if (isset($leadgenData->page_id)) {
+                $fbpageid=$leadgenData->page_id;
+            }
+            if (isset($leadgenData->form_id)) {
+                $fbformid=$leadgenData->form_id;
+            }
+            if (!empty($leadgenid) && !empty($fbpageid) && !empty($fbformid)) {
+                $eventFbPage     =$properties['fbpage'];
+                $eventLeadGenForm=$properties['leadgenform'];
+                if (empty($eventFbPage) || $eventFbPage == '-1' || ($eventFbPage == $fbpageid && $eventLeadGenForm == $fbformid)) {
+                    if ($integration) {
+                        $data=$this->parseFBLeadData($integration, $leadgenid, $data, $fbpageid, $fbformid);
+                    }
+                }
+            }
+        }
+        if (!empty($data['email'])) {
+            $data['isvalid'] = true;
+        }
+
+        return $data;
+    }
+
+    public function parseInstaPageData($integration, $data, $payload)
+    {
+        $fieldMapping=$integration->getFeatureSettings();
+        $fieldMapping=isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
+        $pagename    =$payload->page_name;
+        $fieldvalues =[];
+        foreach ($payload as $key => $value) {
+            $fieldvalues[$key]=$value;
+        }
+        if (!empty($fieldMapping)) {
+            foreach ($fieldMapping as $mappingdetails) {
+                if (isset($mappingdetails['localfield'])) {
+                    $isRemoteMatch=false;
+                    if (isset($mappingdetails['remotefield'])) {
+                        $remotefields=$mappingdetails['remotefield'];
+                        foreach ($remotefields as $remotefield) {
+                            $remotefieldarr =explode('@$@', $remotefield);
+                            $groupname      =$remotefieldarr[0];
+                            $remotefieldname=$remotefieldarr[1];
+                            if ($groupname == $pagename && isset($fieldvalues[$remotefieldname])) {
+                                $data[$mappingdetails['localfield']] = $fieldvalues[$remotefieldname];
+                                $isRemoteMatch                       =true;
+                            }
+                        }
+                    }
+                    if (!$isRemoteMatch && isset($mappingdetails['defaultvalue'])) {
+                        $data[$mappingdetails['localfield']] = $mappingdetails['defaultvalue'];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function parseUnBounceData($integration, $data, $payload)
+    {
+        $fieldMapping=$integration->getFeatureSettings();
+        $fieldMapping=isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
+        $pagename    =$payload->page_name[0];
+        $fieldvalues =[];
+        foreach ($payload as $key => $value) {
+            $fieldvalues[$key]=$value[0];
+        }
+        if (!empty($fieldMapping)) {
+            foreach ($fieldMapping as $mappingdetails) {
+                if (isset($mappingdetails['localfield'])) {
+                    $isRemoteMatch=false;
+                    if (isset($mappingdetails['remotefield'])) {
+                        $remotefields=$mappingdetails['remotefield'];
+                        foreach ($remotefields as $remotefield) {
+                            $remotefieldarr =explode('@$@', $remotefield);
+                            $groupname      =$remotefieldarr[0];
+                            $remotefieldname=$remotefieldarr[1];
+                            if ($groupname == $pagename && isset($fieldvalues[$remotefieldname])) {
+                                $data[$mappingdetails['localfield']] = $fieldvalues[$remotefieldname];
+                                $isRemoteMatch                       =true;
+                            }
+                        }
+                    }
+                    if (!$isRemoteMatch && isset($mappingdetails['defaultvalue'])) {
+                        $data[$mappingdetails['localfield']] = $mappingdetails['defaultvalue'];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function applydefaultData($integration, $data)
+    {
+        $fieldMapping=$integration->getFeatureSettings();
+        $fieldMapping=isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
+        if (!empty($fieldMapping)) {
+            foreach ($fieldMapping as $mappingdetails) {
+                if (isset($mappingdetails['localfield'])) {
+                    if (isset($mappingdetails['defaultvalue'])) {
+                        $data[$mappingdetails['localfield']] = $mappingdetails['defaultvalue'];
+                    }
+                }
+            }
+        }
+        $data['created_on'] =new \DateTime();
+
+        return $data;
+    }
+
+    public function parseFBLeadData($integration, $leadgenid, $data, $fbpageid, $fbformid)
+    {
+        $fbapiHelper        = $this->factory->getHelper('fbapi');
+        $integrationsettings=$integration->getApiKeys();
+        if (sizeof($integrationsettings) > 0) {
+            $fbapiHelper->initFBAdsApi($integrationsettings['authtoken']);
+            $leadgenformname=$fbapiHelper->getLeadGenFormNameByID($integrationsettings['authtoken'], $fbpageid, $fbformid);
+            $fieldMapping   =$integration->getFeatureSettings();
+            $fieldMapping   =isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
+            $fbleadjson     =$fbapiHelper->getLeadDetailsByID($leadgenid);
+            if (!empty($fbleadjson)) {
+                $fblead           = json_decode($fbleadjson);
+                if (isset($fblead->field_data)) {
+                    $fbfieldsinfo =$fblead->field_data;
+                    $fbleadcreated=$fblead->created_time;
+                    $fieldvalues  =[];
+                    foreach ($fbfieldsinfo as $fbfieldinfo) {
+                        $fbfieldname =$fbfieldinfo->name;
+                        $fbfieldvalue=$fbfieldinfo->values[0];
+                        if ($fbfieldname == 'full_name') {
+                            $data['firstname'] = $fbfieldvalue;
+                        } elseif ($fbfieldname == 'email') {
+                            $data['email'] = $fbfieldvalue;
+                        } elseif ($fbfieldname == 'first_name') {
+                            $data['firstname'] = $fbfieldvalue;
+                        } elseif ($fbfieldname == 'last_name') {
+                            $data['lastname'] = $fbfieldvalue;
+                        }
+                        $fieldvalues[$fbfieldname]=$fbfieldvalue;
+                    }
+                    if (!empty($fieldMapping)) {
+                        foreach ($fieldMapping as $mappingdetails) {
+                            if (isset($mappingdetails['localfield'])) {
+                                $isRemoteMatch=false;
+                                if (isset($mappingdetails['remotefield'])) {
+                                    $remotefields=$mappingdetails['remotefield'];
+                                    foreach ($remotefields as $remotefield) {
+                                        $remotefieldarr =explode('@$@', $remotefield);
+                                        $groupname      =$remotefieldarr[0];
+                                        $remotefieldname=$remotefieldarr[1];
+                                        if ($groupname == $leadgenformname && isset($fieldvalues[$remotefieldname])) {
+                                            $data[$mappingdetails['localfield']] = $fieldvalues[$remotefieldname];
+                                            $isRemoteMatch                       =true;
+                                        }
+                                    }
+                                }
+                                if (!$isRemoteMatch && isset($mappingdetails['defaultvalue'])) {
+                                    $data[$mappingdetails['localfield']] = $mappingdetails['defaultvalue'];
+                                }
+                            }
+                        }
+                    }
+                    $data['created_on'] =new \DateTime($fbleadcreated);
+                }
             }
         }
 
@@ -873,5 +1157,73 @@ class IntegrationHelper
         $result = json_decode($result);
 
         return $result;
+    }
+
+    public function getInstaPageFieldInformation($payload)
+    {
+        $response=[];
+        if (isset($payload->page_name)) {
+            $response['groupname']=$payload->page_name;
+            $fielddetails         =[];
+            foreach ($payload as $key => $value) {
+                $fielddetails[]=$key;
+            }
+            $response['fields'] =  $fielddetails;
+        }
+
+        return $response;
+    }
+
+    public function getUnBounceFieldInformation($payload)
+    {
+        $response=[];
+        if (isset($payload->page_name)) {
+            $response['groupname']=$payload->page_name[0];
+            $fielddetails         =[];
+            foreach ($payload as $key => $value) {
+                $fielddetails[]=$key;
+            }
+            $response['fields'] =  $fielddetails;
+        }
+
+        return $response;
+    }
+
+    public function getFBLeadFieldInformation($payload, $integrationsettings)
+    {
+        $response =[];
+        $leadgenid='';
+        if (isset($payload->leadgen_id)) {
+            $leadgenid=$payload->leadgen_id;
+        }
+        $fbpageid='';
+        if (isset($payload->page_id)) {
+            $fbpageid=$payload->page_id;
+        }
+        $fbformid='';
+        if (isset($payload->form_id)) {
+            $fbformid=$payload->form_id;
+        }
+        $fbapiHelper       = $this->factory->getHelper('fbapi');
+        if (sizeof($integrationsettings) > 0 && !empty($leadgenid)) {
+            $fbapiHelper->initFBAdsApi($integrationsettings['authtoken']);
+            $response['groupname']=$fbapiHelper->getLeadGenFormNameByID($integrationsettings['authtoken'], $fbpageid, $fbformid);
+            $payload              = $fbapiHelper->getLeadDetailsByID($leadgenid);
+            $payload              =json_decode($payload);
+            $fielddetails         =[];
+            if (isset($payload->field_data)) {
+                $fbfieldsinfo=$payload->field_data;
+                foreach ($fbfieldsinfo as $fbfieldinfo) {
+                    $fielddetails[]=$fbfieldinfo->name;
+                }
+            }
+            // $fielddetails[]="email";
+            //  $fielddetails[]="address";
+            //  $fielddetails[]="website";
+            //  $response["groupname"]="Test Form";
+            $response['fields'] =  $fielddetails;
+        }
+
+        return $response;
     }
 }

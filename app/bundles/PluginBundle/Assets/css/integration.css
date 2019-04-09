@@ -32,7 +32,7 @@
 }
 .integration-container{
     /*margin: 0 auto;*/
-    width: 70%;
+    width: 85%;
     line-height: 2;
     padding: 20px;
 }
@@ -75,4 +75,36 @@
     padding-top:25px;
     border-radius: 5px;
     text-align: center;
+}
+.integration_field_mapping{
+    margin-top: 20px;
+}
+.payload-history{
+
+}
+.payload-history th{
+    font-size: 15px;
+    padding-left: 10px;
+}
+.payload-history td{
+    padding-top: 15px;
+    font-size: 14px;
+    padding-left: 10px;
+}
+.payload-noresult{
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+}
+.btn-field-mapping{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.btn-field-mapping:hover{
+    color: #eee;
+    background-color: #3292e0;
 }

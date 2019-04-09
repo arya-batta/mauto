@@ -78,7 +78,7 @@ class IntegrationEvent extends CommonEvent
     /**
      * @return mixed
      */
-    public function getisSuccess()
+    public function isSuccess()
     {
         return $this->isSuccess;
     }

@@ -2,7 +2,6 @@
 
 namespace MauticPlugin\MauticCrmBundle\Integration;
 
-use Mautic\LeadBundle\Entity\Lead;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PipedriveIntegration extends CrmAbstractIntegration
@@ -252,7 +251,7 @@ class PipedriveIntegration extends CrmAbstractIntegration
         $translator = $this->getTranslator();
 
         if ($section == 'authorization') {
-            return [$translator->trans('le.pipedrive.webhook_callback').$router->generate('mautic_integration.pipedrive.webhook', [], UrlGeneratorInterface::ABSOLUTE_URL), 'info'];
+            return [$translator->trans('le.pipedrive.webhook_callback').$router->generate('le_integration.pipedrive.webhook', [], UrlGeneratorInterface::ABSOLUTE_URL), 'info'];
         }
 
         return parent::getFormNotes($section);

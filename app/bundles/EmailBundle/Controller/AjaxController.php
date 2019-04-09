@@ -485,7 +485,7 @@ class AjaxController extends CommonAjaxController
             $response = $http->get('https://api.sparkpost.com/api/v1/sending-domains?ownership_verified=true', ['Authorization'=>'75df76268ba43535a0d5f0b27ff07e9c19053815'], 30);
             if ($response->code === 200) {
                 $successresponse = json_decode($response->body, true);
-                file_put_contents('/var/www/mauto/sparkpost.txt', 'Data:'.$response->body."\n", FILE_APPEND);
+            // file_put_contents('/var/www/mauto/sparkpost.txt', 'Data:'.$response->body."\n", FILE_APPEND);
             } else {
                 $errresponse =json_decode($response->body, true);
                 $errormessage='';

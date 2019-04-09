@@ -150,14 +150,14 @@ class AuthController extends FormController
     public function webhookCallbackAction($integration)
     {
         $payload  = $this->request->getContent();
-        $payload  = json_decode($payload, true);
+        $payload  = json_decode($payload);
         $eventarg = new IntegrationEvent($integration, $payload);
         $event    = $this->dispatcher->dispatch(LeadEvents::INTEGRATION_EVENT, $eventarg);
-        $message  = 'Lead Created Successfully.';
-        if (!$event->getisSuccess()) {
+        $message  = 'Lead creation done.';
+        if (!$event->isSuccess()) {
             $message = 'Lead creation failed.';
         }
-        $response = new JsonResponse(['success' => $event->getisSuccess(), 'message' => $message]);
+        $response = new JsonResponse(['success' => $event->isSuccess(), 'message' => $message]);
 
         return $response;
     }

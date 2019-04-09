@@ -49,4 +49,21 @@ class IntegrationRepository extends CommonRepository
 
         return $results;
     }
+
+    public function getAllFieldMapping($group, $integration)
+    {
+        // file_put_contents("/var/www/mauto/payload.txt","Group:".$group."\n",FILE_APPEND);
+        //file_put_contents("/var/www/mauto/payload.txt","Integration:".$integration."\n",FILE_APPEND);
+        $q = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('ifm')
+            ->from('MauticPluginBundle:IntegrationFieldMapping', 'ifm', 'ifm.id');
+        $q->where(
+            $q->expr()->eq('IDENTITY(ifm.integration)', ':integration'),
+            $q->expr()->eq('ifm.groupname', ':group'));
+        $q->setParameter('integration', $integration);
+        $q->setParameter('group', $group);
+
+        return $q->getQuery()->getResult();
+    }
 }

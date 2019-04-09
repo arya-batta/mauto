@@ -57,6 +57,7 @@ class IntegrationController extends FormController
         $session           = $this->get('session');
         $error             =$session->get('le.integration.postauth.error', false);
         $token             =$session->get('le.integration.oauth.token', false);
+        $integrationrepo   =$integrationHelper->getIntegrationRepository();
         if ($error) {
             $this->addFlash($error);
             $session->remove('le.integration.postauth.error');
@@ -78,7 +79,6 @@ class IntegrationController extends FormController
                 $integrationsettings['accountname']=$accountname;
                 $integrationsettings['authtoken']  =$token;
                 $pagelist                          =$fbapiHelper->getAllFbPages($token);
-                $integrationrepo                   =$integrationHelper->getIntegrationRepository();
                 $integrationentity                 =new Integration();
                 $integrationentity->setName($name);
                 $integrationentity->setApiKeys($integrationsettings);
@@ -89,6 +89,8 @@ class IntegrationController extends FormController
                 if (sizeof($integrationsettings) > 0) {
                     $details['authorization']=true;
                     $pagelist                =$fbapiHelper->getAllFbPages($integrationsettings['authtoken']);
+                    // $fbapiHelper->initFBAdsApi($integrationsettings['authtoken']);
+                   // $details['leads']=$fbapiHelper->getLeadDetailsByID("380228036154078");
                 }
             }
             $details['pages']=$pagelist;
@@ -121,18 +123,49 @@ class IntegrationController extends FormController
         }
         $details=array_merge($details, $integrationsettings);
         unset($details['authtoken']);
+        $fieldMapping     =[];
+        $integrationEntity=$integrationHelper->getIntegrationInfobyName($name);
+        if (!empty($integrationEntity)) {
+            $fieldMapping=$integrationEntity->getFeatureSettings();
+        }
+        $form = $this->createForm(
+            'integration_field_mapping',
+            $fieldMapping,
+            ['action'             => $this->generateUrl('le_integrations_config', ['name' => $name]), 'integration'=>$name]
+        );
+        if ($this->request->getMethod() == 'POST') {
+            if (!$this->isFormCancelled($form)) {
+                if ($this->isFormValid($form)) {
+                    $fieldMapping     = $this->request->request->get('integration_field_mapping');
+                    $integrationEntity=$integrationHelper->getIntegrationInfobyName($name);
+                    $integrationEntity->setFeatureSettings($fieldMapping);
+                    $integrationrepo->saveEntity($integrationEntity);
+                    $form = $this->createForm(
+                        'integration_field_mapping',
+                        $fieldMapping,
+                        ['action'             => $this->generateUrl('le_integrations_config', ['name' => $name]), 'integration'=>$name]
+                    );
+                }
+            }
+        }
+        $template    ='MauticPluginBundle:Integrations\Pages:'.$name.'.html.php';
+        $pluginModel = $this->getModel('plugin');
+        $fieldList   =$pluginModel->getFieldModel()->getFieldListWithProperties('lead', true);
 
         return $this->delegateView(
             [
                 'viewParameters' => [
+                    'fields'         => $fieldList,
+                    'payloads'       => $integrationEntity->getPayLoad(200),
                     'details'        => $details,
                     'tmpl'           => 'config',
                     'name'           => $name,
+                    'form'           => $this->setFormTheme($form, $template, ['MauticPluginBundle:FormTheme\FieldMapping']),
                 ],
-                'contentTemplate' => 'MauticPluginBundle:Integrations\Pages:'.$name.'.html.php',
+                'contentTemplate' => $template,
                 'passthroughVars' => [
                     'activeLink'    => '#le_integrations_config',
-                    'leContent'     => 'integration',
+                    'leContent'     => 'integrationConfig',
                     'route'         => $this->generateUrl('le_integrations_config', ['name'=>$name]),
                 ],
             ]
@@ -143,13 +176,17 @@ class IntegrationController extends FormController
     {
         $integrationHelper  = $this->factory->getHelper('integration');
         $fbapiHelper        = $this->factory->getHelper('fbapi');
+        $subscriptionrepo   =$this->factory->get('le.core.repository.subscription');
         $integrationsettings=$integrationHelper->getIntegrationSettingsbyName($integration);
         if (isset($integrationsettings['authtoken'])) {
-            $pagetoken=$fbapiHelper->getPageAccessToken($pageid, $integrationsettings['authtoken']);
+            $callbackurl=$this->generateUrl('le_integration_auth_webhook_callback', ['integration'=>$integration], 0);
+            $pagetoken  =$fbapiHelper->getPageAccessToken($pageid, $integrationsettings['authtoken']);
             if ($action == 'subscribe') {
                 $status=$fbapiHelper->subscribeFbPage($pageid, $pagetoken);
+                $subscriptionrepo->subscribeFbLeadGenWebHook($pageid, $callbackurl);
             } elseif ($action == 'unsubscribe') {
                 $status=$fbapiHelper->unsubscribeFbPage($pageid, $pagetoken);
+                $subscriptionrepo->unSubscribeFbLeadGenWebHook($pageid, $callbackurl);
             }
         }
 

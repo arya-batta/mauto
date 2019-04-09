@@ -838,7 +838,7 @@ class FieldModel extends FormModel
      *
      * @return array
      */
-    public function getFieldListWithProperties($object = 'lead')
+    public function getFieldListWithProperties($object = 'lead', $applyPropertiesParse=false)
     {
         $forceFilters[] = [
             'column' => 'f.object',
@@ -864,15 +864,84 @@ class FieldModel extends FormModel
 
         $fields = [];
         foreach ($contactFields as $contactField) {
+            if ($contactField['alias'] == 'score' || $contactField['alias'] == 'points') {
+                continue;
+            }
+            $type         =$contactField['type'];
+            $properties   =$contactField['properties'];
+            $customChoices=[];
+            if ($applyPropertiesParse) {
+                if (in_array($type, ['lookup', 'multiselect', 'boolean'])) {
+                    if ($type == 'boolean') {
+                        //create a lookup list with ID
+                        $customChoices = [
+                            0 => $properties['no'],
+                            1 => $properties['yes'],
+                        ];
+                    } else {
+                        $properties['callback'] = 'activateLeadFieldTypeahead';
+                        $customChoices          = (isset($properties['list'])) ? FormFieldHelper::formatList(
+                            FormFieldHelper::FORMAT_ARRAY,
+                            FormFieldHelper::parseList($properties['list'])
+                        ) : '';
+                    }
+                }
+            }
             $fields[$contactField['alias']] = [
                 'label'        => $contactField['label'],
                 'alias'        => $contactField['alias'],
-                'type'         => $contactField['type'],
+                'type'         => $type,
                 'group'        => $contactField['group'],
                 'group_label'  => $this->translator->trans('le.lead.field.group.'.$contactField['group']),
                 'defaultValue' => $contactField['defaultValue'],
-                'properties'   => $contactField['properties'],
+                'properties'   => $applyPropertiesParse ? $customChoices : $properties,
             ];
+        }
+        if ($applyPropertiesParse) {
+            if (!isset($fields['owner_id'])) {
+                $fields['owner_id'] = [
+                    'label'        => $this->translator->trans('le.lead.list.filter.owner'),
+                    'alias'        => 'owner_id',
+                    'type'         => 'owner_id',
+                    'group'        => '',
+                    'group_label'  => '',
+                    'defaultValue' => '',
+                    'properties'   => [],
+                ];
+            }
+            if (!isset($fields['tags'])) {
+                $fields['tags'] = [
+                    'label'        => $this->translator->trans('le.lead.list.mapping.tags'),
+                    'alias'        => 'tags',
+                    'type'         => 'tags',
+                    'group'        => '',
+                    'group_label'  => '',
+                    'defaultValue' => '',
+                    'properties'   => [],
+                ];
+            }
+//            if(!isset($fields['leadlist'])){
+//                $fields['leadlist'] = [
+//                    'label'        => $this->translator->trans('le.lead.list.mapping.leadlist'),
+//                    'alias'        => 'leadlist',
+//                    'type'         => 'leadlist',
+//                    'group'        => '',
+//                    'group_label'  => '',
+//                    'defaultValue' => '',
+//                    'properties'   => [],
+//                ];
+//            }
+            if (!isset($fields['listoptin'])) {
+                $fields['listoptin'] = [
+                    'label'        => $this->translator->trans('le.lead.list.mapping.listoptin'),
+                    'alias'        => 'listoptin',
+                    'type'         => 'listoptin',
+                    'group'        => '',
+                    'group_label'  => '',
+                    'defaultValue' => '',
+                    'properties'   => [],
+                ];
+            }
         }
 
         return $fields;

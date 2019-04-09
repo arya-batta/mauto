@@ -205,4 +205,80 @@ class SubscriptionRepository
                 $qb->expr()->in('appid', $appid)
             )->execute();
     }
+
+    public function unSubscribeFbLeadGenWebHook($pageid, $callback)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->delete(MAUTIC_TABLE_PREFIX.'fb_leadgen_subscription')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('pageid', ':pageid'),
+                    $qb->expr()->eq('callback', ':callback')
+                )
+            )
+            ->setParameter('pageid', $pageid)
+            ->setParameter('callback', $callback)
+            ->execute();
+    }
+
+    public function subscribeFbLeadGenWebHook($pageid, $callback)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('lgs.*')
+            ->from(MAUTIC_TABLE_PREFIX.'fb_leadgen_subscription', 'lgs');
+        $qb->andWhere('lgs.pageid = :pageid')
+            ->setParameter('pageid', $pageid);
+        $plans=$qb->execute()->fetchAll();
+        if (sizeof($plans) == 0) {
+            $qb->insert(MAUTIC_TABLE_PREFIX.'fb_leadgen_subscription')
+                ->values([
+                    'pageid'   => ':pageid',
+                    'callback' => ':callback',
+                ])
+                ->setParameter('pageid', $pageid)
+                ->setParameter('callback', $callback)
+                ->execute();
+        }
+    }
+
+    public function getFbLeadGenSubscriptionByID($pageid)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->select('lgs.*')
+            ->from(MAUTIC_TABLE_PREFIX.'fb_leadgen_subscription', 'lgs');
+        $qb->andWhere('lgs.pageid = :pageid')
+            ->setParameter('pageid', $pageid);
+        $plans=$qb->execute()->fetchAll();
+        if (sizeof($plans) > 0) {
+            return   $plans[0];
+        } else {
+            return [];
+        }
+    }
+
+    public function updateFbLeadGenWebHookLog($id, $status)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->update(MAUTIC_TABLE_PREFIX.'fb_leadgen_webhook_log')
+        ->set('status', ':status')
+        ->setParameter('status', $status)
+        ->where(
+            $qb->expr()->in('id', $id)
+        )->execute();
+    }
+
+    public function createFbLeadGenWebHookLog($id, $payload)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->insert(MAUTIC_TABLE_PREFIX.'fb_leadgen_webhook_log')
+            ->values([
+                'id'     => ':id',
+                'payload'=> ':payload',
+                'status' => ':status',
+            ])
+            ->setParameter('id', $id)
+            ->setParameter('payload', $payload)
+            ->setParameter('status', 'Pending')
+            ->execute();
+    }
 }

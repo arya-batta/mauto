@@ -122,6 +122,29 @@ Le.integrationConfigOnLoad = function(container) {
             }
         });
     }
+
+    mQuery('#mapping-container .btn-new-field-mapping').off().on('click', function() {
+        var mappingIndex = parseInt(mQuery('.integration_field_mapping').attr("data-index"));
+        mQuery('.integration_field_mapping').attr("data-index",mappingIndex+1);
+        var prototype = mQuery('.integration_field_mapping').data('prototype');
+        prototype = prototype.replace(/__name__/g, mappingIndex);
+        // Convert to DOM
+        prototype = mQuery(prototype);
+        var localList=mQuery(prototype).find('#integration_field_mapping_field_mapping_'+mappingIndex+'_localfield');
+        Le.activateChosenSelect(localList);
+        var remoteList=mQuery(prototype).find('#integration_field_mapping_field_mapping_'+mappingIndex+'_remotefield');
+        Le.activateChosenSelect(remoteList);
+        mQuery(prototype).appendTo(mQuery('.integration_field_mapping'));
+        Le.registerEventsForMappingRemove();
+        Le.registerEventsForMappingLists();
+    });
+    mQuery('#mapping-container .btn-save-field-mapping').off().on('click', function() {
+        mQuery('form[name="integration_field_mapping"]').submit();
+    });
+    Le.registerEventsForMappingRemove();
+    Le.createDefaultFieldMapping();
+    Le.registerEventsForMappingLists();
+
 };
 
 Le.filterIntegrations = function(update) {
@@ -403,3 +426,159 @@ Le.removeTokenvalue = function (name){
         }
     );
 };
+
+//New integration related methods are available below
+
+Le.createDefaultFieldMapping=function(){
+    try{
+        var mappingindex=mQuery('.integration_field_mapping').attr("data-index");
+        if(mappingindex == 1){
+            mQuery( "#mapping-container .btn-new-field-mapping" ).trigger( "click" );
+        }
+    }catch(err){
+        alert(err);
+    }
+}
+Le.registerEventsForMappingRemove=function(){
+    mQuery('.integration_field_mapping .remove-selected').each( function (index, el) {
+        mQuery(el).off().on('click', function () {
+            mQuery(this).closest('.panel').animate(
+                {'opacity': 0},
+                'fast',
+                function () {
+                    mQuery(this).remove();
+                    Le.updateFieldMappingPositioning();
+                }
+            );
+
+        });
+    });
+}
+
+Le.replaceMappingElementsIndex=function(panel,id,oldindex,newindex)
+{
+    if(mQuery(panel).has(id).length){
+        var el=mQuery(panel).find(id);
+        if (typeof el.attr('name') !== typeof undefined && el.attr('name') !== false) {
+            var nameattr=el.attr('name');
+            nameattr=nameattr.replace('['+oldindex+']','['+newindex+']');
+            el.attr('name',nameattr);
+        }
+        if (typeof el.attr('id') !== typeof undefined && el.attr('id') !== false) {
+            var idattr=el.attr('id');
+            idattr=idattr.replace('_'+oldindex+'_','_'+newindex+'_');
+            el.attr('id',idattr);
+        }
+    }
+}
+
+Le.updateFieldMappingPositioning = function () {
+    try{
+        var newindex=0;
+        var mappingBase='integration_field_mapping_field_mapping_';
+        var mappingHolder=mQuery('.integration_field_mapping');
+        var panels=mappingHolder.children();
+        for(var cindex=0;cindex<panels.length;cindex++){
+            var panel=panels[cindex];
+            var oldindex=mQuery(panel).attr("data-mapping-index");
+            mQuery(panel).attr("data-mapping-index",newindex);
+            var localfield='#'+mappingBase+oldindex+'_localfield';
+            Le.replaceMappingElementsIndex(panel,localfield,oldindex,newindex);
+            var localfieldChosen='#'+mappingBase+oldindex+'_localfield_chosen';
+            Le.replaceMappingElementsIndex(panel,localfieldChosen,oldindex,newindex);
+            var remotefield='#'+mappingBase+oldindex+'_remotefield';
+            Le.replaceMappingElementsIndex(panel,remotefield,oldindex,newindex);
+            var remotefieldChosen='#'+mappingBase+oldindex+'_remotefield_chosen';
+            Le.replaceMappingElementsIndex(panel,remotefieldChosen,oldindex,newindex);
+            var defaultfield='#'+mappingBase+oldindex+'_defaultvalue';
+            Le.replaceMappingElementsIndex(panel,defaultfield,oldindex,newindex);
+            newindex++;
+        }
+        mQuery('.integration_field_mapping').attr("data-index",newindex);
+    }catch(ex){
+        alert(ex);
+    }
+};
+Le.registerEventsForMappingLists=function(){
+    mQuery('.integration_field_mapping .local-mapping-fields').off().on('change', function(){
+        if (mQuery(this).val()) {
+            var prototype=mQuery(this).closest('.panel');
+            var mappingIndex=prototype.attr('data-mapping-index');
+            var fieldname=mQuery(this).val();
+            if(Le.integration_fieldmapping_details[fieldname]){
+                var tmpprototype = mQuery('.integration_field_mapping').data('prototype');
+                tmpprototype = tmpprototype.replace(/__name__/g, mappingIndex);
+                // Convert to DOM
+                tmpprototype = mQuery(tmpprototype);
+
+                //Reset default value field
+                mQuery(prototype).find('.mapping-default-segment').replaceWith(mQuery(tmpprototype).find('.mapping-default-segment'));
+                var fieldType=Le.integration_fieldmapping_details[fieldname]['type'];
+                var nameAttr='integration_field_mapping[field_mapping]['+mappingIndex+'][defaultvalue]';
+                var mappingdefaultEl = "input[name='" + nameAttr + "']";
+                if (fieldType == 'select' || fieldType == 'multiselect' || fieldType == 'boolean') {
+                    var fieldOptions=Le.integration_fieldmapping_details[fieldname]['properties'];
+                    var selectEl = mQuery('<select>');
+                    selectEl.attr('class','form-control not-chosen');
+                    selectEl.attr('name',nameAttr);
+                    selectEl.attr('id','integration_field_mapping_field_mapping_'+mappingIndex+'_defaultvalue');
+                    mQuery(prototype).find('input[name="' + nameAttr + '"]').replaceWith(selectEl);
+                    mappingdefaultEl="select[name='" + nameAttr + "']";
+                    mQuery.each(fieldOptions, function(index, val) {
+                        if (mQuery.isPlainObject(val)) {
+                            mQuery('<option>').val(val.value).text(val.label).appendTo(mappingdefaultEl);
+                        } else {
+                            mQuery('<option>').val(index).text(val).appendTo(mappingdefaultEl);
+                        }
+                    });
+                    Le.activateChosenSelect(mQuery(mappingdefaultEl));
+                }else if(fieldType == 'owner_id' || fieldType == 'leadlist' || fieldType == 'listoptin' || fieldType == 'tags'){
+                    var selectEl = mQuery('<select>');
+                    selectEl.attr('class','form-control not-chosen');
+                    selectEl.attr('name',nameAttr);
+                    selectEl.attr('id','integration_field_mapping_field_mapping_'+mappingIndex+'_defaultvalue');
+                    mQuery(prototype).find('input[name="' + nameAttr + '"]').replaceWith(selectEl);
+                    mappingdefaultEl="select[name='" + nameAttr + "']";
+                    var fieldOptions=Le.integration_property_choices[fieldname];
+                    mQuery.each(fieldOptions, function(index, val) {
+                        if (mQuery.isPlainObject(val)) {
+                            mQuery('<option>').val(val.value).text(val.label).appendTo(mappingdefaultEl);
+                        } else {
+                            mQuery('<option>').val(index).text(val).appendTo(mappingdefaultEl);
+                        }
+                    });
+                    Le.activateChosenSelect(mQuery(mappingdefaultEl));
+                }else if (fieldType == 'datetime') {
+                    mQuery(mappingdefaultEl).datetimepicker({
+                        format: 'Y-m-d H:i',
+                        lazyInit: true,
+                        validateOnBlur: false,
+                        allowBlank: true,
+                        scrollInput: false
+                    });
+                } else if (fieldType == 'date') {
+                    mQuery(mappingdefaultEl).datetimepicker({
+                        timepicker: false,
+                        format: 'Y-m-d',
+                        lazyInit: true,
+                        validateOnBlur: false,
+                        allowBlank: true,
+                        scrollInput: false,
+                        closeOnDateSelect: true
+                    });
+                } else if (fieldType == 'time') {
+                    mQuery(mappingdefaultEl).datetimepicker({
+                        datepicker: false,
+                        format: 'H:i',
+                        lazyInit: true,
+                        validateOnBlur: false,
+                        allowBlank: true,
+                        scrollInput: false
+                    });
+                }else {
+                    mQuery(mappingdefaultEl).attr('type', fieldType);
+                }
+            }
+        }
+    });
+}

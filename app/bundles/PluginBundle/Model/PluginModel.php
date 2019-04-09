@@ -78,4 +78,9 @@ class PluginModel extends FormModel
         $this->em->persist($entity);
         $this->em->flush();
     }
+
+    public function getFieldModel()
+    {
+        return $this->leadFieldModel;
+    }
 }

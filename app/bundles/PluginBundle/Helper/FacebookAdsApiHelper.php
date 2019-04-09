@@ -7,6 +7,7 @@ use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\CustomAudienceMultiKey;
 use FacebookAds\Object\Fields\CustomAudienceFields;
 use FacebookAds\Object\Fields\CustomAudienceMultikeySchemaFields;
+use FacebookAds\Object\Lead;
 use FacebookAds\Object\Values\CustomAudienceSubtypes;
 
 class FacebookAdsApiHelper
@@ -190,5 +191,25 @@ class FacebookAdsApiHelper
             CustomAudienceMultiKeySchemaFields::PHONE,
             CustomAudienceMultiKeySchemaFields::COUNTRY,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLeadDetailsByID($id)
+    {
+        $response='';
+        try {
+            $fields  =[];
+            $params  =[];
+            $response=json_encode((new Lead($id))->getSelf(
+                $fields,
+                $params
+            )->exportAllData(), JSON_PRETTY_PRINT);
+        } catch (\Exception $ex) {
+            $response='';
+        }
+
+        return $response;
     }
 }

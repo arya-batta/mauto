@@ -17,6 +17,7 @@ use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\EmailBundle\Event\EmailOpenEvent;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\ListLeadOptIn;
+use Mautic\LeadBundle\Entity\Tag;
 use Mautic\LeadBundle\Event\IntegrationEvent;
 use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
@@ -28,6 +29,7 @@ use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListOptInModel;
 use Mautic\PageBundle\Entity\Hit;
 use Mautic\PageBundle\Event\PageHitEvent;
+use Mautic\UserBundle\Entity\User;
 
 /**
  * Class LeadSubscriber.
@@ -593,8 +595,12 @@ class LeadSubscriber extends CommonSubscriber
         $integrationHelper = $this->factory->getHelper('integration');
         $eventName         = $integrationName;
         if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
-            $eventName = $data['event'];
+            $eventName = $data->event;
+        } elseif ($integrationName == 'facebook_lead_ads') {
+            $eventName='fbLeadAds';
         }
+        $integrationHelper->putPayLoadHistory($data, $integrationName);
+        $integrationHelper->updateIntegrationFieldInfo($data, $integrationName);
         $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType($eventName);
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
@@ -607,19 +613,47 @@ class LeadSubscriber extends CommonSubscriber
                         if (count($result) > 0) {
                             $lead = $this->leadModel->getEntity($result[0]->getId());
                         }
-                        $lead->setFirstname($data['first_name']);
-                        $lead->setLastname($data['last_name']);
-                        $lead->setEmail($data['email']);
-                        $this->leadModel->saveEntity($lead);
-                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                        if ($event['goal'] != 'interrupt') {
-                            $this->campaignModel->addLead($campaign, $lead);
-                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
-                        } else {
-                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                        try {
+                            foreach ($data as $key => $value) {
+                                if ($key == 'isvalid' || $key == 'created_on' || $key == 'owner_id' || $key == 'tags' || $key == 'listoptin') {
+                                    continue;
+                                }
+                                $lead->addUpdatedField($key, $value);
+                            }
+                            if (!empty($data['created_on'])) {
+                                $lead->setDateIdentified($data['created_on']);
+                                $lead->setDateAdded($data['created_on']);
+                            }
+                            $entityManager=$this->factory->getEntityManager();
+
+                            if (!empty($data['owner_id'])) {
+                                $owner = $entityManager->getReference(User::class, $data['owner_id']);
+                                $lead->setOwner($owner);
+                            }
+                            if (!empty($data['tags'])) {
+                                $leadTags= $lead->getTags();
+                                $tag     = $entityManager->getReference(Tag::class, $data['tags']);
+                                if (!empty($tag) && !$leadTags->contains($tag)) {
+                                    $lead->addTag($tag);
+                                }
+                            }
+                            $lead->setScore('Hot');
+                            $this->leadModel->saveEntity($lead);
+                            if (!empty($data['listoptin'])) {
+                                $this->leadModel->modifyListOptIn($lead, [$data['listoptin']]);
+                            }
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                            unset($campaign);
+                            $intevent->setIsSuccess(true);
+                        } catch (\Exception $ex) {
+                            $intevent->setIsSuccess(false);
                         }
-                        unset($campaign);
-                        $intevent->setIsSuccess(true);
                     } else {
                         $intevent->setIsSuccess(false);
                     }

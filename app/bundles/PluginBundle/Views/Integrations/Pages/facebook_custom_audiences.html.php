@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('leContent', 'integration');
+$view['slots']->set('leContent', 'integrationConfig');
 $header =$view['translator']->trans('le.integrations.menu.name').' - '.$details['name'];
 $view['slots']->set('headerTitle', $header);
 ?>
@@ -39,7 +39,7 @@ $view['slots']->set('headerTitle', $header);
         <div class="integration-step">
             <div class="step-content">
                 <h3>Step 2 : Set up workflow rules</h3>
-                <p></p><p>To add people to your custom audiences, create an action in <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose <b>Facebook</b> as the provider. Choose the appropriate action. Then select your account and audience to configure your action.</p>
+                <p></p><p>To add lead to your custom audiences, create an action in <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose <b>Facebook</b> as the provider. Choose the appropriate action. Then select your account and audience to configure your action.</p>
             </div>
         </div>
     </div>

@@ -273,4 +273,26 @@ class FacebookApiHelper
     {
         return FacebookAdsApiHelper::getFBAudiences($adAccount);
     }
+
+    public function getLeadDetailsByID($id)
+    {
+        return FacebookAdsApiHelper::getLeadDetailsByID($id);
+    }
+
+    public function getLeadGenFormNameByID($token, $pageid, $formid)
+    {
+        $formname     ='';
+        $pageToken    = $this->getPageAccessToken($pageid, $token);
+        $leadGenForms = $this->getLeadGenFormsByPage($pageid, $pageToken);
+        //file_put_contents("/var/www/mauto/payload.txt","Form ID:".$fbformid."\n",FILE_APPEND);
+        foreach ($leadGenForms as $leadGenForm) {
+            //  file_put_contents("/var/www/mauto/payload.txt","Fb Forms:".$leadGenForm[1].",Form ID:".$leadGenForm[0]."\n",FILE_APPEND);
+            if ($leadGenForm[0] == $formid) {
+                $formname =  $leadGenForm[1];
+                break;
+            }
+        }
+
+        return $formname;
+    }
 }
