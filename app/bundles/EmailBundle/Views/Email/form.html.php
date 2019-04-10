@@ -346,9 +346,13 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade in bdr-w-0 " style="margin-top:-25px;width:100%;" id="email-preview-container">
-                <div class="<?php echo (!$isbasiceditor && $customHtml != '') ? '' : 'hide'?>" id="email-content-preview" style="margin-top:2%;padding:10px;width:95%;margin-left:3%;border: 1px solid #2a323c;">
-                    <?php echo $customHtml; ?>
+            <div class="row le-email-border <?php echo (!$isbasiceditor && $customHtml != '') ? '' : 'hide'?>">
+                <div class="col-md-12">
+                    <div class="tab-pane fade in bdr-w-0 " style="margin-top:-25px;width:100%;" id="email-preview-container">
+                        <div class="<?php echo (!$isbasiceditor && $customHtml != '') ? '' : 'hide'?>" id="email-content-preview" style="margin-top:2%;padding:10px;width:95%;margin-left:3%;">
+                            <?php echo $customHtml; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br>

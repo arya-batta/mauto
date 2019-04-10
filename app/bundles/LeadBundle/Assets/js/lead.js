@@ -410,8 +410,8 @@ Le.leadlistOnLoad = function(container) {
             var filterandgroups=filterandgroupholder.children();
             if(filterandgroups.length == 0){
                 Le.addnewFilterAndGroup(prefix,'or');
-                mQuery('#leadlist_filters .list_filter_fields').trigger('change');
-                mQuery('#leadlist_filters .list_filter_fields').trigger('chosen:updated');
+                //mQuery('#leadlist_filters .list_filter_fields').trigger('change');
+                //mQuery('#leadlist_filters .list_filter_fields').trigger('chosen:updated');
             }
         }
     }
@@ -671,7 +671,7 @@ Le.addLeadListFilter = function (elId,filtergroup,glueval) {
     prototype = mQuery(prototype);
     var filterlist=mQuery(prototype).find('.list_filter_fields');
     if(filterNum == 1){
-        mQuery(filterlist).val('listoptin');
+        //mQuery(filterlist).val('listoptin');
     }
     Le.activateChosenSelect(filterlist);
     var prefix = 'leadlist';
