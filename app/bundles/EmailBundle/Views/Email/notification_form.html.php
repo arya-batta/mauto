@@ -122,7 +122,7 @@ $isgoogletags= false; //$email->getGoogletags();
                 </div>
                 <?php echo $view['form']->widget($form['fromAddress']); ?>
                 <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 100px;">
-                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:14px;margin-top:26px;height: 35px;width: 145px;" data-toggle="dropdown" href="#">
+                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:14px;margin-top:21px;width: 145px;" data-toggle="dropdown" href="#">
                         <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
@@ -150,7 +150,7 @@ $isgoogletags= false; //$email->getGoogletags();
                     <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 25px;vertical-align: super;" data-toggle="dropdown" href="#">
                         <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 23px;margin-right: 130px;">
+                    <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 25px;margin-right: 154px;">
                         <li>
                             <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
                             </div

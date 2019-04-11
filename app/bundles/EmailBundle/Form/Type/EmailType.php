@@ -96,10 +96,17 @@ class EmailType extends AbstractType
         }
         if ($options['isShortForm']) {
             $builder->add('name', 'text', [
-                'label'      => 'mautic.core.name',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control le-input'],
-                'required'   => true,
+                'label'       => 'mautic.core.name',
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control le-input'],
+                'required'    => true,
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => $message,
+                        ]
+                    ),
+                ],
             ]);
 
             $builder->add('category', 'category', [

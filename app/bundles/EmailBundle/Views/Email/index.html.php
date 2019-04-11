@@ -18,7 +18,7 @@ $view['slots']->set(
         'MauticCoreBundle:Helper:page_actions.html.php',
         [
             'templateButtons' => [
-                //'new' => $permissions['email:emails:create'],
+                'new' => $notificationemail ? $permissions['email:emails:create'] : false,
             ],
             'actionRoute' => $actionRoute,
         ]
