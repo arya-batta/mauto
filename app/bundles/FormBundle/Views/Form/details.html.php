@@ -379,7 +379,7 @@ $isadmin     =$view['security']->isAdmin();
                         <textarea id="javascipt_textarea" style="min-height: 69px;" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
                                 'le_smart_form_tracker'); ?>"&gt;&lt;/script&gt;</textarea>
                             <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;">
-                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 13px;" >
+                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 14px;" >
                                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
@@ -396,7 +396,7 @@ $isadmin     =$view['security']->isAdmin();
                                     ['id' => $activeForm->getId()]
                                 ); ?>"&gt;&lt;/script&gt;</textarea>
                             <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('javascipt_textarea');"style=" margin-top: 10px;">
-                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 13px;" >
+                            <a id="javascipt_textarea_atag" style="color:#fff;font-size: 14px;" >
                                 <i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
@@ -413,7 +413,7 @@ $isadmin     =$view['security']->isAdmin();
                                     ['id' => $activeForm->getId()]
                                 ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>
                             <button class="le-btn-default blue-theme-bg" onclick="Le.copyClipboardforms('iframe_textarea');" style=" margin-top: 10px;">
-                            <a id="iframe_textarea_atag" style="color:#fff;font-size: 13px;"><i aria-hidden="true" class="fa fa-clipboard"></i>
+                            <a id="iframe_textarea_atag" style="color:#fff;font-size: 14px;"><i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clickcopy'
                                 ); ?></a>

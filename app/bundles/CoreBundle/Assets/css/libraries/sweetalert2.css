@@ -691,7 +691,7 @@ body.swal2-no-backdrop .swal2-shown {
     margin: 0 0 0.4em;
     padding: 0;
     color: #595959;
-    font-size: 1.875em;
+    font-size: 1.375em;
     font-weight: 600;
     text-align: center;
     text-transform: none;
@@ -949,7 +949,7 @@ body.swal2-no-backdrop .swal2-shown {
   justify-content: center;
   width: 5em;
   height: 5em;
-  margin: 1.25em auto 1.875em;
+  margin: 1.25em auto 1.25em;
   border: .25em solid transparent;
   border-radius: 50%;
   line-height: 5em;
@@ -961,7 +961,7 @@ body.swal2-no-backdrop .swal2-shown {
           user-select: none;
   zoom: normal; }
   .swal2-icon-text {
-    font-size: 3.75em; }
+    font-size: 3em; }
   .swal2-icon.swal2-error {
     border-color: #f27474; }
     .swal2-icon.swal2-error .swal2-x-mark {

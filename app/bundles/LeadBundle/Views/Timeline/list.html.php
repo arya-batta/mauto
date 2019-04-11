@@ -164,7 +164,7 @@ $baseUrl = $view['router']->path(
                                     </span>
                                     <div class="timeline-event-title mg-0">
                                         <div class="le-text-ellipsis">
-                                            <a style="color: #47535f !important;text-decoration:none;font-weight:700;font-size:13px;cursor:text;">
+                                            <a style="color: #47535f !important;text-decoration:none;font-weight:700;font-size:14px;cursor:text;">
                                                 <div style="    margin-top: -5px;z-index: 1000000000;">
                                                     <?php if (isset($event['eventType'])) {
                                     echo $event['eventType'];

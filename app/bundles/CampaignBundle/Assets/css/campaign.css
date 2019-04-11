@@ -305,7 +305,7 @@
     border: 1px solid transparent;
     white-space: nowrap;
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.3856;
     border-radius: 3px;
     -webkit-user-select: none;
@@ -717,4 +717,25 @@
 
 .workflow-canvas .wf-fork-primary-label .wf-fork-icon {
     fill: #3292e0;
+}
+.campaign-zoom-button-div{
+    width: 35px;
+    z-index: 1031;
+    position: fixed;
+    background: #e6e6e6;
+    margin-left: -3%;
+}
+.campaign-zoom-button-div .zoom-text{
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    color: #666;
+}
+.campaign-zoom-button-div .zoom-btn{
+    width: 30px;
+    margin-left: 2px;
+    background: #fff;
+    border: none;
+    margin-bottom: 1px;
+    font-size: 20px;
 }

@@ -15,7 +15,7 @@ $isAdmin=$view['security']->isAdmin();
 ?>
 <div class="newbutton-container <?php echo $notificationemail ? 'hide' : ''?>" style="margin-top:-25px;position:relative;top:-40px;margin-right:15px;">
     <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
-        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 13px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
+        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
             <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.email.new')?></span></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">

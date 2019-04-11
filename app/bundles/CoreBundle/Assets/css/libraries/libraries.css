@@ -2766,7 +2766,7 @@ select[multiple].input-lg {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.3856;
   border-radius: 3px;
   -webkit-user-select: none;
@@ -3584,7 +3584,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1;
   color: #596776;
@@ -3598,7 +3598,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .le-input-group-addon {
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1;
   color: #596776;
@@ -8990,7 +8990,7 @@ button.close {
 }
 .chosen-container {
   display: inline-block;
-  font-size: 13px;
+  font-size: 14px;
   position: relative;
   vertical-align: middle;
 }
@@ -13832,7 +13832,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 13px;
+  font-size: 14px;
   background-color: #ffffff;
   border: 1px solid #eeeeee;
   border: 1px solid rgba(0, 0, 0, 0.06);

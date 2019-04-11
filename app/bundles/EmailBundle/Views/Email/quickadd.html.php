@@ -10,7 +10,7 @@
  */
 
 ?>
-<p><h4 style="font-size: 13px;margin-top: -32px;margin-bottom: 24px;font-weight: normal"><?php echo $view['translator']->trans('le.email.quickadd.new.add.desc'); ?></h4></p>
+<p><h4 style="font-size: 14px;margin-top: -32px;margin-bottom: 24px;font-weight: normal"><?php echo $view['translator']->trans('le.email.quickadd.new.add.desc'); ?></h4></p>
 <?php echo $view['form']->start($form); ?>
     <div class="row">
     <div class="col-md-12">

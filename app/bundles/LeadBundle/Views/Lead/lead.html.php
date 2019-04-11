@@ -375,7 +375,7 @@ $view['slots']->set(
                                                           $linkType       = 'target="_new"';
                                                           $string         = (strlen($event['url']) > 74) ? substr($event['url'], 0, 74).'....' : $event['url'];
                                                           $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
-                                                          <h5 class="mt-xs mr-xs" style="font-size: 13px;font-weight: 300;">
+                                                          <h5 class="mt-xs mr-xs" style="font-size: 14px;font-weight: 300;">
                                                               <b><?php echo $event['pagehits'].'x '?></b>
                                                               <?php echo $eventLabel.'<br>'?>
                                                           </h5>

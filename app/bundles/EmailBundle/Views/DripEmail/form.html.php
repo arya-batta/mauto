@@ -130,7 +130,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             <div class="drip-email-button-container" style="margin-top:-65px;float:right;">
                 <div class="newbutton-container">
                     <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
-                        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 13px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
+                        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
                             <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
@@ -190,7 +190,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             </div>
                             <div class="col-md-2" style="right:25px;">
                                 <li class="dropdown dropdown-menu-right" style="display: block;">
-                                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 25px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 14px;top: 25px;vertical-align: super;" data-toggle="dropdown" href="#">
                                         <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-left" style="margin-top: 21px;">
@@ -411,7 +411,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 </div>
                                 <div>
                                     <li class="dropdown dropdown-menu-right" style="display: block;">
-                                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 13px;top: 25px;vertical-align: super;" data-toggle="dropdown" href="#">
+                                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 14px;top: 25px;vertical-align: super;" data-toggle="dropdown" href="#">
                                             <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">

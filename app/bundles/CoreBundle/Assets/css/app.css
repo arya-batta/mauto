@@ -255,7 +255,7 @@ body > #app-wrapper {
   background: rgba(153,153,153,.2);
   border: none;
   margin: 0px 0px 11px 0px;
-  font-size: 13px;
+  font-size: 14px;
   /*font-family: 'Open Sans','Helvetica', 'Arial','sans-serif';*/
   font-weight: 600;
   position: relative;
@@ -270,7 +270,7 @@ body > #app-wrapper {
   background: #3795e1;
   border: none;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.2;
   font-weight: 500;
   padding: 3px 7px 3px 8px;
@@ -284,7 +284,7 @@ body > #app-wrapper {
   background: rgba(153,153,153,.2);
   border: none;
   margin: 0px 0px 11px 0px;
-  font-size: 13px;
+  font-size: 14px;
   /*font-family: 'Open Sans','Helvetica', 'Arial','sans-serif';*/
   font-weight: 600;
   position: relative;
@@ -302,7 +302,7 @@ body > #app-wrapper {
   border-radius: 8px;
   /*font-family: 'Open Sans','Helvetica', 'Arial','sans-serif';*/
   text-shadow: none;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.2;
   font-weight: 500;
   padding: 3px 7px 3px 8px;
@@ -767,7 +767,7 @@ body > #app-wrapper {
   margin-left: 0;
   top: -1px;
   display: block;
-  font-size: 14.5px;
+  font-size: 14px;
 }
 .app-sidebar .nav-sidebar > .nav > li > a .icon {
   font-size: 16px;
@@ -1208,7 +1208,7 @@ h6,
   white-space: nowrap;
 }
 .fs-base {
-  font-size: 13px;
+  font-size: 14px;
 }
 .fs-2 {
   font-size: 2px !important;
@@ -1644,7 +1644,7 @@ blockquote > p:after {
   margin-bottom: 5px;
 }
 .alert-growl .close {
-  font-size: 13px;
+  font-size: 14px;
   color: #3292e0;
   margin-left: 10px;
 }
@@ -1656,7 +1656,7 @@ blockquote > p:after {
   text-decoration: underline;
 }
 .alert .close {
-  font-size: 13px;
+  font-size: 14px;
   margin-left: 10px;
 }
 .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default,
@@ -2824,7 +2824,7 @@ ul.line-legend li {
 .panel-footer {
   overflow: hidden;
   background-color: #fff;
-  font-size: 13px;
+  font-size: 14px;
 }
 .panel-toolbar-wrapper {
   display: block;
@@ -5079,7 +5079,7 @@ figcaption {
   background-color: #3292e0;
   color: #FFFFFF;
   border: 1px solid !important;
-  font-size: 13px;
+  font-size: 14px;
   padding: 10px 10px;
 }
 .cancel-subscription:hover{
@@ -5213,7 +5213,7 @@ figcaption {
   padding: 15px;
   height: 300px;
   overflow-y: scroll;
-  font-size: 13px;
+  font-size: 14px;
   color: #333;
 }
 .control {
@@ -5468,7 +5468,7 @@ figcaption {
   border: none;
   border-radius: 8px;
   text-shadow: none;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.2;
   font-weight: 500;
   padding: 3px 7px 1.5px 8px;
@@ -5684,7 +5684,7 @@ figcaption {
 .info-box-number {
   display: block;
   font-weight: bold;
-  font-size: 21px;
+  font-size: 20px;
   line-height: 30px;
 }
 .info-box-icon{
@@ -5830,7 +5830,7 @@ figcaption {
   font-size: 82px;
 }
 .le-email-editor-desc{
-  font-size: 13px;
+  font-size: 14px;
   color: #666;
   margin-bottom: 15px;
 }
@@ -7705,10 +7705,10 @@ ul.list-unstyled, ul#list-unstyled  {
   color:#000000 !important;
 }
 .custom-font-primary{
-  font-size:13px;
+  font-size:14px;
 }
 .timeline-event-title{
- font-size: 13px;
+ font-size: 14px;
 }
 .choice-wrapper .help-block{
   float:left;

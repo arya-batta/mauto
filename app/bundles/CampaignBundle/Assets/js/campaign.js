@@ -1977,3 +1977,38 @@ Le.setStatisticsBtn  = function() {
         mQuery('#campaign_showAnalytics_0').parent().removeClass('btn-default').addClass(' btn-danger active');
     }
 }
+Le.currentZoom = 1;
+Le.zoomIn = function(){
+    try{
+        if(Le.currentZoom < 1){
+            Le.currentZoom+=0.25;
+            mQuery('.workflow-canvas').css({
+                'transform': "scale("+Le.currentZoom+")",
+                'transform-origin': "top center",
+            '-moz-transform': "scale("+Le.currentZoom+")",
+            '-moz-transform-origin': "top center",
+            });
+            mQuery('.campaign-zoom-button-div .zoom-percentage').text((Le.currentZoom*100)+"%");
+        }
+    }catch(err){
+      alert(err);
+    }
+
+}
+Le.zoomOut = function(){
+    try{
+        if(Le.currentZoom > 0.25){
+            Le.currentZoom-=0.25;
+            mQuery('.workflow-canvas').css({
+                'transform': "scale("+Le.currentZoom+")",
+                'transform-origin': "top center",
+            '-moz-transform' : "scale("+Le.currentZoom+")",
+            '-moz-transform-origin' : "top center",
+        });
+            mQuery('.campaign-zoom-button-div .zoom-percentage').text((Le.currentZoom*100)+"%");
+        }
+    }catch(err){
+        alert(err);
+    }
+
+}

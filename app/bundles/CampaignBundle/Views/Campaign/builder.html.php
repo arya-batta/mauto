@@ -27,6 +27,16 @@ if ($entity->isPublished()) {
     $wfstate     ='true';
 }
 ?>
+<div class="campaign-zoom-button-div">
+            <span class="zoom-text">zoom</span>
+            <button type="button" class="zoom-btn waves-effect" onclick="Le.zoomIn();">
+                +
+            </button>
+            <button type="button" class="zoom-btn waves-effect" onclick="Le.zoomOut();">
+                -
+            </button>
+                    <span class="zoom-text zoom-percentage">100%</span>
+</div>
 <div class="hide builder campaign-builder live">
     <div class="btns-builders custom-campaign-builder">
         <?php echo $view['form']->start($form); ?>
