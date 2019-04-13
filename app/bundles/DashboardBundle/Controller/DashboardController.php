@@ -63,10 +63,15 @@ class DashboardController extends FormController
                 $kyc = new KYC();
             }
             $step = '';
-            if ($account->getPhonenumber() == '') {
+            /*if ($account->getPhonenumber() == '') {
                 $step = 'flname';
             } elseif ($account->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
                 $step = 'aboutyourbusiness';
+            } elseif ($billing->getCompanyaddress() == '' || $billing->getCity() == '') {
+                $step = 'addressinfo';
+            }*/
+            if ($account->getPhonenumber() == '' || $account->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+                $step = 'flname';
             } elseif ($billing->getCompanyaddress() == '' || $billing->getCity() == '') {
                 $step = 'addressinfo';
             }

@@ -56,7 +56,7 @@ class ConfigController extends FormController
                 'fileFields' => $fileFields,
             ]
         );
-
+        $selecttab = $this->request->get('step', 'emailconfig');
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator   = $this->get('mautic.configurator');
         $isWritabale    = $configurator->isFileWritable();
@@ -260,6 +260,7 @@ class ConfigController extends FormController
                     'verifiedEmails' => $awsemailstatus,
                     'lastPayment'    => $lastpayment,
                     'EmailList'      => $emailModel->getAllEmailAddress(),
+                    'selectTab'      => $selecttab,
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

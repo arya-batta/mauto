@@ -990,6 +990,7 @@ class EmailCampaignController extends FormController
             // Force type to template
             $entity->setEmailType('list');
         }
+        $entity->setGoogleTags(false);
         /** @var Form $form */
         $form = $model->createForm($entity, $this->get('form.factory'), $action, ['update_select' => $updateSelect, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => false]);
 
@@ -1241,6 +1242,7 @@ class EmailCampaignController extends FormController
             }
 
             $entity      = clone $entity;
+            $entity->setIsPublished(true);
             $session     = $this->get('session');
             $contentName = 'mautic.emailbuilder.'.$entity->getSessionId().'.content';
 

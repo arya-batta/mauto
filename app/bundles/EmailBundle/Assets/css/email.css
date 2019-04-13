@@ -198,3 +198,7 @@
     min-height: 70px;
     background-color: #f5f5f5;
 }
+.analyticsconfig .nav-tabs > li.active > a{
+    color: #fff !important;
+    background-color: #3292e0;
+}

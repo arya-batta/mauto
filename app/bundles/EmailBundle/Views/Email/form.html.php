@@ -526,7 +526,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
+                            <div class="row hide">
                                 <div class="col-md-12">
                                     <?php echo $view['form']->row($form['google_tags']); ?>
                                 </div>

@@ -384,10 +384,34 @@ class BuilderSubscriber extends CommonSubscriber
             $email = $this->emailModel->getEntity($emailId);
         }
 
-        $utmTags      = $email->getUtmTags();
-        $clickthrough = $event->generateClickthrough();
-        $trackables   = $this->parseContentForUrls($event, $emailId);
-
+        $utmTags          = $email->getUtmTags();
+        $clickthrough     = $event->generateClickthrough();
+        $trackables       = $this->parseContentForUrls($event, $emailId);
+        $emailType        = $email->getEmailType();
+        $utmsource        = $this->coreParametersHelper->getParameter($emailType.'_source');
+        $utmmedium        = $this->coreParametersHelper->getParameter($emailType.'_medium');
+        $utmcampaign      = $this->coreParametersHelper->getParameter($emailType.'_campaignname');
+        $utmcontent       = $this->coreParametersHelper->getParameter($emailType.'_content');
+        $analyticsstatus  = $this->coreParametersHelper->getParameter('analytics_status');
+        $utmcampaignvalue = $email->getSubject();
+        $utmcontentvalue  = $email->getSubject();
+        if ($utmcampaign == '{campaign_name}') {
+            $utmcampaignvalue = $email->getName();
+        }
+        if ($utmcontent == '{campaign_name}') {
+            $utmcontentvalue = $email->getName();
+        }
+        if ($analyticsstatus) {
+            $utmTags['utmSource']   = $utmsource;
+            $utmTags['utmMedium']   = $utmmedium;
+            $utmTags['utmCampaign'] = $utmcampaignvalue;
+            $utmTags['utmContent']  = $utmcontentvalue;
+        } else {
+            $utmTags['utmSource']   = '';
+            $utmTags['utmMedium']   = '';
+            $utmTags['utmCampaign'] = '';
+            $utmTags['utmContent']  = '';
+        }
         /**
          * @var string
          * @var Trackable $trackable

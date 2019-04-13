@@ -87,7 +87,7 @@
             border-radius: 3px;
         }
         .selop{
-            width: 99%;
+            width: 104%;
             margin-bottom: 20px;
             padding: 16px;
             border: 1px solid #ccc;
@@ -112,6 +112,11 @@
             border-radius: 3px;
             cursor: pointer;
             font-size: 17px;
+            padding-left:30px;
+            padding-right: 30px;
+            font-family: "Graphik Web","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
+            line-height: 18px;
+            font-weight: normal;
         }
         .btn:hover {
             background-color: #3292e0;
@@ -201,13 +206,16 @@
         .welcome-container{
             padding-left:34%;
         }
-        #welcome_websiteurl, #welcome_industry, #welcome_currentesp{
-            width:88%;
+        #welcome_websiteurl, #welcome_currentesp{
+            /*width:88%;*/
         }
         #select_emailvol{
             width:98%;
         }
         .websiteurl_error, .industry_error, .currentesp_error{
+        }
+        .firsttab .selop{
+            width: 104%;
         }
     </style>
 
@@ -224,7 +232,7 @@
             <a href="#" class="bs-wizard-dot"></a>
         </div>
 
-        <div class="col-xs-1 welcome-page-col-1 bs-wizard-step <?php echo $step == 'aboutyourbusiness' ? 'complete' : 'disabled'; ?>"><!-- complete -->
+        <div class="col-xs-1 welcome-page-col-1 hide bs-wizard-step <?php echo $step == 'aboutyourbusiness' ? 'complete' : 'disabled'; ?>"><!-- complete -->
             <a href="#" class="bs-wizard-dot"></a>
         </div>
 
@@ -241,7 +249,7 @@
     <div class="container-header">
         <div class="for-step1 <?php echo $step == 'flname' ? '' : 'hide'; ?>">
             <h2 class="head2">Welcome to AnyFunnels</h2>
-            <p class="para">Alright, let's set this up! Tell us a bit about yourself.</p>
+            <p class="para">Alright, let's set this up! Tell us a bit about yourself and your business.</p>
 
         </div>
         <div class="for-step2 <?php echo $step == 'aboutyourbusiness' ? '' : 'hide'; ?>">
@@ -260,40 +268,113 @@
         <form novalidate="" autocomplete="false" data-toggle="ajax" role="form" name="welcome" method="post" action="<?php echo $view['router']->generate('le_welcome_action', ['step' => $step]); ?>">
             <div class="container">
                 <div class="part1 <?php echo $step == 'flname' ? '' : 'hide'; ?>">
-                    <label for="fname">First Name</label>
-                    <input type="text" id="welcome_firstname" class="welcome-input-text-1 firstname" name="welcome[firstname]" value="<?php echo $user->getFirstName()?>">
-                    <p class="error_tag firstname_error hide">First name can't be empty</p>
-                    <br>
-                    <label for="lname">Last Name</label>
-                    <input type="text" id="welcome_lastname" class="welcome-input-text-1 lastname" name="welcome[lastname]" value="<?php echo $user->getLastName()?>">
-                    <p class="error_tag lastname_error hide"></p>
-                    <br>
-                    <label for="phone">Mobile</label>
-                    <input type="tel" id="welcome_phone" class="welcome-input-text-1 phone" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
-                    <p class="error_tag phone_error hide">Please provide a valid mobile number.</p>
-                    <br>
-                </div>
-
-                <div class="part2 <?php echo $step == 'aboutyourbusiness' ? '' : 'hide'; ?>">
-
-                    <label for="businessname">What's your name of your business?</label>
-                    <input type="text" id="welcome_business" class="welcome-input-text-2 business" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
-                    <p class="error_tag business_error hide">The Business name can't be empty</p>
-                    <br>
-
+                    <div class="hide">
+                        <label for="lname">Name</label>
+                        <input type="text" id="welcome_lastname" class="welcome-input-text-1 lastname" name="welcome[lastname]" value="<?php echo $user->getLastName()?>">
+                        <p class="error_tag lastname_error hide"></p>
+                        <br>
+                    </div>
                     <div class="twotab">
                         <div class="firsttab">
+                            <label for="fname">Name</label>
+                            <input type="text" id="welcome_firstname" class="welcome-input-text-1 firstname" name="welcome[firstname]" value="<?php echo $user->getFirstName()?>">
+                            <p class="error_tag firstname_error hide">Name can't be empty</p>
+                        </div>
+
+                        <div class="secondtab">
+                            <label for="phone">Mobile (with country code)</label>
+                                <input placeholder="e.g. +1-866-832-0000" type="tel" id="welcome_phone" class="welcome-input-text-1 phone" name="welcome[phone]" value="<?php echo $user->getMobile()?>">
+                            <p class="error_tag phone_error hide" >Please provide a valid mobile number.</p>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="twotab">
+                        <div class="firsttab">
+                            <label for="businessname">What's your name of your business?</label>
+                            <input type="text" id="welcome_business" class="welcome-input-text-2 business" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
+                            <p class="error_tag business_error hide">The Business name can't be empty</p>
+                        </div>
+                        <div class="secondtab">
                             <label for="weburl">What's your website URL?</label>
                             <input type="url" id="welcome_websiteurl" class="welcome-input-text-2 website_url" name="welcome[websiteurl]" value="<?php echo $account->getWebsite(); ?>">
                             <p class="error_tag website_error hide">Please provide a valid mobile number</p>
                             <br>
                         </div>
-                        <div class="secondtab-page2">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="twotab">
+                        <div class="firsttab">
                             <label for="industry">What industry are you in?</label>
-                            <input type="text" id="welcome_industry" class="welcome-input-text-2 industry" name="welcome[industry]" value="<?php echo $kyc->getIndustry(); ?>">
-                            <p class="error_tag industry_error hide">The Industry can't be empty</p>
+                            <select name="welcome[industry]" id="welcome_industry" class="selop">
+                                <option value="blank">Select one</option>
+                                <option value="Business_Services">Business Services</option>
+                                <option value="Blogger/Affiliate">Blogger / Affiliate</option>
+                                <option value="Consulting/Advisory">Consulting / Advisory</option>
+                                <option value="E-Comm/Retail">E-Comm / Retail</option>
+                                <option value="Education/Training">Education / Training</option>
+                                <option value="Entertainment/Events">Entertainment / Events</option>
+                                <option value="Finance/Insurance">Finance / Insurance</option>
+                                <option value="Fitness/Nutrition">Fitness / Nutrition</option>
+                                <option value="Health/Medical">Health / Medical</option>
+                                <option value="HR/Recruitment">HR / Recruitment</option>
+                                <option value="Manufacturing/Industrial">Manufacturing / Industrial</option>
+                                <option value="Media/Publishing">Media / Publishing</option>
+                                <option value="Marketing Agency/Services">Marketing Agency / Services</option>
+                                <option value="Non-Profit/Charity">Non-Profit / Charity</option>
+                                <option value="Real_Estate/Construction">Real Estate / Construction</option>
+                                <option value="Software/SaaS/Technology">Software / SaaS/Technology</option>
+                                <option value="Travel/Hospitality">Travel / Hospitality</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            <p class="error_tag industry_error hide">Industry can't be empty</p>
+                        </div>
+                        <div class="secondtab">
+                            <label for="empcount">What's your company size</label>
+                            <select name="welcome[empcount]" class="selop" id="select_empcount">
+                                <option value="blank">Select one</option>
+                                <option value="1">1 (Only me)</option>
+                                <option value="5">2-5</option>
+                                <option value="15">6-15</option>
+                                <option value="50">16-50</option>
+                                <option value="250">51-250</option>
+                                <option value="1000">251-1000</option>
+                                <option value="1000+">1000+</option>
+                            </select>
+                            <p class="error_tag empcount_error hide">Company size can't be empty</p>
                         </div>
                     </div>
+                    <br>
+                    <br>
+                    <div class="twotab">
+                        <div class="firsttab">
+                            <label for="listsize">How large is your current list</label>
+                            <select name="welcome[listsize]" class="selop" id="select_listsize">
+                                <option value="blank">Select one</option>
+                                <option value="500"><500</option>
+                                <option value="2500">1,000 - 2,500</option>
+                                <option value="5000">2,500 - 5,000</option>
+                                <option value="10k">5,000 - 10,000</option>
+                                <option value="25k">10,000 - 25,000</option>
+                                <option value="50k">25,000 - 50,000</option>
+                                <option value="1l">50,000 - 100,000</option>
+                                <option value="2.5l">100,000 - 250,000</option>
+                                <option value="2.5+">>250,000</option>
+                            </select>
+                            <p class="error_tag listsize_error hide">Current list can't be empty</p>
+                        </div>
+                        <div class="secondtab">
+                            <label for="esp">Current email marketing platform?</label>
+                            <input type="text" id="welcome_currentesp" class="welcome-input-text-2 currentesp" placeholder="e.g. Mailchimp" name="welcome[currentesp]"  value="<?php echo $kyc->getPrevioussoftware(); ?>">
+                            <p class="error_tag currentesp_error hide">Current email marketing platform can't be empty</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="part2 hide">
                     <div class="hide">
                     <br>
                     <label for="org_experience">How old is your organization?</label>
@@ -305,39 +386,10 @@
                         <option value="10">6 to 10 Years</option>
                         <option value="11">11+ Years</option>
                     </select>
-                    <br>
-                    <br>
-                    <label for="empcount">How many people work for your organization?</label>
-                    <select name="welcome[empcount]" class="selop" id="select_empcount">
-                        <option value="blank">Choose One</option>
-                        <option value="5">01-05</option>
-                        <option value="20">06-20</option>
-                        <option value="50">21-50</option>
-                        <option value="100">51-100</option>
-                        <option value="500">101-500</option>
-                        <option value="1000">501-1000</option>
-                        <option value="1000+">1000+</option>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="listsize">How many leads (subscribers) do you have?</label>
-                    <select name="welcome[listsize]" class="selop" id="select_listsize">
-                        <option value="blank">Choose One</option>
-                        <option value="5k">Less than 5K</option>
-                        <option value="10k">5K to 10K</option>
-                        <option value="25k">10K to 25K</option>
-                        <option value="50k">25K to 50K</option>
-                        <option value="1l">50K to 1 L</option>
-                        <option value="1l+">More than 1 L</option>
-                    </select>
-                    <br>
                     </div>
-                    <br>
                     <div class="twotab">
                         <div class="firsttab">
-                            <label for="esp">Current email marketing platform?</label>
-                            <input type="text" id="welcome_currentesp" class="welcome-input-text-2 currentesp" name="welcome[currentesp]"  value="<?php echo $kyc->getPrevioussoftware(); ?>">
-                            <p class="error_tag currentesp_error hide">Current email marketing platform can't be empty</p>
+
                         </div>
                         <div class="secondtab-page2">
                             <label for="emailvol">Emails you send monthly? </label>
@@ -359,13 +411,13 @@
                 <div class="part3 <?php echo $step == 'addressinfo' ? '' : 'hide'; ?>">
 
                     <label for="adr"> Address line 1 (Street address or post office box)</label>
-                    <input type="text" id="welcome_address" class="welcome-input-text-3 address" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>">
+                    <input type="text" style="width:97%;" id="welcome_address" class="welcome-input-text-3 address" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>">
                     <p class="error_tag address_error hide">Address line 1 can't be empty</p><br>
-                    <label for="adr"> Address line 2 (Optional)</label>
-                    <input type="text" id="adr" name="welcome[address-line-2]" ><br>
-
-
-
+                    <div class="hide">
+                        <label for="adr"> Address line 2 (Optional)</label>
+                        <input type="text" id="adr" name="welcome[address-line-2]" ><br>
+                    </div>
+                    <br>
                     <div class="twotab">
                         <div class="firsttab">
                             <label for="city"> City</label>
@@ -4277,11 +4329,12 @@
                         </div>
                     </div>
 
-
+                    <br>
+                    <br>
 
                     <div class="twotab">
                         <div class="firsttab">
-                            <label for="zip">Zip</label>
+                            <label for="zip">Zip/ Postal Code</label>
                             <input type="text" id="welcome_zip" class="welcome-input-text-3 zip" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>">
                             <p class="error_tag zip_error hide">Zip/ Postal code can't be empty</p>
                             <br></div>
@@ -4490,13 +4543,14 @@
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
 
-                        </div></div>
-
+                        </div>
+                    </div>
+                    <br>
                     <br>
                     <div class="twotab">
                         <div class="firsttab">
                             <label for="timezone">Timezone</label>
-                            <select name="welcome[timezone]" class="selop" id="selecttimezone">
+                            <select style="width:100%;" name="welcome[timezone]" class="selop" id="selecttimezone">
                                 <option value="blank">Choose Your Timezone</option>
                                 <option value="Africa/Abidjan">(GMT+00:00)-Africa/Abidjan</option>
                                 <option value="Africa/Accra">(GMT+00:00)-Africa/Accra</option>
@@ -4903,20 +4957,20 @@
                             </select>
                         </div>
 
-                        <div class="secondtab">
+                        <div class="secondtab hide">
                             <label for="taxid">Tax Id (Optional)</label>
                             <input type="text" id="welcome_taxid" name="welcome[taxid]" >
                             <br>
                         </div>
-
                     </div>
-
                 </div>
                 <div>
+                    <br>
                 <div style="width:50%;float:left;">
-                    <input type="submit" id="continue-btn" class="btn" value="<?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?>">
+                    <input type="submit" id="submit-continue-btn" class="btn hide" value="<?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?>">
+                    <a id="continue-btn" onclick="Le.validateFirstTimeSetup();" class="btn" ><?php echo $step == 'addressinfo' ? 'Update my profile' : 'Continue'?></a>
                 </div>
-                <div class="welcome-page-footer" style="width: 50%;float: right;text-align: right;">
+                <div class="welcome-page-footer hide" style="width: 50%;float: right;text-align: right;">
                     <p>©2019 AnyFunnels, All Rights Reserved<br>
                         <a href="http://anyfunnels.com/anti-spam-policy/" target="_blank">Anti Spam Policy</a>, <a href="http://anyfunnels.com/terms-of-service/" target="_blank">Terms of Service</a></p>
 
@@ -4925,7 +4979,15 @@
             </div>
 
         </form>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 
 </div>
@@ -4942,10 +5004,11 @@
     mQuery("#selecttimezone option[value='<?php echo $timezone; ?>']").attr('selected','selected');
     mQuery("#selectcountry option[value='<?php echo $country; ?>']").attr('selected','selected');
     mQuery("#selectstate option[value='<?php echo $state; ?>']").attr('selected','selected');
-    mQuery("#select_emailvol option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
+    //mQuery("#select_emailvol option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
+    mQuery("#welcome_industry option[value='<?php echo $kyc->getIndustry(); ?>']").attr('selected','selected');
     mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribersource(); ?>']").attr('selected','selected');
     mQuery("#select_empcount option[value='<?php echo $kyc->getUsercount(); ?>']").attr('selected','selected');
-    mQuery("#select_org_year option[value='<?php echo $kyc->getYearsactive(); ?>']").attr('selected','selected');
+    //mQuery("#select_org_year option[value='<?php echo $kyc->getYearsactive(); ?>']").attr('selected','selected');
 </script>
 </body>
 </html>

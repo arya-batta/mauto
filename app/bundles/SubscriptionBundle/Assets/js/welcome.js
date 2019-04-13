@@ -6,32 +6,32 @@ Le.welcomeOnLoad = function() {
         if(firstname == "" || phone == ""){
             if(mQuery(this).hasClass('firstname') && firstname == ""){
                 mQuery(".firstname_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('firstname') && firstname != ""){
-                mQuery(".firstname_error").addClass('hide');
-            }
+            } //else if (mQuery(this).hasClass('firstname') && firstname != ""){
+               // mQuery(".firstname_error").addClass('hide');
+            //}
             if (mQuery(this).hasClass('phone') && phone == ""){
                 mQuery(".phone_error").text('');
                 mQuery(".phone_error").text("Please provide a valid mobile number.");
                 mQuery(".phone_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('phone') && phone != "" && (/^[0-9]+$/.test(phone))){
+            } /*else if (mQuery(this).hasClass('phone') && phone != "" && (/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").addClass('hide');
             } else if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").removeClass('hide');
                 mQuery(".phone_error").text('');
                 mQuery(".phone_error").text("Please provide a valid mobile number.");
-            }
+            }*/
             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
         } else {
-            if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
+            /*if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
                 mQuery(".phone_error").removeClass('hide');
                 mQuery(".phone_error").text('');
                 mQuery(".phone_error").text("Please provide a valid mobile number.");
                 mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-            } else {
-                mQuery(".firstname_error").addClass('hide');
-                mQuery(".phone_error").addClass('hide');
-                mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
-            }
+            } */
+            mQuery(".firstname_error").addClass('hide');
+            mQuery(".phone_error").addClass('hide');
+            mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
+
         }
     });
     mQuery('.welcome-input-text-2').on('input focusout', function() {
@@ -134,7 +134,7 @@ Le.welcomeOnLoad = function() {
             mQuery('#continue-btn').attr('disabled',false).removeClass('btn-disabled');
         }
     }
-    if(!mQuery('.part2').hasClass('hide')) {
+    if(!mQuery('.part1').hasClass('hide')) {
         var business = mQuery("#welcome_business").val();
         var website = mQuery("#welcome_websiteurl").val();
         var industry = mQuery("#welcome_industry").val();
@@ -163,5 +163,32 @@ Le.IsProperURL = function(url){
         return true;
     } else {
         return false;
+    }
+};
+
+Le.validateFirstTimeSetup = function(){
+    var industry = mQuery("#welcome_industry").val();
+    var empcount = mQuery("#select_empcount").val();
+    var listsize = mQuery("#select_listsize").val();
+    mQuery(".industry_error").addClass('hide');
+    mQuery(".empcount_error").addClass('hide');
+    mQuery(".listsize_error").addClass('hide');
+    mQuery("#continue-btn").text('Please wait...');
+    var isvalid = true;
+    if(industry == "blank"){
+        isvalid = false;
+        mQuery(".industry_error").removeClass('hide');
+    }
+    if(empcount == "blank"){
+        isvalid = false;
+        mQuery(".empcount_error").removeClass('hide');
+    }
+    if(listsize == "blank"){
+        isvalid = false;
+        mQuery(".listsize_error").removeClass('hide');
+    }
+    if(isvalid){
+        var bgSaveBtn = mQuery('#submit-continue-btn');
+        bgSaveBtn.trigger('click');
     }
 };

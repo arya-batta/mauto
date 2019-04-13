@@ -530,10 +530,21 @@ class SubscriptionController extends CommonController
             $data = $this->request->request->get('welcome');
             if ($stepstring == 'flname') {
                 $userEntity->setFirstName($data['firstname']);
-                $userEntity->setLastName($data['lastname']);
+                //$userEntity->setLastName($data['lastname']);
                 $userEntity->setMobile($data['phone']);
                 $accountEntity->setPhonenumber($data['phone']);
+                $accountEntity->setWebsite($data['websiteurl']);
+                $accountEntity->setAccountname($data['business']);
+                $accountModel->saveEntity($accountEntity);
                 $accountEntity->setEmail($userEntity->getEmail());
+                $billingEntity->setCompanyname($data['business']);
+                $billingmodel->saveEntity($billingEntity);
+                $kyc->setIndustry($data['industry']);
+                //$kyc->setSubscribercount($data['emailvol']);
+                $kyc->setUsercount($data['empcount']);
+                $kyc->setSubscribersource($data['listsize']);
+                $kyc->setPrevioussoftware($data['currentesp']);
+                $kycmodel->saveEntity($kyc);
                 $signupinfo     =$repository->getSignupInfo($userEntity->getEmail());
                 if (!empty($signupinfo)) {
                     $accountEntity->setDomainname($signupinfo[0]['f5']);
@@ -544,31 +555,18 @@ class SubscriptionController extends CommonController
                 $signupData          = $data;
                 $signupData['email'] = $userEntity->getEmail();
                 $signuprepository->updateSignupUserInfo($signupData);
-
-                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => 'aboutyourbusiness']));
-            } elseif ($stepstring == 'aboutyourbusiness') {
-                $accountEntity->setWebsite($data['websiteurl']);
-                $accountEntity->setAccountname($data['business']);
-                $accountModel->saveEntity($accountEntity);
-                $billingEntity->setCompanyname($data['business']);
-                $billingmodel->saveEntity($billingEntity);
-                $kyc->setIndustry($data['industry']);
-                //$kyc->setUsercount($data['empcount']);
-                //$kyc->setYearsactive($data['org_experience']);
-                $kyc->setSubscribercount($data['emailvol']);
-                //$kyc->setSubscribersource($data['listsize']);
-                $kyc->setPrevioussoftware($data['currentesp']);
-                $kycmodel->saveEntity($kyc);
                 $businessData          = $data;
                 $businessData['email'] = $userEntity->getEmail();
                 $signuprepository->updateSignupUserBusinessInfo($businessData);
 
                 return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => 'addressinfo']));
+            } elseif ($stepstring == 'aboutyourbusiness') {
+                return $this->delegateRedirect($this->generateUrl('le_welcome_action', ['step' => 'addressinfo']));
             } elseif ($stepstring == 'addressinfo') {
                 $address = $data['address-line-1'];
-                if ($data['address-line-2'] != '') {
-                    $address = $address.', '.$data['address-line-2'];
-                }
+                //if ($data['address-line-2'] != '') {
+                //    $address = $address.', '.$data['address-line-2'];
+                //}
                 $billingEntity->setCompanyname($accountEntity->getAccountname());
                 $billingEntity->setCompanyaddress($address);
                 $billingEntity->setCity($data['city']);
@@ -593,7 +591,7 @@ class SubscriptionController extends CommonController
                         $configurator->write();
                     }
                     if ($address != '') {
-                        $postaladdress = $address.', '.$data['zip'].', '.$data['city'].', '.$data['state'].', '.$data['country'];
+                        $postaladdress = $address.', '.$data['city'].' - '.$data['zip'].'. '.$data['state'].', '.$data['country'].'.';
                         $configurator->mergeParameters(['postal_address' => $postaladdress]);
                         $configurator->write();
                     }
@@ -601,6 +599,17 @@ class SubscriptionController extends CommonController
 
                 return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
             }
+        }
+
+        $step = '';
+        if ($accountEntity->getPhonenumber() == '' || $accountEntity->getAccountname() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $accountEntity->getWebsite() == '') {
+            $step = 'flname';
+        } elseif ($billingEntity->getCompanyaddress() == '' || $billingEntity->getCity() == '') {
+            $step = 'addressinfo';
+        }
+
+        if ($step == '') {
+            return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
         }
 
         return $this->delegateView(

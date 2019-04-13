@@ -59,6 +59,13 @@ class ConfigSubscriber extends CommonSubscriber
             'formTheme'  => 'MauticEmailBundle:FormTheme\Config',
             'parameters' => $event->getParametersFromConfig('MauticEmailBundle'),
         ]);
+
+        $event->addForm([
+            'bundle'     => 'EmailBundle',
+            'formAlias'  => 'analyticsconfig',
+            'formTheme'  => 'MauticEmailBundle:FormTheme\Analytics',
+            'parameters' => $event->getParametersFromConfig('MauticEmailBundle'),
+        ]);
     }
 
     /**

@@ -31,7 +31,7 @@ $configKeys = array_keys($form->children);
                 <?php if (!isset($formConfigs[$key]) || !count($form[$key]->children)) {
     continue;
 } ?>
-                <li role="presentation" class="list-group-item <?php echo $i === 0 ? 'in active' : ''; ?>">
+                <li role="presentation" class="list-group-item <?php echo $selectTab === $key ? 'in active' : ''; ?>">
                     <?php $containsErrors = ($view['form']->containsErrors($form[$key])) ? ' text-danger' : ''; ?>
                     <a href="#<?php echo $key; ?>" aria-controls="<?php echo $key; ?>" role="tab" data-toggle="tab" class="steps<?php echo $containsErrors; ?>">
                         <?php echo $view['translator']->trans('le.config.tab.'.$key); ?>
@@ -60,7 +60,7 @@ $configKeys = array_keys($form->children);
                     continue;
                 endif;
             ?>
-            <div role="tabpanel" class="tab-pane fade <?php echo $i === 0 ? 'in active' : ''; ?> bdr-w-0" id="<?php echo $key; ?>">
+            <div role="tabpanel" class="tab-pane fade <?php echo $selectTab === $key ? 'in active' : ''; ?> bdr-w-0" id="<?php echo $key; ?>">
                 <div class="pt-md pr-md pl-md pb-md">
                     <?php echo $view['form']->widget($form[$key], ['formConfig' => $formConfigs[$key], 'verifiedEmails' => $verifiedEmails, 'lastPayment' => $lastPayment, 'EmailList' => $EmailList]); ?>
                 </div>

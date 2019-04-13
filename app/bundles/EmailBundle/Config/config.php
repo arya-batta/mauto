@@ -454,6 +454,14 @@ return [
                 ],
                 'alias'     => 'emailconfig',
             ],
+            'mautic.form.type.analyticsconfig' => [
+                'class'     => 'Mautic\EmailBundle\Form\Type\AnalyticsType',
+                'arguments' => [
+                    'translator',
+                    'mautic.factory',
+                ],
+                'alias'     => 'analyticsconfig',
+            ],
             'mautic.form.type.coreconfig_monitored_mailboxes' => [
                 'class'     => 'Mautic\EmailBundle\Form\Type\ConfigMonitoredMailboxesType',
                 'arguments' => [
@@ -987,5 +995,14 @@ return [
         'beeeditor_client_id'                    => '',
         'beeeditor_client_secret'                => '',
         'email_status'                           => null,
+        'drip_source'                            => null,
+        'drip_medium'                            => null,
+        'drip_campaignname'                      => null,
+        'drip_content'                           => null,
+        'list_source'                            => null,
+        'list_medium'                            => null,
+        'list_campaignname'                      => null,
+        'list_content'                           => null,
+        'analytics_status'                       => false,
     ],
 ];
