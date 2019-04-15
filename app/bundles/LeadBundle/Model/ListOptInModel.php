@@ -229,17 +229,16 @@ class ListOptInModel extends FormModel
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function addLead($lead, $lists, $manuallyAdded = false)
+    public function addLead($lead, $lists, $manuallyAdded = false, $dispatchEvent=true)
     {
-        $dateManipulated = new \DateTime();
+        // $dateManipulated = new \DateTime();
 
         if (!$lead instanceof Lead) {
             $leadId = (is_array($lead) && isset($lead['id'])) ? $lead['id'] : $lead;
             $lead   = $this->em->getReference('MauticLeadBundle:Lead', $leadId);
         } else {
-            $leadId = $lead->getId();
+            //$leadId = $lead->getId();
         }
-
         if (!$lists instanceof LeadListOptIn) {
             //make sure they are ints
             $searchForLists = [];
@@ -271,72 +270,89 @@ class ListOptInModel extends FormModel
             unset($listEntities, $searchForLists);
         } else {
             $this->leadChangeLists[$lists->getId()] = $lists;
-
-            $lists = [$lists->getId()];
+            //$lists = [$lists->getId()];
         }
 
-        if (!is_array($lists)) {
-            $lists = [$lists];
+        if (!$lists instanceof LeadListOptIn) {
+            if (!is_array($lists)) {
+                $lists = [$lists];
+            }
         }
 
         $persistLists   = [];
         $dispatchEvents = [];
-
-        foreach ($lists as $listId) {
-            if (!isset($this->leadChangeLists[$listId])) {
-                // List no longer exists in the DB so continue to the next
-                continue;
-            }
-
-            $listentity       = $this->getEntity($listId);
-            $listLead         = $this->getListLeadRepository()->getListEntityByid($leadId, $listId);
-            $confirmedLead    = $listentity->getListtype() == 'single' ? 1 : 0;
-            $unconfirmedLead  = $listentity->getListtype() == 'single' ? 0 : 1;
-            $unsubscribedLead = 0;
-            if ($listLead != null) {
-                $listLead->setManuallyRemoved(false);
-                $listLead->setManuallyAdded($manuallyAdded);
-                $listLead->setConfirmedLead($confirmedLead);
-                $listLead->setUnconfirmedLead($unconfirmedLead);
-                $listLead->setUnsubscribedLead($unsubscribedLead);
-
+        if (!$lists instanceof LeadListOptIn) {
+            foreach ($lists as $listId) {
+                if (!isset($this->leadChangeLists[$listId])) {
+                    // List no longer exists in the DB so continue to the next
+                    continue;
+                }
+                $listentity       = $this->getEntity($listId);
+                $this->linkLeadListEntity($listentity, $lead, $manuallyAdded, $dispatchEvent);
                 $dispatchEvents[] = $listId;
-            } else {
-                $listLead = new ListLeadOptIn();
-                $listLead->setList($this->leadChangeLists[$listId]);
-                $listLead->setLead($lead);
-                $listLead->setManuallyAdded($manuallyAdded);
-                $listLead->setDateAdded($dateManipulated);
-                $listLead->setConfirmedLead($confirmedLead);
-                $listLead->setUnconfirmedLead($unconfirmedLead);
-                $listLead->setUnsubscribedLead($unsubscribedLead);
-
-                //  $persistLists[]   = $listLead;
-                $dispatchEvents[] = $listId;
-                $this->getRepository()->saveEntity($listLead);
             }
+        } else {
+            $this->linkLeadListEntity($lists, $lead, $manuallyAdded, $dispatchEvent);
+            $dispatchEvents[] = $lists->getId();
         }
-
         /* if (!empty($persistLists)) {
              $this->getRepository()->saveEntities($persistLists);
          } */
-
-        // Clear ListLead entities from Doctrine memory
-        $this->em->clear('Mautic\LeadBundle\Entity\ListLeadOptIn');
-
         if (!empty($dispatchEvents)) {
             foreach ($dispatchEvents as $listId) {
-                $event = new ListOptInChangeEvent($lead, $this->leadChangeLists[$listId]);
-                $this->dispatcher->dispatch(LeadEvents::LIST_OPT_IN_CHANGE, $event);
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_OPT_IN_ADD, $event);
-                $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
-                unset($event);
-                unset($listevent);
+                if ($this->dispatcher->hasListeners(LeadEvents::LIST_OPT_IN_CHANGE)) {
+                    $event = new ListOptInChangeEvent($lead, $this->leadChangeLists[$listId]);
+                    $this->dispatcher->dispatch(LeadEvents::LIST_OPT_IN_CHANGE, $event);
+                    unset($event);
+                }
+                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_OPT_IN_ADD)) {
+                    $event = new ListOptInChangeEvent($lead, $this->leadChangeLists[$listId]);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_OPT_IN_ADD, $event);
+                    unset($event);
+                }
+                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL) && $dispatchEvent) {
+                    $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
+                    unset($listevent);
+                }
             }
         }
+        unset($lead, $lists, $dispatchEvents);
+    }
 
-        unset($lead, $lists);
+    public function linkLeadListEntity($list, $lead, $manuallyAdded, $dispatchEvent)
+    {
+        $dateManipulated  = new \DateTime();
+        $listLead         = $this->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());
+        $confirmedLead    = $list->getListtype() == 'single' ? 1 : 0;
+        $unconfirmedLead  = $list->getListtype() == 'single' ? 0 : 1;
+        if (!$dispatchEvent && $list->getListtype() == 'double') {//consider all imported leads are confirmed by default
+            $confirmedLead  =1;
+            $unconfirmedLead=0;
+        }
+        $unsubscribedLead = 0;
+        if ($listLead != null) {
+            $listLead->setManuallyRemoved(false);
+            $listLead->setManuallyAdded($manuallyAdded);
+            $listLead->setConfirmedLead($confirmedLead);
+            $listLead->setUnconfirmedLead($unconfirmedLead);
+            $listLead->setUnsubscribedLead($unsubscribedLead);
+        } else {
+            $listLead = new ListLeadOptIn();
+            $listLead->setList($list);
+            $listLead->setLead($lead);
+            $listLead->setManuallyAdded($manuallyAdded);
+            $listLead->setDateAdded($dateManipulated);
+            $listLead->setConfirmedLead($confirmedLead);
+            $listLead->setUnconfirmedLead($unconfirmedLead);
+            $listLead->setUnsubscribedLead($unsubscribedLead);
+
+            //  $persistLists[]   = $listLead;
+            $this->getRepository()->saveEntity($listLead);
+            // Clear ListLead entities from Doctrine memory
+            $this->em->clear('Mautic\LeadBundle\Entity\ListLeadOptIn');
+            $listLead=null;
+        }
     }
 
     /**

@@ -1298,7 +1298,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         }
 
         // Hydrate contacts with company profile fields
-        $this->getContactCompanies($sendTo);
+        //$this->getContactCompanies($sendTo);
 
         foreach ($emailSettings as $eid => $details) {
             if (isset($details['send_weight'])) {

@@ -49,6 +49,7 @@ use Mautic\LeadBundle\Entity\Tag;
 use Mautic\LeadBundle\Entity\UtmTag;
 use Mautic\LeadBundle\Event\CategoryChangeEvent;
 use Mautic\LeadBundle\Event\LeadEvent;
+use Mautic\LeadBundle\Event\LeadListOptInEvent;
 use Mautic\LeadBundle\Event\LeadMergeEvent;
 use Mautic\LeadBundle\Event\LeadTimelineEvent;
 use Mautic\LeadBundle\Helper\ContactRequestHelper;
@@ -195,6 +196,11 @@ class LeadModel extends FormModel
      * @var ListOptInModel
      */
     protected $listOptinModel;
+
+    /**
+     * @var array
+     */
+    protected $pendingOptinLeads=[];
 
     /**
      * LeadModel constructor.
@@ -1083,9 +1089,9 @@ class LeadModel extends FormModel
      * @param array|LeadListOptIn $lists
      * @param bool                $manuallyAdded
      */
-    public function addToListOptIn($lead, $lists, $manuallyAdded = true)
+    public function addToListOptIn($lead, $lists, $manuallyAdded = true, $dispatchEvents=true)
     {
-        $this->listOptinModel->addLead($lead, $lists, $manuallyAdded);
+        $this->listOptinModel->addLead($lead, $lists, $manuallyAdded, $dispatchEvents);
     }
 
     /**
@@ -1501,23 +1507,23 @@ class LeadModel extends FormModel
     {
         $fields    = array_flip($fields);
         $fieldData = [];
-        // Extract company data and import separately
-        // Modifies the data array
-        $company                           = null;
-        list($companyFields, $companyData) = $this->companyModel->extractCompanyDataFromImport($fields, $data);
+        /*  // Extract company data and import separately
+          // Modifies the data array
+          $company                           = null;
+          list($companyFields, $companyData) = $this->companyModel->extractCompanyDataFromImport($fields, $data);
 
-        if (!empty($companyData)) {
-            $companyFields = array_flip($companyFields);
-            $this->companyModel->import($companyFields, $companyData, $owner, $list, $tags, $persist, $eventLog);
-            $companyFields = array_flip($companyFields);
+          if (!empty($companyData)) {
+              $companyFields = array_flip($companyFields);
+              $this->companyModel->import($companyFields, $companyData, $owner, $list, $tags, $persist, $eventLog);
+              $companyFields = array_flip($companyFields);
 
-            $companyName    = isset($companyFields['companyname']) ? $companyData[$companyFields['companyname']] : null;
-            $companyCity    = isset($companyFields['companycity']) ? $companyData[$companyFields['companycity']] : null;
-            $companyCountry = isset($companyFields['companycountry']) ? $companyData[$companyFields['companycountry']] : null;
-            $companyState   = isset($companyFields['companystate']) ? $companyData[$companyFields['companystate']] : null;
+              $companyName    = isset($companyFields['companyname']) ? $companyData[$companyFields['companyname']] : null;
+              $companyCity    = isset($companyFields['companycity']) ? $companyData[$companyFields['companycity']] : null;
+              $companyCountry = isset($companyFields['companycountry']) ? $companyData[$companyFields['companycountry']] : null;
+              $companyState   = isset($companyFields['companystate']) ? $companyData[$companyFields['companystate']] : null;
 
-            $company = $this->companyModel->getRepository()->identifyCompany($companyName, $companyCity, $companyCountry, $companyState);
-        }
+              $company = $this->companyModel->getRepository()->identifyCompany($companyName, $companyCity, $companyCountry, $companyState);
+          }*/
 
         foreach ($fields as $leadField => $importField) {
             // Prevent overwriting existing data with empty data
@@ -1525,31 +1531,34 @@ class LeadModel extends FormModel
                 $fieldData[$leadField]  = InputHelper::_($data[$importField], 'string');
             }
         }
-
         $lead   = $this->checkForDuplicateContact($fieldData);
         $merged = ($lead->getId());
 
         if (!empty($fields['dateAdded']) && !empty($data[$fields['dateAdded']])) {
             $dateAdded = new DateTimeHelper($data[$fields['dateAdded']]);
             $lead->setDateAdded($dateAdded->getUtcDateTime());
+            $dateAdded=null;
         }
         unset($fieldData['dateAdded']);
 
         if (!empty($fields['dateModified']) && !empty($data[$fields['dateModified']])) {
             $dateModified = new DateTimeHelper($data[$fields['dateModified']]);
             $lead->setDateModified($dateModified->getUtcDateTime());
+            $dateModified=null;
         }
         unset($fieldData['dateModified']);
 
         if (!empty($fields['lastActive']) && !empty($data[$fields['lastActive']])) {
             $lastActive = new DateTimeHelper($data[$fields['lastActive']]);
             $lead->setLastActive($lastActive->getUtcDateTime());
+            $lastActive=null;
         }
         unset($fieldData['lastActive']);
 
         if (!empty($fields['dateIdentified']) && !empty($data[$fields['dateIdentified']])) {
             $dateIdentified = new DateTimeHelper($data[$fields['dateIdentified']]);
             $lead->setDateIdentified($dateIdentified->getUtcDateTime());
+            $dateIdentified=null;
         }
         unset($fieldData['dateIdentified']);
 
@@ -1558,6 +1567,8 @@ class LeadModel extends FormModel
             $createdByUser = $userRepo->findByIdentifier($data[$fields['createdByUser']]);
             if ($createdByUser !== null) {
                 $lead->setCreatedBy($createdByUser);
+                $this->em->detach($createdByUser);
+                $createdByUser = null;
             }
         } elseif ($importcreatedby != null && $importcreatedbyuser != null) {
             $lead->setCreatedBy($importcreatedby);
@@ -1570,6 +1581,8 @@ class LeadModel extends FormModel
             $modifiedByUser = $userRepo->findByIdentifier($data[$fields['modifiedByUser']]);
             if ($modifiedByUser !== null) {
                 $lead->setModifiedBy($modifiedByUser);
+                $this->em->detach($modifiedByUser);
+                $modifiedByUser = null;
             }
         } elseif ($importcreatedby != null && $importcreatedbyuser != null) {
             $lead->setModifiedBy($importcreatedby);
@@ -1752,18 +1765,18 @@ class LeadModel extends FormModel
                 $this->userHelper->getUser()->getName()
             ));
             $this->saveEntity($lead);
-
             if ($list !== null) {
                 $this->addToLists($lead, [$list]);
             }
 
             if ($listoptin !== null) {
-                $this->addToListOptIn($lead, [$listoptin]);
+                $this->addToListOptIn($lead, $listoptin, true, false);
+                // $this->pendingOptinLeads[$lead->getId()]=$lead->getProfileFields();
             }
 
-            if ($company !== null) {
-                $this->companyModel->addLeadToCompany($company, $lead);
-            }
+//            if ($company !== null) {
+//                $this->companyModel->addLeadToCompany($company, $lead);
+//            }
 
             if ($eventLog) {
                 $lead->addEventLog($eventLog);
@@ -3048,5 +3061,38 @@ class LeadModel extends FormModel
     public function findEmail($email)
     {
         return $this->getRepository()->findBy(['email' => $email]);
+    }
+
+    public function getListOptInModel()
+    {
+        return $this->listOptinModel;
+    }
+
+    public function beginTransaction()
+    {
+        $this->em->getConnection()->beginTransaction();
+    }
+
+    public function rollbackTransaction()
+    {
+        $this->em->getConnection()->rollBack();
+    }
+
+    public function commitTransaction()
+    {
+        $this->em->getConnection()->commit();
+    }
+
+    public function processQueuedListOptInLeads($listOptin)
+    {
+        if (sizeof($this->pendingOptinLeads) > 0) {
+            if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL)) {
+                $listevent = new LeadListOptInEvent($listOptin, false, new Lead(), $listOptin->getId());
+                $listevent->setBulkLeads($this->pendingOptinLeads);
+                $listevent->setIsBulkOperation(true);
+                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
+                unset($listevent, $this->pendingOptinLeads);
+            }
+        }
     }
 }

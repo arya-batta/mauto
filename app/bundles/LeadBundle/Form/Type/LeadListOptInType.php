@@ -44,7 +44,7 @@ class LeadListOptInType extends AbstractType
 
                 $choices = [];
                 foreach ($lists as $l) {
-                    $choices[$l['id']] = $l['name'];
+                    $choices[$l['id']] = $l['name'].' ('.$l['listtype'].'-optin)';
                 }
 
                 return $choices;

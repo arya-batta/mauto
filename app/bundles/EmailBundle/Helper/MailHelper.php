@@ -1742,7 +1742,7 @@ class MailHelper
 
         $this->eventTokens = array_merge($this->eventTokens, $event->getTokens(false));
 
-        unset($event);
+        unset($event, $lead);
     }
 
     /**

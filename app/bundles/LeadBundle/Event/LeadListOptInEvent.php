@@ -22,6 +22,8 @@ class LeadListOptInEvent extends CommonEvent
 {
     private $lead;
     private $listId;
+    private $bulkLeads      =[];
+    private $isBulkOperation=false;
 
     /**
      * @param LeadListOptIn $list
@@ -66,6 +68,35 @@ class LeadListOptInEvent extends CommonEvent
     public function setLead($lead)
     {
         $this->lead = $lead;
+    }
+
+    /**
+     * @param $flag
+     */
+    public function setIsBulkOperation($flag)
+    {
+        $this->isBulkOperation=$flag;
+    }
+
+    public function isBulkOperation()
+    {
+        return $this->isBulkOperation;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBulkLeads()
+    {
+        return $this->bulkLeads;
+    }
+
+    /**
+     * @param $leads
+     */
+    public function setBulkLeads($leads)
+    {
+        $this->bulkLeads = $leads;
     }
 
     /**

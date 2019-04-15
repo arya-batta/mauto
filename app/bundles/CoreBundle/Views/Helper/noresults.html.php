@@ -6,7 +6,7 @@
     $header = 'mautic.core.noresults.header';
 } ?>
     <div class="noresult-alert-msg">
-    <h4 style="font-size: 22px;"><?php echo $view['translator']->trans($header); ?></h4>
+    <h4 style="font-size: 20px;margin-bottom: 10px;margin-top: 5px;"><?php echo $view['translator']->trans($header); ?></h4>
     <?php if (!isset($message)) {
     $message = 'mautic.core.noresults';
 } ?>
