@@ -61,6 +61,17 @@ class ButtonSubscriber extends CommonSubscriber
                     ],
                     //'iconClass' => 'fa fa-upload',
                     'btnText'   => 'le.lead.lead.import',
+                    'priority'  => 4,
+                ],
+                ButtonHelper::LOCATION_PAGE_ACTIONS
+            );
+            $event->addButton(
+                ['buttons',
+                    'attr' => [
+                        'href' => $this->router->generate('le_import_index', ['object' => 'leads', 'page' => '1']),
+                    ],
+                    //'iconClass' => 'fa fa-upload',
+                    'btnText'   => 'le.lead.lead.import.history',
                     'priority'  => 3,
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS

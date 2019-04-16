@@ -802,8 +802,6 @@ class LeadSubscriber extends CommonSubscriber
     public function LeadListSendEmail(Events\LeadListOptInEvent $event)
     {
         $list          = $event->getList();
-        $lead          = $event->getLeadFields();
-        $listid        = $event->getListId();
         $isdoubleOptin = $list->getListtype() == 'single' ? false : true;
         $emailId       = $list->getThankyouemail();
 
@@ -812,26 +810,42 @@ class LeadSubscriber extends CommonSubscriber
         } elseif (!$list->getThankyou()) {
             return;
         }
-        /** @var EmailModel $emailModel */
-        $emailModel = $this->factory->getModel('email');
-        /** @var ListOptInModel $listoptinmodel */
-        $listoptinmodel = $this->factory->getModel('lead.listoptin');
-        $listLead       = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listid);
         if (!empty($emailId)) {
+            /** @var EmailModel $emailModel */
+            $emailModel = $this->factory->getModel('email');
             $email      = $emailModel->getEntity($emailId);
-            if ($email !== null && $email->getIsPublished()) {
-                $customHtml = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $list);
-                $email->setCustomHtml($customHtml);
-                $emailModel->sendEmail($email, $lead);
-            }
-            /*if(!$isdoubleOptin && $list->isGoodbye()){
-                $goodbyeemail  = $list->getGoodbyeemail();
-                if(!empty($goodbyeemail)) {
-                    $goodbyeemail = $emailModel->getEntity($goodbyeemail);
-                    $emailModel->sendEmail($goodbyeemail, $lead);
+            /** @var ListOptInModel $listoptinmodel */
+            $listoptinmodel = $this->factory->getModel('lead.listoptin');
+            if (!$event->isBulkOperation()) {
+                $lead          = $event->getLeadFields();
+                $this->scheduleListOptInEmail($list, $lead, $email, $emailModel, $listoptinmodel);
+            } else {
+                $bulkLeads=$event->getBulkLeads();
+                foreach ($bulkLeads as $lead) {
+                    $this->scheduleListOptInEmail($list, $lead, $email, $emailModel, $listoptinmodel);
                 }
-            }*/
+            }
+            unset($email);
         }
+    }
+
+    public function scheduleListOptInEmail($listoptin, $lead, $email, $emailModel, $listoptinmodel)
+    {
+        $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listoptin->getId());
+        if ($email !== null && $email->getIsPublished()) {
+            $tmpEmailHtml=$email->getCustomHtml();
+            $customHtml  = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $listoptin);
+            $email->setCustomHtml($customHtml);
+            $emailModel->sendEmail($email, $lead);
+            $email->setCustomHtml($tmpEmailHtml);
+        }
+        /*if(!$isdoubleOptin && $list->isGoodbye()){
+            $goodbyeemail  = $list->getGoodbyeemail();
+            if(!empty($goodbyeemail)) {
+                $goodbyeemail = $emailModel->getEntity($goodbyeemail);
+                $emailModel->sendEmail($goodbyeemail, $lead);
+            }
+        }*/
     }
 
     /**

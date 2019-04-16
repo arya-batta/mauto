@@ -570,13 +570,13 @@ class ImportController extends FormController
      */
     protected function importInBrowser(Form $form)
     {
-        $browserImportLimit = $this->getLineCountLimit();
+        // $browserImportLimit = $this->getLineCountLimit();
 
-        if ($browserImportLimit && $this->getLineCount() < $browserImportLimit) {
-            return true;
-        } elseif (!$browserImportLimit && $form->get('buttons')->get('save')->isClicked()) {
-            return true;
-        }
+//        if ($browserImportLimit && $this->getLineCount() < $browserImportLimit) {
+//            return true;
+//        } elseif (!$browserImportLimit && $form->get('buttons')->get('save')->isClicked()) {
+//            return true;
+//        }
 
         return false;
     }
@@ -595,15 +595,15 @@ class ImportController extends FormController
      */
     protected function importInCli(Form $form)
     {
-        $browserImportLimit = $this->getLineCountLimit();
+        // $browserImportLimit = $this->getLineCountLimit();
 
-        if ($browserImportLimit && $this->getLineCount() >= $browserImportLimit) {
-            return true;
-        } elseif (!$browserImportLimit && $form->get('buttons')->get('apply')->isClicked()) {
-            return true;
-        }
+//        if ($browserImportLimit && $this->getLineCount() >= $browserImportLimit) {
+//            return true;
+//        } elseif (!$browserImportLimit && $form->get('buttons')->get('apply')->isClicked()) {
+//            return true;
+//        }
 
-        return false;
+        return true;
     }
 
     /**

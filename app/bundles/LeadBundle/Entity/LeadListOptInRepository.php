@@ -145,7 +145,7 @@ class LeadListOptInRepository extends CommonRepository
         $q = $this->getEntityManager()->createQueryBuilder()
             ->from('MauticLeadBundle:LeadListOptIn', 'l', 'l.id');
 
-        $q->select('partial l.{id, name}')
+        $q->select('partial l.{id, name,listtype}')
             ->where($q->expr()->eq('l.isPublished', 1))
             ->orderBy('l.name');
         if ($this->currentUser != null && !$this->currentUser->isAdmin()) {

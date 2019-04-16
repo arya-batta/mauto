@@ -244,6 +244,7 @@ trait CustomFieldEntityTrait
                     }
                 }
             }
+            $fieldValues['owner_id'] =  ($owner = $this->getOwner()) ? $owner->getId() : 0;
 
             return array_merge($fieldValues, $this->updatedFields);
         } else {

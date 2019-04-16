@@ -366,117 +366,127 @@ class ImportModel extends FormModel
             $val = strtolower(InputHelper::alphanum($val, false, '_'));
         });
         $emptyRowCount = 0;
-        while ($batchSize && !$file->eof()) {
-            $data = $file->fgetcsv($config['delimiter'], $config['enclosure'], $config['escape']);
-            $import->setLastLineImported($lineNumber);
-
-            // Ignore the header row
-            if ($lineNumber === 1) {
-                ++$lineNumber;
-                continue;
-            }
-
-            // Ensure the progress is changing
-            ++$lineNumber;
-            --$batchSize;
-            $progress->increase();
-
-            $errorMessage = null;
-            $eventLog     = $this->initEventLog($import, $lineNumber);
-
-            if ($this->isEmptyCsvRow($data)) {
-                ++$emptyRowCount;
-                if ($emptyRowCount > 1) {
-                    $errorMessage = 'le.lead.import.error.line_empty';
-                }
-            }
-
-            if ($this->hasMoreValuesThanColumns($data, $headerCount)) {
-                $errorMessage = 'le.lead.import.error.header_mismatch';
-            }
-
-            if (!$errorMessage) {
-                $data = $this->trimArrayValues($data);
-                if (!array_filter($data)) {
+        $listoptin     =[];
+        $entityModel   = $import->getObject() === 'company' ? $this->companyModel : $this->leadModel;
+        if (!empty($import->getDefault('listoptin'))) {
+            $listoptin=$entityModel->getListOptInModel()->getEntity($import->getDefault('listoptin'));
+        }
+        $entityModel->beginTransaction();
+        try {
+            while ($batchSize && !$file->eof()) {
+                $data = $file->fgetcsv($config['delimiter'], $config['enclosure'], $config['escape']);
+                $import->setLastLineImported($lineNumber);
+                // Ignore the header row
+                if ($lineNumber === 1) {
+                    ++$lineNumber;
                     continue;
                 }
+                // Ensure the progress is changing
+                ++$lineNumber;
+                --$batchSize;
+                $progress->increase();
 
-                $data = array_combine($headers, $data);
+                $errorMessage = null;
+                $eventLog     = $this->initEventLog($import, $lineNumber);
 
-                try {
-                    $entityModel = $import->getObject() === 'company' ? $this->companyModel : $this->leadModel;
-
-                    $merged = $entityModel->import(
-                        $import->getMatchedFields(),
-                        $data,
-                        $import->getDefault('owner'),
-                        $import->getDefault('list'),
-                        $import->getDefault('tags'),
-                        true,
-                        $eventLog,
-                        $import->getCreatedBy(),
-                        $import->getCreatedByUser(),
-                        $import->getId(),
-                        $import->getDefault('listoptin')
-                    );
-
-                    if ($merged) {
-                        $this->logDebug('Entity on line '.$lineNumber.' has been updated', $import);
-                        $import->increaseUpdatedCount();
-                    } else {
-                        $this->logDebug('Entity on line '.$lineNumber.' has been created', $import);
-                        $this->licenseInfoHelper->intRecordCount('1', true);
-                        $import->increaseInsertedCount();
+                if ($this->isEmptyCsvRow($data)) {
+                    ++$emptyRowCount;
+                    if ($emptyRowCount > 1) {
+                        $errorMessage = 'le.lead.import.error.line_empty';
                     }
-                } catch (\Exception $e) {
-                    // Email validation likely failed
-                    $errorMessage = $e->getMessage();
-                }
-            }
-
-            if ($errorMessage) {
-                $import->increaseIgnoredCount();
-                $this->logImportRowError($eventLog, $errorMessage);
-                $this->logDebug('Line '.$lineNumber.' error: '.$errorMessage, $import);
-            } else {
-                $this->leadEventLogRepo->saveEntity($eventLog);
-            }
-
-            // Release entities in Doctrine's memory to prevent memory leak
-            $this->em->detach($eventLog);
-            $eventLog = null;
-            $data     = null;
-            $this->em->clear(Lead::class);
-            $this->em->clear(Company::class);
-
-            // Save Import entity once per batch so the user could see the progress
-            if ($batchSize === 0 && $import->isBackgroundProcess()) {
-                $isPublished = $this->getRepository()->getValue($import->getId(), 'is_published');
-
-                if (!$isPublished) {
-                    $import->setStatus($import::STOPPED);
                 }
 
-                $this->saveEntity($import);
-                $this->dispatchEvent('batch_processed', $import);
+                if ($this->hasMoreValuesThanColumns($data, $headerCount)) {
+                    $errorMessage = 'le.lead.import.error.header_mismatch';
+                }
 
-                // Stop the import loop if the import got unpublished
-                if (!$isPublished) {
-                    $this->logDebug('The import has been unpublished. Stopping the import now.', $import);
+                if (!$errorMessage) {
+                    $data = $this->trimArrayValues($data);
+                    if (!array_filter($data)) {
+                        continue;
+                    }
+
+                    $data = array_combine($headers, $data);
+
+                    try {
+                        $merged = $entityModel->import(
+                            $import->getMatchedFields(),
+                            $data,
+                            $import->getDefault('owner'),
+                            $import->getDefault('list'),
+                            $import->getDefault('tags'),
+                            true,
+                            $eventLog,
+                            $import->getCreatedBy(),
+                            $import->getCreatedByUser(),
+                            $import->getId(),
+                            $listoptin
+                        );
+
+                        if ($merged) {
+                            $this->logDebug('Entity on line '.$lineNumber.' has been updated', $import);
+                            $import->increaseUpdatedCount();
+                        } else {
+                            $this->logDebug('Entity on line '.$lineNumber.' has been created', $import);
+                            $import->increaseInsertedCount();
+                        }
+                    } catch (\Exception $e) {
+                        // Email validation likely failed
+                        $errorMessage = $e->getMessage();
+                    }
+                }
+
+                if ($errorMessage) {
+                    $import->increaseIgnoredCount();
+                    $this->logImportRowError($eventLog, $errorMessage);
+                    $this->logDebug('Line '.$lineNumber.' error: '.$errorMessage, $import);
+                } else {
+                    $this->leadEventLogRepo->saveEntity($eventLog);
+                }
+
+                // Release entities in Doctrine's memory to prevent memory leak
+                $this->em->detach($eventLog);
+                $eventLog = null;
+                $data     = null;
+                $this->em->clear(Lead::class);
+                $this->em->clear(Company::class);
+
+                // Save Import entity once per batch so the user could see the progress
+                if ($batchSize === 0 && $import->isBackgroundProcess()) {
+                    $isPublished = $this->getRepository()->getValue($import->getId(), 'is_published');
+
+                    if (!$isPublished) {
+                        $import->setStatus($import::STOPPED);
+                    }
+
+                    $this->saveEntity($import);
+                    $this->dispatchEvent('batch_processed', $import);
+
+                    // Stop the import loop if the import got unpublished
+                    if (!$isPublished) {
+                        $this->logDebug('The import has been unpublished. Stopping the import now.', $import);
+                        break;
+                    }
+                    $batchSize = $config['batchlimit'];
+//                    if(!empty($listoptin)){
+//                        $entityModel->processQueuedListOptInLeads($listoptin);
+//                    }
+                }
+                ++$counter;
+                if ($limit && $counter >= $limit) {
+                    $import->setStatus($import::DELAYED);
+                    $this->saveEntity($import);
                     break;
                 }
-
-                $batchSize = $config['batchlimit'];
             }
-
-            ++$counter;
-            if ($limit && $counter >= $limit) {
-                $import->setStatus($import::DELAYED);
-                $this->saveEntity($import);
-                break;
-            }
+//            if(!empty($listoptin)){
+//                $entityModel->processQueuedListOptInLeads($listoptin);
+//            }
+            $entityModel->commitTransaction();
+        } catch (\Exception $ex) {
+            $entityModel->rollbackTransaction();
         }
-
+        $this->licenseInfoHelper->intRecordCount($import->getInsertedCount(), true);
         // Close the file
         $file = null;
 
