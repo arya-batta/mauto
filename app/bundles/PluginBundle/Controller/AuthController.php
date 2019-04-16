@@ -150,6 +150,11 @@ class AuthController extends FormController
     public function webhookCallbackAction($integration)
     {
         $payload  = $this->request->getContent();
+        if ($integration == 'unbounce') {
+            $formdata = urldecode($payload);
+            parse_str($formdata, $payload);
+            $payload = json_encode($payload);
+        }
         $payload  = json_decode($payload);
         $eventarg = new IntegrationEvent($integration, $payload);
         $event    = $this->dispatcher->dispatch(LeadEvents::INTEGRATION_EVENT, $eventarg);

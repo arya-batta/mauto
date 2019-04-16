@@ -459,14 +459,14 @@ class AjaxController extends CommonAjaxController
         $integrationentity->setName($name);
         if (sizeof($integrations) > 0) {
             $integrationentity        =$integrations[0];
-        } else {
-            if ($name == $this->translator->trans('le.integration.name.calendly')) {
-                $result = $integrationHelper->subscribeCalendlyWebhook($token, $webhookurl);
-                if (isset($result->id)) {
-                    $integrationsettings['webhookid'] = $result->id;
-                }
+        }
+        if ($name == $this->translator->trans('le.integration.name.calendly')) {
+            $result = $integrationHelper->subscribeCalendlyWebhook($token, $webhookurl);
+            if (isset($result->id)) {
+                $integrationsettings['webhookid'] = $result->id;
             }
         }
+
         $integrationentity->setApiKeys($integrationsettings);
 
         $integrationrepo->saveEntity($integrationentity);
