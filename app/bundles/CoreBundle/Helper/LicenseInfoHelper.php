@@ -1154,8 +1154,8 @@ class LicenseInfoHelper
     {
         $planarray = [
             'leplan1' => 10000,
-            'leplan2' => 50000,
-            'leplan3' => 100000,
+            'leplan2' => 100000,
+            'leplan3' => 250000,
         ];
 
         return $planarray[$planName];
