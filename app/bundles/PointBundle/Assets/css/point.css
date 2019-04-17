@@ -39,3 +39,17 @@
 .col-pointtrigger-color {
     width: 50px;
 }
+.col-point-name{
+    width:25%;
+}
+.col-point-category{
+    width:20%;
+}
+.category_span{
+    width: 160px;
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}

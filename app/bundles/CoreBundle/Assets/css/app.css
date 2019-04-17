@@ -5088,6 +5088,19 @@ figcaption {
   border: 1px solid #f22446;
 
 }
+.cancel-subscription1{
+  background-color: #3292e0;
+  color: #FFFFFF;
+  border: 1px solid !important;
+  font-size: 14px;
+  padding: 10px 10px;
+}
+.cancel-subscription1:hover{
+  background-color: #3292e0;
+  color: #FFFFFF;
+  border: 1px solid #f22446;
+
+}
 .page_hit_url{
   word-wrap: break-word;
 }
@@ -5347,7 +5360,7 @@ figcaption {
   padding: 10px 12px;
   border-radius: 4px;
   border: 1px solid transparent;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
+  box-shadow: 0 1px 3px 0 #3292e0;
   -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
 }
@@ -5384,9 +5397,9 @@ figcaption {
   font-weight: 600;
 }
 .card-holder-title{
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 7px;
 }
 
 .card-holder-sub-title{
@@ -7115,13 +7128,13 @@ ol, ul {
 .plan-card h3 {
   font-size: 14px;
   text-align: center;
-  width:28%;
+  width:46%;
   margin-top: 20px!important;
-  color: #2a323c;
+  color: #000;
   font-weight: 500;
   text-transform: uppercase;
   padding: 3px;
-  margin: 0px 0px 10px 20px;
+  margin: 0px 0px 10px 16px;
   border: 1px solid #7a8292;
 }
 .plan-card p {
@@ -7130,7 +7143,8 @@ ol, ul {
   color: #2a323c;
   font-weight: 400;
   padding: 10px;
-  margin: 0px 0px -15px 10px;
+  margin: 0px 0px -15px 4px;
+  line-height: 25px;
 }
 
 .plan-card .plan-name div {
@@ -7140,21 +7154,22 @@ ol, ul {
   color: #4c89be;
 }
 .plan-pricing {
-  text-align: left;
+  text-align: center;
 }
 a.btn-lg {
   color: #fff;
 }
 .plan-card .price {
-  font-size: 90px;
+  font-size: 70px;
   font-weight: 400;
   list-style:none;
   color:#333;
-  text-align:left;
+  text-align:center;
   margin-top: 20px;
 }
 li.terms {
   list-style: none;
+  text-align: center;
 }
 .list-unstyled li {
   list-style: none !important;
@@ -7174,6 +7189,7 @@ li.terms {
   padding-top: 5px;
   list-style: none !important;
   font-weight: 100;
+  font-size:15px;
 }
 p.bit {
   margin-top: 15px;
@@ -7187,6 +7203,7 @@ ul.plan-pricing {
   margin: -20px;
   text-align: left;
   color:#333;
+  margin-left: -60px;
 }
 .list-unstyled li, #list-unstyled li {
   list-style: none !important;
@@ -7224,9 +7241,10 @@ ul.list-unstyled, ul#list-unstyled  {
     margin-top: 35px;
     border-bottom: 1px solid;
     outline: 0;
-    height: 1px;
     width: 100%;
     clear: both;
+    background-color: rgba(0,0,0,.08);
+    color: rgba(0,0,0,.08);
 }
 .licenseclosebtn{
   color: #3292e0;
@@ -7715,4 +7733,7 @@ ul.list-unstyled, ul#list-unstyled  {
 }
 .pointernone{
   pointer-events: none; !important;
+}
+.welcome-img{
+    width:95%;
 }

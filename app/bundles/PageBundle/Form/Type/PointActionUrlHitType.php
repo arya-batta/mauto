@@ -17,6 +17,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * Class PointActionUrlHitType.
@@ -35,6 +37,18 @@ class PointActionUrlHitType extends AbstractType
                 'class'       => 'form-control le-input',
                 'tooltip'     => 'le.page.point.action.form.page.url.descr',
                 'placeholder' => 'http://',
+            ],
+            'constraints'  => [
+                new NotBlank(
+                    [
+                        'message' => 'mautic.core.value.required',
+                    ]
+                ),
+                new Url(
+                    [
+                        'message' => 'mautic.core.valid_url_required',
+                    ]
+                ),
             ],
         ]);
 

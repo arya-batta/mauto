@@ -896,6 +896,11 @@ class AjaxController extends CommonAjaxController
         $plancredits                    = $request->request->get('plancredits');
         $isCardUpdateAlone              = $request->request->get('isCardUpdateAlone');
         $planvalidity                   = $request->request->get('planvalidity');
+        $contactcredits                 = $request->request->get('contactcredits');
+        if ($amount == 0) {
+            $amount            = 1;
+            $isCardUpdateAlone = true;
+        }
         // file_put_contents("/var/www/mauto/app/logs/stripe.txt",$isCardUpdateAlone,FILE_APPEND);
         $apikey=$this->coreParametersHelper->getParameter('stripe_api_key');
         \Stripe\Stripe::setApiKey($apikey);
@@ -1034,30 +1039,42 @@ class AjaxController extends CommonAjaxController
                         $createdby    =$user->getId();
                         $createdbyuser=$user->getName();
                     }
+                    /** @var \Mautic\CoreBundle\Helper\LicenseInfoHelper $licensehelper */
+                    $licensehelper      = $this->get('mautic.helper.licenseinfo');
+                    $currentTotalEmails = $licensehelper->getTotalEmailCount();
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
                     $lastpayment        = $paymentrepository->getLastPayment();
                     $todaydate          = date('Y-m-d');
-                    $emailplancredits   = $planname == 'leplan1' ? 'UL' : '100000';
+                    $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits1');
                     $contactcredites    = $this->translator->trans('le.pricing.plan.plancredits1');
                     if ($planname == 'leplan2') {
-                        $contactcredites =$this->translator->trans('le.pricing.plan.plancredits2');
+                        $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits2');
+                        $contactcredites    =$this->translator->trans('le.pricing.plan.plancredits2');
                     } elseif ($planname == 'leplan3') {
-                        $contactcredites = $this->translator->trans('le.pricing.plan.plancredits3');
+                        $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits3');
+                        $contactcredites    = $this->translator->trans('le.pricing.plan.plancredits3');
                     }
                     if ($lastpayment != null) {
                         $validityend      = $lastpayment->getValidityTill();
+                        $preplanName      = $lastpayment->getPlanName();
+                        $preplancredits   = $licensehelper->getEmailCreditsByPlan($preplanName);
+                        $emailplancredits = $emailplancredits - $preplancredits;
+                        $emailplancredits = $currentTotalEmails + $emailplancredits;
                         /*if ($todaydate != $validityend) {
                             $todaydate    = $validityend;
                             $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
                         }*/
-                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                        $validitytill = $validityend;
                     } else {
                         //$planname     = '90 Days Success Offer';
                         $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     }
+                    if ($amount == 1) {
+                        $amount = 0;
+                    }
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
                     $subsrepository     =$this->get('le.core.repository.subscription');
-                    $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false);
+                    $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false, $emailplancredits);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
                     $signuprepository     =$this->get('le.core.repository.signup');
                     $dbname               = $this->coreParametersHelper->getParameter('db_name');
@@ -1102,9 +1119,11 @@ class AjaxController extends CommonAjaxController
         return $this->sendJsonResponse($dataArray);
     }
 
-    public function cancelsubscriptionAction()
+    public function cancelsubscriptionAction(Request $request)
     {
-        $dataArray['success']  =true;
+        $cancelreason          = $request->request->get('cancelreason');
+        $cancelfeedback        = $request->request->get('cancelfeedback');
+        $dataArray['success']  = true;
         $dataArray['error']    = true;
         $curentDate            =date('Y-m-d');
         $this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);

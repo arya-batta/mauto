@@ -11,11 +11,43 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
-$emailuseage='';
+$emailuseage  ='';
+$addoncredits = 0;
+
 if ($totalEmailCredits != 'UL') {
+    $emailplancredits = 0;
+    if ($planName == 'leplan1') {
+        $emailplancredits = $view['translator']->trans('le.pricing.plan.email.plancredits1');
+    } elseif ($planName == 'leplan2') {
+        $emailplancredits   = $view['translator']->trans('le.pricing.plan.email.plancredits2');
+    } elseif ($planName == 'leplan3') {
+        $emailplancredits   = $view['translator']->trans('le.pricing.plan.email.plancredits3');
+    }
+    $addoncredits      = $totalEmailCredits - $emailplancredits;
+    $addonusagecredits = $actualEmailCredits - $emailplancredits;
+    if ($addoncredits < 0 || $emailplancredits == 0) {
+        $addoncredits = 0;
+    }
+    if ($addoncredits < 0) {
+        $addonusagecredits = 0;
+    } else {
+        $addonusagecredits = 10000 - $addoncredits;
+    }
+    if ($addoncredits > 0 && $emailplancredits != 0) {
+        $totalEmailCredits = $emailplancredits;
+        if ($actualEmailCredits > $emailplancredits) {
+            $actualEmailCredits = $emailplancredits;
+        }
+    }
     $emailuseage=($actualEmailCredits / $totalEmailCredits) * 100;
     $emailuseage=ceil($emailuseage);
-    $emailuseage='('.$emailuseage.'%)';
+    $emailuseage=$emailuseage.'%';
+}
+$contactusage = '';
+if ($totalContactCredits != 'UL') {
+    $contactusage=($contactUsage / $totalContactCredits) * 100;
+    $contactusage=ceil($contactusage);
+    $contactusage=' ('.$contactusage.'% used)';
 }
 $actualcontactcredits = '';
 if ($planName == 'leplan2') {
@@ -49,30 +81,19 @@ if ($planName == 'leplan2') {
                         <div class="panel-body">
                             <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b>Free Trial</b>. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features. Your <?php echo $trialEndDays < 0 ? 'trial period has <b>expired</b> on '.$vallidityTill.'. Choose a plan to continue.' : 'free trial ends in <b>'.$trialEndDays.'</b> days '.$vallidityTill.'.'?></span>
+                                <span class='plan-info-lbl2'>You are currently in Free Trial. Usage limits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used)
+                                and <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
+                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 10,000</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
-                                    Browse Subscription Plans
+                                    Change Plan
                                 </a>
                             </div>
-                            <div class="paid-info-block <?php echo $planName == 'freeplan1' || $planName == 'freeplan2' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts , unlimited email sends and access to all features.
-                                Your current usage is <?php echo $contactUsage.' contacts out of '?><?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?>.</span>
+                            <div class="paid-info-block <?php echo $planName == 'leplan1' || $planName == 'leplan2' || $planName == 'leplan3' ? '' : 'hide' ?>">
+                                <span class='plan-info-lbl2'>You are currently in <?php echo $planType; ?> Plan (<?php echo $planAmount ?>/ Month). Usage limits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used)
+                                and <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
+                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 10,000</span>
                                 <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
-                                    Browse Subscription Plans
-                                </a>
-                            </div>
-                            <div class="paid-info-block <?php echo $planName == 'leplan1' || $planName == 'leplan2' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month/ paid monthly. Plan includes- Add up to <?php echo $totalContactCredits != 'UL' ? number_format($totalContactCredits) : $totalContactCredits?> contacts, unlimited email sends and access to all features.
-                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo number_format($contactUsage).' contacts out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?>.</span>
-                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
-                                    Browse Subscription Plans
-                                </a>
-                            </div>
-                            <div class="paid-info-block <?php echo $planName == 'leplan3' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Your current plan is <b><?php echo $planAmount ?></b> per month/ paid monthly. Plan includes- Unlimited contacts, unlimited email sends and access to all features.
-                                Your current usage for the billing period ending <b> <?php echo $vallidityTill ?> </b> is <?php echo number_format($contactUsage).' contacts '?></span>
-                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
-                                    Browse Subscription Plans
+                                    Change Plan
                                 </a>
                             </div>
                         </div>

@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('leContent', 'lead');
+$view['slots']->set('leContent', 'pricingplans');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.dashboard.header.index'));
 
 if ($showsetup) {
@@ -45,20 +45,44 @@ if ($isCampaignCreated) {
 if ($isImportDone) {
     $importimg = 'greentick.png';
 }
+$welcomecontent = 'le.dashboard.welcome.content';
+$headermsg      = 'le.dashboard.welcome.message';
+$block1img      = 'playvideo.png';
+$block2img      = 'helpvideo.png';
+$block3img      = 'facebook_community.png';
+$img1link       = '#';
+$img2link       = '#';
+$img3link       = '#';
+if ($isPaid) {
+    $welcomecontent = 'le.dashboard.welcome.paidcontent';
+    $headermsg      = 'le.dashboard.welcome.paid';
+    $block1img      = 'sending_domain_video.png';
+    $block2img      = 'setup_sending_domain.png';
+    $block3img      = 'help_sending_domain.png';
+    $img1link       = '#';
+    $img2link       = '#';
+    $img3link       = '#';
+}
 ?>
 
 <div style="width:100%;">
-    <div class="<?php echo $isHideBlock ? 'hide' : ''?>">
+    <div class="<?php echo $isHideBlock ? '' : ''?>">
         <div>
             <div class="row row-padding">
             <div class="col-sm-12">
-                <p style="margin-top: 60px;margin-bottom:30px;font-size: 14px;line-height: 25px;text-align: center">
+                <p style="margin-top: 60px;font-size: 14px;line-height: 25px;text-align: center">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
-                            <span style="line-height: 39px; font-size: 22px;"><i  style="color:orange;" class="fa fa-hand-paper-o hide"></i> <?php echo $view['translator']->trans('le.dashboard.welcome.message', ['%USERNAME%'=> $username]); ?>
+                            <span style="line-height: 39px; font-size: 22px;font-weight: normal;color: #000;"><i  style="color:orange;" class="fa fa-hand-paper-o hide"></i> <?php echo $view['translator']->trans($headermsg, ['%USERNAME%'=> $username]); ?>
                             </span>
                         </strong>
                     </span>
+                    <br>
+                <p style="text-align: center;width:90%;margin-left:5%;">
+                <span style="font-size:14px;">
+                        <?php echo $view['translator']->trans($welcomecontent); ?>
+                    </span>
+                </p>
                 </p>
             </div>
             <div class="col-sm-4 hide">
@@ -67,11 +91,11 @@ if ($isImportDone) {
                 </div>
             </div>
             </div>
-
-            <div class="row row-padding" style="text-align: center">
-                <div class="col-sm-4">
-                    <div class="bg-white welcome-stats">
-                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step1'); ?> </h2>
+            <div class="row" style="text-align: center;margin-left:20px;">
+                <div class="plan-card col-md-8">
+                    <div class="">
+                        <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block1img) ?>"/></a>
+                        <!--<h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step1'); ?> </h2>
                         <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-configuration.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
@@ -88,13 +112,14 @@ if ($isImportDone) {
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
-                <div class="col-sm-4">
-                    <div class="bg-white welcome-stats">
-                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step2'); ?> </h2>
+                <div class="plan-card col-md-8">
+                    <div class="">
+                        <a href="<?php echo $img2link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block2img) ?>"/></a>
+                        <!--<h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step2'); ?> </h2>
                         <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-upload.png">
                         <div style="text-align: left;padding:15px;">
                             <ul class="todolist">
@@ -111,13 +136,14 @@ if ($isImportDone) {
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
-                <div class="col-sm-4">
-                    <div class="bg-white welcome-stats">
-                        <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step3'); ?> </h2>
+                <div class="plan-card col-md-8">
+                    <div class="">
+                        <a href="<?php echo $img3link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block3img) ?>"/></a>
+                        <!--<h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.step3'); ?> </h2>
                         <img class="dashboard-step-img" src="http://anyfunnels.com/wp-content/uploads/leproduct/icon-send-email.png">
                         <div style="text-align: left;padding:15px;"
                             <ul class="todolist">
@@ -134,9 +160,20 @@ if ($isImportDone) {
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
+            </div>
+            <div id="pricingplan" class="<?php echo $isPaid ? 'hide' : ''; ?>" style="margin-top: 20px;">
+                <?php echo $view->render('MauticSubscriptionBundle:Pricing:pricing.html.php', [
+                    'letoken'     => $letoken,
+                    'redirecturl' => $redirecturl,
+                    'plan1'       => 0,
+                    'plan2'       => 49,
+                    'plan3'       => 99,
+                    'planname'    => '',
+                    'isDashboard' => true,
+                ]); ?>
             </div>
             <br>
             <div class="row row-padding hide">
@@ -174,16 +211,16 @@ if ($isImportDone) {
         </div>
     </div>
 
-<div class="row hide" style="text-align: center;">
+<div class="row" style="text-align: center;padding-top: 10px;margin-bottom: -20px;">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
         <div class="">
-            <img style="<?php echo $isPaid ? 'margin-top:60px;' : ''?>" src="<?php echo $view['assets']->getUrl('media/images/dashboard.png') ?>"> </img>
+            <img style="<?php echo false ? 'margin-top:60px;' : ''?>" src="<?php echo $view['assets']->getUrl('media/images/dashboard.png') ?>"> </img>
         </div>
     </div class="col-sm-4">
     <div></div>
 </div>
-<div class="pa-md" style="<?php echo $isHideBlock ? 'margin-top:30px;' : ''?>">
+<div class="pa-md" style="<?php echo false ? 'margin-top:30px;' : ''?>">
     <div class="row row-padding">
         <?php echo $view->render('MauticSubscriptionBundle:Subscription:stats.html.php',
             [

@@ -45,8 +45,14 @@ Le.pricingplansOnLoad = function (container) {
         var planamount = currentLink.attr('data-planamount');
         var plancurrency = currentLink.attr('data-plancurrency');
         var plancredits = currentLink.attr('data-plancredits');
+        var plancontactcredits = currentLink.attr('data-contactcredits');
         var planvalidity = currentLink.attr('data-validity');
         var paynowbtn=mQuery('.pay-now-btn');
+        var headerdesc=mQuery('.header_desc');
+        var planamountarr = [];
+        planamountarr['leplan1'] = 0;
+        planamountarr['leplan2'] = 49;
+        planamountarr['leplan3'] = 99;
         /*var emailtransport=mQuery('.pricing-plan-holder').attr('data-email-transaport');
         if(emailtransport == 'viale'){
             mQuery('#pricing-plan-alert-info').removeClass('hide');
@@ -54,16 +60,28 @@ Le.pricingplansOnLoad = function (container) {
             //mQuery('#pricing-plan-alert-info').addClass('hide');
             var prodatatext=mQuery('#pro-data-text');
             prodatatext.addClass('hide');
-            if(planamount != 29 && planamount != 49 && planamount != 99){
-                prodatatext.html("Paying "+plancurrency+planamount+" pro-rata amount, as per your selected plan.");
+            var prodataval = "";
+            if(planamount != planamountarr[planname]){
+                prodataval = " ($"+planamount+" Pro rata charges for $"+planamountarr[planname]+" plan)";
+            }
+            if(planname == 'leplan1'){
+                prodatatext.html("<b>Note:</b><br>We will not charge your card today.<br>You will only be billed when you send more than 10K free emails in a month.");
+                prodatatext.removeClass('hide');
+            } else if(planname == 'leplan2'){
+                prodatatext.html("<b>Note:</b><br>We will charge $"+planamount+" today"+prodataval+".<br>If you send more than 100K emails in a month, then you will be billed for additional email credits as you use ($7 for every 10K emails).");
+                prodatatext.removeClass('hide');
+            } else {
+                prodatatext.html("<b>Note:</b><br>We will charged $"+planamount+" today"+prodataval+".<br>If you send more than 250K emails in a month, then you will be billed for additional email credits as you use ($5 for every 10K emails).");
                 prodatatext.removeClass('hide');
             }
-            paynowbtn.html("Pay Now"+" ("+plancurrency+planamount+")");
+            headerdesc.text(planamountarr[planname]+'$ per month');
+            paynowbtn.html("Subscribe");
             paynowbtn.attr("planamount",planamount);
             paynowbtn.attr("plancurrency",plancurrency);
             paynowbtn.attr("plancredits",plancredits);
             paynowbtn.attr("planname",planname);
             paynowbtn.attr("planvalidity",planvalidity);
+            paynowbtn.attr("contactcredits",plancontactcredits);
             mQuery('.pricing-type-modal-backdrop').removeClass('hide');
             mQuery('.pricing-type-modal').removeClass('hide');
             mountStripeCard(stripe,card,'#card-holder-widget');
@@ -77,6 +95,7 @@ Le.pricingplansOnLoad = function (container) {
         var planname = currentLink.attr('planname');
         var plancredits = currentLink.attr('plancredits');
         var planvalidity = currentLink.attr('planvalidity');
+        var contactcredits = currentLink.attr('contactcredits');
         Le.activateButtonLoadingIndicator(currentLink);
         stripe.createToken(card).then(function(result) {
             if (result.error) {
@@ -146,6 +165,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
     var plancredits=0;
     var planname="";
     var planvalidity="";
+    var contactcredits = 0;
     var isCardUpdateAlone=true;
     if(btnelement != null){
         planamount = btnelement.attr('planamount');
@@ -153,10 +173,11 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
         planname = btnelement.attr('planname');
         plancredits = btnelement.attr('plancredits');
         planvalidity = btnelement.attr('planvalidity');
+        contactcredits = btnelement.attr('contactcredits');
         isCardUpdateAlone=false;
     }
     // Insert the token ID into the form so it gets submitted to the server
-    Le.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,planvalidity:planvalidity,isCardUpdateAlone:isCardUpdateAlone}, function(response) {
+    Le.ajaxActionRequest('subscription:updatestripecard', {letoken:letoken,stripetoken:stripetoken,planamount:planamount,plancurrency:plancurrency,plancredits:plancredits,planname:planname,planvalidity:planvalidity,isCardUpdateAlone:isCardUpdateAlone,contactcredits:contactcredits}, function(response) {
 
         if(isCardUpdateAlone){
             Le.deactivateBackgroup();
@@ -211,4 +232,23 @@ Le.showerror= function (error){
         message = error;
     }
     return message;
-}
+};
+Le.openCancelSubscriptionModel = function(){
+    mQuery('.cancel-subscription-modal-backdrop').removeClass('hide');
+    mQuery('.cancel-subscription-modal').removeClass('hide');
+};
+Le.cancelSubscription = function(redirecturl){
+    Le.activateBackdrop();
+    var cancelreason = mQuery('#cancel_reason').val();
+    var cancelfeedback = mQuery('#reason_feedback').val();
+    Le.ajaxActionRequest('subscription:cancelsubscription', {cancelreason:cancelreason,cancelfeedback:cancelfeedback}, function(response) {
+        e.preventDefault();
+        Le.activateBackdrop();
+        Le.deactivateBackgroup();
+        if(response.success) {
+            Le.loadContent(redirecturl);
+
+            mQuery('body').removeClass('noscroll');
+        }
+    });
+};

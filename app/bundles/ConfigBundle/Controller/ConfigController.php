@@ -249,6 +249,9 @@ class ConfigController extends FormController
         $paymentrepository   =$this->get('le.subscription.repository.payment');
         $lastpayment         = $paymentrepository->getLastPayment();
 
+        $usertoken = $this->user->getUsername().':'.$this->user->getPlainPassword();
+        $userapi   = base64_encode($usertoken);
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -261,6 +264,7 @@ class ConfigController extends FormController
                     'lastPayment'    => $lastpayment,
                     'EmailList'      => $emailModel->getAllEmailAddress(),
                     'selectTab'      => $selecttab,
+                    'userapi'        => $userapi,
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

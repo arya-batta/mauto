@@ -778,6 +778,11 @@ class IntegrationHelper
                 'image_url'=> $assetsHelper->getUrl('media/images/integrations/calendly.png'),
                 'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>$calendly]),
             ],
+            'zapier' => [
+                'name'     => 'Zapier',
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/zapier.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'zapier']),
+            ],
         ];
         if ($specificintegration != null) {
             return  $integrations[$specificintegration];

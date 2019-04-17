@@ -73,14 +73,14 @@ class UpdatePaymentCommand extends ModeratedCommand
                     /*if ($planname != 'leplan1') {
                         $planname = 'leplan1';
                     }*/
-                    if ($planname == 'leplan2') {
-                        //$monthcount = 12;
-                        $plancredits = $licenseinfo->getTotalEmailCount();
-                    }
+                    //if ($planname == 'leplan2') {
+                    //$monthcount = 12;
+                    $plancredits = $licenseinfohelper->getEmailCreditsByPlan($planname);
+                    //}
                     if ($stripecard != null) {
                         $ismoreusage=false;
                         if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
-                            $ismoreusage=false;
+                            $ismoreusage=true;
                         }
                         $isvalidityexpired=false;
                         if (strtotime($validitytill) < strtotime($currentdate)) {
@@ -95,19 +95,25 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $multiplx   = $multiplx - 10;
                             }
                             if ($isvalidityexpired) {
-                                $plancredits = $translator->trans('le.pricing.plan.plancredits1');
+                                $plancredits = $translator->trans('le.pricing.plan.email.plancredits1');
                                 $planamount  = $translator->trans('le.pricing.plan.amount1');
                                 if ($planname == 'leplan2') {
-                                    $plancredits = $translator->trans('le.pricing.plan.plancredits2');
+                                    $plancredits = $translator->trans('le.pricing.plan.email.plancredits2');
                                     $planamount  = $translator->trans('le.pricing.plan.amount2');
                                 } elseif ($planname == 'leplan3') {
-                                    $plancredits = $translator->trans('le.pricing.plan.plancredits3');
+                                    $plancredits = $translator->trans('le.pricing.plan.email.plancredits3');
                                     $planamount  = $translator->trans('le.pricing.plan.amount3');
                                 }
+                                $curtotalcount  = $totalrecordcount - $plancredits;
+                                $curactualcount = $actualrecordcount - $plancredits;
+                                if ($curactualcount < 0) {
+                                    $curactualcount = 0;
+                                }
+                                $addoncredits         = $curtotalcount - $curactualcount;
                                 $netamount            = (($planamount)); // + (10 * $multiplx));
-                                $netcredits           = (($plancredits)); // + (5000 * $multiplx));
+                                $netcredits           = (($plancredits + $addoncredits)); // + (5000 * $multiplx));
                                 $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
-                                $clearactualmailcount = false;
+                                $clearactualmailcount = true;
                             } elseif ($ismoreusage) {
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;
@@ -115,7 +121,13 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 if ($excesscount > 0) {
                                     $amtmultiplx   =ceil($excesscount / 10000);
                                 }
-                                $netamount            = (9 * $amtmultiplx);
+                                $examount = 10;
+                                if ($planname == 'leplan2') {
+                                    $examount = 7;
+                                } elseif ($planname == 'leplan3') {
+                                    $examount = 5;
+                                }
+                                $netamount            = ($examount * $amtmultiplx);
                                 $netcredits           = (($plancredits) + (10000 * $amtmultiplx));
                                 $clearactualmailcount = false;
                                 //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
@@ -124,8 +136,14 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 // $netamount=$amount2 - $amount1;
                                 $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
                             }
+                            $contactcredites    = $translator->trans('le.pricing.plan.plancredits1');
+                            if ($planname == 'leplan2') {
+                                $contactcredites =$translator->trans('le.pricing.plan.plancredits2');
+                            } elseif ($planname == 'leplan3') {
+                                $contactcredites = $translator->trans('le.pricing.plan.plancredits3');
+                            }
                             if ($netamount > 0) {
-                                $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount);
+                                $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites);
                             } else {
                                 $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
                             }
@@ -191,7 +209,7 @@ class UpdatePaymentCommand extends ModeratedCommand
         }
     }
 
-    protected function attemptStripeCharge($output, $stripecard, PaymentHelper $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount)
+    protected function attemptStripeCharge($output, $stripecard, PaymentHelper $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites)
     {
         $container  = $this->getContainer();
         $apikey     =$container->get('mautic.helper.core_parameters')->getParameter('stripe_api_key');
@@ -219,7 +237,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $todaydate     = date('Y-m-d');
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
                 $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateContactCredits($netcredits, $validitytill, $todaydate, $clearactualmailcount);
+                $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, $clearactualmailcount, $netcredits);
                 $output->writeln('<info>'.'Plan Renewed Successfully'.'</info>');
                 $output->writeln('<info>'.'Transaction ID:'.$chargeid.'</info>');
                 $output->writeln('<info>'.'Amount($):'.$netamount.'</info>');
@@ -243,7 +261,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $subsrepository=$container->get('le.core.repository.subscription');
                 $subsrepository->updateAppStatus($appid, 'InActive');
                 $mailer = $container->get('le.transactions.sendgrid_api');
-                $paymenthelper->paymentFailedEmailtoUser($mailer,$planname);
+                $paymenthelper->paymentFailedEmailtoUser($mailer, $planname);
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');
                 $output->writeln('<error>'.'Failure Message:'.$failure_message.'</error>');

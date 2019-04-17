@@ -215,7 +215,6 @@ class AccountController extends FormController
                 'custplanamount'     => $custplanamount,
                 'planName'           => $planName,
                 'actualEmailCredits' => $actualEmailCredits,
-                'totalContactCredits'=> $totalContactCredits,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [

@@ -1149,4 +1149,15 @@ class LicenseInfoHelper
 
         return false;
     }
+
+    public function getEmailCreditsByPlan($planName)
+    {
+        $planarray = [
+            'leplan1' => 10000,
+            'leplan2' => 50000,
+            'leplan3' => 100000,
+        ];
+
+        return $planarray[$planName];
+    }
 }

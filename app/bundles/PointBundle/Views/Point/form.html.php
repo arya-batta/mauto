@@ -73,17 +73,20 @@ echo $view['form']->start($form);
                 </div>
             </div>
         </div>
- 	<div class="hide col-md-3 bg-white height-auto">
-		<div class="pr-lg pl-lg pt-md pb-md">
-            <?php  echo $view['form']->row($form['category']);
-                   echo $view['form']->row($form['isPublished']); ?>
-            <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-                <?php
-                echo $view['form']->row($form['publishUp']);
-                echo $view['form']->row($form['publishDown']);
-                ?>
+        <div class="hide col-md-3 bg-white height-auto">
+            <div class="pr-lg pl-lg pt-md pb-md">
+                <?php  echo $view['form']->row($form['category']);
+                echo $view['form']->row($form['isPublished']); ?>
+                <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
+                    <?php
+                    echo $view['form']->row($form['publishUp']);
+                    echo $view['form']->row($form['publishDown']);
+                    ?>
+                </div>
             </div>
-		</div>
-	</div>
+        </div>
+        <br>
+        <br>
+        <br>
 </div>
 <?php echo $view['form']->end($form); ?>

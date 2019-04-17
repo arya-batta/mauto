@@ -68,13 +68,14 @@ class SubscriptionController extends CommonController
         $lastpayment        = $paymentrepository->getLastPayment();
         $propayment         = 0;
         $planname           = '';
+        $preamount          = 0;
         if ($lastpayment != null) {
             $currentdate      = date('Y-m-d');
             $validityend      = $this->get('mautic.helper.licenseinfo')->getLicenseEndDate();
             $amount           = $lastpayment->getAmount();
             $planname         = $lastpayment->getPlanName();
-
-            $propayment = $this->getProrataAmount($currentdate, $validityend, $amount);
+            $preamount        = $amount;
+            $propayment       = $this->getProrataAmount($currentdate, $validityend, $amount);
         }
 
         return $this->delegateView([
@@ -86,6 +87,8 @@ class SubscriptionController extends CommonController
                 'tmpl'            => 'index',
                 'proamount'       => $propayment,
                 'planname'        => $planname,
+                'redirecturl'     => $this->generateUrl('le_pricing_index'),
+                'preamount'       => $preamount,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
             'passthroughVars' => [
@@ -548,7 +551,7 @@ class SubscriptionController extends CommonController
                 $signupinfo     =$repository->getSignupInfo($userEntity->getEmail());
                 if (!empty($signupinfo)) {
                     $accountEntity->setDomainname($signupinfo[0]['f5']);
-                    $accountEntity->setAccountname($signupinfo[0]['f2']);
+                    //    $accountEntity->setAccountname($signupinfo[0]['f2']);
                 }
                 $userModel->saveEntity($userEntity);
                 $accountModel->saveEntity($accountEntity);

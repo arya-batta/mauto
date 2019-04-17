@@ -58,11 +58,11 @@ class PaymentRepository extends CommonRepository
         if (strtotime($validitytill) < strtotime($currentdate)) {
             $isvalidityexpired=1;
         }
-        $planlabel = 'Starter';
+        $planlabel = 'Free Forever';
         if ($planname == 'leplan2') {
-            $planlabel = 'Growth';
+            $planlabel = 'Starter';
         } elseif ($planname == 'leplan3') {
-            $planlabel = 'Ultimate';
+            $planlabel = 'Growth';
         }
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);

@@ -285,6 +285,7 @@ class DashboardController extends FormController
         if ($leadcount > 100 && $emailProvider && ($isDripCreated || $isOneOffCreated)) {
             $isHideBlock = true;
         }
+        $paymenthelper     =$this->get('le.helper.payment');
 
         return $this->delegateView(
             [
@@ -311,14 +312,16 @@ class DashboardController extends FormController
                     'emailStats'           => $emailStats,
                     'leadStats'            => $leadStats,
                     'overallstats'         => $overallstats,
-                    'username'             => $this->user->getName(),
+                    'username'             => $this->user->getFirstName(),
                     'isPaid'               => ($lastpayment != null),
                     'isHideBlock'          => $isHideBlock,
+                    'letoken'              => $paymenthelper->getUUIDv4(),
+                    'redirecturl'          => $this->generateUrl('le_dashboard_index'),
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dashboard_index',
-                    'leContent'     => 'subscription',
+                    'leContent'     => 'pricingplans',
                     'route'         => $this->generateUrl('le_dashboard_index'),
                 ],
             ]
