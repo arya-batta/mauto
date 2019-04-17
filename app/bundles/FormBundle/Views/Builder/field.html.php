@@ -13,7 +13,7 @@ $toggleTemplate = '<div class="col-md-6">{content}</div>';
 $properties     = (isset($form['properties'])) ? $form['properties'] : [];
 $showAttributes = isset($form['labelAttributes']) || isset($form['inputAttributes']) || isset($form['containerAttributes']) || isset($properties['labelAttributes']) || isset($form['alias']);
 $showBehavior   = isset($form['showWhenValueExists']) || isset($properties['showWhenValueExists']);
-$placeholder = '';
+$placeholder    = '';
 if (isset($properties['placeholder'])):
     $placeholder = $view['form']->rowIfExists($properties, 'placeholder', $template);
     unset($properties['placeholder']);
@@ -64,7 +64,8 @@ $html           = '<div class="form-group col-xs-12 ">
         <ul class="nav nav-tabs hide <?php echo $gdprRestriction; ?>" role="tablist">
             <li role="presentation" class="active">
                 <a<?php if ($generalTabError) {
-                    echo ' class="text-danger" ';} ?> href="#general" aria-controls="general" role="tab" data-toggle="tab">
+    echo ' class="text-danger" ';
+} ?> href="#general" aria-controls="general" role="tab" data-toggle="tab">
                     <?php echo $view['translator']->trans('mautic.form.field.section.general'); ?>
                     <?php if ($generalTabError): ?>
                         <i class="fa fa-warning"></i>
@@ -113,23 +114,27 @@ $html           = '<div class="form-group col-xs-12 ">
             </li>
             <?php endif; ?>
         </ul>
-
+        <div class="tab-content pa-lg <?php echo $gdprRestriction ? '' : 'hide'; ?>">
+            <div role="tabpanel" class="tab-pane active">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php// echo $html; ?>
+                        <?php  echo $view['form']->rowIfExists($form, 'content'); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Tab panes -->
-        <div class="tab-content pa-lg">
+        <div class="tab-content pa-lg <?php echo $gdprRestriction; ?>">
             <div role="tabpanel" class="tab-pane active" id="general">
                <div class="row">
-
                     <?php echo $view['form']->rowIfExists($form, 'label', $template); ?>
-                     <?php if ($gdprRestriction): ?>
-                        <?php echo $html; ?>
-                     <?php endif; ?>
-
                     <?php if (isset($form['leadField'])): ?>
 
                      <div class="col-md-6">
                          <label class="control-label" for="formfield_label">Lead Field</label>
                         <?php $fieldGroups = $form['leadField']->vars['choices'];
-                        $data        = $form['leadField']->vars['data'];
+                        $data              = $form['leadField']->vars['data'];
                         ?>
                         <select id="formfield_leadField" name="formfield[leadField]" class="form-control" autocomplete="false" style="display: none;">
                             <option value=""></option>

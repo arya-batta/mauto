@@ -64,7 +64,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'leContent' => 'form',
+                        'leContent'     => 'form',
                     ],
                     'flashes' => [
                         [
@@ -145,7 +145,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Result:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'leContent' => 'formresult',
+                        'leContent'     => 'formresult',
                     ],
                 ]
             );
@@ -167,6 +167,7 @@ class ResultController extends CommonFormController
                     'totalCount'     => $count,
                     'limit'          => $limit,
                     'tmpl'           => $tmpl,
+                    'isEmbeddedForm' => !$form->isSmartForm() ? true : false,
                     'canDelete'      => $this->get('mautic.security')->hasEntityAccess(
                         'form:forms:editown',
                         'form:forms:editother',
@@ -176,7 +177,7 @@ class ResultController extends CommonFormController
                 'contentTemplate' => 'MauticFormBundle:Result:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => 'le_form_index',
-                    'leContent' => 'formresult',
+                    'leContent'     => 'formresult',
                     'route'         => $this->generateUrl(
                         'le_form_results',
                         [
@@ -266,7 +267,7 @@ class ResultController extends CommonFormController
                     'contentTemplate' => 'MauticFormBundle:Form:index',
                     'passthroughVars' => [
                         'activeLink'    => 'le_form_index',
-                        'leContent' => 'form',
+                        'leContent'     => 'form',
                     ],
                     'flashes' => [
                         [

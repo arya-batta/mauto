@@ -7713,3 +7713,6 @@ ul.list-unstyled, ul#list-unstyled  {
 .choice-wrapper .help-block{
   float:left;
 }
+.pointernone{
+  pointer-events: none; !important;
+}

@@ -425,7 +425,7 @@ class EventController extends CommonFormController
                 $label = $this->getFormattedEventLabel($label, $user, $choices);
             } else {
                 if ($event['properties']['to_owner'] == 1) {
-                    $label =$label.'[Lead Owner]';
+                    $label =$label.' [Lead Owner]';
                 } elseif ($event['properties']['to'] != null) {
                     $label =$label.' ['.$event['properties']['to'].']';
                 }
@@ -592,6 +592,10 @@ class EventController extends CommonFormController
             $glue       = $data['glue'];
             $oplabel    = $this->getOperatorLabel($operator);
             $oplabel    = $this->get('translator')->trans($oplabel);
+
+            if (strtotime($value)) {
+                $value = $this->factory->getHelper('template.date')->toFull($value, '', 'Y-m-d H:i');
+            }
             if (is_array($value)) {
                 $list   =[];
                 $options=$form->get('properties')->get('filters')->getConfig()->getOption('options');

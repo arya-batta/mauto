@@ -49,7 +49,7 @@ $view['slots']->set('leContent', 'form');
                 <div class="panel-body text-center">
                     <h4 style="height: 30px"><?php echo $formTemplates[$i]['name']; ?></h4>
                     <div style="background-image: url(<?php echo $formTemplates[$i]['imageurl'] ?>);background-repeat:no-repeat;background-size:contain; background-position:center; width: 100%; height: 250px"></div>
-                    <a href="<?php echo $view['router']->generate('le_form_action', ['objectAction' => 'cloneFormTemplate', 'objectId' => $formTemplates[$i]['id']]); ?>" type="button" class="select-theme-link btn btn-default <?php echo $isselected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
+                    <a href="<?php echo $view['router']->generate('le_embeddedform_action', ['objectAction' => 'cloneFormTemplate', 'objectId' => $formTemplates[$i]['id']]); ?>" type="button" class="select-theme-link btn btn-default <?php echo $isselected ? 'hide' : '' ?>" onclick="mQuery('#dynamic-content-tab').addClass('hidden')">
                         Select
                     </a>
                     <button type="button" class="select-theme-selected btn btn-default <?php echo $isselected ? '' : 'hide' ?>" disabled="disabled">

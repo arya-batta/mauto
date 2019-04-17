@@ -232,6 +232,9 @@ class FieldController extends CommonFormController
                             }
                             $formField['alias'] = $this->getModel('form.field')->generateAlias($formField['label'], $aliases);
                         }
+                        if ($formField['label'] == 'EU GDPR Consent') {
+                            $formField['properties']['optionlist']['list'][0]['label']= $formField['content'];
+                        }
 
                         // Force required for captcha if not a honeypot
                         if ($formField['type'] == 'captcha') {

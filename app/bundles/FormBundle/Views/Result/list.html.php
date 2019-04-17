@@ -12,9 +12,9 @@
     $view->extend('MauticFormBundle:Result:index.html.php');
 endif;*/
 
-$formId = $form->getId();
-$isAdmin=$view['security']->isAdmin();
-
+$formId    = $form->getId();
+$isAdmin   =$view['security']->isAdmin();
+$actionUrl = $isEmbeddedForm ? 'le_embeddedform_action' : 'le_smartform_action';
 ?>
 <div class="col-xs-6 va-m hide" style="margin-bottom: 10px;margin-left: -17px;">
     <h5 class="text-white dark-md fw-sb mb-xs">
@@ -168,7 +168,7 @@ $isAdmin=$view['security']->isAdmin();
         'page'       => $page,
         'limit'      => $limit,
         'tmpl'       => 'index',
-        'baseUrl'    => $view['router']->path('le_form_action', ['objectAction'=>'view', 'objectId' => $form->getId()]),
+        'baseUrl'    => $view['router']->path($actionUrl, ['objectAction'=>'view', 'objectId' => $form->getId()]),
         'sessionVar' => 'form.results',
     ]); ?>
 </div>

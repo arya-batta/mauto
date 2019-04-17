@@ -70,7 +70,7 @@ class ReportSubscriber extends CommonSubscriber
         ];
         $columns = array_merge(
             $columns,
-            $event->getStandardColumns($prefix, [], 'le_form_action'),
+            $event->getStandardColumns($prefix, [], 'le_embeddedform_action'),
             $event->getCategoryColumns()
         );
         $data = [
@@ -212,7 +212,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-sign-in';
-                    $graphData['link']      = 'le_form_action';
+                    $graphData['link']      = 'le_embeddedform_action';
                     $event->setGraph($g, $graphData);
                     break;
 
@@ -224,7 +224,7 @@ class ReportSubscriber extends CommonSubscriber
                     $graphData['data']      = $items;
                     $graphData['name']      = $g;
                     $graphData['iconClass'] = 'fa-check-square-o';
-                    $graphData['link']      = 'le_form_action';
+                    $graphData['link']      = 'le_embeddedform_action';
                     $event->setGraph($g, $graphData);
                     break;
             }

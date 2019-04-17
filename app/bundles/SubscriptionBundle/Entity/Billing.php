@@ -14,6 +14,7 @@ namespace Mautic\SubscriptionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
 use Mautic\CoreBundle\Entity\FormEntity;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -325,6 +326,15 @@ class Billing extends FormEntity
         );
 
         $metadata->addPropertyConstraint(
+            'accountingemail',
+            new Email(
+                [
+                    'message' => 'le.core.email.required',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
             'postalcode',
             new NotBlank(
                 [
@@ -359,8 +369,5 @@ class Billing extends FormEntity
                 ]
             )
         );
-
     }
-
-
 }

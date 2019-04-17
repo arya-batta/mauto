@@ -52,7 +52,7 @@ class AjaxController extends CommonAjaxController
         $http = new Http();
 
         // set the response
-        $response = $http->post($url, json_encode($payloads), $headers);
+        $response = $http->post($url, json_encode($payloads), $headers, 30);
 
         // default to an error message
         if ($response->code == 404) {

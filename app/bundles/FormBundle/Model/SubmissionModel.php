@@ -199,6 +199,10 @@ class SubmissionModel extends CommonFormModel
         $submission->setDateSubmitted(new \DateTime());
         $submission->setForm($form);
 
+        if (!isset($post['gdpr']) && $form->getGDPRPublished()) {
+            $post['gdpr'] = ['Denied'];
+        }
+
         //set the landing page the form was submitted from if applicable
         if (!empty($post['mauticpage'])) {
             $page = $this->pageModel->getEntity((int) $post['mauticpage']);

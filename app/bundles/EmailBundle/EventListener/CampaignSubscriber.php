@@ -17,6 +17,7 @@ use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
 use Mautic\CampaignBundle\Model\EventModel;
 use Mautic\ChannelBundle\Model\MessageQueueModel;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
+use Mautic\CoreBundle\Helper\LicenseInfoHelper;
 use Mautic\EmailBundle\EmailEvents;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Event\EmailOpenEvent;
@@ -28,7 +29,6 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\EmailBundle\Model\SendEmailToUser;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
-use Mautic\CoreBundle\Helper\LicenseInfoHelper;
 use Mautic\PageBundle\Entity\Hit;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -77,6 +77,7 @@ class CampaignSubscriber extends CommonSubscriber
      * @var LicenseInfoHelper
      */
     protected $licenseinfohelper;
+
     /**
      * @param LeadModel           $leadModel
      * @param EmailModel          $emailModel
@@ -238,7 +239,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTheme'       => 'MauticEmailBundle:FormTheme\EmailSendList',
                 'channel'         => 'email',
                 'channelIdField'  => 'email',
-                'order'           => 13,
+                'order'           => 14,
                 'group'           => 'le.campaign.event.group.name.leadsengage',
             ]
         );

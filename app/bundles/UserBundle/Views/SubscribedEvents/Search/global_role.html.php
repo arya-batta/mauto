@@ -16,7 +16,7 @@
     </a>
 <?php else: ?>
     <?php if ($canEdit): ?>
-        <a href="<?php echo $view['router']->generate('le_role_action', ['objectAction' => 'edit', 'objectId' => $role->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+        <a href="<?php echo $view['router']->generate('le_role_action', ['objectAction' => 'edit', 'objectId' => $role->getId()]); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
             <div class="media">
                 <div class="media-heading"> <?php echo $role->getName(true); ?></div>
             </div>

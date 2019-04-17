@@ -248,7 +248,7 @@ class ConfigType extends AbstractType
             'text',
             [
                 'label'      => 'le.sms.avtivate.status.label',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label pointernone'],
                 'attr'       => [
                     'class'        => 'form-control col-md-3 btn btn-primary '.$class,
                 ],

@@ -213,6 +213,7 @@ class AjaxController extends CommonAjaxController
                     } elseif ($name != '') {
                         $query="//form[@name='$name']//input|//form[@name='$name']//select|//form[@name='$name']//textarea";
                     }
+                    $form['fields']=[];
                     if ($query != '') {
                         $fieldlist = $xpath->query($query);
                         $fields    =[];

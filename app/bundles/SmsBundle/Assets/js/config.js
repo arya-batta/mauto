@@ -37,12 +37,12 @@ Le.testSmsServerConnection = function(sendSMS,mobile) {
         }
         if(theClass == 'has-success'){
             mQuery('#config_smsconfig_sms_status').val('Active');
-            mQuery('#config_smsconfig_sms_status').css('background-color','#008000');
-            mQuery('#config_smsconfig_sms_status').css('border-color','#008000');
+            mQuery('#config_smsconfig_sms_status').removeClass('status_fail');
+            mQuery('#config_smsconfig_sms_status').addClass('status_success');
         }else if(theClass == 'has-error'){
             mQuery('#config_smsconfig_sms_status').val('InActive');
-            mQuery('#config_smsconfig_sms_status').css('background-color','#ff0000');
-            mQuery('#config_smsconfig_sms_status').css('border-color','#ff0000');
+            mQuery('#config_smsconfig_sms_status').removeClass('status_success');
+            mQuery('#config_smsconfig_sms_status').addClass('status_fail');
 
         }
 

@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Class AccountType.
@@ -127,6 +128,13 @@ class AccountType extends AbstractType
                 'attr'        => ['class' => 'form-control le-input'],
                 'required'    => false,
                 'data'        => $options['data']->getEmail(),
+                'constraints' => [
+                    new Email(
+                        [
+                            'message' => 'le.core.email.required',
+                        ]
+                    ),
+                ],
             ]
         );
 

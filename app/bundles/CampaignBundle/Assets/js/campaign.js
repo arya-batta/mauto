@@ -252,6 +252,7 @@ Le.campaignOnLoad = function (container, response) {
             );
         });
     }
+   Le.hideFlashMessage();
 };
 
 Le.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
@@ -1857,7 +1858,7 @@ Le.campaignEventOnLoad = function (container, response) {
     }else{
         mQuery('#campaignevent_properties_useremail_previewEmailButton').prop('disabled', false);
     }
-
+    mQuery( ".custom-datepicker" ).datetimepicker({ minDate: 0});
 };
 
 Le.invokeCampaignEventAction = function(category, eventType){

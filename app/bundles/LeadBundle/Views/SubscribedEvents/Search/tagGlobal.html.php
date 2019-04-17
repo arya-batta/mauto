@@ -3,7 +3,7 @@
         <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_tags_index'); ?>" class="list-group-item" data-toggle="ajax">
+    <a href="<?php echo $view['router']->generate('le_tags_index'); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
         <div class="media">
             <div class="media-heading"><?php echo $tag->getTag(); ?></div>
         </div>

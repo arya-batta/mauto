@@ -1205,6 +1205,13 @@ class Asset extends FormEntity
             // Unset any remote file data
             $object->setRemotePath(null);
         } elseif ($object->isRemote()) {
+            if ($object->getTitle() === null) {
+                $context->buildViolation('mautic.asset.asset.error.missing.title')
+                    ->atPath('title')
+                    ->setTranslationDomain('validators')
+                    ->addViolation();
+            }
+
             // If the object is stored remotely, we should have a remote path
             if ($object->getRemotePath() === null) {
                 $context->buildViolation('mautic.asset.asset.error.missing.remote.path')

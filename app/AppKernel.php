@@ -108,7 +108,7 @@ class AppKernel extends Kernel
                         'index'
                     ) === false)
                 ) {
-                    $prefix .= '/index.php';
+                    //$prefix .= '/index.php';  // commented by GS for hiding /index.php in validate url
                 }
 
                 //return new RedirectResponse($request->getUriForPath($prefix.'/installer'));

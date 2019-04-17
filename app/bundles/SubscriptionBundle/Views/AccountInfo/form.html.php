@@ -50,42 +50,46 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                                 <?php echo $view['form']->errors($form['domainname']); ?>
                             </div>
                             </div>
-                            <div class="col-md-6"><div class="row"><div class="form-group col-xs-12 ">
+                            <div class="row form-group col-xs-12">
+                            <div class="col-md-6<?php echo (count($form['email']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['email']); ?>
                                 <?php echo $view['form']->widget($form['email']); ?>
-                            </div></div></div>
-                            <div class="col-md-6 <?php echo (count($form['phonenumber']->vars['errors'])) ? ' has-error' : ''; ?>"><div class="row"><div class="form-group col-xs-12 ">
+                                <?php echo $view['form']->errors($form['email']); ?>
+                            </div>
+                            <div class="col-md-6 <?php echo (count($form['phonenumber']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['phonenumber']); ?>
                                 <?php echo $view['form']->widget($form['phonenumber']); ?>
                                 <?php echo $view['form']->errors($form['phonenumber']); ?>
-                            </div></div></div>
-                            <div class="col-md-6" <?php echo $hidepanel ?>><div class="row"><div class="form-group col-xs-12 ">
-                                <?php echo $view['form']->label($form['currencysymbol']); ?>
-                                <?php echo $view['form']->widget($form['currencysymbol']); ?>
-                            </div></div></div>
-                            <div class="col-md-6 <?php echo (count($form['timezone']->vars['errors'])) ? ' has-error' : ''; ?>"><div class="row"><div class="form-group col-xs-12 ">
+                            </div>
+                            </div>
+                            <div class="row form-group col-xs-12">
+                            <div class="col-md-6 <?php echo (count($form['timezone']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['timezone']); ?>
                                 <?php echo $view['form']->widget($form['timezone']); ?>
                                 <?php echo $view['form']->errors($form['timezone']); ?>
-                            </div></div></div>
-
-                            <div class="col-md-6 hide"><div class="row"><div class="form-group col-xs-12 ">
-                                <?php echo $view['form']->label($form['accountid']); ?>
-                                <?php echo $view['form']->widget($form['accountid']); ?>
-                            </div></div></div>
-
-                            <div class="col-md-6 <?php echo (count($form['website']->vars['errors'])) ? ' has-error' : ''; ?>"><div class="row"><div class="form-group col-xs-12 ">
+                            </div>
+                            <div class="col-md-6 <?php echo (count($form['website']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['website']); ?>
                                 <?php echo $view['form']->widget($form['website']); ?>
                                 <?php echo $view['form']->errors($form['website']); ?>
-                            </div></div></div>
-
-                            <div class="col-md-6"><div class="row"><div class="form-group col-xs-12 ">
+                            </div>
+                            </div>
+                            <div class="row form-group col-xs-12">
+                                <div class="col-md-6">
+                                </div>
+                            <div class="col-md-6">
                                 <?php echo $view['form']->label($form['needpoweredby']); ?>
                                 <?php echo $view['form']->widget($form['needpoweredby']); ?>
+                            </div>
+                            </div>
+                            <div class="col-md-6 hide"><div class="row"><div class="form-group col-xs-12 ">
+                                        <?php echo $view['form']->label($form['accountid']); ?>
+                                        <?php echo $view['form']->widget($form['accountid']); ?>
                             </div></div></div>
-
-
+                            <div class="col-md-6" <?php echo $hidepanel ?>><div class="row"><div class="form-group col-xs-12 ">
+                                        <?php echo $view['form']->label($form['currencysymbol']); ?>
+                                        <?php echo $view['form']->widget($form['currencysymbol']); ?>
+                            </div></div></div>
                         </div>
                     </div>
                 </div>

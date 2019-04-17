@@ -12,6 +12,8 @@ $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'form');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.form.forms'));
 
+$routebase = $isEmbeddedForm ? 'embeddedform' : 'smartform';
+
 $view['slots']->set(
     'actions',
     $view->render(
@@ -20,7 +22,7 @@ $view['slots']->set(
             'templateButtons' => [
                 'new' => $permissions['form:forms:create'],
             ],
-            'routeBase' => 'form',
+            'routeBase' => $routebase,
             'langVar'   => 'form.form',
         ]
     )

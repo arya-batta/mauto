@@ -11,6 +11,7 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'form');
 $view['slots']->set('headerTitle', $activeForm->getName());
+$routebase = $isEmbeddedForm ? 'embeddedform' : 'smartform';
 /*$custombuttons=[
     [
         'attr' => [
@@ -77,7 +78,7 @@ $view['slots']->set(
                     $activeForm->getCreatedBy()
                 ),
             ],
-            'routeBase'     => 'form',
+            'routeBase'     => $routebase,
             'langVar'       => 'form',
             'customButtons' => $custombuttons,
         ]
@@ -185,7 +186,9 @@ $isadmin     =$view['security']->isAdmin();
                 'totalCount'     => $count,
                 'limit'          => $limit,
                 'tmpl'           => 'list',
-                'canDelete'      => false, /*$this->get('mautic.security')->hasEntityAccess(
+                'canDelete'      => false,
+                'isEmbeddedForm' => $isEmbeddedForm,
+                /*$this->get('mautic.security')->hasEntityAccess(
                     'form:forms:editown',
                     'form:forms:editother',
                     $form->getCreatedBy()

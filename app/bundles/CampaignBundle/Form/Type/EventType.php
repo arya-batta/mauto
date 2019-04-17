@@ -118,7 +118,7 @@ class EventType extends AbstractType
                 [
                     'label' => false,
                     'attr'  => [
-                        'class'       => 'form-control le-input decision-widget-width',
+                        'class'       => 'form-control le-input decision-widget-width custom-datepicker',
                         'preaddon'    => 'fa fa-calendar',
                         'data-toggle' => 'datetime',
                     ],

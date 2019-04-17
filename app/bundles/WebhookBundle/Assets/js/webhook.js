@@ -38,6 +38,10 @@ Le.sendHookTest = function() {
                 errorMsg = request.responseJSON;
                 if (errorMsg.errors && errorMsg.errors[0] && errorMsg.errors[0].message) {
                     errorMsg = errorMsg.errors[0].message;
+
+                    if (errorMsg.indexOf('Operation timed out') != -1) {
+                        errorMsg="Connection timeout";
+                    }
                 }
             }
             var spandiv = '<div class="has-error"><span class="help-block">'+errorMsg+'</span></div>';

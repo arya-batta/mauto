@@ -315,7 +315,7 @@ class SubmissionRepository extends CommonRepository
     {
         $asSelect = ($as) ? ' as '.$as : '';
 
-        $query->select('f.name as title, f.id, count(distinct '.$column.')'.$asSelect)
+        $query->select('f.name as title, f.id, f.form_type as formtype, count(distinct '.$column.')'.$asSelect)
             ->groupBy('f.id, f.name')
             ->orderBy($as, 'DESC')
             ->setMaxResults($limit)

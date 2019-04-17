@@ -192,7 +192,7 @@ class SmsHelper
             $settings['senderid']   = $this->factory->get('mautic.helper.core_parameters')->getParameter('le_account_sender_id');
         }
         $result     = true;
-        $content    = "Hi, \n This is Test Message. \n Team LeadsEngage.";
+        $content    = "Hi, \n This is Test Message. \n Team ".$translator->trans('le.core.email.utm.source').'.';
         $msgcontent = urlencode($content);
         switch ($transport) {
             case 'SolutionInfinity':

@@ -47,7 +47,7 @@ class UploadController extends DropzoneController
                         $this->errorHandler->addException($response, $error);
                     }
                 } else {
-                    $error = new UploadException($this->container->get('translator')->trans('mautic.asset.error.size.exceeds'));
+                    $error = new UploadException($this->container->get('translator')->trans('mautic.asset.error.size.exceeds', ['%USEDCOUNT%' => $actualAttachmentSize, '%ACTUALCOUNT%' => $totalAttachmentSize]));
                     $this->errorHandler->addException($response, $error);
                 }
             }

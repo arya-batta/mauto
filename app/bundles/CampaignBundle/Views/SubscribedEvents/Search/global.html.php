@@ -16,7 +16,7 @@
     </a>
 </div>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+    <a href="<?php echo $view['router']->generate('le_campaign_action', ['objectAction' => 'edit', 'objectId' => $campaign->getId()]); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
         <div class="media">
             <div class="media-heading"><?php echo $campaign->getName(); ?></div>
         </div>

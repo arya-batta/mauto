@@ -14,7 +14,7 @@
         <small class="text-primary"><?php echo $view['router']->generate('le_page_index', ['search' => $searchString]); ?></small>
     </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+    <a href="<?php echo $view['router']->generate('le_page_action', ['objectAction' => 'view', 'objectId' => $page->getId()]); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
         <div class="media">
             <div class="media-heading"><?php echo $page->getTitle(); ?></div>
         </div>

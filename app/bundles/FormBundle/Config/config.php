@@ -60,9 +60,17 @@ return [
                 'path'       => '/forms/field/{objectAction}/{objectId}',
                 'controller' => 'MauticFormBundle:Field:execute',
             ],
-            'le_form_index' => [
+            /**'le_form_index' => [
                 'path'       => '/forms/{page}',
                 'controller' => 'MauticFormBundle:Form:index',
+            ],*/
+            'le_embeddedform_index' => [
+                'path'       => '/embededforms/{page}',
+                'controller' => 'MauticFormBundle:Form:index',
+            ],
+            'le_smartform_index' => [
+                'path'       => '/smartforms/{page}',
+                'controller' => 'MauticFormBundle:SmartForm:index',
             ],
             'le_form_results' => [
                 'path'       => '/forms/results/{objectId}/{page}',
@@ -86,9 +94,23 @@ return [
                     'objectId' => 0,
                 ],
             ],
-            'le_form_action' => [
+           /* 'le_form_action' => [
                 'path'       => '/forms/{objectAction}/{objectId}/{pageId}',
                 'controller' => 'MauticFormBundle:Form:execute',
+                'defaults'   => [
+                    'pageId' => 1,
+                ],
+            ],*/
+            'le_embeddedform_action' => [
+                'path'       => '/embededforms/{objectAction}/{objectId}/{pageId}',
+                'controller' => 'MauticFormBundle:Form:execute',
+                'defaults'   => [
+                    'pageId' => 1,
+                ],
+            ],
+            'le_smartform_action' => [
+                'path'       => '/smartforms/{objectAction}/{objectId}/{pageId}',
+                'controller' => 'MauticFormBundle:SmartForm:execute',
                 'defaults'   => [
                     'pageId' => 1,
                 ],
@@ -169,14 +191,14 @@ return [
             'items' => [
                 'le.form.embeded' => [
                     'iconClass' => 'fa fa-edit',
-                    'route'     => 'le_form_index',
+                    'route'     => 'le_embeddedform_index',
                     'access'    => ['form:forms:viewown', 'form:forms:viewother'],
                     'parent'    => 'mautic.form.forms',
                     'priority'  => 200,
                 ],
                 'le.form.smart' => [
                     'iconClass' => 'fa fa-edit',
-                    'route'     => 'le_form_index',
+                    'route'     => 'le_smartform_index',
                     'access'    => ['form:forms:viewown', 'form:forms:viewother'],
                     'parent'    => 'mautic.form.forms',
                     'priority'  => 100,

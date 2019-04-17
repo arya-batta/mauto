@@ -220,8 +220,9 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 // Build table rows with links
                 if ($forms) {
                     foreach ($forms as &$form) {
-                        $formUrl = $this->router->generate('le_form_action', ['objectAction' => 'view', 'objectId' => $form['id']]);
-                        $row     = [
+                        $actionUrl = !$form->isSmartForm() ? 'le_embeddedform_action' : 'le_smartform_action';
+                        $formUrl   = $this->router->generate($actionUrl, ['objectAction' => 'view', 'objectId' => $form['id']]);
+                        $row       = [
                             [
                                 'value' => $form['name'],
                                 'type'  => 'link',

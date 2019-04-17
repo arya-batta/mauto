@@ -14,6 +14,7 @@ namespace Mautic\UserBundle\Controller;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\UserBundle\Form\Type as FormType;
+use Symfony\Component\Form\FormError;
 
 /**
  * Class UserController.
@@ -90,7 +91,7 @@ class UserController extends FormController
                 'contentTemplate' => 'MauticUserBundle:User:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_user_index',
-                    'leContent' => 'user',
+                    'leContent'     => 'user',
                 ],
             ]);
         }
@@ -119,7 +120,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:list.html.php',
             'passthroughVars' => [
                 'route'         => $this->generateUrl('le_user_index', ['page' => $page]),
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ]);
     }
@@ -222,7 +223,7 @@ class UserController extends FormController
                         'contentTemplate' => 'MauticUserBundle:User:index',
                         'passthroughVars' => [
                             'activeLink'    => '#le_user_index',
-                            'leContent' => 'user',
+                            'leContent'     => 'user',
                         ],
                     ]);
                 }
@@ -237,7 +238,7 @@ class UserController extends FormController
                     'contentTemplate' => 'MauticUserBundle:User:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_user_index',
-                        'leContent' => 'user',
+                        'leContent'     => 'user',
                     ],
                 ]);
             }
@@ -249,7 +250,7 @@ class UserController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_user_new',
                 'route'         => $action,
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ]);
     }
@@ -282,7 +283,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ];
 
@@ -316,7 +317,7 @@ class UserController extends FormController
                 $encoder           = $this->get('security.encoder_factory')->getEncoder($user);
                 $password          = $model->checkNewPassword($user, $encoder, $submittedPassword);
 
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateUserName($form)) {
                     //form is valid so process the data
                     $user->setPassword($password);
                     $model->saveEntity($user, $form->get('buttons')->get('save')->isClicked());
@@ -377,7 +378,7 @@ class UserController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
                 'route'         => $action,
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ]);
     }
@@ -408,7 +409,7 @@ class UserController extends FormController
                 'activeLink'    => '#le_user_index',
                 'route'         => $returnUrl,
                 'success'       => $success,
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ];
         if ($this->request->getMethod() == 'POST') {
@@ -565,7 +566,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:contact.html.php',
             'passthroughVars' => [
                 'route'         => $action,
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ]);
     }
@@ -587,7 +588,7 @@ class UserController extends FormController
             'contentTemplate' => 'MauticUserBundle:User:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_user_index',
-                'leContent' => 'user',
+                'leContent'     => 'user',
             ],
         ];
 
@@ -641,5 +642,22 @@ class UserController extends FormController
                 'flashes' => $flashes,
             ])
         );
+    }
+
+    public function validateUserName($form)
+    {
+        $formData    = $form->getData();
+        $userName    = $formData->getUserName();
+
+        $isValidForm =true;
+
+        if (strpos($userName, ':') !== false) {
+            $form['username']->addError(
+                new FormError($this->translator->trans('le.user.user.username.invalid', [], 'validators'))
+            );
+            $isValidForm =false;
+        }
+
+        return  $isValidForm;
     }
 }

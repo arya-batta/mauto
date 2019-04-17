@@ -19,9 +19,9 @@ foreach ($forms as $formindex => $form):
 </div>
     <div class="smart-form-info-holder">
         <div class="smart-form-name">
-            <a class='smart-form-link' data-formname='<?php echo $formname?>' data-formid='<?php echo $formid?>' data-formfield='<?php echo $fieldjson?>' onclick='Le.openSmartFormPanel(this)'><?php echo $formlabel?></a>
+            <a class='smart-form-link' data-formname='<?php echo $formname?>' data-formid='<?php echo !empty($formid) ? $formid : $formname; ?>' data-formfield='<?php echo $fieldjson?>' onclick='Le.openSmartFormPanel(this)'><?php echo $formlabel?></a>
         </div>
-        <span style="display: none;" id ="data_formfield_<?php echo $formid; ?>">
+        <span style="display: none;" id ="data_formfield_<?php echo !empty($formid) ? $formid : $formname; ?>">
             <?php echo $fieldjson; ?>
         </span>
         <div class="smart-form-fieldcount">

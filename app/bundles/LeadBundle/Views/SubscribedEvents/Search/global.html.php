@@ -14,7 +14,7 @@
         <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $lead->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+    <a href="<?php echo $view['router']->generate('le_contact_action', ['objectAction' => 'view', 'objectId' => $lead->getId()]); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
         <div class="media">
             <div class="media-heading"><?php echo $lead->getPrimaryIdentifier(true); ?></div>
         </div>

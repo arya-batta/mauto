@@ -15,7 +15,7 @@
         <small class="text-primary"><?php echo $view['translator']->trans('mautic.core.search.more', ['%count%' => $remaining]); ?></small>
     </a>
 <?php else: ?>
-    <a href="<?php echo $view['router']->generate($type == 'list' ? 'le_email_campaign_action' : 'le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" class="list-group-item" data-toggle="ajax">
+    <a href="<?php echo $view['router']->generate($type == 'list' ? 'le_email_campaign_action' : 'le_email_action', ['objectAction' => 'view', 'objectId' => $email->getId()]); ?>" onclick="Le.closeGlobalSearchResults();" class="list-group-item" data-toggle="ajax">
         <div class="media">
             <div class="media-heading"><?php echo $email->getName(); ?></div>
         </div>

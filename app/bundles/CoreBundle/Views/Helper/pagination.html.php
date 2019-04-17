@@ -155,7 +155,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                 ?>
                 <li<?php echo $class; ?>>
                     <?php ?>
-                    <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
+                    <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $page - 1; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                         <span>Previous</span>
                     </a>
                 </li>
@@ -190,7 +190,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                 ?>
                 <li<?php echo $class; ?>>
                     <?php ?>
-                    <a <?php echo $action; ?><?php echo $data.$formExit; ?>>
+                    <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $page + 1; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                         <span>Next</span>
                     </a>
                 </li>

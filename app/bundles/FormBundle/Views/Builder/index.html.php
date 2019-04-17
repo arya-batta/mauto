@@ -10,6 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'form');
+$indexUrl   =$isEmbeddedForm ? 'le_embeddedform_index' : 'le_smartform_index';
 $isadmin    =$view['security']->isAdmin();
 $hidepanel  =$view['security']->isAdmin() ? '' : 'display: none;';
 $header     = ($activeForm->getId())
@@ -42,9 +43,10 @@ if (($activeForm->getName() == '' || $activeForm->getName() == null) && $objectI
 $formType              =$activeForm->getFormType();
 $hidestandalonedpecific='';
 $hidesmartformspecific ='';
-if ($formType == 'smart') {
+
+if ($formType == 'smart' || !$isEmbeddedForm) {
     $hidestandalonedpecific='hide';
-} elseif ($formType == 'standalone') {
+} elseif ($formType == 'standalone' || $isEmbeddedForm) {
     $hidesmartformspecific='hide';
 }
 $smartformname=$activeForm->getSmartFormName();
@@ -241,7 +243,7 @@ echo $view['form']->row($form['renderStyle']);
 <?php
 
 echo $view['form']->end($form); */
-if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($activeForm->getName() == '' || $activeForm->getName() == null) && $objectID == null):
+/**if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($activeForm->getName() == '' || $activeForm->getName() == null) && $objectID == null):
     echo $view->render(
         'MauticCoreBundle:Helper:form_selecttype.html.php',
         [
@@ -264,7 +266,7 @@ if (($activeForm->getFormType() === null || !empty($forceTypeSelection)) && ($ac
             'typeThreeHeader'    => 'le.email.editor.codeeditor.header',
         ]
     );
-endif; ?>
+endif;*/ ?>
 <?php echo $view['form']->start($form); ?>
 <div class="page-wrap">
     <div  style="margin-top: 0px;" id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
@@ -293,7 +295,7 @@ endif; ?>
         </ul>
         <div id="fragment-1" class="ui-tabs-panel">
             <div class="fragment-1-buttons fixed-header">
-                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path($indexUrl)?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-page-1" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 122px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -389,7 +391,7 @@ endif; ?>
         <div id="fragment-2"  class="ui-tabs-panel ui-tabs-hide row" style="min-height:700px;">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <a href="<?php echo $view['router']->path('le_form_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
+                <a href="<?php echo $view['router']->path($indexUrl)?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
                 <a href="#" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 115px;">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
@@ -490,7 +492,7 @@ endif; ?>
                 </div>
             </div>
         </div>
-        <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide">
+        <div id="fragment-3" class=" ui-tabs-panel ui-tabs-hide row">
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" style="margin-left:-72px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 15px;">

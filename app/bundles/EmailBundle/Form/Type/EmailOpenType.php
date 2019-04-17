@@ -40,29 +40,36 @@ class EmailOpenType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $iscampaign = false;
+        if (isset($options['iscampaign'])) {
+            $iscampaign = $options['iscampaign'];
+        }
+
         $defaultOptions = [
             'label'      => 'le.email.open.limittoemails',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'hide form-control',
+                'class'            => 'hide form-control',
+                'data-placeholder' => $this->factory->getTranslator()->trans('le.core.scoring.placeholder.email.select'),
             ],
             'enableNewForm'      => false,
           //  'multiple'           => false,
-            'required'           => true,
+            'required'           => !$iscampaign ? false : true,
         ];
 
         $defaultDripOptions = [
             'label'      => 'le.email.open.limittodripemails',
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
-                'class'    => 'hide form-control',
-                'onchange' => 'Le.convertDripFilterInput(this.value);',
+                'class'            => 'hide form-control',
+                'onchange'         => 'Le.convertDripFilterInput(this.value);',
+                'data-placeholder' => $this->factory->getTranslator()->trans('le.core.scoring.placeholder.campaign.select'),
             ],
             'enableNewForm'      => false,
             'multiple'           => false,
-            'required'           => true,
-        ];
-
+            'required'           => !$iscampaign ? false : true,
+            'empty_value'        => '',
+            ];
         if (isset($options['list_options'])) {
             if (isset($options['list_options']['attr'])) {
                 $defaultOptions['attr'] = array_merge($defaultOptions['attr'], $options['list_options']['attr']);
@@ -72,10 +79,6 @@ class EmailOpenType extends AbstractType
             $defaultOptions = array_merge($defaultOptions, $options['list_options']);
         }
 
-        $iscampaign = false;
-        if (isset($options['iscampaign'])) {
-            $iscampaign = $options['iscampaign'];
-        }
         if (!$iscampaign) {
             $required    =false;
             $constraints = [];
@@ -151,7 +154,8 @@ class EmailOpenType extends AbstractType
          'label'         => 'le.email.open.limittoemails',
          'label_attr'    => ['class' => 'control-label'],
             'attr'       => [
-                'class'   => 'form-control',
+                'class'            => 'form-control',
+                'data-placeholder' => $this->factory->getTranslator()->trans('le.core.scoring.placeholder.email.select'),
             ],
          'required'    => false,
          'multiple'    => true,

@@ -38,6 +38,10 @@
                         <tr>
                             <?php foreach ($row as $cellName => $cell) : ?>
                                 <?php if (array_key_exists('id', $graph['data'][0]) && $cellName == 'title' && isset($graph['link'])) : ?>
+                                    <?php if (isset($row['formtype']) && $row['formtype'] == 'smart') {
+    $graph['link'] = 'le_smartform_action';
+}
+                                    ?>
                                     <td>
                                         <a href="<?php echo $view['router']->path($graph['link'], ['objectAction' => 'view', 'objectId' => $row['id']]); ?>" data-toggle="ajax">
                                             <?php echo $cell; ?>

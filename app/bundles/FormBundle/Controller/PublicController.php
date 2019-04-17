@@ -345,7 +345,36 @@ class PublicController extends CommonFormController
         }
         $ishidepoweredby = $account->getNeedpoweredby();
         if ($form === null || !$form->isPublished()) {
-            return $this->notFound();
+            $code           ='404';
+            $status_text    =' I\'m sorry! I couldn\'t find the page you were looking for. ';
+            $contenttemplate='MauticCoreBundle:Error:formerror.html.php';
+            $basetemplate   ='MauticCoreBundle:Default:slim.html.php';
+
+            return $this->delegateView(
+                [
+                    'viewParameters' => [
+                        'baseTemplate'   => $basetemplate,
+                        'status_code'    => $code,
+                        'status_text'    => $status_text,
+                        'exception'      => '',
+                        'logger'         => null,
+                        'currentContent' => '',
+                        'isPublicPage'   => true,
+                    ],
+                    'contentTemplate' => $contenttemplate,
+                    'passthroughVars' => [
+                        'error' => [
+                            'code'      => $code,
+                            'text'      => $status_text,
+                            'exception' => '',
+                            'trace'     => '',
+                        ],
+                        'leContent'     => 'error',
+                    ],
+                    'responseCode' => $code,
+                ]
+            );
+        // return $this->notFound();
         } else {
             $html = $model->getContent($form, true, true, $ishidepoweredby);
 

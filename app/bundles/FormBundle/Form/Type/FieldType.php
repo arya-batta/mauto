@@ -125,14 +125,14 @@ class FieldType extends AbstractType
                     break;
                 case 'select':
                     $cleanMasks['properties']['list']['list']['label'] = 'strict_html';
-                    $addDefaultValue = false;
+                    $addDefaultValue                                   = false;
                     break;
                 case 'checkboxgrp':
                     $addDefaultValue = false;
                     break;
                 case 'radiogrp':
                     $cleanMasks['properties']['optionlist']['list']['label'] = 'strict_html';
-                    $addDefaultValue = false;
+                    $addDefaultValue                                         = false;
                     break;
                 case 'file':
                     $addShowLabel = $addDefaultValue = $addLeadFieldList = $addBehaviorFields = false;
@@ -172,6 +172,19 @@ class FieldType extends AbstractType
                 ]
             );
         }
+
+        $builder->add(
+            'content',
+            'text',
+            [
+                'label'      => 'mautic.form.field.form.content',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                    'tooltip' => 'mautic.form.field.form.alias.tooltip',
+                ],
+            ]
+        );
 
         if ($addShowLabel) {
             $default = (!isset($options['data']['showLabel'])) ? false : (bool) $options['data']['showLabel'];
