@@ -587,28 +587,27 @@ class LeadSubscriber extends CommonSubscriber
     public function integrationEvent(IntegrationEvent $intevent)
     {
         //get campaigns for the list
-        $repo              = $this->campaignModel->getRepository();
-        $integrationName   = $intevent->getIntegrationName();
-        $data              = $intevent->getPayload();
-        $integrationName   = strtolower($integrationName);
+        $repo                 = $this->campaignModel->getRepository();
+        $integrationName      = $intevent->getIntegrationName();
+        $payLoad              = $intevent->getPayload();
+        $integrationName      = strtolower($integrationName);
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper = $this->factory->getHelper('integration');
         $eventName         = $integrationName;
         if ($integrationName == $this->factory->getTranslator()->trans('le.integration.name.calendly')) {
-            $eventName = $data->event;
+            $eventName = $payLoad->event;
         } elseif ($integrationName == 'facebook_lead_ads') {
             $eventName='fbLeadAds';
         }
-        $integrationHelper->putPayLoadHistory($data, $integrationName);
-        $integrationHelper->updateIntegrationFieldInfo($data, $integrationName);
+        $integrationHelper->putPayLoadHistory($payLoad, $integrationName);
+        $integrationHelper->updateIntegrationFieldInfo($payLoad, $integrationName);
         $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType($eventName);
         if (!empty($allLeadsCampaigns)) {
             foreach ($allLeadsCampaigns as $c) {
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
-                    $data       = $integrationHelper->parseJsonResponse($data, $integrationName, $properties);
+                    $data       = $integrationHelper->parseJsonResponse($payLoad, $integrationName, $properties);
                     if ($data['isvalid']) {
-                        file_put_contents('/var/www/fblog.txt', 'Inside123'."\n", FILE_APPEND);
                         $result = $this->leadModel->findEmail($data['email']);
                         $lead   = new Lead();
                         if (count($result) > 0) {
@@ -639,12 +638,9 @@ class LeadSubscriber extends CommonSubscriber
                                 }
                             }
                             $lead->setScore('Hot');
-                            try {
-                                $this->leadModel->saveEntity($lead);
-                            } catch (\Exception $ex) {
-                                file_put_contents('/var/www/fblog.txt', 'Error Occured123:'.$ex->getMessage()."\n", FILE_APPEND);
-                            }
-                            file_put_contents('/var/www/fblog.txt', 'Lead Saved:'."\n", FILE_APPEND);
+
+                            $this->leadModel->saveEntity($lead);
+
                             if (!empty($data['listoptin'])) {
                                 $this->leadModel->modifyListOptIn($lead, [$data['listoptin']]);
                             }
@@ -658,7 +654,6 @@ class LeadSubscriber extends CommonSubscriber
                             unset($campaign);
                             $intevent->setIsSuccess(true);
                         } catch (\Exception $ex) {
-                            file_put_contents('/var/www/fblog.txt', 'Error Occured456:'.$ex->getMessage()."\n", FILE_APPEND);
                             $intevent->setIsSuccess(false);
                         }
                     } else {
@@ -781,8 +776,8 @@ class LeadSubscriber extends CommonSubscriber
                         'eventLabel' => [
                             'label' => $label,
                             /**'href'  => $this->router->generate(
-                                'le_campaign_action',
-                                ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]
+                            'le_campaign_action',
+                            ['objectAction' => 'edit', 'objectId' => $log['campaign_id']]
                             ),*/
                         ],
                         'eventType'       => $subeventTypeName,
