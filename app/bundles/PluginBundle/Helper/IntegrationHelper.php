@@ -1123,6 +1123,7 @@ class IntegrationHelper
                 }
             }
         }
+        file_put_contents('/var/www/fblog.txt', 'Data:'.json_encode($data)."\n", FILE_APPEND);
 
         return $data;
     }
