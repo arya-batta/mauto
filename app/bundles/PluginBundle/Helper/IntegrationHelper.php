@@ -962,17 +962,11 @@ class IntegrationHelper
             if (isset($leadgenData->form_id)) {
                 $fbformid=$leadgenData->form_id;
             }
-            file_put_contents('/var/www/fblog.txt', 'FBPageID:'.$fbpageid."\n", FILE_APPEND);
-            file_put_contents('/var/www/fblog.txt', 'FBFormID:'.$fbformid."\n", FILE_APPEND);
             if (!empty($leadgenid) && !empty($fbpageid) && !empty($fbformid)) {
                 $eventFbPage     =$properties['fbpage'];
                 $eventLeadGenForm=$properties['leadgenform'];
-                file_put_contents('/var/www/fblog.txt', 'WFPageID:'.$eventFbPage."\n", FILE_APPEND);
-                file_put_contents('/var/www/fblog.txt', 'WFFORMID:'.$eventLeadGenForm."\n", FILE_APPEND);
                 if (empty($eventFbPage) || $eventFbPage == '-1' || ($eventFbPage == $fbpageid && $eventLeadGenForm == $fbformid)) {
-                    file_put_contents('/var/www/fblog.txt', 'Condition Match:'."\n", FILE_APPEND);
                     if ($integration) {
-                        file_put_contents('/var/www/fblog.txt', 'Inside Parser:'."\n", FILE_APPEND);
                         $data=$this->parseFBLeadData($integration, $leadgenid, $data, $fbpageid, $fbformid);
                     }
                 }
@@ -1083,14 +1077,12 @@ class IntegrationHelper
             $fieldMapping   =$integration->getFeatureSettings();
             $fieldMapping   =isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
             $fbleadjson     =$fbapiHelper->getLeadDetailsByID($leadgenid);
-            file_put_contents('/var/www/fblog.txt', 'fbjson:'.$fbleadjson."\n", FILE_APPEND);
             if (!empty($fbleadjson)) {
                 $fblead           = json_decode($fbleadjson);
                 if (isset($fblead->field_data)) {
                     $fbfieldsinfo =$fblead->field_data;
                     $fbleadcreated=$fblead->created_time;
                     $fieldvalues  =[];
-                    file_put_contents('/var/www/fblog.txt', 'field data setted:'.json_encode($fbfieldsinfo)."\n", FILE_APPEND);
                     foreach ($fbfieldsinfo as $fbfieldinfo) {
                         $fbfieldname =$fbfieldinfo->name;
                         $fbfieldvalue=$fbfieldinfo->values[0];
@@ -1131,7 +1123,6 @@ class IntegrationHelper
                 }
             }
         }
-        file_put_contents('/var/www/fblog.txt', 'Data:'.json_encode($data)."\n", FILE_APPEND);
 
         return $data;
     }
