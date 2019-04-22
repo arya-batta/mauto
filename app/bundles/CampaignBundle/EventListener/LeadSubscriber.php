@@ -608,6 +608,7 @@ class LeadSubscriber extends CommonSubscriber
                     $properties = unserialize($event['properties']);
                     $data       = $integrationHelper->parseJsonResponse($data, $integrationName, $properties);
                     if ($data['isvalid']) {
+                        file_put_contents('/var/www/fblog.txt', 'Inside123'."\n", FILE_APPEND);
                         $result = $this->leadModel->findEmail($data['email']);
                         $lead   = new Lead();
                         if (count($result) > 0) {
@@ -638,7 +639,12 @@ class LeadSubscriber extends CommonSubscriber
                                 }
                             }
                             $lead->setScore('Hot');
-                            $this->leadModel->saveEntity($lead);
+                            try {
+                                $this->leadModel->saveEntity($lead);
+                            } catch (\Exception $ex) {
+                                file_put_contents('/var/www/fblog.txt', 'Error Occured123:'.$ex->getMessage()."\n", FILE_APPEND);
+                            }
+                            file_put_contents('/var/www/fblog.txt', 'Lead Saved:'."\n", FILE_APPEND);
                             if (!empty($data['listoptin'])) {
                                 $this->leadModel->modifyListOptIn($lead, [$data['listoptin']]);
                             }
@@ -652,6 +658,7 @@ class LeadSubscriber extends CommonSubscriber
                             unset($campaign);
                             $intevent->setIsSuccess(true);
                         } catch (\Exception $ex) {
+                            file_put_contents('/var/www/fblog.txt', 'Error Occured456:'.$ex->getMessage()."\n", FILE_APPEND);
                             $intevent->setIsSuccess(false);
                         }
                     } else {
