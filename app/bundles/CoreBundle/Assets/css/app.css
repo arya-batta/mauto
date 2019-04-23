@@ -440,14 +440,14 @@ body > #app-wrapper {
     left: 60px !important;
   }
   .sidebar-minimized #lead-container {
-    width: 67%;
+    width: 100% !important;
     /*position:fixed;*/
   }
   .sidebar-minimized #notes-container {
-    display: block;
+    /*display: block;*/
   }
   .sidebar-minimized #timeline-container #timeline-col-12 {
-    width: 106% !important;
+    /**width: 100% !important;*/
   }
   #app-header.navbar .navbar-nocollapse .navbar-form {
     position: static;
@@ -5657,13 +5657,13 @@ figcaption {
   left: 2%;
 }
 .status_success{
-  background-color:#4ea84d !important;
-  border-color:#4ea84d !important;
+  background-color:#ebedf0 !important;
+  /*border-color:#4ea84d !important;*/
   pointer-events: none;
 }
 .status_fail{
-   background-color:#ee1940 !important;
-   border-color:#ee1940 !important;
+   background-color:#ebedf0 !important;
+  /*border-color:#ee1940 !important;*/
    pointer-events: none;
 }
 .info-box{
@@ -5762,7 +5762,7 @@ figcaption {
   padding: 0;
   list-style: none;
   margin-bottom: 15px;
-  width: 102%;
+  width: 100%;
 }
 .le-lead-dialogue {
   font-size: 38px!important;
@@ -7533,7 +7533,7 @@ ul.list-unstyled, ul#list-unstyled  {
 }
 
 .leadcontainer{
-  width:98%;
+  width:100%;
   position:relative;
   height:72.2%;
   overflow-x:hidden;

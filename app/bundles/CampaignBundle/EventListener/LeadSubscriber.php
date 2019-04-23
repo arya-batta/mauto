@@ -706,8 +706,8 @@ class LeadSubscriber extends CommonSubscriber
                 }
 
                 if ((!empty($log['metadata']['errors']) && empty($log['dateTriggered'])) || !empty($log['metadata']['failed'])) {
-                    $label .= ' <i data-toggle="tooltip" title="'.$this->translator->trans('mautic.campaign.event.has_last_attempt_error')
-                        .'" class="fa fa-warning text-danger"></i>';
+                    $title= isset($log['metadata']['reason']) ? $log['metadata']['reason'] : $this->translator->trans('mautic.campaign.event.has_last_attempt_error');
+                    $label .= ' <i data-toggle="tooltip" title="'.$title.'" class="fa fa-warning text-danger"></i>';
                 }
                 if (empty($log['metadata']['errors']) && !empty($log['dateTriggered']) && empty($log['metadata']['failed'])) {
                     $label = $this->translator->trans('le.workflow.event.triggered.eventlabel', ['%eventname%' => $log['event_name'], '%workflowname%' => $log['campaign_name'], '%href%' => $href]);

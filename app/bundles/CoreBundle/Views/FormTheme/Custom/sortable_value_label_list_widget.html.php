@@ -20,10 +20,10 @@
     <?php endif; ?>
     <div>
         <div class="row">
-            <div class="col-xs-6 mr-0 pr-0 bdr-r-wdh-0" id="remove-GDPR-form">
-            <?php echo $view['form']->widget($form['label'], ['attr' => ['class' => 'form-control sortable-label le-input', 'placeholder' => $form['label']->vars['label']]]); ?>
+            <div class="col-xs-6 mr-0 pr-0 bdr-r-wdh-0 hide" id="remove-GDPR-form">
+            <?php echo $view['form']->widget($form['label'], ['attr' => ['class' => 'form-control sortable-label le-input hide', 'placeholder' => $form['label']->vars['label']]]); ?>
             </div>
-            <div class="col-xs-6 ml-0 pl-0">
+            <div class="col-xs-12 ml-0 pl-0">
             <?php echo $view['form']->widget($form['value'], ['attr' => ['class' => 'form-control sortable-value le-input', 'placeholder' => $form['value']->vars['label']]]); ?>
             </div>
         </div>

@@ -238,8 +238,8 @@ return [
         'account_api_key'          => null,
         'account_auth_token'       => null,
         'account_sender_id'        => null,
-        'sms_frequency_number'     => 3,
-        'sms_frequency_time'       => 'DAY',
+        'sms_frequency_number'     => null, //3
+        'sms_frequency_time'       => null, //'DAY',
         'sms_from_number'          => null,
         'publish_account'          => null,
         'sms_status'               => null,

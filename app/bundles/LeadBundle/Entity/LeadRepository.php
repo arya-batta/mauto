@@ -1417,8 +1417,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
     public function getRecentlyAddedLeadsCount($viewOthers = false)
     {
-        $q                   = $this->_em->getConnection()->createQueryBuilder();
-        $last7daysAddedLeads = date('Y-m-d', strtotime('-6 days'));
+        $q                    = $this->_em->getConnection()->createQueryBuilder();
+        $last30daysAddedLeads = date('Y-m-d', strtotime('-29 days'));
 
         $q->select('count(*) as recentlyadded')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
@@ -1428,7 +1428,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             $q->orWhere($q->expr()->isNull('l.created_by'));
         }
         $q->andWhere($q->expr()->gte('l.date_added', ':dateAdded'))
-            ->setParameter('dateAdded', $last7daysAddedLeads);
+            ->setParameter('dateAdded', $last30daysAddedLeads);
         $results = $q->execute()->fetchAll();
         //dump($q->getSQL());
         //      dump($last7daysAddedLeads);
@@ -1463,7 +1463,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
     public function getActiveLeadCount($viewOthers = false)
     {
-        $last7daysActiveLeads = date('Y-m-d', strtotime('-6 days'));
+        $last30daysActiveLeads = date('Y-m-d', strtotime('-29 days'));
 
         $q = $this->_em->getConnection()->createQueryBuilder();
 
@@ -1474,8 +1474,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('id', '1');
             $q->orWhere($q->expr()->isNull('l.created_by'));
         }
-        $q->andWhere($q->expr()->gte('l.last_active', ':last7daysActive'))
-            ->setParameter('last7daysActive', $last7daysActiveLeads);
+        $q->andWhere($q->expr()->gte('l.last_active', ':last30daysActive'))
+            ->setParameter('last30daysActive', $last30daysActiveLeads);
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];

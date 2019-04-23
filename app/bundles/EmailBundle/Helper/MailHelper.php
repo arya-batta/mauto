@@ -2401,7 +2401,7 @@ class MailHelper
                             ->setSubject($translator->trans('le.email.config.mailer.transport.tracking_send.subject'));
                         $message->setBody($mailbody, 'text/html');
                         $message->setTo([$settings['toemail']]);
-                        $message->setFrom(['notifications@leadsengage.com' => 'LeadsEngage']);
+                        $message->setFrom(['notifications@'.$translator->trans('le.core.brand.domain') => $translator->trans('le.core.email.utm.source')]);
                         $message->setReplyTo($this->factory->getUser()->getEmail());
                         $lemailer->send($message);
                     } else {

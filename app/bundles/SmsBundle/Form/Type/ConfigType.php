@@ -250,7 +250,7 @@ class ConfigType extends AbstractType
                 'label'      => 'le.sms.avtivate.status.label',
                 'label_attr' => ['class' => 'control-label pointernone'],
                 'attr'       => [
-                    'class'        => 'form-control col-md-3 btn btn-primary '.$class,
+                    'class'        => 'form-control col-md-3 le-input '.$class,
                 ],
                 'data'     => (isset($options['data']['sms_status'])) ? $options['data']['sms_status'] : 'Active',
             ]

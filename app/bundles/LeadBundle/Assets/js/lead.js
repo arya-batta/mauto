@@ -1564,7 +1564,7 @@ Le.createLeadUtmTag = function (el) {
 
 Le.leadBatchSubmit = function() {
     if (Le.batchActionPrecheck()) {
-        if (mQuery('#lead_batch_remove').val() || mQuery('#lead_batch_add').val() || mQuery('#lead_batch_dnc_reason').length || mQuery('#lead_batch_stage_addstage').length || mQuery('#lead_batch_owner_addowner').length) {
+      //  if (mQuery('#lead_batch_remove').val() || mQuery('#lead_batch_add').val() || mQuery('#lead_batch_dnc_reason').length || mQuery('#lead_batch_stage_addstage').length || mQuery('#lead_batch_owner_addowner').length) {
             var ids = Le.getCheckedListIds(false, true);
 
             if (mQuery('#lead_batch_ids').length) {
@@ -1578,7 +1578,7 @@ Le.leadBatchSubmit = function() {
             }
 
             return true;
-        }
+       // }
 
     }
 
@@ -1826,4 +1826,12 @@ Le.showGSTNumber = function (selectedval){
 }
 Le.exportLeads = function(){
     Le.ajaxActionRequest('lead:exportLead',{},function(response){});
+}
+
+Le.hideActivity = function(){
+    mQuery('#timeline-container').css('display','none');
+}
+
+Le.removeHideActivity = function(){
+    mQuery('#timeline-container').css('display','block');
 }

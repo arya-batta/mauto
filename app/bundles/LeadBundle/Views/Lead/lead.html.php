@@ -164,7 +164,7 @@ $view['slots']->set(
     <!-- left section -->
     <div class="table-responsive">
     <div class="row">
-    <div class="col-md-7 bg-white height-auto leadcontainer" id="lead-container">
+    <div class="col-md-12 bg-white height-auto leadcontainer" id="lead-container">
         <div class="bg-auto" >
             <!--/ lead detail header -->
 
@@ -234,7 +234,7 @@ $view['slots']->set(
             <div class="pa-md">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="panel col-md-12" style="padding-bottom: 3%;width: 102%;">
+                        <div class="panel col-md-12" style="padding-bottom: 3%;">
                             <?php // if (!$isAnonymous):?>
                             <div class="col-md-3" style="width: 18%;text-align: center;">
                                <img class="le-avatar-panel" src="<?php echo isset($img) ? $img : $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>
@@ -310,7 +310,7 @@ $view['slots']->set(
                                         <br>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row hide">
                                     <div class="col-md-12">
                                         <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
                                         <?php $count  =  0; ?>
@@ -326,9 +326,8 @@ $view['slots']->set(
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                  <br>
                                   <div class="row">
-                                      <div class="col-md-12">
+                                      <div class="col-md-6">
                                           <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
                                           <?php $count  =  0; ?>
                                           <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
@@ -342,10 +341,7 @@ $view['slots']->set(
                                               <?php endforeach; ?></div>
                                           <div class="clearfix"></div>
                                       </div>
-                                  </div>
-                                  <br>
-                                  <div class="row" >
-                                      <div class="col-md-12">
+                                      <div class="col-md-6">
                                           <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; ?>
                                           <?php $tags   = $lead->getTags(); ?>
                                           <?php $count  =  0; ?>
@@ -362,7 +358,7 @@ $view['slots']->set(
                                               <?php endforeach; ?></div>
                                           <div class="clearfix"></div>
                                       </div>
-                                </div>
+                                  </div>
                                   <br>
                                   <div class="row" >
                                       <div class="col-md-12">
@@ -373,7 +369,7 @@ $view['slots']->set(
                                                       <?php if ($event['url'] != ''):?>
                                                           <?php
                                                           $linkType       = 'target="_new"';
-                                                          $string         = (strlen($event['url']) > 74) ? substr($event['url'], 0, 74).'....' : $event['url'];
+                                                          $string         = (strlen($event['url']) > 74) ? substr($event['url'], 0, 90).'....' : $event['url'];
                                                           $eventLabel     = "<a class= 'page_hit_url' href=\"{$event['url']}\" $linkType>{$string}</a>"; ?>
                                                           <h5 class="mt-xs mr-xs" style="font-size: 14px;font-weight: 300;">
                                                               <b><?php echo $event['pagehits'].'x '?></b>
@@ -468,7 +464,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
+                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;padding-right: 6px;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
@@ -494,7 +490,7 @@ $view['slots']->set(
 <!--            --><?php //if (!$isAnonymous):?>
                 <div class="pa-md">
                     <div class="row">
-                        <div class="col-sm-12" style="width: 102%;">
+                        <div class="col-sm-12">
                             <div class="panel">
                                 <div class="panel-body box-layout">
                                     <div class="col-xs-4 va-m">
@@ -516,20 +512,19 @@ $view['slots']->set(
                 </div>
 <!--            --><?php //endif;?>
             <!-- tabs controls -->
-            <?php /** ?>
-            <ul class="nav nav-tabs pr-md pl-md mt-10 hide">
+            <ul class="nav nav-tabs pr-md pl-md mt-10 navtab-bg">
                 <li class="active">
-                    <a href="#timeline-container" role="tab" data-toggle="tab">
+                    <a href="#timeline-container" role="tab" data-toggle="tab" onclick="Le.removeHideActivity();">
                         <?php echo $view['translator']->trans('le.lead.lead.tab.history'); ?>
-                        <span class="label label-primary mr-sm" id="TimelineCount">
-                            <?php echo $events['total']; ?>
+                        <span class="label label-primary mr-sm hide" id="TimelineCount">
+                            <?php  echo $events['total']; ?>
                         </span>
                     </a>
                 </li>
-                <li class="hide">
-                    <a href="#notes-container" role="tab" data-toggle="tab">
+                <li>
+                    <a href="#notes-container" role="tab" data-toggle="tab" onclick="Le.hideActivity();">
                         <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
-                        <span class="label label-primary mr-sm" id="NoteCount">
+                        <span class="label label-primary mr-sm hide" id="NoteCount">
                             <?php echo $noteCount; ?>
                         </span>
                     </a>
@@ -575,7 +570,7 @@ $view['slots']->set(
 
                 <?php echo $view['content']->getCustomContent('tabs', $mauticTemplateVars); ?>
             </ul>
-            <?php */ ?>
+            <?php  ?>
             <!--/ tabs controls -->
 
 
@@ -595,11 +590,10 @@ $view['slots']->set(
             <!--/ #history-container -->
 
             <!-- #notes-container -->
-            <?php /** ?>
+
             <div class="tab-pane fade bdr-w-0" id="notes-container">
                 <?php echo $leadNotes; ?>
             </div>
-            <?php */ ?>
             <!--/ #notes-container -->
 
             <!-- #social-container -->
@@ -868,11 +862,13 @@ $view['slots']->set(
     <!--/ right section -->
 </div>
     </div>
+    <?php /** ?>
     <div class="col-md-3 notescontainer" id="notes-container">
         <div>
         <?php echo $leadNotes; ?>
-        </div
+        </div>
     </div>
+        <?php */ ?>
     </div>
     </div>
 </div>

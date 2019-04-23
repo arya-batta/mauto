@@ -76,7 +76,7 @@ $isadmin       =$view['security']->isAdmin();
         <p><?php echo $view['translator']->trans('mautic.core.config.form.link.shortener.help.label.text'); ?></p>
     </div>
 </div>
-<div class="panel panel-primary">
+<div class="panel panel-primary <?php echo $isadmin ? '' : 'hide'?>">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.sms.frequency_rules'); ?></h3>
     </div>

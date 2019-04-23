@@ -27,17 +27,17 @@ if ($tmpl == 'index') {
 <?php */ ?>
 <div class="pa-md">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="padding-right: 0px;padding-left: 0px;">
             <div class="panel">
                 <div class="box-layout">
                     <div class="le-view">
                         <div class="le-note-panel">
                             <div class="le-notes-header">
                                 <span class="le-notes-header-text">
-                                    <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
+                                    <?php /** echo $view['translator']->trans('le.lead.lead.tab.notes');*/ ?>
                                 </span>
-                                <a class="le-note-addbtn" href="<?php echo $view['router']->path('le_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.new'); ?>">
-                                    <span data-toggle="tooltip" title=" <?php echo $view['translator']->trans('le.lead.lead.tab.notes.tooltip'); ?>"><i class="fa fa-plus" style="color: #fff;font-size: 14px;"></i></span>
+                                <a class="btn btn-primary" href="<?php echo $view['router']->path('le_contactnote_action', ['leadId' => $lead->getId(), 'objectAction' => 'new']); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $view['translator']->trans('le.lead.note.header.new'); ?>">
+                                    <span><?php echo $view['translator']->trans('le.lead.lead.tab.notes.tooltip'); ?></span>
                                 </a>
                             </div>
                             <div id="LeadNotes">
