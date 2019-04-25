@@ -280,7 +280,7 @@ $img = $view['lead_avatar']->getAvatar($lead);
                     <?php echo $view['form']->widget($form['lead_listsoptin']); ?>
                 </div>
                 <br>
-                <div class="row">
+                <div class="row hide">
                     <?php echo $view['form']->label($form['lead_lists']); ?>
                     <?php echo $view['form']->widget($form['lead_lists']); ?>
                 </div>

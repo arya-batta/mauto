@@ -13,6 +13,7 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class DncType extends AbstractType
 {
@@ -26,10 +27,16 @@ class DncType extends AbstractType
             'reason',
             'textarea',
             [
-                'label'      => 'le.lead.batch.dnc_reason',
-                'required'   => false,
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'label'       => 'le.lead.batch.dnc_reason',
+                'required'    => false,
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control'],
+                'constraints' => [new Assert\Length(
+                    [
+                        'max'        => 250,
+                        'maxMessage' => 'le.lead.batch.dnc.reason.length',
+                    ]
+                )],
             ]
         );
 

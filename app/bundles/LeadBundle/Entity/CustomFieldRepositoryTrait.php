@@ -308,7 +308,7 @@ trait CustomFieldRepositoryTrait
 
         //loop over results to put fields in something that can be assigned to the entities
         foreach ($values as $k => $r) {
-            if(!isset($fields[$k])){
+            if (!isset($fields[$k])) {
                 continue;
             }
             $r = CustomFieldHelper::fixValueType($fields[$k]['type'], $r);
@@ -321,6 +321,17 @@ trait CustomFieldRepositoryTrait
                             break;
                         case 'boolean':
                             $r = (int) $r;
+                            break;
+                        case 'datetime':
+                        case 'date':
+                        case 'time':
+                            // Prevent zero based date placeholders
+                            $dateTest = (int) str_replace(['/', '-', ' '], '', $r);
+
+                            if (!$dateTest) {
+                                // Date placeholder was used so just ignore it to allow import of the field
+                                $r = '';
+                            }
                             break;
                     }
                 }

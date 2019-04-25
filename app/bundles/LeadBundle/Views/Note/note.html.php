@@ -25,16 +25,16 @@ if ($note instanceof \Mautic\LeadBundle\Entity\LeadNote) {
 switch ($type) {
     default:
     case 'general':
-        $icon = 'fa-file-text';
+        $icon = 'mdi mdi-note-text';
         break;
     case 'email':
-        $icon = 'fa-send';
+        $icon = 'mdi mdi-send le-mg-5';
         break;
     case 'call':
-        $icon = 'fa-phone';
+        $icon = 'mdi mdi-phone';
         break;
     case 'meeting':
-        $icon = 'fa-group';
+        $icon = 'mdi mdi-account-multiple';
         break;
 }
 
@@ -74,16 +74,17 @@ switch ($type) {
         <div class="le-notes-panel" id="LeadNote<?php echo $id; ?>" >
             <div class="le-notes-panel-body">
                 <div class="le-notes-list clearfix" >
-                    <div class="le-notes-icon"><i class="fa <?php echo $icon; ?>" style="height: 12px;width: 12px"></i></div>
+                    <div class="le-notes-icon"><span class="le-timeline-event-icon"  style="position: inherit;margin-left: 20px;" data-toggle="tooltip" title="" data-original-title="">
+                         <i class="<?php echo $icon; ?>"></i></span></div>
                     <div class="le-notes-content">
                         <div><p><?php echo $text; ?></p></div>
-                        <div class="col-sm-7" style="width: 58%;padding-left: 0">
+                        <div class="col-sm-11" style="padding-left: 0">
                         <div class="le-small">
                             <i class="fa fa-user le-icon-user" style="color:#ffa800"></i>
                             <span class=""><?php echo $author; ?></span>
                         </div>
                             <small class="le-small le-text-muted"><span class="small"><?php echo $view['date']->toFullConcat($date); ?></small>
-                        </div><div class="col-sm-3" style="margin-top: 9px;margin-left: 42px;">
+                        </div><div class="col-sm-1" style="margin-top: 9px;">
                             <ul class="le-option-list le-list-divided">
                                 <div>
                                 <li data-toggle="" title="Edit" ><?php /**class="le-option-list-item"*/ ?>

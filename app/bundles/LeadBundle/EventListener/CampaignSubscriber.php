@@ -150,7 +150,9 @@ class CampaignSubscriber extends CommonSubscriber
             'order'           => 7,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
-        $event->addAction('lead.changelist', $action);
+        if ($this->factory->getUser()->isAdmin()) {
+            $event->addAction('lead.changelist', $action);
+        }
 
         $action = [
             'label'           => 'le.lead.lead.events.updatelead',

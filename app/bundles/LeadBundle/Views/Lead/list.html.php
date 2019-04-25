@@ -22,6 +22,17 @@ if ($permissions['lead:leads:editown'] || $permissions['lead:leads:editother']) 
                 'class'       => 'btn btn-default btn-sm btn-nospin waves-effect',
                 'data-toggle' => 'ajaxmodal',
                 'data-target' => '#leSharedModal',
+                'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchTags']),
+                'data-header' => $view['translator']->trans('le.lead.batch.tags'),
+            ],
+            'btnText'   => $view['translator']->trans('le.lead.batch.tags'),
+            'iconClass' => 'fa fa-pie-chart',
+        ],
+        [
+            'attr' => [
+                'class'       => 'btn btn-default btn-sm btn-nospin waves-effect hide',
+                'data-toggle' => 'ajaxmodal',
+                'data-target' => '#leSharedModal',
                 'href'        => $view['router']->path('le_contact_action', ['objectAction' => 'batchLists']),
                 'data-header' => $view['translator']->trans('le.lead.batch.lists'),
             ],

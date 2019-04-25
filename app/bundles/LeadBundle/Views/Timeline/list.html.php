@@ -113,10 +113,10 @@ $baseUrl = $view['router']->path(
 <?php */ ?>
 <div class="pa-md">
     <div class="row">
-        <div class="col-sm-12" id="timeline-col-12" style="width: 105%;margin-left: -16px;margin-top: -33px;">
+        <div class="col-sm-12" id="timeline-col-12" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel">
                 <div class="panel-body box-layout">
-                    <div>
+                    <div class="hide">
                         <h5 class="text-white dark-md fw-b mb-xs">
                             <?php echo $view['translator']->trans('le.lead.timeline.label.recentactivity'); ?>
                         </h5>
@@ -172,11 +172,11 @@ $baseUrl = $view['router']->path(
                                                 </div>
                                             </a>
                                         </div>
-                                        <span class="">
+                                        <span style="font-size: 12px;">
                                                 <?php echo $eventLabel; ?>
                                             </span><br>
                                          <span class="le-bullet"><i class="fa fa-circle"></i> </span>
-                                        <small class="le-text-muted" style="min-height: 10px;">
+                                        <small class="le-text-muted" style="min-height: 10px;font-size: 12px;">
                                             <span>
                                                 <?php echo $view['date']->toText($event['timestamp'], 'local', 'Y-m-d H:i:s', true); ?>
                                             </span>

@@ -401,8 +401,8 @@ class ConfigController extends FormController
 
         $apikeys                      = [];
         $features                     = [];
-        $features['frequency_number'] = $objects['sms_frequency_number'];
-        $features['frequency_time']   = $objects['sms_frequency_time'];
+        $features['frequency_number'] = null;  //$objects['sms_frequency_number'];
+        $features['frequency_time']   = null;  //$objects['sms_frequency_time'];
         $features['sms_status']       = $objects['sms_status'];
         if ($objects['sms_transport'] == 'le.sms.transport.leadsengage') {
             $objects['account_auth_token']    = '';

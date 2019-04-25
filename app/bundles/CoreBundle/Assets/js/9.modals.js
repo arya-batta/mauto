@@ -307,13 +307,20 @@ Le.showConfirmation = function (el) {
     if(typeof confirmText !== "undefined" && confirmText == "Activate"){
         buttonText = 'Yes, '+confirmText+' it';
     }
+    var canceltxt = 'No, cancel';
+    var type = 'warning';
+    if (confirmAction.indexOf('/batchExport') != -1) {
+        buttonText = 'Yes';
+        canceltxt  = 'No';
+        type = '';
+    }
     swal({
         title: 'Are you sure?',
         text: message,
-        type: 'warning',
+        type: type,
         showCancelButton: true,
         confirmButtonText: buttonText,
-        cancelButtonText: 'No, cancel',
+        cancelButtonText:  canceltxt,
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger m-l-10',
         buttonsStyling: false

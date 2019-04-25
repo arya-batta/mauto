@@ -84,7 +84,9 @@ class FormSubscriber extends CommonSubscriber
             'callback'          => '\Mautic\LeadBundle\Helper\FormEventHelper::changeLists',
             'allowCampaignForm' => true,
         ];
-        $event->addSubmitAction('lead.changelist', $action);
+        if ($this->factory->getUser()->isAdmin()) {
+            $event->addSubmitAction('lead.changelist', $action);
+        }
 
         //add to lead listoptin
         $action = [

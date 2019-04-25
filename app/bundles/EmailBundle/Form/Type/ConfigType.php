@@ -213,7 +213,7 @@ class ConfigType extends AbstractType
             [
                 'label'      => 'le.email.config.email.status.label',
                 'attr'       => [
-                    'class'    => 'form-control btn btn-primary '.$class,
+                    'class'    => 'form-control le-input '.$class,
                 ],
                 'data'       => (isset($options['data']['email_status'])) ? $options['data']['email_status'] : 'Active',
             ]

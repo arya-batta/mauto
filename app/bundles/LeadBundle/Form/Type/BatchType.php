@@ -29,6 +29,9 @@ class BatchType extends AbstractType
         } elseif ($options['label'] == 'listoptin') {
             $addlabel = 'le.lead.batch.add_to_listoptin';
             $remlabel = 'le.lead.batch.remove_from_listoptin';
+        } elseif ($options['label'] == 'tag') {
+            $addlabel = 'le.lead.batch.add_to_tags';
+            $remlabel = 'le.lead.batch.remove_from_tags';
         } else {
             $addlabel = 'le.lead.batch.add_to_workfolw';
             $remlabel = 'le.lead.batch.remove_from_workfolw';

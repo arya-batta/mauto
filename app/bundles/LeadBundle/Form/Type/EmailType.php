@@ -138,6 +138,12 @@ class EmailType extends AbstractType
                     'data-token-callback'  => 'email:getBuilderTokens',
                     'data-token-activator' => '{',
                 ],
+                'required'    => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'le.lead.from_name.required',
+                    ]),
+                ],
             ]
         );
 

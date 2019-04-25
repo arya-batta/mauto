@@ -185,7 +185,7 @@ class CampaignExecutionEvent extends Event
     public function setFailed($reason = null)
     {
         $this->result = [
-            'result' => false,
+            'result' => true, //Previous it was false. To skip failed events it set to true (by GS).
             'failed' => 1,
             'reason' => $reason,
         ];

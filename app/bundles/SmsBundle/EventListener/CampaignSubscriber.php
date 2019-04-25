@@ -163,7 +163,7 @@ class CampaignSubscriber extends CommonSubscriber
 
             return $event;
         } else {
-            if (!$sms) {
+            if (!$sms || !$sms->isPublished()) {
                 return $event->setFailed('mautic.sms.campaign.failed.missing_entity');
             }
             $smsCountExpired = $this->factory->get('mautic.helper.licenseinfo')->smsCountExpired();
