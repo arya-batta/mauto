@@ -43,4 +43,133 @@ class ConfigModel extends AbstractCommonModel
     {
         return $formFactory->create('config', $data, $options);
     }
+
+    public function getSettingsMenuValues()
+    {
+        $instapage    = $this->translator->trans('le.integration.name.instapage');
+        $calendly     = $this->translator->trans('le.integration.name.calendly');
+        $unbounce     = $this->translator->trans('le.integration.name.unbounce');
+
+        $settingsMenu = [];
+
+        $settingsMenu[] = [
+            'Configurations' => [
+                'Sending Domain' => [
+                    'name'=> 'Sending Domain',
+                    'img' => 'Sending-Domain.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'emailconfig']),
+                ],
+                'Email Settings' => [
+                    'name'=> 'Email Settings',
+                    'img' => 'Email-Settings.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'emailconfig']),
+                ],
+                'UTM Tracking' => [
+                    'name'=> 'UTM Tracking',
+                    'img' => 'UTM-Tracking.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'analyticsconfig']),
+                ],
+                'Text Messages Settings' => [
+                    'name'=> 'Text Messages Settings',
+                    'img' => 'Text-Messages-Settings.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'smsconfig']),
+                ],
+                'Website Tracking' => [
+                    'name'=> 'Website Tracking',
+                    'img' => 'Website-Tracking.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'trackingconfig']),
+                ],
+                'Developer API' => [
+                    'name'=> 'Developer API',
+                    'img' => 'Developer-API.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'apiconfig']),
+                ],
+            ],
+            'Assets'=> [
+                'Notification Email Templates' => [
+                    'name'=> 'Notification Email',
+                    'img' => 'Notification-Email-Templates.png',
+                    'url' => $this->router->generate('le_email_index'),
+                ],
+                'Text Message Templates' => [
+                    'name'=> 'Text Message',
+                    'img' => 'Text-Messages-Templates.png',
+                    'url' => $this->router->generate('le_sms_index'),
+                ],
+                'Files/ Lead Magnets' => [
+                    'name'=> 'Files/ Lead Magnets',
+                    'img' => 'Files-Lead-Magnets.png',
+                    'url' => $this->router->generate('le_asset_index'),
+                ],
+                'Category' => [
+                    'name'=> 'Category',
+                    'img' => 'Category.png',
+                    'url' => $this->router->generate('le_category_index'),
+                ],
+            ],
+
+            'Account settings'=> [
+                'Account' => [
+                    'name'=> 'Account',
+                    'img' => 'Accounts.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'edit']),
+                ],
+                'Billing' => [
+                    'name'=> 'Billing',
+                    'img' => 'Billing.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'billing']),
+                ],
+                'Payment History' => [
+                    'name'=> 'Payment History',
+                    'img' => 'Payment-History.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'cardinfo']),
+                ],
+                'Users' => [
+                    'name'=> 'Users',
+                    'img' => 'Users.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
+                ],
+            ],
+
+            'Integrations' => [
+                'Webhooks' => [
+                    'name'=> 'Webhooks',
+                    'img' => 'Webhooks.png',
+                    'url' => $this->router->generate('le_webhook_index'),
+                ],
+                'Zapier' => [
+                    'name'=> 'Zapier',
+                    'img' => 'Zapier.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>'zapier']),
+                ],
+                'Facebook Lead Ad' => [
+                    'name'=> 'Facebook Lead Ad',
+                    'img' => 'fb-Ad.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>'facebook_lead_ads']),
+                ],
+                'Facebook Custom Audience ' => [
+                    'name'=> 'Facebook Custom Audience',
+                    'img' => 'fb-Custom-Audience.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>'facebook_custom_audiences']),
+                ],
+                'Instapage' => [
+                    'name'=> 'Instapage',
+                    'img' => 'Instapage.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>$instapage]),
+                ],
+                'Unbounce' => [
+                    'name'=> 'Unbounce',
+                    'img' => 'Unbounce.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>$unbounce]),
+                ],
+                'Calendly' => [
+                    'name'=> 'Calendly',
+                    'img' => 'Calendly.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>$calendly]),
+                ],
+            ],
+        ];
+
+        return $settingsMenu[0];
+    }
 }

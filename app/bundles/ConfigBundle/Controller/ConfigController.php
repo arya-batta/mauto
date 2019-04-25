@@ -463,4 +463,24 @@ class ConfigController extends FormController
             }
         }
     }
+
+    public function settingsMenuAction()
+    {
+        $model        = $this->getModel('config');
+        $settingsMenu = $model->getSettingsMenuValues();
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'settingsMenu'        => $settingsMenu,
+                ],
+                'contentTemplate' => 'MauticConfigBundle:setupMenu:setupmenu.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_config_index',
+                    'leContent'     => 'config',
+                    'route'         => $this->generateUrl('le_settingsmenu_action'),
+                ],
+            ]
+        );
+    }
 }

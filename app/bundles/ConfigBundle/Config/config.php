@@ -16,6 +16,10 @@ return [
                 'path'       => '/config/{objectAction}/{objectId}',
                 'controller' => 'MauticConfigBundle:Config:execute',
             ],
+            'le_settingsmenu_action' => [
+                'path'       => '/settings',
+                'controller' => 'MauticConfigBundle:Config:settingsMenu',
+            ],
             'le_sysinfo_index' => [
                 'path'       => '/sysinfo',
                 'controller' => 'MauticConfigBundle:Sysinfo:index',

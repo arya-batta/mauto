@@ -218,13 +218,13 @@ return [
     'menu' => [
         'main' => [
             'items' => [
-                'mautic.sms.smses' => [
+              /*  'mautic.sms.smses' => [
                     'iconClass'=> 'fa fa-weixin',
                     'route'    => 'le_sms_index',
                     'access'   => ['sms:smses:viewown', 'sms:smses:viewother'],
                     'parent'   => 'mautic.core.components',
                     'priority' => 430,
-                ],
+                ],*/
             ],
         ],
     ],

@@ -90,7 +90,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                                 <textarea class="form-control" id="reason_feedback"></textarea>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-default pay-now-btn" onclick="Le.cancelSubscription(<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']); ?>);">
+                        <button type="button" class="btn btn-default pay-now-btn" onclick="Le.cancelSubscription('<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']); ?>');">
                             <?php echo $view['translator']->trans('le.cancel.subscription.model.button'); ?>
                         </button>
                     </div>

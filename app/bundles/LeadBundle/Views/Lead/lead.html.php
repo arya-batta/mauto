@@ -714,7 +714,7 @@ $view['slots']->set(
                             </span>
 
                             <?php elseif ($doNotContact['bounced']): ?>
-                                <span class="label label-warning" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">
+                                <span class="label label-warning" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.lead.do.not.contact_bounce_reason'); /**$doNotContact['comments'];*/ ?>">
                                 <?php echo $view['translator']->trans('le.lead.do.not.contact_bounced'); ?>
                                     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo $view['translator']->trans(
                                         'le.lead.remove_dnc_status'

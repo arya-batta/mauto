@@ -212,13 +212,13 @@ return [
                     'parent'   => 'le.campaigns.root',
                     'priority' => 100,
                 ],*/
-                'le.notification.menu.admin.index' => [
+                /**'le.notification.menu.admin.index' => [
                     'route'           => 'le_email_index',
                     'iconClass'       => 'fa fa-envelope',
                     'parent'          => 'mautic.core.components',
                     'priority'        => 450,
                     'access'          => ['email:emails:viewown', 'email:emails:viewother'],
-                ],
+                ],*/
             ],
         ],
     ],
