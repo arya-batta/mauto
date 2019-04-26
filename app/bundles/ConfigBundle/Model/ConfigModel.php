@@ -87,12 +87,12 @@ class ConfigModel extends AbstractCommonModel
             ],
             'Assets'=> [
                 'Notification Email Templates' => [
-                    'name'=> 'Notification Email',
+                    'name'=> 'Notification Emails',
                     'img' => 'Notification-Email-Templates.png',
                     'url' => $this->router->generate('le_email_index'),
                 ],
                 'Text Message Templates' => [
-                    'name'=> 'Text Message',
+                    'name'=> 'Text Messages',
                     'img' => 'Text-Messages-Templates.png',
                     'url' => $this->router->generate('le_sms_index'),
                 ],
@@ -122,12 +122,12 @@ class ConfigModel extends AbstractCommonModel
                 'Payment History' => [
                     'name'=> 'Payment History',
                     'img' => 'Payment-History.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'cardinfo']),
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
                 ],
                 'Users' => [
                     'name'=> 'Users',
                     'img' => 'Users.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
+                    'url' => $this->router->generate('le_user_index'),
                 ],
             ],
 

@@ -512,9 +512,10 @@ $view['slots']->set(
                 </div>
 <!--            --><?php //endif;?>
             <!-- tabs controls -->
+            <div class="analyticsconfig">
             <ul class="nav nav-tabs pr-md pl-md mt-10 navtab-bg">
                 <li class="active">
-                    <a href="#timeline-container" role="tab" data-toggle="tab" onclick="Le.removeHideActivity();">
+                    <a href="#timeline-container" role="tab" data-toggle="tab" style="padding-left: 40px;padding-right: 40px;" onclick="Le.removeHideActivity();">
                         <?php echo $view['translator']->trans('le.lead.lead.tab.history'); ?>
                         <span class="label label-primary mr-sm hide" id="TimelineCount">
                             <?php  echo $events['total']; ?>
@@ -522,7 +523,7 @@ $view['slots']->set(
                     </a>
                 </li>
                 <li>
-                    <a href="#notes-container" role="tab" data-toggle="tab" onclick="Le.hideActivity();">
+                    <a href="#notes-container" role="tab" data-toggle="tab" style="padding-left: 40px;padding-right: 40px;" onclick="Le.hideActivity();">
                         <?php echo $view['translator']->trans('le.lead.lead.tab.notes'); ?>
                         <span class="label label-primary mr-sm hide" id="NoteCount">
                             <?php echo $noteCount; ?>
@@ -558,6 +559,7 @@ $view['slots']->set(
                     </a>
                 </li>
                 <?php if ($places): ?>
+                <?php if ($view['security']->isAdmin()): ?>
                     <li class="">
                         <a href="#place-container" role="tab" data-toggle="tab" id="load-lead-map">
                             <?php echo $view['translator']->trans('le.lead.lead.tab.places'); ?>
@@ -567,9 +569,11 @@ $view['slots']->set(
                         </a>
                     </li>
                 <?php endif; ?>
+                <?php endif; ?>
 
                 <?php echo $view['content']->getCustomContent('tabs', $mauticTemplateVars); ?>
             </ul>
+            </div>
             <?php  ?>
             <!--/ tabs controls -->
 
@@ -577,7 +581,7 @@ $view['slots']->set(
         <!-- start: tab-content -->
         <div class="pa-md">
             <!-- #history-container -->
-            <div class="tab-pane fade in active bdr-w-0" id="timeline-container">
+            <div class="tab-pane fade in active bdr-w-0" style="margin-top: -15px" id="timeline-container">
                 <?php echo $view->render(
                     'MauticLeadBundle:Timeline:list.html.php',
                     [

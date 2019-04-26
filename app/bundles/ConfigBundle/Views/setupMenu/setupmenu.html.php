@@ -21,7 +21,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.setupme
             <div class="settings-menu-group-container">
                 <?php foreach ($groupvalues as $listHeader =>$listItem):?>
                 <div class="settings-menu-list-item">
-                    <a href="<?php echo $listItem['url']; ?>" class="settings-menu-list-item-link">
+                    <a href="<?php echo $listItem['url']; ?>" data-toggle="ajax" class="settings-menu-list-item-link">
                         <div class="settings-menu-list-item-icon">
                             <img src="<?php echo $view['assets']->getUrl('media/images/'.$listItem['img']); ?>" />
                         </div>

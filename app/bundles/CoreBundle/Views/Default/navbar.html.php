@@ -37,7 +37,7 @@ $isCustomAdmin= $view['security']->isCustomAdmin();
                 <?php echo $view->render('MauticCoreBundle:Menu:profile.html.php'); ?>
                 <?php if ($isCustomAdmin): ?>
                     <li class="d-none d-sm-block">
-                        <a href="<?php echo $view['router']->generate('le_settingsmenu_action'); ?>"  class="dropdown-toggle waves-effect waves-light notification-icon-box"><i style='font-size: 20px !important;line-height: 33px;' class="mdi mdi-settings"></i></a>
+                        <a href="<?php echo $view['router']->generate('le_settingsmenu_action'); ?>" data-toggle="ajax"  class="dropdown-toggle waves-effect waves-light notification-icon-box"><i style='font-size: 20px !important;line-height: 33px;' class="mdi mdi-settings"></i></a>
                     </li>
                     <?php /*echo $view->render('MauticCoreBundle:Menu:right_panel.html.php');*/ ?>
                 <?php endif; ?>
