@@ -287,19 +287,19 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                     </div>
                     <div class="col-md-1">
                         <li class="dropdown dropdown-menu-right" style="display: block;">
-                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 14px;top: 25px;right:15px; vertical-align: super;" data-toggle="dropdown" href="#">
+                            <a class="btn btn-nospin btn-primary btn-sm hidden-xs " style="position: relative;font-size: 14px;top: 23px;right:15px; vertical-align: super;" data-toggle="dropdown" href="#">
                                 <span><?php echo $view['translator']->trans('le.core.personalize.button'); ?></span> </span><span><i class="caret" ></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 25px;margin-right:-50px;">
                                 <li>
                                     <div class="insert-tokens" style="background-color: whitesmoke;width: 190px;overflow-y: scroll;max-height: 154px;">
-                                    </div
+                                    </div>
                                 </li>
                             </ul>
                         </li>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="margin-top: 3px;">
                     <?php echo $view['form']->row($form['previewText']); ?>
                 </div>
             </div>
@@ -340,7 +340,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             <?php echo $view->render('MauticEmailBundle:Email:bee_template_select.html.php', [
                                 'beetemplates' => $beetemplates,
                                 'active'       => '', //$form['template']->vars['value'],
-                                'route'        => 'oneoff',
+                                'route'        => 'broadcast',
                             ]); ?>
                         </div>
                     </div>

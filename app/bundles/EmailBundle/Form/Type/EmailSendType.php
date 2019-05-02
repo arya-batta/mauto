@@ -39,21 +39,21 @@ class EmailSendType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $isSendMail=!empty($options['with_email_types']) ? $options['with_email_types'] : false;
+        $isSendMail     =!empty($options['with_email_types']) ? $options['with_email_types'] : false;
         $email_list_type=!empty($options['set_email_list_type']) ? $options['set_email_list_type'] : 'list';
 
         $builder->add(
             'email',
             'email_list',
             [
-                'label'      => ($email_list_type == 'list') ? 'le.email.send.email.list':'le.email.send.notification.email.list',
+                'label'      => ($email_list_type == 'list') ? 'le.email.send.email.list' : 'le.email.send.notification.email.list',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control',
                     //'tooltip'  => 'le.email.choose.emails_descr',
                     'onchange' => 'Le.disabledEmailAction(window, this)',
                 ],
-                'email_type' => $email_list_type,
+                'email_type'  => $email_list_type,
                 'multiple'    => !$isSendMail,
                 'required'    => true,
                 'constraints' => [
@@ -63,7 +63,7 @@ class EmailSendType extends AbstractType
                 ],
             ]
         );
-        if($this->factory->getUser()->isAdmin()) {
+        if ($this->factory->getUser()->isAdmin()) {
             if (!empty($options['with_email_types'])) {
                 $builder->add(
                     'email_type',
@@ -71,12 +71,12 @@ class EmailSendType extends AbstractType
                     [
                         'choices' => [
                             'transactional' => 'le.email.send.emailtype.transactional',
-                            'marketing' => 'le.email.send.emailtype.marketing',
+                            'marketing'     => 'le.email.send.emailtype.marketing',
                         ],
-                        'label' => 'le.email.send.emailtype',
+                        'label'      => 'le.email.send.emailtype',
                         'label_attr' => ['class' => 'control-label'],
-                        'attr' => [
-                            'class' => 'form-control email-type',
+                        'attr'       => [
+                            'class'   => 'form-control email-type',
                             'tooltip' => 'le.email.send.emailtype.tooltip',
                         ],
                         'data' => (!isset($options['data']['email_type'])) ? 'transactional' : $options['data']['email_type'],
@@ -137,10 +137,10 @@ class EmailSendType extends AbstractType
 
             // create button preview email
 
-            if($options['update_select'] == 'campaignevent_properties_useremail_email' || $options['update_select'] =='formaction_properties_useremail_email'){
-                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type' => 'emailnotifications','objectId' => 'emailId']);
-            }else{
-                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type'=> 'oneoff','objectId' => 'emailId']);
+            if ($options['update_select'] == 'campaignevent_properties_useremail_email' || $options['update_select'] == 'formaction_properties_useremail_email') {
+                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type' => 'emailnotifications', 'objectId' => 'emailId']);
+            } else {
+                $windowUrlPreview = $this->factory->getRouter()->generate('le_email_preview', ['type'=> 'broadcast', 'objectId' => 'emailId']);
             }
             $builder->add(
                 'previewEmailButton',
@@ -149,7 +149,7 @@ class EmailSendType extends AbstractType
                     'attr' => [
                         'class'    => 'btn btn-primary btn-nospin',
                         'onclick'  => 'Le.loadNewWindow(Le.standardEmailUrl({"windowUrl": "'.$windowUrlPreview.'","origin":"#'.$options['update_select'].'"}))',
-                        'disabled' => 'disabled',//!isset($options['data']['email']),
+                        'disabled' => 'disabled', //!isset($options['data']['email']),
                         'icon'     => 'fa fa-external-link',
                     ],
                     'label' => 'le.email.send.preview.email',
@@ -208,7 +208,7 @@ class EmailSendType extends AbstractType
             ]
         );
 
-        $resolver->setDefined(['update_select', 'with_email_types','set_email_list_type']);
+        $resolver->setDefined(['update_select', 'with_email_types', 'set_email_list_type']);
     }
 
     /**

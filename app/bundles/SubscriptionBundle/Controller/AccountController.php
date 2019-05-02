@@ -93,7 +93,7 @@ class AccountController extends FormController
                 if (!$cancelled && $this->isFormApplied($form)) {
                     return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'edit']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_settingsmenu_action'));
                 }
             }
         }
@@ -156,7 +156,7 @@ class AccountController extends FormController
                 if (!$cancelled && $this->isFormApplied($form)) {
                     return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'billing']));
                 } else {
-                    return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_settingsmenu_action'));
                 }
             }
         }

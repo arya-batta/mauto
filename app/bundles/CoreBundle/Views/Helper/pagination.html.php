@@ -154,7 +154,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                 $class  = (($page - 1) <= 0) ? ' class="disabled"' : '';
                 ?>
                 <li<?php echo $class; ?>>
-                    <?php ?>
+                    <?php if (isset($sessionVar) && $sessionVar == 'form.results'): $action=''; endif; ?>
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $page - 1; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                         <span>Previous</span>
                     </a>
@@ -177,6 +177,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                     $data   = strpos($action, 'javascript:void(0);') !== false ? '' : ' data-toggle="'.$linkType.'" data-target="'.$target.'"'.$menuLink;
                     ?>
                     <li<?php echo $class; ?>>
+                        <?php if (isset($sessionVar) && $sessionVar == 'form.results'): $action=''; endif; ?>
                         <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $i; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                             <span><?php echo $i; ?></span>
                         </a>
@@ -189,7 +190,7 @@ $getAction = function ($page, $active) use ($jsCallback, $jsArguments, $baseUrl,
                 $class  = (($page + 1) > $totalPages) ? ' class="disabled"' : '';
                 ?>
                 <li<?php echo $class; ?>>
-                    <?php ?>
+                    <?php if (isset($sessionVar) && $sessionVar == 'form.results'): $action=''; endif; ?>
                     <a <?php echo $action; ?><?php echo $data.$formExit; ?> <?php if (isset($sessionVar) && $sessionVar == 'form.results'):?> onclick="Le.pageTableData('<?php echo $sessionVar; ?>','<?php echo $page + 1; ?>','<?php echo $tmpl; ?>','<?php echo $target; ?>'<?php if (!empty($baseUrl)): ?>, '<?php echo $baseUrl; ?>'<?php endif; ?>);" <?php endif; ?>>
                         <span>Next</span>
                     </a>

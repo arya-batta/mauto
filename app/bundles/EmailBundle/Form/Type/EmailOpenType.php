@@ -100,9 +100,10 @@ class EmailOpenType extends AbstractType
             'label'       => 'le.email.open.email.type',
             'label_attr'  => ['class' => 'control-label'],
             'attr'        => [
-                'class'    => 'form-control le-input',
-                'tooltip'  => 'le.email.open.email.type.descr',
-                'onchange' => 'Le.getSelectedCampaignValue(this.value)',
+                'class'            => 'form-control le-input',
+                'tooltip'          => !$iscampaign ? 'le.email.open.email.type.descr' : 'le.email.open.email.type.short_descr',
+                'onchange'         => 'Le.getSelectedCampaignValue(this.value)',
+                'data-placeholder' => !$iscampaign ? $this->factory->getTranslator()->trans('le.core.scoring.placeholder.email.select') : '',
             ],
             'required'     => $required,
             'constraints'  => $constraints,

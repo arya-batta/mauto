@@ -149,7 +149,7 @@ return [
                 'path'       => '/view/{idHash}',
                 'controller' => 'MauticEmailBundle:Public:index',
                 'defaults'   => [
-                    'type' => 'one-off',
+                    'type' => 'broadcast',
                 ],
             ],
             'le_email_unsubscribe' => [
@@ -177,7 +177,7 @@ return [
                 'path'       => '/{type}/preview/{objectId}',
                 'controller' => 'MauticEmailBundle:Public:preview',
                 'defaults'   => [
-                    'type' => 'one-off',
+                    'type' => 'broadcast',
                 ],
             ],
             'le_beefree_credentials' => [

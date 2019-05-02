@@ -637,12 +637,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             ],
             $this->availableSocialFields
         );
-        $unique                = $this->generateRandomParameterName();
-        $xFunc                 = 'orX';
-        $expr                  = $q->expr()->$xFunc();
-        $dncId                 = $this->getDNCLeadsId();
-        $last7daysDateInterval = date('Y-m-d', strtotime('-6 days'));
-        $exprFunc              ='gte';
+        $unique                 = $this->generateRandomParameterName();
+        $xFunc                  = 'orX';
+        $expr                   = $q->expr()->$xFunc();
+        $dncId                  = $this->getDNCLeadsId();
+        $last29daysDateInterval = date('Y-m-d', strtotime('-29 days'));
+        $exprFunc               ='gte';
         if ($filter->string == 'recentlyaddedleads') {
             $columns               = ['l.date_added'];
 
@@ -654,7 +654,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
             return [
                $expr,
-               ["$unique" => $last7daysDateInterval],
+               ["$unique" => $last29daysDateInterval],
            ];
         } elseif ($filter->string == 'activeleads') {
             $columns               = ['l.last_active'];
@@ -667,7 +667,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
             return [
                 $expr,
-                ["$unique" => $last7daysDateInterval],
+                ["$unique" => $last29daysDateInterval],
             ];
         } elseif ($filter->string == 'donotcontact' && !empty($dncId)) {
             $ids = implode(',', $dncId);

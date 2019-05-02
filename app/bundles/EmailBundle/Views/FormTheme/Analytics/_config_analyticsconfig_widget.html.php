@@ -40,7 +40,7 @@ $fields        = $form->children;
         <!--/ tabs controls -->
         <!-- start: tab-content -->
         <div class="tab-content pa-md">
-            <div class="tab-pane fade in bdr-w-0" id="broadcast-container">
+            <div class="tab-pane active bdr-w-0" id="broadcast-container">
                 <div class="">
                     <div class="row">
                         <div class="col-sm-12">
@@ -68,7 +68,7 @@ $fields        = $form->children;
                     </div>
                 </div>
             </div>
-            <div class="tab-pane active bdr-w-0" id="dripcampaign-container">
+            <div class="tab-pane fade in bdr-w-0" id="dripcampaign-container">
                 <div class="">
                     <div class="row">
                         <div class="col-sm-12">

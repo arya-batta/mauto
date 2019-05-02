@@ -588,18 +588,20 @@ Le.toggleDripEmailPublisedListVisibility = function () {
     }, 10);
 };
 Le.activateDripAction = function(isPublish){
-    if(isPublish == "activate"){
-        mQuery('#dripemailform_isPublished_0').prop('checked',false);
-        mQuery('#dripemailform_isPublished_1').prop('checked',true);
-        mQuery('#dripemailform_isPublished_1').parent().addClass('active');
-        mQuery('#dripemailform_isPublished_0').parent().removeClass('active');
-        Le.toggleYesNoButtonClass('dripemailform_isPublished_1');
-    } else {
-        mQuery('#dripemailform_isPublished_0').prop('checked',true);
-        mQuery('#dripemailform_isPublished_1').prop('checked',false);
-        mQuery('#dripemailform_isPublished_1').parent().removeClass('active');
-        mQuery('#dripemailform_isPublished_0').parent().addClass('active');
-        Le.toggleYesNoButtonClass('dripemailform_isPublished_0');
+    if(mQuery('#dripemailform_name').val() != ''){
+        if(isPublish == "activate"){
+            mQuery('#dripemailform_isPublished_0').prop('checked',false);
+            mQuery('#dripemailform_isPublished_1').prop('checked',true);
+            mQuery('#dripemailform_isPublished_1').parent().addClass('active');
+            mQuery('#dripemailform_isPublished_0').parent().removeClass('active');
+            Le.toggleYesNoButtonClass('dripemailform_isPublished_1');
+        } else {
+            mQuery('#dripemailform_isPublished_0').prop('checked',true);
+            mQuery('#dripemailform_isPublished_1').prop('checked',false);
+            mQuery('#dripemailform_isPublished_1').parent().removeClass('active');
+            mQuery('#dripemailform_isPublished_0').parent().addClass('active');
+            Le.toggleYesNoButtonClass('dripemailform_isPublished_0');
+        }
     }
     var bgSaveBtn = mQuery('.btn-save');
     bgSaveBtn.trigger('click');

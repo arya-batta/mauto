@@ -225,7 +225,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.set.donotcontact',
             'description'     => 'le.lead.lead.events.set.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 13,
+            'order'           => 12,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 
@@ -235,7 +235,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.lead.events.remove.donotcontact',
             'description'     => 'le.lead.lead.events.remove.donotcontact_descr',
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
-            'order'           => 12,
+            'order'           => 13,
             'group'           => 'le.campaign.event.group.name.leadsengage',
         ];
 

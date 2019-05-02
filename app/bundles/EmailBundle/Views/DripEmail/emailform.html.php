@@ -27,7 +27,7 @@ $custombutton = [
         'name'    => 'beeeditor',
         'btnText' => 'le.drip.email.open.editor',
         'attr'    => [
-            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down blue-theme-bg',
+            'class'   => 'btn btn-default btn-dnd btn-nospin text-primary btn-beeditor le-btn-default m_down blue-theme-bg drip-btn-beeditor',
             'onclick' => "Le.launchBeeEditor('dripemail', 'email');",
             'style'   => 'color:#ffffff;border-radius:4px;z-index:499;margin-top:-31px;right:-156px;',
         ],
@@ -87,7 +87,7 @@ $customHtml = $entity->getCustomHtml();
                         </div>
                     </div>
 
-                    <div class="col-md-4" style="top: 6px;">
+                    <div class="col-md-4" style="top: 9px;">
                         <?php echo $view['form']->row($form['previewText'],
                             ['attr' => ['style' =>'background-color: #fff;']]
                         ); ?>

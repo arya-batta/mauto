@@ -256,7 +256,7 @@ class BuilderSubscriber extends CommonSubscriber
         $lead   = $event->getLead();
         $email  = $event->getEmail();
         $helper = $event->getHelper();
-        $type   = 'one-off';
+        $type   = 'broadcast';
         if ($email != null) {
             $emailtype = $email->getEmailType();
             if ($emailtype == 'template') {
@@ -388,6 +388,9 @@ class BuilderSubscriber extends CommonSubscriber
         $clickthrough     = $event->generateClickthrough();
         $trackables       = $this->parseContentForUrls($event, $emailId);
         $emailType        = $email->getEmailType();
+        if ($emailType == 'dripemail') {
+            $emailType = 'drip';
+        }
         $utmsource        = $this->coreParametersHelper->getParameter($emailType.'_source');
         $utmmedium        = $this->coreParametersHelper->getParameter($emailType.'_medium');
         $utmcampaign      = $this->coreParametersHelper->getParameter($emailType.'_campaignname');
@@ -407,10 +410,10 @@ class BuilderSubscriber extends CommonSubscriber
             $utmTags['utmCampaign'] = $utmcampaignvalue;
             $utmTags['utmContent']  = $utmcontentvalue;
         } else {
-            $utmTags['utmSource']   = '';
-            $utmTags['utmMedium']   = '';
-            $utmTags['utmCampaign'] = '';
-            $utmTags['utmContent']  = '';
+            unset($utmTags['utmSource']);
+            unset($utmTags['utmMedium']);
+            unset($utmTags['utmCampaign']);
+            unset($utmTags['utmContent']);
         }
         /**
          * @var string

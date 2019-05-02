@@ -242,31 +242,35 @@ Le.registerLicenseCloseBtnListener=function(){
     });
 };
 Le.adJustFixedHeader = function(isadd){
-    var pagemode = mQuery('.content-body').attr('data-pagemode');
-    var url = window.location.href;
-    if(pagemode == '') {
-        if (isadd) {
-            mQuery('#fixed-header').css('top', '90px');
-            if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
-                mQuery('.content-body').css('margin-top', '170px');
+    setTimeout(function () {
+        var pagemode = mQuery('.content-body').attr('data-pagemode');
+        var url = window.location.href;
+        if(pagemode == '') {
+            if (isadd) {
+                mQuery('#fixed-header').css('top', '90px');
+                if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
+                    mQuery('.content-body').css('margin-top', '170px');
+                }
+            } else {
+                if(mQuery('#licenseclosediv').hasClass('hide')) {
+                    mQuery('#fixed-header').css('top', '45px');
+                    if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
+                        mQuery('.content-body').css('margin-top', '110px');
+                    }
+                }
             }
-        } else {
-            mQuery('#fixed-header').css('top', '45px');
-            if (url.indexOf('forms/view') == -1 && url.indexOf('reports/view') == -1) {
+        } else if (pagemode == 'config') {
+            if (isadd) {
+                mQuery('#fixed-header').css('top', '90px');
+                mQuery('.content-body').css('margin-top', '170px');
+            } else {
+                mQuery('#fixed-header').css('top', '45px');
                 mQuery('.content-body').css('margin-top', '110px');
             }
+        } else {
+            if (isadd) {
+                mQuery('.content-body').attr('style', 'padding-top:3.5%;');
+            }
         }
-    }else if(pagemode == 'config'){
-        if (isadd) {
-            mQuery('#fixed-header').css('top', '90px');
-            mQuery('.content-body').css('margin-top', '170px');
-        } else{
-            mQuery('#fixed-header').css('top', '45px');
-            mQuery('.content-body').css('margin-top', '110px');
-        }
-    }else{
-        if (isadd) {
-            mQuery('.content-body').attr('style', 'padding-top:3.5%;');
-        }
-    }
+    },1000);
 };

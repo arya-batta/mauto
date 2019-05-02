@@ -81,7 +81,7 @@ Le.testSmsConnection = function() {
 Le.validateSmsConfig = function(){
     if(mQuery('#config_smsconfig_sms_transport').val()   =='le.sms.transport.twilio') {
         if (mQuery('#config_smsconfig_account_sid').val() == "" && mQuery('#config_smsconfig_sms_from_number').val() == "" && mQuery('#config_smsconfig_account_auth_token').val() == "") {
-            var theMessage = "<strong>Sending Phone Number</strong> and <strong> Authentication Token</strong>and <strong>Account SID</strong> cannot be empty.";
+            var theMessage = "<strong>Sending Phone Number</strong> and <strong> Authentication Token </strong> and <strong> Account SID </strong> cannot be empty.";
             mQuery('#smsconfig #smsTestButtonContainer').removeClass('has-success has-error').addClass('has-error');
             mQuery('#smsconfig #smsTestButtonContainer .help-block').html(theMessage);
             mQuery('#activateSmsModel').modal('hide');

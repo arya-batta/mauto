@@ -20,7 +20,7 @@
     </div>
 </div>
 <?php
-echo $view['form']->row($form['fromname']); 
+echo $view['form']->row($form['fromname']);
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -30,7 +30,7 @@ echo $view['form']->row($form['fromname']);
             ); ?>
         </div>
         <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;">
-            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:16px;margin-left:-10px;float:inherit;margin-top:26px;" data-toggle="dropdown" href="#">
+            <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:16px;margin-left:-10px;float:inherit;margin-top:24px;padding: 4px 10px !important;" data-toggle="dropdown" href="#">
                 <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">

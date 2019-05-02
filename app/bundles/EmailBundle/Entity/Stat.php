@@ -479,7 +479,7 @@ class Stat
      */
     public function getIsUnsubscribe()
     {
-        return $this->isFailed;
+        return $this->isUnsubscribe;
     }
 
     /**

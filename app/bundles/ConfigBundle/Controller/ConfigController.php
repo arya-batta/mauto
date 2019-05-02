@@ -159,6 +159,12 @@ class ConfigController extends FormController
                             if (isset($object['mailer_api_key'])) {
                                 $object['mailer_password']=$object['mailer_api_key'];
                             }
+                            $analyticsdata[] = ['drip_source', 'drip_medium', 'drip_campaignname', 'drip_content', 'list_source', 'list_medium', 'list_campaignname', 'list_content', 'analytics_status'];
+
+                            if ($key == 'analyticsconfig' && !in_array(key($object), $analyticsdata)) {
+                                continue;
+                            }
+
                             $configurator->mergeParameters($object);
                         }
 
@@ -236,7 +242,7 @@ class ConfigController extends FormController
 
                     $loginsession->set('isLogin', false);
 
-                    return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
+                    return $this->delegateRedirect($this->generateUrl('le_settingsmenu_action'));
                 }
             }
         }
