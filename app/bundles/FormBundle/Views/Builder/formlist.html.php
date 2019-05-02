@@ -25,7 +25,11 @@ foreach ($forms as $formindex => $form):
             <?php echo $fieldjson; ?>
         </span>
         <div class="smart-form-fieldcount">
+            <?php if ($formlabel == ''):?>
+            <a class='smart-form-link' data-formname='<?php echo $formname?>' data-formid='<?php echo !empty($formid) ? $formid : $formname; ?>' data-formfield='<?php echo $fieldjson?>' onclick='Le.openSmartFormPanel(this)'><?php echo '#'.$fieldcount ?> fields are available</a>
+            <?php else: ?>
             <?php echo '#'.$fieldcount ?> fields are available
+            <?php endif; ?>
         </div>
     </div>
 </div>

@@ -212,6 +212,8 @@ class AjaxController extends CommonAjaxController
                         $query="//form[@id='$id']//input|//form[@id='$id']//select|//form[@id='$id']//textarea";
                     } elseif ($name != '') {
                         $query="//form[@name='$name']//input|//form[@name='$name']//select|//form[@name='$name']//textarea";
+                    } else {
+                        $query='//form//input|//form//select|//form//textarea';
                     }
                     $form['fields']=[];
                     if ($query != '') {

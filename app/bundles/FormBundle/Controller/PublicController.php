@@ -660,12 +660,17 @@ JS;
         if ($formname == '') {
             $formname = null;
         }
-        $forms         =$formrepository->findBy(
-            [
-                'smartformname' => $formname,
-                'smartformid'   => $formid,
-            ]
-        );
+        $forms = [];
+        if ($formname == '' && $formid == '') {
+            $forms = $this->findSmartFormwithFields($post_results);
+        } else {
+            $forms = $formrepository->findBy(
+                [
+                    'smartformname' => $formname,
+                    'smartformid'   => $formid,
+                ]
+            );
+        }
         if (sizeof($forms) > 0 && sizeof($post_results) > 0) {
             try {
                 $result = $this->getModel('form.submission')->saveSubmission($post_results, $server, $forms[0], $this->request, true);
@@ -750,5 +755,37 @@ JS;
         }
 
         return new JsonResponse($responses);
+    }
+
+    public function findSmartFormwithFields($formdata)
+    {
+        $formmodel     =$this->getModel('form');
+        $formrepository=$formmodel->getRepository();
+        $forms         = $formrepository->findBy(
+            [
+                'smartformname' => '',
+                'smartformid'   => '',
+            ]
+        );
+        $smform    = [];
+        $iscrtform = false;
+        for ($i = 0; $i < sizeof($forms); ++$i) {
+            $fields = $forms[$i]->getSmartFields();
+            foreach ($fields as $field) {
+                $fieldkey = $field['smartfield'];
+                if (!isset($formdata[$fieldkey])) {
+                    $iscrtform = false;
+                    break;
+                }
+                $iscrtform = true;
+                continue;
+            }
+            if ($iscrtform) {
+                $smform[] = $forms[$i];
+                break;
+            }
+        }
+
+        return $smform;
     }
 }
