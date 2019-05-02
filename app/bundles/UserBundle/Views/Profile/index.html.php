@@ -39,7 +39,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
                         <?php
                         echo ($permissions['editName']) ? $view['form']->row($userForm['firstName']) : $view['form']->row($userForm['firstName_unbound']);
                         echo $view['form']->row($userForm['mobile']);
-                        echo ($permissions['editEmail']) ? $view['form']->row($userForm['email']) : $view['form']->row($userForm['email_unbound']);
+                        echo ($permissions['editEmail']) ? $view['form']->row($userForm['email'], ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;']]) : $view['form']->row($userForm['email_unbound']);
                         echo ($permissions['editUsername']) ? $view['form']->row($userForm['username']) : $view['form']->row($userForm['username_unbound']);
 
                         ?>

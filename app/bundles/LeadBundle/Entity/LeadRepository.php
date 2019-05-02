@@ -788,6 +788,31 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.tag'):
+            case $this->translator->trans('le.lead.lead.searchcommand.tag', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_tags_xref',
+                            'alias'      => 'xtag',
+                            'condition'  => 'l.id = xtag.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'xtag',
+                            'table'      => 'lead_tags',
+                            'alias'      => 'tag',
+                            'condition'  => 'xtag.tag_id = tag.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'tag.id', $eqExpr, $unique, null),
+                    null,
+                    $filter
+                );
+                $returnParameter = true;
+                break;
             case $this->translator->trans('le.lead.lead.searchcommand.listoptin'):
             case $this->translator->trans('le.lead.lead.searchcommand.listoptin', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
@@ -972,29 +997,6 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $expr            = $q->expr()->$inExpr('l.id', sprintf('(%s)', $sq->getSQL()));
                 $returnParameter = true;
 
-                break;
-            case $this->translator->trans('le.lead.lead.searchcommand.tag'):
-            case $this->translator->trans('le.lead.lead.searchcommand.tag', [], null, 'en_US'):
-                $this->applySearchQueryRelationship(
-                    $q,
-                    [
-                        [
-                            'from_alias' => 'l',
-                            'table'      => 'lead_tags_xref',
-                            'alias'      => 'xtag',
-                            'condition'  => 'l.id = xtag.lead_id',
-                        ],
-                        [
-                            'from_alias' => 'xtag',
-                            'table'      => 'lead_tags',
-                            'alias'      => 'tag',
-                            'condition'  => 'xtag.tag_id = tag.id',
-                        ],
-                    ],
-                    $innerJoinTables,
-                    $this->generateFilterExpression($q, 'tag.alias', $likeExpr, $unique, null)
-                );
-                $returnParameter = true;
                 break;
             case $this->translator->trans('le.lead.lead.searchcommand.company'):
             case $this->translator->trans('le.lead.lead.searchcommand.company', [], null, 'en_US'):

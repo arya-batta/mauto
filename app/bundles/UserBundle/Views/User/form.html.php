@@ -20,6 +20,10 @@ if (!empty($userId)) {
 $view['slots']->set('headerTitle', $header);
 $isAdmin       =$view['security']->isAdmin();
 $isLogginedUser=$view['security']->isLoginUserID($userId);
+$emailattr     = ['attr' => ['placeholder' => $form['email']->vars['label']]];
+if ($isLogginedUser) {
+    $emailattr = ['attr' => ['tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;', 'placeholder' => $form['email']->vars['label']]];
+}
 ?>
 <!-- start: box layout -->
 <div class="box-layout">
@@ -54,7 +58,7 @@ $isLogginedUser=$view['security']->isLoginUserID($userId);
                             </div>
                             <div class="form-group <?php echo (count($form['email']->vars['errors'])) ? ' has-error' : ''; ?>">
                                 <?php echo $view['form']->label($form['email']); ?>
-                                <?php echo $view['form']->widget($form['email'], ['attr' => ['placeholder' => $form['email']->vars['label']]]); ?>
+                                <?php echo $view['form']->widget($form['email'], $emailattr); ?>
                                 <?php echo $view['form']->errors($form['email']); ?>
                             </div>
                         </div>

@@ -255,7 +255,7 @@ class LeadController extends FormController
                         $tagssearchString .= ' or tag:';
                     }
                     if ($tagEntity != null) {
-                        $tagssearchString .= $tagEntity->getAlias();
+                        $tagssearchString .= $tagEntity->getId();
                     }
                 }
 
