@@ -14,6 +14,7 @@ namespace Mautic\LeadBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OwnerType extends AbstractType
 {
@@ -27,12 +28,17 @@ class OwnerType extends AbstractType
             'addowner',
             'choice',
             [
-                'label'      => 'le.lead.batch.add_to',
-                'multiple'   => false,
-                'choices'    => $options['items'],
-                'required'   => false,
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
+                'label'       => 'le.lead.batch.add_to',
+                'multiple'    => false,
+                'choices'     => $options['items'],
+                'required'    => true,
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control'],
+                'constraints' => [
+                    new NotBlank(
+                        ['message' => 'le.lead.batch.owner.required']
+                    ),
+                ],
             ]
         );
 

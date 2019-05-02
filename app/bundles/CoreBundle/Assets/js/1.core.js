@@ -937,6 +937,7 @@ var Le = {
             x.style.display = "block";
         } else {
             x.style.display = "none";
+            mQuery('#licenseclosediv').addClass('hide');
         }
     },
     /**

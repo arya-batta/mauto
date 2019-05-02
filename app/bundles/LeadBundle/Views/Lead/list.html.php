@@ -255,5 +255,5 @@ if ($showsetup) {
         ]); ?>
     </div>
 <?php else: ?>
-    <?php echo $view->render('MauticCoreBundle:Helper:noresults.html.php'); ?>
+    <?php echo $view->render('MauticCoreBundle:Helper:noresults.html.php', ['isEmailSearch'=> $isEmailSearch]); ?>
 <?php endif; ?>

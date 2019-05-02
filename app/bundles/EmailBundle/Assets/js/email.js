@@ -157,6 +157,15 @@ Le.emailOnLoad = function (container, response) {
         }
     });
 
+    if(mQuery('#Email_TemplateName').hasClass('has-error')){
+        mQuery("#ui-tab-header3").addClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-header2").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#ui-tab-header1").removeClass('ui-tabs-selected ui-state-active');
+        mQuery("#fragment-1").addClass('ui-tabs-hide');
+        mQuery("#fragment-2").addClass('ui-tabs-hide');
+        mQuery("#fragment-3").removeClass('ui-tabs-hide');
+    }
+
     Le.loadEmailStatCounts();
 
     Le.getTokens('email:getBuilderTokens', function(tokens) {

@@ -594,7 +594,11 @@ class EventController extends CommonFormController
             $oplabel    = $this->get('translator')->trans($oplabel);
 
             if (strtotime($value)) {
-                $value = $this->factory->getHelper('template.date')->toFull($value, '', 'Y-m-d H:i');
+                if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $value)) {
+                    $value = $this->factory->getHelper('template.date')->toDate($value, '', 'Y-m-d');
+                } else {
+                    $value = $this->factory->getHelper('template.date')->toFull($value, '', 'Y-m-d H:i');
+                }
             }
             if (is_array($value)) {
                 $list   =[];

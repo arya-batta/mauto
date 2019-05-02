@@ -1328,6 +1328,14 @@ class DripEmailController extends FormController
              $fromname  =$defaultsender[0];
              $fromadress=$defaultsender[1];
          }*/
+        $fromname     ='';
+        $fromadress   ='';
+        $defaultsender=$emailmodel->getDefaultSenderProfile();
+        if (sizeof($defaultsender) > 0) {
+            $fromname  =$defaultsender[0];
+            $fromadress=$defaultsender[1];
+        }
+
         $fromName        = $entity->getFromName();
         $fromAdress      = $entity->getFromAddress();
         $emailentity->setName('DripEmail - ');
@@ -1336,12 +1344,12 @@ class DripEmailController extends FormController
         //create the form
         $emailform      = $emailmodel->createForm($emailentity, $this->get('form.factory'), $emailaction, ['update_select' => false, 'isEmailTemplate' => true, 'isDripEmail' => true, 'isShortForm' => false]);
 
-        /*   if (empty($fromName)) {
-               $emailentity->setFromName($fromname);
-           }
-           if (empty($fromAdress)) {
-               $emailentity->setFromAddress($fromadress);
-           }*/
+        if (empty($fromName)) {
+            $fromName = $fromname;
+        }
+        if (empty($fromAdress)) {
+            $fromAdress= $fromadress;
+        }
 
         $isBeeEditor   = $subobjectId;
         $groupFilters  = [

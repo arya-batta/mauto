@@ -56,6 +56,24 @@ class FormButtonsType extends AbstractType
             );
         }
 
+        if (!empty($options['apply_text'])) {
+            $builder->add(
+                'apply',
+                $options['apply_type'],
+                [
+                    'label' => $options['apply_text'],
+                    'attr'  => array_merge(
+                        $options['apply_attr'],
+                        [
+                            'class'   => $options['apply_class'],
+                            'icon'    => $options['apply_icon'],
+                            'onclick' => $options['apply_onclick'],
+                        ]
+                    ),
+                ]
+            );
+        }
+
         if (!empty($options['save_text'])) {
             $builder->add(
                 'save',
@@ -74,23 +92,6 @@ class FormButtonsType extends AbstractType
             );
         }
 
-        if (!empty($options['apply_text'])) {
-            $builder->add(
-                'apply',
-                $options['apply_type'],
-                [
-                    'label' => $options['apply_text'],
-                    'attr'  => array_merge(
-                        $options['apply_attr'],
-                        [
-                            'class'   => $options['apply_class'],
-                            'icon'    => $options['apply_icon'],
-                            'onclick' => $options['apply_onclick'],
-                        ]
-                    ),
-                ]
-            );
-        }
         foreach ($options['post_extra_buttons'] as $btn) {
             $type = (empty($btn['type'])) ? 'button' : 'submit';
             $builder->add(

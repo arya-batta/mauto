@@ -349,9 +349,10 @@ class FormController extends CommonFormController
             //the number of entities are now less then the current page so redirect to the last page
             if ($totalentitiescount === 1) {
                 $resultPage = 1;
-                $start      = ($resultPage === 1) ? 0 : (($resultPage - 1) * $limit);
+                $start      = 0;
             } else {
-                $resultPage = (ceil($totalentitiescount / $limit)) ?: 1;
+                // $resultPage = (ceil($totalentitiescount / $limit)) ?: 1;
+                $resultPage = 1;
                 $start      = ($resultPage === 1) ? 0 : (($resultPage - 1) * $limit);
             }
             $session->set('mautic.form.results.page', $resultPage);

@@ -810,6 +810,13 @@ class EmailCampaignController extends FormController
             $templatename = 'blank';
             $beeJson      = '';
         }
+
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator    = $this->get('mautic.configurator');
+        $params          = $configurator->getParameters();
+        $unsubscribeText = $params['footer_text'];
+        $postaladdress   = $params['postal_address'];
+
         //create the form
         $form = $model->createForm($email, $this->get('form.factory'), $action, ['update_select' => false, 'isEmailTemplate' => false, 'isDripEmail' => false, 'isShortForm' => true]);
         if ($this->request->getMethod() == 'POST') {
@@ -819,6 +826,8 @@ class EmailCampaignController extends FormController
                     $email->setEmailType('list');
                     $email->setTemplate($templatename);
                     $email->setBeeJSON($beeJson);
+                    $email->setUnsubscribeText($unsubscribeText);
+                    $email->setPostalAddress($postaladdress);
                     $model->saveEntity($email);
                     $viewParameters = [];
                     $returnUrl      = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'edit', 'objectId' => $email->getId()]);

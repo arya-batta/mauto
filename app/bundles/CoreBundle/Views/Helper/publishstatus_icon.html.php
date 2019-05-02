@@ -41,6 +41,12 @@ if ($model == 'email.dripemail') {
     }
 }
 
+if ($model == 'user.user') {
+    if ($status == 'unpublished') {
+        $text = $view['translator']->trans('mautic.core.form.unpublished.inactive');
+    }
+}
+
 if (!empty($disableToggle)) {
     $icon = str_replace(['success', 'danger', 'warning'], 'muted', $icon);
 }

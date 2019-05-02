@@ -1,3 +1,8 @@
+<?php if (isset($isEmailSearch) && $isEmailSearch):?>
+    <div class="alert alert-info le-alert-info" id="form-action-placeholder" style="width:98%;margin-left:10px;margin-right:20px;">
+        <p><?php echo $view['translator']->trans('le.leads.stats.info'); ?></p>
+    </div>
+<?php endif; ?>
 <div class="col-md-6 col-md-offset-3 mt-md" style="white-space: normal;">
     <span class="beamer_avoid" style="max-height: 0px;max-width: 0px;"></span>
     <div class="text-center">

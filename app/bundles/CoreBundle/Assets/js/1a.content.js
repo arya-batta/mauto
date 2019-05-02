@@ -1727,9 +1727,11 @@ Le.hideFlashMessage = function () {
         mQuery('#flashes').delay(3000).fadeIn('normal', function() {
             var value = mQuery('.alert-growl  span').html();
             if(value.includes("verification link")){
-                mQuery(this).delay(200000).fadeOut();
+                //mQuery(this).delay(200000).fadeOut();
+                mQuery('#flashes button').delay(200000).click();
             } else {
-                mQuery(this).delay(3000).fadeOut();
+                //mQuery(this).delay(3000).fadeOut();
+                mQuery('#flashes button').delay(5000).click();
             }
         });
     });
