@@ -155,4 +155,9 @@ class TransportCallback
         $stat->setOpenDetails($openDetails);
         $this->statRepository->saveEntity($stat);
     }
+
+    public function getLicenseHelper()
+    {
+        return $this->licenseInfoHelper;
+    }
 }

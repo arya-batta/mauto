@@ -251,7 +251,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                     $billing = new Billing();
                 }
                 if ($billing->getAccountingemail() != '') {
-                    $mailer       = $container->get('le.transactions.sendgrid_api');
+                    $mailer       = $container->get('le.transport.elasticemail.transactions');
                     $paymenthelper=$container->get('le.helper.payment');
                     $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
                 }
@@ -260,7 +260,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
                 $subsrepository=$container->get('le.core.repository.subscription');
                 $subsrepository->updateAppStatus($appid, 'InActive');
-                $mailer = $container->get('le.transactions.sendgrid_api');
+                $mailer = $container->get('le.transport.elasticemail.transactions');
                 $paymenthelper->paymentFailedEmailtoUser($mailer, $planname);
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
                 $output->writeln('<error>'.'Failure Code:'.$failure_code.'</error>');

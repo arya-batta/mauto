@@ -491,8 +491,8 @@ class MailHelper
                     array_keys((array) $this->message->getCc()),
                     array_keys((array) $this->message->getBcc())
                 );
-                $mailer = $this->factory->get('le.transactions.sendgrid_api');
-                $this->failedSMTPEmailtoUser($mailer);
+                //  $mailer = $this->factory->get('le.transport.elasticemail.transactions');
+                // $this->failedSMTPEmailtoUser($mailer);
                 $configurator   = $this->factory->get('mautic.configurator');
                 $configurator->mergeParameters(['email_status' => 'InActive']);
                 $configurator->write();
@@ -2241,21 +2241,21 @@ class MailHelper
         $cacheHelper->clearContainerFile();
         $config         = $this->coreParametersHelper->getParameter('email_status');
         $configurator   = $this->factory->get('mautic.configurator');
-        $fromname       ='';
-        $fromemail      ='';
-        $emailmodel     =$this->factory->getModel('email');
-        $defaultsender  =$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname =$defaultsender[0];
-            $fromemail=$defaultsender[1];
-        }
+        // $fromname       ='';
+        // $fromemail      ='';
+        //$emailmodel     =$this->factory->getModel('email');
+        //   $defaultsender  =$emailmodel->getDefaultSenderProfile();
+        //  if (sizeof($defaultsender) > 0) {
+        // $fromname =$defaultsender[0];
+        // $fromemail=$defaultsender[1];
+        //  }
         $settings       = [
             'amazon_region'     => $this->coreParametersHelper->getParameter('mailer_amazon_region'),
             'api_key'           => $this->coreParametersHelper->getParameter('mailer_api_key'),
             'authMode'          => $this->coreParametersHelper->getParameter('mailer_auth_mode'),
             'encryption'        => $this->coreParametersHelper->getParameter('mailer_encryption'),
-            'from_email'        => $fromemail, //$this->coreParametersHelper->getParameter('mailer_from_email'),
-            'from_name'         => $fromname, //$this->coreParametersHelper->getParameter('mailer_from_name'),
+            'from_email'        => $this->coreParametersHelper->getParameter('mailer_from_email'),
+            'from_name'         => $this->coreParametersHelper->getParameter('mailer_from_name'),
             'host'              => $this->coreParametersHelper->getParameter('mailer_host'),
             'password'          => $this->coreParametersHelper->getParameter('mailer_password'),
             'port'              => $this->coreParametersHelper->getParameter('mailer_port'),
@@ -2276,8 +2276,8 @@ class MailHelper
             if ($result['success']) {
                 return true;
             } else {
-                $mailer = $this->container->get('le.transactions.sendgrid_api');
-                $this->failedSMTPEmailtoUser($mailer);
+                // $mailer = $this->container->get('le.transport.elasticemail.transactions');
+                //$this->failedSMTPEmailtoUser($mailer);
                 $configurator->mergeParameters(['email_status' => 'InActive']);
                 $configurator->write();
 
@@ -2307,12 +2307,12 @@ class MailHelper
         $transport    = $settings['transport'];
         $user         = $this->factory->get('mautic.helper.user')->getUser();
         $emailmodel   = $this->factory->getModel('email');
-        $translator   = $this->factory->get('translator');
-        $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0 && $settings['from_email'] == '') {
-            $settings['from_name'] =$defaultsender[0];
-            $settings['from_email']=$defaultsender[1];
-        }
+        // $translator   = $this->factory->get('translator');
+//        $defaultsender=$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0 && $settings['from_email'] == '') {
+//            $settings['from_name'] =$defaultsender[0];
+//            $settings['from_email']=$defaultsender[1];
+//        }
         switch ($transport) {
             case 'gmail':
                 $mailer = new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
@@ -2385,7 +2385,7 @@ class MailHelper
                 if ($settings['send_test'] == 'true' || $settings['toemail'] != '') {
                     $email = '';
                     if ($settings['toemail'] != '' && $default) {
-                        $lemailer = $this->factory->get('le.transactions.sendgrid_api');
+                        $lemailer = $this->factory->get('le.transport.elasticemail.transactions');
                         $lemailer->start();
                         $trackingcode = $settings['trackingcode'];
                         $mailbody     = $translator->trans('le.email.website_tracking.body');

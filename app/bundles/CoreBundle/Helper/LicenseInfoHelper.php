@@ -1160,4 +1160,32 @@ class LicenseInfoHelper
 
         return $planarray[$planName];
     }
+
+    public function getValidSendingDomain($from)
+    {
+        $emailModel =$this->factory->getModel('email');
+        $emaildomain=substr(strrchr($from, '@'), 1);
+        $sender     ='mailer@anyfunnels.io';
+        if ($emaildomain != 'anyfunnels.io') {
+            $domainList   =$emailModel->getRepository()->getAllSendingDomains();
+            $isSenderFound=false;
+            foreach ($domainList as $sendingdomain) {
+                if ($sendingdomain->getDomain() == $emaildomain && $sendingdomain->getStatus()) {
+                    $sender       ='mailer@'.$sendingdomain->getDomain();
+                    $isSenderFound=true;
+                    break;
+                }
+            }
+            if (!$isSenderFound) {
+                foreach ($domainList as $sendingdomain) {
+                    if ($sendingdomain->getIsDefault() && $sendingdomain->getStatus()) {
+                        $sender='mailer@'.$sendingdomain->getDomain();
+                        break;
+                    }
+                }
+            }
+        }
+
+        return [$sender, 'Mailer'];
+    }
 }

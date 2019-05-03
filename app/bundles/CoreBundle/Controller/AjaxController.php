@@ -254,18 +254,18 @@ class AjaxController extends CommonController
         } else {
             $extra = '';
         }
-        if ($name == 'email.dripemail') {
-            $emailmodel    = $this->getModel('email');
-            $defaultsender = $emailmodel->getDefaultSenderProfile();
-            if (!sizeof($defaultsender) > 0) {
-                $this->addFlash($this->translator->trans('le.drip.emails.publish.error'));
-                $dataArray['success']       = 1;
-                $dataArray['senderprofile'] = 1;
-                $dataArray['flashes']       = $this->getFlashContent();
-
-                return $this->sendJsonResponse($dataArray);
-            }
-        }
+        //  if ($name == 'email.dripemail') {
+        // $emailmodel    = $this->getModel('email');
+//            $defaultsender = $emailmodel->getDefaultSenderProfile();
+//            if (!sizeof($defaultsender) > 0) {
+//                $this->addFlash($this->translator->trans('le.drip.emails.publish.error'));
+//                $dataArray['success']       = 1;
+//                $dataArray['senderprofile'] = 1;
+//                $dataArray['flashes']       = $this->getFlashContent();
+//
+//                return $this->sendJsonResponse($dataArray);
+//            }
+        // }
         $entity = $model->getEntity($id);
         if ($name == 'lead.tag') {
             $status=$entity->getPublishStatus();

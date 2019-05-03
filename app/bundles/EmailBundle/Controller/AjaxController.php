@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\AwsVerifiedEmails;
 use Mautic\EmailBundle\Entity\LeadEventLogRepository;
 use Mautic\EmailBundle\Entity\LeadRepository;
+use Mautic\EmailBundle\Entity\SendingDomain;
 use Mautic\EmailBundle\Helper\PlainTextHelper;
 use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
@@ -439,7 +440,7 @@ class AjaxController extends CommonAjaxController
 
     public function sendSenderVerificationEmail($fromemail, $fromname, $idHash)
     {
-        $mailer = $this->container->get('le.transactions.sendgrid_api');
+        $mailer = $this->container->get('le.transport.elasticemail.transactions');
         $mailer->start();
         $verifylink        = $this->generateUrl('le_sender_profile_verify_link', ['idhash' => $idHash], true);
         $message           = \Swift_Message::newInstance();
@@ -687,16 +688,17 @@ class AjaxController extends CommonAjaxController
         $emailentity->setEmailType('dripemail');
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        // $configurator= $this->get('mautic.configurator');
-
-        // $params          = $configurator->getParameters();
-        //$fromname        = $params['mailer_from_name'];
-        //$fromadress      = $params['mailer_from_email'];
-        $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $emailentity->setFromName($defaultsender[0]);
-            $emailentity->setFromAddress($defaultsender[1]);
-        }
+        $configurator    = $this->get('mautic.configurator');
+        $params          = $configurator->getParameters();
+        $fromname         = $params['mailer_from_name'];
+        $fromaddress      = $params['mailer_from_email'];
+//        $defaultsender=$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $emailentity->setFromName($defaultsender[0]);
+//            $emailentity->setFromAddress($defaultsender[1]);
+//        }
+        $emailentity->setFromName($fromname);
+        $emailentity->setFromAddress($fromaddress);
         $totalitems = $emailmodel->getEntities(
             [
                 'filter'           => [
@@ -1233,16 +1235,18 @@ class AjaxController extends CommonAjaxController
             $newEntity->setGoogleTags(true);
             $newEntity->setEmailType('dripemail');
             /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-            // $configurator= $this->get('mautic.configurator');
+            $configurator= $this->get('mautic.configurator');
 
-            // $params          = $configurator->getParameters();
-            // $fromname        = $params['mailer_from_name'];
-            //  $fromadress      = $params['mailer_from_email'];
-            $defaultsender=$emailmodel->getDefaultSenderProfile();
-            if (sizeof($defaultsender) > 0) {
-                $newEntity->setFromName($defaultsender[0]);
-                $newEntity->setFromAddress($defaultsender[1]);
-            }
+            $params           = $configurator->getParameters();
+            $fromname         = $params['mailer_from_name'];
+            $fromaddress      = $params['mailer_from_email'];
+//            $defaultsender=$emailmodel->getDefaultSenderProfile();
+//            if (sizeof($defaultsender) > 0) {
+//                $newEntity->setFromName($defaultsender[0]);
+//                $newEntity->setFromAddress($defaultsender[1]);
+//            }
+            $newEntity->setFromName($fromname);
+            $newEntity->setFromAddress($fromaddress);
             $newEntity->setDripEmailOrder($dripOrder);
             $newEntity->setScheduleTime($item['scheduleTime']);
             $emailmodel->saveEntity($newEntity);
@@ -1424,5 +1428,134 @@ class AjaxController extends CommonAjaxController
         }
 
         return new JsonResponse($data);
+    }
+
+    protected function senderDomainCreateAction(Request $request)
+    {
+        $domain     = InputHelper::clean($request->request->get('domain'));
+        /** @var EmailModel $model */
+        $model            = $this->getModel('email');
+        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
+        $domainList       =$model->getRepository()->getAllSendingDomains($domain);
+        $content          ='';
+        $message          ='';
+        $status           =true;
+        if (sizeof($domainList) == 0) {
+            $domainCreated=$elasticApiHelper->createDomain($domain);
+            if ($domainCreated) {
+                $newSendingDomain=new SendingDomain();
+                $newSendingDomain->setDomain($domain);
+                $newSendingDomain->setdkimCheck(false);
+                $newSendingDomain->setspfCheck(false);
+                $newSendingDomain->settrackingCheck(false);
+                $newSendingDomain->setmxCheck(false);
+                $newSendingDomain->setdmarcCheck(false);
+                $newSendingDomain->setStatus(false);
+                $newSendingDomain->setIsDefault(false);
+                $model->getRepository()->saveEntity($newSendingDomain);
+                $domainList=$model->getRepository()->getAllSendingDomains();
+                $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
+                    'sendingdomains'             => $domainList,
+                ]);
+            } else {
+                $status =false;
+                $message='domain creation failed due to some technical error!';
+            }
+        } else {
+            $status =false;
+            $message='domain already exist!';
+        }
+        $data             = ['success'            => $status, 'content'=>$content, 'message'=>$message];
+
+        return $this->sendJsonResponse($data);
+    }
+
+    protected function senderDomainDeleteAction(Request $request)
+    {
+        $status     =true;
+        $content    ='';
+        $message    ='';
+        $domain     = InputHelper::clean($request->request->get('domain'));
+        /** @var EmailModel $model */
+        $model            = $this->getModel('email');
+        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
+        $deleteStatus     =$elasticApiHelper->deleteDomain($domain);
+        if ($deleteStatus) {
+            $domainList=$model->getRepository()->getAllSendingDomains($domain);
+            foreach ($domainList as $domain) {
+                $model->getRepository()->deleteEntity($domain);
+            }
+        } else {
+            $status =false;
+            $message='domain delete failed due to some technical error!';
+        }
+        $domainList=$model->getRepository()->getAllSendingDomains();
+        $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
+            'sendingdomains'             => $domainList,
+        ]);
+        $data             = ['success'            => $status, 'content'=>$content, 'message'=>$message];
+
+        return $this->sendJsonResponse($data);
+    }
+
+    protected function senderDomainValidationAction(Request $request)
+    {
+        $domain     = InputHelper::clean($request->request->get('domain'));
+        /** @var EmailModel $model */
+        $model            = $this->getModel('email');
+        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
+        $spf_check        =$elasticApiHelper->verifySPF($domain);
+        $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
+        $tracking_check   =$elasticApiHelper->verifyTracking($domain);
+        $domainList       =$model->getRepository()->getAllSendingDomains($domain);
+        foreach ($domainList as $sendingdomain) {
+            $sendingdomain->setdkimCheck($dkim_check);
+            $sendingdomain->setspfCheck($spf_check);
+            $sendingdomain->settrackingCheck($tracking_check);
+            $sendingdomain->setStatus($dkim_check && $spf_check);
+            $model->getRepository()->saveEntity($sendingdomain);
+        }
+        $domainList=$model->getRepository()->getAllSendingDomains();
+        $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
+            'sendingdomains'             => $domainList,
+        ]);
+        $data             = ['success'            => true, 'spf_check'=>$spf_check, 'dkim_check'=>$dkim_check, 'tracking_check'=>$tracking_check, 'content'=>$content];
+
+        return $this->sendJsonResponse($data);
+    }
+
+    protected function senderDomainDefaultAction(Request $request)
+    {
+        $status     =true;
+        $message    ='';
+        $domain     = InputHelper::clean($request->request->get('domain'));
+        /** @var EmailModel $model */
+        $model     = $this->getModel('email');
+        $domainList=$model->getRepository()->getAllSendingDomains($domain);
+        foreach ($domainList as $sendingdomain) {
+            if (!$sendingdomain->getStatus()) {
+                $status =false;
+                $message='Please verify your domain before make it default';
+            }
+            break;
+        }
+        $content='';
+        if ($status) {
+            $domainList=$model->getRepository()->getAllSendingDomains();
+            foreach ($domainList as $sendingdomain) {
+                if ($sendingdomain->getDomain() == $domain) {
+                    $sendingdomain->setIsDefault(true);
+                } else {
+                    $sendingdomain->setIsDefault(false);
+                }
+                $model->getRepository()->saveEntity($sendingdomain);
+            }
+            $content = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
+                'sendingdomains'             => $domainList,
+            ]);
+        }
+        $data             = ['success'            => $status, 'content'=>$content, 'message'=>$message];
+
+        return $this->sendJsonResponse($data);
     }
 }

@@ -93,15 +93,15 @@ class ConfigController extends FormController
             $session->set('mailer_amazon_region', $amazonregion);
         }
 
-        /** @var EmailModel $emailModel */
-        $emailModel     = $this->getModel('email');
-        $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'le.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
-            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
-            if (!empty($emails)) {
-                //$emailModel->upAwsEmailVerificationStatus($emails);
-            }
-        }
+        /* @var EmailModel $emailModel */
+        //$emailModel     = $this->getModel('email');
+        //$emailValidator = $this->factory->get('mautic.validator.email');
+//        if ($mailertransport == 'le.transport.amazon' && !empty($maileruser) && !empty($emailpassword)) {
+//            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
+//            if (!empty($emails)) {
+//                //$emailModel->upAwsEmailVerificationStatus($emails);
+//            }
+//        }
 
         // Check for a submitted form and process it
         if ($this->request->getMethod() == 'POST') {
@@ -186,10 +186,10 @@ class ConfigController extends FormController
                             if ($this->get('mautic.helper.user')->getUser()->isAdmin()) {
                                 $configprovider = $params['mailer_transport'];
                             }
-                            if ($this->translator->trans($configprovider) != $licenseemailprovider) {
-                                $emailModel = $this->factory->getModel('email');
-                                //$emailModel->resetAllSenderProfiles();
-                            }
+//                            if ($this->translator->trans($configprovider) != $licenseemailprovider) {
+//                                $emailModel = $this->factory->getModel('email');
+//                                //$emailModel->resetAllSenderProfiles();
+//                            }
                             $emailTransport = '';
                             $smsTransport   = '';
                             if ($formData['emailconfig']['mailer_transport_name'] != 'le.transport.vialeadsengage') {
@@ -271,6 +271,7 @@ class ConfigController extends FormController
                     'EmailList'      => $emailModel->getAllEmailAddress(),
                     'selectTab'      => $selecttab,
                     'userapi'        => $userapi,
+                    'sendingdomains' => $emailModel->getRepository()->getAllSendingDomains(),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

@@ -545,6 +545,9 @@ var Le = {
         if (mQuery('#mautic-backdrop').length) {
             mQuery('#mautic-backdrop').remove();
         }
+        if (mQuery('.modal-backdrop').length) {
+            mQuery('.modal-backdrop').remove();
+        }
     },
 
     /**

@@ -45,6 +45,9 @@ class FacebookApiHelper
     public function getAccountDetails($token)
     {
         $responsearr=[];
+        if (!isset($this->fbconn)) {
+            return $responsearr;
+        }
         try {
             $response    = $this->fbconn->get('/me?fields=id,name', $token);
             $graphNode   = $response->getGraphNode();
@@ -61,6 +64,9 @@ class FacebookApiHelper
     public function getAllFbPages($token, $subscribedOnly=false)
     {
         $pagelist  =[];
+        if (!isset($this->fbconn)) {
+            return $pagelist;
+        }
         try {
             $response =  $this->fbconn->get(
                 '/me/accounts?fields=id,name,access_token',

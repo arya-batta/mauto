@@ -16,12 +16,14 @@ use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Mautic\CoreBundle\Form\Type\DynamicContentTrait;
 use Mautic\EmailBundle\Form\Validator\Constraints\EmailDomain;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
 use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -81,14 +83,14 @@ class DripEmailType extends AbstractType
         $configurator        = $this->factory->get('mautic.configurator');
         $coreParameterHelper = $this->factory->get('mautic.helper.core_parameters');
         $params              = $configurator->getParameters();
-        $fromname            = ''; //$params['mailer_from_name'];
-        $fromadress          = ''; //$params['mailer_from_email'];
-        $emailmodel          =$this->factory->getModel('email');
-        $defaultsender       =$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }
+        $fromname            = $params['mailer_from_name'];
+        $fromadress          = $params['mailer_from_email'];
+//        $emailmodel          =$this->factory->getModel('email');
+//        $defaultsender       =$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname  =$defaultsender[0];
+//            $fromadress=$defaultsender[1];
+//        }
         $unsubscribetxt  = $coreParameterHelper->getParameter('footer_text');
         $postaladdress   = $coreParameterHelper->getParameter('postal_address');
         $days            = [
@@ -199,7 +201,18 @@ class DripEmailType extends AbstractType
                     'required'    => true,
                     'data'        => $options['data']->getFromAddress() ? $options['data']->getFromAddress() : $fromadress,
                     'constraints' => [
-                        new EmailDomain(
+//                        new EmailDomain(
+//                            [
+//                                'message' => 'le.email.verification.error',
+//                            ]
+//                        ),
+                        new NotBlank([
+                            'message' => 'le.core.email.required',
+                        ]),
+                        new Email([
+                            'message' => 'le.core.email.required',
+                        ]),
+                        new EmailVerify(
                             [
                                 'message' => 'le.email.verification.error',
                             ]

@@ -494,26 +494,26 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             <br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="pull-left" id="email_FromAddress" style="max-width:70%;">
-                                        <?php echo $view['form']->row($form['fromAddress'],
-                                            ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
+                                    <div class="pull-left" id="email_FromAddress"><!-- style="max-width:70%;"-->
+                                        <?php echo $view['form']->row($form['fromAddress']); //,
+                                            //['attr' => ['tabindex' => '-1', 'style' =>'pointer-even ts: none;background-color: #ebedf0;opacity: 1;']]);?>
                                     </div>
                                     <?php //echo $view['form']->widget($form['fromAddress']);?>
-                                    <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">
-                                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:22px;" data-toggle="dropdown" href="#">
-                                            <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
-                                            <?php foreach ($verifiedemail as $key=> $value): ?>
-                                                <li >
-                                                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
-                                                </li>
-                                            <?php endforeach; ?>
-                                            <li >
-                                                <a style="text-transform: none" target="_blank" href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']); ?>" class="verified-emails" ><?php echo $view['translator']->trans('le.email.add.new.profile'); ?></a>
-                                            </li>
-                                        </ul>
-                                    </li>
+<!--                                    <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 191px;">-->
+<!--                                        <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:13px;margin-top:22px;" data-toggle="dropdown" href="#">-->
+<!--                                            <span>--><?php //echo $view['translator']->trans('le.core.button.aws.load');?><!--</span> </span><span><i class="caret" ></i>-->
+<!--                                        </a>-->
+<!--                                        <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">-->
+<!--                                            --><?php //foreach ($verifiedemail as $key=> $value):?>
+<!--                                                <li >-->
+<!--                                                    <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="--><?php //echo $value;?><!--" data-verified-fromname="--><?php //echo $key;?><!--">--><?php //echo $value;?><!--</a>-->
+<!--                                                </li>-->
+<!--                                            --><?php //endforeach;?>
+<!--                                            <li >-->
+<!--                                                <a style="text-transform: none" target="_blank" href="--><?php //echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']);?><!--" class="verified-emails" >--><?php //echo $view['translator']->trans('le.email.add.new.profile');?><!--</a>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </li>-->
                                 </div>
                             </div>
                             <br>

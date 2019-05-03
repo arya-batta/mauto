@@ -547,18 +547,18 @@ class EmailController extends FormController
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
-        $fromname     ='';
-        $fromadress   ='';
-        $defaultsender=$model->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }
-        // $fromname        = $params['mailer_from_name'];
-        // $fromadress      = $params['mailer_from_email'];
-        $mailertransport = $params['mailer_transport'];
-        $unsubscribeText = $params['footer_text'];
-        $postaladdress   = $params['postal_address'];
+//        $fromname     ='';
+//        $fromadress   ='';
+//        $defaultsender=$model->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname  =$defaultsender[0];
+//            $fromadress=$defaultsender[1];
+//        }
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $mailertransport  = $params['mailer_transport'];
+        $unsubscribeText  = $params['footer_text'];
+        $postaladdress    = $params['postal_address'];
 
         if (empty($fromName)) {
             $entity->setFromName($fromname);
@@ -573,13 +573,13 @@ class EmailController extends FormController
         if (empty($PostalAddress)) {
             $entity->setPostalAddress($postaladdress);
         }
-        $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'le.transport.amazon') {
-            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
-            if (!empty($emails)) {
-                $model->upAwsEmailVerificationStatus($emails);
-            }
-        }
+        // $emailValidator = $this->factory->get('mautic.validator.email');
+//        if ($mailertransport == 'le.transport.amazon') {
+//            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
+//            if (!empty($emails)) {
+//                $model->upAwsEmailVerificationStatus($emails);
+//            }
+//        }
         //set the page we came from
         $page         = $session->get('mautic.email.page', 1);
         $action       = $this->generateUrl('le_email_action', ['objectAction' => 'new']);
@@ -801,15 +801,15 @@ class EmailController extends FormController
             $region='';
         }
         //$region          = $params['mailer_amazon_region'];
-        $fromname     ='';
-        $fromadress   ='';
-        $defaultsender=$model->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }
-        // $fromname        = $params['mailer_from_name'];
-        // $fromadress      = $params['mailer_from_email'];
+//        $fromname     ='';
+//        $fromadress   ='';
+//        $defaultsender=$model->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname  =$defaultsender[0];
+//            $fromadress=$defaultsender[1];
+//        }
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
         $mailertransport = $params['mailer_transport'];
         if (empty($fromName)) {
             $entity->setFromName($fromname);
@@ -817,13 +817,13 @@ class EmailController extends FormController
         if (empty($fromAdress)) {
             $entity->setFromAddress($fromadress);
         }
-        $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'le.transport.amazon') {
-            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
-            if (!empty($emails)) {
-                $model->upAwsEmailVerificationStatus($emails);
-            }
-        }
+//        $emailValidator = $this->factory->get('mautic.validator.email');
+//        if ($mailertransport == 'le.transport.amazon') {
+//            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
+//            if (!empty($emails)) {
+//                $model->upAwsEmailVerificationStatus($emails);
+//            }
+//        }
 
         //set the return URL
         $returnUrl = $this->generateUrl('le_email_index', ['page' => $page]);

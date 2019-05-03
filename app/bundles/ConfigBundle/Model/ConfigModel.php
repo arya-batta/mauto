@@ -57,7 +57,7 @@ class ConfigModel extends AbstractCommonModel
                 'Sending Domain' => [
                     'name'=> 'Sending Domain',
                     'img' => 'Sending-Domain.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'emailconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']),
                 ],
                 'Email Settings' => [
                     'name'=> 'Email Settings',

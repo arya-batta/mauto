@@ -7813,3 +7813,7 @@ ul.list-unstyled, ul#list-unstyled  {
   margin-top: 4px;
   float: left!important;
 }
+.btn-disable{
+  pointer-events: none;
+  background: #f2f2f2;
+}

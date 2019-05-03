@@ -151,16 +151,46 @@ Le.testEmailServerConnection = function(sendEmail) {
 };
 
 Le.copytoClipboardforms = function(id) {
-    var copyText = document.getElementById(id);
-    copyText.select();
-    document.execCommand("Copy");
-    var copyTexts = document.getElementById(id+"_atag");
-    copyTexts.innerHTML = '<i aria-hidden="true" class="fa fa-clipboard"></i>copied';
-    setTimeout(function() {
-        var copyTexta = document.getElementById(id+"_atag");
-        copyTextval = '<i aria-hidden="true" class="fa fa-clipboard"></i>copy to clipboard';
-        copyTexta.innerHTML = copyTextval;
-    }, 1000);
+    try{
+        var copyText = document.getElementById(id);
+        copyText.select();
+        document.execCommand("Copy");
+        var copyTexts = document.getElementById(id+"_atag");
+        copyTexts.innerHTML = '<i aria-hidden="true" class="fa fa-clipboard"></i>copied';
+        setTimeout(function() {
+            var copyTexta = document.getElementById(id+"_atag");
+            copyTextval = '<i aria-hidden="true" class="fa fa-clipboard"></i>copy to clipboard';
+            copyTexta.innerHTML = copyTextval;
+        }, 1000);
+    }catch(err){
+        alert(err);
+    }
+};
+Le.copySpanTextToClipBoard = function(id) {
+    try{
+        var range,selection;
+        if (document.body.createTextRange) {
+            range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(id));
+            range.select();
+        } else if (window.getSelection) {
+            selection = window.getSelection();
+            range = document.createRange();
+            range.selectNodeContents(document.getElementById(id));
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        document.execCommand("Copy");
+        var copyTexts = document.getElementById(id+"_atag");
+        copyTexts.innerHTML = '<i aria-hidden="true" class="fa fa-clipboard"></i>copied';
+        setTimeout(function() {
+            var copyTexta = document.getElementById(id+"_atag");
+            copyTextval = '<i aria-hidden="true" class="fa fa-clipboard"></i>copy to clipboard';
+            copyTexta.innerHTML = copyTextval;
+        }, 1000);
+    }catch(err){
+        alert(err);
+    }
 };
 Le.copyClipboardforms = function(id) {
     var copyText = document.getElementById(id);
@@ -308,8 +338,115 @@ Le.configOnLoad = function (container){
     });
    Le.hideFlashMessage();
    Le.smsconfigOnLoad(container);
+   mQuery('a[data-toggle="tab"]').off().on('click', function() {
+       Le.hideConfigButtonsByTabSelect(mQuery(this).attr('href'));
+   });
+   var selectedConfigtab=mQuery("ul[class='list-group list-group-tabs']").find("li[class='list-group-item in active']").find("a[class='steps']");
+   Le.hideConfigButtonsByTabSelect(selectedConfigtab.attr('href'));
+    mQuery('#config_buttons_sendingdomain_toolbar').click(function(e) {
+        e.preventDefault();
+        mQuery('#sender_domain_name').val('');
+        mQuery('#sender_domain_name_errors').html('');
+        mQuery('#sendingdomaincreateModel').modal('show');
+    });
+    mQuery('.sender_domain_add_btn').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var domain = mQuery('#sender_domain_name').val();
+        if(domain == ""){
+            mQuery('#sender_domain_name_errors').html("domain name can't be empty !");
+            return;
+        }
+        Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:senderDomainCreate', {'domain': domain}, function(response) {
+            Le.removeButtonLoadingIndicator(currentLink);
+            if(response.success) {
+                //Le.redirectWithBackdrop(response.redirect);
+                mQuery('.sending-domain-container').html(response.content);
+                mQuery('#sendingdomaincreateModel').modal('hide');
+                Le.refreshSendingDomainListeners();
+                Le.deactivateBackgroup();
+            } else{
+                mQuery('#sender_domain_name_errors').html(response.message);
+                return;
+            }
+        });
+    });
+    Le.refreshSendingDomainListeners();
 }
+Le.refreshSendingDomainListeners=function(){
+    mQuery('.verify-sending-domain').click(function(e) {
+        e.preventDefault();
+        mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
+        mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
+        mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
+        var currentLink = mQuery(this);
+        var domain=currentLink.attr("data-domain");
+        mQuery('#sendingdomainverifyModel').modal('show');
+        Le.ajaxActionRequest('email:senderDomainValidation', {'domain': domain}, function(response) {
+            if(response.success) {
+                Le.deactivateBackgroup();
+                mQuery('.sending-domain-container').html(response.content);
+                if(response.spf_check){
+                  mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
+                }else{
+                    mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct SPF record was not found');
+                }
+                if(response.dkim_check){
+                    mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
+                }else{
+                    mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct DKIM record was not found');
+                }
+                if(response.tracking_check){
+                    mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
+                }else{
+                    mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct Tracking record was not found');
+                }
+                Le.refreshSendingDomainListeners();
+            }
+        });
+    });
 
+    mQuery('.remove-sending-domain').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var domain=currentLink.attr("data-domain");
+        Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:senderDomainDelete', {'domain': domain}, function(response) {
+            Le.removeButtonLoadingIndicator(currentLink);
+            if(response.success) {
+                Le.deactivateBackgroup();
+            } else{
+                alert(response.message);
+            }
+            mQuery('.sending-domain-container').html(response.content);
+            Le.refreshSendingDomainListeners();
+        });
+    });
+    mQuery('.default-sending-domain').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var domain=currentLink.attr("data-domain");
+        Le.activateButtonLoadingIndicator(currentLink);
+        Le.ajaxActionRequest('email:senderDomainDefault', {'domain': domain}, function(response) {
+            Le.removeButtonLoadingIndicator(currentLink);
+            if(response.success) {
+                Le.deactivateBackgroup();
+                mQuery('.sending-domain-container').html(response.content);
+                Le.refreshSendingDomainListeners();
+            } else{
+                alert(response.message);
+            }
+        });
+    });
+    mQuery('.sending-domain-container .ecircle').click(function(e) {
+        e.preventDefault();
+        var currentLink = mQuery(this);
+        var parentEl=currentLink.parent();
+        var help=parentEl.attr("data-help");
+        mQuery('#sendingdomain'+help+'HelpModel').modal('show');
+    });
+}
 Le.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
     mQuery('#config_emailconfig_email_status').removeClass('status_success');
@@ -338,4 +475,18 @@ Le.changeSenderProfileStatusFrontEnd = function(isActive, fromemail,id){
         mQuery('#re-verify-button-' + id).removeClass('hide');
     }
     return;
+}
+
+Le.hideConfigButtonsByTabSelect=function(tabSelect){
+    if(tabSelect == '#sendingdomain_config'){
+        mQuery("#config_buttons_cancel_toolbar").addClass("hide");
+        mQuery("#config_buttons_save_toolbar").addClass("hide");
+        mQuery("#config_buttons_apply_toolbar").addClass("hide");
+        mQuery("#config_buttons_sendingdomain_toolbar").removeClass("hide");
+    }else{
+        mQuery("#config_buttons_cancel_toolbar").removeClass("hide");
+        mQuery("#config_buttons_save_toolbar").removeClass("hide");
+        mQuery("#config_buttons_apply_toolbar").removeClass("hide");
+        mQuery("#config_buttons_sendingdomain_toolbar").addClass("hide");
+    }
 }

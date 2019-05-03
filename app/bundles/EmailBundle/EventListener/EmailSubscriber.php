@@ -131,9 +131,9 @@ class EmailSubscriber extends CommonSubscriber
                 ]);
 
                 $configurator   = $this->factory->get('mautic.configurator');
-                $mailer         = $this->factory->get('le.transactions.sendgrid_api');
-                $mailhelper     = $this->get('mautic.helper.mailer');
-                $mailhelper->failedSMTPEmailtoUser($mailer);
+                // $mailer         = $this->factory->get('le.transport.elasticemail.transactions');
+                // $mailhelper     = $this->get('mautic.helper.mailer');
+                // $mailhelper->failedSMTPEmailtoUser($mailer);
                 $configurator->mergeParameters(['email_status' => 'InActive']);
                 $configurator->write();
 

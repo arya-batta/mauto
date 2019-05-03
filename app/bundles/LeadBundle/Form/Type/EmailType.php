@@ -44,16 +44,16 @@ class EmailType extends AbstractType
         $emailProvider = $this->factory->get('mautic.helper.licenseinfo')->getEmailProvider();
         //  $currentUser   = $this->factory->get('mautic.helper.user')->getUser()->isAdmin();
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        // $configurator  = $this->factory->get('mautic.configurator');
-      //  $params        = $configurator->getParameters();
-        $fromname      = ''; //$params['mailer_from_name'];
-        $fromemail     = ''; //$params['mailer_from_email'];
-        $emailmodel    =$this->factory->getModel('email');
-        $defaultsender =$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname =$defaultsender[0];
-            $fromemail=$defaultsender[1];
-        }
+        $configurator  = $this->factory->get('mautic.configurator');
+        $params         = $configurator->getParameters();
+        $fromname      = $params['mailer_from_name'];
+        $fromemail     = $params['mailer_from_email'];
+        //$emailmodel    =$this->factory->getModel('email');
+//        $defaultsender =$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname =$defaultsender[0];
+//            $fromemail=$defaultsender[1];
+//        }
         $builder->add(
             'subject',
             'text',

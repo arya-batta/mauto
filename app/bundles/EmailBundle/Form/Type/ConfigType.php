@@ -149,7 +149,7 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control',
-                    'tooltip' => 'le.email.config.postal_address.tooltip',
+                    //'tooltip' => 'le.email.config.postal_address.tooltip',
                     'style'   => 'height:100px;',
                 ],
                 'required' => false,
@@ -226,7 +226,7 @@ class ConfigType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
-                    'tooltip'  => 'le.email.config.mailer.from.name.tooltip',
+                   // 'tooltip'  => 'le.email.config.mailer.from.name.tooltip',
                 ],
                 'constraints' => [
                     new NotBlank(
@@ -269,7 +269,7 @@ class ConfigType extends AbstractType
                     'class'        => 'form-control le-input',
                     'tabindex'     => $tabIndex,
                     'style'        => $style,
-                    'tooltip'      => 'le.email.config.mailer.from.email.tooltip',
+                   // 'tooltip'      => 'le.email.config.mailer.from.email.tooltip',
                     //'onkeyup'      => 'Le.updateEmailStatus();',
                 ],
                 'constraints' => [

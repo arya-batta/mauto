@@ -159,7 +159,13 @@ class EmailVerifyValidator extends ConstraintValidator
             }
             $this->context->addViolation($message);
         } else {
-            return;
+            $skippeddomains=['gmail.com', 'googlemail.com', 'yahoo.it', 'yahoo.co.in', 'ymail.com', 'yahoo.com', 'hotmail.com', 'live.com', 'outlook.com', 'msn.com'];
+            $emaildomain   =substr(strrchr($value, '@'), 1);
+            if (in_array($emaildomain, $skippeddomains)) {
+                $this->context->addViolation($this->translator->trans('le.email.verification.domain.validation.error'));
+            } else {
+                return;
+            }
         }
 
         unset($transport);

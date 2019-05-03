@@ -320,6 +320,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
         $builder->createField('points', 'integer')
             ->build();
         $builder->createField('score', 'string')
+            ->nullable()
             ->build();
 
         $builder->createOneToMany('pointsChangeLog', 'PointsChangeLog')

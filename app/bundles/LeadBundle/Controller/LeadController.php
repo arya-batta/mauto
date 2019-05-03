@@ -1833,13 +1833,13 @@ class LeadController extends FormController
         }
         //$region         = $params['mailer_amazon_region'];
 
-        $emailValidator = $this->factory->get('mautic.validator.email');
-        if ($mailertransport == 'le.transport.amazon') {
-            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
-            if (!empty($emails)) {
-                $emailModel->upAwsEmailVerificationStatus($emails);
-            }
-        }
+//        $emailValidator = $this->factory->get('mautic.validator.email');
+//        if ($mailertransport == 'le.transport.amazon') {
+//            $emails = $emailValidator->getVerifiedEmailList($maileruser, $emailpassword, $region);
+//            if (!empty($emails)) {
+//                $emailModel->upAwsEmailVerificationStatus($emails);
+//            }
+//        }
         $inList = ($this->request->getMethod() == 'GET')
             ? $this->request->get('list', 0)
             : $this->request->request->get(

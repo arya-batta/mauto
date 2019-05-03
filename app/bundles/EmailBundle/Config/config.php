@@ -823,6 +823,10 @@ return [
                 'tag'       => 'validator.constraint_validator',
                 'alias'     => 'emaildomain_verify',
             ],
+            'mautic.helper.elasticapi' => [
+                'class'     => \Mautic\EmailBundle\Helper\ElasticApiHelper::class,
+                'arguments' => ['mautic.factory'],
+            ],
         ],
         'models' => [
             'mautic.email.model.email' => [
@@ -995,14 +999,6 @@ return [
         'beeeditor_client_id'                    => '',
         'beeeditor_client_secret'                => '',
         'email_status'                           => null,
-        'drip_source'                            => null,
-        'drip_medium'                            => null,
-        'drip_campaignname'                      => null,
-        'drip_content'                           => null,
-        'list_source'                            => null,
-        'list_medium'                            => null,
-        'list_campaignname'                      => null,
-        'list_content'                           => null,
-        'analytics_status'                       => false,
+        'elastic_api_key'                        => '',
     ],
 ];

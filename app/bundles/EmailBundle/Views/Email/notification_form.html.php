@@ -116,26 +116,26 @@ $isgoogletags= false; //$email->getGoogletags();
         </div>
         <div class="row" style="width: 125%;">
             <div class="col-md-10">
-                <div class="pull-left" id="email_FromAddress" style="width:80%;">
-                    <?php echo $view['form']->row($form['fromAddress'],
-                        ['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]); ?>
+                <div class="pull-left" id="email_FromAddress"><!--style="width:80%;"-->
+                    <?php echo $view['form']->row($form['fromAddress']); //,
+                        //['attr' => ['tabindex' => '-1', 'style' =>'pointer-events: none;background-color: #ebedf0;opacity: 1;']]);?>
                 </div>
-                <?php echo $view['form']->widget($form['fromAddress']); ?>
-                <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 100px;">
-                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:14px;margin-top:21px;width: 145px;" data-toggle="dropdown" href="#">
-                        <span><?php echo $view['translator']->trans('le.core.button.aws.load'); ?></span> </span><span><i class="caret" ></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">
-                        <?php foreach ($verifiedemail as $key=> $value): ?>
-                        <li >
-                            <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="<?php echo $value; ?>" data-verified-fromname="<?php echo $key; ?>"><?php echo $value; ?></a>
-                        </li>
-                        <?php endforeach; ?>
-                        <li >
-                            <a style="text-transform: none" href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']); ?>" class="verified-emails" ><?php echo $view['translator']->trans('le.email.add.new.profile'); ?></a>
-                        </li>
-                    </ul>
-                </li>
+<!--                --><?php //echo $view['form']->widget($form['fromAddress']);?>
+<!--                <li class="dropdown" name="verifiedemails" id="verifiedemails" style="display: block;margin-left: 100px;">-->
+<!--                    <a class="btn btn-nospin btn-primary btn-sm hidden-xs" style="font-size:14px;margin-top:21px;width: 145px;" data-toggle="dropdown" href="#">-->
+<!--                        <span>--><?php //echo $view['translator']->trans('le.core.button.aws.load');?><!--</span> </span><span><i class="caret" ></i>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-right" id="verifiedemails">-->
+<!--                        --><?php //foreach ($verifiedemail as $key=> $value):?>
+<!--                        <li >-->
+<!--                            <a style="text-transform: none" class="verified-emails" id="data-verified-emails" data-verified-emails="--><?php //echo $value;?><!--" data-verified-fromname="--><?php //echo $key;?><!--">--><?php //echo $value;?><!--</a>-->
+<!--                        </li>-->
+<!--                        --><?php //endforeach;?>
+<!--                        <li >-->
+<!--                            <a style="text-transform: none" href="--><?php //echo $view['router']->generate('le_config_action', ['objectAction' => 'edit']);?><!--" class="verified-emails" >--><?php //echo $view['translator']->trans('le.email.add.new.profile');?><!--</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
             </div>
         </div>
         <div class="row" style="width: 120%;">

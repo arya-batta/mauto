@@ -77,6 +77,15 @@ class ConfigType extends AbstractType
             'buttons',
             'form_buttons',
             [
+                'pre_extra_buttons' => [
+                [
+                    'name'  => 'sendingdomain',
+                    'label' => 'le.config.tab.sendingdomain.add',
+                    'attr'  => [
+                        'class' => 'btn btn-default le-btn-default',
+                    ],
+                ],
+            ],
                 'apply_text'    => 'mautic.core.form.save',
                 'apply_onclick' => 'Le.activateBackdrop()',
                 'save_onclick'  => 'Le.activateBackdrop()',

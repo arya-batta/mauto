@@ -18,10 +18,10 @@ $hidespamurl   = 'hide';
 $helpurl       = 'http://help.leadsengage.io/container/show/';
 $transportname = 'amazon';
 
-$transport      = $formConfig['parameters']['mailer_transport'];
-$bouncelabel    = 'le.email.bounce.callback';
+$transport          = $formConfig['parameters']['mailer_transport'];
+$bouncelabel        = 'le.email.bounce.callback';
 $bouncenotelabel    = 'le.email.bounce.note.callback';
-$hideothernotes = false;
+$hideothernotes     = false;
 if ($transport == 'le.transport.sendgrid_api') {
     $transportname = 'sendgrid_api';
     $helpurl .= $view['translator']->trans('le.email.sendgrid.helpurl.value');
@@ -49,15 +49,12 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
 ?>
 
 <?php if (count(array_intersect($fieldKeys, ['mailer_from_name', 'mailer_from_email', 'mailer_transport', 'mailer_spool_type']))): ?>
-    <div class="panel panel-primary emailconfig">
+    <div class="panel panel-primary emailconfig hide">
         <div class="panel-heading emailconfig" <?php echo $hidesmtpsettings?>>
             <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.header.mail'); ?></h3>
         </div>
         <div class="panel-body" <?php echo $hidesmtpsettings?>>
-            <div class="row hide">
-                <?php echo $view['form']->rowIfExists($fields, 'mailer_from_name', $template); ?>
-                <?php echo $view['form']->rowIfExists($fields, 'mailer_from_email', $template); ?>
-            </div>
+
             <div class="row" >
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_return_path', $isadmin ? $template : $hidefield); ?>
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_is_owner', $isadmin ? $template : $hidefield); ?>
@@ -186,7 +183,7 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
             </div>
             <br>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary hide">
             <div class="panel-heading">
                 <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.awsverified_emails'); ?></h3>
             </div>
@@ -196,11 +193,17 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
                 ]); ?>
             </div>
         </div>
-        <div class="panel panel-primary emailconfig">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.footer.mail'); ?></h3>
-            </div>
-            <div class="panel-body">
+    </div>
+<?php endif; ?>
+
+<div class="panel panel-primary emailconfig">
+    <div class="panel-heading">
+        <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.basic.mail.settings'); ?></h3>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+            <p><?php echo $view['translator']->trans('le.email.config.basic.mail.settings.help'); ?></p>
+        </div>
         <?php if (isset($fields['mailer_transport'])): ?>
             <div class="row">
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_mailjet_sandbox', $template); ?>
@@ -227,33 +230,37 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
             <?php echo $view['form']->rowIfExists($fields, 'mailer_spool_clear_timeout', $template); ?>
         </div>
         <div class="row" style="margin:0;">
+            <?php echo $view['form']->rowIfExists($fields, 'mailer_from_name'); ?>
+        </div>
+        <div class="row" style="margin:0;">
+            <?php echo $view['form']->rowIfExists($fields, 'mailer_from_email'); ?>
+        </div>
+        <div class="row" style="margin:0;">
             <?php echo $view['form']->rowIfExists($fields, 'postal_address'); ?>
+        </div>
+        <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+            <p><?php echo $view['translator']->trans('le.email.config.basic.mail.settings.footer.help'); ?></p>
         </div>
         <div class="row" style="margin:0;">
             <?php echo $view['form']->rowIfExists($fields, 'footer_text'); ?>
         </div>
+    </div>
+</div>
+<div class="panel panel-primary hide" style="margin-bottom: 0px">
+    <div class="panel-heading">
+        <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.frequency_rules'); ?></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo $view['form']->row($fields['email_frequency_number']); ?>
             </div>
-        </div>
-        <div class="panel panel-primary" style="margin-bottom: 0px">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.frequency_rules'); ?></h3>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($fields['email_frequency_number']); ?>
-                    </div>
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($fields['email_frequency_time']); ?>
-                    </div>
-                </div>
+            <div class="col-md-12">
+                <?php echo $view['form']->row($fields['email_frequency_time']); ?>
             </div>
         </div>
     </div>
-<?php endif; ?>
-
-
-
+</div>
 <?php if (isset($fields['monitored_email'])): ?>
     <div class="panel panel-primary" <?php echo $hidepanel ?>>
         <div class="panel-heading">

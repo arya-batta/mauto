@@ -1341,4 +1341,19 @@ class EmailRepository extends CommonRepository
 
         return $results[0]['sentcount'];
     }
+
+    public function getAllSendingDomains($specificdomain=false)
+    {
+        $q = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('sd')
+            ->from('MauticEmailBundle:SendingDomain', 'sd', 'sd.id');
+        if ($specificdomain) {
+            $q->where(
+                  $q->expr()->eq('sd.domain', ':domain'));
+            $q->setParameter('domain', $specificdomain);
+        }
+
+        return $q->getQuery()->getResult();
+    }
 }

@@ -304,13 +304,13 @@ class BuilderSubscriber extends CommonSubscriber
         }
 
         $signatureText = $this->coreParametersHelper->getParameter('default_signature_text');
-        $fromName      = ''; //$this->coreParametersHelper->getParameter('mailer_from_name');
-        $fromEmail     ='';
-        $defaultsender =$this->emailModel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromName =$defaultsender[0];
-            $fromEmail=$defaultsender[1];
-        }
+        $fromName      = $this->coreParametersHelper->getParameter('mailer_from_name');
+        $fromEmail     = $this->coreParametersHelper->getParameter('mailer_from_email');
+//        $defaultsender =$this->emailModel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromName =$defaultsender[0];
+//            $fromEmail=$defaultsender[1];
+//        }
         $signatureText = str_replace('|FROM_NAME|', $fromName, nl2br($signatureText));
         $event->addToken('{signature}', EmojiHelper::toHtml($signatureText));
 

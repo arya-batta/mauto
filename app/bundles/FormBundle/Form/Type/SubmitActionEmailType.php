@@ -15,6 +15,8 @@ use Mautic\CoreBundle\Form\ToBcBccFieldsTrait;
 use Mautic\CoreBundle\Form\Type\YesNoButtonGroupType;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\EmailBundle\Form\Type\EmailListType;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
+use Mautic\EmailBundle\Model\EmailModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,7 +25,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Translation\TranslatorInterface;
-use Mautic\EmailBundle\Model\EmailModel;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class SubmitActionEmailType.
@@ -43,13 +46,14 @@ class SubmitActionEmailType extends AbstractType
      */
     protected $coreParametersHelper;
     protected $emailModel;
+
     /**
      * SubmitActionEmailType constructor.
      *
      * @param TranslatorInterface  $translator
      * @param CoreParametersHelper $coreParametersHelper
      */
-    public function __construct(TranslatorInterface $translator, CoreParametersHelper $coreParametersHelper,EmailModel $emailModel)
+    public function __construct(TranslatorInterface $translator, CoreParametersHelper $coreParametersHelper, EmailModel $emailModel)
     {
         $this->translator           = $translator;
         $this->coreParametersHelper = $coreParametersHelper;
@@ -156,20 +160,22 @@ class SubmitActionEmailType extends AbstractType
                 'data'  => false,
             ]
         );
-        $defaultsender =$this->emailModel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname =$defaultsender[0];
-            $fromemail=$defaultsender[1];
-        }
+        $fromname =$this->coreParametersHelper->getParameter('mailer_from_name');
+        $fromemail=$this->coreParametersHelper->getParameter('mailer_from_email');
+//        $defaultsender =$this->emailModel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname =$defaultsender[0];
+//            $fromemail=$defaultsender[1];
+//        }
 
-            $default = (empty($options['data']['fromname'])) ? $fromname : $options['data']['fromname'];
-            $builder->add(
+        $default = (empty($options['data']['fromname'])) ? $fromname : $options['data']['fromname'];
+        $builder->add(
                 'fromname',
                 'text',
                 [
                     'label'      => 'le.lead.email.from_name',
                     'label_attr' => ['class' => 'control-label'],
-                    'attr'       => ['class'     => 'form-control le-input',
+                    'attr'       => ['class'         => 'form-control le-input',
                         'disabled'                   => false,
                     ],
                     'required'    => true,
@@ -186,7 +192,19 @@ class SubmitActionEmailType extends AbstractType
                 'attr'        => ['class'   => 'form-control le-input'],
                 'required'    => true,
                 'data'        => $default,
-
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'le.core.email.required',
+                    ]),
+                    new Email([
+                        'message' => 'le.core.email.required',
+                    ]),
+                    new EmailVerify(
+                        [
+                            'message' => 'le.email.verification.error',
+                        ]
+                    ),
+                ],
             ]
         );
         $builder->add(
@@ -222,7 +240,7 @@ class SubmitActionEmailType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['formFields'] = $this->getFormFields($options['attr']['data-formid']);
+        $view->vars['formFields']    = $this->getFormFields($options['attr']['data-formid']);
         $view->vars['verifiedEmails']=$this->emailModel->getVerifiedEmailAddress();
     }
 }

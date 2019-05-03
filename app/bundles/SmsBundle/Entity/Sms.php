@@ -88,12 +88,18 @@ class Sms extends FormEntity
      */
     private $smsType = 'template';
 
+    /**
+     * @var int
+     */
+    private $failedCount = 0;
+
     public function __clone()
     {
-        $this->id        = null;
-        $this->stats     = new ArrayCollection();
-        $this->sentCount = 0;
-        $this->readCount = 0;
+        $this->id          = null;
+        $this->stats       = new ArrayCollection();
+        $this->sentCount   = 0;
+        $this->readCount   = 0;
+        $this->failedCount = 0;
 
         parent::__clone();
     }
@@ -140,6 +146,10 @@ class Sms extends FormEntity
 
         $builder->createField('sentCount', 'integer')
             ->columnName('sent_count')
+            ->build();
+
+        $builder->createField('failedCount', 'integer')
+            ->columnName('failed_count')
             ->build();
 
         $builder->addCategory();
@@ -237,6 +247,7 @@ class Sms extends FormEntity
                     'publishUp',
                     'publishDown',
                     'sentCount',
+                    'failedCount',
                 ]
             )
             ->build();
@@ -486,5 +497,25 @@ class Sms extends FormEntity
     {
         $this->isChanged('smsType', $smsType);
         $this->smsType = $smsType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFailedCount()
+    {
+        return $this->failedCount;
+    }
+
+    /**
+     * @param $failedcount
+     *
+     * @return $this
+     */
+    public function setFailedCount($failedcount)
+    {
+        $this->failedCount = $failedcount;
+
+        return $this;
     }
 }

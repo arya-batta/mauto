@@ -64,7 +64,15 @@ class ConfigSubscriber extends CommonSubscriber
             'bundle'     => 'EmailBundle',
             'formAlias'  => 'analyticsconfig',
             'formTheme'  => 'MauticEmailBundle:FormTheme\Analytics',
-            'parameters' => $event->getParametersFromConfig('MauticEmailBundle'),
+            'parameters' => ['drip_source'                            => null,
+                'drip_medium'                                         => null,
+                'drip_campaignname'                                   => null,
+                'drip_content'                                        => null,
+                'list_source'                                         => null,
+                'list_medium'                                         => null,
+                'list_campaignname'                                   => null,
+                'list_content'                                        => null,
+                'analytics_status'                                    => false, ],
         ]);
     }
 

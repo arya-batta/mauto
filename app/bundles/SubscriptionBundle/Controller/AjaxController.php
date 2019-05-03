@@ -1109,7 +1109,7 @@ class AjaxController extends CommonAjaxController
                 $billing = new Billing();
             }
             if ($billing->getAccountingemail() != '') {
-                $mailer       = $this->container->get('le.transactions.sendgrid_api');
+                $mailer       = $this->container->get('le.transport.elasticemail.transactions');
                 $paymenthelper=$this->get('le.helper.payment');
                 $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
             }
@@ -1128,7 +1128,7 @@ class AjaxController extends CommonAjaxController
         $curentDate            =date('Y-m-d');
         $this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);
         $this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
-        $mailer = $this->container->get('le.transactions.sendgrid_api');
+        $mailer = $this->container->get('le.transport.elasticemail.transactions');
         $this->sendCancelSubscriptionEmail($mailer);
         $this->cancelsubsEmailtoUser($mailer);
 
@@ -1139,7 +1139,7 @@ class AjaxController extends CommonAjaxController
     {
         $mailer->start();
         $message    = \Swift_Message::newInstance();
-        $message->setTo(['rajam@cratio.com']);
+        $message->setTo(['support@anyfunnels.com']);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancel.sub.description'));
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */

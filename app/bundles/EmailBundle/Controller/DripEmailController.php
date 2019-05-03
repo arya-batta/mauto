@@ -493,21 +493,21 @@ class DripEmailController extends FormController
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator     = $this->get('mautic.configurator');
         $params           = $configurator->getParameters();
-        // $fromname        = $params['mailer_from_name'];
-        // $fromadress      = $params['mailer_from_email'];
-        $unsubscribetxt  = $params['unsubscribe_text'];
-        $postaladdress   = $params['postal_address'];
-        $unsubscribeTxt  = $entity->getUnsubscribeText();
-        $postalAddress   = $entity->getPostalAddress();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress      = $params['mailer_from_email'];
+        $unsubscribetxt   = $params['unsubscribe_text'];
+        $postaladdress    = $params['postal_address'];
+        $unsubscribeTxt   = $entity->getUnsubscribeText();
+        $postalAddress    = $entity->getPostalAddress();
         /** @var EmailModel $emailmodel */
         $emailmodel   = $this->getModel('email');
-        $fromname     ='';
-        $fromadress   ='';
-        $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }
+//        $fromname     ='';
+//        $fromadress   ='';
+//        $defaultsender=$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname  =$defaultsender[0];
+//            $fromadress=$defaultsender[1];
+//        }
         $fromName        = $entity->getFromName();
         $fromAdress      = $entity->getFromAddress();
         /** @var \Mautic\EmailBundle\Entity\Email $emailentity */
@@ -1138,17 +1138,17 @@ class DripEmailController extends FormController
         $emailentity = $emailmodel->getEntity($subobjectId);
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        // $configurator    = $this->get('mautic.configurator');
-        //$params          = $configurator->getParameters();
-        //  $fromname        = $params['mailer_from_name'];
-        // $fromadress      = $params['mailer_from_email'];
-        $fromname     ='';
-        $fromadress   ='';
-        $defaultsender=$emailmodel->getDefaultSenderProfile();
-        if (sizeof($defaultsender) > 0) {
-            $fromname  =$defaultsender[0];
-            $fromadress=$defaultsender[1];
-        }
+        $configurator     = $this->get('mautic.configurator');
+        $params            = $configurator->getParameters();
+        $fromname        = $params['mailer_from_name'];
+        $fromadress       = $params['mailer_from_email'];
+//        $fromname     ='';
+//        $fromadress   ='';
+//        $defaultsender=$emailmodel->getDefaultSenderProfile();
+//        if (sizeof($defaultsender) > 0) {
+//            $fromname  =$defaultsender[0];
+//            $fromadress=$defaultsender[1];
+//        }
         $fromName        = $emailentity->getFromName();
         $fromAdress      = $emailentity->getFromAddress();
         $emailaction     = $this->generateUrl('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $emailentity->getId()]);
@@ -1581,16 +1581,17 @@ class DripEmailController extends FormController
             $newEntity->setGoogleTags(true);
             $newEntity->setEmailType('dripemail');
             /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-            // $configurator= $this->get('mautic.configurator');
-
-            // $params          = $configurator->getParameters();
-            // $fromname        = $params['mailer_from_name'];
-            //  $fromadress      = $params['mailer_from_email'];
-            $defaultsender=$emailmodel->getDefaultSenderProfile();
-            if (sizeof($defaultsender) > 0) {
-                $newEntity->setFromName($defaultsender[0]);
-                $newEntity->setFromAddress($defaultsender[1]);
-            }
+            $configurator     = $this->get('mautic.configurator');
+            $params           = $configurator->getParameters();
+            $fromname         = $params['mailer_from_name'];
+            $fromadress      = $params['mailer_from_email'];
+//            $defaultsender=$emailmodel->getDefaultSenderProfile();
+//            if (sizeof($defaultsender) > 0) {
+//                $newEntity->setFromName($defaultsender[0]);
+//                $newEntity->setFromAddress($defaultsender[1]);
+//            }
+            $newEntity->setFromName($fromname);
+            $newEntity->setFromAddress($fromadress);
             $newEntity->setDripEmailOrder($dripOrder);
             $newEntity->setScheduleTime($item['scheduleTime']);
             $emailmodel->saveEntity($newEntity);
