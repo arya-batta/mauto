@@ -1337,6 +1337,7 @@ if(value.id == findid){
     return updated;
 }
 Le.refreshWorkFlowCanvas=function(){
+    Le.zoomReset();
     Le.WF_NODE_PATH_HEIGHT_ADJUST=Le.WF_TRIGGER_NODE_HEIGHT_ADJUST;
     if(Le.WF_SHOW_STATSTICS){
         Le.WF_NODE_PATH_HEIGHT_ADJUST=Le.WF_NODE_PATH_HEIGHT_ADJUST+ +Le.WF_COUNT_NODE_HEIGHT_ADJUST;
@@ -1348,7 +1349,7 @@ Le.refreshWorkFlowCanvas=function(){
     //alert(newsvg.getAttributeNS(null,'id'));
     var svgwidth=mQuery(window).width();
     if(svgwidth > 0){
-        svgwidth=svgwidth-20;
+        svgwidth=svgwidth+30;
     }
     if(Le.campaignupdatedjson.width > svgwidth){
         svgwidth=Le.campaignupdatedjson.width;
@@ -1599,7 +1600,7 @@ Le.launchCampaignEditor = function() {
         Le.campaignupdatedjson=Le.campaignBuilderCanvasSettings;
         var svgwidth=mQuery(window).width();
         if(svgwidth > 0){
-            svgwidth=svgwidth-20;
+            svgwidth=svgwidth+30;
         }
         if(typeof Le.campaignupdatedjson.width != 'number'){
             Le.campaignupdatedjson['width']=svgwidth;
@@ -1960,7 +1961,7 @@ Le.adjustSizeforSVG=function(svgnode,stepsnode,yposition){
     if(svgwidth < bcr.width){
         svgwidth=bcr.width + +100;
     }else{
-        svgwidth=svgwidth-20;
+        svgwidth=svgwidth+30;
     }
     svgwidth=Math.ceil(svgwidth);
     Le.campaignupdatedjson.width=svgwidth;
@@ -1993,6 +1994,22 @@ Le.zoomIn = function(){
         }
     }catch(err){
       alert(err);
+    }
+
+}
+Le.zoomReset = function(){
+    try{
+        Le.currentZoom=1;
+        mQuery('.workflow-canvas').css({
+            'transform': "scale("+Le.currentZoom+")",
+            'transform-origin': "top center",
+            '-moz-transform': "scale("+Le.currentZoom+")",
+            '-moz-transform-origin': "top center",
+        });
+        mQuery('.campaign-zoom-button-div .zoom-percentage').text((Le.currentZoom*100)+"%");
+
+    }catch(err){
+        alert(err);
     }
 
 }
