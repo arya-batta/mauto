@@ -14,7 +14,7 @@
     $view->extend('MauticUserBundle:Security:base.html.php');
     $view['slots']->set('header', $view['translator']->trans('mautic.user.auth.header'));
 //else:
-  //  $view->extend('MauticUserBundle:Security:ajax.html.php');
+//    $view->extend('MauticUserBundle:Security:ajax.html.php');
 //endif;
 ?>
 <?php if (!empty($msg)): ?>

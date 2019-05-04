@@ -27,7 +27,7 @@
         <?php endforeach; ?>
     </li>
     <?php endforeach;
-    elseif ($searchstr != ''):  ?>
+    elseif (!empty($searchstr)):  ?>
         <li class="text-center notifi-title"><?php echo $view['translator']->trans('mautic.core.search.global.noresult.header'); ?>
             <span class="badge badge-xs badge-success"><?php echo '0'; ?></span>
         </li>

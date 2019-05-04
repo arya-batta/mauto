@@ -18,7 +18,9 @@ $loader = require_once __DIR__.'/vendor/autoload.php';
  * If you don't want to setup permissions the proper way, just uncomment the following PHP line
  * read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
  */
-umask(0000);
+//umask(0000);
+//sudo setfacl -R -m u:www-data:rwX -m u:production:rwX app/cache app/logs
+//sudo setfacl -dR -m u:www-data:rwx -m u:production:rwx app/cache app/logs
 
 if (extension_loaded('apc') && in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1', '172.17.0.1'])) {
     @apc_clear_cache();

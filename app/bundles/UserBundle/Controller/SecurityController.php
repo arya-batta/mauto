@@ -108,19 +108,24 @@ class SecurityController extends CommonController
         $integrationHelper = $this->get('mautic.helper.integration');
         $integrations      = $integrationHelper->getIntegrationObjects(null, ['sso_service'], true, null, true);
 
-        return $this->delegateView([
-            'viewParameters' => [
-                'last_username' => $session->get(Security::LAST_USERNAME),
-                'integrations'  => $integrations,
-                'msg'           => $msg,
-            ],
-            'contentTemplate' => 'MauticUserBundle:Security:login.html.php',
-            'passthroughVars' => [
-                'route'          => $this->generateUrl('login'),
-                'leContent'      => 'user',
-                'sessionExpired' => true,
-            ],
-        ]);
+        if (!$this->request->isXmlHttpRequest()) {
+            return $this->delegateView([
+                'viewParameters' => [
+                    'last_username' => $session->get(Security::LAST_USERNAME),
+                    'integrations'  => $integrations,
+                    'msg'           => $msg,
+                ],
+                'contentTemplate' => 'MauticUserBundle:Security:login.html.php',
+                'passthroughVars' => [
+                    'route'          => $this->generateUrl('login'),
+                    'leContent'      => 'user',
+                    'sessionExpired' => true,
+                ],
+            ]);
+        } else {
+            //to handle ajax request
+            return $this->delegateRedirect($this->generateUrl('login'));
+        }
     }
 
     /**
