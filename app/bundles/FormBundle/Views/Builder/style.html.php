@@ -19,13 +19,13 @@
     .leform-error { margin-bottom: 10px; color: red; }
     .leform-message { margin-bottom: 10px;color: green; }
     .leform-row { display: block; margin-bottom: 20px; }
-    .leform-label { font-weight: 600; line-height: 18px;font-family: "Open Sans",Helvetica,Arial,sans-serif;margin-bottom: 5px;font-size: 1.1em; display: block;  }
+    .leform-label { font-weight: 600; line-height: 18px;font-family: "PT Sans Caption", sans-serif;margin-bottom: 5px;font-size: 14px; display: block;  }
     .leform-row.leform-required .leform-label:after { color: #e32; content: " *"; display: inline; }
     .leform-helpmessage { display: block; font-size: 0.9em; margin-bottom: 3px; }
     .leform-errormsg { display: block; color: red; margin-top: 0px;margin-bottom: -15px;}
     .leform-selectbox, .leform-input, .leform-textarea { width: 100%; padding: 0.75em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; font-size:14px;  font-family: "Open Sans",Helvetica,Arial,sans-serif;  }
     .leform-checkboxgrp-row {}
-    .leform-checkboxgrp-label { font-weight: normal;font-family: "Open Sans",Helvetica,Arial,sans-serif; }
+    .leform-checkboxgrp-label { font-weight: normal;font-family: "Open Sans",Helvetica,Arial,sans-serif;font-size: 14px; }
     .leform-checkboxgrp-checkbox {}
     .leform-radiogrp-row {}
     .leform-radiogrp-label { font-weight: normal; }

@@ -257,7 +257,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             <div class="fragment-1-buttons fixed-header">
                 <a href="#" id="previous-button-2" class="hide waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1" style="<?php echo !$isbasiceditor ? 'margin-left:-16%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" class=" waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2" style="<?php echo !$isbasiceditor ? 'margin-left:78%;' : 'margin-left:68.1%;'; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <a href="#" id="next-tab-2" class=" waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2" style="<?php echo !$isbasiceditor ? 'margin-left:77.8%;' : 'margin-left:67.5%;'; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:148px;' : ''?>"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -362,7 +362,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             <div class="fragment-2-buttons fixed-header">
                 <a href="#" style="margin-left:-19%;" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" style="margin-left:67%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" style="margin-left:66%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -533,20 +533,25 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 drip-email-box-shadow">
-                        <header class="drip-settings-header">
-                            <h1><?php echo $view['translator']->trans('le.drip.settings.heading3'); ?></h1>
-                        </header>
-                        <div style="padding-top: 18px;">
-                            <div class="col-md-12">
-                                <?php echo $view['form']->label($form['postal_address']); ?>
-                                <?php echo $view['form']->widget($form['postal_address']); ?>
+                    <div class="col-md-6">
+                        <div class="drip-email-box-shadow">
+                            <header class="drip-settings-header">
+                                <h1><?php echo $view['translator']->trans('le.drip.settings.heading3'); ?></h1>
+                            </header>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php echo $view['form']->label($form['postal_address']); ?>
+                                    <?php echo $view['form']->widget($form['postal_address']); ?>
+                                </div>
                             </div>
                             <br>
-                            <div class="col-md-12 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="unsubscribe_text_div">
-                                <br>
-                                <?php echo $view['form']->label($form['unsubscribe_text']); ?>
-                                <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                            <div class="row">
+                                <div class="col-md-12 <?php echo $activatebasiceditor; echo $hidebasiceditor; ?>" id="unsubscribe_text_div">
+                                    <br>
+                                    <?php echo $view['form']->label($form['unsubscribe_text']); ?>
+                                    <?php echo $view['form']->widget($form['unsubscribe_text']); ?>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -418,7 +418,7 @@ trait FilterTrait
                 break;
         }
 
-        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this', 'last_15', 'next_15', 'last_60', 'next_60', 'last_90', 'next_90', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this'];
+        $disOpr                       = ['today', 'tomorrow', 'yesterday', 'week_last', 'week_next', 'week_this', 'last_03', 'next_03', 'last_07', 'next_07', 'last_15', 'next_15', 'last_30', 'next_30', 'last_60', 'next_60', 'last_90', 'next_90', 'month_last', 'month_next', 'month_this', 'year_last', 'year_next', 'year_this', 'year_till'];
         $customOptions['constraints'] = [];
         if (in_array($data['operator'], ['empty', '!empty'])) {
             $attr['disabled'] = 'disabled';

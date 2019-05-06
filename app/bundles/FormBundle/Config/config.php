@@ -65,11 +65,11 @@ return [
                 'controller' => 'MauticFormBundle:Form:index',
             ],*/
             'le_embeddedform_index' => [
-                'path'       => '/embededforms/{page}',
+                'path'       => '/embeded-forms/{page}',
                 'controller' => 'MauticFormBundle:Form:index',
             ],
             'le_smartform_index' => [
-                'path'       => '/smartforms/{page}',
+                'path'       => '/smart-forms/{page}',
                 'controller' => 'MauticFormBundle:SmartForm:index',
             ],
             'le_form_results' => [
@@ -102,14 +102,14 @@ return [
                 ],
             ],*/
             'le_embeddedform_action' => [
-                'path'       => '/embededforms/{objectAction}/{objectId}/{pageId}',
+                'path'       => '/embeded-forms/{objectAction}/{objectId}/{pageId}',
                 'controller' => 'MauticFormBundle:Form:execute',
                 'defaults'   => [
                     'pageId' => 1,
                 ],
             ],
             'le_smartform_action' => [
-                'path'       => '/smartforms/{objectAction}/{objectId}/{pageId}',
+                'path'       => '/smart-forms/{objectAction}/{objectId}/{pageId}',
                 'controller' => 'MauticFormBundle:SmartForm:execute',
                 'defaults'   => [
                     'pageId' => 1,

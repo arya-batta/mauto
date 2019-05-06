@@ -355,18 +355,22 @@ $isadmin     =$view['security']->isAdmin();
     <!--/ right section -->
 
     <!-- #modal-automatic-copy -->
-    <div class="modal fade le-modal-gradient" id="modal-automatic-copy" style="position:fixed;margin-top: 2%;margin-left: 25%;width: 612px;<?php echo $activeForm->isSmartForm() ? 'height:368px  ' : 'height:598px'; ?>">
+    <div class="modal fade le-modal-gradient" id="modal-automatic-copy" style="position:fixed;margin-top: 2%;margin-left: 25%;width: 612px;<?php echo $activeForm->isSmartForm() ? 'height:397px  ' : 'height:634px'; ?>">
         <div class="modal-dialog le-gradient-align" >
             <div class="modal-content le-modal-content" >
                 <div class="modal-header">
                     <div class="row">
                         <div class="col-md-11">
+                            <h3><?php echo $view['translator']->trans(
+                                    'mautic.form.form.header.script'
+                                ); ?></h3>
+                            <br>
                             <?php if ($activeForm->isSmartForm()):?>
-                    <h5 class="modal-title fw-sb"><?php echo $view['translator']->trans(
+                    <h5 class="modal-title fw-n"><?php echo $view['translator']->trans(
                             'mautic.form.form.smart.header'
                         ); ?></h5>
                             <?php else: ?>
-                            <h5 class="modal-title fw-sb"><?php echo $view['translator']->trans(
+                            <h5 class="modal-title fw-n"><?php echo $view['translator']->trans(
                                     'mautic.form.form.classic.header'
                                 ); ?></h5>
                             <?php endif; ?>
@@ -393,7 +397,7 @@ $isadmin     =$view['security']->isAdmin();
                     <?php endif; ?>
                     <?php if (!$activeForm->isSmartForm()):?>
                         <div class="white-box" style="text-align:start;padding-top:15px;padding-bottom:15px;">
-                            <h3><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
+                            <h3 style="margin-bottom: 4px;"><?php echo $view['translator']->trans('mautic.form.form.help.automaticcopy.js'); ?></h3>
                             <textarea id="javascipt_textarea" style="min-height: 72px;" class="form-control" readonly>&lt;script type="text/javascript" src="<?php echo $view['router']->url(
                                     'le_form_generateform',
                                     ['id' => $activeForm->getId()]
@@ -408,7 +412,7 @@ $isadmin     =$view['security']->isAdmin();
                             </button>
                         </div>
                         <div class="white-box" style="text-align:start;padding-top:10px;padding-bottom:15px;margin-bottom: 0px">
-                            <h3 class=""><?php echo $view['translator']->trans(
+                            <h3 style="margin-bottom: 4px;"><?php echo $view['translator']->trans(
                                     'mautic.form.form.help.automaticcopy.iframe'
                                 ); ?></h3>
                             <textarea id="iframe_textarea" style="min-height: 93px;"class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(

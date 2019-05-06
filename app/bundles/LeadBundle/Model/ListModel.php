@@ -385,31 +385,35 @@ class ListModel extends FormModel
                 'operators'  => $this->getOperatorsForFieldType('custmdate'),
                 'object'     => 'lead',
             ],
-            'dnc_bounced' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.dnc_bounced'),
-                'properties' => [
-                    'type' => 'boolean',
-                    'list' => [
-                        0 => $this->translator->trans('mautic.core.form.no'),
-                        1 => $this->translator->trans('mautic.core.form.yes'),
-                    ],
-                ],
-                'operators' => $this->getOperatorsForFieldType('email_dnc'),
-                'object'    => 'lead',
-            ],
-            'dnc_unsubscribed' => [
-                'label'      => $this->translator->trans('le.lead.list.filter.dnc_unsubscribed'),
-                'properties' => [
-                    'type' => 'boolean',
-                    'list' => [
-                        0 => $this->translator->trans('mautic.core.form.no'),
-                        1 => $this->translator->trans('mautic.core.form.yes'),
-                    ],
-                ],
-                'operators' => $this->getOperatorsForFieldType('email_dnc'),
-                'object'    => 'lead',
-            ],
         ];
+        if ($this->security->isAdmin()) {
+            $choices['emails'] = [
+                'dnc_bounced' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.dnc_bounced'),
+                    'properties' => [
+                        'type' => 'boolean',
+                        'list' => [
+                            0 => $this->translator->trans('mautic.core.form.no'),
+                            1 => $this->translator->trans('mautic.core.form.yes'),
+                        ],
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('email_dnc'),
+                    'object'    => 'lead',
+                ],
+                'dnc_unsubscribed' => [
+                    'label'      => $this->translator->trans('le.lead.list.filter.dnc_unsubscribed'),
+                    'properties' => [
+                        'type' => 'boolean',
+                        'list' => [
+                            0 => $this->translator->trans('mautic.core.form.no'),
+                            1 => $this->translator->trans('mautic.core.form.yes'),
+                        ],
+                    ],
+                    'operators' => $this->getOperatorsForFieldType('email_dnc'),
+                    'object'    => 'lead',
+                ],
+            ];
+        }
         $choices['one_of_campaign']= [
             'lead_email_sent' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_sent'),
@@ -427,6 +431,12 @@ class ListModel extends FormModel
             ],
             'lead_email_click' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.lead_email_click'),
+                'properties' => ['type' => 'lead_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+            'lead_email_failed' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.lead_email_failed'),
                 'properties' => ['type' => 'lead_email_received'],
                 'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',
@@ -462,6 +472,12 @@ class ListModel extends FormModel
             ],
             'drip_email_click' => [
                 'label'      => $this->translator->trans('le.lead.list.filter.drip_email_click'),
+                'properties' => ['type' => 'drip_email_received'],
+                'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
+                'object'     => 'lead',
+            ],
+            'drip_email_failed' => [
+                'label'      => $this->translator->trans('le.lead.list.filter.drip_email_failed'),
                 'properties' => ['type' => 'drip_email_received'],
                 'operators'  => $this->getOperatorsForFieldType('selecttemplate'),
                 'object'     => 'lead',

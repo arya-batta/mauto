@@ -192,9 +192,9 @@ Le.formOnLoad = function (container) {
             }
         }
         var url = window.location.href;
-    if(url.indexOf('/embededforms/new') != -1){
+    if(url.indexOf('/embeded-forms/new') != -1){
         Le.selectFormType('standalone');
-    }else if(url.indexOf('/smartforms/new') != -1){
+    }else if(url.indexOf('/smart-forms/new') != -1){
         Le.selectFormType('smart');
     }
 

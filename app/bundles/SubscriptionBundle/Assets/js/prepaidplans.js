@@ -264,8 +264,10 @@ Le.adJustFixedHeader = function(isadd){
                 mQuery('#fixed-header').css('top', '90px');
                 mQuery('.content-body').css('margin-top', '170px');
             } else {
-                mQuery('#fixed-header').css('top', '45px');
-                mQuery('.content-body').css('margin-top', '110px');
+                if(mQuery('#licenseclosediv').hasClass('hide')) {
+                    mQuery('#fixed-header').css('top', '45px');
+                    mQuery('.content-body').css('margin-top', '110px');
+                }
             }
         } else {
             if (isadd) {

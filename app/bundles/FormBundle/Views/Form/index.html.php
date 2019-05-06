@@ -10,7 +10,7 @@
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'form');
-$view['slots']->set('headerTitle', $view['translator']->trans('mautic.form.forms'));
+$view['slots']->set('headerTitle', $view['translator']->trans($isEmbeddedForm ? 'mautic.form.embeddedforms' : 'mautic.form.smartforms'));
 
 $routebase = $isEmbeddedForm ? 'embeddedform' : 'smartform';
 
@@ -29,7 +29,7 @@ $view['slots']->set(
 );
 
 ?>
-<div class="le-header-align" style="padding-bottom:15px;"><h3><?php echo $view['translator']->trans('mautic.form.forms'); ?></h3></div>
+<div class="le-header-align" style="padding-bottom:15px;"><h3><?php echo $view['translator']->trans($isEmbeddedForm ? 'mautic.form.embeddedforms' : 'mautic.form.smartforms'); ?></h3></div>
 <div class="info-box-holder">
     <?php foreach ($formBlockDetails as $key => $formBlock): ?>
         <div class="info-box hide" id="leads-info-box-container">

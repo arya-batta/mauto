@@ -275,10 +275,10 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
-            <div class="fragment-drip-3-buttons fixed-header" style="margin-top: -7px;">
+            <div class="fragment-drip-3-buttons fixed-header" style="margin-top: -3px;">
                 <a href="#" style="margin-left:-18%;" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" style="margin-left:66.1%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" style="margin-left:65.5%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
@@ -396,12 +396,6 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <?php echo $view['form']->row($form['category']); ?>
-                                </div>
-                            </div>
-                            <br>
                             <div class="row hide">
                                 <div class="col-md-11 <?php echo (count($form['subject']->vars['errors'])) ? ' has-error' : ''; ?>" style="width: 88.11111%">
                                     <?php echo $view['form']->label($form['subject']); ?>
@@ -466,6 +460,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                             </div>
                             <br>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <?php echo $view['form']->row($form['category']); ?>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row <?php echo !$view['security']->isAdmin() ? 'hide' : ''; ?>">
                                 <div class="col-md-12">
                                     <?php echo $view['form']->row($form['google_tags']); ?>
                                 </div>

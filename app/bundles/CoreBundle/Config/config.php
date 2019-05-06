@@ -118,6 +118,7 @@ return [
                 'id'        => 'le_components_root',
                 'iconClass' => 'fas fa-cubes',
                 'priority'  => 20,
+                'access'    => 'admin',
             ],
              'mautic.core.channels' => [
                  'id'        => 'le_channels_root',

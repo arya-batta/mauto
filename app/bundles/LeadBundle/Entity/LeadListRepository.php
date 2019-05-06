@@ -912,10 +912,16 @@ class LeadListRepository extends CommonRepository
                                 }
                             }
                             break;
+                        case 'last_03':
+                        case 'last_07':
                         case 'last_15':
+                        case 'last_30':
                         case 'last_60':
                         case 'last_90':
+                        case 'next_03':
+                        case 'next_07':
                         case 'next_15':
+                        case 'next_30':
                         case 'next_60':
                         case 'next_90':
                         $requiresBetween = 'true';
@@ -1008,8 +1014,12 @@ class LeadListRepository extends CommonRepository
                         case 'year_last':
                         case 'year_next':
                         case 'year_this':
+                        case 'year_till':
                         $requiresBetween = 'true';
                             $interval    = substr($key, -4);
+                            if ($interval == 'till') {
+                                $interval = 'this';
+                            }
                             $dtHelper->setDateTime('midnight first day of January '.$interval.' year', null);
                                 if ($interval == 'this') {
                                     $requiresBetween = 'true';
@@ -1060,8 +1070,12 @@ class LeadListRepository extends CommonRepository
                     if ($isRelative) {
                         if ($requiresBetween) {
                             $startWith = ($isTimestamp) ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
+                            if ($timeframe == 'year_till') {
+                                $dtHelper->setDateTime('now', 'Y-m-d');
+                            } else {
+                                $dtHelper->modify($modifier);
+                            }
 
-                            $dtHelper->modify($modifier);
                             $endWith = ($isTimestamp) ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
 
                             // Use a between statement
@@ -1854,6 +1868,7 @@ class LeadListRepository extends CommonRepository
                 case 'lead_email_received':
                 case 'drip_email_read':
                 case 'lead_email_sent':
+                case 'lead_email_failed':
                 case 'device_type':
                 case 'device_brand':
                 case 'device_os':
@@ -1864,6 +1879,7 @@ class LeadListRepository extends CommonRepository
                 case 'drip_email_subscribed':
                 case 'drip_email_completed':
                 case 'drip_email_sent':
+                case 'drip_email_failed':
                     // Special handling of lead lists and tags
                     $func = in_array($func, ['eq', 'in']) ? 'EXISTS' : 'NOT EXISTS';
 
@@ -1896,6 +1912,8 @@ class LeadListRepository extends CommonRepository
                             break;*/
                         case 'lead_email_sent':
                         case 'drip_email_sent':
+                        case 'lead_email_failed':
+                        case 'drip_email_failed':
                             $table  = 'email_stats';
                             $column = 'email_id';
                             break;
@@ -1957,6 +1975,10 @@ class LeadListRepository extends CommonRepository
 
                     if ($details['field'] == 'drip_email_completed') {
                         $column= $alias.'.rotation';
+                        $subQb->andWhere($column.' = "1"');
+                    }
+                    if ($details['field'] == 'lead_email_failed' || $details['field'] == 'drip_email_failed') {
+                        $column= $alias.'.is_failed';
                         $subQb->andWhere($column.' = "1"');
                     }
 
@@ -2506,9 +2528,16 @@ class LeadListRepository extends CommonRepository
             'le.lead.list.year_last',
             'le.lead.list.year_next',
             'le.lead.list.year_this',
+            'le.lead.list.year_till',
             'le.lead.list.anniversary',
+            'le.lead.list.last_03',
+            'le.lead.list.next_03',
+            'le.lead.list.last_07',
+            'le.lead.list.next_07',
             'le.lead.list.last_15',
             'le.lead.list.next_15',
+            'le.lead.list.last_30',
+            'le.lead.list.next_30',
             'le.lead.list.last_60',
             'le.lead.list.next_60',
             'le.lead.list.last_90',

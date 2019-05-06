@@ -52,6 +52,7 @@ class FieldType extends AbstractType
         $createcolor = false;
         $style       ='';
         $tabindex    ='';
+        $class       ='';
 
         if (!empty($options['customParameters'])) {
             $type = 'custom';
@@ -175,13 +176,12 @@ class FieldType extends AbstractType
 
         $builder->add(
             'content',
-            'text',
+            'textarea',
             [
                 'label'      => 'mautic.form.field.form.content',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'class'   => 'form-control le-input',
-                    'tooltip' => 'mautic.form.field.form.alias.tooltip',
                 ],
             ]
         );
@@ -270,6 +270,7 @@ class FieldType extends AbstractType
         if ($createcolor) {
             $style    = 'pointer-events: none;background-color: #ebedf0;opacity: 1;';
             $tabindex = '-1';
+            $class    = 'hide';
         }
         if ($addInputAttributes) {
             $builder->add(
@@ -277,9 +278,9 @@ class FieldType extends AbstractType
                 'text',
                 [
                     'label'      => (!empty($inputAttributesText)) ? $inputAttributesText : 'mautic.form.field.form.inputattr',
-                    'label_attr' => ['class' => 'control-label'],
+                    'label_attr' => ['class' => 'control-label '.$class],
                     'attr'       => [
-                        'class'     => 'form-control le-input',
+                        'class'     => 'form-control le-input '.$class,
                         'tooltip'   => 'mautic.form.field.help.attr',
                         'maxlength' => '255',
                         'style'     => $style,

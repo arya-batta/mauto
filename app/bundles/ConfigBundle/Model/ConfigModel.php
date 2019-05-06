@@ -101,8 +101,8 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Files-Lead-Magnets.png',
                     'url' => $this->router->generate('le_asset_index'),
                 ],
-                'Category' => [
-                    'name'=> 'Category',
+                'Group' => [
+                    'name'=> 'Group',
                     'img' => 'Category.png',
                     'url' => $this->router->generate('le_category_index'),
                 ],

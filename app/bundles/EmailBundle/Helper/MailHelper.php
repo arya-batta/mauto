@@ -561,7 +561,7 @@ class MailHelper
             } else {
                 $account = new Account();
             }
-            if ($emailtype && (strpos($bodyContent, '{footer_text}') === false) && ((strpos($bodyContent, '{{global_unsubscribe_link}}') === false) && (strpos($bodyContent, '{unsubscribe_link}') === false) && (strpos($bodyContent, '{update_your_profile_link}') === false))) {
+            if ($emailtype && (strpos($bodyContent, '{footer_text}') === false) && ((strpos($bodyContent, '{unsubscribe_link}') === false) && (strpos($bodyContent, '{update_profile_link}') === false))) {
                 //create the div element to append to body element
                 $divelement = $doc->createElement('div');
                 $divelement->setAttribute('style', 'margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: "GT-Walsheim-Regular", "Poppins-Regular", Helvetica, Arial, sans-serif;

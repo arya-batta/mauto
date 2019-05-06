@@ -58,7 +58,7 @@ $hidepanel  = ($isadmin) ? '' : "style='display: none;'";
                     <?php echo $view['form']->row($form['isRequired']); ?>
                 </div>
             </div>
-            <div class="row">
+            <div class="row <?php echo !$view['security']->isAdmin() ? 'hide' : ''; ?>">
                 <div class="col-md-6">
                     <?php echo $view['form']->row($form['isListable']); ?>
                 </div>

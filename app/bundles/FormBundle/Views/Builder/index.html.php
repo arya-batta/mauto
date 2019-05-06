@@ -15,12 +15,11 @@ $isadmin    =$view['security']->isAdmin();
 $hidepanel  =$view['security']->isAdmin() ? '' : 'display: none;';
 $header     = ($activeForm->getId())
     ?
-    $view['translator']->trans(
-        'mautic.form.form.header.edit',
+    $view['translator']->trans('mautic.form.form.header.edit',
         ['%name%' => $view['translator']->trans($activeForm->getName())]
     )
     :
-    $view['translator']->trans('mautic.form.form.header.new');
+    $view['translator']->trans($isEmbeddedForm ? 'mautic.form.embededform.header.new' : 'mautic.form.smartform.header.new');
 $view['slots']->set('headerTitle', $header);
 
 $formId = $form['sessionId']->vars['data'];
@@ -355,7 +354,7 @@ endif;*/ ?>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 <?php echo !$view['security']->isAdmin() ? 'hide' : ''; ?>">
                     <?php echo $view['form']->label($form['isPublished']); ?>
                     <?php echo $view['form']->widget($form['isPublished']); ?>
                 </div>

@@ -13,14 +13,14 @@ return [
     'routes' => [
         'main' => [
             'le_category_index' => [
-                'path'       => '/categories/{bundle}/{page}',
+                'path'       => '/groups/{bundle}/{page}',
                 'controller' => 'MauticCategoryBundle:Category:index',
                 'defaults'   => [
                     'bundle' => 'category',
                 ],
             ],
             'le_category_action' => [
-                'path'       => '/categories/{bundle}/{objectAction}/{objectId}',
+                'path'       => '/groups/{bundle}/{objectAction}/{objectId}',
                 'controller' => 'MauticCategoryBundle:Category:executeCategory',
                 'defaults'   => [
                     'bundle' => 'category',
