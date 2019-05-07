@@ -491,7 +491,7 @@ class AppKernel extends Kernel
             $containerPath = (isset($params['container_path'])) ? $params['container_path'] : $this->getCacheDir();
 
             if (!file_exists($containerPath)) {
-                @mkdir($containerPath, 0755, true);
+                @mkdir($containerPath, 0775, true);
             }
 
             $containerPath = (isset($params['container_path'])) ? $params['container_path'] : $this->getCacheDir();

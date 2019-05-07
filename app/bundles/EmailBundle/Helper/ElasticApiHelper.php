@@ -22,7 +22,7 @@ class ElasticApiHelper
     public function __construct(MauticFactory $factory)
     {
         $this->factory              = $factory;
-        $this->apikey               =$this->factory->getParameter('elastic_api_key');
+        $this->apikey               =$this->factory->getParameter('mailer_password');
     }
 
     public function sendApiRequest($url, $payload)
@@ -127,5 +127,63 @@ class ElasticApiHelper
         }
 
         return $status;
+    }
+
+    public function getReputationDetails()
+    {
+        $response=$this->sendApiRequest('account/loadreputationimpact', ['apikey'=>$this->getAccessToken()]);
+        $details =[];
+        if (isset($response->success) && $response->success && isset($response->data)) {
+            if (isset($response->data->impact)) {
+                $data                       =$response->data;
+                $impact                     =$data->impact;
+                $complaints_score           =round($impact->abuse, 2);
+                $invalid_emails_score       =round($impact->unknownusers, 2);
+                $opened_emails_score        =round($impact->opened, 2);
+                $clicked_emails_score       =round($impact->clicked, 2);
+                $content_analysis_score     =round($impact->averagespamscore, 2);
+                $complaints_percentage      =round($data->abusepercent, 2);
+                $invalid_emails_percentage  =round($data->unknownuserspercent, 2);
+                $opened_emails_percentage   =round($data->openedpercent, 2);
+                $clicked_emails_percentage  =round($data->clickedpercent, 2);
+                $content_analysis_percentage=round($data->averagespamscore, 2);
+                $rows[]                     =['Complaints', 'Users reporting your email as spam', $complaints_percentage.'%', $complaints_score];
+                $rows[]                     =['Invalid email addresses', 'Email addresses that do not exist', $invalid_emails_percentage.'%', $invalid_emails_score];
+                $rows[]                     =['Content analysis', 'How your email content is rating to spam filtering software', $content_analysis_percentage, $content_analysis_score];
+                $rows[]                     =['Open rate', 'Your last 30 day open rate', $opened_emails_percentage.'%', $opened_emails_score];
+                $rows[]                     =['Click rate', 'Your last 30 day click rate', $clicked_emails_percentage.'%', $clicked_emails_score];
+                $details[]                  =$rows;
+                $reputation                 =$data->reputation;
+                $details[]                  =$reputation;
+                $starrating                 =round(($reputation / 100) * 5, 0, PHP_ROUND_HALF_DOWN);
+                $details[]                  =$starrating;
+            }
+        }
+
+        return $details;
+    }
+
+    public function getNewToken()
+    {
+        $newToken='';
+        $response=$this->sendApiRequest('accesstoken/add', ['tokenName'=>uniqid('af_'), 'accessLevel'=> 1]);
+        if (isset($response->success) && $response->success && isset($response->data)) {
+            $newToken=$response->data;
+        }
+
+        return $newToken;
+    }
+
+    public function getAccessToken()
+    {
+        $accesstoken=$this->factory->getParameter('elastic_access_token');
+        if (empty($accesstoken)) {
+            $accesstoken    =$this->getNewToken();
+            $configurator   = $this->factory->get('mautic.configurator');
+            $configurator->mergeParameters(['elastic_access_token' => $accesstoken]);
+            $configurator->write();
+        }
+
+        return $accesstoken;
     }
 }

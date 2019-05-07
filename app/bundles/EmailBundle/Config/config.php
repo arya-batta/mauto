@@ -999,6 +999,5 @@ return [
         'beeeditor_client_id'                    => '',
         'beeeditor_client_secret'                => '',
         'email_status'                           => null,
-        'elastic_api_key'                        => '',
     ],
 ];

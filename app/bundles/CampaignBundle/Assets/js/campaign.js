@@ -1591,6 +1591,7 @@ Le.CloseDataModelCampaign = function(){
  * Launch campaign builder modal
  */
 Le.launchCampaignEditor = function() {
+    Le.zoomReset();
     Le.stopIconSpinPostEvent();
     mQuery('body').css('overflow-y', 'hidden');
     mQuery('.builder').addClass('builder-active').removeClass('hide');

@@ -250,3 +250,28 @@
     letter-spacing: 0;
     word-wrap: break-word;
 }
+.senderreputation_config td,.senderreputation_config th{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.sreputationsummarybox {
+    border-radius: .4rem;
+    background-color: #fff;
+    font-size: 16px;
+    line-height: 1.35;
+    text-align: left;
+    color: #424242;
+    padding: 0 0 0 16px;
+    border: 1px solid #e6e9f2;
+}
+.snopadding {
+    padding: 0 0 0 0!important;
+}
+.reputation-margin {
+    margin-left: .5rem;
+}
+.reputation-summary-box{
+    margin-top: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

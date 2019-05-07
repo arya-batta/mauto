@@ -255,23 +255,25 @@ class ConfigController extends FormController
         $paymentrepository   =$this->get('le.subscription.repository.payment');
         $lastpayment         = $paymentrepository->getLastPayment();
 
-        $usertoken = $this->user->getUsername().':'.$this->user->getPlainPassword();
-        $userapi   = base64_encode($usertoken);
+        $usertoken        = $this->user->getUsername().':'.$this->user->getPlainPassword();
+        $userapi          = base64_encode($usertoken);
+        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
 
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'tmpl'           => $tmpl,
-                    'security'       => $this->get('mautic.security'),
-                    'form'           => $this->setFormTheme($form, 'MauticConfigBundle:Config:form.html.php', $formThemes),
-                    'formConfigs'    => $formConfigs,
-                    'isWritable'     => $isWritabale,
-                    'verifiedEmails' => $awsemailstatus,
-                    'lastPayment'    => $lastpayment,
-                    'EmailList'      => $emailModel->getAllEmailAddress(),
-                    'selectTab'      => $selecttab,
-                    'userapi'        => $userapi,
-                    'sendingdomains' => $emailModel->getRepository()->getAllSendingDomains(),
+                    'tmpl'             => $tmpl,
+                    'security'         => $this->get('mautic.security'),
+                    'form'             => $this->setFormTheme($form, 'MauticConfigBundle:Config:form.html.php', $formThemes),
+                    'formConfigs'      => $formConfigs,
+                    'isWritable'       => $isWritabale,
+                    'verifiedEmails'   => $awsemailstatus,
+                    'lastPayment'      => $lastpayment,
+                    'EmailList'        => $emailModel->getAllEmailAddress(),
+                    'selectTab'        => $selecttab,
+                    'userapi'          => $userapi,
+                    'sendingdomains'   => $emailModel->getRepository()->getAllSendingDomains(),
+                    'emailreputations' => $elasticApiHelper->getReputationDetails(),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

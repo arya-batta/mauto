@@ -46,11 +46,11 @@ $configKeys = array_keys($form->children);
                         <?php echo $view['translator']->trans('le.config.tab.'.'sendingdomain'); ?>
                     </a>
                 </li>
-<!--                <li role="presentation" class="list-group-item --><?php //echo $selectTab === 'senderreputation_config' ? 'in active' : '';?><!--">-->
-<!--                    <a href="#senderreputation_config" aria-controls="sendingdomain_config" role="tab" data-toggle="tab" class="steps">-->
-<!--                        --><?php //echo $view['translator']->trans('le.config.tab.'.'senderreputation');?>
-<!--                    </a>-->
-<!--                </li>-->
+                <li role="presentation" class="list-group-item <?php echo $selectTab === 'senderreputation_config' ? 'in active' : ''; ?>">
+                    <a href="#senderreputation_config" aria-controls="senderreputation_config" role="tab" data-toggle="tab" class="steps">
+                        <?php echo $view['translator']->trans('le.config.tab.'.'senderreputation'); ?>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -86,16 +86,16 @@ $configKeys = array_keys($form->children);
 ?>
                 </div>
             </div>
-<!--            <div role="tabpanel" class="tab-pane fade --><?php //echo $selectTab === 'senderreputation_config' ? 'in active' : '';?><!-- bdr-w-0" id="senderreputation_config">-->
-<!--                <div class="pt-md pr-md pl-md pb-md">-->
-<!--                    --><?php //echo $view->render(
-//                        'MauticEmailBundle:Config:senderreputation.html.php',
-//                        []
-//                    );
-//
-//?>
-<!--                </div>-->
-<!--            </div>-->
+            <div role="tabpanel" class="tab-pane fade <?php echo $selectTab === 'senderreputation_config' ? 'in active' : ''; ?> bdr-w-0" id="senderreputation_config">
+                <div class="pt-md pr-md pl-md pb-md">
+                    <?php echo $view->render(
+                        'MauticEmailBundle:Config:senderreputation.html.php',
+                        ['emailreputations' => $emailreputations]
+                    );
+
+?>
+                </div>
+            </div>
         </div>
         <?php echo $view['form']->end($form); ?>
     </div>

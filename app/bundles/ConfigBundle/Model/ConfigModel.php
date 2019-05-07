@@ -84,6 +84,11 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Developer-API.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'apiconfig']),
                 ],
+                'Sender Reputation' => [
+                    'name'=> 'Sender Reputation',
+                    'img' => 'Sender-Reputation.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'senderreputation_config']),
+                ],
             ],
             'Assets'=> [
                 'Notification Email Templates' => [
