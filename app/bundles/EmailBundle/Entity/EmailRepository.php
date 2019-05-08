@@ -56,6 +56,35 @@ class EmailRepository extends CommonRepository
     }
 
     /**
+     * Get an array of do not email emails.
+     *
+     * @param array $leadIds
+     *
+     * @return array
+     */
+    public function getInActiveLeadsList($leadIds = [])
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('l.id, l.email')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->where($q->expr()->in('l.id', ['3', '4', '5', '6']));
+        if ($leadIds) {
+            $q->andWhere(
+                $q->expr()->in('l.id', $leadIds)
+            );
+        }
+
+        $results = $q->execute()->fetchAll();
+
+        $inActive = [];
+        foreach ($results as $r) {
+            $inActive[$r['id']] = strtolower($r['email']);
+        }
+
+        return $inActive;
+    }
+
+    /**
      * Check to see if an email is set as do not contact.
      *
      * @param $email
