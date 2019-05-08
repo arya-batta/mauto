@@ -7074,6 +7074,9 @@ ol, ul {
 .col-leadsegment-name{
   width: 40%;
 }
+.col-lead-width{
+  width: 30%;
+}
 .buttonfooter {
   margin-top: 25px;
   transition: all .1s ease;
