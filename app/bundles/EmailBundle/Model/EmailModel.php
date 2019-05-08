@@ -1257,10 +1257,10 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $leadIds = array_combine($leadIds, $leadIds);
 
         if (!$ignoreDNC) {
-            $dnc = $emailRepo->getDoNotEmailList($leadIds);
+            $inActive = $emailRepo->getInActiveLeadsList($leadIds);
 
-            if (!empty($dnc)) {
-                foreach ($dnc as $removeMeId => $removeMeEmail) {
+            if (!empty($inActive)) {
+                foreach ($inActive as $removeMeId => $removeMeEmail) {
                     if ($dncAsError) {
                         $errors[$removeMeId] = $this->translator->trans('le.email.dnc');
                     }
