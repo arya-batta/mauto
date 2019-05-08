@@ -32,15 +32,15 @@ if (!$isAdmin) {
 
 ?>
 <div class="row">
-    <div class="col-sm-offset-3 col-sm-6">
+    <div class="col-sm-offset-1 col-sm-10">
         <div class="ml-lg mr-lg mt-md pa-lg">
             <div class="panel panel-info">
                 <div class="panel-heading" style="background-color: #ffffff;">
-                    <div class="panel-title" style="color: #212529;"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
+                    <div class="panel-title" style="color: #212529;padding: 14px 0;"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
                 </div>
                 <div class="panel-body">
                     <?php echo $view['form']->start($form); ?>
-                    <div class="row center-align-container" style="float: none;">
+                    <div class="row center-align-container hide" style="float: none;">
                         <div class="pull-center col-xs-6">
                             <a href="<?php echo $view['assets']->getImportSampleFilePath() ?>" download>
                             <span class="input-group-btn download_sample">
@@ -50,13 +50,21 @@ if (!$isAdmin) {
                         </div>
                     </div>
 
-                    <div class="input-group well mt-lg">
+                    <div class="input-group well mt-lg col-md-7 import-fileupload-container">
                         <?php echo $view['form']->widget($form['file']); ?>
                         <span class="input-group-btn">
                             <?php echo $view['form']->widget($form['start']); ?>
                         </span>
                     </div>
-
+                        <div class="col-md-10" style="margin-left: 8%;margin-right: auto;">
+                            <div class="pa-lg">
+                                <h5><?php echo $view['translator']->trans('mautic.webhook.note'); ?></h5>
+                                <li class="import-notes-list" style="margin-top: 10px;"><?php echo $view['translator']->trans('le.lead.import.start.note1'); ?></li>
+                                <li class="import-notes-list"><div style="margin-left: 17px;margin-top: -17px;"><?php echo $view['translator']->trans('le.lead.import.start.note2'); ?></div></li>
+                                <li class="import-notes-list"><?php echo $view['translator']->trans('le.lead.import.start.note3', ['%href%' => $view['assets']->getImportSampleFilePath()]); ?></li>
+                                <li class="import-notes-list"><?php echo $view['translator']->trans('le.lead.import.start.note4', ['%href%' => $view['router']->path('le_import_index', ['object' => 'lead'])]); ?></li>
+                            </div>
+                        </div>
                     <div class="row" <?php echo $hide; ?>>
                         <div class="col-xs-3">
                             <?php echo $view['form']->label($form['batchlimit']); ?>

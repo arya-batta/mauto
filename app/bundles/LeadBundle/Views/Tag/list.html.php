@@ -62,6 +62,15 @@ $isAdmin     =$view['security']->isAdmin();
                         'class'      => 'visible-md visible-lg col-leadlist-leadcount text-center',
                     ]
                 );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'tags',
+                        'text'       => 'le.lead.list.thead.inactive.leadcount',
+                        'class'      => 'visible-md visible-lg col-leadlist-leadcount text-center',
+                    ]
+                );
                 if ($isAdmin):
                     echo $view->render(
                         'MauticCoreBundle:Helper:tableheader.html.php',
@@ -123,7 +132,7 @@ $isAdmin     =$view['security']->isAdmin();
                         );
                        ?>
                     </td>
-                    <td class="table-description" style="width:70%;">
+                    <td class="table-description" style="width:50%;">
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 'le_tags_action',
@@ -135,15 +144,27 @@ $isAdmin     =$view['security']->isAdmin();
                             </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 30%;">
-                        <a class="label label-primary" href="<?php echo $view['router']->path(
+                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                        <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
-                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag').':'.$item->getAlias()]
-                        ); ?>" data-toggle="ajax"<?php  echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.active').':'.$item->getId()]
+                        ); ?>" data-toggle="ajax"<?php  echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
-                                $leadCounts[$item->getId()],
-                                ['%count%' => $leadCounts[$item->getId()]]
+                                $ActiveLeadCounts[$item->getId()],
+                                ['%count%' => $ActiveLeadCounts[$item->getId()]]
+                            ); ?>
+                        </a>
+                    </td>
+                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                        <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.inactive').':'.$item->getId()]
+                        ); ?>" data-toggle="ajax"<?php  echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                            <?php echo $view['translator']->transChoice(
+                                'le.lead.list.viewleads_count',
+                                $InactiveLeadCounts[$item->getId()],
+                                ['%count%' => $InactiveLeadCounts[$item->getId()]]
                             ); ?>
                         </a>
                     </td>

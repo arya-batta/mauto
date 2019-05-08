@@ -34,6 +34,7 @@ class LeadImportType extends AbstractType
                 'attr'  => [
                     'accept' => '.csv',
                     'class'  => 'form-control',
+                    'style'  => 'margin-top:0px;padding: 4px 12px;',
                 ],
                 'constraints' => [
                     new File(

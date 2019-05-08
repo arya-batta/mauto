@@ -282,12 +282,13 @@ class LeadListRepository extends CommonRepository
      *
      * @return array
      */
-    public function getLeadCount($listIds)
+    public function getLeadCount($listIds, $status = null)
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-        $q->select('count(l.lead_id) as thecount, l.leadlist_id')
-            ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'l');
+        $q->select('count(ll.lead_id) as thecount, ll.leadlist_id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'll')
+            ->leftJoin('ll', MAUTIC_TABLE_PREFIX.'leads', 'l', 'll.lead_id = l.id');
 
         $returnArray = (is_array($listIds));
 
@@ -296,11 +297,23 @@ class LeadListRepository extends CommonRepository
         }
 
         $q->where(
-            $q->expr()->in('l.leadlist_id', $listIds),
-            $q->expr()->eq('l.manually_removed', ':false')
+            $q->expr()->in('ll.leadlist_id', $listIds),
+            $q->expr()->eq('ll.manually_removed', ':false')
         )
             ->setParameter('false', false, 'boolean')
-            ->groupBy('l.leadlist_id');
+            ->groupBy('ll.leadlist_id');
+
+        if ($status != null) {
+            if ($status == 'Active') {
+                $q->where(
+                    $q->expr()->in('l.status', ['1', '2'])
+                );
+            } else {
+                $q->where(
+                    $q->expr()->in('l.status', ['3', '4', '5', '6'])
+                );
+            }
+        }
 
         $result = $q->execute()->fetchAll();
 

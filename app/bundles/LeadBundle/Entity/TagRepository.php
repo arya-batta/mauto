@@ -177,17 +177,31 @@ class TagRepository extends CommonRepository
      *
      * @return array|mixed
      */
-    public function getLeadCount($tagIds)
+    public function getLeadCount($tagIds, $status = null)
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
         $q->select('count(x.lead_id) as thecount, x.tag_id')
-            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref', 'x');
+            ->from(MAUTIC_TABLE_PREFIX.'lead_tags_xref', 'x')
+        ->leftJoin('x', MAUTIC_TABLE_PREFIX.'leads', 'l', 'x.lead_id = l.id');
         $returnArray = (is_array($tagIds));
         if (!$returnArray) {
             $tagIds = [$tagIds];
         }
         $q->groupBy('x.tag_id');
+
+        if ($status != null) {
+            if ($status == 'Active') {
+                $q->where(
+                    $q->expr()->in('l.status', ['1', '2'])
+                );
+            } else {
+                $q->where(
+                    $q->expr()->in('l.status', ['3', '4', '5', '6'])
+                );
+            }
+        }
+
         $result = $q->execute()->fetchAll();
         $return = [];
         foreach ($result as $r) {
