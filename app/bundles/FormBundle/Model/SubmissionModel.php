@@ -1064,6 +1064,8 @@ class SubmissionModel extends CommonFormModel
             $form->getId(),
             $form->getName()
         ));
+
+        $lead->setCreatedSource(3); //Created Source FORM SUBMIT
         $this->leadModel->saveEntity($lead, false);
 
         if (!$inKioskMode) {

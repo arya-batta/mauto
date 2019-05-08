@@ -7074,9 +7074,6 @@ ol, ul {
 .col-leadsegment-name{
   width: 75%;
 }
-.col-lead-width{
-  width: 30%;
-}
 .buttonfooter {
   margin-top: 25px;
   transition: all .1s ease;
@@ -7712,7 +7709,7 @@ ul.list-unstyled, ul#list-unstyled  {
   width: 7%;
 }
 .adjust-time-width{
-  width: 10%;
+  width: 12%;
 }
 .graph-apply > button{
   font-size:12px;

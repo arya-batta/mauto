@@ -1684,7 +1684,7 @@ class LeadModel extends FormModel
         if ($owner !== null) {
             $lead->setOwner($this->em->getReference('MauticUserBundle:User', $owner));
         }
-
+        $lead->setCreatedSource(2); //Created Source IMPORT
         if (empty($this->leadFields)) {
             $this->leadFields = $this->leadFieldModel->getEntities(
                 [
@@ -2856,6 +2856,11 @@ class LeadModel extends FormModel
         // if !$checkCurrentStatus, assume is contactable due to already being valided
         $isContactable = ($checkCurrentStatus) ? $this->isContactable($lead, $channel) : DoNotContact::IS_CONTACTABLE;
 
+        $status = $this->getLeadStatusbyReason($reason);
+        if ($status != '') {
+            $lead->setStatus($status);
+            $this->saveEntity($lead);
+        }
         // If they don't have a DNC entry yet
         if ($isContactable === DoNotContact::IS_CONTACTABLE) {
             $dnc = new DoNotContact();
@@ -3094,5 +3099,19 @@ class LeadModel extends FormModel
                 unset($listevent, $this->pendingOptinLeads);
             }
         }
+    }
+
+    public function getLeadStatusbyReason($reason)
+    {
+        $status = '';
+        if ($reason == DoNotContact::BOUNCED) {
+            $status = 3; //Invalid Status
+        } elseif ($reason == DoNotContact::SPAM) {
+            $status = 4; //Complaint Status
+        } elseif ($reason == DoNotContact::UNSUBSCRIBED || $reason == DoNotContact::IS_CONTACTABLE || $reason == DoNotContact::MANUAL) {
+            $status = 5; //Unsubscribed Status
+        }
+
+        return $status;
     }
 }

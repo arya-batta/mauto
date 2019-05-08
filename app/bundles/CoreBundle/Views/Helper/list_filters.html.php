@@ -11,7 +11,7 @@
 ?>
 
 <?php if (!empty($filters)) : ?>
-    <div class="form-group" style="width: <?php echo $tmpl == 'form' ? '70%' : '45%'; ?>;margin-top: 4px;background-color: #FFFFFF;">
+    <div class="form-group" style="width: <?php echo $tmpl == 'form' ? '70%' : $screen != '' ? '30%' : '45%'; ?>;margin-top: 4px;background-color: #FFFFFF;">
         <?php
         foreach ($filters as $filterName => $filter):
 

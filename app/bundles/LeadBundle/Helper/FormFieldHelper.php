@@ -282,4 +282,42 @@ class FormFieldHelper extends AbstractFormFieldHelper
 
         return $options;
     }
+
+    public function getCreatedSourceFields($index)
+    {
+        $sourceOptions    = [];
+        $sourceOptions[1] = $this->translator->trans('le.leads.created.source.1');
+        $sourceOptions[2] = $this->translator->trans('le.leads.created.source.2');
+        $sourceOptions[3] = $this->translator->trans('le.leads.created.source.3');
+        $sourceOptions[4] = $this->translator->trans('le.leads.created.source.4');
+        $sourceOptions[5] = $this->translator->trans('le.leads.created.source.5');
+
+        return $sourceOptions[$index];
+    }
+
+    public function getLeadStatus($index = 0)
+    {
+        $statusOptions    = [];
+        $statusOptions[1] = $this->translator->trans('le.leads.status.1');
+        $statusOptions[2] = $this->translator->trans('le.leads.status.2');
+        $statusOptions[3] = $this->translator->trans('le.leads.status.3');
+        $statusOptions[4] = $this->translator->trans('le.leads.status.4');
+        $statusOptions[5] = $this->translator->trans('le.leads.status.5');
+        $statusOptions[6] = $this->translator->trans('le.leads.status.6');
+
+        if ($index == 0) {
+            return $statusOptions;
+        } elseif ($index == '') {
+            return '';
+        } else {
+            return $statusOptions[$index];
+        }
+    }
+
+    public function getStatusColors($index = 0)
+    {
+        $statuscolors = ['', '#3292e0', '#5cb45b', '#f7b543', '#f03154', '#f03154', '#f03154'];
+
+        return $statuscolors[$index];
+    }
 }

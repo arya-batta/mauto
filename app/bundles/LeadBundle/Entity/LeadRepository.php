@@ -1417,6 +1417,46 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         return $results;
     }
 
+    public function getActiveLeads($dateinterval)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('l.id as leadid')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->andWhere($q->expr()->eq('l.status', ':status'))->setParameter('status', ' ')->orWhere($q->expr()->isNull('l.status'))
+            ->andWhere('l.status in (2)')
+            ->andWhere('l.last_active <= '."'".$dateinterval."'");
+        $results = $q->execute()->fetchAll();
+
+        return $results;
+    }
+
+    public function getActiveEngagedLeads($dateinterval)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('l.id as leadid')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+            ->Where('l.last_active > '."'".$dateinterval."'")
+            ->andWhere('l.status in (1,6)');
+        $results = $q->execute()->fetchAll();
+
+        return $results;
+    }
+
+    public function updateLeadStatus($leadid, $status)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->update(MAUTIC_TABLE_PREFIX.'leads')
+            ->set('status', ':status')
+            ->setParameter('status', $status)
+            ->where(
+                $q->expr()->in('id', $leadid)
+            )
+            ->execute();
+    }
+
     public function getRecentlyAddedLeadsCount($viewOthers = false)
     {
         $q                    = $this->_em->getConnection()->createQueryBuilder();
@@ -1436,6 +1476,45 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         //      dump($last7daysAddedLeads);
 
         return $results[0]['recentlyadded'];
+    }
+
+    public function getEngagedLeadsCount($viewOthers = false)
+    {
+        $q                    = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as engaged')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
+        }
+        $q->andWhere($q->expr()->eq('l.status', 2));
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['engaged'];
+    }
+
+    public function getInActiveLeadsCount($viewOthers = false)
+    {
+        $q                    = $this->_em->getConnection()->createQueryBuilder();
+
+        $q->select('count(*) as inactive')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
+        }
+        $statusArr   = [];
+        $statusArr[] = 3;
+        $statusArr[] = 4;
+        $statusArr[] = 5;
+        $statusArr[] = 6;
+        $q->andWhere($q->expr()->in('l.status', $statusArr));
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactive'];
     }
 
     public function getTotalLeadsCount($viewOthers = false)
@@ -1476,8 +1555,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 ->setParameter('id', '1');
             $q->orWhere($q->expr()->isNull('l.created_by'));
         }
-        $q->andWhere($q->expr()->gte('l.last_active', ':last30daysActive'))
-            ->setParameter('last30daysActive', $last30daysActiveLeads);
+        $q->andWhere($q->expr()->eq('l.status', 1));
         $results = $q->execute()->fetchAll();
 
         return $results[0]['activeleads'];
@@ -1521,5 +1599,43 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         }
 
         return $dncIds;
+    }
+
+    /**
+     * Checks to ensure that a email is unique.
+     *
+     * @param $params
+     *
+     * @return array
+     */
+    public function checkUniqueEmail($email)
+    {
+        $q      = $this->createQueryBuilder('l');
+        $result = [];
+        if (!empty($email)) {
+            $q->where('l.email = :email')
+                ->setParameter('email', $email);
+            $result = $q->getQuery()->getResult();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Checks to ensure that a username and/or email is unique.
+     *
+     * @param $params
+     *
+     * @return array
+     */
+    public function checkUniqueUsernameEmail($params)
+    {
+        $q = $this->createQueryBuilder('l');
+        if (isset($params['email'])) {
+            $q->where('l.email = :email')
+                ->setParameter('email', $params['email']);
+        }
+
+        return $q->getQuery()->getResult();
     }
 }

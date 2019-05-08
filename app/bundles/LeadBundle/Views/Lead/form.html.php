@@ -40,6 +40,18 @@ $img = $view['lead_avatar']->getAvatar($lead);
                             </div>
                             <div class="pa-md" style="width: 150%;">
                                 <?php if ($group == 'core'): ?>
+                                    <div class="form-group mb-0">
+                                        <div class="row">
+                                            <div class="col-sm-8 <?php if ($view['form']->containsErrors($form['email'])) {
+                        echo ' has-error';
+                    } ?>">
+                                                <?php echo $view['form']->label($form['email']); ?>
+                                                <?php echo $view['form']->widget($form['email'], ['attr' => ['placeholder' => $form['email']->vars['label']]]); ?>
+                                                <?php echo $view['form']->errors($form['email']); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
                                     <?php if (isset($form['title']) || isset($form['firstname']) || isset($form['lastname'])): ?>
                                         <div class="form-group mb-0">
                                             <label
@@ -67,27 +79,17 @@ $img = $view['lead_avatar']->getAvatar($lead);
 
                                     <div class="form-group mb-0">
                                         <?php if (isset($form['company_new'])): ?>
-                                            <div class="row">
-                                                <div class="col-sm-8">
+                                            <div class="row" style="max-width: 68%;">
+                                                <div class="col-sm-6">
                                                     <?php echo $view['form']->row($form['company_new']); ?>
                                                 </div>
+                                                <?php if (isset($form['mobile'])): ?>
+                                                    <div class="col-sm-6">
+                                                        <?php echo $view['form']->row($form['mobile']); ?>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         <?php endif; ?>
-                                        <div class="row" style="max-width: 68%;">
-                                        <div class="form-group col-sm-6 <?php if ($view['form']->containsErrors($form['email'])) {
-                        echo ' has-error';
-                    } ?>">
-                                                <?php echo $view['form']->label($form['email']); ?>
-                                                <?php echo $view['form']->widget($form['email'], ['attr' => ['placeholder' => $form['email']->vars['label']]]); ?>
-                                                <?php echo $view['form']->errors($form['email']); ?>
-                                            </div>
-
-                                        <?php if (isset($form['mobile'])): ?>
-                                                <div class="col-sm-6">
-                                                    <?php echo $view['form']->row($form['mobile']); ?>
-                                                </div>
-                                        <?php endif; ?>
-                                        </div>
                                         <div class="row" style="max-width: 68%;">
                                         <?php if (isset($form['points'])): ?>
                                                 <div class="col-sm-6">
@@ -180,6 +182,20 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                         <?php endif; ?>
                                     </div>
                                 </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <?php if (isset($form['created_source'])): ?>
+                                                <div class="col-sm-4" id="leadfield_created_source">
+                                                    <?php echo $view['form']->row($form['created_source']); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (isset($form['status'])): ?>
+                                                <div class="col-sm-4" id="leadfield_status">
+                                                    <?php echo $view['form']->row($form['status']); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
 
                                     <?php if (isset($form['attribution']) && isset($form['attribution_date'])): ?>
                                         <div class="form-group mb-0">

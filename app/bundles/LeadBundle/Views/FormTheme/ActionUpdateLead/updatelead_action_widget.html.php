@@ -12,6 +12,8 @@
                       || $child->vars['name'] == 'lastname'
                       || $child->vars['name'] == 'mobile'
                       || $child->vars['name'] == 'email'
+                      || $child->vars['name'] == 'created_source'
+                      || $child->vars['name'] == 'status'
                       || $child->vars['name'] == 'company_new'): ?>
                 <div class="hidden">
                     <?php echo $view['form']->label($child); ?>
@@ -21,7 +23,7 @@
                 <div class="form-group col-xs-6 <?php echo (count($child->vars['errors'])) ? ' has-error' : ''; ?>">
                     <?php echo $view['form']->label($child); ?>
                     <?php echo $view['form']->widget($child); ?>
-                    <?php echo $view['form']->errors($child);?>
+                    <?php echo $view['form']->errors($child); ?>
                 </div>
             <?php endif; ?>
         <?php else: ?>

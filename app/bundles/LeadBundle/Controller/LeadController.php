@@ -19,6 +19,7 @@ use Mautic\LeadBundle\DataObject\LeadManipulator;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadNoteRepository;
+use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\NoteModel;
 use Mautic\SubscriptionBundle\Entity\KYC;
@@ -151,6 +152,72 @@ class LeadController extends FormController
         } elseif (strpos($search, $anonymous) !== false && strpos($search, '!'.$anonymous) === false) {
             $anonymousShowing = true;
         }*/
+        $statusFilters = [
+            'status' => [
+                'placeholder' => $this->get('translator')->trans('le.lead.lead.status.filter.placeholder'),
+                'multiple'    => true,
+            ],
+        ];
+        $fieldHelper = new FormFieldHelper();
+        $fieldHelper->setTranslator($this->translator);
+        $statusFilters['status']['groups'] = [];
+        $statusValues                      = [];
+        $curStatusFilters                  = $session->get('mautic.lead.status_filters', []);
+        $updatedStatusFilters              = $this->request->get('status', false);
+
+        if ($updatedStatusFilters) {
+            // Filters have been updated
+
+            // Parse the selected values
+            $newFilters           = [];
+            $updatedStatusFilters = json_decode($updatedStatusFilters, true);
+
+            if ($updatedStatusFilters) {
+                foreach ($updatedStatusFilters as $updatedFilter) {
+                    list($clmn, $fltr) = explode(':', $updatedFilter);
+
+                    $newFilters[$clmn][] = $fltr;
+                }
+
+                $curStatusFilters = $newFilters;
+            } else {
+                $curStatusFilters = [];
+            }
+        }
+        $session->set('mautic.lead.status_filters', $curStatusFilters);
+
+        if (!empty($curStatusFilters)) {
+            $statusIds = [];
+            foreach ($curStatusFilters as $type => $typeFilters) {
+                foreach ($typeFilters as $fltr) {
+                    if ($type == 'status') {
+                        $statusIds[] = (int) $fltr;
+                    }
+                }
+            }
+            if (!empty($statusIds)) {
+                $statussearchstring = '';
+                for ($sid = 0; $sid < sizeof($statusIds); ++$sid) {
+                    $statusValues[] = $statusIds[$sid];
+                    if ($sid == 0 && $filter['string'] == '') {
+                        $statussearchstring = 'status:';
+                    } else {
+                        $statussearchstring .= ' or status:';
+                    }
+                    if ($statusIds[$sid] != '') {
+                        $statussearchstring .= $statusIds[$sid];
+                    }
+                }
+                $filter['string'] .= $statussearchstring;
+            }
+        }
+        $statusList                            = $this->getModel('lead.field')->getSelectFieldProperties('lead', 'status');
+        $statusFilters['status']['groups'][''] = [
+            'options' => $statusList,
+            'prefix'  => 'status',
+            'values'  => $statusValues,
+        ];
+
         $values         = [];
         $currentFilters = $session->get('mautic.lead.list_filters', []);
         $updatedFilters = $this->request->get('filters', false);
@@ -356,41 +423,50 @@ class LeadController extends FormController
         $recentlyAdded     = $model->getRepository()->getRecentlyAddedLeadsCount($permissions['lead:leads:viewother']);
         $doNotContactLeads = $model->getRepository()->getDoNotContactLeadsCount($permissions['lead:leads:viewother']);
         $totalLeadsCount   = $model->getRepository()->getTotalLeadsCount($permissions['lead:leads:viewother']);
+        $engagedAdded      = $model->getRepository()->getEngagedLeadsCount($permissions['lead:leads:viewother']);
+        $inActive          = $model->getRepository()->getInActiveLeadsCount($permissions['lead:leads:viewother']);
         // We need the EmailRepository to check if a lead is flagged as do not contact
         /** @var \Mautic\EmailBundle\Entity\EmailRepository $emailRepo */
-        $emailRepo = $this->getModel('email')->getRepository();
+        $emailRepo   = $this->getModel('email')->getRepository();
+        $fieldHelper = new FormFieldHelper();
+        $fieldHelper->setTranslator($this->translator);
 
         return $this->delegateView(
             [
                 'viewParameters' => [
-                    'searchValue'          => $search,
-                    'filters'              => $listFilters,
-                    'items'                => $leads,
-                    'page'                 => $page,
-                    'totalItems'           => $count,
-                    'limit'                => $limit,
-                    'permissions'          => $permissions,
-                    'tmpl'                 => $tmpl,
-                    'indexMode'            => $indexMode,
-                    'lists'                => $lists,
-                    'currentList'          => $list,
-                    'security'             => $this->get('mautic.security'),
-                    'inSingleList'         => $inSingleList,
-                    'noContactList'        => $emailRepo->getDoNotEmailList(array_keys($leads)),
-                    'maxLeadId'            => $maxLeadId,
-                    'anonymousShowing'     => $anonymousShowing,
-                    'showvideo'            => $showvideo,
-                    'videoURL'             => $videoURL,
-                    'showsetup'            => $showsetup,
-                    'billingform'          => $billformview,
-                    'accountform'          => $accformview,
-                    'userform'             => $userformview,
-                    'isMobile'             => $ismobile,
-                    'recentlyAdded'        => $recentlyAdded,
-                    'donotContact'         => $doNotContactLeads,
-                    'activeLeads'          => $activeLeads,
-                    'totalLeadsCount'      => $totalLeadsCount,
-                    'isEmailSearch'        => $this->isEmailStatSearch($search),
+                    'searchValue'           => $search,
+                    'filters'               => $listFilters,
+                    'items'                 => $leads,
+                    'page'                  => $page,
+                    'totalItems'            => $count,
+                    'limit'                 => $limit,
+                    'permissions'           => $permissions,
+                    'tmpl'                  => $tmpl,
+                    'indexMode'             => $indexMode,
+                    'lists'                 => $lists,
+                    'currentList'           => $list,
+                    'security'              => $this->get('mautic.security'),
+                    'inSingleList'          => $inSingleList,
+                    'noContactList'         => $emailRepo->getDoNotEmailList(array_keys($leads)),
+                    'maxLeadId'             => $maxLeadId,
+                    'anonymousShowing'      => $anonymousShowing,
+                    'showvideo'             => $showvideo,
+                    'videoURL'              => $videoURL,
+                    'showsetup'             => $showsetup,
+                    'billingform'           => $billformview,
+                    'accountform'           => $accformview,
+                    'userform'              => $userformview,
+                    'isMobile'              => $ismobile,
+                    'recentlyAdded'         => $recentlyAdded,
+                    'donotContact'          => $doNotContactLeads,
+                    'activeLeads'           => $activeLeads,
+                    'totalLeadsCount'       => $totalLeadsCount,
+                    'engagedAdded'          => $engagedAdded,
+                    'inactiveLeads'         => $inActive,
+                    'isEmailSearch'         => $this->isEmailStatSearch($search),
+                    'fieldHelper'           => $fieldHelper,
+                    'status'                => $statusFilters,
+                    'statusList'            => $statusList,
                 ],
                 'contentTemplate' => "MauticLeadBundle:Lead:{$indexMode}.html.php",
                 'passthroughVars' => [
@@ -599,6 +675,10 @@ class LeadController extends FormController
             new \DateTime($dateRangeForm->get('date_from')->getData()),
             new \DateTime($dateRangeForm->get('date_to')->getData()));
 
+        $fieldHelper = new FormFieldHelper();
+        $fieldHelper->setTranslator($this->translator);
+        $statusList = $this->getModel('lead.field')->getSelectFieldProperties('lead', 'status');
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -629,6 +709,8 @@ class LeadController extends FormController
                     'segmentName'      => $segmentName,
                     'listName'         => $listName,
                     'dateRangeForm'    => $dateRangeForm->createView(),
+                    'fieldHelper'      => $fieldHelper,
+                    'statusList'       => $statusList,
                 ],
                 'contentTemplate' => 'MauticLeadBundle:Lead:lead.html.php',
                 'passthroughVars' => [
@@ -749,7 +831,7 @@ class LeadController extends FormController
         if ($this->request->getMethod() == 'POST') {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateEmailUnique($form)) {
                     //get custom field values
                     $data = $this->request->request->get('lead');
                     if ($data['email'] == '') {
@@ -1010,7 +1092,7 @@ class LeadController extends FormController
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateEmailUnique($form)) {
                     $data = $this->request->request->get('lead');
                     if ($data['email'] == '') {
                         $form['email']->addError(
@@ -2969,5 +3051,19 @@ class LeadController extends FormController
         }
 
         return false;
+    }
+
+    public function validateEmailUnique($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('lead');
+        $model       = $this->getModel('lead');
+        $leadrepo    = $model->getRepository();
+        if (!empty($formData['email']) && $leadrepo->checkUniqueEmail($formData['email'])) {
+            $isValidForm = false;
+            $form['email']->addError(new FormError($this->translator->trans('le.lead.email.unique', [], 'validators')));
+        }
+
+        return $isValidForm;
     }
 }

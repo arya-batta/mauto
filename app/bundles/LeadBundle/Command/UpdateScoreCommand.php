@@ -57,6 +57,39 @@ class UpdateScoreCommand extends ModeratedCommand
                     }
                 }
             }
+            $date       = new \DateTime();
+            $date->modify('-60 days');
+            $dateinterval = $date->format('Y-m-d H:i:s');
+            /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
+            $leadModel             = $container->get('mautic.lead.model.lead');
+
+            $leadModel->beginTransaction();
+            $result = $leadRepo->getActiveEngagedLeads($dateinterval);
+            try {
+                foreach ($result as $key => $value) {
+                    $leadId = $value['leadid'];
+                    $lead   = $leadModel->getEntity($leadId);
+                    $lead->setStatus(2); // Engaged Status
+                    $leadModel->saveEntity($lead);
+                    unset($lead);
+                }
+                $leadModel->commitTransaction();
+            } catch (\Exception $ex) {
+                $leadModel->rollbackTransaction();
+            }
+            $leadModel->beginTransaction();
+            $result = $leadRepo->getActiveLeads($dateinterval);
+            try {
+                foreach ($result as $key => $value) {
+                    $lead = $leadModel->getEntity($leadId);
+                    $lead->setStatus(1); // Active Status
+                    $leadModel->saveEntity($lead);
+                    unset($lead);
+                }
+                $leadModel->commitTransaction();
+            } catch (\Exception $ex) {
+                $leadModel->rollbackTransaction();
+            }
         } catch (\Exception $e) {
             echo 'exception->'.$e->getMessage()."\n";
             $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');

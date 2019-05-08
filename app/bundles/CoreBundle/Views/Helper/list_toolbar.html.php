@@ -32,6 +32,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/workflows') !== false || strpos($_SERVER['
                     'target'      => (empty($target)) ? null : $target,
                     'tmpl'        => (empty($tmpl)) ? null : $tmpl,
                     'merge_search'=> '',
+                    'screen'      => (isset($screen)) ? $screen : '',
                 ]); ?>
             <?php endif; ?>
 
@@ -40,6 +41,15 @@ if (strpos($_SERVER['REQUEST_URI'], '/workflows') !== false || strpos($_SERVER['
                     'filters' => $filters,
                     'target'  => (empty($target)) ? null : $target,
                     'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                    'screen'  => (isset($screen)) ? $screen : '',
+                ]); ?>
+            <?php endif; ?>
+            <?php if (!empty($status)): ?>
+                <?php echo $view->render('MauticCoreBundle:Helper:list_filters.html.php', [
+                    'filters' => $status,
+                    'target'  => (empty($target)) ? null : $target,
+                    'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                    'screen'  => (isset($screen)) ? $screen : '',
                 ]); ?>
             <?php endif; ?>
         </div>
@@ -54,7 +64,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/workflows') !== false || strpos($_SERVER['
             <?php endif; ?>
             <?php echo $view['buttons']->renderButtons(); ?>
         </div>
-        <div class="col-xs-4 col-sm-6 va-m">
+        <div class="col-xs-4 va-m <?php echo !empty($status) ? 'col-sm-2' : 'col-sm-6'; ?>">
             <div class="toolbar text-right" id="toolbar">
                 <?php $view['slots']->output('actions'); ?>
 

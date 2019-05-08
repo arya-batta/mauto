@@ -69,12 +69,19 @@ $isAdmin    =$view['security']->isAdmin();
         <td class="table-description">
             <a href="<?php echo $view['router']->path('le_contact_action', ['objectAction' => 'view', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
                 <?php if (in_array($item->getId(), array_keys($noContactList)))  : ?>
-                    <div class="pull-right label label-danger"><i class="fa fa-ban"> </i></div>
+                    <div class="pull-right label label-danger hide"><i class="fa fa-ban"> </i></div>
                 <?php endif; ?>
                 <div> <?php echo ($item->isAnonymous()) ? $view['translator']->trans($item->getPrimaryIdentifier()) : $item->getPrimaryIdentifier(); ?></div>
                 <div class="small"><?php echo $item->getSecondaryIdentifier(); ?></div>
                 <div><?php echo $fields['core']['email']['value']; ?></div>
             </a>
+        </td>
+        <td class="visible-md visible-lg text-center">
+            <?php $status = $fields['core']['status']['value']; ?>
+            <?php $status = !empty($status) ? $status : 0; ?>
+            <span class="lead-status-alignment" style="background-color: <?php echo $fieldHelper->getStatusColors($status); ?>;">
+                <?php echo $status != 0 ? $statusList[$status] : ''; ?>
+            </span>
         </td>
         <?php if ($isAdmin): ?>
         <td class="visible-md visible-lg">
@@ -104,11 +111,11 @@ $isAdmin    =$view['security']->isAdmin();
             ?>
             <span class="label label-primary"><?php echo $item->getPoints(); ?></span>
         </td>
-        <td class="visible-md visible-lg">
+        <!--<td class="visible-md visible-lg">
             <abbr title="<?php echo $view['date']->toFull($item->getDateAdded()); ?>">
                 <?php echo $view['date']->toText($item->getDateAdded()); ?>
             </abbr>
-        </td>
+        </td>-->
         <td class="visible-md visible-lg">
             <abbr title="<?php echo $view['date']->toFull($item->getLastActive()); ?>">
                 <?php echo $view['date']->toText($item->getLastActive()); ?>

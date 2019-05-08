@@ -22,6 +22,9 @@ use Mautic\LeadBundle\Model\FieldModel;
 use Mautic\NotificationBundle\Entity\PushID;
 use Mautic\StageBundle\Entity\Stage;
 use Mautic\UserBundle\Entity\User;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * Class Lead.
@@ -74,9 +77,9 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     private $position;
 
     /**
-     * @var
+     * @var string
      */
-    private $email;
+    protected $email;
 
     /**
      * @var
@@ -275,6 +278,16 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     private $score;
 
     /**
+     * @var
+     */
+    private $status;
+
+    /**
+     * @var
+     */
+    private $created_source;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -320,6 +333,12 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
         $builder->createField('points', 'integer')
             ->build();
         $builder->createField('score', 'string')
+            ->nullable()
+            ->build();
+        $builder->createField('status', 'string')
+            ->nullable()
+            ->build();
+        $builder->createField('created_source', 'string')
             ->nullable()
             ->build();
 
@@ -541,6 +560,29 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                 ]
             )
             ->build();
+    }
+
+    /**
+     * @param ClassMetadata $metadata
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity(
+            [
+                'fields'           => ['email'],
+                'message'          => 'mautic.user.user.email.unique',
+                'repositoryMethod' => 'checkUniqueUsernameEmail',
+            ]
+        ));
+
+        $metadata->addPropertyConstraint('email', new Assert\Email(
+            [
+                'message' => 'mautic.user.user.email.valid',
+                'groups'  => ['CheckEmail'],
+            ]
+        ));
+
+        $metadata->setGroupSequence(['Lead', 'CheckEmail']);
     }
 
     /**
@@ -2125,5 +2167,37 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
         }
 
         return $rules;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedSource()
+    {
+        return $this->created_source;
+    }
+
+    /**
+     * @param mixed $created_source
+     */
+    public function setCreatedSource($created_source)
+    {
+        $this->created_source = $created_source;
     }
 }

@@ -114,7 +114,7 @@ $toolbarButtons = [];
                 <span class="info-box-icon waves-effect">
                     <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.lifecycle.graph.pie.all.lists'); ?></span>
+                    <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.summary.all.leads'); ?></span>
                     <span class="info-box-number"><?php echo $totalLeadsCount; ?></span>
                 </div>
             </a>
@@ -124,8 +124,8 @@ $toolbarButtons = [];
                 <span class="info-box-icon waves-effect">
                      <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.recently.added'); ?></span>
-                <span class="info-box-number"><?php echo $recentlyAdded; ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.summary.active'); ?></span>
+                <span class="info-box-number"><?php echo $activeLeads; ?></span>
             </div>
         </a>
     </div>
@@ -134,8 +134,8 @@ $toolbarButtons = [];
                 <span class="info-box-icon">
                     <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.active.leads'); ?></span>
-                <span class="info-box-number"><?php echo $activeLeads; ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.summary.engaged'); ?></span>
+                <span class="info-box-number"><?php echo $engagedAdded; ?></span>
             </div>
         </a>
     </div>
@@ -144,8 +144,8 @@ $toolbarButtons = [];
             <span class="info-box-icon waves-effect">
                   <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.list.churn.leads'); ?></span>
-                <span class="info-box-number"><?php echo $donotContact; ?></span>
+                <span class="info-box-text"><?php echo $view['translator']->trans('le.lead.summary.inactive'); ?></span>
+                <span class="info-box-number"><?php echo $inactiveLeads; ?></span>
             </div>
             </a>
     </div>
@@ -161,6 +161,8 @@ $toolbarButtons = [];
             'action'        => $currentRoute,
             'customButtons' => $toolbarButtons,
             'filters'       => $filters,
+            'status'        => $status,
+            'screen'        => 'leads',
         ]
     ); ?>
     <div class="page-list">

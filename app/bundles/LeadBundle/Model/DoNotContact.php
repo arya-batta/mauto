@@ -120,7 +120,10 @@ class DoNotContact
                 }
             }
         }
-
+        $status = $this->leadModel->getLeadStatusbyReason($reason);
+        if ($status != '') {
+            $contact->setStatus($status);
+        }
         if ($dnc && $persist) {
             // Use model saveEntity to trigger events for DNC change
             $this->leadModel->saveEntity($contact);

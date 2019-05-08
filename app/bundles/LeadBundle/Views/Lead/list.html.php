@@ -148,6 +148,12 @@ if ($showsetup) {
                     'text'       => 'mautic.core.type.lead',
                     'class'      => 'col-lead-name col-lead-width',
                 ]);
+                echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
+                    'sessionVar' => 'lead',
+                    'orderBy'    => 'l.status',
+                    'text'       => 'le.leads.status.name',
+                    'class'      => 'col-lead-status visible-md visible-lg',
+                ]);
                 /*echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.company_new',
@@ -193,13 +199,13 @@ if ($showsetup) {
                         'text'       => 'le.lead.stage.label',
                         'class'      => 'col-lead-stage',
                     ]);
-                }*/
+                }
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.date_added',
                     'text'       => 'le.lead.dateadded',
                     'class'      => 'col-lead-lastactive visible-md visible-lg adjust-time-width',
-                ]);
+                ]);*/
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
@@ -239,6 +245,8 @@ if ($showsetup) {
                 'currentList'   => $currentList,
                 'permissions'   => $permissions,
                 'noContactList' => $noContactList,
+                'fieldHelper'   => $fieldHelper,
+                'statusList'    => $statusList,
             ]); ?>
             </tbody>
         </table>

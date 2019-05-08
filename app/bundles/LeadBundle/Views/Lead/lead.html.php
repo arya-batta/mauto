@@ -383,9 +383,17 @@ $view['slots']->set(
                                       </div>
                                   </div>
                               </div>
-
+<div>
+    <h4 class="fw-b">
+        <?php $status = $fields['core']['status']['value']; ?>
+        <?php $status = !empty($status) ? $status : 0; ?>
+        <span class="dnc-alignment lead-status-alignment" style="background-color: <?php echo $fieldHelper->getStatusColors($status); ?>;">
+                <?php echo $status != 0 ? $statusList[$status] : ''; ?>
+            </span>
+    </h4>
+</div>
                                 <?php if ($doNotContact) : ?>
-                                    <div id="bounceLabel<?php echo $doNotContact['id']; ?>">
+                                    <div id="bounceLabel<?php echo $doNotContact['id']; ?>" class="hide">
                                         <h4 class="fw-b">
                                             <?php if ($doNotContact['unsubscribed']): ?>
                                                 <span class="label le-label-danger dnc-alignment" data-toggle="tooltip" title="<?php echo $doNotContact['comments']; ?>">

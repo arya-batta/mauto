@@ -65,7 +65,7 @@ class ButtonSubscriber extends CommonSubscriber
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );
-            $event->addButton(
+            /*$event->addButton(
                 ['buttons',
                     'attr' => [
                         'href' => $this->router->generate('le_import_index', ['object' => 'leads', 'page' => '1']),
@@ -75,7 +75,7 @@ class ButtonSubscriber extends CommonSubscriber
                     'priority'  => 3,
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
-            );
+            );*/
             $event->addButton(
                 ['buttons',
                     'attr' => [

@@ -136,7 +136,7 @@ Le.leadOnLoad = function (container, response) {
         }
     });
 
-    Le.initUniqueIdentifierFields();
+    //Le.initUniqueIdentifierFields();
 
     if (mQuery(container + ' .panel-companies').length) {
         mQuery(container + ' .panel-companies .fa-check').tooltip({html: true});
@@ -152,6 +152,10 @@ Le.leadOnLoad = function (container, response) {
     mQuery("#leadfield_eu_gdpr_consent .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
     mQuery("#leadfield_eu_gdpr_timezone .chosen-container").attr('tabindex','-1');
     mQuery("#leadfield_eu_gdpr_timezone .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_status .chosen-container").attr('tabindex','-1');
+    mQuery("#leadfield_status .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_created_source .chosen-container").attr('tabindex','-1');
+    mQuery("#leadfield_created_source .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
 
 };
 Le.segment_filter = function(id){

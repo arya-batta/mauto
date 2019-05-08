@@ -340,3 +340,17 @@ ul.tag-cloud li {
     color: #eee;
     background-color: #3292e0;
 }
+.col-lead-width{
+    width: 25%;
+}
+.col-lead-status{
+    width: 15%;
+    text-align: center;
+}
+.lead-status-alignment{
+    font-size: 12px !important;
+    padding: 5px;
+    border-radius: 5px;
+    color:#FFFFFF;
+    right: -20px;
+}

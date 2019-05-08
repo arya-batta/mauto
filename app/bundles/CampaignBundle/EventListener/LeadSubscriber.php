@@ -638,7 +638,7 @@ class LeadSubscriber extends CommonSubscriber
                                 }
                             }
                             $lead->setScore('Hot');
-
+                            $lead->setCreatedSource(5); //Created Source INTEGRATION
                             $this->leadModel->saveEntity($lead);
 
                             if (!empty($data['listoptin'])) {

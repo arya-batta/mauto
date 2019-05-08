@@ -771,7 +771,7 @@ class LeadApiController extends CommonApiController
 
             unset($parameters['frequencyRules']);
         }
-
+        $entity->setCreatedSource(4); //Created Source API
         $this->setCustomFieldValues($entity, $form, $parameters, 'POST' === $this->request->getMethod());
     }
 

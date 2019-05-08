@@ -1087,4 +1087,52 @@ class FieldModel extends FormModel
 
         return $repo->getMaxFieldOrder();
     }
+
+    /**
+     * @param string $object
+     * @param array  $filters
+     *
+     * @return array
+     */
+    public function getSelectFieldProperties($object = 'lead', $fieldAlias)
+    {
+        $forceFilters[] = [
+            'column' => 'f.object',
+            'expr'   => 'eq',
+            'value'  => $object,
+        ];
+        $forceFilters[]= [
+            'column' => 'f.alias',
+            'expr'   => 'eq',
+            'value'  => $fieldAlias,
+        ];
+        $forceFilters[]= [
+            'column' => 'f.type',
+            'expr'   => 'eq',
+            'value'  => 'select',
+        ];
+        $contactFields = $this->getEntities(
+            [
+                'filter' => [
+                    'force' => $forceFilters,
+                ],
+                'ignore_paginator' => true,
+                'hydration_mode'   => 'hydrate_array',
+            ]
+        );
+        $fieldProperties = [];
+        foreach ($contactFields as $contactField) {
+            $properties   =$contactField['properties'];
+            $list         = $properties['list'];
+            if (is_array($list)) {
+                foreach ($list as $val => $label) {
+                    if (is_array($label) && isset($label['label'])) {
+                        $fieldProperties[$label['value']] = $label['label'];
+                    }
+                }
+            }
+        }
+
+        return $fieldProperties;
+    }
 }
