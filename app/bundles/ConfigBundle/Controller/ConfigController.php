@@ -159,7 +159,11 @@ class ConfigController extends FormController
                             if (isset($object['mailer_api_key'])) {
                                 $object['mailer_password']=$object['mailer_api_key'];
                             }
-                            $analyticsdata[] = ['drip_source', 'drip_medium', 'drip_campaignname', 'drip_content', 'list_source', 'list_medium', 'list_campaignname', 'list_content', 'analytics_status'];
+                            $analyticsdata = ['drip_source', 'drip_medium', 'drip_campaignname', 'drip_content', 'list_source', 'list_medium', 'list_campaignname', 'list_content', 'analytics_status'];
+
+                            if ($key == 'emailconfig' && in_array(key($object), $analyticsdata)) {
+                                continue;
+                            }
 
                             if ($key == 'analyticsconfig' && !in_array(key($object), $analyticsdata)) {
                                 continue;
