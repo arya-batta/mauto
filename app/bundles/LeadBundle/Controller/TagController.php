@@ -3,28 +3,25 @@
  * Created by PhpStorm.
  * User: cratio
  * Date: 15/12/18
- * Time: 12:07 PM
+ * Time: 12:07 PM.
  */
 
 namespace Mautic\LeadBundle\Controller;
 
-
-use Doctrine\ORM\EntityNotFoundException;
 use Mautic\CoreBundle\Controller\FormController;
-use Mautic\LeadBundle\Model\TagModel;
 use Mautic\LeadBundle\Entity\Tag;
+use Mautic\LeadBundle\Model\TagModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
- * Class TagController
- * @package Mautic\LeadBundle\Controller
+ * Class TagController.
  */
 class TagController extends FormController
 {
     /**
      * @param int $page
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function indexAction($page = 1)
@@ -61,7 +58,6 @@ class TagController extends FormController
         $orderBy    = $session->get('mautic.tags.orderby', 't.tag');
         $orderByDir = $session->get('mautic.tags.orderbydir', 'ASC');
 
-
         $filter = [
             'string' => $search,
             'where'  => [
@@ -74,10 +70,9 @@ class TagController extends FormController
         ];
         $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
 
-
         $items = $model->getEntities(
             [
-               'start'      => $start,
+               'start'       => $start,
                 'limit'      => $limit,
                 'filter'     => $filter,
                 'orderBy'    => $orderBy,
@@ -103,7 +98,7 @@ class TagController extends FormController
                 'contentTemplate' => 'MauticLeadBundle:tag:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_tags_index',
-                    'leContent' => 'tag',
+                    'leContent'     => 'tag',
                 ],
             ]);
         }
@@ -111,23 +106,25 @@ class TagController extends FormController
         //set what page currently on so that we can return here after form submission/cancellation
         $session->set('mautic.tags.page', $page);
 
-        $tagIds    = array_keys($items->getIterator()->getArrayCopy());
-        $leadCounts = (!empty($tagIds)) ? $model->getRepository()->getLeadCount($tagIds) : [];
+        $tagIds             = array_keys($items->getIterator()->getArrayCopy());
+        $ActiveleadCounts   = (!empty($tagIds)) ? $model->getRepository()->getLeadCount($tagIds, 'Active') : [];
+        $InactiveleadCounts = (!empty($tagIds)) ? $model->getRepository()->getLeadCount($tagIds, 'InActive') : [];
 
         $allBlockDetails   = $model->getTagBlocks();
 
         $parameters = [
-            'items'           => $items,
-            'leadCounts'      => $leadCounts,
-            'page'            => $page,
-            'limit'           => $limit,
-            'permissions'     => $permissions,
-            'security'        => $this->get('mautic.security'),
-            'tmpl'            => $tmpl,
-            'currentUser'     => $this->user,
-            'searchValue'     => $search,
-            'filter'          => $filter,
-            'allBlockDetails' => $allBlockDetails,
+            'items'             => $items,
+            'ActiveLeadCounts'  => $ActiveleadCounts,
+            'InactiveLeadCounts'=> $InactiveleadCounts,
+            'page'              => $page,
+            'limit'             => $limit,
+            'permissions'       => $permissions,
+            'security'          => $this->get('mautic.security'),
+            'tmpl'              => $tmpl,
+            'currentUser'       => $this->user,
+            'searchValue'       => $search,
+            'filter'            => $filter,
+            'allBlockDetails'   => $allBlockDetails,
         ];
 
         return $this->delegateView([
@@ -136,7 +133,7 @@ class TagController extends FormController
             'passthroughVars' => [
                 'activeLink'    => '#le_tags_index',
                 'route'         => $this->generateUrl('le_tags_index', ['page' => $page]),
-                'leContent' => 'tag',
+                'leContent'     => 'tag',
             ],
         ]);
     }
@@ -144,7 +141,8 @@ class TagController extends FormController
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(){
+    public function newAction()
+    {
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             $this->redirectToPricing();
         }
@@ -158,7 +156,7 @@ class TagController extends FormController
         //set the page we came from
         $page = $this->get('session')->get('mautic.tags.page', 1);
         //set the return URL
-        $returnUrl = $this->generateUrl('le_tags_index', ['page' => $page]);
+        $returnUrl      = $this->generateUrl('le_tags_index', ['page' => $page]);
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -173,7 +171,7 @@ class TagController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
-                    $alies=str_replace(' ','_',$tag->getTag());
+                    $alies=str_replace(' ', '_', $tag->getTag());
                     $tag->setAlias($alies);
                     $model->saveEntity($tag);
                     $this->addFlash('mautic.core.notice.created', [
@@ -184,9 +182,10 @@ class TagController extends FormController
                             'objectId'     => $tag->getId(),
                         ]),
                     ]);
+
                     return $this->postActionRedirect($postActionVars);
                 }
-            }else{
+            } else {
                 return $this->postActionRedirect($postActionVars);
             }
         }
@@ -215,12 +214,14 @@ class TagController extends FormController
     /**
      * @param $objectId
      * @param bool $ignorePost
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($objectId, $ignorePost = false){
+    public function editAction($objectId, $ignorePost = false)
+    {
         /** @var TagModel $model */
         $model = $this->getModel('lead.tag');
-        $tag  = $model->getEntity($objectId);
+        $tag   = $model->getEntity($objectId);
         if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
             return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
         }
@@ -244,7 +245,7 @@ class TagController extends FormController
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($this->isFormValid($form)) {
-                    $alies=str_replace(' ','_',$tag->getTag());
+                    $alies=str_replace(' ', '_', $tag->getTag());
                     $tag->setAlias($alies);
                     //form is valid so process the data
                     $model->saveEntity($tag);
@@ -257,13 +258,14 @@ class TagController extends FormController
                             'objectId'     => $tag->getId(),
                         ]),
                     ]);
-                   // $returnUrl      = $this->generateUrl('le_tags_index');
+                    // $returnUrl      = $this->generateUrl('le_tags_index');
                     return $this->postActionRedirect($postActionVars);
                 }
-            }else{
+            } else {
                 return $this->postActionRedirect($postActionVars);
             }
         }
+
         return $this->delegateView(
             [
                 'viewParameters' => [
@@ -286,9 +288,11 @@ class TagController extends FormController
 
     /**
      * @param $objectId
+     *
      * @return array|JsonResponse|RedirectResponse
      */
-    public function deleteAction($objectId){
+    public function deleteAction($objectId)
+    {
         $page      = $this->get('session')->get('mautic.tags.page', 1);
         $returnUrl = $this->generateUrl('le_tags_index', ['page' => $page]);
         $flashes   = [];
@@ -299,14 +303,14 @@ class TagController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Tag:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_tags_index',
-                'leContent' => 'tag',
+                'leContent'     => 'tag',
             ],
         ];
 
         if ($this->request->getMethod() == 'POST') {
             /** @var TagModel $model */
             $model = $this->getModel('lead.tag');
-            $tag  = $model->getEntity($objectId);
+            $tag   = $model->getEntity($objectId);
 
             if ($tag === null) {
                 $flashes[] = [
@@ -345,7 +349,8 @@ class TagController extends FormController
     /**
      * @return JsonResponse|RedirectResponse
      */
-    public function batchDeleteAction(){
+    public function batchDeleteAction()
+    {
         $page      = $this->get('session')->get('mautic.tags.page', 1);
         $returnUrl = $this->generateUrl('le_tags_index', ['page' => $page]);
         $flashes   = [];
@@ -356,7 +361,7 @@ class TagController extends FormController
             'contentTemplate' => 'MauticLeadBundle:Tag:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_tags_index',
-                'leContent' => 'tag',
+                'leContent'     => 'tag',
             ],
         ];
 
@@ -369,7 +374,7 @@ class TagController extends FormController
             // Loop over the IDs to perform access checks pre-delete
             foreach ($ids as $objectId) {
                 $entity = $model->getEntity($objectId);
-                $repo=$model->getRepository();
+                $repo   =$model->getRepository();
                 $repo->deleteRefLead($objectId);
                 if ($entity === null) {
                     $flashes[] = [
@@ -408,5 +413,4 @@ class TagController extends FormController
             ])
         );
     }
-
 }

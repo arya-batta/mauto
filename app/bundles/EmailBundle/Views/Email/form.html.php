@@ -480,12 +480,6 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 </div>
                             </div>
                             <br>
-                            <div  class="row">
-                                <div class="col-md-12">
-                                    <?php echo $view['form']->row($form['category']); ?>
-                                </div>
-                            </div>
-                            <br>
                             <div class="row">
                                 <div class="col-md-12">
                                     <?php echo $view['form']->row($form['fromName']); ?>
@@ -523,6 +517,12 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                 </div>
                                 <div class="col-md-6 hide">
                                     <?php echo $view['form']->row($form['bccAddress']); ?>
+                                </div>
+                            </div>
+                            <br>
+                            <div  class="row">
+                                <div class="col-md-12">
+                                    <?php echo $view['form']->row($form['category']); ?>
                                 </div>
                             </div>
                             <br>

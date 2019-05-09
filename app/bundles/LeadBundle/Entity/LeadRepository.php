@@ -673,6 +673,9 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             $ids = implode(',', $dncId);
             $q->select('l.*');
             $q->where($q->expr()->in('l.id', $ids));
+        } elseif ($filter->string == 'inactiveleads') {
+            $q->select('l.*');
+            $q->where($q->expr()->in('l.status', ['3', '4', '5', '6']));
         } else {
             return $this->addStandardCatchAllWhereClause($q, $filter, $columns);
         }
@@ -788,6 +791,72 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.list.active'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list.active', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_lists_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_lists',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.alias', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$inExpr('l.status', ['1', '2'])
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.list.inactive'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list.inactive', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_lists_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_lists',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.alias', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$inExpr('l.status', ['3', '4', '5', '6'])
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
             case $this->translator->trans('le.lead.lead.searchcommand.tag'):
             case $this->translator->trans('le.lead.lead.searchcommand.tag', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
@@ -808,6 +877,64 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                     ],
                     $innerJoinTables,
                     $this->generateFilterExpression($q, 'tag.id', $eqExpr, $unique, null),
+                    null,
+                    $filter
+                );
+                $returnParameter = true;
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.tag.active'):
+            case $this->translator->trans('le.lead.lead.searchcommand.tag.active', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_tags_xref',
+                            'alias'      => 'xtag',
+                            'condition'  => 'l.id = xtag.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'xtag',
+                            'table'      => 'lead_tags',
+                            'alias'      => 'tag',
+                            'condition'  => 'xtag.tag_id = tag.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'tag.id', $eqExpr, $unique, null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$inExpr('l.status', ['1', '2'])
+                        )),
+                    null,
+                    $filter
+                );
+                $returnParameter = true;
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.tag.inactive'):
+            case $this->translator->trans('le.lead.lead.searchcommand.tag.inactive', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_tags_xref',
+                            'alias'      => 'xtag',
+                            'condition'  => 'l.id = xtag.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'xtag',
+                            'table'      => 'lead_tags',
+                            'alias'      => 'tag',
+                            'condition'  => 'xtag.tag_id = tag.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'tag.id', $eqExpr, $unique, null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$inExpr('l.status', ['3', '4', '5', '6'])
+                        )),
                     null,
                     $filter
                 );
@@ -1080,6 +1207,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'mautic.core.searchcommand.ismine',
             'le.lead.lead.searchcommand.isunowned',
             'le.lead.lead.searchcommand.list',
+            'le.lead.lead.searchcommand.list.active',
+            'le.lead.lead.searchcommand.list.inactive',
             'le.lead.lead.searchcommand.listoptin',
             'le.lead.lead.searchcommand.listoptin.confirm',
             'le.lead.lead.searchcommand.listoptin.unconfirm',
@@ -1090,6 +1219,9 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.owner',
             'mautic.core.searchcommand.ip',
             'le.lead.lead.searchcommand.tag',
+            'le.lead.lead.searchcommand.tag.active',
+            'le.lead.lead.searchcommand.tag.inactive',
+            'mautic.core.searchcommand.status.inactive',
             'le.lead.lead.searchcommand.stage',
             'le.lead.lead.searchcommand.duplicate',
             'le.lead.lead.searchcommand.drip_scheduled',

@@ -366,6 +366,44 @@ class AccountRepository extends CommonRepository
         return $results[0]['activeleads'];
     }
 
+    public function getLeadsByStatus($status)
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count( l.id) as leadcount')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
+        }
+        $q->andWhere(
+            $q->expr()->eq('l.status', ':status')
+        )->setParameter('status', $status);
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['leadcount'];
+    }
+
+    public function getAllInActiveLeads()
+    {
+        $q = $this->_em->getConnection()->createQueryBuilder();
+        $q->select('count( l.id) as inactiveleads')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        if ($this->currentUser->getId() != 1) {
+            $q->andWhere($q->expr()->neq('l.created_by', ':id'))
+                ->setParameter('id', '1');
+            $q->orWhere($q->expr()->isNull('l.created_by'));
+        }
+        $q->andWhere(
+            $q->expr()->in('l.status', ['3', '4', '5', '6'])
+        );
+        //get a total number of sent emails
+        $results = $q->execute()->fetchAll();
+
+        return $results[0]['inactiveleads'];
+    }
+
     public function getRecentlyAddedLeadsCount()
     {
         $q                   = $this->_em->getConnection()->createQueryBuilder();

@@ -17,14 +17,22 @@ if ($sentcount != 0 && $allleads != 0) {
     $clickpercentage       = round(($click / $sentcount * 100), 2);
     $churnpercentage       = round((($unsubscribecount + $bouncecount + $spamcount) / $sentcount * 100), 2);
 }
-$activepercentage = 0;
-$last7daysactive  = 0;
-$last7daysadded   = 0;
+$activepercentage           = 0;
+$last7daysactive            = 0;
+$last7daysadded             = 0;
+$activeEngagedPercentage    = 0;
+$activeNotEngagedPercentage = 0;
+$inactivePercentage         = 0;
 if ($allleads != 0) {
-    $activepercentage  = round(($activeleads / $allleads * 100), 2);
-    $last7daysactive   = round(($recentactive / $allleads * 100), 2);
-    $last7daysadded    = round(($recentadded / $allleads * 100), 2);
+    $activepercentage           = round(($activeleads / $allleads * 100), 2);
+    $activeEngagedPercentage    = round(($activeengagedleads / $allleads * 100), 2);
+    $activeNotEngagedPercentage = round(($activenotengagedleads / $allleads * 100), 2);
+    $inactivePercentage         = round(($inactiveleads / $allleads * 100), 2);
+    $last7daysactive            = round(($recentactive / $allleads * 100), 2);
+    $last7daysadded             = round(($recentadded / $allleads * 100), 2);
 }
+
+$hide = !$view['security']->isAdmin() ? 'hide' : '';
 ?>
 <br>
 <div class="box-layout">
@@ -38,20 +46,35 @@ if ($allleads != 0) {
                         <span class="email-badge email-badge-orange"><?php echo number_format($allleads)?></span>
                         <?php echo $view['translator']->trans('le.dashboard.total.leads'); ?>
                     </h3>
-                    <br>
-                    <h3 class="h3-stat">
+                    <h3 class="h3-stat <?php echo $hide; ?>">
                         <span class="email-badge email-badge-green"><?php echo $activepercentage?>%</span>
                         <?php echo $view['translator']->trans('le.dashboard.total.active'); ?>
                         <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.total.active.label', ['%COUNT%' => number_format($activeleads)]); ?></span>
                     </h3>
                     <br>
                     <h3 class="h3-stat">
+                        <span class="email-badge email-badge-green"><?php echo $activeEngagedPercentage?>%</span>
+                        <?php echo $view['translator']->trans('le.dashboard.total.active.engaged'); ?>
+                        <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.total.active.engaged.label', ['%COUNT%' => number_format($activeengagedleads)]); ?></span>
+                    </h3>
+                    <br>
+                    <h3 class="h3-stat">
+                        <span class="email-badge email-badge-pink"><?php echo $activeNotEngagedPercentage?>%</span>
+                        <?php echo $view['translator']->trans('le.dashboard.total.active.notengaged'); ?>
+                        <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.total.active.notengaged.label', ['%COUNT%' => number_format($activenotengagedleads)]); ?></span>
+                    </h3>
+                    <br>
+                    <h3 class="h3-stat">
+                        <span class="email-badge email-badge-dark-blue"><?php echo $inactivePercentage?>%</span>
+                        <?php echo $view['translator']->trans('le.dashboard.total.inactive'); ?>
+                        <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.total.inactive.label', ['%INVALID%' => $invalid, '%COMPLAINT%' => $complaint, '%UNSUBSCRIBED%' => $unsubscribed, '%NOTCONFIRMED%' => $notconfirmed]); ?></span>
+                    </h3>
+                    <h3 class="h3-stat <?php echo $hide; ?>">
                         <span class="email-badge email-badge-pink"><?php echo $last7daysadded?>%</span>
                         <?php echo $view['translator']->trans('le.dashboard.recent.added'); ?>
                         <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.recent.added.label', ['%COUNT%' => number_format($recentadded)]); ?></span>
                     </h3>
-                    <br>
-                    <h3 class="h3-stat">
+                    <h3 class="h3-stat <?php echo $hide; ?>">
                         <span class="email-badge email-badge-dark-blue"><?php echo $last7daysactive?>%</span>
                         <?php echo $view['translator']->trans('le.dashboard.recent.active'); ?>
                         <span class="stat-label"><?php echo $view['translator']->trans('le.dashboard.recent.active.label', ['%COUNT%' => number_format($recentactive)]); ?></span>

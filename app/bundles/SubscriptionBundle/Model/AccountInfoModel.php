@@ -107,8 +107,11 @@ class AccountInfoModel extends FormModel
         $chart->setDataset($this->translator->trans('le.dashboard.email.sent.count'), $emailsent);
         $chart->setDataset($this->translator->trans('le.dashboard.email.opened.count'), $emailopen);
         $chart->setDataset($this->translator->trans('le.dashboard.email.click.count'), $emailclick);
-        $chart->setDataset($this->translator->trans('le.dashboard.email.bounced.count'), $emailunsubscribe);
-        $chart->setDataset($this->translator->trans('le.dashboard.email.unsubscribed.count'), $emailbounce);
+
+        if ($this->security->isAdmin()) {
+            $chart->setDataset($this->translator->trans('le.dashboard.email.bounced.count'), $emailunsubscribe);
+            $chart->setDataset($this->translator->trans('le.dashboard.email.unsubscribed.count'), $emailbounce);
+        }
         $chart->setDataset($this->translator->trans('le.dashboard.form.submits'), $formdata);
         $chart->setDataset($this->translator->trans('le.dashboard.asset.downloads'), $assetdata);
 
@@ -135,11 +138,18 @@ class AccountInfoModel extends FormModel
 
     public function getCustomLeadStats()
     {
-        $leadStats                 = [];
-        $leadStats['allleads']     = $this->getRepository()->getTotalAllLeads();
-        $leadStats['activeleads']  = $this->getRepository()->getAllActiveLeads();
-        $leadStats['recentadded']  = $this->getRepository()->getRecentlyAddedLeadsCount();
-        $leadStats['recentactive'] = $this->getRepository()->getRecentActiveLeadCount();
+        $leadStats                          = [];
+        $leadStats['allleads']              = $this->getRepository()->getTotalAllLeads();
+        $leadStats['activeleads']           = $this->getRepository()->getAllActiveLeads();
+        $leadStats['activeengagedleads']    = $this->getRepository()->getLeadsByStatus(2);
+        $leadStats['activenotengagedleads'] = $this->getRepository()->getLeadsByStatus(1);
+        $leadStats['invalid']               = $this->getRepository()->getLeadsByStatus(3);
+        $leadStats['complaint']             = $this->getRepository()->getLeadsByStatus(4);
+        $leadStats['unsubscribed']          = $this->getRepository()->getLeadsByStatus(5);
+        $leadStats['notconfirmed']          = $this->getRepository()->getLeadsByStatus(6);
+        $leadStats['inactiveleads']         = $this->getRepository()->getAllInActiveLeads();
+        $leadStats['recentadded']           = $this->getRepository()->getRecentlyAddedLeadsCount();
+        $leadStats['recentactive']          = $this->getRepository()->getRecentActiveLeadCount();
 
         return $leadStats;
     }

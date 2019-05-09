@@ -7072,7 +7072,10 @@ ol, ul {
   width: inherit !important;
 }
 .col-leadsegment-name{
-  width: 75%;
+  width: 40%;
+}
+.col-lead-width{
+  width: 30%;
 }
 .buttonfooter {
   margin-top: 25px;
@@ -7813,4 +7816,15 @@ ul.list-unstyled, ul#list-unstyled  {
 .btn-disable{
   pointer-events: none;
   background: #f2f2f2;
+}
+
+.import-fileupload-container{
+  margin-left: auto !important;
+  margin-right: auto !important;;
+  padding-left: 5px !important;;
+  padding-right: 5px !important;;
+}
+
+.import-notes-list{
+  font-size: 12px;
 }

@@ -58,7 +58,7 @@ class LeadImportFieldType extends AbstractType
 
         $importChoiceFields = [
             'le.lead.contact'        => $options['lead_fields'],
-            'le.lead.company'        => $options['company_fields'],
+            'le.lead.company'        => $this->factory->getUser()->isAdmin() ? $options['company_fields'] : [],
             'le.lead.special_fields' => $specialFields,
         ];
 

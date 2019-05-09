@@ -13,6 +13,8 @@ $view['slots']->set('leContent', 'leadlist');
 $fields = $form->vars['fields'];
 $id     = $form->vars['data']->getId();
 $index  = count($form['filters']->vars['value']) ? max(array_keys($form['filters']->vars['value'])) : 0;
+$isAdmin= $view['security']->isAdmin();
+$hide   = !$isAdmin ? 'hide' : '';
 
 if (!empty($id)) {
     $name   = $form->vars['data']->getName();
@@ -87,15 +89,15 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
                             <div class="col-md-6">
                                 <?php echo $view['form']->row($form['name']); ?>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 <?php echo $hide; ?>">
                                 <?php echo $view['form']->row($form['isPublished']); ?>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 hide">
+                            <div class="col-md-6 <?php echo $hide; ?>">
                                 <?php echo $view['form']->row($form['isGlobal']); ?>
                             </div>
-                            <div class="col-md-6 hide">
+                            <div class="col-md-6 <?php echo $hide; ?>">
                                 <?php echo $view['form']->row($form['alias']); ?>
                             </div>
                         </div>

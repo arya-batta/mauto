@@ -124,22 +124,24 @@ class ListController extends FormController
         //set what page currently on so that we can return here after form submission/cancellation
         $session->set('mautic.segment.page', $page);
 
-        $listIds    = array_keys($items->getIterator()->getArrayCopy());
-        $leadCounts = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds) : [];
+        $listIds            = array_keys($items->getIterator()->getArrayCopy());
+        $ActiveleadCounts   = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds, 'Active') : [];
+        $InactiveleadCounts = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds, 'InActive') : [];
 
         $allBlockDetails   = $model->getSegmentBlocks();
 
         $parameters = [
-            'items'           => $items,
-            'leadCounts'      => $leadCounts,
-            'page'            => $page,
-            'limit'           => $limit,
-            'permissions'     => $permissions,
-            'security'        => $this->get('mautic.security'),
-            'tmpl'            => $tmpl,
-            'currentUser'     => $this->user,
-            'searchValue'     => $search,
-            'allBlockDetails' => $allBlockDetails,
+            'items'             => $items,
+            'ActiveLeadCounts'  => $ActiveleadCounts,
+            'InactiveLeadCounts'=> $InactiveleadCounts,
+            'page'              => $page,
+            'limit'             => $limit,
+            'permissions'       => $permissions,
+            'security'          => $this->get('mautic.security'),
+            'tmpl'              => $tmpl,
+            'currentUser'       => $this->user,
+            'searchValue'       => $search,
+            'allBlockDetails'   => $allBlockDetails,
         ];
 
         return $this->delegateView([
