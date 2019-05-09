@@ -1740,13 +1740,17 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
      *
      * @return array
      */
-    public function checkUniqueEmail($email)
+    public function checkUniqueEmail($email, $id)
     {
         $q      = $this->createQueryBuilder('l');
         $result = [];
         if (!empty($email)) {
             $q->where('l.email = :email')
                 ->setParameter('email', $email);
+            if ($id != null) {
+                $q->andWhere('l.id != :id')
+                    ->setParameter('id', $id);
+            }
             $result = $q->getQuery()->getResult();
         }
 

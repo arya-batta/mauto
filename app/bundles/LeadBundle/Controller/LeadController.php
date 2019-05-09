@@ -1092,7 +1092,7 @@ class LeadController extends FormController
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form) && $this->validateEmailUnique($form)) {
+                if ($valid = $this->isFormValid($form) && $this->validateEmailUnique($form, $lead->getId())) {
                     $data = $this->request->request->get('lead');
                     if ($data['email'] == '') {
                         $form['email']->addError(
@@ -3053,13 +3053,13 @@ class LeadController extends FormController
         return false;
     }
 
-    public function validateEmailUnique($form)
+    public function validateEmailUnique($form, $id=null)
     {
         $isValidForm = true;
         $formData    = $this->request->request->get('lead');
         $model       = $this->getModel('lead');
         $leadrepo    = $model->getRepository();
-        if (!empty($formData['email']) && $leadrepo->checkUniqueEmail($formData['email'])) {
+        if (!empty($formData['email']) && $leadrepo->checkUniqueEmail($formData['email'], $id)) {
             $isValidForm = false;
             $form['email']->addError(new FormError($this->translator->trans('le.lead.email.unique', [], 'validators')));
         }
