@@ -8,12 +8,13 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
-$template       = '<div class="col-md-6">{content}</div>';
-$toggleTemplate = '<div class="col-md-6">{content}</div>';
-$properties     = (isset($form['properties'])) ? $form['properties'] : [];
-$showAttributes = isset($form['labelAttributes']) || isset($form['inputAttributes']) || isset($form['containerAttributes']) || isset($properties['labelAttributes']) || isset($form['alias']);
-$showBehavior   = isset($form['showWhenValueExists']) || isset($properties['showWhenValueExists']);
-$placeholder    = '';
+$template               = '<div class="col-md-6">{content}</div>';
+$gcaptchatemplate       = '<div class="col-md-12">{content}</div>';
+$toggleTemplate         = '<div class="col-md-6">{content}</div>';
+$properties             = (isset($form['properties'])) ? $form['properties'] : [];
+$showAttributes         = isset($form['labelAttributes']) || isset($form['inputAttributes']) || isset($form['containerAttributes']) || isset($properties['labelAttributes']) || isset($form['alias']);
+$showBehavior           = isset($form['showWhenValueExists']) || isset($properties['showWhenValueExists']);
+$placeholder            = '';
 if (isset($properties['placeholder'])):
     $placeholder = $view['form']->rowIfExists($properties, 'placeholder', $template);
     unset($properties['placeholder']);
@@ -41,12 +42,17 @@ endif;
 // Check for validation errors to show on tabs
 $generalTabError    = (isset($form['label']) && ($view['form']->containsErrors($form['label'])));
 $propertiesTabError = (isset($form['properties']) && ($view['form']->containsErrors($form['properties'])));
-$gdprRestriction    = '';
+$showGDPRPanel      = false;
 if (isset($form->vars['value']['leadField'])) {
-    $gdprRestriction = $form->vars['value']['leadField'] == 'eu_gdpr_consent' ? 'hide' : '';
+    $showGDPRPanel = $form->vars['value']['leadField'] == 'eu_gdpr_consent' ? true : false;
 }
-$hideOptionList = !empty($gdprRestriction) ? '' : 'hide';
-$html           = '<div class="form-group col-xs-12 ">
+$fieldType='';
+if (isset($form->vars['value']['type'])) {
+    $fieldType = $form->vars['value']['type'];
+}
+$showGCaptchaPanel=$fieldType == 'gcaptcha';
+$hideOptionList   = !$showGDPRPanel ? '' : 'hide';
+$html             = '<div class="form-group col-xs-12 ">
 <label class="control-label required" for="formfield_label">Content</label> 
 <input type="text" id="default-optionlist" name="formfield[properties][optionlist][list][0][label]" class="form-control sortable-label le-input" placeholder="Label" autocomplete="false" required>
 <input type="text" name="formfield[properties][optionlist][list][0][value]" class="form-control sortable-value le-input hide" placeholder="Value" autocomplete="false" value="Granted"></div> ';
@@ -61,7 +67,7 @@ $html           = '<div class="form-group col-xs-12 ">
     <?php echo $view['form']->start($form); ?>
 
     <div role="tabpanel">
-        <ul class="nav nav-tabs hide <?php echo $gdprRestriction; ?>" role="tablist">
+        <ul class="nav nav-tabs hide" role="tablist">
             <li role="presentation" class="active">
                 <a<?php if ($generalTabError) {
     echo ' class="text-danger" ';
@@ -114,7 +120,7 @@ $html           = '<div class="form-group col-xs-12 ">
             </li>
             <?php endif; ?>
         </ul>
-        <div class="tab-content pa-lg <?php echo $gdprRestriction ? '' : 'hide'; ?>">
+        <div class="tab-content pa-lg  <?php echo $showGDPRPanel ? '' : 'hide'; ?>">
             <div role="tabpanel" class="tab-pane active">
                 <div class="row">
                     <div class="col-md-12">
@@ -124,50 +130,62 @@ $html           = '<div class="form-group col-xs-12 ">
                 </div>
             </div>
         </div>
+        <?php if ($showGCaptchaPanel): ?>
+            <div class="tab-content pa-lg">
+                <div role="tabpanel" class="tab-pane active">
+                    <div class="row">
+                        <?php echo $view['form']->rowIfExists($form, 'label', $gcaptchatemplate); ?>
+                    </div>
+                    <div class="row">
+                        <?php echo $view['form']->rowIfExists($form, 'validationMessage', $gcaptchatemplate); ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
         <!-- Tab panes -->
-        <div class="tab-content pa-lg <?php echo $gdprRestriction; ?>">
+        <div class="tab-content pa-lg <?php echo $showGCaptchaPanel || $showGDPRPanel ? 'hide' : ''; ?>">
             <div role="tabpanel" class="tab-pane active" id="general">
-               <div class="row">
+                    <div class="row">
                     <?php echo $view['form']->rowIfExists($form, 'label', $template); ?>
                     <?php if (isset($form['leadField'])): ?>
 
-                     <div class="col-md-6">
-                         <label class="control-label" for="formfield_label">Lead Field</label>
-                        <?php $fieldGroups = $form['leadField']->vars['choices'];
-                        $data              = $form['leadField']->vars['data'];
-                        ?>
-                        <select id="formfield_leadField" name="formfield[leadField]" class="form-control" autocomplete="false" style="display: none;">
-                            <option value=""></option>
-                            <?php
-                            foreach ($fieldGroups as $object => $group):
-                                $header = $object;
-                                $icon   = ($object == 'company') ? 'building' : 'user';
-                                ?>
-                                <optgroup label="<?php echo $view['translator']->trans('le.lead.'.$header); ?>">
-                                    <?php
-                                    foreach ($group->choices as $subGroup => $fields):
-                                        foreach ($fields->choices as $field) :
-                                            $attr       = (!empty($field->attr)) ? $field->attr : [];
-                                            $attrString = '';
-                                            foreach ($attr as $k => $v) {
-                                                $attrString .= $k.'="'.preg_replace('/"/', '&quot;', $v).'" ';
-                                            }
-                                            $label = $field->label;
-                                            $value = $field->value;
-                                            ?>
-                                            <option value="<?php echo $view->escape($value) ?>" class="segment-filter <?php echo $icon; ?>" <?php if ($data === $value) {
-                                                echo 'Selected';
-                                            } ?> <?php echo $attrString; ?> ><?php echo $label; ?></option>
+                        <div class="col-md-6">
+                            <label class="control-label" for="formfield_label">Lead Field</label>
+                            <?php $fieldGroups = $form['leadField']->vars['choices'];
+                            $data              = $form['leadField']->vars['data'];
+                            ?>
+                            <select id="formfield_leadField" name="formfield[leadField]" class="form-control" autocomplete="false" style="display: none;">
+                                <option value=""></option>
+                                <?php
+                                foreach ($fieldGroups as $object => $group):
+                                    $header = $object;
+                                    $icon   = ($object == 'company') ? 'building' : 'user';
+                                    ?>
+                                    <optgroup label="<?php echo $view['translator']->trans('le.lead.'.$header); ?>">
+                                        <?php
+                                        foreach ($group->choices as $subGroup => $fields):
+                                            foreach ($fields->choices as $field) :
+                                                $attr       = (!empty($field->attr)) ? $field->attr : [];
+                                                $attrString = '';
+                                                foreach ($attr as $k => $v) {
+                                                    $attrString .= $k.'="'.preg_replace('/"/', '&quot;', $v).'" ';
+                                                }
+                                                $label = $field->label;
+                                                $value = $field->value;
+                                                ?>
+                                                <option value="<?php echo $view->escape($value) ?>" class="segment-filter <?php echo $icon; ?>" <?php if ($data === $value) {
+                                                    echo 'Selected';
+                                                } ?> <?php echo $attrString; ?> ><?php echo $label; ?></option>
+                                            <?php endforeach; ?>
                                         <?php endforeach; ?>
-                                    <?php endforeach; ?>
-                                </optgroup>
-                            <?php endforeach; ?>
-                        </select>
-                        <?php unset($form['leadField']); ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-                <?php if (isset($form['isRequired'])): ?>
+                                    </optgroup>
+                                <?php endforeach; ?>
+                            </select>
+                            <?php unset($form['leadField']); ?>
+                        </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($form['isRequired'])): ?>
                         <div class="row">
 
                             <?php echo $view['form']->rowIfExists($form, 'isRequired', $toggleTemplate); ?>
@@ -175,31 +193,28 @@ $html           = '<div class="form-group col-xs-12 ">
                             <?php echo $view['form']->rowIfExists($form, 'validationMessage', $template); ?>
 
                         </div>
-                <?php endif; ?>
-                <div class="row">
+                    <?php endif; ?>
+                    <div class="row">
 
-                    <?php echo $view['form']->rowIfExists($form, 'showLabel', $toggleTemplate); ?>
+                        <?php echo $view['form']->rowIfExists($form, 'showLabel', $toggleTemplate); ?>
 
-                    <?php echo $view['form']->rowIfExists($form, 'helpMessage', $template); ?>
+                        <?php echo $view['form']->rowIfExists($form, 'helpMessage', $template); ?>
 
-                </div>
-                <div class="row">
+                    </div>
+                    <div class="row">
 
-                    <?php echo $placeholder; ?>
+                        <?php echo $placeholder; ?>
 
-                    <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
+                        <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
 
-                </div>
-                <?php echo $view['form']->rowIfExists($form, 'btnbgcolor', $template); ?>
-                <?php echo $view['form']->rowIfExists($form, 'btntxtcolor', $template); ?>
-              <div class="row">
+                    </div>
+                    <?php echo $view['form']->rowIfExists($form, 'btnbgcolor', $template); ?>
+                    <?php echo $view['form']->rowIfExists($form, 'btntxtcolor', $template); ?>
+                    <div class="row">
 
-                    <?php echo $view['form']->rowIfExists($form, 'saveResult', $toggleTemplate); ?>
-                    <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
-
-
-                </div>
-
+                        <?php echo $view['form']->rowIfExists($form, 'saveResult', $toggleTemplate); ?>
+                        <?php echo $view['form']->rowIfExists($form, 'defaultValue', $template); ?>
+                    </div>
             </div>
             <?php if ($showProperties): ?>
                 <?php echo $view['form']->errors($form['properties']); ?>

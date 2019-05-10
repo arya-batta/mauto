@@ -91,6 +91,8 @@ class FieldController extends CommonFormController
                     // Force required for captcha if not a honeypot
                     if ($formField['type'] == 'captcha') {
                         $formField['isRequired'] = !empty($formField['properties']['captcha']);
+                    } elseif ($formField['type'] == 'gcaptcha') {
+                        $formField['isRequired'] = true;
                     }
 
                     // Add it to the next to last assuming the last is the submit button
@@ -239,6 +241,8 @@ class FieldController extends CommonFormController
                         // Force required for captcha if not a honeypot
                         if ($formField['type'] == 'captcha') {
                             $formField['isRequired'] = !empty($formField['properties']['captcha']);
+                        } elseif ($formField['type'] == 'gcaptcha') {
+                            $formField['isRequired'] = true;
                         }
 
                         $fields[$objectId] = $formField;

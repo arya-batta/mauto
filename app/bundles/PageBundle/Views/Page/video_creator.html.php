@@ -42,7 +42,7 @@
                             <h3 class="pt-lg"><?php echo $view['translator']->trans(
                                     'le.plugins.page.generate.html.code'
                                 ); ?></h3>
-                            <textarea style="height: 113px;max-height: 113px;" id="iframe_textarea_videopage" class="form-control" readonly onclick="Le.copytoClipboardforms(this);"></textarea>
+                            <textarea style="height: 113px;max-height: 113px;" id="iframe_textarea_videopage" class="form-control" readonly"></textarea>
                             <a id="iframe_textarea_atag" onclick="Le.copytoClipboardforms('iframe_textarea_videopage');"><i aria-hidden="true" class="fa fa-clipboard"></i>
                                 <?php echo $view['translator']->trans(
                                     'leadsengage.subs.clicktocopy'

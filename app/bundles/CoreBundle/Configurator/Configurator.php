@@ -187,6 +187,8 @@ class Configurator
             'facebook_app_id',
             'facebook_app_secret',
             'facebook_oauth_callback',
+            'gcaptcha_site_key',
+            'gcaptcha_secret_key',
         ];
         for ($i = 0; $i < sizeof($unset); ++$i) {
             if (isset($this->parameters[$unset[$i]])) {

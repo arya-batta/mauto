@@ -415,7 +415,7 @@ $isadmin     =$view['security']->isAdmin();
                             <h3 style="margin-bottom: 4px;"><?php echo $view['translator']->trans(
                                     'mautic.form.form.help.automaticcopy.iframe'
                                 ); ?></h3>
-                            <textarea id="iframe_textarea" style="min-height: 93px;"class="form-control" readonly onclick="Le.copytoClipboardforms(this);">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
+                            <textarea id="iframe_textarea" style="min-height: 93px;"class="form-control" readonly">&lt;iframe style="border: 0px solid;" src="<?php echo $view['router']->url(
                                     'le_form_preview',
                                     ['id' => $activeForm->getId()]
                                 ); ?>" width="350" height="350"&gt;&lt;p&gt;Your browser does not support iframes.&lt;/p&gt;&lt;/iframe&gt;</textarea>

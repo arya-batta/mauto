@@ -100,6 +100,9 @@ class PublicController extends CommonFormController
                 } elseif ($status != 'published') {
                     $error = $translator->trans('mautic.form.submit.error.unavailable', [], 'flashes');
                 } else {
+                    if ($form->isGoogleCaptchaProtected()) {
+                        $post['g-recaptcha-response']= $this->request->request->get('g-recaptcha-response', '');
+                    }
                     $result = $this->getModel('form.submission')->saveSubmission($post, $server, $form, $this->request, true);
 
                     if (!empty($result['errors'])) {
