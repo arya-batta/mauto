@@ -354,3 +354,9 @@ ul.tag-cloud li {
     color:#FFFFFF;
     right: -20px;
 }
+.col-listoptin-name{
+    width:50%;
+}
+.col-listoptin-active{
+    width:15%;
+}

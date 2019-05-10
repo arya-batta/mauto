@@ -91,9 +91,11 @@ class FormSubscriber extends CommonSubscriber
         //add to lead listoptin
         $action = [
             'group'             => 'le.lead.lead.submitaction',
-            'label'             => 'le.lead.list.optin.events.changelist',
+            'label'             => 'le.lead.list.optin.events.form.changelist',
             'description'       => 'le.lead.list.optin.events.changelist_descr',
             'formType'          => 'leadlistoptin_action',
+            'formTypeOptions'   => ['isForm' => true],
+            'formTheme'         => 'MauticLeadBundle:FormTheme\\FormActionChangeLists',
             'callback'          => '\Mautic\LeadBundle\Helper\FormEventHelper::changeListOptins',
             'allowCampaignForm' => true,
         ];

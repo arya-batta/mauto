@@ -316,7 +316,7 @@ class FormFieldHelper extends AbstractFormFieldHelper
 
     public function getStatusColors($index = 0)
     {
-        $statuscolors = ['', '#3292e0', '#5cb45b', '#f7b543', '#f03154', '#f03154', '#f03154'];
+        $statuscolors = ['', '#3292e0', '#5cb45b', '#f03154', '#f03154', '#f03154', '#f7b543'];
 
         return $statuscolors[$index];
     }

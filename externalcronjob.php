@@ -90,6 +90,10 @@ try {
                 $fcolname = 'f23';
             } elseif ($operation == 'le:dripemail:rebuild') {
                 $fcolname = 'f22';
+            } elseif ($operation == 'le:score:update') {
+                $fcolname = 'f24';
+            } elseif ($operation == 'le:listoptin:resend') {
+                $fcolname = 'f25';
             }
         } else {
             exit('Please Configure Valid Parameter');

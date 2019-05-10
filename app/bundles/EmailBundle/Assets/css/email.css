@@ -159,6 +159,18 @@
     -webkit-box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
 }
+.listoptin-template-content{
+    padding: 26px;
+    padding-right: 36px;
+    display: block;
+    background: none;
+    width: 87%;
+    align-items: center;
+    margin-top: 12px;
+    border: 1px solid #ebedf0;
+    -webkit-box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.1);
+}
 .dashboard-step-img{
     width: 67px;
     height: 67px;

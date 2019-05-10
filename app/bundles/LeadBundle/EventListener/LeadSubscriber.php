@@ -22,6 +22,7 @@ use Mautic\LeadBundle\Event as Events;
 use Mautic\LeadBundle\Helper\LeadChangeEventDispatcher;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\ChannelTimelineInterface;
+use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListOptInModel;
 
 /**
@@ -802,50 +803,26 @@ class LeadSubscriber extends CommonSubscriber
     public function LeadListSendEmail(Events\LeadListOptInEvent $event)
     {
         $list          = $event->getList();
-        $isdoubleOptin = $list->getListtype() == 'single' ? false : true;
-        $emailId       = $list->getThankyouemail();
-
+        $isdoubleOptin = $list->getListtype();
         if ($isdoubleOptin) {
-            $emailId = $list->getDoubleoptinemail();
-        } elseif (!$list->getThankyou()) {
-            return;
-        }
-        if (!empty($emailId)) {
-            /** @var EmailModel $emailModel */
-            $emailModel = $this->factory->getModel('email');
-            $email      = $emailModel->getEntity($emailId);
             /** @var ListOptInModel $listoptinmodel */
             $listoptinmodel = $this->factory->getModel('lead.listoptin');
+            /** @var LeadModel $leadmodel */
+            $leadmodel = $this->factory->getModel('lead');
             if (!$event->isBulkOperation()) {
-                $lead          = $event->getLeadFields();
-                $this->scheduleListOptInEmail($list, $lead, $email, $emailModel, $listoptinmodel);
+                $lead          = $event->getLead();
+                $lead->setStatus(6); // Not Confirmed
+                $leadmodel->saveEntity($lead);
+                $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());
+                $listoptinmodel->scheduleListOptInEmail($list, $lead, $listLead);
             } else {
-                $bulkLeads=$event->getBulkLeads();
+                /*$bulkLeads=$event->getBulkLeads();
                 foreach ($bulkLeads as $lead) {
-                    $this->scheduleListOptInEmail($list, $lead, $email, $emailModel, $listoptinmodel);
-                }
+                    $this->scheduleListOptInEmail($list, $lead, $listoptinmodel);
+                }*/
             }
             unset($email);
         }
-    }
-
-    public function scheduleListOptInEmail($listoptin, $lead, $email, $emailModel, $listoptinmodel)
-    {
-        $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead['id'], $listoptin->getId());
-        if ($email !== null && $email->getIsPublished()) {
-            $tmpEmailHtml=$email->getCustomHtml();
-            $customHtml  = $listoptinmodel->replaceTokens($email->getCustomHtml(), $lead, $listLead, $listoptin);
-            $email->setCustomHtml($customHtml);
-            $emailModel->sendEmail($email, $lead);
-            $email->setCustomHtml($tmpEmailHtml);
-        }
-        /*if(!$isdoubleOptin && $list->isGoodbye()){
-            $goodbyeemail  = $list->getGoodbyeemail();
-            if(!empty($goodbyeemail)) {
-                $goodbyeemail = $emailModel->getEntity($goodbyeemail);
-                $emailModel->sendEmail($goodbyeemail, $lead);
-            }
-        }*/
     }
 
     /**

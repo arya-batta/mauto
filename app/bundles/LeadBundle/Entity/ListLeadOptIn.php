@@ -64,6 +64,11 @@ class ListLeadOptIn
      */
     private $unsubscribedLead;
 
+    /*
+     *@var bool
+     */
+    private $isrescheduled;
+
     /**
      * @param ORM\ClassMetadata $metadata
      */
@@ -103,6 +108,10 @@ class ListLeadOptIn
 
         $builder->createField('unsubscribedLead', 'boolean')
             ->columnName('unsubscribed_lead')
+            ->build();
+
+        $builder->createField('isrescheduled', 'boolean')
+            ->columnName('isrescheduled')
             ->build();
     }
 
@@ -264,5 +273,21 @@ class ListLeadOptIn
     public function setUnsubscribedLead($unsubscribedLead)
     {
         $this->unsubscribedLead = $unsubscribedLead;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsrescheduled()
+    {
+        return $this->isrescheduled;
+    }
+
+    /**
+     * @param mixed $isrescheduled
+     */
+    public function setIsrescheduled($isrescheduled)
+    {
+        $this->isrescheduled = $isrescheduled;
     }
 }

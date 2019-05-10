@@ -404,6 +404,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'           => 'le.lead.list.optin.events.changelist',
             'description'     => 'le.lead.list.optin.events.changelist_descr',
             'formType'        => 'leadlistoptin_action',
+            'formTypeOptions' => ['isForm' => false],
             'eventName'       => LeadEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 7,
             'group'           => 'le.campaign.event.group.name.leadsengage',

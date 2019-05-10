@@ -13,7 +13,6 @@ namespace Mautic\LeadBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Mautic\CoreBundle\Controller\FormController;
-use Mautic\EmailBundle\Entity\Email;
 use Mautic\LeadBundle\Entity\LeadList;
 use Mautic\LeadBundle\Entity\LeadListOptIn;
 use Mautic\LeadBundle\Model\ListOptInModel;
@@ -123,6 +122,8 @@ class ListOptInController extends FormController
         $confirmedCounts    = (!empty($listIds)) ? $model->getRepository()->getStatusWiseLeadCount($listIds, 'confirmed_lead') : [];
         $unConfirmedCounts  = (!empty($listIds)) ? $model->getRepository()->getStatusWiseLeadCount($listIds, 'unconfirmed_lead') : [];
         $unSubscribedCounts = (!empty($listIds)) ? $model->getRepository()->getStatusWiseLeadCount($listIds, 'unsubscribed_lead') : [];
+        $ActiveleadCounts   = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds, 'Active') : [];
+        $InactiveleadCounts = (!empty($listIds)) ? $model->getRepository()->getLeadCount($listIds, 'InActive') : [];
 
         $allBlockDetails   = $model->getListOptinsBlocks();
 
@@ -132,6 +133,8 @@ class ListOptInController extends FormController
             'confirmedCounts'    => $confirmedCounts,
             'unConfirmedCounts'  => $unConfirmedCounts,
             'unSubscribedCounts' => $unSubscribedCounts,
+            'ActiveLeadCounts'   => $ActiveleadCounts,
+            'InactiveLeadCounts' => $InactiveleadCounts,
             'page'               => $page,
             'limit'              => $limit,
             'permissions'        => $permissions,
@@ -175,8 +178,12 @@ class ListOptInController extends FormController
         $action    = $this->generateUrl('le_listoptin_action', ['objectAction' => 'new']);
         $list->setThankyou(false);
         $list->setGoodbye(false);
+        $list->setListtype(false);
+        $list->setResend(false);
+        $messageContent = $model->getDefaultMailBodyContent();
         //get the user form factory
         $list->setCreatedBy($this->user);
+        $list->setMessage($messageContent);
         $list->setFooterText($this->translator->trans('le.lead.list.optin.default.footer_text'));
         $form = $model->createForm($list, $this->get('form.factory'), $action);
         ///Check for a submitted form and process it
@@ -217,8 +224,9 @@ class ListOptInController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'form'   => $form->createView(),
-                'entity' => $list,
+                'form'     => $form->createView(),
+                'security' => $this->get('mautic.security'),
+                'entity'   => $list,
             ],
             'contentTemplate' => 'MauticLeadBundle:ListOptIn:form.html.php',
             'passthroughVars' => [
@@ -331,9 +339,9 @@ class ListOptInController extends FormController
         if (!$ignorePost && $this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
                 $formData = $this->request->request->get('leadlistoptin');
-                if (!empty($formData['footerText'])) {
-                    $list->setFooterText($formData['footerText']);
-                }
+                //if (!empty($formData['footerText'])) {
+                //    $list->setFooterText($formData['footerText']);
+                //}
                 if ($this->isFormValid($form) && $this->validateListoptinForm($form)) {
                     //form is valid so process the data
                     $listmodel->saveEntity($list, $form->get('buttons')->get('save')->isClicked());
@@ -391,6 +399,7 @@ class ListOptInController extends FormController
             'viewParameters' => [
                 'form'          => $form->createView(),
                 'currentListId' => $list->getId(),
+                'security'      => $this->get('mautic.security'),
                 'entity'        => $list,
             ],
             'contentTemplate' => 'MauticLeadBundle:ListOptIn:form.html.php',
@@ -590,49 +599,41 @@ class ListOptInController extends FormController
     {
         $isValidForm = true;
         $formData    = $this->request->request->get('leadlistoptin'); //$form->getData();
-        if ($formData['thankyou'] && empty($formData['thankyouemail'])) {
+        /*if ($formData['thankyou'] && empty($formData['thankyouemail'])) {
             $isValidForm = false;
             $form['thankyouemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
         }
         if ($formData['goodbye'] && empty($formData['goodbyeemail'])) {
             $isValidForm = false;
             $form['goodbyeemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
-        }
-        if ($formData['listtype'] != 'single' && empty($formData['doubleoptinemail'])) {
+        }*/
+        if ($formData['listtype'] && empty($formData['message'])) {
             $isValidForm = false;
-            $form['doubleoptinemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
+            $form['message']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
         }
-        if ($formData['listtype'] != 'single' && !empty($formData['doubleoptinemail'])) {
-            $emailid    = $formData['doubleoptinemail'];
-            $tokenvalue = '{{confirmation_link}}';
+        if ($formData['listtype'] && !empty($formData['message'])) {
+            $emailcontent    = $formData['message'];
+            $tokenvalue      = '{{confirmation_link}}';
 
-            if ($emailid == '') {
-                return $isValidForm;
-            }
-            /** @var Email */
-            $email      = $this->getModel('email')->getEntity($emailid);
-
-            if ((strpos($email->getCustomHtml(), $tokenvalue) !== false)) {
-                return $isValidForm;
+            if ((strpos($emailcontent, $tokenvalue) !== false)) {
+                $isValidForm = true;
             } else {
                 $isValidForm = false;
-                $form['doubleoptinemail']->addError(new FormError($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation Link'])));
+                $form['message']->addError(new FormError($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation Link'])));
             }
         }
-        /*if ($eventType == 'source' && $type == 'pagehit') {
-            if (empty($formData['properties']['pages']) && empty($formData['properties']['url']) && empty($formData['properties']['referer'])) {
-                $form['properties']['pages']->addError(
-                    new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
-                );
-                $form['properties']['url']->addError(
-                    new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
-                );
-                $form['properties']['referer']->addError(
-                    new FormError($this->translator->trans('mautic.core.value.required', [], 'validators'))
-                );
-                $isValidForm = false;
-            }
-        }*/
+        if ($formData['listtype'] && empty($formData['subject'])) {
+            $isValidForm = false;
+            $form['subject']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
+        }
+        if ($formData['listtype'] && empty($formData['fromname'])) {
+            $isValidForm = false;
+            $form['fromname']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
+        }
+        if ($formData['listtype'] && empty($formData['fromaddress'])) {
+            $isValidForm = false;
+            $form['fromaddress']->addError(new FormError($this->translator->trans('le.lead.list.optin.required', [])));
+        }
 
         return $isValidForm;
     }

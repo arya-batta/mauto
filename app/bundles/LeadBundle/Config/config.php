@@ -714,6 +714,7 @@ return [
                 'class'     => 'Mautic\LeadBundle\Form\Type\ListOptInType',
                 'arguments' => [
                     'translator',
+                    'mautic.factory',
                 ],
                 'alias' => 'leadlistoptin',
             ],

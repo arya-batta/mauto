@@ -310,8 +310,8 @@ $view['slots']->set(
                                         <br>
                                     </div>
                                 </div>
-                                <div class="row hide">
-                                    <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
                                         <?php $count  =  0; ?>
                                         <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.lists.belongsto'); ?></h6>
@@ -325,43 +325,24 @@ $view['slots']->set(
                                             <?php endforeach; ?></div>
                                         <div class="clearfix"></div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
+                                        <?php $count  =  0; ?>
+                                        <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
+                                        <div class="leadprofile">
+                                            <?php foreach ($segmentName as $segment): ?>
+                                                <?php if ($count == 7):
+                                                    $count=0;
+                                                endif; ?>
+                                                <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $segment['name']; ?></span></h5>
+                                                <?php ++$count; ?>
+                                            <?php endforeach; ?></div>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
-                                  <div class="row">
-                                      <div class="col-md-6">
-                                          <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
-                                          <?php $count  =  0; ?>
-                                          <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
-                                          <div class="leadprofile">
-                                              <?php foreach ($segmentName as $segment): ?>
-                                                  <?php if ($count == 7):
-                                                      $count=0;
-                                                  endif; ?>
-                                                  <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $segment['name']; ?></span></h5>
-                                                  <?php ++$count; ?>
-                                              <?php endforeach; ?></div>
-                                          <div class="clearfix"></div>
-                                      </div>
-                                      <div class="col-md-6">
-                                          <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; ?>
-                                          <?php $tags   = $lead->getTags(); ?>
-                                          <?php $count  =  0; ?>
-                                          <h6 class="fw-b">
-                                              <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
-                                          <div class="leadprofile">
-                                              <?php foreach ($tags as $tag): ?>
-                                                  <?php if ($count == 7):
-                                                      $count=0;
-                                                  endif; ?>
-                                                  <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
-                                                  </h5>
-                                                  <?php ++$count; ?>
-                                              <?php endforeach; ?></div>
-                                          <div class="clearfix"></div>
-                                      </div>
-                                  </div>
                                   <br>
                                   <div class="row" >
-                                      <div class="col-md-12">
+                                      <div class="col-md-6">
                                           <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
                                           <div class="lead_page_hit_url_div">
                                               <?php if (!empty($pageHitDetails)): ?>
@@ -380,6 +361,23 @@ $view['slots']->set(
                                                   <div class="clearfix"></div>
                                               <?php endif; ?>
                                           </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; ?>
+                                          <?php $tags   = $lead->getTags(); ?>
+                                          <?php $count  =  0; ?>
+                                          <h6 class="fw-b">
+                                              <?php echo $view['translator']->trans('le.lead.field.tags.applied'); ?></h6>
+                                          <div class="leadprofile">
+                                              <?php foreach ($tags as $tag): ?>
+                                                  <?php if ($count == 7):
+                                                      $count=0;
+                                                  endif; ?>
+                                                  <h5 class="pull-left mt-xs mr-xs"><span class="label label-primary" style="background-color:<?php echo $colors[$count] ?>"><?php echo $tag->getTag(); ?></span>
+                                                  </h5>
+                                                  <?php ++$count; ?>
+                                              <?php endforeach; ?></div>
+                                          <div class="clearfix"></div>
                                       </div>
                                   </div>
                               </div>

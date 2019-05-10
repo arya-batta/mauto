@@ -70,7 +70,7 @@
                 for (k in tokens) {
                     if(location.href.match(/(email|dwc|config|drip|leads|broadcast)/i)){
                         if(location.href.match(/(notificationemails)/i)){
-                            if((k.match(/list_unsubscribe_link/i))){
+                            if((k.match(/list_unsubscribe_link/i)) || (k.match(/confirmation_link/i))){
                                 continue;
                             }
                         } else {
@@ -79,6 +79,10 @@
                             }
                         }
 
+                    } else if(location.href.match(/(list)/i)) {
+                        if ((k.match(/list_unsubscribe_link/i))) {
+                            continue;
+                        }
                     }
                     if (tokens.hasOwnProperty(k)) {
                         keys.push(k);

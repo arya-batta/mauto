@@ -50,8 +50,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'sessionVar' => 'listoptin',
                         'orderBy'    => 'l.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-leadlist-name',
-                        'default'    => true,
+                        'class'      => 'col-leadlist-name col-listoptin-name',
                     ]
                 );
 
@@ -61,7 +60,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'sessionVar' => 'listoptin',
                         'orderBy'    => 'l.listtype',
                         'text'       => 'le.lead.list.optin.thead.type',
-                        'class'      => 'visible-md visible-lg text-center',
+                        'class'      => 'visible-md visible-lg text-center col-listoptin-active',
                     ]
                 );
                 if ($isAdmin):
@@ -73,7 +72,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'class'      => 'visible-md visible-lg text-center col-listoptin-leadcount',
                     ]
                 );
-                endif;
+
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
@@ -100,7 +99,24 @@ $isAdmin     =$view['security']->isAdmin();
                         'class'      => 'visible-md visible-lg text-center col-listoptin-unsubscribedcount',
                     ]
                 );
+                endif;
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'segment',
+                        'text'       => 'le.lead.list.optin.active.leads',
+                        'class'      => 'visible-md visible-lg col-listoptin-active text-center',
+                    ]
+                );
 
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'segment',
+                        'text'       => 'le.lead.list.optin.inactive.leads',
+                        'class'      => 'visible-md visible-lg col-listoptin-active text-center',
+                    ]
+                );
                 if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -162,7 +178,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ['item' => $item, 'model' => 'lead.listoptin']
                         ); ?>
                     </td>
-                    <td class="table-description" style="width:70%;">
+                    <td class="table-description">
                         <div>
                             <?php if ($view['security']->hasEntityAccess(true, $permissions['lead:listoptin:editother'], $item->getCreatedBy())) : ?>
                                 <a href="<?php echo $view['router']->path(
@@ -179,8 +195,8 @@ $isAdmin     =$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width:20%;">
-                        <span class=""><?php echo $item->getListtype() == 'single' ? $view['translator']->trans('le.lead.list.optin.single.optin') : $view['translator']->trans('le.lead.list.optin.double.optin'); ?></span>
+                    <td class="visible-md visible-lg text-center">
+                        <span class=""><?php echo !$item->getListtype() ? $view['translator']->trans('le.lead.list.optin.single.optin') : $view['translator']->trans('le.lead.list.optin.double.optin'); ?></span>
                     </td>
                     <?php  if ($isAdmin):?>
                     <td class="visible-md visible-lg text-center">
@@ -195,7 +211,6 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <?php  endif; ?>
                     <td class="visible-md visible-lg text-center">
                         <a class="label label-success" href="<?php echo $view['router']->path(
                             'le_contact_index',
@@ -229,6 +244,31 @@ $isAdmin     =$view['security']->isAdmin();
                                 'le.lead.list.viewleads_count',
                                 $unSubscribedCounts[$item->getId()],
                                 ['%count%' => $unSubscribedCounts[$item->getId()]]
+                            ); ?>
+                        </a>
+                    </td>
+                    <?php  endif; ?>
+                    <td class="visible-md visible-lg text-center">
+                        <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.active').':'.$item->getId()]
+                        ); ?>" data-toggle="ajax"<?php echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                            <?php echo $view['translator']->transChoice(
+                                'le.lead.list.viewleads_count',
+                                $ActiveLeadCounts[$item->getId()],
+                                ['%count%' => $ActiveLeadCounts[$item->getId()]]
+                            ); ?>
+                        </a>
+                    </td>
+                    <td class="visible-md visible-lg text-center">
+                        <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
+                            'le_contact_index',
+                            ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.inactive').':'.$item->getId()]
+                        ); ?>" data-toggle="ajax"<?php echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                            <?php echo $view['translator']->transChoice(
+                                'le.lead.list.viewleads_count',
+                                $InactiveLeadCounts[$item->getId()],
+                                ['%count%' => $InactiveLeadCounts[$item->getId()]]
                             ); ?>
                         </a>
                     </td>

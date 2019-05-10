@@ -310,10 +310,10 @@ class PublicController extends CommonFormController
             if ($lead) {
                 // Set the lead as current lead
                 $leadModel->setCurrentLead($lead);
-            }
-            // Set lead lang
-            if ($lead->getPreferredLocale()) {
-                $translator->setLocale($lead->getPreferredLocale());
+                // Set lead lang
+                if ($lead->getPreferredLocale()) {
+                    $translator->setLocale($lead->getPreferredLocale());
+                }
             }
 
             if (!$this->get('mautic.helper.core_parameters')->getParameter('show_contact_preferences')) {
@@ -450,12 +450,13 @@ class PublicController extends CommonFormController
                 // Set the lead as current lead
                 /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
                 $leadModel = $this->getModel('lead');
+                $lead->setStatus(1); //Active
+                $leadModel->saveEntity($lead);
                 $leadModel->setCurrentLead($lead);
-            }
-
-            // Set lead lang
-            if ($lead->getPreferredLocale()) {
-                $this->translator->setLocale($lead->getPreferredLocale());
+                // Set lead lang
+                if ($lead->getPreferredLocale()) {
+                    $this->translator->setLocale($lead->getPreferredLocale());
+                }
             }
 
             $model->removeDoNotContact($stat);

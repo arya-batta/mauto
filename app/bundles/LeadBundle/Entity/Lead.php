@@ -2182,6 +2182,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
      */
     public function setStatus($status)
     {
+        $this->isChanged('status', $status);
         $this->status = $status;
     }
 
@@ -2198,6 +2199,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
      */
     public function setCreatedSource($created_source)
     {
+        $this->isChanged('created_source', $created_source);
         $this->created_source = $created_source;
     }
 }

@@ -11,14 +11,17 @@
 
 namespace Mautic\LeadBundle\Form\Type;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber;
 use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
+use Mautic\EmailBundle\Form\Validator\Constraints\EmailVerify;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Class ListOptInType.
@@ -28,13 +31,20 @@ class ListOptInType extends AbstractType
     private $translator;
 
     /**
+     * @var MauticFactory
+     */
+    private $factory;
+
+    /**
      * ListType constructor.
      *
      * @param TranslatorInterface $translator
+     * @param MauticFactory       $factory
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, MauticFactory $factory)
     {
         $this->translator = $translator;
+        $this->factory    = $factory;
     }
 
     /**
@@ -43,7 +53,7 @@ class ListOptInType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new CleanFormSubscriber(['footerText' => 'html']));
+        $builder->addEventSubscriber(new CleanFormSubscriber(['footerText' => 'html', 'message' => 'html']));
         $builder->addEventSubscriber(new FormExitSubscriber('lead.listoptin', $options));
 
         $listtype            = [
@@ -79,18 +89,13 @@ class ListOptInType extends AbstractType
 
         $builder->add(
             'listtype',
-            'choice',
+            'yesno_button_group',
             [
-                'choices'     => $listtype,
-                'multiple'    => false,
-                'label'       => 'le.lead.list.optin.list.type',
-                'label_attr'  => ['class' => 'control-label'],
-                'empty_value' => false,
-                'required'    => false,
-                'attr'        => [
-                    'class'    => 'form-control le-input',
-                    'tooltip'  => 'le.lead.list.optin.listtype.tooltip',
-                    'onchange' => 'Le.showDoubleOptInList(this)',
+                'label'      => 'le.lead.list.optin.list.type',
+                'no_label'   => 'le.list.single.optin.type',
+                'yes_label'  => 'le.list.double.optin.type',
+                'attr'       => [
+                    'onchange' => 'Le.toggleDoubleOptinFieldVisibility();',
                 ],
             ]
         );
@@ -162,6 +167,89 @@ class ListOptInType extends AbstractType
                 ]
             )
         );
+
+        $builder->add(
+            $builder->create(
+                'subject',
+                'text',
+                [
+                    'label'      => 'le.lead.list.optin.subject.name',
+                    'label_attr' => ['class' => 'control-label required'],
+                    'attr'       => ['class' => 'form-control le-input'],
+                    'required'   => false,
+                ]
+            )
+        );
+
+        $configurator   = $this->factory->get('mautic.configurator');
+        $params         = $configurator->getParameters();
+        $fromname       = $params['mailer_from_name'];
+        $fromemail      = $params['mailer_from_email'];
+        $default        = (empty($options['data']->getFromname())) ? $fromname : $options['data']->getFromname();
+
+        $builder->add(
+            $builder->create(
+                'fromname',
+                'text',
+                [
+                    'label'       => 'le.lead.list.optin.fromname.name',
+                    'label_attr'  => ['class' => 'control-label required'],
+                    'attr'        => ['class' => 'form-control le-input'],
+                    'required'    => false,
+                    'data'        => $default,
+                ]
+            )
+        );
+
+        $default = (empty($options['data']->getFromaddress())) ? $fromemail : $options['data']->getFromaddress();
+
+        $builder->add(
+            $builder->create(
+                'fromaddress',
+                'text',
+                [
+                    'label'       => 'le.lead.list.optin.fromaddress.name',
+                    'label_attr'  => ['class' => 'control-label required'],
+                    'attr'        => ['class' => 'form-control le-input'],
+                    'required'    => false,
+                    'data'        => $default,
+                    'constraints' => [
+                        new Email([
+                            'message' => 'le.core.email.required',
+                        ]),
+                        new EmailVerify(
+                            [
+                                'message' => 'le.email.verification.error',
+                            ]
+                        ),
+                    ],
+                ]
+            )
+        );
+
+        $builder->add(
+            $builder->create(
+                'message',
+                'textarea',
+                [
+                    'label'      => 'le.lead.list.optin.message.name',
+                    'label_attr' => ['class' => 'control-label'],
+                    'attr'       => [
+                        'class'                => 'form-control editor editor-advanced editor-builder-tokens',
+                        'data-token-callback'  => 'email:getBuilderTokens',
+                        'data-token-activator' => '{',
+                    ],
+                    'data'     => $options['data']->getMessage(),
+                    'required' => false,
+                ]
+            )
+        );
+
+        $builder->add('resend', 'yesno_button_group', [
+            'label'      => 'le.lead.list.optin.resend.name',
+            'no_label'   => 'le.lead.list.resend.off',
+            'yes_label'  => 'le.lead.list.resend.on',
+        ]);
 
         $builder->add('buttons', 'form_buttons',
             [

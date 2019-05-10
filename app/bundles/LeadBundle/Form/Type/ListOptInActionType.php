@@ -14,6 +14,7 @@ namespace Mautic\LeadBundle\Form\Type;
 use Mautic\CoreBundle\Factory\MauticFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ListOptInActionType.
@@ -40,6 +41,10 @@ class ListOptInActionType extends AbstractType
         if (strpos($this->modelName, 'forms') !== false) {
             $isRequired= false;
         }
+        $isMultiple = true;
+        if ($options['isForm']) {
+            $isMultiple = false;
+        }
 
         $builder->add('addToLists', 'listoptin_choices', [
             'label'      => 'le.lead.list.optin.events.addtolists',
@@ -48,7 +53,7 @@ class ListOptInActionType extends AbstractType
                 'class' => 'form-control',
             ],
             'required'    => $isRequired,
-            'multiple'    => true,
+            'multiple'    => $isMultiple,
             'expanded'    => false,
         ]);
 
@@ -58,9 +63,23 @@ class ListOptInActionType extends AbstractType
             'attr'       => [
                 'class' => 'form-control',
             ],
-            'multiple' => true,
+            'multiple' => $isMultiple,
             'expanded' => false,
         ]);
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'isForm' => false,
+            ]
+        );
+
+        $resolver->setDefined(['isForm']);
     }
 
     /**

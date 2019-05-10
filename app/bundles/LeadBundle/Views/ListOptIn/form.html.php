@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-$view['slots']->set('leContent', 'leadlist');
+$view['slots']->set('leContent', 'listoptin');
 $id     = $form->vars['data']->getId();
 
 if (!empty($id)) {
@@ -20,7 +20,7 @@ if (!empty($id)) {
 }
 $view['slots']->set('headerTitle', $header);
 
-$doubleoptinclass = ($entity->getListtype() == 'double') ? '' : 'hide';
+$doubleoptinclass = ($entity->getListtype()) ? '' : 'hide';
 $thankyouclass    = ($entity->getThankyou()) ? '' : 'hide';
 $goodbyeclass     = ($entity->isGoodbye()) ? '' : 'hide';
 
@@ -30,7 +30,7 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md">
+<!--<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md hide">
     <li class="<?php echo ($isSetupError) ? '' : 'active'; ?> detail" id="detailstab">
         <a href="#details" style="padding: 0px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">
@@ -53,32 +53,70 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
             </div>
         </a>
     </li>
-</ul>
-<div class="box-layout" style="margin-left: 15px;width: 97%;">
-    <div class="col-md-8 bg-white height-auto">
-        <div class="row">
+</ul>-->
+    <!-- start: box layout -->
+    <div class="center-align-container">
+        <div class="listoptin-template-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $view['form']->row($form['name']); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $view['form']->label($form['listtype']); ?>
+                    <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.list.optin.tooltip'); ?></p>
+                    <?php echo $view['form']->widget($form['listtype']); ?>
+                </div>
+            </div>
+            <div class="doubleoptinfields hide">
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->row($form['fromname']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->row($form['fromaddress']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->row($form['subject']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->row($form['message']); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->label($form['resend']); ?>
+                        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.lead.list.optin.resend.tooltip'); ?></p>
+                        <?php echo $view['form']->widget($form['resend']); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 <?php echo $security->isAdmin() ? '' : 'hide'; ?>">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['description']); ?>
+                    </div>
+                </div>
+            </div>
+        <div class="row hide">
             <div class="col-xs-12">
                 <!-- start: tab-content -->
                 <div class="tab-content pa-md">
                     <div class="tab-pane fade in <?php echo ($isSetupError) ? '' : 'active'; ?> bdr-w-0" id="details">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['name']); ?>
-                            </div>
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['isPublished']); ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <?php echo $view['form']->row($form['description']); ?>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="tab-pane fade <?php echo ($isSetupError) ? 'in active' : ''; ?> bdr-w-0" id="filters">
                         <div class="row">
                             <div class="col-md-6">
-                                <?php echo $view['form']->row($form['listtype']); ?>
+                                <?php echo $view['form']->row($form['isPublished']); ?>
                             </div>
                             <div class="col-md-6 <?php echo $doubleoptinclass; ?>" id="doubleoptinemaillist">
                                 <?php echo $view['form']->row($form['doubleoptinemail']); ?>

@@ -349,9 +349,10 @@ class EmailRepository extends CommonRepository
             }
         }
         $q->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere(sprintf('l.id NOT IN (%s)', $dncQb->getSQL()))
+            //->andWhere(sprintf('l.id NOT IN (%s)', $dncQb->getSQL()))
             ->andWhere(sprintf('l.id NOT IN (%s)', $statQb->getSQL()))
             ->andWhere(sprintf('l.id NOT IN (%s)', $mqQb->getSQL()))
+            ->andwhere($q->expr()->notIn('l.id', ['3', '4', '5', '6'])) //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
             ->setParameter('false', false, 'boolean');
 
         $q = $this->setMinMaxIds($q, 'l.id', $minContactId, $maxContactId);

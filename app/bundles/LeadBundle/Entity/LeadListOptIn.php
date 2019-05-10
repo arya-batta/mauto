@@ -75,6 +75,31 @@ class LeadListOptIn extends FormEntity
     private $footerText;
 
     /**
+     * @var string
+     */
+    private $fromname;
+
+    /**
+     * @var string
+     */
+    private $fromaddress;
+
+    /**
+     * @var string
+     */
+    private $subject;
+
+    /**
+     * @var string
+     */
+    private $message;
+
+    /**
+     * @var bool
+     */
+    private $resend;
+
+    /**
      * @var ArrayCollection
      */
     private $leads;
@@ -105,7 +130,7 @@ class LeadListOptIn extends FormEntity
             ->fetchExtraLazy()
             ->build();
 
-        $builder->createField('listtype', 'text')
+        $builder->createField('listtype', 'boolean')
             ->nullable()
             ->build();
 
@@ -134,6 +159,31 @@ class LeadListOptIn extends FormEntity
 
         $builder->createField('footerText', 'string')
             ->columnName('footerText')
+            ->nullable()
+            ->build();
+
+        $builder->createField('fromname', 'string')
+            ->columnName('fromname')
+            ->nullable()
+            ->build();
+
+        $builder->createField('fromaddress', 'string')
+            ->columnName('fromaddress')
+            ->nullable()
+            ->build();
+
+        $builder->createField('subject', 'string')
+            ->columnName('subject')
+            ->nullable()
+            ->build();
+
+        $builder->createField('message', 'text')
+            ->columnName('message')
+            ->nullable()
+            ->build();
+
+        $builder->createField('resend', 'boolean')
+            ->columnName('resend')
             ->nullable()
             ->build();
     }
@@ -349,6 +399,86 @@ class LeadListOptIn extends FormEntity
     public function setFooterText($footerText)
     {
         $this->footerText = $footerText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFromname()
+    {
+        return $this->fromname;
+    }
+
+    /**
+     * @param mixed $fromname
+     */
+    public function setFromname($fromname)
+    {
+        $this->fromname = $fromname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFromaddress()
+    {
+        return $this->fromaddress;
+    }
+
+    /**
+     * @param string $fromaddress
+     */
+    public function setFromaddress($fromaddress)
+    {
+        $this->fromaddress = $fromaddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResend()
+    {
+        return $this->resend;
+    }
+
+    /**
+     * @param string $resend
+     */
+    public function setResend($resend)
+    {
+        $this->resend = $resend;
     }
 
     /**

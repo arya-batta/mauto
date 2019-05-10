@@ -57,7 +57,7 @@ class FormEventHelper
      * @param $action
      * @param $factory
      */
-    public static function changeLists($action, $factory,$lead = null)
+    public static function changeLists($action, $factory, $lead = null)
     {
         $properties = $action->getProperties();
 
@@ -91,11 +91,11 @@ class FormEventHelper
         $removeFrom = $properties['removeFromLists'];
 
         if (!empty($addTo)) {
-            $leadModel->addToListOptIn($lead, $addTo);
+            $leadModel->addToListOptIn($lead, [$addTo], false);
         }
 
         if (!empty($removeFrom)) {
-            $leadModel->removeFromListOptIn($lead, $removeFrom);
+            $leadModel->removeFromListOptIn($lead, [$removeFrom]);
         }
     }
 

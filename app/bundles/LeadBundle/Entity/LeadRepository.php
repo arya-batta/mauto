@@ -1071,6 +1071,72 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 $returnParameter = true;
 
                 break;
+            case $this->translator->trans('le.lead.lead.searchcommand.list.optin.active'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list.optin.active', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$inExpr('l.status', ['1', '2'])
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
+            case $this->translator->trans('le.lead.lead.searchcommand.list.optin.inactive'):
+            case $this->translator->trans('le.lead.lead.searchcommand.list.optin.inactive', [], null, 'en_US'):
+                $this->applySearchQueryRelationship(
+                    $q,
+                    [
+                        [
+                            'from_alias' => 'l',
+                            'table'      => 'lead_listoptin_leads',
+                            'alias'      => 'list_lead',
+                            'condition'  => 'l.id = list_lead.lead_id',
+                        ],
+                        [
+                            'from_alias' => 'list_lead',
+                            'table'      => 'lead_listoptin',
+                            'alias'      => 'list',
+                            'condition'  => 'list_lead.leadlist_id = list.id',
+                        ],
+                    ],
+                    $innerJoinTables,
+                    $this->generateFilterExpression($q, 'list.id', $eqExpr, $unique, ($filter->not) ? true : null,
+                        // orX for filter->not either manuall removed or is null
+                        $q->expr()->$xExpr(
+                            $q->expr()->$eqExpr('list_lead.manually_removed', 0),
+                            $q->expr()->$inExpr('l.status', ['3', '4', '5', '6'])
+                        )
+                    ),
+                    null,
+                    $filter
+                );
+                $filter->strict  = true;
+                $returnParameter = true;
+
+                break;
             case $this->translator->trans('mautic.core.searchcommand.ip'):
             case $this->translator->trans('mautic.core.searchcommand.ip', [], null, 'en_US'):
                 $this->applySearchQueryRelationship(
@@ -1213,6 +1279,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.listoptin.confirm',
             'le.lead.lead.searchcommand.listoptin.unconfirm',
             'le.lead.lead.searchcommand.listoptin.unsubscribe',
+            'le.lead.lead.searchcommand.list.optin.active',
+            'le.lead.lead.searchcommand.list.optin.inactive',
             'mautic.core.searchcommand.name',
             'mautic.lead.lead.searchcommand.company_new',
             'mautic.core.searchcommand.email',

@@ -23,12 +23,15 @@ class LeadListOptInType extends AbstractType
 {
     private $model;
 
+    private $factory;
+
     /**
      * @param MauticFactory $factory
      */
     public function __construct(MauticFactory $factory)
     {
-        $this->model = $factory->getModel('lead.listoptin');
+        $this->factory = $factory;
+        $this->model   = $factory->getModel('lead.listoptin');
     }
 
     /**
@@ -36,15 +39,20 @@ class LeadListOptInType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $modelName = $this->factory->getRequest()->getPathInfo();
         /** @var \Mautic\LeadBundle\Model\ListOptInModel $model */
         $model = $this->model;
         $resolver->setDefaults([
-            'choices' => function (Options $options) use ($model) {
+            'choices' => function (Options $options) use ($model, $modelName) {
                 $lists = $model->getListsOptIn();
 
                 $choices = [];
                 foreach ($lists as $l) {
-                    $choices[$l['id']] = $l['name'].' ('.$l['listtype'].'-optin)';
+                    if (strpos($modelName, 'forms') !== false) {
+                        $choices[$l['id']] = $l['name'].' ('.$l['listtype'].')';
+                    } else {
+                        $choices[$l['id']] = $l['name'];
+                    }
                 }
 
                 return $choices;

@@ -70,6 +70,8 @@ class PublicController extends CommonFormController
         if ($lead == null) {
             return $this->notFound();
         }
+        $lead->setStatus(1); //Active Status
+        $leadmodel->saveEntity($lead);
         $translator = $this->get('translator');
         if (!$list->getConfirmedLead()) {
             $list->setConfirmedLead(1);
@@ -83,9 +85,9 @@ class PublicController extends CommonFormController
                 $this->dispatcher->dispatch(LeadEvents::LIST_OPT_IN_CHANGE, $event);
                 unset($event);
 
-                $listevent = new LeadListOptInEvent($list->getList(), false, $lead, $list->getId());
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SENDTHANKYOU_EMAIL, $listevent);
-                unset($listevent);
+                //$listevent = new LeadListOptInEvent($list->getList(), false, $lead, $list->getId());
+                //$this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SENDTHANKYOU_EMAIL, $listevent);
+                //unset($listevent);
             }
         }
 
@@ -173,11 +175,11 @@ class PublicController extends CommonFormController
         $list->setUnsubscribedLead(1);
         $listleadrepo->saveEntity($list);
 
-        if (($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SENDGOODBYE_EMAIL))) {
-            $listevent = new LeadListOptInEvent($list->getList(), false, $lead, $list->getId());
-            $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SENDGOODBYE_EMAIL, $listevent);
-            unset($listevent);
-        }
+        //if (($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SENDGOODBYE_EMAIL))) {
+        //    $listevent = new LeadListOptInEvent($list->getList(), false, $lead, $list->getId());
+        //    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SENDGOODBYE_EMAIL, $listevent);
+        //    unset($listevent);
+        //}
 
         $actionRoute = $this->generateUrl('le_resubscribe_list', ['idhash' => $idhash]);
         $message     = $translator->trans(

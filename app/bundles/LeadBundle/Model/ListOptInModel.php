@@ -12,6 +12,7 @@
 namespace Mautic\LeadBundle\Model;
 
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
+use Mautic\CoreBundle\Helper\EmojiHelper;
 use Mautic\CoreBundle\Model\FormModel;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Entity\LeadListOptIn;
@@ -310,25 +311,32 @@ class ListOptInModel extends FormModel
                     $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_OPT_IN_ADD, $event);
                     unset($event);
                 }
-                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL) && $dispatchEvent) {
-                    $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
-                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
-                    unset($listevent);
+                if (!$manuallyAdded) {
+                    if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL) && $dispatchEvent) {
+                        $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
+                        $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
+                        unset($listevent);
+                    }
                 }
             }
         }
         unset($lead, $lists, $dispatchEvents);
     }
 
-    public function linkLeadListEntity($list, $lead, $manuallyAdded, $dispatchEvent)
+    public function linkLeadListEntity(LeadListOptIn $list, $lead, $manuallyAdded, $dispatchEvent)
     {
         $dateManipulated  = new \DateTime();
+        /** @var ListLeadOptIn $listLead */
         $listLead         = $this->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());
-        $confirmedLead    = $list->getListtype() == 'single' ? 1 : 0;
-        $unconfirmedLead  = $list->getListtype() == 'single' ? 0 : 1;
-        if (!$dispatchEvent && $list->getListtype() == 'double') {//consider all imported leads are confirmed by default
-            $confirmedLead  =1;
-            $unconfirmedLead=0;
+        $confirmedLead    = $list->getListtype() ? 0 : 1;
+        $unconfirmedLead  = $list->getListtype() ? 1 : 0;
+        $isreschedule     = 0;
+        if ($list->getResend()) {
+            $isreschedule = 1;
+        }
+        if ($manuallyAdded && $list->getListtype()) {
+            $confirmedLead   = 1;
+            $unconfirmedLead = 0;
         }
         $unsubscribedLead = 0;
         if ($listLead != null) {
@@ -337,6 +345,7 @@ class ListOptInModel extends FormModel
             $listLead->setConfirmedLead($confirmedLead);
             $listLead->setUnconfirmedLead($unconfirmedLead);
             $listLead->setUnsubscribedLead($unsubscribedLead);
+            $listLead->setIsrescheduled($isreschedule);
         } else {
             $listLead = new ListLeadOptIn();
             $listLead->setList($list);
@@ -346,13 +355,14 @@ class ListOptInModel extends FormModel
             $listLead->setConfirmedLead($confirmedLead);
             $listLead->setUnconfirmedLead($unconfirmedLead);
             $listLead->setUnsubscribedLead($unsubscribedLead);
+            $listLead->setIsrescheduled($isreschedule);
 
             //  $persistLists[]   = $listLead;
-            $this->getRepository()->saveEntity($listLead);
-            // Clear ListLead entities from Doctrine memory
-            $this->em->clear('Mautic\LeadBundle\Entity\ListLeadOptIn');
-            $listLead=null;
         }
+        $this->getRepository()->saveEntity($listLead);
+        // Clear ListLead entities from Doctrine memory
+        $this->em->clear('Mautic\LeadBundle\Entity\ListLeadOptIn');
+        $listLead=null;
     }
 
     /**
@@ -464,13 +474,13 @@ class ListOptInModel extends FormModel
                 if ($footertext == '' || $footertext == null) {
                     $footertext = $this->translator->trans('le.lead.list.optin.default.footer_text');
                 }
-                $content = str_replace('{{list_footer_text}}', $footertext, $content);
+                //$content = str_replace('{{list_footer_text}}', $footertext, $content);
             }
             $unsubscribeurl = $this->buildUrl('le_subscribe_list', ['idhash' => $listlead->getId()]);
             $confirmurl     = $this->buildUrl('le_confirm_list', ['idhash' => $listlead->getId()]);
 
             $content = str_replace('%7B%7Bconfirmation_link%7D%7D', $confirmurl, $content);
-            $content = str_replace('{{list_unsubscribe_link}}', $unsubscribeurl, $content);
+            //$content = str_replace('{{list_unsubscribe_link}}', $unsubscribeurl, $content);
         }
 
         return $content;
@@ -497,7 +507,7 @@ class ListOptInModel extends FormModel
             font-weight: normal;');
             $ptag1      = $doc->createElement('span', '{{list_footer_text}}');
             $divelement->setAttribute('class', 'list_footerText');
-            $divelement->appendChild($ptag1);
+            //$divelement->appendChild($ptag1);
 
             //actually append the element
             $body->appendChild($divelement);
@@ -511,7 +521,7 @@ class ListOptInModel extends FormModel
                 $account = new Account();
             }
 
-            if ($account->getNeedpoweredby()) {
+            if (false) {
                 $br          = $doc->createElement('br');
                 $brandfooter = $doc->createElement('div');
                 $brandfooter->setAttribute('style', 'background-color:#ffffff;text-align:center;');
@@ -560,5 +570,98 @@ class ListOptInModel extends FormModel
     public function getListOptinByLead($leadId)
     {
         return $this->getListLeadRepository()->getListIDbyLeads($leadId);
+    }
+
+    public function scheduleListOptInEmail($listoptin, $lead, $listLead)
+    {
+        $customHtml = $this->replaceTokens($listoptin->getMessage(), $lead, $listLead, $listoptin);
+        $this->sendEmailAction($lead, $listoptin, $customHtml);
+    }
+
+    public function sendEmailAction(Lead $lead, LeadListOptIn $listoptin, $bodyContent)
+    {
+        $emailModel    = $this->factory->getModel('email');
+        $emailRepo     = $emailModel->getRepository();
+        $leadEmail     = $lead->getEmail();
+        $leadName      = $lead->getName();
+        $mailer        = $this->factory->get('mautic.helper.mailer')->getMailer();
+
+        // To lead
+        $mailer->addTo($leadEmail, $leadName);
+
+        // From user
+        $user = $this->factory->get('mautic.helper.user')->getUser();
+
+        $mailer->setFrom($listoptin->getFromaddress(), $listoptin->getFromname());
+
+        // Set Content
+        $mailer->setBody($bodyContent);
+        $mailer->parsePlainText($bodyContent);
+
+        // Set lead
+        $leadFields       = $lead->getProfileFields();
+        $mailer->setLead($leadFields);
+        $mailer->setIdHash();
+
+        // Ensure safe emoji for notification
+        $subject = EmojiHelper::toHtml($listoptin->getSubject());
+        $mailer->setSubject($subject);
+        if ($mailer->send(true, false, false)) {
+            if (!empty($email['templates'])) {
+                $emailRepo->upCount($email['templates'], 'sent', 1, false);
+            }
+            $mailer->createEmailStat();
+        }
+    }
+
+    public function getDefaultMailBodyContent()
+    {
+        $messageContent = "<div style='background-color:#f9f9f9;font-family:\"HelveticaNeue\",\"Helvetica Neue\",Helvetica,Arial,sans-serif;margin:0;padding:0'>
+
+	<table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"533px\">
+		<tbody>
+			<tr>
+				<td style=\"text-align:center;padding:30px 0 20px 0\"><img alt=\"SendX\" class=\"CToWUd fr-fic fr-dii\" width=\"130\" height=\"40px\" src=\"https://anyfunnels.com/wp-content/uploads/leproduct/Your-Logo-Here.jpg\" style=\"padding: 0px;\"></td>
+				<td style=\"text-align:center;padding:30px 0 20px 0\">
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+
+					<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:4px;margin:0;padding:0\" width=\"100%\">
+						<tbody>
+							<tr>
+								<td style='padding:30px;font-family:\"Open Sans\",\"HelveticaNeue\",\"Helvetica Neue\",Helvetica,Arial,sans-serif'>
+
+									<p style=\"margin:0 0 16px;line-height:20px;color:#555555;font-size:14px\">Hi {leadfield=firstname},</p>
+
+									<p style=\"margin:16px 0;line-height:20px;color:#555555;font-size:14px\">Kindly click on the below button to be a part of <strong>**Your Business Name**</strong>.</p>
+
+									<p style=\"text-align:center;margin:32px 0\"><a href=\"{{confirmation_link}}\" style=\"display:inline-block;background:#00b27d;color:#ffffff;font-weight:bold;font-size:18px;text-decoration:none;padding:20px 30px;border-radius:4px\" target=\"_blank\">Confirm here</a></p>
+
+									<p style=\"margin:0 0 16px;line-height:20px;color:#555555;font-size:14px\">Cheers,
+										<br><a href=\"http://sendx.io\"><strong>**Your Business Name**</strong></a>
+										<a></a>
+									</p>
+									<a></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<tr></tr>
+		</tbody>
+	</table>
+	<div class=\"yj6qo\">
+		<br>
+	</div>
+	<div class=\"adL\">
+		<br>
+	</div>
+</div>";
+
+        return $messageContent;
     }
 }

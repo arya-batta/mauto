@@ -513,7 +513,12 @@ Le.toggleYesNoButtonClass = function (changedId) {
                     otherRemove = 'btn-success';
             }
         }
-
+        //ListOptin related Enhancements
+        if(changedId == "#leadlistoptin_listtype_0" && thisAdd == "btn-danger"){
+            thisAdd = "btn-success";
+        } else if(changedId == "#leadlistoptin_listtype_1" && otherRemove == "btn-danger"){
+            otherRemove = "btn-success";
+        }
         mQuery(changedId).parent().removeClass(thisRemove).addClass(thisAdd);
         mQuery(otherLabel).removeClass(otherRemove).addClass(otherAdd);
     }
