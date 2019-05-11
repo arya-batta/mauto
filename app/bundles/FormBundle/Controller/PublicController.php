@@ -763,8 +763,8 @@ JS;
         $formrepository=$formmodel->getRepository();
         $forms         = $formrepository->findBy(
             [
-                'smartformname' => '',
-                'smartformid'   => '',
+                'smartformname' => null,
+                'smartformid'   => null,
             ]
         );
         $smform    = [];

@@ -577,10 +577,10 @@ class SignupRepository
                 ->setParameter('website', $website)
                 ->setParameter('company', $business)
                 ->setParameter('industry', $industry)
-                //->setParameter('empcount', $empcount)
+                ->setParameter('empcount', $empcount)
                 //->setParameter('org_experience', $orgexp)
                 ->setParameter('emailvol', $emailvol)
-                //->setParameter('listsize', $listsize)
+                ->setParameter('listsize', $listsize)
                 ->setParameter('currentesp', $currentesp)
                 ->where(
                     $qb->expr()->in('id', $recordid)

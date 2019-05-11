@@ -120,7 +120,7 @@ $toolbarButtons = [];
             </a>
         </div>
     <div class="info-box waves-effect" id="leads-info-box-container">
-        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'status:1']); ?>" data-toggle="ajax">
+        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'active_leads']); ?>" data-toggle="ajax">
                 <span class="info-box-icon waves-effect">
                      <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">
@@ -130,7 +130,7 @@ $toolbarButtons = [];
         </a>
     </div>
     <div class="info-box waves-effect" id="leads-info-box-container">
-        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'status:2']); ?>" data-toggle="ajax">
+        <a  href="<?php echo $view['router']->generate('le_contact_index', ['search'=> 'engaged_leads']); ?>" data-toggle="ajax">
                 <span class="info-box-icon">
                     <i class="mdi mdi-account-multiple-outline" id="icon-class-leads"></i></span>
             <div class="info-box-content">

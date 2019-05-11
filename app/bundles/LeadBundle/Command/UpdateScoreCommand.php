@@ -81,7 +81,8 @@ class UpdateScoreCommand extends ModeratedCommand
             $result = $leadRepo->getActiveLeads($dateinterval);
             try {
                 foreach ($result as $key => $value) {
-                    $lead = $leadModel->getEntity($leadId);
+                    $leadId = $value['leadid'];
+                    $lead   = $leadModel->getEntity($leadId);
                     $lead->setStatus(1); // Active Status
                     $leadModel->saveEntity($lead);
                     unset($lead);

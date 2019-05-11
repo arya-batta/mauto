@@ -676,6 +676,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         } elseif ($filter->string == 'inactiveleads') {
             $q->select('l.*');
             $q->where($q->expr()->in('l.status', ['3', '4', '5', '6']));
+        } elseif ($filter->string == 'active_leads') {
+            $q->select('l.*');
+            $q->where($q->expr()->in('l.status', ['1']));
+        } elseif ($filter->string == 'engaged_leads') {
+            $q->select('l.*');
+            $q->where($q->expr()->in('l.status', ['2']));
         } else {
             return $this->addStandardCatchAllWhereClause($q, $filter, $columns);
         }
@@ -1290,6 +1296,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.lead.searchcommand.tag.active',
             'le.lead.lead.searchcommand.tag.inactive',
             'mautic.core.searchcommand.status.inactive',
+            'mautic.core.searchcommand.status.active',
+            'mautic.core.searchcommand.status.engaged',
             'le.lead.lead.searchcommand.stage',
             'le.lead.lead.searchcommand.duplicate',
             'le.lead.lead.searchcommand.drip_scheduled',
@@ -1623,8 +1631,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
 
         $q->select('l.id as leadid')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
-            ->andWhere($q->expr()->eq('l.status', ':status'))->setParameter('status', ' ')->orWhere($q->expr()->isNull('l.status'))
-            ->andWhere('l.status in (2)')
+            ->andWhere($q->expr()->eq('l.status', ':status'))->setParameter('status', ' ')->orWhere($q->expr()->isNull('l.status'))->orWhere($q->expr()->in('l.status', [2]))
             ->andWhere('l.last_active <= '."'".$dateinterval."'");
         $results = $q->execute()->fetchAll();
 
