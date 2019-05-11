@@ -352,7 +352,7 @@ class EmailRepository extends CommonRepository
             //->andWhere(sprintf('l.id NOT IN (%s)', $dncQb->getSQL()))
             ->andWhere(sprintf('l.id NOT IN (%s)', $statQb->getSQL()))
             ->andWhere(sprintf('l.id NOT IN (%s)', $mqQb->getSQL()))
-            ->andwhere($q->expr()->notIn('l.id', ['3', '4', '5', '6'])) //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
+            ->andwhere($q->expr()->notIn('l.status', ['3', '4', '5', '6'])) //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
             ->setParameter('false', false, 'boolean');
 
         $q = $this->setMinMaxIds($q, 'l.id', $minContactId, $maxContactId);

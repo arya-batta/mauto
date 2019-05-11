@@ -475,7 +475,7 @@ class DripEmailRepository extends CommonRepository
         }
         $q->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
             ->andWhere(sprintf('l.id NOT IN (%s)', $dlQ->getSQL()))
-            ->andwhere($q->expr()->notIn('l.id', ['3', '4', '5', '6'])); //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
+            ->andwhere($q->expr()->notIn('l.status', ['3', '4', '5', '6'])); //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
 
         if (!empty($limit)) {
             $q->setFirstResult(0)

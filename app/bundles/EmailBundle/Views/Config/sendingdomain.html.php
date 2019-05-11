@@ -75,7 +75,7 @@
                 </div>
                 <!-- body -->
                 <div class="modal-body">
-                    <p>Create a SPF record and enter:</p>
+                    <p>Create a TXT record and enter:</p>
                     <p>
     <span class="code-example">Host/Name: <span id="spf-host-text">@</span>
     </span>
@@ -106,7 +106,7 @@
                 </div>
                 <!-- body -->
                 <div class="modal-body">
-                    <p>Create a DKIM record and enter:</p>
+                    <p>Create a TXT record and enter:</p>
                     <p>
                         <span class="code-example">Host/Name: <span id="dkim-host-text"><?php echo $view['translator']->trans('le.sending.domain.dkim.host.text'); ?></span></span><a id="dkim-host-text_atag" onclick="Le.copySpanTextToClipBoard('dkim-host-text');">
                             <i aria-hidden="true" class="fa fa-clipboard"></i>
@@ -134,7 +134,7 @@
                 <!-- body -->
                 <div class="modal-body">
                     <p style="color: #888;"><?php echo $view['translator']->trans('le.sending.domain.tracking.help.text'); ?></p>
-                    <p>Create a Tracking record and enter:</p>
+                    <p>Create a CNAME record and enter:</p>
                     <p>
                         <span class="code-example">Host/Name: <span id="tracking-host-text"><?php echo $view['translator']->trans('le.sending.domain.tracking.host.text'); ?></span></span><a id="tracking-host-text_atag" onclick="Le.copySpanTextToClipBoard('tracking-host-text');">
                             <i aria-hidden="true" class="fa fa-clipboard"></i>
