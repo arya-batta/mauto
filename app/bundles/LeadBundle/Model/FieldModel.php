@@ -769,16 +769,18 @@ class FieldModel extends FormModel
                 'value'  => $val,
             ];
         }
-        $forceFilters[] = [
-            'column' => 'f.alias',
-            'expr'   => 'neq',
-            'value'  => 'status',
-        ];
-        $forceFilters[] = [
-            'column' => 'f.alias',
-            'expr'   => 'neq',
-            'value'  => 'created_source',
-        ];
+        if (!$byGroup) {
+            $forceFilters[] = [
+                'column' => 'f.alias',
+                'expr'   => 'neq',
+                'value'  => 'status',
+            ];
+            $forceFilters[] = [
+                'column' => 'f.alias',
+                'expr'   => 'neq',
+                'value'  => 'created_source',
+            ];
+        }
         // Get a list of custom form fields
         $fields = $this->getEntities([
             'filter' => [
