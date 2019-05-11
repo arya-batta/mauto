@@ -75,17 +75,17 @@ if (!isset($isAjax)) {
                         }
                         $template = 'MauticFormBundle:Field:'.$f->getType().'.html.php';
                     endif;
-
                     echo $view->render(
                         $theme.$template,
                         [
-                            'field'         => $f->convertToArray(),
-                            'id'            => $f->getAlias(),
-                            'formName'      => $formName,
-                            'fieldPage'     => ($pageCount - 1), // current page,
-                            'contactFields' => $contactFields,
-                            'companyFields' => $companyFields,
-                            'inBuilder'     => $inBuilder,
+                            'field'          => $f->convertToArray(),
+                            'id'             => $f->getAlias(),
+                            'formName'       => $formName,
+                            'fieldPage'      => ($pageCount - 1), // current page,
+                            'contactFields'  => $contactFields,
+                            'companyFields'  => $companyFields,
+                            'inBuilder'      => $inBuilder,
+                            'gcaptchasitekey'=> !$inBuilder && $f->isGCaptchaType() ? $gcaptchasitekey : '',
                         ]
                     );
                 endif;

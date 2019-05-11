@@ -120,7 +120,6 @@
                 if (typeof data == 'undefined') {
                     data = null;
                 }
-
                 return MauticFormCallback[formId][event](data);
             }
 
@@ -241,7 +240,6 @@
                             if (!isValid) {
                                 return;
                             }
-
                             Form.customCallbackHandler(formId, 'onShowNextPage', showPageNumber);
                             Form.switchPage(theForm, showPageNumber);
                         }
@@ -391,15 +389,15 @@
                 validateField: function(theForm, fieldKey) {
                     var field = MauticFormValidations[formId][fieldKey];
                     var valid = Form.customCallbackHandler(formId, 'onValidateField', {fieldKey: fieldKey, field: field});
-
-                    // If true, then a callback handled it
+                   // If true, then a callback handled it
                     if (valid === null) {
                         var name = 'leform[' + field.name + ']';
-
+                        if(field.type == 'gcaptcha'){
+                            name='g-recaptcha-response';
+                        }
                         if (field.multiple == 'true' || field.type == 'checkboxgrp') {
                             name = name + '[]';
                         }
-
                         var valid = true;
                         if (typeof theForm.elements[name] != 'undefined') {
                             switch (field.type) {
@@ -416,7 +414,6 @@
                                 case 'email':
                                     valid = validator.validateEmail(theForm.elements[name].value);
                                     break;
-
                                 default:
                                     valid = (theForm.elements[name].value != '')
                                     break;

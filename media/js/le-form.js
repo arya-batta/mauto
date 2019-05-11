@@ -18,7 +18,8 @@ validator.setMessage('','message');validator.setMessage('','error');var formVali
 if(formValid){document.getElementById(elId+'_return').value=document.URL;}}
 if(Form.customCallbackHandler(formId,'onValidateEnd',formValid)===false){formValid=false;}
 if(formValid&&submitForm){theForm.submit();}else{Form.getPageForField(formId,firstInvalidField);validator.enableSubmitButton();}
-return formValid;},validateField:function(theForm,fieldKey){var field=MauticFormValidations[formId][fieldKey];var valid=Form.customCallbackHandler(formId,'onValidateField',{fieldKey:fieldKey,field:field});if(valid===null){var name='leform['+field.name+']';if(field.multiple=='true'||field.type=='checkboxgrp'){name=name+'[]';}
+return formValid;},validateField:function(theForm,fieldKey){var field=MauticFormValidations[formId][fieldKey];var valid=Form.customCallbackHandler(formId,'onValidateField',{fieldKey:fieldKey,field:field});if(valid===null){var name='leform['+field.name+']';if(field.type=='gcaptcha'){name='g-recaptcha-response';}
+if(field.multiple=='true'||field.type=='checkboxgrp'){name=name+'[]';}
 var valid=true;if(typeof theForm.elements[name]!='undefined'){switch(field.type){case'radiogrp':var elOptions=theForm.elements[name];valid=validator.validateOptions(elOptions);break;case'checkboxgrp':var elOptions=theForm.elements[name];valid=validator.validateOptions(elOptions);break;case'email':valid=validator.validateEmail(theForm.elements[name].value);break;default:valid=(theForm.elements[name].value!='')
 break;}}
 var containerId=Form.getFieldContainerId(formId,fieldKey);if(!valid){validator.markError(containerId,valid);}else{validator.clearError(containerId);}}

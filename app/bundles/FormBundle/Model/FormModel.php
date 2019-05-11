@@ -435,7 +435,9 @@ class FormModel extends CommonFormModel
         if (!$form->getInKioskMode()) {
             $this->populateValuesWithLead($form, $cachedHtml);
         }
-
+        if ($form->isGoogleCaptchaProtected()) {
+            $cachedHtml = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>'."\n\n".$cachedHtml;
+        }
         if ($withScript) {
             $cachedHtml = $this->getFormScript($form)."\n\n".$cachedHtml;
         }
@@ -554,18 +556,19 @@ class FormModel extends CommonFormModel
         $html = $this->templatingHelper->getTemplating()->render(
             $theme.'MauticFormBundle:Builder:form.html.php',
             [
-                'fieldSettings' => $this->getCustomComponents()['fields'],
-                'fields'        => $fields,
-                'contactFields' => $this->leadFieldModel->getFieldListWithProperties(),
-                'companyFields' => $this->leadFieldModel->getFieldListWithProperties('company'),
-                'form'          => $entity,
-                'theme'         => $theme,
-                'submissions'   => $submissions,
-                'lead'          => $lead,
-                'formPages'     => $pages,
-                'lastFormPage'  => $lastPage,
-                'style'         => $style,
-                'inBuilder'     => false,
+                'fieldSettings'  => $this->getCustomComponents()['fields'],
+                'fields'         => $fields,
+                'contactFields'  => $this->leadFieldModel->getFieldListWithProperties(),
+                'companyFields'  => $this->leadFieldModel->getFieldListWithProperties('company'),
+                'form'           => $entity,
+                'theme'          => $theme,
+                'submissions'    => $submissions,
+                'lead'           => $lead,
+                'formPages'      => $pages,
+                'lastFormPage'   => $lastPage,
+                'style'          => $style,
+                'inBuilder'      => false,
+                'gcaptchasitekey'=> $this->leadModel->getCoreParameterHelper()->getParameter('gcaptcha_site_key'),
             ]
         );
         if (!$entity->usesProgressiveProfiling()) {

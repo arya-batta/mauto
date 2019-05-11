@@ -3114,4 +3114,9 @@ class LeadModel extends FormModel
 
         return $status;
     }
+
+    public function getCoreParameterHelper()
+    {
+        return $this->coreParametersHelper;
+    }
 }

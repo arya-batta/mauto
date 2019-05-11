@@ -961,4 +961,21 @@ class Form extends FormEntity
 
         return $this->usesProgressiveProfiling;
     }
+
+    public function isGoogleCaptchaProtected()
+    {
+        if ($this->isSmartForm()) {
+            return false;
+        } else {
+            $flag=false;
+            foreach ($this->fields as $f) {
+                if ($f->isGCaptchaType()) {
+                    $flag=true;
+                    break;
+                }
+            }
+
+            return $flag;
+        }
+    }
 }

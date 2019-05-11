@@ -886,6 +886,14 @@ class Field
     /**
      * @return bool
      */
+    public function isGCaptchaType()
+    {
+        return $this->type === 'gcaptcha';
+    }
+
+    /**
+     * @return bool
+     */
     public function isFileType()
     {
         return $this->type === 'file';

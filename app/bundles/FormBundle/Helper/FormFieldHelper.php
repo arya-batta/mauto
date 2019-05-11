@@ -37,8 +37,8 @@ class FormFieldHelper extends AbstractFormFieldHelper
      * @var array
      */
     private $types = [
-        'text'      => [],
-        'textarea'  => [],
+        'text'        => [],
+        'textarea'    => [],
         'email'       => [
             'filter'      => 'email',
             'constraints' => [
@@ -46,25 +46,25 @@ class FormFieldHelper extends AbstractFormFieldHelper
             ],
         ],
         'tel'       => [],
-        'number'   => [
+        'number'    => [
             'filter' => 'float',
         ],
-        'select'    => [],
-        'radiogrp'  => [],
+        'select'      => [],
+        'radiogrp'    => [],
         'checkboxgrp' => [],
         'date'        => [],
         'datetime'    => [],
-        'file' => [],
-        'url'       => [
+        'file'        => [],
+        'url'         => [
             'filter'      => 'url',
             'constraints' => [
                 Url::class => ['message' => 'mautic.form.submission.url.invalid'],
             ],
         ],
-        'freetext' => [],
-        'freehtml' => [],
+        'freetext'    => [],
+        'freehtml'    => [],
         'country'     => [],
-        'captcha' => [
+        'captcha'     => [
             'constraints' => [
                 NotBlank::class => ['message' => 'mautic.form.submission.captcha.invalid'],
 
@@ -73,26 +73,10 @@ class FormFieldHelper extends AbstractFormFieldHelper
                 Blank::class => ['message' => 'mautic.form.submission.captcha.invalid'],
             ],
         ],
+        'gcaptcha'  => [],
         'pagebreak' => [],
         'password'  => [],
-        'hidden'   => [],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        'hidden'    => [],
     ];
 
     /**

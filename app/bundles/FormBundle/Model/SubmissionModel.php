@@ -261,6 +261,13 @@ class SubmissionModel extends CommonFormModel
                     $validationErrors[$alias] = (!empty($props['errorMessage'])) ? $props['errorMessage'] : implode('<br />', $captcha);
                 }
                 continue;
+            }
+            if ($f->isGCaptchaType()) {
+                $value=isset($post['g-recaptcha-response']) ? $post['g-recaptcha-response'] : '';
+                if (empty($value) || !$this->verifyGoogleCaptchaResponse($value)) {
+                    $validationErrors[$alias] =$f->getValidationMessage();
+                }
+                continue;
             } elseif ($f->isFileType()) {
                 try {
                     $file  = $this->uploadFieldValidator->processFileValidation($f, $request);
@@ -1218,5 +1225,26 @@ class SubmissionModel extends CommonFormModel
         }
 
         return $smartformfields;
+    }
+
+    private function verifyGoogleCaptchaResponse($response)
+    {
+        $payload=['response'=>$response, 'secret'=>$this->leadModel->getCoreParameterHelper()->getParameter('gcaptcha_secret_key')];
+        $ch     = curl_init('https://www.google.com/recaptcha/api/siteverify');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($payload)));
+        $result = curl_exec($ch);
+        $result =json_decode($result);
+        if (isset($result->success) && $result->success) {
+            return true;
+        } else {
+            return false;
+        }
+        //{ "success": true, "challenge_ts": "2019-05-08T12:20:14Z", "hostname": "localhost" }
     }
 }
