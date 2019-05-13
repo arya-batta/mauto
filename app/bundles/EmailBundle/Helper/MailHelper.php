@@ -586,7 +586,8 @@ class MailHelper
                 //actually append the element
                 $body->appendChild($divelement);
             }
-            if ($account->getNeedpoweredby()) {
+
+            if ($account->getNeedpoweredby() && (strpos($bodyContent, 'email-footer-link') === false)) {
                 $br          = $doc->createElement('br');
                 $brandfooter = $doc->createElement('div');
                 $brandfooter->setAttribute('style', 'background-color:#ffffff;text-align:center;');

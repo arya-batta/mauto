@@ -323,6 +323,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                             'filters' => $template_filters,
                                             'target'  => (empty($target)) ? null : $target,
                                             'tmpl'    => (empty($tmpl)) ? 'form' : $tmpl,
+                                            'screen'  => 'email',
                                         ]); ?>
                                     <?php endif; ?>
                                 </div>

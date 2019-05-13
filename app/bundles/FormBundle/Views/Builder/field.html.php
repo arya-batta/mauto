@@ -123,7 +123,7 @@ $html             = '<div class="form-group col-xs-12 ">
         <div class="tab-content pa-lg  <?php echo $showGDPRPanel ? '' : 'hide'; ?>">
             <div role="tabpanel" class="tab-pane active">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="form_gdpr_content">
                         <?php// echo $html; ?>
                         <?php  echo $view['form']->rowIfExists($form, 'content'); ?>
                     </div>

@@ -156,6 +156,10 @@ class SmsSubscriber extends CommonSubscriber
                 $content = str_replace('{lead_owner_name}', $lead->getOwner()->getName(), $content);
                 $content = str_replace('{lead_owner_mobile}', $lead->getOwner()->getMobile(), $content);
                 $content = str_replace('{lead_owner_email}', $lead->getOwner()->getEmail(), $content);
+            } else {
+                $content = str_replace('{lead_owner_name}', '', $content);
+                $content = str_replace('{lead_owner_mobile}', '', $content);
+                $content = str_replace('{lead_owner_email}', '', $content);
             }
             $event->setContent($content);
         }

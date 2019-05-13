@@ -125,7 +125,7 @@ $isAdmin=$view['security']->isAdmin();
                                     ['bundle' => $bundle, 'objectAction' => 'edit', 'objectId' => $item->getId()]
                                 ); ?>" data-toggle="ajaxmodal" data-target="#leSharedModal" data-header="<?php echo $title; ?>"
                             <?php endif; ?>
-                            <span><?php echo $item->getTitle(); ?> (<?php echo $item->getAlias(); ?>)</span>
+                            <span><?php echo $item->getTitle(); ?></span>
                             <?php if ($permissions[$permissionBase.':edit']): ?>
                                 </a>
                             <?php endif; ?>

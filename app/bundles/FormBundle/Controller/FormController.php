@@ -335,7 +335,7 @@ class FormController extends CommonFormController
         $session        = $this->get('session');
         $orderBy        = $session->get('mautic.form.results.orderby', 's.date_submitted');
         $orderByDir     = $session->get('mautic.form.results.orderbydir', 'DESC');
-
+        $session->set('mautic.form.results.orderby', 's.date_submitted');
         $totalentities = $Resultmodel->getEntities(
             [
                 'form'           => $form,

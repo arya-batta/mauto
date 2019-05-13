@@ -132,7 +132,7 @@ $isAdmin     =$view['security']->isAdmin();
                         );
                        ?>
                     </td>
-                    <td class="table-description" style="width:50%;">
+                    <td class="table-description" style="width:70%;">
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 'le_tags_action',
@@ -144,7 +144,7 @@ $isAdmin     =$view['security']->isAdmin();
                             </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                    <td class="visible-md visible-lg text-center" style="width: 12%;">
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.active').':'.$item->getId()]
@@ -156,7 +156,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                    <td class="visible-md visible-lg text-center" style="width: 13%; !important;">
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.inactive').':'.$item->getId()]

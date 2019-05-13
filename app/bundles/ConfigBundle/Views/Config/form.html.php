@@ -27,6 +27,16 @@ $configKeys = array_keys($form->children);
             <?php endif; ?>
             <!-- Nav tabs -->
             <ul class="list-group list-group-tabs" role="tablist">
+                <li role="presentation" class="list-group-item <?php echo $selectTab === 'sendingdomain_config' ? 'in active' : ''; ?>">
+                    <a href="#sendingdomain_config" aria-controls="sendingdomain_config" role="tab" data-toggle="tab" class="steps">
+                        <?php echo $view['translator']->trans('le.config.tab.'.'sendingdomain'); ?>
+                    </a>
+                </li>
+                <li role="presentation" class="list-group-item <?php echo $selectTab === 'senderreputation_config' ? 'in active' : ''; ?>">
+                    <a href="#senderreputation_config" aria-controls="senderreputation_config" role="tab" data-toggle="tab" class="steps">
+                        <?php echo $view['translator']->trans('le.config.tab.'.'senderreputation'); ?>
+                    </a>
+                </li>
             <?php foreach ($configKeys as $i => $key) : ?>
                 <?php if (!isset($formConfigs[$key]) || !count($form[$key]->children)) {
     continue;
@@ -41,16 +51,6 @@ $configKeys = array_keys($form->children);
                     </a>
                 </li>
             <?php endforeach; ?>
-                <li role="presentation" class="list-group-item <?php echo $selectTab === 'sendingdomain_config' ? 'in active' : ''; ?>">
-                    <a href="#sendingdomain_config" aria-controls="sendingdomain_config" role="tab" data-toggle="tab" class="steps">
-                        <?php echo $view['translator']->trans('le.config.tab.'.'sendingdomain'); ?>
-                    </a>
-                </li>
-                <li role="presentation" class="list-group-item <?php echo $selectTab === 'senderreputation_config' ? 'in active' : ''; ?>">
-                    <a href="#senderreputation_config" aria-controls="senderreputation_config" role="tab" data-toggle="tab" class="steps">
-                        <?php echo $view['translator']->trans('le.config.tab.'.'senderreputation'); ?>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>

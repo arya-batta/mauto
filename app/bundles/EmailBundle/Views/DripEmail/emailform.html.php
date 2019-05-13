@@ -113,6 +113,7 @@ $customHtml = $entity->getCustomHtml();
                                             'filters' => $filters,
                                             'target'  => (empty($target)) ? null : $target,
                                             'tmpl'    => (empty($tmpl)) ? 'form' : $tmpl,
+                                            'screen'  => 'email',
                                         ]); ?>
                                     <?php endif; ?>
                                 </div>

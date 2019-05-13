@@ -140,7 +140,15 @@ class FieldType extends AbstractType
                     break;
             }
         }
-
+        $constraints = [];
+        if ($options['data']['type'] == 'button') {
+            $constraints = new Assert\Length(
+                [
+                    'max'        => 60,
+                    'maxMessage' => 'le.form.field.button.label.length.invalid',
+                ]
+            );
+        }
         // Build form fields
         $builder->add(
             'label',
@@ -153,6 +161,7 @@ class FieldType extends AbstractType
                     new Assert\NotBlank(
                         ['message' => 'mautic.form.field.label.notblank']
                     ),
+                    $constraints,
                 ],
             ]
         );
@@ -173,18 +182,25 @@ class FieldType extends AbstractType
                 ]
             );
         }
-
-        $builder->add(
-            'content',
-            'textarea',
-            [
-                'label'      => 'mautic.form.field.form.content',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => [
-                    'class'   => 'form-control le-input',
-                ],
-            ]
-        );
+        if ($options['data']['alias'] == 'gdpr') {
+            $builder->add(
+                'content',
+                'textarea',
+                [
+                    'label'      => 'mautic.form.field.form.content',
+                    'label_attr' => ['class' => 'control-label'],
+                    'attr'       => [
+                        'class'   => 'form-control le-input',
+                    ],
+                    'required'    => true,
+                    'constraints' => [
+                        new Assert\NotBlank(
+                            ['message' => 'mautic.core.value.required']
+                        ),
+                    ],
+                ]
+            );
+        }
 
         if ($addShowLabel) {
             $default = (!isset($options['data']['showLabel'])) ? false : (bool) $options['data']['showLabel'];

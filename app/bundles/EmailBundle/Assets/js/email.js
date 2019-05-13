@@ -1062,7 +1062,7 @@ Le.checkemailstatus = function(){
                         mQuery('#fixed-content').attr('style', 'margin-top:190px;');
                         Le.registerDismissBtn();
                         Le.adJustFixedHeader(true);
-                        Le.changeButtonPanelStyle();
+                        Le.changeButtonPanelStyle(false);
                    // }
                 } else {
                     //mQuery('.license-notifiation').addClass('hide');
@@ -1076,15 +1076,20 @@ Le.registerDismissBtn=function(){
     mQuery('.emaildismissbtn').click(function(e) {
         Le.closeLicenseButton();
         Le.adJustFixedHeader(false);
-        Le.changeButtonPanelStyle();
+        Le.changeButtonPanelStyle(false);
         Le.ajaxActionRequest('subscription:notificationclosed', {'isalert_needed': "true"}, function(response) {
         });
     });
 };
-Le.changeButtonPanelStyle = function (){
-    if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
-        mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
+Le.changeButtonPanelStyle = function (change){
+    if(change){
+        mQuery('.ui-tabs-panel .fixed-header').removeClass('ui-panel-fixed-button-panel');
+    }else{
+        if (!mQuery('.ui-tabs-panel .fixed-header').hasClass('ui-panel-fixed-button-panel')) {
+            mQuery('.ui-tabs-panel .fixed-header').addClass('ui-panel-fixed-button-panel');
+        }
     }
+
     if (!mQuery('.drip-fixed-header').hasClass('drip-fixed-header-style')) {
         mQuery('.drip-fixed-header').addClass('drip-fixed-header-style');
     } else {

@@ -162,7 +162,7 @@ $isAdmin     =$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                    <td class="visible-md visible-lg text-center" style="width: 12%;">
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.active').':'.$item->getAlias()]
@@ -174,7 +174,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 20%;">
+                    <td class="visible-md visible-lg text-center" style="width: 13%;">
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.inactive').':'.$item->getAlias()]

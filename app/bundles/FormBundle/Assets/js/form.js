@@ -353,7 +353,9 @@ Le.formFieldOnLoad = function (container, response) {
     Le.enableGDPRFormWidget();
     var formAlias = mQuery('#formfield_label').val();
     if(formAlias == 'gdpr' || formAlias =='eu_gdpr_consent' || formAlias =='EU GDPR Consent') {
-        mQuery('#formfield_content').val(mQuery('.leform-checkboxgrp-label').text().trim());
+        if(!mQuery('#form_gdpr_content div').hasClass('has-error')){
+            mQuery('#formfield_content').val(mQuery('.leform-checkboxgrp-label').text().trim());
+        }
         //mQuery('#default-optionlist').val(mQuery('#formfield_alias').val());
         mQuery('#remove-GDPR-form').remove();
     }

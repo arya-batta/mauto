@@ -39,7 +39,7 @@ if (!$isAdmin) {
                     <div class="panel-title" style="color: #212529;padding: 14px 0;"><?php echo $view['translator']->trans('le.lead.import.start.instructions'); ?></div>
                 </div>
                 <div class="panel-body">
-                    <?php echo $view['form']->start($form); ?>
+                    <?php echo $view['form']->start($form, ['attr'=> ['id' => 'import_form']]); ?>
                     <div class="row center-align-container hide" style="float: none;">
                         <div class="pull-center col-xs-6">
                             <a href="<?php echo $view['assets']->getImportSampleFilePath() ?>" download>

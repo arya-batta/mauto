@@ -8,10 +8,16 @@
  *
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
+$width = '45%';
+if ($screen == 'leads') {
+    $width = '30%';
+} elseif ($screen == 'email') {
+    $width = '70%';
+}
 ?>
 
 <?php if (!empty($filters)) : ?>
-    <div class="form-group" style="width: <?php echo $tmpl == 'form' ? '70%' : $screen != '' ? '30%' : '45%'; ?>;margin-top: 4px;background-color: #FFFFFF;">
+    <div class="form-group" style="width: <?php echo $width; ?>;margin-top: 4px;background-color: #FFFFFF;">
         <?php
         foreach ($filters as $filterName => $filter):
 

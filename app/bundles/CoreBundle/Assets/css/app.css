@@ -7072,7 +7072,7 @@ ol, ul {
   width: inherit !important;
 }
 .col-leadsegment-name{
-  width: 40%;
+  width: 63%;
 }
 .col-lead-width{
   width: 30%;
@@ -7827,4 +7827,8 @@ ul.list-unstyled, ul#list-unstyled  {
 
 .import-notes-list{
   font-size: 12px;
+}
+
+.text-transform-none{
+  text-transform: none !important;
 }

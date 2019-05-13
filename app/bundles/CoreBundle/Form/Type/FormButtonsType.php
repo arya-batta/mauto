@@ -119,7 +119,7 @@ class FormButtonsType extends AbstractType
             'apply_type'         => 'submit',
             'save_text'          => 'mautic.core.form.saveandclose',
             'save_icon'          => '', //'fa fa-save',
-            'save_class'         => 'btn btn-default btn-save le-btn-default waves-effect',
+            'save_class'         => 'btn btn-default btn-save le-btn-default waves-effect text-transform-none',
             'save_onclick'       => false,
             'save_attr'          => [],
             'save_type'          => 'submit',

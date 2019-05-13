@@ -116,21 +116,26 @@ class LeadSubscriber extends CommonSubscriber
                         $dripentity         = $this->factory->getModel('email.dripemail')->getEntity($stat['dripEmailId']);
                         $dripname           = $dripentity->getName();
                     }
+
+                    $search          = array_keys(unserialize($stat['tokens']));
+                    $replace         = unserialize($stat['tokens']);
+                    $subjectReplaced = str_ireplace($search, $replace, $stat['subject'], $updated);
+
                     if ('sent' == $state) {
                         if (!empty($stat['idHash'])) {
                             $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
                         } else {
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
                         }
                     } elseif ('read' == $state) {
                         $open_date      =$this->factory->get('mautic.helper.template.date')->toFull($stat['dateRead']);
                         $totalreadcount = $this->factory->getModel('email')->getRepository()->getTotalOpenCounts($stat['email_id'], $stat['lead_id']);
                         if (!empty($stat['idHash'])) {
                             $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
                         } else {
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $stat['subject'], '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
                         }
                     } elseif ('failed' == $state) {
                         $label            = $stat['email_name'];

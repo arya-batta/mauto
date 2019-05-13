@@ -699,7 +699,10 @@ class LeadSubscriber extends CommonSubscriber
                                 $row['itemRoute'] = $item['url'];
                             }
                             $email   = $this->factory->getModel('email')->getEntity($row['channel_id']);
-                            $subject = $email->getSubject();
+                            $subject = '';
+                            if ($email != null) {
+                                $subject = $email->getSubject();
+                            }
                         }
                     }
                 }

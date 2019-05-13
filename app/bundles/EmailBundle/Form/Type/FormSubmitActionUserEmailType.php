@@ -14,6 +14,7 @@ namespace Mautic\EmailBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class FormSubmitActionUserEmailType.
@@ -32,7 +33,7 @@ class FormSubmitActionUserEmailType extends AbstractType
                 'class'   => 'form-control le-input',
                 'tooltip' => 'le.email.choose.emails_descr',
             ],
-            'update_select' => 'formaction_properties_useremail_email',
+            'update_select'       => 'formaction_properties_useremail_email',
             'set_email_list_type' => 'template',
             'with_email_types'    => 'true',
         ]);
@@ -40,11 +41,14 @@ class FormSubmitActionUserEmailType extends AbstractType
         $builder->add('user_id', 'user_list', [
             'label'      => 'mautic.email.form.users',
             'label_attr' => ['class' => 'control-label'],
+            'required'   => true,
             'attr'       => [
                 'class'   => 'form-control le-input',
                 'tooltip' => 'mautic.core.help.autocomplete',
             ],
-            'required' => false,
+            'constraints' => [
+                new NotBlank(['message' => 'mautic.core.value.required']),
+            ],
         ]);
     }
 

@@ -195,6 +195,11 @@ class CategoryController extends FormController
         $method     = $this->request->getMethod();
         $inForm     = ($method == 'POST') ? $this->request->request->get('category_form[inForm]', 0, true) : $this->request->get('inForm', 0);
         $showSelect = $this->request->get('show_bundle_select', false);
+        if ($showSelect) {
+            $session->set('mautic.category.show_bundle_select', true);
+        } else {
+            $showSelect = $session->get('mautic.category.show_bundle_select');
+        }
 
         //not found
         if (!$this->get('mautic.security')->isGranted($model->getPermissionBase($bundle).':create')) {
@@ -213,7 +218,7 @@ class CategoryController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $success = 1;
-
+                    $session->set('mautic.category.show_bundle_select', false);
                     //form is valid so process the data
                     $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
 
