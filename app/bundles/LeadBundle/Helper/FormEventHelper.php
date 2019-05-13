@@ -80,18 +80,18 @@ class FormEventHelper
      * @param $action
      * @param $factory
      */
-    public static function changeListOptins($action, $factory)
+    public static function changeListOptins($action, $factory, $lead = null)
     {
         $properties = $action->getProperties();
 
         /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
         $leadModel  = $factory->getModel('lead');
-        $lead       = $leadModel->getCurrentLead();
+        $lead       = $lead != null ? $lead : $leadModel->getCurrentLead();
         $addTo      = $properties['addToLists'];
         $removeFrom = $properties['removeFromLists'];
 
         if (!empty($addTo)) {
-            $leadModel->addToListOptIn($lead, [$addTo], false);
+            $leadModel->addToListOptIn($lead, [$addTo], false, true);
         }
 
         if (!empty($removeFrom)) {

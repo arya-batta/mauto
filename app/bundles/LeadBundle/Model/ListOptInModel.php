@@ -311,12 +311,10 @@ class ListOptInModel extends FormModel
                     $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_OPT_IN_ADD, $event);
                     unset($event);
                 }
-                if (!$manuallyAdded) {
-                    if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL) && $dispatchEvent) {
-                        $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
-                        $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
-                        unset($listevent);
-                    }
+                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_SEND_EMAIL) && $dispatchEvent) {
+                    $listevent = new LeadListOptInEvent($this->leadChangeLists[$listId], false, $lead, $listId);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_SEND_EMAIL, $listevent);
+                    unset($listevent);
                 }
             }
         }
