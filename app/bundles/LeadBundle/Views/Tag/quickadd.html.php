@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <?php echo $view['form']->row($form['tag']); ?>
     </div>
-    <div class="col-md-12<?php echo !$view['security']->isAdmin() ? 'hide' : ''; ?>" style="margin-top: 15px;">
+    <div class="col-md-12<?php echo !$view['security']->isAdmin() ? ' hide' : ''; ?>" style="margin-top: 15px;">
         <?php echo $view['form']->row($form['is_published']); ?>
     </div>
 </div>
