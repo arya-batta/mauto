@@ -1089,7 +1089,7 @@ class LeadModel extends FormModel
      * @param array|LeadListOptIn $lists
      * @param bool                $manuallyAdded
      */
-    public function addToListOptIn($lead, $lists, $manuallyAdded = true, $dispatchEvents=true)
+    public function addToListOptIn($lead, $lists, $manuallyAdded = true, $dispatchEvents=false)
     {
         $this->listOptinModel->addLead($lead, $lists, $manuallyAdded, $dispatchEvents);
     }
