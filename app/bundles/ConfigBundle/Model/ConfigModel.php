@@ -59,6 +59,11 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Sending-Domain.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']),
                 ],
+                'Sender Reputation' => [
+                    'name'=> 'Sender Reputation',
+                    'img' => 'Sender-Reputation.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'senderreputation_config']),
+                ],
                 'Email Settings' => [
                     'name'=> 'Email Settings',
                     'img' => 'Email-Settings.png',
@@ -83,11 +88,6 @@ class ConfigModel extends AbstractCommonModel
                     'name'=> 'Developer API',
                     'img' => 'Developer-API.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'apiconfig']),
-                ],
-                'Sender Reputation' => [
-                    'name'=> 'Sender Reputation',
-                    'img' => 'Sender-Reputation.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'senderreputation_config']),
                 ],
             ],
             'Assets'=> [

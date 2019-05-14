@@ -113,7 +113,7 @@ class FormButtonsType extends AbstractType
         $resolver->setDefaults([
             'apply_text'         => 'mautic.core.form.apply',
             'apply_icon'         => '', //'fa fa-check',
-            'apply_class'        => 'btn btn-default btn-apply le-btn-default waves-effect',
+            'apply_class'        => 'btn btn-default btn-apply le-btn-default waves-effect text-transform-none',
             'apply_onclick'      => false,
             'apply_attr'         => [],
             'apply_type'         => 'submit',
