@@ -769,7 +769,7 @@ class FieldModel extends FormModel
                 'value'  => $val,
             ];
         }
-        if (!$byGroup) {
+        if (!$byGroup && !$this->security->isAdmin()) {
             $forceFilters[] = [
                 'column' => 'f.alias',
                 'expr'   => 'neq',

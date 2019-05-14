@@ -67,10 +67,12 @@ class FieldController extends FormController
             'expr' => 'orX',
             'val'  => [['column' => $repo->getTableAlias().'.isPublished', 'expr' => 'eq', 'value' => 1], ['column' => $repo->getTableAlias().'.createdBy', 'expr' => 'isNotNull']],
         ];
-        $filter['where'][] = [
-            'expr' => 'andX',
-            'val'  => [['column' => $repo->getTableAlias().'.alias', 'expr' => 'neq', 'value' => 'status'], ['column' => $repo->getTableAlias().'.alias', 'expr' => 'neq', 'value' => 'created_source']],
-        ]; //System Fields Status,Created Source
+        if (!$this->get('mautic.helper.user')->getUser()->isAdmin()) {
+            $filter['where'][] = [
+                'expr' => 'andX',
+                'val'  => [['column' => $repo->getTableAlias().'.alias', 'expr' => 'neq', 'value' => 'status'], ['column' => $repo->getTableAlias().'.alias', 'expr' => 'neq', 'value' => 'created_source']],
+            ]; //System Fields Status,Created Source
+        }
         $fields = $model->getEntities([
             'start'      => $start,
             'limit'      => $limit,
