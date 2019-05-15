@@ -51,6 +51,18 @@ class PaymentRepository extends CommonRepository
         }
     }
 
+    public function getFirstPayment()
+    {
+        $paymenthistory=$this->findBy([], ['createdOn'=> 'ASC'], 1, 0);
+        if (count($paymenthistory) > 0) {
+            $payment=$paymenthistory[0];
+
+            return $payment;
+        } else {
+            return null;
+        }
+    }
+
     public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser, $status = 'Paid')
     {
         $currentdate      = date('Y-m-d');
@@ -58,11 +70,9 @@ class PaymentRepository extends CommonRepository
         if (strtotime($validitytill) < strtotime($currentdate)) {
             $isvalidityexpired=1;
         }
-        $planlabel = 'Free Forever';
+        $planlabel = 'Special Plan';
         if ($planname == 'leplan2') {
-            $planlabel = 'Starter';
-        } elseif ($planname == 'leplan3') {
-            $planlabel = 'Growth';
+            $planlabel = 'Growth Plan';
         }
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);

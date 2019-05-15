@@ -897,6 +897,8 @@ class AjaxController extends CommonAjaxController
         $isCardUpdateAlone              = $request->request->get('isCardUpdateAlone');
         $planvalidity                   = $request->request->get('planvalidity');
         $contactcredits                 = $request->request->get('contactcredits');
+        $accountdata                    = $request->request->get('accountdata');
+        $this->updateAccountData($accountdata);
         if ($amount == 0) {
             $amount            = 1;
             $isCardUpdateAlone = true;
@@ -1045,15 +1047,8 @@ class AjaxController extends CommonAjaxController
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
                     $lastpayment        = $paymentrepository->getLastPayment();
                     $todaydate          = date('Y-m-d');
-                    $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits1');
-                    $contactcredites    = $this->translator->trans('le.pricing.plan.plancredits1');
-                    if ($planname == 'leplan2') {
-                        $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits2');
-                        $contactcredites    =$this->translator->trans('le.pricing.plan.plancredits2');
-                    } elseif ($planname == 'leplan3') {
-                        $emailplancredits   = $this->translator->trans('le.pricing.plan.email.plancredits3');
-                        $contactcredites    = $this->translator->trans('le.pricing.plan.plancredits3');
-                    }
+                    $emailplancredits   = $this->translator->trans('le.pricing.plan.email.credits.'.$planname);
+                    $contactcredites    = $this->translator->trans('le.pricing.plan.contact.credits.'.$planname);
                     if ($lastpayment != null) {
                         $validityend      = $lastpayment->getValidityTill();
                         $preplanName      = $lastpayment->getPlanName();
@@ -1251,5 +1246,51 @@ class AjaxController extends CommonAjaxController
         $dataArray['trailinfo']   = $trailinfo;
 
         return $this->sendJsonResponse($dataArray);
+    }
+
+    public function updateAccountData($accountData)
+    {
+        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+        $subsrepository    = $this->get('le.core.repository.subscription');
+        $dbhost            = $this->coreParametersHelper->getParameter('le_db_host');
+        $kycview           = $licenseinfoHelper->getFirstTimeSetup($dbhost, true);
+        /** @var \Mautic\SubscriptionBundle\Entity\Billing $billingEntity */
+        $billingEntity  = $kycview[3];
+        /** @var \Mautic\SubscriptionBundle\Entity\Account $accountEntity */
+        $accountEntity  = $kycview[4];
+        /** @var \Mautic\UserBundle\Entity\User $userEntity */
+        $userEntity     = $kycview[5];
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
+        $accountModel  = $this->getModel('subscription.accountinfo');
+        /** @var \Mautic\SubscriptionBundle\Model\BillingModel $billingmodel */
+        $billingmodel  = $this->getModel('subscription.billinginfo');
+        $userEntity->setMobile($accountData['phone']);
+        $accountEntity->setPhonenumber($accountData['phone']);
+        $accountEntity->setWebsite($accountData['website']);
+        $accountEntity->setAccountname($accountData['business']);
+        $accountEntity->setEmail($userEntity->getEmail());
+        $billingEntity->setCompanyname($accountData['business']);
+        $billingEntity->setCompanyaddress($accountData['address']);
+        $billingEntity->setAccountingemail($userEntity->getEmail());
+        $billingEntity->setCity($accountData['city']);
+        $billingEntity->setState($accountData['state']);
+        $billingEntity->setCountry($accountData['country']);
+        $billingEntity->setPostalcode($accountData['zipcode']);
+
+        $signupinfo     = $subsrepository->getSignupInfo($userEntity->getEmail());
+        if (!empty($signupinfo)) {
+            $accountEntity->setDomainname($signupinfo[0]['f5']);
+        }
+        $billingmodel->saveEntity($billingEntity);
+        $accountModel->saveEntity($accountEntity);
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator = $this->get('mautic.configurator');
+        if ($accountData['address'] != '') {
+            $postaladdress = $accountData['address'].', '.$accountData['city'].' - '.$accountData['zipcode'].'. '.$accountData['state'].', '.$accountData['country'].'.';
+            $configurator->mergeParameters(['postal_address' => $postaladdress]);
+            $configurator->write();
+        }
+        $signuprepository=$this->get('le.core.repository.signup');
+        $signuprepository->updateAccountInfo($accountData, $userEntity->getEmail());
     }
 }

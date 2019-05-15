@@ -14,6 +14,7 @@ namespace Mautic\DashboardBundle\Controller;
 use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\DashboardBundle\Entity\Widget;
+use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\SubscriptionBundle\Entity\KYC;
 use Mautic\SubscriptionBundle\Entity\UserPreference;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -26,6 +27,66 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DashboardController extends FormController
 {
     public function indexAction()
+    {
+        $paymentrepository = $this->get('le.subscription.repository.payment');
+        $lastpayment       = $paymentrepository->getLastPayment();
+
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
+        $accountModel  = $this->getModel('subscription.accountinfo');
+
+        /** @var EmailModel $model */
+        $model               = $this->getModel('email');
+        $domainList          =$model->getRepository()->getAllVerifiedSendingDomains();
+        $sendingDomainStatus = false;
+        if (count($domainList) > 0) {
+            $sendingDomainStatus = true;
+        }
+        // Init the date range filter form
+        $dateRangeValues = $this->request->get('daterange', []);
+        $action          = $this->generateUrl('le_dashboard_index');
+        $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
+
+        // Account stats per time period
+        $timeStats = $accountModel->getAccountLineChartData(
+            null,
+            new \DateTime($dateRangeForm->get('date_from')->getData()),
+            new \DateTime($dateRangeForm->get('date_to')->getData())
+        );
+
+        $emailStats   = $accountModel->getCustomEmailStats();
+        $leadStats    = $accountModel->getCustomLeadStats();
+        $overallstats = $accountModel->getOverAllStats();
+
+        $isHideBlock       = false;
+        $paymenthelper     =$this->get('le.helper.payment');
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'pricingUrl'           => $this->generateUrl('le_pricing_index'),
+                    'tmpl'                 => 'index',
+                    'stats'                => $timeStats,
+                    'dateRangeForm'        => $dateRangeForm->createView(),
+                    'emailStats'           => $emailStats,
+                    'leadStats'            => $leadStats,
+                    'overallstats'         => $overallstats,
+                    'username'             => $this->user->getFirstName(),
+                    'isPaid'               => ($lastpayment != null),
+                    'isHideBlock'          => $isHideBlock,
+                    'letoken'              => $paymenthelper->getUUIDv4(),
+                    'sendingDomainStatus'  => $sendingDomainStatus,
+                ],
+                'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_dashboard_index',
+                    'leContent'     => 'pricingplans',
+                    'route'         => $this->generateUrl('le_dashboard_index'),
+                ],
+            ]
+        );
+    }
+
+    public function index2Action()
     {
         $paymentrepository = $this->get('le.subscription.repository.payment');
         $lastpayment       = $paymentrepository->getLastPayment();
@@ -286,6 +347,12 @@ class DashboardController extends FormController
             $isHideBlock = true;
         }
         $paymenthelper     =$this->get('le.helper.payment');
+        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+        $countrydetails    = $licenseinfoHelper->getCountryName();
+        $timezone          = $countrydetails['timezone'];
+        $countryname       = $countrydetails['countryname'];
+        $city              = $countrydetails['city'];
+        $state             = $countrydetails['state'];
 
         return $this->delegateView(
             [
@@ -316,7 +383,11 @@ class DashboardController extends FormController
                     'isPaid'               => ($lastpayment != null),
                     'isHideBlock'          => $isHideBlock,
                     'letoken'              => $paymenthelper->getUUIDv4(),
-                    'redirecturl'          => $this->generateUrl('le_dashboard_index'),
+                    'redirecturl'          => $this->generateUrl('le_pricing_index', ['step' => 'dashboard']),
+                    'timezone'             => $timezone,
+                    'country'              => $countryname,
+                    'city'                 => $city,
+                    'state'                => $state,
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                 'passthroughVars' => [

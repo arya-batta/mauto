@@ -19360,7 +19360,7 @@ padding:5px;
   top: -15px;
   font-size: 22px;
 }
-.pay-now-btn{
+/*.pay-now-btn{
   margin-top: 15px;
   text-transform: uppercase;
   background: #ff9933;
@@ -19379,7 +19379,7 @@ padding:5px;
   background: #ff9933 !important;
   color: #fff;
   border: 1px solid #ff9933 !important;
-}
+}*/
 
 #billinginfo .plan-info-lbl1{
   display: block;

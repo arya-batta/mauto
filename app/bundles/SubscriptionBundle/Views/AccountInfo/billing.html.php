@@ -11,17 +11,13 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
-$emailuseage  ='';
-$addoncredits = 0;
-
+$emailuseage      ='';
+$addoncredits     = 0;
+$addonCreditValue = $view['translator']->trans('le.pricing.plan.addon.credits');
 if ($totalEmailCredits != 'UL') {
     $emailplancredits = 0;
-    if ($planName == 'leplan1') {
-        $emailplancredits = $view['translator']->trans('le.pricing.plan.email.plancredits1');
-    } elseif ($planName == 'leplan2') {
-        $emailplancredits   = $view['translator']->trans('le.pricing.plan.email.plancredits2');
-    } elseif ($planName == 'leplan3') {
-        $emailplancredits   = $view['translator']->trans('le.pricing.plan.email.plancredits3');
+    if ($planName != '') {
+        $emailplancredits = $view['translator']->trans('le.pricing.plan.email.credits.'.$planName);
     }
     $addoncredits      = $totalEmailCredits - $emailplancredits;
     $addonusagecredits = $actualEmailCredits - $emailplancredits;
@@ -31,7 +27,7 @@ if ($totalEmailCredits != 'UL') {
     if ($addoncredits < 0) {
         $addonusagecredits = 0;
     } else {
-        $addonusagecredits = 10000 - $addoncredits;
+        $addonusagecredits = $addonCreditValue - $addoncredits;
     }
     if ($addoncredits > 0 && $emailplancredits != 0) {
         $totalEmailCredits = $emailplancredits;
@@ -50,10 +46,8 @@ if ($totalContactCredits != 'UL') {
     $contactusage=' ('.$contactusage.'% used)';
 }
 $actualcontactcredits = '';
-if ($planName == 'leplan2') {
-    $planAmount = '$'.$view['translator']->trans('le.pricing.plan.amount2');
-} elseif ($planName == 'leplan3') {
-    $planAmount = '$'.$view['translator']->trans('le.pricing.plan.amount3');
+if ($planName != '') {
+    $planAmount = '$'.$view['translator']->trans('le.pricing.plan.amount.'.$planName);
 }
 ?>
 <!-- start: box layout -->
@@ -79,20 +73,22 @@ if ($planName == 'leplan2') {
                             <h3 class="panel-title"><?php echo $view['translator']->trans('leadsengage.accountinfo.plan.title'); ?></h3>
                         </div>
                         <div class="panel-body">
-                            <span class='plan-info-lbl1'>Plan Type: <b><?php echo $planType ?></b></span>
+                            <span class='plan-info-lbl1 hide'><b><?php echo $planType ?></b></span>
                             <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
                                 <span class='plan-info-lbl2'>You are currently in Free Trial. Usage limits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used)
                                 and <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
-                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 10,000</span>
-                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
+                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 100,000</span>
+                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn hide">
                                     Change Plan
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planName == 'leplan1' || $planName == 'leplan2' || $planName == 'leplan3' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>You are currently in <?php echo $planType; ?> Plan (<?php echo $planAmount ?>/ Month). Usage limits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used)
-                                and <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
-                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 10,000</span>
-                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn">
+                                <span class='plan-info-lbl2'>Subscribed Plan- <?php echo $planAmount ?> <?php echo $planName == 'leplan1' ? 'for first 3 months,' : 'per month'?> <b><?php echo $planType; ?></b>.</span>
+                                <span class='plan-info-lbl2'><b>Usage-</b></span>
+                                <span class='plan-info-lbl2' style="margin-left: 20px;">Contacts: <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
+                                <span class='plan-info-lbl2' style="margin-left: 20px;">Free email credits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used).</span>
+                                <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" style="margin-left: 20px;">Add-on email credits: <?php echo number_format($addonusagecredits); ?> out of 100,000 (Unlimited validity)</span>
+                                <a href="<?php echo $view['router']->path('le_pricing_index'); ?>" class="btn btn-info plan-btn hide">
                                     Change Plan
                                 </a>
                             </div>

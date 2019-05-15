@@ -29,6 +29,8 @@ class LicenseInfoHelper
      */
     private $factory;
 
+    private $translator;
+
     /**
      * LicenseInfoHelper constructor.
      *
@@ -41,6 +43,7 @@ class LicenseInfoHelper
         $this->em         = $entityManager;
         $this->licenseinfo=$licenseinforepository;
         $this->factory    = $factory;
+        $this->translator = $factory->getTranslator();
     }
 
     public function intRecordCount($totalRecordCount, $isSum)
@@ -905,7 +908,7 @@ class LicenseInfoHelper
 
     public function getFirstTimeSetup($dbhost = 'localhost', $islogin = false)
     {
-        if ($dbhost != 'localhost' && $islogin) {
+        if ($dbhost == 'localhost' && $islogin) {
             $billformview = '';
             $accformview  = '';
             $userformview = '';
@@ -1152,13 +1155,9 @@ class LicenseInfoHelper
 
     public function getEmailCreditsByPlan($planName)
     {
-        $planarray = [
-            'leplan1' => 10000,
-            'leplan2' => 100000,
-            'leplan3' => 250000,
-        ];
+        $planInfo['leplan1'] = [];
 
-        return $planarray[$planName];
+        return $planInfo[$planName];
     }
 
     public function getValidSendingDomain($from)

@@ -286,6 +286,8 @@ class AccountController extends FormController
         $paymentrepository    =$this->get('le.subscription.repository.payment');
         $appStatus            = $this->get('mautic.helper.licenseinfo')->getAppStatus();
         $recordCount          = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
+        $contactcount         = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $emailcount           = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
         $licenseEndDate       = $this->get('mautic.helper.licenseinfo')->getLicenseEndDate();
         $licenseRemDays       = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         $subcancel            = $this->get('mautic.helper.licenseinfo')->getCancelDate();
@@ -297,11 +299,13 @@ class AccountController extends FormController
         } else {
             $recordCount = number_format($recordCount);
         }
-        $planType           ='Trial';
+        $planType           = 'Trial';
+        $planLabel          = 'Free Trail';
         $lastpayment        = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
             $planType    ='Paid';
             $planName    = $lastpayment->getPlanName();
+            $planLabel   = $lastpayment->getPlanLabel();
         }
         $license='';
         if ($planType == 'Trial') {
@@ -327,7 +331,10 @@ class AccountController extends FormController
                 'planType'           => $planType,
                 'planName'           => $planName,
                 'canceldate'         => $subcanceldate,
-             ],
+                'planLabel'          => $planLabel,
+                'contactcount'       => $contactcount,
+                'emailcount'         => $emailcount,
+            ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_accountinfo_index',

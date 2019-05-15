@@ -4,6 +4,7 @@ namespace Mautic\SubscriptionBundle\Controller;
 
 use Mautic\CoreBundle\Controller\CommonController;
 use Mautic\CoreBundle\Helper\InputHelper;
+use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Mautic\SubscriptionBundle\Entity\Billing;
 use Mautic\SubscriptionBundle\Entity\KYC;
 use PayPal\Api\Agreement;
@@ -87,7 +88,7 @@ class SubscriptionController extends CommonController
                 'tmpl'            => 'index',
                 'proamount'       => $propayment,
                 'planname'        => $planname,
-                'redirecturl'     => $this->generateUrl('le_pricing_index'),
+                'redirecturl'     => $this->generateUrl('le_billing_index'),
                 'preamount'       => $preamount,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
@@ -95,6 +96,42 @@ class SubscriptionController extends CommonController
                 'activeLink'    => '#le_pricing_index',
                 'leContent'     => 'pricingplans',
                 'route'         => $this->generateUrl('le_pricing_index'),
+            ],
+        ]);
+    }
+
+    public function billingAction()
+    {
+        $paymenthelper     =$this->get('le.helper.payment');
+        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+        $countrydetails    = $licenseinfoHelper->getCountryName();
+        $timezone          = $countrydetails['timezone'];
+        $countryname       = $countrydetails['countryname'];
+        $city              = $countrydetails['city'];
+        $state             = $countrydetails['state'];
+        $planname          = 'leplan1';
+
+        $countryChoices  = FormFieldHelper::getCountryChoices();
+        $regionChoices   = FormFieldHelper::getRegionChoices();
+
+        return $this->delegateView([
+            'viewParameters' => [
+                'security'        => $this->get('mautic.security'),
+                'letoken'         => $paymenthelper->getUUIDv4(),
+                'tmpl'            => 'index',
+                'timezone'        => $timezone,
+                'country'         => $countryname,
+                'city'            => $city,
+                'state'           => $state,
+                'planname'        => $planname,
+                'countries'       => $countryChoices,
+                'states'          => $regionChoices,
+            ],
+            'contentTemplate' => 'MauticSubscriptionBundle:Pricing:billing.html.php',
+            'passthroughVars' => [
+                'activeLink'    => '#le_billing_index',
+                'leContent'     => 'pricingplans',
+                'route'         => $this->generateUrl('le_billing_index'),
             ],
         ]);
     }
@@ -155,6 +192,7 @@ class SubscriptionController extends CommonController
                     'security'       => $this->get('mautic.security'),
                     'contentOnly'    => 0,
                     'paymentdetails' => $payment,
+                    'tmpl'           => 'index',
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Pricing:status.html.php',
                 'passthroughVars' => [

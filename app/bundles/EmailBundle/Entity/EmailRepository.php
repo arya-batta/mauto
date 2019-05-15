@@ -1386,4 +1386,16 @@ class EmailRepository extends CommonRepository
 
         return $q->getQuery()->getResult();
     }
+
+    public function getAllVerifiedSendingDomains()
+    {
+        $q = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('sd')
+            ->from('MauticEmailBundle:SendingDomain', 'sd', 'sd.id');
+        $q->where($q->expr()->eq('sd.status', ':status'));
+        $q->setParameter('status', 1);
+
+        return $q->getQuery()->getResult();
+    }
 }

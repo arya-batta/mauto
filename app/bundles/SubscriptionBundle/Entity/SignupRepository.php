@@ -629,4 +629,44 @@ class SignupRepository
                 ->execute();
         }
     }
+
+    public function updateAccountInfo($data, $email)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $address  = $data['address'];
+        $city     = $data['city'];
+        $state    = $data['state'];
+        $country  = $data['country'];
+        $zip      = $data['zipcode'];
+        $business = $data['business'];
+        $website  = $data['website'];
+        $phone    = $data['phone'];
+
+        $recordid = $this->checkisRecordAvailable($email);
+        if (!$recordid) {
+        } else {
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('address1', ':address')
+                ->set('city', ':city')
+                ->set('state', ':state')
+                ->set('zipcode', ':zipcode')
+                ->set('country', ':country')
+                ->set('company_new', ':company')
+                ->set('mobile', ':mobile')
+                ->set('website1', ':website')
+                ->setParameter('address', $address)
+                ->setParameter('city', $city)
+                ->setParameter('state', $state)
+                ->setParameter('zipcode', $zip)
+                ->setParameter('country', $country)
+                ->setParameter('company', $business)
+                ->setParameter('mobile', $phone)
+                ->setParameter('website', $website)
+                ->where(
+                    $qb->expr()->in('id', $recordid)
+                )
+                ->execute();
+        }
+    }
 }

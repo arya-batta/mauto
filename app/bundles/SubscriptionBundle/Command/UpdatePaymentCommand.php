@@ -52,7 +52,9 @@ class UpdatePaymentCommand extends ModeratedCommand
                 return 0;
             }
             if ($lastpayment != null) {
+                $firstpayment      = $paymentrepository->getFirstPayment();
                 $paymenthelper     =$container->get('le.helper.payment');
+                $dateHelper        = $container->get('mautic.helper.template.date');
                 if ($licenseinfo != null) {
                     $totalrecordcount =$licenseinfo->getTotalEmailCount();
                     $actualrecordcount=$licenseinfo->getActualEmailCount();
@@ -68,15 +70,11 @@ class UpdatePaymentCommand extends ModeratedCommand
                     if (sizeof($stripecards) > 0) {
                         $stripecard = $stripecards[0];
                     }
-                    $monthcount  = 1;
-                    $plancredits = 'UL';
-                    /*if ($planname != 'leplan1') {
-                        $planname = 'leplan1';
-                    }*/
-                    //if ($planname == 'leplan2') {
-                    //$monthcount = 12;
-                    $plancredits = $licenseinfohelper->getEmailCreditsByPlan($planname);
-                    //}
+                    $firstPaymentdate = $firstpayment->getcreatedOn();
+                    $firstPaymentdate = $dateHelper->toCustDate($firstPaymentdate, 'local', 'Y-m-d');
+                    $monthcount       = 1;
+                    $plancredits      = 'UL';
+                    $plancredits      = $translator->trans('le.pricing.plan.email.credits.'.$planname);
                     if ($stripecard != null) {
                         $ismoreusage=false;
                         if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
@@ -86,6 +84,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                         if (strtotime($validitytill) < strtotime($currentdate)) {
                             $isvalidityexpired=true;
                         }
+                        $clearactualmailcount = false;
                         if ($ismoreusage || $isvalidityexpired) {
                             $output->writeln('<info>'.'Total Record Count:'.$totalrecordcount.'</info>');
                             $output->writeln('<info>'.'Actual Record Count:'.$actualrecordcount.'</info>');
@@ -95,14 +94,11 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $multiplx   = $multiplx - 10;
                             }
                             if ($isvalidityexpired) {
-                                $plancredits = $translator->trans('le.pricing.plan.email.plancredits1');
-                                $planamount  = $translator->trans('le.pricing.plan.amount1');
-                                if ($planname == 'leplan2') {
-                                    $plancredits = $translator->trans('le.pricing.plan.email.plancredits2');
-                                    $planamount  = $translator->trans('le.pricing.plan.amount2');
-                                } elseif ($planname == 'leplan3') {
-                                    $plancredits = $translator->trans('le.pricing.plan.email.plancredits3');
-                                    $planamount  = $translator->trans('le.pricing.plan.amount3');
+                                $monthdiff  = $this->getMonthDiff($firstPaymentdate, $currentdate);
+                                $planamount = 0;
+                                if ($monthdiff == 3) {
+                                    $planname   = 'leplan2';
+                                    $planamount = $translator->trans('le.pricing.plan.amount.'.$planname);
                                 }
                                 $curtotalcount  = $totalrecordcount - $plancredits;
                                 $curactualcount = $actualrecordcount - $plancredits;
@@ -115,20 +111,17 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
                                 $clearactualmailcount = true;
                             } elseif ($ismoreusage) {
+                                $addoncredits = $translator->trans('le.pricing.plan.addon.credits.'.$planname);
+                                $addonAmount  = $translator->trans('le.pricing.plan.addon.amount.'.$planname);
                                 //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
                                 $excesscount=$actualrecordcount - $totalrecordcount;
                                 $amtmultiplx=1;
                                 if ($excesscount > 0) {
-                                    $amtmultiplx   =ceil($excesscount / 10000);
+                                    $amtmultiplx   =ceil($excesscount / $addoncredits);
                                 }
-                                $examount = 10;
-                                if ($planname == 'leplan2') {
-                                    $examount = 7;
-                                } elseif ($planname == 'leplan3') {
-                                    $examount = 5;
-                                }
+                                $examount             = $addonAmount;
                                 $netamount            = ($examount * $amtmultiplx);
-                                $netcredits           = (($plancredits) + (10000 * $amtmultiplx));
+                                $netcredits           = (($plancredits) + ($addoncredits * $amtmultiplx));
                                 $clearactualmailcount = false;
                                 //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
                                 //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
@@ -136,15 +129,13 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 // $netamount=$amount2 - $amount1;
                                 $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
                             }
-                            $contactcredites    = $translator->trans('le.pricing.plan.plancredits1');
-                            if ($planname == 'leplan2') {
-                                $contactcredites =$translator->trans('le.pricing.plan.plancredits2');
-                            } elseif ($planname == 'leplan3') {
-                                $contactcredites = $translator->trans('le.pricing.plan.plancredits3');
-                            }
+                            $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$planname);
                             if ($netamount > 0) {
                                 $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites);
                             } else {
+                                $subsrepository=$container->get('le.core.repository.subscription');
+                                $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $clearactualmailcount, $plancredits);
+                                $payment       =$paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $plancredits, $validitytill, $planname, null, null, 'Paid');
                                 $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
                             }
                         } else {
@@ -281,5 +272,19 @@ class UpdatePaymentCommand extends ModeratedCommand
         $prorataamount=$amount * ($diff / 31);
 
         return round($prorataamount);
+    }
+
+    protected function getMonthDiff($date1, $date2)
+    {
+        $ts1 = strtotime($date1);
+        $ts2 = strtotime($date2);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        return $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
     }
 }

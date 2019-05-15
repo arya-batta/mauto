@@ -25,14 +25,6 @@ if ($preamount != 0) {
     </a> to connect it.</div>
 <br>
 <br>
-<div>
-    <?php echo $view->render('MauticSubscriptionBundle:Pricing:pricing.html.php', [
-        'letoken'     => $letoken,
-        'redirecturl' => $redirecturl,
-        'plan1'       => 0,
-        'plan2'       => $plan2amount,
-        'plan3'       => $plan3amount,
-        'planname'    => $planname,
-        'isDashboard' => false,
-    ]); ?>
+<div class="pricingplan-dashboard">
+    <?php echo $view->render('MauticSubscriptionBundle:Pricing:pricing.html.php'); ?>
 </div>

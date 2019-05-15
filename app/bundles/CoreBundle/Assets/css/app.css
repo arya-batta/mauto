@@ -5336,7 +5336,7 @@ figcaption {
   width: 80%;
 }
 .label_control_error{
-  color:#a94442;
+  color:#f03154 !important;
 }
 .alert-dismissable, .alert-dismissible {
   padding-right: 35px;
@@ -7831,4 +7831,129 @@ ul.list-unstyled, ul#list-unstyled  {
 
 .text-transform-none{
   text-transform: none !important;
+}
+.dashboad-header{
+  line-height: 39px;
+  font-size: 22px;
+  font-weight: normal;
+  color: #000;
+}
+.dashboard-header-p{
+  margin-top: 60px;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center
+}
+
+/*New Pricing CSS*/
+.afprice {
+  margin-top:10px;
+  width: 100%;
+  display: inline-flex;
+  background: #fff;
+  -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,.3);
+  box-shadow: 2px 2px 9px rgba(0,0,0,.3);
+  padding: 40px;
+  transition: opacity .5s ease;
+  -webkit-transition: opacity .5s ease;
+}
+.afpriceone {
+  padding: 20px 15px;
+  width: 45%!important;
+  text-align: center;
+}
+.afinclude {
+  width: 55%;
+  margin-left:8%
+}
+.afpricetitle {
+  font-family: "Poppins",Montserrat,sans-serif;
+  text-align: center;
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 35px;
+  color: #000;
+}
+.afpriceamt{
+  font-family: "Poppins",Montserrat,sans-serif;
+  text-align: center;
+  font-weight: 600;
+  font-size: 80px;
+  color: #000;
+}
+
+.afinclude h2 {
+  line-height: 35px;
+  color: #2d3e50;
+  margin: 10px;
+  font-family: "Poppins",Montserrat,sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  text-align: left;
+}
+span.afincludes{
+  font-family: "Poppins",Montserrat,sans-serif;
+  text-align: left;
+  font-size: 15px;
+  position: relative;
+  padding: 0px 0px 0px 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-underline-position: under;
+  text-decoration: none dotted #7c98b6;
+  transition: text-decoration-line .5s ease;
+}
+.afincludesdiv {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  background: url(https://anyfunnels.com/wp-content/uploads/leadsengage/dot-blue.png) no-repeat top left;
+  padding-bottom: 0.5em;
+  padding-left: 8px!important;
+  background-position: 1px 0px;
+}
+.price-buttonfoot {
+  transition: all .1s ease;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  font-family: "Poppins",Montserrat,sans-serif;
+  display: inline-block;
+  text-transform: uppercase!important;
+  border: 1px solid #0071ff;
+  background-color: #0071ff;
+  border-radius: 6px;
+  letter-spacing: .6px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.36);
+  white-space: nowrap;
+}
+.price-buttonfoot:hover{
+  color: #FFFFFF;
+}
+.price-buttonfoot[disabled]{
+  margin-top: 15px;
+  text-transform: uppercase;
+  background: #0071ff !important;
+  color: #fff;
+  border: 1px solid #0071ff !important;
+}
+.pricing-footer{
+  background-color: #ddd;
+  border-top: 1px solid #ddd;
+  background-color: rgba(0,0,0,.05);
+  margin-bottom: 0px;
+  padding: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align:center;
+}
+.pricingplan-dashboard{
+  margin-top: 20px;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
 }

@@ -22,7 +22,36 @@ $creditsafter =$paymentdetails->getAfterCredits();
 $validitytill =$paymentdetails->getValidityTill();
 $validitytill =date('d-M-y', strtotime($validitytill));
 ?>
-<div class="payment-status-holder">
+
+<div class="panel" style="margin:20px;padding-top: 20px;padding-bottom: 20px;margin-top:100px;">
+    <div class="panel-body box-layout">
+        <p style="text-align: center;">
+            <span style="font-size: 24px;font-weight: bold;">
+                <?php echo $view['translator']->trans('le.pricing.thankyou.header'); ?>
+            </span>
+        </p>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <p style="text-align: center;">
+                    <span>
+                        <?php echo $view['translator']->trans('le.pricing.thankyou.content'); ?>
+                    </span>
+                    <span>
+                        <?php echo $view['translator']->trans('le.pricing.thankyou.content1'); ?>
+                    </span>
+                </p>
+                <br>
+                <br>
+                <div class="text-center">
+                    <a class ="price-buttonfoot" href="<?php echo $view['router']->path('le_dashboard_index'); ?>" data-toggle="ajax"><?php echo $view['translator']->trans('mautic.core.go_to_dashboard'); ?></a>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+<div class="payment-status-holder hide">
     <table width="100%">
         <tr>
             <td colspan="2">
