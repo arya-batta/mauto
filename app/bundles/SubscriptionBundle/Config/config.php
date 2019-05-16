@@ -15,6 +15,10 @@ return [
                 'path'       => '/pricing',
                 'controller' => 'MauticSubscriptionBundle:Subscription:indexpricing',
             ],
+            'le_billing_index' => [
+                'path'       => '/pricing/billing',
+                'controller' => 'MauticSubscriptionBundle:Subscription:billing',
+            ],
             'le_subscription_status' => [
                 'path'       => '/subscription-status',
                 'controller' => 'MauticSubscriptionBundle:Subscription:subscriptionstatus',
