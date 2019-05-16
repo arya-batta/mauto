@@ -908,7 +908,7 @@ class LicenseInfoHelper
 
     public function getFirstTimeSetup($dbhost = 'localhost', $islogin = false)
     {
-        if ($dbhost == 'localhost' && $islogin) {
+        if ($islogin) {
             $billformview = '';
             $accformview  = '';
             $userformview = '';
