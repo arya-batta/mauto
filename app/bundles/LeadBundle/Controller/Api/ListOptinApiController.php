@@ -160,7 +160,7 @@ class ListOptinApiController extends CommonApiController
     {
         if (strpos($this->request->getRequestUri(), '/confirmed') !== false) {
             $this->fliterCommands = 'confirm_list:'.$id;
-        } elseif (strpos($this->request->getRequestUri(), '/pending') !== false) {
+        } elseif (strpos($this->request->getRequestUri(), '/unconfirmed') !== false) {
             $this->fliterCommands = 'unconfirm_list:'.$id;
         } elseif (strpos($this->request->getRequestUri(), '/unsubscribed') !== false) {
             $this->fliterCommands = 'unsubscribe_list:'.$id;

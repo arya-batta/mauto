@@ -941,11 +941,22 @@ class SearchSubscriber extends CommonSubscriber
               'alias'       => 'dl',
               'condition'   => 'l.id = dl.lead_id',
             ],
+            [
+                'from_alias'  => 'dl',
+                'table'       => 'dripemail_lead_event_log',
+                'alias'       => 'dle',
+                'condition'   => 'dl.lead_id = dle.lead_id',
+            ],
         ];
         $config = [
             'column' => 'dl.dripemail_id',
         ];
-        $this->buildJoinQuery($event, $tables, $config);
+        $dripId = $event->getString();
+        $q      = $event->getQueryBuilder();
+        $expr   = $q->expr()->andX($q->expr()->eq('dle.is_scheduled', '"1"'),
+            $q->expr()->eq('dle.dripemail_id', $dripId));
+        $this->leadRepo->applySearchQueryRelationship($q, $tables, true, $expr);
+        //$this->buildJoinQuery($event, $tables, $config);
     }
 
     /**

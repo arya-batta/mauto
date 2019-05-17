@@ -124,7 +124,7 @@ class LeadApiController extends CommonApiController
         );
 
         $view    = $this->view($fields, Codes::HTTP_OK);
-        $context = SerializationContext::create()->setGroups(['leadFieldList']);
+        $context = SerializationContext::create()->setGroups(['leadFieldDetails']);
         $view->setSerializationContext($context);
 
         return $this->handleView($view);
@@ -264,13 +264,14 @@ class LeadApiController extends CommonApiController
             $lists = $this->model->getLists($entity, true, true);
 
             foreach ($lists as &$l) {
-                unset($l['leads'][0]['leadlist_id']);
+                /**unset($l['leads'][0]['leadlist_id']);
                 unset($l['leads'][0]['lead_id']);
                 unset($l['alias']);
 
                 $l = array_merge($l, $l['leads'][0]);
-
+                unset($l['leads']);*/
                 unset($l['leads']);
+                unset($l['alias']);
             }
 
             $view = $this->view(
@@ -280,6 +281,9 @@ class LeadApiController extends CommonApiController
                 ],
                 Codes::HTTP_OK
             );
+
+            $context = SerializationContext::create()->setGroups(['leadlistOptBasicDetails', 'publishBasicDetails']);
+            $view->setSerializationContext($context);
 
             return $this->handleView($view);
         }
@@ -347,7 +351,7 @@ class LeadApiController extends CommonApiController
             $campaigns     = $campaignModel->getLeadCampaigns($entity, true);
 
             foreach ($campaigns as &$c) {
-                if (!empty($c['lists'])) {
+                /**if (!empty($c['lists'])) {
                     $c['listMembership'] = array_keys($c['lists']);
                     unset($c['lists']);
                 }
@@ -357,6 +361,7 @@ class LeadApiController extends CommonApiController
 
                 $c = array_merge($c, $c['leads'][0]);
 
+                unset($c['leads']);*/
                 unset($c['leads']);
             }
 
@@ -816,6 +821,8 @@ class LeadApiController extends CommonApiController
         //$minimal       = $this->request->get('minimal', 0);
         $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
         $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+        $orderBy       = isset($parameters['orderBy']) ? $parameters['orderBy'] : '';
+        $orderByDir    = isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC';
 
         try {
             if (!$this->security->isGranted($this->permissionBase.':view')) {
@@ -854,11 +861,28 @@ class LeadApiController extends CommonApiController
             }
         }
 
-        if (isset($parameters['start']) && !is_numeric($parameters['start'])) {
+        if (isset($parameters['start']) && $parameters['start'] != '' && !is_numeric($parameters['start'])) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
         }
-        if (isset($parameters['limit']) && !is_numeric($parameters['limit'])) {
+        if (isset($parameters['limit']) && $parameters['limit'] != '' && !is_numeric($parameters['limit'])) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+        if ($publishedOnly != '' && !is_bool($publishedOnly)) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
+        }
+        if ($orderBy != '') {
+            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_new', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
+
+            if (!in_array($orderBy, $validOrderByFields)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderBy']);
+            }
+        }
+        if ($orderByDir != '') {
+            $validOrderByDirValues = ['asc', 'desc', 'ASC', 'DESC'];
+
+            if (!in_array($orderByDir, $validOrderByDirValues)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderByDir']);
+            }
         }
 
         $args = array_merge(
@@ -869,8 +893,8 @@ class LeadApiController extends CommonApiController
                     'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
                     'force'  => $this->listFilters,
                 ],
-                'orderBy'        => $this->addAliasIfNotPresent(isset($parameters['orderBy']) ? strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $parameters['orderBy'])) : '', $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
-                'orderByDir'     => isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC', //$this->request->query->get('orderByDir', 'ASC'),
+                'orderBy'        => $this->addAliasIfNotPresent(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $orderBy)), $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => $orderByDir, //$this->request->query->get('orderByDir', 'ASC'),
                 'withTotalCount' => true, //for repositories that break free of Paginator
             ],
             $this->extraGetEntitiesArguments
@@ -893,7 +917,17 @@ class LeadApiController extends CommonApiController
 
         $fielddata = [];
         foreach ($results['results'] as $key => $entityvalue) {
-            $fielddata[$key] = $entityvalue->getProfileFields();
+            $profileFields = $entityvalue->getProfileFields();
+
+            foreach ($profileFields as $keys => $value) {
+                if (date('Y-m-d H:i:s', strtotime($value)) == $value) {
+                    $profileFields[$keys] = $this->factory->getHelper('template.date')->toCustDate($value, '', 'Y-m-d H:i:sP');
+                } elseif (date('H:i:s', strtotime($value)) == $value) {
+                    $profileFields[$keys] = $this->factory->getHelper('template.date')->toCustDate($value, '', 'H:i:sP');
+                }
+            }
+
+            $fielddata[$key] = $profileFields;
         }
 
         list($entities, $totalCount) = $this->prepareEntitiesForView($results);
@@ -908,17 +942,20 @@ class LeadApiController extends CommonApiController
             $listoptinrepository = $this->factory->getModel('lead.listoptin')->getListLeadRepository();
             $listId              = $listoptinrepository->getListIDbyLeads($leadId);
             $listdatas           = [];
+            $listdata            = [];
             foreach ($listId as $key => $detail) {
                 foreach ($detail as $name => $value) {
                     $listentity            = $listoptinmodel->getEntity($value);
-                    $listdata['id']        = $listentity->getId();
-                    $listdata['name']      = $listentity->getName();
-                    $listdata['listtype']  = $listentity->getListType();
-                    $listdata['dateAdded'] = $listentity->getDateAdded();
+                    if ($listentity != null) {
+                        $listdata['id']        = $listentity->getId();
+                        $listdata['name']      = $listentity->getName();
+                        $listdata['listtype']  = $listentity->getListType();
+                        $listdata['dateAdded'] = $listentity->getDateAdded();
+                    }
                 }
                 $listdatas[] = $listdata;
             }
-            $modifieddata[] = [$entity->getId() => $entity, 'all' => $fielddata[$entity->getId()], 'listoptin' => $listdatas];
+            $modifieddata[] = [$entity->getId() => $entity, 'all' => $fielddata[$entity->getId()]/* 'listoptin' => $listdatas*/];
         }
         $modifiedentities[] = $modifieddata;
         $payload            = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
@@ -1006,7 +1043,7 @@ class LeadApiController extends CommonApiController
 
         $entity = $this->model->getEntity($result[0]->getId());
 
-        if (!$this->checkEntityAccess($entity, 'view')) {
+        if (!$this->checkEntityAccess($entity, 'view') || ($entity->getCreatedBy() == '1' && !$this->security->isAdmin())) {
             return $this->accessDenied();
         }
 
@@ -1026,9 +1063,19 @@ class LeadApiController extends CommonApiController
             }
             $listdatas[] = $listdata;
         }
+        $profileFields = $entity->getProfileFields();
+
+        foreach ($profileFields as $keys => $value) {
+            if (date('Y-m-d H:i:s', strtotime($value)) == $value) {
+                $profileFields[$keys] = $this->factory->getHelper('template.date')->toCustDate($value, '', 'Y-m-d H:i:sP');
+            } elseif (date('H:i:s', strtotime($value)) == $value) {
+                $profileFields[$keys] = $this->factory->getHelper('template.date')->toCustDate($value, '', 'H:i:sP');
+            }
+        }
         $modifieddata[$entity->getId()] = $entity;
-        $modifieddata['all']            = $entity->getProfileFields();
-        $modifieddata['listoptin']      = $listdatas;
+        $modifieddata['all']            = $profileFields;
+        unset($modifieddata['all']['points']);
+        //$modifieddata['listoptin']      = $listdatas;
 
         $this->preSerializeEntity($modifieddata);
         $view = $this->view([$this->entityNameOne => $modifieddata], Codes::HTTP_OK);
@@ -1096,6 +1143,12 @@ class LeadApiController extends CommonApiController
                 //PATCH requires that an entity exists
                 return $this->notFound();
             }
+            $haserror = $this->isValidDateFormat($parameters, false);
+
+            if ($haserror) {
+                return $haserror;
+            }
+
             if (isset($parameters['email'])) {
                 $result = $this->model->getRepository()->findBy([
                         'email' => $parameters['email'],
@@ -1203,6 +1256,9 @@ class LeadApiController extends CommonApiController
                 Codes::HTTP_OK
             );
 
+            $context = SerializationContext::create()->setGroups(['leadlistOptinBasicDetails', 'publishBasicDetails']);
+            $view->setSerializationContext($context);
+
             return $this->handleView($view);
         }
 
@@ -1248,6 +1304,9 @@ class LeadApiController extends CommonApiController
                 ],
                 Codes::HTTP_OK
             );
+
+            $context = SerializationContext::create()->setGroups(['dripemailBasicDetails']);
+            $view->setSerializationContext($context);
 
             return $this->handleView($view);
         }

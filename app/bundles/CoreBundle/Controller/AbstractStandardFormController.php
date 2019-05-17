@@ -12,7 +12,6 @@
 namespace Mautic\CoreBundle\Controller;
 
 use Mautic\CampaignBundle\Model\CampaignModel;
-use Mautic\CategoryBundle\Entity\Category;
 use Mautic\CoreBundle\Entity\FormEntity;
 use Mautic\CoreBundle\Model\AbstractCommonModel;
 use Mautic\CoreBundle\Model\FormModel;
@@ -425,6 +424,11 @@ abstract class AbstractStandardFormController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     if ($valid = $this->beforeEntitySave($entity, $form, 'edit', $objectId, $isClone)) {
+                        if ($this->getModelName() == 'webhook.webhook') {
+                            $formData    = $form->getData();
+                            $webhookUrl  = $formData->getWebhookUrl();
+                            $formData->setName($webhookUrl);
+                        }
                         if ($form->getName() == 'focus') {
                             $currentutmtags=$entity->getUtmTags();
                             $currentname   =$entity->getName();
@@ -1065,6 +1069,11 @@ abstract class AbstractStandardFormController extends AbstractFormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     if ($valid = $this->beforeEntitySave($entity, $form, 'new')) {
+                        if ($this->getModelName() == 'webhook.webhook') {
+                            $formData    = $form->getData();
+                            $webhookUrl  = $formData->getWebhookUrl();
+                            $formData->setName($webhookUrl);
+                        }
                         if ($form->getName() == 'focus') {
                             $currentutmtags=$entity->getUtmTags();
                             $currentname   =$entity->getName();

@@ -166,6 +166,11 @@ class FormEntity extends CommonEntity
                     'modifiedBy',
                     'modifiedByUser',
                 ]
+            )->setGroupPrefix('publishBasic')
+            ->addListProperties(
+                [
+                    'isPublished',
+                ]
             )
             ->build();
     }

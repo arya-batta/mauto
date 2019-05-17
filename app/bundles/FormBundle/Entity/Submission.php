@@ -142,6 +142,16 @@ class Submission
                     'results',
                 ]
             )
+            ->setGroupPrefix('submissionApi')
+            ->addProperties(
+                [
+                    'id',
+                    'ipAddress',
+                    'dateSubmitted',
+                    'referer',
+                    'results',
+                ]
+            )
             ->build();
     }
 

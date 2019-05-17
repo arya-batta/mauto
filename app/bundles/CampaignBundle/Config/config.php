@@ -108,6 +108,11 @@ return [
                 'controller' => 'MauticCampaignBundle:Api\CampaignApi:getEntityByStatus',
                 'method'     => 'POST',
             ],
+            'mautic_api_campaigngetgoalachievedcontact' => [
+                'path'       => '/workflows/{id}/lead/achieved',
+                'controller' => 'MauticCampaignBundle:Api\CampaignApi:getEntityByStatus',
+                'method'     => 'POST',
+            ],
 
             // @deprecated 2.6.0 to be removed 3.0
             'bc_mautic_api_campaignaddcontact' => [

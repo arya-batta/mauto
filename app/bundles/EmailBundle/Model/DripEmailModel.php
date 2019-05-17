@@ -400,6 +400,7 @@ class DripEmailModel extends FormModel
 
     public function addLead($campaign, $lead)
     {
+        $added = false;
         if ($this->checkLeadLinked($lead, $campaign)) {
             $dripCampaign = new DripLead();
             $dripCampaign->setCampaign($campaign);
@@ -415,12 +416,15 @@ class DripEmailModel extends FormModel
                 $this->dispatcher->dispatch(LeadEvents::LEAD_DRIP_CAMPAIGN_ADD, $event);
                 unset($event);
             }
+            $added = true;
         }
+
+        return $added;
     }
 
     public function addLeadToDrip($campaign, $lead)
     {
-        $this->addLead($campaign, $lead);
+        $added = $this->addLead($campaign, $lead);
         $items = $this->emailModel->getEntities(
             [
                 'filter' => [
@@ -437,8 +441,9 @@ class DripEmailModel extends FormModel
                 'ignore_paginator' => true,
             ]
         );
-
-        $this->scheduleEmail($items, $campaign, $lead);
+        if ($added) {
+            $this->scheduleEmail($items, $campaign, $lead);
+        }
     }
 
     public function removeLead($dripId, $leadId)
@@ -843,5 +848,159 @@ class DripEmailModel extends FormModel
     public function getDripByLead($leadId, $publishedonly = true)
     {
         return $this->getRepository()->getDripByLead($leadId, $publishedonly);
+    }
+
+    public function getDripEmailStats($id = null, $percentageNeeded= true)
+    {
+        /** @var DripEmailModel $model */
+        $model = $this->factory->getModel('email.dripemail');
+
+        /** @var EmailModel $model */
+        $emailmodel = $this->factory->getModel('email');
+
+        /** @var LeadRepository $leadRepo */
+        $leadRepo           = $this->factory->get('mautic.email.repository.lead');
+        $leadEventLogRepo   = $this->factory->get('mautic.email.repository.LeadEventLog');
+
+        $data        = [];
+        $activeLeads = [];
+        if ($id) {
+            if ($dripemail = $model->getEntity($id)) {
+                $emailEntities = $emailmodel->getEntities(
+                    [
+                        'filter'           => [
+                            'force' => [
+                                [
+                                    'column' => 'e.dripEmail',
+                                    'expr'   => 'eq',
+                                    'value'  => $dripemail,
+                                ],
+                            ],
+                        ],
+                        'orderBy'          => 'e.dripEmailOrder',
+                        'orderByDir'       => 'asc',
+                        'ignore_paginator' => true,
+                    ]
+                );
+                $leads = $leadRepo->getEntities(
+                    [
+                        'filter'           => [
+                            'force' => [
+                                [
+                                    'column' => 'le.campaign',
+                                    'expr'   => 'eq',
+                                    'value'  => $dripemail,
+                                ],
+                            ],
+                        ],
+                        'ignore_paginator' => true,
+                    ]
+                );
+                foreach ($leads as $lead) {
+                    $eventLogLead = $leadEventLogRepo->getEntities(
+                        [
+                            'filter'           => [
+                                'force' => [
+                                    [
+                                        'column' => 'dle.campaign',
+                                        'expr'   => 'eq',
+                                        'value'  => $dripemail,
+                                    ],
+                                    [
+                                        'column' => 'dle.lead',
+                                        'expr'   => 'eq',
+                                        'value'  => $lead->getLead(),
+                                    ],
+                                    [
+                                        'column' => 'dle.isScheduled',
+                                        'expr'   => 'eq',
+                                        'value'  => '1',
+                                    ],
+                                ],
+                            ],
+                            'ignore_paginator' => true,
+                        ]
+                    );
+
+                    if (count($eventLogLead)) {
+                        $activeLeads[] = $lead;
+                    }
+                }
+
+                $dripSentCount   = 0;
+                $dripReadCount   = 0;
+                $dripClickCount  = 0;
+                $dripUnsubCount  = 0;
+                $dripBounceCount = 0;
+                $dripSpamCount   = 0;
+                $dripFailedCount = 0;
+                foreach ($emailEntities as $email) {
+                    $sentCount        = $email->getSentCount(true);
+                    $readCount        = $email->getReadCount(true);
+                    $clickCount       = $emailmodel->getEmailClickCount($email->getId());
+                    $failedcount      = $emailmodel->getEmailFailedCount($email->getId());
+                    $unsubCount       = $email->getUnsubscribeCount(true);
+                    $bouncecount      = $email->getBounceCount(true);
+                    $spamcount        = $email->getSpamCount(true);
+                    $dripSentCount += $sentCount;
+                    $dripReadCount += $readCount;
+                    $dripClickCount += $clickCount;
+                    $dripUnsubCount += $unsubCount;
+                    $dripBounceCount += $bouncecount;
+                    $dripSpamCount += $spamcount;
+                    $dripFailedCount += $failedcount;
+                }
+                $dripclickCountPercentage  = 0;
+                $dripreadCountPercentage   = 0;
+                $dripunsubsCountPercentage = 0;
+                $dripbounceCountPercentage = 0;
+                $dripspamCountPercentage   = 0;
+                $dripfailedCountPercentage = 0;
+                if ($dripClickCount > 0 && $dripSentCount > 0) {
+                    $dripclickCountPercentage  = round($dripClickCount / $dripSentCount * 100);
+                }
+                if ($dripReadCount > 0 && $dripSentCount > 0) {
+                    $dripreadCountPercentage   = round($dripReadCount / $dripSentCount * 100);
+                }
+                if ($dripUnsubCount > 0 && $dripSentCount > 0) {
+                    $dripunsubsCountPercentage = round($dripUnsubCount / $dripSentCount * 100);
+                }
+                if ($dripBounceCount > 0 && $dripSentCount > 0) {
+                    $dripbounceCountPercentage = round($dripBounceCount / $dripSentCount * 100);
+                }
+                if ($dripSpamCount > 0 && $dripSentCount > 0) {
+                    $dripspamCountPercentage = round($dripSpamCount / $dripSentCount * 100);
+                }
+                if ($dripFailedCount > 0 && sizeof($leads) > 0) {
+                    $dripfailedCountPercentage = round($dripFailedCount / sizeof($leads) * 100);
+                }
+                if ($percentageNeeded) {
+                    $data = [
+                        'success'          => 1,
+                        'sentcount'        => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
+                        'readcount'        => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
+                        'clickcount'       => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' =>$dripClickCount, '%percentage%' => $dripclickCountPercentage]),
+                        'unsubscribe'      => $this->translator->trans('le.drip.email.stat.unsubscribe', ['%count%' =>$dripUnsubCount, '%percentage%' => $dripunsubsCountPercentage]),
+                        'bouncecount'      => $this->translator->trans('le.drip.email.stat.bounce', ['%count%' =>$dripBounceCount, '%percentage%' => $dripbounceCountPercentage]),
+                        'spam'             => $this->translator->trans('le.drip.email.stat.spam', ['%count%' =>$dripSpamCount, '%percentage%' => $dripspamCountPercentage]),
+                        'failed'           => $this->translator->trans('le.drip.email.stat.failed', ['%count%' =>$dripFailedCount, '%percentage%' => $dripfailedCountPercentage]),
+                        'leadcount'        => $this->translator->trans('le.drip.email.stat.leadcount', ['%count%'  => sizeof($activeLeads)]),
+                    ];
+                } else {
+                    $data = [
+                        'sentcount'   => $dripSentCount,
+                        'readcount'   => $dripReadCount,
+                        'clickcount'  => $dripClickCount,
+                        'unsubscribe' => $dripUnsubCount,
+                        'bouncecount' => $dripBounceCount,
+                        'spam'        => $dripSpamCount,
+                        'failed'      => $dripFailedCount,
+                        'leadcount'   => sizeof($activeLeads),
+                    ];
+                }
+            }
+        }
+
+        return $data;
     }
 }

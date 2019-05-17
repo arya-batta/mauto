@@ -124,7 +124,7 @@ class LeadList extends FormEntity
                     'name',
                     //'alias',
                     'description',
-                    'isGlobal',
+                    //'isGlobal',
                 ]
             )
             ->addProperties(

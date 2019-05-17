@@ -531,7 +531,7 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                 [
                     'lastActive',
                     'owner',
-                    'tags',
+                    //'tags',
                     'dateIdentified',
                     'doNotContact',
                 ]
@@ -557,6 +557,15 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
                     //'preferredProfileImage',
                     'doNotContact',
                     //'frequencyRules',
+                ]
+            )
+            ->setGroupPrefix('leadBasicApi')
+            ->addListProperties(
+                [
+                    'id',
+                    'firstname',
+                    'lastname',
+                    'email',
                 ]
             )
             ->build();

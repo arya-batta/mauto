@@ -174,6 +174,8 @@ class EmailApiController extends CommonApiController
         //$minimal       = $this->request->get('minimal', 0);
         $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
         $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+        $orderBy       = isset($parameters['orderBy']) ? $parameters['orderBy'] : '';
+        $orderByDir    = isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC';
 
         try {
             if (!$this->security->isGranted($this->permissionBase.':view')) {
@@ -223,6 +225,32 @@ class EmailApiController extends CommonApiController
             }
         }
 
+        if (isset($parameters['start']) && $parameters['start'] != '' && !is_numeric($parameters['start'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
+        }
+        if (isset($parameters['limit']) && $parameters['limit'] != '' && !is_numeric($parameters['limit'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+        if ($publishedOnly != '' && !is_bool($publishedOnly)) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
+        }
+
+        if ($orderBy != '') {
+            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_new', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
+
+            if (!in_array($orderBy, $validOrderByFields)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderBy']);
+            }
+        }
+
+        if ($orderByDir != '') {
+            $validOrderByDirValues = ['asc', 'desc', 'ASC', 'DESC'];
+
+            if (!in_array($orderByDir, $validOrderByDirValues)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderByDir']);
+            }
+        }
+
         $args = array_merge(
             [
                 'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
@@ -231,8 +259,8 @@ class EmailApiController extends CommonApiController
                     'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
                     'force'  => $this->listFilters,
                 ],
-                'orderBy'        => $this->addAliasIfNotPresent(isset($parameters['orderBy']) ? $parameters['orderBy'] : '', $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
-                'orderByDir'     => isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC', //$this->request->query->get('orderByDir', 'ASC'),
+                'orderBy'        => $this->addAliasIfNotPresent($orderBy, $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => $orderByDir, //$this->request->query->get('orderByDir', 'ASC'),
                 'withTotalCount' => true, //for repositories that break free of Paginator
             ],
             $this->extraGetEntitiesArguments

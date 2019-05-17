@@ -212,8 +212,16 @@ class LeadListOptIn extends FormEntity
                     'name',
                     'description',
                     'listtype',
-                    'thankyou',
-                    'goodbye',
+                    //'thankyou',
+                    //'goodbye',
+                ]
+            )
+            ->setGroupPrefix('leadlistOptinBasic')
+            ->addListProperties(
+                [
+                    'id',
+                    'name',
+                    'listtype',
                 ]
             )
             ->build();

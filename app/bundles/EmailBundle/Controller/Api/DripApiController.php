@@ -9,7 +9,9 @@
 namespace Mautic\EmailBundle\Controller\Api;
 
 use FOS\RestBundle\Util\Codes;
+use JMS\Serializer\SerializationContext;
 use Mautic\ApiBundle\Controller\CommonApiController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\LeadBundle\Controller\LeadAccessTrait;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -195,7 +197,9 @@ class DripApiController extends CommonApiController
             ],
             Codes::HTTP_OK
         );
-        $this->setSerializationContext($view);
+
+        $context = SerializationContext::create()->setGroups(['leadBasicApiDetails']);
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -216,5 +220,199 @@ class DripApiController extends CommonApiController
         }
 
         return parent::getEntityByStatusAction($id);
+    }
+
+    /**
+     * Obtains a specific entity as defined by the API URL.
+     *
+     * @param int $id Entity ID
+     *
+     * @return Response
+     */
+    public function getEntityAction($id)
+    {
+        $args          = [];
+        $repo          = $this->model->getRepository();
+        $tableAlias    = $repo->getTableAlias();
+        if ($select = InputHelper::cleanArray($this->request->get('select', []))) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if (!empty($args)) {
+            $args['id'] = $id;
+            $entity     = $this->model->getEntity($args);
+        } else {
+            $entity = $this->model->getEntity($id);
+        }
+
+        if (!$entity instanceof $this->entityClass) {
+            return $this->returnError('le.core.error.id.notfound', Codes::HTTP_NOT_FOUND, [], ['%id%'=> $id]); // Previous it was return $this->notFound();
+        }
+
+        if (!$this->checkEntityAccess($entity, 'view')) {
+            return $this->accessDenied();
+        }
+
+        if ($this->security->checkPermissionExists($this->permissionBase.':viewother')
+            && !$this->security->isGranted($this->permissionBase.':viewother')
+        ) {
+            $this->listFilters = [
+                'column' => $tableAlias.'.createdBy',
+                'expr'   => 'eq',
+                'value'  => $this->user->getId(),
+            ];
+        }
+
+        $sheduledate = $entity->getScheduleDate();
+        $value       = $this->factory->getHelper('template.date')->toCustDate($sheduledate, '', 'H:i:s P'); //'H:i:s e P' shows "11:00:00 UTC +00:00"
+        $entity->setScheduleDate($value);
+
+        $summary                     = [];
+        $summaryData                 = $this->model->getDripEmailStats($id, false);
+        $summary['sentCount']        = $summaryData['sentcount'];
+        $summary['openCount']        = $summaryData['readcount'];
+        $summary['clickCount']       = $summaryData['clickcount'];
+        $summary['unsubscribeCount'] = $summaryData['unsubscribe'];
+        $entityData[$id]             = [$entity, $summary];
+        $this->preSerializeEntity($entityData);
+        $view = $this->view([$this->entityNameOne => $entityData], Codes::HTTP_OK);
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Obtains a list of entities as defined by the API URL.
+     *
+     * @return Response
+     */
+    public function getEntitiesAction()
+    {
+        $parameters    = $this->request->request->all();
+        $repo          = $this->model->getRepository();
+        $tableAlias    = $repo->getTableAlias();
+        //$publishedOnly = $this->request->get('published', 0);
+        //$minimal       = $this->request->get('minimal', 0);
+        $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
+        $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+        $orderBy       = isset($parameters['orderBy']) ? $parameters['orderBy'] : '';
+        $orderByDir    = isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC';
+
+        try {
+            if (!$this->security->isGranted($this->permissionBase.':view')) {
+                return $this->accessDenied();
+            }
+        } catch (PermissionException $e) {
+            return $this->accessDenied($e->getMessage());
+        }
+
+        if ($this->security->checkPermissionExists($this->permissionBase.':viewother')
+            && !$this->security->isGranted($this->permissionBase.':viewother')
+        ) {
+            $this->listFilters = [
+                'column' => $tableAlias.'.createdBy',
+                'expr'   => 'eq',
+                'value'  => $this->user->getId(),
+            ];
+        }
+
+        if ($publishedOnly) {
+            $this->listFilters[] = [
+                'column' => $tableAlias.'.isPublished',
+                'expr'   => 'eq',
+                'value'  => true,
+            ];
+        }
+
+        if ($minimal) {
+            if (isset($this->serializerGroups[0])) {
+                $this->serializerGroups[0] = str_replace('Details', 'List', $this->serializerGroups[0]);
+            }
+        }
+
+        if (isset($parameters['start']) && $parameters['start'] != '' && !is_numeric($parameters['start'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
+        }
+        if (isset($parameters['limit']) && $parameters['limit'] != '' && !is_numeric($parameters['limit'])) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+        if ($publishedOnly != '' && !is_bool($publishedOnly)) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
+        }
+        if ($orderBy != '') {
+            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_new', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
+
+            if (!in_array($orderBy, $validOrderByFields)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderBy']);
+            }
+        }
+        if ($orderByDir != '') {
+            $validOrderByDirValues = ['asc', 'desc', 'ASC', 'DESC'];
+
+            if (!in_array($orderByDir, $validOrderByDirValues)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderByDir']);
+            }
+        }
+
+        $args = array_merge(
+            [
+                'start'  => isset($parameters['start']) ? $parameters['start'] : 0, //$this->request->query->get('start', 0),
+                'limit'  => isset($parameters['limit']) ? $parameters['limit'] : $this->coreParametersHelper->getParameter('default_pagelimit'), //$this->request->query->get('limit', $this->coreParametersHelper->getParameter('default_pagelimit')),
+                'filter' => [
+                    'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
+                    'force'  => $this->listFilters,
+                ],
+                'orderBy'        => $this->addAliasIfNotPresent($orderBy, $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => $orderByDir, //$this->request->query->get('orderByDir', 'ASC'),
+                'withTotalCount' => true, //for repositories that break free of Paginator
+            ],
+            $this->extraGetEntitiesArguments
+        );
+
+        $selectdata = isset($parameters['select']) ? $parameters['select'] : [];
+        if ($select = InputHelper::cleanArray($selectdata)) {
+            $args['select']              = $select;
+            $this->customSelectRequested = true;
+        }
+
+        if ($where = $this->getWhereFromRequest()) {
+            $args['filter']['where'] = $where;
+        }
+
+        if ($order = $this->getOrderFromRequest()) {
+            $args['filter']['order'] = $order;
+        }
+
+        $results = $this->model->getEntities($args);
+
+        list($entities, $totalCount) = $this->prepareEntitiesForView($results);
+
+        $modifieddata=[];
+        foreach ($entities as $entity) {
+            $sheduledate = $entity->getScheduleDate();
+            $value       = $this->factory->getHelper('template.date')->toCustDate($sheduledate, '', 'H:i:sP'); //'H:i:s e P' shows "11:00:00 UTC +00:00"
+            $entity->setScheduleDate($value);
+
+            $dripId                      = $entity->getId();
+            $summaryData                 = $this->model->getDripEmailStats($dripId, false);
+            $summary['sentCount']        = $summaryData['sentcount'];
+            $summary['openCount']        = $summaryData['readcount'];
+            $summary['clickCount']       = $summaryData['clickcount'];
+            $summary['unsubscribeCount'] = $summaryData['unsubscribe'];
+            $modifieddata[$dripId]       = [$entity, $summary];
+        }
+
+        $payload = ['start' => $args['start'], 'limit' => $args['limit'], 'total' => $totalCount];
+        $view    = $this->view(
+            [
+                'payload'              => $payload,
+                $this->entityNameMulti => $modifieddata,
+            ],
+            Codes::HTTP_OK
+        );
+        $this->setSerializationContext($view);
+
+        return $this->handleView($view);
     }
 }

@@ -408,7 +408,7 @@ return [
                 'method'     => 'POST',
             ],
             'mautic_api_listgetpendingcontact' => [
-                'path'       => '/lists/{id}/lead/pending',
+                'path'       => '/lists/{id}/lead/unconfirmed',
                 'controller' => 'MauticLeadBundle:Api\ListOptinApi:getEntityByStatus',
                 'method'     => 'POST',
             ],

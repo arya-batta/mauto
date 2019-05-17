@@ -393,6 +393,8 @@ class CampaignApiController extends CommonApiController
             $this->fliterCommands = 'wf_progress:'.$id;
         } elseif (strpos($this->request->getRequestUri(), '/completed') !== false) {
             $this->fliterCommands = 'wf_completed:'.$id;
+        } elseif (strpos($this->request->getRequestUri(), '/achieved') !== false) {
+            $this->fliterCommands = 'wf_goal:'.$id;
         }
 
         return parent::getEntityByStatusAction($id);

@@ -301,7 +301,9 @@ class ListApiController extends CommonApiController
             ],
             Codes::HTTP_OK
         );
-        $this->setSerializationContext($view);
+
+        $context = SerializationContext::create()->setGroups(['leadBasicApiDetails']);
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

@@ -248,6 +248,13 @@ class DripEmail extends FormEntity
                     'daysEmailSend',
                 ]
             )
+            ->setGroupPrefix('dripemailBasic')
+            ->addListProperties(
+                [
+                    'id',
+                    'name',
+                ]
+            )
             ->build();
     }
 

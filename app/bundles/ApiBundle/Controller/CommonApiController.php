@@ -306,6 +306,7 @@ class CommonApiController extends FOSRestController implements MauticController
                 $statusCodes[$key] = Codes::HTTP_FORBIDDEN;
                 continue;
             }
+            $this->isValidDateFormat($params, true, $key, $errors, $entities, $entity, $statusCodes);
 
             $this->processBatchForm($key, $entity, $params, $method, $errors, $entities);
 
@@ -360,6 +361,11 @@ class CommonApiController extends FOSRestController implements MauticController
         if (!$this->checkEntityAccess($entity, 'edit')) {
             return $this->accessDenied();
         }
+        $haserror = $this->isValidDateFormat($parameters, false);
+
+        if ($haserror) {
+            return $haserror;
+        }
 
         return $this->processForm($entity, $parameters, $method);
     }
@@ -378,6 +384,8 @@ class CommonApiController extends FOSRestController implements MauticController
         //$minimal       = $this->request->get('minimal', 0);
         $publishedOnly = isset($parameters['published']) ? $parameters['published'] : 0;
         $minimal       = isset($parameters['minimal']) ? $parameters['minimal'] : 0;
+        $orderBy       = isset($parameters['orderBy']) ? $parameters['orderBy'] : '';
+        $orderByDir    = isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC';
 
         try {
             if (!$this->security->isGranted($this->permissionBase.':view')) {
@@ -416,11 +424,28 @@ class CommonApiController extends FOSRestController implements MauticController
             }
         }
 
-        if (isset($parameters['start']) && !is_numeric($parameters['start'])) {
+        if (isset($parameters['start']) && $parameters['start'] != '' && !is_numeric($parameters['start'])) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'start']);
         }
-        if (isset($parameters['limit']) && !is_numeric($parameters['limit'])) {
+        if (isset($parameters['limit']) && $parameters['limit'] != '' && !is_numeric($parameters['limit'])) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
+        }
+        if ($publishedOnly != '' && !is_bool($publishedOnly)) {
+            return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
+        }
+        if ($orderBy != '') {
+            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_new', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
+
+            if (!in_array($orderBy, $validOrderByFields)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderBy']);
+            }
+        }
+        if ($orderByDir != '') {
+            $validOrderByDirValues = ['asc', 'desc', 'ASC', 'DESC'];
+
+            if (!in_array($orderByDir, $validOrderByDirValues)) {
+                return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderByDir']);
+            }
         }
 
         $args = array_merge(
@@ -431,12 +456,20 @@ class CommonApiController extends FOSRestController implements MauticController
                     'string' => isset($parameters['search']) ? $parameters['search'] : '', //$this->request->query->get('search', ''),
                     'force'  => $this->listFilters,
                 ],
-                'orderBy'        => $this->addAliasIfNotPresent(isset($parameters['orderBy']) ? $parameters['orderBy'] : '', $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
-                'orderByDir'     => isset($parameters['orderByDir']) ? $parameters['orderByDir'] : 'ASC', //$this->request->query->get('orderByDir', 'ASC'),
+                'orderBy'        => $this->addAliasIfNotPresent($orderBy, $tableAlias), //$this->addAliasIfNotPresent($this->request->query->get('orderBy', ''), $tableAlias),
+                'orderByDir'     => $orderByDir, //$this->request->query->get('orderByDir', 'ASC'),
                 'withTotalCount' => true, //for repositories that break free of Paginator
             ],
             $this->extraGetEntitiesArguments
         );
+
+        if ($this->entityNameOne == 'tag') {
+            $args['filter']['where'][] = [
+                'expr' => 'like',
+                'col'  => $tableAlias.'.alias',
+                'val'  => '%'.$args['filter']['string'].'%',
+            ];
+        }
         $selectdata = isset($parameters['select']) ? $parameters['select'] : [];
         if ($select = InputHelper::cleanArray($selectdata)) {
             $args['select']              = $select;
@@ -661,7 +694,9 @@ class CommonApiController extends FOSRestController implements MauticController
             ],
             Codes::HTTP_OK
         );
-        $this->setSerializationContext($view);
+
+        $context = SerializationContext::create()->setGroups(['leadBasicApiDetails']);
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -767,6 +802,7 @@ class CommonApiController extends FOSRestController implements MauticController
                     }
                 }
             }
+            $this->isValidDateFormat($params, true, $key, $errors, $entities, $entity, $statusCodes);
 
             $this->processBatchForm($key, $entity, $params, $method, $errors, $entities);
 
@@ -802,9 +838,7 @@ class CommonApiController extends FOSRestController implements MauticController
     public function newEntityAction()
     {
         $parameters = $this->request->request->all();
-        if (isset($parameters['score'])) {
-            $parameters['score'] = 'cold';
-        }
+
         $entity           = $this->getNewEntity($parameters);
         $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
         $actualrecord     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
@@ -855,6 +889,12 @@ class CommonApiController extends FOSRestController implements MauticController
                     return $this->returnError('le.core.error.owner.notfound', Codes::HTTP_BAD_REQUEST);
                 }
             }
+            $parameters['score'] = 'cold';
+        }
+        $haserror = $this->isValidDateFormat($parameters, false);
+
+        if ($haserror) {
+            return $haserror;
         }
 
         return $this->processForm($entity, $parameters, 'POST');
@@ -918,6 +958,46 @@ class CommonApiController extends FOSRestController implements MauticController
     public function postActionRedirect($args = [])
     {
         return $this->notFound('le.core.contact.error.notfound');
+    }
+
+    public function isValidDateFormat($params, $isBatch=false, $key=null, &$errors=[], &$entities=null, $entity=null, &$statusCodes=[])
+    {
+        foreach ($params as $paramKey => $paramValue) {
+            $isDate = $this->isDate($paramValue);
+            if ($isDate) {
+                if (date('Y-m-d H:i:s', strtotime($paramValue)) != $paramValue && date('Y-m-d', strtotime($paramValue)) != $paramValue && date('H:i:s', strtotime($paramValue)) != $paramValue && date('Y-m-d H:i', strtotime($paramValue)) != $paramValue && date('H:i', strtotime($paramValue)) != $paramValue) {
+                    if ($isBatch) {
+                        $this->setBatchError($key, 'le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, $errors, $entities, $entity, ['%field%' => $paramKey]);
+                        $statusCodes[$key] = Codes::HTTP_BAD_REQUEST;
+                        continue;
+                    } else {
+                        return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => $paramKey]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if the value is a valid date.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isDate($value)
+    {
+        if (!$value) {
+            return false;
+        }
+
+        try {
+            new \DateTime($value);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
