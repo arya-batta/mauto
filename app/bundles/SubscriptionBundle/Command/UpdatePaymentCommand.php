@@ -134,8 +134,8 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites);
                             } else {
                                 $subsrepository=$container->get('le.core.repository.subscription');
-                                $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $clearactualmailcount, $plancredits);
-                                $payment       =$paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $plancredits, $validitytill, $planname, null, null, 'Paid');
+                                $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $clearactualmailcount, $netcredits);
+                                $payment       =$paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
                                 $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
                             }
                         } else {
