@@ -59,7 +59,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'campaign',
                         'orderBy'    => 'cat.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'visible-md visible-lg col-campaign-category',
+                        'class'      => 'col-campaign-category',
                     ]
                 );
                 echo $view->render(
@@ -99,7 +99,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'campaign',
                         'orderBy'    => 'c.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-campaign-id',
+                        'class'      => 'col-campaign-id',
                     ]
                 );
                 endif;
@@ -107,7 +107,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'campaign',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -157,13 +157,13 @@ $isAdmin=$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-progress-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -177,7 +177,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-completed-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -191,7 +191,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="wf-goal-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -206,7 +206,7 @@ $isAdmin=$view['security']->isAdmin();
                         </span>
                     </td>
                     <?php if ($isAdmin): ?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
                         <?php $hasEditAccess = $permissions['campaign:campaigns:edit'];

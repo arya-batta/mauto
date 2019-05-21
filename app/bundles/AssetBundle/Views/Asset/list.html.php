@@ -58,7 +58,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'asset',
                         'orderBy'    => 'c.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'visible-md visible-lg col-asset-category',
+                        'class'      => 'col-asset-category',
                     ]
                 );
                 echo $view->render(
@@ -66,7 +66,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'asset',
                         'text'       => 'mautic.asset.asset.url',
-                        'class'      => 'visible-md visible-lg col-asset-download-count',
+                        'class'      => 'col-asset-download-count',
                     ]
                 );
                 echo $view->render(
@@ -75,7 +75,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'asset',
                         'orderBy'    => 'a.downloadCount',
                         'text'       => 'mautic.asset.asset.thead.download.count',
-                        'class'      => 'visible-md visible-lg col-asset-download-count',
+                        'class'      => 'col-asset-download-count',
                     ]
                 );
             if ($isAdmin):
@@ -85,7 +85,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'asset',
                         'orderBy'    => 'a.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-asset-id',
+                        'class'      => 'col-asset-id',
                     ]
                 );
             endif;
@@ -93,7 +93,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'asset',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-asset-actions col-lead-actions',
+                    'class'      => 'col-lead-location col-asset-actions col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -103,7 +103,7 @@ $isAdmin=$view['security']->isAdmin();
                 <tr>
                     <td>
                         <?php
-                        $entity=$model->getEntity($item->getId());
+                        $entity     =$model->getEntity($item->getId());
                         $downloadurl=$model->generateUrl($entity);
                         echo $view->render(
                             'MauticCoreBundle:Helper:list_actions.html.php',
@@ -169,25 +169,25 @@ $isAdmin=$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" style="text-align: centre;">
-                        <span onclick="Le.copyAssetUrl(this)" id="assetUrlBtn" value="<?php echo $downloadurl;?>" url="<?php echo $downloadurl;?>"class="mt-xs label label-primary has-click-event clickable-stat">
+                    <td class="col-stats" style="text-align: centre;">
+                        <span onclick="Le.copyAssetUrl(this)" id="assetUrlBtn" value="<?php echo $downloadurl; ?>" url="<?php echo $downloadurl; ?>"class="mt-xs label label-primary has-click-event clickable-stat">
                             Copy
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" style="text-align: centre;">
+                    <td class="col-stats" style="text-align: centre;">
                         <span class="mt-xs label label-primary has-click-event clickable-stat">
                             <?php echo $item->getDownloadCount(); ?>
                         </span>
                     </td>
 
                  <?php  if ($isAdmin): ?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                  <?php  endif; ?>
                     <td>
                         <?php $hasEditAccess = $security->hasEntityAccess($permissions['asset:assets:editown'], $permissions['asset:assets:editother'], $item->getCreatedBy());

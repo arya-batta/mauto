@@ -3964,12 +3964,12 @@ body.fixed-left-void {
 .layout2 .page-header-title .page-title {
   color: #2a323c;
 }
-
+/*.navbar-right .dropdown-menu {
+  right: 0;
+  left: auto;
+}*/
 @media (min-width: 768px) {
-  .navbar-right .dropdown-menu {
-    right: 0;
-    left: auto;
-  }
+
 }
 
 /*
@@ -3991,7 +3991,11 @@ File: Responsive
     display: none !important;
   }
 }
-
+@media (min-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+}
 @media (max-width: 767px) {
   body {
     overflow-x: hidden;

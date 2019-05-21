@@ -57,7 +57,7 @@ $view['slots']->set(
 <!-- start: box layout -->
 <div class="box-layout">
     <!-- left section -->
-    <div class="col-md-9 bg-white height-auto">
+    <div class="col-md-12 bg-white height-auto">
         <div class="bg-auto">
             <!-- email detail header -->
             <div class="pr-md pl-md hide pt-lg pb-lg">

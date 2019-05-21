@@ -19,7 +19,7 @@ $isAdmin        = $view['security']->isAdmin();
 $isMobile       = $view['security']->isMobile();
 ?>
 
-<div class="input-group" style="<?php echo $isMobile ? '50%' : $screen != '' ? 'width:30%;padding-top:12px;' : $widthstyle; ?>">
+<div class="input-group fl-left" style="<?php echo $isMobile ? '50%' : $screen != '' ? 'width:30%;padding-top:12px;' : $widthstyle; ?>">
     <?php  if ($isAdmin): ?>
         <?php if (!empty($searchHelp)): ?>
             <div class="input-group-btn">

@@ -14,7 +14,7 @@
 <div class="box-layout">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 fl-left" style="min-width: 300px;width:33%;">
                 <div class="email-campaign-stats bg-white lead-email-campaign-stats">
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.workflow.stats'); ?> </h2>
                     <br>
@@ -29,7 +29,7 @@
                     </h3>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 fl-left" style="min-width: 300px;width:33%;">
                 <div class="email-campaign-stats bg-white lead-email-campaign-stats">
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.form.stats'); ?> </h2>
                     <br>
@@ -44,7 +44,7 @@
                     </h3>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 fl-left" style="min-width: 300px;width:33%;">
                 <div class="email-campaign-stats bg-white lead-email-campaign-stats">
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.asset.stats'); ?> </h2>
                     <br>

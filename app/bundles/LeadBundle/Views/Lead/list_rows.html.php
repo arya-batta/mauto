@@ -76,7 +76,7 @@ $isAdmin    =$view['security']->isAdmin();
                 <div><?php echo $fields['core']['email']['value']; ?></div>
             </a>
         </td>
-        <td class="visible-md visible-lg text-center">
+        <td class="text-center">
             <?php $status = $fields['core']['status']['value']; ?>
             <?php $status = !empty($status) ? $status : 0; ?>
             <span class="lead-status-alignment" style="background-color: <?php echo $fieldHelper->getStatusColors($status); ?>;">
@@ -84,7 +84,7 @@ $isAdmin    =$view['security']->isAdmin();
             </span>
         </td>
         <?php if ($isAdmin): ?>
-        <td class="visible-md visible-lg">
+        <td class="">
             <?php $colors = ['#3292e0', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39']; ?>
             <?php $tags   = $item->getTags(); ?>
             <?php $count  =  0; ?>
@@ -97,14 +97,14 @@ $isAdmin    =$view['security']->isAdmin();
             <?php endforeach; ?>
         </td>
         <?php endif; ?>
-        <td class="visible-md visible-lg text-center">
+        <td class="text-center">
            <?php
             $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : '';
            ?>
            <img src="<?php echo $score; ?>" style="max-height: 25px;" />
 
         </td>
-        <td class="visible-md visible-lg text-center">
+        <td class="text-center">
             <?php
             $color = $item->getColor();
             $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
@@ -116,12 +116,12 @@ $isAdmin    =$view['security']->isAdmin();
                 <?php echo $view['date']->toText($item->getDateAdded()); ?>
             </abbr>
         </td>-->
-        <td class="visible-md visible-lg">
+        <td class="">
             <abbr title="<?php echo $view['date']->toFull($item->getLastActive()); ?>">
                 <?php echo $view['date']->toText($item->getLastActive()); ?>
             </abbr>
         </td>
-        <td class="visible-md visible-lg">
+        <td class="">
             <?php
             $flag = (!empty($fields['core']['country'])) ? $view['assets']->getCountryFlag($fields['core']['country']['value']) : '';
             if (!empty($flag)):
@@ -154,7 +154,7 @@ $isAdmin    =$view['security']->isAdmin();
             </td>
         <?php endif; ?>
         <?php  if ($isAdmin): ?>
-        <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+        <td class=""><?php echo $item->getId(); ?></td>
         <?php  endif; ?>
         <td >
             <?php $hasEditAccess   = $security->hasEntityAccess($permissions['lead:leads:editown'], $permissions['lead:leads:editother'], $item->getPermissionUser());

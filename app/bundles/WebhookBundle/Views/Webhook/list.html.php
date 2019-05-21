@@ -45,7 +45,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'mautic_webhook',
                         'orderBy'    => 'e.webhookUrl',
                         'text'       => 'mautic.webhook.webhook_url',
-                        'class'      => 'col-webhook-id visible-md visible-lg',
+                        'class'      => 'col-webhook-id',
                     ]
                 ); ?>
                 <th class="col-webhook-response" style="color: #2a323c;text-align: -webkit-center;"><?php echo $view['translator']->trans('mautic.webhook.webhook_response'); ?></th>
@@ -58,7 +58,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'mautic_webhook',
                         'orderBy'    => 'e.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'col-webhook-id visible-md visible-lg',
+                        'class'      => 'col-webhook-id',
                     ]
                 );
                 endif;
@@ -101,7 +101,7 @@ $isAdmin=$view['security']->isAdmin();
                             ); ?>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <a data-toggle="ajax" href="<?php echo $view['router']->path(
                             'le_webhook_action',
                             ['objectId' => $item->getId(), 'objectAction' => 'edit']
@@ -124,10 +124,10 @@ $isAdmin=$view['security']->isAdmin();
                     $class= $note != 'Success' ? $note == '' ? 'label-default' : 'le-label-danger' : 'label-success';
                     $value= $note != 'Success' ? $note == '' ? 'UnAvailable' : 'Failed' : 'Success';
                     ?>
-                    <td class="visible-md visible-lg" style="text-align: center"><span class="label <?php echo $class; ?>" data-toggle="tooltip" data-original-title="<?php echo $note; ?>"><?php echo $value; ?></span></td>
-                    <td class="visible-md visible-lg"><?php echo $date; ?></td>
+                    <td class="" style="text-align: center"><span class="label <?php echo $class; ?>" data-toggle="tooltip" data-original-title="<?php echo $note; ?>"><?php echo $value; ?></span></td>
+                    <td class=""><?php echo $date; ?></td>
                     <?php if ($isAdmin):?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>

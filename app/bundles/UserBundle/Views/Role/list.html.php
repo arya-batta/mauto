@@ -48,7 +48,7 @@ endif;
                     'sessionVar' => 'role',
                     'orderBy'    => 'r.description',
                     'text'       => 'mautic.core.description',
-                    'class'      => 'visible-md visible-lg col-role-desc',
+                    'class'      => 'col-role-desc',
                 ]
             );
             ?>
@@ -62,7 +62,7 @@ endif;
                     'sessionVar' => 'role',
                     'orderBy'    => 'r.id',
                     'text'       => 'mautic.core.id',
-                    'class'      => 'visible-md visible-lg col-role-id',
+                    'class'      => 'col-role-id',
                 ]
             );
             ?>
@@ -100,10 +100,10 @@ endif;
                         <?php echo $item->getName(); ?>
                     <?php endif; ?>
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="">
                     <?php echo $item->getDescription(); ?>
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="">
                     <a class="label label-primary" href="<?php echo $view['router']->path(
                         'le_user_index',
                         ['search' => $view['translator']->trans('mautic.user.user.searchcommand.role').':&quot;'.$item->getName().'&quot;']
@@ -115,7 +115,7 @@ endif;
                         ); ?>
                     </a>
                 </td>
-                <td class="visible-md visible-lg">
+                <td class="">
                     <?php echo $item->getId(); ?>
                 </td>
             </tr>

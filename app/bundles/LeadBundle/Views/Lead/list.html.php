@@ -152,7 +152,7 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.status',
                     'text'       => 'le.leads.status.name',
-                    'class'      => 'col-lead-status visible-md visible-lg',
+                    'class'      => 'col-lead-status',
                 ]);
                 /*echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
@@ -184,7 +184,7 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.points',
                     'text'       => 'le.lead.points',
-                    'class'      => 'visible-md visible-lg text-center col-lead-points adjust-points-width',
+                    'class'      => 'text-center col-lead-points adjust-points-width',
                 ]);
                /* echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
@@ -211,7 +211,7 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.last_active',
                     'text'       => 'le.lead.lastactive',
-                    'class'      => 'col-lead-lastactive visible-md visible-lg adjust-time-width',
+                    'class'      => 'col-lead-lastactive adjust-time-width',
                     'default'    => true,
                 ]);
 
@@ -219,21 +219,21 @@ if ($showsetup) {
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.city, l.state',
                     'text'       => 'le.lead.lead.thead.location',
-                    'class'      => 'col-lead-location visible-md visible-lg',
+                    'class'      => 'col-lead-location',
                 ]);
                 if ($isAdmin):
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => 'l.id',
                     'text'       => 'mautic.core.id',
-                    'class'      => 'col-lead-id visible-md visible-lg',
+                    'class'      => 'col-lead-id',
                 ]);
                 endif;
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>

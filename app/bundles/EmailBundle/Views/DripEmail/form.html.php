@@ -115,11 +115,13 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             <div class="fragment-drip-2-buttons fixed-header">
                 <a href="#" id="#previous-button" style="margin-top: -307px;" class="waves-effect prev-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" style="margin-top: -280px;margin-left:67%;" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 124px;">
+                <a href="#" id="next-tab-2" style="margin-top: -280px;margin-left:67%;" class="waves-effect <?php echo $ismobile ? 'hide' : ''?> next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <div class="toolbar-form-buttons" style="margin-top: -165px; <?php echo !$ismobile ? 'margin-right: 124px;' : ''?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                            </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -130,8 +132,8 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
             <div class="drip-email-button-container" style="margin-top:-65px;float:right;">
                 <div class="newbutton-container">
                     <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
-                        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
-                            <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
+                        <a class="btn btn-nospin le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
+                            <span><i class="fa fa-plus"></i><span class=""> <?php echo $view['translator']->trans('le.drip.email.new.email')?></span></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
                             <div class="insert-drip-options">
@@ -139,20 +141,20 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('Which email builder would you like to use?')?></h1>
                                     <br>
                                     <div class="row">
-                                        <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 1]); ?>">
-                                            <div class="col-md-6 editor_layout"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                                        <div class="col-md-6 editor_layout fl-left <?php echo $ismobile ? 'hide' : ''?>"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                                            <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 1]); ?>">
                                                 <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
                                                 <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
                                                 <br>
-                                            </div>
-                                        </a>
-                                        <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 0]); ?>">
-                                            <div class="col-md-6 editor_layout editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 editor_layout fl-left editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                                            <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'new', 'subobjectId' => 0]); ?>">
                                                 <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
                                                 <h4><?php echo $view['translator']->trans('le.email.editor.basic.header.drip')?></h4>
                                                 <br>
-                                            </div>
-                                        </a>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -269,6 +271,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         'actionRoute'     => $actionRoute,
                         'translationBase' => $translationBase,
                         'entity'          => $entity,
+                        'ismobile'        => $ismobile,
                     ]); ?>
                 </div>
             </div>
@@ -276,13 +279,15 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-3" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-3-buttons fixed-header">
-                <a href="#" style="margin-left:-18%;" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" style="margin-left:-18%;" id="#previous-button" class="waves-effect <?php echo $ismobile ? 'hide' : ''?> prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" style="margin-left:65.5%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons email-toolbar-buttons">
+                <a href="#" style="margin-left:65.5%;" id="next-tab-2" class="waves-effect <?php echo $ismobile ? 'hide' : ''?> next-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="4"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons email-toolbar-buttons" style="<?php echo $ismobile ? 'margin-top: -144px;margin-right:0px;' : ''?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -369,20 +374,22 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-4-buttons fixed-header">
-                <a href="#" style="margin-left:-70px;margin-top: -280px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 124px;">
+                <a href="#" style="margin-left:-70px;margin-top: -280px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy <?php echo $ismobile ? 'hide' : ''?>" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="<?php echo $ismobile ? 'margin-top: -144px;margin-right:74px;' : 'margin-top: -165px;margin-right: 124px;'?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
                 </div>
-                <a title="<?php echo $view['translator']->trans($activateTitle); ?>" class="waves-effect drip-activate mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-top: -54px;padding:7px;margin-left:67%;" href="<?php echo $hrefvalue; ?>" data-precheck="" data-message="<?php echo $view['translator']->trans($confirmationMsg); ?>" <?php echo $activateConfirm; ?> ><?php echo $view['translator']->trans($activatebuttonlabel); ?></a>
+                <a title="<?php echo $view['translator']->trans($activateTitle); ?>" class="waves-effect drip-activate mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-top: -56px;padding:7px;margin-left:67%;" href="<?php echo $hrefvalue; ?>" data-precheck="" data-message="<?php echo $view['translator']->trans($confirmationMsg); ?>" <?php echo $activateConfirm; ?> ><?php echo $view['translator']->trans($activatebuttonlabel); ?></a>
             </div>
             <div id="email-other-container">
                 <div class="row">
-                    <div class="col-md-6 drip-email-box-shadow" style="width:49%;margin-left:0.5%;margin-right:0.5%;">
+                    <div class="col-md-6 drip-email-box-shadow fl-left" style="width:49%;margin-left:0.5%;margin-right:0.5%;">
                         <header class="drip-settings-header">
                             <h1><?php echo $view['translator']->trans('le.drip.settings.heading1'); ?></h1>
                         </header>
@@ -478,7 +485,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 fl-left" style="width:50%;">
                         <div class="drip-email-box-shadow">
                             <header class="drip-settings-header">
                                 <h1><?php echo $view['translator']->trans('le.drip.settings.heading2'); ?></h1>
@@ -543,7 +550,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
 <?php echo $view->render('MauticEmailBundle:Email:beeeditor.html.php', ['objectId'      => $emailEntity->getSessionId(), 'type'          => 'email']); ?>
 
-<drip class="drip-blue-prints builder-active hide" style="overflow-y: scroll;position:fixed">
+<drip class="drip-blue-prints builder-active hide" style="overflow-y: scroll;overflow-x:scroll !important;position:fixed;min-width:1024px;">
     <?php echo $view->render('MauticEmailBundle:DripEmail:blueprintlist.html.php', [
         'items'           => $bluePrints,
         'entity'          => $entity,

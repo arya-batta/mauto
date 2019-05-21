@@ -27,7 +27,7 @@ $img        = $view['lead_avatar']->getUserAvatar($me);
     <!-- container -->
     <div class="col-md-12 bg-auto height-auto ">
         <div class="panel-body">
-            <div class="panel panel-default form-group mb-0">
+            <div class="panel panel-default form-group mb-0" style="padding-bottom:120px;">
                 <div class="panel-body">
             <div class="tab-pane fade in active bdr-rds-0 bdr-w-0" id="profile">
                 <?php echo $view['form']->start($userForm); ?>

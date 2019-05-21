@@ -64,7 +64,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/workflows') !== false || strpos($_SERVER['
             <?php endif; ?>
             <?php echo $view['buttons']->renderButtons(); ?>
         </div>
-        <div class="col-xs-4 va-m <?php echo !empty($status) ? 'col-sm-2' : 'col-sm-6'; ?>">
+        <div class="col-xs-4 va-m <?php echo !empty($status) ? 'col-sm-1' : 'col-sm-6'; ?>">
             <div class="toolbar text-right" id="toolbar">
                 <?php $view['slots']->output('actions'); ?>
 

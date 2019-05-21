@@ -493,8 +493,8 @@ class DripEmailController extends FormController
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator     = $this->get('mautic.configurator');
         $params           = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname         = $params['mailer_from_name'];
+        $fromadress       = $params['mailer_from_email'];
         $unsubscribetxt   = $params['unsubscribe_text'];
         $postaladdress    = $params['postal_address'];
         $unsubscribeTxt   = $entity->getUnsubscribeText();
@@ -683,19 +683,21 @@ class DripEmailController extends FormController
             ],
             'RETURN_ARRAY'
         );
-        $items = [];
+        $ismobile      = InputHelper::isMobile();
+        $items         = [];
         if ($objectId != null && !empty($objectId)) {
+            $filter = [
+                'force'  => [
+                    [
+                        'column' => 'e.dripEmail',
+                        'expr'   => 'eq',
+                        'value'  => $entity,
+                    ],
+                ],
+            ];
             $items = $emailmodel->getEntities(
                 [
-                    'filter' => [
-                        'force' => [
-                            [
-                                'column' => 'e.dripEmail',
-                                'expr'   => 'eq',
-                                'value'  => $entity,
-                            ],
-                        ],
-                    ],
+                    'filter'           => $filter,
                     'orderBy'          => 'e.dripEmailOrder',
                     'orderByDir'       => 'asc',
                     'ignore_paginator' => true,
@@ -727,6 +729,7 @@ class DripEmailController extends FormController
                     'bluePrints'                   => $bluePrints,
                     'drips'                        => $dripPrints,
                     'verifiedemail'                => $verifiedemail,
+                    'ismobile'                     => $ismobile,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:form.html.php',
                 'passthroughVars' => [
@@ -1138,10 +1141,10 @@ class DripEmailController extends FormController
         $emailentity = $emailmodel->getEntity($subobjectId);
 
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator     = $this->get('mautic.configurator');
+        $configurator      = $this->get('mautic.configurator');
         $params            = $configurator->getParameters();
-        $fromname        = $params['mailer_from_name'];
-        $fromadress       = $params['mailer_from_email'];
+        $fromname          = $params['mailer_from_name'];
+        $fromadress        = $params['mailer_from_email'];
 //        $fromname     ='';
 //        $fromadress   ='';
 //        $defaultsender=$emailmodel->getDefaultSenderProfile();
@@ -1162,7 +1165,7 @@ class DripEmailController extends FormController
             $emailentity->setFromAddress($fromadress);
         }
         $isBeeEditor = true;
-        if ($emailentity->getTemplate() == null || $emailentity->getTemplate() == '') {
+        if ($emailentity->getBeeJSON() != 'RichTextEditor') {
             $isBeeEditor = false;
         }
         if ($isBeeEditor && InputHelper::isMobile()) {
@@ -1584,7 +1587,7 @@ class DripEmailController extends FormController
             $configurator     = $this->get('mautic.configurator');
             $params           = $configurator->getParameters();
             $fromname         = $params['mailer_from_name'];
-            $fromadress      = $params['mailer_from_email'];
+            $fromadress       = $params['mailer_from_email'];
 //            $defaultsender=$emailmodel->getDefaultSenderProfile();
 //            if (sizeof($defaultsender) > 0) {
 //                $newEntity->setFromName($defaultsender[0]);

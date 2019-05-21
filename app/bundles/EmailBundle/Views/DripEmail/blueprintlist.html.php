@@ -3,7 +3,7 @@
 <div class="row" style="padding-top:5px;padding-bottom:15px;border-bottom: 1px solid;margin-left:15px;margin-right:15px;">
 <a class="btn btn-default text-primary le-btn-default custom-preview-button blue-theme-bg" onclick="Le.closeBluePrintPage();" style="float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
 <span>
-<span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.backtoeamils'); ?></span>
+<span class="" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.backtoeamils'); ?></span>
 </span>
 </a>
 </div>
@@ -15,7 +15,7 @@
                 <p><span style="font-size:13px;"><?php echo $drips[$key]['description']; ?></span></p>
                 <a class="btn btn-default text-primary le-btn-default custom-preview-button custom-use-button" id="use-this-blueprint" dripvalue="<?php echo $entity->getId(); ?>" href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'blueprint', 'subobjectId' => $drips[$key]['id']]); ?>" value="<?php echo $drips[$key]['id']; ?>" style="background-color: #ffda24;color:#000000;margin-top:10px;float: left;border-radius:4px;z-index:1003;" data-toggle="ajax">
                     <span>
-                    <span class="hidden-xs hidden-sm" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.use.this'); ?></span>
+                    <span class="" id="change-template-span"><?php echo $view['translator']->trans('le.drip.email.use.this'); ?></span>
                     </span>
                 </a>
             </div>

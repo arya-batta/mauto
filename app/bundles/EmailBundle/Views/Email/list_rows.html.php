@@ -24,31 +24,31 @@ $isAdmin    =$view['security']->isAdmin();
                 <div class="small"><?php echo $item->getSecondaryIdentifier(); ?></div>
             </span>
         </td>
-        <td class="visible-md visible-lg">
+        <td class="">
             <span>
                 <?php echo $fields['core']['email']['value']; ?>
             </span>
         </td>
-        <td class="visible-md visible-lg text-center">
+        <td class="text-center">
            <?php
             $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : '';
            ?>
            <img src="<?php echo $score; ?>" style="max-height: 25px;" />
 
         </td>
-        <td class="visible-md visible-lg text-center">
+        <td class="text-center">
             <?php
             $color = $item->getColor();
             $style = !empty($color) ? ' style="background-color: '.$color.';"' : '';
             ?>
             <span class="label label-primary"><?php echo $item->getPoints(); ?></span>
         </td>
-        <td class="visible-md visible-lg">
+        <td class="">
             <abbr title="<?php echo $view['date']->toFull($item->getLastActive()); ?>">
                 <?php echo $view['date']->toText($item->getLastActive()); ?>
             </abbr>
         </td>
-        <td class="visible-md visible-lg">
+        <td class="">
             <?php
             $flag = (!empty($fields['core']['country'])) ? $view['assets']->getCountryFlag($fields['core']['country']['value']) : '';
             if (!empty($flag)):

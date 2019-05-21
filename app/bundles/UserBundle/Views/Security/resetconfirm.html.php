@@ -14,8 +14,8 @@ if (!$app->getRequest()->isXmlHttpRequest()) {
     $view->extend('MauticUserBundle:Security:ajax.html.php');
 }
 ?>
-
-<div class="alert alert-warning"><?php echo $view['translator']->trans('mautic.user.user.passwordresetconfirm.info'); ?></div>
+<div class="login-container">
+<div class="alert le-login-alert-info"><?php echo $view['translator']->trans('mautic.user.user.passwordresetconfirm.info'); ?></div>
 <?php
 echo $view['form']->start($form);
 echo $view['form']->row($form['identifier']);
@@ -27,4 +27,5 @@ echo $view['form']->end($form);
 
 <div class="mt-sm le-password-reset">
     <a href="<?php echo $view['router']->path('login'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.back'); ?></a>
+</div>
 </div>

@@ -35,9 +35,9 @@ $isAdmin=$view['security']->isAdmin();
             ?>
 
             <?php
-            if($isAdmin){
+            if ($isAdmin) {
                 echo '<th class="visible-md visible-lg col-user-avatar"></th>';
-            }else{
+            } else {
                 echo '<!-- <th class="visible-md visible-lg col-user-avatar"></th> -->';
             }
             echo $view->render(
@@ -76,7 +76,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'user',
                     'orderBy'    => 'u.email',
                     'text'       => 'mautic.core.type.email',
-                    'class'      => 'visible-md visible-lg col-user-email',
+                    'class'      => 'col-user-email',
                 ]
             );
             if ($isAdmin):
@@ -86,7 +86,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'user',
                     'orderBy'    => 'u.mobile',
                     'text'       => 'mautic.core.type.mobile',
-                    'class'      => 'visible-md visible-lg col-user-mobile',
+                    'class'      => 'col-user-mobile',
                 ]
             );
             endif;
@@ -96,7 +96,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'user',
                     'orderBy'    => 'r.name',
                     'text'       => 'mautic.user.role',
-                    'class'      => 'visible-md visible-lg col-user-role',
+                    'class'      => 'col-user-role',
                     'tooltip'    => 'le.users.table.header.role',
                 ]
             );
@@ -107,7 +107,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'user',
                     'orderBy'    => 'u.id',
                     'text'       => 'mautic.core.id',
-                    'class'      => 'visible-md visible-lg col-user-id',
+                    'class'      => 'col-user-id',
                 ]
             );
             endif;
@@ -166,15 +166,15 @@ $isAdmin=$view['security']->isAdmin();
                 <?php if ($isAdmin) : ?>
                 <td><?php echo $item->getUsername(); ?></td>
                 <?php endif; ?>
-                <td class="visible-md visible-lg">
+                <td class="">
                     <a href="mailto: <?php echo $item->getEmail(); ?>"><?php echo $item->getEmail(); ?></a>
                 </td>
                 <?php if ($isAdmin) : ?>
-                <td class="visible-md visible-lg"><?php echo $item->getMobile(); ?></td>
+                <td class=""><?php echo $item->getMobile(); ?></td>
                 <?php endif; ?>
-                <td class="visible-md visible-lg"><?php echo $item->getRole()->getName(); ?></td>
+                <td class=""><?php echo $item->getRole()->getName(); ?></td>
                 <?php if ($isAdmin) : ?>
-                <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                <td class=""><?php echo $item->getId(); ?></td>
                 <?php endif; ?>
             </tr>
         <?php endforeach; ?>

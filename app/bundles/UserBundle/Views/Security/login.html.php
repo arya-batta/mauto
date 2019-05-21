@@ -21,15 +21,15 @@
 <span class="login-notifiation" ><?php echo $view['translator']->trans($msg); ?> </span>
 <?php endif; ?>
 <form class="form-group login-form" name="login" data-toggle="ajax" role="form" action="<?php echo $view['router']->path('le_user_logincheck') ?>" method="post">
-    <div class="input-group mb-md">
+    <div class="input-group mb-md login-container">
         <label class="le-login-label" for="username"><?php echo $view['translator']->trans('mautic.user.auth.form.loginusername'); ?></label>
         <input  type="text" id="username" name="_username"
-               class="form-control input-lg le-login-widget" value="<?php echo $view->escape($last_username) ?>" required autofocus/>
+               class="form-control le-login-widget" value="<?php echo $view->escape($last_username) ?>" required autofocus/>
     </div>
-    <div class="input-group mb-md">
+    <div class="input-group mb-md login-container">
         <label for="password" class="le-login-label"><?php echo $view['translator']->trans('mautic.core.password'); ?></label>
         <input type="password" id="password" name="_password"
-               class="form-control input-lg le-login-widget" required/>
+               class="form-control le-login-widget" required/>
     </div>
 
     <div class="checkbox-inline custom-primary pull-left mb-md le-login-content">
@@ -44,7 +44,7 @@
     <div class="le-button-container">
         <button class="btn btn-lg btn-primary btn-block le-login-button waves-effect" type="submit"><?php echo $view['translator']->trans('mautic.user.auth.form.loginbtn'); ?></button>
         <a class="le-password-reset" href="<?php echo $view['router']->path('le_user_passwordreset'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.link'); ?></a>
-        <a class="le-password-reset" style="float:right;" href="https://<?php echo strtolower($view['content']->getProductBrandName()); ?>.com/signup/" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link.help'); ?>"><?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link'); ?></a>
+        <a class="le-password-reset hide" style="float:right;" href="https://<?php echo strtolower($view['content']->getProductBrandName()); ?>.com/signup/" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link.help'); ?>"><?php echo $view['translator']->trans('mautic.user.user.newtoanyfunnels.link'); ?></a>
     </div>
     <div class="le-copyright-content">
         <?php echo $view['translator']->trans('mautic.core.copyright', ['%date%' => date('Y')]); ?>

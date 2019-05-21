@@ -142,7 +142,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'email',
                         'orderBy'    => 'e.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-email-id',
+                        'class'      => 'col-email-id',
                     ]
                 );
                 endif;
@@ -151,7 +151,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'email',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -207,7 +207,7 @@ $isAdmin=$view['security']->isAdmin();
                             </div>
                         </div>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-lead-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -222,7 +222,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="drip-sent-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -237,7 +237,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs has-click-event clickable-stat"
                            id="drip-read-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -252,7 +252,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-click-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -267,7 +267,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -283,7 +283,7 @@ $isAdmin=$view['security']->isAdmin();
                         </span>
                     </td>
                     <?php if ($isAdmin) : ?>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-bounce-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -298,7 +298,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-spam-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -313,7 +313,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="drip-failed-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -330,7 +330,7 @@ $isAdmin=$view['security']->isAdmin();
                     </td>
                     <?php endif; ?>
                     <?php if ($isAdmin) : ?>
-                        <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                        <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
 

@@ -11,7 +11,6 @@ body {
   /*overflow-y: scroll;*/
 }
 body > #app-wrapper {
-  overflow: hidden;
   position: relative;
   height: auto;
   min-height: 100%;
@@ -23,9 +22,9 @@ body > #app-wrapper {
 .sidebar-left-open body > section#app-wrapper {
   overflow-x: hidden;
 }
-@media (min-width: 320px) {
+@media (min-width: 320px) and (max-width: 766px){
   body {
-    overflow-x: hidden;
+    overflow-x: scroll;
   }
 }
 @media (min-width: 970px) {
@@ -1027,6 +1026,7 @@ body > #app-wrapper {
   clear: both;
 }
 #app-content > .content-body {
+  min-width: 1024px;
   width: 100%;
   float: left;
 }
@@ -5990,7 +5990,6 @@ text-align: center;
    padding: 12px 18px;
    -webkit-transition: border-color 150ms;
    transition: border-color 150ms;
-   width:  151% !important;
    height: 48px;
 }
 .le-login-widget:hover{
@@ -6026,7 +6025,7 @@ text-align: center;
   background-color: #3795e1;
 }
 .le-button-container{
-
+  width: 80% !important;
 }
 .le-btn-danger{
   background: #f33155;
@@ -6082,11 +6081,14 @@ text-align: center;
 .le-new-login-register .new-login-box {
   margin-left: 60%;
   padding-top: 80px;
-  width: 31%;
+}
+.le-new-login-register .mobile-login-box {
+  margin-left: 15%;
+  padding-top: 80px;
 }
 .white-box {
   background: #ffffff;
-  padding: 25px;
+  /*padding: 25px;*/
   margin-bottom: 30px;
 }
 .white-box .box-title {
@@ -6523,9 +6525,10 @@ text-align: center;
   border-color: #FFF;
   border-radius:0px;
 }
-.le-modal-box-align{
+.le-modal-box-align {
   top: 11%;
   margin-left: 326px;
+  margin-right: 326px;
 }
 .modal-header{
   border-bottom: none;
@@ -6787,6 +6790,11 @@ text-align: center;
   border-color: #FFFFFF;
   color: #596776;
   border-left: 5px solid #3292e0;
+}
+.le-login-alert-info{
+  background-color: #f2f2f2;
+  border-color: #FFFFFF;
+  color: #596776;
 }
 #block_container {
   display: flex;
@@ -7613,8 +7621,11 @@ ul.list-unstyled, ul#list-unstyled  {
 .todolist-title, .todolist-status {
   font-size: 14px;
 }
-.todolist-title {
+.todolist-title{
   width: 100%;
+}
+.login-container {
+  width: 80% !important;
 }
 .todolist-title a, .todolist-title a:focus {
   outline: none !important;
@@ -7890,6 +7901,7 @@ ul.list-unstyled, ul#list-unstyled  {
   font-weight: 600;
   font-size: 22px;
   text-align: left;
+  margin-left: -15px;
 }
 span.afincludes{
   font-family: "Poppins",Montserrat,sans-serif;
@@ -7956,4 +7968,7 @@ span.afincludes{
   width: 95%;
   margin-left: 2.5%;
   margin-right: 2.5%;
+}
+.lead-screen-field{
+  max-width: 68%;
 }

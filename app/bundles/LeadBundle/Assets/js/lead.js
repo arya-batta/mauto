@@ -156,6 +156,14 @@ Le.leadOnLoad = function (container, response) {
     mQuery("#leadfield_status .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
     mQuery("#leadfield_created_source .chosen-container").attr('tabindex','-1');
     mQuery("#leadfield_created_source .chosen-container").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_eu_gdpr_consent select").attr('tabindex','-1');
+    mQuery("#leadfield_eu_gdpr_consent select").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_eu_gdpr_timezone select").attr('tabindex','-1');
+    mQuery("#leadfield_eu_gdpr_timezone select").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_status select").attr('tabindex','-1');
+    mQuery("#leadfield_status select").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
+    mQuery("#leadfield_created_source select").attr('tabindex','-1');
+    mQuery("#leadfield_created_source select").attr('style','pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
 
 };
 Le.segment_filter = function(id){

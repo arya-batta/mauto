@@ -17,7 +17,7 @@ if ($screen == 'leads') {
 ?>
 
 <?php if (!empty($filters)) : ?>
-    <div class="form-group" style="width: <?php echo $width; ?>;margin-top: 4px;background-color: #FFFFFF;">
+    <div class="input-group fl-left" style="width: <?php echo $width; ?>;margin-top: 8px;background-color: #FFFFFF;margin-left:5px;">
         <?php
         foreach ($filters as $filterName => $filter):
 

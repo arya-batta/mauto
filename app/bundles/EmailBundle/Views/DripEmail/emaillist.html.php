@@ -148,7 +148,7 @@
                     <td class="table-description">
                         <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $item->getId()]); ?>"><span><?php echo $item->getSubject(); ?></span></a>
                     </td>
-                    <td class="visible-sm visible-md visible-lg drip-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="drip-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="scheduled-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
@@ -159,7 +159,7 @@
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="sent-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -201,13 +201,13 @@
                             </a>
                         </span>
                     </td>-->
-                    <td class="visible-sm visible-md visible-lg">
+                    <td class="">
                         <div class="row" style="width: 200px;margin-left:0px;">
                             <div class="col-md-5" style="width:43%;">
                             <input type="text" style="height: 32px;background-color: transparent;border-right:0px;border-top: 1px solid #d5d5d5;border-left: 1px solid #d5d5d5;border-bottom: 1px solid #d5d5d5;" onfocusout="Le.updateFrequencyValue(<?php echo $item->getId(); ?>);" id="drip-email-frequency-value-<?php echo $item->getId(); ?>" class="form-control" value="<?php echo $scheduleTime; ?>" frequencyUnitValue="<?php echo $scheduleUnit?>" />
                             </div>
                             <div class="col-md-7" id="drip-email-delay" style="position:relative;width:70%;margin-left: -29px;margin-top:-5px;">
-                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime-<?php echo $item->getId(); ?>" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="display: none;">
+                                <select class="dripemail_form_scheduleTime"  id="drip_emailform_scheduleTime-<?php echo $item->getId(); ?>" onchange="Le.updateDripEmailFrequency(this.value,<?php echo $item->getId(); ?>)" name="emailform[scheduleTime]" class="form-control le-input" data-report-schedule="scheduleUnit" autocomplete="false" style="<?php echo $ismobile ? 'display:block;' : 'display:none;'?>">
                                     <option <?php echo $scheduleFrequency == 1 ? 'selected' : ''; ?> value="days">day</option>
                                     <option <?php echo $scheduleFrequency == 2 ? 'selected' : ''; ?> value="hours">hours</option>
                                     <option <?php echo $scheduleFrequency == 3 ? 'selected' : ''; ?> value="minutes">minutes</option>
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                           <a class="text-primary le-send-button custom-preview-button"
                              href="<?php echo $view['router']->generate('le_dripemail_email_action', ['objectId' => $item->getId(), 'subobjectAction' => 'preview', 'subobjectId' => '1'], true)?>" data-toggle="tooltip"
                              title="<?php echo $view['translator']->trans('le.drip.email.preview.tooltip'); ?>"
@@ -223,7 +223,7 @@
                               <span><i class="fa fa-eye le-send-icon"></i></span>
                           </a>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                             <a class="text-primary le-send-button custom-preview-button blue-theme-bg" style="color:#FFFFFF;font-size:13px;" data-toggle = "ajaxmodal" data-target = "#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'sendExample', 'objectId' => $item->getId()])?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.drip.email.wizard.sendexample.tooltip'); ?>">
                                 <span><i class="fa fa-send-o le-send-icon" style="margin-left: -2px;margin-right: 2px;"></i></span>
@@ -261,6 +261,7 @@
 <?php else: ?>
     <?php echo $view->render('MauticEmailBundle:DripEmail:blueprint.html.php', [
             'entity'          => $entity,
+            'ismobile'        => $ismobile,
         ]
     ); ?>
 <?php endif; ?>

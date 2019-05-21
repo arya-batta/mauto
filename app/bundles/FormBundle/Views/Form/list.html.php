@@ -84,7 +84,7 @@ if ($isEmbeddedForm) {
                         'sessionVar' => 'form',
                         'orderBy'    => 'c.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'visible-md visible-lg col-form-category',
+                        'class'      => 'col-form-category',
                     ]
                 );
 
@@ -94,7 +94,7 @@ if ($isEmbeddedForm) {
                         'sessionVar' => 'form',
                         'orderBy'    => 'submission_count',
                         'text'       => 'mautic.form.form.results',
-                        'class'      => 'visible-md visible-lg col-form-submissions',
+                        'class'      => 'col-form-submissions',
                     ]
                 );
                 if ($isAdmin):
@@ -104,7 +104,7 @@ if ($isEmbeddedForm) {
                         'sessionVar' => 'form',
                         'orderBy'    => 'f.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-form-id',
+                        'class'      => 'col-form-id',
                     ]
                 );
                 endif;
@@ -112,7 +112,7 @@ if ($isEmbeddedForm) {
                     'sessionVar' => 'form',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-form-actions',
+                    'class'      => 'col-lead-location col-form-actions',
                 ]);
                 ?>
             </tr>
@@ -197,13 +197,13 @@ if ($isEmbeddedForm) {
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <a href="<?php echo $view['router']->path(
                             $actionUrl,
                             ['objectAction' => 'view', 'objectId' => $item->getId()]
@@ -217,7 +217,7 @@ if ($isEmbeddedForm) {
                         </a>
                     </td>
                     <?php if ($isAdmin):?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
                         <?php

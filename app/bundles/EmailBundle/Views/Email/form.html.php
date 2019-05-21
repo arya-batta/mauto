@@ -165,11 +165,13 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         <div id="fragment-123" class="ui-tabs-panel hide">
             <div class="fragment-1-buttons fixed-header">
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-1" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect "><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-1" class=" waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <a href="#" id="next-tab-1" class=" waves-effect <?php echo $isMobile ? 'hide' : ''?> next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
                 <div class="toolbar-form-buttons email-toolbar-buttons">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -255,13 +257,15 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-1" class="ui-tabs-panel <?php echo $infohide?>">
             <div class="fragment-1-buttons fixed-header">
-                <a href="#" id="previous-button-2" class="hide waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1" style="<?php echo !$isbasiceditor ? 'margin-left:-16%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" id="previous-button-2" class="hide waves-effect <?php echo $isMobile ? 'hide' : ''?> prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1" style="<?php echo !$isbasiceditor ? 'margin-left:-16%;' : ''; ?>"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" data-toggle="ajax" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" id="next-tab-2" class=" waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2" style="<?php echo !$isbasiceditor ? 'margin-left:77.8%;' : 'margin-left:67.5%;'; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
-                <div class="toolbar-form-buttons email-toolbar-buttons">
+                <a href="#" id="next-tab-2" class=" waves-effect <?php echo $isMobile ? 'hide' : ''?> next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2" style="<?php echo !$isbasiceditor ? 'margin-left:77.8%;' : 'margin-left:67.5%;'; ?>"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a><br>
+                <div class="toolbar-form-buttons email-toolbar-buttons" style="<?php echo $isMobile ? 'margin-right:0px;' : ''?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm" id="email-2-button-div" style="<?php echo !$isbasiceditor ? 'margin-right:148px;' : ''?>"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -361,13 +365,15 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         </div>
         <div id="fragment-2" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-2-buttons fixed-header">
-                <a href="#" style="margin-left:-19%;" id="#previous-button" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <a href="#" style="margin-left:-19%;" id="#previous-button" class="waves-effect <?php echo $isMobile ? 'hide' : ''?> prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="1"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
                 <a href="<?php echo $view['router']->path('le_email_campaign_index')?>" id="cancel-tab-2" class="cancel-tab hide mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect"><?php echo $view['translator']->trans('mautic.core.form.cancel'); ?></a>
-                <a href="#" style="margin-left:66%;" id="next-tab-2" class="waves-effect next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
-                <div class="toolbar-form-buttons email-toolbar-buttons">
+                <a href="#" style="margin-left:66%;" id="next-tab-2" class="waves-effect <?php echo $isMobile ? 'hide' : ''?> next-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="3"><?php echo $view['translator']->trans('le.email.wizard.next'); ?></a>
+                <div class="toolbar-form-buttons email-toolbar-buttons" style="<?php echo $isMobile ? 'margin-right:0px;margin-top:-144px;' : ''?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
@@ -455,11 +461,13 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 
         <div id="fragment-3" class="ui-tabs-panel <?php echo $settingshide?>">
             <div class="fragment-3-buttons fixed-header">
-                <a href="#" style="margin-left:-72px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="margin-top: -165px;margin-right: 27px;">
+                <a href="#" style="margin-left:-72px;" class="waves-effect <?php echo $isMobile ? 'hide' : ''?> prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy waves-effect" rel="2"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
+                <div class="toolbar-form-buttons" style="<?php echo $isMobile ? 'margin-right:0px;margin-top:-144px;' : 'margin-top: -165px;margin-right: 27px;'?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                        <button type="button" class="btn btn-default btn-nospin  dropdown-toggle waves-effect" data-toggle="dropdown"
+                        <button type="button" class="btn btn-default btn-main waves-effect">
+                        </button>
+                        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>

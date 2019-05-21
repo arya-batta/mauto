@@ -60,7 +60,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'sessionVar' => 'listoptin',
                         'orderBy'    => 'l.listtype',
                         'text'       => 'le.lead.list.optin.thead.type',
-                        'class'      => 'visible-md visible-lg text-center col-listoptin-active',
+                        'class'      => 'text-center col-listoptin-active',
                     ]
                 );
                 if ($isAdmin):
@@ -69,7 +69,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'listoptin',
                         'text'       => 'le.lead.list.optin.thead.leadcount',
-                        'class'      => 'visible-md visible-lg text-center col-listoptin-leadcount',
+                        'class'      => 'text-center col-listoptin-leadcount',
                     ]
                 );
 
@@ -78,7 +78,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'listoptin',
                         'text'       => 'le.lead.list.optin.thead.confirmedcount',
-                        'class'      => 'visible-md visible-lg text-center col-listoptin-confirmedcount',
+                        'class'      => 'text-center col-listoptin-confirmedcount',
                     ]
                 );
 
@@ -87,7 +87,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'listoptin',
                         'text'       => 'le.lead.list.optin.thead.unconfirmedcount',
-                        'class'      => 'visible-md visible-lg text-center col-listoptin-unconfirmedcount',
+                        'class'      => 'text-center col-listoptin-unconfirmedcount',
                     ]
                 );
 
@@ -96,7 +96,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'listoptin',
                         'text'       => 'le.lead.list.optin.thead.unsubscribedcount',
-                        'class'      => 'visible-md visible-lg text-center col-listoptin-unsubscribedcount',
+                        'class'      => 'text-center col-listoptin-unsubscribedcount',
                     ]
                 );
                 endif;
@@ -105,7 +105,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'segment',
                         'text'       => 'le.lead.list.optin.active.leads',
-                        'class'      => 'visible-md visible-lg col-listoptin-active text-center',
+                        'class'      => 'col-listoptin-active text-center',
                     ]
                 );
 
@@ -114,7 +114,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'segment',
                         'text'       => 'le.lead.list.optin.inactive.leads',
-                        'class'      => 'visible-md visible-lg col-listoptin-active text-center',
+                        'class'      => 'col-listoptin-active text-center',
                     ]
                 );
                 if ($isAdmin):
@@ -124,7 +124,7 @@ $isAdmin     =$view['security']->isAdmin();
                         'sessionVar' => 'listoptin',
                         'orderBy'    => 'l.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-leadlist-id',
+                        'class'      => 'col-leadlist-id',
                     ]
                 );
                 endif;
@@ -132,7 +132,7 @@ $isAdmin     =$view['security']->isAdmin();
                     'sessionVar' => 'listoptin',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -195,11 +195,11 @@ $isAdmin     =$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <span class=""><?php echo !$item->getListtype() ? $view['translator']->trans('le.lead.list.optin.single.optin') : $view['translator']->trans('le.lead.list.optin.double.optin'); ?></span>
                     </td>
                     <?php  if ($isAdmin):?>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list').':'.$item->getId()]
@@ -211,7 +211,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label label-success" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.confirm').':'.$item->getId()]
@@ -223,7 +223,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label label-warning" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.unconfirm').':'.$item->getId()]
@@ -235,7 +235,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label le-label-danger" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.unsubscribe').':'.$item->getId()]
@@ -248,7 +248,7 @@ $isAdmin     =$view['security']->isAdmin();
                         </a>
                     </td>
                     <?php  endif; ?>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.active').':'.$item->getId()]
@@ -260,7 +260,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="text-center">
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.inactive').':'.$item->getId()]
@@ -273,7 +273,7 @@ $isAdmin     =$view['security']->isAdmin();
                         </a>
                     </td>
                     <?php  if ($isAdmin):?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
                     <td>
                         <?php $hasEditAccess   = $view['security']->hasEntityAccess(true, $permissions['lead:listoptin:editother'], $item->getCreatedBy());

@@ -15,7 +15,8 @@ if (!$app->getRequest()->isXmlHttpRequest()) {
 }
 ?>
 
-<div class="alert alert-warning"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.info'); ?></div>
+<div class="login-container">
+<div class="alert alert-info le-login-alert-info"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.info'); ?></div>
 <?php
 echo $view['form']->start($form);
 echo $view['form']->row($form['identifier']);
@@ -25,4 +26,5 @@ echo $view['form']->end($form);
 
 <div class="mt-sm le-password-reset">
     <a href="<?php echo $view['router']->path('login'); ?>"><?php echo $view['translator']->trans('mautic.user.user.passwordreset.back'); ?></a>
+</div>
 </div>

@@ -657,6 +657,7 @@ Le.onPageLoad = function (container, response, inModal) {
 
         mQuery(".sidebar-left a[data-toggle='ajax']").on('click.ajax', function (event) {
             mQuery("html").removeClass('sidebar-open-ltr');
+            mQuery('.nav-sidebar li.nav-group').removeClass('hover'); //Hiding Submenu
         });
         mQuery('.sidebar-right a[data-toggle="ajax"]').on('click.ajax', function (event) {
             mQuery("html").removeClass('sidebar-open-rtl');

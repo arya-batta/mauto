@@ -38,7 +38,7 @@ $hide = !$view['security']->isAdmin() ? 'hide' : '';
 <div class="box-layout">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 fl-left" style="min-width:500px;width:50%;">
                 <div class="email-campaign-stats bg-white lead-email-campaign-stats">
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.stat.lead.name'); ?> </h2>
                     <br>
@@ -81,7 +81,7 @@ $hide = !$view['security']->isAdmin() ? 'hide' : '';
                     </h3>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 fl-right" style="min-width:500px;width:50%;">
                 <div class="email-campaign-stats bg-white lead-email-campaign-stats">
                     <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.stat.email.name'); ?> </h2>
                     <br>

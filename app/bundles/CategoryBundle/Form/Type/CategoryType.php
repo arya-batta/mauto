@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CategoryType.
@@ -88,9 +89,17 @@ class CategoryType extends AbstractType
             'title',
             'text',
             [
-                'label'      => 'mautic.core.title',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control le-input'],
+                'label'       => 'mautic.core.title',
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control le-input'],
+                'constraints' => [
+                    new Assert\Length(
+                        [
+                            'max'        => 60,
+                            'maxMessage' => 'le.form.field.button.label.length.invalid',
+                        ]
+                    ),
+                ],
             ]
         );
 

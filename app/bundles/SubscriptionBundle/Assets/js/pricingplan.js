@@ -128,7 +128,7 @@ Le.pricingplansOnLoad = function (container) {
 }
 function getStripeClient(){
     // Create a Stripe client.
-    var stripe = Stripe('pk_live_SaCvf4xx8HojET3eQfTBhiY2');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
+    var stripe = Stripe('pk_test_6ZK3IyRbtk82kqU1puGcg9i6');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
     return stripe;
 }
 function getStripeCard(stripe){

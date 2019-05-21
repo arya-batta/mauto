@@ -61,7 +61,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'category',
                         'orderBy'    => 'c.bundle',
                         'text'       => 'mautic.core.type',
-                        'class'      => 'visible-md visible-lg col-page-bundle col-category-type',
+                        'class'      => 'col-page-bundle col-category-type',
                     ]
                 );
                 if ($isAdmin):
@@ -71,7 +71,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'category',
                         'orderBy'    => 'c.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-page-id',
+                        'class'      => 'col-page-id',
                     ]
                 );
                 endif;
@@ -136,13 +136,13 @@ $isAdmin=$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <?php if (isset($categoryTypes[$item->getBundle()])) : ?>
                             <?php echo $view['translator']->trans($categoryTypes[$item->getBundle()]); ?>
                         <?php endif; ?>
                     </td>
                     <?php  if ($isAdmin): ?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>

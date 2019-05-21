@@ -154,7 +154,7 @@ $isadmin     =$view['security']->isAdmin();
                                         <?php echo $view['translator']->trans('mautic.form.graph.line.submissions'); ?>
                                     </h5>
                                 </div>
-                                <div class="col-md-8 va-m">
+                                <div class="col-xs-8 va-m">
                                     <?php echo $view->render(
                                         'MauticCoreBundle:Helper:graph_dateselect.html.php',
                                         ['dateRangeForm' => $dateRangeForm, 'class' => 'pull-right']

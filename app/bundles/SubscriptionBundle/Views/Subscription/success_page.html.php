@@ -79,10 +79,10 @@ if ($isPaid) {
             <br>
             <div class="row <?php echo $isPaid && $sendingDomainStatus ? 'hide' : '' ?>">
                 <div class="col-sm-4"></div>
-                <div class="col-sm-4" style="margin-left:2.7%;">
+                <div class="col-sm-4 text-center">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
-                            <span class="dashboad-header"><i  style="color:orange;" class="fa fa-hand-paper-o hide"></i> <?php echo $view['translator']->trans('le.dashboard.getting.start.account'); ?>
+                            <span class="dashboad-header"><?php echo $view['translator']->trans('le.dashboard.getting.start.account'); ?>
                             </span>
                         </strong>
                     </span>
@@ -90,19 +90,19 @@ if ($isPaid) {
                 <div class="col-sm-4"></div>
             </div>
             <div class="row" style="text-align: center;margin-left:20px;">
-                <div class="plan-card col-md-8">
+                <div class="plan-card col-md-8 fl-left">
                     <div class="">
                         <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block1img) ?>"/></a>
                     </div>
                 </div>
 
-                <div class="plan-card col-md-8">
+                <div class="plan-card col-md-8 fl-left">
                     <div class="">
                         <a href="<?php echo $img2link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block2img) ?>"/></a>
                     </div>
                 </div>
 
-                <div class="plan-card col-md-8">
+                <div class="plan-card col-md-8 fl-left">
                     <div class="">
                         <a href="<?php echo $img3link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block3img) ?>"/></a>
                     </div>
@@ -143,7 +143,7 @@ if ($isPaid) {
             </div>
         </div>
     </div>
-
+<br>
 <div class="row" style="text-align: center;padding-top: 10px;margin-bottom: -20px;">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
@@ -205,7 +205,7 @@ if ($isPaid) {
                     <div class="col-xs-6 va-m">
                         <h2 class="email-dataview-stats"><?php echo $view['translator']->trans('le.dashboard.account.stats'); ?> </h2>
                     </div>
-                    <div class="col-md-8 va-m">
+                    <div class="col-xs-8 va-m">
                         <?php echo $view->render(
                             'MauticCoreBundle:Helper:graph_dateselect.html.php',
                             ['dateRangeForm' => $dateRangeForm, 'class' => 'pull-right']

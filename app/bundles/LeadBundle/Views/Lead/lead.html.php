@@ -164,7 +164,7 @@ $view['slots']->set(
     <!-- left section -->
     <div class="table-responsive">
     <div class="row">
-    <div class="col-md-12 bg-white height-auto leadcontainer" id="lead-container">
+    <div class="col-md-11 bg-white height-auto leadcontainer" id="lead-container">
         <div class="bg-auto" >
             <!--/ lead detail header -->
 
@@ -231,16 +231,16 @@ $view['slots']->set(
         </div>
 
         <div>
-            <div class="pa-md">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel col-md-12" style="padding-bottom: 3%;">
+            <div class="">
+                <div class="">
+                    <div class="panel-body box-layout">
+                        <div class="panel" style="padding-bottom: 3%;height: 400px;">
                             <?php // if (!$isAnonymous):?>
-                            <div class="col-md-3" style="width: 18%;text-align: center;">
+                            <div class="col-md-3 fl-left" style="min-width: 250px;width:18%;text-align: center;height: 100%;">
                                <img class="le-avatar-panel" src="<?php echo isset($img) ? $img : $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>
                             </div>
                             <?php // endif;?>
-                            <div class="col-md-9"style="margin-left: -18px;width: 82%;">
+                            <div class="col-md-9 fl-left"style="min-width: 740px;width:70%;">
                               <div>
                                 <div class="row">
                                     <div  class="col-md-12"style="margin-top: 13px;" >
@@ -249,7 +249,7 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 fl-left">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.company'); ?></h6>
                                         <?php if (isset($fields['core']['company_new'])): ?>
                                             <p class="text-primary custom-font-primary"><?php echo $fields['core']['company_new']['value']; ?></p>
@@ -257,7 +257,7 @@ $view['slots']->set(
                                             <br>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 fl-left">
                                         <h6 class="fw-b "><?php echo $view['translator']->trans('le.lead.lead.field.owner'); ?></h6>
                                         <?php if ($lead->getOwner()) : ?>
                                             <p class="text-primary custom-font-primary"><?php echo $lead->getOwner()->getName(); ?></p>
@@ -267,11 +267,11 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6" style="word-break: break-all">
+                                    <div class="col-md-6 fl-left" style="word-break: break-all">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.type.email'); ?></h6>
                                         <p class="text-primary custom-font-primary"><?php echo $fields['core']['email']['value']; ?>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 fl-left">
                                         <h6 class="fw-b">
                                         <?php echo $view['translator']->trans('le.lead.field.address'); ?>
                                         </h6>
@@ -297,7 +297,7 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6" style="margin-top: -31px">
+                                    <div class="col-md-6 fl-left" style="margin-top: -31px">
                                         <?php if (isset($fields['core']['phone'])): ?>
                                             <h6 class="fw-b"><?php echo $view['translator']->trans('le.lead.field.type.tel.home'); ?></h6>
                                             <p class="text-primary custom-font-primary"><?php echo $fields['core']['phone']['value']; ?></p>
@@ -311,7 +311,7 @@ $view['slots']->set(
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 fl-left">
                                         <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
                                         <?php $count  =  0; ?>
                                         <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.lists.belongsto'); ?></h6>
@@ -325,7 +325,7 @@ $view['slots']->set(
                                             <?php endforeach; ?></div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 fl-left">
                                         <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; //'#ec407a', '#00a65a', '#f39c12', '#3c8dbc', '#dd4b39'?>
                                         <?php $count  =  0; ?>
                                         <h6 class="fw-b" ><?php echo $view['translator']->trans('le.lead.field.segments.belongsto'); ?></h6>
@@ -342,7 +342,7 @@ $view['slots']->set(
                                 </div>
                                   <br>
                                   <div class="row" >
-                                      <div class="col-md-6">
+                                      <div class="col-md-6 fl-left">
                                           <span class="fw-b"><?php echo $view['translator']->trans('le.lead.view.visited.pages'); ?></span><br>
                                           <div class="lead_page_hit_url_div">
                                               <?php if (!empty($pageHitDetails)): ?>
@@ -362,7 +362,7 @@ $view['slots']->set(
                                               <?php endif; ?>
                                           </div>
                                       </div>
-                                      <div class="col-md-6">
+                                      <div class="col-md-6 fl-left">
                                           <?php $colors = ['#3292e0', '#5cb45b', '#04a2b3', '#f7b543', '#f03154', '#777', '#2a323c']; ?>
                                           <?php $tags   = $lead->getTags(); ?>
                                           <?php $count  =  0; ?>
@@ -436,9 +436,9 @@ $view['slots']->set(
                 </div>
             </div>
 
-            <div class="uk-grid col-md-12">
-            <div class="row" style="padding: 0px;width: 101%">
-            <div class="le-lead-card-alignment col-md-3" style="margin-left: 15px;width: 24.5%;">
+            <div class="">
+            <!--<div class="row" style="padding: 0px;width: 101%">-->
+            <div class="le-lead-card-alignment col-md-3" style="margin-left: 20px;min-width: 250px;float:left;width: 24.5%;">
                 <div class="md-card">
                     <div class="md-card-content">
                         <div class="uk-float-right">
@@ -449,7 +449,7 @@ $view['slots']->set(
                 </div>
             </div>
                 <?php  $score = (!empty($fields['core']['score']['value'])) ? $view['assets']->getLeadScoreIcon($fields['core']['score']['value']) : ''; ?>
-            <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
+            <div class="le-lead-card-alignment col-md-3" style="min-width: 250px;float:left;width:24.5%;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="">
@@ -460,7 +460,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;">
+                <div class="le-lead-card-alignment col-md-3" style="min-width: 250px;float:left;width:24.5%;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
@@ -470,7 +470,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-                <div class="le-lead-card-alignment col-md-3" style="width: 24.5%;padding-right: 6px;">
+                <div class="le-lead-card-alignment col-md-3" style="min-width: 250px;float:left;width:24.5%;padding-right: 6px;">
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right">
@@ -480,7 +480,7 @@ $view['slots']->set(
                         </div>
                     </div>
                 </div>
-            </div>
+            <!--</div>-->
             </div>
             <!-- lead detail collapseable toggler -->
            <!-- <div class="hr-expand nm">

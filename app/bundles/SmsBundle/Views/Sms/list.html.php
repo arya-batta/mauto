@@ -76,7 +76,7 @@ if (count($items)):
                         'sessionVar' => 'sms',
                         'orderBy'    => 'e.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-sms-id',
+                        'class'      => 'col-sms-id',
                     ]
                 );
                 endif;
@@ -84,7 +84,7 @@ if (count($items)):
                     'sessionVar' => 'sms',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -166,23 +166,23 @@ if (count($items)):
                             </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg" style="text-align: center;">
+                    <td class="" style="text-align: center;">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
                         <span style="white-space: nowrap;"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="col-stats">
                         <?php echo $sentcount = $model->getSentCount($item->getId()); ?>
 
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="col-stats">
                         <?php echo $clickcount = $model->getClickCount($item->getId()); ?><br>
                         <?php $clickpercent    = ($sentcount == 0) ? 0 : ($clickcount / $sentcount) * 100;
-                        echo '('.round($clickpercent,2).'%)' ?>
+                        echo '('.round($clickpercent, 2).'%)' ?>
 
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="col-stats">
                         <?php echo $sentcount = $model->getFailedCount($item->getId()); ?>
                     </td>
                    <?php /** <td class="visible-sm visible-md visible-lg col-stats" style="text-align: start;"> ?>
@@ -199,7 +199,7 @@ if (count($items)):
                         </span>
                     </td> */ ?>
                     <?php if ($isAdmin): ?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
                         <?php $hasEditAccess = $view['security']->hasEntityAccess($permissions['sms:smses:editown'], $permissions['sms:smses:editother'], $item->getCreatedBy());

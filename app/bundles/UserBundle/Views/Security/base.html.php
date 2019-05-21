@@ -14,7 +14,7 @@
 </head>
 <body>
 <section id="wrapper" class="le-new-login-register">
-    <div class="lg-info-panel" style="background: url(<?php echo $view['assets']->getUrl('media/images/login-register.jpg') ?>) no-repeat center center / cover!important;">
+    <div class="lg-info-panel <?php echo $ismobile ? 'hide' : ''?>" style="background: url(<?php echo $view['assets']->getUrl('media/images/login-register.jpg') ?>) no-repeat center center / cover!important;">
         <div class="inner-panel">
             <div class="lg-content">
                 <h2 class="lg-content-header"><?php echo $view['translator']->trans('le.users.content.header'); ?></h2>
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="new-login-box">
+    <div class="<?php echo $ismobile ? 'mobile-login-box' : 'new-login-box'?>">
         <div class="white-box">
             <div>
                 <img style="

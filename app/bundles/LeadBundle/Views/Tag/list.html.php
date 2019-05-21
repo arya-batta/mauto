@@ -59,7 +59,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'tags',
                         'text'       => 'le.lead.list.thead.leadcount',
-                        'class'      => 'visible-md visible-lg col-leadlist-leadcount text-center',
+                        'class'      => 'col-leadlist-leadcount text-center',
                     ]
                 );
 
@@ -68,7 +68,7 @@ $isAdmin     =$view['security']->isAdmin();
                     [
                         'sessionVar' => 'tags',
                         'text'       => 'le.lead.list.thead.inactive.leadcount',
-                        'class'      => 'visible-md visible-lg col-leadlist-leadcount text-center',
+                        'class'      => 'col-leadlist-leadcount text-center',
                     ]
                 );
                 if ($isAdmin):
@@ -78,7 +78,7 @@ $isAdmin     =$view['security']->isAdmin();
                             'sessionVar' => 'tags',
                             'orderBy'    => 't.id',
                             'text'       => 'mautic.core.id',
-                            'class'      => 'visible-md visible-lg col-leadlist-id',
+                            'class'      => 'col-leadlist-id',
                         ]
                     );
                 endif;
@@ -86,7 +86,7 @@ $isAdmin     =$view['security']->isAdmin();
                     'sessionVar' => 'lead',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -144,7 +144,7 @@ $isAdmin     =$view['security']->isAdmin();
                             </a>
                         </div>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 12%;">
+                    <td class="text-center" style="width: 12%;">
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.active').':'.$item->getId()]
@@ -156,7 +156,7 @@ $isAdmin     =$view['security']->isAdmin();
                             ); ?>
                         </a>
                     </td>
-                    <td class="visible-md visible-lg text-center" style="width: 13%; !important;">
+                    <td class="text-center" style="width: 13%; !important;">
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.inactive').':'.$item->getId()]
@@ -169,7 +169,7 @@ $isAdmin     =$view['security']->isAdmin();
                         </a>
                     </td>
                     <?php  if ($isAdmin):?>
-                        <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                        <td class=""><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
                     <td style="width: 30%;">
                         <?php $hasEditAccess   = $view['security']->hasEntityAccess(true, $permissions['lead:tags:full'], $item->getId());

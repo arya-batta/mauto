@@ -44,17 +44,17 @@ $permissions = $security->isGranted(
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'text'       => 'le.lead.points',
-                'class'      => 'visible-md visible-lg text-center col-lead-points',
+                'class'      => 'text-center col-lead-points',
             ]);
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'text'       => 'le.lead.lastactive',
-                'class'      => 'col-lead-lastactive visible-md visible-lg',
+                'class'      => 'col-lead-lastactive',
                 'default'    => true,
             ]);
 
             echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                 'text'       => 'le.lead.lead.thead.location',
-                'class'      => 'col-lead-location visible-md visible-lg',
+                'class'      => 'col-lead-location',
             ]);
             ?>
         </tr>

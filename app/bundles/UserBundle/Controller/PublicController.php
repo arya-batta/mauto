@@ -12,6 +12,7 @@
 namespace Mautic\UserBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
+use Mautic\CoreBundle\Helper\InputHelper;
 use Symfony\Component\Form\FormError;
 
 class PublicController extends FormController
@@ -24,10 +25,10 @@ class PublicController extends FormController
         /** @var \Mautic\UserBundle\Model\UserModel $model */
         $model = $this->getModel('user');
 
-        $data   = ['identifier' => ''];
-        $action = $this->generateUrl('le_user_passwordreset');
-        $form   = $this->get('form.factory')->create('passwordreset', $data, ['action' => $action]);
-
+        $data     = ['identifier' => ''];
+        $action   = $this->generateUrl('le_user_passwordreset');
+        $form     = $this->get('form.factory')->create('passwordreset', $data, ['action' => $action]);
+        $ismobile = InputHelper::isMobile();
         ///Check for a submitted form and process it
         if ($this->request->getMethod() == 'POST') {
             if ($isValid = $this->isFormValid($form)) {
@@ -55,7 +56,8 @@ class PublicController extends FormController
                     [
                         'returnUrl'       => $action,
                         'viewParameters'  => [
-                            'form' => $form->createView(),
+                            'form'     => $form->createView(),
+                            'ismobile' => $ismobile,
                         ],
                         'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
                     ]
@@ -65,7 +67,8 @@ class PublicController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'form' => $form->createView(),
+                'form'     => $form->createView(),
+                'ismobile' => $ismobile,
             ],
             'contentTemplate' => 'MauticUserBundle:Security:reset.html.php',
             'passthroughVars' => [
@@ -89,7 +92,7 @@ class PublicController extends FormController
         if ($token) {
             $this->request->getSession()->set('resetToken', $token);
         }
-
+        $ismobile = InputHelper::isMobile();
         ///Check for a submitted form and process it
         if ($this->request->getMethod() == 'POST') {
             if ($isValid = $this->isFormValid($form)) {
@@ -123,7 +126,8 @@ class PublicController extends FormController
 
                         return $this->delegateView([
                             'viewParameters' => [
-                                'form' => $form->createView(),
+                                'form'     => $form->createView(),
+                                'ismobile' => $ismobile,
                             ],
                             'contentTemplate' => 'MauticUserBundle:Security:resetconfirm.html.php',
                             'passthroughVars' => [
@@ -141,7 +145,8 @@ class PublicController extends FormController
 
         return $this->delegateView([
             'viewParameters' => [
-                'form' => $form->createView(),
+                'form'     => $form->createView(),
+                'ismobile' => $ismobile,
             ],
             'contentTemplate' => 'MauticUserBundle:Security:resetconfirm.html.php',
             'passthroughVars' => [

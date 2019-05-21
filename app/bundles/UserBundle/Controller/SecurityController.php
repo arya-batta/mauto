@@ -107,6 +107,7 @@ class SecurityController extends CommonController
         // Get a list of SSO integrations
         $integrationHelper = $this->get('mautic.helper.integration');
         $integrations      = $integrationHelper->getIntegrationObjects(null, ['sso_service'], true, null, true);
+        $ismobile          = InputHelper::isMobile();
 
         if (!$this->request->isXmlHttpRequest()) {
             return $this->delegateView([
@@ -114,6 +115,7 @@ class SecurityController extends CommonController
                     'last_username' => $session->get(Security::LAST_USERNAME),
                     'integrations'  => $integrations,
                     'msg'           => $msg,
+                    'ismobile'      => $ismobile,
                 ],
                 'contentTemplate' => 'MauticUserBundle:Security:login.html.php',
                 'passthroughVars' => [

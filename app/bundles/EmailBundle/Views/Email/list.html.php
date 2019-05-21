@@ -15,8 +15,8 @@ $isAdmin=$view['security']->isAdmin();
 ?>
 <div class="newbutton-container <?php echo $notificationemail ? 'hide' : ''?>" style="margin-top:-25px;position:relative;top:-40px;margin-right:15px;">
     <li class="dropdown dropdown-menu-right" style="display: block;float:right;">
-        <a class="btn btn-nospin hidden-xs le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
-            <span><i class="fa fa-plus"></i><span class="hidden-xs hidden-sm"> <?php echo $view['translator']->trans('le.email.new')?></span></span>
+        <a class="btn btn-nospin le-btn-default" style="position: relative;font-size: 14px;top: 0;vertical-align: super;" data-toggle="dropdown" href="#">
+            <span><i class="fa fa-plus"></i><span class=""> <?php echo $view['translator']->trans('le.email.new')?></span></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 21px;">
             <div class="insert-drip-options">
@@ -24,20 +24,20 @@ $isAdmin=$view['security']->isAdmin();
                     <h1 style='font-size:16px;font-weight:bold;'><?php echo $view['translator']->trans('le.email.editor.header')?></h1>
                     <br>
                     <div class="row">
-                        <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 1]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
-                            <div class="col-md-6 editor_layout"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                        <div class="col-md-6 editor_layout fl-left <?php echo $ismobile ? 'hide' : ''?>"  style="margin-left:10px;"><!--onclick="Le.setValueforNewButton('advance_editor',this);"-->
+                            <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 1]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
                                 <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/drag-drop.png')?>"/>
                                 <h4><?php echo $view['translator']->trans('le.email.editor.advance.header')?></h4>
                                 <br>
-                            </div>
-                        </a>
-                        <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 0]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
-                            <div class="col-md-6 editor_layout editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                            </a>
+                        </div>
+                        <div class="col-md-6 editor_layout fl-left editor_select" style="margin-left:20px;"> <!--onclick="Le.setValueforNewButton('basic_editor',this);"-->
+                            <a data-toggle="ajaxmodal" data-target="#leSharedModal" href="<?php echo $view['router']->path('le_email_campaign_action', ['objectAction' => 'quickadd', 'objectId' => 0]); ?>" data-header="<?php echo $view['translator']->trans('le.email.quickadd.header.title')?>">
                                 <img height="100px" width="auto" src="<?php echo $view['assets']->getUrl('media/images/rich-text.png')?>"/>
                                 <h4><?php echo $view['translator']->trans('le.email.editor.basic.header.drip')?></h4>
                                 <br>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,7 +175,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'email',
                         'orderBy'    => 'e.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-email-id',
+                        'class'      => 'col-email-id',
                     ]
                 );
                 endif;
@@ -184,7 +184,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'email',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -286,7 +286,7 @@ $isAdmin=$view['security']->isAdmin();
                         <?php endif; ?>
                     </td>
                     <?php if (!$notificationemail): ?>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="pending-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -301,7 +301,7 @@ $isAdmin=$view['security']->isAdmin();
                         </span>
                     </td>
                     <?php endif; ?>
-                   <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                   <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"
                           id="sent-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -315,7 +315,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                    </td>
-                   <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                   <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs has-click-event clickable-stat"
                            id="read-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -329,7 +329,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="read-percent-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -343,7 +343,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="unsubscribe-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -358,7 +358,7 @@ $isAdmin=$view['security']->isAdmin();
                         </span>
                     </td>
                     <?php if ($isAdmin): //!$notificationemail ||?>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="col-stats">
                            <span class="mt-xs has-click-event clickable-stat"
                                  id="bounce-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -372,7 +372,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats">
+                    <td class="col-stats">
                        <span class="mt-xs has-click-event clickable-stat"
                              id="spam-count-<?php echo $item->getId(); ?>"  >
                             <a href="<?php echo $view['router']->path(
@@ -386,7 +386,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
-                        <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                        <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs has-click-event clickable-stat"
                            id="failure-count-<?php echo $item->getId(); ?>">
                             <a href="<?php echo $view['router']->path(
@@ -402,7 +402,7 @@ $isAdmin=$view['security']->isAdmin();
                         </td>
                     <?php endif; ?>
                     <?php if ($isAdmin):?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php endif; ?>
                     <td>
 

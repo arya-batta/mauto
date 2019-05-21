@@ -87,8 +87,8 @@ class EmailCampaignController extends FormController
 
         $search = $this->request->get('search', $session->get('mautic.email.filter', ''));
         $session->set('mautic.email.filter', $search);
-
-        $filter = [
+        $ismobile = InputHelper::isMobile();
+        $filter   = [
             'string' => $search,
             'force'  => [
                 ['column' => 'e.variantParent', 'expr' => 'isNull'],
@@ -248,6 +248,7 @@ class EmailCampaignController extends FormController
                     'translationBase'  => 'mautic.email.broadcast',
                     'emailBlockDetails'=> $emailBlockDetails,
                     'notificationemail'=> false,
+                    'ismobile'         => $ismobile,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -561,8 +562,8 @@ class EmailCampaignController extends FormController
 //            $fromname  =$defaultsender[0];
 //            $fromadress=$defaultsender[1];
 //        }
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname         = $params['mailer_from_name'];
+        $fromadress       = $params['mailer_from_email'];
         $fromName         = $entity->getFromName();
         $fromAdress       = $entity->getFromAddress();
         $mailertransport  = $params['mailer_transport'];
@@ -929,8 +930,8 @@ class EmailCampaignController extends FormController
 //            $fromname  =$defaultsender[0];
 //            $fromadress=$defaultsender[1];
 //        }
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname         = $params['mailer_from_name'];
+        $fromadress       = $params['mailer_from_email'];
         $mailertransport  =$params['mailer_transport'];
         if (empty($fromName)) {
             $entity->setFromName($fromname);
@@ -1158,11 +1159,11 @@ class EmailCampaignController extends FormController
             $routeParams['contentOnly']  = 1;
         }
         $ismobile      = InputHelper::isMobile();
-        if ($entity->getTemplate() != null && $entity->getTemplate() != '' && $ismobile) {
+        if ($entity->getBeeJSON() != 'RichTextEditor' && $ismobile) {
             return $this->editDenied($this->generateUrl(
                 'le_email_campaign_action',
                 [
-                    'objectAction' => 'edit',
+                    'objectAction' => 'view',
                     'objectId'     => $entity->getId(),
                 ]
             ));

@@ -58,7 +58,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'cat.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'visible-md visible-lg col-point-category',
+                        'class'      => 'col-point-category',
                     ]
                 );
 
@@ -68,7 +68,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'p.delta',
                         'text'       => 'mautic.point.thead.delta',
-                        'class'      => 'visible-md visible-lg col-point-delta align-center',
+                        'class'      => 'col-point-delta align-center',
                     ]
                 );
 
@@ -78,7 +78,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'p.delta',
                         'text'       => 'mautic.point.thead.score',
-                        'class'      => 'visible-md visible-lg col-point-delta align-center',
+                        'class'      => 'col-point-delta align-center',
                     ]
                 );
 
@@ -90,7 +90,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'p.id',
                         'text'       => 'mautic.core.id',
-                        'class'      => 'visible-md visible-lg col-point-id',
+                        'class'      => 'col-point-id',
                     ]
                 );
                 endif;
@@ -98,7 +98,7 @@ $isAdmin    =$view['security']->isAdmin();
                     'sessionVar' => 'lead',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location visible-md visible-lg col-lead-actions',
+                    'class'      => 'col-lead-location col-lead-actions',
                 ]);
                 ?>
             </tr>
@@ -143,7 +143,7 @@ $isAdmin    =$view['security']->isAdmin();
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="visible-md visible-lg">
+                    <td class="">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category)
                             ? $category->getTitle()
@@ -155,8 +155,8 @@ $isAdmin    =$view['security']->isAdmin();
                                                                  style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
                     <?php  $score = (!empty($item->getScore())) ? $view['assets']->getLeadScoreIcon($item->getScore()) : ''; ?>
-                    <td class="visible-md visible-lg align-center"><?php echo $item->getDelta(); ?></td>
-                    <td class="visible-md visible-lg text-center">
+                    <td class="align-center"><?php echo $item->getDelta(); ?></td>
+                    <td class="text-center">
                         <img src="<?php echo $score; ?>" style="max-height: 25px;" />
 
                     </td>
@@ -166,7 +166,7 @@ $isAdmin    =$view['security']->isAdmin();
                     ?>
                     <td><?php echo $view['translator']->trans($action); ?></td>
                     <?php  if ($isAdmin):?>
-                    <td class="visible-md visible-lg"><?php echo $item->getId(); ?></td>
+                    <td class=""><?php echo $item->getId(); ?></td>
                     <?php  endif; ?>
                     <td >
                         <div style="position: relative;" class="fab-list-container">

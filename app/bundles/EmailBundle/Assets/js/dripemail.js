@@ -464,7 +464,9 @@ Le.refreshDripEmailList = function(content){
     mQuery('#drip-email-list-container').removeClass('hide');
     mQuery('#drip-email-list-container').html('');
     mQuery('#drip-email-list-container').html(content);
-    Le.activateChosenSelect(mQuery('.dripemail_form_scheduleTime'),true);
+    if(!Le.isMobile()) {
+        Le.activateChosenSelect(mQuery('.dripemail_form_scheduleTime'), true);
+    }
     if(mQuery('#drip-email-delay').length){
         mQuery('#drip-email-delay .chosen-single').addClass('chosen-dripemail-single')
     }
@@ -541,13 +543,13 @@ Le.allowEditEmailfromDrip = function (emailId){
 Le.openBluePrintPage = function(){
     mQuery('.drip-blue-prints').removeClass('hide');
     mQuery('.dripemail-body').addClass('hide');
-    mQuery('body').css('overflow-y', 'hidden');
+    mQuery('body').css('overflow', 'hidden');
 }
 
 Le.closeBluePrintPage = function(){
     mQuery('.drip-blue-prints').addClass('hide');
     mQuery('.dripemail-body').removeClass('hide');
-    mQuery('body').css('overflow-y', '');
+    mQuery('body').css('overflow', '');
 }
 Le.useBluePrintDrip = function(ele){
     var dripId = mQuery(ele).attr('value');
