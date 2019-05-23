@@ -2198,6 +2198,14 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     /**
      * @return mixed
      */
+    public function getCreated_source()
+    {
+        return $this->created_source;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCreatedSource()
     {
         return $this->created_source;

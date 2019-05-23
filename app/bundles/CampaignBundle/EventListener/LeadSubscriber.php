@@ -591,6 +591,8 @@ class LeadSubscriber extends CommonSubscriber
         $integrationName      = $intevent->getIntegrationName();
         $payLoad              = $intevent->getPayload();
         $integrationName      = strtolower($integrationName);
+        $isValidRecordAdd     = $this->factory->get('mautic.helper.licenseinfo')->isValidRecordAdd();
+        $appStatus            = $this->factory->get('mautic.helper.licenseinfo')->getAppStatus();
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper = $this->factory->getHelper('integration');
         $eventName         = $integrationName;
@@ -598,6 +600,12 @@ class LeadSubscriber extends CommonSubscriber
             $eventName = $payLoad->event;
         } elseif ($integrationName == 'facebook_lead_ads') {
             $eventName='fbLeadAds';
+        }
+
+        if (!$isValidRecordAdd || ($appStatus == 'Suspended' || $appStatus == 'InActive')) {
+            $intevent->setIsSuccess(false);
+
+            return $intevent;
         }
         $integrationHelper->putPayLoadHistory($payLoad, $integrationName);
         $integrationHelper->updateIntegrationFieldInfo($payLoad, $integrationName);
@@ -631,18 +639,33 @@ class LeadSubscriber extends CommonSubscriber
                                 $lead->setOwner($owner);
                             }
                             if (!empty($data['tags'])) {
-                                $leadTags= $lead->getTags();
-                                $tag     = $entityManager->getReference(Tag::class, $data['tags']);
-                                if (!empty($tag) && !$leadTags->contains($tag)) {
+                                $leadTags     = $lead->getTags();
+                                $tag          = $entityManager->getReference(Tag::class, $data['tags']);
+                                $value        = $this->factory->getModel('lead.tag')->getRepository()->findOneBy(['id'=>$tag->getId()]);
+
+                                if (!count($value) > 0) {
+                                    $data     = $integrationHelper->setDefaultValue($integrationName, $data, 'tags');
+                                }
+
+                                $defaulttag   = $entityManager->getReference(Tag::class, $data['tags']);
+                                $defaultValue = $this->factory->getModel('lead.tag')->getRepository()->findOneBy(['id'=>$defaulttag->getId()]);
+                                if (!empty($tag) && !$leadTags->contains($tag) && count($defaultValue) > 0) {
                                     $lead->addTag($tag);
                                 }
                             }
-                            $lead->setScore('Hot');
+                            $lead->setScore('cold');
                             $lead->setCreatedSource(5); //Created Source INTEGRATION
                             $this->leadModel->saveEntity($lead);
 
                             if (!empty($data['listoptin'])) {
-                                $this->leadModel->modifyListOptIn($lead, [$data['listoptin']]);
+                                $listoptin = $this->factory->getModel('lead.listoptin')->getEntity($data['listoptin']);
+                                if ($listoptin == null) {
+                                    $data = $integrationHelper->setDefaultValue($integrationName, $data, 'listoptin');
+                                }
+                                $defaultlistoptin = $this->factory->getModel('lead.listoptin')->getEntity($data['listoptin']);
+                                if ($defaultlistoptin != null && $defaultlistoptin->isPublished()) {
+                                    $this->leadModel->modifyListOptIn($lead, [$data['listoptin']]);
+                                }
                             }
                             $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
                             if ($event['goal'] != 'interrupt') {

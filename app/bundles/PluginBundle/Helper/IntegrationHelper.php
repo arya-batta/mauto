@@ -848,6 +848,24 @@ class IntegrationHelper
         }
     }
 
+    public function setDefaultValue($integrationName, $data=[], $localField)
+    {
+        $integration =$this->getIntegrationInfobyName($integrationName);
+        $fieldMapping=$integration->getFeatureSettings();
+        $fieldMapping=isset($fieldMapping['field_mapping']) ? $fieldMapping['field_mapping'] : [];
+        if (!empty($fieldMapping)) {
+            foreach ($fieldMapping as $mappingdetails) {
+                if (isset($mappingdetails['localfield']) && $mappingdetails['localfield'] == $localField) {
+                    if (isset($mappingdetails['defaultvalue'])) {
+                        $data[$mappingdetails['localfield']] = $mappingdetails['defaultvalue'];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
     public function putPayLoadHistory($jsonData, $integrationName)
     {
         $payload      ='';

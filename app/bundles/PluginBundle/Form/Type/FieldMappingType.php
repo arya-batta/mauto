@@ -172,7 +172,8 @@ class FieldMappingType extends AbstractType
 //                    } elseif (!is_array($data['defaultvalue'])) {
 //                        $data['defaultvalue'] = [$data['defaultvalue']];
 //                    }
-                $customOptions['choices']                   = $options['propertychoices']['leadlist'];
+                $customOptions['choices']                   = isset($options['propertychoices']['leadlist']) ? $options['propertychoices']['leadlist'] : [];
+                $customOptions['empty_value']               = 'mautic.core.form.chooseone';
                 $type                                       = 'choice';
                 break;
             case 'listoptin':
@@ -181,7 +182,8 @@ class FieldMappingType extends AbstractType
 //                    } elseif (!is_array($data['defaultvalue'])) {
 //                       $data['defaultvalue'] = [$data['defaultvalue']];
 //                    }
-                $customOptions['choices']                   = $options['propertychoices']['listoptin'];
+                $customOptions['choices']                   = isset($options['propertychoices']['listoptin']) ? $options['propertychoices']['listoptin'] : [];
+                $customOptions['empty_value']               = 'mautic.core.form.chooseone';
                 $type                                       = 'choice';
                 break;
             case 'owner_id':
@@ -191,7 +193,7 @@ class FieldMappingType extends AbstractType
 //                        $data['defaultvalue'] = [$data['defaultvalue']];
 //                    }
 
-                $customOptions['choices']                   = $options['propertychoices']['owner_id'];
+                $customOptions['choices']                   = isset($options['propertychoices']['owner_id']) ? $options['propertychoices']['owner_id'] : [];
                 $type                                       = 'choice';
                 break;
             case 'tags':
@@ -200,7 +202,8 @@ class FieldMappingType extends AbstractType
 //                    } elseif (!is_array($data['defaultvalue'])) {
 //                        $data['defaultvalue'] = [$data['defaultvalue']];
 //                    }
-                $customOptions['choices']                   = $options['propertychoices']['tags'];
+                $customOptions['choices']                   = isset($options['propertychoices']['tags']) ? $options['propertychoices']['tags'] : [];
+                $customOptions['empty_value']               = 'mautic.core.form.chooseone';
                 $type                                       = 'choice';
                 break;
             case 'time':
@@ -218,15 +221,19 @@ class FieldMappingType extends AbstractType
 //                    $data['defaultvalue'] = [$data['defaultvalue']];
 //                }
                 $choices = [];
-                if (!empty($field['properties'])) {
-                    $list    = $field['properties'];
-                    $choices = FormFieldHelper::parseList($list, true, ('boolean' === $fieldType));
-                }
-                if ('select' == $fieldType) {
-                    // array_unshift cannot be used because numeric values get lost as keys
-                    $choices     = array_reverse($choices, true);
-                    $choices[''] = '';
-                    $choices     = array_reverse($choices, true);
+                if ($field['alias'] == 'eu_gdpr_consent') {
+                    $choices = $options['propertychoices']['eu_gdpr_consent'];
+                } else {
+                    if (!empty($field['properties'])) {
+                        $list    = $field['properties'];
+                        $choices = FormFieldHelper::parseList($list, true, ('boolean' === $fieldType));
+                    }
+                    if ('select' == $fieldType) {
+                        // array_unshift cannot be used because numeric values get lost as keys
+                        $choices     = array_reverse($choices, true);
+                        $choices[''] = '';
+                        $choices     = array_reverse($choices, true);
+                    }
                 }
                 $customOptions['choices']= $choices;
                 break;

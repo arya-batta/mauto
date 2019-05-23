@@ -79,8 +79,7 @@ class IntegrationController extends FormController
                 $integrationsettings['accountname']=$accountname;
                 $integrationsettings['authtoken']  =$token;
                 $pagelist                          =$fbapiHelper->getAllFbPages($token);
-                $integrationentity                 =new Integration();
-                $integrationentity->setName($name);
+                $integrationentity                 =$integrationHelper->getIntegrationInfobyName($name);
                 $integrationentity->setApiKeys($integrationsettings);
                 $integrationrepo->saveEntity($integrationentity);
                 $session->remove('le.integration.oauth.token');
@@ -104,8 +103,7 @@ class IntegrationController extends FormController
                 $integrationsettings['accountname']=$accountname;
                 $integrationsettings['authtoken']  =$token;
                 $integrationrepo                   =$integrationHelper->getIntegrationRepository();
-                $integrationentity                 =new Integration();
-                $integrationentity->setName($name);
+                $integrationentity                 =$integrationHelper->getIntegrationInfobyName($name);
                 $integrationentity->setApiKeys($integrationsettings);
                 $integrationrepo->saveEntity($integrationentity);
                 $session->remove('le.integration.oauth.token');

@@ -814,6 +814,7 @@ class LeadSubscriber extends CommonSubscriber
             $leadmodel = $this->factory->getModel('lead');
             if (!$event->isBulkOperation()) {
                 $lead          = $event->getLead();
+                $lead->setCreatedSource(3); //Created Source FORM SUBMIT
                 $lead->setStatus(6); // Not Confirmed
                 $leadmodel->saveEntity($lead);
                 $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());

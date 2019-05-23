@@ -73,6 +73,8 @@ class IntegrationFieldMapping extends AbstractType
         foreach ($tags as $tag) {
             $this->propertyChoices['tags'][$tag['value']] = $tag['label'];
         }
+        //gdpr
+        $this->propertyChoices['eu_gdpr_consent'] = ['Unknown'=>'Unknown', 'Granted'=>'Granted', 'Denied'=>'Denied'];
     }
 
     /**
