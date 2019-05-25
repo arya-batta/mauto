@@ -56,6 +56,10 @@ class SmartFormFieldType extends AbstractType
             $data      = $event->getData();
             $form      = $event->getForm();
             $options   = $form->getConfig()->getOptions();
+            if (isset($options['leadfieldchoices']['created_source']) && isset($options['leadfieldchoices']['status'])) {
+                unset($options['leadfieldchoices']['created_source']);
+                unset($options['leadfieldchoices']['status']);
+            }
             $form->add(
                 'leadfield',
                 'choice',

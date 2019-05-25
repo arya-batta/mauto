@@ -251,8 +251,8 @@ $view['slots']->set(
                                 <div class="row">
                                     <div class="col-md-6 fl-left">
                                         <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.company'); ?></h6>
-                                        <?php if (isset($fields['core']['company_new'])): ?>
-                                            <p class="text-primary custom-font-primary"><?php echo $fields['core']['company_new']['value']; ?></p>
+                                        <?php if (isset($fields['core']['company_name'])): ?>
+                                            <p class="text-primary custom-font-primary"><?php echo $fields['core']['company_name']['value']; ?></p>
                                         <?php else: ?>
                                             <br>
                                         <?php endif; ?>
@@ -754,9 +754,9 @@ $view['slots']->set(
                 </div>
             </div>
             <div class="panel-body pt-sm">
-                <?php if (isset($fields['core']['company_new'])): ?>
+                <?php if (isset($fields['core']['company_name'])): ?>
                     <h6 class="fw-b"><?php echo $view['translator']->trans('mautic.core.company'); ?></h6>
-                    <p class="text-muted"><?php echo $fields['core']['company_new']['value']; ?></p>
+                    <p class="text-muted"><?php echo $fields['core']['company_name']['value']; ?></p>
                 <?php endif; ?>
 
             <?php if ($lead->getOwner()) : ?>

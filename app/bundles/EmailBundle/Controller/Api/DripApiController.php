@@ -341,7 +341,7 @@ class DripApiController extends CommonApiController
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
         }
         if ($orderBy != '') {
-            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_new', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
+            $validOrderByFields = ['id', 'dateAdded', 'dateModified', 'createdBy', 'createdByUser', 'modifiedBy', 'modifiedByUser', 'points', 'city', 'zipcode', 'country', 'company_name', 'lastActive', 'fromAddress', 'fromName', 'replyToAddress', 'bccAddress', 'listtype', 'webhookUrl'];
 
             if (!in_array($orderBy, $validOrderByFields)) {
                 return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'orderBy']);

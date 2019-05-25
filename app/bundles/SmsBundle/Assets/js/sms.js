@@ -20,7 +20,7 @@ Le.smsOnLoad = function (container, response) {
        tokens['{leadfield=title}']       = 'Title';
        tokens['{leadfield=firstname}']   = 'First Name';
        tokens['{leadfield=lastname}']    = 'Last Name';
-       tokens['{leadfield=company_new}'] = 'Company';
+       tokens['{leadfield=company_name}'] = 'Company';
        tokens['{leadfield=mobile}']      = 'Mobile';
        tokens['{leadfield=email}']       = 'Email';
        tokens['{lead_owner_name}']       = 'Lead Owner Name';

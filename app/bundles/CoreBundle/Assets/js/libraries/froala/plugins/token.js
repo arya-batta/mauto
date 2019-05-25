@@ -49,6 +49,9 @@
             var method = location.href.match(/(email|dwc|config|drip|leads|list|broadcast)/i)? 'email:getBuilderTokens' : 'page:getBuilderTokens';
             Le.getTokens(method, function(tokens) {
                 mQuery.each(tokens, function(k,v){
+                    if(k.match(/leadfield=status/i) || k.match(/leadfield=created_source/i)){
+                        delete tokens[k];
+                    }
                     if (k.match(/filelink=/i) && v.match(/a:/)){
                         delete tokens[k];
                         var nv = v.replace('a:', '');

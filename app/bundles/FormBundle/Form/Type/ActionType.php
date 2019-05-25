@@ -64,7 +64,7 @@ class ActionType extends AbstractType
 
         $builder->add('type', 'hidden');
 
-        $update = !empty($properties);
+        $update = !empty($properties) && isset($properties['useremail']['email']) && !empty($properties['useremail']['email']) && isset($properties['user_id']) && !empty($properties['user_id']);
         if (!empty($update)) {
             $btnValue = 'mautic.core.form.update';
             $btnIcon  = 'fa fa-pencil';

@@ -619,7 +619,7 @@ class ListOptInModel extends FormModel
 	<table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"533px\">
 		<tbody>
 			<tr>
-				<td style=\"text-align:center;padding:30px 0 20px 0\"><img alt=\"SendX\" class=\"CToWUd fr-fic fr-dii\" width=\"130\" height=\"40px\" src=\"https://anyfunnels.com/wp-content/uploads/leproduct/Your-Logo-Here.jpg\" style=\"padding: 0px;\"></td>
+				<td style=\"text-align:center;padding:30px 0 20px 0\"><img alt=\"Logo\" class=\"CToWUd fr-fic fr-dii\" width=\"130\" height=\"40px\" src=\"https://anyfunnels.com/wp-content/uploads/leproduct/Your-Logo-Here.jpg\" style=\"padding: 0px;\"></td>
 				<td style=\"text-align:center;padding:30px 0 20px 0\">
 					<br>
 				</td>
@@ -639,7 +639,7 @@ class ListOptInModel extends FormModel
 									<p style=\"text-align:center;margin:32px 0\"><a href=\"{{confirmation_link}}\" style=\"display:inline-block;background:#00b27d;color:#ffffff;font-weight:bold;font-size:18px;text-decoration:none;padding:20px 30px;border-radius:4px\" target=\"_blank\">Confirm here</a></p>
 
 									<p style=\"margin:0 0 16px;line-height:20px;color:#555555;font-size:14px\">Cheers,
-										<br><a href=\"http://sendx.io\"><strong>**Your Business Name**</strong></a>
+										<br><a href=\"\"><strong>**Your Business Name**</strong></a>
 										<a></a>
 									</p>
 									<a></a>

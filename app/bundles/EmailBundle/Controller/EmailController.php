@@ -229,6 +229,7 @@ class EmailController extends FormController
         $session->set('mautic.email.page', $page);
 
         $emailBlockDetails = $model->getEmailBlocks();
+        $ismobile          = InputHelper::isMobile();
 
         return $this->delegateView(
             [
@@ -248,6 +249,7 @@ class EmailController extends FormController
                     'translationBase'  => 'mautic.email',
                     'emailBlockDetails'=> $emailBlockDetails,
                     'notificationemail'=> true,
+                    'ismobile'         => $ismobile,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:Email:list.html.php',
                 'passthroughVars' => [
@@ -554,8 +556,8 @@ class EmailController extends FormController
 //            $fromname  =$defaultsender[0];
 //            $fromadress=$defaultsender[1];
 //        }
-        $fromname        = $params['mailer_from_name'];
-        $fromadress      = $params['mailer_from_email'];
+        $fromname         = $params['mailer_from_name'];
+        $fromadress       = $params['mailer_from_email'];
         $mailertransport  = $params['mailer_transport'];
         $unsubscribeText  = $params['footer_text'];
         $postaladdress    = $params['postal_address'];

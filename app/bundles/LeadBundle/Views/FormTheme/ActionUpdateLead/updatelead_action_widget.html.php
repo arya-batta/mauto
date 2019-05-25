@@ -14,7 +14,7 @@
                       || $child->vars['name'] == 'email'
                       || $child->vars['name'] == 'created_source'
                       || $child->vars['name'] == 'status'
-                      || $child->vars['name'] == 'company_new'): ?>
+                      || $child->vars['name'] == 'company_name'): ?>
                 <div class="hidden">
                     <?php echo $view['form']->label($child); ?>
                     <?php echo $view['form']->widget($child); ?>

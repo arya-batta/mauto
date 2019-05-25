@@ -156,7 +156,7 @@ if ($showsetup) {
                 ]);
                 /*echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
                     'sessionVar' => 'lead',
-                    'orderBy'    => 'l.company_new',
+                    'orderBy'    => 'l.company_name',
                     'text'       => 'mautic.core.company',
                     'class'      => 'col-lead-company visible-md visible-lg',
                 ]);*/

@@ -196,6 +196,7 @@ class DripEmailController extends FormController
         $dripEmailBlockDetails = $model->getDripEmailBlocks();
 
         $emailscount = $emailmodel->getRepository()->getDripEmailCount();
+        $ismobile    = InputHelper::isMobile();
 
         return $this->delegateView(
             [
@@ -215,6 +216,7 @@ class DripEmailController extends FormController
                     'translationBase'      => 'mautic.email.broadcast',
                     'dripEmailBlockDetails'=> $dripEmailBlockDetails,
                     'EmailsCount'          => $emailscount,
+                    'ismobile'             => $ismobile,
                 ],
                 'contentTemplate' => 'MauticEmailBundle:DripEmail:list.html.php',
                 'passthroughVars' => [

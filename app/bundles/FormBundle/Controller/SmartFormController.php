@@ -591,6 +591,7 @@ class SmartFormController extends CommonFormController
         $customComponents = $model->getCustomComponents($sessionId);
 
         $fieldHelper      = $this->get('mautic.helper.form.field_helper');
+        $ismobile         = InputHelper::isMobile();
 
         return $this->delegateView(
             [
@@ -613,6 +614,7 @@ class SmartFormController extends CommonFormController
                     'newFormURL'         => $newactionurl,
                     'forceTypeSelection' => false,
                     'isEmbeddedForm'     => false,
+                    'ismobile'           => $ismobile,
                 ],
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [
@@ -970,6 +972,7 @@ class SmartFormController extends CommonFormController
             $deletedActions = [];
         }
         $newactionurl = $this->generateUrl('le_smartform_action', ['objectAction' => 'new', 'objectId' => 'scratch']);
+        $ismobile     = InputHelper::isMobile();
 
         return $this->delegateView(
             [
@@ -993,6 +996,7 @@ class SmartFormController extends CommonFormController
                     'formItems'          => [],
                     'newFormURL'         => $newactionurl,
                     'isEmbeddedForm'     => false,
+                    'ismobile'           => $ismobile,
                 ],
                 'contentTemplate' => 'MauticFormBundle:Builder:index.html.php',
                 'passthroughVars' => [

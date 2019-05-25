@@ -628,7 +628,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 'l.firstname',
                 'l.lastname',
                 'l.email',
-                'l.company_new',
+                'l.company_name',
                 'l.mobile',
                 'l.city',
                 'l.state',

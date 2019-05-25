@@ -79,10 +79,10 @@ $img = $view['lead_avatar']->getAvatar($lead);
                                     <?php endif; ?>
 
                                     <div class="form-group mb-0">
-                                        <?php if (isset($form['company_new'])): ?>
+                                        <?php if (isset($form['company_name'])): ?>
                                             <div class="row">
                                                 <div class="col-sm-6 fl-left">
-                                                    <?php echo $view['form']->row($form['company_new']); ?>
+                                                    <?php echo $view['form']->row($form['company_name']); ?>
                                                 </div>
                                                 <?php if (isset($form['mobile'])): ?>
                                                     <div class="col-sm-6 fl-left">

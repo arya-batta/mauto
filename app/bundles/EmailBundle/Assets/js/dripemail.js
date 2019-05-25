@@ -72,7 +72,7 @@ Le.dripemailOnLoad = function (container, response) {
         tokens['{leadfield=title}']       = 'Title';
         tokens['{leadfield=firstname}']   = 'First Name';
         tokens['{leadfield=lastname}']    = 'Last Name';
-        tokens['{leadfield=company_new}'] = 'Company';
+        tokens['{leadfield=company_name}']= 'Company';
         tokens['{lead_owner_name}']       = 'Lead Owner Name';
         tokens['{lead_owner_mobile}']     = 'Lead Owner Mobile';
         tokens['{lead_owner_email}']      = 'Lead Owner Email';

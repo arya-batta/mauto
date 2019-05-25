@@ -56,6 +56,12 @@ return [
                     ],
                 ],
             ],
+            'le.config.setupmenu.header.title' => [
+                'route'           => 'le_settingsmenu_action',
+                'iconClass'       => 'mdi mdi-settings',
+                'id'              => 'le_settingsmenu_action',
+                'priority'        => 450,
+            ],
         ],
     ],
 
