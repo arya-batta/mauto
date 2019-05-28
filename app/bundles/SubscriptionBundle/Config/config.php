@@ -168,7 +168,7 @@ return [
         'paypal_cachepath'                 => '%kernel.root_dir%/paypal/cache', // for determining paypal cache directory
         'paypal_loglevel'                  => 'DEBUG', // PLEASE USE `INFO` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
         'paypal_log_enabled'               => true,
-        'stripe_api_key'                   => 'sk_test_1D65RgxMWXKzu0XGstDtEHKG',
+        'stripe_api_key'                   => '',
         'campaign_id'                      => null,
         'source_event_id'                  => null,
         'goal_event_id'                    => null,
