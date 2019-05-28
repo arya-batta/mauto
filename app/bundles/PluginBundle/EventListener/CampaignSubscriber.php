@@ -14,9 +14,11 @@ namespace Mautic\PluginBundle\EventListener;
 use Mautic\CampaignBundle\CampaignEvents;
 use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
 use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
+use Mautic\CoreBundle\Event\TokenReplacementEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\PluginBundle\Helper\FacebookAdsApiHelper;
 use Mautic\PluginBundle\PluginEvents;
+use Mautic\SmsBundle\SmsEvents;
 
 /**
  * Class CampaignSubscriber.
@@ -35,6 +37,7 @@ class CampaignSubscriber extends CommonSubscriber
             PluginEvents::ON_CAMPAIGN_TRIGGER_ACTION => [
                 ['onCampaignTriggerAction', 0],
             ['onCampaignTriggerActionAddorRemoveCustomAudience', 1],
+            ['onCampaignTriggerActionPostSlackMessage', 2],
             ],
         ];
     }
@@ -74,6 +77,15 @@ class CampaignSubscriber extends CommonSubscriber
             'eventName'       => PluginEvents::ON_CAMPAIGN_TRIGGER_ACTION,
             'order'           => 2,
             'group'           => 'le.campaign.event.group.name.facebook',
+        ]);
+        $event->addAction('postSlackMessage', [
+            'label'           => 'le.slack.post.message.action.label',
+            'description'     => 'le.slack.post.message.action.desc',
+            'formType'        => 'slack_message_list',
+            'formTheme'       => 'MauticPluginBundle:FormTheme\Action',
+            'eventName'       => PluginEvents::ON_CAMPAIGN_TRIGGER_ACTION,
+            'order'           => 1,
+            'group'           => 'le.campaign.event.group.name.slack',
         ]);
         $event->addSources(
             'fbLeadAds',
@@ -225,6 +237,51 @@ class CampaignSubscriber extends CommonSubscriber
             }
         } else {
             $event->setFailed('custom audience not found due to adaccount is empty');
+        }
+
+        return $event;
+    }
+
+    /**
+     * @param CampaignExecutionEvent $event
+     *
+     * @return $this
+     */
+    public function onCampaignTriggerActionPostSlackMessage(CampaignExecutionEvent $event)
+    {
+        if (!$event->checkContext('postSlackMessage')) {
+            return;
+        }
+
+        $lead              = $event->getLead();
+        $channel           = $event->getConfig()['channellist'];
+        $slack             = $event->getConfig()['slacklist'];
+        $integrationHelper = $this->factory->getHelper('integration');
+        $slackHelper       = $this->factory->getHelper('slack');
+        $slackModel        = $this->factory->get('mautic.plugin.model.slack');
+        if (!empty($channel) && !empty($slack)) {
+            $slackEntity        = $slackModel->getEntity($slack);
+            $integrationsettings=$integrationHelper->getIntegrationSettingsbyName('slack');
+            $tokenEvent         = $this->dispatcher->dispatch(
+                SmsEvents::TOKEN_REPLACEMENT,
+                new TokenReplacementEvent(
+                    $slackEntity->getMessage(),
+                    $lead
+                )
+            );
+            $message = $tokenEvent->getContent();
+            if (sizeof($integrationsettings) > 0) {
+                try {
+                    $response = $slackHelper->sendSlackMessage($integrationsettings['authtoken'], $message, $channel);
+                    if (!$response['success']) {
+                        $event->setFailed($response['error']);
+                    }
+                } catch (\Exception $ex) {
+                    $event->setFailed($ex->getMessage());
+                }
+            }
+        } else {
+            $event->setFailed('Slack Message failed because Channel or Message is Empty');
         }
 
         return $event;

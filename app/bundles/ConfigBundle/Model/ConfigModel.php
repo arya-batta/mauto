@@ -49,6 +49,7 @@ class ConfigModel extends AbstractCommonModel
         $instapage    = $this->translator->trans('le.integration.name.instapage');
         $calendly     = $this->translator->trans('le.integration.name.calendly');
         $unbounce     = $this->translator->trans('le.integration.name.unbounce');
+        $slack        = $this->translator->trans('le.integration.name.slack');
 
         $settingsMenu = [];
 
@@ -100,6 +101,11 @@ class ConfigModel extends AbstractCommonModel
                     'name'=> 'Text Messages',
                     'img' => 'Text-Messages-Templates.png',
                     'url' => $this->router->generate('le_sms_index'),
+                ],
+                'Slack Messages' => [
+                    'name'=> 'Slack Messages',
+                    'img' => 'Category.png',
+                    'url' => $this->router->generate('le_slack_index'),
                 ],
                 'Files/ Lead Magnets' => [
                     'name'=> 'Files/ Lead Magnets',
@@ -171,6 +177,11 @@ class ConfigModel extends AbstractCommonModel
                     'name'=> 'Calendly',
                     'img' => 'Calendly.png',
                     'url' => $this->router->generate('le_integrations_config', ['name'=>$calendly]),
+                ],
+                'Slack' => [
+                    'name'=> 'Slack',
+                    'img' => 'slack.png',
+                    'url' => $this->router->generate('le_integrations_config', ['name'=>$slack]),
                 ],
             ],
         ];

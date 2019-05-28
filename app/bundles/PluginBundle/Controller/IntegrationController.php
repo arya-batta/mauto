@@ -118,6 +118,31 @@ class IntegrationController extends FormController
             if (sizeof($integrationsettings) > 0) {
                 $details['calendlytoken']=$integrationsettings['authtoken'];
             }
+        } elseif ($name == 'slack') {
+            if ($token) {
+                $slackHelper                       = $this->factory->getHelper('slack');
+                $details['authorization']          = true;
+                $config_url                        = $session->get('le.integration.slack.config.url', false);
+                $responsearr                       = $slackHelper->getAccountDetails($token);
+                $accountid                         = $responsearr['id'];
+                $accountname                       = $responsearr['name'];
+                $integrationsettings['accountid']  =$accountid;
+                $integrationsettings['accountname']=$accountname;
+                $integrationsettings['authtoken']  =$token;
+                $integrationsettings['configurl']  =$config_url;
+                $integrationrepo                   =$integrationHelper->getIntegrationRepository();
+                $integrationentity                 =$integrationHelper->getIntegrationInfobyName($name);
+                $integrationentity->setName($name);
+                $integrationentity->setApiKeys($integrationsettings);
+                $integrationrepo->saveEntity($integrationentity);
+                $session->remove('le.integration.oauth.token');
+            } else {
+                $integrationsettings=$integrationHelper->getIntegrationSettingsbyName($name);
+                if (sizeof($integrationsettings) > 0) {
+                    $details['authorization']=true;
+                    $details['configurl']    =$integrationsettings['configurl'];
+                }
+            }
         }
         $details=array_merge($details, $integrationsettings);
         unset($details['authtoken']);
@@ -191,7 +216,7 @@ class IntegrationController extends FormController
         return $this->configAction($integration);
     }
 
-    public function fbAccountRemoveAction($name)
+    public function accountRemoveAction($name)
     {
         $integrationHelper = $this->factory->getHelper('integration');
         $integrationrepo   =$integrationHelper->getIntegrationRepository();
@@ -222,6 +247,9 @@ class IntegrationController extends FormController
             $oauthUrl = $fbapiHelper->getOAuthUrlForLeadAds();
         } elseif ($integration == 'facebook_custom_audiences') {
             $oauthUrl = $fbapiHelper->getOAuthUrlForCustomAudience();
+        } elseif ($integration == 'slack') {
+            $slackHelper = $this->factory->getHelper('slack');
+            $oauthUrl    = $slackHelper->getOAuthUrl();
         }
         $response = new RedirectResponse($oauthUrl);
 

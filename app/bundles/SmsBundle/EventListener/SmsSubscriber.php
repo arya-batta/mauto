@@ -135,12 +135,17 @@ class SmsSubscriber extends CommonSubscriber
                 $this->pageTokenHelper->findPageTokens($content, $clickthrough),
                 $this->assetTokenHelper->findAssetTokens($content, $clickthrough)
             );
-
+            $channel   = '';
+            $channelId = null;
+            if (isset($clickthrough['channel'])) {
+                $channel   = 'sms';
+                $channelId = $clickthrough['channel'][1];
+            }
             list($content, $trackables) = $this->trackableModel->parseContentForTrackables(
                 $content,
                 $tokens,
-                'sms',
-                $clickthrough['channel'][1]
+                $channel,
+                $channelId
             );
 
             /**

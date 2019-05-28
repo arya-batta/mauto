@@ -26,6 +26,7 @@ class PluginPermissions extends AbstractPermissions
     {
         parent::__construct($params);
         $this->addManagePermission('plugins');
+        $this->addExtendedPermissions('slack', false);
     }
 
     /**
@@ -42,5 +43,21 @@ class PluginPermissions extends AbstractPermissions
     public function buildForm(FormBuilderInterface &$builder, array $options, array $data)
     {
         $this->addManageFormFields('plugin', 'plugins', $builder, $data);
+        $builder->add('plugin:slack', 'permissionlist', [
+            'choices' => [
+                'viewown'      => 'mautic.core.permissions.viewown',
+                'viewother'    => 'mautic.core.permissions.viewother',
+                'editown'      => 'mautic.core.permissions.editown',
+                'editother'    => 'mautic.core.permissions.editother',
+                'create'       => 'mautic.core.permissions.create',
+                'deleteown'    => 'mautic.core.permissions.deleteown',
+                'deleteother'  => 'mautic.core.permissions.deleteother',
+                'full'         => 'mautic.core.permissions.full',
+            ],
+            'label'  => 'le.slack.permissions.slack',
+            'data'   => (!empty($data['slack']) ? $data['slack'] : []),
+            'bundle' => 'plugin',
+            'level'  => 'slack',
+        ]);
     }
 }

@@ -48,9 +48,17 @@ return [
                 'path'       => '/integrations/{integration}/page/{pageid}/{action}',
                 'controller' => 'MauticPluginBundle:Integration:fbPageSubscription',
             ],
-            'le_integrations_fb_account_remove' => [
+            'le_integrations_account_remove' => [
                 'path'       => '/integrations/{name}/remove',
-                'controller' => 'MauticPluginBundle:Integration:fbAccountRemove',
+                'controller' => 'MauticPluginBundle:Integration:accountRemove',
+            ],
+            'le_slack_index' => [
+                'path'       => '/slack/{page}',
+                'controller' => 'MauticPluginBundle:Slack:index',
+            ],
+            'le_slack_action' => [
+                'path'       => '/slack/{objectAction}/{objectId}',
+                'controller' => 'MauticPluginBundle:Slack:execute',
             ],
         ],
         'public' => [
@@ -201,6 +209,21 @@ return [
                 'alias'       => 'integration_field_mapping',
                 'arguments'   => ['mautic.factory'],
             ],
+            'le.form.type.slacktype' => [
+                'class'       => 'Mautic\PluginBundle\Form\Type\SlackType',
+                'alias'       => 'slack',
+                'arguments'   => ['mautic.factory'],
+            ],
+            'le.form.type.slack.listtype' => [
+                'class'       => 'Mautic\PluginBundle\Form\Type\SlackListType',
+                'alias'       => 'slack_list',
+                'arguments'   => ['mautic.factory'],
+            ],
+            'le.form.type.slack_message_list' => [
+                'class'     => Mautic\PluginBundle\Form\Type\SlackMessageType::class,
+                'arguments' => 'mautic.factory',
+                'alias'     => 'slack_message_list',
+            ],
         ],
         'other' => [
             'mautic.helper.integration' => [
@@ -214,17 +237,31 @@ return [
                     'mautic.helper.templating',
                     'mautic.plugin.model.plugin',
                 ],
-            ], 'mautic.helper.fbapi' => [
-    'class'     => \Mautic\PluginBundle\Helper\FacebookApiHelper::class,
-    'arguments' => [
-        'mautic.factory', ],
-],
+            ],
+            'mautic.helper.fbapi' => [
+                'class'     => \Mautic\PluginBundle\Helper\FacebookApiHelper::class,
+                'arguments' => [
+                    'mautic.factory',
+                ],
+            ],
+            'mautic.helper.slack' => [
+                'class'     => \Mautic\PluginBundle\Helper\SlackHelper::class,
+                'arguments' => [
+                    'mautic.factory',
+                ],
+            ],
         ],
         'models' => [
             'mautic.plugin.model.plugin' => [
                 'class'     => 'Mautic\PluginBundle\Model\PluginModel',
                 'arguments' => [
                     'mautic.lead.model.field',
+                ],
+            ],
+            'mautic.plugin.model.slack' => [
+                'class'     => 'Mautic\PluginBundle\Model\SlackModel',
+                'arguments' => [
+                    'mautic.factory',
                 ],
             ],
 
@@ -237,5 +274,9 @@ return [
         'facebook_app_id'                                   => '',
         'facebook_app_secret'                               => '',
         'facebook_oauth_callback'                           => 'https://apps.anyfunnels.com/integrations/facebook/callback.php',
+        'slack_client_id'                                   => '',
+        'slack_client_secret'                               => '',
+        'slack_internal_token'                              => '',
+        'slack_internal_channel'                            => '',
     ],
 ];

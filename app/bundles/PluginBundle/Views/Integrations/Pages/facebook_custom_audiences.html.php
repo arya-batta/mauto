@@ -31,7 +31,7 @@ $view['slots']->set('headerTitle', $header);
                 <?php else: ?>
                     <div>
                         <p>Anyfunnels is already authorized to access the Facebook account for <strong><?php echo $details['accountname'] ?></strong>. Click below to remove the access token we have on file and to stop sending Anyfunnels lead to Facebook.</p>
-                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_fb_account_remove', ['name' => $name]) ?>" data-toggle="ajax">Remove</a>
+                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle="ajax">Remove</a>
                     </div>
                 <?php endif; ?>
             </div>

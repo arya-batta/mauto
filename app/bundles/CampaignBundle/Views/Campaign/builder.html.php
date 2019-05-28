@@ -171,6 +171,7 @@ foreach ($acions as $key => $value) {
          ['label'=> 'Instapage', 'order'=> 3, 'visibleFor' => 1],
          ['label'=> 'Unbounce', 'order'=> 4, 'visibleFor' => 1],
          ['label'=> 'Calendly', 'order'=> 5, 'visibleFor' => 1],
+         ['label'=> 'Slack', 'order'=> 6, 'visibleFor' => 2],
          /*        ['label'=> 'Drip', 'order'=> 2],*/
     ];
     $sources      =$eventSettings['source'];

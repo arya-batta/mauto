@@ -11,7 +11,12 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'role');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.user.roles'));
-
+?>
+<div class="le-header-align"><h3><?php echo $view['translator']->trans('mautic.user.roles'); ?></h3></div>
+<div class="info-box-holder">
+</div>
+<div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding mt-less-50">
+<?php
 $view['slots']->set(
     'actions',
     $view->render(
@@ -38,4 +43,5 @@ $view['slots']->set(
 
 <div class="page-list">
     <?php $view['slots']->output('_content'); ?>
+</div>
 </div>

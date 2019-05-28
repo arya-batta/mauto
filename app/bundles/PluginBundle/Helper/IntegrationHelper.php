@@ -783,6 +783,11 @@ class IntegrationHelper
                 'image_url'=> $assetsHelper->getUrl('media/images/integrations/zapier.png'),
                 'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'zapier']),
             ],
+            'slack' => [
+                'name'     => 'slack',
+                'image_url'=> $assetsHelper->getUrl('media/images/integrations/slack.png'),
+                'route'    => $this->container->get('router')->generate('le_integrations_config', ['name'=>'slack']),
+            ],
         ];
         if ($specificintegration != null) {
             return  $integrations[$specificintegration];
