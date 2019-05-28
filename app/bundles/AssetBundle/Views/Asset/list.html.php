@@ -46,7 +46,7 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'asset',
                         'orderBy'    => 'a.title',
-                        'text'       => 'mautic.core.title',
+                        'text'       => 'mautic.core.name',
                         'class'      => 'col-asset-title',
                         'default'    => true,
                     ]
@@ -58,7 +58,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'asset',
                         'orderBy'    => 'c.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'col-asset-category',
+                        'class'      => 'col-asset-category text-center',
                     ]
                 );
                 echo $view->render(
@@ -93,7 +93,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'asset',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-asset-actions col-lead-actions',
+                    'class'      => 'col-lead-location col-asset-actions', // col-lead-actions
                 ]);
                 ?>
             </tr>
@@ -158,10 +158,10 @@ $isAdmin=$view['security']->isAdmin();
                                 'le_asset_action',
                                 ['objectAction' => 'edit', 'objectId' => $item->getId()]
                             ); ?>"
-                               data-toggle="ajax">
-                                <?php echo $item->getTitle(); ?> (<?php echo $item->getAlias(); ?>)
+                               data-toggle="ajax"><?php echo $item->getTitle(); ?>
+<!--                                (--><?php //echo $item->getAlias();?><!--)-->
                             </a>
-                            <i class="<?php echo $item->getIconClass(); ?>"></i>
+<!--                            <i class="--><?php //echo $item->getIconClass();?><!--"></i>-->
                         </div>
                         <?php if ($description = $item->getDescription()): ?>
                             <div class="text-muted mt-4">

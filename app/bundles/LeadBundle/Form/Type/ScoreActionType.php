@@ -39,7 +39,7 @@ class ScoreActionType extends AbstractType
                 'attr'        => ['class'    => 'form-control',
                                    'tooltip' => 'le.point.change.score.desc',
                                  ],
-                'data'        => (isset($options['data']['score'])) ? $options['data']['score'] : 'Cold',
+                'data'        => (isset($options['data']['score'])) ? $options['data']['score'] : 'cold',
             ]
         );
     }

@@ -84,7 +84,7 @@ if ($isEmbeddedForm) {
                         'sessionVar' => 'form',
                         'orderBy'    => 'c.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'col-form-category',
+                        'class'      => 'col-form-category text-center',
                     ]
                 );
 
@@ -94,7 +94,7 @@ if ($isEmbeddedForm) {
                         'sessionVar' => 'form',
                         'orderBy'    => 'submission_count',
                         'text'       => 'mautic.form.form.results',
-                        'class'      => 'col-form-submissions',
+                        'class'      => 'col-form-submissions text-center',
                     ]
                 );
                 if ($isAdmin):
@@ -177,7 +177,7 @@ if ($isEmbeddedForm) {
                             ['item' => $item, 'model' => 'form.form']
                         ); ?>
                     </td>
-                    <td class="table-description">
+                    <td class="form-name-row">
                         <div>
                             <a href="<?php echo $view['router']->path(
                                 $actionUrl,

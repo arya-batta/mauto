@@ -40,13 +40,13 @@
     width: 50px;
 }
 .col-point-name{
-    width:25%;
+    width:30%;
 }
 .col-point-category{
-    width:20%;
+    width:10%;
 }
 .category_span{
-    width: 160px;
+    width: 140px;
     overflow: hidden;
     text-decoration: none;
     text-overflow: ellipsis;

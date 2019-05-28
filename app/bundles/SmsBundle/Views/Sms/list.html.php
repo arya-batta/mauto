@@ -46,7 +46,7 @@ if (count($items)):
                         'sessionVar' => 'sms',
                         'orderBy'    => 'e.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-sms-name m_width',
+                        'class'      => 'col-sms-name', // m_width
                         'default'    => true,
                     ]
                 );
@@ -84,7 +84,7 @@ if (count($items)):
                     'sessionVar' => 'sms',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-lead-actions',
+                    'class'      => 'col-lead-location', //col-lead-actions
                 ]);
                 ?>
             </tr>

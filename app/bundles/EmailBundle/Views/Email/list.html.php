@@ -126,16 +126,18 @@ $isAdmin=$view['security']->isAdmin();
                         'default'    => true,
                     ]
                 );
-                echo $view->render(
-                    'MauticCoreBundle:Helper:tableheader.html.php',
-                    [
-                        'sessionVar' => 'email',
-                        'orderBy'    => '',
-                        'text'       => 'le.email.token.unsubscribes_text',
-                        'class'      => 'col-email-stats',
-                        'default'    => true,
-                    ]
-                );
+                if ($isAdmin || !$notificationemail) {
+                    echo $view->render(
+                        'MauticCoreBundle:Helper:tableheader.html.php',
+                        [
+                            'sessionVar' => 'email',
+                            'orderBy'    => '',
+                            'text'       => 'le.email.token.unsubscribes_text',
+                            'class'      => 'col-email-stats',
+                            'default'    => true,
+                        ]
+                    );
+                }
                 if ($isAdmin) {//!$notificationemail ||
                     echo $view->render(
                         'MauticCoreBundle:Helper:tableheader.html.php',
@@ -184,7 +186,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'email',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-lead-actions',
+                    'class'      => 'col-lead-location notification-action-btn',
                 ]);
                 ?>
             </tr>
@@ -343,6 +345,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
+                    <?php if ($isAdmin || !$notificationemail):?>
                     <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs has-click-event clickable-stat"
                             id="unsubscribe-count-<?php echo $item->getId(); ?>">
@@ -357,6 +360,7 @@ $isAdmin=$view['security']->isAdmin();
                             </a>
                         </span>
                     </td>
+                    <?php endif; ?>
                     <?php if ($isAdmin): //!$notificationemail ||?>
                     <td class="col-stats">
                            <span class="mt-xs has-click-event clickable-stat"

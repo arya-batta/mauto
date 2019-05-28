@@ -24,13 +24,15 @@ $doubleoptinclass = ($entity->getListtype()) ? '' : 'hide';
 $thankyouclass    = ($entity->getThankyou()) ? '' : 'hide';
 $goodbyeclass     = ($entity->isGoodbye()) ? '' : 'hide';
 
-$filterErrors     = (count($form['doubleoptinemail']->vars['errors']) || count($form['thankyouemail']->vars['errors']) || count($form['goodbyeemail']->vars['errors'])) ? 'class="text-danger"' : '';
+//$filterErrors     = (count($form['doubleoptinemail']->vars['errors']) || count($form['thankyouemail']->vars['errors']) || count($form['goodbyeemail']->vars['errors'])) ? 'class="text-danger"' : '';
+$filterErrors     = (count($form['fromname']->vars['errors']) || count($form['fromaddress']->vars['errors']) || count($form['subject']->vars['errors']) || count($form['message']->vars['errors'])) ? 'class="text-danger"' : '';
 $mainErrors       = (count($form['name']->vars['errors'])) ? 'class="text-danger"' : '';
-$isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($form['thankyouemail']->vars['errors']) || count($form['goodbyeemail']->vars['errors']));
+//$isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($form['thankyouemail']->vars['errors']) || count($form['goodbyeemail']->vars['errors']));
+$isSetupError     = (count($form['fromname']->vars['errors']) || count($form['fromaddress']->vars['errors']) || count($form['subject']->vars['errors']) || count($form['message']->vars['errors']));
 ?>
 
 <?php echo $view['form']->start($form); ?>
-<!--<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md hide">
+<ul class="bg-auto nav nav-pills nav-wizard pr-md pl-md ">
     <li class="<?php echo ($isSetupError) ? '' : 'active'; ?> detail" id="detailstab">
         <a href="#details" style="padding: 0px 47px;" role="tab" data-toggle="tab"<?php echo $mainErrors; ?>>
             <div class="content-wrapper-first">
@@ -53,111 +55,118 @@ $isSetupError     = (count($form['doubleoptinemail']->vars['errors']) || count($
             </div>
         </a>
     </li>
-</ul>-->
+</ul>
     <!-- start: box layout -->
-    <div class="center-align-container">
-        <div class="listoptin-template-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <?php echo $view['form']->row($form['name']); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php echo $view['form']->label($form['listtype']); ?>
-                    <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.list.optin.tooltip'); ?></p>
-                    <?php echo $view['form']->widget($form['listtype']); ?>
-                </div>
-            </div>
-            <div class="doubleoptinfields hide">
-                <br>
+<!--    <div class="center-align-container">-->
+<div class="box-layout" style="margin-left: 15px;width: 97%;">
+    <div class="col-md-8 bg-white height-auto">
+        <div class="tab-content pa-md">
+<!--    <div class="listoptin-template-content">-->
+            <div class="tab-pane fade in <?php echo ($isSetupError) ? '' : 'active'; ?> bdr-w-0" id="details">
                 <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($form['fromname']); ?>
+                    <div class="col-md-6">
+                        <?php echo $view['form']->row($form['name']); ?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($form['fromaddress']); ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($form['subject']); ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->row($form['message']); ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $view['form']->label($form['resend']); ?>
-                        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.lead.list.optin.resend.tooltip'); ?></p>
-                        <?php echo $view['form']->widget($form['resend']); ?>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 <?php echo $security->isAdmin() ? '' : 'hide'; ?>">
-                    <div class="pa-md">
+                    <div class="col-xs-12">
                         <?php echo $view['form']->row($form['description']); ?>
                     </div>
                 </div>
             </div>
-        <div class="row hide">
-            <div class="col-xs-12">
-                <!-- start: tab-content -->
-                <div class="tab-content pa-md">
-                    <div class="tab-pane fade in <?php echo ($isSetupError) ? '' : 'active'; ?> bdr-w-0" id="details">
-
+            <div class="tab-pane fade <?php echo ($isSetupError) ? 'in active' : ''; ?> bdr-w-0" id="filters">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $view['form']->label($form['listtype']); ?>
+                            <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.list.optin.tooltip'); ?></p>
+                        <?php echo $view['form']->widget($form['listtype']); ?>
                     </div>
-                    <div class="tab-pane fade <?php echo ($isSetupError) ? 'in active' : ''; ?> bdr-w-0" id="filters">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['isPublished']); ?>
-                            </div>
-                            <div class="col-md-6 <?php echo $doubleoptinclass; ?>" id="doubleoptinemaillist">
-                                <?php echo $view['form']->row($form['doubleoptinemail']); ?>
-                            </div>
+                </div>
+                <div class="doubleoptinfields hide">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->row($form['fromname']); ?>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['thankyou']); ?>
-                            </div>
-                            <div class="col-md-6 <?php echo $thankyouclass; ?>" id="thankyouemaillist">
-                                <?php echo $view['form']->row($form['thankyouemail']); ?>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->row($form['fromaddress']); ?>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php echo $view['form']->row($form['goodbye']); ?>
-                            </div>
-                            <div class="col-md-6 <?php echo $goodbyeclass; ?>" id="goodbyeemaillist">
-                                <?php echo $view['form']->row($form['goodbyeemail']); ?>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->row($form['subject']); ?>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12" id="unsubscribe_text_div">
-                                <?php echo $view['form']->row($form['footerText']); ?>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->row($form['message']); ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $view['form']->label($form['resend']); ?>
+                                <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.lead.list.optin.resend.tooltip'); ?></p>
+                            <?php echo $view['form']->widget($form['resend']); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row hide">
+                <div class="col-xs-12">
+                <!-- start: tab-content -->
+                    <div class="tab-content pa-md">
+                        <div class="tab-pane fade in <?php echo ($isSetupError) ? '' : 'active'; ?> bdr-w-0" id="details">
+                        </div>
+                        <div class="tab-pane fade <?php echo ($isSetupError) ? 'in active' : ''; ?> bdr-w-0" id="filters">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['isPublished']); ?>
+                                </div>
+                                <div class="col-md-6 <?php echo $doubleoptinclass; ?>" id="doubleoptinemaillist">
+                                    <?php echo $view['form']->row($form['doubleoptinemail']); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['thankyou']); ?>
+                                </div>
+                                <div class="col-md-6 <?php echo $thankyouclass; ?>" id="thankyouemaillist">
+                                    <?php echo $view['form']->row($form['thankyouemail']); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?php echo $view['form']->row($form['goodbye']); ?>
+                                </div>
+                                <div class="col-md-6 <?php echo $goodbyeclass; ?>" id="goodbyeemaillist">
+                                    <?php echo $view['form']->row($form['goodbyeemail']); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" id="unsubscribe_text_div">
+                                    <?php echo $view['form']->row($form['footerText']); ?>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+<!--        </div>-->
         </div>
     </div>
 </div>
+<!--</div>-->
 <?php echo $view['form']->end($form); ?>

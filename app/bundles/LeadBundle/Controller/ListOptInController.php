@@ -619,7 +619,7 @@ class ListOptInController extends FormController
                 $isValidForm = true;
             } else {
                 $isValidForm = false;
-                $form['message']->addError(new FormError($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation Link'])));
+                $form['message']->addError(new FormError($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation link {{confirmation_link}}'])));
             }
         }
         if ($formData['listtype'] && empty($formData['subject'])) {

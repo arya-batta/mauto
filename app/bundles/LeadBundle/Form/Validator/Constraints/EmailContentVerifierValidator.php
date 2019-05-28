@@ -59,7 +59,7 @@ class EmailContentVerifierValidator extends ConstraintValidator
         if ((strpos($email->getCustomHtml(), $tokenvalue) !== false)) {
             return;
         } else {
-            $this->context->addViolation($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation Link']));
+            $this->context->addViolation($this->translator->trans('le.lead.list.optin.token.missing', ['%TOKEN%' => 'Confirmation link {{confirmation_link}}']));
         }
     }
 }

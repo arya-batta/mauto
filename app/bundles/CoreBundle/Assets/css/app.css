@@ -5908,7 +5908,7 @@ figcaption {
   width: 60%;
 }
 .col-notification-email-name{
-  width: 50%;
+  width: 55%;
 }
 .col-sms-name{
   width: 60%;
@@ -6408,7 +6408,7 @@ text-align: center;
   width:20%;
 }
 .col-form-actions{
-  width: 15%;
+  /*width: 15%;*/
   text-align: end;
 }
 .le-header-align{
@@ -7971,4 +7971,12 @@ span.afincludes{
 }
 .lead-screen-field{
   max-width: 68%;
+}
+.form-name-row{
+  width: 52% ;
+  overflow-wrap: break-word;
+}
+.notification-action-btn{
+  text-align: right;
+  width: 5%;
 }

@@ -129,8 +129,9 @@ class LeadSubscriber extends CommonSubscriber
                             $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
                         }
                     } elseif ('read' == $state) {
-                        $open_date      =$this->factory->get('mautic.helper.template.date')->toFull($stat['dateRead']);
-                        $totalreadcount = $this->factory->getModel('email')->getRepository()->getTotalOpenCounts($stat['email_id'], $stat['lead_id']);
+                        $open_date        =$this->factory->get('mautic.helper.template.date')->toFull($stat['lastOpened'], 'UTC');
+                        $totalreadcount   = $this->factory->getModel('email')->getRepository()->getTotalOpenCounts($stat['email_id'], $stat['lead_id']);
+                        $stat['dateRead'] = $stat['lastOpened'];
                         if (!empty($stat['idHash'])) {
                             $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
                             $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);

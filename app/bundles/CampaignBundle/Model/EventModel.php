@@ -599,6 +599,11 @@ class EventModel extends CommonFormModel
                                 'expr'   => 'in',
                                 'value'  => $campaignLeads,
                             ],
+                            [
+                                'column' => 'l.status',
+                                'expr'   => 'neq',
+                                'value'  => '6',
+                            ],
                         ],
                     ],
                     'orderBy'            => 'l.id',
