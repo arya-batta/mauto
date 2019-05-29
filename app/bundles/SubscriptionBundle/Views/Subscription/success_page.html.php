@@ -29,8 +29,8 @@ if ($isPaid) {
 <div style="width:100%;">
     <div class="<?php echo $isHideBlock ? '' : ''?>">
         <div>
-            <div class="row row-padding">
-                <div class="col-sm-12">
+            <div class="row row-padding ">
+                <div class="col-sm-12 <?php echo $isPaid && $sendingDomainStatus ? 'hide' : '' ?>">
                     <p class="dashboard-header-p">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
