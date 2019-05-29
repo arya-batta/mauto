@@ -85,10 +85,15 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Website-Tracking.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'trackingconfig']),
                 ],
-                'Developer API' => [
-                    'name'=> 'Developer API',
+                'API Key & Doc' => [
+                    'name'=> 'API Key & Doc',
                     'img' => 'Developer-API.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'apiconfig']),
+                ],
+                'Webhooks' => [
+                    'name'=> 'Webhooks',
+                    'img' => 'Webhooks.png',
+                    'url' => $this->router->generate('le_webhook_index'),
                 ],
             ],
             'Assets'=> [
@@ -143,11 +148,6 @@ class ConfigModel extends AbstractCommonModel
             ],
 
             'Integrations' => [
-                'Webhooks' => [
-                    'name'=> 'Webhooks',
-                    'img' => 'Webhooks.png',
-                    'url' => $this->router->generate('le_webhook_index'),
-                ],
                 'Zapier' => [
                     'name'=> 'Zapier',
                     'img' => 'Zapier.png',

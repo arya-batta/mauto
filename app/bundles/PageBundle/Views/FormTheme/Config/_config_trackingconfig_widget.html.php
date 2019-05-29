@@ -15,10 +15,11 @@ $isAdmin    =$view['security']->isAdmin();
 <div class="panel panel-primary trackingconfig">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.pagetracking'); ?></h3>
+        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.config.tab.pagetracking.info'); ?></p>
     </div>
     <div class="panel-body">
+        <label class="control-label"><?php echo $view['translator']->trans('le.page.tacking.label'); ?></label>
         <div class="form-group">
-            <p><?php echo $view['translator']->trans('le.config.tab.pagetracking.info'); ?></p>
             <pre id="script_preTag" style="display:none;">&lt;script&gt;
     (function(w,d,t,u,n,a,m){w['TrackingObject']=n;
         w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),

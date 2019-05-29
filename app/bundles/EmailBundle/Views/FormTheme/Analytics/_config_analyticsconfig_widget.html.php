@@ -16,12 +16,10 @@ $fields        = $form->children;
 <div class="panel panel-primary analyticsconfig">
     <div class="panel-heading analyticsconfig">
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.analytics.header'); ?></h3>
+        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.config.analytics.header.desc'); ?></p>
     </div>
     <div class="panel-body">
-        <p>
-            Set default UTM codes to automatically add them to every new hyperlink in your Broadcast and Drip Sequences emails.
-            <br><br>Changing these defaults will not replace UTM codes in existing emails.
-        </p>
+
         <br>
         <!-- tabs controls -->
         <ul class="nav nav-tabs pr-md">

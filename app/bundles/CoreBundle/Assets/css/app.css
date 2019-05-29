@@ -1374,7 +1374,7 @@ a.text-white.dark-sm:hover {
   color: #a6a6a6;
 }
 .ui-tabs-selected{
-  border-top: 3px solid #3292e0;
+  /*border-top: 3px solid #3292e0;*/
   background-color: white;
 }
 .text-white.dark-md {
@@ -5834,8 +5834,8 @@ figcaption {
 }
 .dnc-alignment{
   position: absolute;
-  top: 5px;
-  right: 24px;
+  top: 30px;
+  right: 40px;
 }
 .le-email-editor-header{
   /*font-family: ProximaNova-Bold,Arial;*/
@@ -7979,4 +7979,10 @@ span.afincludes{
 .notification-action-btn{
   text-align: right;
   width: 5%;
+}
+.sending-domain-model{
+  width: 900px !important;
+}
+.sending-domain-content{
+  padding:50px !important;
 }

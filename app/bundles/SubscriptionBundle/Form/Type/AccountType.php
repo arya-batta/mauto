@@ -203,7 +203,7 @@ class AccountType extends AbstractType
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => ['class' => 'form-control le-input'],
                 'disabled'   => $ispoweredby,
-                'data'       => $options['data']->getNeedpoweredby(),
+                'data'       => false, //$options['data']->getNeedpoweredby(),
             ]
         );
 

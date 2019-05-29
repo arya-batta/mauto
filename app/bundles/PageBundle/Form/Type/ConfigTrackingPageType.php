@@ -147,6 +147,7 @@ class ConfigTrackingPageType extends AbstractType
                     'class'    => 'form-control',
                     'id'       => 'emailAdditionainfo',
                     'tooltip'  => 'le.page.tracking.emailAdditioninfo.tooltip',
+                    'rows'     => 6,
                 ],
                 'required' => false,
             ]

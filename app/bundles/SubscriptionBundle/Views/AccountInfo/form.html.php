@@ -77,7 +77,7 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                             <div class="row form-group col-xs-12">
                                 <div class="col-md-6">
                                 </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 hide">
                                 <?php echo $view['form']->label($form['needpoweredby']); ?>
                                 <?php echo $view['form']->widget($form['needpoweredby']); ?>
                             </div>
@@ -93,6 +93,9 @@ $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
                         </div>
                     </div>
                 </div>
+                    <br>
+                    <br>
+                    <br>
                 </div>
             </div>
             <?php echo $view['form']->end($form); ?>

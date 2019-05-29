@@ -1,12 +1,13 @@
 <?php
 ?>
-<div class="alert alert-info le-alert-info" id="form-action-placeholder">
+<div class="alert alert-info le-alert-info hide" id="form-action-placeholder">
     <p><?php echo $view['translator']->trans('le.email.config.sender.reputation.help'); ?></p>
 </div>
-<?php if (isset($emailreputations) && sizeof($emailreputations) > 0): ?>
+
 <div class="panel panel-primary senderreputation_config">
     <div class="panel-heading senderreputation_config">
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.senderreputation'); ?></h3>
+        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.email.config.sender.reputation.help'); ?></p>
     </div>
     <div class="panel-body">
         <table style="width: 100%;">
@@ -18,15 +19,16 @@
                 <th style="width: 50%">
                     Description
                 </th>
-                <th style="width: 15%">
+                <th style="width: 15%;text-align: center;">
                     Value
                 </th>
-                <th style="width: 15%">
+                <th style="width: 15%;text-align: center;">
                     Score Impact
                 </th>
             </tr>
             </thead>
             <tbody>
+            <?php if (isset($emailreputations) && sizeof($emailreputations) > 0): ?>
             <?php foreach ($emailreputations[0] as $emailreputation): ?>
                 <tr>
                     <td>
@@ -35,10 +37,10 @@
                     <td>
                         <?php echo $emailreputation[1]?>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <?php echo $emailreputation[2]?>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <?php echo $emailreputation[3]?>
                     </td>
                 </tr>

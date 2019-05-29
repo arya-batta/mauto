@@ -76,7 +76,7 @@ class ConfigType extends AbstractType
             'label_attr' => ['class' => 'control-label'],
             'attr'       => [
                 'class'       => 'form-control',
-                'tooltip'     => 'mautic.sms.config.select_default_transport',
+                /*'tooltip'     => 'mautic.sms.config.select_default_transport',*/
                 'onchange'    => 'Le.updateTextMessageStatus()',
             ],
             'data'        => $options['data']['sms_transport'],

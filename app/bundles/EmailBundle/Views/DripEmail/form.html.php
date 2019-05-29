@@ -75,20 +75,20 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         <label><?php echo $view['translator']->trans('le.core.email.name'); ?></label>
                     </div></a>
             </li>-->
-            <li class="ui-state-default ui-corner-top btn-group modal-footer ui-state-active" role = "tab" id = "ui-tab-header2" rel = 2>
+            <li class="ui-state-default ui-corner-top btn-group ui-state-active" role = "tab" id = "ui-tab-header2" rel = 2>
                 <a class="text-start"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 01</span></div>
                         <label><?php echo $view['translator']->trans('le.core.drip.compose'); ?></label>
                     </div></a>
 
             </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header3" rel = 3>
+            <li class="ui-state-default ui-corner-top btn-group" role = "tab" id = "ui-tab-header3" rel = 3>
                 <a class="text-start" style="padding: 0px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 02</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.recipients'); ?></label>
                     </div></a>
             </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header4" rel = 4>
+            <li class="ui-state-default ui-corner-top btn-group" role = "tab" id = "ui-tab-header4" rel = 4>
                 <a class="text-start" style="padding: 0px 34px;"><div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>

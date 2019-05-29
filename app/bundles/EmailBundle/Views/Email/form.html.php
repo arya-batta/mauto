@@ -127,25 +127,25 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
 <div id="page-wrap" class="align-tab-center">
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all tab-pane fade in active bdr-rds-0 bdr-w-0">
         <ul class="nav nav-pills nav-wizard ui-helper-reset ui-helper-clearfix ui-widget-header">
-            <!--<li class="hide ui-state-default ui-corner-top btn-group modal-footer" role = "tab" id = "ui-tab-header1" rel = 1>
+            <!--<li class="hide ui-state-default ui-corner-top btn-group" role = "tab" id = "ui-tab-header1" rel = 1>
                 <a class="text-start" id="info_tab"><div class="content-wrapper-first">
                         <div><span class="small-xx">Step 01</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.name'); ?></label>
                     </div></a>
             </li>-->
-            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1>
+            <li class="ui-state-default ui-corner-top btn-group <?php echo $infoulactive; ?>" role = "tab" id = "ui-tab-header1" rel = 1>
                 <a class="text-start" style="padding: 0px 30px;"><div class="content-wrapper-first">
                         <div><span class="small-xx">Step 01</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.compose'); ?></label>
                     </div></a>
             </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $isVariant ? 'disable_ele' : '' ?>" role = "tab" id = "ui-tab-header2" rel = 2>
+            <li class="ui-state-default ui-corner-top btn-group <?php echo $isVariant ? 'disable_ele' : '' ?>" role = "tab" id = "ui-tab-header2" rel = 2>
                 <a class="text-start" style="padding: 0px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 02</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.recipients'); ?></label>
                     </div></a>
             </li>
-            <li class="ui-state-default ui-corner-top btn-group modal-footer <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3>
+            <li class="ui-state-default ui-corner-top btn-group <?php echo $settingsulactive; ?>" role = "tab" id = "ui-tab-header3" rel = 3>
                 <a class="text-start" style="padding: 0px 35px;"> <div class="content-wrapper-first">
                         <div><span class="small-xx">Step 03</span></div>
                         <label><?php echo $view['translator']->trans('le.core.email.setup'); ?></label>

@@ -160,40 +160,41 @@ class AccountController extends FormController
                 }
             }
         }
-        $tmpl                 = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
-        $emailModel           =$this->getModel('email');
-        $statrepo             =$emailModel->getStatRepository();
-        $licenseinfo          =$this->get('mautic.helper.licenseinfo')->getLicenseEntity();
-        $licensestart         =$licenseinfo->getLicenseStart();
-        $licenseend           =$licenseinfo->getLicenseEnd();
-        $contactUsage         =$licenseinfo->getActualRecordCount();
-        $totalContactCredits  =$licenseinfo->getTotalRecordCount();
-        $totalEmailCredits    =$licenseinfo->getTotalEmailCount();
-        $actualEmailCredits   = $licenseinfo->getActualEmailCount();
-        $currentDate          = date('Y-m-d');
-        $monthStartDate       = date('Y-m-01');
-        $emailValidityEndDate = $this->get('mautic.helper.licenseinfo')->getEmailValidityEndDate();
-        $emailValidityEndDays = round((strtotime($emailValidityEndDate) - strtotime($currentDate)) / 86400);
-        $emailUsage           =$statrepo->getSentCountsByDate($monthStartDate);
-        $trialEndDays         =$this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
-        $planType             ='Free Trial';
-        $paymentrepository    =$this->get('le.subscription.repository.payment');
-        $lastpayment          =$paymentrepository->getLastPayment();
-        $datehelper           =$this->get('mautic.helper.template.date');
-        $validityTill         =$datehelper->toDate($licenseend);
-        $planAmount           ='';
-        $custplanamount       = '';
-        $planName             = '';
+        $tmpl                  = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $emailModel            =$this->getModel('email');
+        $statrepo              =$emailModel->getStatRepository();
+        $licenseinfo           =$this->get('mautic.helper.licenseinfo')->getLicenseEntity();
+        $licensestart          =$licenseinfo->getLicenseStart();
+        $licenseend            =$licenseinfo->getLicenseEnd();
+        $contactUsage          =$licenseinfo->getActualRecordCount();
+        $totalContactCredits   =$licenseinfo->getTotalRecordCount();
+        $totalEmailCredits     =$licenseinfo->getTotalEmailCount();
+        $actualEmailCredits    = $licenseinfo->getActualEmailCount();
+        $currentDate           = date('Y-m-d');
+        $monthStartDate        = date('Y-m-01');
+        $emailValidityEndDate  = $this->get('mautic.helper.licenseinfo')->getEmailValidityEndDate();
+        $emailValidityEndDays  = round((strtotime($emailValidityEndDate) - strtotime($currentDate)) / 86400);
+        $emailUsage            =$statrepo->getSentCountsByDate($monthStartDate);
+        $trialEndDays          =$this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+        $planLabel             ='Free Trial';
+        $paymentrepository     =$this->get('le.subscription.repository.payment');
+        $lastpayment           =$paymentrepository->getLastPayment();
+        $datehelper            =$this->get('mautic.helper.template.date');
+        $validityTill          =$datehelper->toDate($licenseend);
+        $planAmount            ='';
+        $custplanamount        = '';
+        $planName              = '';
+        $planType              = 'Trial';
         if ($lastpayment != null) {
-            $planType       = $lastpayment->getPlanLabel();
-            $validityTill   =$datehelper->toDate($lastpayment->getValidityTill());
-            $planAmount     = $lastpayment->getCurrency().$lastpayment->getAmount();
-            $custplanamount = $planAmount;
+            $planLabel       = $lastpayment->getPlanLabel();
+            $validityTill    =$datehelper->toDate($lastpayment->getValidityTill());
+            $planAmount      = $lastpayment->getCurrency().$lastpayment->getAmount();
+            $custplanamount  = $planAmount;
             if ($lastpayment->getPlanName() == 'leplan2') {
                 $custplanamount = ((($totalEmailCredits - 100000) / 10000) * 10) + 49;
                 $custplanamount = $lastpayment->getCurrency().$custplanamount;
             }
-
+            $planType       = 'Paid';
             $planName       = $lastpayment->getPlanName();
         }
 
@@ -215,6 +216,7 @@ class AccountController extends FormController
                 'custplanamount'     => $custplanamount,
                 'planName'           => $planName,
                 'actualEmailCredits' => $actualEmailCredits,
+                'planLabel'          => $planLabel,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [

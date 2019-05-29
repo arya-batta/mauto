@@ -73,8 +73,8 @@ if ($planName != '') {
                             <h3 class="panel-title"><?php echo $view['translator']->trans('leadsengage.accountinfo.plan.title'); ?></h3>
                         </div>
                         <div class="panel-body">
-                            <span class='plan-info-lbl1 hide'><b><?php echo $planType ?></b></span>
-                            <div class="trial-info-block <?php echo $planType == 'Free Trial' ? '' : 'hide' ?>">
+                            <span class='plan-info-lbl1 hide'><b><?php echo $planLabel ?></b></span>
+                            <div class="trial-info-block <?php echo $planLabel == 'Free Trial' ? '' : 'hide' ?>">
                                 <span class='plan-info-lbl2'>You are currently in Free Trial. Usage limits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used)
                                 and <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
                                 <span class="plan-info-lbl2 <?php echo $addoncredits == 0 ? 'hide' : ''; ?>" ><br>Additional Email Credits used as of now <?php echo number_format($addonusagecredits); ?> out of 100,000</span>
@@ -83,7 +83,7 @@ if ($planName != '') {
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planName == 'leplan1' || $planName == 'leplan2' || $planName == 'leplan3' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Subscribed Plan- <?php echo $planAmount ?> <?php echo $planName == 'leplan1' ? 'for first 3 months,' : 'per month'?> <b><?php echo $planType; ?></b>.</span>
+                                <span class='plan-info-lbl2'>Subscribed Plan- <?php echo $planAmount ?> <?php echo $planName == 'leplan1' ? 'for first 3 months,' : 'per month'?> <b><?php echo $planLabel; ?></b>.</span>
                                 <span class='plan-info-lbl2'><b>Usage-</b></span>
                                 <span class='plan-info-lbl2' style="margin-left: 20px;">Contacts: <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
                                 <span class='plan-info-lbl2' style="margin-left: 20px;">Free email credits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used).</span>

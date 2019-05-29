@@ -152,10 +152,17 @@ class ConfigType extends AbstractType
                     //'tooltip' => 'le.email.config.postal_address.tooltip',
                     'style'   => 'height:100px;',
                 ],
-                'required' => false,
+                'required' => true,
                 'data'     => (array_key_exists('postal_address', $options['data']) && !empty($options['data']['postal_address']))
                     ? $options['data']['postal_address']
                     : '',
+                'constraints' => [
+                    new NotBlank(
+                        [
+                            'message' => 'le.email.config.default.postal.address',
+                        ]
+                    ),
+                ],
             ]
         );
 

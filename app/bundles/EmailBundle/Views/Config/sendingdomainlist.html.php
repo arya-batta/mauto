@@ -37,13 +37,13 @@
             <?php echo $sendingdomain->getIsDefault() ? '(default)' : ''?>
         </td>
         <td>
-            <i class="fa fa-lg <?php echo $sendingdomain->getspfCheck() ? 'fa-check-square' : 'fa-square'?>"></i>
+            <i class="fa fa-lg <?php echo $sendingdomain->getspfCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
         </td>
         <td>
-            <i class="fa fa-lg <?php echo $sendingdomain->getdkimCheck() ? 'fa-check-square' : 'fa-square'?>"></i>
+            <i class="fa fa-lg <?php echo $sendingdomain->getdkimCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
         </td>
         <td>
-            <i class="fa fa-lg <?php echo $sendingdomain->gettrackingCheck() ? 'fa-check-square' : 'fa-square'?>"></i>
+            <i class="fa fa-lg <?php echo $sendingdomain->gettrackingCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
         </td>
         <td>
             <a href="javascript: void(0);" class="verify-sending-domain btn btn-default text-danger pull-right waves-effect" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.sending.domain.verify.tooltip'); ?>" data-domain="<?php echo $sendingdomain->getDomain()?>">Verify</a>

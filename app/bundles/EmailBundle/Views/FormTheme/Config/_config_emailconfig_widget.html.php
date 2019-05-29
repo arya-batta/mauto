@@ -199,11 +199,10 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
 <div class="panel panel-primary emailconfig">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.email.config.basic.mail.settings'); ?></h3>
+        <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.email.config.basic.mail.settings.help'); ?></p>
     </div>
     <div class="panel-body">
-        <div class="alert alert-info le-alert-info" id="form-action-placeholder">
-            <p><?php echo $view['translator']->trans('le.email.config.basic.mail.settings.help'); ?></p>
-        </div>
+        <br>
         <?php if (isset($fields['mailer_transport'])): ?>
             <div class="row">
                 <?php echo $view['form']->rowIfExists($fields, 'mailer_mailjet_sandbox', $template); ?>
@@ -238,12 +237,15 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
         <div class="row" style="margin:0;">
             <?php echo $view['form']->rowIfExists($fields, 'postal_address'); ?>
         </div>
-        <div class="alert alert-info le-alert-info" id="form-action-placeholder">
+        <div class="alert alert-info le-alert-info hide" id="form-action-placeholder">
             <p><?php echo $view['translator']->trans('le.email.config.basic.mail.settings.footer.help'); ?></p>
         </div>
-        <div class="row" style="margin:0;">
+        <div class="row" id="unsubscribe_text_div" style="margin:0;">
             <?php echo $view['form']->rowIfExists($fields, 'footer_text'); ?>
         </div>
+        <br>
+        <br>
+        <br>
     </div>
 </div>
 <div class="panel panel-primary hide" style="margin-bottom: 0px">

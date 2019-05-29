@@ -246,6 +246,14 @@
 .sending-domain-container .fa-check-square {
     color: #3292e0;
 }
+.sending-domain-container .fa-check-circle {
+    color: green;
+    font-size: 1.5em;
+}
+.sending-domain-container .fa-times-circle {
+    color: red;
+    font-size: 1.5em;
+}
 .sending-domain-validation-header{
     line-height: 1.5em;
     margin: 0 0 .5rem 0;

@@ -234,7 +234,7 @@ $view['slots']->set(
             <div class="">
                 <div class="">
                     <div class="panel-body box-layout">
-                        <div class="panel" style="padding-bottom: 3%;height: 400px;">
+                        <div class="panel box-layout" style="padding-bottom: 3%;">
                             <?php // if (!$isAnonymous):?>
                             <div class="col-md-3 fl-left" style="min-width: 250px;width:18%;text-align: center;height: 100%;">
                                <img class="le-avatar-panel" src="<?php echo isset($img) ? $img : $view['gravatar']->getImage($app->getUser()->getEmail()); ?>" alt="<?php echo $leadName; ?> "/>

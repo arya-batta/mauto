@@ -254,6 +254,7 @@ Le.showBounceCallbackURL = function(modeEl) {
 
 
 Le.configOnLoad = function (container){
+    mQuery('#unsubscribe_text_div').find('.fr-element').attr('style','min-height:150px;');
     mQuery('#emailVerifyModel').on("hidden.bs.modal", function(){
         mQuery('#aws_email_verification').val('');
         mQuery('#user_email .help-block').addClass('hide');
@@ -390,17 +391,17 @@ Le.refreshSendingDomainListeners=function(){
                 if(response.spf_check){
                   mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
-                    mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct SPF record was not found');
+                    mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid TXT record, <a onclick="Le.openSendingDomainHelp(\'spf\')" style="color:blue;text-decoration: underline;" data-help="spf">Click here</a> to know more about SPF configuration.');
                 }
                 if(response.dkim_check){
                     mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
-                    mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct DKIM record was not found');
+                    mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid DKIM record, <a onclick="Le.openSendingDomainHelp(\'dkim\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about DKIM configuration.');
                 }
                 if(response.tracking_check){
                     mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
-                    mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: the correct Tracking record was not found');
+                    mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid Tracking record, <a onclick="Le.openSendingDomainHelp(\'tracking\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about Tracking configuration.');
                 }
                 Le.refreshSendingDomainListeners();
             }
@@ -444,9 +445,12 @@ Le.refreshSendingDomainListeners=function(){
         var currentLink = mQuery(this);
         var parentEl=currentLink.parent();
         var help=parentEl.attr("data-help");
-        mQuery('#sendingdomain'+help+'HelpModel').modal('show');
+        Le.openSendingDomainHelp(help);
     });
 }
+Le.openSendingDomainHelp = function (help){
+    mQuery('#sendingdomain'+help+'HelpModel').modal('show');
+};
 Le.updateEmailStatus = function(){
     mQuery('#config_emailconfig_email_status').val('InActive');
     mQuery('#config_emailconfig_email_status').removeClass('status_success');
