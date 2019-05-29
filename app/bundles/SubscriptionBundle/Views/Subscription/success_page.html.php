@@ -77,7 +77,8 @@ if ($isPaid) {
                 </div>
             </div>
             <br>
-            <div class="row <?php echo $isPaid && $sendingDomainStatus ? 'hide' : '' ?>">
+            <div class="row">
+                <br>
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4 text-center">
                     <span style="font-size: 22px; line-height: 39px;">
