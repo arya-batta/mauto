@@ -1167,7 +1167,7 @@ class DripEmailController extends FormController
             $emailentity->setFromAddress($fromadress);
         }
         $isBeeEditor = true;
-        if ($emailentity->getBeeJSON() != 'RichTextEditor') {
+        if ($emailentity->getBeeJSON() == 'RichTextEditor') {
             $isBeeEditor = false;
         }
         if ($isBeeEditor && InputHelper::isMobile()) {
