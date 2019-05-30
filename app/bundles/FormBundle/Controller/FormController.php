@@ -33,6 +33,9 @@ class FormController extends CommonFormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(
             [
@@ -419,6 +422,9 @@ class FormController extends CommonFormController
      */
     public function newAction($objectEntity = null, $sessionid)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var \Mautic\FormBundle\Model\FormModel $model */
         $model          = $this->getModel('form');
         $entity         = $model->getEntity();
@@ -644,6 +650,9 @@ class FormController extends CommonFormController
      */
     public function editAction($objectId, $ignorePost = false, $forceTypeSelection = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var \Mautic\FormBundle\Model\FormModel $model */
         $model            = $this->getModel('form');
         $formData         = $this->request->request->get('leform');
@@ -1075,6 +1084,9 @@ class FormController extends CommonFormController
      */
     public function previewAction($objectId)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var FormModel $model */
         $model = $this->getModel('form.form');
         $form  = $model->getEntity($objectId);

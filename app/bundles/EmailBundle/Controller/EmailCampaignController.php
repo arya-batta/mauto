@@ -40,6 +40,10 @@ class EmailCampaignController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         $model = $this->getModel('email');
 
         //set some permissions
@@ -272,11 +276,8 @@ class EmailCampaignController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model    = $this->getModel('email');
         $security = $this->get('mautic.security');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var \Mautic\EmailBundle\Entity\Email $email */
         $email = $model->getEntity($objectId);
@@ -525,11 +526,8 @@ class EmailCampaignController extends FormController
     public function newAction($entity = null, $isClone=false)
     {
         $model = $this->getModel('email');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         if (!($entity instanceof Email)) {
             /** @var \Mautic\EmailBundle\Entity\Email $entity */
@@ -797,10 +795,21 @@ class EmailCampaignController extends FormController
 
     public function quickaddAction($objectId)
     {
-        $isBeeEditor = $objectId;
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
         }
+        $isBeeEditor = $objectId;
         /** @var EmailModel $model */
         $model        = $this->getModel('email');
         $email        = $model->getEntity();
@@ -896,11 +905,8 @@ class EmailCampaignController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model  = $this->getModel('email');
         $method = $this->request->getMethod();
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
@@ -1056,25 +1062,39 @@ class EmailCampaignController extends FormController
                             $entity->addAssetAttachment($asset);
                         }
                     }
+                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    $isUpdateFlashNeeded=true;
+                    $sendBtnClicked     =$form->get('buttons')->get('sendtest')->isClicked();
+                    if (!$sendBtnClicked) {
+                        if ($entity->isPublished() && $isStateAlive) {
+                            $isUpdateFlashNeeded=false;
+                            $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                            $entity->setIsPublished(false);
+                            $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'broadcast']));
+                        }
+                    } else {
+                        $isUpdateFlashNeeded=false;
+                    }
 
                     //form is valid so process the data
                     $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
-
-                    $this->addFlash(
-                        'mautic.core.notice.updated',
-                        [
-                            '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'le_email_campaign_index',
-                            '%url%'       => $this->generateUrl(
-                                'le_email_campaign_action',
-                                [
-                                    'objectAction' => 'edit',
-                                    'objectId'     => $entity->getId(),
-                                ]
-                            ),
-                        ],
-                        'warning'
-                    );
+                    if ($isUpdateFlashNeeded) {
+                        $this->addFlash(
+                            'mautic.core.notice.updated',
+                            [
+                                '%name%'      => $entity->getName(),
+                                '%menu_link%' => 'le_email_campaign_index',
+                                '%url%'       => $this->generateUrl(
+                                    'le_email_campaign_action',
+                                    [
+                                        'objectAction' => 'edit',
+                                        'objectId'     => $entity->getId(),
+                                    ]
+                                ),
+                            ],
+                            'warning'
+                        );
+                    }
                 }
             } else {
                 //clear any modified content
@@ -1237,8 +1257,8 @@ class EmailCampaignController extends FormController
         $model = $this->getModel('email');
         /** @var Email $entity */
         $entity = $model->getEntity($objectId);
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
@@ -1274,8 +1294,8 @@ class EmailCampaignController extends FormController
         $page      = $this->get('session')->get('mautic.email.page', 1);
         $returnUrl = $this->generateUrl('le_email_campaign_index', ['page' => $page]);
         $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         $postActionVars = [
             'returnUrl'       => $returnUrl,
@@ -1568,8 +1588,8 @@ class EmailCampaignController extends FormController
         $actualEmailCount      = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
         $isHavingEmailValidity = $this->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
         $accountStatus         = $this->get('mautic.helper.licenseinfo')->getAccountStatus();
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         //set the return URL
         $returnUrl = $this->generateUrl('le_email_campaign_index', ['page' => $page]);
@@ -1583,9 +1603,10 @@ class EmailCampaignController extends FormController
                 'leContent'     => 'email',
             ],
         ];
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false) || empty($entity->getCustomHtml())) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-            if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive || empty($entity->getCustomHtml())) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            if ($isStateAlive) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
             } else {
                 $this->addFlash($this->translator->trans('le.email.content.empty'));
@@ -1816,12 +1837,9 @@ class EmailCampaignController extends FormController
      */
     public function batchDeleteAction()
     {
-        $page      = $this->get('session')->get('mautic.email.page', 1);
-        $returnUrl = $this->generateUrl('le_email_campaign_index', ['page' => $page]);
-        $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
-        }
+        $page           = $this->get('session')->get('mautic.email.page', 1);
+        $returnUrl      = $this->generateUrl('le_email_campaign_index', ['page' => $page]);
+        $flashes        = [];
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -1913,9 +1931,6 @@ class EmailCampaignController extends FormController
     {
         $model  = $this->getModel('email');
         $entity = $model->getEntity($objectId);
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
         //not found or not allowed
         if ($entity === null
             || (!$this->get('mautic.security')->hasEntityAccess(
@@ -1933,9 +1948,10 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false) || empty($entity->getCustomHtml())) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-            if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive || empty($entity->getCustomHtml())) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            if ($isStateAlive) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
             } else {
                 $this->addFlash($this->translator->trans('le.email.content.empty'));

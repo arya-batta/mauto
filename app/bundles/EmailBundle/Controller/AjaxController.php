@@ -636,8 +636,9 @@ class AjaxController extends CommonAjaxController
     public function emailstatusAction()
     {
         $isClosed                     = $this->factory->get('session')->get('isalert_needed', 'false');
-        $configurl                    = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
+        $isStateAlive                 =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $configurl                    =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+        if ($isStateAlive) {
             $dataArray['success']       = true;
             $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
             $dataArray['isalertneeded'] = $isClosed;
@@ -1391,7 +1392,21 @@ class AjaxController extends CommonAjaxController
             $status =false;
             $message='domain delete failed due to some technical error!';
         }
-        $domainList=$model->getRepository()->getAllSendingDomains();
+        $domainList         =$model->getRepository()->getAllSendingDomains();
+        $isAnyDomainVerified=false;
+        foreach ($domainList as $sendingdomain) {
+            if ($sendingdomain->getStatus()) {
+                $isAnyDomainVerified=true;
+                break;
+            }
+        }
+        if (!$isAnyDomainVerified) {
+            $smHelper            = $this->get('le.helper.statemachine');
+            if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured') && !$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
+                $smHelper->makeStateInActive(['Customer_Active']);
+                $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+            }
+        }
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
             'sendingdomains'             => $domainList,
         ]);
@@ -1417,7 +1432,23 @@ class AjaxController extends CommonAjaxController
             $sendingdomain->setStatus($dkim_check && $spf_check);
             $model->getRepository()->saveEntity($sendingdomain);
         }
-        $domainList=$model->getRepository()->getAllSendingDomains();
+        $domainList          =$model->getRepository()->getAllSendingDomains();
+        $smHelper            = $this->get('le.helper.statemachine');
+        if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured') || $smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
+            $isAnyDomainVerified=false;
+            foreach ($domainList as $sendingdomain) {
+                if ($sendingdomain->getStatus()) {
+                    $isAnyDomainVerified=true;
+                    break;
+                }
+            }
+            if ($isAnyDomainVerified) {
+                $smHelper->makeStateInActive(['Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Sending_Domain_Issue']);
+                if (!$smHelper->isAnyInActiveStateAlive()) {
+                    $smHelper->newStateEntry('Customer_Active', '');
+                }
+            }
+        }
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
             'sendingdomains'             => $domainList,
         ]);

@@ -7986,3 +7986,20 @@ span.afincludes{
 .sending-domain-content{
   padding:50px !important;
 }
+.state-inactive-alert-panel{
+  margin: 5%;
+  text-align: center;
+}
+.state-inactive-alert-panel .state-inactive-alert-title{
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 2%;
+}
+
+.state-inactive-alert-panel .state-inactive-alert-content{
+  margin-bottom: 1%;
+}
+.state-inactive-alert-panel .state-inactive-alert-content a{
+  color: #3292e0;
+  text-decoration: underline;
+}

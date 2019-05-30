@@ -267,6 +267,24 @@ class AjaxController extends CommonController
 //            }
         // }
         $entity = $model->getEntity($id);
+        if ($name == 'email.dripemail' || $name == 'email' || $name == 'campaign') {
+            $module='dripemail';
+            if ($name == 'email') {
+                $module='broadcast';
+            } elseif ($name == 'campaign') {
+                $module='workflow';
+            }
+            $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+            if ($isStateAlive && !$entity->isPublished()) {
+                $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => $module]));
+                $dataArray['success']       = 1;
+                $dataArray['senderprofile'] = 1;
+                $dataArray['flashes']       = $this->getFlashContent();
+
+                return $this->sendJsonResponse($dataArray);
+            }
+        }
         if ($name == 'lead.tag') {
             $status=$entity->getPublishStatus();
             if ($status == 'published') {

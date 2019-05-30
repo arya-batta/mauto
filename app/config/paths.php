@@ -27,7 +27,7 @@ if (!function_exists('getLocalConfigPath')) {
             $host=LEADSENGAGE_DOMAIN;
         }
         $localpath='%kernel.root_dir%/config/'.$host.'/local.php';
-        //   file_put_contents("/var/www/mautic/app/cache/log.txt",$localpath."\n",FILE_APPEND);
+        //  file_put_contents("/var/www/mauto/app/cache/log.txt",$localpath."\n",FILE_APPEND);
         return $localpath;
     }
 }

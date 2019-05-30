@@ -39,6 +39,9 @@ class EmailController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model = $this->getModel('email');
 
         //set some permissions
@@ -274,11 +277,8 @@ class EmailController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model    = $this->getModel('email');
         $security = $this->get('mautic.security');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var \Mautic\EmailBundle\Entity\Email $email */
         $email = $model->getEntity($objectId);
@@ -516,11 +516,8 @@ class EmailController extends FormController
     {
         $model = $this->getModel('email');
 
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
 
         if (!($entity instanceof Email)) {
@@ -775,14 +772,9 @@ class EmailController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $model */
         $model  = $this->getModel('email');
         $method = $this->request->getMethod();
-
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-        }
-
         $entity     = $model->getEntity($objectId);
         $lastutmtags=$entity->getUtmTags();
         $lastsubject=$entity->getSubject();

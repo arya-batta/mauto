@@ -66,9 +66,9 @@ class PaymentRepository extends CommonRepository
     public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser, $status = 'Paid')
     {
         $currentdate      = date('Y-m-d');
-        $isvalidityexpired=0;
+        $isAddOn          =0;
         if (strtotime($validitytill) < strtotime($currentdate)) {
-            $isvalidityexpired=1;
+            $isAddOn=1;
         }
         $planlabel = 'Special Plan';
         if ($planname == 'leplan2') {
@@ -91,7 +91,7 @@ class PaymentRepository extends CommonRepository
         $paymenthistory->setcreatedByUser($createdbyuser);
         $paymenthistory->setcreatedOn(new \DateTime());
         $paymenthistory->setNetamount($netamount);
-        $paymenthistory->setTaxamount($isvalidityexpired);
+        $paymenthistory->setTaxamount($isAddOn);
         $this->saveEntity($paymenthistory);
 
         return $paymenthistory;

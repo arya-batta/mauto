@@ -26,6 +26,9 @@ class TagController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var TagModel $model */
         $model   = $this->getModel('lead.tag');
         $session = $this->get('session');
@@ -143,8 +146,8 @@ class TagController extends FormController
      */
     public function newAction()
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var TagModel $model */
         $model     = $this->getModel('lead.tag');
@@ -222,8 +225,8 @@ class TagController extends FormController
         /** @var TagModel $model */
         $model = $this->getModel('lead.tag');
         $tag   = $model->getEntity($objectId);
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         //set the page we came from
         $page = $this->get('session')->get('mautic.tags.page', 1);

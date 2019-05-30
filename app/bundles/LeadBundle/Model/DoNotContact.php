@@ -180,7 +180,6 @@ class DoNotContact
         if (is_array($channel)) {
             $channelId = reset($channel);
             $channel   = key($channel);
-
             $dnc->setChannelId((int) $channelId);
         }
 

@@ -189,6 +189,7 @@ class Configurator
             'facebook_oauth_callback',
             'gcaptcha_site_key',
             'gcaptcha_secret_key',
+            'elastic_subaccount_password',
         ];
         for ($i = 0; $i < sizeof($unset); ++$i) {
             if (isset($this->parameters[$unset[$i]])) {

@@ -159,6 +159,7 @@ return [
                 'arguments' => [
                     'mautic.campaign.model.campaign',
                     'mautic.lead.model.lead',
+                    'le.helper.statemachine',
                 ],
             ],
             'mautic.campaign.calendarbundle.subscriber' => [

@@ -430,19 +430,22 @@ class SignupRepository
 
     public function getDripEmailsForBluePrint()
     {
+        $dripemails=[];
         try {
             $this->getConnection()->connect();
-        } catch (\Exception $e) {
-            return [];
-        }
-        $qb = $this->getConnection()->createQueryBuilder();
-        $qb->select('d.id')
-            ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
-            ->andWhere($qb->expr()->eq('d.is_published', 0))
-            ->andWhere($qb->expr()->eq('d.created_by', 1))
-            ->orderBy('d.templateorder', 'asc');
+            $qb = $this->getConnection()->createQueryBuilder();
+            $qb->select('d.id')
+                ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
+                ->andWhere($qb->expr()->eq('d.is_published', 0))
+                ->andWhere($qb->expr()->eq('d.created_by', 1))
+                ->orderBy('d.templateorder', 'asc');
 
-        return $dripemails = $qb->execute()->fetchAll();
+            $dripemails = $qb->execute()->fetchAll();
+        } catch (\Exception $e) {
+            return $dripemails;
+        }
+
+        return $dripemails;
     }
 
     /**

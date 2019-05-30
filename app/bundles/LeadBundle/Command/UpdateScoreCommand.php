@@ -34,6 +34,12 @@ class UpdateScoreCommand extends ModeratedCommand
                 return 0;
             }
             $container  = $this->getContainer();
+            $smHelper   =$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
+
+                return 0;
+            }
             $date       = new \DateTime();
             $date->modify('-2 days');
             $dateinterval = $date->format('Y-m-d H:i:s');

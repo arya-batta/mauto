@@ -40,6 +40,9 @@ class LeadController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted(
             [
@@ -551,11 +554,8 @@ class LeadController extends FormController
         //dump($objectId);
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model = $this->getModel('lead.lead');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var \Mautic\LeadBundle\Entity\Lead $lead */
         $lead = $model->getEntity($objectId);
@@ -753,8 +753,8 @@ class LeadController extends FormController
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
         $lead  = $model->getEntity();
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
         $actualrecord     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
@@ -776,13 +776,7 @@ class LeadController extends FormController
             $action      = $this->generateUrl('le_contact_action', ['objectAction' => 'new', 'qf' => 1]);
             $fields      =$this->getQuickAddFields();
             $formtemplate='quickadd';
-            if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-                return $this->redirectToPricing();
-            }
         } else {
-            if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-                return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-            }
             $action = $this->generateUrl('le_contact_action', ['objectAction' => 'new']);
             $fields = $this->getModel('lead.field')->getPublishedFieldArrays('lead');
         }
@@ -1035,11 +1029,8 @@ class LeadController extends FormController
         /** @var LeadModel $model */
         $model = $this->getModel('lead.lead');
         $lead  = $model->getEntity($objectId);
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         //set the page we came from
         $page = $this->get('session')->get('mautic.lead.page', 1);
@@ -1538,10 +1529,9 @@ class LeadController extends FormController
         $page      = $this->get('session')->get('mautic.lead.page', 1);
         $returnUrl = $this->generateUrl('le_contact_index', ['page' => $page]);
         $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
-
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -1620,8 +1610,8 @@ class LeadController extends FormController
         $page      = $this->get('session')->get('mautic.lead.page', 1);
         $returnUrl = $this->generateUrl('le_contact_index', ['page' => $page]);
         $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         $postActionVars = [
             'returnUrl'       => $returnUrl,
@@ -1839,8 +1829,8 @@ class LeadController extends FormController
     public function emailAction($objectId = 0)
     {
         $valid = $cancelled = false;
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model = $this->getModel('lead');
@@ -1860,9 +1850,9 @@ class LeadController extends FormController
         ) {
             return $this->modalAccessDenied();
         }
-
-        if (!$this->get('mautic.helper.mailer')->emailstatus(false)) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
 
             return $this->postActionRedirect(
@@ -2094,9 +2084,6 @@ class LeadController extends FormController
      */
     public function batchListsAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
         if ($this->request->getMethod() == 'POST') {
             /** @var \Mautic\LeadBundle\Model\LeadModel $model */
             $model = $this->getModel('lead');
@@ -2200,10 +2187,6 @@ class LeadController extends FormController
      */
     public function batchListOptinAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
-
         // Get a list of lists
         /** @var \Mautic\LeadBundle\Model\ListOptInModel $model */
         $model = $this->getModel('lead.listoptin');
@@ -2330,10 +2313,6 @@ class LeadController extends FormController
      */
     public function batchTagsAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
-
         // Get a list of lists
         /** @var \Mautic\LeadBundle\Model\TagModel $model */
         $tagModel = $this->getModel('lead.tag');
@@ -2474,9 +2453,6 @@ class LeadController extends FormController
     {
         /** @var \Mautic\CampaignBundle\Model\CampaignModel $campaignModel */
         $campaignModel = $this->getModel('campaign');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
         if ($this->request->getMethod() == 'POST') {
             /** @var \Mautic\LeadBundle\Model\LeadModel $model */
             $model = $this->getModel('lead');
@@ -2601,10 +2577,6 @@ class LeadController extends FormController
      */
     public function batchDncAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
-
         $route = $this->generateUrl(
             'le_contact_action',
             [
@@ -2708,9 +2680,6 @@ class LeadController extends FormController
      */
     public function batchStagesAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
         if ($this->request->getMethod() == 'POST') {
             /** @var \Mautic\LeadBundle\Model\LeadModel $model */
             $model = $this->getModel('lead');
@@ -2818,9 +2787,6 @@ class LeadController extends FormController
      */
     public function batchOwnersAction($objectId = 0)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
         if ($this->request->getMethod() == 'POST') {
             /** @var \Mautic\LeadBundle\Model\LeadModel $model */
             $model = $this->getModel('lead');

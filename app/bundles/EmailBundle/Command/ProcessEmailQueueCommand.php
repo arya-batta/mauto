@@ -12,8 +12,11 @@
 namespace Mautic\EmailBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
+use Mautic\CoreBundle\Helper\EmojiHelper;
 use Mautic\EmailBundle\EmailEvents;
+use Mautic\EmailBundle\Entity\Stat;
 use Mautic\EmailBundle\Event\QueueEmailEvent;
+use Mautic\LeadBundle\Entity\DoNotContact;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,19 +58,19 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $options    = $input->getOptions();
-            $env        = (!empty($options['env'])) ? $options['env'] : 'dev';
-            $container  = $this->getContainer();
-            $dispatcher = $container->get('event_dispatcher');
-
-            $skipClear         = $input->getOption('do-not-clear');
-            $quiet             = $input->getOption('quiet');
-            $timeout           = $input->getOption('clear-timeout');
-            $queueMode         = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
-            $licenseinfohelper = $container->get('mautic.helper.licenseinfo');
-            $sendResultText    = 'Success';
+            $options               = $input->getOptions();
+            $env                   = (!empty($options['env'])) ? $options['env'] : 'dev';
+            $container             = $this->getContainer();
+            $dispatcher            = $container->get('event_dispatcher');
+            $translator            = $container->get('translator');
+            $skipClear             = $input->getOption('do-not-clear');
+            $quiet                 = $input->getOption('quiet');
+            $timeout               = $input->getOption('clear-timeout');
+            $queueMode             = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
+            $licenseinfohelper     = $container->get('mautic.helper.licenseinfo');
+            $sendResultText        = 'Success';
             if ($queueMode != 'file') {
-                $output->writeln('LE is not set to queue email.');
+                $output->writeln('Anyfunnels is not set to use queue email.');
 
                 return 0;
             }
@@ -75,7 +78,13 @@ EOT
             if (!$this->checkRunStatus($input, $output)) {
                 return 0;
             }
+            $smHelper=$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
+                $this->updateAllQueuedMailsAsFailed($container, $output);
 
+                return 0;
+            }
             if (empty($timeout)) {
                 $timeout = $container->getParameter('mautic.mailer_spool_clear_timeout');
             }
@@ -91,14 +100,13 @@ EOT
                 $spoolPath = $container->getParameter('mautic.mailer_spool_path');
                 if (file_exists($spoolPath)) {
                     $finder  = Finder::create()->in($spoolPath)->name('*.{finalretry,sending,tryagain}');
-                    $pending = count($finder);
-                    if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
-                        $output->writeln('<info>========================================</info>');
-                        $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
-                        $output->writeln('<info>========================================</info>');
-
-                        return 0;
-                    }
+//                    $pending = count($finder);
+//                    if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
+//                        $output->writeln('<info>========================================</info>');
+//                        $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
+//                        $output->writeln('<info>========================================</info>');
+//                        return 0;
+//                    }
                     foreach ($finder as $failedFile) {
                         $file = $failedFile->getRealPath();
 
@@ -116,20 +124,17 @@ EOT
                         $message = unserialize(file_get_contents($tmpFilename));
                         if ($message !== false && is_object($message) && get_class($message) === 'Swift_Message') {
                             $tryAgain = false;
-                            if ($dispatcher->hasListeners(EmailEvents::EMAIL_RESEND)) {
-                                $event = new QueueEmailEvent($message);
-                                $dispatcher->dispatch(EmailEvents::EMAIL_RESEND, $event);
-                                $tryAgain = $event->shouldTryAgain();
-                            }
-
+//                            if ($dispatcher->hasListeners(EmailEvents::EMAIL_RESEND)) {
+//                                $event = new QueueEmailEvent($message);
+//                                $dispatcher->dispatch(EmailEvents::EMAIL_RESEND, $event);
+//                                $tryAgain = $event->shouldTryAgain();
+//                            }
                             try {
                                 $transport->send($message);
                             } catch (\Swift_TransportException $e) {
                                 $sendResultText = 'Failed '.$e->getMessage();
-                                if ($dispatcher->hasListeners(EmailEvents::EMAIL_FAILED)) {
-                                    $event = new QueueEmailEvent($message);
-                                    $dispatcher->dispatch(EmailEvents::EMAIL_FAILED, $event);
-                                }
+                                $emailmodel     = $container->get('mautic.email.model.email');
+                                $this->invokeFailedEventDispatcher($emailmodel, $message, $translator);
                             }
                         } else {
                             // $message isn't a valid message file
@@ -193,10 +198,87 @@ EOT
 
             return 0;
         } catch (\Exception $e) {
+            $providerStatus=$this->checkEmailProviderStatus($container, $output);
+            if (!$providerStatus) {
+                $this->updateAllQueuedMailsAsFailed($container, $output);
+            }
             echo 'exception->'.$e->getMessage()."\n";
-            $this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
-
+            //$this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
             return 0;
+        }
+    }
+
+    public function checkEmailProviderStatus($container, $output)
+    {
+        $smHelper=$container->get('le.helper.statemachine');
+        if (!$smHelper->isStateAlive('Customer_Inactive_Under_Review')) {
+            $elasticApiHelper=$container->get('mautic.helper.elasticapi');
+            if (!$elasticApiHelper->checkAccountState()) {
+                $smHelper->makeStateInActive(['Customer_Active']);
+                $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
+                $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
+
+                return false;
+            } else {
+                $output->writeln('<info>Elastic Email Account is active</info>');
+
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function invokeFailedEventDispatcher($emailModel, $message, $translator)
+    {
+        if (isset($message->leadIdHash)) {
+            $stat = $emailModel->getEmailStatus($message->leadIdHash);
+            if ($stat !== null) {
+//                $reason = $translator->trans('le.email.dnc.failed', [
+//                    '%subject%' => EmojiHelper::toShort($message->getSubject()),
+//                ]);
+                $emailModel->setDoNotContact($stat, '', DoNotContact::IS_CONTACTABLE);
+                unset($stat);
+                $emailModel->getEntityManager()->clear(Stat::class);
+            }
+        }
+//        $dispatcher = $container->get('event_dispatcher');
+//        if ($dispatcher->hasListeners(EmailEvents::EMAIL_FAILED)) {
+//            $event = new QueueEmailEvent($message);
+//            $dispatcher->dispatch(EmailEvents::EMAIL_FAILED, $event);
+//        }
+    }
+
+    public function updateAllQueuedMailsAsFailed($container, $output)
+    {
+        try {
+            $emailmodel            = $container->get('mautic.email.model.email');
+            $translator            = $container->get('translator');
+            $spoolPath             = $container->getParameter('mautic.mailer_spool_path');
+            if (file_exists($spoolPath)) {
+                $output->writeln('<info>'.'Process started to update all queued mails as failed'.'</info>');
+                $finder     = Finder::create()->in($spoolPath)->name('*.*');
+                $updatedCount=0;
+                $batch       =200;
+                foreach ($finder as $messageFile) {
+                    $message = unserialize($messageFile->getContents());
+                    if ($message !== false && is_object($message) && get_class($message) === 'Swift_Message') {
+                        $this->invokeFailedEventDispatcher($emailmodel, $message, $translator);
+                        //delete the file, either because it sent or because it failed
+                        unlink($messageFile);
+                        ++$updatedCount;
+                        --$batch;
+                        if ($batch == 0) {
+                            sleep(2);
+                            $batch=200;
+                        }
+                    }
+                }
+                $output->writeln('<info>'.'Updated email count is '.$updatedCount.'</info>');
+                $output->writeln('<info>'.'Process completed to update all queued mails as failed'.'</info>');
+            }
+        } catch (\Exception $ex) {
+            //file_put_contents("/var/www/elastic.txt","Exception Occurs:".$ex->getMessage()."\n",FILE_APPEND);
         }
     }
 }

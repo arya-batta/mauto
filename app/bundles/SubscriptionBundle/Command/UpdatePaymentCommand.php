@@ -12,6 +12,7 @@
 namespace Mautic\SubscriptionBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
+use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\SubscriptionBundle\Entity\Billing;
 use Mautic\SubscriptionBundle\Helper\PaymentHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,114 +39,140 @@ class UpdatePaymentCommand extends ModeratedCommand
             if (!$this->checkRunStatus($input, $output, $domain)) {
                 return 0;
             }
-            $container  = $this->getContainer();
-            $translator = $container->get('translator');
-            // $translator->trans('mautic.campaign.rebuild.leads_affected', ['%leads%' => $processed])
+            $container          = $this->getContainer();
             $paymentrepository  =$container->get('le.subscription.repository.payment');
             $lastpayment        =$paymentrepository->getLastPayment();
-            $licenseinfohelper  =$container->get('mautic.helper.licenseinfo');
-            $licenseinfo        =$licenseinfohelper->getLicenseEntity();
-            $accountStatus      =$licenseinfo->getAppStatus();
-            if ($accountStatus != 'Active') {
+            $smHelper           =$container->get('le.helper.statemachine');
+            if ($activeState=$smHelper->isStateAlive('Customer_Active')) {
+                $validitytill=$lastpayment->getValidityTill();
+                $dtHelper1   =new DateTimeHelper($activeState->getUpdatedOn());
+                $output->writeln('<info>'.$dtHelper1->getString('Y-m-d').'</info>');
+                if (strtotime($validitytill) < strtotime($dtHelper1->getString('Y-m-d'))) {
+                    $dtHelper2=new DateTimeHelper();
+                    $diffdays =$dtHelper2->getDiff($activeState->getUpdatedOn(), '%R%a', true);
+                    if ($diffdays < 4) {
+                        $output->writeln('<info>'.'Account moves into active state on '.$diffdays.' days before only.Payment will process after 3 days.</info>');
+
+                        return 0;
+                    }
+                }
+            } elseif (!$smHelper->isStateAlive('Trial_Active')) {
                 $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
 
                 return 0;
             }
+            $translator = $container->get('translator');
+            // $translator->trans('mautic.campaign.rebuild.leads_affected', ['%leads%' => $processed])
+            $licenseinfohelper  =$container->get('mautic.helper.licenseinfo');
+            $licenseinfo        =$licenseinfohelper->getLicenseEntity();
+            // $accountStatus      =$licenseinfo->getAppStatus();
+//            if ($accountStatus != 'Active') {
+//                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
+//
+//                return 0;
+//            }
             if ($lastpayment != null) {
-                $firstpayment      = $paymentrepository->getFirstPayment();
+                $appValidityRenewal=true;
+                $isRetry           =$lastpayment->getPaymentStatus() != 'Paid';
+                $stripecardrepo    = $container->get('le.subscription.repository.stripecard');
+                $stripecards       = $stripecardrepo->findAll();
+                $stripecard        = null;
+                if (sizeof($stripecards) > 0) {
+                    $stripecard = $stripecards[0];
+                }
                 $paymenthelper     =$container->get('le.helper.payment');
-                $dateHelper        = $container->get('mautic.helper.template.date');
-                if ($licenseinfo != null) {
-                    $totalrecordcount =$licenseinfo->getTotalEmailCount();
-                    $actualrecordcount=$licenseinfo->getActualEmailCount();
-                    $validitytill     = $lastpayment->getValidityTill();
-                    $currentdate      = date('Y-m-d');
-                    $planname         = $lastpayment->getPlanName();
-                    $planamount       = $lastpayment->getAmount();
-                    $lastamount       = $lastpayment->getNetamount();
-                    $plancredits      = $lastpayment->getBeforeCredits();
-                    $stripecardrepo   = $container->get('le.subscription.repository.stripecard');
-                    $stripecards      = $stripecardrepo->findAll();
-                    $stripecard       = null;
-                    if (sizeof($stripecards) > 0) {
-                        $stripecard = $stripecards[0];
-                    }
-                    $firstPaymentdate = $firstpayment->getcreatedOn();
-                    $firstPaymentdate = $dateHelper->toCustDate($firstPaymentdate, 'local', 'Y-m-d');
-                    $monthcount       = 1;
-                    $plancredits      = 'UL';
-                    $plancredits      = $translator->trans('le.pricing.plan.email.credits.'.$planname);
-                    if ($stripecard != null) {
-                        $ismoreusage=false;
-                        if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
-                            $ismoreusage=true;
-                        }
-                        $isvalidityexpired=false;
-                        if (strtotime($validitytill) < strtotime($currentdate)) {
-                            $isvalidityexpired=true;
-                        }
-                        $clearactualmailcount = false;
-                        if ($ismoreusage || $isvalidityexpired) {
-                            $output->writeln('<info>'.'Total Record Count:'.$totalrecordcount.'</info>');
-                            $output->writeln('<info>'.'Actual Record Count:'.$actualrecordcount.'</info>');
-                            $multiplx=1;
-                            if ($actualrecordcount > 0) {
-                                $multiplx   = ceil($actualrecordcount / 10000);
-                                $multiplx   = $multiplx - 10;
+                if (!$isRetry) {
+                    $firstpayment      = $paymentrepository->getFirstPayment();
+                    $dateHelper        = $container->get('mautic.helper.template.date');
+                    if ($licenseinfo != null) {
+                        $totalrecordcount =$licenseinfo->getTotalEmailCount();
+                        $actualrecordcount=$licenseinfo->getActualEmailCount();
+                        $validitytill     = $lastpayment->getValidityTill();
+                        $currentdate      = date('Y-m-d');
+                        $planname         = $lastpayment->getPlanName();
+                        $planamount       = $lastpayment->getAmount();
+                        $plancredits      = $lastpayment->getBeforeCredits();
+                        $firstPaymentdate = $firstpayment->getcreatedOn();
+                        $firstPaymentdate = $dateHelper->toCustDate($firstPaymentdate, 'local', 'Y-m-d');
+                        $monthcount       = 1;
+                        $plancredits      = 'UL';
+                        $plancredits      = $translator->trans('le.pricing.plan.email.credits.'.$planname);
+                        if ($stripecard != null) {
+                            $ismoreusage=false;
+                            if ($totalrecordcount != 'UL' && $totalrecordcount < $actualrecordcount) {
+                                $ismoreusage=true;
                             }
-                            if ($isvalidityexpired) {
-                                $monthdiff  = $this->getMonthDiff($firstPaymentdate, $currentdate);
-                                $planamount = 0;
-                                if ($monthdiff == 3) {
-                                    $planname   = 'leplan2';
-                                    $planamount = $translator->trans('le.pricing.plan.amount.'.$planname);
-                                }
-                                $curtotalcount  = $totalrecordcount - $plancredits;
-                                $curactualcount = $actualrecordcount - $plancredits;
-                                if ($curactualcount < 0) {
-                                    $curactualcount = 0;
-                                }
-                                $addoncredits         = $curtotalcount - $curactualcount;
-                                $netamount            = (($planamount)); // + (10 * $multiplx));
-                                $netcredits           = (($plancredits + $addoncredits)); // + (5000 * $multiplx));
-                                $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
-                                $clearactualmailcount = true;
-                            } elseif ($ismoreusage) {
-                                $addoncredits = $translator->trans('le.pricing.plan.addon.credits.'.$planname);
-                                $addonAmount  = $translator->trans('le.pricing.plan.addon.amount.'.$planname);
-                                //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
-                                $excesscount=$actualrecordcount - $totalrecordcount;
-                                $amtmultiplx=1;
-                                if ($excesscount > 0) {
-                                    $amtmultiplx   =ceil($excesscount / $addoncredits);
-                                }
-                                $examount             = $addonAmount;
-                                $netamount            = ($examount * $amtmultiplx);
-                                $netcredits           = (($plancredits) + ($addoncredits * $amtmultiplx));
-                                $clearactualmailcount = false;
-                                //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
-                                //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
-                                // $output->writeln('<info>'.'Charged Amount:'.$amount2.'</info>');
-                                // $netamount=$amount2 - $amount1;
-                                $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
+                            $isvalidityexpired=false;
+                            if (strtotime($validitytill) < strtotime($currentdate)) {
+                                $isvalidityexpired=true;
                             }
-                            $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$planname);
-                            if ($netamount > 0) {
-                                $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites);
+                            if ($ismoreusage || $isvalidityexpired) {
+                                $output->writeln('<info>'.'Total Record Count:'.$totalrecordcount.'</info>');
+                                $output->writeln('<info>'.'Actual Record Count:'.$actualrecordcount.'</info>');
+//                            $multiplx=1;
+//                            if ($actualrecordcount > 0) {
+//                                $multiplx   = ceil($actualrecordcount / 10000);
+//                                $multiplx   = $multiplx - 10;
+//                            }
+                                if ($isvalidityexpired) {
+                                    $monthdiff  =$this->getMonthDiff($firstPaymentdate, $currentdate);
+                                    $planamount = 0;
+                                    if ($monthdiff == 3) {
+                                        $planname   = 'leplan2';
+                                        $planamount = $translator->trans('le.pricing.plan.amount.'.$planname);
+                                    }
+                                    $curtotalcount  = $totalrecordcount - $plancredits;
+                                    $curactualcount = $actualrecordcount - $plancredits;
+                                    if ($curactualcount < 0) {
+                                        $curactualcount = 0;
+                                    }
+                                    $addoncredits         = $curtotalcount - $curactualcount;
+                                    $netamount            = (($planamount)); // + (10 * $multiplx));
+                                    $netcredits           = (($plancredits + $addoncredits)); // + (5000 * $multiplx));
+                                    $validitytill         =date('Y-m-d', strtotime('-1 day +'.$monthcount.' months'));
+                                } elseif ($ismoreusage) {
+                                    $addoncredits = $translator->trans('le.pricing.plan.addon.credits.'.$planname);
+                                    $addonAmount  = $translator->trans('le.pricing.plan.addon.amount.'.$planname);
+                                    //$amount1   =$this->getProrataAmount($currentdate, $validitytill, $lastamount);
+                                    $excesscount=$actualrecordcount - $totalrecordcount;
+                                    $amtmultiplx=1;
+                                    if ($excesscount > 0) {
+                                        $amtmultiplx   =ceil($excesscount / $addoncredits);
+                                    }
+                                    $examount             = $addonAmount;
+                                    $netamount            = ($examount * $amtmultiplx);
+                                    $netcredits           = (($plancredits) + ($addoncredits * $amtmultiplx));
+                                    $appValidityRenewal   = false;
+                                    //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
+                                    //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');
+                                    // $output->writeln('<info>'.'Charged Amount:'.$amount2.'</info>');
+                                    // $netamount=$amount2 - $amount1;
+                                    $output->writeln('<info>'.'Net Amount:'.$netamount.'</info>');
+                                }
+                                $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$planname);
+                                if ($netamount > 0) {
+                                    $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $appValidityRenewal, $contactcredites, false);
+                                } else {
+                                    $subsrepository=$container->get('le.core.repository.subscription');
+                                    $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $appValidityRenewal, $plancredits);
+                                    $paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $plancredits, $validitytill, $planname, null, null, 'Paid');
+                                    $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
+                                }
                             } else {
-                                $subsrepository=$container->get('le.core.repository.subscription');
-                                $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $clearactualmailcount, $netcredits);
-                                $payment       =$paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
-                                $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
+                                $output->writeln('<info>'."Plan validity available upto $validitytill".'</info>');
                             }
                         } else {
-                            $output->writeln('<info>'."Plan validity available upto $validitytill".'</info>');
+                            $output->writeln('<error>'.'Customer Credit Card details not found.'.'</error>');
                         }
                     } else {
-                        $output->writeln('<error>'.'Customer Credit Card details not found.'.'</error>');
+                        $output->writeln('<error>'.'License info details not found.'.'</error>');
                     }
                 } else {
-                    $output->writeln('<error>'.'License info details not found.'.'</error>');
+                    if ($lastpayment->getTaxamount() == 1) {//add on renewal
+                        $appValidityRenewal=false;
+                    }
+                    $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$lastpayment->getPlanName());
+                    $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $lastpayment->getPlanName(), $lastpayment->getAmount(), $lastpayment->getBeforeCredits(), $lastpayment->getNetamount(), $lastpayment->getAfterCredits(), $lastpayment->getValidityTill(), $appValidityRenewal, $contactcredites, true, $lastpayment);
                 }
             } else {
                 $output->writeln('<error>'.'Last payment details not found.'.'</error>');
@@ -169,8 +196,11 @@ class UpdatePaymentCommand extends ModeratedCommand
             // print('Message is:' . $err['message'] . "\n");
             $errormsg      ='Card Error:'.$err['message'];
             $payment       =$paymentrepository->captureStripePayment('', '', $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $errormsg);
-
-            $licenseinfohelper->suspendApplication();
+            if ($err['code'] != 'processing_error') {
+                $smHelper=$container->get('le.helper.statemachine');
+                $this->updatePaymentFailureState($smHelper, $errormsg, $appValidityRenewal, $output);
+            }
+            // $licenseinfohelper->suspendApplication();
         } catch (\Stripe\Error\RateLimit $e) {
             $errormsg= 'Too many requests made to the API too quickly';
             // Too many requests made to the API too quickly
@@ -200,7 +230,7 @@ class UpdatePaymentCommand extends ModeratedCommand
         }
     }
 
-    protected function attemptStripeCharge($output, $stripecard, PaymentHelper $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $clearactualmailcount, $contactcredites)
+    protected function attemptStripeCharge($output, $stripecard, PaymentHelper $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $appValidityRenewal, $contactcredites, $isRetry, $lastPayment=null)
     {
         $container  = $this->getContainer();
         $apikey     =$container->get('mautic.helper.core_parameters')->getParameter('stripe_api_key');
@@ -212,27 +242,34 @@ class UpdatePaymentCommand extends ModeratedCommand
             'customer'             => $stripecard->getCustomerID(),
             'description'          => 'charge for leadsengage product purchase',
             'capture'              => true,
-            'statement_descriptor' => 'leadsengage purchase',
+            'statement_descriptor' => 'anyfunnels purchase',
         ], [
             'idempotency_key' => $paymenthelper->getUUIDv4(),
         ]);
         if (isset($charges)) {
-            $orderid              = uniqid();
             $chargeid             = $charges->id;
             $status               = $charges->status;
             $failure_code         = $charges->failure_code;
             $failure_message      = $charges->failure_message;
-            $dbname               = $container->get('mautic.helper.core_parameters')->getParameter('db_name');
-            $appid                = str_replace('leadsengage_int', '', $dbname);
             if ($status == 'succeeded') {
                 $todaydate     = date('Y-m-d');
-                $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
+                if (!$isRetry) {
+                    $orderid              = uniqid();
+                    $payment              =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
+                } else {
+                    $lastPayment->setPaymentID($chargeid);
+                    $lastPayment->setPaymentStatus('Paid');
+                    $paymentrepository->saveEntity($lastPayment);
+                    $payment=$lastPayment;
+                }
                 $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, $clearactualmailcount, $netcredits);
+                $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, $appValidityRenewal, $netcredits);
                 $output->writeln('<info>'.'Plan Renewed Successfully'.'</info>');
                 $output->writeln('<info>'.'Transaction ID:'.$chargeid.'</info>');
                 $output->writeln('<info>'.'Amount($):'.$netamount.'</info>');
                 $output->writeln('<info>'.'Contact Credits:'.$netcredits.'</info>');
+                $smHelper=$container->get('le.helper.statemachine');
+                $this->updatePaymentSuccessState($smHelper, $output);
                 $billingmodel  = $container->get('mautic.model.factory')->getModel('subscription.billinginfo');
                 $billingrepo   = $billingmodel->getRepository();
                 $billingentity = $billingrepo->findAll();
@@ -246,11 +283,17 @@ class UpdatePaymentCommand extends ModeratedCommand
                     $paymenthelper=$container->get('le.helper.payment');
                     $paymenthelper->sendPaymentNotification($payment, $billing, $mailer);
                 }
-                $subsrepository->updateAppStatus($appid, 'Active');
+                // $subsrepository->updateAppStatus($domain, 'Active');
             } else {
-                $payment       =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
-                $subsrepository=$container->get('le.core.repository.subscription');
-                $subsrepository->updateAppStatus($appid, 'InActive');
+                if (!$isRetry) {
+                    $orderid              = uniqid();
+                    $paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
+                    //$subsrepository=$container->get('le.core.repository.subscription');
+                    // $subsrepository->updateAppStatus($domain, 'InActive');
+                    $errormsg="Failure Code:$failure_code,Failure Message:$failure_message";
+                    $smHelper=$container->get('le.helper.statemachine');
+                    $this->updatePaymentFailureState($smHelper, $errormsg, $appValidityRenewal, $output);
+                }
                 $mailer = $container->get('le.transport.elasticemail.transactions');
                 $paymenthelper->paymentFailedEmailtoUser($mailer, $planname);
                 $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
@@ -259,6 +302,31 @@ class UpdatePaymentCommand extends ModeratedCommand
             }
         } else {
             $output->writeln('<error>'.'Plan renewed failed due to some technical issues.'.'</error>');
+        }
+    }
+
+    protected function updatePaymentFailureState($smHelper, $errormsg, $appValidityRenewal, $output)
+    {
+        if (!$smHelper->isStateAlive('Customer_Inactive_Payment_Issue')) {
+            if ($appValidityRenewal) {
+                $errormsg='Validity Renewal,'.$errormsg;
+            } else {
+                $errormsg='AddOn Renewal,'.$errormsg;
+            }
+            $smHelper->makeStateInActive(['Customer_Active']);
+            $smHelper->newStateEntry('Customer_Inactive_Payment_Issue', $errormsg);
+            $output->writeln('<info>App enters into Customer_Inactive_Payment_Issue</info>');
+        }
+    }
+
+    protected function updatePaymentSuccessState($smHelper, $output)
+    {
+        if ($smHelper->isStateAlive('Customer_Inactive_Payment_Issue')) {
+            $smHelper->makeStateInActive(['Customer_Inactive_Payment_Issue']);
+            if (!$smHelper->isAnyInActiveStateAlive()) {
+                $smHelper->newStateEntry('Customer_Active', '');
+                $output->writeln('<info>App enters into Customer_Active</info>');
+            }
         }
     }
 

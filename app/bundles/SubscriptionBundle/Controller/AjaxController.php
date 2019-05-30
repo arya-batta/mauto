@@ -582,7 +582,7 @@ class AjaxController extends CommonAjaxController
 
     public function licenseusageinfoAction(Request $request)
     {
-        $paymentrepository            = $this->get('le.subscription.repository.payment');
+        /*$paymentrepository            = $this->get('le.subscription.repository.payment');
         $licenseinfo                  = $this->get('mautic.helper.licenseinfo')->getLicenseEntity();
         $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         $isleplan2                    =false;
@@ -639,6 +639,30 @@ class AjaxController extends CommonAjaxController
             $dataArray['needClosebutton'] = false;
             $dataArray['success']         = true;
             $dataArray['isalertneeded']   = $isClosed;
+        }*/
+        $smHelper                     = $this->get('le.helper.statemachine');
+        $paymentrepository            = $this->get('le.subscription.repository.payment');
+        $lastpayment                  = $paymentrepository->getLastPayment();
+        $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+        if ($lastpayment == null && $licenseRemDays < 0) {
+            if (!$smHelper->isStateAlive('Trial_Inactive_Expired')) {
+                $smHelper->newStateEntry('Trial_Inactive_Expired');
+            }
+        }
+        $dataArray['success']         = false;
+        $infoMessage                  ='';
+        if ($state=$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
+            $infoMessage=$smHelper->getAccountInActiveAlert($state);
+        } elseif ($smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
+            $cardinfoLink=$this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']);
+            $infoMessage = $this->translator->trans('le.pricing.stripe.card.expiry.header', ['|URL|'=>$cardinfoLink, '%card_expiry%'=>$smHelper->getStripeCardExpiryInfo()]);
+        }
+        if ($infoMessage != '') {
+            $isClosed                     = $this->factory->get('session')->get('isalert_needed');
+            $dataArray['info']            = $infoMessage;
+            $dataArray['success']         = true;
+            $dataArray['isalertneeded']   = $isClosed;
+            $dataArray['needClosebutton'] = $isClosed;
         }
 
         return $this->sendJsonResponse($dataArray);
@@ -898,7 +922,9 @@ class AjaxController extends CommonAjaxController
         $planvalidity                   = $request->request->get('planvalidity');
         $contactcredits                 = $request->request->get('contactcredits');
         $accountdata                    = $request->request->get('accountdata');
-        $this->updateAccountData($accountdata);
+        if ($isCardUpdateAlone == 'false') {
+            $this->updateAccountData($accountdata);
+        }
         if ($amount == 0) {
             $amount            = 1;
             $isCardUpdateAlone = true;
@@ -949,7 +975,7 @@ class AjaxController extends CommonAjaxController
                 }
                 if (isset($customer)) {
                     $customerid =$customer->id;
-                    $description='charge for leadsengage product purchase';
+                    $description='charge for anyfunnels product purchase';
                     if ($isCardUpdateAlone == 'true') {
                         $description='charge for card verification';
                     }
@@ -998,7 +1024,7 @@ class AjaxController extends CommonAjaxController
                 $errormsg= 'General Error:'.$e->getMessage();
                 // Something else happened, completely unrelated to Stripe
             }
-            if (isset($customer)) {
+            if (isset($customer) && isset($charges)) {
                 $userhelper   =$this->get('mautic.helper.user');
                 $user         =$userhelper->getUser();
                 $updatedby    ='';
@@ -1012,6 +1038,8 @@ class AjaxController extends CommonAjaxController
                 $cardlast4digit =$data[0]->last4;
                 $cardfingerprint=$data[0]->fingerprint;
                 $cardbrand      =$data[0]->brand;
+                $expmonth       = $data[0]->exp_month;
+                $expyear        =  $data[0]->exp_year;
                 $stripecard->setCustomerID($customerid);
                 $stripecard->setlast4digit($cardlast4digit);
                 $stripecard->setfingerprint($cardfingerprint);
@@ -1019,6 +1047,8 @@ class AjaxController extends CommonAjaxController
                 $stripecard->setupdatedBy($updatedby);
                 $stripecard->setupdatedByUser($updatedbyuser);
                 $stripecard->setupdatedOn(new \DateTime());
+                $stripecard->setExpMonth($expmonth);
+                $stripecard->setExpYear($expyear);
                 $stripecardrepo->saveEntity($stripecard);
             } else {
                 if (empty($errormsg)) {
@@ -1062,7 +1092,13 @@ class AjaxController extends CommonAjaxController
                         $validitytill = $validityend;
                     } else {
                         //$planname     = '90 Days Success Offer';
-                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                        $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                        $smHelper      = $this->get('le.helper.statemachine');
+                        $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
+                        if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+                            $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
+                            $smHelper->createElasticSubAccountandAssign();
+                        }
                     }
                     if ($amount == 1) {
                         $amount = 0;
@@ -1071,23 +1107,36 @@ class AjaxController extends CommonAjaxController
                     $subsrepository     =$this->get('le.core.repository.subscription');
                     $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false, $emailplancredits);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
-                    $signuprepository     =$this->get('le.core.repository.signup');
-                    $dbname               = $this->coreParametersHelper->getParameter('db_name');
-                    $appid                = str_replace('leadsengage_apps', '', $dbname);
-                    $signuplead           = $signuprepository->getSignupLeadinfo($appid);
-                    if (!empty($signuplead) && $lastpayment == null) {
-                        $signupleadid = $signuplead[0]['id'];
-                        $signuprepository->updateLeadwithTag($this->translator->trans('le.payment.done.tag.name'), $signupleadid);
-                        $campaignid   = $this->coreParametersHelper->getParameter('campaign_id');
-                        $sourceId     = $this->coreParametersHelper->getParameter('source_event_id');
-                        $goalId       = $this->coreParametersHelper->getParameter('goal_event_id');
-                        if ($campaignid != null && $goalId != null) {
-                            $signuprepository->unScheduleAllLeadsforCampaign($campaignid);
-                            $signuprepository->addLeadinCampaignLog($campaignid, $signupleadid, $goalId, 1);
-                        }
-                    }
+                //$signuprepository     =$this->get('le.core.repository.signup');
+                    //$dbname               = $this->coreParametersHelper->getParameter('db_name');
+                   // $appid                = str_replace('leadsengage_apps', '', $dbname);
+                   // $signuplead           = $signuprepository->getSignupLeadinfo($appid);
+//                    if (!empty($signuplead) && $lastpayment == null) {
+//                        $signupleadid = $signuplead[0]['id'];
+//                        $signuprepository->updateLeadwithTag($this->translator->trans('le.payment.done.tag.name'), $signupleadid);
+//                        $campaignid   = $this->coreParametersHelper->getParameter('campaign_id');
+//                        $sourceId     = $this->coreParametersHelper->getParameter('source_event_id');
+//                        $goalId       = $this->coreParametersHelper->getParameter('goal_event_id');
+//                        if ($campaignid != null && $goalId != null) {
+//                            $signuprepository->unScheduleAllLeadsforCampaign($campaignid);
+//                            $signuprepository->addLeadinCampaignLog($campaignid, $signupleadid, $goalId, 1);
+//                        }
+//                    }
                 } else {
                     $errormsg=$failure_message;
+                }
+            } elseif (isset($charges) && $isCardUpdateAlone == 'true') {
+                $smHelper      = $this->get('le.helper.statemachine');
+                if ($smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
+                    if (!$smHelper->isStripeCardWillExpire()) {
+                        $smHelper->makeStateInActive(['Customer_Active_Card_Expiring_Soon']);
+                    }
+                }
+                if ($smHelper->isStateAlive('Customer_Inactive_Payment_Issue')) {
+                    $smHelper->makeStateInActive(['Customer_Inactive_Payment_Issue']);
+                    if (!$smHelper->isAnyInActiveStateAlive()) {
+                        $smHelper->newStateEntry('Customer_Active', '');
+                    }
                 }
             }
         }
@@ -1116,16 +1165,23 @@ class AjaxController extends CommonAjaxController
 
     public function cancelsubscriptionAction(Request $request)
     {
-        $cancelreason          = $request->request->get('cancelreason');
-        $cancelfeedback        = $request->request->get('cancelfeedback');
-        $dataArray['success']  = true;
-        $dataArray['error']    = true;
-        $curentDate            =date('Y-m-d');
-        $this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);
-        $this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
-        $mailer = $this->container->get('le.transport.elasticemail.transactions');
-        $this->sendCancelSubscriptionEmail($mailer);
-        $this->cancelsubsEmailtoUser($mailer);
+        $cancelreason              = $request->request->get('cancelreason');
+        $cancelfeedback            = $request->request->get('cancelfeedback');
+        $dataArray['success']      = true;
+        $redirectUrl               = $this->generateUrl('le_accountinfo_action', ['objectAction' => 'cancel']);
+        $dataArray['redirecturl']  = $redirectUrl;
+        //$dataArray['error']    = true;
+        // $curentDate            =date('Y-m-d');
+        //$this->get('mautic.helper.licenseinfo')->intCancelDate($curentDate);
+        //$this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
+        $smHelper      = $this->get('le.helper.statemachine');
+        if (!$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
+            $smHelper->makeStateInActive(['Customer_Active']);
+            $smHelper->newStateEntry('Customer_Inactive_Exit_Cancel', $cancelreason);
+        }
+        //  $mailer = $this->container->get('le.transport.elasticemail.transactions');
+        // $this->sendCancelSubscriptionEmail($mailer);
+        //  $this->cancelsubsEmailtoUser($mailer);
 
         return $this->sendJsonResponse($dataArray);
     }

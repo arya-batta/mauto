@@ -39,6 +39,10 @@ class WebhookController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         return parent::indexStandard($page);
     }
 
@@ -49,6 +53,10 @@ class WebhookController extends FormController
      */
     public function newAction()
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         return parent::newStandard();
     }
 
@@ -62,6 +70,10 @@ class WebhookController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         return parent::editStandard($objectId, $ignorePost);
     }
 
@@ -74,6 +86,10 @@ class WebhookController extends FormController
      */
     public function viewAction($objectId)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         return parent::viewStandard($objectId, 'webhook', 'webhook');
     }
 

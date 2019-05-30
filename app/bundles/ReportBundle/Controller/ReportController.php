@@ -310,6 +310,9 @@ class ReportController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /* @type \Mautic\ReportBundle\Model\ReportModel $model */
         $model   = $this->getModel('report');
         $entity  = $model->getEntity($objectId);
@@ -556,6 +559,9 @@ class ReportController extends FormController
      */
     public function viewAction($objectId, $reportPage = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /* @type \Mautic\ReportBundle\Model\ReportModel $model */
         $model     = $this->getModel('report');
         $entity    = $model->getEntity($objectId);

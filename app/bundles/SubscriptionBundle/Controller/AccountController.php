@@ -319,23 +319,25 @@ class AccountController extends FormController
             }
             $license = date('F d, Y', strtotime($license.' + 1 days'));
         }
-        $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $tmpl          = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $smHelper      = $this->get('le.helper.statemachine');
+        $isCancelled   =$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
 
         return $this->delegateView([
             'viewParameters' => [
                // 'tmpl'               => $tmpl,
-                'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'le_accountinfo_action',
-                'typePrefix'         => 'form',
-                'appstatus'          => $appStatus,
-                'recordcount'        => $recordCount,
-                'licenseenddate'     => $license,
-                'planType'           => $planType,
-                'planName'           => $planName,
-                'canceldate'         => $subcanceldate,
-                'planLabel'          => $planLabel,
-                'contactcount'       => $contactcount,
-                'emailcount'         => $emailcount,
+                'security'             => $this->get('mautic.security'),
+                'actionRoute'          => 'le_accountinfo_action',
+                'typePrefix'           => 'form',
+                'isCancelled'          => $isCancelled,
+                'recordcount'          => $recordCount,
+                'licenseenddate'       => $license,
+                'planType'             => $planType,
+                'planName'             => $planName,
+                'canceldate'           => $subcanceldate,
+                'planLabel'            => $planLabel,
+                'contactcount'         => $contactcount,
+                'emailcount'           => $emailcount,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
             'passthroughVars' => [

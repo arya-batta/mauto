@@ -30,6 +30,9 @@ class UserController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         if (!$this->get('mautic.security')->isGranted('user:users:view')) {
             return $this->accessDenied();
         }
@@ -132,6 +135,9 @@ class UserController extends FormController
      */
     public function newAction()
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         if (!$this->get('mautic.security')->isGranted('user:users:create')) {
             return $this->accessDenied();
         }
@@ -265,6 +271,9 @@ class UserController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         if (!$this->get('mautic.security')->isGranted('user:users:edit')) {
             return $this->accessDenied();
         }

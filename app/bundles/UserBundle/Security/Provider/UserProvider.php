@@ -12,7 +12,7 @@
 namespace Mautic\UserBundle\Security\Provider;
 
 use Mautic\CoreBundle\Helper\EncryptionHelper;
-use Mautic\CoreBundle\Helper\LicenseInfoHelper;
+use Mautic\SubscriptionBundle\Helper\StateMachineHelper;
 use Mautic\UserBundle\Entity\PermissionRepository;
 use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Entity\UserRepository;
@@ -60,9 +60,9 @@ class UserProvider implements UserProviderInterface
     protected $encoder;
 
     /**
-     * @var LicenseInfoHelper
+     * @var StateMachineHelper
      */
-    protected $licenseInfoHelper;
+    protected $smHelper;
 
     /**
      * @param UserRepository           $userRepository
@@ -70,7 +70,7 @@ class UserProvider implements UserProviderInterface
      * @param Session                  $session
      * @param EventDispatcherInterface $dispatcher
      * @param EncoderFactory           $encoder
-     * @param LicenseInfoHelper        $licenseInfoHelper
+     * @param StateMachineHelper       $smHelper
      */
     public function __construct(
         UserRepository $userRepository,
@@ -78,14 +78,14 @@ class UserProvider implements UserProviderInterface
         Session $session,
         EventDispatcherInterface $dispatcher,
         EncoderFactory $encoder,
-        LicenseInfoHelper  $licenseInfoHelper
+        StateMachineHelper  $smHelper
     ) {
         $this->userRepository       = $userRepository;
         $this->permissionRepository = $permissionRepository;
         $this->session              = $session;
         $this->dispatcher           = $dispatcher;
         $this->encoder              = $encoder;
-        $this->licenseInfoHelper    = $licenseInfoHelper;
+        $this->smHelper             = $smHelper;
     }
 
     /**
@@ -139,32 +139,20 @@ class UserProvider implements UserProviderInterface
                 )
             );
         }
-
-        $licenseRemDays = $this->licenseInfoHelper->getLicenseRemainingDays();
-
-        $getAppStatus = $this->licenseInfoHelper->getAppStatus();
-
-        //if ($getAppStatus == 'Active') {
-        //if ($licenseRemDays > 0) {
         $userentity = $this->userRepository->findBy(['username' => $user->getUsername()]);
         $userEmail  = '';
         if (count($userentity) > 0) {
             $userEmail = $userentity[0]->getEmail();
         }
-        if (($getAppStatus == 'Suspended' || $getAppStatus == 'InActive') && $userEmail != 'sadmin@leadsengage.com') {
-            $this->session->set(Security::AUTHENTICATION_ERROR, 'Oops! There seems your account has been disabled since you have not configured your ESP or you haven\'t signed into your account for a while. Please contact us at support@anyfunnels.com to re-activate your account.');
+        if ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Trial_Inactive_Suspended')) {
+            $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.trial.suspended.alert.message'));
+            throw new AuthenticationException();
+        } elseif ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Customer_Inactive_Archive')) {
+            $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.customer.inactive.alert.message'));
             throw new AuthenticationException();
         } else {
             return $this->loadUserByUsername($user->getUsername());
         }
-        //} else {
-        //    $this->session->set(Security::AUTHENTICATION_ERROR, 'License Expired Please Contact Support Team');
-        //    throw new AuthenticationException();
-        //}
-        /*} else {
-            $this->session->set(Security::AUTHENTICATION_ERROR, 'Your Account Suspended. Please Contact Support');
-            throw new AuthenticationException();
-        }*/
     }
 
     /**

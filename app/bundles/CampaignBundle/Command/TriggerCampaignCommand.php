@@ -67,7 +67,6 @@ class TriggerCampaignCommand extends ModeratedCommand
     {
         try {
             $container = $this->getContainer();
-
             /** @var \Mautic\CampaignBundle\Model\EventModel $model */
             $model = $container->get('mautic.campaign.model.event');
             /** @var \Mautic\CampaignBundle\Model\CampaignModel $campaignModel */
@@ -84,7 +83,12 @@ class TriggerCampaignCommand extends ModeratedCommand
             if (!$this->checkRunStatus($input, $output, $id)) {
                 return 0;
             }
+            $smHelper=$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
 
+                return 0;
+            }
             if ($id) {
                 /** @var \Mautic\CampaignBundle\Entity\Campaign $campaign */
                 $campaign = $campaignModel->getEntity($id);

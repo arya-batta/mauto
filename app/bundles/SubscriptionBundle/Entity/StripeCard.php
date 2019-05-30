@@ -60,6 +60,16 @@ class StripeCard
     private $updatedOn;
 
     /**
+     * @var int
+     */
+    private $expMonth;
+
+    /**
+     * @var int
+     */
+    private $expYear;
+
+    /**
      * @param ORM\ClassMetadata $metadata
      */
     public static function loadMetadata(ORM\ClassMetadata $metadata)
@@ -98,6 +108,14 @@ class StripeCard
             ->build();
         $builder->createField('updatedOn', 'datetime')
             ->columnName('updatedOn')
+            ->nullable()
+            ->build();
+        $builder->createField('expMonth', 'integer')
+            ->columnName('expMonth')
+            ->nullable()
+            ->build();
+        $builder->createField('expYear', 'integer')
+            ->columnName('expYear')
             ->nullable()
             ->build();
     }
@@ -248,6 +266,46 @@ class StripeCard
     public function setupdatedOn($updatedOn)
     {
         $this->updatedOn = $updatedOn;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpMonth()
+    {
+        return $this->expMonth;
+    }
+
+    /**
+     * @param int $month
+     *
+     * @return StripeCard
+     */
+    public function setExpMonth($month)
+    {
+        $this->expMonth = $month;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpYear()
+    {
+        return $this->expYear;
+    }
+
+    /**
+     * @param int $year
+     *
+     * @return StripeCard
+     */
+    public function setExpYear($year)
+    {
+        $this->expYear = $year;
 
         return $this;
     }

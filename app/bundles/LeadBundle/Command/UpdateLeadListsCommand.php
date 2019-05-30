@@ -54,7 +54,12 @@ class UpdateLeadListsCommand extends ModeratedCommand
             if (!$this->checkRunStatus($input, $output, $id)) {
                 return 0;
             }
+            $smHelper=$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
 
+                return 0;
+            }
             if ($id) {
                 $list = $listModel->getEntity($id);
                 if ($list !== null && $list->isPublished()) {

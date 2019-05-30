@@ -195,14 +195,14 @@ class SubscriptionRepository
         return $validity;
     }
 
-    public function updateAppStatus($appid, $status)
+    public function updateAppStatus($domain, $status)
     {
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->update(MAUTIC_TABLE_PREFIX.'applicationlist')
             ->set('f7', ':status')
             ->setParameter('status', $status)
             ->where(
-                $qb->expr()->in('appid', $appid)
+                $qb->expr()->in('f5', $domain)
             )->execute();
     }
 

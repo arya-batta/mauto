@@ -567,7 +567,7 @@ class StatRepository extends CommonRepository
      *
      * @return mixed
      */
-    public function updateBouneorUnsubscribecount($emailId, $dncReason)
+    public function updateEmailStatcount($emailId, $dncReason)
     {
         $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $type  = '';
@@ -577,10 +577,19 @@ class StatRepository extends CommonRepository
             $type = 'unsubscribe';
         } elseif (DNC::SPAM === $dncReason) {
             $type = 'spam';
+        } elseif (DNC::IS_CONTACTABLE === $dncReason) {
+            $type = 'failure';
         }
-        $query->update(MAUTIC_TABLE_PREFIX.'emails')
-            ->set($type.'_count', $type.'_count + '.(int) 1)
-            ->where('id = '.(int) $emailId);
+        if ($type != 'failure') {
+            $query->update(MAUTIC_TABLE_PREFIX.'emails')
+                ->set($type.'_count', $type.'_count + '.(int) 1)
+                ->where('id = '.(int) $emailId);
+        } else {
+            $query->update(MAUTIC_TABLE_PREFIX.'emails')
+                ->set($type.'_count', $type.'_count + '.(int) 1)
+                ->set('sent_count', 'sent_count - '.(int) 1)
+                ->where('id = '.(int) $emailId);
+        }
         $query->execute();
     }
 

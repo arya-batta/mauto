@@ -2859,8 +2859,8 @@ class LeadModel extends FormModel
         $status = $this->getLeadStatusbyReason($reason);
         if ($status != '') {
             $lead->setStatus($status);
-            $this->saveEntity($lead);
         }
+        $dnc=false;
         // If they don't have a DNC entry yet
         if ($isContactable === DoNotContact::IS_CONTACTABLE) {
             $dnc = new DoNotContact();
@@ -2880,12 +2880,10 @@ class LeadModel extends FormModel
 
             $lead->addDoNotContactEntry($dnc);
 
-            if ($persist) {
-                // Use model saveEntity to trigger events for DNC change
-                $this->saveEntity($lead);
-            }
-
-            return $dnc;
+//            if ($persist) {
+//                // Use model saveEntity to trigger events for DNC change
+//                $this->saveEntity($lead);
+//            }
         }
         // Or if the given reason is different than the stated reason
         elseif ($isContactable !== $reason) {
@@ -2916,17 +2914,16 @@ class LeadModel extends FormModel
                     // Re-add the entry to the lead
                     $lead->addDoNotContactEntry($dnc);
 
-                    if ($persist) {
-                        // Use model saveEntity to trigger events for DNC change
-                        $this->saveEntity($lead);
-                    }
-
-                    return $dnc;
+//                    if ($persist) {
+//                        // Use model saveEntity to trigger events for DNC change
+//                        $this->saveEntity($lead);
+//                    }
                 }
             }
         }
+        $this->getRepository()->saveEntity($lead);
 
-        return false;
+        return $dnc;
     }
 
     /**
@@ -3108,8 +3105,10 @@ class LeadModel extends FormModel
             $status = 3; //Invalid Status
         } elseif ($reason == DoNotContact::SPAM) {
             $status = 4; //Complaint Status
-        } elseif ($reason == DoNotContact::UNSUBSCRIBED || $reason == DoNotContact::IS_CONTACTABLE || $reason == DoNotContact::MANUAL) {
+        } elseif ($reason == DoNotContact::UNSUBSCRIBED || $reason == DoNotContact::MANUAL) {
             $status = 5; //Unsubscribed Status
+        } elseif ($reason == DoNotContact::IS_CONTACTABLE) {
+            $status = 1; //Active Status
         }
 
         return $status;

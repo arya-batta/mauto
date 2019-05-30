@@ -9,7 +9,6 @@
 namespace Mautic\EmailBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
-use Mautic\LeadBundle\Entity\Lead;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,7 +42,12 @@ class ProcessDripEmailRecipientsCommand extends ModeratedCommand
                 return 0;
             }
             $container   = $this->getContainer();
+            $smHelper    =$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
 
+                return 0;
+            }
             /** @var \Mautic\EmailBundle\Model\DripEmailModel $dripEmailModel */
             $dripEmailModel        = $container->get('mautic.email.model.dripemail');
             $this->dispatcher      = $container->get('event_dispatcher');

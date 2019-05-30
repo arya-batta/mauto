@@ -130,12 +130,12 @@ class EmailSubscriber extends CommonSubscriber
                     '%subject%' => EmojiHelper::toShort($message->getSubject()),
                 ]);
 
-                $configurator   = $this->factory->get('mautic.configurator');
+                // $configurator   = $this->factory->get('mautic.configurator');
                 // $mailer         = $this->factory->get('le.transport.elasticemail.transactions');
                 // $mailhelper     = $this->get('mautic.helper.mailer');
                 // $mailhelper->failedSMTPEmailtoUser($mailer);
-                $configurator->mergeParameters(['email_status' => 'InActive']);
-                $configurator->write();
+                //  $configurator->mergeParameters(['email_status' => 'InActive']);
+                // $configurator->write();
 
                 $this->emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE);
             }

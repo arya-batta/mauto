@@ -128,7 +128,7 @@ Le.pricingplansOnLoad = function (container) {
 }
 function getStripeClient(){
     // Create a Stripe client.
-    var stripe = Stripe('pk_live_SaCvf4xx8HojET3eQfTBhiY2');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
+    var stripe = Stripe('pk_test_6ZK3IyRbtk82kqU1puGcg9i6');//pk_live_SaCvf4xx8HojET3eQfTBhiY2
     return stripe;
 }
 function getStripeCard(stripe){
@@ -171,88 +171,96 @@ function mountStripeCard(stripe,card,elementid){
 }
 
 function stripeTokenHandler(card,token,rootclass,btnelement){
-    clearInfoText();
-    var chwidget = mQuery(rootclass+' #card-holder-widget');
-    var letoken=chwidget.attr("data-le-token");
-    var stripetoken=token.id;
-    var planamount = 1;
-    var plancurrency="$";
-    var plancredits=0;
-    var planname="";
-    var planvalidity="";
-    var contactcredits = 0;
-    var isCardUpdateAlone=true;
-    if(btnelement != null){
-        planamount = btnelement.attr('planamount');
-        plancurrency = btnelement.attr('plancurrency');
-        planname = btnelement.attr('planname');
-        plancredits = btnelement.attr('plancredits');
-        planvalidity = btnelement.attr('planvalidity');
-        contactcredits = btnelement.attr('contactcredits');
-        isCardUpdateAlone=false;
-    }
-    if(!mQuery('#terms_conditions').prop('checked')){
-        //mQuery('#termsConditions help-block').removeClass('hide');
-        mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
-        Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
-        return;
-    }
-    var businessname = mQuery('#welcome_business').val();
-    var phonenumber = mQuery('#welcome_phone').val();
-    var websiteurl = mQuery('#welcome_websiteurl').val();
-    var address = mQuery('#welcome_address').val();
-    var city = mQuery('#welcome_city').val();
-    var zipcode = mQuery('#welcome_zip').val();
-    var state = mQuery('#selectstate').val();
-    var country = mQuery('#selectcountry').val();
-
-    var accountdata = {
-      business : businessname,
-      phone : phonenumber,
-      website : websiteurl,
-      address : address,
-      city : city,
-      zipcode : zipcode,
-      state : state,
-      country : country
-    };
-
-    var data = {
-        letoken : letoken,
-        stripetoken : stripetoken,
-        planamount : planamount,
-        plancurrency : plancurrency,
-        plancredits : plancredits,
-        planname : planname,
-        planvalidity : planvalidity,
-        isCardUpdateAlone : isCardUpdateAlone,
-        contactcredits : contactcredits,
-        accountdata : accountdata
-    };
-    // Insert the token ID into the form so it gets submitted to the server
-    Le.ajaxActionRequest('subscription:updatestripecard', data, function(response) {
-
-        if(isCardUpdateAlone){
-            Le.deactivateBackgroup();
-        }else{
-            Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
+    try{
+        clearInfoText();
+        var chwidget = mQuery(rootclass+' #card-holder-widget');
+        var letoken=chwidget.attr("data-le-token");
+        var stripetoken=token.id;
+        var planamount = 1;
+        var plancurrency="$";
+        var plancredits=0;
+        var planname="";
+        var planvalidity="";
+        var contactcredits = 0;
+        var isCardUpdateAlone=true;
+        if(btnelement != null){
+            planamount = btnelement.attr('planamount');
+            plancurrency = btnelement.attr('plancurrency');
+            planname = btnelement.attr('planname');
+            plancredits = btnelement.attr('plancredits');
+            planvalidity = btnelement.attr('planvalidity');
+            contactcredits = btnelement.attr('contactcredits');
+            isCardUpdateAlone=false;
         }
-        if (response.success) {
-            card.clear();
-            if(isCardUpdateAlone){
-                setInfoText("Card updated successfully");
-                location.reload();
-            }else{
-                Le.redirectWithBackdrop(response.statusurl);
+        var accountdata = {};
+        if(!isCardUpdateAlone){
+            if(!mQuery('#terms_conditions').prop('checked')){
+                //mQuery('#termsConditions help-block').removeClass('hide');
+                mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
+                Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
+                return;
             }
+            var businessname = mQuery('#welcome_business').val();
+            var phonenumber = mQuery('#welcome_phone').val();
+            var websiteurl = mQuery('#welcome_websiteurl').val();
+            var address = mQuery('#welcome_address').val();
+            var city = mQuery('#welcome_city').val();
+            var zipcode = mQuery('#welcome_zip').val();
+            var state = mQuery('#selectstate').val();
+            var country = mQuery('#selectcountry').val();
+
+                accountdata = {
+                business : businessname,
+                phone : phonenumber,
+                website : websiteurl,
+                address : address,
+                city : city,
+                zipcode : zipcode,
+                state : state,
+                country : country
+            };
         }
-        else{
-            // Inform the user if there was an error.
-            var errors=response.errormsg;
-            var error=Le.showerror(errors);
-            setInfoText(error);
-        }
-    });
+
+        var data = {
+            letoken : letoken,
+            stripetoken : stripetoken,
+            planamount : planamount,
+            plancurrency : plancurrency,
+            plancredits : plancredits,
+            planname : planname,
+            planvalidity : planvalidity,
+            isCardUpdateAlone : isCardUpdateAlone,
+            contactcredits : contactcredits,
+            accountdata : accountdata
+        };
+        // Insert the token ID into the form so it gets submitted to the server
+        Le.ajaxActionRequest('subscription:updatestripecard', data, function(response) {
+
+            if(isCardUpdateAlone){
+                Le.deactivateBackgroup();
+            }else{
+                Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
+            }
+            if (response.success) {
+                card.clear();
+                if(isCardUpdateAlone){
+                    setInfoText("Card updated successfully");
+                    location.reload();
+                }else{
+                    alert(response.statusurl);
+                    Le.redirectWithBackdrop(response.statusurl);
+                }
+            }
+            else{
+                // Inform the user if there was an error.
+                var errors=response.errormsg;
+                var error=Le.showerror(errors);
+                setInfoText(error);
+            }
+        });
+    }catch(err){
+    // alert(err);
+    }
 }
 function clearInfoText() {
     var infoElement = mQuery("#card-holder-info");
@@ -290,18 +298,19 @@ Le.openCancelSubscriptionModel = function(){
     mQuery('.cancel-subscription-modal-backdrop').removeClass('hide');
     mQuery('.cancel-subscription-modal').removeClass('hide');
 };
-Le.cancelSubscription = function(redirecturl){
-    Le.activateBackdrop();
-    var cancelreason = mQuery('#cancel_reason').val();
-    var cancelfeedback = mQuery('#reason_feedback').val();
-    Le.ajaxActionRequest('subscription:cancelsubscription', {cancelreason:cancelreason,cancelfeedback:cancelfeedback}, function(response) {
-        e.preventDefault();
+Le.cancelSubscription = function(){
+    try{
         Le.activateBackdrop();
-        Le.deactivateBackgroup();
-        if(response.success) {
-            Le.loadContent(redirecturl);
-
-            mQuery('body').removeClass('noscroll');
-        }
-    });
+        var cancelreason = mQuery('#cancel_reason').val();
+        var cancelfeedback = mQuery('#reason_feedback').val();
+        Le.ajaxActionRequest('subscription:cancelsubscription', {cancelreason:cancelreason,cancelfeedback:cancelfeedback}, function(response) {
+            Le.deactivateBackgroup();
+            if(response.success) {
+                Le.loadContent(response.redirecturl);
+                mQuery('body').removeClass('noscroll');
+            }
+        });
+    }catch(err){
+     //alert(err);
+    }
 };

@@ -79,11 +79,7 @@ class CampaignController extends AbstractStandardFormController
      */
     public function batchDeleteAction()
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-        } else {
-            return $this->batchDeleteStandard();
-        }
+        return $this->batchDeleteStandard();
     }
 
     /**
@@ -95,16 +91,12 @@ class CampaignController extends AbstractStandardFormController
      */
     public function cloneAction($objectId)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-        } else {
-            $ismobile = InputHelper::isMobile();
-            if ($ismobile) {
-                return $this->editDenied($this->generateUrl('le_campaign_index'));
-            }
-
-            return $this->cloneStandard($objectId);
+        $ismobile = InputHelper::isMobile();
+        if ($ismobile) {
+            return $this->editDenied($this->generateUrl('le_campaign_index'));
         }
+
+        return $this->cloneStandard($objectId);
     }
 
     /**
@@ -136,11 +128,7 @@ class CampaignController extends AbstractStandardFormController
      */
     public function deleteAction($objectId)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-        } else {
-            return $this->deleteStandard($objectId);
-        }
+        return $this->deleteStandard($objectId);
     }
 
     /**
@@ -151,10 +139,8 @@ class CampaignController extends AbstractStandardFormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         } else {
             $ismobile = InputHelper::isMobile();
             if ($ismobile) {
@@ -172,7 +158,11 @@ class CampaignController extends AbstractStandardFormController
      */
     public function indexAction($page = null)
     {
-        return $this->indexStandard($page);
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        } else {
+            return $this->indexStandard($page);
+        }
     }
 
     /**
@@ -184,10 +174,8 @@ class CampaignController extends AbstractStandardFormController
      */
     public function newAction($objectId = null)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        } elseif ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         } else {
             $ismobile = InputHelper::isMobile();
             if ($ismobile) {
@@ -200,13 +188,20 @@ class CampaignController extends AbstractStandardFormController
 
     public function quickaddAction()
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->redirectToCardInfo();
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->redirectToPricing();
-        }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
 
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
         $ismobile = InputHelper::isMobile();
         if ($ismobile) {
             $this->addFlash(

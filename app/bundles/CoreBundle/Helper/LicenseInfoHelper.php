@@ -535,29 +535,30 @@ class LicenseInfoHelper
 
     public function isHavingEmailValidity()
     {
-        $data=$this->em->getRepository('Mautic\CoreBundle\Entity\LicenseInfo')->findAll();
-
-        if (sizeof($data) > 0 && $data != null) {
-            $entity = $data[0];
-        }
-        if (!$data) {
-            $entity = new LicenseInfo();
-        }
-        $currentDate     = date('Y-m-d');
-        $emailValidity   = $entity->getEmailValidity();
-        $totalEmailCount = $entity->getTotalEmailCount();
-
-        $remDays    = round((strtotime($emailValidity) - strtotime($currentDate)) / 86400);
-        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if ($totalEmailCount == 'UL' && $lastpayment != null) {
-            return true;
-        } else {
-            if ($remDays >= 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        return true;
+//        $data=$this->em->getRepository('Mautic\CoreBundle\Entity\LicenseInfo')->findAll();
+//
+//        if (sizeof($data) > 0 && $data != null) {
+//            $entity = $data[0];
+//        }
+//        if (!$data) {
+//            $entity = new LicenseInfo();
+//        }
+//        $currentDate     = date('Y-m-d');
+//        $emailValidity   = $entity->getEmailValidity();
+//        $totalEmailCount = $entity->getTotalEmailCount();
+//
+//        $remDays    = round((strtotime($emailValidity) - strtotime($currentDate)) / 86400);
+//        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
+//        if ($totalEmailCount == 'UL' && $lastpayment != null) {
+//            return true;
+//        } else {
+//            if ($remDays >= 0) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
     }
 
     public function getEmailValidityDays()
@@ -1103,34 +1104,6 @@ class LicenseInfoHelper
 
         $entity->setSMSProvider($smsProvider);
         $this->licenseinfo->saveEntity($entity);
-    }
-
-    public function redirectToCardinfo()
-    {
-        $currentuser = $this->factory->getUser();
-        if ($currentuser->isAdmin()) {
-            return false;
-        }
-        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if ($lastpayment != null && $lastpayment->getPaymentStatus() != 'Paid') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function redirectToSubscriptionpage()
-    {
-        $currentuser = $this->factory->getUser();
-        if ($currentuser->isAdmin()) {
-            return false;
-        }
-        $lastpayment=$this->em->getRepository('Mautic\SubscriptionBundle\Entity\PaymentHistory')->getLastPayment();
-        if ($this->getLicenseRemainingDays() < 0) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public function isLeadsEngageEmailExpired($pending)

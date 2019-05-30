@@ -1628,24 +1628,19 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     public function setDoNotContact(Stat $stat, $comments, $reason = DoNotContact::BOUNCED, $flush = true)
     {
         $lead = $stat->getLead();
-
         if ($lead instanceof Lead) {
             $email   = $stat->getEmail();
             if ($email instanceof Email) {
                 $channel = ($email) ? ['email' => $email->getId()] : 'email';
                 if ($reason == DoNotContact::IS_CONTACTABLE) {
-                    $this->sendModel->upEmailFailureCount($email->getId());
-                    $this->updateFailureCount($stat);
+                    $this->updateFailureCount($stat, $email->getId());
                 } else {
                     if ($reason == DoNotContact::UNSUBSCRIBED) {
-                        $this->sendModel->upEmailUnsubscriberCount($email->getId());
-                        $this->updateUnsubscribeCount($stat);
+                        $this->updateUnsubscribeCount($stat, $email->getId());
                     } elseif ($reason == DoNotContact::BOUNCED) {
-                        $this->sendModel->upEmailBounceCount($email->getId());
-                        $this->updateBounceCount($stat);
+                        $this->updateBounceCount($stat, $email->getId());
                     } elseif ($reason == DoNotContact::SPAM) {
-                        $this->sendModel->upEmailSpamCount($email->getId());
-                        $this->updateSpamCount($stat);
+                        $this->updateSpamCount($stat, $email->getId());
                     }
 
                     return $this->leadModel->addDncForLead($lead, $channel, $comments, $reason, $flush);
@@ -2303,23 +2298,15 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      *
      * @return array
      */
-    public function updateFailureCount(Stat $stat)
+    public function updateFailureCount(Stat $stat, $emailId)
     {
-        $failureCounts = $this->sendModel->getFailureCounts();
-        foreach ($failureCounts as $emailId => $count) {
-            $strikes = 3;
-            while ($strikes >= 0) {
-                try {
-                    $stat->setIsFailed(1);
-                    $this->getStatRepository()->saveEntity($stat);
-                    $this->getRepository()->upFailureCount($emailId, 'failure', $count);
-                    $this->getRepository()->upDownSentCount($emailId, 'sent', $count);
-                    break;
-                } catch (\Exception $exception) {
-                    error_log($exception);
-                }
-                --$strikes;
-            }
+        try {
+            $stat->setIsFailed(1);
+            $this->getStatRepository()->saveEntity($stat);
+            $this->getRepository()->upFailureCount($emailId, 'failure', 1);
+            $this->getRepository()->upDownSentCount($emailId, 'sent', 1);
+        } catch (\Exception $exception) {
+            //error_log($exception);
         }
     }
 
@@ -2328,65 +2315,38 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      *
      * @return array
      */
-    public function updateUnsubscribeCount(Stat $stat)
+    public function updateUnsubscribeCount(Stat $stat, $emailId)
     {
-        $unsubscribeCounts = $this->sendModel->getUnsubscribeCounts();
-        // Get Unsubscribe counts to update email stats
-        foreach ($unsubscribeCounts as $emailId => $count) {
-            $strikes = 3;
-            while ($strikes >= 0) {
-                try {
-                    $stat->setIsUnsubscribe(1);
-                    $this->getStatRepository()->saveEntity($stat);
-                    $this->getRepository()->upUnsubscribeCount($emailId, 'unsubscribe', $count);
-                    break;
-                } catch (\Exception $exception) {
-                    error_log($exception);
-                }
-                --$strikes;
-            }
+        try {
+            $stat->setIsUnsubscribe(1);
+            $this->getStatRepository()->saveEntity($stat);
+            $this->getRepository()->upUnsubscribeCount($emailId, 'unsubscribe', 1);
+        } catch (\Exception $exception) {
+            //  error_log($exception);
         }
     }
 
-    public function updateBounceCount(Stat $stat)
+    public function updateBounceCount(Stat $stat, $emailId)
     {
-        // Get Bounce counts to update email stats
-        $bounceCounts = $this->sendModel->getBounceCounts();
-        foreach ($bounceCounts as $emailId => $count) {
-            $strikes = 3;
-            while ($strikes >= 0) {
-                try {
-                    $stat->setIsBounce(1);
-                    $this->getStatRepository()->saveEntity($stat);
-                    $this->licenseInfoHelper->intBounceCount($count);
-                    $this->getRepository()->upBounceCount($emailId, 'bounce', $count);
-                    break;
-                } catch (\Exception $exception) {
-                    error_log($exception);
-                }
-                --$strikes;
-            }
+        try {
+            $stat->setIsBounce(1);
+            $this->getStatRepository()->saveEntity($stat);
+            $this->licenseInfoHelper->intBounceCount(1);
+            $this->getRepository()->upBounceCount($emailId, 'bounce', 1);
+        } catch (\Exception $exception) {
+            error_log($exception);
         }
     }
 
-    public function updateSpamCount(Stat $stat)
+    public function updateSpamCount(Stat $stat, $emailId)
     {
-        // Get Bounce counts to update email stats
-        $spamCounts = $this->sendModel->getSpamCounts();
-        foreach ($spamCounts as $emailId => $count) {
-            $strikes = 3;
-            while ($strikes >= 0) {
-                try {
-                    $stat->setIsSpam(1);
-                    $this->getStatRepository()->saveEntity($stat);
-                    $this->licenseInfoHelper->intSpamCount($count);
-                    $this->getRepository()->upSpamCount($emailId, 'spam', $count);
-                    break;
-                } catch (\Exception $exception) {
-                    error_log($exception);
-                }
-                --$strikes;
-            }
+        try {
+            $stat->setIsSpam(1);
+            $this->getStatRepository()->saveEntity($stat);
+            $this->licenseInfoHelper->intSpamCount(1);
+            $this->getRepository()->upSpamCount($emailId, 'spam', 1);
+        } catch (\Exception $exception) {
+            //error_log($exception);
         }
     }
 
