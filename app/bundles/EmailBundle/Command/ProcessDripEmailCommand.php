@@ -45,7 +45,12 @@ class ProcessDripEmailCommand extends ModeratedCommand
                 return 0;
             }
             $container   = $this->getContainer();
+            $smHelper    =$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
 
+                return 0;
+            }
             $leadEventLogRepo      = $container->get('mautic.email.repository.leadEventLog');
             $dripEmailModel        = $container->get('mautic.email.model.dripemail');
             $this->dispatcher      = $container->get('event_dispatcher');

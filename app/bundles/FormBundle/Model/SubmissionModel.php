@@ -465,20 +465,22 @@ class SubmissionModel extends CommonFormModel
         //if (!$form->isStandalone()) {
         // Find and add the lead to the associated campaigns
         $formId    = ($form instanceof Form) ? $form->getId() : $form;
-        $campaigns = $this->campaignModel->getRepository()->getPublishedCampaignbySourceType('forms');
-        if (!empty($campaigns)) {
-            foreach ($campaigns as $c) {
-                foreach ($c as $event) {
-                    $properties = unserialize($event['properties']);
-                    if (in_array($formId, $properties['forms'])) {
-                        $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
-                        if ($event['goal'] != 'interrupt') {
-                            $this->campaignModel->addLead($campaign, $lead);
-                            $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
-                        } else {
-                            $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+        if (!$this->factory->get('le.helper.statemachine')->isAnyInActiveStateAlive()) {
+            $campaigns = $this->campaignModel->getRepository()->getPublishedCampaignbySourceType('forms');
+            if (!empty($campaigns)) {
+                foreach ($campaigns as $c) {
+                    foreach ($c as $event) {
+                        $properties = unserialize($event['properties']);
+                        if (in_array($formId, $properties['forms'])) {
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                            unset($campaign);
                         }
-                        unset($campaign);
                     }
                 }
             }

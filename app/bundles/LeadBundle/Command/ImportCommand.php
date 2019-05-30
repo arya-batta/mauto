@@ -57,6 +57,13 @@ EOT
             /** @var \Mautic\LeadBundle\Model\ImportModel $model */
             $model = $this->getContainer()->get('mautic.lead.model.import');
 
+            $smHelper=$this->getContainer()->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
+
+                return 0;
+            }
+
             $progress = new Progress($output);
             $id       = (int) $input->getOption('id');
             $limit    = (int) $input->getOption('limit');

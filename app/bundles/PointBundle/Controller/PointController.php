@@ -28,6 +28,9 @@ class PointController extends AbstractFormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         //set some permissions
         $permissions = $this->get('mautic.security')->isGranted([
             'point:points:view',
@@ -202,6 +205,9 @@ class PointController extends AbstractFormController
      */
     public function newAction($entity = null)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model = $this->getModel('point');
 
         if (!($entity instanceof Point)) {
@@ -304,6 +310,9 @@ class PointController extends AbstractFormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model  = $this->getModel('point');
         $entity = $model->getEntity($objectId);
 

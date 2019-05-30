@@ -391,19 +391,19 @@ class CampaignSubscriber extends CommonSubscriber
             return $event->setFailed('Contact does not have an email');
         }
 
-        $config  = $event->getConfig();
-        $emailId = (int) $config['email'];
-        $email   = $this->emailModel->getEntity($emailId);
-        $status  = $this->emailModel->mailHelper->emailstatus(false);
+        $config      = $event->getConfig();
+        $emailId     = (int) $config['email'];
+        $email       = $this->emailModel->getEntity($emailId);
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or unpublished');
         }
         if (!$this->licenseinfohelper->isValidEmailCount()) {
             return $event->setFailed('You can send up to 100 emails at the moment, please go ahead and configure your email service provider for sending unlimited emails');
         }
-        if (!$status) {
+        if ($isStateAlive) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
@@ -464,11 +464,11 @@ class CampaignSubscriber extends CommonSubscriber
             return;
         }
 
-        $config = $event->getConfig();
-        $lead   = $event->getLead();
-        $status = $this->emailModel->mailHelper->emailstatus(false);
-        if (!$status) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+        $config      = $event->getConfig();
+        $lead        = $event->getLead();
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }

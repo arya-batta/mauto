@@ -35,6 +35,12 @@ class ProcessBroadCastEmailCommand extends ModeratedCommand
                 return 0;
             }
             $container           = $this->getContainer();
+            $smHelper            =$container->get('le.helper.statemachine');
+            if (!$smHelper->isAnyActiveStateAlive()) {
+                $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
+
+                return 0;
+            }
             $em                  = $container->get('doctrine')->getManager();
             $emailmodel          = $container->get('mautic.email.model.email');
             $coreParameterHelper = $container->get('mautic.helper.core_parameters');

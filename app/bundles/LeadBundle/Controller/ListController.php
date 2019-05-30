@@ -36,6 +36,9 @@ class ListController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var ListModel $model */
         $model   = $this->getModel('lead.list');
         $session = $this->get('session');
@@ -162,6 +165,9 @@ class ListController extends FormController
      */
     public function newAction()
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         if (!$this->get('mautic.security')->isGranted('lead:leads:viewown')) {
             return $this->accessDenied();
         }
@@ -275,6 +281,9 @@ class ListController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $postActionVars = $this->getPostActionVars();
 
         try {
@@ -691,6 +700,9 @@ class ListController extends FormController
      */
     public function viewAction($objectId)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var \Mautic\LeadBundle\Model\ListModel $model */
         $model    = $this->getModel('lead.list');
         $security = $this->get('mautic.security');

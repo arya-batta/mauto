@@ -29,6 +29,7 @@ use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\LeadBundle\Model\ListOptInModel;
 use Mautic\PageBundle\Entity\Hit;
 use Mautic\PageBundle\Event\PageHitEvent;
+use Mautic\SubscriptionBundle\Helper\StateMachineHelper;
 use Mautic\UserBundle\Entity\User;
 
 /**
@@ -47,15 +48,21 @@ class LeadSubscriber extends CommonSubscriber
     protected $leadModel;
 
     /**
+     * @var StateMachineHelper
+     */
+    protected $smHelper;
+
+    /**
      * LeadSubscriber constructor.
      *
      * @param CampaignModel $campaignModel
      * @param LeadModel     $leadModel
      */
-    public function __construct(CampaignModel $campaignModel, LeadModel $leadModel)
+    public function __construct(CampaignModel $campaignModel, LeadModel $leadModel, StateMachineHelper $smHelper)
     {
         $this->campaignModel = $campaignModel;
         $this->leadModel     = $leadModel;
+        $this->smHelper      =  $smHelper;
     }
 
     /**
@@ -89,6 +96,9 @@ class LeadSubscriber extends CommonSubscriber
      */
     public function onLeadListBatchChange(ListChangeEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         static $campaignLists = [], $listCampaigns = [], $campaignReferences = [];
 
         $leads  = $event->getLeads();
@@ -145,6 +155,9 @@ class LeadSubscriber extends CommonSubscriber
      */
     public function onLeadListChange(ListChangeEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $lead   = $event->getLead();
         $list   = $event->getList();
         $action = $event->wasAdded() ? 'added' : 'removed';
@@ -197,6 +210,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function AddLeadCampaignEvent(LeadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $lead   = $event->getLead();
         //get campaigns for the list
         $repo              = $this->campaignModel->getRepository();
@@ -220,6 +236,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function AddTagModifiedLead(LeadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $lead   = $event->getLead();
         //get campaigns for the list
         $repo              = $this->campaignModel->getRepository();
@@ -253,6 +272,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function RemoveTagModifiedLead(LeadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $lead        = $event->getLead();
         $removedTags = $event->getRemovedTags();
 
@@ -281,6 +303,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function AddModifiedLeadbasedonFields(LeadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $lead   = $event->getLead();
         //get campaigns for the list
         $changes=$lead->getChanges(true);
@@ -311,6 +336,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function DownloadAssetEvent(AssetLoadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $download = $event->getRecord();
         $asset    = $event->getAsset();
         $lead     = $download->getLead();
@@ -339,6 +367,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function OpenEmailEvent(EmailOpenEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $stat  = $event->getStat();
         $email = $event->getEmail();
         $lead  = $stat->getLead();
@@ -373,6 +404,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function ClickEmailEvent(PageHitEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $hit   = $event->getHit();
         $email = $hit->getEmail();
         $lead  = $hit->getLead();
@@ -409,6 +443,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function CompletedDripCampaign(LeadEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $dripLeadID = $event->getCompletedDripsIds();
         //get campaigns for the list
         $repo              = $this->campaignModel->getRepository();
@@ -437,6 +474,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function PageHitEvent(PageHitEvent $event)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $pagehit = $event->getHit();
         $lead    = $pagehit->getLead();
         //get campaigns for the list
@@ -522,6 +562,9 @@ class LeadSubscriber extends CommonSubscriber
 
     public function onLeadOptInChanged(ListOptInChangeEvent $leadevent)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
         $list   = $leadevent->getList();
         $lead   = $leadevent->getLead();
         $action = $leadevent->wasAdded() ? 'added' : 'removed';
@@ -586,6 +629,11 @@ class LeadSubscriber extends CommonSubscriber
      */
     public function integrationEvent(IntegrationEvent $intevent)
     {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            $intevent->setIsSuccess(false);
+
+            return;
+        }
         //get campaigns for the list
         $repo                 = $this->campaignModel->getRepository();
         $integrationName      = $intevent->getIntegrationName();

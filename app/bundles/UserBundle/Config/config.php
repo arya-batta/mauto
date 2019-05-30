@@ -249,7 +249,7 @@ return [
                     'session',
                     'event_dispatcher',
                     'security.encoder_factory',
-                    'mautic.helper.licenseinfo',
+                    'le.helper.statemachine',
                 ],
             ],
             'mautic.security.authentication_listener' => [

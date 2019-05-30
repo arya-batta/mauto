@@ -28,6 +28,9 @@ class AssetController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model = $this->getModel('asset');
 
         //set some permissions
@@ -159,7 +162,7 @@ class AssetController extends FormController
                 'contentTemplate' => 'MauticAssetBundle:Asset:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_asset_index',
-                    'leContent' => 'asset',
+                    'leContent'     => 'asset',
                 ],
             ]);
         }
@@ -190,7 +193,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
                 'route'         => $this->generateUrl('le_asset_index', ['page' => $page]),
             ],
         ]);
@@ -205,6 +208,9 @@ class AssetController extends FormController
      */
     public function viewAction($objectId)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model       = $this->getModel('asset');
         $security    = $this->get('mautic.security');
         $activeAsset = $model->getEntity($objectId);
@@ -229,7 +235,7 @@ class AssetController extends FormController
                 'contentTemplate' => 'MauticAssetBundle:Asset:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_asset_index',
-                    'leContent' => 'asset',
+                    'leContent'     => 'asset',
                 ],
                 'flashes' => [
                     [
@@ -283,7 +289,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:'.$tmpl.'.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
             ],
         ]);
     }
@@ -346,6 +352,9 @@ class AssetController extends FormController
      */
     public function newAction($entity = null)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var \Mautic\AssetBundle\Model\AssetModel $model */
         $model = $this->getModel('asset');
 
@@ -418,9 +427,9 @@ class AssetController extends FormController
                         return $this->editAction($entity->getId(), true);
                     }
 
-                   $viewParameters = [
+                    $viewParameters = [
                         'objectAction' => 'index',
-                        'page' => $page,
+                        'page'         => $page,
                         //'objectId'     => $entity->getId(),
                     ];
                     $returnUrl = $this->generateUrl('le_asset_index');
@@ -439,7 +448,7 @@ class AssetController extends FormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => 'le_asset_index',
-                        'leContent' => 'asset',
+                        'leContent'     => 'asset',
                     ],
                 ]);
             }
@@ -467,7 +476,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
                 'route'         => $this->generateUrl('le_asset_action', [
                     'objectAction' => 'new',
                 ]),
@@ -485,6 +494,9 @@ class AssetController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var \Mautic\AssetBundle\Model\AssetModel $model */
         $model  = $this->getModel('asset');
         $entity = $model->getEntity($objectId);
@@ -517,7 +529,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
             ],
         ];
 
@@ -627,7 +639,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
                 'route'         => $this->generateUrl('le_asset_action', [
                     'objectAction' => 'edit',
                     'objectId'     => $entity->getId(),
@@ -687,7 +699,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
             ],
         ];
 
@@ -752,7 +764,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Asset:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
             ],
         ];
 
@@ -830,7 +842,7 @@ class AssetController extends FormController
             'contentTemplate' => 'MauticAssetBundle:Remote:browse.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_asset_index',
-                'leContent' => 'asset',
+                'leContent'     => 'asset',
                 'route'         => $this->generateUrl('le_asset_index', ['page' => $this->get('session')->get('mautic.asset.page', 1)]),
             ],
         ]);

@@ -44,6 +44,9 @@ class CategoryController extends FormController
      */
     public function indexAction($bundle, $page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $session = $this->get('session');
 
         $search = $this->request->get('search', $session->get('mautic.category.filter', ''));
@@ -187,6 +190,9 @@ class CategoryController extends FormController
      */
     public function newAction($bundle)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $session    = $this->get('session');
         $model      = $this->getModel('category');
         $entity     = $model->getEntity();
@@ -286,6 +292,9 @@ class CategoryController extends FormController
      */
     public function editAction($bundle, $objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $session = $this->get('session');
         /** @var CategoryModel $model */
         $model     = $this->getModel('category');

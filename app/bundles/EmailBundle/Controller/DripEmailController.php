@@ -44,12 +44,6 @@ class DripEmailController extends FormController
     public function executeDripAction($objectId = 0, $subobjectAction, $subobjectId = 0, $objectModel = '')
     {
         if (method_exists($this, "email{$subobjectAction}Action")) {
-            //if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && !$this->request->get('qf', false)) {
-            //    return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-            //} else if($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage() && $this->request->get('qf', false)){
-            //    $this->redirectToPricing();
-            //}
-
             return $this->{"email{$subobjectAction}Action"}($subobjectId, $objectId, $objectModel);
         }
 
@@ -63,6 +57,10 @@ class DripEmailController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         /** @var DripEmailModel $model */
         $model = $this->getModel('email.dripemail');
 
@@ -242,13 +240,9 @@ class DripEmailController extends FormController
         /** @var \Mautic\EmailBundle\Model\EmailModel $emailmodel */
         $emailmodel    = $this->getModel('email');
         $security      = $this->get('mautic.security');
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
-        }
-
         /** @var \Mautic\EmailBundle\Entity\DripEmail $dripemail */
         $dripemail = $model->getEntity($objectId);
         //set the page we came from
@@ -474,11 +468,8 @@ class DripEmailController extends FormController
      */
     public function editAction($objectId = null)
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToCardinfo()) {
-            return $this->delegateRedirect($this->generateUrl('le_accountinfo_action', ['objectAction' => 'cardinfo']));
-        }
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            return $this->delegateRedirect($this->generateUrl('le_pricing_index'));
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         /** @var DripEmailModel $model */
         $model = $this->getModel('email.dripemail');
@@ -497,7 +488,7 @@ class DripEmailController extends FormController
         $params           = $configurator->getParameters();
         $fromname         = $params['mailer_from_name'];
         $fromadress       = $params['mailer_from_email'];
-        $unsubscribetxt   = $params['unsubscribe_text'];
+        $unsubscribetxt   = isset($params['unsubscribe_text']) ? $params['unsubscribe_text'] : '';
         $postaladdress    = $params['postal_address'];
         $unsubscribeTxt   = $entity->getUnsubscribeText();
         $postalAddress    = $entity->getPostalAddress();
@@ -598,23 +589,32 @@ class DripEmailController extends FormController
                     $email = $this->getModel('email');
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
+                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    $isUpdateFlashNeeded=true;
+                    if ($entity->isPublished() && $isStateAlive) {
+                        $isUpdateFlashNeeded=false;
+                        $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                        $entity->setIsPublished(false);
+                        $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'dripemail']));
+                    }
                     $model->saveEntity($entity);
-                    $this->addFlash(
-                        'mautic.core.notice.updated',
-                        [
-                            '%name%'      => $entity->getName(),
-                            '%menu_link%' => 'le_dripemail_index',
-                            '%url%'       => $this->generateUrl(
-                                'le_dripemail_campaign_action',
-                                [
-                                    'objectAction' => 'edit',
-                                    'objectId'     => $entity->getId(),
-                                ]
-                            ),
-                        ],
-                        'warning'
-                    );
-
+                    if ($isUpdateFlashNeeded) {
+                        $this->addFlash(
+                            'mautic.core.notice.updated',
+                            [
+                                '%name%'      => $entity->getName(),
+                                '%menu_link%' => 'le_dripemail_index',
+                                '%url%'       => $this->generateUrl(
+                                    'le_dripemail_campaign_action',
+                                    [
+                                        'objectAction' => 'edit',
+                                        'objectId'     => $entity->getId(),
+                                    ]
+                                ),
+                            ],
+                            'warning'
+                        );
+                    }
                     //return $this->redirect($this->generateUrl('le_dripemail_index'));
                     //$this->editAction($entity);
                 }
@@ -759,10 +759,9 @@ class DripEmailController extends FormController
         $emailmodel = $this->getModel('email');
         /** @var DripEmail $entity */
         $entity = $model->getEntity($objectId);
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
-
         $newEntity = null;
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
@@ -815,8 +814,19 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
         }
         /** @var DripEmailModel $model */
         $model     = $this->getModel('email.dripemail');
@@ -866,12 +876,9 @@ class DripEmailController extends FormController
      */
     public function batchDeleteAction()
     {
-        $page      = $this->get('session')->get('mautic.email.page', 1);
-        $returnUrl = $this->generateUrl('le_dripemail_index', ['page' => $page]);
-        $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
-        }
+        $page           = $this->get('session')->get('mautic.email.page', 1);
+        $returnUrl      = $this->generateUrl('le_dripemail_index', ['page' => $page]);
+        $flashes        = [];
         $postActionVars = [
             'returnUrl'       => $returnUrl,
             'viewParameters'  => ['page' => $page],
@@ -992,8 +999,8 @@ class DripEmailController extends FormController
         $page      = $this->get('session')->get('mautic.email.page', 1);
         $returnUrl = $this->generateUrl('le_dripemail_index', ['page' => $page]);
         $flashes   = [];
-        if ($this->get('mautic.helper.licenseinfo')->redirectToSubscriptionpage()) {
-            $this->redirectToPricing();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
         }
         $postActionVars = [
             'returnUrl'       => $returnUrl,

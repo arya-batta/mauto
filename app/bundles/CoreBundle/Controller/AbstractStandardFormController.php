@@ -443,25 +443,37 @@ abstract class AbstractStandardFormController extends AbstractFormController
                             }
                             $entity->setUtmTags($currentutmtags);
                         }
+                        $isUpdateFlashNeeded=true;
+                        if ($this->getModelName() == 'campaign') {
+                            $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                            if ($entity->isPublished() && $isStateAlive) {
+                                $isUpdateFlashNeeded=false;
+                                $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                                $entity->setIsPublished(false);
+                                $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'workflow']));
+                            }
+                        }
+
                         $model->saveEntity($entity, $form->get('buttons')->get('save')->isClicked());
 
                         $this->afterEntitySave($entity, $form, 'edit', $valid);
 
-                        $this->addFlash(
-                            'mautic.core.notice.updated',
-                            [
-                                '%name%'      => $entity->getName(),
-                                '%menu_link%' => $this->getIndexRoute(),
-                                '%url%'       => $this->generateUrl(
-                                    $this->getActionRoute(),
-                                    [
-                                        'objectAction' => 'edit',
-                                        'objectId'     => $entity->getId(),
-                                    ]
-                                ),
-                            ]
-                        );
-
+                        if ($isUpdateFlashNeeded) {
+                            $this->addFlash(
+                                'mautic.core.notice.updated',
+                                [
+                                    '%name%'      => $entity->getName(),
+                                    '%menu_link%' => $this->getIndexRoute(),
+                                    '%url%'       => $this->generateUrl(
+                                        $this->getActionRoute(),
+                                        [
+                                            'objectAction' => 'edit',
+                                            'objectId'     => $entity->getId(),
+                                        ]
+                                    ),
+                                ]
+                            );
+                        }
                         if ($entity->getId() !== $objectId) {
                             // No longer a clone - this is important for Apply
                             $objectId = $entity->getId();

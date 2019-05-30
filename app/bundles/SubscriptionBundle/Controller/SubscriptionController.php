@@ -691,4 +691,43 @@ class SubscriptionController extends CommonController
 
         return round($prorataamount);
     }
+
+    public function suspendedAction()
+    {
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                        'tmpl'                 => 'index',
+                    ],
+                'contentTemplate' => 'MauticSubscriptionBundle:State:account_suspended.html.php',
+                'passthroughVars' => [],
+            ]
+        );
+    }
+
+    public function underReviewAction()
+    {
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                        'tmpl'                 => 'index',
+                    ],
+                'contentTemplate' => 'MauticSubscriptionBundle:State:account_under_review.html.php',
+                'passthroughVars' => [],
+            ]
+        );
+    }
+
+    public function sendingDomainInactiveAction()
+    {
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                        'tmpl'                 => 'index',
+                    ],
+                'contentTemplate' => 'MauticSubscriptionBundle:State:account_sending_domain.html.php',
+                'passthroughVars' => [],
+            ]
+        );
+    }
 }

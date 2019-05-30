@@ -14,6 +14,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
 $emailuseage      ='';
 $addoncredits     = 0;
 $addonCreditValue = $view['translator']->trans('le.pricing.plan.addon.credits');
+$addonusagecredits=0;
 if ($totalEmailCredits != 'UL') {
     $emailplancredits = 0;
     if ($planName != '') {

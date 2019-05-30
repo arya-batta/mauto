@@ -99,6 +99,14 @@ abstract class AbstractCommonModel
     }
 
     /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
+    /**
      * @param CorePermissions $security
      */
     public function setSecurity(CorePermissions $security)

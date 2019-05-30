@@ -36,6 +36,9 @@ class ListOptInController extends FormController
      */
     public function indexAction($page = 1)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         /** @var ListOptInModel $model */
         $model   = $this->getModel('lead.listoptin');
         $session = $this->get('session');
@@ -163,6 +166,10 @@ class ListOptInController extends FormController
      */
     public function newAction()
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+
         if (!$this->get('mautic.security')->isGranted('lead:leads:viewown')) {
             return $this->accessDenied();
         }
@@ -285,6 +292,9 @@ class ListOptInController extends FormController
      */
     public function editAction($objectId, $ignorePost = false)
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $postActionVars = $this->getPostActionVars();
 
         try {

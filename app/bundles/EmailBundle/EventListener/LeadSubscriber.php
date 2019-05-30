@@ -116,11 +116,13 @@ class LeadSubscriber extends CommonSubscriber
                         $dripentity         = $this->factory->getModel('email.dripemail')->getEntity($stat['dripEmailId']);
                         $dripname           = $dripentity->getName();
                     }
-
-                    $search          = array_keys(unserialize($stat['tokens']));
-                    $replace         = unserialize($stat['tokens']);
-                    $subjectReplaced = str_ireplace($search, $replace, $stat['subject'], $updated);
-
+                    if ($stat['tokens'] != null && is_array(unserialize($stat['tokens']))) {
+                        $search          = array_keys(unserialize($stat['tokens']));
+                        $replace         = unserialize($stat['tokens']);
+                        $subjectReplaced = str_ireplace($search, $replace, $stat['subject'], $updated);
+                    } else {
+                        $subjectReplaced = $stat['subject'];
+                    }
                     if ('sent' == $state) {
                         if (!empty($stat['idHash'])) {
                             $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);

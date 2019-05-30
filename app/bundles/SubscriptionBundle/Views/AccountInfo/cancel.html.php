@@ -35,7 +35,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                         <div class="panel-heading">
                             <h3 class="panel-title"><?php echo $view['translator']->trans('leadsengage.cancel.subscription.title'); ?></h3>
                         </div>
-                        <div class="cancelsubscription panel-body" <?php echo $appstatus != 'Cancelled' ? 'style="display:block;padding-top:0px;"' : 'style="display:none;"' ?>>
+                        <div class="cancelsubscription panel-body" <?php echo !$isCancelled ? 'style="display:block;padding-top:0px;"' : 'style="display:none;"' ?>>
                             <br>
                             <p style="text-align: left;font-family: 'Open Sans', Helvetica, Arial, sans-serif;font-size:14px;padding: 0 0 15px;"><?php echo $view['translator']->trans('leadsengage.cancel.'.strtolower($planType).'.description', ['%recordcount%' => $recordcount, '%licenseenddate%'=>$licenseenddate, '%planname%'=>$planLabel, '%contactcount%' => $contactcount, '%emailcount%' => $emailcount]); ?></p>
                             <br>
@@ -43,7 +43,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                             <br>
                             <br>
                         </div>
-                        <div class="deactivatedaccount panel-body"<?php echo $appstatus == 'Cancelled' ? 'style="display:block;padding-top:0px;"' : 'style="display:none;"' ?>>
+                        <div class="deactivatedaccount panel-body"<?php echo $isCancelled ? 'style="display:block;padding-top:0px;"' : 'style="display:none;"' ?>>
                             <br>
                             <p style="text-align: left;font-weight: normal;font-family: Open Sans, Helvetica, Arial, sans-serif;font-size:14px;"><?php echo $view['translator']->trans('leadsengage.account.cancel.description', ['%cancellationdate%' => $canceldate]); ?></p>
                             <br>
@@ -91,7 +91,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                             </div>
                         </div>
                         <br>
-                        <button type="button" class="btn btn-default pay-now-btn" onclick="Le.cancelSubscription('<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']); ?>');">
+                        <button type="button" class="btn btn-default pay-now-btn" onclick="Le.cancelSubscription();">
                             <?php echo $view['translator']->trans('le.cancel.subscription.model.button'); ?>
                         </button>
                     </div>

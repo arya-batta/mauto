@@ -33,6 +33,12 @@ class ConfigController extends FormController
      */
     public function editAction()
     {
+        $smHelper=$this->get('le.helper.statemachine');
+        if (!$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
+            if ($redirectUrl=$smHelper->checkStateAndRedirectPage()) {
+                return $this->delegateRedirect($redirectUrl);
+            }
+        }
         //admin only allowed
         if (!$this->user->isAdmin() && !$this->user->isCustomAdmin()) {
             return $this->accessDenied();
@@ -479,6 +485,9 @@ class ConfigController extends FormController
 
     public function settingsMenuAction()
     {
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
         $model        = $this->getModel('config');
         $settingsMenu = $model->getSettingsMenuValues();
 

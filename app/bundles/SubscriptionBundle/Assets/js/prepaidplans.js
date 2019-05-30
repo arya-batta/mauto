@@ -220,17 +220,17 @@ Le.loadLicenseUsageInfo = function() {
         }
     });
 
-    Le.ajaxActionRequest('subscription:TrialUpgrade', {}, function(response) {
-        if (response.success && !location.href.match(/(pricing)/i)) {
-            mQuery('#upgrade-now').removeClass('hide');
-            mQuery('#upgrade-info-trial-info').removeClass('hide');
-            mQuery('#upgrade-now').html(response.upgradeinfo);
-            mQuery('#upgrade-info-trial-info').html(response.trailinfo);
-        } else {
-            mQuery('#upgrade-now').addClass('hide');
-            mQuery('#upgrade-info-trial-info').addClass('hide');
-        }
-    });
+    // Le.ajaxActionRequest('subscription:TrialUpgrade', {}, function(response) {
+    //     if (response.success && !location.href.match(/(pricing)/i)) {
+    //         mQuery('#upgrade-now').removeClass('hide');
+    //         mQuery('#upgrade-info-trial-info').removeClass('hide');
+    //         mQuery('#upgrade-now').html(response.upgradeinfo);
+    //         mQuery('#upgrade-info-trial-info').html(response.trailinfo);
+    //     } else {
+    //         mQuery('#upgrade-now').addClass('hide');
+    //         mQuery('#upgrade-info-trial-info').addClass('hide');
+    //     }
+    // });
 };
 Le.registerLicenseCloseBtnListener=function(){
     mQuery('.licenseclosebtn').click(function(e) {

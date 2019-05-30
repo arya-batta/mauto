@@ -12,7 +12,6 @@
 /** @var \Mautic\LeadBundle\Entity\Lead $lead */
 /** @var array $fields */
 $view->extend('MauticCoreBundle:Default:content.html.php');
-
 $isAdmin     =$view['security']->isAdmin();
 $isAnonymous = $lead->isAnonymous();
 

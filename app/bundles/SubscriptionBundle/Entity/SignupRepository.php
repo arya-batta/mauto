@@ -88,7 +88,7 @@ class SignupRepository
                 ->set('mobile', ':mobile')
                 ->set('website1', ':website')
                 ->set('app_id', ':appid')
-                ->set('company_new', ':company')
+                ->set('company_name', ':company')
                 ->setParameter('address', $companyaddress)
                 ->setParameter('city', $city)
                 ->setParameter('state', $state)
@@ -430,19 +430,22 @@ class SignupRepository
 
     public function getDripEmailsForBluePrint()
     {
+        $dripemails=[];
         try {
             $this->getConnection()->connect();
-        } catch (\Exception $e) {
-            return [];
-        }
-        $qb = $this->getConnection()->createQueryBuilder();
-        $qb->select('d.id')
-            ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
-            ->andWhere($qb->expr()->eq('d.is_published', 0))
-            ->andWhere($qb->expr()->eq('d.created_by', 1))
-            ->orderBy('d.templateorder', 'asc');
+            $qb = $this->getConnection()->createQueryBuilder();
+            $qb->select('d.id')
+                ->from(MAUTIC_TABLE_PREFIX.'dripemail', 'd')
+                ->andWhere($qb->expr()->eq('d.is_published', 0))
+                ->andWhere($qb->expr()->eq('d.created_by', 1))
+                ->orderBy('d.templateorder', 'asc');
 
-        return $dripemails = $qb->execute()->fetchAll();
+            $dripemails = $qb->execute()->fetchAll();
+        } catch (\Exception $e) {
+            return $dripemails;
+        }
+
+        return $dripemails;
     }
 
     /**
@@ -567,7 +570,7 @@ class SignupRepository
         } else {
             $qb->update(MAUTIC_TABLE_PREFIX.'leads')
                 ->set('website1', ':website')
-                ->set('company_new', ':company')
+                ->set('company_name', ':company')
                 ->set('industry', ':industry')
                 ->set('employees_count', ':empcount')
                 //->set('company_age', ':org_experience')
@@ -652,7 +655,7 @@ class SignupRepository
                 ->set('state', ':state')
                 ->set('zipcode', ':zipcode')
                 ->set('country', ':country')
-                ->set('company_new', ':company')
+                ->set('company_name', ':company')
                 ->set('mobile', ':mobile')
                 ->set('website1', ':website')
                 ->setParameter('address', $address)

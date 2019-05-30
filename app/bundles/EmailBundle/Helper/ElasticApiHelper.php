@@ -9,6 +9,7 @@
 namespace Mautic\EmailBundle\Helper;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ElasticApiHelper
 {
@@ -182,8 +183,104 @@ class ElasticApiHelper
             $configurator   = $this->factory->get('mautic.configurator');
             $configurator->mergeParameters(['elastic_access_token' => $accesstoken]);
             $configurator->write();
+            $cacheHelper = $this->factory->get('mautic.helper.cache');
+            $cacheHelper->clearContainerFile();
         }
 
         return $accesstoken;
+    }
+
+    public function createSubAccount()
+    {
+        $domain                           =$this->factory->get('le.helper.statemachine')->getAppDomain();
+        $password                         =$this->factory->getParameter('elastic_subaccount_password');
+        $username                         =$domain.'@anyfunnels.io';
+        $payLoad['email']                 =$username;
+        $payLoad['password']              =$password;
+        $payLoad['confirmPassword']       =$password;
+        $payLoad['requiresEmailCredits']  ='false';
+        $payLoad['enableLitmusTest']      ='false';
+        $payLoad['requiresLitmusCredits'] ='false';
+        $payLoad['maxContacts']           ='10000';
+        $payLoad['enablePrivateIPRequest']='false';
+        $payLoad['sendActivation']        ='false';
+        $payLoad['sendingPermission']     ='All';
+        $payLoad['emailSizeLimit']        ='10';
+        $payLoad['dailySendLimit']        ='10000';
+        $response                         =$this->sendApiRequest('account/addsubaccount', $payLoad);
+        $apikey                           ='';
+        $apierror                         ='';
+        if (isset($response->success) && $response->success) {
+            $apikey=$response->data;
+        } else {
+            $apierror=$response->error;
+        }
+
+        return [$username, $apikey, $apierror];
+    }
+
+    public function updateHTTPNotification($apikey)
+    {
+        $webhookid        =uniqid('af_');
+        $payLoad['apikey']=$apikey;
+        // $payLoad['webhookID']=$webhookid;
+        $payLoad['name']                       =$webhookid;
+        $payLoad['notificationForAbuseReport'] ='true';
+        $payLoad['notificationForClicked']     ='false';
+        $payLoad['notificationForError']       ='true';
+        $payLoad['notificationForOpened']      ='false';
+        $payLoad['notificationForSent']        ='false';
+        $payLoad['notificationForUnsubscribed']='false';
+        $payLoad['notifyOncePerEmail']         ='true';
+        $payLoad['webNotificationUrl']         = $this->factory->getRouter()->generate('le_mailer_transport_callback', ['transport' => 'elasticemail'], UrlGeneratorInterface::ABSOLUTE_URL);
+        $response                              =$this->sendApiRequest('account/addwebhook', $payLoad);
+        if (isset($response->success) && $response->success) {
+            return [true, ''];
+        } else {
+            return [false, $response->error];
+        }
+    }
+
+    public function updateAccountProfile($apikey)
+    {
+        $payLoad['apikey']   =$apikey;
+        $payLoad['firstName']='AnyFunnels';
+        $payLoad['lastName'] ='Support';
+        $payLoad['address1'] ='#52,New Colony 1st Main Road';
+        $payLoad['city']     ='Chrompet';
+        $payLoad['state']    ='Tamil Nadu';
+        $payLoad['zip']      ='600044';
+        $payLoad['countryID']='100';
+        $response            =$this->sendApiRequest('account/updateprofile', $payLoad);
+        if (isset($response->success) && $response->success) {
+            return [true, ''];
+        } else {
+            return [false, $response->error];
+        }
+    }
+
+    public function checkAccountState()
+    {
+        $response=$this->sendApiRequest('account/load', []);
+        if (isset($response->success) && $response->success) {
+            $status = $response->data->statusformatted;
+            if ($status == 'Active') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public function deleteSubAccount()
+    {
+        $response=$this->sendApiRequest('account/deletesubaccount', []);
+        if (isset($response->success) && $response->success) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

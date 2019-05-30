@@ -724,7 +724,7 @@ Le.onPageLoad = function (container, response, inModal) {
         mQuery('.license-notifiation').addClass('hide');
         Le.loadLicenseUsageInfo();
         Le.CheckSMSStatus();
-        Le.checkemailstatus();
+        //Le.checkemailstatus();
     }
     Le.configureFullScreenSettings();
 };

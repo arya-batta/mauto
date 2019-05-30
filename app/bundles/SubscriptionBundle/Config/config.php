@@ -47,6 +47,18 @@ return [
                 'path'       => '/welcome',
                 'controller' => 'MauticSubscriptionBundle:Subscription:welcome',
             ],
+            'le_account_suspended_action' => [
+                'path'       => '/account/suspended',
+                'controller' => 'MauticSubscriptionBundle:Subscription:suspended',
+            ],
+            'le_account_under_review_action' => [
+                'path'       => '/account/under/review',
+                'controller' => 'MauticSubscriptionBundle:Subscription:underReview',
+            ],
+            'le_account_sending_domain_inactive_action' => [
+                'path'       => '/account/sending/domain/inactive',
+                'controller' => 'MauticSubscriptionBundle:Subscription:sendingDomainInactive',
+            ],
         ],
         'public' => [
         ],
@@ -138,6 +150,19 @@ return [
                 'factory'   => ['@doctrine.orm.entity_manager', 'getRepository'],
                 'arguments' => [
                     \Mautic\SubscriptionBundle\Entity\StripeCard::class,
+                ],
+            ],
+            'le.subscription.repository.statemachine' => [
+                'class'     => \Doctrine\ORM\EntityRepository::class,
+                'factory'   => ['@doctrine.orm.entity_manager', 'getRepository'],
+                'arguments' => [
+                    \Mautic\SubscriptionBundle\Entity\StateMachine::class,
+                ],
+            ],
+            'le.helper.statemachine' => [
+                'class'     => \Mautic\SubscriptionBundle\Helper\StateMachineHelper::class,
+                'arguments' => [
+                    'mautic.factory', 'le.subscription.repository.statemachine',
                 ],
             ],
         ],
