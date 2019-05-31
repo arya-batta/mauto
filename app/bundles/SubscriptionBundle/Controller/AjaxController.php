@@ -646,6 +646,7 @@ class AjaxController extends CommonAjaxController
         $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         if ($lastpayment == null && $licenseRemDays < 0) {
             if (!$smHelper->isStateAlive('Trial_Inactive_Expired')) {
+                $smHelper->makeStateInActive(['Trial_Active']);
                 $smHelper->newStateEntry('Trial_Inactive_Expired');
             }
         }
