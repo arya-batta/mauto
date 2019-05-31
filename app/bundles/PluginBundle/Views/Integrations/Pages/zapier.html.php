@@ -40,7 +40,7 @@ $url = 'https://zapier.com/goto/?payload=.eJw9zE0KgzAQQOGrlFnbDlIqmH3PIeNkbIP5wy
                     <h3>Step 2 :</h3>
                     <h3>Create a Zap:</h3>
                     <p>We have tons of triggers and actions available.</p>
-                    <img style="width: auto;height: 550px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/zapier_help1.png'); ?>">
+                    <img style="width: auto;height: 450px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/zapier_help1.png'); ?>">
                 </div>
             </div>
             <div class="integration-step hide">
