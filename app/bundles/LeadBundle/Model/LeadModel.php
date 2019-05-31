@@ -1747,6 +1747,9 @@ class LeadModel extends FormModel
 
         // All clear
         foreach ($fieldData as $field => $value) {
+            if ($merged && $field == 'status') { //Skip update status when updating lead.
+                continue;
+            }
             $lead->addUpdatedField($field, $value);
         }
 

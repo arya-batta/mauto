@@ -149,6 +149,12 @@ class FieldType extends AbstractType
                 ]
             );
         }
+        $manConstraints = [];
+        if ($options['data']['type'] != 'gcaptcha') {
+            $manConstraints = new Assert\NotBlank(
+                ['message' => 'mautic.form.field.label.notblank']
+            );
+        }
         // Build form fields
         $builder->add(
             'label',
@@ -158,9 +164,7 @@ class FieldType extends AbstractType
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
                 'constraints' => [
-                    new Assert\NotBlank(
-                        ['message' => 'mautic.form.field.label.notblank']
-                    ),
+                    $manConstraints,
                     $constraints,
                 ],
             ]
@@ -182,7 +186,7 @@ class FieldType extends AbstractType
                 ]
             );
         }
-        if ($options['data']['alias'] == 'gdpr') {
+        if (isset($options['data']['alias']) && $options['data']['alias'] == 'gdpr') {
             $builder->add(
                 'content',
                 'textarea',

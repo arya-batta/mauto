@@ -68,10 +68,10 @@
                                 <td class="table-description">
                                     <span><?php echo $item['subject']; ?></span>
                                 </td>
-                                <td class="visible-sm visible-md visible-lg email-col-stats col-page-category" data-stats="<?php echo $item['id']; ?>">
+                                <td class="email-col-stats col-page-category" data-stats="<?php echo $item['id']; ?>">
                                     <span><?php echo $item['scheduleTime']; ?></span>
                                 </td>
-                                <td class="visible-sm visible-md visible-lg email-col-stats col-page-category drip-col-stats" data-stats="<?php echo $item['id']; ?>">
+                                <td class="email-col-stats col-page-category drip-col-stats" data-stats="<?php echo $item['id']; ?>">
                                     <a class="btn btn-default text-primary le-btn-default custom-preview-button blue-theme-bg" href="<?php echo $previewUrl; ?>" target="_blank" style="float: right;border-radius:4px;z-index:1003;">
                                             <span>
                                             <span class="hidden-xs hidden-sm" id="view-emailtemplate-button"><?php echo $view['translator']->trans('View Email'); ?></span>

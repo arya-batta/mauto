@@ -141,7 +141,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                                     }
                                     $examount             = $addonAmount;
                                     $netamount            = ($examount * $amtmultiplx);
-                                    $netcredits           = (($plancredits) + ($addoncredits * $amtmultiplx));
+                                    $netcredits           = (($totalrecordcount) + ($addoncredits * $amtmultiplx));
                                     $appValidityRenewal   = false;
                                     //$netamount   =$this->getProrataAmount($output, $currentdate, $validitytill, $netamount);
                                     //$output->writeln('<info>'.'Refund Amount:'.$amount1.'</info>');

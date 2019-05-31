@@ -27,7 +27,7 @@ class UpdateIpDataStoreCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
-        $this->setName('mautic:iplookup:download')
+        $this->setName('le:iplookup:download')
             ->setDescription('Fetch remote datastores for IP lookup services that leverage local lookups')
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '')
             ->setHelp(

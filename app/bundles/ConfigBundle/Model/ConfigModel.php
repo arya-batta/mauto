@@ -58,37 +58,37 @@ class ConfigModel extends AbstractCommonModel
                 'Sending Domain' => [
                     'name'=> 'Sending Domain',
                     'img' => 'Sending-Domain.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']),
                 ],
                 'Sender Reputation' => [
                     'name'=> 'Sender Reputation',
                     'img' => 'Sender-Reputation.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'senderreputation_config']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'senderreputation_config']),
                 ],
                 'Email Settings' => [
                     'name'=> 'Email Settings',
                     'img' => 'Email-Settings.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'emailconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'emailconfig']),
                 ],
                 'UTM Tracking' => [
                     'name'=> 'UTM Tracking',
                     'img' => 'UTM-Tracking.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'analyticsconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'analyticsconfig']),
                 ],
                 'Text Messages Settings' => [
                     'name'=> 'Text Messages Settings',
                     'img' => 'Text-Messages-Settings.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'smsconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'smsconfig']),
                 ],
                 'Website Tracking' => [
                     'name'=> 'Website Tracking',
                     'img' => 'Website-Tracking.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'trackingconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'trackingconfig']),
                 ],
                 'API Key & Doc' => [
                     'name'=> 'API Key & Doc',
                     'img' => 'Developer-API.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'apiconfig']),
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'apiconfig']),
                 ],
                 'Webhooks' => [
                     'name'=> 'Webhooks',

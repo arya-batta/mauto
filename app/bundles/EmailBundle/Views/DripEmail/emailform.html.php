@@ -45,7 +45,9 @@ $customHtml = $entity->getCustomHtml();
         <div class="toolbar-form-buttons drip-fixed-header" style="<?php echo $buttonpanelcss; ?>">
             <div class="btn-group toolbar-standard hidden-xs hidden-sm "></div>
             <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
-                <button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown"
+                <button type="button" class="btn btn-default btn-main waves-effect">
+                </button>
+                <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown"
                         aria-expanded="false"><i class="fa fa-caret-down"></i></button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
             </div>

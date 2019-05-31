@@ -98,7 +98,7 @@
                     <td class="table-description">
                         <span><span><?php echo $item->getSubject(); ?></span></span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs"
                           id="sent-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -108,7 +108,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs"
                            id="read-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -118,7 +118,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" style="width:10%;" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" style="width:10%;" data-stats="<?php echo $item->getId(); ?>">
                      <span class="mt-xs"
                            id="not-read-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -128,7 +128,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="read-percent-<?php echo $item->getId(); ?>">
                             <span>
@@ -138,7 +138,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="unsubscribe-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -148,7 +148,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="bounced-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -158,7 +158,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="spam-count-<?php echo $item->getId(); ?>">
                             <span>
@@ -168,7 +168,7 @@
                             </span>
                         </span>
                     </td>
-                    <td class="visible-sm visible-md visible-lg col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <td class="col-stats" data-stats="<?php echo $item->getId(); ?>">
                       <span class="mt-xs"
                             id="failed-count-<?php echo $item->getId(); ?>">
                             <span>

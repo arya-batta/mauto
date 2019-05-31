@@ -876,7 +876,7 @@ class FieldModel extends FormModel
 
         $fields = [];
         foreach ($contactFields as $contactField) {
-            if ($contactField['alias'] == 'score' || $contactField['alias'] == 'points') {
+            if ($contactField['alias'] == 'score' || $contactField['alias'] == 'points' || $contactField['alias'] == 'created_source' || $contactField['alias'] == 'status') {
                 continue;
             }
             $type         =$contactField['type'];

@@ -133,7 +133,7 @@ $html             = '<div class="form-group col-xs-12 ">
         <?php if ($showGCaptchaPanel): ?>
             <div class="tab-content pa-lg">
                 <div role="tabpanel" class="tab-pane active">
-                    <div class="row">
+                    <div class="row hide">
                         <?php echo $view['form']->rowIfExists($form, 'label', $gcaptchatemplate); ?>
                     </div>
                     <div class="row">

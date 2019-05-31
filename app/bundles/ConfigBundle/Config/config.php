@@ -15,6 +15,9 @@ return [
             'le_config_action' => [
                 'path'       => '/config/{objectAction}/{objectId}',
                 'controller' => 'MauticConfigBundle:Config:execute',
+                'defaults'   => [
+                    'objectId' => 'emailconfig',
+                ],
             ],
             'le_settingsmenu_action' => [
                 'path'       => '/settings',

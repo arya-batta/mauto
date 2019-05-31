@@ -199,25 +199,29 @@ class AjaxController extends CommonAjaxController
                 $formcount               =0;
                 $forms                   =[];
                 foreach ($formlist as $formindex=>$form) {
-                    $name        =$form->getAttribute('name');
-                    $id          =$form->getAttribute('id');
-                    $form        =[];
-                    $form['name']=$name;
-                    $form['id']  =$id;
-                    $query       ='';
+                    $formtag = $dom->saveHTML($form);
+                    $fdom    = new \DOMDocument();
+                    $fdom->loadHTML($formtag);
+                    $fxpath                   = new \DOMXPath($fdom);
+                    $name                     =$form->getAttribute('name');
+                    $id                       =$form->getAttribute('id');
+                    $form                     =[];
+                    $form['name']             =$name;
+                    $form['id']               =$id;
+                    $query                    ='';
                     if (strpos($id, 'leform') !== false) {
                         continue;
                     }
-                    if ($id != '') {
+                    /*if ($id != '') {
                         $query="//form[@id='$id']//input|//form[@id='$id']//select|//form[@id='$id']//textarea";
                     } elseif ($name != '') {
                         $query="//form[@name='$name']//input|//form[@name='$name']//select|//form[@name='$name']//textarea";
-                    } else {
-                        $query='//form//input|//form//select|//form//textarea';
-                    }
+                    } else {*/
+                    $query='//input|//select|//textarea';
+                    //}
                     $form['fields']=[];
                     if ($query != '') {
-                        $fieldlist = $xpath->query($query);
+                        $fieldlist = $fxpath->query($query);
                         $fields    =[];
                         foreach ($fieldlist as $fieldindex=>$fieldel) {
                             $field=[];

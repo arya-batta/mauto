@@ -94,6 +94,8 @@ try {
                 $fcolname = 'f24';
             } elseif ($operation == 'le:listoptin:resend') {
                 $fcolname = 'f25';
+            } elseif ($operation == 'le:iplookup:download') {
+                $fcolname = 'f16';
             }
         } else {
             exit('Please Configure Valid Parameter');

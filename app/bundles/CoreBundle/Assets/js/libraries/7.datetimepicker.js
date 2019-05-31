@@ -1850,7 +1850,7 @@
 						top = 0;
 					}
 					if (left + datetimepicker[0].offsetWidth > $(window).width()) {
-						left = $(window).width() - datetimepicker[0].offsetWidth;
+						//left = $(window).width() - datetimepicker[0].offsetWidth; Commented for Mobile GUI
 					}
 				}
 

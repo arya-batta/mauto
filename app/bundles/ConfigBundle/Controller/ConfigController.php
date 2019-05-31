@@ -31,7 +31,7 @@ class ConfigController extends FormController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction()
+    public function editAction($objectId)
     {
         $smHelper=$this->get('le.helper.statemachine');
         if (!$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
@@ -62,7 +62,7 @@ class ConfigController extends FormController
                 'fileFields' => $fileFields,
             ]
         );
-        $selecttab = $this->request->get('step', 'emailconfig');
+        $selecttab = $objectId; //$this->request->get('step', 'emailconfig');
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator   = $this->get('mautic.configurator');
         $isWritabale    = $configurator->isFileWritable();

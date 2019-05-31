@@ -37,10 +37,13 @@ Le.accountinfoOnLoad = function (container) {
     }
 }
 Le.billingOnLoad = function (container) {
-    mQuery('#selectstate').val('blank');
-    mQuery('#selectcountry').val('blank');
-    Le.activateChosenSelect(mQuery("#selectstate"));
-    Le.activateChosenSelect(mQuery("#selectcountry"));
+    mQuery.getScript('http://www.geoplugin.net/javascript.gp', function(){
+        var state = geoplugin_regionName();
+        var country = geoplugin_countryName();
+        var city = geoplugin_city();
+        Le.setDefaultStateValues(state,country,city);
+    });
+
     var stripe = getStripeClient();
     var card=getStripeCard(stripe);
     if(mQuery('#card-holder-widget').is(':visible')) {
@@ -70,6 +73,13 @@ Le.billingOnLoad = function (container) {
         });
     });
     //Le.pricingplansOnLoad(container);
+}
+Le.setDefaultStateValues = function (state, country, city){
+    mQuery('#selectstate').val(state);
+    mQuery('#selectcountry').val(country);
+    mQuery('#welcome_city').val(city);
+    Le.activateChosenSelect(mQuery("#selectstate"));
+    Le.activateChosenSelect(mQuery("#selectcountry"));
 }
 Le.pricingplansOnLoad = function (container) {
     /*var stripe = getStripeClient();
@@ -128,7 +138,7 @@ Le.pricingplansOnLoad = function (container) {
 }
 function getStripeClient(){
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_6ZK3IyRbtk82kqU1puGcg9i6');//pk_live_SaCvf4xx8HojET3eQfTBhiY2
+    var stripe = Stripe('pk_live_SaCvf4xx8HojET3eQfTBhiY2');//pk_test_6ZK3IyRbtk82kqU1puGcg9i6
     return stripe;
 }
 function getStripeCard(stripe){
@@ -256,6 +266,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 var errors=response.errormsg;
                 var error=Le.showerror(errors);
                 setInfoText(error);
+                mQuery('html, body').animate({scrollTop:0}, '100');
             }
         });
     }catch(err){

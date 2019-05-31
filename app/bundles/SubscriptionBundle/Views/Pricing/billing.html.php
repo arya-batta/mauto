@@ -94,7 +94,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="city"> City Name</label>
-                                <input type="text" id="welcome_city" class="welcome-input-text-3 city form-control le-input" id="city" name="welcome[city]" value="<?php echo $city; ?>">
+                                <input type="text" id="welcome_city" class="welcome-input-text-3 city form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
                                 <p class="error_tag city_error hide">The City can't be empty</p>
                             </div>
                         </div>
@@ -173,7 +173,6 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
     <div class="col-md-2"></div>
 </div>
 <script>
-    mQuery("#selecttimezone option[value='<?php echo $timezone; ?>']").attr('selected','selected');
     mQuery("#selectcountry option[value='<?php echo $country; ?>']").attr('selected','selected');
     mQuery("#selectstate option[value='<?php echo $state; ?>']").attr('selected','selected');
 </script>

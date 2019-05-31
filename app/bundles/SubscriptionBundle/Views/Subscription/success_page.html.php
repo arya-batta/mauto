@@ -58,21 +58,20 @@ if ($isPaid) {
             </div>
             <div class="<?php echo $isPaid ? $sendingDomainStatus ? 'hide' : '' : 'hide' ?>">
                 <div class="row" style="text-align: center;">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="plan-card col-md-6" style="width:45%;">
-                            <div class="">
-                                <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
-                            </div>
-                        </div>
-                        <div class="plan-card col-md-6" style="width:45%;">
-                            <div class="">
-                                <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/help_sending_domain.png') ?>"/></a>
-                            </div>
+                    <div class="plan-card col-md-6">
+                        <div class="">
+                            <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="plan-card col-md-6">
+                        <div class="">
+                            <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/help_sending_domain.png') ?>"/></a>
+                        </div>
+                    </div>
+                    <div class="plan-card col-md-8 fl-left">
+                        <div class="">
+                            <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/sending_domain_video.png') ?>"/></a>
+                        </div>
                     </div>
                 </div>
             </div>

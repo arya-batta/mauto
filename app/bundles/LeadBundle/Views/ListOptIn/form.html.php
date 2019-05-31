@@ -58,8 +58,8 @@ $isSetupError     = (count($form['fromname']->vars['errors']) || count($form['fr
 </ul>
     <!-- start: box layout -->
 <!--    <div class="center-align-container">-->
-<div class="box-layout" style="margin-left: 15px;width: 97%;">
-    <div class="col-md-8 bg-white height-auto">
+<div id="page-wrap">
+    <div class="col-md-12 bg-white height-auto">
         <div class="tab-content pa-md">
 <!--    <div class="listoptin-template-content">-->
             <div class="tab-pane fade in <?php echo ($isSetupError) ? '' : 'active'; ?> bdr-w-0" id="details">

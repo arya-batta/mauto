@@ -117,13 +117,17 @@ class PaymentHelper
         if ($user != null) {
             $firstname = $user->getFirstName();
         }
-        $amount = '$'.$paymenthistory->getNetamount();
+        $amount      = '$'.$paymenthistory->getNetamount();
+        $bodycontent = "Hey, $firstname!<br><br>We received your payment $amount on $processedat, for AnyFunnels monthly subscription.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.";
 
+        if (!$paymenthistory->getTaxamount()) {
+            $bodycontent = "Hey, <br><br>We received your payment $amount on $processedat, for additional emails credits.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in AnyFunnels account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.";
+        }
         $text = "<html>
             <body>
                 <div>
                     <span style=\"font-size: 12px;\">
-                    <span style=\"font-family: Verdana,Geneva,sans-serif;\">Hey, $firstname!<br><br>We received your payment $amount on $processedat, for AnyFunnels monthly subscription.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.</span></span>
+                    <span style=\"font-family: Verdana,Geneva,sans-serif;\">$bodycontent</span></span>
                 </div>
             </body>
         </html>";
@@ -135,7 +139,8 @@ class PaymentHelper
         $mailer->send($message);
     }
 
-    public function paymentFailedEmailtoUser($mailer,$planname){
+    public function paymentFailedEmailtoUser($mailer, $planname)
+    {
         $mailer->start();
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
         $model         = $this->factory->getModel('subscription.accountinfo');
@@ -146,9 +151,9 @@ class PaymentHelper
         } else {
             $account = new Account();
         }
-        $name = $account->getAccountname();
-        $useremail =$account->getEmail();
-        $domain    =$account->getDomainname();
+        $name       = $account->getAccountname();
+        $useremail  =$account->getEmail();
+        $domain     =$account->getDomainname();
         $message    = \Swift_Message::newInstance();
         $message->setTo([$useremail => $name]);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
@@ -176,5 +181,4 @@ class PaymentHelper
         $message->setBody($text, 'text/html');
         $mailer->send($message);
     }
-
 }

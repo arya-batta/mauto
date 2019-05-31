@@ -19,74 +19,76 @@ $view['slots']->set('headerTitle', $header);
 
 echo $view['form']->start($form);
 ?>
-<!-- start: box layout -->
-<div class="box-layout border-margin">
-    <!-- container -->
-    <div class="col-md-9 bg-auto height-auto" id="details">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="pa-md">
-                <?php echo $view['form']->row($form['name']); ?>
-            </div>
-            </div>
-            <div class="col-md-6">
-                <div class="pa-md">
-                <?php echo $view['form']->row($form['category']); ?>
-            </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="pa-md">
-                    <?php echo $view['form']->row($form['delta']); ?>
+<div id="page-wrap">
+    <!-- start: box layout -->
+    <div class="box-layout border-margin">
+        <!-- container -->
+        <div class="col-md-12 bg-auto height-auto" id="details">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['name']); ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['category']); ?>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="pa-md">
-                    <?php echo $view['form']->row($form['score']); ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['delta']); ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['score']); ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="pa-md">
-                    <?php echo $view['form']->row($form['type']); ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <?php echo $view['form']->row($form['type']); ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pa-md">
+                        <div id="pointActionProperties">
+                            <?php
+                            if (isset($form['properties'])):
+                                echo $view['form']->row($form['properties']);
+                            endif;
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="pa-md">
-                    <div id="pointActionProperties">
+            <div class="row">
+                <div class="col-md-12">
+                    <div <?php echo $isAdmin ? 'class="pa-md"' : 'class="hide"' ?>>
+                        <?php echo $view['form']->row($form['description']);
+                        echo $view['form']->row($form['isPublished']); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="hide col-md-3 bg-white height-auto">
+                <div class="pr-lg pl-lg pt-md pb-md">
+                    <?php  echo $view['form']->row($form['category']);
+                    echo $view['form']->row($form['isPublished']); ?>
+                    <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
                         <?php
-                        if (isset($form['properties'])):
-                            echo $view['form']->row($form['properties']);
-                        endif;
+                        echo $view['form']->row($form['publishUp']);
+                        echo $view['form']->row($form['publishDown']);
                         ?>
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div <?php echo $isAdmin ? 'class="pa-md"' : 'class="hide"' ?>>
-                    <?php echo $view['form']->row($form['description']);
-                    echo $view['form']->row($form['isPublished']); ?>
-                </div>
-            </div>
-        </div>
-        <div class="hide col-md-3 bg-white height-auto">
-            <div class="pr-lg pl-lg pt-md pb-md">
-                <?php  echo $view['form']->row($form['category']);
-                echo $view['form']->row($form['isPublished']); ?>
-                <div <?php echo $isAdmin ? '' : 'class="hide"' ?>>
-                    <?php
-                    echo $view['form']->row($form['publishUp']);
-                    echo $view['form']->row($form['publishDown']);
-                    ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <br>
+        <?php echo $view['form']->end($form); ?>
 </div>
-<?php echo $view['form']->end($form); ?>

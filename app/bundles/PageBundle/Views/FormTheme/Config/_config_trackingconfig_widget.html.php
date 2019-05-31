@@ -11,7 +11,7 @@
 $hidepanel  =$view['security']->isAdmin() ? '' : "style='display: none;'";
 $isAdmin    =$view['security']->isAdmin();
 ?>
-
+<div id="page-wrap">
 <div class="panel panel-primary trackingconfig">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.tab.pagetracking'); ?></h3>
@@ -118,4 +118,5 @@ $isAdmin    =$view['security']->isAdmin();
             endforeach; ?>
         </div>
     </div>
+</div>
 </div>

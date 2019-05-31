@@ -577,13 +577,13 @@ function includeJQuery(filename, onload) {
                     API_ENDPOINT: "{$postUrl}",                  
 
                     init: function() {
-                        LeJQ(document).on('submit','form', function(e) {
+                        LeJQ('form').submit(function(e) {
                             var formElemId = "";
                             var formElemName = "";
                             if(typeof LeJQ(this).attr('id') !== "undefined") {
                                 formElemId = LeJQ(this).attr('id');                                
                             }
-                            if(typeof LeJQ(this).attr('name') !== "undefined") {
+                            if(typeof LeJQ(this).attr('name') !== "undefined" && typeof LeJQ(this).attr('name') !== "object") {
                                 formElemName = LeJQ(this).attr('name');                              
                             }
                             var formData = LeJQ(this).serialize();                            
@@ -655,11 +655,11 @@ JS;
         $formdata         = $this->request->get('smartformdata', '');
         $filepath         = $this->request->get('file_path', '');
         $domain           = $this->request->get('domain', '');
-        parse_str($formdata, $post_results);
-        $server        = $this->request->server->all();
-        $formmodel     =$this->getModel('form');
-        $formrepository=$formmodel->getRepository();
-        $messengerMode = true;
+        $post_results     = $this->proper_parse_str($formdata);
+        $server           = $this->request->server->all();
+        $formmodel        =$this->getModel('form');
+        $formrepository   =$formmodel->getRepository();
+        $messengerMode    = true;
         if ($formname == '') {
             $formname = null;
         }
@@ -671,6 +671,7 @@ JS;
                 [
                     'smartformname' => $formname,
                     'smartformid'   => $formid,
+                    'isPublished'   => 1,
                 ]
             );
         }
@@ -768,6 +769,7 @@ JS;
             [
                 'smartformname' => null,
                 'smartformid'   => null,
+                'isPublished'   => 1,
             ]
         );
         $smform    = [];
@@ -790,5 +792,34 @@ JS;
         }
 
         return $smform;
+    }
+
+    public function proper_parse_str($formdata)
+    {
+        $str =  urldecode($formdata);
+        // result array
+        $resultArr = [];
+        // split on outer delimiter
+        $pairs = explode('&', $str);
+        // loop through each pair
+        foreach ($pairs as $i) {
+            // split into name and value
+            list($name, $value) = explode('=', $i, 2);
+            // if name already exists
+            if (isset($resultArr[$name])) {
+                // stick multiple values into an array
+                if (is_array($resultArr[$name])) {
+                    $resultArr[$name][] = $value;
+                } else {
+                    $resultArr[$name] = [$resultArr[$name], $value];
+                }
+            }
+            // otherwise, simply stick it in a scalar
+            else {
+                $resultArr[$name] = $value;
+            }
+        }
+        // return result array
+        return $resultArr;
     }
 }

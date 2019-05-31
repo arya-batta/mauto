@@ -219,6 +219,7 @@ $custombutton = [
                                                 'filters' => $template_filters,
                                                 'target'  => (empty($target)) ? null : $target,
                                                 'tmpl'    => (empty($tmpl)) ? null : $tmpl,
+                                                'screen'  => 'email',
                                             ]); ?>
                                         <?php endif; ?>
                                     </div>

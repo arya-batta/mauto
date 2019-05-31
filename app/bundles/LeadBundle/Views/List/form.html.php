@@ -78,8 +78,8 @@ $addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-list btn-
         </a>
     </li>
 </ul>
-<div class="box-layout" style="margin-left: 15px;width: 97%;">
-    <div class="col-md-8 bg-white height-auto">
+<div id="page-wrap">
+    <div class="col-md-12 bg-white height-auto">
         <div class="row">
             <div class="col-xs-12">
                 <!-- start: tab-content -->

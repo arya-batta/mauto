@@ -13,7 +13,7 @@ $view['slots']->set('leContent', 'accountinfo');
 $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accountinfo.header.title'));
 $emailuseage      ='';
 $addoncredits     = 0;
-$addonCreditValue = $view['translator']->trans('le.pricing.plan.addon.credits');
+$addonCreditValue = $view['translator']->trans('le.pricing.plan.addon.credits'.$planName);
 $addonusagecredits=0;
 if ($totalEmailCredits != 'UL') {
     $emailplancredits = 0;
@@ -22,6 +22,9 @@ if ($totalEmailCredits != 'UL') {
     }
     $addoncredits      = $totalEmailCredits - $emailplancredits;
     $addonusagecredits = $actualEmailCredits - $emailplancredits;
+    if ($addoncredits > $addonCreditValue) {
+        $addoncredits = $addoncredits - $addonusagecredits;
+    }
     if ($addoncredits < 0 || $emailplancredits == 0) {
         $addoncredits = 0;
     }
