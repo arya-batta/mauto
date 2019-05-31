@@ -46,7 +46,7 @@ if (count($items)):
                         'sessionVar' => 'slack',
                         'orderBy'    => 'e.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-sms-name m_width',
+                        'class'      => 'col-sms-name',
                         'default'    => true,
                     ]
                 );
@@ -79,7 +79,7 @@ if (count($items)):
                     'sessionVar' => 'slack',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-lead-actions',
+                    'class'      => 'col-lead-location',
                 ]);
                 ?>
             </tr>
@@ -157,7 +157,7 @@ if (count($items)):
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
-                        <span style="white-space: nowrap;"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
+                        <span class="category_span"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
                     <?php if ($isAdmin): ?>
                     <td class=""><?php echo $item->getId(); ?></td>
@@ -179,11 +179,11 @@ if (count($items)):
                                             <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_slack_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
                                                 <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
-                                        <a data-toggle="ajaxmodal" data-target="#leSharedModal"
-                                           data-header="<?php echo $item->getName() ?> Preview"
-                                           title="<?php echo $view['translator']->trans('mautic.core.form.preview'); ?>"
-                                           href="<?php echo $view['router']->path('le_slack_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']); ?>">
-                                            <i class="material-icons md-color-white">  </i> </a>
+<!--                                        <a data-toggle="ajaxmodal" data-target="#leSharedModal"-->
+<!--                                           data-header="--><?php //echo $item->getName()?><!-- Preview"-->
+<!--                                           title="--><?php //echo $view['translator']->trans('mautic.core.form.preview');?><!--"-->
+<!--                                           href="--><?php //echo $view['router']->path('le_slack_action', ['objectId' => $item->getId(), 'objectAction' => 'preview']);?><!--">-->
+<!--                                            <i class="material-icons md-color-white">  </i> </a>-->
                                         <?php if ($hasDeleteAccess):?>
                                             <a data-toggle="confirmation" href="<?php echo $view['router']->path('le_slack_action', ['objectAction' => 'delete', 'objectId' => $item->getId()]); ?>" data-message="<?php echo $view->escape($view['translator']->trans('mautic.sms.form.confirmdelete', ['%name%'=> $item->getName()])); ?>" data-confirm-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.delete')); ?>" data-confirm-callback="executeAction" title="<?php echo $view['translator']->trans('mautic.core.form.delete'); ?>" data-cancel-text="<?php echo $view->escape($view['translator']->trans('mautic.core.form.cancel')); ?>">
                                                 <span><i class="material-icons md-color-white">  </i></span>

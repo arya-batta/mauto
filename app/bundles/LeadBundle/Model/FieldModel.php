@@ -883,7 +883,7 @@ class FieldModel extends FormModel
             $properties   =$contactField['properties'];
             $customChoices=[];
             if ($applyPropertiesParse) {
-                if (in_array($type, ['lookup', 'multiselect', 'boolean'])) {
+                if (in_array($type, ['lookup', 'multiselect', 'select', 'boolean'])) {
                     if ($type == 'boolean') {
                         //create a lookup list with ID
                         $customChoices = [

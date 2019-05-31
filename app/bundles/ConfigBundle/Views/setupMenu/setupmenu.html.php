@@ -23,7 +23,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.setupme
                 <div class="settings-menu-list-item">
                     <a href="<?php echo $listItem['url']; ?>" data-toggle="ajax" class="settings-menu-list-item-link">
                         <div class="settings-menu-list-item-icon">
-                            <img src="<?php echo $view['assets']->getUrl('media/images/'.$listItem['img']); ?>" />
+                            <img src="<?php echo $view['assets']->getUrl('media/images/settings/'.$listItem['img']); ?>" />
                         </div>
                         <span class="settings-menu-list-item-name"><?php echo $listItem['name']; ?></span>
                     </a>

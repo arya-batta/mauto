@@ -211,6 +211,16 @@ class FieldMappingType extends AbstractType
             case 'datetime':
                 $attr['data-toggle'] = $fieldType;
                 break;
+            case 'country':
+            case 'region':
+            case 'timezone':
+            case 'locale':
+                $choices                                    = [];
+                $type                                       = 'choice';
+                $choices                                    = isset($options['propertychoices'][$fieldType]) ? $options['propertychoices'][$fieldType] : [];
+                $customOptions['empty_value']               = 'mautic.core.form.chooseone';
+                $customOptions['choices']                   = $choices;
+                break;
             case 'select':
             case 'multiselect':
             case 'boolean':
@@ -221,9 +231,6 @@ class FieldMappingType extends AbstractType
 //                    $data['defaultvalue'] = [$data['defaultvalue']];
 //                }
                 $choices = [];
-                if ($field['alias'] == 'eu_gdpr_consent') {
-                    $choices = $options['propertychoices']['eu_gdpr_consent'];
-                } else {
                     if (!empty($field['properties'])) {
                         $list    = $field['properties'];
                         $choices = FormFieldHelper::parseList($list, true, ('boolean' === $fieldType));
@@ -234,7 +241,7 @@ class FieldMappingType extends AbstractType
                         $choices[''] = '';
                         $choices     = array_reverse($choices, true);
                     }
-                }
+
                 $customOptions['choices']= $choices;
                 break;
         }

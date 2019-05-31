@@ -641,6 +641,7 @@ class LeadSubscriber extends CommonSubscriber
         $integrationName      = strtolower($integrationName);
         $isValidRecordAdd     = $this->factory->get('mautic.helper.licenseinfo')->isValidRecordAdd();
         $appStatus            = $this->factory->get('mautic.helper.licenseinfo')->getAppStatus();
+        $remainingDays        = $this->factory->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
         /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
         $integrationHelper = $this->factory->getHelper('integration');
         $eventName         = $integrationName;
@@ -650,7 +651,7 @@ class LeadSubscriber extends CommonSubscriber
             $eventName='fbLeadAds';
         }
 
-        if (!$isValidRecordAdd || ($appStatus == 'Suspended' || $appStatus == 'InActive')) {
+        if (!$isValidRecordAdd || $remainingDays < 0 || ($appStatus == 'Suspended' || $appStatus == 'InActive')) {
             $intevent->setIsSuccess(false);
 
             return $intevent;
@@ -674,6 +675,13 @@ class LeadSubscriber extends CommonSubscriber
                                 if ($key == 'isvalid' || $key == 'created_on' || $key == 'owner_id' || $key == 'tags' || $key == 'listoptin') {
                                     continue;
                                 }
+
+                                if ($isDateField = $integrationHelper->isDateField($key)) {
+                                    if (!$integrationHelper->isDate($value)) {
+                                        $defaultData =  $integrationHelper->setDefaultValue($integrationName, $data, $key);
+                                        $value       = $defaultData[$key];
+                                    }
+                                }
                                 $lead->addUpdatedField($key, $value);
                             }
                             if (!empty($data['created_on'])) {
@@ -694,11 +702,16 @@ class LeadSubscriber extends CommonSubscriber
                                 if (!count($value) > 0) {
                                     $data     = $integrationHelper->setDefaultValue($integrationName, $data, 'tags');
                                 }
+                                $defaulttag   = null;
+                                $defaultTagId = null;
+                                if (!empty($data['tags'])) {
+                                    $defaulttag   = $entityManager->getReference(Tag::class, $data['tags']);
+                                    $defaultTagId = $defaulttag->getId();
+                                }
+                                $defaultValue = $this->factory->getModel('lead.tag')->getRepository()->findOneBy(['id'=>$defaultTagId]);
 
-                                $defaulttag   = $entityManager->getReference(Tag::class, $data['tags']);
-                                $defaultValue = $this->factory->getModel('lead.tag')->getRepository()->findOneBy(['id'=>$defaulttag->getId()]);
-                                if (!empty($tag) && !$leadTags->contains($tag) && count($defaultValue) > 0) {
-                                    $lead->addTag($tag);
+                                if (!empty($tag) && !$leadTags->contains($tag) && count($defaultValue) > 0 && $defaultValue->getisPublished()) {
+                                    $lead->addTag($defaulttag);
                                 }
                             }
                             $lead->setScore('cold');

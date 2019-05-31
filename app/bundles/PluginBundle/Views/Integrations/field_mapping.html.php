@@ -25,6 +25,7 @@ $propertychoices=$form->vars['propertychoices'];
 </div>
 <button type="button" class="btn btn-default btn-nospin btn-field-mapping waves-effect btn-save-field-mapping"><?php echo $view['translator']->trans('le.integrations.field.mapping.save') ?></button>
 <?php echo $view['form']->end($form); ?>
+<br><br>
 <script>
     Le.integration_fieldmapping_details =
     <?php echo json_encode($fields, JSON_PRETTY_PRINT); ?>;

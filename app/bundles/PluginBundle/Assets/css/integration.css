@@ -69,10 +69,10 @@
     border: 1px solid #e0e0e0 !important;
 }
 .facebook-integration-connection, .calendly-integration-connection{
-    border:1px solid #cccccc;
-    padding: 10px;
-    height:100px;
-    padding-top:25px;
+    border:1px solid #3292e0;
+    background-color: #f3f7ff;
+    color: #596776;
+    height:115px;
     border-radius: 5px;
     text-align: center;
 }

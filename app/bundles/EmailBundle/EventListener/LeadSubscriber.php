@@ -185,7 +185,7 @@ class LeadSubscriber extends CommonSubscriber
                             'type' => $state,
                         ],
                         'contentTemplate' => 'MauticEmailBundle:SubscribedEvents\Timeline:index.html.php',
-                        'icon'            => ($state == 'read') ? 'fa-envelope-o' : 'fa-envelope',
+                        'icon'            => ($state == 'read') ? 'mdi mdi-email-open-outline fs-24' : 'mdi mdi-email-outline fs-24',
                         'contactId'       => $contactId,
                     ]
                 );

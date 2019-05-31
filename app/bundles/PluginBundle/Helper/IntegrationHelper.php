@@ -18,6 +18,7 @@ use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\CoreBundle\Helper\PathsHelper;
 use Mautic\CoreBundle\Helper\TemplatingHelper;
+use Mautic\LeadBundle\Entity\CustomFieldEntityTrait;
 use Mautic\PluginBundle\Entity\Integration;
 use Mautic\PluginBundle\Entity\IntegrationFieldMapping;
 use Mautic\PluginBundle\Entity\IntegrationPayLoadHistory;
@@ -33,6 +34,7 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class IntegrationHelper
 {
+    use CustomFieldEntityTrait;
     /**
      * @var Container
      */
@@ -869,6 +871,43 @@ class IntegrationHelper
         }
 
         return $data;
+    }
+
+    public function isDateField($alias)
+    {
+        $fieldRepository = $this->factory->getModel('lead.field')->getRepository();
+        $field           = $fieldRepository->findOneBy(['alias'=>$alias]);
+
+        if (count($field) > 0) {
+            $fieldType = $field->getType();
+            if ($fieldType == 'date' || $fieldType == 'datetime' || $fieldType == 'time') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the value is a valid date.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isDate($value)
+    {
+        if (!$value || is_array($value)) {
+            return false;
+        }
+
+        try {
+            new \DateTime($value);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function putPayLoadHistory($jsonData, $integrationName)

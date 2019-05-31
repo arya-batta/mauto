@@ -2953,12 +2953,12 @@ class LeadController extends FormController
         $resultsCallback = function ($contact) {
             $exportFields = $contact->getExportProfileFields();
 
-            if (isset($exportFields['Lead status'])) {
-                $exportFields['Lead status'] = $this->translator->trans('le.leads.status.'.$exportFields['Lead status']);
-            }
-            if (isset($exportFields['Create source'])) {
-                $exportFields['Create source'] = $this->translator->trans('le.leads.created.source.'.$exportFields['Create source']);
-            }
+//            if (isset($exportFields['Lead status'])) {
+//                $exportFields['Lead status'] = $this->translator->trans('le.leads.status.'.$exportFields['Lead status']);
+//            }
+//            if (isset($exportFields['Create source'])) {
+//                $exportFields['Create source'] = $this->translator->trans('le.leads.created.source.'.$exportFields['Create source']);
+//            }
 
             return $exportFields;
         };

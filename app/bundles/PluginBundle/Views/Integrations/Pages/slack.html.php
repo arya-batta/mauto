@@ -19,14 +19,22 @@ $configurl = isset($details['configurl']) ? $details['configurl'] : '';
 <div class="tab-pane active bdr-w-0" id="instruction-container">
     <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
         <div class="integration-container">
+            <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/slack.png'); ?>">
+            <br><br>
+            <h3>Integration Instructions</h3>
+            <p style="line-height: 1.7;">
+                Post a notification message to a specific Slack channel for a particular event (e.g., When a lead submits a form, notify your sales team in Slack channel).
+            </p>
             <div class="integration-step">
                 <div class="step-content">
-                    <h3>Step 1: Grant access to your Slack account</h3>
+                    <h3>Step 1:</h3>
+                    <h3>Grant access to your Slack account</h3>
                     <?php if (!$details['authorization']): ?>
                     <div>
-                        <p>Click below to authorize Anyfunnels to access your account.</p>
+                        <p>Click below to authorize Anyfunnels to access your Slack account.</p>
                     </div>
-                    <a href="<?php echo $view['router']->path('le_new_integration_auth_user', ['integration' => $name]) ?>"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
+<!--                        <img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x">-->
+                    <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_new_integration_auth_user', ['integration' => $name]) ?>">Authorize</a>
                     <?php else: ?>
                         <div>
                             <h3>Revoke Access</h3>
@@ -41,8 +49,13 @@ $configurl = isset($details['configurl']) ? $details['configurl'] : '';
             </div>
             <div class="integration-step">
                 <div class="step-content">
-                    <h3>Step 2 : Set up workflow rules</h3>
-                    <p></p><p>To perform an Post Message action via Slack, create an action in <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose Slack as the provider. Choose the appropriate action. Then select your account and audience to configure your action.</p>
+                    <h3>Step 2 :</h3>
+                    <h3>Set up automation workflow rules:</h3>
+                    <p>To post a Slack message, create an action in  <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose Slack as the provider. Choose the appropriate action.</p>
+                    <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/slack_help1.png'); ?>">
+                    <br><br>
+                    <p>Then select your Slack channel and message template to act.</p>
+                    <img style="width: auto;height: 370px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/slack_help2.png'); ?>">
                 </div>
             </div>
         </div>

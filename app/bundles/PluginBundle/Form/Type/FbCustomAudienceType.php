@@ -16,6 +16,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 /**
  * Class FbCustomAudienceType.
@@ -24,12 +26,20 @@ class FbCustomAudienceType extends AbstractType
 {
     protected $factory;
 
+    protected $isauthorized = false;
+
     /**
      * @param MauticFactory $factory
      */
     public function __construct(MauticFactory $factory)
     {
         $this->factory = $factory;
+
+        $integrationHelper    = $this->factory->getHelper('integration');
+        $integrationsettings  =$integrationHelper->getIntegrationSettingsbyName('facebook_custom_audiences');
+        if (sizeof($integrationsettings) > 0) {
+            $this->isauthorized = true;
+        }
     }
 
     /**
@@ -130,5 +140,13 @@ class FbCustomAudienceType extends AbstractType
         }
 
         return $choices;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['isauthorized'] = $this->isauthorized;
     }
 }

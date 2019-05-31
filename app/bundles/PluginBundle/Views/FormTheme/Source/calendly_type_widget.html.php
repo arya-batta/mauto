@@ -18,8 +18,8 @@ $iscalendlyAuthorized = $form->vars['isauthorized'];
             <div class="form-group col-xs-12">
                 <div class="calendly-integration-connection">
                     <span>
+                        <i class="mdi mdi-rotate-3d" style="font-size:28px;"></i>
                         <h4>
-                            <i class="mdi mdi-rotate-3d" style="font-size:24px;"></i>
                             <?php echo $view['translator']->trans('le.integration.source.calendly.help.heading'); ?></h4>
                         <p>
                             Head to your <a style="text-decoration: underline;font-weight: bold;" href="<?php echo $view['router']->generate('le_integrations_config', ['name'=>'calendly']); ?>">integration settings</a> to wire up your account.

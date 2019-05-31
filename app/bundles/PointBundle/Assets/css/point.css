@@ -45,11 +45,3 @@
 .col-point-category{
     width:10%;
 }
-.category_span{
-    width: 140px;
-    overflow: hidden;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-}

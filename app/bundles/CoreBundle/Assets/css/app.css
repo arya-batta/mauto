@@ -6824,7 +6824,7 @@ text-align: center;
   width: 30%;
 }
 .col-campaign-name{
-  width: 30%;
+  width: 40%;
 }
 .pink-background{
   background-color: #3292e0;
@@ -8002,4 +8002,13 @@ span.afincludes{
 .state-inactive-alert-panel .state-inactive-alert-content a{
   color: #3292e0;
   text-decoration: underline;
+}
+.category_span{
+    width: 140px;
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
 }

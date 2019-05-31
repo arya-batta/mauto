@@ -514,6 +514,7 @@ Le.registerEventsForMappingLists=function(){
                 //Reset default value field
                 mQuery(prototype).find('.mapping-default-segment').replaceWith(mQuery(tmpprototype).find('.mapping-default-segment'));
                 var fieldType=Le.integration_fieldmapping_details[fieldname]['type'];
+                var fieldAlias=Le.integration_fieldmapping_details[fieldname]['alias'];
                 var nameAttr='integration_field_mapping[field_mapping]['+mappingIndex+'][defaultvalue]';
                 var mappingdefaultEl = "input[name='" + nameAttr + "']";
                 if (fieldType == 'select' || fieldType == 'multiselect' || fieldType == 'boolean') {
@@ -524,6 +525,9 @@ Le.registerEventsForMappingLists=function(){
                     selectEl.attr('id','integration_field_mapping_field_mapping_'+mappingIndex+'_defaultvalue');
                     mQuery(prototype).find('input[name="' + nameAttr + '"]').replaceWith(selectEl);
                     mappingdefaultEl="select[name='" + nameAttr + "']";
+                    if(fieldAlias != 'eu_gdpr_consent'){
+                        mQuery('<option>').val('').text('choose one...').appendTo(mappingdefaultEl);
+                    }
                     mQuery.each(fieldOptions, function(index, val) {
                         if (mQuery.isPlainObject(val)) {
                             mQuery('<option>').val(val.value).text(val.label).appendTo(mappingdefaultEl);
@@ -532,20 +536,51 @@ Le.registerEventsForMappingLists=function(){
                         }
                     });
                     Le.activateChosenSelect(mQuery(mappingdefaultEl));
-                }else if(fieldType == 'owner_id' || fieldType == 'leadlist' || fieldType == 'listoptin' || fieldType == 'tags'){
+                }else if(fieldType == 'owner_id' || fieldType == 'leadlist' || fieldType == 'listoptin' || fieldType == 'tags' || fieldType == 'country' || fieldType == 'timezone'){
                     var selectEl = mQuery('<select>');
                     selectEl.attr('class','form-control not-chosen');
                     selectEl.attr('name',nameAttr);
                     selectEl.attr('id','integration_field_mapping_field_mapping_'+mappingIndex+'_defaultvalue');
                     mQuery(prototype).find('input[name="' + nameAttr + '"]').replaceWith(selectEl);
                     mappingdefaultEl="select[name='" + nameAttr + "']";
-                    var fieldOptions=Le.integration_property_choices[fieldname];
+                    if(fieldType == 'country' || fieldType == 'timezone'){
+                        var fieldOptions=Le.integration_property_choices[fieldType];
+                    }else
+                    {
+                        var fieldOptions=Le.integration_property_choices[fieldname];
+                    }
+
+                   // if( fieldType == 'listoptin' || fieldType == 'tags' || fieldType == 'country' || fieldType == 'region'){
+                        mQuery('<option>').val('').text('choose one...').appendTo(mappingdefaultEl);
+                   // }
+
                     mQuery.each(fieldOptions, function(index, val) {
                         if (mQuery.isPlainObject(val)) {
                             mQuery('<option>').val(val.value).text(val.label).appendTo(mappingdefaultEl);
                         } else {
                             mQuery('<option>').val(index).text(val).appendTo(mappingdefaultEl);
                         }
+                    });
+                    Le.activateChosenSelect(mQuery(mappingdefaultEl));
+                }else if(fieldType == 'region' ){
+                    var selectEl = mQuery('<select>');
+                    selectEl.attr('class','form-control not-chosen');
+                    selectEl.attr('name',nameAttr);
+                    selectEl.attr('id','integration_field_mapping_field_mapping_'+mappingIndex+'_defaultvalue');
+                    mQuery(prototype).find('input[name="' + nameAttr + '"]').replaceWith(selectEl);
+                    mappingdefaultEl="select[name='" + nameAttr + "']";
+                    var fieldOptions=Le.integration_property_choices[fieldType];
+
+                    mQuery('<option>').val('').text('choose one...').appendTo(mappingdefaultEl);
+                    mQuery.each(fieldOptions, function(index, val) {
+                        mQuery.each(val, function(index1, val1) {
+
+                            if (mQuery.isPlainObject(val1)) {
+                                mQuery('<option>').val(val1.value).text(val1.label).appendTo(mappingdefaultEl);
+                            } else {
+                                mQuery('<option>').val(index1).text(val1).appendTo(mappingdefaultEl);
+                            }
+                        });
                     });
                     Le.activateChosenSelect(mQuery(mappingdefaultEl));
                 }else if (fieldType == 'datetime') {
@@ -573,7 +608,9 @@ Le.registerEventsForMappingLists=function(){
                         lazyInit: true,
                         validateOnBlur: false,
                         allowBlank: true,
-                        scrollInput: false
+                        scrollInput: false,
+                        defaultTime: false
+
                     });
                 }else {
                     mQuery(mappingdefaultEl).attr('type', fieldType);
@@ -581,4 +618,9 @@ Le.registerEventsForMappingLists=function(){
             }
         }
     });
+}
+
+Le.activateSpinner=function(el){
+    var id = '#'+el.id;
+    mQuery(id+' i').removeClass('hide');
 }

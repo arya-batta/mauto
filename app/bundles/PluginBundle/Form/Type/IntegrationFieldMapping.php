@@ -12,6 +12,7 @@
 namespace Mautic\PluginBundle\Form\Type;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
+use Mautic\LeadBundle\Helper\FormFieldHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -73,8 +74,11 @@ class IntegrationFieldMapping extends AbstractType
         foreach ($tags as $tag) {
             $this->propertyChoices['tags'][$tag['value']] = $tag['label'];
         }
-        //gdpr
-        $this->propertyChoices['eu_gdpr_consent'] = ['Unknown'=>'Unknown', 'Granted'=>'Granted', 'Denied'=>'Denied'];
+        // Special Fields
+        $this->propertyChoices['country']  = FormFieldHelper::getCountryChoices();
+        $this->propertyChoices['timezone'] = FormFieldHelper::getCustomTimezones();
+        $this->propertyChoices['region']   = FormFieldHelper::getRegionChoices();
+        $this->propertyChoices['locale']   = FormFieldHelper::getLocaleChoices();
     }
 
     /**

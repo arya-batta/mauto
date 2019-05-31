@@ -19,16 +19,28 @@ $url = 'https://zapier.com/goto/?payload=.eJw9zE0KgzAQQOGrlFnbDlIqmH3PIeNkbIP5wy
 <div class="tab-pane active bdr-w-0" id="instruction-container">
     <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
         <div class="integration-container">
+            <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/zapier.png'); ?>">
+            <h3>Integration Instructions</h3>
             <div class="integration-step">
                 <div class="step-content">
-                    <h3>Step 1: Use below invitation link to connect with AnyFunnels Zapier app.</h3>
+                    <h3>Step 1:</h3>
+                    <h3>Use below invitation link to connect with AnyFunnels Zapier integration.</h3>
                     <input type="text" id="zapiercallback" value="<?php echo $url; ?>" readonly="readonly" class="form-control webhook-integration-url" style="margin-top:10px;">
-                    <a id="zapiercallback_atag" onclick="Le.copytoClipboardforms('zapiercallback');">
-                        <i aria-hidden="true" class="fa fa-clipboard"></i>
-                        <?php echo $view['translator']->trans(
-                            'leadsengage.subs.clicktocopy'
-                        ); ?>
-                    </a>
+                    <a href="<?php echo $url; ?>" target='_new' style="color: #3292e0;" >Click Here</a>
+<!--                    <a id="zapiercallback_atag" onclick="Le.copytoClipboardforms('zapiercallback');">-->
+<!--                        <i aria-hidden="true" class="fa fa-clipboard"></i>-->
+<!--                        --><?php //echo $view['translator']->trans(
+//                            'leadsengage.subs.clicktocopy'
+//                        );?>
+<!--                    </a>-->
+                </div>
+            </div>
+            <div class="integration-step">
+                <div class="step-content">
+                    <h3>Step 2 :</h3>
+                    <h3>Create a Zap:</h3>
+                    <p>We have tons of triggers and actions available.</p>
+                    <img style="width: auto;height: 550px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/zapier_help1.png'); ?>">
                 </div>
             </div>
             <div class="integration-step hide">

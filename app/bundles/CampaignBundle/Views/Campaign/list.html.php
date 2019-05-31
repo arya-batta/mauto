@@ -59,7 +59,7 @@ $isAdmin=$view['security']->isAdmin();
                         'sessionVar' => 'campaign',
                         'orderBy'    => 'cat.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'col-campaign-category',
+                        'class'      => 'col-campaign-category text-center',
                     ]
                 );
                 echo $view->render(
@@ -107,7 +107,7 @@ $isAdmin=$view['security']->isAdmin();
                     'sessionVar' => 'campaign',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-lead-actions',
+                    'class'      => 'col-lead-location', // col-lead-actions
                 ]);
                 ?>
             </tr>

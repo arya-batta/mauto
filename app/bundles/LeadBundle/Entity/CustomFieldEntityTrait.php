@@ -268,6 +268,9 @@ trait CustomFieldEntityTrait
             if (isset($this->fields['core'])) {
                 foreach ($this->fields as $group => $fields) {
                     foreach ($fields as $alias => $field) {
+                        if ($alias == 'status' || $alias == 'created_source') {
+                            continue;
+                        }
                         $fieldValues[$field['label']] = $field['value'];
                     }
                 }

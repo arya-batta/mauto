@@ -170,7 +170,7 @@ if (count($items)):
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>
-                        <span style="white-space: nowrap;"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
+                        <span class="category_span"><span class="label label-default pa-4" style="   border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span></span>
                     </td>
                     <td class="col-stats">
                         <?php echo $sentcount = $model->getSentCount($item->getId()); ?>

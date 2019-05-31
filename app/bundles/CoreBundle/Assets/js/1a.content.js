@@ -1240,7 +1240,11 @@ Le.activateDateTimeInputs = function(el, type) {
             closeOnDateSelect: true
         });
     } else if (type == 'time') {
-        mQuery(el).timepicker({showMeridian: false, minuteStep: 15, defaultTime: '11:00'});
+        if(el.id == 'dripemailform_scheduleDate'){
+            mQuery(el).timepicker({showMeridian: false, minuteStep: 15, defaultTime: '11:00'});
+        }else{
+            mQuery(el).timepicker({showMeridian: false, minuteStep: 15, defaultTime: false});
+        }
         //mQuery(el).timepicki();
         /*mQuery(el).datetimepicker({
             datepicker: false,

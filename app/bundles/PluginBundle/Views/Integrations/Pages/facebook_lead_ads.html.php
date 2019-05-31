@@ -38,14 +38,16 @@ $view['slots']->set('headerTitle', $header);
     <div class="tab-pane active bdr-w-0" id="instruction-container">
         <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
             <div class="integration-container">
-                <h3>Instructions</h3>
+                <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads.png'); ?>">
+                <h3>Integration Instructions</h3>
                 <p>
-                    Facebook Lead Ads allow you to gather person data directly from your Facebook ads.
+                    Facebook Lead Ads allow you to gather contact data directly from your Facebook ads.
                     <a class="integration-help-link" href="https://www.facebook.com/business/news/lead-ads-launch" target="_blank">Click here to learn more.</a>
                 </p>
                 <div class="integration-step">
                     <div class="step-content">
-                        <h3>Step 1: Grant access to your Facebook account</h3>
+                        <h3>Step 1:</h3>
+                        <h3>Grant AnyFunnels access to your Facebook account:</h3>
                         <?php if (!$details['authorization']): ?>
                             <div>
                                 <p>Click below to authorize Anyfunnels to access your account.</p>
@@ -74,7 +76,7 @@ $view['slots']->set('headerTitle', $header);
                                                     $action     =$page[2] ? 'unsubscribe' : 'subscribe';
                                                     $actionlabel=$page[2] ? 'UnSubscribe' : 'Subscribe';
                                                     ?>
-                                                    <a class="btn btn-default" href="<?php echo $view['router']->path('le_integrations_fb_page_subscription', ['integration' => $name, 'pageid'=>$page[0], 'action' => $action]) ?>" data-toggle="ajax"><?php echo $actionlabel ?></a>
+                                                    <a id="subscribe-btn" class="btn btn-default" href="<?php echo $view['router']->path('le_integrations_fb_page_subscription', ['integration' => $name, 'pageid'=>$page[0], 'action' => $action]) ?>" data-toggle="ajax" onclick="Le.activateSpinner(this);"><span><i class="mr-5 fa fa-spinner fa-spin hide"></i></span><?php echo $actionlabel ?></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -94,8 +96,13 @@ $view['slots']->set('headerTitle', $header);
                 </div>
                 <div class="integration-step">
                     <div class="step-content">
-                        <h3>Step 2 : Set up workflow rules</h3>
-                        <p></p><p>To perform an action any time a person is added via Facebook, create a <code>Submitted a landing page</code> <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> trigger. Choose your page and form to configure your trigger.</p>
+                        <h3>Step 2 :</h3>
+                        <h3>Set up automation workflow rules:</h3>
+                        <p style="line-height: 1.7;">To perform an action any time a contact is added via Facebook, create a <code>Submitted a landing page</code> <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> trigger.</p>
+                        <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help1.png'); ?>">
+                        <br><br>
+                        <p>Then choose your page and form to configure your trigger.</p>
+                        <img style="width: auto;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help2.png'); ?>">
                     </div>
                 </div>
             </div>

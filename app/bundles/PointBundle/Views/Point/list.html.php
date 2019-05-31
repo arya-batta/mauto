@@ -58,7 +58,7 @@ $isAdmin    =$view['security']->isAdmin();
                         'sessionVar' => 'point',
                         'orderBy'    => 'cat.title',
                         'text'       => 'mautic.core.category',
-                        'class'      => 'col-point-category',
+                        'class'      => 'col-point-category text-center',
                     ]
                 );
 
@@ -82,7 +82,7 @@ $isAdmin    =$view['security']->isAdmin();
                     ]
                 );
 
-                echo '<th class="col-point-action">'.$view['translator']->trans('mautic.point.thead.action').'</th>';
+                echo '<th class="col-point-action text-center">'.$view['translator']->trans('mautic.point.thead.action').'</th>';
                 if ($isAdmin):
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
@@ -98,7 +98,7 @@ $isAdmin    =$view['security']->isAdmin();
                     'sessionVar' => 'lead',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location col-lead-actions',
+                    'class'      => 'col-lead-location',
                 ]);
                 ?>
             </tr>

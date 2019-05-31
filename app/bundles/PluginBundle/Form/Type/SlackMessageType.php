@@ -14,6 +14,8 @@ namespace Mautic\PluginBundle\Form\Type;
 use Mautic\CoreBundle\Factory\MauticFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -23,12 +25,20 @@ class SlackMessageType extends AbstractType
 {
     protected $factory;
 
+    protected $isauthorized = false;
+
     /**
      * @param MauticFactory $factory
      */
     public function __construct(MauticFactory $factory)
     {
         $this->factory = $factory;
+
+        $integrationHelper    = $this->factory->getHelper('integration');
+        $integrationsettings  =$integrationHelper->getIntegrationSettingsbyName('slack');
+        if (sizeof($integrationsettings) > 0) {
+            $this->isauthorized = true;
+        }
     }
 
     /**
@@ -81,5 +91,13 @@ class SlackMessageType extends AbstractType
     public function getName()
     {
         return 'slack_message_list';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['isauthorized'] = $this->isauthorized;
     }
 }
