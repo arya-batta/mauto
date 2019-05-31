@@ -140,35 +140,54 @@ class FieldType extends AbstractType
                     break;
             }
         }
-        $constraints = [];
+        // Build form fields
         if ($options['data']['type'] == 'button') {
-            $constraints = new Assert\Length(
+            $builder->add(
+                'label',
+                'text',
                 [
-                    'max'        => 60,
-                    'maxMessage' => 'le.form.field.button.label.length.invalid',
+                    'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
+                    'label_attr'  => ['class' => 'control-label'],
+                    'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
+                    'constraints' => [
+                        new Assert\NotBlank(
+                            ['message' => 'mautic.form.field.label.notblank']
+                        ),
+                        new Assert\Length(
+                            [
+                                'max'        => 60,
+                                'maxMessage' => 'le.form.field.button.label.length.invalid',
+                            ]
+                        ),
+                    ],
+                ]
+            );
+        } elseif ($options['data']['type'] == 'gcaptcha') {
+            $builder->add(
+                'label',
+                'text',
+                [
+                    'label'      => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
+                    'label_attr' => ['class' => 'control-label'],
+                    'attr'       => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
+                ]
+            );
+        } else {
+            $builder->add(
+                'label',
+                'text',
+                [
+                    'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
+                    'label_attr'  => ['class' => 'control-label'],
+                    'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
+                    'constraints' => [
+                        new Assert\NotBlank(
+                            ['message' => 'mautic.form.field.label.notblank']
+                        ),
+                    ],
                 ]
             );
         }
-        $manConstraints = [];
-        if ($options['data']['type'] != 'gcaptcha') {
-            $manConstraints = new Assert\NotBlank(
-                ['message' => 'mautic.form.field.label.notblank']
-            );
-        }
-        // Build form fields
-        $builder->add(
-            'label',
-            'text',
-            [
-                'label'       => !empty($labelText) ? $labelText : 'mautic.form.field.form.label',
-                'label_attr'  => ['class' => 'control-label'],
-                'attr'        => ['class' => 'form-control le-input', 'onkeyup' => 'Le.updatePlaceholdervalue(this.value)'],
-                'constraints' => [
-                    $manConstraints,
-                    $constraints,
-                ],
-            ]
-        );
 
         if ($allowCustomAlias) {
             $builder->add(

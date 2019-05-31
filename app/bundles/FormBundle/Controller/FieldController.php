@@ -93,6 +93,8 @@ class FieldController extends CommonFormController
                         $formField['isRequired'] = !empty($formField['properties']['captcha']);
                     } elseif ($formField['type'] == 'gcaptcha') {
                         $formField['isRequired'] = false;
+                        $formField['label']      = 'gcaptcha';
+                        $formField['show_label'] = false;
                     }
 
                     // Add it to the next to last assuming the last is the submit button
@@ -243,6 +245,8 @@ class FieldController extends CommonFormController
                             $formField['isRequired'] = !empty($formField['properties']['captcha']);
                         } elseif ($formField['type'] == 'gcaptcha') {
                             $formField['isRequired'] = false;
+                            $formField['label']      = 'gcaptcha';
+                            $formField['show_label'] = false;
                         }
 
                         $fields[$objectId] = $formField;
