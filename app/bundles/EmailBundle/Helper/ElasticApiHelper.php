@@ -201,12 +201,12 @@ class ElasticApiHelper
         $payLoad['requiresEmailCredits']  ='false';
         $payLoad['enableLitmusTest']      ='false';
         $payLoad['requiresLitmusCredits'] ='false';
-        $payLoad['maxContacts']           ='10000';
+        $payLoad['maxContacts']           ='100000';
         $payLoad['enablePrivateIPRequest']='false';
         $payLoad['sendActivation']        ='false';
         $payLoad['sendingPermission']     ='All';
         $payLoad['emailSizeLimit']        ='10';
-        $payLoad['dailySendLimit']        ='10000';
+        $payLoad['dailySendLimit']        ='100000';
         $response                         =$this->sendApiRequest('account/addsubaccount', $payLoad);
         $apikey                           ='';
         $apierror                         ='';
