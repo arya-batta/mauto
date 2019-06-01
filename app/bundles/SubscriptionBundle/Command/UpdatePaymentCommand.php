@@ -43,7 +43,11 @@ class UpdatePaymentCommand extends ModeratedCommand
             $paymentrepository  =$container->get('le.subscription.repository.payment');
             $lastpayment        =$paymentrepository->getLastPayment();
             $smHelper           =$container->get('le.helper.statemachine');
-            if ($activeState=$smHelper->isStateAlive('Customer_Active')) {
+            if ($smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
+                $output->writeln('<info>'.'Account is requested for cancellation.So payment will not check.'.'</info>');
+
+                return 0;
+            } elseif ($activeState=$smHelper->isStateAlive('Customer_Active')) {
                 $validitytill=$lastpayment->getValidityTill();
                 $dtHelper1   =new DateTimeHelper($activeState->getUpdatedOn());
                 $output->writeln('<info>'.$dtHelper1->getString('Y-m-d').'</info>');

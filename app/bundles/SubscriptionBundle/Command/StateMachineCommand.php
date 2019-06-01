@@ -88,6 +88,7 @@ class StateMachineCommand extends ModeratedCommand
                         $dtHelper=new DateTimeHelper();
                         $updateOn=$dtHelper->getLocalDateTime();
                         $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local'); //$state->getUpdatedOn()
+                        $smHelper->makeStateInActive(['Customer_Active']);
                         $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$state->getState()]));
                         $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
                     }
@@ -101,6 +102,7 @@ class StateMachineCommand extends ModeratedCommand
                         if ($diffdays > 30) {
                             $updateOn=$dtHelper->getLocalDateTime();
                             $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local');
+                            $smHelper->makeStateInActive(['Customer_Active']);
                             $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
                             $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
                         }

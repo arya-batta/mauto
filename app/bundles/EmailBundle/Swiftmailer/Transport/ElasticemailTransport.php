@@ -175,4 +175,22 @@ class ElasticemailTransport extends \Swift_SmtpTransport implements CallbackTran
             return false;
         }
     }
+
+    public function setUsername($username, $trialuser)
+    {
+        if ($username == 'le_trial_user') {
+            parent::setUsername($trialuser);
+        } else {
+            parent::setUsername($username);
+        }
+    }
+
+    public function setPassword($password, $trialpwd)
+    {
+        if ($password == 'le_trial_password') {
+            parent::setPassword($trialpwd);
+        } else {
+            parent::setPassword($password);
+        }
+    }
 }

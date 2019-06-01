@@ -1177,7 +1177,7 @@ class AjaxController extends CommonAjaxController
         //$this->get('mautic.helper.licenseinfo')->intAppStatus('Cancelled');
         $smHelper      = $this->get('le.helper.statemachine');
         if (!$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
-            $smHelper->makeStateInActive(['Customer_Active']);
+            //$smHelper->makeStateInActive(['Customer_Active']);
             $smHelper->newStateEntry('Customer_Inactive_Exit_Cancel', $cancelreason);
         }
         //  $mailer = $this->container->get('le.transport.elasticemail.transactions');

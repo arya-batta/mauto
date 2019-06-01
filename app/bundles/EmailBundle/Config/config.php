@@ -653,8 +653,8 @@ return [
                 ],
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'methodCalls'  => [
-                    'setUsername' => ['%mautic.mailer_user%'],
-                    'setPassword' => ['%mautic.mailer_password%'],
+                    'setUsername' => ['%mautic.mailer_user%', '%mautic.le_elastic_email_trial_user%'],
+                    'setPassword' => ['%mautic.mailer_password%', '%mautic.le_elastic_email_trial_password%'],
                 ],
             ],
             'le.transport.elasticemail.transactions' => [
@@ -1000,5 +1000,7 @@ return [
         'beeeditor_client_secret'                => '',
         'email_status'                           => null,
         'elastic_subaccount_password'            => '',
+        'le_elastic_email_trial_user'            => '',
+        'le_elastic_email_trial_password'        => '',
     ],
 ];
