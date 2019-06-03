@@ -285,6 +285,8 @@ class PublicController extends CommonFormController
                     'type'    => (empty($msgType)) ? 'notice' : $msgType,
                 ]
             );
+            $deviceTrackingService = $this->get('mautic.lead.service.device_tracking_service');
+            $deviceTrackingService->clearTrackingCookies();
 
             return $this->redirect($this->generateUrl('le_form_postmessage'));
         }
@@ -346,8 +348,9 @@ class PublicController extends CommonFormController
         } else {
             $account = new Account();
         }
+        $smHelper        = $this->get('le.helper.statemachine');
         $ishidepoweredby = $account->getNeedpoweredby();
-        if ($form === null || !$form->isPublished()) {
+        if ($form === null || !$form->isPublished() || $smHelper->isAnyInActiveGivenStateAlive()) {
             $code           ='404';
             $status_text    =' I\'m sorry! I couldn\'t find the page you were looking for. ';
             $contenttemplate='MauticCoreBundle:Error:formerror.html.php';
@@ -453,10 +456,10 @@ class PublicController extends CommonFormController
             $account = new Account();
         }
         $ishidepoweredby = $account->getNeedpoweredby();
-
+        $smHelper        = $this->get('le.helper.statemachine');
         if ($form !== null) {
             $status = $form->getPublishStatus();
-            if ($status == 'published') {
+            if ($status == 'published' && !$smHelper->isAnyInActiveGivenStateAlive()) {
                 $js = $model->getAutomaticJavascript($form, $ishidepoweredby);
             }
         }
@@ -650,6 +653,13 @@ JS;
     public function smartFormSubmitAction()
     {
         $responses        =['message'=> 'Lead created successfully!.'];
+
+        $smHelper      = $this->get('le.helper.statemachine');
+        if ($smHelper->isAnyInActiveGivenStateAlive()) {
+            $responses['message']='Lead creation failed due to InActive State(s)';
+
+            return new JsonResponse($responses);
+        }
         $formid           = $this->request->get('smartformid', '');
         $formname         = $this->request->get('smartformname', '');
         $formdata         = $this->request->get('smartformdata', '');

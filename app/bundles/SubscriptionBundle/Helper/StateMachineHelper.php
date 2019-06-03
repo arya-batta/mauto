@@ -340,6 +340,21 @@ class StateMachineHelper
         }
     }
 
+    public function isAnyInActiveGivenStateAlive()
+    {
+        $states      =$this->smrepo->findBy(
+            [
+                'state'   => ['Customer_Inactive_Archive', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended'],
+                'isalive' => true,
+            ]
+        );
+        if (sizeof($states) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function addLeadNotes($states, $reason, $content)
     {
         $accountstatus = '';

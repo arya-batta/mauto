@@ -425,6 +425,11 @@ class PublicController extends CommonFormController
         if (empty($redirect) || !$redirect->isPublished(false)) {
             throw $this->createNotFoundException($this->translator->trans('mautic.core.url.error.404'));
         }
+        $smHelper      = $this->get('le.helper.statemachine');
+        if ($smHelper->isAnyInActiveGivenStateAlive()) {
+            $deviceTrackingService = $this->get('mautic.lead.service.device_tracking_service');
+            $deviceTrackingService->clearTrackingCookies();
+        }
         /** @var \Mautic\PageBundle\Model\PageModel $pageModel */
         $pageModel = $this->getModel('page');
         $pageModel->hitPage($redirect, $this->request);

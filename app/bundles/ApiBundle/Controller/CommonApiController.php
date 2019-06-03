@@ -845,8 +845,27 @@ class CommonApiController extends FOSRestController implements MauticController
         $totalrecord      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $actualrecord     = number_format($actualrecord);
         $totalrecord      = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
+        $smHelper         = $this->get('le.helper.statemachine');
         if (!$isValidRecordAdd && $this->entityNameOne == 'lead') {
             $msg   = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+            $error = [
+                'code'    => Codes::HTTP_OK,
+                'message' => $msg,
+                'type'    => null,
+            ];
+
+            $view = $this->view(
+                [
+                    'errors' => [
+                        $error,
+                    ],
+                ],
+                Codes::HTTP_OK
+            );
+
+            return  $this->handleView($view);
+        } elseif ($smHelper->isAnyInActiveGivenStateAlive() && $this->entityNameOne == 'lead') {
+            $msg   = $this->translator->trans('le.lead.api.add.state.failed');
             $error = [
                 'code'    => Codes::HTTP_OK,
                 'message' => $msg,
