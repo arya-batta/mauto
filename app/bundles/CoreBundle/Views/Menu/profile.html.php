@@ -24,7 +24,7 @@ $inline = $view['menu']->render('profile');
                 <span><?php echo $view['translator']->trans('mautic.user.account.settings'); ?></span>
             </a>
         </li>
-        <li>
+        <li class="hide">
             <a class="dropdown-item" href="#" data-toggle="ajax">
                 <!--                <i class="margin-right fa fa-user fs-14"></i>-->
                 <span><?php echo $view['translator']->trans('le.video.gettingstarted'); ?></span>
@@ -42,13 +42,13 @@ $inline = $view['menu']->render('profile');
                 <span><?php echo $view['translator']->trans('le.feauturesandideas.menu.index'); ?></span>
             </a>
         </li>
-        <li>
+        <li class="hide">
             <a class="dropdown-item" class="le_beamer">
 <!--                <i class="margin-right  fa  fa-bell "></i>-->
                 <span><?php echo $view['translator']->trans('le.beamer.menu.index'); ?></span>
             </a>
         </li>
-        <li>
+        <li class="hide">
             <a class="dropdown-item" href="#" data-toggle="ajax">
                 <!--                <i class="margin-right mdi mdi-alert-decagram"></i>-->
                 <span><?php echo $view['translator']->trans('le.community.facebook'); ?></span>

@@ -78,6 +78,7 @@ class SubscriptionController extends CommonController
             $preamount        = $amount;
             $propayment       = $this->getProrataAmount($currentdate, $validityend, $amount);
         }
+        $username = $this->user->getName();
 
         return $this->delegateView([
             'viewParameters' => [
@@ -90,6 +91,7 @@ class SubscriptionController extends CommonController
                 'planname'        => $planname,
                 'redirecturl'     => $this->generateUrl('le_billing_index'),
                 'preamount'       => $preamount,
+                'username'        => $username,
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:Pricing:index.html.php',
             'passthroughVars' => [

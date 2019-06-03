@@ -319,6 +319,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             }
             $smHelper->makeStateInActive(['Customer_Active']);
             $smHelper->newStateEntry('Customer_Inactive_Payment_Issue', $errormsg);
+            $smHelper->addStateWithLead();
             $output->writeln('<info>App enters into Customer_Inactive_Payment_Issue</info>');
         }
     }
@@ -331,6 +332,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $smHelper->newStateEntry('Customer_Active', '');
                 $output->writeln('<info>App enters into Customer_Active</info>');
             }
+            $smHelper->addStateWithLead();
         }
     }
 

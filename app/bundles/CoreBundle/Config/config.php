@@ -122,22 +122,22 @@ return [
             ],
              'mautic.core.channels' => [
                  'id'        => 'le_channels_root',
-                 'iconClass' => 'fa fa-bullhorn',
+                 'iconClass' => 'mdi mdi-bullhorn',
                  'priority'  => 80,
              ],
             'le.core.leads' => [
                 'id'        => 'le_leads_root',
-                'iconClass' => 'fa-users',
+                'iconClass' => 'mdi mdi-account-multiple',
                 'priority'  => 100,
             ],
             'mautic.campaign.menu.index' => [
                 'id'        => 'le_Workflows_root',
-                'iconClass' => 'fa-cogs',
+                'iconClass' => 'mdi mdi-tumblr-reblog',
                 'priority'  => 60,
             ],
             'mautic.report.reports' => [
                 //'route'     => 'le_report_index',
-                'iconClass' => 'fa-line-chart',
+                'iconClass' => 'mdi mdi-chart-scatterplot-hexbin',
                 'access'    => [
                     'report:reports:viewown',
                     'report:reports:viewother',
@@ -146,7 +146,7 @@ return [
             ],
             'mautic.form.forms' => [
                 'id'        => 'le_forms_root',
-                'iconClass' => 'mdi mdi-layers',
+                'iconClass' => 'mdi mdi-arrange-bring-forward',
                 'priority'  => 50,
             ],
            /*'le.segments.root' => [

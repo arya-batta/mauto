@@ -18,13 +18,16 @@ if ($preamount != 0) {
     $plan3amount = $plan3amount - $preamount;
 }
 ?>
-
-<div style="display: block;text-align: center" class="alert alert-danger hide" id="pricing-plan-alert-info" role="alert"> You're not quite ready to process the payment.
-    You need to connect your Email Provider account to proceed further. <a href="<?php echo $view['router']->path('le_config_action', ['objectAction' => 'edit']); ?>">
-        Click Here
-    </a> to connect it.</div>
-<br>
-<br>
+<div class="row">
+    <div class="col-sm-12">
+        <p class="dashboard-header-p">
+            <span style="font-size: 22px; line-height: 39px;"><strong><span class="dashboad-header"><?php echo $view['translator']->trans('le.pricing.page.header.msg', ['%USERNAME%'=> $username]); ?></span></strong></span>
+            <p style="text-align: center;width:100%;">
+                <span style="font-size:14px;"><?php echo $view['translator']->trans('le.pricing.page.header.desc'); ?></span>
+            </p>
+        </p>
+    </div>
+</div>
 <div class="pricingplan-dashboard">
     <?php echo $view->render('MauticSubscriptionBundle:Pricing:pricing.html.php'); ?>
 </div>

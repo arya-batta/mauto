@@ -1405,6 +1405,7 @@ class AjaxController extends CommonAjaxController
             if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured') && !$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
                 $smHelper->makeStateInActive(['Customer_Active']);
                 $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+                $smHelper->addStateWithLead();
             }
         }
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
@@ -1447,6 +1448,7 @@ class AjaxController extends CommonAjaxController
                 if (!$smHelper->isAnyInActiveStateAlive()) {
                     $smHelper->newStateEntry('Customer_Active', '');
                 }
+                $smHelper->addStateWithLead();
             }
         }
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [

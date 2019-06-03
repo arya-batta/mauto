@@ -3,6 +3,7 @@
 namespace Mautic\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use Mautic\CoreBundle\Helper\DateTimeHelper;
 
 class SignupRepository
 {
@@ -43,6 +44,23 @@ class SignupRepository
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         $qb->andWhere('l.email = :email')
             ->setParameter('email', $emailid);
+        $leads = $qb->execute()->fetchAll();
+
+        if (!empty($leads)) {
+            return $leads[0]['id'];
+        } else {
+            return false;
+        }
+    }
+
+    public function getLeadIDbyDomain($domain)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $qb->select('l.id')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        $qb->andWhere('l.domain = :domain')
+            ->setParameter('domain', $domain);
         $leads = $qb->execute()->fetchAll();
 
         if (!empty($leads)) {
@@ -644,7 +662,9 @@ class SignupRepository
         $zip      = $data['zipcode'];
         $business = $data['business'];
         $website  = $data['website'];
-        $phone    = $data['phone'];
+        //$phone    = $data['phone'];
+        $currentprovider = $data['currentprovider'];
+        $currentlist     = $data['currentlist'];
 
         $recordid = $this->checkisRecordAvailable($email);
         if (!$recordid) {
@@ -656,20 +676,59 @@ class SignupRepository
                 ->set('zipcode', ':zipcode')
                 ->set('country', ':country')
                 ->set('company_name', ':company')
-                ->set('mobile', ':mobile')
-                ->set('website1', ':website')
+                //->set('mobile', ':mobile')
+                ->set('website_url', ':website')
+                ->set('current_contact_size', ':current_contact_size')
+                ->set('existing_email_provider', ':existing_email_provider')
                 ->setParameter('address', $address)
                 ->setParameter('city', $city)
                 ->setParameter('state', $state)
                 ->setParameter('zipcode', $zip)
                 ->setParameter('country', $country)
                 ->setParameter('company', $business)
-                ->setParameter('mobile', $phone)
+                //->setParameter('mobile', $phone)
                 ->setParameter('website', $website)
+                ->setParameter('current_contact_size', $currentlist)
+                ->setParameter('existing_email_provider', $currentprovider)
                 ->where(
                     $qb->expr()->in('id', $recordid)
                 )
                 ->execute();
         }
+    }
+
+    public function updateLeadStateInfo($states, $domain)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+            ->set('account_status', ':account_status')
+            ->setParameter('account_status', $states)
+            ->where(
+                $qb->expr()->eq('domain', ':domain')
+            )->setParameter('domain', $domain)->execute();
+    }
+
+    public function addLeadNotes($content, $reason, $domain)
+    {
+        $qb       = $this->getConnection()->createQueryBuilder();
+        $now      = new \DateTime();
+        $dtHelper = new DateTimeHelper($now, 'Y-m-d H:i:s', 'local');
+        $now      = $dtHelper->toUtcString();
+        $leadid   = $this->getLeadIDbyDomain($domain);
+        if ($reason != '') {
+            $content .= ' Reason: '.$reason;
+        }
+        $qb->insert(MAUTIC_TABLE_PREFIX.'lead_notes')
+            ->values([
+                'type'      => ':type',
+                'date_time' => ':datetime',
+                'text'      => ':text',
+                'lead_id'   => ':lead',
+            ])
+            ->setParameter('type', 'general')
+            ->setParameter('datetime', $now)
+            ->setParameter('text', $content)
+            ->setParameter('lead', $leadid)
+            ->execute();
     }
 }

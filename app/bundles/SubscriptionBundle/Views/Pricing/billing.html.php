@@ -32,9 +32,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <?php echo $view['translator']->trans('le.pricing.model.header'); ?>
                         </div>
                         <p class="header_desc">
-                            0$ for first 3 months, then just $49/month, paid monthly.<br>
-                            If you decide that AnyFunnels isn't for you, you can cancel anytime.
-
+                            We will not charge you anything on your credit card now, you will only be billed $29 a month after your 90 days free trial, and you can cancel anytime if you wish during the trial period.
                         </p>
                         <div class="modal-loading-bar"></div>
                     </div>
@@ -56,59 +54,72 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <br>
                         <br>
                         <div class="card-holder-title">
-                            Billing Information
+                            Business Information
                         </div>
+                        <p class="header_desc">
+                            Please make sure you provide your actual business information to get your account approved by our compliance team.
+                        </p>
+                        <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="businessname">Business Name</label>
-                                <input type="text" id="welcome_business" class="welcome-input-text-2 business form-control le-input" name="welcome[business]" value="">
-                                <p class="error_tag business_error hide">The Business name can't be empty</p>
+                                <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="">
+                                <p class="label_control_error business_error hide">The Business name can't be empty.</p>
                             </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="phone">Phone Number</label>
-                                <input placeholder="e.g. +1-866-832-0000" type="tel" id="welcome_phone" class="welcome-input-text-1 phone form-control le-input" name="welcome[phone]" value="">
-                                <p class="error_tag phone_error hide" >Please provide a valid mobile number.</p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="weburl">Website URL</label>
-                                <input type="url" id="welcome_websiteurl" class="welcome-input-text-2 website_url form-control le-input" name="welcome[websiteurl]" value="">
-                                <p class="error_tag website_error hide">Please provide a valid mobile number</p>
+                                <input type="url" id="welcome_websiteurl" class="form-control le-input" name="welcome[websiteurl]" value="">
+                                <p class="label_control_error website_error hide">Website URL can't be empty.</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="phone">Current Contact Size</label>
+                                <select name="welcome[listsize]" class="selop" id="select_listsize">
+                                    <option value="blank">Select one</option>
+                                    <option value="1"><500</option>
+                                    <option value="2">1,000 - 2,500</option>
+                                    <option value="3">2,500 - 5,000</option>
+                                    <option value="4">5,000 - 10,000</option>
+                                    <option value="5">10,000 - 25,000</option>
+                                    <option value="6">25,000 - 50,000</option>
+                                    <option value="7">50,000 - 100,000</option>
+                                    <option value="8">100,000 - 250,000</option>
+                                    <option value="9">>250,000</option>
+                                </select>
+                                <p class="label_control_error listsize_error hide">Current list can't be empty</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone">Existing Email Provider</label>
+                                <input type="text" id="welcome_currentesp" class="form-control le-input" placeholder="e.g. Mailchimp" name="welcome[currentesp]"  value="">
+                                <p class="label_control_error currentesp_error hide" >Email Provider can't be empty.</p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="adr"> Full Address</label>
-                                <input type="text" style="width:97%;" id="welcome_address" class="welcome-input-text-3 address form-control le-input" name="welcome[address-line-1]" value="">
-                                <p class="error_tag address_error hide">Address line 1 can't be empty</p>
+                                <input type="text" style="width:97%;" id="welcome_address" class="form-control le-input" name="welcome[address-line-1]" value="">
+                                <p class="label_control_error address_error hide">Address can't be empty</p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="city"> City Name</label>
-                                <input type="text" id="welcome_city" class="welcome-input-text-3 city form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
-                                <p class="error_tag city_error hide">The City can't be empty</p>
+                                <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
+                                <p class="label_control_error city_error hide">The City can't be empty</p>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="zip">Zip Code</label>
-                                <input type="text" id="welcome_zip" class="welcome-input-text-3 zip form-control le-input" name="welcome[zip]" value="">
-                                <p class="error_tag zip_error hide">Zip/ Postal code can't be empty</p>
+                                <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zip]" value="">
+                                <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="state">State</label>
                                 <select name="welcome[state]" class="selop not-chosen" id="selectstate">
                                     <option value="blank" selected="selected">Choose your State</option>
@@ -120,11 +131,9 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                         </optgroup>
                                     <?php endforeach; ?>
                                 </select>
+                                <p class="label_control_error state_error hide">State can't be empty</p>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="country">Country</label>
                                 <select name="welcome[country]" class="selop not-chosen" id="selectcountry">
                                     <option value="blank" selected="selected">Choose your Country</option>
@@ -132,6 +141,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                         <option value="<?php echo $country?>" selected="false"><?php echo $country; ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                                <p class="label_control_error country_error hide">Country can't be empty</p>
                             </div>
                         </div>
                         <br>
@@ -140,6 +150,19 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 <label class="control control-checkbox">
                                     <?php echo $view['translator']->trans('le.subscription.termsandcontitions'); ?>
                                     <input type="checkbox" id ="terms_conditions" />
+                                    <div class="control_indicator"></div>
+
+                                </label>
+                                <div class="help-block">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="spamConditions">
+                                <label class="control control-checkbox">
+                                    <?php echo $view['translator']->trans('le.subscription.spamandcontitions'); ?>
+                                    <input type="checkbox" id ="spam_conditions" />
                                     <div class="control_indicator"></div>
 
                                 </label>

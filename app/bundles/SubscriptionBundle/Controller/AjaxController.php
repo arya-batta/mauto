@@ -14,6 +14,7 @@ namespace Mautic\SubscriptionBundle\Controller;
 use Mautic\CoreBundle\Controller\AjaxController as CommonAjaxController;
 use Mautic\SubscriptionBundle\Entity\Account;
 use Mautic\SubscriptionBundle\Entity\Billing;
+use Mautic\SubscriptionBundle\Entity\KYC;
 use Mautic\SubscriptionBundle\Entity\PaymentHistory;
 use Mautic\SubscriptionBundle\Entity\StripeCard;
 use PayPal\Api\Agreement;
@@ -648,6 +649,7 @@ class AjaxController extends CommonAjaxController
             if (!$smHelper->isStateAlive('Trial_Inactive_Expired')) {
                 $smHelper->makeStateInActive(['Trial_Active']);
                 $smHelper->newStateEntry('Trial_Inactive_Expired');
+                $smHelper->addStateWithLead();
             }
         }
         $dataArray['success']         = false;
@@ -1100,6 +1102,7 @@ class AjaxController extends CommonAjaxController
                             $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                             $smHelper->createElasticSubAccountandAssign();
                         }
+                        $smHelper->addStateWithLead();
                     }
                     if ($amount == 1) {
                         $amount = 0;
@@ -1138,6 +1141,7 @@ class AjaxController extends CommonAjaxController
                     if (!$smHelper->isAnyInActiveStateAlive()) {
                         $smHelper->newStateEntry('Customer_Active', '');
                     }
+                    $smHelper->addStateWithLead();
                 }
             }
         }
@@ -1179,6 +1183,7 @@ class AjaxController extends CommonAjaxController
         if (!$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
             //$smHelper->makeStateInActive(['Customer_Active']);
             $smHelper->newStateEntry('Customer_Inactive_Exit_Cancel', $cancelreason);
+            $smHelper->addStateWithLead();
         }
         //  $mailer = $this->container->get('le.transport.elasticemail.transactions');
         // $this->sendCancelSubscriptionEmail($mailer);
@@ -1317,29 +1322,41 @@ class AjaxController extends CommonAjaxController
         $accountEntity  = $kycview[4];
         /** @var \Mautic\UserBundle\Entity\User $userEntity */
         $userEntity     = $kycview[5];
+        /** @var \Mautic\SubscriptionBundle\Model\KYCModel $kycmodel */
+        $kycmodel         = $this->getModel('subscription.kycinfo');
+        $kycrepo          = $kycmodel->getRepository();
+        $kycentity        = $kycrepo->findAll();
+        if (sizeof($kycentity) > 0) {
+            $kyc = $kycentity[0]; //$model->getEntity(1);
+        } else {
+            $kyc = new KYC();
+        }
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
         $accountModel  = $this->getModel('subscription.accountinfo');
         /** @var \Mautic\SubscriptionBundle\Model\BillingModel $billingmodel */
         $billingmodel  = $this->getModel('subscription.billinginfo');
-        $userEntity->setMobile($accountData['phone']);
-        $accountEntity->setPhonenumber($accountData['phone']);
+        //$userEntity->setMobile($accountData['phone']);
+        //$accountEntity->setPhonenumber($accountData['phone']);
         $accountEntity->setWebsite($accountData['website']);
         $accountEntity->setAccountname($accountData['business']);
-        $accountEntity->setEmail($userEntity->getEmail());
+        //$accountEntity->setEmail($userEntity->getEmail());
         $billingEntity->setCompanyname($accountData['business']);
         $billingEntity->setCompanyaddress($accountData['address']);
-        $billingEntity->setAccountingemail($userEntity->getEmail());
+        //$billingEntity->setAccountingemail($userEntity->getEmail());
         $billingEntity->setCity($accountData['city']);
         $billingEntity->setState($accountData['state']);
         $billingEntity->setCountry($accountData['country']);
         $billingEntity->setPostalcode($accountData['zipcode']);
+        $kyc->setSubscribercount($accountData['currentlist']);
+        $kyc->setPrevioussoftware($accountData['currentprovider']);
 
-        $signupinfo     = $subsrepository->getSignupInfo($userEntity->getEmail());
-        if (!empty($signupinfo)) {
+        $signupinfo     = $subsrepository->getSignupInfo($accountEntity->getEmail());
+        /*if (!empty($signupinfo)) {
             $accountEntity->setDomainname($signupinfo[0]['f5']);
-        }
+        }*/
         $billingmodel->saveEntity($billingEntity);
         $accountModel->saveEntity($accountEntity);
+        $kycmodel->saveEntity($kyc);
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator = $this->get('mautic.configurator');
         if ($accountData['address'] != '') {

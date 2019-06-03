@@ -108,3 +108,13 @@
     color: #eee;
     background-color: #3292e0;
 }
+.step-content h3 {
+    font-size: 22px;
+    font-weight: normal;
+    color: #000;
+}
+.integration-container h3{
+    font-size: 22px;
+    font-weight: normal;
+    color: #000;
+}

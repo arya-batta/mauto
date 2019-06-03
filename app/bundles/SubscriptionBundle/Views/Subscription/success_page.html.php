@@ -58,25 +58,26 @@ if ($isPaid) {
             </div>
             <div class="<?php echo $isPaid ? $sendingDomainStatus ? 'hide' : '' : 'hide' ?>">
                 <div class="row" style="text-align: center;">
-                    <div class="plan-card col-md-6">
-                        <div class="">
-                            <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="plan-card col-md-6" style="width:45%;">
+                            <div class="">
+                                <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
+                            </div>
+                        </div>
+                        <div class="plan-card col-md-6" style="width:45%;">
+                            <div class="">
+                                <a href="https://anyfunnels.freshdesk.com/support/tickets/new" target="_blank"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/help_sending_domain.png') ?>"/></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="plan-card col-md-6">
-                        <div class="">
-                            <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/help_sending_domain.png') ?>"/></a>
-                        </div>
-                    </div>
-                    <div class="plan-card col-md-8 fl-left">
-                        <div class="">
-                            <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/sending_domain_video.png') ?>"/></a>
-                        </div>
+                    <div class="col-md-2">
                     </div>
                 </div>
             </div>
             <br>
-            <div class="row">
+            <div class="row hide">
                 <br>
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4 text-center">
@@ -89,7 +90,7 @@ if ($isPaid) {
                 </div>
                 <div class="col-sm-4"></div>
             </div>
-            <div class="row" style="text-align: center;margin-left:20px;">
+            <div class="row hide" style="text-align: center;margin-left:20px;">
                 <div class="plan-card col-md-8 fl-left">
                     <div class="">
                         <a href="<?php echo $img1link?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/'.$block1img) ?>"/></a>
@@ -143,7 +144,7 @@ if ($isPaid) {
             </div>
         </div>
     </div>
-<br>
+
 <div class="row" style="text-align: center;padding-top: 10px;margin-bottom: -20px;">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">

@@ -48,6 +48,7 @@ class StateMachineCommand extends ModeratedCommand
                         if (!$domainStatus) {
                             $smHelper->makeStateInActive(['Customer_Active']);
                             $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+                            $smHelper->addStateWithLead();
                             $output->writeln('<info>App enters into Customer_Inactive_Sending_Domain_Issue</info>');
                         } else {
                             $output->writeln('<info>Active sending domains are presented</info>');
@@ -58,6 +59,7 @@ class StateMachineCommand extends ModeratedCommand
                 if (!$smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
                     if ($smHelper->isStripeCardWillExpire()) {
                         $smHelper->newStateEntry('Customer_Active_Card_Expiring_Soon', '');
+                        $smHelper->addStateWithLead();
                         $output->writeln('<info>App enters into Customer_Active_Card_Expiring_Soon</info>');
                     } else {
                         $output->writeln('<info>Stripe Card will not expired</info>');
@@ -69,6 +71,7 @@ class StateMachineCommand extends ModeratedCommand
                     if (!$elasticApiHelper->checkAccountState()) {
                         $smHelper->makeStateInActive(['Customer_Active']);
                         $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
+                        $smHelper->addStateWithLead();
                         $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
                     } else {
                         $output->writeln('<info>Elastic Email Account is active</info>');
@@ -80,6 +83,7 @@ class StateMachineCommand extends ModeratedCommand
                             $smHelper->newStateEntry('Customer_Active', '');
                             $output->writeln('<info>App enters into Customer_Active from Customer_Inactive_Under_Review</info>');
                         }
+                        $smHelper->addStateWithLead();
                     }
                 }
 
@@ -90,6 +94,7 @@ class StateMachineCommand extends ModeratedCommand
                         $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local'); //$state->getUpdatedOn()
                         $smHelper->makeStateInActive(['Customer_Active']);
                         $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$state->getState()]));
+                        $smHelper->addStateWithLead();
                         $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
                     }
                 } else {
@@ -104,6 +109,7 @@ class StateMachineCommand extends ModeratedCommand
                             $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local');
                             $smHelper->makeStateInActive(['Customer_Active']);
                             $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
+                            $smHelper->addStateWithLead();
                             $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
                         }
                     }

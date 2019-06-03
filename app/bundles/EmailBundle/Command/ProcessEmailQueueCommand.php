@@ -216,6 +216,7 @@ EOT
             if (!$elasticApiHelper->checkAccountState()) {
                 $smHelper->makeStateInActive(['Customer_Active']);
                 $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
+                $smHelper->addStateWithLead();
                 $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
 
                 return false;
@@ -257,7 +258,7 @@ EOT
             $spoolPath             = $container->getParameter('mautic.mailer_spool_path');
             if (file_exists($spoolPath)) {
                 $output->writeln('<info>'.'Process started to update all queued mails as failed'.'</info>');
-                $finder     = Finder::create()->in($spoolPath)->name('*.*');
+                $finder      = Finder::create()->in($spoolPath)->name('*.*');
                 $updatedCount=0;
                 $batch       =200;
                 foreach ($finder as $messageFile) {

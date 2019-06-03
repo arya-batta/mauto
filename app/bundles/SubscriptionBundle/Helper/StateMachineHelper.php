@@ -129,6 +129,7 @@ class StateMachineHelper
     public function makeStateInActive($states)
     {
         $this->smrepo->updateActiveStatesAsInActive($states);
+        $this->addLeadNotes($states, '', 'Customer Changes into Active State(s) ');
     }
 
     public function applyAppStatusByState()
@@ -138,7 +139,7 @@ class StateMachineHelper
         if ($this->isAnyActiveStateAlive()) {
             $appStatus='Active';
         }
-        $subsrepository->updateAppStatus($this->getAppDomain, $appStatus);
+        $subsrepository->updateAppStatus($this->getAppDomain(), $appStatus);
     }
 
     public function newStateEntry($state, $reason='', $updateGlobalStatus=true)
@@ -153,8 +154,9 @@ class StateMachineHelper
             //$elasticApiHelper= $this->factory->get('mautic.helper.elasticapi');
             //$elasticApiHelper->deleteSubAccount();
             $subsrepository=$this->factory->get('le.core.repository.subscription');
-            $subsrepository->updateAppStatus($this->getAppDomain, 'InActive');
+            $subsrepository->updateAppStatus($this->getAppDomain(), 'InActive');
         }
+        $this->addLeadNotes($state, $reason, 'Customer Enters into this State(s)');
     }
 
     public function getAlertMessage($message, $personalize=[])
@@ -336,5 +338,33 @@ class StateMachineHelper
         } else {
             return true;
         }
+    }
+
+    public function addLeadNotes($states, $reason, $content)
+    {
+        $accountstatus = '';
+        if (is_array($states)) {
+            foreach ($states as $state) {
+                $accountstatus .= $state.',';
+            }
+            $accountstatus = substr($accountstatus, 0, -1);
+        } else {
+            $accountstatus = $states;
+        }
+        $content .= $accountstatus;
+        $signuprepository=$this->factory->get('le.core.repository.signup');
+        $signuprepository->addLeadNotes($content, $reason, $this->getAppDomain());
+    }
+
+    public function addStateWithLead()
+    {
+        $states        = $this->listAllActiveStates();
+        $accountstatus = '';
+        foreach ($states as $state) {
+            $accountstatus .= $state.'|';
+        }
+        $accountstatus   = substr($accountstatus, 0, -1);
+        $signuprepository=$this->factory->get('le.core.repository.signup');
+        $signuprepository->updateLeadStateInfo($accountstatus, $this->getAppDomain());
     }
 }

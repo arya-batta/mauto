@@ -26,7 +26,7 @@ $validitytill =date('d-M-y', strtotime($validitytill));
 <div class="panel" style="margin:20px;padding-top: 20px;padding-bottom: 20px;margin-top:100px;">
     <div class="panel-body box-layout">
         <p style="text-align: center;">
-            <span style="font-size: 24px;font-weight: bold;">
+            <span style="font-size: 22px;font-weight: normal;color: #000;">
                 <?php echo $view['translator']->trans('le.pricing.thankyou.header'); ?>
             </span>
         </p>

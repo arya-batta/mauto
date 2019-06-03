@@ -5397,9 +5397,10 @@ figcaption {
   font-weight: 600;
 }
 .card-holder-title{
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: normal;
   margin-bottom: 7px;
+  color:#000;
 }
 
 .card-holder-sub-title{
@@ -7878,7 +7879,7 @@ ul.list-unstyled, ul#list-unstyled  {
   margin-left:8%
 }
 .afpricetitle {
-  font-family: "Poppins",Montserrat,sans-serif;
+  /*font-family: "Poppins",Montserrat,sans-serif;*/
   text-align: center;
   font-weight: 700;
   font-size: 46px;
@@ -7886,35 +7887,36 @@ ul.list-unstyled, ul#list-unstyled  {
   color: #000;
 }
 .afpriceamt{
-  font-family: "Poppins",Montserrat,sans-serif;
+  /*font-family: "Poppins",Montserrat,sans-serif;*/
   text-align: center;
   font-weight: 600;
   font-size: 80px;
   color: #000;
+  margin-bottom: -10px;
 }
 
 .afinclude h2 {
   line-height: 35px;
-  color: #2d3e50;
+  color: #000;
   margin: 10px;
-  font-family: "Poppins",Montserrat,sans-serif;
-  font-weight: 600;
+  /*font-family: "Poppins",Montserrat,sans-serif;*/
+  font-weight: normal;
   font-size: 22px;
   text-align: left;
   margin-left: -15px;
 }
 span.afincludes{
-  font-family: "Poppins",Montserrat,sans-serif;
+  /*font-family: "Poppins",Montserrat,sans-serif;*/
   text-align: left;
-  font-size: 15px;
+  font-size: 14px;
   position: relative;
   padding: 0px 0px 0px 15px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 20px;
   letter-spacing: 0;
-  text-underline-position: under;
+  /*text-underline-position: under;
   text-decoration: none dotted #7c98b6;
-  transition: text-decoration-line .5s ease;
+  transition: text-decoration-line .5s ease;*/
 }
 .afincludesdiv {
   display: flex;
@@ -7931,7 +7933,7 @@ span.afincludes{
   color: #fff;
   font-weight: 600;
   font-size: 16px;
-  font-family: "Poppins",Montserrat,sans-serif;
+  /*font-family: "Poppins",Montserrat,sans-serif;*/
   display: inline-block;
   text-transform: uppercase!important;
   border: 1px solid #0071ff;
@@ -7941,6 +7943,9 @@ span.afincludes{
   padding: 10px;
   box-shadow: 0 1px 2px rgba(0,0,0,.36);
   white-space: nowrap;
+}
+.price-buttonfoot:active{
+  color: #FFFFFF;
 }
 .price-buttonfoot:hover{
   color: #FFFFFF;
@@ -7965,9 +7970,9 @@ span.afincludes{
 }
 .pricingplan-dashboard{
   margin-top: 20px;
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
+  width: 97.5%;
+  margin-left: 1.4%;
+  margin-right: 1.4%;
 }
 .lead-screen-field{
   max-width: 68%;

@@ -204,24 +204,71 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
         }
         var accountdata = {};
         if(!isCardUpdateAlone){
-            if(!mQuery('#terms_conditions').prop('checked')){
-                //mQuery('#termsConditions help-block').removeClass('hide');
-                mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
-                Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
-                return;
-            }
             var businessname = mQuery('#welcome_business').val();
-            var phonenumber = mQuery('#welcome_phone').val();
+            var currentlist = mQuery('#select_listsize').val();
+            var currentprovider = mQuery('#welcome_currentesp').val();
             var websiteurl = mQuery('#welcome_websiteurl').val();
             var address = mQuery('#welcome_address').val();
             var city = mQuery('#welcome_city').val();
             var zipcode = mQuery('#welcome_zip').val();
             var state = mQuery('#selectstate').val();
             var country = mQuery('#selectcountry').val();
+            var isvalidrequest = true;
+            if(businessname == ''){
+                isvalidrequest = false;
+                mQuery('.business_error').removeClass('hide');
+            }
+            if(websiteurl == ''){
+                isvalidrequest = false;
+                mQuery('.website_error').removeClass('hide');
+            }
+            if(currentlist == '' || currentlist == 'blank'){
+                isvalidrequest = false;
+                mQuery('.listsize_error').removeClass('hide');
+            }
+            if(currentprovider == ''){
+                isvalidrequest = false;
+                mQuery('.currentesp_error').removeClass('hide');
+            }
+            if(address == ''){
+                isvalidrequest = false;
+                mQuery('.address_error').removeClass('hide');
+            }
+            if(city == ''){
+                isvalidrequest = false;
+                mQuery('.city_error').removeClass('hide');
+            }
+            if(zipcode == ''){
+                isvalidrequest = false;
+                mQuery('.zip_error').removeClass('hide');
+            }
+            if(state == '' || state == 'blank'){
+                isvalidrequest = false;
+                mQuery('.state_error').removeClass('hide');
+            }
+            if(country == '' || country == 'blank'){
+                isvalidrequest = false;
+                mQuery('.country_error').removeClass('hide');
+            }
+            if(!mQuery('#terms_conditions').prop('checked')){
+                isvalidrequest = false;
+                //mQuery('#termsConditions help-block').removeClass('hide');
+                mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
+            }
+            if(!mQuery('#spam_conditions').prop('checked')){
+                isvalidrequest = false;
+                //mQuery('#termsConditions help-block').removeClass('hide');
+                mQuery('#spamConditions').removeClass('label_control_error').addClass('label_control_error');
+            }
+            if(!isvalidrequest){
+                Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
+                return;
+            }
 
-                accountdata = {
+            accountdata = {
                 business : businessname,
-                phone : phonenumber,
+                currentlist : currentlist,
+                currentprovider : currentprovider,
                 website : websiteurl,
                 address : address,
                 city : city,
