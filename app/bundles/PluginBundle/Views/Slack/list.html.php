@@ -46,7 +46,7 @@ if (count($items)):
                         'sessionVar' => 'slack',
                         'orderBy'    => 'e.name',
                         'text'       => 'mautic.core.name',
-                        'class'      => 'col-sms-name',
+                        'class'      => 'col-slack-name',
                         'default'    => true,
                     ]
                 );
@@ -79,7 +79,7 @@ if (count($items)):
                     'sessionVar' => 'slack',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
-                    'class'      => 'col-lead-location',
+                    'class'      => 'col-lead-location text-right-sm', // col-lead-actions
                 ]);
                 ?>
             </tr>

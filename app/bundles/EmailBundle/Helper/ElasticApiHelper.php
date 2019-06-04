@@ -194,6 +194,7 @@ class ElasticApiHelper
     {
         $domain                           =$this->factory->get('le.helper.statemachine')->getAppDomain();
         $password                         =$this->factory->getParameter('elastic_subaccount_password');
+        $rootApiKey                       =$this->factory->getParameter('le_elastic_email_root_password');
         $username                         =$domain.'@anyfunnels.io';
         $payLoad['email']                 =$username;
         $payLoad['password']              =$password;
@@ -207,6 +208,7 @@ class ElasticApiHelper
         $payLoad['sendingPermission']     ='All';
         $payLoad['emailSizeLimit']        ='10';
         $payLoad['dailySendLimit']        ='100000';
+        $payLoad['apikey']                =$rootApiKey;
         $response                         =$this->sendApiRequest('account/addsubaccount', $payLoad);
         $apikey                           ='';
         $apierror                         ='';

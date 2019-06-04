@@ -1002,5 +1002,6 @@ return [
         'elastic_subaccount_password'            => '',
         'le_elastic_email_trial_user'            => '',
         'le_elastic_email_trial_password'        => '',
+        'le_elastic_email_root_password'         => '',
     ],
 ];

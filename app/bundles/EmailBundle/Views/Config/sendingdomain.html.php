@@ -170,7 +170,6 @@
         <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.sendingdomain.header'); ?></h3>
         <p style="font-size: 12px;">
             <?php echo $view['translator']->trans('le.config.sendingdomain.desc1'); ?>
-            <br>
             <?php echo $view['translator']->trans('le.config.sendingdomain.desc2'); ?>
         </p>
     </div>

@@ -197,7 +197,7 @@ if ($isEmbeddedForm) {
                             </div>
                         <?php endif; ?>
                     </td>
-                    <td class="">
+                    <td class="text-center">
                         <?php $category = $item->getCategory(); ?>
                         <?php $catName  = ($category) ? $category->getTitle() : $view['translator']->trans('mautic.core.form.uncategorized'); ?>
                         <?php $color    = ($category) ? '#'.$category->getColor() : 'inherit'; ?>

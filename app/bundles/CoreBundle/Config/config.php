@@ -132,12 +132,12 @@ return [
             ],
             'mautic.campaign.menu.index' => [
                 'id'        => 'le_Workflows_root',
-                'iconClass' => 'mdi mdi-tumblr-reblog',
+                'iconClass' => 'mdi mdi-account-convert',
                 'priority'  => 60,
             ],
             'mautic.report.reports' => [
                 //'route'     => 'le_report_index',
-                'iconClass' => 'mdi mdi-chart-scatterplot-hexbin',
+                'iconClass' => 'mdi mdi-chart-areaspline',
                 'access'    => [
                     'report:reports:viewown',
                     'report:reports:viewother',
@@ -146,7 +146,7 @@ return [
             ],
             'mautic.form.forms' => [
                 'id'        => 'le_forms_root',
-                'iconClass' => 'mdi mdi-arrange-bring-forward',
+                'iconClass' => 'mdi mdi-layers',
                 'priority'  => 50,
             ],
            /*'le.segments.root' => [
