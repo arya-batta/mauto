@@ -593,7 +593,7 @@ class DripEmailController extends FormController
                     $isUpdateFlashNeeded=true;
                     if ($entity->isPublished() && $isStateAlive) {
                         $isUpdateFlashNeeded=false;
-                        $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                        $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
                         $entity->setIsPublished(false);
                         $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'dripemail']));
                     }
@@ -762,6 +762,20 @@ class DripEmailController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
         $newEntity = null;
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
@@ -816,7 +830,7 @@ class DripEmailController extends FormController
     {
         $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
 
             return $this->postActionRedirect(

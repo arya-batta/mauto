@@ -324,17 +324,26 @@ class StateMachineHelper
         }
     }
 
-    public function checkLicenseValiditityWithGracePeriod()
+    public function checkLicenseValiditityWithGracePeriod($state)
     {
         $paymentrepository            = $this->factory->get('le.subscription.repository.payment');
         $lastpayment                  = $paymentrepository->getLastPayment();
         if ($lastpayment != null) {
-            $validitityTill=$lastpayment->getValidityTill();
-            $dtHelper      =new DateTimeHelper($validitityTill);
-            $dtHelper->add('P3D');
-            $diffdays=$dtHelper->getDiff('now', '%R%a', true);
+            if ($lastpayment->getPlanName() == 'leplan1') {
+                $updateOn=$state->getUpdatedOn();
+                $dtHelper=new DateTimeHelper($updateOn);
+                $dtHelper->add('P3D');
+                $diffdays=$dtHelper->getDiff('now', '%R%a', true);
 
-            return $diffdays < 0;
+                return $diffdays < 0;
+            } elseif ($lastpayment->getPlanName() == 'leplan2') {
+                $validitityTill=$lastpayment->getValidityTill();
+                $dtHelper      =new DateTimeHelper($validitityTill);
+                $dtHelper->add('P3D');
+                $diffdays=$dtHelper->getDiff('now', '%R%a', true);
+
+                return $diffdays < 0;
+            }
         } else {
             return true;
         }

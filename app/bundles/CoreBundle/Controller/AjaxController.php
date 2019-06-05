@@ -276,7 +276,7 @@ class AjaxController extends CommonController
             }
             $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
             if ($isStateAlive && !$entity->isPublished()) {
-                $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+                $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
                 $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => $module]));
                 $dataArray['success']       = 1;
                 $dataArray['senderprofile'] = 1;

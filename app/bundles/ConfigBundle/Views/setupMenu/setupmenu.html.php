@@ -20,6 +20,9 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.setupme
             <div class="settings-menu-group-header"><?php echo $groupHeader; ?></div>
             <div class="settings-menu-group-container">
                 <?php foreach ($groupvalues as $listHeader =>$listItem):?>
+                    <?php if ($isTrialAccount && ($listHeader == 'Sending Domain' || $listHeader == 'Sender Reputation')) {
+    continue;
+} ?>
                 <div class="settings-menu-list-item">
                     <a href="<?php echo $listItem['url']; ?>" data-toggle="ajax" class="settings-menu-list-item-link">
                         <div class="settings-menu-list-item-icon">

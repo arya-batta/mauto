@@ -637,7 +637,7 @@ class AjaxController extends CommonAjaxController
     {
         $isClosed                     = $this->factory->get('session')->get('isalert_needed', 'false');
         $isStateAlive                 =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
-        $configurl                    =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+        $configurl                    =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
         if ($isStateAlive) {
             $dataArray['success']       = true;
             $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);

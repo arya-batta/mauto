@@ -63,7 +63,7 @@ if ($isPaid) {
                     <div class="col-md-8">
                         <div class="plan-card col-md-6" style="width:45%;">
                             <div class="">
-                                <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
+                                <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config'])?>"><img class="welcome-img" src="<?php echo $view['assets']->getUrl('media/images/setup_sending_domain.png') ?>"/></a>
                             </div>
                         </div>
                         <div class="plan-card col-md-6" style="width:45%;">

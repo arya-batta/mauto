@@ -284,6 +284,7 @@ class ConfigController extends FormController
                     'userapi'          => $userapi,
                     'sendingdomains'   => $emailModel->getRepository()->getAllSendingDomains(),
                     'emailreputations' => $elasticApiHelper->getReputationDetails(),
+                    'isTrialAccount'   => $smHelper->isStateAlive('Trial_Active'),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [
@@ -490,11 +491,13 @@ class ConfigController extends FormController
         }
         $model        = $this->getModel('config');
         $settingsMenu = $model->getSettingsMenuValues();
+        $smHelper     =$this->get('le.helper.statemachine');
 
         return $this->delegateView(
             [
                 'viewParameters' => [
                     'settingsMenu'        => $settingsMenu,
+                    'isTrialAccount'      => $smHelper->isStateAlive('Trial_Active'),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:setupMenu:setupmenu.html.php',
                 'passthroughVars' => [

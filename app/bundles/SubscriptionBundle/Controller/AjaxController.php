@@ -930,7 +930,7 @@ class AjaxController extends CommonAjaxController
         }
         if ($amount == 0) {
             $amount            = 1;
-            $isCardUpdateAlone = true;
+            $isCardUpdateAlone = 'true';
         }
         // file_put_contents("/var/www/mauto/app/logs/stripe.txt",$isCardUpdateAlone,FILE_APPEND);
         $apikey=$this->coreParametersHelper->getParameter('stripe_api_key');

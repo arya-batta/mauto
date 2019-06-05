@@ -88,7 +88,7 @@ class StateMachineCommand extends ModeratedCommand
                 }
 
                 if ($state=$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
-                    if ($smHelper->checkLicenseValiditityWithGracePeriod()) {
+                    if ($smHelper->checkLicenseValiditityWithGracePeriod($state)) {
                         $dtHelper=new DateTimeHelper();
                         $updateOn=$dtHelper->getLocalDateTime();
                         $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local'); //$state->getUpdatedOn()
