@@ -699,36 +699,42 @@ class SignupRepository
 
     public function updateLeadStateInfo($states, $domain)
     {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $qb->update(MAUTIC_TABLE_PREFIX.'leads')
-            ->set('account_status', ':account_status')
-            ->setParameter('account_status', $states)
-            ->where(
-                $qb->expr()->eq('domain', ':domain')
-            )->setParameter('domain', $domain)->execute();
+        if ($domain != 'cops') {
+            $qb = $this->getConnection()->createQueryBuilder();
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('account_status', ':account_status')
+                ->setParameter('account_status', $states)
+                ->where(
+                    $qb->expr()->eq('domain', ':domain')
+                )->setParameter('domain', $domain)->execute();
+        }
     }
 
     public function addLeadNotes($content, $reason, $domain)
     {
-        $qb       = $this->getConnection()->createQueryBuilder();
-        $now      = new \DateTime();
-        $dtHelper = new DateTimeHelper($now, 'Y-m-d H:i:s', 'local');
-        $now      = $dtHelper->toUtcString();
-        $leadid   = $this->getLeadIDbyDomain($domain);
-        if ($reason != '') {
-            $content .= ' Reason: '.$reason;
+        if ($domain != 'cops') {
+            $qb       = $this->getConnection()->createQueryBuilder();
+            $now      = new \DateTime();
+            $dtHelper = new DateTimeHelper($now, 'Y-m-d H:i:s', 'local');
+            $now      = $dtHelper->toUtcString();
+            $leadid   = $this->getLeadIDbyDomain($domain);
+            if ($leadid) {
+                if ($reason != '') {
+                    $content .= ' Reason: '.$reason;
+                }
+                $qb->insert(MAUTIC_TABLE_PREFIX.'lead_notes')
+                    ->values([
+                        'type'      => ':type',
+                        'date_time' => ':datetime',
+                        'text'      => ':text',
+                        'lead_id'   => ':lead',
+                    ])
+                    ->setParameter('type', 'general')
+                    ->setParameter('datetime', $now)
+                    ->setParameter('text', $content)
+                    ->setParameter('lead', $leadid)
+                    ->execute();
+            }
         }
-        $qb->insert(MAUTIC_TABLE_PREFIX.'lead_notes')
-            ->values([
-                'type'      => ':type',
-                'date_time' => ':datetime',
-                'text'      => ':text',
-                'lead_id'   => ':lead',
-            ])
-            ->setParameter('type', 'general')
-            ->setParameter('datetime', $now)
-            ->setParameter('text', $content)
-            ->setParameter('lead', $leadid)
-            ->execute();
     }
 }

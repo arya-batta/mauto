@@ -928,9 +928,13 @@ class AjaxController extends CommonAjaxController
         if ($isCardUpdateAlone == 'false') {
             $this->updateAccountData($accountdata);
         }
+        $paymentCapture=true;
         if ($amount == 0) {
-            $amount            = 1;
-            $isCardUpdateAlone = 'true';
+            $amount        = 1;
+            $paymentCapture=false;
+        }
+        if ($isCardUpdateAlone == 'true') {
+            $paymentCapture=false;
         }
         // file_put_contents("/var/www/mauto/app/logs/stripe.txt",$isCardUpdateAlone,FILE_APPEND);
         $apikey=$this->coreParametersHelper->getParameter('stripe_api_key');
@@ -988,7 +992,7 @@ class AjaxController extends CommonAjaxController
                         //"source" => $token, // obtained with Stripe.js
                         'customer'            => $customerid,
                         'description'         => $description,
-                        'capture'             => $isCardUpdateAlone == 'false',
+                        'capture'             => $paymentCapture,
                         'statement_descriptor'=> 'leadsengage purchase',
                     ], [
                         'idempotency_key' => $letoken,
@@ -1076,34 +1080,34 @@ class AjaxController extends CommonAjaxController
                     }
                     /** @var \Mautic\CoreBundle\Helper\LicenseInfoHelper $licensehelper */
                     $licensehelper      = $this->get('mautic.helper.licenseinfo');
-                    $currentTotalEmails = $licensehelper->getTotalEmailCount();
+                    //  $currentTotalEmails = $licensehelper->getTotalEmailCount();
                     $paymentrepository  =$this->get('le.subscription.repository.payment');
-                    $lastpayment        = $paymentrepository->getLastPayment();
+                    //  $lastpayment        = $paymentrepository->getLastPayment();
                     $todaydate          = date('Y-m-d');
                     $emailplancredits   = $this->translator->trans('le.pricing.plan.email.credits.'.$planname);
                     $contactcredites    = $this->translator->trans('le.pricing.plan.contact.credits.'.$planname);
-                    if ($lastpayment != null) {
-                        $validityend      = $lastpayment->getValidityTill();
-                        $preplanName      = $lastpayment->getPlanName();
-                        $preplancredits   = $licensehelper->getEmailCreditsByPlan($preplanName);
-                        $emailplancredits = $emailplancredits - $preplancredits;
-                        $emailplancredits = $currentTotalEmails + $emailplancredits;
-                        /*if ($todaydate != $validityend) {
-                            $todaydate    = $validityend;
-                            $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
-                        }*/
-                        $validitytill = $validityend;
-                    } else {
-                        //$planname     = '90 Days Success Offer';
-                        $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
-                        $smHelper      = $this->get('le.helper.statemachine');
-                        $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
-                        if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
-                            $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
-                            $smHelper->createElasticSubAccountandAssign();
-                        }
-                        $smHelper->addStateWithLead();
+                    // if ($lastpayment != null) {
+                    // $validityend      = $lastpayment->getValidityTill();
+                    // $preplanName      = $lastpayment->getPlanName();
+                    // $preplancredits   = $licensehelper->getEmailCreditsByPlan($preplanName);
+                    //  $emailplancredits = $emailplancredits - $preplancredits;
+                    // $emailplancredits = $currentTotalEmails + $emailplancredits;
+                    /*if ($todaydate != $validityend) {
+                        $todaydate    = $validityend;
+                        $validitytill = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months', strtotime($validityend)));
+                    }*/
+                    //$validitytill = $validityend;
+                    // } else {
+                    //$planname     = '90 Days Success Offer';
+                    $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                    $smHelper      = $this->get('le.helper.statemachine');
+                    $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
+                    if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+                        $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
+                        $smHelper->createElasticSubAccountandAssign();
                     }
+                    $smHelper->addStateWithLead();
+                    // }
                     if ($amount == 1) {
                         $amount = 0;
                     }
