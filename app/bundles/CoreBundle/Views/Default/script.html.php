@@ -41,7 +41,6 @@ $leContent = $view['slots']->get(
 //}
 //if ($leContent == 'accountinfo' || $leContent == 'pricingplans') {
     echo '<script src="https://js.stripe.com/v3/"></script>';
-    echo '<script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>';
 //}
 ?>
 <script>

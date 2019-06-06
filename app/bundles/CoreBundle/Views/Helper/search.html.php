@@ -17,9 +17,14 @@ $tmpl           = (empty($tmpl)) ? 'list' : $tmpl;
 $widthstyle     = (empty($merge_search)) ? 'width: 45%;padding-top:12px;' : 'width: 100;';
 $isAdmin        = $view['security']->isAdmin();
 $isMobile       = $view['security']->isMobile();
+if ($isMobile && $screen == '') {
+    $widthstyle = 'width:50%;';
+} elseif ($screen != '') {
+    $widthstyle = 'width:30%;padding-top:12px;';
+}
 ?>
 
-<div class="input-group fl-left" style="<?php echo $isMobile ? '50%' : $screen != '' ? 'width:30%;padding-top:12px;' : $widthstyle; ?>">
+<div class="input-group fl-left" style="<?php echo $widthstyle; ?>">
     <?php  if ($isAdmin): ?>
         <?php if (!empty($searchHelp)): ?>
             <div class="input-group-btn">

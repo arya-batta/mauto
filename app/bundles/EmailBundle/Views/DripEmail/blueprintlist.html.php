@@ -74,7 +74,7 @@
                                 <td class="email-col-stats col-page-category drip-col-stats" data-stats="<?php echo $item['id']; ?>">
                                     <a class="btn btn-default text-primary le-btn-default custom-preview-button blue-theme-bg" href="<?php echo $previewUrl; ?>" target="_blank" style="float: right;border-radius:4px;z-index:1003;">
                                             <span>
-                                            <span class="hidden-xs hidden-sm" id="view-emailtemplate-button"><?php echo $view['translator']->trans('View Email'); ?></span>
+                                            <span class="" id="view-emailtemplate-button"><?php echo $view['translator']->trans('View Email'); ?></span>
                                             </span>
                                     </a>
                                 </td>

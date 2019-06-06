@@ -95,7 +95,7 @@ $fields        = $form->children;
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <?php echo $view['form']->row($fields['analytics_status']); ?>
                 </div>
             </div>

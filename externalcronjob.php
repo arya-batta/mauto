@@ -96,6 +96,8 @@ try {
                 $fcolname = 'f25';
             } elseif ($operation == 'le:iplookup:download') {
                 $fcolname = 'f16';
+            } elseif ($operation == 'le:statemachine:checker') {
+                $fcolname = 'f15';
             }
         } else {
             exit('Please Configure Valid Parameter');

@@ -1,3 +1,6 @@
+Le.selectedCountry = "";
+Le.selectedState = "";
+Le.selectedCity = "";
 Le.accountinfoOnLoad = function (container) {
     if(mQuery('.cardholder-panel').is(':visible')) {
         var stripe = getStripeClient();
@@ -37,13 +40,12 @@ Le.accountinfoOnLoad = function (container) {
     }
 }
 Le.billingOnLoad = function (container) {
-    mQuery.getScript('http://www.geoplugin.net/javascript.gp', function(){
+    /*mQuery.getScript('http://www.geoplugin.net/javascript.gp', function(){
         var state = geoplugin_regionName();
         var country = geoplugin_countryName();
         var city = geoplugin_city();
-        Le.setDefaultStateValues(state,country,city);
-    });
-
+    });*/
+    Le.setDefaultStateValues();
     var stripe = getStripeClient();
     var card=getStripeCard(stripe);
     if(mQuery('#card-holder-widget').is(':visible')) {
@@ -74,10 +76,10 @@ Le.billingOnLoad = function (container) {
     });
     //Le.pricingplansOnLoad(container);
 }
-Le.setDefaultStateValues = function (state, country, city){
-    mQuery('#selectstate').val(state);
-    mQuery('#selectcountry').val(country);
-    mQuery('#welcome_city').val(city);
+Le.setDefaultStateValues = function (){
+    mQuery('#selectstate').val(Le.selectedState);
+    mQuery('#selectcountry').val(Le.selectedCountry);
+    mQuery('#welcome_city').val(Le.selectedCity);
     Le.activateChosenSelect(mQuery("#selectstate"));
     Le.activateChosenSelect(mQuery("#selectcountry"));
 }
@@ -304,7 +306,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                     setInfoText("Card updated successfully");
                     location.reload();
                 }else{
-                    alert(response.statusurl);
+                    //alert(response.statusurl);
                     Le.redirectWithBackdrop(response.statusurl);
                 }
             }

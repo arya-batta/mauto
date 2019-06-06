@@ -372,3 +372,6 @@ ul.tag-cloud li {
     margin-bottom: 0px;
     margin-top: 0px;
 }
+#lead_zipcode, #lead_city{
+    margin-top: 2px;
+}

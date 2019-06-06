@@ -1634,17 +1634,15 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 $channel = ($email) ? ['email' => $email->getId()] : 'email';
                 if ($reason == DoNotContact::IS_CONTACTABLE) {
                     $this->updateFailureCount($stat, $email->getId());
-                } else {
-                    if ($reason == DoNotContact::UNSUBSCRIBED) {
-                        $this->updateUnsubscribeCount($stat, $email->getId());
-                    } elseif ($reason == DoNotContact::BOUNCED) {
-                        $this->updateBounceCount($stat, $email->getId());
-                    } elseif ($reason == DoNotContact::SPAM) {
-                        $this->updateSpamCount($stat, $email->getId());
-                    }
-
-                    return $this->leadModel->addDncForLead($lead, $channel, $comments, $reason, $flush);
+                } elseif ($reason == DoNotContact::UNSUBSCRIBED) {
+                    $this->updateUnsubscribeCount($stat, $email->getId());
+                } elseif ($reason == DoNotContact::BOUNCED) {
+                    $this->updateBounceCount($stat, $email->getId());
+                } elseif ($reason == DoNotContact::SPAM) {
+                    $this->updateSpamCount($stat, $email->getId());
                 }
+
+                return $this->leadModel->addDncForLead($lead, $channel, $comments, $reason, $flush);
             } else {
                 if ($reason == DoNotContact::UNSUBSCRIBED || $reason == DoNotContact::BOUNCED || $reason == DoNotContact::SPAM) {
                     $channel = 'email';

@@ -1736,14 +1736,16 @@ class MailHelper
         $event  = new EmailSendEvent($this);
 
         $leadId = $event->getLead()['id'];
-        $lead   = $this->factory->getModel('lead')->getEntity($leadId);
-        $event->setLead($lead);
+        if ($leadId != 0) {
+            $lead = $this->factory->getModel('lead')->getEntity($leadId);
+            $event->setLead($lead);
 
-        $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_SEND, $event);
+            $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_SEND, $event);
 
-        $this->eventTokens = array_merge($this->eventTokens, $event->getTokens(false));
+            $this->eventTokens = array_merge($this->eventTokens, $event->getTokens(false));
 
-        unset($event, $lead);
+            unset($event, $lead);
+        }
     }
 
     /**

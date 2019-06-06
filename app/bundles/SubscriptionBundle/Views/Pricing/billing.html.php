@@ -88,12 +88,12 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                     <option value="8">100,000 - 250,000</option>
                                     <option value="9">>250,000</option>
                                 </select>
-                                <p class="label_control_error listsize_error hide">Current list can't be empty</p>
+                                <p class="label_control_error listsize_error hide">Current Contact Size can’t be empty.</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone">Existing Email Provider</label>
                                 <input type="text" id="welcome_currentesp" class="form-control le-input" placeholder="e.g. Mailchimp" name="welcome[currentesp]"  value="">
-                                <p class="label_control_error currentesp_error hide" >Email Provider can't be empty.</p>
+                                <p class="label_control_error currentesp_error hide" >Existing Email Provider can't be empty.</p>
                             </div>
                         </div>
                         <br>
@@ -101,7 +101,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-12">
                                 <label for="adr"> Full Address</label>
                                 <input type="text" style="width:97%;" id="welcome_address" class="form-control le-input" name="welcome[address-line-1]" value="">
-                                <p class="label_control_error address_error hide">Address can't be empty</p>
+                                <p class="label_control_error address_error hide">Full Address can't be empty</p>
                             </div>
                         </div>
                         <br>
@@ -125,8 +125,8 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                     <option value="blank" selected="selected">Choose your State</option>
                                     <?php foreach ($states as $stategrouplabel => $stategroup):?>
                                         <optgroup label="<?php echo $stategrouplabel; ?>">
-                                            <?php foreach ($stategroup as $state):?>
-                                                <option value="<?php echo $state?>" selected="false"><?php echo $state; ?></option>
+                                            <?php foreach ($stategroup as $statename):?>
+                                                <option value="<?php echo $statename?>" selected="false"><?php echo $statename; ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     <?php endforeach; ?>
@@ -137,8 +137,8 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 <label for="country">Country</label>
                                 <select name="welcome[country]" class="selop not-chosen" id="selectcountry">
                                     <option value="blank" selected="selected">Choose your Country</option>
-                                    <?php foreach ($countries as $country):?>
-                                        <option value="<?php echo $country?>" selected="false"><?php echo $country; ?></option>
+                                    <?php foreach ($countries as $countryname):?>
+                                        <option value="<?php echo $countryname?>" selected="false"><?php echo $countryname; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <p class="label_control_error country_error hide">Country can't be empty</p>
@@ -196,6 +196,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
     <div class="col-md-2"></div>
 </div>
 <script>
-    mQuery("#selectcountry option[value='<?php echo $country; ?>']").attr('selected','selected');
-    mQuery("#selectstate option[value='<?php echo $state; ?>']").attr('selected','selected');
+    Le.selectedCountry = "<?php echo $country ?>";
+    Le.selectedState = "<?php echo $state ?>";
+    Le.selectedCity = "<?php echo $city ?>";
 </script>

@@ -81,7 +81,7 @@ EOT
             $smHelper=$container->get('le.helper.statemachine');
             if (!$smHelper->isAnyActiveStateAlive()) {
                 $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
-                $this->updateAllQueuedMailsAsFailed($container, $output);
+                $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason1'));
 
                 return 0;
             }
@@ -134,7 +134,7 @@ EOT
                             } catch (\Swift_TransportException $e) {
                                 $sendResultText = 'Failed '.$e->getMessage();
                                 $emailmodel     = $container->get('mautic.email.model.email');
-                                $this->invokeFailedEventDispatcher($emailmodel, $message, $translator);
+                                $this->invokeFailedEventDispatcher($emailmodel, $message, $translator, $sendResultText);
                             }
                         } else {
                             // $message isn't a valid message file
@@ -200,7 +200,7 @@ EOT
         } catch (\Exception $e) {
             $providerStatus=$this->checkEmailProviderStatus($container, $output);
             if (!$providerStatus) {
-                $this->updateAllQueuedMailsAsFailed($container, $output);
+                $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason2'));
             }
             echo 'exception->'.$e->getMessage()."\n";
             //$this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
@@ -230,7 +230,7 @@ EOT
         }
     }
 
-    public function invokeFailedEventDispatcher($emailModel, $message, $translator)
+    public function invokeFailedEventDispatcher($emailModel, $message, $translator, $reason)
     {
         if (isset($message->leadIdHash)) {
             $stat = $emailModel->getEmailStatus($message->leadIdHash);
@@ -238,7 +238,7 @@ EOT
 //                $reason = $translator->trans('le.email.dnc.failed', [
 //                    '%subject%' => EmojiHelper::toShort($message->getSubject()),
 //                ]);
-                $emailModel->setDoNotContact($stat, '', DoNotContact::IS_CONTACTABLE);
+                $emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE);
                 unset($stat);
                 $emailModel->getEntityManager()->clear(Stat::class);
             }
@@ -250,7 +250,7 @@ EOT
 //        }
     }
 
-    public function updateAllQueuedMailsAsFailed($container, $output)
+    public function updateAllQueuedMailsAsFailed($container, $output, $reason)
     {
         try {
             $emailmodel            = $container->get('mautic.email.model.email');
@@ -264,7 +264,7 @@ EOT
                 foreach ($finder as $messageFile) {
                     $message = unserialize($messageFile->getContents());
                     if ($message !== false && is_object($message) && get_class($message) === 'Swift_Message') {
-                        $this->invokeFailedEventDispatcher($emailmodel, $message, $translator);
+                        $this->invokeFailedEventDispatcher($emailmodel, $message, $translator, $reason);
                         //delete the file, either because it sent or because it failed
                         unlink($messageFile);
                         ++$updatedCount;
