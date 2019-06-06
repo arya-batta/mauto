@@ -25,8 +25,8 @@ $url = 'https://zapier.com/goto/?payload=.eJw9zE0KgzAQQOGrlFnbDlIqmH3PIeNkbIP5wy
                 <div class="step-content">
                     <h3>Step 1:</h3>
                     <h3>Use below invitation link to connect with AnyFunnels Zapier integration.</h3>
-                    <input type="text" id="zapiercallback" value="<?php echo $url; ?>" readonly="readonly" class="form-control webhook-integration-url" style="margin-top:10px;">
-                    <a href="<?php echo $url; ?>" target='_new' style="color: #3292e0;" >Click Here</a>
+<!--                    <input type="text" id="zapiercallback" value="--><?php //echo $url;?><!--" readonly="readonly" class="form-control webhook-integration-url" style="margin-top:10px;">-->
+                    <a class="btn btn-default integration-click-btn" href="<?php echo $url; ?>" target='_new' >Open Invitation Link</a>
 <!--                    <a id="zapiercallback_atag" onclick="Le.copytoClipboardforms('zapiercallback');">-->
 <!--                        <i aria-hidden="true" class="fa fa-clipboard"></i>-->
 <!--                        --><?php //echo $view['translator']->trans(

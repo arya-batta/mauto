@@ -18,7 +18,7 @@ $view['slots']->set('headerTitle', 'Account Sending Domain');
             <a href="https://anyfunnels.com/" target="_blank">Click Here</a> to know more or <a href="https://anyfunnels.com/" target="_blank">contact our support team</a>.
         </div>
         <div class="state-inactive-alert-content">
-            <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config'])?>" target="_blank">Go to sending domain page</a>
+            <a href="<?php echo $view['router']->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config'])?>" target="_blank">Go to sending domain page</a>
         </div>
     </div>
 </div>

@@ -223,7 +223,7 @@ class ApiSubscriber extends CommonSubscriber
         $requestUrl = $request->getRequestUri();
 
         // Check if /oauth or /api
-        $isApiRequest = (strpos($requestUrl, '/oauth') !== false || strpos($requestUrl, '/api') !== false);
+        $isApiRequest = (strpos($requestUrl, '/oauth') !== false || strpos($requestUrl, '/api/') !== false);
 
         defined('MAUTIC_API_REQUEST') or define('MAUTIC_API_REQUEST', $isApiRequest);
 

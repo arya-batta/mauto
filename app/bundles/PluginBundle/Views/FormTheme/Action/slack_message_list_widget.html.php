@@ -25,9 +25,9 @@ $isFbAuthorized = $form->vars['isauthorized'];
                     <span>
                         <i class="mdi mdi-rotate-3d" style="font-size:28px;"></i>
                         <h4>
-                            <?php echo $view['translator']->trans('le.integration.source.facebook.help.heading'); ?></h4>
+                            <?php echo $view['translator']->trans('le.integration.source.slack.help.heading'); ?></h4>
                         <p>
-                            Head to your <a style="text-decoration: underline;font-weight: bold;" href="<?php echo $view['router']->generate('le_integrations_config', ['name'=>'facebook_lead_ads']); ?>">integration settings</a> to wire up your account.
+                            Head to your <a style="text-decoration: underline;font-weight: bold;" href="<?php echo $view['router']->generate('le_integrations_config', ['name'=>'slack']); ?>">integration settings</a> to wire up your account.
                         </p>
                     </span>
                 </div>

@@ -95,6 +95,20 @@ class CampaignController extends AbstractStandardFormController
         if ($ismobile) {
             return $this->editDenied($this->generateUrl('le_campaign_index'));
         }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if ($isStateAlive) {
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
 
         return $this->cloneStandard($objectId);
     }
@@ -190,7 +204,7 @@ class CampaignController extends AbstractStandardFormController
     {
         $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'step'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
 
             return $this->postActionRedirect(

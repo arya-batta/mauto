@@ -109,7 +109,7 @@ class ConfigModel extends AbstractCommonModel
                 ],
                 'Slack Messages' => [
                     'name'=> 'Slack Messages',
-                    'img' => 'Category.png',
+                    'img' => 'slack.png',
                     'url' => $this->router->generate('le_slack_index'),
                 ],
                 'Files/ Lead Magnets' => [

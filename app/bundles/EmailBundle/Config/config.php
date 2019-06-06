@@ -665,8 +665,8 @@ return [
                     'mautic.email.model.transport_callback',
                 ],
                 'methodCalls'  => [
-                    'setUsername' => ['%mautic.mailer_user_transactions%'],
-                    'setPassword' => ['%mautic.mailer_password_transactions%'],
+                    'setUsername' => ['%mautic.mailer_user_transactions%', ''],
+                    'setPassword' => ['%mautic.mailer_password_transactions%', ''],
                 ],
             ],
             'le.transport.postmark' => [
@@ -1002,5 +1002,6 @@ return [
         'elastic_subaccount_password'            => '',
         'le_elastic_email_trial_user'            => '',
         'le_elastic_email_trial_password'        => '',
+        'le_elastic_email_root_password'         => '',
     ],
 ];
