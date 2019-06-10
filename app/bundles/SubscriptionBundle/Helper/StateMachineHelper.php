@@ -223,7 +223,7 @@ class StateMachineHelper
         $isWritabale    = $configurator->isFileWritable();
         if ($isWritabale) {
             try {
-                $configurator->mergeParameters(['mailer_user' => $username, 'mailer_password' => $password]);
+                $configurator->mergeParameters(['mailer_user' => $username, 'mailer_password' => $password, 'mailer_transport_name'=> 'le.transport.elasticemail']);
                 $configurator->write();
                 $cacheHelper = $this->factory->get('mautic.helper.cache');
                 $cacheHelper->clearContainerFile();
