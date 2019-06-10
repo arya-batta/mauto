@@ -63,11 +63,11 @@ class PaymentRepository extends CommonRepository
         }
     }
 
-    public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser, $status = 'Paid')
+    public function captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, $createdby, $createdbyuser, $status = 'Paid', $isvalidityExpired)
     {
         $currentdate      = date('Y-m-d');
         $isAddOn          =0;
-        if (strtotime($validitytill) < strtotime($currentdate)) {
+        if (!$isvalidityExpired) {
             $isAddOn=1;
         }
         $planlabel = '90 Days Free Trial';

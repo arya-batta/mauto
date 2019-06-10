@@ -108,7 +108,7 @@
                     </form>
                 </div>
                 <div class="footnote">
-                    <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
+                    <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_list_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
             <p class="messageContainer"><?php echo $message?></p>
 
             <div class="footnotes">
-                <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
+                <p>Powered by <a href="https://anyfunnels.com/?utm_source=app_list_unsubscribe_page"><?php echo $view['content']->getProductBrandName()?></a></p>
             </div>
         </div>
     </div>

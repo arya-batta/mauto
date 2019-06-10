@@ -25,7 +25,7 @@ $isAdmin      =$view['security']->isAdmin();
             <?php echo $view['form']->widget($form['label'], ['attr' => ['class' => 'form-control sortable-label le-input', 'placeholder' => $form['label']->vars['label']]]); ?>
             </div>
             <div class="<?php echo $isAdmin ? 'col-xs-6' : 'col-xs-12'?> ml-0 pl-0">
-            <?php echo $view['form']->widget($form['value'], ['attr' => ['class' => 'form-control sortable-value le-input', 'placeholder' => $form['value']->vars['label']]]); ?>
+            <?php echo $view['form']->widget($form['value'], ['attr' => ['class' => 'form-control sortable-value le-input', 'onkeyup' => 'Le.updateSelectValueToLabel(this);', 'placeholder' => $form['value']->vars['label']]]); ?>
             </div>
         </div>
     </div>

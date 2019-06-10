@@ -1111,7 +1111,7 @@ class AjaxController extends CommonAjaxController
                     if ($amount == 1) {
                         $amount = 0;
                     }
-                    $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid');
+                    $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid', true);
                     $subsrepository     =$this->get('le.core.repository.subscription');
                     $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false, $emailplancredits);
                     $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);

@@ -101,7 +101,8 @@ class LeadSubscriber extends CommonSubscriber
 
         // Add total to counter
         $event->addToCounter($eventTypeKey, $stats);
-
+        /** @var \Mautic\LeadBundle\Entity\DoNotContactRepository $dncRepo */
+        $dncRepo = $this->em->getRepository('MauticLeadBundle:DoNotContact');
         if (!$event->isEngagementCount()) {
             // Add the events to the event array
             foreach ($stats['results'] as $stat) {
@@ -141,7 +142,15 @@ class LeadSubscriber extends CommonSubscriber
                             $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.read.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%readcount%' => $totalreadcount, '%dateread%' => $open_date, '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
                         }
                     } elseif ('failed' == $state) {
-                        $label            = $stat['email_name'];
+                        /** @var \Mautic\LeadBundle\Entity\DoNotContact $entries */
+                        $entries = $dncRepo->getTimelineStatsChannel($stat['lead_id'], $stat['email_id']);
+                        if (!empty($stat['idHash'])) {
+                            $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
+                        } else {
+                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
+                        }
+                        $label            = $label.' <br><b>Reason</b>: '.$entries[$stat['email_id']];
                     }
 
                     //$label = $stat['email_name'];

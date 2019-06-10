@@ -55,6 +55,30 @@ Le.initAtWho = function(element, method, froala) {
  */
 Le.configureAtWho = function(element, method, froala) {
     Le.getTokens(method, function(tokens) {
+        mQuery.each(tokens, function(k,v){
+            if(k.match(/leadfield=status/i) || k.match(/leadfield=created_source/i)){
+                delete tokens[k];
+            }
+            if((k.match(/list_unsubscribe_link/i)) || (k.match(/confirmation_link/i))){
+                delete tokens[k];
+            }
+            if (k.match(/filelink=/i) && v.match(/a:/)){
+                delete tokens[k];
+                var nv = v.replace('a:', '');
+                k = '<a title=\'File Link\' href=\'' + k + '\'>' + nv + '</a>';
+                tokens[k] = nv;
+            } else if (k.match(/pagelink=/i) && v.match(/a:/)){
+                delete tokens[k];
+                nv = v.replace('a:', '');
+                k = '<a title=\'Page Link\' href=\'' + k + '\'>' + nv + '</a>';
+                tokens[k] = nv;
+            } else if (k.match(/dwc=/i)){
+                var tn = k.substr(5, k.length - 6);
+                tokens[k] = v + ' (' + tn + ')';
+            } else if (k.match(/leadfield=company/i) && !v.match(/company/i)){
+                tokens[k] = 'Company ' + v;
+            }
+        });
         element.atwho('destroy');
 
         Le.configureDynamicContentAtWhoTokens();

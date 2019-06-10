@@ -659,6 +659,10 @@ class LeadSubscriber extends CommonSubscriber
                         $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_manual');
                         $type          ='manual';
                         break;
+                    case DoNotContact::IS_CONTACTABLE:
+                        $row['reason'] = $this->translator->trans('le.lead.event.donotcontact_iscontactable');
+                        $type          ='contactable';
+                        break;
                 }
 
                 $template = 'MauticLeadBundle:SubscribedEvents\Timeline:donotcontact.html.php';
@@ -706,13 +710,15 @@ class LeadSubscriber extends CommonSubscriber
                         }
                     }
                 }
-                if ($type != 'manual') {
+                if ($type == 'contactable') {
+                    continue;
+                } elseif ($type != 'manual') {
                     if (isset($row['itemRoute'])) {
                         $label = $this->translator->trans('le.lead.event.timeline.donotcontact.'.$type.'.eventlabel', ['%subject%' => $subject, '%emailname%' => $row['itemName'], '%href%' => $row['itemRoute']]);
                     } else {
                         $label=ucfirst($row['channel']);
                     }
-                } else {
+                } elseif ($type != '') {
                     $row['itemName'] = true;
                     $label           = $this->translator->trans('le.lead.event.timeline.donotcontact.'.$type.'.eventlabel', ['%reason%' => $row['comments']]);
                 }

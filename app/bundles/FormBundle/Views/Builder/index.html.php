@@ -471,7 +471,7 @@ endif;*/ ?>
                         <div class="form_fragment2_tite" >Add a New Field</div><br></center>
                     <div style="margin-left: 11px">
                         <?php foreach ($fields as $fieldType => $field): ?>
-                            <?php $unset = ['text', 'textarea', 'email', 'tel', 'number', 'select', 'radiogrp', 'checkboxgrp', 'gcaptcha'];
+                            <?php $unset = ['text', 'textarea', 'email', 'tel', 'number', 'select', 'gcaptcha']; //'radiogrp', 'checkboxgrp',
                             if (!$isadmin && !in_array($fieldType, $unset)): continue; endif; ?>
                             <div class=" form_fragment2_data" data-toggle="ajaxmodal"
                                  data-target="#formComponentModal"

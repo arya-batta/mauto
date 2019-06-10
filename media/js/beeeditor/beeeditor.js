@@ -150,6 +150,9 @@ Le.launchBeeEditor = function (formName, actionName) {
           Le.getTokens(actionName+':getBuilderTokens', function(tokens) {
         mergeTags.length=0;
         mQuery.each(tokens, function(k,v){
+            if(k.match(/leadfield=status/i) || k.match(/leadfield=created_source/i)){
+                delete tokens[k];
+            }
             if (k.match(/filelink=/i) && v.match(/a:/)){
                 delete tokens[k];
                 var nv = v.replace('a:', '');

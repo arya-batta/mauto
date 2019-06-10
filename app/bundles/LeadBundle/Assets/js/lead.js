@@ -978,6 +978,12 @@ Le.leadfieldOnLoad = function (container) {
 
 };
 
+Le.updateSelectValueToLabel = function(valueele){
+  var valueeleId = mQuery(valueele).attr('id');
+  var labeleleId =  valueeleId.replace("value", "label");
+  mQuery("#"+labeleleId).val(mQuery(valueele).val());
+};
+
 Le.updateLeadFieldProperties = function(selectedVal, onload) {
     if (selectedVal == 'multiselect') {
         // Use select

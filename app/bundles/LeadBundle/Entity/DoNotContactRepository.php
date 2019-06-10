@@ -148,6 +148,38 @@ class DoNotContactRepository extends CommonRepository
     }
 
     /**
+     * @param null $leadId
+     * @param null $channelId
+     *
+     * @return array
+     */
+    public function getTimelineStatsChannel($leadId = null, $channelId = null)
+    {
+        $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
+
+        $query->select('dnc.id, dnc.channel, dnc.channel_id, dnc.date_added, dnc.reason, dnc.comments, dnc.lead_id')
+            ->from(MAUTIC_TABLE_PREFIX.'lead_donotcontact', 'dnc');
+
+        if ($leadId) {
+            $query->where($query->expr()->eq('dnc.lead_id', (int) $leadId));
+        }
+        if ($leadId) {
+            $query->where($query->expr()->eq('dnc.channel_id', (int) $channelId));
+        }
+
+        $results         = $query->execute()->fetchAll();
+        $dnc             = [];
+        $dnc[$channelId] = '';
+        foreach ($results as $r) {
+            $dnc[$channelId] = $dnc[$channelId].$r['comments'].',';
+        }
+
+        unset($results);
+
+        return $dnc;
+    }
+
+    /**
      * @param       $channel
      * @param array $contacts Array of contacts to filter by
      *

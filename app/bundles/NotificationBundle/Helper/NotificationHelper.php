@@ -15,7 +15,6 @@ use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\CoreBundle\Templating\Helper\AssetsHelper;
 use Mautic\LeadBundle\Entity\DoNotContact;
-use Mautic\LeadBundle\Entity\Lead;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -260,19 +259,21 @@ JS;
 
     public function sendNotificationonFailure($isemail = false, $isEnabled = true, $errorMessage = '')
     {
-        $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
         $messagetext   = 'le.sms.configuration.failure.notification';
         $messageheader = 'le.sms.configuration.failure.header';
+        $objectId      = 'smsconfig';
         if ($isemail) {
+            $objectId      = 'emailconfig';
             $messagetext   = 'le.email.send.failed.message';
             $messageheader = 'le.email.send.failed';
         }
-       // $message = $this->translator->trans($messagetext);
+        $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> $objectId]);
+        // $message = $this->translator->trans($messagetext);
         $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
         if ($errorMessage != '' && $errorMessage != 'Failed') {
             $message = $errorMessage;
-            if(strpos($message, 'Insufficient credits') !== false){
-                $message = "le.sms.configuration.failure.solutioninfini";
+            if (strpos($message, 'Insufficient credits') !== false) {
+                $message = 'le.sms.configuration.failure.solutioninfini';
             }
         }
         $header                  = $this->translator->trans($messageheader);

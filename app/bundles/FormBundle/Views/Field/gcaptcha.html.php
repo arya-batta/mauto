@@ -12,7 +12,7 @@ $containerType     = (isset($type)) ? $type : 'text';
 $defaultInputClass = (isset($inputClass)) ? $inputClass : 'input';
 include __DIR__.'/field_helper.php';
 $imgAttr=$view['assets']->getUrl('media/images/gcaptcha.png');
-$label  = <<<HTML
+$label  = (!$field['showLabel']) ? '' : <<<HTML
 
                 <label $labelAttr>{$field['label']}</label>
 HTML;

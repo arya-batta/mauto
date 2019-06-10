@@ -159,7 +159,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 } else {
                                     $subsrepository=$container->get('le.core.repository.subscription');
                                     $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $appValidityRenewal, $plancredits);
-                                    $paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $plancredits, $validitytill, $planname, null, null, 'Paid');
+                                    $paymentrepository->captureStripePayment($firstpayment->getOrderID(), $firstpayment->getPaymentID(), $planamount, $netamount, $plancredits, $plancredits, $validitytill, $planname, null, null, 'Paid', $appValidityRenewal);
                                     $output->writeln('<error>'.'Amount is too less to charge:'.$netamount.'</error>');
                                 }
                             } else {
@@ -199,7 +199,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             //  print('Param is:' . $err['param'] . "\n");
             // print('Message is:' . $err['message'] . "\n");
             $errormsg      ='Card Error:'.$err['message'];
-            $payment       =$paymentrepository->captureStripePayment('', '', $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $errormsg);
+            $payment       =$paymentrepository->captureStripePayment('', '', $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $errormsg, $appValidityRenewal);
             if ($err['code'] != 'processing_error') {
                 $smHelper=$container->get('le.helper.statemachine');
                 $this->updatePaymentFailureState($smHelper, $errormsg, $appValidityRenewal, $output);
@@ -259,7 +259,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                 $todaydate     = date('Y-m-d');
                 if (!$isRetry) {
                     $orderid              = uniqid();
-                    $payment              =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid');
+                    $payment              =$paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, 'Paid', $appValidityRenewal);
                 } else {
                     $lastPayment->setPaymentID($chargeid);
                     $lastPayment->setPaymentStatus('Paid');
@@ -291,7 +291,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             } else {
                 if (!$isRetry) {
                     $orderid              = uniqid();
-                    $paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status);
+                    $paymentrepository->captureStripePayment($orderid, $chargeid, $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $status, $appValidityRenewal);
                     //$subsrepository=$container->get('le.core.repository.subscription');
                     // $subsrepository->updateAppStatus($domain, 'InActive');
                     $errormsg="Failure Code:$failure_code,Failure Message:$failure_message";

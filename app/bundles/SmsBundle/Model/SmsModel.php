@@ -19,7 +19,6 @@ use Mautic\CoreBundle\Helper\Chart\ChartQuery;
 use Mautic\CoreBundle\Helper\Chart\LineChart;
 use Mautic\CoreBundle\Model\AjaxLookupModelInterface;
 use Mautic\CoreBundle\Model\FormModel;
-use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\DoNotContactRepository;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\LeadModel;
@@ -306,8 +305,9 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     );
 
                     $metadata = $this->transport->sendSms($leadPhoneNumber, $tokenEvent->getContent());
+                    $status   = $this->translator->trans('mautic.sms.timeline.status.delivered');
                     if ($metadata != 'true') {
-                        $sendResult['status'] = $metadata;
+                        $status               = $metadata;
                         $sendResultText       = 'Failed';
                         $send                 = false;
                         ++$failedCount;
@@ -320,7 +320,7 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     $sendResult = [
                         'sent'       => $send,
                         'type'       => 'mautic.sms.smss',
-                        'status'     => 'mautic.sms.timeline.status.delivered',
+                        'status'     => $status,
                         'id'         => $sms->getId(),
                         'name'       => $sms->getName(),
                         'content'    => $tokenEvent->getContent(),

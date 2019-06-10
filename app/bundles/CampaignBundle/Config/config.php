@@ -142,7 +142,7 @@ return [
     ],
 
     'categories' => [
-        'workflow' => null,
+        'campaign' => null,
     ],
 
     'services' => [
