@@ -1444,6 +1444,9 @@ class AjaxController extends CommonAjaxController
                 }
             }
             if ($isAnyDomainVerified) {
+                if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+                    $smHelper->sendInternalSlackMessage('sending_domain_configured');
+                }
                 $smHelper->makeStateInActive(['Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Sending_Domain_Issue']);
                 if (!$smHelper->isAnyInActiveStateAlive()) {
                     $smHelper->newStateEntry('Customer_Active', '');

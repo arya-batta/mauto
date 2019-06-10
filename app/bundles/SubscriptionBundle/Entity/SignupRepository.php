@@ -70,6 +70,23 @@ class SignupRepository
         }
     }
 
+    public function getLeadInfo($domain)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+
+        $qb->select('*')
+            ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
+        $qb->andWhere('l.domain = :domain')
+            ->setParameter('domain', $domain);
+        $leads = $qb->execute()->fetchAll();
+
+        if (!empty($leads)) {
+            return $leads[0];
+        } else {
+            return false;
+        }
+    }
+
     public function updateSignupInfo($accountData, $billingData, $userData, $appid)
     {
         $qb = $this->getConnection()->createQueryBuilder();

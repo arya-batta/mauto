@@ -944,6 +944,7 @@ class AjaxController extends CommonAjaxController
         $model         = $this->getModel('subscription.accountinfo');
         $accrepo       = $model->getRepository();
         $accountentity = $accrepo->findAll();
+        $smHelper      = $this->get('le.helper.statemachine');
         if (sizeof($accountentity) > 0) {
             $account = $accountentity[0];
         } else {
@@ -956,6 +957,7 @@ class AjaxController extends CommonAjaxController
             $errormsg='Please update your account information properly to proceed further.';
         }
         if (empty($errormsg)) {
+            $carderror     = false;
             $stripecardrepo=$this->get('le.subscription.repository.stripecard');
             $stripecards   = $stripecardrepo->findAll();
             if (sizeof($stripecards) > 0) {
@@ -1009,7 +1011,8 @@ class AjaxController extends CommonAjaxController
                 // param is '' in this case
                 //  print('Param is:' . $err['param'] . "\n");
                 // print('Message is:' . $err['message'] . "\n");
-                $errormsg='Card Error:'.$err['message'];
+                $errormsg ='Card Error:'.$err['message'];
+                $carderror=true;
             } catch (\Stripe\Error\RateLimit $e) {
                 $errormsg= 'Too many requests made to the API too quickly';
                 // Too many requests made to the API too quickly
@@ -1100,11 +1103,13 @@ class AjaxController extends CommonAjaxController
                     // } else {
                     //$planname     = '90 Days Success Offer';
                     $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
-                    $smHelper      = $this->get('le.helper.statemachine');
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
                     if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
                         $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                         $smHelper->createElasticSubAccountandAssign();
+                        $slackContent      = $smHelper->getInternalSlackData('Advanced');
+                        $channelId         = $smHelper->getChannelId('#02_sales');
+                        $smHelper->sendInternalSlackMessage('90_days_trial_subscribed', $slackContent, $channelId);
                     }
                     $smHelper->addStateWithLead();
                     // }
@@ -1147,6 +1152,11 @@ class AjaxController extends CommonAjaxController
                     }
                     $smHelper->addStateWithLead();
                 }
+            }
+            if (!empty($errormsg)) {
+                $slackContent      = $smHelper->getInternalSlackData('Advanced');
+                $channelId         = $smHelper->getChannelId('#03_payments');
+                $smHelper->sendInternalSlackMessage($carderror ? 'payment_failed_customer_action_needed' : 'payment_failed_internal_action_needed', $slackContent, $channelId);
             }
         }
         if (!empty($errormsg)) {

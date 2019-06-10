@@ -155,6 +155,12 @@ class AuthController extends FormController
             parse_str($formdata, $payload);
             $payload = json_encode($payload);
         }
+        if ($integration == 'internal_slack') {
+            $smHelper     = $this->get('le.helper.statemachine');
+            $payload      = json_decode($payload);
+
+            return $smHelper->processWebhookInternalSlack($payload);
+        }
         $payload  = json_decode($payload);
         $eventarg = new IntegrationEvent($integration, $payload);
         $event    = $this->dispatcher->dispatch(LeadEvents::INTEGRATION_EVENT, $eventarg);

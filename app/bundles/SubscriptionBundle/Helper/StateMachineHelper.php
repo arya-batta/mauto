@@ -15,6 +15,7 @@ use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\DateTimeHelper;
 use Mautic\SubscriptionBundle\Entity\StateMachine;
 use Mautic\SubscriptionBundle\Entity\StateMachineRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class StateMachineHelper.
@@ -26,6 +27,32 @@ class StateMachineHelper
      */
     protected $factory;
     protected $smrepo;
+    //'#01_anyfunnels_team'=>'CJQ6SET7B','#02_sales'=>'CK996MKMM','#03_payments'=>'CK6UGDSJ0','#4_action_needed'=>'CJW1GM6KD','#5_state_machine'=>'CK997TVB9','#6_heavy_users'=>'CJW1RRL58','#7_compliance'=>'CK6UJ924U'
+    public $channelList = [
+                                'new_signup'                            => 'CK996MKMM',
+                                'new_activated_signup'                  => 'CK996MKMM',
+                                '90_days_trial_subscribed'              => 'CK996MKMM',
+                                'sending_domain_configured'             => 'CK996MKMM',
+                                'subscription_payment_received'         => 'CK6UGDSJ0',
+                                'addon_payment_received'                => 'CK6UGDSJ0',
+                                'payment_failed_internal_action_needed' => 'CK6UGDSJ0',
+                                'payment_failed_customer_action_needed' => 'CK6UGDSJ0',
+                                'account_activation_failed'             => 'CJW1GM6KD',
+                                'failed_signup_email'                   => 'CJW1GM6KD',
+                                'trial_inactive_expired'                => 'CK997TVB9',
+                                'trial_inactive_suspended'              => 'CK997TVB9',
+                                'customer_sending_domain_not_configured'=> 'CK997TVB9',
+                                'customer_active'                       => 'CK997TVB9',
+                                'customer_inactive_suspended'           => 'CK997TVB9',
+                                'customer_inactive_under_review'        => 'CK997TVB9',
+                                'customer_inactive_sending_domain_issue'=> 'CK997TVB9',
+                                'customer_inactive_payment_issue'       => 'CK997TVB9',
+                                'customer_active_card_expiring_soon'    => 'CK997TVB9',
+                                'customer_inactive_exit_cancel'         => 'CK997TVB9',
+                                'customer_inactive_archive'             => 'CK997TVB9',
+                               ];
+
+    public $basictype   = ['new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
 
     public function __construct(MauticFactory $factory, StateMachineRepository $smrepo)
     {
@@ -157,6 +184,7 @@ class StateMachineHelper
             $subsrepository->updateAppStatus($this->getAppDomain(), 'InActive');
         }
         $this->addLeadNotes($state, $reason, 'Customer Enters into this State(s)');
+        $this->sendInternalSlackMessage($state);
     }
 
     public function getAlertMessage($message, $personalize=[])
@@ -390,5 +418,71 @@ class StateMachineHelper
         $accountstatus   = substr($accountstatus, 0, -1);
         $signuprepository=$this->factory->get('le.core.repository.signup');
         $signuprepository->updateLeadStateInfo($accountstatus, $this->getAppDomain());
+    }
+
+    public function getInternalSlackData($contentType, $Domain=null)
+    {
+        if ($Domain == null) {
+            $Domain = $this->getAppDomain();
+        }
+        $signuprepository  =$this->factory->get('le.core.repository.signup');
+        $leadData          =  $signuprepository->getLeadInfo($Domain);
+        if ($contentType == 'Basic') {
+            $content = "*Name* - ${leadData['firstname']} ${leadData['lastname']} \n *Mobile* - ${leadData['mobile']} \n *Email* - ${leadData['email']} \n *Domain* - ${leadData['domain']}.anyfunnels.com \n *Signup Location* - ${leadData['signup_location']} \n *Signup Device* - ${leadData['signup_device']} \n *Signup Page* - ${leadData['signup_page']} \n --- \n AnyFunnels Bot";
+        } else {
+            $content = "*Name* - ${leadData['firstname']} ${leadData['lastname']} \n *Mobile* - ${leadData['mobile']} \n *Email* - ${leadData['email']} \n *Domain* - ${leadData['domain']}.anyfunnels.com \n *Account Creation Date* - ${leadData['account_creation_date']} \n *Business Name* - ${leadData['company_name']} \n *Website URL* - ${leadData['website_url']} \n *Current Contact Size* - ${leadData['current_contact_size']} \n *Existing Email Provider* - ${leadData['existing_email_provider']} \n *City/ Country* - ${leadData['city']}/ ${leadData['country']} \n *Time Zone* - ${leadData['gdpr_timezone']} \n *Last 15 Days Email Sent* - ${leadData['last_15_days_email_send']} \n *Last Active in App* - ${leadData['last_activity_in_app']} \n *Signup Page* - ${leadData['signup_page']} \n --- \n AnyFunnels Bot ";
+        }
+
+        return $content;
+    }
+
+    public function processWebhookInternalSlack($data)
+    {
+        try {
+            $success               = false;
+            if (isset($data->state) && isset($data->domain)) {
+                $this->sendInternalSlackMessage($data->state, $data->domain);
+                $success           =true;
+            }
+        } catch (\Exception $ex) {
+            $success = false;
+        }
+
+        $response = new JsonResponse(['success' => $success]);
+
+        return $response;
+    }
+
+    public function sendInternalSlackMessage($state, $domain=null)
+    {
+        $state        = strtolower($state);
+        $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
+        $slackContent = $this->getInternalSlackData($contentType, $domain);
+        $channel      = $this->channelList[$state];
+        $token        = $this->factory->getParameter('slack_internal_token');
+        $posturl      = "https://slack.com/api/chat.postMessage?token=$token&channel=$channel";
+        $attachment   = [
+            [
+                'color'      => '#3292e0',
+                'title'      => '#'.$state,
+                'title_link' => '#',
+                'text'       => $slackContent,
+            ],
+        ];
+        $attachmentstr = urlencode(json_encode($attachment));
+        $posturl .= '&attachments='.$attachmentstr;
+        $curl = curl_init($posturl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded, application/json']);
+        $result   = curl_exec($curl);
+        $response = json_decode($result);
+        $res      = ['success' => true, 'error' => ''];
+        if (!$response->ok) {
+            $res['success'] = false;
+            $res['error']   = $response->error;
+        }
+
+        return $res;
     }
 }

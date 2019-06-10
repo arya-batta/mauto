@@ -89,39 +89,4 @@ class SlackHelper
 
         return $res;
     }
-
-    public function sendInternalSlackMessage($state, $reason)
-    {
-        $token     = $this->factory->getParameter('slack_internal_token');
-        $channel   = $this->factory->getParameter('slack_internal_channel');
-        $domainurl = $this->factory->getParameter('site_url');
-        $posturl   = "https://slack.com/api/chat.postMessage?token=$token&channel=$channel";
-        $content   = "Customer Enter into: \n $state";
-        if ($reason != '') {
-            $content .= "\n Reason is \n".$reason;
-        }
-        $attachment = [
-            [
-                'color'      => '#3292e0',
-                'title'      => 'Domain Access',
-                'title_link' => $domainurl,
-                'text'       => $content,
-            ],
-        ];
-        $attachmentstr = urlencode(json_encode($attachment));
-        $posturl .= '&attachments='.$attachmentstr;
-        $curl = curl_init($posturl);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded, application/json']);
-        $result   = curl_exec($curl);
-        $response = json_decode($result);
-        $res      = ['success' => true, 'error' => ''];
-        if (!$response->ok) {
-            $res['success'] = false;
-            $res['error']   = $response->error;
-        }
-
-        return $res;
-    }
 }

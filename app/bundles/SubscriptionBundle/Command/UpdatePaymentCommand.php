@@ -156,6 +156,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                                 $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$planname);
                                 if ($netamount > 0) {
                                     $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $planname, $planamount, $plancredits, $netamount, $netcredits, $validitytill, $appValidityRenewal, $contactcredites, false);
+                                    $smHelper->sendInternalSlackMessage($appValidityRenewal ? 'subscription_payment_received' : 'addon_payment_received');
                                 } else {
                                     $subsrepository=$container->get('le.core.repository.subscription');
                                     $subsrepository->updateContactCredits($contactcredites, $validitytill, $currentdate, $appValidityRenewal, $plancredits);
@@ -177,6 +178,7 @@ class UpdatePaymentCommand extends ModeratedCommand
                     }
                     $contactcredites    = $translator->trans('le.pricing.plan.contact.credits.'.$lastpayment->getPlanName());
                     $this->attemptStripeCharge($output, $stripecard, $paymenthelper, $paymentrepository, $lastpayment->getPlanName(), $lastpayment->getAmount(), $lastpayment->getBeforeCredits(), $lastpayment->getNetamount(), $lastpayment->getAfterCredits(), $lastpayment->getValidityTill(), $appValidityRenewal, $contactcredites, true, $lastpayment);
+                    $smHelper->sendInternalSlackMessage($appValidityRenewal ? 'subscription_payment_received' : 'addon_payment_received');
                 }
             } else {
                 $output->writeln('<error>'.'Last payment details not found.'.'</error>');
@@ -199,6 +201,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             //  print('Param is:' . $err['param'] . "\n");
             // print('Message is:' . $err['message'] . "\n");
             $errormsg      ='Card Error:'.$err['message'];
+            $carderror     = true;
             $payment       =$paymentrepository->captureStripePayment('', '', $planamount, $netamount, $plancredits, $netcredits, $validitytill, $planname, null, null, $errormsg, $appValidityRenewal);
             if ($err['code'] != 'processing_error') {
                 $smHelper=$container->get('le.helper.statemachine');
@@ -227,6 +230,10 @@ class UpdatePaymentCommand extends ModeratedCommand
             // Something else happened, completely unrelated to Stripe
         }
         if ($errormsg != '') {
+            $smHelper          = $container->get('le.helper.statemachine');
+            if (!$carderror) {
+                $smHelper->sendInternalSlackMessage('payment_failed_internal_action_needed');
+            }
             $output->writeln('<error>'.$errormsg.'</error>');
             echo 'exception->'.$errormsg."\n";
 
@@ -321,6 +328,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             $smHelper->newStateEntry('Customer_Inactive_Payment_Issue', $errormsg);
             $smHelper->addStateWithLead();
             $output->writeln('<info>App enters into Customer_Inactive_Payment_Issue</info>');
+            $smHelper->sendInternalSlackMessage('payment_failed_customer_action_needed');
         }
     }
 
