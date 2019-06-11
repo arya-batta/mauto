@@ -533,7 +533,7 @@ class ListOptInModel extends FormModel
                 $br          = $doc->createElement('br');
                 $brandfooter = $doc->createElement('div');
                 $brandfooter->setAttribute('style', 'background-color:#ffffff;text-align:center;');
-                $url  = 'http://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
+                $url  = 'https://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
                 $atag = $doc->createElement('a');
                 $atag->setAttribute('href', $url);
                 $atag->setAttribute('target', '_blank');
