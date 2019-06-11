@@ -1198,6 +1198,8 @@ class AjaxController extends CommonAjaxController
             //$smHelper->makeStateInActive(['Customer_Active']);
             $smHelper->newStateEntry('Customer_Inactive_Exit_Cancel', $cancelreason);
             $smHelper->addStateWithLead();
+            $signuprepository=$this->factory->get('le.core.repository.signup');
+            $signuprepository->updateCancelInformation($cancelreason, $cancelfeedback, $smHelper->getAppDomain());
         }
         //  $mailer = $this->container->get('le.transport.elasticemail.transactions');
         // $this->sendCancelSubscriptionEmail($mailer);

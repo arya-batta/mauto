@@ -1362,7 +1362,7 @@ class AjaxController extends CommonAjaxController
                 ]);
             } else {
                 $status =false;
-                $message='domain creation failed due to some technical error!';
+                $message='Invalid or Domain used in another account, please try with another.';
             }
         } else {
             $status =false;
@@ -1424,7 +1424,7 @@ class AjaxController extends CommonAjaxController
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
         $spf_check        =$elasticApiHelper->verifySPF($domain);
         $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
-        $tracking_check   =$elasticApiHelper->verifyTracking($domain);
+        $tracking_check   =0; //$elasticApiHelper->verifyTracking($domain);
         $domainList       =$model->getRepository()->getAllSendingDomains($domain);
         foreach ($domainList as $sendingdomain) {
             $sendingdomain->setdkimCheck($dkim_check);

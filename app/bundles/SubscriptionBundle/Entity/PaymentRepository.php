@@ -70,7 +70,7 @@ class PaymentRepository extends CommonRepository
         if (!$isvalidityExpired) {
             $isAddOn=1;
         }
-        $planlabel = '90 Days Free Trial';
+        $planlabel = '3 Months Free Trial';
         if ($planname == 'leplan2') {
             $planlabel = 'Growth Plan';
         }

@@ -750,6 +750,16 @@ final class LeadEvents
     const LIST_OPT_IN_CHANGE = 'mautic.list_optin_change';
 
     /**
+     * The mautic.remove_list_optin event is dispatched if a lead's list optin changes.
+     *
+     * The event listener receives a
+     * Mautic\LeadBundle\Event\ListOptInChangeEvent instance.
+     *
+     * @var string
+     */
+    const REMOVE_LSIT_OPTIN = 'mautic.remove_list_optin';
+
+    /**
      * The le.lead_list_optin_add event is dispatched if a lead added to listoptin.
      *
      * The event listener receives a

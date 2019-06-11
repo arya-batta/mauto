@@ -49,7 +49,7 @@ class ElasticApiHelper
 
     public function createDomain($domain)
     {
-        $response=$this->sendApiRequest('domain/add', ['domain'=>$domain]);
+        $response=$this->sendApiRequest('domain/add', ['domain'=>$domain, 'trackingType' => '-2']);
         $status  =false;
         if (isset($response->success) && $response->success) {
             $status=true;
@@ -195,7 +195,7 @@ class ElasticApiHelper
         $domain                           =$this->factory->get('le.helper.statemachine')->getAppDomain();
         $password                         =$this->factory->getParameter('elastic_subaccount_password');
         $rootApiKey                       =$this->factory->getParameter('le_elastic_email_root_password');
-        $username                         =$domain.'@anyfunnels.io';
+        $username                         =$domain.'@anyfunnels.net';
         $payLoad['email']                 =$username;
         $payLoad['password']              =$password;
         $payLoad['confirmPassword']       =$password;

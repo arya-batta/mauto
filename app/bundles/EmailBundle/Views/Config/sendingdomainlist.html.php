@@ -14,10 +14,10 @@
          DKIM
             <i class="fa fa-question ecircle" aria-hidden="true"></i>
         </th>
-        <th style="width: 15%" data-help="tracking">
+        <!--<th style="width: 15%" data-help="tracking">
          Tracking
             <i class="fa fa-question ecircle" aria-hidden="true"></i>
-        </th>
+        </th>-->
         <th style="width: 10%;">
          <span class="header"><span>
         </th>
@@ -42,9 +42,9 @@
         <td>
             <i class="fa fa-lg <?php echo $sendingdomain->getdkimCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
         </td>
-        <td>
+        <!--<td>
             <i class="fa fa-lg <?php echo $sendingdomain->gettrackingCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
-        </td>
+        </td>-->
         <td>
             <a href="javascript: void(0);" class="verify-sending-domain btn btn-default text-danger pull-right waves-effect" data-toggle="tooltip" title="<?php echo $view['translator']->trans('le.sending.domain.verify.tooltip'); ?>" data-domain="<?php echo $sendingdomain->getDomain()?>">Verify</a>
         </td>

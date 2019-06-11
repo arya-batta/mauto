@@ -394,4 +394,38 @@ class AccountController extends FormController
             ],
         ]);
     }
+
+    public function senderreputationAction()
+    {
+        if (!$this->user->isAdmin() && !$this->user->isCustomAdmin() && $this->coreParametersHelper->getParameter('accountinfo_disabled')) {
+            return $this->accessDenied();
+        }
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $planType           ='Trial';
+        $planName           ='';
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($lastpayment != null) {
+            $planType    ='Paid';
+            $planName    = $lastpayment->getPlanName();
+        }
+        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
+
+        return $this->delegateView([
+            'viewParameters' => [
+                // 'tmpl'               => $tmpl,
+                'security'           => $this->get('mautic.security'),
+                'actionRoute'        => 'le_accountinfo_action',
+                'typePrefix'         => 'form',
+                'emailreputations'   => $elasticApiHelper->getReputationDetails(),
+                'planType'           => $planType,
+                'planName'           => $planName,
+            ],
+            'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:senderreputation.html.php',
+            'passthroughVars' => [
+                'activeLink'    => '#le_accountinfo_index',
+                'leContent'     => 'accountinfo',
+                'route'         => $this->generateUrl('le_accountinfo_action', ['objectAction' => 'senderreputation']),
+            ],
+        ]);
+    }
 }

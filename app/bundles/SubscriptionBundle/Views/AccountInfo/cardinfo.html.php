@@ -45,7 +45,23 @@ if ($lastpayment == null) {
                         <div class="cardholder-panel">
                             <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
 
-                            <span class="login-notifiation <?php echo $hidenoti; ?>" style="width: 100%;text-align: left;border:1px solid #fef4f6;"><?php echo $carderror; ?></span>
+                            <div class="state-inactive-alert-content">
+                                <span class="login-notifiation <?php echo $hidenoti; ?>" style="width: 100%;text-align: left;border:1px solid #fef4f6;">
+                                There was an error when we tried to bill your credit card ending in <?php echo $stripecard->getlast4digit(); ?> for your subscription to AnyFunnels.
+                                <br>
+                                This frequently occurs when there is<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;=> a billing error caused by your bank<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;=> a change in your billing address<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;=> insufficient credit on your account<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;=> your credit card has expired<br>
+                                <br>
+                                Your account has been kept Inactive temporarily, kindly update your account information with a valid credit card to reactivate your account.
+                                <br><br>
+                                Unfortunately if after 30 days, we still cannot successfully bill your credit card then your AnyFunnels account will be suspended automatically.
+                                <br>
+                                If you have a question, please <a href="https://anyfunnels.freshdesk.com/support/tickets/new" target="_blank" style="color:blue;text-decoration: underline;">click here</a> to contact our support team.
+                                </span>
+                            </div>
                             <div>
                                 <div class="card-holder-title">
                                     Credit Card

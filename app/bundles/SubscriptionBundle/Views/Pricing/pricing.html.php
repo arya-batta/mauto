@@ -15,10 +15,10 @@
             <div class="afpriceone">
                 <p class="afpricetitle hide"><span style="color:#0071ff; font-size:30px;">SPECIAL PLAN</span></p>
                 <p class="afpriceamt"><span style="text-align:center;font-weight:500;font-size:24px;color:#000;">$</span>0</p>
-                <p ><span style="text-align:center;font-weight:500;font-size:16px;line-height:25px;color:#000;">for first 3 months, <br>then, just $29/ month paid monthly.</span></p>
+                <p ><span style="text-align:center;font-weight:500;font-size:14px;line-height:25px;color:#000;">for first 3 months, <br>then, just $29/ month paid monthly.</span></p>
                 <p class="afgap" style="margin-top:10px;"></p>
                 <a href="<?php echo $view['router']->generate('le_billing_index') ?>" id="leplan1-button" type="button" class="price-buttonfoot">
-                    Subscribe 90 Days Free Trial
+                    <?php echo $view['translator']->trans('le.billing.paynow.button.text'); ?>
                 </a>
                 <p class="afreq" style="display:none;font-size: 13px; color: #000;line-height: 18px; margin-top: 10px;">No credit card required.</p>
             </div>

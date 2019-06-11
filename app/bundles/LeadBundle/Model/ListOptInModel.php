@@ -447,6 +447,16 @@ class ListOptInModel extends FormModel
 
             unset($listLead);
         }
+        if (!empty($deleteLists)) {
+            foreach ($deleteLists as $listLead) {
+                $listentity       = $this->getEntity($listLead->getList());
+                if ($this->dispatcher->hasListeners(LeadEvents::REMOVE_LSIT_OPTIN)) {
+                    $event = new ListOptInChangeEvent($lead, $listentity, false);
+                    $this->dispatcher->dispatch(LeadEvents::REMOVE_LSIT_OPTIN, $event);
+                    unset($event);
+                }
+            }
+        }
 
         if (!empty($persistLists)) {
             $this->getRepository()->saveEntities($persistLists);

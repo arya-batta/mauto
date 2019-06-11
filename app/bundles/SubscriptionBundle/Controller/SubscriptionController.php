@@ -186,14 +186,14 @@ class SubscriptionController extends CommonController
         $orderid = $this->request->get('id', '');
         if ($orderid != '') {
             $paymentrepository  =$this->get('le.subscription.repository.payment');
-            $paymenthistory     = $paymentrepository->findBy(['orderid' => $orderid]);
-            $payment            = $paymenthistory[0];
+            //$paymenthistory     = $paymentrepository->findBy(['orderid' => $orderid]);
+            //$payment            = $paymenthistory[0];
 
             return $this->delegateView([
                 'viewParameters' => [
                     'security'       => $this->get('mautic.security'),
                     'contentOnly'    => 0,
-                    'paymentdetails' => $payment,
+                    //'paymentdetails' => $payment,
                     'tmpl'           => 'index',
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Pricing:status.html.php',

@@ -1729,7 +1729,7 @@ Le.showActionButtons = function (id) {
  */
 Le.hideFlashMessage = function () {
     mQuery(function() {
-        mQuery('#flashes').delay(3000).fadeIn('normal', function() {
+        mQuery('#flashes').delay(6000).fadeIn('normal', function() {
             var value = mQuery('.alert-growl  span').html();
             if(value.includes("verification link")){
                 //mQuery(this).delay(200000).fadeOut();

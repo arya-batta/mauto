@@ -329,7 +329,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'      => 'campaignsource_lists',
             'sourcetype'    => 'lists',
             'group'         => 'le.campaign.source.group.name',
-            'order'         => 2,
+            'order'         => 5,
         ];
 
         $event->addSources('lists', $source);
@@ -346,6 +346,17 @@ class CampaignSubscriber extends CommonSubscriber
         $event->addSources('listoptin', $source);
 
         $source = [
+            'label'       => 'le.campaign.leadsource.remove.listoptin',
+            'description' => 'le.campaign.leadsource.remove.listoptin.desc',
+            'order'       => '2',
+            'formType'    => 'campaignsource_listoptin',
+            'group'       => 'le.campaign.source.group.name',
+            'sourcetype'  => 'listoptin.remove',
+        ];
+
+        $event->addSources('listoptin.remove', $source);
+
+        $source = [
             'label'         => 'le.campaign.leadsource.allleads',
             'description'   => 'le.campaign.leadsource.allleads.desc',
             'sourcetype'    => 'allleads',
@@ -358,7 +369,7 @@ class CampaignSubscriber extends CommonSubscriber
         $source = [
             'label'       => 'le.lead.list.filter.tags',
             'description' => 'le.lead.lead.events.tags_descr',
-            'order'       => '5',
+            'order'       => '3',
             'formType'    => 'campaignevent_lead_tags',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'leadtags',
@@ -369,7 +380,7 @@ class CampaignSubscriber extends CommonSubscriber
         $source = [
             'label'       => 'le.lead.list.filter.tags.remove',
             'description' => 'le.lead.list.filter.tags.remove.desc',
-            'order'       => '6',
+            'order'       => '4',
             'formType'    => 'campaignevent_lead_tags',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'leadtags.remove',
@@ -381,7 +392,7 @@ class CampaignSubscriber extends CommonSubscriber
             'label'       => 'le.lead.lead.events.completed_dripcampaign',
             'description' => 'le.lead.lead.events.completed_dripcampaign_descr',
             'formType'    => 'dripemailsend_list',
-            'order'       => '7',
+            'order'       => '8',
             'group'       => 'le.campaign.source.group.name',
             'sourcetype'  => 'dripcampaign_completed',
         ];

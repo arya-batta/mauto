@@ -727,6 +727,21 @@ class SignupRepository
         }
     }
 
+    public function updateCancelInformation($cancelreason, $cancelfeedback, $domain)
+    {
+        if ($domain != 'cops') {
+            $qb = $this->getConnection()->createQueryBuilder();
+            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+                ->set('reason_for_cancellation', ':cancelreason')
+                ->set('cancellation_remarks', ':cancelfeedback')
+                ->setParameter('cancelreason', $cancelreason)
+                ->setParameter('cancelfeedback', $cancelfeedback)
+                ->where(
+                    $qb->expr()->eq('domain', ':domain')
+                )->setParameter('domain', $domain)->execute();
+        }
+    }
+
     public function addLeadNotes($content, $reason, $domain)
     {
         if ($domain != 'cops') {

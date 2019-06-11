@@ -141,7 +141,7 @@ class CampaignSubscriber extends CommonSubscriber
             'formType'       => 'campaignevent_pagehit',
             'group'          => 'le.campaign.source.group.name',
             'sourcetype'     => 'pagehit',
-            'order'          => '9',
+            'order'          => 9,
         ];
         $event->addSources('pagehit', $source);
     }

@@ -255,7 +255,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTypeOptions' => [
                     'iscampaign' => true,
                 ],
-                'order'           => '9',
+                'order'           => 8,
                 'group'           => 'le.campaign.source.group.name',
             ]
         );
@@ -271,7 +271,7 @@ class CampaignSubscriber extends CommonSubscriber
                 'formTypeOptions' => [
                     'iscampaign' => true,
                 ],
-                'order'           => '9',
+                'order'           => 9,
                 'group'           => 'le.campaign.source.group.name',
             ]
         );

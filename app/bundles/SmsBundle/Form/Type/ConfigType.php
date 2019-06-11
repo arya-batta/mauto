@@ -57,7 +57,7 @@ class ConfigType extends AbstractType
         $alltransports = $this->transportChain->getEnabledTransports();
         if (!$this->isadmin) {
             foreach ($alltransports as $transportServiceId => $transport) {
-                if ($transportServiceId != 'le.sms.transport.solutioninfini' && $transportServiceId != 'le.sms.transport.leadsengage') {
+                if ($transportServiceId != 'le.sms.transport.leadsengage') {
                     $transports[$transportServiceId] = $alltransports[$transportServiceId];
                 }
             }

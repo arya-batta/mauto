@@ -11,7 +11,7 @@
 $view->extend('MauticCoreBundle:Default:content.html.php');
 $view['slots']->set('leContent', 'payment-status');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.core.prepaidplans'));
-$paymentid    =$paymentdetails->getPaymentID();
+/*$paymentid    =$paymentdetails->getPaymentID();
 $orderid      =$paymentdetails->getOrderID();
 $amount       =$paymentdetails->getAmount();
 $currency     =$paymentdetails->getCurrency();
@@ -20,7 +20,7 @@ $addedcredits =$paymentdetails->getAddedCredits();
 $creditsbefore=$paymentdetails->getBeforeCredits();
 $creditsafter =$paymentdetails->getAfterCredits();
 $validitytill =$paymentdetails->getValidityTill();
-$validitytill =date('d-M-y', strtotime($validitytill));
+$validitytill =date('d-M-y', strtotime($validitytill));*/
 ?>
 
 <div class="panel" style="margin:20px;padding-top: 20px;padding-bottom: 20px;margin-top:100px;">
@@ -51,7 +51,7 @@ $validitytill =date('d-M-y', strtotime($validitytill));
         </div>
     </div>
 </div>
-<div class="payment-status-holder hide">
+<!--<div class="payment-status-holder hide">
     <table width="100%">
         <tr>
             <td colspan="2">
@@ -73,37 +73,37 @@ $validitytill =date('d-M-y', strtotime($validitytill));
         <tr>
             <td>
                 <div class="transaction-details">
-                    <span style="display: block"><span class="payment-status-lbl-left">Amount:</span><?php echo $currency.$amount ?></span>
+                    <span style="display: block"><span class="payment-status-lbl-left">Amount:</span><?php //echo $currency.$amount?></span>
                      </div>
             </td>
             <td>
                 <div class="transaction-details">
-                    <span style="display: block"><span class="payment-status-lbl-left">Plan:</span><?php echo $plan ?></span>
+                    <span style="display: block"><span class="payment-status-lbl-left">Plan:</span><?php //echo $plan?></span>
                      </div>
             </td>
         </tr> <tr>
             <td>
                 <div class="transaction-details">
-                    <span style="display: block"><span class="payment-status-lbl-left">Payment ID:</span><?php echo $paymentid ?></span>
+                    <span style="display: block"><span class="payment-status-lbl-left">Payment ID:</span><?php //echo $paymentid?></span>
                 </div>
             </td>
             <td>
                 <div class="transaction-details">
-                    <span style="display: block"><span class="payment-status-lbl-left">Valid Till:</span><?php echo $validitytill ?></span>
+                    <span style="display: block"><span class="payment-status-lbl-left">Valid Till:</span><?php //echo $validitytill?></span>
                 </div>
             </td>
         </tr> <tr>
             <td>
                 <div class="transaction-details">
-                   <span style="display: block"><span class="payment-status-lbl-left">Order ID:</span><?php echo $orderid ?></span>
+                   <span style="display: block"><span class="payment-status-lbl-left">Order ID:</span><?php //echo $orderid?></span>
                 </div>
             </td>
             <td>
                 <div class="transaction-details">
-                    <span class="hide" style="display: block"><span class="payment-status-lbl-left">Available Contacts:</span><?php echo $creditsafter ?></span>
+                    <span class="hide" style="display: block"><span class="payment-status-lbl-left">Available Contacts:</span><?php //echo $creditsafter?></span>
                 </div>
             </td>
         </tr>
     </table>
-</div>
+</div>-->
 <div class="clearfix"></div>

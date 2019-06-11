@@ -27,12 +27,14 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
         <div class="pricing-type-modal" style="display: block; z-index: 9999;">
             <div class="panel">
                 <div class="panel-body box-layout">
-                    <div class="modal-header" style="padding-bottom:0px;">
+                    <div class="modal-header hide" style="padding-bottom:0px;">
                         <div class="card-holder-title">
                             <?php echo $view['translator']->trans('le.pricing.model.header'); ?>
                         </div>
                         <p class="header_desc">
-                            We will not charge you anything on your credit card now, you will only be billed $29 a month after your 90 days free trial, and you can cancel anytime if you wish during the trial period.
+                            Subscription Charges- 0$ for first 3 months includes 100K free email credits/ month, Unlimited contacts and Unlimited access to all features. After 3 months trial, we charge 29$ per month, paid monthly.
+                            <br>
+                            Additional email credits- After you use 100K free email credits in a month, we charge 29$ for every 100K additional email. Additional email credits come with unlimited validity, and balance credits will get carry forward every month.
                         </p>
                         <div class="modal-loading-bar"></div>
                     </div>
@@ -42,6 +44,9 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <div class="card-holder-title">
                             Card Information
                         </div>
+                        <p class="header_desc">
+                            We will not charge you anything on your credit card now, you will only be billed after 3 month trial or you exhaust the free email credits in a month. You can cancel your account anytime if you wish.
+                        </p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">

@@ -50,8 +50,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="sending-domain-validation-header">Tracking Validation</div>
-                        <div class="tracking-validation-status">
+                        <div class="sending-domain-validation-header hide">Tracking Validation</div>
+                        <div class="tracking-validation-status hide">
                             <i class="fa fa-spin fa-spinner"></i>
                         </div>
                     </div>

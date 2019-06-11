@@ -738,7 +738,7 @@ var Le = {
                 mQuery(me).fadeTo(500, 0).slideUp(500, function () {
                     mQuery(this).remove();
                 });
-            }, 4000);
+            }, 6000);
 
             mQuery(this).removeClass('alert-new');
         });

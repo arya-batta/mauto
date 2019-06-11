@@ -380,7 +380,7 @@ Le.refreshSendingDomainListeners=function(){
         e.preventDefault();
         mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
         mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
-        mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
+        //mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
         var currentLink = mQuery(this);
         var domain=currentLink.attr("data-domain");
         mQuery('#sendingdomainverifyModel').modal('show');
@@ -398,11 +398,11 @@ Le.refreshSendingDomainListeners=function(){
                 }else{
                     mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid DKIM record, <a onclick="Le.openSendingDomainHelp(\'dkim\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about DKIM configuration.');
                 }
-                if(response.tracking_check){
+                /*if(response.tracking_check){
                     mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
                     mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid Tracking record, <a onclick="Le.openSendingDomainHelp(\'tracking\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about Tracking configuration.');
-                }
+                }*/
                 Le.refreshSendingDomainListeners();
             }
         });

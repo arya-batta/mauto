@@ -71,14 +71,14 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                             <div class="col-md-12">
                                 <label class="control-label" style="font-weight: normal;">Select Reason for Cancellation</label>
                                 <select name="cancel_reason" class="form-control" id="cancel_reason">
-                                    <option value="Just_want_to_try">Just want to try</option>
-                                    <option value="Product_is_difficult_to_use">Product is difficult to use</option>
-                                    <option value="Email_delivery_spam_issues">Email delivery/spam issues</option>
-                                    <option value="Issues_with_product">Issues with product</option>
-                                    <option value="Not_happy_with_support">Not happy with support</option>
-                                    <option value="Not_fulfilling_my_requirements">Not fulfilling my requirements</option>
-                                    <option value="Moved_to_better_solution">Moved to better solution</option>
-                                    <option value="Others">Others</option>
+                                    <option value="1">Just want to try</option>
+                                    <option value="2">Product is difficult to use</option>
+                                    <option value="3">Email delivery/spam issues</option>
+                                    <option value="4">Issues with product</option>
+                                    <option value="5">Not happy with support</option>
+                                    <option value="6">Not fulfilling my requirements</option>
+                                    <option value="7">Moved to better solution</option>
+                                    <option value="8">Others</option>
                                 </select>
                             </div>
                         </div>

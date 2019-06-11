@@ -54,16 +54,38 @@ class ConfigModel extends AbstractCommonModel
         $settingsMenu = [];
 
         $settingsMenu[] = [
+            'Account settings'=> [
+                'Account' => [
+                    'name'=> 'Account',
+                    'img' => 'Accounts.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'edit']),
+                ],
+                'Sender Reputation' => [
+                    'name'=> 'Sender Reputation',
+                    'img' => 'Sender-Reputation.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction' => 'senderreputatin']),
+                ],
+                'Billing' => [
+                    'name'=> 'Billing',
+                    'img' => 'Billing.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'billing']),
+                ],
+                'Payment History' => [
+                    'name'=> 'Payment History',
+                    'img' => 'Payment-History.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
+                ],
+                'Users' => [
+                    'name'=> 'Users',
+                    'img' => 'Users.png',
+                    'url' => $this->router->generate('le_user_index'),
+                ],
+            ],
             'Configurations' => [
                 'Sending Domain' => [
                     'name'=> 'Sending Domain',
                     'img' => 'Sending-Domain.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']),
-                ],
-                'Sender Reputation' => [
-                    'name'=> 'Sender Reputation',
-                    'img' => 'Sender-Reputation.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'senderreputation_config']),
                 ],
                 'Email Settings' => [
                     'name'=> 'Email Settings',
@@ -85,24 +107,19 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Website-Tracking.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'trackingconfig']),
                 ],
-                'API Key & Doc' => [
-                    'name'=> 'API Key & Doc',
-                    'img' => 'Developer-API.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'apiconfig']),
-                ],
-                'Webhooks' => [
-                    'name'=> 'Webhooks',
-                    'img' => 'Webhooks.png',
-                    'url' => $this->router->generate('le_webhook_index'),
+                'Group' => [
+                    'name'=> 'Group',
+                    'img' => 'Category.png',
+                    'url' => $this->router->generate('le_category_index'),
                 ],
             ],
-            'Assets'=> [
-                'Notification Email Templates' => [
+            'Templates'=> [
+                'Notification Email' => [
                     'name'=> 'Notification Emails',
                     'img' => 'Notification-Email-Templates.png',
                     'url' => $this->router->generate('le_email_index'),
                 ],
-                'Text Message Templates' => [
+                'Text Message' => [
                     'name'=> 'Text Messages',
                     'img' => 'Text-Messages-Templates.png',
                     'url' => $this->router->generate('le_sms_index'),
@@ -117,42 +134,27 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Files-Lead-Magnets.png',
                     'url' => $this->router->generate('le_asset_index'),
                 ],
-                'Group' => [
-                    'name'=> 'Group',
-                    'img' => 'Category.png',
-                    'url' => $this->router->generate('le_category_index'),
-                ],
-            ],
-
-            'Account settings'=> [
-                'Account' => [
-                    'name'=> 'Account',
-                    'img' => 'Accounts.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'edit']),
-                ],
-                'Billing' => [
-                    'name'=> 'Billing',
-                    'img' => 'Billing.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'billing']),
-                ],
-                'Payment History' => [
-                    'name'=> 'Payment History',
-                    'img' => 'Payment-History.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
-                ],
-                'Users' => [
-                    'name'=> 'Users',
-                    'img' => 'Users.png',
-                    'url' => $this->router->generate('le_user_index'),
-                ],
             ],
 
             'Integrations' => [
+                'API Key & Doc' => [
+                    'name'=> 'API Key & Doc',
+                    'img' => 'Developer-API.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'apiconfig']),
+                ],
+                'Webhooks' => [
+                    'name'=> 'Webhooks',
+                    'img' => 'Webhooks.png',
+                    'url' => $this->router->generate('le_webhook_index'),
+                ],
                 'Zapier' => [
                     'name'=> 'Zapier',
                     'img' => 'Zapier.png',
                     'url' => $this->router->generate('le_integrations_config', ['name'=>'zapier']),
                 ],
+            ],
+
+            '3rd Party Apps' => [
                 'Facebook Lead Ad' => [
                     'name'=> 'Facebook Lead Ad',
                     'img' => 'fb-Ad.png',

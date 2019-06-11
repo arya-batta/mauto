@@ -85,6 +85,7 @@ class LeadSubscriber extends CommonSubscriber
             LeadEvents::REMOVE_TAG_EVENT         => ['RemoveTagModifiedLead', 0],
             LeadEvents::COMPLETED_DRIP_CAMPAIGN  => ['CompletedDripCampaign', 0],
             LeadEvents::LIST_OPT_IN_CHANGE       => ['onLeadOptInChanged', 0],
+            LeadEvents::REMOVE_LSIT_OPTIN        => ['removeListOptin', 0],
             LeadEvents::INTEGRATION_EVENT        => ['integrationEvent', 0],
         ];
     }
@@ -583,6 +584,45 @@ class LeadSubscriber extends CommonSubscriber
                 foreach ($c as $event) {
                     $properties = unserialize($event['properties']);
                     if ($action == 'added') {
+                        if (in_array($list->getId(), $properties['listoptin'])) {
+                            $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLead($campaign, $lead);
+                                $this->campaignModel->putCampaignEventLog($event['eventid'], $campaign, $lead);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLead($campaign, $lead, $event['eventid']);
+                            }
+                            unset($campaign);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function removeListOptin(ListOptInChangeEvent $leadevent)
+    {
+        if ($this->smHelper->isAnyInActiveStateAlive()) {
+            return;
+        }
+        $list   = $leadevent->getList();
+        $lead   = $leadevent->getLead();
+        $action = $leadevent->wasAdded() ? 'added' : 'removed';
+        /** @var ListOptInModel $listoptinmodel */
+        $listoptinmodel = $this->factory->getModel('lead.listoptin');
+        /** @var ListLeadOptIn $listLead */
+        $listLead = $listoptinmodel->getListLeadRepository()->getListEntityByid($lead->getId(), $list->getId());
+        if (!$listLead->getConfirmedLead()) {
+            return;
+        }
+        //get campaigns for the list
+        $repo              = $this->campaignModel->getRepository();
+        $allLeadsCampaigns = $repo->getPublishedCampaignbySourceType('listoptin.remove');
+        if (!empty($allLeadsCampaigns)) {
+            foreach ($allLeadsCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    if ($action == 'removed') {
                         if (in_array($list->getId(), $properties['listoptin'])) {
                             $campaign = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
                             if ($event['goal'] != 'interrupt') {

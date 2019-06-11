@@ -15877,6 +15877,7 @@ span.CodeMirror-selectedtext {
   box-sizing: border-box;
   overflow-x: auto;
   min-height: 40px;
+  font-family: Georgia, "Times New Roman", Times, serif
 }
 .fr-element {
   background: transparent;

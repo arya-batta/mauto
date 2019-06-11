@@ -8006,6 +8006,7 @@ span.afincludes{
 
 .state-inactive-alert-panel .state-inactive-alert-content{
   margin-bottom: 1%;
+  text-align: left;
 }
 .state-inactive-alert-panel .state-inactive-alert-content a{
   color: #3292e0;
@@ -8019,4 +8020,8 @@ span.afincludes{
     white-space: nowrap;
     display: inline-block;
     text-align: center;
+}
+.state-inactive-alert-panel .state-inactive-padding{
+  padding-left: 20px;
+  padding-right: 20px;
 }

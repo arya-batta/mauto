@@ -381,7 +381,7 @@ class EventController extends CommonFormController
             $choices=$formView->children['properties']->children['lists']->vars['choices'];
             $lists  =$event['properties']['lists'];
             $label  =$this->getFormattedEventLabel($label, $lists, $choices);
-        } elseif ($event['type'] == 'listoptin') {
+        } elseif ($event['type'] == 'listoptin' || $event['type'] == 'listoptin.remove') {
             $choices=$formView->children['properties']->children['listoptin']->vars['choices'];
             $lists  =$event['properties']['listoptin'];
             $label  =$this->getFormattedEventLabel($label, $lists, $choices);
