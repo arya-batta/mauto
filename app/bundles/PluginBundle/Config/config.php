@@ -277,7 +277,7 @@ return [
         'slack_client_id'                                   => '',
         'slack_client_secret'                               => '',
         'slack_internal_token'                              => '',
-        'anyfunnels_token'                                  => 'xoxp-644748896150-631135698147-631163396370-eb1cad146c2cec0f32fa49b20f7b8518',
+        'anyfunnels_token'                                  => 'xoxp-644748896150-631135698147-650037055459-5b13a3e9024385297086b44543498b5c',
         'slack_internal_channel'                            => '',
     ],
 ];
