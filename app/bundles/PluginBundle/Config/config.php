@@ -276,7 +276,7 @@ return [
         'facebook_oauth_callback'                           => 'https://apps.anyfunnels.com/integrations/facebook/callback.php',
         'slack_client_id'                                   => '',
         'slack_client_secret'                               => '',
-        'slack_internal_token'                              => 'xoxp-644748896150-631135698147-631163396370-eb1cad146c2cec0f32fa49b20f7b8518',
+        'slack_internal_token'                              => '',
         'slack_internal_channel'                            => '',
     ],
 ];
