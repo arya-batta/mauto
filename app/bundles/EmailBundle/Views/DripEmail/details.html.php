@@ -16,18 +16,6 @@ $view['slots']->set('headerTitle', $entity->getName());
 //dump($actionRoute);
 
 $customButtons   = [];
-$customButtons[] = [
-    'attr' => [
-        'data-toggle' => 'ajax',
-        'href'        => $view['router']->path(
-            $actionRoute,
-            ['objectAction' => 'send', 'objectId' => $email->getId()]
-        ),
-    ],
-    'iconClass' => 'fa fa-send-o',
-    'btnText'   => 'le.email.send',
-    'primary'   => true,
-];
 $view['slots']->set(
     'actions',
     $view->render(
