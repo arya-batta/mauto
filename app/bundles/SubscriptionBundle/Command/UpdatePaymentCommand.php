@@ -328,6 +328,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             $smHelper->newStateEntry('Customer_Inactive_Payment_Issue', $errormsg);
             $smHelper->addStateWithLead();
             $output->writeln('<info>App enters into Customer_Inactive_Payment_Issue</info>');
+            $smHelper->sendInacitvePaymentIssueEmail();
             $smHelper->sendInternalSlackMessage('payment_failed_customer_action_needed');
         }
     }

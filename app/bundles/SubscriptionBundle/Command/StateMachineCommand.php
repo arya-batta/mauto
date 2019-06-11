@@ -48,6 +48,7 @@ class StateMachineCommand extends ModeratedCommand
                         if (!$domainStatus) {
                             $smHelper->makeStateInActive(['Customer_Active']);
                             $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+                            $smHelper->sendSendingDomainIssueEmail();
                             $smHelper->addStateWithLead();
                             $output->writeln('<info>App enters into Customer_Inactive_Sending_Domain_Issue</info>');
                         } else {
@@ -72,6 +73,7 @@ class StateMachineCommand extends ModeratedCommand
                         $smHelper->makeStateInActive(['Customer_Active']);
                         $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
                         $smHelper->addStateWithLead();
+                        $smHelper->sendInactiveUnderReviewEmail();
                         $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
                     } else {
                         $output->writeln('<info>Elastic Email Account is active</info>');

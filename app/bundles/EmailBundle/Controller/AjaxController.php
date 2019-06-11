@@ -1406,6 +1406,7 @@ class AjaxController extends CommonAjaxController
                 $smHelper->makeStateInActive(['Customer_Active']);
                 $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
                 $smHelper->addStateWithLead();
+                $smHelper->sendSendingDomainIssueEmail();
             }
         }
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [

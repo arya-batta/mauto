@@ -271,7 +271,7 @@ Le.adJustFixedHeader = function(isadd){
             }
         } else {
             if (isadd) {
-                mQuery('.content-body').attr('style', 'padding-top:3.5%;');
+                mQuery('.content-body').attr('style', 'padding-top:3.3%;');
             }
         }
     },1000);

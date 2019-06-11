@@ -13,6 +13,7 @@ namespace Mautic\SubscriptionBundle\Helper;
 
 use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\DateTimeHelper;
+use Mautic\SubscriptionBundle\Entity\Account;
 use Mautic\SubscriptionBundle\Entity\StateMachine;
 use Mautic\SubscriptionBundle\Entity\StateMachineRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -52,7 +53,10 @@ class StateMachineHelper
                                 'customer_inactive_archive'             => 'CK997TVB9',
                                ];
 
-    public $basictype   = ['new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
+    public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', 'current_contact_size'=>'*Current Contact Size*', 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
+    public $basicLabel    = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'signup_location', 'signup_device', 'signup_page'];
+    public $advanceLabel  = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'account_creation_date', 'company_name', 'website_url', 'current_contact_size', 'existing_email_provider', 'city', 'country', 'gdpr_timezone', 'last_15_days_email_send', 'last_activity_in_app', 'signup_page'];
+    public $basictype     = ['new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
 
     public function __construct(MauticFactory $factory, StateMachineRepository $smrepo)
     {
@@ -427,11 +431,59 @@ class StateMachineHelper
         }
         $signuprepository  =$this->factory->get('le.core.repository.signup');
         $leadData          =  $signuprepository->getLeadInfo($Domain);
-        if ($contentType == 'Basic') {
-            $content = "*Name* - ${leadData['firstname']} ${leadData['lastname']} \n *Mobile* - ${leadData['mobile']} \n *Email* - ${leadData['email']} \n *Domain* - ${leadData['domain']}.anyfunnels.com \n *Signup Location* - ${leadData['signup_location']} \n *Signup Device* - ${leadData['signup_device']} \n *Signup Page* - ${leadData['signup_page']} \n --- \n AnyFunnels Bot";
-        } else {
-            $content = "*Name* - ${leadData['firstname']} ${leadData['lastname']} \n *Mobile* - ${leadData['mobile']} \n *Email* - ${leadData['email']} \n *Domain* - ${leadData['domain']}.anyfunnels.com \n *Account Creation Date* - ${leadData['account_creation_date']} \n *Business Name* - ${leadData['company_name']} \n *Website URL* - ${leadData['website_url']} \n *Current Contact Size* - ${leadData['current_contact_size']} \n *Existing Email Provider* - ${leadData['existing_email_provider']} \n *City/ Country* - ${leadData['city']}/ ${leadData['country']} \n *Time Zone* - ${leadData['gdpr_timezone']} \n *Last 15 Days Email Sent* - ${leadData['last_15_days_email_send']} \n *Last Active in App* - ${leadData['last_activity_in_app']} \n *Signup Page* - ${leadData['signup_page']} \n --- \n AnyFunnels Bot ";
+        $content           ='';
+        foreach ($leadData as $key => $value) {
+            if (!empty($value)) {
+                if (in_array($key, $this->basicLabel) || in_array($key, $this->advanceLabel)) {
+                    if ($contentType == 'Basic') {
+                        if (in_array($key, $this->basicLabel)) {
+                            if ($key == 'firstname' || $key == 'lastname') {
+                                if (!preg_match('/Name/i', $content)) {
+                                    $content .= "*Name* - {$leadData['firstname']} {$leadData['lastname']}\n";
+                                }
+                            } elseif ($key == 'domain') {
+                                $content .= "*Domain* - {$leadData['domain']}.anyfunnels.com\n";
+                            } else {
+                                $content .= "{$this->fieldLabel[$key]} - $leadData[$key]\n";
+                            }
+                        }
+                    } else {
+                        if (in_array($key, $this->advanceLabel)) {
+                            if ($key == 'firstname' || $key == 'lastname') {
+                                if (!preg_match('/Name/i', $content)) {
+                                    $content .= "*Name* - {$leadData['firstname']} {$leadData['lastname']}\n";
+                                }
+                            } elseif ($key == 'city' || $key == 'country') {
+                                if (!preg_match('/Country/i', $content)) {
+                                    if (!empty($leadData['city'] && $leadData['country'])) {
+                                        $content .= "*City/ Country* - {$leadData['city']}/ {$leadData['country']}\n";
+                                    } else {
+                                        $content .= "*City/ Country* - {$leadData[$key]}\n";
+                                    }
+                                }
+                            } elseif ($key == 'domain') {
+                                $content .= "*Domain* - {$leadData['domain']}.anyfunnels.com\n";
+                            } else {
+                                $content .= "{$this->fieldLabel[$key]} - $leadData[$key]\n";
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        if ($content != '') {
+            $content .= "--- \n AnyFunnels Bot";
+        }
+
+//        if ($contentType == 'Basic') {
+//            //$content = "*Name* - {$leadData['firstname']} {$leadData['lastname']} \n isset(*Mobile* - {$leadData['mobile']} \n *Email* - {$leadData['email']} \n *Domain* - {$leadData['domain']}.anyfunnels.com \n *Signup Location* - {$leadData['signup_location']} \n *Signup Device* - {$leadData['signup_device']} \n *Signup Page* - {$leadData['signup_page']} \n --- \n AnyFunnels Bot";
+//            //$content = $this->factory->getTranslator()->trans('le.subscription.internalslack.basic.message',['%name%'=>"*Name* - {$leadData['firstname']} {$leadData['lastname']} \n",'%mobile%'=>"*Mobile* - {$leadData['mobile']} \n",'%email%'=>"*Email* - {$leadData['email']} \n",'%domain%'=>"*Domain* - {$leadData['domain']}.anyfunnels.com \n",'%signup_location%'=>"*Signup Location* - {$leadData['signup_location']} \n",'%signup_device%'=>"*Signup Device* - {$leadData['signup_device']} \n",'%signup_page%'=>"*Signup Page* - {$leadData['signup_page']} \n", '%footer%'=> "--- \n AnyFunnels Bot"]);
+//        } else {
+//            //$content = "*Name* - {$leadData['firstname']} {$leadData['lastname']}\n *Mobile* - {$leadData['mobile']}\n *Email* - {$leadData['email']}\n *Domain* - {$leadData['domain']}.anyfunnels.com\n *Account Creation Date* - {$leadData['account_creation_date']}\n *Business Name* - {$leadData['company_name']}\n *Website URL* - {$leadData['website_url']}\n *Current Contact Size* - {$leadData['current_contact_size']}\n *Existing Email Provider* - {$leadData['existing_email_provider']}\n *City/ Country* - {$leadData['city']}/ {$leadData['country']}\n *Time Zone* - {$leadData['gdpr_timezone']}\n *Last 15 Days Email Sent* - {$leadData['last_15_days_email_send']}\n *Last Active in App* - {$leadData['last_activity_in_app']}\n *Signup Page* - {$leadData['signup_page']}\n --- \n AnyFunnels Bot ";
+//           // $content = $this->factory->getTranslator()->trans('le.subscription.internalslack.advanced.message',['%name%'=>"*Name* - {$leadData['firstname']} {$leadData['lastname']} \n",'%mobile%'=>"*Mobile* - {$leadData['mobile']} \n",'%email%'=>"*Email* - {$leadData['email']} \n",'%domain%'=>"*Domain* - {$leadData['domain']}.anyfunnels.com \n",'%account_creation_date%'=>"*Account Creation Date* - {$leadData['account_creation_date']}\n",'%company_name%'=>"*Business Name* - {$leadData['company_name']}\n",'%website_url%'=>"*Website URL* - {$leadData['website_url']}\n",'%current_contact_size%'=>"*Current Contact Size* - {$leadData['current_contact_size']}\n",'%existing_email_provider%'=>"*Existing Email Provider* - {$leadData['existing_email_provider']}\n",'%city&country%'=>"*City/ Country* - {$leadData['city']}/ {$leadData['country']}\n",'%timezone%'=>"*Time Zone* - {$leadData['gdpr_timezone']}\n",'%last_15_days_email_send%'=>"*Last 15 Days Email Sent* - {$leadData['last_15_days_email_send']}\n",'%last_activity_in_app%'=>"*Last Active in App* - {$leadData['last_activity_in_app']}\n",'%signup_page%'=>"*Signup Page* - {$leadData['signup_page']}\n",'%footer%'=> "--- \n AnyFunnels Bot"]);
+//
+//        }
 
         return $content;
     }
@@ -484,5 +536,177 @@ class StateMachineHelper
         }
 
         return $res;
+    }
+
+    public function sendInactiveUnderReviewEmail()
+    {
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model               = $this->factory->getModel('subscription.accountinfo');
+        $accrepo             = $model->getRepository();
+        $accountentity       = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $useremail  = $account->getEmail();
+        $mailer     =  $this->factory->get('le.transport.elasticemail.transactions');
+        $mailer->start();
+        $message    = \Swift_Message::newInstance();
+        $message->setTo([$useremail]);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject($this->factory->getTranslator()->trans('le.subscription.email.underreview.subject'));
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+            <span style='font-family: Verdana,Geneva,sans-serif;'>
+                Attention Needed!
+                <br>
+                <br>Your account has been kept Under Review as our compliance team found that your account has high spam complaints or bounce rate or policy violations. You can’t send emails for now till you resolve the issues.
+                <br>
+                <br>Reply to this email or 
+                <a href=\"https://anyfunnels.freshdesk.com/support/tickets/new\" rel=\"noopener noreferrer\" target=\"_blank\">Click here</a> 
+                to contact our support team.
+                <br>
+                <br>
+                ---
+                <br>Regards,
+                <br>AnyFunnels Team.
+            </span>
+        </div>
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
+    }
+
+    public function sendSendingDomainIssueEmail()
+    {
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model               = $this->factory->getModel('subscription.accountinfo');
+        $accrepo             = $model->getRepository();
+        $accountentity       = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $useremail  = $account->getEmail();
+        $mailer     =  $this->factory->get('le.transport.elasticemail.transactions');
+        $mailer->start();
+        $message    = \Swift_Message::newInstance();
+        $message->setTo([$useremail]);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject($this->factory->getTranslator()->trans('le.subscription.email.underreview.subject'));
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+            <span style='font-family: Verdana,Geneva,sans-serif;'>
+                Attention Needed!
+                <br>
+                <br>Email delivery for your account has been Temporarily Inactive since you don’t have any active sending domain. You can’t send emails for now till you resolve the issues.
+                <br>
+                <br>Reply to this email or click here to contact our support team if needed.
+                <br>
+                <br>
+                ---
+                <br>
+                Regards,
+                <br>
+                AnyFunnels Team.
+            </span>
+        </div>
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
+    }
+
+    public function sendInacitvePaymentIssueEmail()
+    {
+        /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
+        $model               = $this->factory->getModel('subscription.accountinfo');
+        $accrepo             = $model->getRepository();
+        $accountentity       = $accrepo->findAll();
+        if (sizeof($accountentity) > 0) {
+            $account = $accountentity[0];
+        } else {
+            $account = new Account();
+        }
+        $stripecardrepo   = $this->factory->get('le.subscription.repository.stripecard');
+        $stripecards      = $stripecardrepo->findAll();
+        $stripecard       = null;
+        if (sizeof($stripecards) > 0) {
+            $stripecard = $stripecards[0];
+        }
+        if ($stripecard != null) {
+            $last4Digit  =$stripecard->getlast4digit();
+        }
+        $useremail  = $account->getEmail();
+        $mailer     =  $this->factory->get('le.transport.elasticemail.transactions');
+        $mailer->start();
+        $message    = \Swift_Message::newInstance();
+        $message->setTo(['gomathisankar.g.2018@rkmshome.org']); //$useremail
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
+        $message->setSubject($this->factory->getTranslator()->trans('le.subscription.email.payment.issue.subject'));
+        $text = "<!DOCTYPE html>
+        <html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div>
+            <span style=\"font-family: Verdana,Geneva,sans-serif;\">
+                Attention Needed!
+                <div>
+                <br>
+                </div>There was an error when we tried to bill your credit card ending in $last4Digit for your subscription to AnyFunnels.
+                <div>
+                <br>
+                </div>This frequently occurs when there is
+                <ul>
+                    <li>a billing error caused by your bank</li>
+                    <li>a change in your billing address</li>
+                    <li>insufficient credit on your account</li>
+                    <li>your credit card has expired</li>
+                </ul>Your account has been kept Inactive temporarily, kindly update your account information with a valid credit card to reactivate your account.
+                <div>
+                <br>
+                </div>Unfortunately, if after 30 days we still cannot successfully bill your credit card then your AnyFunnels account will be suspended automatically. If you have a question, please reply to this email or 
+                <span style=\"font-family: Verdana,Geneva,sans-serif;\">
+                    <a href=\"https://anyfunnels.freshdesk.com/support/tickets/new\" rel=\"noopener noreferrer\" target=\"_blank\">
+                        click here
+                    </a>
+                    <span style=\"font-family: Verdana,Geneva,sans-serif;\">to contact our support team.
+                        <br>
+                        <br>
+                        ---
+                        <br>Regards,
+                        <br>AnyFunnels Team.
+                    </span>
+                </span>
+            </span>
+        </div>
+	</body>
+</html>";
+        $message->setBody($text, 'text/html');
+        $mailer->send($message);
     }
 }

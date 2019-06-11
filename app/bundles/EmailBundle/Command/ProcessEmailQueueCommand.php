@@ -217,6 +217,7 @@ EOT
                 $smHelper->makeStateInActive(['Customer_Active']);
                 $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
                 $smHelper->addStateWithLead();
+                $smHelper->sendInactiveUnderReviewEmail();
                 $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
 
                 return false;
