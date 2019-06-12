@@ -33,13 +33,13 @@ switch ($status) {
         ]);
         break;
 }
-if ($model == 'email.dripemail') {
+/*if ($model == 'email.dripemail') {
     if ($status == 'published') {
         $text = $view['translator']->trans('le.drip.email.activate.title');
     } elseif ($status == 'unpublished') {
         $text = $view['translator']->trans('le.drip.email.pause.title');
     }
-}
+}*/
 
 if ($model == 'user.user') {
     if ($status == 'unpublished') {

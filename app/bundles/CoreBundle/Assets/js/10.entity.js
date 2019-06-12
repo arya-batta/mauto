@@ -288,14 +288,14 @@ Le.togglePublishStatus = function (event, el, model, id, extra, backdrop) {
     event.preventDefault();
 
     var wasPublished = mQuery(el).hasClass('fa-toggle-on');
-    if(model == "email.dripemail" && !wasPublished){
+    /*if(model == "email.dripemail" && !wasPublished){
         var warningtxt = "Are you sure you want to activate this Campaign? Recipients will start receiving the emails as you configured in this campaign.";
         if(confirm(Le.translate(warningtxt))){
 
         } else {
             return;
         }
-    }
+    }*/
 
     mQuery(el).removeClass('fa-toggle-on fa-toggle-off').addClass('fa-spin fa-spinner');
 

@@ -65,7 +65,7 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
             if(alertmessage != ''){
                 if(!alertmessage.includes("delete") && !alertmessage.includes("do not have access")){
                     if(alertType == "sweetalert"){
-                        Le.successModel('Good Job!',alertmessage,'success');
+                        Le.successModel('Done!',alertmessage,'success');
                     } else {
                         Le.setFlashes(response.flashes);
                     }
