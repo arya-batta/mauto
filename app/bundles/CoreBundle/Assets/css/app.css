@@ -6855,7 +6855,7 @@ text-align: center;
   text-align: center;mso-border-alt: none;}
 .same{
   display:flex;
-  margin-left:25%;
+  margin-left:27%;
 }
 
 .box1{
@@ -8024,4 +8024,7 @@ span.afincludes{
 .state-inactive-alert-panel .state-inactive-padding{
   padding-left: 20px;
   padding-right: 20px;
+}
+div#leSharedModal::-webkit-scrollbar {
+  width: 0 !important;
 }

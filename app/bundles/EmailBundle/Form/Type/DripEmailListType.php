@@ -50,7 +50,28 @@ class DripEmailListType extends AbstractType
         );
 
         foreach ($choices as $choice) {
-            $this->choices[$choice->getId()] = $choice->getName(true);
+            $dripEmailsRepository   = $model->getEmailModel()->getRepository();
+            $dripemails             = $dripEmailsRepository->getEntities(
+                [
+                    'filter'           => [
+                        'force' => [
+                            [
+                                'column' => 'e.dripEmail',
+                                'expr'   => 'eq',
+                                'value'  => $choice,
+                            ],
+                            [
+                                'column' => 'e.emailType',
+                                'expr'   => 'eq',
+                                'value'  => 'dripemail',
+                            ],
+                        ],
+                    ],
+                    'ignore_paginator' => true,
+                ]
+            );
+            $emails                          = count($dripemails);
+            $this->choices[$choice->getId()] = $choice->getName(true).' ('.$emails.' emails)';
         }
 
         //sort by language

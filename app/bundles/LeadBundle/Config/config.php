@@ -631,6 +631,7 @@ return [
                     'mautic.lead.model.listoptin',
                     'doctrine.orm.entity_manager',
                     'mautic.campaign.model.campaign',
+                    'mautic.factory',
                 ],
             ],
             'mautic.webhook.subscriber' => [

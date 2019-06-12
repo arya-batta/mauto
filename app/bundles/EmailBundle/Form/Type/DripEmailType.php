@@ -399,6 +399,17 @@ class DripEmailType extends AbstractType
                 'buttons',
                 'form_buttons',
                 [
+                    'pre_extra_buttons' => [
+                        [
+                            'name'  => 'schedule',
+                            'label' => 'Schedule',
+                            'type'  => 'submit',
+                            'attr'  => [
+                                'class' => 'btn btn-default pull-right le-btn-default hide scheduleEmailTest',
+                                'icon'  => 'fa fa-send-o',
+                            ],
+                        ],
+                    ],
                     'apply_text' => 'mautic.core.form.save',
                     'save_icon'  => false,
                 ]

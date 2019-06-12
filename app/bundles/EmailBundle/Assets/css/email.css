@@ -295,3 +295,29 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.send_email_button{
+    margin-left:2px;
+    border-radius: 3px;
+    pointer-events: none;
+    background-color: #80bbea;
+    opacity: 1;
+}
+.dripbutnew{
+    color: #ffffff;
+    background-color: #3292e0;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    margin: 5px;
+    width: 100px !important;
+    width: auto;
+    border-top: 0px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-left: 0px solid transparent;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*font-family: Open Sans, Helvetica, Roboto, Arial;*/
+    text-align: center;
+    mso-border-alt: none;
+}

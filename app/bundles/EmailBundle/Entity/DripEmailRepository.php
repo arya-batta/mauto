@@ -444,7 +444,7 @@ class DripEmailRepository extends CommonRepository
         return $response;
     }
 
-    public function getLeadsByDrip($drip, $countOnly)
+    public function getLeadsByDrip($drip, $countOnly, $returnQuery = false)
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
@@ -483,7 +483,9 @@ class DripEmailRepository extends CommonRepository
         }
 
         $results = $q->execute()->fetchAll();
-
+        if ($returnQuery) {
+            return $q;
+        }
         if ($countOnly) {
             return (isset($results[0])) ? $results[0]['count'] : 0;
         } else {

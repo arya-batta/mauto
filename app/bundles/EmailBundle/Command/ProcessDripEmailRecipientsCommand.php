@@ -62,12 +62,14 @@ class ProcessDripEmailRecipientsCommand extends ModeratedCommand
             $currentDate       = date('Y-m-d H:i:s');
             if ($id) {
                 $drip = $dripEmailModel->getEntity($id);
-                if ($drip !== null) {
+                if ($drip !== null && $drip->getisScheduled()) {
                     $output->writeln('<info>'.$translator->trans('le.drip.email.lead.rebuild.rebuilding', ['%id%' => $id]).'</info>');
                     $processed = $dripEmailModel->rebuildLeadRecipients($drip, $batch, false, $output);
                     $output->writeln(
                         '<comment>'.$translator->trans('le.drip.email.lead.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'
                     );
+                    $drip->setisScheduled(0);
+                    $dripEmailModel->saveEntity($drip);
                 } else {
                     $output->writeln('<error>'.$translator->trans('le.drip.email.lead.rebuild.not_found', ['%id%' => $id]).'</error>');
                 }
@@ -92,11 +94,14 @@ class ProcessDripEmailRecipientsCommand extends ModeratedCommand
                     $d = reset($d);
 
                     $output->writeln('<info>'.$translator->trans('le.drip.email.lead.rebuild.rebuilding', ['%id%' => $d->getId()]).'</info>');
-
-                    $processed = $dripEmailModel->rebuildLeadRecipients($d, $batch, false, $output);
-                    $output->writeln(
-                        '<comment>'.$translator->trans('le.drip.email.lead.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
-                    );
+                    if ($d->getisScheduled()) {
+                        $processed = $dripEmailModel->rebuildLeadRecipients($d, $batch, false, $output);
+                        $output->writeln(
+                            '<comment>'.$translator->trans('le.drip.email.lead.rebuild.leads_affected', ['%leads%' => $processed]).'</comment>'."\n"
+                        );
+                        $d->setisScheduled(0);
+                        $dripEmailModel->saveEntity($d);
+                    }
 
                     unset($d);
                 }

@@ -18,6 +18,7 @@ use Mautic\ChannelBundle\Entity\MessageQueue;
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event as MauticEvents;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\EmailBundle\Entity\Email;
 use Mautic\EmailBundle\Entity\EmailRepository;
 use Mautic\LeadBundle\Entity\LeadRepository;
@@ -62,6 +63,12 @@ class SearchSubscriber extends CommonSubscriber
      * @var CampaignModel
      */
     protected $CampaignModel;
+    /**
+     * @var MauticFactory
+     */
+    protected $factory;
+
+    protected $dripModel;
 
     /**
      * SearchSubscriber constructor.
@@ -72,8 +79,9 @@ class SearchSubscriber extends CommonSubscriber
      * @param ListOptInModel $listOptInModel
      * @param EntityManager  $entityManager
      * @param CampaignModel  $campaignmodel
+     * @param MauticFactory  $factory
      */
-    public function __construct(LeadModel $leadModel, TagModel $tagModel, ListModel $listModel, ListOptInModel $listOptInModel, EntityManager $entityManager, CampaignModel $campaignModel)
+    public function __construct(LeadModel $leadModel, TagModel $tagModel, ListModel $listModel, ListOptInModel $listOptInModel, EntityManager $entityManager, CampaignModel $campaignModel, MauticFactory $factory)
     {
         $this->leadModel       = $leadModel;
         $this->tagModel        = $tagModel;
@@ -82,6 +90,8 @@ class SearchSubscriber extends CommonSubscriber
         $this->leadRepo        = $leadModel->getRepository();
         $this->emailRepository = $entityManager->getRepository(Email::class);
         $this->CampaignModel   = $campaignModel;
+        $this->factory         = $factory;
+        $this->dripModel       = $factory->getModel('email.dripemail');
     }
 
     /**
@@ -397,6 +407,10 @@ class SearchSubscriber extends CommonSubscriber
             case $this->translator->trans('le.lead.drip.searchcommand.lead', [], null, 'en_US'):
                     $this->buildDripLeadQuery($event);
                 break;
+            case $this->translator->trans('le.lead.drip.searchcommand.pending'):
+            case $this->translator->trans('le.lead.drip.searchcommand.pending', [], null, 'en_US'):
+                $this->buildDripEmailPendingQuery($event);
+                break;
             case $this->translator->trans('le.lead.drip.searchcommand.sent'):
             case $this->translator->trans('le.lead.drip.searchcommand.sent', [], null, 'en_US'):
                     $this->buildDripSentQuery($event);
@@ -493,6 +507,41 @@ class SearchSubscriber extends CommonSubscriber
         ];
 
         $this->buildJoinQuery($event, $tables, $config);
+    }
+
+    /**
+     * @param LeadBuildSearchEvent $event
+     */
+    private function buildDripEmailPendingQuery(LeadBuildSearchEvent $event)
+    {
+        $q       = $event->getQueryBuilder();
+        $dripid  = (int) $event->getString();
+        /** @var Email $email */
+        $drip = $this->dripModel->getEntity($dripid);
+        if (null !== $drip) {
+            $nq         = $this->dripModel->getLeadsByDrip($drip, false, true);
+            if (!$nq instanceof QueryBuilder) {
+                return;
+            }
+
+            $nq->select('l.id'); // select only id
+            $nsql = $nq->getSQL();
+            foreach ($nq->getParameters() as $pk => $pv) { // replace all parameters
+                if (!is_array($pv)) {
+                    $nsql = preg_replace('/:'.$pk.'/', is_bool($pv) ? (int) $pv : "'".$pv."'", $nsql);
+                } else {
+                    $temp    =json_encode($pv);
+                    $remov   = ['[', ']'];
+                    $replc   = ['', ''];
+                    $pv      = str_replace($remov, $replc, $temp);
+                    $nsql    = preg_replace('/:'.$pk.'/', $pv, $nsql);
+                }
+            }
+            $query = $q->expr()->in('l.id', sprintf('(%s)', $nsql));
+            $event->setSubQuery($query);
+
+            return;
+        }
     }
 
     /**

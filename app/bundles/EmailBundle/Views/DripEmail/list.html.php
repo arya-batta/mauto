@@ -56,6 +56,17 @@ $isAdmin=$view['security']->isAdmin();
                     [
                         'sessionVar' => 'email',
                         'orderBy'    => '',
+                        'text'       => 'le.drip.email.lead.stat.pending.count',
+                        'class'      => 'col-email-stats drip-col-stats',
+                        'default'    => true,
+                    ]
+                );
+
+                echo $view->render(
+                    'MauticCoreBundle:Helper:tableheader.html.php',
+                    [
+                        'sessionVar' => 'email',
+                        'orderBy'    => '',
                         'text'       => 'le.drip.email.lead.stat.count',
                         'class'      => 'col-email-stats drip-col-stats',
                         'default'    => true,
@@ -206,6 +217,21 @@ $isAdmin=$view['security']->isAdmin();
                             <span class="label label-default pa-4" style="border: 1px solid #d5d5d5; background: <?php echo $color; ?>;"> </span> <span><?php echo $catName; ?></span>
                             </div>
                         </div>
+                    </td>
+                    <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
+                    <span class="mt-xs has-click-event clickable-stat"
+                          id="drip-pending-count-<?php echo $item->getId(); ?>">
+                            <a data-toggle="tooltip"
+                               href="<?php echo $view['router']->path(
+                                   'le_contact_index',
+                                   ['search' => $view['translator']->trans('le.lead.drip.searchcommand.pending').':'.$item->getId()]
+                               ); ?>"
+                               title="<?php echo $view['translator']->trans('le.email.drip.stat.lead.tooltip'); ?>">
+                                <div class="email-spinner-alignment">
+                                    <i class="fa fa-spin fa-spinner"></i>
+                                </div>
+                            </a>
+                        </span>
                     </td>
                     <td class="drip-email-col-stats" data-stats="<?php echo $item->getId(); ?>">
                     <span class="mt-xs has-click-event clickable-stat"

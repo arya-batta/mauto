@@ -126,6 +126,11 @@ class DripEmail extends FormEntity
      */
     private $recipients = [];
 
+    /*
+     * @var bool
+     */
+    private $isScheduled = 0;
+
     public function __clone()
     {
         $this->id                      = null;
@@ -205,6 +210,10 @@ class DripEmail extends FormEntity
             ->build();
 
         $builder->addField('recipients', 'array');
+
+        $builder->createField('isScheduled', 'boolean')
+            ->columnName('is_scheduled')
+            ->build();
     }
 
     /**
@@ -596,5 +605,21 @@ class DripEmail extends FormEntity
     public function setRecipients($recipients)
     {
         $this->recipients = $recipients;
+    }
+
+    /**
+     * @return int
+     */
+    public function getisScheduled()
+    {
+        return $this->isScheduled;
+    }
+
+    /**
+     * @param int $isScheduled
+     */
+    public function setIsScheduled($isScheduled)
+    {
+        $this->isScheduled = $isScheduled;
     }
 }

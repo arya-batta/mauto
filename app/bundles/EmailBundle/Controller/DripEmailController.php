@@ -431,7 +431,7 @@ class DripEmailController extends FormController
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
                     $entity->setScheduleDate(null);
-                    $entity->setIsPublished(false);
+                    $entity->setIsPublished(true);
                     $model->saveEntity($entity);
                     $this->editAction($entity->getId());
                 }
@@ -590,12 +590,17 @@ class DripEmailController extends FormController
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
                     $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    $sendBtnClicked     =$form->get('buttons')->get('schedule')->isClicked();
                     $isUpdateFlashNeeded=true;
-                    if ($entity->isPublished() && $isStateAlive) {
+                    if (!$sendBtnClicked) {
+                        if ($entity->isPublished() && $isStateAlive) {
+                            $isUpdateFlashNeeded = false;
+                            $configurl           = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId' => 'sendingdomain_config']);
+                            $entity->setIsPublished(false);
+                            $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'dripemail']));
+                        }
+                    } else {
                         $isUpdateFlashNeeded=false;
-                        $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
-                        $entity->setIsPublished(false);
-                        $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'dripemail']));
                     }
                     $model->saveEntity($entity);
                     if ($isUpdateFlashNeeded) {
@@ -640,6 +645,16 @@ class DripEmailController extends FormController
                         ]
                     )
                 );
+            } elseif ($valid && $form->get('buttons')->get('schedule')->isClicked()) {
+                //return edit view so that all the session stuff is loaded
+                //return $this->editAction($entity->getId(), true);
+                $id             = $entity->getId();
+                $viewParameters = [
+                    'objectAction' => 'send',
+                    'objectId'     => $id,
+                ];
+
+                return $this->redirect($this->generateUrl('le_dripemail_campaign_action', $viewParameters));
             }
             /*
 
@@ -1115,6 +1130,201 @@ class DripEmailController extends FormController
     }
 
     /**
+     * Manually sends emails.
+     *
+     * @param $objectId
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function sendAction($objectId)
+    {
+        /** @var \Mautic\EmailBundle\Model\DripEmailModel $model */
+        $model                 = $this->getModel('email.dripemail');
+        $entity                = $model->getEntity($objectId);
+        $session               = $this->get('session');
+        $page                  = $session->get('mautic.dripemail.page', 1);
+        $totalEmailCount       = $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
+        $actualEmailCount      = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
+        $isHavingEmailValidity = $this->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
+        $accountStatus         = $this->get('mautic.helper.licenseinfo')->getAccountStatus();
+        if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
+            return $this->delegateRedirect($redirectUrl);
+        }
+        //set the return URL
+        $returnUrl = $this->generateUrl('le_dripemail_index', ['page' => $page]);
+
+        $postActionVars = [
+            'returnUrl'       => $returnUrl,
+            'viewParameters'  => ['page' => $page],
+            'contentTemplate' => 'MauticEmailBundle:DripEmail:index',
+            'passthroughVars' => [
+                'activeLink'    => 'le_dripemail_index',
+                'leContent'     => 'dripemail',
+            ],
+        ];
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $configurl   =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+        if ($isStateAlive) {
+            $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
+
+            return $this->viewAction($objectId);
+        }
+
+        //not found
+        if ($entity === null) {
+            return $this->postActionRedirect(
+                array_merge(
+                    $postActionVars,
+                    [
+                        'flashes' => [
+                            [
+                                'type'    => 'error',
+                                'msg'     => 'le.drip.email.error.notfound',
+                                'msgVars' => ['%id%' => $objectId],
+                            ],
+                        ],
+                    ]
+                )
+            );
+        } elseif (!$this->get('mautic.security')->hasEntityAccess(
+                'email:emails:viewown',
+                'email:emails:viewother',
+                $entity->getCreatedBy()
+            )
+        ) {
+            return $this->accessDenied();
+        }
+
+        // Make sure email and category are published
+        $published    = $entity->isPublished();
+        if (!$published) {
+            return $this->postActionRedirect(
+                array_merge(
+                    $postActionVars,
+                    [
+                        'flashes' => [
+                            [
+                                'type'    => 'error',
+                                'msg'     => 'le.email.error.send.unpublished',
+                                // 'msgVars' => ['%name%' => $entity->getName()],
+                            ],
+                        ],
+                    ]
+                )
+            );
+        }
+        $dripEmailsRepository   = $this->getModel('email')->getRepository();
+        $dripemails             = $dripEmailsRepository->getEntities(
+            [
+                'filter'           => [
+                    'force' => [
+                        [
+                            'column' => 'e.dripEmail',
+                            'expr'   => 'eq',
+                            'value'  => $entity,
+                        ],
+                        [
+                            'column' => 'e.emailType',
+                            'expr'   => 'eq',
+                            'value'  => 'dripemail',
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+        $emails = count($dripemails);
+
+        $action        = $this->generateUrl('le_dripemail_campaign_action', ['objectAction' => 'send', 'objectId' => $objectId]);
+        $pending       = $model->getLeadsByDrip($entity, true);
+        $remainingCount= $pending + $actualEmailCount;
+
+        if (!$accountStatus) {
+            if ((($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL')) && $isHavingEmailValidity) {
+                if ($this->request->getMethod() == 'POST') {//($complete || $this->isFormValid($form))) {
+                    $pending                   = $model->getLeadsByDrip($entity, true);
+                    $licenseinfohelper         =  $this->get('mautic.helper.licenseinfo');
+                    $message                   = '';
+                    $flashType                 = '';
+                    if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
+                        $message   = 'le.email.broadcast.usage.error';
+                        $flashType = 'notice';
+                    } else {
+                        $entity->setIsScheduled(true);
+                        $model->saveEntity($entity);
+                        $message   ='le.drip.email.broadcast.send';
+                        $flashType = 'sweetalert';
+                    }
+                    $postActionVars = [
+                        'returnUrl'       => $this->generateUrl('le_dripemail_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]),
+                        'viewParameters'  => ['objectAction' => 'view', 'objectId' => $objectId],
+                        'contentTemplate' => 'MauticEmailBundle:DripEmail:view',
+                        'passthroughVars' => [
+                            'activeLink'    => 'le_dripemail_index',
+                            'leContent'     => 'dripemail',
+                        ],
+                    ];
+
+                    return $this->postActionRedirect(
+                        array_merge(
+                            $postActionVars,
+                            [
+                                'flashes' => [
+                                    [
+                                        'type'    => $flashType,
+                                        'msg'     => $message,
+                                    ],
+                                ],
+                            ]
+                        )
+                    );
+
+                // return $this->viewAction($objectId);
+                } else {
+                    //process and send
+                    $contentTemplate = 'MauticEmailBundle:Send:dripsend.html.php';
+                    $viewParameters  = [
+                        'entity'      => $entity,
+                        'pending'     => $pending,
+                        'tmpl'        => 'index',
+                        'emailcount'  => $emails,
+                        'actionRoute' => 'le_dripemail_campaign_action',
+                        'indexRoute'  => 'le_dripemail_index',
+                    ];
+                }
+
+                return $this->delegateView(
+                    [
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => $contentTemplate,
+                        'passthroughVars' => [
+                            'leContent'     => 'emailSend',
+                            'route'         => $action,
+                        ],
+                    ]
+                );
+            } else {
+                if (!$isHavingEmailValidity) {
+                    $this->addFlash('mautic.email.validity.expired');
+                } else {
+                    $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
+                }
+
+                return $this->postActionRedirect(
+                    [
+                        'returnUrl'=> $this->generateUrl('le_dripemail_index'),
+                    ]
+                );
+            }
+        } else {
+            $this->addFlash('mautic.account.suspend');
+
+            return $this->viewAction($objectId);
+        }
+    }
+
+    /**
      * Edit Drip campaign Email.
      *
      * @param   $subobjectId
@@ -1534,7 +1744,7 @@ class DripEmailController extends FormController
             $email[1]['footer']      = $dripEntity->getUnsubscribeText() == '' ? $this->coreParametersHelper->getParameter('footer_text') : $dripEntity->getUnsubscribeText();
             $email[2]['type']        = $emailentity->getBeeJSON();
             if ($account->getNeedpoweredby()) {
-                $url                     = 'http://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
+                $url                     = 'https://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
                 $icon                    = 'https://anyfunnels.com/wp-content/uploads/leproduct/anyfunnels-footer2.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 35px;width:160px;' src='$icon'></a></div>";
                 $email[3]['branding']    = $atag;

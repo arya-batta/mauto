@@ -120,7 +120,7 @@ class PaymentHelper
         $amount      = '$'.$paymenthistory->getNetamount();
         $bodycontent = "Hey, $firstname!<br><br>We received your payment $amount on $processedat, for AnyFunnels monthly subscription.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.";
 
-        if (!$paymenthistory->getTaxamount()) {
+        if ($paymenthistory->getTaxamount()) {
             $bodycontent = "Hey, <br><br>We received your payment $amount on $processedat, for additional emails credits.<br><br>This payment information has been updated in your account, and you can download the invoice any time from payments history tab in AnyFunnels account settings.<br><br>Thanks for your business!<br>AnyFunnels Team.";
         }
         $text = "<html>

@@ -1317,6 +1317,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
             'le.lead.campaign.searchcommand.wf-completed',
             'le.lead.campaign.searchcommand.wf-goal',
             'le.lead.drip.searchcommand.lead',
+            'le.lead.drip.searchcommand.pending',
             'le.lead.drip.searchcommand.sent',
             'le.lead.drip.searchcommand.click',
             'le.lead.drip.searchcommand.read',

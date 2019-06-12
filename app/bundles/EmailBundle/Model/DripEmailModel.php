@@ -163,6 +163,11 @@ class DripEmailModel extends FormModel
         $this->emailModel         = $emailModel;
     }
 
+    public function getEmailModel()
+    {
+        return $this->emailModel;
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -259,7 +264,7 @@ class DripEmailModel extends FormModel
     {
         $isNew = ($entity->getId()) ? false : true;
         if ($isNew) {
-            $entity->setIsPublished(false);
+            $entity->setIsPublished(true);
         }
         parent::saveEntity($entity, $unlock);
 
@@ -783,9 +788,9 @@ class DripEmailModel extends FormModel
      *
      * @return mixed
      */
-    public function getLeadsByDrip($drip, $countOnly = false)
+    public function getLeadsByDrip($drip, $countOnly = false, $returnQuery = false)
     {
-        return $this->getRepository()->getLeadsByDrip($drip, $countOnly);
+        return $this->getRepository()->getLeadsByDrip($drip, $countOnly, $returnQuery);
     }
 
     public function getLeadIdsByDrip($drip)
@@ -975,7 +980,8 @@ class DripEmailModel extends FormModel
                     $dripfailedCountPercentage = round($dripFailedCount / sizeof($leads) * 100);
                 }
                 if ($percentageNeeded) {
-                    $data = [
+                    $pending       = $this->getLeadsByDrip($dripemail, true);
+                    $data          = [
                         'success'          => 1,
                         'sentcount'        => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
                         'readcount'        => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
@@ -985,6 +991,7 @@ class DripEmailModel extends FormModel
                         'spam'             => $this->translator->trans('le.drip.email.stat.spam', ['%count%' =>$dripSpamCount, '%percentage%' => $dripspamCountPercentage]),
                         'failed'           => $this->translator->trans('le.drip.email.stat.failed', ['%count%' =>$dripFailedCount, '%percentage%' => $dripfailedCountPercentage]),
                         'leadcount'        => $this->translator->trans('le.drip.email.stat.leadcount', ['%count%'  => sizeof($activeLeads)]),
+                        'pendingcount'     => $this->translator->trans('le.drip.email.stat.pendingcount', ['%count%'  => $pending]),
                     ];
                 } else {
                     $data = [

@@ -16,6 +16,18 @@ $view['slots']->set('headerTitle', $entity->getName());
 //dump($actionRoute);
 
 $customButtons   = [];
+$customButtons[] = [
+    'attr' => [
+        'data-toggle' => 'ajax',
+        'href'        => $view['router']->path(
+            $actionRoute,
+            ['objectAction' => 'send', 'objectId' => $entity->getId()]
+        ),
+    ],
+    'iconClass' => 'fa fa-send-o',
+    'btnText'   => 'le.drip.email.schedule',
+    'primary'   => true,
+];
 $view['slots']->set(
     'actions',
     $view->render(

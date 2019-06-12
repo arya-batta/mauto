@@ -22,6 +22,11 @@ Le.dripemailOnLoad = function (container, response) {
             //Le.showdripEmailpreviewoftemplate(mQuery('textarea.builder-html').val());
         }
     }
+    if(!mQuery("#fragment-4").hasClass('ui-tabs-hide')){
+        mQuery('.scheduleEmailTest').removeClass('hide');
+    } else {
+        mQuery('.scheduleEmailTest').addClass('hide');
+    }
     mQuery('#dripemail_advance_editor .chosen-container-single').removeClass('hide');
     mQuery('.next-tab, .prev-tab, .ui-state-default').click(function() {
         var selectrel = mQuery(this).attr("rel");
@@ -34,6 +39,11 @@ Le.dripemailOnLoad = function (container, response) {
         } else{
             mQuery('#dripEmail_PublicName').removeClass('has-success has-error');
             mQuery('#dripEmail_PublicName .custom-help').html("");
+        }
+        if(selectrel == 4){
+            mQuery('.scheduleEmailTest').removeClass('hide');
+        } else {
+            mQuery('.scheduleEmailTest').addClass('hide');
         }
         /*if(!mQuery('#dripemail_advance_editor').hasClass('hide')) {
             if (selectrel == 3 && !mQuery(this).hasClass('ui-state-default')) {
@@ -205,6 +215,7 @@ Le.loadDripEmailStatCounts = function(){
                         mQuery('#drip-spam-count-' + id + ' > a').html(response.spam);
                         mQuery('#drip-failed-count-' + id + ' > a').html(response.failed);
                         mQuery('#drip-lead-count-' + id + ' > a').html(response.leadcount);
+                        mQuery('#drip-pending-count-' + id + ' > a').html(response.pendingcount);
                     }
                 },
                 false,

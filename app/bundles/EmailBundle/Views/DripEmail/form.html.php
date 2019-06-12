@@ -376,7 +376,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
         <div id="fragment-4" class="ui-tabs-panel ui-tabs-hide">
             <div class="fragment-drip-4-buttons fixed-header">
                 <a href="#" style="margin-left:-70px;margin-top: -280px;" class="waves-effect prev-tab mover btn btn-default btn-cancel le-btn-default btn-copy <?php echo $ismobile ? 'hide' : ''?>" rel="3"><?php echo $view['translator']->trans('le.email.wizard.prev'); ?></a>
-                <div class="toolbar-form-buttons" style="<?php echo $ismobile ? 'margin-top: -144px;margin-right:74px;' : 'margin-top: -165px;margin-right: 124px;'?>">
+                <div class="toolbar-form-buttons" style="<?php echo $ismobile ? 'margin-top: -144px;margin-right:0px;' : 'margin-top: -165px;margin-right: 30px;'?>">
                     <div class="btn-group toolbar-standard hidden-xs hidden-sm"></div>
                     <div class="btn-group toolbar-dropdown hidden-md hidden-lg">
                         <button type="button" class="btn btn-default btn-main waves-effect">
@@ -386,7 +386,7 @@ $filter_addconditionbtn="<button type=\"button\" class=\"btn btn-default lead-li
                         <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
                     </div>
                 </div>
-                <a title="<?php echo $view['translator']->trans($activateTitle); ?>" class="waves-effect drip-activate mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-top: -56px;padding:7px;margin-left:67%;" href="<?php echo $hrefvalue; ?>" data-precheck="" data-message="<?php echo $view['translator']->trans($confirmationMsg); ?>" <?php echo $activateConfirm; ?> ><?php echo $view['translator']->trans($activatebuttonlabel); ?></a>
+                <a title="<?php echo $view['translator']->trans($activateTitle); ?>" class="hide waves-effect drip-activate mover btn btn-default btn-cancel le-btn-default btn-copy" style="margin-top: -56px;padding:7px;margin-left:67%;" href="<?php echo $hrefvalue; ?>" data-precheck="" data-message="<?php echo $view['translator']->trans($confirmationMsg); ?>" <?php echo $activateConfirm; ?> ><?php echo $view['translator']->trans($activatebuttonlabel); ?></a>
             </div>
             <div id="email-other-container">
                 <div class="row">
