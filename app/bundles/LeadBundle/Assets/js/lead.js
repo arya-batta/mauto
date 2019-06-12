@@ -166,6 +166,8 @@ Le.leadOnLoad = function (container, response) {
         mQuery("#leadfield_created_source select").attr('tabindex', '-1');
         mQuery("#leadfield_created_source select").attr('style', 'pointer-events: none;background-color: #ebedf0;opacity: 1;width:100%');
     }
+
+    Le.hideFlashMessage();
 };
 Le.segment_filter = function(id){
     if(mQuery('#segment-filter-block_'+id).css("display") != 'none')

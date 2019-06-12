@@ -109,7 +109,8 @@ class PaymentHelper
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
         $message->setBcc(['sales@anyfunnels.com' => 'AnyFunnels']);
-        $message->setSubject($this->factory->getTranslator()->trans('le.payment.received.alert'));
+        $subject     = $this->factory->getTranslator()->trans($paymenthistory->getTaxamount() ? 'le.payment.addon.received.alert' : 'le.payment.received.alert');
+        $message->setSubject($subject);
         $datehelper =$this->factory->getDateHelper();
         $processedat=$datehelper->toDate($paymenthistory->getcreatedOn());
         $user       = $this->factory->getUser();

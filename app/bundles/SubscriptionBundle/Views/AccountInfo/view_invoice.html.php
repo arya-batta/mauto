@@ -34,7 +34,7 @@ $planlabel        = $payment->getPlanLabel();
 $planinfo         = 'le.pricing.plan.invoice.description';
 if ($isaddon) {
     $planinfo  = 'le.pricing.plan.invoice.description1';
-    $planlabel = 'le.plan.addon.plan.label';
+    $planlabel = $view['translator']->trans('le.plan.addon.plan.label');
 }
 $planinfo = $view['translator']->trans($planinfo);
 $country  = '';
@@ -212,7 +212,13 @@ if ($billing->getCountry() != 'blank') {
                     <span><?php echo $planinfo ?></span> <!--Email Credits-->
                 </td>
                 <td class="table_body service_body">
+                    <?php if (!$isaddon):?>
                     <?php echo $view['date']->toDate($license->getLicenseStart()); ?> -<br> <?php echo $view['date']->toDate($payment->getValidityTill()); ?>
+                    <?php else: ?>
+                    <?php echo 'NA';
+                        endif;
+                    ?>
+
                 </td>
                 <td class="table_body amount_body">
                     <?php echo $payment->getCurrency().($payment->getProvider() == 'razorpay' ? number_format($payment->getNetamount()) : $payment->getNetamount())?>
