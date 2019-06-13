@@ -432,6 +432,9 @@ class StateMachineHelper
         $signuprepository  =$this->factory->get('le.core.repository.signup');
         $leadData          =  $signuprepository->getLeadInfo($Domain);
         $content           ='';
+        if ($leadData == null) {
+            return '';
+        }
         foreach ($leadData as $key => $value) {
             if (!empty($value)) {
                 if (in_array($key, $this->basicLabel) || in_array($key, $this->advanceLabel)) {
@@ -510,6 +513,12 @@ class StateMachineHelper
         $state        = strtolower($state);
         $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
         $slackContent = $this->getInternalSlackData($contentType, $domain);
+        $res          = ['success' => true, 'error' => ''];
+        if ($slackContent == '') {
+            $res      = ['success' => false, 'error' => 'content is empty'];
+
+            return $res;
+        }
         $channel      = $this->channelList[$state];
         $token        = $this->factory->getParameter('slack_internal_token');
         $posturl      = "https://slack.com/api/chat.postMessage?token=$token&channel=$channel";
@@ -580,6 +589,12 @@ class StateMachineHelper
                 <br>Regards,
                 <br>AnyFunnels Team.
             </span>
+            <span style='display:none;'>
+                {unsubscribe}
+            </span>
+            <span style='display:none;'>
+                {accountaddress}
+            </span>
         </div>
 	</body>
 </html>";
@@ -628,6 +643,12 @@ class StateMachineHelper
                 Regards,
                 <br>
                 AnyFunnels Team.
+            </span>
+            <span style='display:none;'>
+                {unsubscribe}
+            </span>
+            <span style='display:none;'>
+                {accountaddress}
             </span>
         </div>
 	</body>
@@ -701,6 +722,12 @@ class StateMachineHelper
                         <br>Regards,
                         <br>AnyFunnels Team.
                     </span>
+                </span>
+                <span style='display:none;'>
+                    {unsubscribe}
+                </span>
+                <span style='display:none;'>
+                    {accountaddress}
                 </span>
             </span>
         </div>

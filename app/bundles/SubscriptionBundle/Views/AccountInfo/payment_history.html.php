@@ -26,7 +26,7 @@
        <?php foreach ($payments as $payment): ?>
        <tr>
            <td class="data">
-           <span><?php echo $payment->getPlanLabel()?><span>
+           <span><?php echo $payment->getTaxamount() ? 'Add-on Emails' : $payment->getPlanLabel()?><span>
            </td>
            <td>
          <span class="data"><?php echo $view['date']->toFull($payment->getcreatedOn()); ?><span>

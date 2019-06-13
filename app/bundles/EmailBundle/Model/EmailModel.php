@@ -1646,6 +1646,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             } else {
                 if ($reason == DoNotContact::UNSUBSCRIBED || $reason == DoNotContact::BOUNCED || $reason == DoNotContact::SPAM) {
                     $channel = 'email';
+                    $this->updateFailureCount($stat, null);
 
                     return $this->leadModel->addDncForLead($lead, $channel, $comments, $reason, $flush);
                 }
@@ -2301,8 +2302,10 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         try {
             $stat->setIsFailed(1);
             $this->getStatRepository()->saveEntity($stat);
-            $this->getRepository()->upFailureCount($emailId, 'failure', 1);
-            $this->getRepository()->upDownSentCount($emailId, 'sent', 1);
+            if ($emailId != null) {
+                $this->getRepository()->upFailureCount($emailId, 'failure', 1);
+                $this->getRepository()->upDownSentCount($emailId, 'sent', 1);
+            }
         } catch (\Exception $exception) {
             //error_log($exception);
         }

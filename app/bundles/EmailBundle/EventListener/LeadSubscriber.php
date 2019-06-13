@@ -143,13 +143,8 @@ class LeadSubscriber extends CommonSubscriber
                         }
                     } elseif ('failed' == $state) {
                         /** @var \Mautic\LeadBundle\Entity\DoNotContact $entries */
-                        $entries = $dncRepo->getTimelineStatsChannel($stat['lead_id'], $stat['email_id']);
-                        if (!empty($stat['idHash'])) {
-                            $href  =$this->router->generate('le_email_webview', ['idHash' => $stat['idHash']]);
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => $href, '%style%' => 'color: #069;text-decoration: none;', '%dripurl%' => $dripurl]);
-                        } else {
-                            $label = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.sent.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%href%' => '', '%style%' => '', '%dripurl%' => $dripurl]);
-                        }
+                        $entries          = $dncRepo->getTimelineStatsChannel($stat['lead_id'], $stat['email_id']);
+                        $label            = $this->translator->trans('le.email.timeline.event.'.$stat['emailType'].'.failed.eventlabel', ['%subject%' => $subjectReplaced, '%emailname%' => !empty($stat['dripEmailId']) ? $dripname : $stat['email_name'], '%dripurl%' => $dripurl]);
                         $label            = $label.' <br><b>Reason</b>: '.$entries[$stat['email_id']];
                     }
 

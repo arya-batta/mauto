@@ -95,7 +95,7 @@ class FieldController extends CommonFormController
                         $formField['isRequired']  = false;
                         $formField['label']       = 'gcaptcha';
                         $formField['show_label']  = false;
-                        $formField['save_result'] = false;
+                        $formField['saveResult']  = false;
                     }
 
                     // Add it to the next to last assuming the last is the submit button
@@ -248,7 +248,7 @@ class FieldController extends CommonFormController
                             $formField['isRequired']  = false;
                             $formField['label']       = 'gcaptcha';
                             $formField['show_label']  = false;
-                            $formField['save_result'] = false;
+                            $formField['saveResult']  = false;
                         }
 
                         $fields[$objectId] = $formField;

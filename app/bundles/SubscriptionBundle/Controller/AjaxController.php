@@ -1107,9 +1107,7 @@ class AjaxController extends CommonAjaxController
                     if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
                         $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                         $smHelper->createElasticSubAccountandAssign();
-                        $slackContent      = $smHelper->getInternalSlackData('Advanced');
-                        $channelId         = $smHelper->getChannelId('#02_sales');
-                        $smHelper->sendInternalSlackMessage('90_days_trial_subscribed', $slackContent, $channelId);
+                        $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
                     }
                     $smHelper->addStateWithLead();
                     // }
@@ -1154,9 +1152,7 @@ class AjaxController extends CommonAjaxController
                 }
             }
             if (!empty($errormsg)) {
-                $slackContent      = $smHelper->getInternalSlackData('Advanced');
-                $channelId         = $smHelper->getChannelId('#03_payments');
-                $smHelper->sendInternalSlackMessage($carderror ? 'payment_failed_customer_action_needed' : 'payment_failed_internal_action_needed', $slackContent, $channelId);
+                $smHelper->sendInternalSlackMessage($carderror ? 'payment_failed_customer_action_needed' : 'payment_failed_internal_action_needed');
             }
         }
         if (!empty($errormsg)) {

@@ -353,11 +353,19 @@ Le.configOnLoad = function (container){
     mQuery('.sender_domain_add_btn').click(function(e) {
         e.preventDefault();
         var currentLink = mQuery(this);
+        var $url   = window.location.href;
         var domain = mQuery('#sender_domain_name').val();
         if(domain == ""){
             mQuery('#sender_domain_name_errors').html("domain name can't be empty !");
             return;
         }
+        if ($url.indexOf('//cops.') == -1){
+            if(domain.indexOf('anyfunnels.net') != -1 || domain.indexOf('anyfunnels.com') != -1 || domain.indexOf('anyfunnels.io') != -1){
+                mQuery('#sender_domain_name_errors').html("You can't add reserved domains");
+                return;
+            }
+        }
+
         Le.activateButtonLoadingIndicator(currentLink);
         Le.ajaxActionRequest('email:senderDomainCreate', {'domain': domain}, function(response) {
             Le.removeButtonLoadingIndicator(currentLink);
