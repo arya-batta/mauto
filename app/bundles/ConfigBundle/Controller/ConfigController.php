@@ -159,7 +159,7 @@ class ConfigController extends FormController
                             }
                             if (isset($object['mailer_transport_name'])) {
                                 if ($object['mailer_transport_name'] == 'le.transport.vialeadsengage') {
-                                    $object['mailer_transport'] = 'le.transport.sendgrid_api';
+                                    $object['mailer_transport'] = 'le.transport.elasticemail';
                                 }
                             }
                             if (isset($object['mailer_api_key'])) {
