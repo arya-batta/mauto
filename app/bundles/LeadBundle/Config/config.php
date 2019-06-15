@@ -660,7 +660,10 @@ return [
                 ],
             ],
             'mautic.lead.button.subscriber' => [
-                'class' => \Mautic\LeadBundle\EventListener\ButtonSubscriber::class,
+                'class'     => \Mautic\LeadBundle\EventListener\ButtonSubscriber::class,
+                'arguments' => [
+                    'mautic.factory',
+                ],
             ],
             'mautic.lead.import.subscriber' => [
                 'class'     => Mautic\LeadBundle\EventListener\ImportSubscriber::class,
@@ -899,6 +902,10 @@ return [
             'mautic.form.type.lead_batch' => [
                 'class' => 'Mautic\LeadBundle\Form\Type\BatchType',
                 'alias' => 'lead_batch',
+            ],
+            'mautic.form.type.export' => [
+                'class' => 'Mautic\LeadBundle\Form\Type\ExportType',
+                'alias' => 'export',
             ],
             'mautic.form.type.lead_batch_dnc' => [
                 'class' => 'Mautic\LeadBundle\Form\Type\DncType',
