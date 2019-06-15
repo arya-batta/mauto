@@ -96,20 +96,20 @@ class ButtonSubscriber extends CommonSubscriber
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );*/
             $leadcount   = count($this->leadModel->getEntities());
-            $attr        = [
+            /*$attr        = [
                 'href'          => $exportRoute,
                 'onclick'       => 'Le.exportLeads()',
                 'data-toggle'   => 'ajaxmodal',
                 'data-target'   => '#leSharedModal',
                 'data-header'   => $this->translator->trans('le.lead.batch.export'),
-            ];
-            if ($leadcount < 2) {
-                $attr = [
+            ];*/
+            //if ($leadcount < 10000) {
+            $attr = [
                     'href'          => $exportRoute,
                     'onclick'       => 'Le.exportLeads()',
                     'data-toggle'   => null,
                 ];
-            }
+            // }
             $event->addButton(
                 ['buttons',
                     'attr'      => $attr,
