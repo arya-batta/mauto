@@ -176,8 +176,8 @@ class DripEmailController extends FormController
 
         $ignoreListJoin = true;
 
-        $orderBy    = $session->get('mautic.email.orderby', 'd.subject');
-        $orderByDir = $session->get('mautic.email.orderbydir', 'DESC');
+        $orderBy    = $session->get('mautic.dripemail.orderby', 'd.subject');
+        $orderByDir = $session->get('mautic.dripemail.orderbydir', 'DESC');
 
         $emails = $model->getEntities(
             [

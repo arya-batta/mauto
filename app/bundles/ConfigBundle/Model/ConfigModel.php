@@ -63,7 +63,7 @@ class ConfigModel extends AbstractCommonModel
                 'Sender Reputation' => [
                     'name'=> 'Sender Reputation',
                     'img' => 'Sender-Reputation.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction' => 'senderreputatin']),
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction' => 'senderreputation']),
                 ],
                 'Billing' => [
                     'name'=> 'Billing',
@@ -187,6 +187,12 @@ class ConfigModel extends AbstractCommonModel
                 ],
             ],
         ];
+
+        $paymentrepository  =$this->factory->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($lastpayment == null) {
+            unset($settingsMenu[0]['Account settings']['Sender Reputation']);
+        }
 
         return $settingsMenu[0];
     }

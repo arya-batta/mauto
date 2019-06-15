@@ -3995,6 +3995,9 @@ File: Responsive
   body {
     overflow-x: hidden;
   }
+  #lead_zipcode, #lead_city{
+    margin-top: 2px;
+  }
 }
 @media (max-width: 767px) {
   body {

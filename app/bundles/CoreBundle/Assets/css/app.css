@@ -26,6 +26,9 @@ body > #app-wrapper {
   body {
     overflow-x: scroll;
   }
+  #filters, #status , #lead_lead_listsoptin{
+    width:100%;
+  }
 }
 @media (min-width: 970px) {
   .modal {

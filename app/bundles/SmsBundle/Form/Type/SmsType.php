@@ -17,6 +17,7 @@ use Mautic\CoreBundle\Form\EventListener\FormExitSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class SmsType.
@@ -60,10 +61,18 @@ class SmsType extends AbstractType
             'description',
             'textarea',
             [
-                'label'      => 'mautic.sms.form.internal.description',
-                'label_attr' => ['class' => 'control-label'],
-                'attr'       => ['class' => 'form-control'],
-                'required'   => false,
+                'label'       => 'mautic.sms.form.internal.description',
+                'label_attr'  => ['class' => 'control-label'],
+                'attr'        => ['class' => 'form-control'],
+                'required'    => false,
+                'constraints' => [
+                    new Assert\Length(
+                        [
+                            'max'        => 140,
+                            'maxMessage' => 'le.sms.characters.length',
+                        ]
+                    ),
+                ],
             ]
         );
 

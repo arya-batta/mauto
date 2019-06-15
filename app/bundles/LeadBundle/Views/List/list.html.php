@@ -138,7 +138,7 @@ $isAdmin     =$view['security']->isAdmin();
                                 <a href="<?php echo $view['router']->path(
                                     'le_segment_action',
                                     ['objectAction' => 'edit', 'objectId' => $item->getId()]
-                                ); ?>" data-toggle="ajax">
+                                ); ?>" data-toggle="tooltip">
                                     <?php echo $item->getName(); ?> <!--(<?php /** echo $item->getAlias(); */ ?>) -->
                                 </a>
                             <?php else : ?>
@@ -166,7 +166,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.active').':'.$item->getAlias()]
-                        ); ?>" data-toggle="ajax"<?php echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $ActiveLeadCounts[$item->getId()],
@@ -178,7 +178,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.inactive').':'.$item->getAlias()]
-                        ); ?>" data-toggle="ajax"<?php echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $InactiveLeadCounts[$item->getId()],
@@ -199,11 +199,11 @@ $isAdmin     =$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="tooltip">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_segment_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="tooltip" data-uk-tooltip="">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>

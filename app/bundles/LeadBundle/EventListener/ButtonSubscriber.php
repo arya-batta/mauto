@@ -14,10 +14,29 @@ namespace Mautic\LeadBundle\EventListener;
 use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\CustomButtonEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
 
 class ButtonSubscriber extends CommonSubscriber
 {
+    /**
+     * @var MauticFactory
+     */
+    protected $factory;
+
+    protected $leadModel;
+
+    /**
+     * ButtonSubscriber constructor.
+     *
+     * @param MauticFactory $factory
+     */
+    public function __construct(MauticFactory $factory)
+    {
+        $this->factory   = $factory;
+        $this->leadModel = $factory->getModel('lead');
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -76,13 +95,24 @@ class ButtonSubscriber extends CommonSubscriber
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );*/
+            $leadcount   = count($this->leadModel->getEntities());
+            $attr        = [
+                'href'          => $exportRoute,
+                'onclick'       => 'Le.exportLeads()',
+                'data-toggle'   => 'ajaxmodal',
+                'data-target'   => '#leSharedModal',
+                'data-header'   => $this->translator->trans('le.lead.batch.export'),
+            ];
+            if ($leadcount < 2) {
+                $attr = [
+                    'href'          => $exportRoute,
+                    'onclick'       => 'Le.exportLeads()',
+                    'data-toggle'   => null,
+                ];
+            }
             $event->addButton(
                 ['buttons',
-                    'attr' => [
-                        'href'          => $exportRoute,
-                        'onclick'       => 'Le.exportLeads()',
-                        'data-toggle'   => null,
-                    ],
+                    'attr'      => $attr,
                     'btnText'   => $this->translator->trans('mautic.core.export'),
                     //'iconClass' => 'fa fa-download btn-nospin',
                     'priority'  => 2,

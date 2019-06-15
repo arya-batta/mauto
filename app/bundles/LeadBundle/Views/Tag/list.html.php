@@ -148,7 +148,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.active').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php  echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php  echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $ActiveLeadCounts[$item->getId()],
@@ -160,7 +160,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.tag.inactive').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php  echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php  echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $InactiveLeadCounts[$item->getId()],

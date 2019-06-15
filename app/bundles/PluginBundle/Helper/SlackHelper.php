@@ -25,7 +25,7 @@ class SlackHelper
     public function getOAuthUrl()
     {
         $state = $this->factory->getSession()->getId();
-        $url   = 'https://slack.com/oauth/authorize?client_id='.$this->CLIENT_ID.'&scope=incoming-webhook,channels:history,chat:write:user,team:read&state='.$state;
+        $url   = 'https://slack.com/oauth/authorize?client_id='.$this->CLIENT_ID.'&scope=incoming-webhook,channels:read,channels:history,chat:write:user,team:read&state='.$state;
 
         $oauthUrl    = $url;
 

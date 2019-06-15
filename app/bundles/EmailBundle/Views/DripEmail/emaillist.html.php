@@ -149,7 +149,7 @@
                         <a href="<?php echo $view['router']->path('le_dripemail_email_action', ['objectId' => $entity->getId(), 'subobjectAction' => 'edit', 'subobjectId' => $item->getId()]); ?>"><span><?php echo $item->getSubject(); ?></span></a>
                     </td>
                     <td class="drip-col-stats" data-stats="<?php echo $item->getId(); ?>">
-                    <span class="mt-xs has-click-event clickable-stat"
+                    <span class="mt-xs has-click-event"
                           id="scheduled-count-<?php echo $item->getId(); ?>">
                             <a data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.drip.email.scheduled_leads'); ?>">

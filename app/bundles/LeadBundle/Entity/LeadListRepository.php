@@ -811,6 +811,9 @@ class LeadListRepository extends CommonRepository
             if ($details['field'] == 'lead_score') {
                 $details['field'] = 'score';
             }
+            if ($details['type'] == 'multiselect') {
+                $groupExpr = $q->expr()->orX();
+            }
             if ($object == 'lead') {
                 $column = isset($this->leadTableSchema[$details['field']]) ? $this->leadTableSchema[$details['field']] : false;
             } elseif ($object == 'company') {

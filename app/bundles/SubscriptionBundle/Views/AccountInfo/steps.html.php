@@ -16,11 +16,13 @@
                     <?php echo $view['translator']->trans('leadsengage.accountinfo.tab.accountinfo'); ?>
                 </a>
             </li>
+            <?php if ($planType == 'Paid'):?>
             <li role="presentation" class="list-group-item <?php echo $step === 'senderreputation' ? 'in active' : ''; ?>">
                 <a href="javascript: void(0);"  onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'senderreputation']) ?>');" aria-controls="<?php echo $step?>" role="tab" data-toggle="tab">
                     <?php echo $view['translator']->trans('le.config.tab.senderreputation'); ?>
                 </a>
             </li>
+            <?php endif; ?>
             <li role="presentation" class="list-group-item <?php echo $step == 'billinginfo' ? 'in active' : ''; ?>">
                 <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.<?php echo $typePrefix; ?>-type-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'billing']) ?>');" aria-controls="<?php echo $step?>" role="tab" data-toggle="tab">
                     <?php echo $view['translator']->trans('leadsengage.accountinfo.tab.billinginfo'); ?>

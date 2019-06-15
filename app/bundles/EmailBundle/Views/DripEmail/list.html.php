@@ -33,7 +33,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'mautic.core.update.heading.status',
                         'class'      => 'col-status-name',
@@ -43,8 +43,8 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
-                        'orderBy'    => 'e.name',
+                        'sessionVar' => 'dripemail',
+                        'orderBy'    => 'd.name',
                         'text'       => 'mautic.core.name',
                         'class'      => 'col-email-name',
                         'default'    => true,
@@ -54,7 +54,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.drip.email.lead.stat.pending.count',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -65,7 +65,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.drip.email.lead.stat.count',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -76,7 +76,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.graph.line.stats.sent',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -86,7 +86,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.label.list.reads',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -96,7 +96,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.report.hits_count',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -106,7 +106,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.token.unsubscribes_text',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -117,7 +117,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.config.monitored_email.bounce_folder',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -127,7 +127,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.email.spams',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -138,7 +138,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => '',
                         'text'       => 'le.email.stat.failed',
                         'class'      => 'col-email-stats drip-col-stats',
@@ -150,7 +150,7 @@ $isAdmin=$view['security']->isAdmin();
                 echo $view->render(
                     'MauticCoreBundle:Helper:tableheader.html.php',
                     [
-                        'sessionVar' => 'email',
+                        'sessionVar' => 'dripemail',
                         'orderBy'    => 'e.id',
                         'text'       => 'mautic.core.id',
                         'class'      => 'col-email-id',
@@ -159,7 +159,7 @@ $isAdmin=$view['security']->isAdmin();
                 endif;
 
                 echo $view->render('MauticCoreBundle:Helper:tableheader.html.php', [
-                    'sessionVar' => 'email',
+                    'sessionVar' => 'dripemail',
                     'orderBy'    => '',
                     'text'       => 'mautic.core.actions',
                     'class'      => 'col-lead-location col-lead-actions',
@@ -226,7 +226,7 @@ $isAdmin=$view['security']->isAdmin();
                                    'le_contact_index',
                                    ['search' => $view['translator']->trans('le.lead.drip.searchcommand.pending').':'.$item->getId()]
                                ); ?>"
-                               title="<?php echo $view['translator']->trans('le.email.drip.stat.lead.tooltip'); ?>">
+                               title="<?php echo $view['translator']->trans('le.email.drip.stat.pending.tooltip'); ?>">
                                 <div class="email-spinner-alignment">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>

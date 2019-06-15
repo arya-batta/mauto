@@ -28,8 +28,8 @@ trait OperatorListTrait
             'include' => [
                 '=',
                 '!=',
-                'empty',
-                '!empty',
+                //'empty',
+                //'!empty',
                 //'regexp',
                 //'!regexp',
                 'in',
@@ -90,8 +90,8 @@ trait OperatorListTrait
             'include' => [
                 'in',
                 '!in',
-                'empty',
-                '!empty',
+                //'empty',
+                //'!empty',
             ],
         ],
         'date' => [

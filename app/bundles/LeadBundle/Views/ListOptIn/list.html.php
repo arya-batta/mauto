@@ -184,7 +184,7 @@ $isAdmin     =$view['security']->isAdmin();
                                 <a href="<?php echo $view['router']->path(
                                     'le_listoptin_action',
                                     ['objectAction' => 'edit', 'objectId' => $item->getId()]
-                                ); ?>" data-toggle="ajax">
+                                ); ?>" data-toggle="tooltip">
                                     <?php echo $item->getName(); ?>
                                 </a>
                             <?php endif; ?>
@@ -203,7 +203,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($leadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $leadCounts[$item->getId()],
@@ -215,7 +215,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-success" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.confirm').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($confirmedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($confirmedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $confirmedCounts[$item->getId()],
@@ -227,7 +227,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-warning" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.unconfirm').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($unConfirmedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($unConfirmedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $unConfirmedCounts[$item->getId()],
@@ -239,7 +239,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label le-label-danger" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.listoptin.unsubscribe').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($unSubscribedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($unSubscribedCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $unSubscribedCounts[$item->getId()],
@@ -252,7 +252,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #5cb45b;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.active').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($ActiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $ActiveLeadCounts[$item->getId()],
@@ -264,7 +264,7 @@ $isAdmin     =$view['security']->isAdmin();
                         <a class="label label-primary" style="background-color: #f03154;" href="<?php echo $view['router']->path(
                             'le_contact_index',
                             ['search' => $view['translator']->trans('le.lead.lead.searchcommand.list.optin.inactive').':'.$item->getId()]
-                        ); ?>" data-toggle="ajax"<?php echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
+                        ); ?>" data-toggle="tooltip"<?php echo ($InactiveLeadCounts[$item->getId()] == 0) ? 'disabled=disabled' : ''; ?>>
                             <?php echo $view['translator']->transChoice(
                                 'le.lead.list.viewleads_count',
                                 $InactiveLeadCounts[$item->getId()],
@@ -285,11 +285,11 @@ $isAdmin     =$view['security']->isAdmin();
                                     <i class="material-icons" onclick="Le.showActionButtons('<?php echo $item->getId(); ?>')"></i>
                                     <div tabindex="0" class="md-fab-toolbar-actions toolbar-actions-<?php echo $item->getId(); ?>">
                                         <?php if ($hasEditAccess): ?>
-                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_listoptin_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="ajax">
+                                            <a class="hidden-xs-sm -nospin" title="<?php echo $view['translator']->trans('mautic.core.form.edit'); ?>" href="<?php echo $view['router']->path('le_listoptin_action', ['objectAction' => 'edit', 'objectId' => $item->getId()]); ?>" data-toggle="tooltip">
                                                 <span><i class="material-icons md-color-white">  </i></span></a>
                                         <?php endif; ?>
                                         <?php if ($hasCloneAccess) : ?>
-                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_listoptin_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="ajax" data-uk-tooltip="">
+                                            <a class="hidden-xs" title="<?php echo $view['translator']->trans('mautic.core.form.clone'); ?>" href="<?php echo $view['router']->path('le_listoptin_action', ['objectId' => $item->getId(), 'objectAction' => 'clone']); ?>" data-toggle="tooltip" data-uk-tooltip="">
                                             <i class="material-icons md-color-white">  </i> </a>
                                         <?php endif; ?>
                                         <?php if ($hasDeleteAccess):?>

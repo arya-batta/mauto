@@ -756,6 +756,7 @@ class LeadSubscriber extends CommonSubscriber
                             }
                             $lead->setScore('cold');
                             $lead->setCreatedSource(5); //Created Source INTEGRATION
+                            $lead->setStatus(1); //Lead Status as ACTIVE
                             $this->leadModel->saveEntity($lead);
 
                             if (!empty($data['listoptin'])) {

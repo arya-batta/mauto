@@ -53,9 +53,9 @@ class StateMachineHelper
                                 'customer_inactive_archive'             => 'CK997TVB9',
                                ];
 
-    public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', 'current_contact_size'=>'*Current Contact Size*', 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
+    public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', /*'current_contact_size'=>'*Current Contact Size*',*/ 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
     public $basicLabel    = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'signup_location', 'signup_device', 'signup_page'];
-    public $advanceLabel  = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'account_creation_date', 'company_name', 'website_url', 'current_contact_size', 'existing_email_provider', 'city', 'country', 'gdpr_timezone', 'last_15_days_email_send', 'last_activity_in_app', 'signup_page'];
+    public $advanceLabel  = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'account_creation_date', 'company_name', 'website_url', /*'current_contact_size',*/ 'existing_email_provider', 'city', 'country', 'gdpr_timezone', 'last_15_days_email_send', 'last_activity_in_app', 'signup_page'];
     public $basictype     = ['new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
 
     public function __construct(MauticFactory $factory, StateMachineRepository $smrepo)
@@ -496,7 +496,8 @@ class StateMachineHelper
         try {
             $success               = false;
             if (isset($data->state) && isset($data->domain)) {
-                $this->sendInternalSlackMessage($data->state, $data->domain);
+                $stateval = strtolower($data->state);
+                $this->sendInternalSlackMessage($stateval, $data->domain);
                 $success           =true;
             }
         } catch (\Exception $ex) {
