@@ -531,4 +531,20 @@ class DripEmailRepository extends CommonRepository
 
         return $results;
     }
+
+    public function deleteLeadEventLogbyDrip($dripid)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->delete(MAUTIC_TABLE_PREFIX.'dripemail_lead_event_log')
+            ->where('dripemail_id = '.(int) $dripid)
+            ->execute();
+    }
+
+    public function deleteDripEmailsbyDrip($dripid)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->delete(MAUTIC_TABLE_PREFIX.'emails')
+            ->where('dripemail_id = '.(int) $dripid)
+            ->execute();
+    }
 }

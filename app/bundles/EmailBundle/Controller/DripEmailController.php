@@ -16,7 +16,6 @@ use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Controller\FormErrorMessagesTrait;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\EmailBundle\Entity\DripEmail;
-use Mautic\EmailBundle\Entity\LeadEventLogRepository;
 use Mautic\EmailBundle\Model\DripEmailModel;
 use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
@@ -946,50 +945,10 @@ class DripEmailController extends FormController
                     $flashes[] = $this->isLocked($postActionVars, $entity, 'email.dripemail', true);
                 } else {
                     $deleteIds[] = $objectId;
-                    /** @var LeadEventLogRepository $leadEventLog */
-                    $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
-                    $leadEvents    = $leadEventLog->getEntities(
-                        [
-                            'filter'           => [
-                                'force' => [
-                                    [
-                                        'column' => 'dle.campaign',
-                                        'expr'   => 'eq',
-                                        'value'  => $entity,
-                                    ],
-                                ],
-                            ],
-                            'ignore_paginator' => true,
-                        ]
-                    );
-                    foreach ($leadEvents as $event) {
-                        $leadEventLog->deleteEntity($event);
-                    }
 
-                    $dripEmailsRepository   = $this->getModel('email')->getRepository();
-                    $dripemails             = $dripEmailsRepository->getEntities(
-                        [
-                            'filter'           => [
-                                'force' => [
-                                    [
-                                        'column' => 'e.dripEmail',
-                                        'expr'   => 'eq',
-                                        'value'  => $entity,
-                                    ],
-                                    [
-                                        'column' => 'e.emailType',
-                                        'expr'   => 'eq',
-                                        'value'  => 'dripemail',
-                                    ],
-                                ],
-                            ],
-                            'ignore_paginator' => true,
-                        ]
-                    );
-
-                    foreach ($dripemails as $dripemail) {
-                        $dripEmailsRepository->deleteEntity($dripemail);
-                    }
+                    $dripEmailsRepository   = $model->getRepository();
+                    $dripEmailsRepository->deleteLeadEventLogbyDrip($entity->getId());
+                    $dripEmailsRepository->deleteDripEmailsbyDrip($entity->getId());
                 }
             }
 
@@ -1063,50 +1022,9 @@ class DripEmailController extends FormController
                 return $this->isLocked($postActionVars, $entity, 'email.dripemail');
             }
 
-            /** @var LeadEventLogRepository $leadEventLog */
-            $leadEventLog  = $this->get('mautic.email.repository.leadEventLog');
-            $leadEvents    = $leadEventLog->getEntities(
-                [
-                    'filter'           => [
-                        'force' => [
-                            [
-                                'column' => 'dle.campaign',
-                                'expr'   => 'eq',
-                                'value'  => $entity,
-                            ],
-                        ],
-                    ],
-                    'ignore_paginator' => true,
-                ]
-            );
-            $dripEmailsRepository   = $this->getModel('email')->getRepository();
-            $dripemails             = $dripEmailsRepository->getEntities(
-                [
-                    'filter'           => [
-                        'force' => [
-                            [
-                                'column' => 'e.dripEmail',
-                                'expr'   => 'eq',
-                                'value'  => $entity,
-                            ],
-                            [
-                                'column' => 'e.emailType',
-                                'expr'   => 'eq',
-                                'value'  => 'dripemail',
-                            ],
-                        ],
-                    ],
-                    'ignore_paginator' => true,
-                ]
-            );
-
-            foreach ($leadEvents as $event) {
-                $leadEventLog->deleteEntity($event);
-            }
-
-            foreach ($dripemails as $dripemail) {
-                $dripEmailsRepository->deleteEntity($dripemail);
-            }
+            $dripEmailsRepository   = $model->getRepository();
+            $dripEmailsRepository->deleteLeadEventLogbyDrip($entity->getId());
+            $dripEmailsRepository->deleteDripEmailsbyDrip($entity->getId());
 
             $model->deleteEntity($entity);
 
