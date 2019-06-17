@@ -394,7 +394,7 @@ class CampaignSubscriber extends CommonSubscriber
         $config      = $event->getConfig();
         $emailId     = (int) $config['email'];
         $email       = $this->emailModel->getEntity($emailId);
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or unpublished');
         }
@@ -466,7 +466,7 @@ class CampaignSubscriber extends CommonSubscriber
 
         $config      = $event->getConfig();
         $lead        = $event->getLead();
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
 

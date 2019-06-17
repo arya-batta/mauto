@@ -205,7 +205,7 @@ class ElasticApiHelper
         $payLoad['maxContacts']           ='100000';
         $payLoad['enablePrivateIPRequest']='false';
         $payLoad['sendActivation']        ='false';
-        $payLoad['sendingPermission']     ='All';
+        $payLoad['sendingPermission']     ='Smtp';
         $payLoad['emailSizeLimit']        ='10';
         $payLoad['dailySendLimit']        ='100000';
         $payLoad['apikey']                =$rootApiKey;
