@@ -639,6 +639,58 @@ class ConfigType extends AbstractType
                 ]
             )->addViewTransformer($arrayLinebreakTransformer)
         );
+
+        $builder->add(
+            'max_import_limit',
+            'text',
+            [
+                'label'      => 'le.config.import.limit',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
+            'max_email_limit',
+            'text',
+            [
+                'label'      => 'le.config.email.limit',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
+            'max_user_limit',
+            'text',
+            [
+                'label'      => 'le.config.user.limit',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
+            'max_contact_limit',
+            'text',
+            [
+                'label'      => 'le.config.contact.limit',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control le-input',
+                ],
+                'required' => false,
+            ]
+        );
     }
 
     /**

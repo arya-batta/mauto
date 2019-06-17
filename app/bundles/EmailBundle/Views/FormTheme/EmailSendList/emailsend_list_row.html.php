@@ -20,12 +20,12 @@
         </div>
     <?php endif; ?>
     <?php if (isset($form['priority'])): ?>
-        <div id="priority" class="col-xs-5 queue_hide">
+        <div id="priority" class="col-xs-5 hide">
             <?php echo $view['form']->row($form['priority']); ?>
         </div>
     <?php endif; ?>
     <?php if (isset($form['attempts'])): ?>
-        <div id="attempts" class="col-xs-5 queue_hide">
+        <div id="attempts" class="col-xs-5 hide">
             <?php echo $view['form']->row($form['attempts']); ?>
         </div>
     <?php endif; ?>

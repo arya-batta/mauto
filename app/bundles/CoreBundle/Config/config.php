@@ -1110,5 +1110,9 @@ return [
         'le_db_user'                => 'root',
         'le_db_password'            => 'dacam',
         'product_brand_name'        => 'AnyFunnels',
+        'max_import_limit'          => 10000,
+        'max_email_limit'           => 50000,
+        'max_user_limit'            => 10,
+        'max_contact_limit'         => 100000,
     ],
 ];

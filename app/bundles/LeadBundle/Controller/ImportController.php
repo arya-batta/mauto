@@ -179,6 +179,7 @@ class ImportController extends FormController
             return $this->accessDenied();
         }
         $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
         $lastpayment        = $paymentrepository->getLastPayment();
         $totalRecordCount   = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
         $actualRecordCount  = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
@@ -469,6 +470,16 @@ class ImportController extends FormController
                             }
                             $lineCount         = $import->getLineCount() - 1;
                             $toBeinsertedCount = $actualRecordCount + $lineCount;
+                            if ($lastpayment != null) {
+                                $isvalid = $licenseinfohelper->isValidMaxLimit($lineCount, 'max_import_limit', 10000, 'le.lead.max.import.count.exceeds');
+                                if ($isvalid) {
+                                    $msg =$isvalid;
+                                    $this->addFlash($msg);
+                                    $this->resetImport($fullPath);
+
+                                    return $this->listAction();
+                                }
+                            }
                             $actualrecord      = number_format($actualRecordCount);
                             $totalrecord       = $totalRecordCount == 'UL' ? 'Unlimited' : number_format($totalRecordCount);
                             if ($totalRecordCount >= $toBeinsertedCount || $totalRecordCount == 'UL') {

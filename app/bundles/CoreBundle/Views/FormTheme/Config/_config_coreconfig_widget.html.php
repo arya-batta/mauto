@@ -31,6 +31,19 @@ $template  = '<div class="col-md-6">{content}</div>';
     </div>
 </div>
 <?php endif; ?>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?php echo $view['translator']->trans('le.config.contact.usage.header'); ?></h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <?php echo $view['form']->rowIfExists($fields, 'max_import_limit', $template); ?>
+                <?php echo $view['form']->rowIfExists($fields, 'max_email_limit', $template); ?>
+                <?php echo $view['form']->rowIfExists($fields, 'max_user_limit', $template); ?>
+                <?php echo $view['form']->rowIfExists($fields, 'max_contact_limit', $template); ?>
+            </div>
+        </div>
+    </div>
 
 <?php if (count(array_intersect($fieldKeys, ['default_pagelist', 'timezone', 'locale', 'date_format_full', 'date_format_short', 'date_format_dateonly', 'date_format_timeonly']))): ?>
 <div class="panel panel-primary">

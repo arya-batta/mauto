@@ -59,7 +59,8 @@ if (!$isAdmin) {
                         <div class="col-md-10" style="margin-left: 8%;margin-right: auto;">
                             <div class="pa-lg">
                                 <h5><?php echo $view['translator']->trans('mautic.webhook.note'); ?></h5>
-                                <li class="import-notes-list" style="margin-top: 10px;"><?php echo $view['translator']->trans('le.lead.import.start.note1'); ?></li>
+                                <li class="import-notes-list" style="margin-top: 10px;"><?php echo $view['translator']->trans('le.lead.import.start.note5'); ?></li>
+                                <li class="import-notes-list"><?php echo $view['translator']->trans('le.lead.import.start.note1'); ?></li>
                                 <li class="import-notes-list"><div style="margin-left: 17px;margin-top: -17px;"><?php echo $view['translator']->trans('le.lead.import.start.note2'); ?></div></li>
                                 <li class="import-notes-list"><?php echo $view['translator']->trans('le.lead.import.start.note3', ['%href%' => $view['assets']->getImportSampleFilePath()]); ?></li>
                                 <li class="import-notes-list"><?php echo $view['translator']->trans('le.lead.import.start.note4', ['%href%' => $view['router']->path('le_import_index', ['object' => 'lead'])]); ?></li>

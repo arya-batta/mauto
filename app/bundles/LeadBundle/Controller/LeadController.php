@@ -780,11 +780,21 @@ class LeadController extends FormController
             $action = $this->generateUrl('le_contact_action', ['objectAction' => 'new']);
             $fields = $this->getModel('lead.field')->getPublishedFieldArrays('lead');
         }
-        $viewParameters = ['page' => $page];
-        $returnUrl      = $this->generateUrl('le_contact_index', $viewParameters);
+        $viewParameters     = ['page' => $page];
+        $returnUrl          = $this->generateUrl('le_contact_index', $viewParameters);
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $msg                = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
+        if ($lastpayment != null) {
+            $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+            if ($isvalid) {
+                $msg              = $isvalid;
+                $isValidRecordAdd = false;
+            }
+        }
         if (!$isValidRecordAdd) {
             $inQuickForm = $this->request->get('qf', false);
-            $msg         = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
             $this->addFlash($msg);
             if (!$inQuickForm) {
                 $postActionVars = [
@@ -2914,6 +2924,9 @@ class LeadController extends FormController
         $orderBy    = $session->get('mautic.lead.orderby', 'l.last_active');
         $orderByDir = $session->get('mautic.lead.orderbydir', 'DESC');
         $ids        = $this->request->get('ids');
+        $isDownload = $this->request->get('isdownload', false);
+        $startIndex = $this->request->get('startIndex', 1);
+        $endIndex   = $this->request->get('endIndex', 10000);
 
         $filter     = ['string' => $search, 'force' => ''];
         $translator = $this->get('translator');
@@ -2921,37 +2934,44 @@ class LeadController extends FormController
         $mine       = $translator->trans('mautic.core.searchcommand.ismine');
         $indexMode  = $session->get('mautic.lead.indexmode', 'list');
         $dataType   = $this->request->get('filetype', 'csv');
+        $route      = $this->generateUrl('le_contact_action', ['objectAction' => 'batchExport']);
+        $form       = $this->createForm('export', [], ['action' => $route]);
+        if (($isDownload) || $leadcount < 10000) {
+            if (!empty($ids)) {
+                $filter['force'] = [
+                    [
+                        'column' => 'l.id',
+                        'expr'   => 'in',
+                        'value'  => json_decode($ids, true),
+                    ],
+                ];
+            } else {
+                if ($indexMode != 'list' || ($indexMode == 'list' && strpos($search, $anonymous) === false)) {
+                    //remove anonymous leads unless requested to prevent clutter
+                    $filter['force'] .= " !$anonymous";
+                }
 
-        if (!empty($ids)) {
-            $filter['force'] = [
-                [
-                    'column' => 'l.id',
-                    'expr'   => 'in',
-                    'value'  => json_decode($ids, true),
-                ],
+                if (!$permissions['lead:leads:viewother']) {
+                    $filter['force'] .= " $mine";
+                }
+            }
+            $startLimit = 1;
+            $endLimit   = $leadcount;
+            if ($isDownload) {
+                $startLimit = $startIndex;
+                $endLimit   = $endIndex;
+            }
+            $args = [
+                'start'          => $startLimit,
+                'limit'          => $endLimit,
+                'filter'         => $filter,
+                'orderBy'        => $orderBy,
+                'orderByDir'     => $orderByDir,
+                'withTotalCount' => true,
             ];
-        } else {
-            if ($indexMode != 'list' || ($indexMode == 'list' && strpos($search, $anonymous) === false)) {
-                //remove anonymous leads unless requested to prevent clutter
-                $filter['force'] .= " !$anonymous";
-            }
 
-            if (!$permissions['lead:leads:viewother']) {
-                $filter['force'] .= " $mine";
-            }
-        }
-
-        $args = [
-            'start'          => 0,
-            'limit'          => 200,
-            'filter'         => $filter,
-            'orderBy'        => $orderBy,
-            'orderByDir'     => $orderByDir,
-            'withTotalCount' => true,
-        ];
-
-        $resultsCallback = function ($contact) {
-            $exportFields = $contact->getExportProfileFields();
+            $resultsCallback = function ($contact) {
+                $exportFields = $contact->getExportProfileFields();
 
 //            if (isset($exportFields['Lead status'])) {
 //                $exportFields['Lead status'] = $this->translator->trans('le.leads.status.'.$exportFields['Lead status']);
@@ -2960,12 +2980,28 @@ class LeadController extends FormController
 //                $exportFields['Create source'] = $this->translator->trans('le.leads.created.source.'.$exportFields['Create source']);
 //            }
 
-            return $exportFields;
-        };
+                return $exportFields;
+            };
 
-        $iterator = new IteratorExportDataModel($model, $args, $resultsCallback);
+            $iterator = new IteratorExportDataModel($model, $args, $resultsCallback);
 
-        return $this->exportResultsAs($iterator, $dataType, 'leads');
+            return $this->exportResultsAs($iterator, $dataType, 'leads');
+        }
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'actionUrl' => $route,
+                    'form'      => $form->createView(),
+                ],
+                'contentTemplate' => 'MauticLeadBundle:Export:form.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_contact_index',
+                    'leContent'     => 'exportModel',
+                    'route'         => $route,
+                ],
+            ]
+        );
     }
 
     public function featuresAndIdeasAction()
@@ -2994,6 +3030,7 @@ class LeadController extends FormController
             $this->translator->trans('le.lead.lead.searchcommand.email_bounce'),
             $this->translator->trans('le.lead.lead.searchcommand.email_spam'),
             $this->translator->trans('le.lead.drip.searchcommand.lead'),
+            $this->translator->trans('le.lead.drip.searchcommand.pending'),
             $this->translator->trans('le.lead.drip.searchcommand.sent'),
             $this->translator->trans('le.lead.drip.searchcommand.click'),
             $this->translator->trans('le.lead.drip.searchcommand.read'),

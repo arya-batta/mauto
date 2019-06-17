@@ -1160,4 +1160,22 @@ class LicenseInfoHelper
 
         return [$sender, 'Mailer'];
     }
+
+    public function isValidMaxLimit($count, $operation, $defaultCount, $msg)
+    {
+        $msg = $this->translator->trans($msg);
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator   = $this->get('mautic.configurator');
+        $params         = $configurator->getParameters();
+        $maxLimit       = $params[$operation];
+        if ($maxLimit == 'UL') {
+            return false;
+        } elseif ($maxLimit != 'UL' && is_numeric($maxLimit) && $count >= $maxLimit) {
+            return $msg;
+        } elseif ($maxLimit != 'UL' && !is_numeric($maxLimit) && $count >= $defaultCount) {
+            return $msg;
+        }
+
+        return false;
+    }
 }

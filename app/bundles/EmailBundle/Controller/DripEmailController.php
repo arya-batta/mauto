@@ -867,6 +867,7 @@ class DripEmailController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 if ($valid = $this->isFormValid($form)) {
+                    $dripemail->setScheduleDate('11:00:00');
                     $model->saveEntity($dripemail);
                     $viewParameters = [];
                     $returnUrl      = $this->generateUrl('le_dripemail_campaign_action', ['objectAction' => 'edit', 'objectId' => $dripemail->getId()]);
@@ -1239,11 +1240,26 @@ class DripEmailController extends FormController
         $pending       = $model->getLeadsByDrip($entity, true);
         $remainingCount= $pending + $actualEmailCount;
 
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($lastpayment != null) {
+            $isvalid = $licenseinfohelper->isValidMaxLimit($pending, 'max_email_limit', 50000, 'le.lead.max.email.count.exceeds');
+            if ($isvalid) {
+                $this->addFlash($isvalid);
+
+                return $this->postActionRedirect(
+                    [
+                        'returnUrl'=> $this->generateUrl('le_email_campaign_index'),
+                    ]
+                );
+            }
+        }
+
         if (!$accountStatus) {
             if ((($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL')) && $isHavingEmailValidity) {
                 if ($this->request->getMethod() == 'POST') {//($complete || $this->isFormValid($form))) {
                     $pending                   = $model->getLeadsByDrip($entity, true);
-                    $licenseinfohelper         =  $this->get('mautic.helper.licenseinfo');
                     $message                   = '';
                     $flashType                 = '';
                     if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {

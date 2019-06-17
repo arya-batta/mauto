@@ -159,6 +159,28 @@ class UserController extends FormController
         $action = $this->generateUrl('le_user_action', ['objectAction' => 'new']);
         $form   = $model->createForm($user, $this->get('form.factory'), $action);
 
+        $defaultfilter='email:!sadmin@leadsengage.com';
+        //do some default filtering
+        $filter = ['string' => $defaultfilter, 'force' => ''];
+
+        $users     = $this->getModel('user.user')->getEntities(['filter'     => $filter]);
+        $userCount = count($users);
+
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $isvalid            = $licenseinfohelper->isValidMaxLimit($userCount, 'max_user_limit', 10, 'le.lead.max.user.count.exceeds');
+        if ($isvalid) {
+            $msg = $isvalid;
+            $this->addFlash($msg);
+
+            return $this->postActionRedirect(
+                [
+                    'returnUrl'=> $this->generateUrl('le_user_index'),
+                ]
+            );
+        }
+
         //Check for a submitted form and process it
         if ($this->request->getMethod() == 'POST') {
             $valid = false;

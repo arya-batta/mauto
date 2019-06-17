@@ -22,6 +22,7 @@ use Mautic\LeadBundle\Entity\CustomFieldEntityTrait;
 use Mautic\LeadBundle\Entity\DoNotContact;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\LeadModel;
+use Mautic\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
@@ -247,6 +248,10 @@ class LeadApiController extends CommonApiController
      */
     public function getListsAction()
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -300,6 +305,10 @@ class LeadApiController extends CommonApiController
      */
     public function getCompaniesAction($id)
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $entity = $this->model->getEntity($id);
 
         if ($entity === null) {
@@ -332,6 +341,10 @@ class LeadApiController extends CommonApiController
      */
     public function getCampaignsAction()
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -388,6 +401,10 @@ class LeadApiController extends CommonApiController
      */
     public function getActivityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $entity = $this->model->getEntity($id);
 
         if ($entity === null) {
@@ -408,6 +425,10 @@ class LeadApiController extends CommonApiController
      */
     public function getAllActivityAction($lead = null)
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $canViewOwn    = $this->security->isGranted('lead:leads:viewown');
         $canViewOthers = $this->security->isGranted('lead:leads:viewother');
 
@@ -815,6 +836,10 @@ class LeadApiController extends CommonApiController
      */
     public function getEntitiesAction()
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $parameters = $this->request->request->all();
         $repo       = $this->model->getRepository();
         $tableAlias = $repo->getTableAlias();
@@ -982,6 +1007,10 @@ class LeadApiController extends CommonApiController
      */
     public function getEntityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $args = [];
         if ($select = InputHelper::cleanArray($this->request->get('select', []))) {
             $args['select']              = $select;
@@ -1034,6 +1063,10 @@ class LeadApiController extends CommonApiController
      */
     public function getLeadEntityAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -1094,6 +1127,10 @@ class LeadApiController extends CommonApiController
      */
     public function deleteLeadEntityAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -1135,6 +1172,10 @@ class LeadApiController extends CommonApiController
      */
     public function editEntityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $entity     = $this->model->getEntity($id);
         $parameters = $this->request->request->all();
         $method     = $this->request->getMethod();
@@ -1187,6 +1228,10 @@ class LeadApiController extends CommonApiController
      */
     public function getLeadTagsAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -1227,6 +1272,10 @@ class LeadApiController extends CommonApiController
      */
     public function getLeadListOptinAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);
@@ -1275,6 +1324,10 @@ class LeadApiController extends CommonApiController
      */
     public function getLeadDripAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $email = $this->request->get('email');
 
         $result = $this->model->findEmail($email);

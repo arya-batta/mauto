@@ -1727,11 +1727,26 @@ class EmailCampaignController extends FormController
             );
         }
 
-        $action        = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'send', 'objectId' => $objectId]);
-        $pending       = $model->getPendingLeads($entity, null, true);
-        $form          = $this->get('form.factory')->create('batch_send', [], ['action' => $action]);
-        $complete      = $this->request->request->get('complete', false);
-        $remainingCount= $pending + $actualEmailCount;
+        $action             = $this->generateUrl('le_email_campaign_action', ['objectAction' => 'send', 'objectId' => $objectId]);
+        $pending            = $model->getPendingLeads($entity, null, true);
+        $form               = $this->get('form.factory')->create('batch_send', [], ['action' => $action]);
+        $complete           = $this->request->request->get('complete', false);
+        $remainingCount     = $pending + $actualEmailCount;
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        if ($lastpayment != null) {
+            $isvalid = $licenseinfohelper->isValidMaxLimit($pending, 'max_email_limit', 50000, 'le.lead.max.email.count.exceeds');
+            if ($isvalid) {
+                $this->addFlash($isvalid);
+
+                return $this->postActionRedirect(
+                    [
+                        'returnUrl'=> $this->generateUrl('le_email_campaign_index'),
+                    ]
+                );
+            }
+        }
 
         if (!$accountStatus) {
             if ((($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL')) && $isHavingEmailValidity) {
@@ -1763,7 +1778,6 @@ class EmailCampaignController extends FormController
                         'batchlimit' => $batchlimit,
                     ];*/
                     $pending                   = $model->getPendingLeads($entity, null, true);
-                    $licenseinfohelper         =  $this->get('mautic.helper.licenseinfo');
                     $message                   = '';
                     $flashType                 = '';
                     if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {

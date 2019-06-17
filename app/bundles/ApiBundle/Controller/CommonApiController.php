@@ -192,7 +192,10 @@ class CommonApiController extends FOSRestController implements MauticController
     public function deleteEntitiesAction()
     {
         $parameters = $this->request->query->all();
-
+        $valid      = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $valid = $this->validateBatchPayload($parameters);
         if ($valid instanceof Response) {
             return $valid;
@@ -241,6 +244,10 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function deleteEntityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $entity = $this->model->getEntity($id);
         if (null !== $entity) {
             if (!$this->checkEntityAccess($entity, 'delete')) {
@@ -267,7 +274,10 @@ class CommonApiController extends FOSRestController implements MauticController
     public function editEntitiesAction()
     {
         $parameters = $this->request->request->all();
-
+        $valid      = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $valid = $this->validateBatchPayload($parameters);
         if ($valid instanceof Response) {
             return $valid;
@@ -341,6 +351,10 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function editEntityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $entity     = $this->model->getEntity($id);
         $parameters = $this->request->request->all();
         $method     = $this->request->getMethod();
@@ -377,6 +391,10 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function getEntitiesAction()
     {
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $parameters    = $this->request->request->all();
         $repo          = $this->model->getRepository();
         $tableAlias    = $repo->getTableAlias();
@@ -575,6 +593,10 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function getEntityAction($id)
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $args = [];
         if ($select = InputHelper::cleanArray($this->request->get('select', []))) {
             $args['select']              = $select;
@@ -739,7 +761,10 @@ class CommonApiController extends FOSRestController implements MauticController
         if (!$this->checkEntityAccess($entity, 'create')) {
             return $this->accessDenied();
         }
-
+        $valid = $this->validateBatchApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $parameters = $this->request->request->all();
 
         $valid = $this->validateBatchPayload($parameters);
@@ -837,6 +862,10 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     public function newEntityAction()
     {
+        $valid = $this->validateApiPayload();
+        if ($valid instanceof Response) {
+            return $valid;
+        }
         $parameters = $this->request->request->all();
 
         $entity           = $this->getNewEntity($parameters);
@@ -1657,10 +1686,84 @@ class CommonApiController extends FOSRestController implements MauticController
      */
     protected function validateBatchPayload($parameters)
     {
-        $batchLimit = (int) $this->get('mautic.config')->getParameter('api_batch_max_limit', 200);
+        $batchLimit = (int) $this->get('mautic.config')->getParameter('api_batch_max_limit', 500);
         if (count($parameters) > $batchLimit) {
             return $this->returnError($this->get('translator')->trans('mautic.api.call.batch_exception', ['%limit%' => $batchLimit]));
         }
+
+        return true;
+    }
+
+    /**
+     * @param $parameters
+     *
+     * @return array|bool|Response
+     */
+    protected function validateBatchApiPayload()
+    {
+        $configurator     = $this->get('mautic.configurator');
+        $params           = $configurator->getParameters();
+
+        $lastrequesttime  = $params['last_batch_api_request_time'];
+        $lastrequestcount = $params['last_batch_api_request_count'];
+        $currentTime      = (new \DateTime())->format('H:i:s');
+        $currentTime      = strtotime($currentTime);
+        if ($lastrequestcount > 0) {
+            $difftime = $lastrequesttime - $currentTime;
+            if ($difftime < 3600 && $lastrequestcount > 60) {
+                return $this->returnError($this->get('translator')->trans('le.api.batch.request.limit.exceeds'));
+            } elseif ($difftime > 3600 && $lastrequestcount > 60) {
+                $configurator->mergeParameters(['last_batch_api_request_time' => $currentTime]);
+                $configurator->mergeParameters(['last_batch_api_request_count' => 1]);
+            } else {
+                $lastrequestcount = $lastrequestcount + 1;
+                $configurator->mergeParameters(['last_batch_api_request_count' => $lastrequestcount]);
+            }
+        } else {
+            if ($lastrequesttime == '') {
+                $configurator->mergeParameters(['last_batch_api_request_time' => $currentTime]);
+            }
+            $lastrequestcount = $lastrequestcount + 1;
+            $configurator->mergeParameters(['last_batch_api_request_count' => $lastrequestcount]);
+        }
+        $configurator->write();
+
+        return true;
+    }
+
+    /**
+     * @param $parameters
+     *
+     * @return array|bool|Response
+     */
+    protected function validateApiPayload()
+    {
+        $configurator     = $this->get('mautic.configurator');
+        $params           = $configurator->getParameters();
+
+        $lastrequesttime  = $params['last_api_request_time'];
+        $lastrequestcount = $params['last_api_request_count'];
+        $currentTime      = (new \DateTime())->format('H:i:s');
+        $currentTime      = strtotime($currentTime);
+        if ($lastrequestcount > 0) {
+            $difftime = $lastrequesttime - $currentTime;
+            if ($difftime < 3600 && $lastrequestcount > 3000) {
+                return $this->returnError($this->get('translator')->trans('le.api.batch.request.limit.exceeds'));
+            } elseif ($difftime > 3600 && $lastrequestcount > 3000) {
+                $configurator->mergeParameters(['last_api_request_time' => $currentTime]);
+                $configurator->mergeParameters(['last_api_request_count' => 1]);
+            } else {
+                $lastrequestcount = $lastrequestcount + 1;
+                $configurator->mergeParameters(['last_api_request_count' => $lastrequestcount]);
+            }
+        } else {
+            if ($lastrequesttime == 0) {
+                $configurator->mergeParameters(['last_api_request_time' => $currentTime]);
+            }
+            $lastrequestcount = $lastrequestcount + 1;
+            $configurator->mergeParameters(['last_api_request_count' => $lastrequestcount]);
+        }
+        $configurator->write();
 
         return true;
     }
