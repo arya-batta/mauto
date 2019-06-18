@@ -231,7 +231,7 @@ class EmailApiController extends CommonApiController
         if (isset($parameters['limit']) && $parameters['limit'] != '' && !is_numeric($parameters['limit'])) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'limit']);
         }
-        if ($publishedOnly != '' && $publishedOnly != 'true' && $publishedOnly != 'false' && !is_bool($publishedOnly)) {
+        if ($publishedOnly != '' && $publishedOnly != 'true' && $publishedOnly != 'false' && $publishedOnly != 1 && $publishedOnly != 0 && !is_bool($publishedOnly)) {
             return $this->returnError('le.core.error.input.invalid', Codes::HTTP_BAD_REQUEST, [], ['%field%' => 'published']);
         }
 
