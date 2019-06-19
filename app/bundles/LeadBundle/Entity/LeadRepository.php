@@ -1646,7 +1646,7 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         $q->select('l.id as leadid')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
             ->Where('l.last_active > '."'".$dateinterval."'")
-            ->andWhere('l.status in (1,6)');
+            ->andWhere('l.status in (1)');
         $results = $q->execute()->fetchAll();
 
         return $results;
