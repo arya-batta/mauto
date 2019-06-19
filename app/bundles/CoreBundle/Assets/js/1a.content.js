@@ -723,7 +723,7 @@ Le.onPageLoad = function (container, response, inModal) {
     if (contentSpecific != "invalidDomain") {
         mQuery('.license-notifiation').addClass('hide');
         Le.loadLicenseUsageInfo();
-        Le.CheckSMSStatus();
+        //Le.CheckSMSStatus();
         //Le.checkemailstatus();
     }
     Le.configureFullScreenSettings();

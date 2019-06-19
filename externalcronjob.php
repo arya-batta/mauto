@@ -70,17 +70,17 @@ try {
                 $fcolname = 'f17';
             } elseif ($operation == 'le:segments:update') {
                 $fcolname = 'f18';
-            } elseif ($operation == 'le:campaigns:rebuild') {
+            } /*elseif ($operation == 'le:campaigns:rebuild') {
                 $fcolname = 'f19';
-            } elseif ($operation == 'le:campaigns:trigger') {
+            } */elseif ($operation == 'le:campaigns:trigger') {
                 $fcolname = 'f20';
             } elseif ($operation == 'le:emails:send') {
                 $fcolname = 'f21';
-            } elseif ($operation == 'mautic:email:fetch') {
+            } elseif ($operation == 'le:email:fetch') {
                 $fcolname = 'f26';
-            } elseif ($operation == 'mautic:list:update') {
+            } /*elseif ($operation == 'mautic:list:update') {
                 $fcolname = 'f27';
-            } elseif ($operation == 'mautic:reports:scheduler') {
+            } */elseif ($operation == 'le:reports:scheduler') {
                 $fcolname = 'f28';
             } elseif ($operation == 'le:payment:update') {
                 $fcolname = 'f29';
@@ -98,6 +98,9 @@ try {
                 $fcolname = 'f16';
             } elseif ($operation == 'le:statemachine:checker') {
                 $fcolname = 'f15';
+            }
+            if ($fcolname == '') {
+                exit('Please Configure Valid Parameter');
             }
         } else {
             exit('Please Configure Valid Parameter');

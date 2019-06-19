@@ -107,14 +107,35 @@ class LeadSubscriber extends CommonSubscriber
         $action = $event->wasAdded() ? 'added' : 'removed';
         $em     = $this->em;
 
+        $repo   = $this->campaignModel->getRepository();
+
         //get campaigns for the list
-        if (!isset($listCampaigns[$list->getId()])) {
-            $listCampaigns[$list->getId()] = $this->campaignModel->getRepository()->getPublishedCampaignsByLeadLists($list->getId());
-        }
+        $listCampaigns = $repo->getPublishedCampaignbySourceType('lists');
 
         $leadLists = $em->getRepository('MauticLeadBundle:LeadList')->getLeadLists($leads, true, true);
 
-        if (!empty($listCampaigns[$list->getId()])) {
+        if (!empty($listCampaigns)) {
+            foreach ($listCampaigns as $c) {
+                foreach ($c as $event) {
+                    $properties = unserialize($event['properties']);
+                    $campaign   = $this->em->getReference('MauticCampaignBundle:Campaign', $event['id']);
+
+                    if ($action == 'added') {
+                        if (in_array($list->getId(), $properties['lists'])) {
+                            if ($event['goal'] != 'interrupt') {
+                                $this->campaignModel->addLeads($campaign, $leads, false, true);
+                                $this->campaignModel->putCampaignEventLogs($event['eventid'], $campaign, $leads);
+                            } else {
+                                $this->campaignModel->checkGoalAchievedByLeads($campaign, $leads, $event['eventid']);
+                            }
+                        }
+                    }
+                    unset($campaign);
+                }
+            }
+        }
+
+        /*if (!empty($listCampaigns[$list->getId()])) {
             foreach ($listCampaigns[$list->getId()] as $c) {
                 if (!isset($campaignReferences[$c['id']])) {
                     $campaignReferences[$c['id']] = $em->getReference('MauticCampaignBundle:Campaign', $c['id']);
@@ -143,7 +164,7 @@ class LeadSubscriber extends CommonSubscriber
                     $this->campaignModel->removeLeads($campaignReferences[$c['id']], $removeLeads, false, true);
                 }
             }
-        }
+        }*/
 
         // Save memory with batch processing
         unset($event, $em, $model, $leads, $list, $listCampaigns, $leadLists);

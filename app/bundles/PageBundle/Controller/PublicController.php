@@ -429,10 +429,11 @@ class PublicController extends CommonFormController
         if ($smHelper->isAnyInActiveGivenStateAlive()) {
             $deviceTrackingService = $this->get('mautic.lead.service.device_tracking_service');
             $deviceTrackingService->clearTrackingCookies();
+        } else {
+            /** @var \Mautic\PageBundle\Model\PageModel $pageModel */
+            $pageModel = $this->getModel('page');
+            $pageModel->hitPage($redirect, $this->request);
         }
-        /** @var \Mautic\PageBundle\Model\PageModel $pageModel */
-        $pageModel = $this->getModel('page');
-        $pageModel->hitPage($redirect, $this->request);
 
         $url = $redirect->getUrl();
 

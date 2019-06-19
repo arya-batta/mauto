@@ -45,7 +45,7 @@ class ExportSchedulerCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('mautic:reports:scheduler')
+            ->setName('le:reports:scheduler')
             ->setDescription('Processes scheduler for report\'s export')
             ->addOption('--report', 'report', InputOption::VALUE_OPTIONAL, 'ID of report. Process all reports if not set.')
             ->addOption('--domain', '-d', InputOption::VALUE_REQUIRED, 'To load domain specific configuration', '');

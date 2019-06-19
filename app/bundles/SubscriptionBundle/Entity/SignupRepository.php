@@ -668,7 +668,7 @@ class SignupRepository
         }
     }
 
-    public function updateAccountInfo($data, $email)
+    public function updateAccountInfo($data, $domain)
     {
         $qb = $this->getConnection()->createQueryBuilder();
 
@@ -683,35 +683,30 @@ class SignupRepository
         $currentprovider = $data['currentprovider'];
         $currentlist     = $data['currentlist'];
 
-        $recordid = $this->checkisRecordAvailable($email);
-        if (!$recordid) {
-        } else {
-            $qb->update(MAUTIC_TABLE_PREFIX.'leads')
-                ->set('address1', ':address')
-                ->set('city', ':city')
-                ->set('state', ':state')
-                ->set('zipcode', ':zipcode')
-                ->set('country', ':country')
-                ->set('company_name', ':company')
-                //->set('mobile', ':mobile')
-                ->set('website_url', ':website')
-                ->set('current_contact_size', ':current_contact_size')
-                ->set('existing_email_provider', ':existing_email_provider')
-                ->setParameter('address', $address)
-                ->setParameter('city', $city)
-                ->setParameter('state', $state)
-                ->setParameter('zipcode', $zip)
-                ->setParameter('country', $country)
-                ->setParameter('company', $business)
-                //->setParameter('mobile', $phone)
-                ->setParameter('website', $website)
-                ->setParameter('current_contact_size', $currentlist)
-                ->setParameter('existing_email_provider', $currentprovider)
-                ->where(
-                    $qb->expr()->in('id', $recordid)
-                )
-                ->execute();
-        }
+        $qb->update(MAUTIC_TABLE_PREFIX.'leads')
+            ->set('address1', ':address')
+            ->set('city', ':city')
+            ->set('state', ':state')
+            ->set('zipcode', ':zipcode')
+            ->set('country', ':country')
+            ->set('company_name', ':company')
+            //->set('mobile', ':mobile')
+            ->set('website_url', ':website')
+            ->set('current_contact_size', ':current_contact_size')
+            ->set('existing_email_provider', ':existing_email_provider')
+            ->setParameter('address', $address)
+            ->setParameter('city', $city)
+            ->setParameter('state', $state)
+            ->setParameter('zipcode', $zip)
+            ->setParameter('country', $country)
+            ->setParameter('company', $business)
+            //->setParameter('mobile', $phone)
+            ->setParameter('website', $website)
+            ->setParameter('current_contact_size', $currentlist)
+            ->setParameter('existing_email_provider', $currentprovider)
+            ->where(
+                $qb->expr()->eq('domain', ':domain')
+            )->setParameter('domain', $domain)->execute();
     }
 
     public function updateLeadStateInfo($states, $domain)

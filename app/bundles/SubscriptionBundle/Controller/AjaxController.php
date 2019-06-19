@@ -1377,6 +1377,6 @@ class AjaxController extends CommonAjaxController
             $configurator->write();
         }
         $signuprepository=$this->get('le.core.repository.signup');
-        $signuprepository->updateAccountInfo($accountData, $userEntity->getEmail());
+        $signuprepository->updateAccountInfo($accountData, $accountEntity->getDomainname());
     }
 }

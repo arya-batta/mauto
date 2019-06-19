@@ -41,6 +41,9 @@ class UpdateLeadCampaignsCommand extends ModeratedCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            $output->writeln('<error>This Cron has been Disabled.</error>');
+
+            return 0;
             $container  = $this->getContainer();
             $translator = $container->get('translator');
             $em         = $container->get('doctrine')->getManager();

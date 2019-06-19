@@ -159,6 +159,11 @@ Le.updateAjaxModal = function (target, route, method) {
         dataType: "json",
         success: function (response) {
             if (response.newContent) {
+                if(!mQuery(target).hasClass('in')) {
+                    mQuery(target).attr('style', 'display:block;margin-left: 18%;')
+                    mQuery(target).addClass('in');
+                    mQuery('modal-backdrop').addClass('in');
+                }
                 //load the content
                 if (mQuery(target + ' .loading-placeholder').length) {
                     mQuery(target + ' .loading-placeholder').addClass('hide');

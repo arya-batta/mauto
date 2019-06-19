@@ -153,6 +153,14 @@ class ContactRequestHelper
         if (!is_array($clickthrough)) {
             throw new ContactNotFoundException();
         }
+        if (isset($clickthrough['channel']) && empty($clickthrough['channel']['sms'])) {
+            $leadid = $clickthrough['lead'];
+            if ($leadid != '') {
+                $contact = $this->leadModel->getEntity($leadid);
+
+                return $contact;
+            }
+        }
 
         try {
             $contact = $this->getContactFromEmailClickthrough($clickthrough);

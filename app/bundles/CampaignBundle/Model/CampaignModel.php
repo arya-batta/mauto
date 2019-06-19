@@ -753,7 +753,10 @@ class CampaignModel extends CommonFormModel
      */
     public function addLeads(Campaign $campaign, array $leads, $manuallyAdded = false, $batchProcess = false, $searchListLead = 1)
     {
+        $batchSize = 20;
+        $i         = 0;
         foreach ($leads as $lead) {
+            ++$i;
             if ($lead instanceof Lead) {
                 $leadId = $lead->getId();
             } else {
@@ -800,6 +803,9 @@ class CampaignModel extends CommonFormModel
                 $campaignLead->setManuallyAdded($manuallyAdded);
 
                 $dispatchEvent = $this->saveCampaignLead($campaignLead);
+                if ($i % $batchSize === 0) {
+                    $this->getEntityManager()->flush();
+                }
             }
 
             if ($dispatchEvent && $this->dispatcher->hasListeners(LeadEvents::LEAD_WORKFLOW_ADD)) {
@@ -833,31 +839,68 @@ class CampaignModel extends CommonFormModel
      */
     public function checkGoalAchievedByLead($campaign, $lead, $eventid)
     {
+        $this->checkGoalAchievedByLeads($campaign, [$lead], $eventid);
+
+        unset($campaign, $lead);
+    }
+
+    /**
+     * Check goal achieved by lead.
+     *
+     * @param Campaign $campaign
+     * @param Lead     $leads
+     * @param          $eventid
+     *
+     * @return bool
+     */
+    public function checkGoalAchievedByLeads($campaign, $leads, $eventid, $batchProcess = true)
+    {
         if (!$campaign instanceof Campaign) {
             $campaign   = $this->em->getReference('MauticCamapignBundle:Campaign', $campaign);
         }
-        $achieved       =false;
-        $completedevents=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
-        if ($completedevents > 0) {
-            $canvassettings=json_decode($campaign->getCanvasSettings());
-            $isLeadExited  =$this->checkCampaignLeadExited($campaign, $lead);
-            if (!$isLeadExited) {
-                $parellalgoals=$this->getAllParellalGoals($canvassettings, $eventid, []);
-                if (sizeof($parellalgoals) > 0) {
-                    $achievedgoals=$this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $parellalgoals);
-                    if ($achievedgoals == 0) {
-                        $this->getEventRepository()->unScheduleAllEvents($campaign->getId(), $lead->getId());
-                        $log=$this->getLogEntity($eventid, $campaign, $lead);
-                        $log->setTriggerDate(new \DateTime());
-                        $log->setSystemTriggered(true);
-                        $this->getCampaignLeadEventLogRepository()->saveEntity($log);
-                        $achieved=true;
+        $batchSize = 20;
+        $i         = 0;
+        foreach ($leads as $lead) {
+            ++$i;
+            if ($lead instanceof Lead) {
+                $leadId = $lead->getId();
+            } else {
+                $leadId = (is_array($lead) && isset($lead['id'])) ? $lead['id'] : $lead;
+                $lead   = $this->em->getReference('MauticLeadBundle:Lead', $leadId);
+            }
+            $completedevents = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
+            if (empty($completedevents)) {
+                $this->addLead($campaign, $lead);
+                $this->putCampaignEventLog($eventid, $campaign, $lead);
+                $completedevents = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
+            }
+            if ($completedevents > 0) {
+                $canvassettings = json_decode($campaign->getCanvasSettings());
+                $isLeadExited   = $this->checkCampaignLeadExited($campaign, $lead);
+                if (!$isLeadExited) {
+                    $parellalgoals = $this->getAllParellalGoals($canvassettings, $eventid, []);
+                    if (sizeof($parellalgoals) > 0) {
+                        $achievedgoals = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $parellalgoals);
+                        if ($achievedgoals == 0) {
+                            $this->getEventRepository()->unScheduleAllEvents($campaign->getId(), $lead->getId());
+                            $log = $this->getLogEntity($eventid, $campaign, $lead);
+                            $log->setTriggerDate(new \DateTime());
+                            $log->setSystemTriggered(true);
+                            $this->getCampaignLeadEventLogRepository()->saveEntity($log);
+                            if ($i % $batchSize === 0) {
+                                $this->getEntityManager()->flush();
+                            }
+                        }
                     }
                 }
             }
+            if ($batchProcess) {
+                $this->em->detach($lead);
+            }
+            unset($lead);
         }
-
-        return $achieved;
+        $this->getEntityManager()->flush();
+        unset($campaign);
     }
 
     /**
@@ -1477,39 +1520,76 @@ class CampaignModel extends CommonFormModel
      */
     public function putCampaignEventLog($eventid, $campaign, $lead)
     {
+        $this->putCampaignEventLogs($eventid, $campaign, [$lead]);
+
+        unset($campaign, $lead);
+    }
+
+    /**
+     * put new campaign event log.
+     *
+     * @param $eventid
+     * @param $campaign
+     * @param $lead
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function putCampaignEventLogs($eventid, $campaign, $leads, $batchProcess = false)
+    {
         $event            = $this->em->getReference('MauticCampaignBundle:Event', $eventid);
-        if (!$lead instanceof Lead) {
-            $lead   = $this->em->getReference('MauticLeadBundle:Lead', $lead);
-        }
-        $campaignlead     =$this->em->getReference('MauticCampaignBundle:Lead', [
-            'lead'     => $lead->getId(),
-            'campaign' => $campaign->getId(),
-        ]);
-        $leadrotation     =      $campaignlead->getRotation();
-        $campaignEventLog = $this->getCampaignLeadEventLogRepository()->findOneBy([
-            'lead'     => $lead,
-            'campaign' => $campaign,
-          //  'event'    => $event,
-            'rotation'=> $leadrotation,
-        ]);
-        $isLogCreated=false;
-        if ($campaignEventLog == null) {
-            $isLogCreated=true;
-        }
-        if (!$isLogCreated) {
-            if ($this->checkCampaignLeadExited($campaign, $lead)) {
-                $leadrotation=$leadrotation + 1;
-                $this->updateCampaignLeadRotation($lead, $campaign, $leadrotation);
-                $isLogCreated=true;
+        $batchSize        = 20;
+        $i                = 0;
+        foreach ($leads as $lead) {
+            ++$i;
+            if ($lead instanceof Lead) {
+                $leadId = $lead->getId();
+            } else {
+                $leadId = (is_array($lead) && isset($lead['id'])) ? $lead['id'] : $lead;
+                $lead   = $this->em->getReference('MauticLeadBundle:Lead', $leadId);
             }
+            if (!$lead instanceof Lead) {
+                $lead = $this->em->getReference('MauticLeadBundle:Lead', $lead);
+            }
+            $campaignlead = $this->em->getReference('MauticCampaignBundle:Lead', [
+                'lead'     => $lead->getId(),
+                'campaign' => $campaign->getId(),
+            ]);
+            $leadrotation     = $campaignlead->getRotation();
+            $campaignEventLog = $this->getCampaignLeadEventLogRepository()->findOneBy([
+                'lead'     => $lead,
+                'campaign' => $campaign,
+                //  'event'    => $event,
+                'rotation' => $leadrotation,
+            ]);
+            $isLogCreated = false;
+            if ($campaignEventLog == null) {
+                $isLogCreated = true;
+            }
+            if (!$isLogCreated) {
+                if ($this->checkCampaignLeadExited($campaign, $lead)) {
+                    $leadrotation = $leadrotation + 1;
+                    $this->updateCampaignLeadRotation($lead, $campaign, $leadrotation);
+                    $isLogCreated = true;
+                }
+            }
+            if ($isLogCreated) {
+                $log = $this->getLogEntity($event, $campaign, $lead);
+                $log->setDateTriggered(new \DateTime());
+                $log->setSystemTriggered(true);
+                $log->setRotation($leadrotation);
+                $this->getCampaignLeadEventLogRepository()->saveEntity($log, false);
+                if ($i % $batchSize === 0) {
+                    $this->getEntityManager()->flush();
+                }
+            }
+            $this->em->detach($campaignlead);
+            if ($batchProcess) {
+                $this->em->detach($lead);
+            }
+            unset($campaignlead, $lead);
         }
-        if ($isLogCreated) {
-            $log=$this->getLogEntity($event, $campaign, $lead);
-            $log->setDateTriggered(new \DateTime());
-            $log->setSystemTriggered(true);
-            $log->setRotation($leadrotation);
-            $this->getCampaignLeadEventLogRepository()->saveEntity($log);
-        }
+        $this->getEntityManager()->flush();
+        unset($campaign);
     }
 
     /**

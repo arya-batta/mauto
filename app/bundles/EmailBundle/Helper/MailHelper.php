@@ -1745,6 +1745,14 @@ class MailHelper
             $this->eventTokens = array_merge($this->eventTokens, $event->getTokens(false));
 
             unset($event, $lead);
+        } else {
+            $event->setLead('');
+
+            $this->dispatcher->dispatch(EmailEvents::EMAIL_ON_DISPLAY, $event);
+
+            $this->eventTokens = array_merge($this->eventTokens, $event->getTokens(false));
+
+            unset($event, $lead);
         }
     }
 

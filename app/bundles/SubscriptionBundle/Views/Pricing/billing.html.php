@@ -40,25 +40,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                     </div>
                     <br>
                     <div class="modal-body form-select-modal" style="padding-top:0px;">
-                        <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
-                        <div class="card-holder-title">
-                            Card Information
-                        </div>
-                        <p class="header_desc">
-                            We will not charge you anything on your credit card now, you will only be billed after 3 month trial or you exhaust the free email credits in a month. You can cancel your account anytime if you wish.
-                        </p>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">
-                                    <!-- A Stripe Element will be inserted here. -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Used to display form errors. -->
-                        <div id="card-holder-errors" role="alert"></div>
-                        <br>
-                        <br>
-                        <div class="card-holder-title">
+                       <div class="card-holder-title">
                             Business Information
                         </div>
                         <p class="header_desc">
@@ -149,6 +131,35 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 <p class="label_control_error country_error hide">Country can't be empty</p>
                             </div>
                         </div>
+                        <br>
+                        <br>
+                        <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card-holder-title">
+                                    Add Your Credit Card
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="text-align:right;color: rgba(22, 122, 198, 0.63);float: right;" data-toggle="tooltip"
+                                   title="<?php echo $view['translator']->trans('le.subscription.credit.card.tooltip'); ?>">
+                                    <i class="fa fa-question-circle"></i> Why do we ask for your CC?
+                                </span>
+                            </div>
+                        </div>
+                        <p class="header_desc">
+                            We'll verify your card by making a $1 charge. Don't worry, we will refund it.
+                        </p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Used to display form errors. -->
+                        <div id="card-holder-errors" role="alert"></div>
+                        <br>
                         <br>
                         <div class="row">
                             <div class="col-md-12" id="termsConditions">

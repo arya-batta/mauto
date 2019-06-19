@@ -65,14 +65,6 @@ class SmsType extends AbstractType
                 'label_attr'  => ['class' => 'control-label'],
                 'attr'        => ['class' => 'form-control'],
                 'required'    => false,
-                'constraints' => [
-                    new Assert\Length(
-                        [
-                            'max'        => 140,
-                            'maxMessage' => 'le.sms.characters.length',
-                        ]
-                    ),
-                ],
             ]
         );
 
@@ -85,6 +77,14 @@ class SmsType extends AbstractType
                 'attr'       => [
                     'class' => 'form-control',
                     'rows'  => 6,
+                ],
+                'constraints' => [
+                    new Assert\Length(
+                        [
+                            'max'        => 140,
+                            'maxMessage' => 'le.sms.characters.length',
+                        ]
+                    ),
                 ],
             ]
         );

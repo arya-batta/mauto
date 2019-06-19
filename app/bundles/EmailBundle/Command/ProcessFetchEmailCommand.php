@@ -53,10 +53,10 @@ class ProcessFetchEmailCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('mautic:email:fetch')
+            ->setName('le:email:fetch')
             ->setAliases(
                 [
-                    'mautic:emails:fetch',
+                    'le:emails:fetch',
                 ]
             )
             ->setDescription('Fetch and process monitored email.')

@@ -2827,6 +2827,7 @@ class LeadModel extends FormModel
             if ($dnc->getChannel() === $channel) {
                 $lead->removeDoNotContactEntry($dnc);
 
+                $lead->setStatus(1); // Set as Active After Removing DNC
                 if ($persist) {
                     $this->saveEntity($lead);
                 }
