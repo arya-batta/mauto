@@ -110,6 +110,10 @@ class PublicController extends FormController
 
                         if ($model->confirmResetToken($user, $resetToken)) {
                             $encodedPassword = $model->checkNewPassword($user, $encoder, $data['plainPassword']);
+                            if (!empty($data['plainPassword'])) {
+                                $apiKey = base64_encode($user->getUsername().':'.$data['plainPassword']);
+                                $user->setApiKey($apiKey);
+                            }
                             $user->setPassword($encodedPassword);
                             $model->saveEntity($user);
 

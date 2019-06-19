@@ -230,6 +230,7 @@ class ConfigController extends FormController
                             /** @var \Mautic\CoreBundle\Helper\CacheHelper $cacheHelper */
                             $cacheHelper = $this->get('mautic.helper.cache');
                             $cacheHelper->clearContainerFile();
+                            $cacheHelper->clearRoutingCache();
                         } catch (\RuntimeException $exception) {
                             $this->addFlash('mautic.config.config.error.not.updated', ['%exception%' => $exception->getMessage()], 'error');
                         }
@@ -265,8 +266,7 @@ class ConfigController extends FormController
         $paymentrepository   =$this->get('le.subscription.repository.payment');
         $lastpayment         = $paymentrepository->getLastPayment();
 
-        $usertoken        = $this->user->getUsername().':'.$this->user->getPlainPassword();
-        $userapi          = base64_encode($usertoken);
+        $userapi          = $this->user->getApiKey();
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
 
         return $this->delegateView(

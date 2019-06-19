@@ -28,12 +28,14 @@ class StateMachineHelper
      */
     protected $factory;
     protected $smrepo;
-    //'#01_anyfunnels_team'=>'CJQ6SET7B','#02_sales'=>'CK996MKMM','#03_payments'=>'CK6UGDSJ0','#4_action_needed'=>'CJW1GM6KD','#5_state_machine'=>'CK997TVB9','#6_heavy_users'=>'CJW1RRL58','#7_compliance'=>'CK6UJ924U'
+
+    //'#01_new_signup'=>'CKAU44C1H','#02_signup_activated'=>'CKMRZN9NG','#03_trial_subscribed'=>'CKMS0EWEQ','#04_domain_configured'=>'CKMS1NCEQ','#05_payments'=>'CK6UGDSJ0','#06_state_machine'=>'CK997TVB9','#07_compliance'=>'CK6UJ924U','#08_heavy_users'=>'CJW1RRL58','#09_action_needed'=>'CJW1GM6KD','#anyfunnels_team'=>'CJQ6SET7B'
+
     public $channelList = [
-                                'new_signup'                            => 'CK996MKMM',
-                                'new_activated_signup'                  => 'CK996MKMM',
-                                '90_days_trial_subscribed'              => 'CK996MKMM',
-                                'sending_domain_configured'             => 'CK996MKMM',
+                                'new_signup'                            => 'CKAU44C1H',
+                                'new_activated_signup'                  => 'CKMRZN9NG',
+                                '90_days_trial_subscribed'              => 'CKMS0EWEQ',
+                                'sending_domain_configured'             => 'CKMS1NCEQ',
                                 'subscription_payment_received'         => 'CK6UGDSJ0',
                                 'addon_payment_received'                => 'CK6UGDSJ0',
                                 'payment_failed_internal_action_needed' => 'CK6UGDSJ0',
@@ -188,7 +190,9 @@ class StateMachineHelper
             $subsrepository->updateAppStatus($this->getAppDomain(), 'InActive');
         }
         $this->addLeadNotes($state, $reason, 'Customer Enters into this State(s)');
-        $this->sendInternalSlackMessage($state);
+        if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured') {
+            $this->sendInternalSlackMessage($state);
+        }
     }
 
     public function getAlertMessage($message, $personalize=[])
