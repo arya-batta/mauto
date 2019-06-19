@@ -29,7 +29,7 @@ function displayCronlog($domain, $msg)
     $logfilesize = getLogFileSize($logfile);
     if ($logfilesize > LOGINFO::$DEFAULT_FILE_SIZE) {
         $filepath = $logfile;
-        createLogZipfile($logdir, 'qsignup.log');
+        createLogZipfile($logdir, 'cronmonitor.log');
         if (file_exists($filepath)) {
             $old = umask(0);
             unlink($filepath);

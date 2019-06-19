@@ -251,7 +251,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             'currency' => 'usd',
             //"source" => $token, // obtained with Stripe.js
             'customer'             => $stripecard->getCustomerID(),
-            'description'          => 'charge for leadsengage product purchase',
+            'description'          => 'charge for anyfunnels product purchase',
             'capture'              => true,
             'statement_descriptor' => 'anyfunnels purchase',
         ], [

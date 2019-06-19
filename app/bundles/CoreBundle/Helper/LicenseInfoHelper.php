@@ -1163,11 +1163,8 @@ class LicenseInfoHelper
 
     public function isValidMaxLimit($count, $operation, $defaultCount, $msg)
     {
-        $msg = $this->translator->trans($msg);
-        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
-        $configurator   = $this->get('mautic.configurator');
-        $params         = $configurator->getParameters();
-        $maxLimit       = $params[$operation];
+        $msg      = $this->translator->trans($msg);
+        $maxLimit = $this->factory->get('mautic.helper.core_parameters')->getParameter($operation);
         if ($maxLimit == 'UL') {
             return false;
         } elseif ($maxLimit != 'UL' && is_numeric($maxLimit) && $count >= $maxLimit) {

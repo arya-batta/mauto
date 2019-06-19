@@ -1325,27 +1325,27 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                     $offset += $details['limit'];
 
                     // Group contacts by preferred locale
-                    foreach ($batchContacts as $key => $contact) {
-                        if (!empty($contact['preferred_locale'])) {
-                            $locale     = $contact['preferred_locale'];
-                            $localeCore = $this->getTranslationLocaleCore($locale);
+                    /*   foreach ($batchContacts as $key => $contact) {
+                           if (!empty($contact['preferred_locale'])) {
+                               $locale     = $contact['preferred_locale'];
+                               $localeCore = $this->getTranslationLocaleCore($locale);
 
-                            if (isset($details['languages'][$localeCore])) {
-                                if (isset($details['languages'][$localeCore][$locale])) {
-                                    // Exact match
-                                    $translatedId                                  = $details['languages'][$localeCore][$locale];
-                                    $groupedContactsByEmail[$eid][$translatedId][] = $contact;
-                                } else {
-                                    // Grab the closest match
-                                    $bestMatch                                     = array_keys($details['languages'][$localeCore])[0];
-                                    $translatedId                                  = $details['languages'][$localeCore][$bestMatch];
-                                    $groupedContactsByEmail[$eid][$translatedId][] = $contact;
-                                }
+                               if (isset($details['languages'][$localeCore])) {
+                                   if (isset($details['languages'][$localeCore][$locale])) {
+                                       // Exact match
+                                       $translatedId                                  = $details['languages'][$localeCore][$locale];
+                                       $groupedContactsByEmail[$eid][$translatedId][] = $contact;
+                                   } else {
+                                       // Grab the closest match
+                                       $bestMatch                                     = array_keys($details['languages'][$localeCore])[0];
+                                       $translatedId                                  = $details['languages'][$localeCore][$bestMatch];
+                                       $groupedContactsByEmail[$eid][$translatedId][] = $contact;
+                                   }
 
-                                unset($batchContacts[$key]);
-                            }
-                        }
-                    }
+                                   unset($batchContacts[$key]);
+                               }
+                           }
+                       }*/ //commented by prabhu.
 
                     // If there are any contacts left over, assign them to the default
                     if (count($batchContacts)) {
