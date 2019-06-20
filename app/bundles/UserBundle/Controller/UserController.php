@@ -195,6 +195,12 @@ class UserController extends FormController
                     if (!empty($submittedPassword)) {
                         $apiKey = base64_encode($user->getUsername().':'.$submittedPassword);
                         $user->setApiKey($apiKey);
+                    } else {
+                        $oldApiKey       = $user->getApiKey();
+                        $userpass_string = base64_decode($oldApiKey);
+                        $parts           = explode(':', $userpass_string);
+                        $apiKey          = base64_encode($user->getUsername().':'.$parts[1]);
+                        $user->setApiKey($apiKey);
                     }
                     $user->setPassword($password);
                     if ($user->getTimezone() == '') {//replace default time zone
@@ -356,6 +362,12 @@ class UserController extends FormController
                     //form is valid so process the data
                     if (!empty($submittedPassword)) {
                         $apiKey = base64_encode($user->getUsername().':'.$submittedPassword);
+                        $user->setApiKey($apiKey);
+                    } else {
+                        $oldApiKey       = $user->getApiKey();
+                        $userpass_string = base64_decode($oldApiKey);
+                        $parts           = explode(':', $userpass_string);
+                        $apiKey          = base64_encode($user->getUsername().':'.$parts[1]);
                         $user->setApiKey($apiKey);
                     }
                     $user->setPassword($password);
