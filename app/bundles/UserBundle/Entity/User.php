@@ -140,6 +140,11 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
     private $preferredProfileImage = 'gravatar';
 
     /**
+     * @var string
+     */
+    private $apiKey;
+
+    /**
      * User constructor.
      *
      * @param bool $isGuest
@@ -248,6 +253,11 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
         $builder->createField('preferredProfileImage', 'string')
             ->columnName('preferred_profile_image')
             ->nullable()
+            ->build();
+
+        $builder->createField('apiKey', 'string')
+            ->columnName('api_key')
+            ->length(255)
             ->build();
     }
 
@@ -985,5 +995,21 @@ class User extends FormEntity implements AdvancedUserInterface, \Serializable, E
     public function getPreferredProfileImage()
     {
         return $this->preferredProfileImage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
     }
 }

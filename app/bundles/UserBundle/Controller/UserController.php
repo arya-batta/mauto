@@ -192,6 +192,16 @@ class UserController extends FormController
 
                 if ($valid = $this->isFormValid($form)) {
                     //form is valid so process the data
+                    if (!empty($submittedPassword)) {
+                        $apiKey = base64_encode($user->getUsername().':'.$submittedPassword);
+                        $user->setApiKey($apiKey);
+                    } else {
+                        $oldApiKey       = $user->getApiKey();
+                        $userpass_string = base64_decode($oldApiKey);
+                        $parts           = explode(':', $userpass_string);
+                        $apiKey          = base64_encode($user->getUsername().':'.$parts[1]);
+                        $user->setApiKey($apiKey);
+                    }
                     $user->setPassword($password);
                     if ($user->getTimezone() == '') {//replace default time zone
                         $user->setTimezone('Asia/Calcutta');
@@ -350,6 +360,16 @@ class UserController extends FormController
 
                 if ($valid = $this->isFormValid($form) && $this->validateUserName($form)) {
                     //form is valid so process the data
+                    if (!empty($submittedPassword)) {
+                        $apiKey = base64_encode($user->getUsername().':'.$submittedPassword);
+                        $user->setApiKey($apiKey);
+                    } else {
+                        $oldApiKey       = $user->getApiKey();
+                        $userpass_string = base64_decode($oldApiKey);
+                        $parts           = explode(':', $userpass_string);
+                        $apiKey          = base64_encode($user->getUsername().':'.$parts[1]);
+                        $user->setApiKey($apiKey);
+                    }
                     $user->setPassword($password);
                     $model->saveEntity($user, $form->get('buttons')->get('save')->isClicked());
 
