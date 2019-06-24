@@ -2417,6 +2417,7 @@ class LeadController extends FormController
                             $lead->removeTag($tag);
                         }
                     }
+                    $model->isTagsChanged($lead);
                     $model->saveEntity($lead);
                 }
             }

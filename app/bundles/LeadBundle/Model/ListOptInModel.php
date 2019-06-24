@@ -436,7 +436,7 @@ class ListOptInModel extends FormModel
                 continue;
             }
 
-            if (($manuallyRemoved && $listLead->wasManuallyAdded()) || (!$manuallyRemoved && !$listLead->wasManuallyAdded())) {
+            if (($manuallyRemoved && $listLead->wasManuallyAdded()) || ($manuallyRemoved && !$listLead->wasManuallyAdded())) {
                 //lead was manually added and now manually removed or was not manually added and now being removed
                 $deleteLists[]    = $listLead;
             } elseif ($manuallyRemoved && !$listLead->wasManuallyAdded()) {

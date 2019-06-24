@@ -258,7 +258,7 @@ $view['slots']->set(
                                     </div>
                                     <div class="col-md-6 fl-left">
                                         <h6 class="fw-b "><?php echo $view['translator']->trans('le.lead.lead.field.owner'); ?></h6>
-                                        <?php if ($lead->getOwner()) : ?>
+                                        <?php if ($lead->getOwner() && $lead->getOwner()->isPublished()) : ?>
                                             <p class="text-primary custom-font-primary"><?php echo $lead->getOwner()->getName(); ?></p>
                                         <?php else: ?>
                                             <br>
