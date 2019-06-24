@@ -1830,6 +1830,13 @@ Le.showMarketingOthersField = function (selectedval){
     }
 }
 
+Le.checkImportHistory = function () {
+    if(!mQuery('#importpanel').has('table').length>0){
+        mQuery('#importpanel').css('border-color','#2a323c');
+    }else{
+        mQuery('#importpanel').css('border-color','#ffffff');
+    }
+}
 Le.showGSTNumber = function (selectedval){
     //if(selectedval == "India"){
         //mQuery('.accountTimezone').val('Asia/Kolkata');

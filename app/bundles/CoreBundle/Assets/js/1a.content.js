@@ -727,6 +727,7 @@ Le.onPageLoad = function (container, response, inModal) {
         //Le.checkemailstatus();
     }
     Le.configureFullScreenSettings();
+    Le.checkImportHistory();
 };
 
 Le.enableGlobalSearchListener=function(){

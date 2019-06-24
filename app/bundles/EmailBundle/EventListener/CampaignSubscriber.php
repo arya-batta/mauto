@@ -399,7 +399,10 @@ class CampaignSubscriber extends CommonSubscriber
             return $event->setFailed('Email not found or unpublished');
         }
         if (!$this->licenseinfohelper->isValidEmailCount()) {
-            return $event->setFailed('You can send up to 100 emails at the moment, please go ahead and configure your email service provider for sending unlimited emails');
+            $totalEmailCount  = $this->licenseinfohelper->getTotalEmailCount();
+            $ActualEmailCount = $this->licenseinfohelper->getActualEmailCount();
+
+            return $event->setFailed($this->translator->trans('le.email.campaign.event.failed.count.exeeds', ['%total%'=>$totalEmailCount, '%actual%'=>$ActualEmailCount]));
         }
         if ($isStateAlive) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
@@ -501,6 +504,12 @@ class CampaignSubscriber extends CommonSubscriber
         $entity    = $this->dripEmailModel->getEntity($dripEmail);
         if (!$entity || !$entity->isPublished()) {
             return $event->setFailed('Drip Campaign not found or unpublished');
+        }
+        if (!$this->licenseinfohelper->isValidEmailCount()) {
+            $totalEmailCount  = $this->licenseinfohelper->getTotalEmailCount();
+            $ActualEmailCount = $this->licenseinfohelper->getActualEmailCount();
+
+            return $event->setFailed($this->translator->trans('le.email.campaign.event.failed.count.exeeds', ['%total%'=>$totalEmailCount, '%actual%'=>$ActualEmailCount]));
         }
         if ($entity == null) {
             $event->setResult(true);
