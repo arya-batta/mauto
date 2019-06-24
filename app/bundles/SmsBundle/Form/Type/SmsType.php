@@ -81,7 +81,7 @@ class SmsType extends AbstractType
                 'constraints' => [
                     new Assert\Length(
                         [
-                            'max'        => 140,
+                            'max'        => 600,
                             'maxMessage' => 'le.sms.characters.length',
                         ]
                     ),
