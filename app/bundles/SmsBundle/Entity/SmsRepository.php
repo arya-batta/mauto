@@ -241,10 +241,10 @@ class SmsRepository extends CommonRepository
 
         $results= $q->execute()->fetchAll();
 
-        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0 ;
+        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0;
     }
 
-    public function getSmsSentCount($viewOthers=false,$id='')
+    public function getSmsSentCount($viewOthers=false, $id='')
     {
         //$last30DaysSmsSent = date('Y-m-d', strtotime('-29 days'));
         $q = $this->_em->getConnection()->createQueryBuilder();
@@ -256,8 +256,9 @@ class SmsRepository extends CommonRepository
 
         $results= $q->execute()->fetchAll();
 
-        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0 ;
+        return (isset($results[0]['sentcount'])) ? $results[0]['sentcount'] : 0;
     }
+
     public function getSmsFailedCount($id='')
     {
         $q = $this->_em->getConnection()->createQueryBuilder();
@@ -269,10 +270,8 @@ class SmsRepository extends CommonRepository
 
         $results= $q->execute()->fetchAll();
 
-        return (isset($results[0]['failedcount'])) ? $results[0]['failedcount'] : 0 ;
+        return (isset($results[0]['failedcount'])) ? $results[0]['failedcount'] : 0;
     }
-
-
 
     /**
      * Get click counts based on date.
@@ -319,12 +318,12 @@ class SmsRepository extends CommonRepository
         return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
     }
 
-    public function getSmsClickCounts($viewOthers =false,$id='')
+    public function getSmsClickCounts($viewOthers =false, $id='')
     {
-       // $dateinterval   = date('Y-m-d', strtotime('-29 days'));
+        // $dateinterval   = date('Y-m-d', strtotime('-29 days'));
         $q              = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $currentUserId  = $this->currentUser->getId();
-        $q->select('SUM(t.hits)')
+        $q->select('SUM(t.unique_hits)')
             ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
             ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
                 $q->expr()->andX(
@@ -343,6 +342,6 @@ class SmsRepository extends CommonRepository
 
         $results = $q->execute()->fetchAll();
 
-        return (isset($results[0]['SUM(t.hits)'])) ? $results[0]['SUM(t.hits)'] : 0;
+        return (isset($results[0]['SUM(t.unique_hits)'])) ? $results[0]['SUM(t.unique_hits)'] : 0;
     }
 }

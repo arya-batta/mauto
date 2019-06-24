@@ -56,9 +56,9 @@ Le.smsOnLoad = function (container, response) {
             if(subValue == ''){
                 mQuery("#sms_message").val(value);
             } else {
-                if(subValue.includes(value)){
-
-                } else {
+                // if(subValue.includes(value)){
+                //
+                // } else {
                     //subValue+=value;
                     //mQuery("#sms_message").val(subValue);
                     var cursorPos = mQuery('#sms_message').prop('selectionStart');
@@ -67,7 +67,7 @@ Le.smsOnLoad = function (container, response) {
                     var textAfter  = v.substring(cursorPos, v.length);
 
                     mQuery('#sms_message').val(textBefore + value + textAfter);
-                }
+                // }
 
             }
         });

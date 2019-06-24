@@ -99,7 +99,7 @@ class AccountType extends AbstractType
             'text',
             [
                 'label'       => 'leadsengage.subs.domainname',
-                'label_attr'  => ['class' => 'control-label'],
+                'label_attr'  => ['class' => 'control-label pointernone'],
                 'attr'        => ['class' => 'form-control le-input', 'tabindex' => '-1', 'style' => 'pointer-events: none;background-color: #ebedf0;opacity: 1;'],
                 'required'    => true,
             ]

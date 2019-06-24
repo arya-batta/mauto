@@ -600,6 +600,19 @@ class EventController extends CommonFormController
                     $value = $this->factory->getHelper('template.date')->toFull($value, '', 'Y-m-d H:i');
                 }
             }
+            if ($field == 'created_source' || $field == 'status') {
+                $sourceLabel = ['1'=>'Manual', '2'=>'Import', '3'=>'Form Submit', '4'=>'API', '5'=>'Integration'];
+                $statusLabel = ['1'=>'Active', '2'=>'Engaged', '3'=>'Invalid', '4'=>'Complaint', '5'=>'Unsubscribed', '6'=>'Not Confirmed'];
+                if (is_array($value)) {
+                    $strvalue = [];
+                    foreach ($value as $key =>$keyvalue) {
+                        $strvalue[] =  $field == 'created_source' ? $sourceLabel[$keyvalue] : $statusLabel[$keyvalue];
+                    }
+                    $value = $strvalue;
+                } else {
+                    $value = $field == 'created_source' ? $sourceLabel[$value] : $statusLabel[$value];
+                }
+            }
             if (is_array($value)) {
                 $list   =[];
                 $options=$form->get('properties')->get('filters')->getConfig()->getOption('options');

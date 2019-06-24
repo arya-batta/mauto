@@ -185,7 +185,7 @@ class UserType extends AbstractType
             'email',
             [
                 'label'      => 'mautic.core.type.email',
-                'label_attr' => ['class' => 'control-label'],
+                'label_attr' => ['class' => 'control-label pointernone'],
                 'attr'       => [
                     'class'    => 'form-control le-input',
                    // 'preaddon' => 'fa fa-envelope',
