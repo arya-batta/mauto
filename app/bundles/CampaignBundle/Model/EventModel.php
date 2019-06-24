@@ -2082,9 +2082,10 @@ class EventModel extends CommonFormModel
                     $continue=false;
                 }
             } else {
-                $continue=true;
-                $continue=$this->executeStepsByWfSettings($data->true_path, $eventlog, $continue, $sleepBatchCount);
-                $continue=$this->executeStepsByWfSettings($data->false_path, $eventlog, $continue, $sleepBatchCount);
+                $continue        =true;
+                $continue        =$this->executeStepsByWfSettings($data->true_path, $eventlog, $continue, $sleepBatchCount);
+                $this->stepfound = false;
+                $continue        =$this->executeStepsByWfSettings($data->false_path, $eventlog, $continue, $sleepBatchCount);
             }
         } elseif ($type == 'exit' && $continue) {
             if ($allowexecute) {
