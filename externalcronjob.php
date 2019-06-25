@@ -63,6 +63,7 @@ try {
         } else {
             throw new Exception('Not able to connect to DB');
         }
+        date_default_timezone_set('UTC');
         $operation=$argv[1];
         if (isset($argv[1])) {
             $fcolname='';
@@ -105,18 +106,9 @@ try {
         } else {
             exit('Please Configure Valid Parameter');
         }
-        $sql  = "select skiplimit from cronmonitorinfo where command='$operation'";
-//        displayCronlog('general', 'SQL QUERY:'.$sql);
+        $sql         = "select skiplimit from cronmonitorinfo where command='$operation'";
         $monitorinfo = getResultArray($con, $sql);
         if (sizeof($monitorinfo) > 0) {
-            /* $skiplimit=$monitorinfo[0][0];
-             if($skiplimit >= $SKIP_MAX_LIMIT){
-             cleanCronStatus($con,$operation,$domain);
-             }else{
-             $sql="update cronmonitorinfo set skiplimit=skiplimit+1 where domain='$domain' and command='$operation'";
-             displayCronlog($domain,"SQL QUERY:".$sql);
-             $result = execSQL($con, $sql);
-             }	*/
             displayCronlog('general', "This operation ($operation) already in process.");
             exit(0);
         } else {
@@ -148,38 +140,22 @@ try {
             $dbname      = DBINFO::$COMMONDBNAME.$appid;
             $sql         = "SELECT SCHEMA_NAME   FROM INFORMATION_SCHEMA.SCHEMATA  WHERE SCHEMA_NAME = '$dbname';";
             $result      = getResultArray($con, $sql);
-
             if (!sizeof($result) > 0) {
                 continue;
             }
-
-            if (checkLicenseAvailablity($con, $domain)) {
+            if (checkLicenseAvailablity($con, $dbname, $appid)) {
                 continue;
             }
-            if ($operation == 'le:import') {
-                $importstatus = checkImportAvailablity($con, $domain);
-                if (!$importstatus) {
-                    displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no import available.");
-                    continue;
-                }
-            } elseif ($operation == 'le:campaigns:trigger') {
-                $emailstatus = checkTriggerAvailablity($con, $domain);
-                if (!$emailstatus) {
-                    displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no Contacts available.");
-                    continue;
-                }
-            } elseif ($operation == 'le:emails:send') {
-                $triggerstatus = checkEmailAvailablity($domain);
-                if (!$triggerstatus) {
-                    displayCronlog('general', "This operation ($operation) for ($domain) is skipped because no email available.");
-                    continue;
-                }
+            if (!isValidCronExecution($con, $domain, $dbname, $appid, $operation)) {
+                displayCronlog($domain, "This operation ($operation) for ($domain) is skipped.");
+                continue;
             }
+            displayCronlog($domain, "This operation ($operation) for ($domain) is Progress.");
             $currentdate = date('Y-m-d');
             $sql         = "select count(*) from cronerrorinfo where domain = '$domain' and operation = '$operation' and createdtime like '$currentdate%'";
             $errorinfo   = getResultArray($con, $sql);
             if (sizeof($errorinfo) != 0 && $errorinfo[0][0] > 5) {
-                displayCronlog('general', "This operation ($operation) for ($domain) is failing repeatedly.");
+                displayCronlog($domain, "This operation ($operation) for ($domain) is failing repeatedly.");
                 continue;
             }
             $command="app/console $arguments --domain=$domain";
@@ -200,15 +176,18 @@ try {
                     $mailer        = $parameters['mailer_transport'];
                     $elasticapikey = $parameters['mailer_password'];
                     $subusername   = $parameters['mailer_user'];
-                    if ($mailer == 'le.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
-                        CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
-                    } elseif ($mailer == 'le.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
-                        CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
+                    if ($subusername != '') {
+                        if ($mailer == 'le.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
+                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
+                        } elseif ($mailer == 'le.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
+                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
+                        }
                     }
                 }
             }
-            displayCronlog('general', $domain.' : '.$command);
+            displayCronlog($domain, $domain.' : '.$command);
             displayCronlog($domain, 'Command Results:'.$output);
+            displayCronlog($domain, "This operation ($operation) for ($domain) is Completed.");
             sleep(5);
         }
         cleanCronStatus($con, $operation, '');
@@ -266,6 +245,54 @@ function executeCommand($command)
 
     return $output;
 }
+
+function isValidCronExecution($con, $domain, $dbname, $appid, $operation)
+{
+    if (!isActiveCustomer($con, $domain, $dbname)) {
+        displayCronlog('general', "This $domain is InActive");
+
+        return false;
+    }
+    $status = true;
+    if ($operation == 'le:import') {
+        $status = checkImportAvailablity($con, $dbname);
+    } elseif ($operation == 'le:campaigns:trigger') {
+        $status = checkTriggerAvailablity($con, $dbname);
+    } elseif ($operation == 'le:emails:send') {
+        $status = checkEmailAvailablity($domain);
+    } elseif ($operation == 'le:segments:update') {
+        $status = checkSegmentAvailablity($con, $dbname);
+    } elseif ($operation == 'le:reports:scheduler') {
+        $status = checkReportSchedulerAvailablity($con, $dbname);
+    } elseif ($operation == 'le:payment:update') {
+        $status = checkPaymentAvailablity($con, $dbname);
+    } elseif ($operation == 'le:dripemail:send') {
+        $status = checkDripEmailAvailablity($con, $dbname);
+    } elseif ($operation == 'le:oneoff:send') {
+        $status = checkBroadcastEmailRebuildAvailablity($con, $dbname);
+    } elseif ($operation == 'le:dripemail:rebuild') {
+        $status = checkDripEmailRebuildAvailablity($con, $dbname);
+    } elseif ($operation == 'le:listoptin:resend') {
+        $status = checkListResentAvailablity($con, $dbname);
+    } elseif ($operation == 'le:statemachine:checker') {
+        $status = checkStateMachineAvailablity($con, $dbname);
+    }
+
+    return $status;
+}
+
+function isActiveCustomer($con, $domain, $dbname)
+{
+    $statetable  = $dbname.'.statemachine';
+    $sql         = "select * from $statetable where state in ('Customer_Active','Trial_Active') and isalive = '1'";
+    $result      = getResultArray($con, $sql);
+    if (sizeof($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername)
 {
     $status = true;
@@ -313,13 +340,10 @@ function checkEmailAvailablity($domain)
     }
 }
 
-function checkImportAvailablity($con, $domain)
+function checkImportAvailablity($con, $dbname)
 {
-    $sql         = "select appid from applicationlist where f5 = '$domain';";
-    $appidarr    = getResultArray($con, $sql);
-    $appid       = $appidarr[0][0];
-    $dbname      = DBINFO::$COMMONDBNAME.$appid.'.imports';
-    $sql         = "select count(*) from $dbname where is_published = 1 and status in ('1','7')";
+    $importtable = $dbname.'.imports';
+    $sql         = "select count(*) from $importtable where is_published = 1 and status in ('1','7')";
     $result      = getResultArray($con, $sql);
     $count       = $result[0][0];
     displayCronlog('general', 'Import Live Count:'.$count);
@@ -330,20 +354,17 @@ function checkImportAvailablity($con, $domain)
     }
 }
 
-function checkTriggerAvailablity($con, $domain)
+function checkTriggerAvailablity($con, $dbname)
 {
-    $sql         = "select appid from applicationlist where f5 = '$domain';";
-    $appidarr    = getResultArray($con, $sql);
-    $appid       = $appidarr[0][0];
-    $dbname      = DBINFO::$COMMONDBNAME.$appid.'.campaigns';
-    $sql         = "select id from $dbname where is_published = 1";
-    $result      = getResultArray($con, $sql);
-    $count       = sizeof($result);
+    $campaigntable = $dbname.'.campaigns';
+    $sql           = "select id from $campaigntable where is_published = 1";
+    $result        = getResultArray($con, $sql);
+    $count         = sizeof($result);
     displayCronlog('general', 'Campaign Published Count:'.$count);
     if ($count > 0) {
         for ($i = 0; $i < $count; ++$i) {
             $id          = $result[$i][0];
-            $tablename   = DBINFO::$COMMONDBNAME.$appid.'.campaign_leads';
+            $tablename   = $dbname.'.campaign_leads';
             $sql         = "select count(*) from $tablename where campaign_id = '$id'";
             $response    = getResultArray($con, $sql);
             if (sizeof($response) > 0) {
@@ -360,13 +381,10 @@ function checkTriggerAvailablity($con, $domain)
     }
 }
 
-function checkLicenseAvailablity($con, $domain)
+function checkLicenseAvailablity($con, $dbname, $appid)
 {
-    $sql                =  "select appid from applicationlist where f5 = '$domain';";
-    $appidarr           =  getResultArray($con, $sql);
-    $appid              =  $appidarr[0][0];
-    $dbname             =  DBINFO::$COMMONDBNAME.$appid.'.licenseinfo';
-    $sql                =  "select licensed_days,license_end_date  from $dbname";
+    $licensetable       =  $dbname.'.licenseinfo';
+    $sql                =  "select licensed_days,license_end_date  from $licensetable";
     $licenseresultsarr  =  getResultArray($con, $sql);
     $licenseRemDays     =  $licenseresultsarr[0][0];
     $licenseEnd         =  $licenseresultsarr[0][1];
@@ -381,5 +399,109 @@ function checkLicenseAvailablity($con, $domain)
         return true;
     } else {
         return false;
+    }
+}
+
+function checkSegmentAvailablity($con, $dbname)
+{
+    $segmenttable = $dbname.'.lead_lists';
+    $sql          = "select * from $segmenttable where is_published = 1 and filters != ''";
+    $result       = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkReportSchedulerAvailablity($con, $dbname)
+{
+    $reporttable = $dbname.'.reports_schedulers';
+    $currenttime = date('Y-m-d H:i:s');
+    $sql         = "select * from $reporttable <= $currenttime";
+    $result      = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkPaymentAvailablity($con, $dbname)
+{
+    $paymenttable = $dbname.'.paymenthistory';
+    $statetable   = $dbname.'.statemachine';
+    $sql          = "select * from $statetable where state = 'Customer_Inactive_Exit_Cancel' and isalive = 1";
+    $result       = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return false;
+    } else {
+        $sql         = "select * from $paymenttable";
+        $result      = getResultArray($con, $sql);
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+function checkDripEmailAvailablity($con, $dbname)
+{
+    $currentDate       = date('Y-m-d H:i:s');
+    $driplogtable      = $dbname.'.dripemail_lead_event_log';
+    $sql               = "select * from $driplogtable where trigger_date <= '$currentDate'";
+    $result            = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkDripEmailRebuildAvailablity($con, $dbname)
+{
+    $driptable   = $dbname.'.dripemail';
+    $sql         = "select * from $driptable where is_scheduled = 1;";
+    $result      = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkBroadcastEmailRebuildAvailablity($con, $dbname)
+{
+    $emailtable  = $dbname.'.emails';
+    $sql         = "select * from $emailtable where is_scheduled = 1;";
+    $result      = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function checkListResentAvailablity($con, $dbname)
+{
+    $dateinterval   = date('Y-m-d H:i:s', strtotime('-2 day'));
+    $listoptintable = $dbname.'.lead_listoptin_leads';
+    $sql            = "select * from $listoptintable where date_added <= '$dateinterval' and isrescheduled = 1";
+    $result         = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function checkStateMachineAvailablity($con, $dbname)
+{
+    $statetable  = $dbname.'.statemachine';
+    $sql         = "select * from $statetable where state = 'Customer_Inactive_Archive' and isalive = 1";
+    $result      = getResultArray($con, $sql);
+    if (count($result) > 0) {
+        return false;
+    } else {
+        return true;
     }
 }
