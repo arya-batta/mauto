@@ -163,10 +163,10 @@ class DoNotContactRepository extends CommonRepository
         if ($leadId) {
             $query->where($query->expr()->eq('dnc.lead_id', (int) $leadId));
         }
-        if ($leadId) {
-            $query->where($query->expr()->eq('dnc.channel_id', (int) $channelId));
+        if ($channelId) {
+            $query->andWhere($query->expr()->eq('dnc.channel_id', (int) $channelId));
         }
-
+        $query->getSQL();
         $results         = $query->execute()->fetchAll();
         $dnc             = [];
         $dnc[$channelId] = '';

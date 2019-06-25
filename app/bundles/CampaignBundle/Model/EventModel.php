@@ -2003,11 +2003,6 @@ class EventModel extends CommonFormModel
         $id        =$data->id;
         $startevent= $eventlog != null ? $eventlog['event_id'] : '';
         $logexists = $eventlog != null ? $eventlog['id'] : false;
-        if ($type == 'exit') {
-            dump($id);
-            dump($this->stepfound);
-            dump($startevent);
-        }
         if ($id == $startevent) {
             $this->stepfound=true;
         } else {
