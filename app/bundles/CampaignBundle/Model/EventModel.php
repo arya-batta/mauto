@@ -2003,6 +2003,11 @@ class EventModel extends CommonFormModel
         $id        =$data->id;
         $startevent= $eventlog != null ? $eventlog['event_id'] : '';
         $logexists = $eventlog != null ? $eventlog['id'] : false;
+        if ($type == 'exit') {
+            dump($id);
+            dump($this->stepfound);
+            dump($startevent);
+        }
         if ($id == $startevent) {
             $this->stepfound=true;
         } else {
@@ -2084,8 +2089,9 @@ class EventModel extends CommonFormModel
             } else {
                 $continue        =true;
                 $continue        =$this->executeStepsByWfSettings($data->true_path, $eventlog, $continue, $sleepBatchCount);
-                $this->stepfound = false;
-                $continue        =$this->executeStepsByWfSettings($data->false_path, $eventlog, $continue, $sleepBatchCount);
+                if (!$this->stepfound) {
+                    $continue = $this->executeStepsByWfSettings($data->false_path, $eventlog, $continue, $sleepBatchCount);
+                }
             }
         } elseif ($type == 'exit' && $continue) {
             if ($allowexecute) {
