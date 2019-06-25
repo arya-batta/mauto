@@ -403,10 +403,10 @@ class DripEmailModel extends FormModel
         return $results;
     }
 
-    public function addLead($campaign, $lead)
+    public function addLead($campaign, $lead, $checkedAlready=false)
     {
         $added = false;
-        if ($this->checkLeadLinked($lead, $campaign)) {
+        if ($checkedAlready || $this->checkLeadLinked($lead, $campaign)) {
             $dripCampaign = new DripLead();
             $dripCampaign->setCampaign($campaign);
             $dripCampaign->setLead($lead);
@@ -463,8 +463,12 @@ class DripEmailModel extends FormModel
         $leadLog  = $this->factory->get('mautic.email.repository.lead');
         $items    = $leadLog->checkisLeadLinked($lead, $dripemail);
         if (empty($items)) {
+            unset($items);
+
             return true;
         } else {
+            unset($items);
+
             return false;
         }
     }
@@ -694,7 +698,7 @@ class DripEmailModel extends FormModel
         }
 
         // Handle by batches
-        $start = $lastRoundPercentage = $leadsProcessed = 0;
+        $lastRoundPercentage = $leadsProcessed = 0;
 
         // Try to save some memory
         gc_enable();
@@ -705,73 +709,63 @@ class DripEmailModel extends FormModel
                 $progress = ProgressBarHelper::init($output, $maxCount);
                 $progress->start();
             }
-
+            $newLeadList = $this->getLeadsByDrip(
+                $entity,
+                false, false, $limit
+            );
+            $leadCount = count($newLeadList);
             // Add leads
-            while ($start < $leadCount) {
-                // Keep CPU down for large lists; sleep per $limit batch
-                $this->batchSleep();
-
-                $newLeadList = $this->getLeadsByDrip(
-                    $entity,
-                    false
-                );
-
-                if (empty($newLeadList)) {
-                    // Somehow ran out of leads so break out
-                    break;
-                }
-                foreach ($newLeadList as $id => $l) {
-                    $lead = $this->leadModel->getEntity($l['id']);
-                    if ($this->checkLeadLinked($lead, $entity)) {
-                        $this->addLead($entity, $lead);
-                        $items = $this->emailModel->getEntities(
-                            [
-                                'filter' => [
-                                    'force' => [
-                                        [
-                                            'column' => 'e.dripEmail',
-                                            'expr'   => 'eq',
-                                            'value'  => $entity,
+            while ($leadCount > 0) {
+                $this->emailModel->beginTransaction();
+                try {
+                    foreach ($newLeadList as $id => $l) {
+                        $lead = $this->leadModel->getEntity($l['id']);
+                        if ($this->checkLeadLinked($lead, $entity)) {
+                            $this->addLead($entity, $lead, true);
+                            $items = $this->emailModel->getEntities(
+                                [
+                                    'filter' => [
+                                        'force' => [
+                                            [
+                                                'column' => 'e.dripEmail',
+                                                'expr'   => 'eq',
+                                                'value'  => $entity,
+                                            ],
                                         ],
                                     ],
-                                ],
-                                'orderBy'          => 'e.dripEmailOrder',
-                                'orderByDir'       => 'asc',
-                                'ignore_paginator' => true,
-                            ]
-                        );
+                                    'orderBy'          => 'e.dripEmailOrder',
+                                    'orderByDir'       => 'asc',
+                                    'ignore_paginator' => true,
+                                ]
+                            );
 
-                        $this->scheduleEmail($items, $entity, $lead);
-                        $processedLeads[] = $l;
-                        unset($l);
-
-                        ++$leadsProcessed;
-                        if ($output && $leadsProcessed < $maxCount) {
-                            $progress->setProgress($leadsProcessed);
+                            $this->scheduleEmail($items, $entity, $lead);
+                            $processedLeads[] = $l;
+                            unset($l);
+                            ++$leadsProcessed;
                         }
-
-                        if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                            break;
-                        }
+                        unset($lead);
                     }
+                    $this->emailModel->commitTransaction();
+                } catch (\Exception $ex) {
+                    $output->writeln('Exception occured at batch execution->'.$ex->getMessage());
+                    $this->emailModel->rollbackTransaction();
+                    throw $ex;
                 }
-                $start += $limit;
-
+                if ($output && $leadsProcessed < $maxCount) {
+                    $progress->setProgress($leadsProcessed);
+                }
                 unset($newLeadList);
-
-                // Free some memory
-                gc_collect_cycles();
-
-                if ($maxLeads && $leadsProcessed >= $maxLeads) {
-                    if ($output) {
-                        $progress->finish();
-                        $output->writeln('');
-                    }
-
-                    return $leadsProcessed;
-                }
+                // Keep CPU down for large lists; sleep per $limit batch
+                $this->batchSleep();
+                $newLeadList = $this->getLeadsByDrip(
+                    $entity,
+                    false, false, $limit
+                );
+                $leadCount = count($newLeadList);
             }
-
+            // Free some memory
+            gc_collect_cycles();
             if ($output) {
                 $progress->finish();
                 $output->writeln('');
@@ -788,9 +782,9 @@ class DripEmailModel extends FormModel
      *
      * @return mixed
      */
-    public function getLeadsByDrip($drip, $countOnly = false, $returnQuery = false)
+    public function getLeadsByDrip($drip, $countOnly = false, $returnQuery = false, $limit=false)
     {
-        return $this->getRepository()->getLeadsByDrip($drip, $countOnly, $returnQuery);
+        return $this->getRepository()->getLeadsByDrip($drip, $countOnly, $returnQuery, $limit);
     }
 
     public function getLeadIdsByDrip($drip)

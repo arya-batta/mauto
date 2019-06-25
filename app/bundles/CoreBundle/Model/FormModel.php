@@ -48,7 +48,7 @@ class FormModel extends AbstractCommonModel
      */
     public function isLocked($entity)
     {
-        if($this->userHelper->getUser()->isAdmin()) {
+        if ($this->userHelper->getUser()->isAdmin()) {
             return false; //Always false Asked to Stop override concept by Kaviyarasan
         }
         if (method_exists($entity, 'getCheckedOut')) {
@@ -443,5 +443,20 @@ class FormModel extends AbstractCommonModel
         }
 
         return $alias;
+    }
+
+    public function beginTransaction()
+    {
+        $this->em->getConnection()->beginTransaction();
+    }
+
+    public function rollbackTransaction()
+    {
+        $this->em->getConnection()->rollBack();
+    }
+
+    public function commitTransaction()
+    {
+        $this->em->getConnection()->commit();
     }
 }

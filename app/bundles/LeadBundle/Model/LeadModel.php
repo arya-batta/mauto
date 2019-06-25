@@ -3074,21 +3074,6 @@ class LeadModel extends FormModel
         return $this->listOptinModel;
     }
 
-    public function beginTransaction()
-    {
-        $this->em->getConnection()->beginTransaction();
-    }
-
-    public function rollbackTransaction()
-    {
-        $this->em->getConnection()->rollBack();
-    }
-
-    public function commitTransaction()
-    {
-        $this->em->getConnection()->commit();
-    }
-
     public function processQueuedListOptInLeads($listOptin)
     {
         if (sizeof($this->pendingOptinLeads) > 0) {

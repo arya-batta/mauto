@@ -83,7 +83,21 @@ class LeadEventLogRepository extends CommonRepository
         );
     }
 
-    public function getScheduledEvents($currentTime)
+    public function getScheduledEventsCount($currentTime)
+    {
+        $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $q->select('count(distinct(dle.id)) as count');
+        $q->from(MAUTIC_TABLE_PREFIX.'dripemail_lead_event_log', 'dle');
+        $q->andWhere($q->expr()->lte('dle.trigger_date', ':triggerDate'))
+        ->setParameter('triggerDate', $currentTime);
+        $q->andWhere($q->expr()->eq('dle.is_scheduled', ':isScheduled'))
+        ->setParameter('isScheduled', 1);
+        $results = $q->execute()->fetchAll();
+
+        return (isset($results[0])) ? $results[0]['count'] : 0;
+    }
+
+    public function getScheduledEvents($currentTime, $limit = 300)
     {
         return $this->getEntities(
             [
@@ -101,6 +115,10 @@ class LeadEventLogRepository extends CommonRepository
                         ],
                     ],
                 ],
+                'orderBy'          => 'dle.email',
+                'orderByDir'       => 'ASC',
+                'start'            => 0,
+                'limit'            => $limit,
                 'ignore_paginator' => true,
             ]
         );

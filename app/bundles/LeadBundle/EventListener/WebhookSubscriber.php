@@ -72,7 +72,7 @@ class WebhookSubscriber extends CommonSubscriber
             [
                 'label'       => 'le.lead.webhook.event.lead.new',
                 'description' => 'le.lead.webhook.event.lead.new_desc',
-                ]
+            ]
         );
 
         // checkbox for lead updates
@@ -535,19 +535,28 @@ class WebhookSubscriber extends CommonSubscriber
      */
     public function onLeadCompletedDrip(LeadEvent $event)
     {
-        $this->webhookModel->queueWebhooksByType(
-            LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN,
-            [
-                'leads' => $event->getLead(),
-                'drip'  => $event->getDrip(),
-            ],
-            [
-                'dripemailDetails',
-                'publishDetails',
-                'leadDetails',
-                'tagList',
-            ]
-        );
+        $completeddrips = $event->getCompletedDripsIds();
+        foreach ($completeddrips as $drip => $leads) {
+            $dripcampaign = $this->webhookModel->getEntityManager()->getReference('MauticEmailBundle:DripEmail', $drip);
+            foreach ($leads as $lead) {
+                $lead = $this->webhookModel->getEntityManager()->getReference('MauticLeadBundle:Lead', $lead);
+                $this->webhookModel->queueWebhooksByType(
+                    LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN,
+                    [
+                        'leads' => $lead,
+                        'drip'  => $dripcampaign,
+                    ],
+                    [
+                        'dripemailDetails',
+                        'publishDetails',
+                        'leadDetails',
+                        'tagList',
+                    ]
+                );
+                unset($lead);
+            }
+            unset($dripcampaign);
+        }
     }
 
     /**

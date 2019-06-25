@@ -444,7 +444,7 @@ class DripEmailRepository extends CommonRepository
         return $response;
     }
 
-    public function getLeadsByDrip($drip, $countOnly, $returnQuery = false)
+    public function getLeadsByDrip($drip, $countOnly, $returnQuery = false, $limit=false)
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
@@ -477,11 +477,10 @@ class DripEmailRepository extends CommonRepository
             ->andWhere(sprintf('l.id NOT IN (%s)', $dlQ->getSQL()))
             ->andwhere($q->expr()->notIn('l.status', ['3', '4', '5', '6'])); //Invalid,Complaint,Unsubscribed,NotConfirmed Leads
 
-        if (!empty($limit)) {
+        if ($limit) {
             $q->setFirstResult(0)
                 ->setMaxResults($limit);
         }
-
         $results = $q->execute()->fetchAll();
         if ($returnQuery) {
             return $q;

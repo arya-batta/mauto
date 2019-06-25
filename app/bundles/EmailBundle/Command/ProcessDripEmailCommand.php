@@ -9,7 +9,7 @@
 namespace Mautic\EmailBundle\Command;
 
 use Mautic\CoreBundle\Command\ModeratedCommand;
-use Mautic\LeadBundle\Entity\DoNotContact;
+use Mautic\CoreBundle\Helper\ProgressBarHelper;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\LeadEvents;
@@ -54,76 +54,103 @@ class ProcessDripEmailCommand extends ModeratedCommand
             $leadEventLogRepo      = $container->get('mautic.email.repository.leadEventLog');
             $dripEmailModel        = $container->get('mautic.email.model.dripemail');
             $this->dispatcher      = $container->get('event_dispatcher');
-            $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
             $leadModel             = $container->get('mautic.lead.model.lead');
-            $timezone              = $coreParameterHelper->getParameter('default_timezone');
+            $webhookModel          = $container->get('mautic.webhook.model.webhook');
+            $emailModel            = $container->get('mautic.email.model.email');
+            $translator            = $container->get('translator');
             date_default_timezone_set('UTC');
             $currentDate       = date('Y-m-d H:i:s');
-            $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate);
-            $emailsCount       = 0;
             $emailLimit        = (!empty($options['email-limit'])) ? $options['email-limit'] : 300;
-            $completedDripsIds = [];
-            /*$licenseinfohelper = $container->get('mautic.helper.licenseinfo');
-            $pending = count($eventList);
-            if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
-                $output->writeln('<info>========================================</info>');
-                $output->writeln('<info>Email credits expired for LeadsEngage Provider</info>');
-                $output->writeln('<info>========================================</info>');
-                return 1;
-            }*/
-            foreach ($eventList as $leadEvent) {
-                $completedDrips = $leadEvent->getRotation();
-                if ($completedDrips == '1') {
-                    $completedDripsIds[$leadEvent->getCampaign()->getId()][] = $leadEvent->getLead()->getId();
-                }
-                if ($emailLimit == $emailsCount) {
-                    sleep(2);
-                    $emailsCount = 0;
-                }
-                if (!empty($leadEvent->getEmail())) {
-                    $isContactableReason = $leadModel->isContactable($leadEvent->getLead(), 'email');
-                    $isDoNotContact      = 0;
-                    if (DoNotContact::IS_CONTACTABLE !== $isContactableReason) {
-                        $isDoNotContact = 1;
-                    }
-                    if ($isDoNotContact) {
-                        $leadEvent->setIsScheduled(0);
-                        $leadEvent->setSystemTriggered($currentDate);
-                        $leadEvent->setFailedReason('This Lead is Skipped because of Lead is DoNotContact');
-                        $leadEventLogRepo->saveEntity($leadEvent);
-                        continue;
-                    }
-                    $emailsCount = $emailsCount++;
-                    $result      = $dripEmailModel->sendDripEmailtoLead($leadEvent->getEmail(), $leadEvent->getLead());
-                    if ($result['result']) {
-                        $leadEvent->setIsScheduled(0);
-                        $leadEvent->setSystemTriggered($currentDate);
-                    } else {
-                        $leadEvent->setFailedReason($result['result']);
-                    }
-                    $leadEventLogRepo->saveEntity($leadEvent);
-                    $output->writeln('<info>========================================</info>');
-                    $output->writeln('<info>'.'To be Modified Email ID:'.$leadEvent->getEmail()->getId().'</info>');
-                    $output->writeln('<info>'.'To be Modified Lead ID:'.$leadEvent->getLead()->getId().'</info>');
-                    $output->writeln('<info>========================================</info>');
-                }
-                if ($completedDrips == '1') {
-                    if ($this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN)) {
-                        $lead  = $leadEvent->getLead();
-                        $event = new LeadEvent($lead, true);
-                        $event->setDrip($leadEvent->getCampaign());
-                        $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN, $event);
-                        unset($event);
-                    }
-                }
+            $maxCount          =$leadEventLogRepo->getScheduledEventsCount($currentDate);
+            if ($output) {
+                $output->writeln($translator->trans('le.drip.email.lead.send.to_be_added', ['%events%' => $maxCount, '%batch%' => $emailLimit]));
             }
-
-            if ($this->dispatcher->hasListeners(LeadEvents::COMPLETED_DRIP_CAMPAIGN)) {
-                $lead  = new Lead();
-                $event = new LeadEvent($lead, true);
-                $event->setCompletedDripsIds($completedDripsIds);
-                $this->dispatcher->dispatch(LeadEvents::COMPLETED_DRIP_CAMPAIGN, $event);
-                unset($event);
+            $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate, $emailLimit);
+            $completedDripsIds = [];
+            $pendingCount      = count($eventList);
+            if ($pendingCount) {
+                if ($output) {
+                    $progress = ProgressBarHelper::init($output, $maxCount);
+                    $progress->start();
+                }
+                $eventsProcessed=0;
+                // Try to save some memory
+                gc_enable();
+                $triggerWebHookEvent=true;
+                $webhookEvents      =$webhookModel->getEventWebooksByType(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN);
+                if (!count($webhookEvents) || !is_array($webhookEvents)) {
+                    $triggerWebHookEvent=false;
+                }
+                while ($pendingCount > 0) {
+                    try {
+                        $groupLeadsByEmail=[];
+                        $dripEmailModel->beginTransaction();
+                        foreach ($eventList as $leadEvent) {
+                            $completedDrips = $leadEvent->getRotation();
+                            $dripLead       =$leadEvent->getLead();
+                            $dripEmail      =$leadEvent->getEmail();
+                            if ($completedDrips == '1') {
+                                $completedDripsIds[$leadEvent->getCampaign()->getId()][] = $dripLead->getId();
+                            }
+                            if (!empty($dripEmail)) {
+                                $dripLeadData                                              = $leadModel->getRepository()->getLead($dripLead->getId());
+                                $groupLeadsByEmail[$dripEmail->getId()][$dripLead->getId()]=$dripLeadData;
+                                $leadEvent->setIsScheduled(0);
+                                $leadEvent->setSystemTriggered($currentDate);
+                                $leadEventLogRepo->saveEntity($leadEvent);
+                                unset($dripLead, $dripEmail, $leadEvent, $dripLeadData);
+                            }
+                            ++$eventsProcessed;
+                        }
+                        foreach ($groupLeadsByEmail as $emailId => $leads) {
+                            $options     = [
+                                'source'        => ['email', $emailId],
+                                'allowResends'  => false,
+                                'customHeaders' => [
+                                    'Precedence' => 'Bulk',
+                                ],
+                            ];
+                            $dripEmailEntity=$emailModel->getEntity($emailId);
+                            $emailModel->sendEmail($dripEmailEntity, $leads, $options);
+                            unset($dripEmailEntity);
+                        }
+                        unset($groupLeadsByEmail);
+                        $dripEmailModel->commitTransaction();
+                    } catch (\Exception $ex) {
+                        $output->writeln('Exception Occured at batch execution->'.$ex->getMessage());
+                        $dripEmailModel->rollbackTransaction();
+                        throw $ex;
+                    }
+                    if (!empty($completedDripsIds)) {
+                        if ($this->dispatcher->hasListeners(LeadEvents::COMPLETED_DRIP_CAMPAIGN)) {
+                            $lead  = new Lead();
+                            $event = new LeadEvent($lead, true);
+                            $event->setCompletedDripsIds($completedDripsIds);
+                            $this->dispatcher->dispatch(LeadEvents::COMPLETED_DRIP_CAMPAIGN, $event);
+                            unset($event);
+                        }
+                        if ($triggerWebHookEvent && $this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN)) {
+                            $lead  = new Lead();
+                            $event = new LeadEvent($lead, true);
+                            $event->setCompletedDripsIds($completedDripsIds);
+                            $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_DRIP_CAMPAIGN, $event);
+                            unset($event);
+                        }
+                        unset($completedDripsIds);
+                    }
+                    if ($output && $eventsProcessed < $maxCount) {
+                        $progress->setProgress($eventsProcessed);
+                    }
+                    sleep(2);
+                    $eventList         = $leadEventLogRepo->getScheduledEvents($currentDate, $emailLimit);
+                    $pendingCount      = count($eventList);
+                }
+                // Free some memory
+                gc_collect_cycles();
+                if ($output) {
+                    $progress->finish();
+                    $output->writeln('');
+                }
             }
         } catch (\Exception $e) {
             echo 'exception->'.$e->getMessage()."\n";
