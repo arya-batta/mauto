@@ -249,7 +249,7 @@ function executeCommand($command)
 function isValidCronExecution($con, $domain, $dbname, $appid, $operation)
 {
     if (!isActiveCustomer($con, $domain, $dbname)) {
-        displayCronlog('general', "This $domain is InActive");
+        displayCronlog($domain, "This $domain is InActive");
 
         return false;
     }
@@ -343,7 +343,7 @@ function checkEmailAvailablity($domain)
 function checkImportAvailablity($con, $dbname)
 {
     $importtable = $dbname.'.imports';
-    $sql         = "select count(*) from $importtable where is_published = 1 and status in ('1','7')";
+    $sql         = "select count(*) from $importtable where is_published = 1 and status in ('1','2')";
     $result      = getResultArray($con, $sql);
     $count       = $result[0][0];
     displayCronlog('general', 'Import Live Count:'.$count);
