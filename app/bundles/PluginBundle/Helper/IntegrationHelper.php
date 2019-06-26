@@ -1027,7 +1027,7 @@ class IntegrationHelper
             if (!empty($leadgenid) && !empty($fbpageid) && !empty($fbformid)) {
                 $eventFbPage     =$properties['fbpage'];
                 $eventLeadGenForm=$properties['leadgenform'];
-                if (empty($eventFbPage) || $eventFbPage == '-1' || ($eventFbPage == $fbpageid && $eventLeadGenForm == $fbformid)) {
+                if (empty($eventFbPage) || $eventFbPage == '-1' || ($eventFbPage == $fbpageid && ($eventLeadGenForm == $fbformid || $eventLeadGenForm == '-1'))) {
                     if ($integration) {
                         $data=$this->parseFBLeadData($integration, $leadgenid, $data, $fbpageid, $fbformid);
                     }
