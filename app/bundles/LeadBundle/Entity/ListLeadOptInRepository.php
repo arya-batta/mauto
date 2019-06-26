@@ -88,7 +88,39 @@ class ListLeadOptInRepository extends CommonRepository
         return null;
     }
 
-    public function getResendLists($dateInterval)
+    public function getResendLists($dateInterval, $limit)
+    {
+        //$result = $this->getEntities(['qb' => $q, 'ignore_paginator' => true]);
+        $result = $this->getEntities(
+            [
+                'limit'  => $limit,
+                'filter' => [
+                    'force' => [
+                        [
+                            'column' => 'l.isrescheduled',
+                            'expr'   => 'eq',
+                            'value'  => 1,
+                        ],
+                        [
+                            'column' => 'l.unconfirmedLead',
+                            'expr'   => 'eq',
+                            'value'  => 1,
+                        ],
+                        [
+                            'column' => 'l.dateAdded',
+                            'expr'   => 'lte',
+                            'value'  => $dateInterval,
+                        ],
+                    ],
+                ],
+                'ignore_paginator' => true,
+            ]
+        );
+
+        return $result;
+    }
+
+    public function getResendListsCount($dateInterval)
     {
         //$result = $this->getEntities(['qb' => $q, 'ignore_paginator' => true]);
         $result = $this->getEntities(
@@ -116,7 +148,7 @@ class ListLeadOptInRepository extends CommonRepository
             ]
         );
 
-        return $result;
+        return count($result);
     }
 
     /**

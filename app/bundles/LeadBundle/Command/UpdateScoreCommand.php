@@ -40,38 +40,47 @@ class UpdateScoreCommand extends ModeratedCommand
 
                 return 0;
             }
+            $output->writeln('<info>'.'===================================</info>');
             $date       = new \DateTime();
             $date->modify('-2 days');
             $dateinterval = $date->format('Y-m-d H:i:s');
 
             $leadRepo = $container->get('mautic.lead.repository.lead');
             $result   = $leadRepo->getHotAndWarmLead($dateinterval);
-
-            foreach ($result as $key => $value) {
-                $leadScore = strtolower($value['leadscore']);
-                $leadId    = $value['leadid'];
-                $output->writeln('<info>'.'To be Modified Lead Score:'.$leadScore.'</info>');
-                $output->writeln('<info>'.'To be Modified Lead ID:'.$leadId.'</info>');
-
-                if (!empty($leadId)) {
-                    if ($leadScore == 'hot') {
-                        $leadRepo->updateContactScore('warm', $leadId);
-                        $output->writeln('<info>'.'Update LeadSocre As Warm LeadID:'.$leadId.'</info>');
-                    } else {
-                        $leadRepo->updateContactScore('cold', $leadId);
-                        $output->writeln('<info>'.'Update LeadScore As Cold LeadID:'.$leadId.'</info>');
+            /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
+            $leadModel             = $container->get('mautic.lead.model.lead');
+            $leadModel->beginTransaction();
+            try {
+                $output->writeln('<info>'.'Total Leads to Modify Score(s):'.count($result).' </info>');
+                foreach ($result as $key => $value) {
+                    $leadScore = strtolower($value['leadscore']);
+                    $leadId    = $value['leadid'];
+                    $lead      = $leadModel->getEntity($leadId);
+                    if (!empty($leadId)) {
+                        if ($leadScore == 'hot') {
+                            $lead->setScore('warm');
+                        } else {
+                            $lead->setScore('cold');
+                        }
                     }
+                    $leadModel->saveEntity($lead);
+                    unset($lead);
                 }
+                unset($result);
+                $output->writeln('<info>'.'Leads Score update Completed</info>');
+                $leadModel->commitTransaction();
+            } catch (\Exception $ex) {
+                $leadModel->rollbackTransaction();
             }
+            unset($result);
+            $output->writeln('<info>'.'===================================</info>');
             $date       = new \DateTime();
             $date->modify('-60 days');
             $dateinterval = $date->format('Y-m-d H:i:s');
-            /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
-            $leadModel             = $container->get('mautic.lead.model.lead');
-
             $leadModel->beginTransaction();
             $result = $leadRepo->getActiveEngagedLeads($dateinterval);
             try {
+                $output->writeln('<info>'.'Total Leads to Modify Lead Status as (Engaged):'.count($result).' </info>');
                 foreach ($result as $key => $value) {
                     $leadId = $value['leadid'];
                     $lead   = $leadModel->getEntity($leadId);
@@ -79,13 +88,17 @@ class UpdateScoreCommand extends ModeratedCommand
                     $leadModel->saveEntity($lead);
                     unset($lead);
                 }
+                $output->writeln('<info>'.'Leads (Engaged) Status update completed.</info>');
                 $leadModel->commitTransaction();
             } catch (\Exception $ex) {
                 $leadModel->rollbackTransaction();
             }
+            unset($result);
+            $output->writeln('<info>'.'===================================</info>');
             $leadModel->beginTransaction();
             $result = $leadRepo->getActiveLeads($dateinterval);
             try {
+                $output->writeln('<info>'.'Total Leads to Modify Lead Status as (Active):'.count($result).' </info>');
                 foreach ($result as $key => $value) {
                     $leadId = $value['leadid'];
                     $lead   = $leadModel->getEntity($leadId);
@@ -93,10 +106,13 @@ class UpdateScoreCommand extends ModeratedCommand
                     $leadModel->saveEntity($lead);
                     unset($lead);
                 }
+                $output->writeln('<info>'.'Leads (Active) Status update completed.</info>');
                 $leadModel->commitTransaction();
             } catch (\Exception $ex) {
                 $leadModel->rollbackTransaction();
             }
+            unset($result);
+            $output->writeln('<info>'.'===================================</info>');
         } catch (\Exception $e) {
             echo 'exception->'.$e->getMessage()."\n";
             $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');
