@@ -146,6 +146,13 @@ class EventModel extends CommonFormModel
     protected $stepfound=false;
 
     /**
+     * To check webhook is configured or not.
+     *
+     * @var bool
+     */
+    protected $triggerWebHookEvent=false;
+
+    /**
      * EventModel constructor.
      *
      * @param IpLookupHelper       $ipLookupHelper
@@ -511,7 +518,12 @@ class EventModel extends CommonFormModel
         $returnCounts = false
     ) {
         defined('MAUTIC_CAMPAIGN_SYSTEM_TRIGGERED') or define('MAUTIC_CAMPAIGN_SYSTEM_TRIGGERED', 1);
-
+        $this->triggerWebHookEvent=true;
+        $webhookModel             =$this->factory->get('mautic.webhook.model.webhook');
+        $webhookEvents            =$webhookModel->getEventWebooksByType(LeadEvents::LEAD_COMPLETED_WORKFLOW);
+        if (!count($webhookEvents) || !is_array($webhookEvents)) {
+            $this->triggerWebHookEvent=false;
+        }
         $campaignId           = $campaign->getId();
         $this->currentcampaign=$campaign;
         $this->logger->debug('CAMPAIGN: Triggering starting events');
@@ -644,7 +656,7 @@ class EventModel extends CommonFormModel
                 ++$rootEvaluatedCount;
                 $totalEventCount=$totalEventCount + $stepsevaluated;
                 $sleepBatchCount=$sleepBatchCount + $stepsevaluated;
-                if ($sleepBatchCount == $limit) {
+                if ($sleepBatchCount >= $limit) {
                     // Keep CPU down
                     $this->batchSleep();
                     $sleepBatchCount = 0;
@@ -654,7 +666,7 @@ class EventModel extends CommonFormModel
                 }
                 // Free some RAM
                 $this->em->detach($lead);
-                unset($lead);
+                unset($lead, $this->currentlead, $this->completedsteps);
 
                 ++$leadDebugCounter;
             }
@@ -814,7 +826,7 @@ class EventModel extends CommonFormModel
                 foreach ($leadEvents as $log) {
                     ++$scheduledEvaluatedCount;
 
-                    if ($sleepBatchCount == $limit) {
+                    if ($sleepBatchCount >= $limit) {
                         // Keep CPU down
                         $this->batchSleep();
                         $sleepBatchCount = 0;
@@ -1549,15 +1561,15 @@ class EventModel extends CommonFormModel
             if ($log) {
                 $logRepo->saveEntity($log);
             }
-
-            $exited = $this->campaignModel->checkCampaignLeadExited($campaign, $lead);
-
-            if ($event['type'] == 'campaign.defaultexit' && $exited) {
-                if ($this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_WORKFLOW)) {
-                    $event = new LeadEvent($lead, true);
-                    $event->setWorkflow($campaign);
-                    $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_WORKFLOW, $event);
-                    unset($event);
+            if ($this->triggerWebHookEvent) {
+                $exited = $this->campaignModel->checkCampaignLeadExited($campaign, $lead);
+                if ($event['type'] == 'campaign.defaultexit' && $exited) {
+                    if ($this->dispatcher->hasListeners(LeadEvents::LEAD_COMPLETED_WORKFLOW)) {
+                        $event = new LeadEvent($lead, true);
+                        $event->setWorkflow($campaign);
+                        $this->dispatcher->dispatch(LeadEvents::LEAD_COMPLETED_WORKFLOW, $event);
+                        unset($event);
+                    }
                 }
             }
         } else {
@@ -1627,8 +1639,10 @@ class EventModel extends CommonFormModel
                 $log->setChannel($campaignEvent->getChannel())
                     ->setChannelId($campaignEvent->getChannelId());
             }
+            $result=$campaignEvent->getResult();
+            unset($campaignEvent);
 
-            return $campaignEvent->getResult();
+            return $result;
         }
 
         /*
