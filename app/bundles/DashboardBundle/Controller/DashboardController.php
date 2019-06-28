@@ -50,7 +50,7 @@ class DashboardController extends FormController
                 $kyc = new KYC();
             }
             if (!$smHelper->isStateAlive('Trial_Unverified_Email')) {
-                if ($account->getAccountname() == '' || $billing->getCompanyaddress() == '' || $billing->getCity() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+                if ($account->getAccountname() == '' || $billing->getCompanyaddress() == '' || $account->getCity() == '' || $kyc->getPrevioussoftware() == '' || $kyc->getSubscribercount() == '' || $account->getWebsite() == '') {
                     return $this->delegateRedirect($this->generateUrl('le_welcome_action'));
                 }
             } else {
