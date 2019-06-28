@@ -21,8 +21,8 @@ if ($preamount != 0) {
 <div class="row">
     <div class="col-sm-12">
         <p class="dashboard-header-p">
-            <span style="font-size: 22px; line-height: 39px;"><strong><span class="dashboad-header"><?php echo $view['translator']->trans('le.pricing.page.header.msg', ['%USERNAME%'=> $username]); ?></span></strong></span>
-            <p style="text-align: center;width:100%;">
+            <span style="font-size: 22px; line-height: 39px;"><strong><span class="dashboad-header"><?php echo $view['translator']->trans('le.pricing.page.header.msg'); ?></span></strong></span>
+            <p class="hide" style="text-align: center;width:100%;">
                 <span style="font-size:14px;"><?php echo $view['translator']->trans('le.pricing.page.header.desc'); ?></span>
             </p>
         </p>

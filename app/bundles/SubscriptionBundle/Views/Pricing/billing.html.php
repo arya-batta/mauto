@@ -41,26 +41,25 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                     <br>
                     <div class="modal-body form-select-modal" style="padding-top:0px;">
                        <div class="card-holder-title">
-                            Business Information
+                            Billing Information
                         </div>
                         <p class="header_desc">
-                            Please make sure you provide your actual business information to get your account approved by our compliance team.
+                            This information will appear on your invoice.
                         </p>
                         <br>
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="businessname">Business Name</label>
-                                <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="">
+                                <label for="businessname">Company</label>
+                                <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
                                 <p class="label_control_error business_error hide">The Business name can't be empty.</p>
                             </div>
                             <div class="col-md-6">
-                                <label for="weburl">Website URL</label>
-                                <input type="url" id="welcome_websiteurl" class="form-control le-input" name="welcome[websiteurl]" value="">
-                                <p class="label_control_error website_error hide">Website URL can't be empty.</p>
+                                <label for="weburl">Accounting Email</label>
+                                <input type="url" id="welcome_accountemail" class="form-control le-input" name="welcome[email]" value="<?php echo $account->getEmail(); ?>">
+                                <p class="label_control_error email_error hide">Accounting Email can't be empty.</p>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
+                        <div class="row hide">
                             <div class="col-md-6">
                                 <label for="phone">Current Contact Size</label>
                                 <select name="welcome[listsize]" class="selop" id="select_listsize">
@@ -79,7 +78,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             </div>
                             <div class="col-md-6">
                                 <label for="phone">Existing Email Provider</label>
-                                <input type="text" id="welcome_currentesp" class="form-control le-input" placeholder="e.g. Mailchimp" name="welcome[currentesp]"  value="">
+                                <input type="text" id="welcome_currentesp" class="form-control le-input" placeholder="e.g. Mailchimp" name="welcome[currentesp]"  value="<?php echo $kyc->getPrevioussoftware(); ?>">
                                 <p class="label_control_error currentesp_error hide" >Existing Email Provider can't be empty.</p>
                             </div>
                         </div>
@@ -87,7 +86,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="adr"> Full Address</label>
-                                <input type="text" style="width:97%;" id="welcome_address" class="form-control le-input" name="welcome[address-line-1]" value="">
+                                <input type="text" style="width:97%;" id="welcome_address" class="form-control le-input" name="welcome[address-line-1]" value="<?php echo $billing->getCompanyaddress(); ?>">
                                 <p class="label_control_error address_error hide">Full Address can't be empty</p>
                             </div>
                         </div>
@@ -98,14 +97,6 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
                                 <p class="label_control_error city_error hide">The City can't be empty</p>
                             </div>
-                            <div class="col-md-6">
-                                <label for="zip">Zip Code</label>
-                                <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zip]" value="">
-                                <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
                             <div class="col-md-6">
                                 <label for="state">State</label>
                                 <select name="welcome[state]" class="selop not-chosen" id="selectstate">
@@ -120,6 +111,14 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 </select>
                                 <p class="label_control_error state_error hide">State can't be empty</p>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="zip">Zip Code</label>
+                                <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>">
+                                <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
+                            </div>
                             <div class="col-md-6">
                                 <label for="country">Country</label>
                                 <select name="welcome[country]" class="selop not-chosen" id="selectcountry">
@@ -132,15 +131,22 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="city"> TAXID</label>
+                                <input type="text" id="welcome_taxid" class="form-control le-input" name="welcome[taxid]" value="<?php echo $billing->getGstnumber(); ?>">
+                                <p class="label_control_error taxid_error hide">The City can't be empty</p>
+                            </div>
+                        </div>
                         <br>
                         <div class="alert alert-info hide" id="card-holder-info" role="alert"></div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card-holder-title">
-                                    Add Your Credit Card
+                                    Payment method
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 hide">
                                 <span style="text-align:right;color: rgba(22, 122, 198, 0.63);float: right;" data-toggle="tooltip"
                                    title="<?php echo $view['translator']->trans('le.subscription.credit.card.tooltip'); ?>">
                                     <i class="fa fa-question-circle"></i> Why do we ask for your CC?
@@ -148,7 +154,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             </div>
                         </div>
                         <p class="header_desc">
-                            We'll verify your card by making a $1 charge. Don't worry, we will refund it.
+                            Add your credit card to subscribe.
                         </p>
                         <div class="row">
                             <div class="col-md-12">
@@ -161,7 +167,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <div id="card-holder-errors" role="alert"></div>
                         <br>
                         <br>
-                        <div class="row">
+                        <div class="row hide">
                             <div class="col-md-12" id="termsConditions">
                                 <label class="control control-checkbox">
                                     <?php echo $view['translator']->trans('le.subscription.termsandcontitions'); ?>
@@ -174,7 +180,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row hide">
                             <div class="col-md-12" id="spamConditions">
                                 <label class="control control-checkbox">
                                     <?php echo $view['translator']->trans('le.subscription.spamandcontitions'); ?>
@@ -192,7 +198,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-3"></div>
                             <div class="col-md-6" style="text-align: center;">
                                 <button type="button" planname="<?php echo $planname?>" plancurrency="<?php echo $plancurrency?>" planamount="<?php echo $planamount?>" plancredits="<?php echo $planemailcredits?>" contactcredits="<?php echo $plancontactcredits?>" planvalidity="<?php echo $planvalidity?>" class="btn btn-default pay-now-btn price-buttonfoot">
-                                    <?php echo $view['translator']->trans('le.billing.paynow.button.text'); ?>
+                                    <?php echo $view['translator']->trans('Save and subscribe'); ?>
                                 </button>
                                 <br>
                                 <br>
@@ -212,6 +218,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
     <div class="col-md-2"></div>
 </div>
 <script>
+    mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
     Le.selectedCountry = "<?php echo $country ?>";
     Le.selectedState = "<?php echo $state ?>";
     Le.selectedCity = "<?php echo $city ?>";

@@ -31,6 +31,35 @@ class DashboardController extends FormController
         $paymentrepository = $this->get('le.subscription.repository.payment');
         $lastpayment       = $paymentrepository->getLastPayment();
 
+        $loginsession   = $this->get('session');
+        $loginarg       = $loginsession->get('isLogin');
+        $dbhost         = $this->coreParametersHelper->getParameter('le_db_host');
+        $kycview        = $this->get('mautic.helper.licenseinfo')->getFirstTimeSetup($dbhost, $loginarg);
+        $ismobile       = InputHelper::isMobile();
+        $smHelper       = $this->get('le.helper.statemachine');
+        if (sizeof($kycview) > 0) {
+            $billing        = $kycview[3];
+            $account        = $kycview[4];
+            /** @var \Mautic\SubscriptionBundle\Model\KYCModel $kycmodel */
+            $kycmodel         = $this->getModel('subscription.kycinfo');
+            $kycrepo          = $kycmodel->getRepository();
+            $kycentity        = $kycrepo->findAll();
+            if (sizeof($kycentity) > 0) {
+                $kyc = $kycentity[0]; //$model->getEntity(1);
+            } else {
+                $kyc = new KYC();
+            }
+            if (!$smHelper->isStateAlive('Trial_Unverified_Email')) {
+                if ($account->getAccountname() == '' || $billing->getCompanyaddress() == '' || $billing->getCity() == '' || $kyc->getIndustry() == '' || $kyc->getPrevioussoftware() == '' || $account->getWebsite() == '') {
+                    return $this->delegateRedirect($this->generateUrl('le_welcome_action'));
+                }
+            } else {
+                $loginsession->set('isLogin', false);
+            }
+        } else {
+            $loginsession->set('isLogin', false);
+        }
+
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $accountModel */
         $accountModel  = $this->getModel('subscription.accountinfo');
 
@@ -52,7 +81,13 @@ class DashboardController extends FormController
             new \DateTime($dateRangeForm->get('date_from')->getData()),
             new \DateTime($dateRangeForm->get('date_to')->getData())
         );
-
+        $accrepo       = $accountModel->getRepository();
+        $accountentity = $accrepo->findAll();
+        $accountEmail  = '';
+        if (sizeof($accountentity) > 0) {
+            $account      = $accountentity[0]; //$model->getEntity(1);
+            $accountEmail = $account->getEmail();
+        }
         $emailStats   = $accountModel->getCustomEmailStats();
         $leadStats    = $accountModel->getCustomLeadStats();
         $overallstats = $accountModel->getOverAllStats();
@@ -75,6 +110,8 @@ class DashboardController extends FormController
                     'isHideBlock'          => $isHideBlock,
                     'letoken'              => $paymenthelper->getUUIDv4(),
                     'sendingDomainStatus'  => $sendingDomainStatus,
+                    'accountEmail'         => $accountEmail,
+                    'isEmailVerified'      => $smHelper->isStateAlive('Trial_Unverified_Email'),
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                 'passthroughVars' => [

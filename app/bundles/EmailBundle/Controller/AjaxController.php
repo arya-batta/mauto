@@ -1339,12 +1339,14 @@ class AjaxController extends CommonAjaxController
         /** @var EmailModel $model */
         $model            = $this->getModel('email');
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
-        $domainList       =$model->getRepository()->getAllSendingDomains($domain);
-        $content          ='';
-        $message          ='';
-        $status           =true;
+        $domainList       = $model->getRepository()->getAllSendingDomains($domain);
+        $content          = '';
+        $message          = '';
+        $status           = true;
+        $smHelper         = $this->get('le.helper.statemachine');
         if (sizeof($domainList) == 0) {
-            $domainCreated=$elasticApiHelper->createDomain($domain);
+            $domainCreated = $smHelper->createElasticSubAccountandAssign($domain);
+            //$domainCreated=$elasticApiHelper->createDomain($domain);
             if ($domainCreated) {
                 $newSendingDomain=new SendingDomain();
                 $newSendingDomain->setDomain($domain);
@@ -1402,9 +1404,15 @@ class AjaxController extends CommonAjaxController
         }
         if (!$isAnyDomainVerified) {
             $smHelper            = $this->get('le.helper.statemachine');
-            if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured') && !$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
-                $smHelper->makeStateInActive(['Customer_Active']);
-                $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+            $paymentrepository   =$this->get('le.subscription.repository.payment');
+            $lastpayment         = $paymentrepository->getLastPayment();
+            $prefix              = 'Trial';
+            if ($lastpayment != null) {
+                $prefix = 'Customer';
+            }
+            if (!$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured') && !$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
+                $smHelper->makeStateInActive([$prefix.'_Active']);
+                $smHelper->newStateEntry($prefix.'_Inactive_Sending_Domain_Issue', '');
                 $smHelper->addStateWithLead();
                 $smHelper->sendSendingDomainIssueEmail();
             }
@@ -1436,7 +1444,13 @@ class AjaxController extends CommonAjaxController
         }
         $domainList          =$model->getRepository()->getAllSendingDomains();
         $smHelper            = $this->get('le.helper.statemachine');
-        if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured') || $smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
+        $paymentrepository   =$this->get('le.subscription.repository.payment');
+        $lastpayment         = $paymentrepository->getLastPayment();
+        $prefix              = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        if ($smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured') || $smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
             $isAnyDomainVerified=false;
             foreach ($domainList as $sendingdomain) {
                 if ($sendingdomain->getStatus()) {
@@ -1445,12 +1459,20 @@ class AjaxController extends CommonAjaxController
                 }
             }
             if ($isAnyDomainVerified) {
-                if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+                if ($smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured')) {
                     $smHelper->sendInternalSlackMessage('sending_domain_configured');
                 }
-                $smHelper->makeStateInActive(['Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Sending_Domain_Issue']);
+                $smHelper->makeStateInActive([$prefix.'_Sending_Domain_Not_Configured', $prefix.'_Inactive_Sending_Domain_Issue']);
                 if (!$smHelper->isAnyInActiveStateAlive()) {
-                    $smHelper->newStateEntry('Customer_Active', '');
+                    $smHelper->newStateEntry($prefix.'_Active', '');
+                    if ($prefix == 'Trial') {
+                        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+                        $license           = $licenseinfoHelper->getLicenseEntity();
+                        $licenseRepo       = $licenseinfoHelper->getLicenseRepository();
+                        $license->setTotalRecordCount('UL');
+                        $license->setTotalEmailCount('100000');
+                        $licenseRepo->saveEntity($license);
+                    }
                 }
                 $smHelper->addStateWithLead();
             }

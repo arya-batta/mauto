@@ -1,4 +1,5 @@
 Le.welcomeOnLoad = function() {
+    Le.setDefaultStateValues();
     mQuery('.welcome-input-text-1').on('input focusout', function() {
         var firstname = mQuery("#welcome_firstname").val();
         var lastname = mQuery("#welcome_lastname").val();
@@ -124,7 +125,7 @@ Le.welcomeOnLoad = function() {
     mQuery("#continue-btn").on('click', function(){
         mQuery(this).val('Please wait...');
     });
-    if(!mQuery('.part1').hasClass('hide')) {
+    /*if(!mQuery('.part1').hasClass('hide')) {
         var firstname = mQuery("#welcome_firstname").val();
         var lastname = mQuery("#welcome_lastname").val();
         var phone = mQuery("#welcome_phone").val();
@@ -154,7 +155,7 @@ Le.welcomeOnLoad = function() {
         } else {
             mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
         }
-    }
+    }*/
 };
 
 Le.IsProperURL = function(url){
@@ -167,28 +168,63 @@ Le.IsProperURL = function(url){
 };
 
 Le.validateFirstTimeSetup = function(){
-    var industry = mQuery("#welcome_industry").val();
-    var empcount = mQuery("#select_empcount").val();
-    var listsize = mQuery("#select_listsize").val();
-    mQuery(".industry_error").addClass('hide');
-    mQuery(".empcount_error").addClass('hide');
-    mQuery(".listsize_error").addClass('hide');
-    mQuery("#continue-btn").text('Please wait...');
-    var isvalid = true;
-    if(industry == "blank"){
-        isvalid = false;
-        mQuery(".industry_error").removeClass('hide');
+    var businessname = mQuery('#welcome_business').val();
+    var currentlist = mQuery('#select_listsize').val();
+    var currentprovider = mQuery('#welcome_currentesp').val();
+    var websiteurl = mQuery('#welcome_websiteurl').val();
+    var address = mQuery('#welcome_address').val();
+    var city = mQuery('#welcome_city').val();
+    var zipcode = mQuery('#welcome_zip').val();
+    var state = mQuery('#selectstate').val();
+    var country = mQuery('#selectcountry').val();
+    var isvalidrequest = true;
+    if(businessname == ''){
+        isvalidrequest = false;
+        mQuery('.business_error').removeClass('hide');
     }
-    if(empcount == "blank"){
-        isvalid = false;
-        mQuery(".empcount_error").removeClass('hide');
+    if(websiteurl == ''){
+        isvalidrequest = false;
+        mQuery('.website_error').removeClass('hide');
     }
-    if(listsize == "blank"){
-        isvalid = false;
-        mQuery(".listsize_error").removeClass('hide');
+    if(currentlist == '' || currentlist == 'blank'){
+        isvalidrequest = false;
+        mQuery('.listsize_error').removeClass('hide');
     }
-    if(isvalid){
-        var bgSaveBtn = mQuery('#submit-continue-btn');
-        bgSaveBtn.trigger('click');
+    if(currentprovider == ''){
+        isvalidrequest = false;
+        mQuery('.currentesp_error').removeClass('hide');
+    }
+    if(address == ''){
+        isvalidrequest = false;
+        mQuery('.address_error').removeClass('hide');
+    }
+    if(city == ''){
+        isvalidrequest = false;
+        mQuery('.city_error').removeClass('hide');
+    }
+    if(zipcode == ''){
+        isvalidrequest = false;
+        mQuery('.zip_error').removeClass('hide');
+    }
+    if(state == '' || state == 'blank'){
+        isvalidrequest = false;
+        mQuery('.state_error').removeClass('hide');
+    }
+    if(country == '' || country == 'blank'){
+        isvalidrequest = false;
+        mQuery('.country_error').removeClass('hide');
+    }
+    if(!mQuery('#terms_conditions').prop('checked')){
+        isvalidrequest = false;
+        //mQuery('#termsConditions help-block').removeClass('hide');
+        mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
+    }
+    if(!mQuery('#spam_conditions').prop('checked')){
+        isvalidrequest = false;
+        //mQuery('#termsConditions help-block').removeClass('hide');
+        mQuery('#spamConditions').removeClass('label_control_error').addClass('label_control_error');
+    }
+    if(isvalidrequest){
+        mQuery('#firstTimeSetup_Form').submit();
     }
 };

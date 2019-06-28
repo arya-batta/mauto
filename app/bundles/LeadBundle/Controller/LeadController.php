@@ -1860,7 +1860,26 @@ class LeadController extends FormController
         ) {
             return $this->modalAccessDenied();
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $smHelper           = $this->get('le.helper.statemachine');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
+            $this->addFlash($this->translator->trans('le.email.unverified.error'));
+
+            return $this->postActionRedirect(
+                [
+                    'passthroughVars' => [
+                        'closeModal' => 1,
+                        'route'      => false,
+                    ],
+                ]
+            );
+        }
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));

@@ -209,7 +209,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
             var businessname = mQuery('#welcome_business').val();
             var currentlist = mQuery('#select_listsize').val();
             var currentprovider = mQuery('#welcome_currentesp').val();
-            var websiteurl = mQuery('#welcome_websiteurl').val();
+            var email = mQuery('#welcome_accountemail').val();
             var address = mQuery('#welcome_address').val();
             var city = mQuery('#welcome_city').val();
             var zipcode = mQuery('#welcome_zip').val();
@@ -220,18 +220,18 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 isvalidrequest = false;
                 mQuery('.business_error').removeClass('hide');
             }
-            if(websiteurl == ''){
+            if(email == ''){
                 isvalidrequest = false;
-                mQuery('.website_error').removeClass('hide');
+                mQuery('.email_error').removeClass('hide');
             }
-            if(currentlist == '' || currentlist == 'blank'){
+            /*if(currentlist == '' || currentlist == 'blank'){
                 isvalidrequest = false;
                 mQuery('.listsize_error').removeClass('hide');
-            }
-            if(currentprovider == ''){
+            }*/
+            /*if(currentprovider == ''){
                 isvalidrequest = false;
                 mQuery('.currentesp_error').removeClass('hide');
-            }
+            }*/
             if(address == ''){
                 isvalidrequest = false;
                 mQuery('.address_error').removeClass('hide');
@@ -252,7 +252,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 isvalidrequest = false;
                 mQuery('.country_error').removeClass('hide');
             }
-            if(!mQuery('#terms_conditions').prop('checked')){
+            /*if(!mQuery('#terms_conditions').prop('checked')){
                 isvalidrequest = false;
                 //mQuery('#termsConditions help-block').removeClass('hide');
                 mQuery('#termsConditions').removeClass('label_control_error').addClass('label_control_error');
@@ -261,7 +261,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 isvalidrequest = false;
                 //mQuery('#termsConditions help-block').removeClass('hide');
                 mQuery('#spamConditions').removeClass('label_control_error').addClass('label_control_error');
-            }
+            }*/
             if(!isvalidrequest){
                 Le.removeButtonLoadingIndicator(mQuery('.pay-now-btn'));
                 return;
@@ -271,12 +271,12 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 business : businessname,
                 currentlist : currentlist,
                 currentprovider : currentprovider,
-                website : websiteurl,
+                email : email,
                 address : address,
                 city : city,
                 zipcode : zipcode,
                 state : state,
-                country : country
+                country : country,
             };
         }
 

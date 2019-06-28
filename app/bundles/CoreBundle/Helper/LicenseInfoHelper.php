@@ -1175,4 +1175,9 @@ class LicenseInfoHelper
 
         return false;
     }
+
+    public function getLicenseRepository()
+    {
+        return $this->licenseinfo;
+    }
 }

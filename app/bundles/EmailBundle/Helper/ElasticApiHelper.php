@@ -47,9 +47,9 @@ class ElasticApiHelper
         return json_decode($result);
     }
 
-    public function createDomain($domain)
+    public function createDomain($domain, $apikey)
     {
-        $response=$this->sendApiRequest('domain/add', ['domain'=>$domain, 'trackingType' => '-2']);
+        $response=$this->sendApiRequest('domain/add', ['domain'=>$domain, 'trackingType' => '-2', 'apikey' => $apikey]);
         $status  =false;
         if (isset($response->success) && $response->success) {
             $status=true;

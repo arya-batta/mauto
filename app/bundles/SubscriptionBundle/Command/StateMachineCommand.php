@@ -37,17 +37,23 @@ class StateMachineCommand extends ModeratedCommand
             if (!$this->checkRunStatus($input, $output, $domain)) {
                 return 0;
             }
-            $container  = $this->getContainer();
-            $translator = $container->get('translator');
-            $smHelper   =$container->get('le.helper.statemachine');
-            if (!$smHelper->isStateAlive('Customer_Inactive_Archive')) {
+            $container          = $this->getContainer();
+            $translator         = $container->get('translator');
+            $smHelper           =$container->get('le.helper.statemachine');
+            $paymentrepository  =$container->get('le.subscription.repository.payment');
+            $lastpayment        = $paymentrepository->getLastPayment();
+            $prefix             = 'Trial';
+            if ($lastpayment != null) {
+                $prefix = 'Customer';
+            }
+            if (!$smHelper->isStateAlive($prefix.'_Inactive_Archive')) {
                 //to check Customer_Inactive_Sending_Domain_Issue state
-                if (!$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
-                    if ($smHelper->isStateNotAlive('Customer_Sending_Domain_Not_Configured')) {
+                if (!$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
+                    if ($smHelper->isStateNotAlive($prefix.'_Sending_Domain_Not_Configured')) {
                         $domainStatus=$smHelper->checkSendingDomainStatus();
                         if (!$domainStatus) {
-                            $smHelper->makeStateInActive(['Customer_Active']);
-                            $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue', '');
+                            $smHelper->makeStateInActive([$prefix.'_Active']);
+                            $smHelper->newStateEntry($prefix.'_Inactive_Sending_Domain_Issue', '');
                             $smHelper->sendSendingDomainIssueEmail();
                             $smHelper->addStateWithLead();
                             $output->writeln('<info>App enters into Customer_Inactive_Sending_Domain_Issue</info>');
@@ -68,10 +74,10 @@ class StateMachineCommand extends ModeratedCommand
                 }
                 //to check Customer_Inactive_Under_Review state
                 $elasticApiHelper=$container->get('mautic.helper.elasticapi');
-                if (!$smHelper->isStateAlive('Customer_Inactive_Under_Review')) {
+                if (!$smHelper->isStateAlive($prefix.'_Inactive_Under_Review')) {
                     if (!$elasticApiHelper->checkAccountState()) {
-                        $smHelper->makeStateInActive(['Customer_Active']);
-                        $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
+                        $smHelper->makeStateInActive([$prefix.'_Active']);
+                        $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
                         $smHelper->addStateWithLead();
                         $smHelper->sendInactiveUnderReviewEmail();
                         $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
@@ -80,9 +86,9 @@ class StateMachineCommand extends ModeratedCommand
                     }
                 } else {
                     if ($elasticApiHelper->checkAccountState()) {
-                        $smHelper->makeStateInActive(['Customer_Inactive_Under_Review']);
+                        $smHelper->makeStateInActive([$prefix.'_Inactive_Under_Review']);
                         if (!$smHelper->isAnyInActiveStateAlive()) {
-                            $smHelper->newStateEntry('Customer_Active', '');
+                            $smHelper->newStateEntry($prefix.'_Active', '');
                             $output->writeln('<info>App enters into Customer_Active from Customer_Inactive_Under_Review</info>');
                         }
                         $smHelper->addStateWithLead();
@@ -109,11 +115,22 @@ class StateMachineCommand extends ModeratedCommand
                         if ($diffdays > 30) {
                             $updateOn=$dtHelper->getLocalDateTime();
                             $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local');
-                            $smHelper->makeStateInActive(['Customer_Active']);
-                            $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
+                            $smHelper->makeStateInActive([$prefix.'_Active']);
+                            $smHelper->newStateEntry($prefix.'_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
                             $smHelper->addStateWithLead();
-                            $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
+                            $output->writeln('<info>App enters into '.$prefix.'_Inactive_Archive</info>');
                         }
+                    }
+                }
+                if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
+                    $firstInActiveState=$smHelper->getFirstInActiveState();
+                    $updatedOn         =$firstInActiveState->getUpdatedOn();
+                    $dtHelper          =new DateTimeHelper();
+                    $diffdays          =$dtHelper->getDiff($updatedOn, '%R%a', true);
+                    if ($diffdays >= 3) {
+                        $smHelper->makeStateInActive(['Trial_Unverified_Email']);
+                        $smHelper->newStateEntry('Trial_Inactive_Archive', $smHelper->getAlertMessage('le.subscription.isactive.archive.unverified.email.reason', ['%DATE%' => $updatedOn, '%DAYS%' => $diffdays]));
+                        $smHelper->addStateWithLead();
                     }
                 }
             }

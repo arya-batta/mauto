@@ -147,6 +147,9 @@ class UserProvider implements UserProviderInterface
         if ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Trial_Inactive_Suspended')) {
             $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.trial.suspended.alert.message'));
             throw new AuthenticationException();
+        } elseif ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Trial_Inactive_Archive')) {
+            $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.customer.inactive.alert.message'));
+            throw new AuthenticationException();
         } elseif ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Customer_Inactive_Archive')) {
             $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.customer.inactive.alert.message'));
             throw new AuthenticationException();

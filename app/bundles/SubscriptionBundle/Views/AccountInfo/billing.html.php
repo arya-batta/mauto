@@ -63,6 +63,7 @@ if ($planName != '') {
         'actionRoute'         => $actionRoute,
         'planType'            => $planType,
         'planName'            => $planName,
+        'isEmailVerified'     => $isEmailVerified,
     ]); ?>
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto accountinfo">
@@ -87,7 +88,7 @@ if ($planName != '') {
                                 </a>
                             </div>
                             <div class="paid-info-block <?php echo $planName == 'leplan1' || $planName == 'leplan2' || $planName == 'leplan3' ? '' : 'hide' ?>">
-                                <span class='plan-info-lbl2'>Subscribed Plan- <?php echo $planAmount ?> <?php echo $planName == 'leplan1' ? 'for first 3 months,' : 'per month'?> <b><?php echo $planLabel; ?></b>.</span>
+                                <span class='plan-info-lbl2'>Subscribed Plan- <?php echo $planAmount ?> <?php echo $planName == 'leplan1' ? 'per month,' : 'per month'?> <b><?php echo $planLabel; ?></b>.</span>
                                 <span class='plan-info-lbl2'><b>Usage-</b></span>
                                 <span class='plan-info-lbl2' style="margin-left: 20px;">Contacts: <?php echo number_format($contactUsage).' out of '?><?php echo $totalContactCredits == 'UL' ? 'Unlimited' : number_format($totalContactCredits)?> contacts<?php echo $contactusage?>.</span>
                                 <span class='plan-info-lbl2' style="margin-left: 20px;">Free email credits: <?php echo number_format($actualEmailCredits).' out of '?><?php echo $totalEmailCredits == 'UL' ? 'Unlimited' : number_format($totalEmailCredits)?> emails (<?php echo $emailuseage?> used).</span>

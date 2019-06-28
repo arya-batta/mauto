@@ -13,6 +13,7 @@ $view['slots']->set('leContent', 'pricingplans');
 $view['slots']->set('headerTitle', $view['translator']->trans('mautic.dashboard.header.index'));
 
 $welcomecontent = 'le.dashboard.welcome.content';
+$welcomecontent = $view['translator']->trans($welcomecontent, ['%email%' => $accountEmail]);
 $headermsg      = 'le.dashboard.welcome.message';
 $block1img      = 'playvideo.png';
 $block2img      = 'helpvideo.png';
@@ -20,7 +21,7 @@ $block3img      = 'facebook_community.png';
 $img1link       = '#';
 $img2link       = '#';
 $img3link       = '#';
-if ($isPaid) {
+if (!$isEmailVerified) {
     $welcomecontent = 'le.dashboard.welcome.paidcontent';
     $headermsg      = 'le.dashboard.welcome.paid';
 }
@@ -30,7 +31,7 @@ if ($isPaid) {
     <div class="<?php echo $isHideBlock ? '' : ''?>">
         <div>
             <div class="row row-padding ">
-                <div class="col-sm-12 <?php echo $isPaid && $sendingDomainStatus ? 'hide' : '' ?>">
+                <div class="col-sm-12 <?php echo !$isEmailVerified && $sendingDomainStatus ? 'hide' : '' ?>">
                     <p class="dashboard-header-p">
                     <span style="font-size: 22px; line-height: 39px;">
                         <strong>
@@ -46,7 +47,7 @@ if ($isPaid) {
                     </p>
                     </p>
                 </div>
-                <div id="pricingplan" class="<?php echo $isPaid ? 'hide' : ''; ?> pricingplan-dashboard">
+                <div id="pricingplan" class="<?php echo $isPaid ? 'hide' : ''; ?> pricingplan-dashboard hide">
                     <?php echo $view->render('MauticSubscriptionBundle:Pricing:pricing.html.php'); ?>
                 </div>
                 <br>
@@ -56,7 +57,7 @@ if ($isPaid) {
                     </div>
                 </div>
             </div>
-            <div class="<?php echo $isPaid ? $sendingDomainStatus ? 'hide' : '' : 'hide' ?>">
+            <div class="<?php echo !$isEmailVerified ? $sendingDomainStatus ? 'hide' : '' : 'hide' ?>">
                 <div class="row" style="text-align: center;">
                     <div class="col-md-2">
                     </div>

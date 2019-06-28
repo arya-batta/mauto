@@ -588,7 +588,13 @@ class DripEmailController extends FormController
                     $email = $this->getModel('email');
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
-                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    $paymentrepository  =$this->get('le.subscription.repository.payment');
+                    $lastpayment        = $paymentrepository->getLastPayment();
+                    $prefix             = 'Trial';
+                    if ($lastpayment != null) {
+                        $prefix = 'Customer';
+                    }
+                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
                     $sendBtnClicked     =$form->get('buttons')->get('schedule')->isClicked();
                     $isUpdateFlashNeeded=true;
                     if (!$sendBtnClicked) {
@@ -776,7 +782,13 @@ class DripEmailController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -842,7 +854,13 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -1081,7 +1099,19 @@ class DripEmailController extends FormController
                 'leContent'     => 'dripemail',
             ],
         ];
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $smHelper = $this->get('le.helper.statemachine');
+        if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
+            $this->addFlash($this->translator->trans('le.email.unverified.error'));
+
+            return $this->viewAction($objectId);
+        }
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         $configurl   =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
         if ($isStateAlive) {
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));

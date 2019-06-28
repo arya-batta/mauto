@@ -6556,29 +6556,29 @@ text-align: center;
   width: 20%;
 }
 #upgrade-now {
-  border: 1px solid;
+  /*border: 1px solid;*/
   float: left;
   margin-left: 15px;
   font-weight: Bold;
   color: #75A4FA !important;
-  background-color: #fff;
-  border-color: #75A4FA !important;
+  background-color: #FFF;
+  /*border-color: #75A4FA !important;*/
   border-radius: 15px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-top: 10px;
+  margin-top: 11px;
   font-size: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 #upgrade-info-trial-info{
   background: transparent;
-  border-top: 1px solid #75A4FA;
-  border-bottom: 1px solid #75A4FA;
-  border-right: 1px solid #75A4FA;
-  color: #75A4FA;
+  border-top: 1px solid #FFF;
+  border-bottom: 1px solid #FFF;
+  border-right: 1px solid #FFF;
+  color: #FFF;
   margin-top: 10px;
-  margin-left: -12px;
+  margin-left: -10px;
   padding-left: 18px;
   padding-right: 10px;
   padding-top: 5px;

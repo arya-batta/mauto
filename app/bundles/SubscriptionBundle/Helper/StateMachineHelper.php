@@ -53,12 +53,17 @@ class StateMachineHelper
                                 'customer_active_card_expiring_soon'    => 'CK997TVB9',
                                 'customer_inactive_exit_cancel'         => 'CK997TVB9',
                                 'customer_inactive_archive'             => 'CK997TVB9',
+                                'trial_inactive_archive'                => 'CK997TVB9',
+                                'trial_inactive_under_review'           => 'CK997TVB9',
+                                'trial_inactive_sending_domain_issue'   => 'CK997TVB9',
+                                'trial_sending_domain_not_configured'   => 'CK997TVB9',
+                                'trial_unverified_email'                => 'CK997TVB9',
                                ];
 
     public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', /*'current_contact_size'=>'*Current Contact Size*',*/ 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
     public $basicLabel    = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'signup_location', 'signup_device', 'signup_page'];
     public $advanceLabel  = ['firstname', 'lastname', 'domain', 'mobile', 'email', 'account_creation_date', 'company_name', 'website_url', /*'current_contact_size',*/ 'existing_email_provider', 'city', 'country', 'gdpr_timezone', 'last_15_days_email_send', 'last_activity_in_app', 'signup_page'];
-    public $basictype     = ['new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
+    public $basictype     = ['trial_unverified_email', 'trial_inactive_archive', 'trial_inactive_under_review', 'trial_inactive_sending_domain_issue', 'trial_sending_domain_not_configured', 'new_signup', 'new_activated_signup', 'account_activation_failed', 'trial_inactive_expired', 'trial_inactive_suspended', 'failed_signup_email'];
 
     public function __construct(MauticFactory $factory, StateMachineRepository $smrepo)
     {
@@ -145,9 +150,24 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Customer_Inactive_Payment_Issue', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review'],
+                'state'   => ['Trial_Sending_Domain_Not_Configured', 'Trial_Unverified_Email', 'Trial_Inactive_Under_Review', 'Trial_Inactive_Sending_Domain_Issue', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended', 'Customer_Inactive_Payment_Issue', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review'],
                 'isalive' => true,
             ],
+            ['updatedOn'=> 'ASC'],
+            1,
+            0
+        );
+        if (sizeof($states) > 0) {
+            return $states[0];
+        } else {
+            return false;
+        }
+    }
+
+    public function getFirstStateEntity()
+    {
+        $states      =$this->smrepo->findBy(
+            [],
             ['updatedOn'=> 'ASC'],
             1,
             0
@@ -183,14 +203,15 @@ class StateMachineHelper
         $stateEntry->setReason($reason);
         $stateEntry->setUpdatedOn(new \DateTime());
         $this->smrepo->saveEntity($stateEntry);
-        if ($state == 'Customer_Inactive_Archive') {
+        if ($state == 'Customer_Inactive_Archive' || $state == 'Trial_Inactive_Archive') {
             //$elasticApiHelper= $this->factory->get('mautic.helper.elasticapi');
             //$elasticApiHelper->deleteSubAccount();
             $subsrepository=$this->factory->get('le.core.repository.subscription');
             $subsrepository->updateAppStatus($this->getAppDomain(), 'InActive');
         }
-        $this->addLeadNotes($state, $reason, 'Customer Enters into this State(s)');
-        if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured') {
+        $comment = 'Customer Enters into this State(s)';
+        $this->addLeadNotes($state, $reason, $comment);
+        if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured' && $state != 'Trial_Sending_Domain_Not_Configured') {
             $this->sendInternalSlackMessage($state);
         }
     }
@@ -207,16 +228,22 @@ class StateMachineHelper
         if ($currentuser->isAdmin()) {
             return false;
         }
+        $paymentrepository  =$this->factory->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
         $activeStates=$this->listAllActiveStates();
         if (in_array('Trial_Inactive_Expired', $activeStates)) {
             return $routerHelper->generate('le_pricing_index');
-        } elseif (in_array('Customer_Inactive_Suspended', $activeStates)) {
+        } elseif (in_array($prefix.'_Inactive_Suspended', $activeStates)) {
             return $routerHelper->generate('le_account_suspended_action');
-        } elseif (in_array('Customer_Inactive_Under_Review', $activeStates)) {
+        } elseif (in_array($prefix.'_Inactive_Under_Review', $activeStates)) {
             return $routerHelper->generate('le_account_under_review_action');
         } elseif (in_array('Customer_Inactive_Payment_Issue', $activeStates)) {
             return $routerHelper->generate('le_accountinfo_action', ['objectAction' => 'cardinfo']);
-        } elseif (in_array('Customer_Inactive_Sending_Domain_Issue', $activeStates)) {
+        } elseif (in_array($prefix.'_Inactive_Sending_Domain_Issue', $activeStates)) {
             return $routerHelper->generate('le_account_sending_domain_inactive_action');
         } else {
             return false;
@@ -231,7 +258,7 @@ class StateMachineHelper
         return $details[sizeof($details) - 1];
     }
 
-    public function createElasticSubAccountandAssign()
+    public function createElasticSubAccountandAssign($domain)
     {
         $elasticApiHelper= $this->factory->get('mautic.helper.elasticapi');
         $response        =$elasticApiHelper->createSubAccount();
@@ -247,7 +274,10 @@ class StateMachineHelper
                 // file_put_contents("/var/www/elapi.txt","222222:".$auresponse[1]."\n",FILE_APPEND);
             }
             $this->updateElasticAccountConfiguration($response[0], $response[1]);
+
+            return $domainCreated=$elasticApiHelper->createDomain($domain, $response[1]);
         } else {
+            return false;
             //file_put_contents("/var/www/elapi.txt","API Failed:".$response[1]."\n",FILE_APPEND);
         }
     }
@@ -389,7 +419,7 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Customer_Inactive_Archive', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended'],
+                'state'   => ['Customer_Inactive_Archive', 'Trial_Inactive_Archive', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended'],
                 'isalive' => true,
             ]
         );

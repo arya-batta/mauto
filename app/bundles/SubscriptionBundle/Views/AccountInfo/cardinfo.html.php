@@ -30,6 +30,7 @@ if ($lastpayment == null) {
         'actionRoute'         => $actionRoute,
         'planType'            => $planType,
         'planName'            => $planName,
+        'isEmailVerified'     => $isEmailVerified,
     ]); ?>
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto accountinfo">

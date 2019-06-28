@@ -119,12 +119,12 @@ class UpdatePaymentCommand extends ModeratedCommand
 //                                $multiplx   = $multiplx - 10;
 //                            }
                                 if ($isvalidityexpired) {
-                                    $monthdiff  =$this->getMonthDiff($firstPaymentdate, $currentdate);
-                                    $planamount = 0;
-                                    if ($monthdiff == 3) {
-                                        $planname   = 'leplan2';
-                                        $planamount = $translator->trans('le.pricing.plan.amount.'.$planname);
-                                    }
+                                    //$monthdiff  =$this->getMonthDiff($firstPaymentdate, $currentdate);
+                                    //$planamount = 0;
+                                    //if ($monthdiff == 3) {
+                                    //$planname   = 'leplan1';
+                                    $planamount = $translator->trans('le.pricing.plan.amount.'.$planname);
+                                    //}
                                     $curtotalcount  = $totalrecordcount - $plancredits;
                                     $curactualcount = $actualrecordcount - $plancredits;
                                     if ($curactualcount < 0) {

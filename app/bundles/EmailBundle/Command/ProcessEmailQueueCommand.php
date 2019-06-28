@@ -210,15 +210,21 @@ EOT
 
     public function checkEmailProviderStatus($container, $output)
     {
-        $smHelper=$container->get('le.helper.statemachine');
-        if (!$smHelper->isStateAlive('Customer_Inactive_Under_Review')) {
+        $smHelper           =$container->get('le.helper.statemachine');
+        $paymentrepository  =$container->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        if (!$smHelper->isStateAlive($prefix.'_Inactive_Under_Review')) {
             $elasticApiHelper=$container->get('mautic.helper.elasticapi');
             if (!$elasticApiHelper->checkAccountState()) {
-                $smHelper->makeStateInActive(['Customer_Active']);
-                $smHelper->newStateEntry('Customer_Inactive_Under_Review', '');
+                $smHelper->makeStateInActive([$prefix.'_Active']);
+                $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
                 $smHelper->addStateWithLead();
                 $smHelper->sendInactiveUnderReviewEmail();
-                $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
+                $output->writeln('<info>App enters into '.$prefix.'_Inactive_Under_Review</info>');
 
                 return false;
             } else {

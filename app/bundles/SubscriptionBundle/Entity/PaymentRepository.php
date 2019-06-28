@@ -70,10 +70,10 @@ class PaymentRepository extends CommonRepository
         if (!$isvalidityExpired) {
             $isAddOn=1;
         }
-        $planlabel = '3 Months Free Trial';
-        if ($planname == 'leplan2') {
-            $planlabel = 'Growth Plan';
-        }
+        //$planlabel = '3 Months Free Trial';
+        //if ($planname == 'leplan2') {
+        $planlabel = 'Growth Plan';
+        //}
         $paymenthistory=new PaymentHistory();
         $paymenthistory->setOrderID($orderid);
         $paymenthistory->setPaymentID($chargeid);

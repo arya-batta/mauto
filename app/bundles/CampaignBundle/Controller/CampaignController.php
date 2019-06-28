@@ -95,7 +95,13 @@ class CampaignController extends AbstractStandardFormController
         if ($ismobile) {
             return $this->editDenied($this->generateUrl('le_campaign_index'));
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
@@ -202,7 +208,13 @@ class CampaignController extends AbstractStandardFormController
 
     public function quickaddAction()
     {
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));

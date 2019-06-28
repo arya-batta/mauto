@@ -645,15 +645,20 @@ class AjaxController extends CommonAjaxController
         $paymentrepository            = $this->get('le.subscription.repository.payment');
         $lastpayment                  = $paymentrepository->getLastPayment();
         $licenseRemDays               = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+        $dataArray['success']         = false;
+        $infoMessage                  ='';
         if ($lastpayment == null && $licenseRemDays < 0) {
             if (!$smHelper->isStateAlive('Trial_Inactive_Expired')) {
                 $smHelper->makeStateInActive(['Trial_Active']);
                 $smHelper->newStateEntry('Trial_Inactive_Expired');
                 $smHelper->addStateWithLead();
             }
+        } elseif ($lastpayment == null && !$smHelper->isStateAlive('Trial_Inactive_Expired')) {
+            if ($licenseRemDays < 20) {
+                $configurl = $this->generateUrl('le_pricing_index');
+                //$infoMessage = $this->translator->trans('le.subscription.trial.expires.soon',['%DAYSCOUNT%' => $licenseRemDays, '%PRICING_URL%' => $configurl]);
+            }
         }
-        $dataArray['success']         = false;
-        $infoMessage                  ='';
         if ($state=$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
             $infoMessage=$smHelper->getAccountInActiveAlert($state);
         } elseif ($smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
@@ -1104,7 +1109,8 @@ class AjaxController extends CommonAjaxController
                     //$planname     = '90 Days Success Offer';
                     $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
-                    if (!$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+                    if ($smHelper->isStateAlive('Trial_Sending_Domain_Not_Configured')) {
+                        $smHelper->makeStateInActive(['Trial_Sending_Domain_Not_Configured']);
                         $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                         $smHelper->createElasticSubAccountandAssign();
                         $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
@@ -1117,7 +1123,7 @@ class AjaxController extends CommonAjaxController
                     $payment            =$paymentrepository->captureStripePayment($orderid, $chargeid, $amount, $amount, $plancredits, $plancredits, $validitytill, $planname, $createdby, $createdbyuser, 'Paid', true);
                     $subsrepository     =$this->get('le.core.repository.subscription');
                     $subsrepository->updateContactCredits($contactcredites, $validitytill, $todaydate, false, $emailplancredits);
-                    $statusurl            = $this->generateUrl('le_payment_status', ['id'=> $orderid]);
+                    $statusurl            = $this->generateUrl('le_dashboard_index');
                 //$signuprepository     =$this->get('le.core.repository.signup');
                     //$dbname               = $this->coreParametersHelper->getParameter('db_name');
                    // $appid                = str_replace('leadsengage_apps', '', $dbname);
@@ -1349,9 +1355,9 @@ class AjaxController extends CommonAjaxController
         $billingmodel  = $this->getModel('subscription.billinginfo');
         //$userEntity->setMobile($accountData['phone']);
         //$accountEntity->setPhonenumber($accountData['phone']);
-        $accountEntity->setWebsite($accountData['website']);
+        //$accountEntity->setWebsite($accountData['website']);
         $accountEntity->setAccountname($accountData['business']);
-        //$accountEntity->setEmail($userEntity->getEmail());
+        $accountEntity->setEmail($accountData['email']);
         $billingEntity->setCompanyname($accountData['business']);
         $billingEntity->setCompanyaddress($accountData['address']);
         //$billingEntity->setAccountingemail($userEntity->getEmail());
@@ -1359,8 +1365,8 @@ class AjaxController extends CommonAjaxController
         $billingEntity->setState($accountData['state']);
         $billingEntity->setCountry($accountData['country']);
         $billingEntity->setPostalcode($accountData['zipcode']);
-        $kyc->setSubscribercount($accountData['currentlist']);
-        $kyc->setPrevioussoftware($accountData['currentprovider']);
+        //$kyc->setSubscribercount($accountData['currentlist']);
+        //$kyc->setPrevioussoftware($accountData['currentprovider']);
 
         $signupinfo     = $subsrepository->getSignupInfo($accountEntity->getEmail());
         /*if (!empty($signupinfo)) {
@@ -1368,7 +1374,7 @@ class AjaxController extends CommonAjaxController
         }*/
         $billingmodel->saveEntity($billingEntity);
         $accountModel->saveEntity($accountEntity);
-        $kycmodel->saveEntity($kyc);
+        //$kycmodel->saveEntity($kyc);
         /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
         $configurator = $this->get('mautic.configurator');
         if ($accountData['address'] != '') {

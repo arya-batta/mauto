@@ -22,6 +22,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
         'actionRoute'         => $actionRoute,
         'planType'            => $planType,
         'planName'            => $planName,
+        'isEmailVerified'     => $isEmailVerified,
     ]); ?>
     <!-- container -->
     <div class="col-md-9 bg-auto height-auto accountinfo">

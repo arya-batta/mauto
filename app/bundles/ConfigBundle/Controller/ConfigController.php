@@ -33,8 +33,14 @@ class ConfigController extends FormController
      */
     public function editAction($objectId)
     {
-        $smHelper=$this->get('le.helper.statemachine');
-        if (!$smHelper->isStateAlive('Customer_Inactive_Sending_Domain_Issue')) {
+        $smHelper           =$this->get('le.helper.statemachine');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        if (!$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
             if ($redirectUrl=$smHelper->checkStateAndRedirectPage()) {
                 return $this->delegateRedirect($redirectUrl);
             }
@@ -284,7 +290,7 @@ class ConfigController extends FormController
                     'userapi'          => $userapi,
                     'sendingdomains'   => $emailModel->getRepository()->getAllSendingDomains(),
                     'emailreputations' => $elasticApiHelper->getReputationDetails(),
-                    'isTrialAccount'   => $smHelper->isStateAlive('Trial_Active'),
+                    'isTrialAccount'   => $smHelper->isStateAlive('Trial_Unverified_Email'),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:Config:form.html.php',
                 'passthroughVars' => [

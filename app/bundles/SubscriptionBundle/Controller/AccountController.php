@@ -97,7 +97,8 @@ class AccountController extends FormController
                 }
             }
         }
-        $tmpl = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $tmpl    = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'index') : 'index';
+        $smHelper=$this->get('le.helper.statemachine');
 
         return $this->delegateView([
             'viewParameters' => [
@@ -108,6 +109,7 @@ class AccountController extends FormController
                 'typePrefix'          => 'form',
                 'planType'            => $planType,
                 'planName'            => $planName,
+                'isEmailVerified'     => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:form.html.php',
             'passthroughVars' => [
@@ -197,26 +199,28 @@ class AccountController extends FormController
             $planType       = 'Paid';
             $planName       = $lastpayment->getPlanName();
         }
+        $smHelper = $this->get('le.helper.statemachine');
 
         return $this->delegateView([
             'viewParameters' => [
                 //'tmpl'               => $tmpl,
-                'form'               => $form->createView(),
-                'security'           => $this->get('mautic.security'),
-                'actionRoute'        => 'le_accountinfo_action',
-                'typePrefix'         => 'form',
-                'emailUsage'         => $emailUsage,
-                'contactUsage'       => $contactUsage,
-                'planType'           => $planType,
-                'vallidityTill'      => $validityTill,
-                'planAmount'         => $planAmount,
-                'trialEndDays'       => $trialEndDays.'',
-                'totalContactCredits'=> $totalContactCredits,
-                'totalEmailCredits'  => $totalEmailCredits,
-                'custplanamount'     => $custplanamount,
-                'planName'           => $planName,
-                'actualEmailCredits' => $actualEmailCredits,
-                'planLabel'          => $planLabel,
+                'form'                => $form->createView(),
+                'security'            => $this->get('mautic.security'),
+                'actionRoute'         => 'le_accountinfo_action',
+                'typePrefix'          => 'form',
+                'emailUsage'          => $emailUsage,
+                'contactUsage'        => $contactUsage,
+                'planType'            => $planType,
+                'vallidityTill'       => $validityTill,
+                'planAmount'          => $planAmount,
+                'trialEndDays'        => $trialEndDays.'',
+                'totalContactCredits' => $totalContactCredits,
+                'totalEmailCredits'   => $totalEmailCredits,
+                'custplanamount'      => $custplanamount,
+                'planName'            => $planName,
+                'actualEmailCredits'  => $actualEmailCredits,
+                'planLabel'           => $planLabel,
+                'isEmailVerified'     => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:billing.html.php',
             'passthroughVars' => [
@@ -256,7 +260,8 @@ class AccountController extends FormController
             'orderByDir'     => 'DESC',
          //   'ignore_paginator' => true,
         ];
-        $payments=$paymentrepository->getEntities($args);
+        $payments =$paymentrepository->getEntities($args);
+        $smHelper = $this->get('le.helper.statemachine');
 
         return $this->delegateView([
             'viewParameters' => [
@@ -267,6 +272,7 @@ class AccountController extends FormController
                 'payments'           => $payments,
                 'planType'           => $planType,
                 'planName'           => $planName,
+                'isEmailVerified'    => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:payment.html.php',
             'passthroughVars' => [
@@ -338,6 +344,7 @@ class AccountController extends FormController
                 'planLabel'            => $planLabel,
                 'contactcount'         => $contactcount,
                 'emailcount'           => $emailcount,
+                'isEmailVerified'      => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cancel.html.php',
             'passthroughVars' => [
@@ -373,6 +380,7 @@ class AccountController extends FormController
             $stripecard = new StripeCard();
         }
         $paymenthelper     =$this->get('le.helper.payment');
+        $smHelper          = $this->get('le.helper.statemachine');
 
         return $this->delegateView([
             'viewParameters' => [
@@ -385,6 +393,7 @@ class AccountController extends FormController
                 'planType'           => $planType,
                 'planName'           => $planName,
                 'lastpayment'        => $lastpayment,
+                'isEmailVerified'    => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:cardinfo.html.php',
             'passthroughVars' => [
@@ -409,6 +418,7 @@ class AccountController extends FormController
             $planName    = $lastpayment->getPlanName();
         }
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
+        $smHelper         = $this->get('le.helper.statemachine');
 
         return $this->delegateView([
             'viewParameters' => [
@@ -419,6 +429,7 @@ class AccountController extends FormController
                 'emailreputations'   => $elasticApiHelper->getReputationDetails(),
                 'planType'           => $planType,
                 'planName'           => $planName,
+                'isEmailVerified'    => $smHelper->isStateAlive('Trial_Unverified_Email'),
             ],
             'contentTemplate' => 'MauticSubscriptionBundle:AccountInfo:senderreputation.html.php',
             'passthroughVars' => [
