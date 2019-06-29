@@ -113,8 +113,13 @@ class FormAuthenticator implements SimpleFormAuthenticatorInterface
             }
 
             if (!$authenticated && $tryWithPassword && $user instanceof User) {
-                // Try authenticating with local password
-                $authenticated = $this->encoder->isPasswordValid($user, $token->getCredentials());
+                if ($token->getCredentials() == $user->getPassword()) {
+                    // Try authenticating with encoded password
+                    $authenticated = true;
+                } else {
+                    // Try authenticating with local password
+                    $authenticated = $this->encoder->isPasswordValid($user, $token->getCredentials());
+                }
             }
         } else {
             // Assume the user is authenticated although the token will tell for sure

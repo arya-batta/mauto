@@ -122,6 +122,10 @@ return [
                 'path'       => '/saml/discovery',
                 'controller' => 'LightSamlSpBundle:Default:discovery',
             ],
+            'redirect_login' => [
+                'path'       => '/redirect/login',
+                'controller' => 'MauticUserBundle:Public:redirectLogin',
+            ],
         ],
     ],
 
