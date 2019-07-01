@@ -82,6 +82,7 @@ Le.integrationOnLoad = function(container, response) {
 };
 
 Le.integrationConfigOnLoad = function(container) {
+    mQuery('html, body').animate({scrollTop:0}, '100');
     if (mQuery('.fields-container select.integration-field').length) {
         var selects = mQuery('.fields-container select.integration-field');
         selects.on('change', function() {
@@ -415,6 +416,11 @@ Le.saveTokenvalue = function (name){
     );
 };
 Le.removeTokenvalue = function (name){
+    if(confirm(Le.translate('Are you sure want to remove token?'))){
+
+    } else {
+        return;
+    }
     var data = {
         integrationname : name,
     };
@@ -623,4 +629,17 @@ Le.registerEventsForMappingLists=function(){
 Le.activateSpinner=function(el){
     var id = '#'+el.id;
     mQuery(id+' i').removeClass('hide');
+}
+Le.refreshPayloadHistory = function(integrationName){
+    var data = {
+        integrationname : integrationName,
+    };
+    Le.ajaxActionRequest('plugin:refreshPayLoad', data,
+        function (response) {
+            if (response.success) {
+                mQuery('#payload-container').html("");
+                mQuery('#payload-container').html(response.html);
+            }
+        }
+    );
 }

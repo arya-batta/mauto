@@ -406,7 +406,7 @@ class CampaignSubscriber extends CommonSubscriber
         }
         if ($isStateAlive) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }
@@ -471,7 +471,7 @@ class CampaignSubscriber extends CommonSubscriber
         $lead        = $event->getLead();
         $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
 
             return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
         }

@@ -460,7 +460,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
                             $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
                             if ($entity->isPublished() && $isStateAlive) {
                                 $isUpdateFlashNeeded=false;
-                                $configurl          =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+                                $configurl          =$this->factory->getRouter()->generate('le_sendingdomain_action');
                                 $entity->setIsPublished(false);
                                 $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'workflow']));
                             }

@@ -22,7 +22,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    padding-top: 30px;
+    /*padding-top: 30px;*/
 }
 .integration-step .step-content{
     -webkit-box-flex: 1;
@@ -32,7 +32,7 @@
 }
 .integration-container{
     /*margin: 0 auto;*/
-    width: 85%;
+    width: 90%;
     line-height: 2;
     padding: 20px;
 }
@@ -45,7 +45,7 @@
 }
 
 .integration-click-btn{
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     background: #3292e0;
     color: #fff;
     border: 1px solid #3292e0;
@@ -94,7 +94,7 @@
 .payload-noresult{
     width: 100%;
     text-align: center;
-    font-weight: 700;
+    font-weight: normal;
     font-size: 16px;
 }
 .btn-field-mapping{
@@ -113,8 +113,14 @@
     font-weight: normal;
     color: #000;
 }
-.integration-container h3{
-    font-size: 22px;
-    font-weight: normal;
-    color: #000;
+.integration-container span{
+    font-size: 16px;
+    font-weight: bold;
+    /*color: #000;*/
+}
+.step-padding{
+    padding-top: 10px;
+}
+.integration-container li{
+    margin-left: 50px;
 }

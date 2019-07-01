@@ -72,25 +72,40 @@ class ConfigType extends AbstractType
                 }
             }
         );
-
-        $builder->add(
-            'buttons',
-            'form_buttons',
-            [
-                'pre_extra_buttons' => [
+        if (count($options['fileFields']) > 0) {
+            $builder->add(
+                'buttons',
+                'form_buttons',
                 [
-                    'name'  => 'sendingdomain',
-                    'label' => 'le.config.tab.sendingdomain.add',
-                    'attr'  => [
-                        'class' => 'btn btn-default le-btn-default',
+                    'pre_extra_buttons' => [
                     ],
-                ],
-            ],
-                'apply_text'    => 'mautic.core.form.save',
-                'apply_onclick' => 'Le.activateBackdrop()',
-                'save_onclick'  => 'Le.activateBackdrop()',
-            ]
-        );
+                    'apply_text'    => 'mautic.core.form.save',
+                    'apply_onclick' => 'Le.activateBackdrop()',
+                    'save_onclick'  => 'Le.activateBackdrop()',
+                ]
+            );
+        } else {
+            $builder->add(
+                'buttons',
+                'form_buttons',
+                [
+                    'pre_extra_buttons' => [
+                        [
+                            'name'  => 'sendingdomain',
+                            'label' => 'le.config.tab.sendingdomain.add',
+                            'attr'  => [
+                                'class' => 'btn btn-default le-btn-default sendingdomain_config hide',
+                            ],
+                        ],
+                    ],
+                    'apply_text'    => false,
+                    'save_text'     => false,
+                    'cancel_text'   => false,
+                    'apply_onclick' => 'Le.activateBackdrop()',
+                    'save_onclick'  => 'Le.activateBackdrop()',
+                ]
+            );
+        }
 
         if (!empty($options['action'])) {
             $builder->setAction($options['action']);

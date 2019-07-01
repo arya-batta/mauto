@@ -16,37 +16,38 @@ $view['slots']->set('headerTitle', $header);
 <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
     <div class="integration-container">
         <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_custom_audiences.png'); ?>">
-        <h3>Integration Instructions</h3>
-        <p>
-            Send person data to your Facebook Custom Audiences.
-            <a class="integration-help-link" href="https://www.facebook.com/business/a/custom-audiences" target="_blank">Click here to learn more.</a>
-        </p>
+        <br>
+        <span>Summary</span>
+        <li>
+            This integration will allow you to send selected or segment of leads from your AnyFunnels account to facebook custom audience
+        </li>
         <div class="integration-step">
             <div class="step-content">
-                <h3>Step 1:</h3>
-                <h3>Grant access to your Facebook account</h3>
+                <span>Step 1: (Grant Access & Connect to Facebook)</span>
                 <?php if (!$details['authorization']): ?>
                     <div>
-                        <p>Click below to authorize Anyfunnels to access your account.</p>
+                        <li>Allow AnyFunnels to access your Facebook account</li>
+                        <li>Current Status: <b>Not Connected</b></li>
                         <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_new_integration_auth_user', ['integration' => $name]) ?>">Authorize</a>
                     </div>
                 <?php else: ?>
                     <div>
-                        <p>Anyfunnels is already authorized to access the Facebook account for <strong><?php echo $details['accountname'] ?></strong>. Click below to remove the access token we have on file and to stop sending Anyfunnels lead to Facebook.</p>
-                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle="ajax">Remove</a>
+                        <li>Current Status: <b>Connected</b></li>
+                        <li>Connected (Authorized as <strong><?php echo $details['accountname'] ?></strong>)</li>
+                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
-        <div class="integration-step">
+        <div class="integration-step step-padding">
             <div class="step-content">
-                <h3>Step 2 :</h3>
-                <h3>Set up automation workflow rules:</h3>
-                <p style="line-height: 1.7;">To add people to your custom audiences, create an action in <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose <b>Facebook</b> as the provider. Choose the appropriate action.</p>
-                <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_custom_audiences_help1.png'); ?>">
+                <span>Step 2: (Setup Trigger to send lead data to facebook custom audience list)</span>
+                <li style="line-height: 1.7;">Set up automation workflow rules that will send lead data to specific list of facebook custom audience.</li>
+                <li style="line-height: 1.7;">Please note that facebook takes few minutes to a few hours to complete the sync operations at their end.</li>
+                <br>
+                <img style="width: 60%;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_custom_audiences_help1.png'); ?>">
                 <br><br>
-                <p> Then select your account and audience to configure your action.</p>
-                <img style="width: auto;height: 370px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_custom_audiences_help2.png'); ?>">
+                <img style="width: 60%;height: 370px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_custom_audiences_help2.png'); ?>">
             </div>
         </div>
     </div>

@@ -343,7 +343,7 @@ Le.configOnLoad = function (container){
        Le.hideConfigButtonsByTabSelect(mQuery(this).attr('href'));
    });
    var selectedConfigtab=mQuery("ul[class='list-group list-group-tabs']").find("li[class='list-group-item in active']").find("a[class='steps']");
-   Le.hideConfigButtonsByTabSelect(selectedConfigtab.attr('href'));
+   //Le.hideConfigButtonsByTabSelect(selectedConfigtab.attr('href'));
     mQuery('#config_buttons_sendingdomain_toolbar').click(function(e) {
         e.preventDefault();
         mQuery('#sender_domain_name').val('');
@@ -494,7 +494,7 @@ Le.hideConfigButtonsByTabSelect=function(tabSelect){
         mQuery("#config_buttons_cancel_toolbar").addClass("hide");
         mQuery("#config_buttons_save_toolbar").addClass("hide");
         mQuery("#config_buttons_apply_toolbar").addClass("hide");
-        mQuery("#config_buttons_sendingdomain_toolbar").removeClass("hide");
+        mQuery(".sendingdomain_config").removeClass("hide");
     }else{
         mQuery("#config_buttons_cancel_toolbar").removeClass("hide");
         mQuery("#config_buttons_save_toolbar").removeClass("hide");

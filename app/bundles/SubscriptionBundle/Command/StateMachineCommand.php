@@ -128,6 +128,8 @@ class StateMachineCommand extends ModeratedCommand
                     $dtHelper          =new DateTimeHelper();
                     $diffdays          =$dtHelper->getDiff($updatedOn, '%R%a', true);
                     if ($diffdays >= 3) {
+                        $updatedOn=$dtHelper->getLocalDateTime();
+                        $updatedOn=$container->get('mautic.helper.template.date')->toDate($updatedOn, 'local');
                         $smHelper->makeStateInActive(['Trial_Unverified_Email']);
                         $smHelper->newStateEntry('Trial_Inactive_Archive', $smHelper->getAlertMessage('le.subscription.isactive.archive.unverified.email.reason', ['%DATE%' => $updatedOn, '%DAYS%' => $diffdays]));
                         $smHelper->addStateWithLead();

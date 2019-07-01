@@ -60,6 +60,7 @@ class ConfigController extends FormController
 
         // Create the form
         $action = $this->generateUrl('le_config_action', ['objectAction' => 'edit']);
+        unset($formConfigs['apiconfig']);
         $form   = $this->get('form.factory')->create(
             'config',
             $formConfigs,
@@ -510,6 +511,167 @@ class ConfigController extends FormController
                     'activeLink'    => '#le_config_index',
                     'leContent'     => 'config',
                     'route'         => $this->generateUrl('le_settingsmenu_action'),
+                ],
+            ]
+        );
+    }
+
+    public function sendingDomainAction()
+    {
+        $smHelper           =$this->get('le.helper.statemachine');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $prefix             = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
+        if (!$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
+            if ($redirectUrl=$smHelper->checkStateAndRedirectPage()) {
+                return $this->delegateRedirect($redirectUrl);
+            }
+        }
+        //admin only allowed
+        if (!$this->user->isAdmin() && !$this->user->isCustomAdmin()) {
+            return $this->accessDenied();
+        }
+        // Create the form
+        $action = $this->generateUrl('le_sendingdomain_action');
+        $form   = $this->get('form.factory')->create(
+            'config',
+            [],
+            [
+                'action'     => $action,
+                'fileFields' => [],
+            ]
+        );
+        /** @var \Mautic\EmailBundle\Model\EmailModel $emailModel */
+        $emailModel          = $this->factory->getModel('email');
+        $awsEmailRepository  =$emailModel->getAwsVerifiedEmailsRepository();
+        $awsemailstatus      =$awsEmailRepository->getEntities();
+        $tmpl                = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'config') : 'config';
+        $elasticApiHelper    = $this->get('mautic.helper.elasticapi');
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator   = $this->get('mautic.configurator');
+        $isWritabale    = $configurator->isFileWritable();
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'tmpl'             => $tmpl,
+                    'security'         => $this->get('mautic.security'),
+                    'form'             => $form->createView(),
+                    'formConfigs'      => [],
+                    'isWritable'       => $isWritabale,
+                    'verifiedEmails'   => $awsemailstatus,
+                    'lastPayment'      => $lastpayment,
+                    'EmailList'        => $emailModel->getAllEmailAddress(),
+                    'sendingdomains'   => $emailModel->getRepository()->getAllSendingDomains(),
+                    'emailreputations' => $elasticApiHelper->getReputationDetails(),
+                    'isTrialAccount'   => $smHelper->isStateAlive('Trial_Unverified_Email'),
+                ],
+                'contentTemplate' => 'MauticEmailBundle:Config:sendingdomain.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_config_index',
+                    'leContent'     => 'config',
+                    'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
+                ],
+            ]
+        );
+    }
+
+    public function apiSettingsAction()
+    {
+        //admin only allowed
+        if (!$this->user->isAdmin() && !$this->user->isCustomAdmin()) {
+            return $this->accessDenied();
+        }
+        $event      = new ConfigBuilderEvent($this->get('mautic.helper.paths'), $this->get('mautic.helper.bundle'), $this->user->isAdmin());
+        $dispatcher = $this->get('event_dispatcher');
+        $dispatcher->dispatch(ConfigEvents::CONFIG_ON_GENERATE, $event);
+        $fileFields  = $event->getFileFields();
+        $formThemes  = $event->getFormThemes();
+        $formConfigs = $this->get('mautic.config.mapper')->bindFormConfigsWithRealValues($event->getForms());
+        $doNotChange = $this->coreParametersHelper->getParameter('security.restrictedConfigFields');
+        $this->mergeParamsWithLocal($formConfigs, $doNotChange);
+        // Create the form
+        $action = $this->generateUrl('le_apisettings_action');
+        unset($formConfigs['emailconfig']);
+        unset($formConfigs['analyticsconfig']);
+        unset($formConfigs['smsconfig']);
+        unset($formConfigs['trackingconfig']);
+        $form   = $this->get('form.factory')->create(
+            'config',
+            $formConfigs,
+            [
+                'action'     => $action,
+                'fileFields' => $fileFields,
+            ]
+        );
+        /** @var \Mautic\CoreBundle\Configurator\Configurator $configurator */
+        $configurator   = $this->get('mautic.configurator');
+        $isWritabale    = $configurator->isFileWritable();
+        if ($this->request->getMethod() == 'POST') {
+            if (!$cancelled = $this->isFormCancelled($form)) {
+                $isValid = false;
+                if ($isWritabale && $isValid = $this->isFormValid($form)) {
+                    $post     = $this->request->request;
+                    $formData = $form->getData();
+
+                    try {
+                        $apiEnabled = $formData['apiconfig']['api_enabled'];
+                        $configurator->mergeParameters(['api_enabled' => $apiEnabled]);
+                        $configurator->write();
+
+                        $this->addFlash('mautic.config.config.notice.updated');
+
+                        // We must clear the application cache for the updated values to take effect
+                        /** @var \Mautic\CoreBundle\Helper\CacheHelper $cacheHelper */
+                        $cacheHelper = $this->get('mautic.helper.cache');
+                        $cacheHelper->clearContainerFile();
+                        $cacheHelper->clearRoutingCache();
+                    } catch (\RuntimeException $exception) {
+                        $this->addFlash('mautic.config.config.error.not.updated', ['%exception%' => $exception->getMessage()], 'error');
+                    }
+                } elseif (!$isWritabale) {
+                    $form->addError(
+                        new FormError(
+                            $this->translator->trans('mautic.config.notwritable')
+                        )
+                    );
+                }
+            }
+
+            // If the form is saved or cancelled, redirect back to the dashboard
+            if ($cancelled || $isValid) {
+                if (!$cancelled && $this->isFormApplied($form)) {
+                    return $this->delegateRedirect($this->generateUrl('le_apisettings_action'));
+                } else {
+                    $loginsession = $this->get('session');
+
+                    $loginsession->set('isLogin', false);
+
+                    return $this->delegateRedirect($this->generateUrl('le_apisettings_action'));
+                }
+            }
+        }
+        $tmpl             = $this->request->isXmlHttpRequest() ? $this->request->get('tmpl', 'config') : 'config';
+        $userapi          = $this->user->getApiKey();
+
+        return $this->delegateView(
+            [
+                'viewParameters' => [
+                    'tmpl'             => $tmpl,
+                    'security'         => $this->get('mautic.security'),
+                    'form'             => $this->setFormTheme($form, 'MauticConfigBundle:Config:form.html.php', $formThemes),
+                    'formConfigs'      => $formConfigs,
+                    'isWritable'       => $isWritabale,
+                    'userApi'          => $userapi,
+                ],
+                'contentTemplate' => 'MauticApiBundle:Config:apisettings.html.php',
+                'passthroughVars' => [
+                    'activeLink'    => '#le_config_index',
+                    'leContent'     => 'config',
+                    'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
                 ],
             ]
         );

@@ -508,4 +508,34 @@ class AjaxController extends CommonAjaxController
 
         return $this->sendJsonResponse($dataArray);
     }
+
+    public function refreshPayLoadAction(Request $request)
+    {
+        $name      = $request->request->get('integrationname');
+        $dataArray = ['success' => 0];
+        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $integrationHelper */
+        $integrationHelper                 = $this->factory->getHelper('integration');
+        $integrationrepo                   =$integrationHelper->getIntegrationRepository();
+
+        $integrations      =$integrationrepo->findBy(
+            [
+                'name' => $name,
+            ]
+        );
+        if (sizeof($integrations) > 0) {
+            $integrationentity = $integrations[0];
+            $payloadData       = $integrationentity->getPayLoad(200);
+            $html              = $this->render('MauticPluginBundle:Integrations:payload_history.html.php', [
+                'payloads' => $payloadData,
+                'name'     => $name,
+            ])->getContent();
+
+            $dataArray['success'] = 1;
+            $dataArray['html']    = $html;
+        } else {
+            $dataArray['html']    = '';
+        }
+
+        return $this->sendJsonResponse($dataArray);
+    }
 }

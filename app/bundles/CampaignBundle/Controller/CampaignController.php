@@ -103,7 +103,7 @@ class CampaignController extends AbstractStandardFormController
         }
         $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
 
             return $this->postActionRedirect(
@@ -216,7 +216,7 @@ class CampaignController extends AbstractStandardFormController
         }
         $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
 
             return $this->postActionRedirect(

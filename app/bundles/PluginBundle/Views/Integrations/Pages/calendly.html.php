@@ -40,11 +40,14 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
         <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
             <div class="integration-container">
                 <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/calendly.png'); ?>">
-                <h3>Integration Instructions</h3>
+                <br>
+                <span>Summary</span>
+                <li>This integration will allow you to start an action in your AnyFunnels account when a user creates an event in Calendy page.</li>
                 <div class="integration-step">
                     <div class="step-content">
-                        <h3>Step 1:</h3>
-                        <h3>Register your Calendly authentication token with AnyFunnels:</h3>
+                        <span>Step 1: (Setup & Configure Calendy Token)</span>
+                        <li>Go to your Calendy account, Go to Integration and copy the Calendy token code as per the video below</li>
+                        <li>Paste the token key and register the calendy authentication token with AnyFunnels</li>
                         <div class="<?php echo $name; ?>-container <?php echo isset($details['calendlytoken']) ? 'hide' : ''?>">
                             <div class="form-group col-xs-12"  style="margin-top:10px;">
                                 <label class="control-label" style="margin-left: -10px;font-weight: bold;" >Token</label>
@@ -77,24 +80,39 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
                                 </table>
                             </div>
                         </div>
-                        <div>
+                        <div class="hide">
                             <br>
-                            <h3>How to generate your Calendly token:</h3>
+                            <span>How to generate your Calendly token:</span>
                             <p>Instructions for finding your token can be <a class="integration-help-link" href="https://developer.calendly.com/docs/getting-your-authentication-token">found here</a>.</p>
                         </div>
-                        <img style="height:auto;width:100%;" src="<?php echo $view['assets']->getUrl('media/images/integrations/'.$name.'.gif'); ?>">
+
                     </div>
                 </div>
-                <div class="integration-step">
+                <div class="integration-step step-padding">
                     <div class="step-content">
-                        <h3>Step 2 :</h3>
-                        <h3>Set up automation workflow rules:</h3>
-                        <p style="line-height: 1.7;">Anytime a contact creates or cancels an event in Calendly, we will automatically add them as a Lead (if they are not already in your account) in AnyFunnels.</p>
-                        <p style="line-height: 1.7;">To perform an action when a contact <code>creates or cancels an event</code>, create a <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> where the trigger is set to a Calendly event.</p>
-                        <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/calendly_help1.png'); ?>">
+                        <span>Step 2: (Optional - Field Mapping)</span>
+                        <li>Check Field Mapping and map all lead fields to Anyfunnels Lead form fields.</li>
+                        <li>By default we will take the email field alone if the field mapping is empty</li>
+                        <br>
+                        <img style="height:auto;width:60%;" src="<?php echo $view['assets']->getUrl('media/images/integrations/'.$name.'.gif'); ?>">
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 3: (Optional - Test Sample Data Transfer)</span>
+                        <li>Check Transaction Logs to make sure you receive the data from integration for your first sample test data.</li>
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 4: (Configure Trigger for handling Incoming Data)</span>
+                        <li>Set up automation workflow rules that will be triggered whenever you create or cancel an event in your calendy account.</li>
+                        <li>Please note that a new lead is created when an event is triggered.</li>
+                        <li>The lead creation is skipped if the lead is already present in the AnyFunnels account.</li>
+                        <br>
+                        <img style="width: 60%;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/calendly_help1.png'); ?>">
                         <br><br>
-                        <p>Optionally, enter the name of the specific event name you want to trigger your automation.</p>
-                        <img style="width: auto;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/calendly_help2.png'); ?>">
+                        <img style="width: 60%;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/calendly_help2.png'); ?>">
                     </div>
                 </div>
             </div>
@@ -110,7 +128,10 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
     <div class="tab-pane fade in bdr-w-0" id="payload-container">
         <?php echo $view->render(
             'MauticPluginBundle:Integrations:payload_history.html.php',
-            ['payloads'=> $payloads]
+            [
+                'payloads' => $payloads,
+                'name'     => $name,
+            ]
         ); ?>
     </div>
 </div>

@@ -85,7 +85,7 @@ class ConfigModel extends AbstractCommonModel
                 'Sending Domain' => [
                     'name'=> 'Sending Domain',
                     'img' => 'Sending-Domain.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']),
+                    'url' => $this->router->generate('le_sendingdomain_action'),
                 ],
                 'Email Settings' => [
                     'name'=> 'Email Settings',
@@ -140,7 +140,7 @@ class ConfigModel extends AbstractCommonModel
                 'API Key & Doc' => [
                     'name'=> 'API Key & Doc',
                     'img' => 'Developer-API.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'apiconfig']),
+                    'url' => $this->router->generate('le_apisettings_action'),
                 ],
                 'Webhooks' => [
                     'name'=> 'Webhooks',

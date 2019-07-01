@@ -39,26 +39,26 @@ $view['slots']->set('headerTitle', $header);
         <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
             <div class="integration-container">
                 <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads.png'); ?>">
-                <h3>Integration Instructions</h3>
-                <p>
-                    Facebook Lead Ads allow you to gather contact data directly from your Facebook ads.
-                    <a class="integration-help-link" href="https://www.facebook.com/business/news/lead-ads-launch" target="_blank">Click here to learn more.</a>
-                </p>
+                <br><span>Summary</span>
+                <li>
+                    This integration will allow you to create lead in your AnyFunnels account when a user submits a Facebook Lead Ad.
+                </li>
                 <div class="integration-step">
                     <div class="step-content">
-                        <h3>Step 1:</h3>
-                        <h3>Grant AnyFunnels access to your Facebook account:</h3>
+                        <span>Step 1: (Grant Access & Connect to Facebook)</span>
                         <?php if (!$details['authorization']): ?>
                             <div>
-                                <p>Click below to authorize Anyfunnels to access your account.</p>
+                                <li>Allow AnyFunnels to access your Facebook account</li>
+                                <li>Current Status: <b>Not Connected</b></li>
                                 <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_new_integration_auth_user', ['integration' => $name]) ?>">Authorize</a>
                             </div>
                         <?php else: ?>
                             <div>
-                                <p>Anyfunnels is already authorized to access the Facebook account for <strong><?php echo $details['accountname'] ?></strong>. Click below to remove the access token we have on file and to stop sending Facebook leads to Anyfunnels.</p>
-                                <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle="ajax">Remove</a>
+                                <li>Current Status: <b>Connected</b></li>
+                                <li>Connected (Authorized as <strong><?php echo $details['accountname'] ?></strong>)</li>
+                                <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
                             </div>
-                            <div class="table-responsive integration-table-box">
+                            <div class="table-responsive integration-table-box" style="width:75%;">
                                 <table class="table table-bordered">
                                     <thead>
                                     <th ><b>Page</b></th>
@@ -75,8 +75,9 @@ $view['slots']->set('headerTitle', $header);
                                                     <?php
                                                     $action     =$page[2] ? 'unsubscribe' : 'subscribe';
                                                     $actionlabel=$page[2] ? 'UnSubscribe' : 'Subscribe';
+                                                    $confirm    = $page[2] ? "data-toggle='confirmation' data-message='Do you want to UnSubscribe?' data-confirm-text='UnSubscribe' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'" : "data-toggle='ajax'";
                                                     ?>
-                                                    <a id="subscribe-btn" class="btn btn-default" href="<?php echo $view['router']->path('le_integrations_fb_page_subscription', ['integration' => $name, 'pageid'=>$page[0], 'action' => $action]) ?>" data-toggle="ajax" onclick="Le.activateSpinner(this);"><span><i class="mr-5 fa fa-spinner fa-spin hide"></i></span><?php echo $actionlabel ?></a>
+                                                    <a id="subscribe-btn" class="btn btn-default" href="<?php echo $view['router']->path('le_integrations_fb_page_subscription', ['integration' => $name, 'pageid'=>$page[0], 'action' => $action]) ?>" <?php echo $confirm; ?> onclick="Le.activateSpinner(this);"><span><i class="mr-5 fa fa-spinner fa-spin hide"></i></span><?php echo $actionlabel ?></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -94,15 +95,26 @@ $view['slots']->set('headerTitle', $header);
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="integration-step">
+                <div class="integration-step step-padding">
                     <div class="step-content">
-                        <h3>Step 2 :</h3>
-                        <h3>Set up automation workflow rules:</h3>
-                        <p style="line-height: 1.7;">To perform an action any time a contact is added via Facebook, create a <code>Submitted a landing page</code> <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> trigger.</p>
-                        <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help1.png'); ?>">
+                        <span>Step 2: (Optional - Field Mapping)</span>
+                        <li>Check Field Mapping and map all lead fields to Anyfunnels Lead form fields.</li>
+                        <li>By default we will take the name, email field alone if the field mapping is empty.</li>
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 3: (Optional - Test Sample Data Transfer)</span>
+                        <li>Check Transaction Logs to make sure you receive the data from integration for your first sample test data.</li>
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 4: (Configure Trigger for handling Incoming Data)</span>
+                        <li>Set up automation workflow rules that will be triggered whenever you receive a lead from Facebook Integration.</li>
+                        <img style="width: 60%;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help1.png'); ?>">
                         <br><br>
-                        <p>Then choose your page and form to configure your trigger.</p>
-                        <img style="width: auto;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help2.png'); ?>">
+                        <img style="width: 60%;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/facebook_lead_ads_help2.png'); ?>">
                     </div>
                 </div>
             </div>
@@ -118,7 +130,10 @@ $view['slots']->set('headerTitle', $header);
     <div class="tab-pane fade in bdr-w-0" id="payload-container">
         <?php echo $view->render(
             'MauticPluginBundle:Integrations:payload_history.html.php',
-            ['payloads'=> $payloads]
+            [
+                'payloads' => $payloads,
+                'name'     => $name,
+            ]
         ); ?>
     </div>
 </div>

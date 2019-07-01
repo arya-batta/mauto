@@ -19,6 +19,14 @@ return [
                     'objectId' => 'emailconfig',
                 ],
             ],
+            'le_sendingdomain_action' => [
+                'path'       => '/config/sendingdomain',
+                'controller' => 'MauticConfigBundle:Config:sendingDomain',
+            ],
+            'le_apisettings_action' => [
+                'path'       => '/config/apisettings',
+                'controller' => 'MauticConfigBundle:Config:apiSettings',
+            ],
             'le_settingsmenu_action' => [
                 'path'       => '/settings',
                 'controller' => 'MauticConfigBundle:Config:settingsMenu',

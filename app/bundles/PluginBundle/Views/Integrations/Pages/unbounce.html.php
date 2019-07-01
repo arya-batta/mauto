@@ -40,38 +40,52 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
         <div class="panel panel-default bdr-t-wdh-0 mb-0 list-panel-padding">
             <div class="integration-container">
                 <img style="width: auto;height: 100px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/unbounce.png'); ?>">
-                <h3>Integration Instructions</h3>
+                <br>
+                <span>Summary</span>
+                <li>This integration will allow you to create lead in your AnyFunnels account when a user submits a lead in Unbounce account.</li>
                 <div class="integration-step">
                     <div class="step-content">
-                        <h3>Step 1:</h3>
-                        <h3>Register the following webhook in your Unbounce account:</h3>
-                        <input type="text" id="unbouncecallback" value="<?php echo $url; ?>" readonly="readonly" class="form-control webhook-integration-url" style="margin-top:10px;">
-                        <a id="unbouncecallback_atag" onclick="Le.copytoClipboardforms('unbouncecallback');">
+                        <span>Step 1: (Setup & Configure Webhooks)</span>
+                        <input type="text" id="unbouncecallback" value="<?php echo $url; ?>" readonly="readonly" class="form-control webhook-integration-url" style="margin-top:10px;width:60%;margin-left:50px;">
+                        <a style="margin-left:50px;" id="unbouncecallback_atag" onclick="Le.copytoClipboardforms('unbouncecallback');">
                             <i aria-hidden="true" class="fa fa-clipboard"></i>
                             <?php echo $view['translator']->trans(
                                 'leadsengage.subs.clicktocopy'
                             ); ?>
                         </a>
-                        <div>
+                        <div style="margin-left:0px;">
                             <br>
-                            <p>Enter the URL above and set your webhook to "Send POST + JSON".</p>
+                            <li>Copy the callback url and you need to paste this inside your Unbounce account webhooks section.</li>
+                            <li>Go to your Unbounce account, Go to settings->Integration and follow the instructions as per the video below</li>
                         </div>
-                        <img style="height:auto;width:100%;" src="<?php echo $view['assets']->getUrl('media/images/integrations/'.$name.'.gif'); ?>">
+                        <br>
+                        <img style="height:auto;width:60%;" src="<?php echo $view['assets']->getUrl('media/images/integrations/'.$name.'.gif'); ?>">
                         <br>
                         <div>
-                            <p><b>Note:</b>Email field is mandatory to create lead.</p>
+                            <p>Please note that the email field is mandatory to create a lead</p>
                         </div>
                     </div>
                 </div>
-                <div class="integration-step">
+                <div class="integration-step step-padding">
                     <div class="step-content">
-                        <h3>Step 2 :</h3>
-                        <h3>Set up automation workflow rules:</h3>
-                        <p>Create a trigger in <a class="integration-help-link" href="<?php echo $view['router']->path('le_campaign_index', ['page' => 1]) ?>">workflow</a> and choose Unbounce as the provider and <code> Submitted a landing page</code> as the event.</p>
-                        <img style="width: auto;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/unbounce_help1.png'); ?>">
+                        <span>Step 2: (Optional - Field Mapping)</span>
+                        <li>Check Field Mapping and map all lead fields to Anyfunnels Lead form fields.</li>
+                        <li>By default we will take the email field alone if the field mapping is empty</li>
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 3: (Optional - Test Sample Data Transfer)</span>
+                        <li>Check Transaction Logs to make sure you receive the data from integration for your first sample test data.</li>
+                    </div>
+                </div>
+                <div class="integration-step step-padding">
+                    <div class="step-content">
+                        <span>Step 4: (Configure Trigger for handling Incoming Data)</span>
+                        <li>Set up automation workflow rules that will be triggered whenever you receive a lead from Unbounce Integration.</li>
+                        <img style="width: 60%;height: 230px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/unbounce_help1.png'); ?>">
                         <br><br>
-                        <p>Optionally, enter the name of the specific landing page you want to trigger your automation.</p>
-                        <img style="width: auto;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/unbounce_help2.png'); ?>">
+                        <img style="width: 60%;height: 350px;" src="<?php echo $view['assets']->getUrl('media/images/integrations/unbounce_help2.png'); ?>">
                     </div>
                 </div>
             </div>
@@ -87,7 +101,10 @@ $url = $view['router']->url('le_integration_auth_webhook_callback', ['integratio
     <div class="tab-pane fade in bdr-w-0" id="payload-container">
         <?php echo $view->render(
             'MauticPluginBundle:Integrations:payload_history.html.php',
-            ['payloads'=> $payloads]
+            [
+                'payloads' => $payloads,
+                'name'     => $name,
+            ]
         ); ?>
     </div>
 </div>
