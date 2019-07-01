@@ -1364,7 +1364,7 @@ class AjaxController extends CommonAjaxController
                 ]);
             } else {
                 $status =false;
-                $message='Invalid or Domain used in another account, please try with another.';
+                $message='Domain is already configured in another AnyFunnels account. Try with other domain or contact support.';
             }
         } else {
             $status =false;
@@ -1433,12 +1433,14 @@ class AjaxController extends CommonAjaxController
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
         $spf_check        =$elasticApiHelper->verifySPF($domain);
         $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
+        $dmark_check      =$elasticApiHelper->verifyDMARK($domain);
         $tracking_check   =0; //$elasticApiHelper->verifyTracking($domain);
         $domainList       =$model->getRepository()->getAllSendingDomains($domain);
         foreach ($domainList as $sendingdomain) {
             $sendingdomain->setdkimCheck($dkim_check);
             $sendingdomain->setspfCheck($spf_check);
             $sendingdomain->settrackingCheck($tracking_check);
+            $sendingdomain->setdmarcCheck($dmark_check);
             $sendingdomain->setStatus($dkim_check && $spf_check);
             $model->getRepository()->saveEntity($sendingdomain);
         }
@@ -1480,7 +1482,7 @@ class AjaxController extends CommonAjaxController
         $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
             'sendingdomains'             => $domainList,
         ]);
-        $data             = ['success'            => true, 'spf_check'=>$spf_check, 'dkim_check'=>$dkim_check, 'tracking_check'=>$tracking_check, 'content'=>$content];
+        $data             = ['success'            => true, 'spf_check'=>$spf_check, 'dkim_check'=>$dkim_check, 'dmark_check'=>$dmark_check, 'tracking_check'=>$tracking_check, 'content'=>$content];
 
         return $this->sendJsonResponse($data);
     }

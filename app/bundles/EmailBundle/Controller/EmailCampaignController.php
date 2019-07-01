@@ -1021,7 +1021,7 @@ class EmailCampaignController extends FormController
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
                 $formData = $this->request->request->get('emailform');
-                if ($valid = $this->isFormValid($form) && $this->isFormValidForWebinar($formData, $form, $entity)) {
+                if ($valid = $this->isFormValid($form) && $this->isFormValidForWebinar($formData, $form, $entity) && $this->checkDMARKinDefaultSendingDomain($form)) {
                     //auto value assign to utm tags
                     $currentutmtags=$entity->getUtmTags();
                     $currentsubject=$entity->getSubject();
@@ -2304,5 +2304,18 @@ class EmailCampaignController extends FormController
         $content = $this->factory->getBeeTemplateHTMLByName($template);
 
         return $this->render('MauticEmailBundle:DripEmail:preview.html.php', ['content' => $content]);
+    }
+
+    public function checkDMARKinDefaultSendingDomain($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('emailform');
+        $isvalid     = $this->get('mautic.helper.licenseinfo')->checkDMARKinDefaultSendingDomain($formData['fromAddress']);
+        if (!$isvalid) {
+            $isValidForm = false;
+            $form['fromAddress']->addError(new FormError($this->translator->trans('le.lead.email.from.dmark.error', [], 'validators')));
+        }
+
+        return $isValidForm;
     }
 }

@@ -75,7 +75,7 @@ class ElasticApiHelper
 
     public function listAllDomains()
     {
-        $response=$this->sendApiRequest('domain/list', []);
+        $response=$this->sendApiRequest('domain/list', ['apikey'=>$this->apikey]);
         $list    =[];
         if (isset($response->success) && $response->success) {
             foreach ($response->data as $data) {
@@ -125,6 +125,17 @@ class ElasticApiHelper
         $status  =false;
         if (isset($response->success) && $response->success && $response->data == 'OK') {
             $status=true;
+        }
+
+        return $status;
+    }
+
+    public function verifyDMARK($domain)
+    {
+        $status  =false;
+        $list    = $this->listAllDomains();
+        if (isset($list[$domain])) {
+            $status =  $list[$domain]['dmarc'];
         }
 
         return $status;

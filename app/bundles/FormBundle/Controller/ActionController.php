@@ -13,6 +13,7 @@ namespace Mautic\FormBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController as CommonFormController;
 use Mautic\FormBundle\Entity\Action;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -66,7 +67,7 @@ class ActionController extends CommonFormController
         //Check for a submitted form and process it
         if ($method == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->checkDMARKinDefaultSendingDomain($form)) {
                     $success = 1;
 
                     //form is valid so process the data
@@ -102,7 +103,7 @@ class ActionController extends CommonFormController
         }
 
         $passthroughVars = [
-            'leContent' => 'formAction',
+            'leContent'     => 'formAction',
             'success'       => $success,
             'route'         => false,
         ];
@@ -179,7 +180,7 @@ class ActionController extends CommonFormController
             //Check for a submitted form and process it
             if ($method == 'POST') {
                 if (!$cancelled = $this->isFormCancelled($form)) {
-                    if ($valid = $this->isFormValid($form)) {
+                    if ($valid = $this->isFormValid($form) && $this->checkDMARKinDefaultSendingDomain($form)) {
                         $success = 1;
 
                         //form is valid so process the data
@@ -229,7 +230,7 @@ class ActionController extends CommonFormController
             }
 
             $passthroughVars = [
-                'leContent' => 'formAction',
+                'leContent'     => 'formAction',
                 'success'       => $success,
                 'route'         => false,
             ];
@@ -312,7 +313,7 @@ class ActionController extends CommonFormController
             }
 
             $dataArray = [
-                'leContent' => 'formAction',
+                'leContent'     => 'formAction',
                 'success'       => 1,
                 'route'         => false,
             ];
@@ -321,5 +322,20 @@ class ActionController extends CommonFormController
         }
 
         return new JsonResponse($dataArray);
+    }
+
+    public function checkDMARKinDefaultSendingDomain($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('formaction');
+        if (isset($formData['properties']['from'])) {
+            $isvalid = $this->get('mautic.helper.licenseinfo')->checkDMARKinDefaultSendingDomain($formData['properties']['from']);
+            if (!$isvalid) {
+                $isValidForm = false;
+                $form['properties']['from']->addError(new FormError($this->translator->trans('le.lead.email.from.dmark.error', [], 'validators')));
+            }
+        }
+
+        return $isValidForm;
     }
 }

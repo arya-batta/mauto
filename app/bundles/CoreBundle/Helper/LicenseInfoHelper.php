@@ -1161,6 +1161,33 @@ class LicenseInfoHelper
         return [$sender, 'Mailer'];
     }
 
+    public function checkDMARKinDefaultSendingDomain($from)
+    {
+        $emailModel =$this->factory->getModel('email');
+        $emaildomain=substr(strrchr($from, '@'), 1);
+        $isValid    = true;
+        if ($emaildomain != 'anyfunnels.net') {
+            $domainList   =$emailModel->getRepository()->getAllSendingDomains();
+            $isSenderFound=false;
+            foreach ($domainList as $sendingdomain) {
+                if ($sendingdomain->getDomain() == $emaildomain && $sendingdomain->getStatus()) {
+                    $isSenderFound=true;
+                    break;
+                }
+            }
+            if (!$isSenderFound) {
+                foreach ($domainList as $sendingdomain) {
+                    if ($sendingdomain->getIsDefault() && $sendingdomain->getStatus() && $sendingdomain->getdmarcCheck()) {
+                        $isValid=false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $isValid;
+    }
+
     public function isValidMaxLimit($count, $operation, $defaultCount, $msg)
     {
         $msg      = $this->translator->trans($msg);

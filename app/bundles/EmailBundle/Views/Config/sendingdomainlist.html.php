@@ -14,6 +14,10 @@
          DKIM
             <i class="fa fa-question ecircle" aria-hidden="true"></i>
         </th>
+        <th style="width: 15%" data-help="dmark">
+            DMARK
+            <i class="fa fa-question ecircle" aria-hidden="true"></i>
+        </th>
         <!--<th style="width: 15%" data-help="tracking">
          Tracking
             <i class="fa fa-question ecircle" aria-hidden="true"></i>
@@ -41,6 +45,9 @@
         </td>
         <td>
             <i class="fa fa-lg <?php echo $sendingdomain->getdkimCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
+        </td>
+        <td>
+            <i class="fa fa-lg <?php echo !$sendingdomain->getdmarcCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>
         </td>
         <!--<td>
             <i class="fa fa-lg <?php echo $sendingdomain->gettrackingCheck() ? 'fas fa-check-circle' : 'fas fa-times-circle'?>"></i>

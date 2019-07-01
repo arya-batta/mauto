@@ -57,7 +57,13 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.sending
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="sending-domain-validation-header hide">Tracking Validation</div>
+                                <div class="sending-domain-validation-header">DMARK Validation</div>
+                        <div class="dmark-validation-status">
+                            <i class="fa fa-spin fa-spinner"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="sending-domain-validation-header hide">Tracking Validation</div>
                                 <div class="tracking-validation-status hide">
                                     <i class="fa fa-spin fa-spinner"></i>
                                 </div>

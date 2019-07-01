@@ -359,6 +359,10 @@ Le.configOnLoad = function (container){
             mQuery('#sender_domain_name_errors').html("domain name can't be empty !");
             return;
         }
+        if (domain.indexOf('www') != -1 || domain.indexOf('WWW') != -1 || domain.indexOf('http') != -1 || domain.indexOf('https') != -1 || domain.indexOf('empty') != -1){
+            mQuery('#sender_domain_name_errors').html("You can't use reserved keys like www,http,https");
+            return;
+        }
         if ($url.indexOf('//cops.') == -1){
             if(domain.indexOf('anyfunnels.net') != -1 || domain.indexOf('anyfunnels.com') != -1 || domain.indexOf('anyfunnels.io') != -1){
                 mQuery('#sender_domain_name_errors').html("You can't add reserved domains");
@@ -388,6 +392,7 @@ Le.refreshSendingDomainListeners=function(){
         e.preventDefault();
         mQuery('#sendingdomainverifyModel .spf-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
         mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
+        mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
         //mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-spin fa-spinner"></i>');
         var currentLink = mQuery(this);
         var domain=currentLink.attr("data-domain");
@@ -405,6 +410,11 @@ Le.refreshSendingDomainListeners=function(){
                     mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
                     mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid DKIM record, <a onclick="Le.openSendingDomainHelp(\'dkim\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about DKIM configuration.');
+                }
+                if(!response.dmark_check){
+                    mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
+                }else{
+                    mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> This domain is DMARK addressed');
                 }
                 /*if(response.tracking_check){
                     mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');

@@ -618,7 +618,7 @@ Le.convertLeadFilterInput = function(el) {
             mQuery(filterId).removeAttr('multiple');
 
             // Update the name
-            newName = filterEl.attr('name');
+            newName = mQuery(filterId).attr('name');
             lastPos = newName.lastIndexOf('[]');
             newName = newName.substring(0, lastPos);
 
