@@ -57,7 +57,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.sending
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="sending-domain-validation-header">DMARK Validation</div>
+                                <div class="sending-domain-validation-header">DMARC Validation</div>
                         <div class="dmark-validation-status">
                             <i class="fa fa-spin fa-spinner"></i>
                         </div>

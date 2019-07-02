@@ -414,7 +414,7 @@ Le.refreshSendingDomainListeners=function(){
                 if(response.dmark_check){
                     mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
-                    mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> This domain is DMARK addressed');
+                    mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid DMARC record');
                 }
                 /*if(response.tracking_check){
                     mQuery('#sendingdomainverifyModel .tracking-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');

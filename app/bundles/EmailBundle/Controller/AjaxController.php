@@ -1518,6 +1518,20 @@ class AjaxController extends CommonAjaxController
             foreach ($domainList as $sendingdomain) {
                 if ($sendingdomain->getDomain() == $domain) {
                     $sendingdomain->setIsDefault(true);
+
+                    $smHelper            =$this->get('le.helper.statemachine');
+                    $paymentrepository   =$this->get('le.subscription.repository.payment');
+                    $lastpayment         = $paymentrepository->getLastPayment();
+                    $prefix              = 'Trial';
+                    if ($lastpayment != null) {
+                        $prefix = 'Customer';
+                    }
+                    if ($smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured') || $smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
+                        $smHelper->makeStateInActive([$prefix.'_Sending_Domain_Not_Configured', $prefix.'_Inactive_Sending_Domain_Issue']);
+                        if (!$smHelper->isAnyInActiveStateAlive()) {
+                            $smHelper->newStateEntry($prefix.'_Active', '');
+                        }
+                    }
                 } else {
                     $sendingdomain->setIsDefault(false);
                 }

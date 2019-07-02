@@ -312,16 +312,20 @@ class StateMachineHelper
                 $domain           =$sendingdomain->getDomain();
                 $spf_check        =$elasticApiHelper->verifySPF($domain);
                 $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
-                $tracking_check   =$elasticApiHelper->verifyTracking($domain);
-                $domainStatus     =$dkim_check && $spf_check;
+                $dmark_check      =$elasticApiHelper->verifyDMARK($domain);
+                // $tracking_check   =$elasticApiHelper->verifyTracking($domain);
                 $sendingdomain->setdkimCheck($dkim_check);
                 $sendingdomain->setspfCheck($spf_check);
-                $sendingdomain->settrackingCheck($tracking_check);
-                $sendingdomain->setStatus($domainStatus);
-                $model->getRepository()->saveEntity($sendingdomain);
-                if ($domainStatus) {
-                    break;
+                $sendingdomain->settrackingCheck(false);
+                $sendingdomain->setdmarcCheck($dmark_check);
+                $sendingdomain->setStatus($dkim_check && $spf_check);
+                if ($sendingdomain->getIsDefault() && $sendingdomain->getStatus()) {
+                    $domainStatus=true;
                 }
+                $model->getRepository()->saveEntity($sendingdomain);
+//                if ($domainStatus) {
+//                    break;
+//                }
             }
         }
 
