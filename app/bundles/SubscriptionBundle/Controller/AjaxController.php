@@ -1109,11 +1109,25 @@ class AjaxController extends CommonAjaxController
                     //$planname     = '90 Days Success Offer';
                     $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
-                    if (!$smHelper->isStateAlive('Customer_Active')) {
+                    $trialInActiveStatePresent=false;
+                    if ($smHelper->isStateAlive('Trial_Inactive_Suspended')) {
+                        $trialInActiveStatePresent=true;
+                        $smHelper->newStateEntry('Customer_Inactive_Suspended');
+                    }
+                    if ($smHelper->isStateAlive('Trial_Inactive_Under_Review')) {
+                        $trialInActiveStatePresent=true;
+                        $smHelper->newStateEntry('Customer_Inactive_Under_Review');
+                    }
+                    if ($smHelper->isStateAlive('Trial_Inactive_Sending_Domain_Issue')) {
+                        $trialInActiveStatePresent=true;
+                        $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue');
+                    }
+
+                    if (!$smHelper->isStateAlive('Customer_Active') && $trialInActiveStatePresent) {
                         $smHelper->newStateEntry('Customer_Active');
-                        $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
                     }
                     $smHelper->addStateWithLead();
+                    $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
                     // }
                     if ($amount == 1) {
                         $amount = 0;
@@ -1303,10 +1317,11 @@ class AjaxController extends CommonAjaxController
 
     public function TrialUpgradeAction()
     {
-        $paymentrepository        = $this->get('le.subscription.repository.payment');
-        $lastpayment              = $paymentrepository->getLastPayment();
-        $trialEndDays             = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
-        if ($lastpayment != null) {
+        $smHelper                     = $this->get('le.helper.statemachine');
+        $paymentrepository            = $this->get('le.subscription.repository.payment');
+        $lastpayment                  = $paymentrepository->getLastPayment();
+        $trialEndDays                 = $this->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+        if ($smHelper->isStateAlive('Trial_Unverified_Email') || $lastpayment != null) {
             $dataArray['success'] = false;
         } else {
             $dataArray['success'] = true;

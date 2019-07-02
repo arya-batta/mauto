@@ -933,10 +933,10 @@ class LicenseInfoHelper
             }
             $countrydetails = $this->getCountryName();
             $timezone       = $countrydetails['timezone'];
-            $countryname    = $countrydetails['countryname'];
+            // $countryname    = $countrydetails['countryname'];
             //if ($countryname == 'India') {
             //    $timezone = 'Asia/Calcutta';
-            $billing->setCountry($countryname);
+            //$billing->setCountry($countryname);
             //}
             $repository = $this->factory->get('le.core.repository.subscription');
             $signupinfo = $repository->getSignupInfo($userentity->getEmail());

@@ -28,10 +28,10 @@ class ElasticApiHelper
 
     public function sendApiRequest($url, $payload)
     {
-        if ($this->apikey == '' || $this->apikey == 'le_trial_password') {
-            return false;
-        }
         if (!isset($payload['apikey'])) {
+            if ($this->apikey == '' || $this->apikey == 'le_trial_password') {
+                return false;
+            }
             $payload['apikey']=$this->apikey;
         }
         $ch = curl_init($this->apiUrlRoot.'/'.$url);
@@ -51,10 +51,12 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/add', ['domain'=>$domain, 'trackingType' => '-2', 'apikey' => $apikey]);
         $status  =false;
-        if (isset($response->success) && $response->success) {
-            $status=true;
-        } elseif (isset($response->success) && !$response->success && strpos($response->error, 'domain is already')) {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                $status=true;
+            } elseif (isset($response->success) && !$response->success && strpos($response->error, 'domain is already')) {
+                $status=true;
+            }
         }
 
         return $status;
@@ -64,10 +66,12 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/delete', ['domain'=>$domain]);
         $status  =false;
-        if (isset($response->success) && $response->success) {
-            $status=true;
-        } elseif (isset($response->success) && !$response->success && strpos($response->error, 'not found')) {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                $status=true;
+            } elseif (isset($response->success) && !$response->success && strpos($response->error, 'not found')) {
+                $status=true;
+            }
         }
 
         return $status;
@@ -77,9 +81,11 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/list', ['apikey'=>$this->apikey]);
         $list    =[];
-        if (isset($response->success) && $response->success) {
-            foreach ($response->data as $data) {
-                $list[$data->domain]=['spf'=>$data->spf, 'dkim'=>$data->dkim, 'mx'=>$data->mx, 'dmarc'=>$data->dmarc];
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                foreach ($response->data as $data) {
+                    $list[$data->domain]=['spf'=>$data->spf, 'dkim'=>$data->dkim, 'mx'=>$data->mx, 'dmarc'=>$data->dmarc];
+                }
             }
         }
 
@@ -90,8 +96,10 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/verifydkim', ['domain'=>$domain]);
         $status  =false;
-        if (isset($response->success) && $response->success && $response->data == 'OK') {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success && $response->data == 'OK') {
+                $status=true;
+            }
         }
 
         return $status;
@@ -101,8 +109,10 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/verifyspf', ['domain'=>$domain]);
         $status  =false;
-        if (isset($response->success) && $response->success && $response->data->isvalid) {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success && $response->data->isvalid) {
+                $status=true;
+            }
         }
 
         return $status;
@@ -112,8 +122,10 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/verifymx', ['domain'=>$domain]);
         $status  =false;
-        if (isset($response->success) && $response->success && $response->data == 'OK') {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success && $response->data == 'OK') {
+                $status=true;
+            }
         }
 
         return $status;
@@ -123,8 +135,10 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/verifytracking', ['domain'=>$domain]);
         $status  =false;
-        if (isset($response->success) && $response->success && $response->data == 'OK') {
-            $status=true;
+        if ($response) {
+            if (isset($response->success) && $response->success && $response->data == 'OK') {
+                $status=true;
+            }
         }
 
         return $status;
@@ -145,30 +159,32 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('account/loadreputationimpact', ['apikey'=>$this->getAccessToken()]);
         $details =[];
-        if (isset($response->success) && $response->success && isset($response->data)) {
-            if (isset($response->data->impact)) {
-                $data                       =$response->data;
-                $impact                     =$data->impact;
-                $complaints_score           =round($impact->abuse, 2);
-                $invalid_emails_score       =round($impact->unknownusers, 2);
-                $opened_emails_score        =round($impact->opened, 2);
-                $clicked_emails_score       =round($impact->clicked, 2);
-                $content_analysis_score     =round($impact->averagespamscore, 2);
-                $complaints_percentage      =round($data->abusepercent, 2);
-                $invalid_emails_percentage  =round($data->unknownuserspercent, 2);
-                $opened_emails_percentage   =round($data->openedpercent, 2);
-                $clicked_emails_percentage  =round($data->clickedpercent, 2);
-                $content_analysis_percentage=round($data->averagespamscore, 2);
-                $rows[]                     =['Complaints', 'Users reporting your email as spam', $complaints_percentage.'%', $complaints_score];
-                $rows[]                     =['Invalid email addresses', 'Email addresses that do not exist', $invalid_emails_percentage.'%', $invalid_emails_score];
-                $rows[]                     =['Content analysis', 'How your email content is rating to spam filtering software', $content_analysis_percentage, $content_analysis_score];
-                $rows[]                     =['Open rate', 'Your last 30 day open rate', $opened_emails_percentage.'%', $opened_emails_score];
-                $rows[]                     =['Click rate', 'Your last 30 day click rate', $clicked_emails_percentage.'%', $clicked_emails_score];
-                $details[]                  =$rows;
-                $reputation                 =$data->reputation;
-                $details[]                  =$reputation;
-                $starrating                 =round(($reputation / 100) * 5, 0, PHP_ROUND_HALF_DOWN);
-                $details[]                  =$starrating;
+        if ($response) {
+            if (isset($response->success) && $response->success && isset($response->data)) {
+                if (isset($response->data->impact)) {
+                    $data                       =$response->data;
+                    $impact                     =$data->impact;
+                    $complaints_score           =round($impact->abuse, 2);
+                    $invalid_emails_score       =round($impact->unknownusers, 2);
+                    $opened_emails_score        =round($impact->opened, 2);
+                    $clicked_emails_score       =round($impact->clicked, 2);
+                    $content_analysis_score     =round($impact->averagespamscore, 2);
+                    $complaints_percentage      =round($data->abusepercent, 2);
+                    $invalid_emails_percentage  =round($data->unknownuserspercent, 2);
+                    $opened_emails_percentage   =round($data->openedpercent, 2);
+                    $clicked_emails_percentage  =round($data->clickedpercent, 2);
+                    $content_analysis_percentage=round($data->averagespamscore, 2);
+                    $rows[]                     =['Complaints', 'Users reporting your email as spam', $complaints_percentage.'%', $complaints_score];
+                    $rows[]                     =['Invalid email addresses', 'Email addresses that do not exist', $invalid_emails_percentage.'%', $invalid_emails_score];
+                    $rows[]                     =['Content analysis', 'How your email content is rating to spam filtering software', $content_analysis_percentage, $content_analysis_score];
+                    $rows[]                     =['Open rate', 'Your last 30 day open rate', $opened_emails_percentage.'%', $opened_emails_score];
+                    $rows[]                     =['Click rate', 'Your last 30 day click rate', $clicked_emails_percentage.'%', $clicked_emails_score];
+                    $details[]                  =$rows;
+                    $reputation                 =$data->reputation;
+                    $details[]                  =$reputation;
+                    $starrating                 =round(($reputation / 100) * 5, 0, PHP_ROUND_HALF_DOWN);
+                    $details[]                  =$starrating;
+                }
             }
         }
 
@@ -179,8 +195,10 @@ class ElasticApiHelper
     {
         $newToken='';
         $response=$this->sendApiRequest('accesstoken/add', ['tokenName'=>uniqid('af_'), 'accessLevel'=> 1]);
-        if (isset($response->success) && $response->success && isset($response->data)) {
-            $newToken=$response->data;
+        if ($response) {
+            if (isset($response->success) && $response->success && isset($response->data)) {
+                $newToken=$response->data;
+            }
         }
 
         return $newToken;
@@ -223,10 +241,13 @@ class ElasticApiHelper
         $response                         =$this->sendApiRequest('account/addsubaccount', $payLoad);
         $apikey                           ='';
         $apierror                         ='';
-        if (isset($response->success) && $response->success) {
-            $apikey=$response->data;
-        } else {
-            $apierror=$response->error;
+
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                $apikey=$response->data;
+            } else {
+                $apierror=$response->error;
+            }
         }
 
         return [$username, $apikey, $apierror];
@@ -247,10 +268,14 @@ class ElasticApiHelper
         $payLoad['notifyOncePerEmail']         ='true';
         $payLoad['webNotificationUrl']         = $this->factory->getRouter()->generate('le_mailer_transport_callback', ['transport' => 'elasticemail'], UrlGeneratorInterface::ABSOLUTE_URL);
         $response                              =$this->sendApiRequest('account/addwebhook', $payLoad);
-        if (isset($response->success) && $response->success) {
-            return [true, ''];
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                return [true, ''];
+            } else {
+                return [false, $response->error];
+            }
         } else {
-            return [false, $response->error];
+            return [false, 'api key not configured'];
         }
     }
 
@@ -265,22 +290,30 @@ class ElasticApiHelper
         $payLoad['zip']      ='600044';
         $payLoad['countryID']='100';
         $response            =$this->sendApiRequest('account/updateprofile', $payLoad);
-        if (isset($response->success) && $response->success) {
-            return [true, ''];
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                return [true, ''];
+            } else {
+                return [false, $response->error];
+            }
         } else {
-            return [false, $response->error];
+            return [false, 'api key not configured'];
         }
     }
 
     public function checkAccountState()
     {
         $response=$this->sendApiRequest('account/load', []);
-        if (isset($response->success) && $response->success) {
-            $status = $response->data->statusformatted;
-            if ($status == 'Active') {
-                return true;
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                $status = $response->data->statusformatted;
+                if ($status == 'Active') {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return true;
             }
         } else {
             return true;
@@ -290,8 +323,12 @@ class ElasticApiHelper
     public function deleteSubAccount()
     {
         $response=$this->sendApiRequest('account/deletesubaccount', []);
-        if (isset($response->success) && $response->success) {
-            return true;
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

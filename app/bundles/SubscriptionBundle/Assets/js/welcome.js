@@ -1,5 +1,5 @@
 Le.welcomeOnLoad = function() {
-    Le.setDefaultStateValues();
+    Le.setDefaultStateValues(true);
     mQuery('.welcome-input-text-1').on('input focusout', function() {
         var firstname = mQuery("#welcome_firstname").val();
         var lastname = mQuery("#welcome_lastname").val();
