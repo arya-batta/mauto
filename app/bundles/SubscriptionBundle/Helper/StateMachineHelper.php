@@ -660,7 +660,7 @@ class StateMachineHelper
         $mailer->start();
         $message    = \Swift_Message::newInstance();
         $message->setTo([$useremail]);
-        $message->setFrom(['notifications@anyfunnels.net' => 'AnyFunnels']);
+        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
         $message->setSubject($this->factory->getTranslator()->trans('le.subscription.email.underreview.subject'));
         $text = "<!DOCTYPE html>
