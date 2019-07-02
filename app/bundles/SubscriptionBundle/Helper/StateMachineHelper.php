@@ -44,8 +44,8 @@ class StateMachineHelper
                                 'failed_signup_email'                   => 'CJW1GM6KD',
                                 'trial_inactive_expired'                => 'CK997TVB9',
                                 'trial_inactive_suspended'              => 'CK997TVB9',
-                                'customer_sending_domain_not_configured'=> 'CK997TVB9',
-                                'customer_active'                       => 'CK997TVB9',
+                               // 'customer_sending_domain_not_configured'=> 'CK997TVB9',
+                              //  'customer_active'                       => 'CK997TVB9',
                                 'customer_inactive_suspended'           => 'CK997TVB9',
                                 'customer_inactive_under_review'        => 'CK997TVB9',
                                 'customer_inactive_sending_domain_issue'=> 'CK997TVB9',
@@ -56,7 +56,7 @@ class StateMachineHelper
                                 'trial_inactive_archive'                => 'CK997TVB9',
                                 'trial_inactive_under_review'           => 'CK997TVB9',
                                 'trial_inactive_sending_domain_issue'   => 'CK997TVB9',
-                                'trial_sending_domain_not_configured'   => 'CK997TVB9',
+                                //'trial_sending_domain_not_configured'   => 'CK997TVB9',
                                 'trial_unverified_email'                => 'CK997TVB9',
                                ];
 
@@ -211,9 +211,9 @@ class StateMachineHelper
         }
         $comment = 'Customer Enters into this State(s)';
         $this->addLeadNotes($state, $reason, $comment);
-        if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured' && $state != 'Trial_Sending_Domain_Not_Configured') {
-            $this->sendInternalSlackMessage($state);
-        }
+        //if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured' && $state != 'Trial_Sending_Domain_Not_Configured') {
+        $this->sendInternalSlackMessage($state);
+        // }
     }
 
     public function getAlertMessage($message, $personalize=[])
@@ -258,7 +258,7 @@ class StateMachineHelper
         return $details[sizeof($details) - 1];
     }
 
-    public function createElasticSubAccountandAssign($domain)
+    public function createElasticSubAccountandAssign()
     {
         $elasticApiHelper= $this->factory->get('mautic.helper.elasticapi');
         $response        =$elasticApiHelper->createSubAccount();
@@ -275,7 +275,7 @@ class StateMachineHelper
             }
             $this->updateElasticAccountConfiguration($response[0], $response[1]);
 
-            return $domainCreated=$elasticApiHelper->createDomain($domain, $response[1]);
+            return $response[1];
         } else {
             return false;
             //file_put_contents("/var/www/elapi.txt","API Failed:".$response[1]."\n",FILE_APPEND);
@@ -545,6 +545,9 @@ class StateMachineHelper
 
     public function sendInternalSlackMessage($state, $domain=null)
     {
+        if (!isset($this->channelList[$state])) {
+            return ['success'=>false, 'error'=>'channel not found for given state'];
+        }
         $state        = strtolower($state);
         $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
         $slackContent = $this->getInternalSlackData($contentType, $domain);
@@ -653,7 +656,7 @@ class StateMachineHelper
         $mailer->start();
         $message    = \Swift_Message::newInstance();
         $message->setTo([$useremail]);
-        $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setFrom(['notifications@anyfunnels.net' => 'AnyFunnels']);
         $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
         $message->setSubject($this->factory->getTranslator()->trans('le.subscription.email.underreview.subject'));
         $text = "<!DOCTYPE html>
@@ -670,7 +673,7 @@ class StateMachineHelper
                 <br>
                 <br>Email delivery for your account has been Temporarily Inactive since you don’t have any active sending domain. You can’t send emails for now till you resolve the issues.
                 <br>
-                <br>Reply to this email or click here to contact our support team if needed.
+                <br>Reply to this email or <a href='https://anyfunnels.freshdesk.com/support/tickets/new'>click here</a> to contact our support team if needed.
                 <br>
                 <br>
                 ---

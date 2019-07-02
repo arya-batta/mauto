@@ -43,7 +43,7 @@
                     <div class="col-md-6">
                         <label for="businessname">Business Name</label>
                         <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
-                        <p class="label_control_error business_error hide">The Business name can't be empty.</p>
+                        <p class="label_control_error business_error hide">Business name can't be empty.</p>
                     </div>
                     <div class="col-md-6">
                         <label for="weburl">Website URL</label>
@@ -88,12 +88,12 @@
                     <div class="col-md-6">
                         <label for="city"> City Name</label>
                         <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
-                        <p class="label_control_error city_error hide">The City can't be empty</p>
+                        <p class="label_control_error city_error hide">City can't be empty</p>
                     </div>
                     <div class="col-md-6">
                         <label for="zip">Zip Code</label>
                         <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zipcode]" value="<?php echo $billing->getPostalcode(); ?>">
-                        <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
+                        <p class="label_control_error zip_error hide">Zip code can't be empty</p>
                     </div>
                 </div>
                 <br>
@@ -179,12 +179,12 @@
 </div>
 
 <script>
-    Le.welcomeOnLoad();
-    mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
-    Le.activateChosenSelect(mQuery("#select_listsize"));
     Le.selectedCountry = "<?php echo $country ?>";
     Le.selectedState = "<?php echo $state ?>";
     Le.selectedCity = "<?php echo $city ?>";
+    Le.welcomeOnLoad();
+    mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
+    Le.activateChosenSelect(mQuery("#select_listsize"));
 </script>
 </body>
 </html>

@@ -192,9 +192,8 @@ class ConfigModel extends AbstractCommonModel
             ],
         ];
 
-        $paymentrepository  =$this->factory->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        if ($lastpayment == null) {
+        $apikey=$this->factory->getParameter('mailer_password');
+        if ($apikey == '' || $apikey == 'le_trial_password') {
             unset($settingsMenu[0]['User Profile']['Sender Reputation']);
         }
 

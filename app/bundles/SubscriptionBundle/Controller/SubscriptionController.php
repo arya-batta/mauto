@@ -581,9 +581,9 @@ class SubscriptionController extends CommonController
         $subsrepository    = $this->get('le.core.repository.subscription');
         $smHelper          = $this->get('le.helper.statemachine');
         if (!$smHelper->isStateAlive('Trial_Unverified_Email')) {
-            if ($accountEntity->getPhonenumber() != '' && $accountEntity->getAccountname() != '' && $billingEntity->getCompanyaddress() != '' && $billingEntity->getCity() != '' && $kyc->getIndustry() != '' && $kyc->getPrevioussoftware() != '' && $accountEntity->getWebsite() != '') {
-                return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
-            }
+            // if ($accountEntity->getPhonenumber() != '' && $accountEntity->getAccountname() != '' && $billingEntity->getCompanyaddress() != '' && $billingEntity->getCity() != '' && $kyc->getIndustry() != '' && $kyc->getPrevioussoftware() != '' && $accountEntity->getWebsite() != '') {
+            return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
+            // }
         }
         if ($this->request->getMethod() == 'POST') {
             $accountData = $this->request->request->get('welcome');

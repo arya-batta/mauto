@@ -20,7 +20,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('le.config.setupme
             <div class="settings-menu-group-header"><?php echo $groupHeader; ?></div>
             <div class="settings-menu-group-container">
                 <?php foreach ($groupvalues as $listHeader =>$listItem):?>
-                    <?php if ($isTrialAccount && ($listHeader == 'Sending Domain' || $listHeader == 'Sender Reputation')) {
+                    <?php if ($isTrialAccount && $listHeader == 'Sending Domain') {
     continue;
 } ?>
                 <div class="settings-menu-list-item">

@@ -411,7 +411,7 @@ Le.refreshSendingDomainListeners=function(){
                 }else{
                     mQuery('#sendingdomainverifyModel .dkim-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> Error: Could not find the valid DKIM record, <a onclick="Le.openSendingDomainHelp(\'dkim\')" style="color:blue;text-decoration: underline;">Click here</a> to know more about DKIM configuration.');
                 }
-                if(!response.dmark_check){
+                if(response.dmark_check){
                     mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-check-circle on-left" style="color:green;"></i> Valid');
                 }else{
                     mQuery('#sendingdomainverifyModel .dmark-validation-status').html('<i class="fa fa-times-circle  on-left" style="color:red;"></i> This domain is DMARK addressed');

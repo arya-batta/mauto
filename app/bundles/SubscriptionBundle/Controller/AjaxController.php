@@ -1109,10 +1109,8 @@ class AjaxController extends CommonAjaxController
                     //$planname     = '90 Days Success Offer';
                     $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
-                    if ($smHelper->isStateAlive('Trial_Sending_Domain_Not_Configured')) {
-                        $smHelper->makeStateInActive(['Trial_Sending_Domain_Not_Configured']);
-                        $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
-                        $smHelper->createElasticSubAccountandAssign();
+                    if (!$smHelper->isStateAlive('Customer_Active')) {
+                        $smHelper->newStateEntry('Customer_Active');
                         $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
                     }
                     $smHelper->addStateWithLead();

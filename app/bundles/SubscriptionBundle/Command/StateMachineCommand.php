@@ -47,92 +47,113 @@ class StateMachineCommand extends ModeratedCommand
                 $prefix = 'Customer';
             }
             if (!$smHelper->isStateAlive($prefix.'_Inactive_Archive')) {
-                //to check Customer_Inactive_Sending_Domain_Issue state
-                if (!$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
-                    if ($smHelper->isStateNotAlive($prefix.'_Sending_Domain_Not_Configured')) {
-                        $domainStatus=$smHelper->checkSendingDomainStatus();
-                        if (!$domainStatus) {
-                            $smHelper->makeStateInActive([$prefix.'_Active']);
-                            $smHelper->newStateEntry($prefix.'_Inactive_Sending_Domain_Issue', '');
-                            $smHelper->sendSendingDomainIssueEmail();
-                            $smHelper->addStateWithLead();
-                            $output->writeln('<info>App enters into Customer_Inactive_Sending_Domain_Issue</info>');
-                        } else {
-                            $output->writeln('<info>Active sending domains are presented</info>');
-                        }
-                    }
-                }
-                //to check Customer_Active_Card_Expiring_Soon state
-                if (!$smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
-                    if ($smHelper->isStripeCardWillExpire()) {
-                        $smHelper->newStateEntry('Customer_Active_Card_Expiring_Soon', '');
-                        $smHelper->addStateWithLead();
-                        $output->writeln('<info>App enters into Customer_Active_Card_Expiring_Soon</info>');
-                    } else {
-                        $output->writeln('<info>Stripe Card will not expired</info>');
-                    }
-                }
-                //to check Customer_Inactive_Under_Review state
-                $elasticApiHelper=$container->get('mautic.helper.elasticapi');
-                if (!$smHelper->isStateAlive($prefix.'_Inactive_Under_Review')) {
-                    if (!$elasticApiHelper->checkAccountState()) {
-                        $smHelper->makeStateInActive([$prefix.'_Active']);
-                        $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
-                        $smHelper->addStateWithLead();
-                        $smHelper->sendInactiveUnderReviewEmail();
-                        $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
-                    } else {
-                        $output->writeln('<info>Elastic Email Account is active</info>');
-                    }
-                } else {
-                    if ($elasticApiHelper->checkAccountState()) {
-                        $smHelper->makeStateInActive([$prefix.'_Inactive_Under_Review']);
-                        if (!$smHelper->isAnyInActiveStateAlive()) {
-                            $smHelper->newStateEntry($prefix.'_Active', '');
-                            $output->writeln('<info>App enters into Customer_Active from Customer_Inactive_Under_Review</info>');
-                        }
-                        $smHelper->addStateWithLead();
-                    }
-                }
-
-                if ($state=$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
-                    if ($smHelper->checkLicenseValiditityWithGracePeriod($state)) {
-                        $dtHelper=new DateTimeHelper();
-                        $updateOn=$dtHelper->getLocalDateTime();
-                        $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local'); //$state->getUpdatedOn()
-                        $smHelper->makeStateInActive(['Customer_Active']);
-                        $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$state->getState()]));
-                        $smHelper->addStateWithLead();
-                        $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
-                    }
-                } else {
-                    $firstInActiveState=$smHelper->getFirstInActiveState();
-                    if ($firstInActiveState) {
-                        $updatedOn=$firstInActiveState->getUpdatedOn();
-                        $dtHelper =new DateTimeHelper();
-                        $diffdays =$dtHelper->getDiff($updatedOn, '%R%a', true);
-                        $output->writeln('<info>First InActive state days difference:'.$diffdays.'</info>');
-                        if ($diffdays > 30) {
-                            $updateOn=$dtHelper->getLocalDateTime();
-                            $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local');
-                            $smHelper->makeStateInActive([$prefix.'_Active']);
-                            $smHelper->newStateEntry($prefix.'_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
-                            $smHelper->addStateWithLead();
-                            $output->writeln('<info>App enters into '.$prefix.'_Inactive_Archive</info>');
-                        }
-                    }
-                }
-                if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
-                    $firstInActiveState=$smHelper->getFirstInActiveState();
-                    $updatedOn         =$firstInActiveState->getUpdatedOn();
+                $checkStateFurther=true;
+                if ($state=$smHelper->isStateAlive('Trial_Unverified_Email')) {
+                    $updatedOn         =$state->getUpdatedOn();
                     $dtHelper          =new DateTimeHelper();
                     $diffdays          =$dtHelper->getDiff($updatedOn, '%R%a', true);
-                    if ($diffdays >= 3) {
+                    if ($diffdays > 3) {
                         $updatedOn=$dtHelper->getLocalDateTime();
                         $updatedOn=$container->get('mautic.helper.template.date')->toDate($updatedOn, 'local');
                         $smHelper->makeStateInActive(['Trial_Unverified_Email']);
                         $smHelper->newStateEntry('Trial_Inactive_Archive', $smHelper->getAlertMessage('le.subscription.isactive.archive.unverified.email.reason', ['%DATE%' => $updatedOn, '%DAYS%' => $diffdays]));
                         $smHelper->addStateWithLead();
+                        $checkStateFurther=false;
+                    }
+                } else {
+                    if ($checkStateFurther) {
+                        $licenseRemDays = $container->get('mautic.helper.licenseinfo')->getLicenseRemainingDays();
+                        if ($lastpayment == null && $licenseRemDays < 0) {
+                            if (!$smHelper->isStateAlive('Trial_Inactive_Expired')) {
+                                $smHelper->makeStateInActive(['Trial_Active']);
+                                $smHelper->newStateEntry('Trial_Inactive_Expired');
+                                $smHelper->addStateWithLead();
+                            }
+                            $checkStateFurther=false;
+                        }
+                    }
+                    if ($checkStateFurther) {
+                        //to check Customer_Inactive_Sending_Domain_Issue state
+                        if (!$smHelper->isStateAlive($prefix.'_Inactive_Sending_Domain_Issue')) {
+                            if ($smHelper->isStateNotAlive($prefix.'_Sending_Domain_Not_Configured')) {
+                                $domainStatus=$smHelper->checkSendingDomainStatus();
+                                if (!$domainStatus) {
+                                    $smHelper->makeStateInActive([$prefix.'_Active']);
+                                    $smHelper->newStateEntry($prefix.'_Inactive_Sending_Domain_Issue', '');
+                                    $smHelper->sendSendingDomainIssueEmail();
+                                    $smHelper->addStateWithLead();
+                                    $output->writeln('<info>App enters into Customer_Inactive_Sending_Domain_Issue</info>');
+                                } else {
+                                    $output->writeln('<info>Active sending domains are presented</info>');
+                                }
+                            }
+                        }
+                    }
+                    if ($checkStateFurther) {
+                        //to check Customer_Active_Card_Expiring_Soon state
+                        if (!$smHelper->isStateAlive('Customer_Active_Card_Expiring_Soon')) {
+                            if ($smHelper->isStripeCardWillExpire()) {
+                                $smHelper->newStateEntry('Customer_Active_Card_Expiring_Soon', '');
+                                $smHelper->addStateWithLead();
+                                $output->writeln('<info>App enters into Customer_Active_Card_Expiring_Soon</info>');
+                            } else {
+                                $output->writeln('<info>Stripe Card will not expired</info>');
+                            }
+                        }
+                    }
+
+                    if ($checkStateFurther) {
+                        if ($state=$smHelper->isStateAlive('Customer_Inactive_Exit_Cancel')) {
+                            if ($smHelper->checkLicenseValiditityWithGracePeriod($state)) {
+                                $dtHelper=new DateTimeHelper();
+                                $updateOn=$dtHelper->getLocalDateTime();
+                                $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local'); //$state->getUpdatedOn()
+                                $smHelper->makeStateInActive(['Customer_Active']);
+                                $smHelper->newStateEntry('Customer_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$state->getState()]));
+                                $smHelper->addStateWithLead();
+                                $output->writeln('<info>App enters into Customer_Inactive_Archive</info>');
+                            }
+                        } else {
+                            $firstInActiveState=$smHelper->getFirstInActiveState();
+                            if ($firstInActiveState) {
+                                $updatedOn=$firstInActiveState->getUpdatedOn();
+                                $dtHelper =new DateTimeHelper();
+                                $diffdays =$dtHelper->getDiff($updatedOn, '%R%a', true);
+                                $output->writeln('<info>First InActive state days difference:'.$diffdays.'</info>');
+                                if ($diffdays > 30) {
+                                    $updateOn=$dtHelper->getLocalDateTime();
+                                    $updateOn=$container->get('mautic.helper.template.date')->toDate($updateOn, 'local');
+                                    $smHelper->makeStateInActive([$prefix.'_Active']);
+                                    $smHelper->newStateEntry($prefix.'_Inactive_Archive', $smHelper->getAlertMessage('le.sm.customer.inactive.archieve.reason', ['%DATE%'=>$updateOn, '%STATE%'=>$firstInActiveState->getState()]));
+                                    $smHelper->addStateWithLead();
+                                    $output->writeln('<info>App enters into '.$prefix.'_Inactive_Archive</info>');
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($checkStateFurther) {
+                    //to check Customer_Inactive_Under_Review state
+                    $elasticApiHelper=$container->get('mautic.helper.elasticapi');
+                    if (!$smHelper->isStateAlive($prefix.'_Inactive_Under_Review')) {
+                        if (!$elasticApiHelper->checkAccountState()) {
+                            $smHelper->makeStateInActive([$prefix.'_Active']);
+                            $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
+                            $smHelper->addStateWithLead();
+                            $smHelper->sendInactiveUnderReviewEmail();
+                            $output->writeln('<info>App enters into Customer_Inactive_Under_Review</info>');
+                        } else {
+                            $output->writeln('<info>Elastic Email Account is active</info>');
+                        }
+                    } else {
+                        if ($elasticApiHelper->checkAccountState()) {
+                            $smHelper->makeStateInActive([$prefix.'_Inactive_Under_Review']);
+                            if (!$smHelper->isAnyInActiveStateAlive()) {
+                                $smHelper->newStateEntry($prefix.'_Active', '');
+                                $output->writeln('<info>App enters into Customer_Active from Customer_Inactive_Under_Review</info>');
+                            }
+                            $smHelper->addStateWithLead();
+                        }
                     }
                 }
             }

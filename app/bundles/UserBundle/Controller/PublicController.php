@@ -180,6 +180,7 @@ class PublicController extends FormController
             );
             $this->get('security.token_storage')->setToken($token);
             $this->get('session')->set('_security_mautic', serialize($token));
+            $this->get('session')->set('isLogin', true);
         }
 
         return $this->delegateRedirect($this->generateUrl('login'));

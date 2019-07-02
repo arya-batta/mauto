@@ -102,7 +102,7 @@ Le.welcomeOnLoad = function() {
             }
             if (mQuery(this).hasClass('zip') && zipcode == ""){
                 mQuery(".zip_error").text('');
-                mQuery(".zip_error").text("Zip/ Postal code can't be empty");
+                mQuery(".zip_error").text("Zip code can't be empty");
                 mQuery(".zip_error").removeClass('hide');
             } else if (mQuery(this).hasClass('zip') && zipcode != ""){
                 mQuery(".zip_error").addClass('hide');
@@ -206,11 +206,11 @@ Le.validateFirstTimeSetup = function(){
         isvalidrequest = false;
         mQuery('.zip_error').removeClass('hide');
     }
-    if(state == '' || state == 'blank'){
+    if(state == null || state == '' || state == 'blank'){
         isvalidrequest = false;
         mQuery('.state_error').removeClass('hide');
     }
-    if(country == '' || country == 'blank'){
+    if(country == null || country == '' || country == 'blank'){
         isvalidrequest = false;
         mQuery('.country_error').removeClass('hide');
     }

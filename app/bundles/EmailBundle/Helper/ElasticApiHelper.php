@@ -28,7 +28,7 @@ class ElasticApiHelper
 
     public function sendApiRequest($url, $payload)
     {
-        if ($this->apikey == '') {
+        if ($this->apikey == '' || $this->apikey == 'le_trial_password') {
             return false;
         }
         if (!isset($payload['apikey'])) {

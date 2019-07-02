@@ -636,11 +636,11 @@ class AjaxController extends CommonAjaxController
     public function emailstatusAction()
     {
         $isClosed                     = $this->factory->get('session')->get('isalert_needed', 'false');
-        $isStateAlive                 =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
-        $configurl                    =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+        $isStateAlive                 =$this->get('le.helper.statemachine')->isStateAlive('Trial_Unverified_Email');
+        //   $configurl                    =$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
         if ($isStateAlive) {
             $dataArray['success']       = true;
-            $dataArray['info']          = $this->translator->trans('le.email.config.mailer.status.app_header', ['%url%'=>$configurl]);
+            $dataArray['info']          = $this->translator->trans('le.email.unverified.error');
             $dataArray['isalertneeded'] = $isClosed;
         } else {
             $dataArray['success']       = false;
@@ -1337,38 +1337,48 @@ class AjaxController extends CommonAjaxController
     {
         $domain     = InputHelper::clean($request->request->get('domain'));
         /** @var EmailModel $model */
-        $model            = $this->getModel('email');
-        $elasticApiHelper = $this->get('mautic.helper.elasticapi');
-        $domainList       = $model->getRepository()->getAllSendingDomains($domain);
-        $content          = '';
-        $message          = '';
-        $status           = true;
-        $smHelper         = $this->get('le.helper.statemachine');
-        if (sizeof($domainList) == 0) {
-            $domainCreated = $smHelper->createElasticSubAccountandAssign($domain);
-            //$domainCreated=$elasticApiHelper->createDomain($domain);
-            if ($domainCreated) {
-                $newSendingDomain=new SendingDomain();
-                $newSendingDomain->setDomain($domain);
-                $newSendingDomain->setdkimCheck(false);
-                $newSendingDomain->setspfCheck(false);
-                $newSendingDomain->settrackingCheck(false);
-                $newSendingDomain->setmxCheck(false);
-                $newSendingDomain->setdmarcCheck(false);
-                $newSendingDomain->setStatus(false);
-                $newSendingDomain->setIsDefault(false);
-                $model->getRepository()->saveEntity($newSendingDomain);
-                $domainList=$model->getRepository()->getAllSendingDomains();
-                $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
-                    'sendingdomains'             => $domainList,
-                ]);
+        $model               = $this->getModel('email');
+        $elasticApiHelper    = $this->get('mautic.helper.elasticapi');
+        $domainList          = $model->getRepository()->getAllSendingDomains($domain);
+        $content             = '';
+        $message             = '';
+        $status              = true;
+        $smHelper            = $this->get('le.helper.statemachine');
+        $coreParameterHelper = $this->get('mautic.helper.core_parameters');
+        $elaticApiKey        =$coreParameterHelper->getParameter('mailer_password');
+        if ($elaticApiKey == 'le_trial_password') {
+            $elaticApiKey=$smHelper->createElasticSubAccountandAssign();
+            if (!$elaticApiKey) {
+                $status =false;
+                $message='Some technical error found! Please contact support.';
+            }
+        }
+        if ($elaticApiKey) {
+            if (sizeof($domainList) == 0) {
+                $domainCreated=$elasticApiHelper->createDomain($domain, $elaticApiKey);
+                if ($domainCreated) {
+                    $newSendingDomain=new SendingDomain();
+                    $newSendingDomain->setDomain($domain);
+                    $newSendingDomain->setdkimCheck(false);
+                    $newSendingDomain->setspfCheck(false);
+                    $newSendingDomain->settrackingCheck(false);
+                    $newSendingDomain->setmxCheck(false);
+                    $newSendingDomain->setdmarcCheck(false);
+                    $newSendingDomain->setStatus(false);
+                    $newSendingDomain->setIsDefault(false);
+                    $model->getRepository()->saveEntity($newSendingDomain);
+                    $domainList=$model->getRepository()->getAllSendingDomains();
+                    $content   = $this->renderView('MauticEmailBundle:Config:sendingdomainlist.html.php', [
+                        'sendingdomains'             => $domainList,
+                    ]);
+                } else {
+                    $status =false;
+                    $message='Domain is already configured in another AnyFunnels account. Try with other domain or contact support.';
+                }
             } else {
                 $status =false;
-                $message='Domain is already configured in another AnyFunnels account. Try with other domain or contact support.';
+                $message='domain already exist!';
             }
-        } else {
-            $status =false;
-            $message='domain already exist!';
         }
         $data             = ['success'            => $status, 'content'=>$content, 'message'=>$message];
 
@@ -1434,7 +1444,7 @@ class AjaxController extends CommonAjaxController
         $spf_check        =$elasticApiHelper->verifySPF($domain);
         $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
         $dmark_check      =$elasticApiHelper->verifyDMARK($domain);
-        $tracking_check   =0; //$elasticApiHelper->verifyTracking($domain);
+        $tracking_check   = false; //$elasticApiHelper->verifyTracking($domain);
         $domainList       =$model->getRepository()->getAllSendingDomains($domain);
         foreach ($domainList as $sendingdomain) {
             $sendingdomain->setdkimCheck($dkim_check);

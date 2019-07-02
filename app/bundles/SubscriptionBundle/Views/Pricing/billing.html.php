@@ -51,7 +51,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="businessname">Company</label>
                                 <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
-                                <p class="label_control_error business_error hide">The Business name can't be empty.</p>
+                                <p class="label_control_error business_error hide">Business name can't be empty.</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="weburl">Accounting Email</label>
@@ -95,7 +95,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="city"> City Name</label>
                                 <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
-                                <p class="label_control_error city_error hide">The City can't be empty</p>
+                                <p class="label_control_error city_error hide">City can't be empty</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="state">State</label>
@@ -117,7 +117,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="zip">Zip Code</label>
                                 <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>">
-                                <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
+                                <p class="label_control_error zip_error hide">Zip code can't be empty</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="country">Country</label>
@@ -135,7 +135,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="city"> TAXID</label>
                                 <input type="text" id="welcome_taxid" class="form-control le-input" name="welcome[taxid]" value="<?php echo $billing->getGstnumber(); ?>">
-                                <p class="label_control_error taxid_error hide">The City can't be empty</p>
+                                <p class="label_control_error taxid_error hide">TAXID can't be empty</p>
                             </div>
                         </div>
                         <br>
