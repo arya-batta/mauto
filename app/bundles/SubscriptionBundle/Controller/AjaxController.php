@@ -1123,7 +1123,7 @@ class AjaxController extends CommonAjaxController
                         $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue');
                     }
 
-                    if (!$smHelper->isStateAlive('Customer_Active') && $trialInActiveStatePresent) {
+                    if (!$smHelper->isStateAlive('Customer_Active') && !$trialInActiveStatePresent) {
                         $smHelper->newStateEntry('Customer_Active');
                     }
                     $smHelper->addStateWithLead();
