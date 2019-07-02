@@ -1336,6 +1336,7 @@ class AjaxController extends CommonAjaxController
     protected function senderDomainCreateAction(Request $request)
     {
         $domain     = InputHelper::clean($request->request->get('domain'));
+        $domain     =strtolower($domain);
         /** @var EmailModel $model */
         $model               = $this->getModel('email');
         $elasticApiHelper    = $this->get('mautic.helper.elasticapi');

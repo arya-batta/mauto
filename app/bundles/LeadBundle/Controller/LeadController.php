@@ -1861,13 +1861,7 @@ class LeadController extends FormController
             return $this->modalAccessDenied();
         }
         $smHelper           = $this->get('le.helper.statemachine');
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive       =$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
             $this->addFlash($this->translator->trans('le.email.unverified.error'));
 

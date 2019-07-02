@@ -589,13 +589,7 @@ class DripEmailController extends FormController
                     $email = $this->getModel('email');
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
-                    $paymentrepository  =$this->get('le.subscription.repository.payment');
-                    $lastpayment        = $paymentrepository->getLastPayment();
-                    $prefix             = 'Trial';
-                    if ($lastpayment != null) {
-                        $prefix = 'Customer';
-                    }
-                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
                     $sendBtnClicked     =$form->get('buttons')->get('schedule')->isClicked();
                     $isUpdateFlashNeeded=true;
                     if (!$sendBtnClicked) {
@@ -783,13 +777,7 @@ class DripEmailController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -855,13 +843,7 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -1106,13 +1088,7 @@ class DripEmailController extends FormController
 
             return $this->viewAction($objectId);
         }
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         $configurl   =$this->factory->getRouter()->generate('le_sendingdomain_action');
         if ($isStateAlive) {
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
