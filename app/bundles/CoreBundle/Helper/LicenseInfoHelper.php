@@ -1138,7 +1138,10 @@ class LicenseInfoHelper
         $emailModel =$this->factory->getModel('email');
         $emaildomain=substr(strrchr($from, '@'), 1);
         $sender     ='mailer@anyfunnels.net';
-        if ($emaildomain != 'anyfunnels.net') {
+        if ($emaildomain == 'anyfunnels.io') {
+            $sender     ='mailer@anyfunnels.io';
+        }
+        if ($emaildomain != 'anyfunnels.net' && $emaildomain != 'anyfunnels.io') {
             $domainList   =$emailModel->getRepository()->getAllSendingDomains();
             $isSenderFound=false;
             foreach ($domainList as $sendingdomain) {
