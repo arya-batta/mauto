@@ -702,8 +702,8 @@ class SignupRepository
             ->setParameter('company', $business)
             //->setParameter('mobile', $phone)
             //->setParameter('website', $website)
-           // ->setParameter('current_contact_size', $currentlist)
-           // ->setParameter('existing_email_provider', $currentprovider)
+            ->setParameter('current_contact_size', $currentlist)
+            ->setParameter('existing_email_provider', $currentprovider)
             ->where(
                 $qb->expr()->eq('domain', ':domain')
             )->setParameter('domain', $domain)->execute();
