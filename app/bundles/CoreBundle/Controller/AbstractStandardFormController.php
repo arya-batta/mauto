@@ -446,18 +446,12 @@ abstract class AbstractStandardFormController extends AbstractFormController
                         $isUpdateFlashNeeded=true;
                         if ($this->getModelName() == 'campaign') {
                             $smHelper           = $this->get('le.helper.statemachine');
-                            $paymentrepository  =$this->get('le.subscription.repository.payment');
-                            $lastpayment        = $paymentrepository->getLastPayment();
-                            $prefix             = 'Trial';
-                            if ($lastpayment != null) {
-                                $prefix = 'Customer';
-                            }
                             if ($entity->isPublished() && $smHelper->isStateAlive('Trial_Unverified_Email')) {
                                 $isUpdateFlashNeeded=false;
                                 $this->addFlash($this->translator->trans('le.campaign.event.unverified.email.error'));
                                 $entity->setIsPublished(false);
                             }
-                            $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+                            $isStateAlive=$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
                             if ($entity->isPublished() && $isStateAlive) {
                                 $isUpdateFlashNeeded=false;
                                 $configurl          =$this->factory->getRouter()->generate('le_sendingdomain_action');

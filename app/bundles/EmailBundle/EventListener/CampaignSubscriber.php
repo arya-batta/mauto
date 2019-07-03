@@ -394,7 +394,7 @@ class CampaignSubscriber extends CommonSubscriber
         $config      = $event->getConfig();
         $emailId     = (int) $config['email'];
         $email       = $this->emailModel->getEntity($emailId);
-        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Trial_Unverified_Email');
         if (!$email || !$email->isPublished()) {
             return $event->setFailed('Email not found or unpublished');
         }
@@ -406,9 +406,8 @@ class CampaignSubscriber extends CommonSubscriber
         }
         if ($isStateAlive) {
             $this->notificationhelper->sendNotificationonFailure(true, false);
-            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
-
-            return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
+            // $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            return $event->setFailed($this->translator->trans('le.email.unverified.error'));
         }
         $emailSent = false;
         $type      = (isset($config['email_type'])) ? $config['email_type'] : 'transactional';
@@ -469,11 +468,10 @@ class CampaignSubscriber extends CommonSubscriber
 
         $config      = $event->getConfig();
         $lead        = $event->getLead();
-        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->factory->get('le.helper.statemachine')->isStateAlive('Trial_Unverified_Email');
         if ($isStateAlive) {
-            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
-
-            return $event->setFailed($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
+            //  $configurl=$this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'sendingdomain_config']);
+            return $event->setFailed($this->translator->trans('le.email.unverified.error'));
         }
         try {
             $this->sendEmailToUser->sendEmailToUsers($config, $lead);

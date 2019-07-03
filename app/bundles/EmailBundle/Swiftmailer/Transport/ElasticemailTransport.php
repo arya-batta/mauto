@@ -111,18 +111,19 @@ class ElasticemailTransport extends \Swift_SmtpTransport implements CallbackTran
         $this->logger->debug('Status:'.$status);
         $this->logger->debug('Bounce:'.$category);
         // https://elasticemail.com/support/delivery/http-web-notification
-        if (in_array($status, ['AbuseReport', 'Unsubscribed'])) {
+        if (in_array($status, ['Unsubscribed'])) {
             $this->transportCallback->addFailureByAddress($email, $status, DoNotContact::UNSUBSCRIBED);
-        } elseif ('Spam' === $category) {
+        } elseif ('Spam' === $category || in_array($status, ['AbuseReport'])) {
             $this->transportCallback->addFailureByAddress($email, $status, DoNotContact::SPAM);
-        } elseif (in_array($category, ['NoMailboxes', 'DNSProblem', 'Unknown', 'ConnectionTerminated'])) {
+        } elseif (in_array($category, ['NoMailboxes', 'DNSProblem', 'Unknown', 'ConnectionTerminated', 'NotDelivered'])) {
             $category = 'Bounce';
             $this->transportCallback->addFailureByAddress($email, $category);
-        } elseif (in_array($category, ['SPFProblem', 'AccountProblem', 'Ignore', 'BlackListed', 'GreyListed', 'Throttled', 'Timeout', 'ConnectionProblem', 'WhitelistingProblem', 'CodeError', 'ManualCancel', 'NotDelivered', 'Unknown', 'ContentFilter'])) {
-            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('le.email.complaint.reason.failed', ['%CATEGORY%'=> $category]), DoNotContact::IS_CONTACTABLE);
-        } elseif ($status == 'Error') {
-            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('le.email.complaint.reason.unknown'), DoNotContact::IS_CONTACTABLE);
+        } elseif ($status == 'Error' || in_array($category, ['SPFProblem', 'AccountProblem', 'Ignore', 'BlackListed', 'GreyListed', 'Throttled', 'Timeout', 'ConnectionProblem', 'WhitelistingProblem', 'CodeError', 'ManualCancel', 'ContentFilter'])) {
+            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('le.email.complaint.reason.failed', ['%CATEGORY%'=> $category, '%STATUS%'=> $status]), DoNotContact::IS_CONTACTABLE);
         }
+//        elseif ($status == 'Error') {
+//            $this->transportCallback->addFailureByAddress($email, $this->translator->trans('le.email.complaint.reason.unknown'), DoNotContact::IS_CONTACTABLE);
+//        }
     }
 
     /**

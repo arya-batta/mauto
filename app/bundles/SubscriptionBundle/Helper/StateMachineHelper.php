@@ -56,8 +56,8 @@ class StateMachineHelper
                                 'trial_inactive_archive'                => 'CK997TVB9',
                                 'trial_inactive_under_review'           => 'CK997TVB9',
                                 'trial_inactive_sending_domain_issue'   => 'CK997TVB9',
-                                'trial_sending_domain_not_configured'   => 'CK997TVB9',
-                                'trial_unverified_email'                => 'CK997TVB9',
+                                //'trial_sending_domain_not_configured'   => 'CK997TVB9',
+                               // 'trial_unverified_email'                => 'CK997TVB9',
                                ];
 
     public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', /*'current_contact_size'=>'*Current Contact Size*',*/ 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
@@ -120,7 +120,7 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Customer_Active', 'Trial_Active'],
+                'state'   => ['Customer_Active', 'Trial_Active', 'Trial_Sending_Domain_Not_Configured'],
                 'isalive' => true,
             ]
         );
@@ -211,9 +211,9 @@ class StateMachineHelper
         }
         $comment = 'Customer Enters into this State(s)';
         $this->addLeadNotes($state, $reason, $comment);
-        if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured' && $state != 'Trial_Sending_Domain_Not_Configured') {
-            $this->sendInternalSlackMessage($state);
-        }
+        //if ($state != 'Customer_Active' && $state != 'Customer_Sending_Domain_Not_Configured' && $state != 'Trial_Sending_Domain_Not_Configured') {
+        $this->sendInternalSlackMessage($state);
+        // }
     }
 
     public function getAlertMessage($message, $personalize=[])
@@ -258,7 +258,7 @@ class StateMachineHelper
         return $details[sizeof($details) - 1];
     }
 
-    public function createElasticSubAccountandAssign($domain)
+    public function createElasticSubAccountandAssign()
     {
         $elasticApiHelper= $this->factory->get('mautic.helper.elasticapi');
         $response        =$elasticApiHelper->createSubAccount();
@@ -275,7 +275,7 @@ class StateMachineHelper
             }
             $this->updateElasticAccountConfiguration($response[0], $response[1]);
 
-            return $domainCreated=$elasticApiHelper->createDomain($domain, $response[1]);
+            return $response[1];
         } else {
             return false;
             //file_put_contents("/var/www/elapi.txt","API Failed:".$response[1]."\n",FILE_APPEND);
@@ -312,16 +312,20 @@ class StateMachineHelper
                 $domain           =$sendingdomain->getDomain();
                 $spf_check        =$elasticApiHelper->verifySPF($domain);
                 $dkim_check       =$elasticApiHelper->verifyDKIM($domain);
-                $tracking_check   =$elasticApiHelper->verifyTracking($domain);
-                $domainStatus     =$dkim_check && $spf_check;
+                $dmark_check      =$elasticApiHelper->verifyDMARK($domain);
+                // $tracking_check   =$elasticApiHelper->verifyTracking($domain);
                 $sendingdomain->setdkimCheck($dkim_check);
                 $sendingdomain->setspfCheck($spf_check);
-                $sendingdomain->settrackingCheck($tracking_check);
-                $sendingdomain->setStatus($domainStatus);
-                $model->getRepository()->saveEntity($sendingdomain);
-                if ($domainStatus) {
-                    break;
+                $sendingdomain->settrackingCheck(false);
+                $sendingdomain->setdmarcCheck($dmark_check);
+                $sendingdomain->setStatus($dkim_check && $spf_check);
+                if ($sendingdomain->getIsDefault() && $sendingdomain->getStatus()) {
+                    $domainStatus=true;
                 }
+                $model->getRepository()->saveEntity($sendingdomain);
+//                if ($domainStatus) {
+//                    break;
+//                }
             }
         }
 
@@ -545,6 +549,9 @@ class StateMachineHelper
 
     public function sendInternalSlackMessage($state, $domain=null)
     {
+        if (!isset($this->channelList[$state])) {
+            return ['success'=>false, 'error'=>'channel not found for given state'];
+        }
         $state        = strtolower($state);
         $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
         $slackContent = $this->getInternalSlackData($contentType, $domain);
@@ -670,7 +677,7 @@ class StateMachineHelper
                 <br>
                 <br>Email delivery for your account has been Temporarily Inactive since you don’t have any active sending domain. You can’t send emails for now till you resolve the issues.
                 <br>
-                <br>Reply to this email or click here to contact our support team if needed.
+                <br>Reply to this email or <a href='https://anyfunnels.freshdesk.com/support/tickets/new'>click here</a> to contact our support team if needed.
                 <br>
                 <br>
                 ---

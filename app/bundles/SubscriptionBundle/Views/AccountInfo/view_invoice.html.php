@@ -24,7 +24,7 @@ if ($billing->getCountry() != 'India' || $payment->getCurrency() != '₹') {
 $isaddon          = false;
 $excesscredit     = 0;
 $planaftercredit  = $payment->getAfterCredits() != 'UL' ? number_format($payment->getAfterCredits()) : $payment->getAfterCredits();
-if ($payment->getAmount() != $payment->getNetamount()) {
+if ($payment->getTaxamount()) {
     $isaddon      = true;
 }
 

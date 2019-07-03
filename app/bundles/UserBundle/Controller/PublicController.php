@@ -167,8 +167,11 @@ class PublicController extends FormController
         $userrepo   =$model->getRepository();
         $users      =$userrepo->findBy(
             [
-                'id' => 2,
-            ]
+                'role' => 2,
+            ],
+            ['id'=> 'ASC'],
+            1,
+            0
         );
         if (sizeof($users) > 0) {
             $userEntity=$users[0];
@@ -180,6 +183,7 @@ class PublicController extends FormController
             );
             $this->get('security.token_storage')->setToken($token);
             $this->get('session')->set('_security_mautic', serialize($token));
+            $this->get('session')->set('isLogin', true);
         }
 
         return $this->delegateRedirect($this->generateUrl('login'));

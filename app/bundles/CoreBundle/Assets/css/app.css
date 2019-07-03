@@ -6578,14 +6578,14 @@ text-align: center;
   border-right: 1px solid #FFF;
   color: #FFF;
   margin-top: 10px;
-  margin-left: -10px;
+  margin-left: -14px;
   padding-left: 18px;
   padding-right: 10px;
-  padding-top: 5px;
+  padding-top: 6px;
   height: 30px;
   position: relative;
   top: 17px;
-  padding-bottom: 5px;
+  padding-bottom: 6px;
 }
 .disable{
   pointer-events: none;

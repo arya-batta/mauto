@@ -1861,13 +1861,7 @@ class LeadController extends FormController
             return $this->modalAccessDenied();
         }
         $smHelper           = $this->get('le.helper.statemachine');
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive       =$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
             $this->addFlash($this->translator->trans('le.email.unverified.error'));
 
@@ -1955,7 +1949,7 @@ class LeadController extends FormController
         if ($this->request->getMethod() == 'POST') {
             $valid = false;
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->checkDMARKinDefaultSendingDomain($form)) {
                     $email = $form->getData();
                     //This line is commented because img and single tags are deleted
                     //$bodyCheck = trim(strip_tags($email['body']));
@@ -3094,6 +3088,19 @@ class LeadController extends FormController
         if (!empty($formData['email']) && $leadrepo->checkUniqueEmail($formData['email'], $id)) {
             $isValidForm = false;
             $form['email']->addError(new FormError($this->translator->trans('le.lead.email.unique', [], 'validators')));
+        }
+
+        return $isValidForm;
+    }
+
+    public function checkDMARKinDefaultSendingDomain($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('lead_quickemail');
+        $isvalid     = $this->get('mautic.helper.licenseinfo')->checkDMARKinDefaultSendingDomain($formData['from']);
+        if (!$isvalid) {
+            $isValidForm = false;
+            $form['from']->addError(new FormError($this->translator->trans('le.lead.email.from.dmark.error', [], 'validators')));
         }
 
         return $isValidForm;

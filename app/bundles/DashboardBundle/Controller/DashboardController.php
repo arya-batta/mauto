@@ -70,6 +70,11 @@ class DashboardController extends FormController
         if (count($domainList) > 0) {
             $sendingDomainStatus = true;
         }
+        $session                    = $this->get('session');
+        $hiderecommentPcValue       = $this->request->get('hiderecommendpc');
+        if ($hiderecommentPcValue) {
+            $session->set('hiderecommendpc', true);
+        }
         // Init the date range filter form
         $dateRangeValues = $this->request->get('daterange', []);
         $action          = $this->generateUrl('le_dashboard_index');
@@ -112,6 +117,8 @@ class DashboardController extends FormController
                     'sendingDomainStatus'  => $sendingDomainStatus,
                     'accountEmail'         => $accountEmail,
                     'isEmailVerified'      => $smHelper->isStateAlive('Trial_Unverified_Email'),
+                    'hideRecommendPc'      => $session->get('hiderecommendpc', false),
+                    'isMobile'             => InputHelper::isMobile(),
                 ],
                 'contentTemplate' => 'MauticSubscriptionBundle:Subscription:success_page.html.php',
                 'passthroughVars' => [

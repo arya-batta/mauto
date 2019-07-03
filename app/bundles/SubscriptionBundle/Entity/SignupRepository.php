@@ -678,7 +678,7 @@ class SignupRepository
         $country  = $data['country'];
         $zip      = $data['zipcode'];
         $business = $data['business'];
-        //$website  = $data['website'];
+        $website  = $data['website'];
         //$phone    = $data['phone'];
         $currentprovider = $data['currentprovider'];
         $currentlist     = $data['currentlist'];
@@ -691,9 +691,9 @@ class SignupRepository
             ->set('country', ':country')
             ->set('company_name', ':company')
             //->set('mobile', ':mobile')
-            //->set('website_url', ':website')
-            //->set('current_contact_size', ':current_contact_size')
-            //->set('existing_email_provider', ':existing_email_provider')
+            ->set('website_url', ':website')
+            ->set('current_contact_size', ':current_contact_size')
+            ->set('existing_email_provider', ':existing_email_provider')
             ->setParameter('address', $address)
             ->setParameter('city', $city)
             ->setParameter('state', $state)
@@ -701,7 +701,7 @@ class SignupRepository
             ->setParameter('country', $country)
             ->setParameter('company', $business)
             //->setParameter('mobile', $phone)
-            //->setParameter('website', $website)
+            ->setParameter('website', $website)
             ->setParameter('current_contact_size', $currentlist)
             ->setParameter('existing_email_provider', $currentprovider)
             ->where(

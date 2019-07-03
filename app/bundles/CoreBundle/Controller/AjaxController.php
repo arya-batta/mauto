@@ -274,10 +274,9 @@ class AjaxController extends CommonController
             } elseif ($name == 'campaign') {
                 $module='workflow';
             }
-            $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+            $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Trial_Unverified_Email');
             if ($isStateAlive && !$entity->isPublished()) {
-                $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
-                $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => $module]));
+                $this->addFlash($this->translator->trans('le.email.unverified.error'));
                 $dataArray['success']       = 1;
                 $dataArray['senderprofile'] = 1;
                 $dataArray['flashes']       = $this->getFlashContent();

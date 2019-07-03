@@ -80,7 +80,7 @@ class EmailType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new CleanFormSubscriber(['content' => 'html', 'customHtml' => 'html', 'beeJSON' => 'raw']));
+        $builder->addEventSubscriber(new CleanFormSubscriber(['content' => 'html', 'customHtml' => 'html', 'beeJSON' => 'raw', 'unsubscribe_text' => 'html']));
         $builder->addEventSubscriber(new FormExitSubscriber('email.email', $options));
         $emailProvider = $this->licenseHelper->getEmailProvider();
 

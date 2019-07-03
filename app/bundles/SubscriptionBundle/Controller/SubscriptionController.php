@@ -105,12 +105,12 @@ class SubscriptionController extends CommonController
     public function billingAction()
     {
         $paymenthelper     =$this->get('le.helper.payment');
-        $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
-        $countrydetails    = $licenseinfoHelper->getCountryName();
-        $timezone          = $countrydetails['timezone'];
-        $countryname       = $countrydetails['countryname'];
-        $city              = $countrydetails['city'];
-        $state             = $countrydetails['state'];
+        //$licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
+        //$countrydetails    = $licenseinfoHelper->getCountryName();
+        //$timezone          = $countrydetails['timezone'];
+        //$countryname       = $countrydetails['countryname'];
+        //  $city              = $countrydetails['city'];
+        // $state             = $countrydetails['state'];
         $planname          = 'leplan1';
 
         $dbhost            = $this->coreParametersHelper->getParameter('le_db_host');
@@ -137,10 +137,10 @@ class SubscriptionController extends CommonController
                 'security'        => $this->get('mautic.security'),
                 'letoken'         => $paymenthelper->getUUIDv4(),
                 'tmpl'            => 'index',
-                'timezone'        => $timezone,
-                'country'         => $countryname,
-                'city'            => $city,
-                'state'           => $state,
+              //  'timezone'        => $timezone,
+               // 'country'         => $countryname,
+               // 'city'            => $city,
+              //  'state'           => $state,
                 'planname'        => $planname,
                 'countries'       => $countryChoices,
                 'states'          => $regionChoices,
@@ -581,9 +581,9 @@ class SubscriptionController extends CommonController
         $subsrepository    = $this->get('le.core.repository.subscription');
         $smHelper          = $this->get('le.helper.statemachine');
         if (!$smHelper->isStateAlive('Trial_Unverified_Email')) {
-            if ($accountEntity->getPhonenumber() != '' && $accountEntity->getAccountname() != '' && $billingEntity->getCompanyaddress() != '' && $billingEntity->getCity() != '' && $kyc->getIndustry() != '' && $kyc->getPrevioussoftware() != '' && $accountEntity->getWebsite() != '') {
-                return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
-            }
+            // if ($accountEntity->getPhonenumber() != '' && $accountEntity->getAccountname() != '' && $billingEntity->getCompanyaddress() != '' && $billingEntity->getCity() != '' && $kyc->getIndustry() != '' && $kyc->getPrevioussoftware() != '' && $accountEntity->getWebsite() != '') {
+            return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));
+            // }
         }
         if ($this->request->getMethod() == 'POST') {
             $accountData = $this->request->request->get('welcome');
@@ -614,6 +614,7 @@ class SubscriptionController extends CommonController
                 $smHelper->makeStateInActive(['Trial_Unverified_Email']);
                 $smHelper->newStateEntry('Trial_Sending_Domain_Not_Configured', '');
                 $smHelper->addStateWithLead();
+                $smHelper->sendInternalSlackMessage('new_activated_signup');
             }
 
             return $this->delegateRedirect($this->generateUrl('le_dashboard_index'));

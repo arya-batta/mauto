@@ -16,6 +16,9 @@ $planemailcredits   = $view['translator']->trans('le.pricing.plan.email.credits.
 $plancontactcredits = $view['translator']->trans('le.pricing.plan.contact.credits.'.$planname);
 $planvalidity       = $view['translator']->trans('le.pricing.plan.validity.'.$planname);
 $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$planname);
+$billingCity        =$billing->getCity();
+$billingState       =$billing->getState();
+$billingCountry     =$billing->getCountry();
 ?>
 <br>
 <br>
@@ -51,7 +54,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="businessname">Company</label>
                                 <input type="text" id="welcome_business" class="form-control le-input" name="welcome[business]" value="<?php echo $account->getAccountname(); ?>">
-                                <p class="label_control_error business_error hide">The Business name can't be empty.</p>
+                                <p class="label_control_error business_error hide">Business name can't be empty.</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="weburl">Accounting Email</label>
@@ -94,17 +97,17 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="city"> City Name</label>
-                                <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $city; ?>">
-                                <p class="label_control_error city_error hide">The City can't be empty</p>
+                                <input type="text" id="welcome_city" class="form-control le-input" name="welcome[city]" value="<?php echo $billingCity; ?>">
+                                <p class="label_control_error city_error hide">City can't be empty</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="state">State</label>
-                                <select name="welcome[state]" class="selop not-chosen" id="selectstate">
-                                    <option value="blank" selected="selected">Choose your State</option>
+                                <select name="welcome[state]" class="selop" id="selectstate">
+                                    <option value="blank" <?php echo empty($billingState) ? 'selected' : ''?>>Choose your State</option>
                                     <?php foreach ($states as $stategrouplabel => $stategroup):?>
                                         <optgroup label="<?php echo $stategrouplabel; ?>">
                                             <?php foreach ($stategroup as $statename):?>
-                                                <option value="<?php echo $statename?>" selected="false"><?php echo $statename; ?></option>
+                                                <option value="<?php echo $statename?>" <?php echo !empty($billingState) && $billingState == $statename ? 'selected' : ''?>><?php echo $statename; ?></option>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     <?php endforeach; ?>
@@ -117,14 +120,14 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="zip">Zip Code</label>
                                 <input type="text" id="welcome_zip" class="form-control le-input" name="welcome[zip]" value="<?php echo $billing->getPostalcode(); ?>">
-                                <p class="label_control_error zip_error hide">Zip/ Postal code can't be empty</p>
+                                <p class="label_control_error zip_error hide">Zip code can't be empty</p>
                             </div>
                             <div class="col-md-6">
                                 <label for="country">Country</label>
-                                <select name="welcome[country]" class="selop not-chosen" id="selectcountry">
-                                    <option value="blank" selected="selected">Choose your Country</option>
+                                <select name="welcome[country]" class="selop" id="selectcountry">
+                                    <option value="blank" <?php echo empty($billingCountry) ? 'selected' : ''?>>Choose your Country</option>
                                     <?php foreach ($countries as $countryname):?>
-                                        <option value="<?php echo $countryname?>" selected="false"><?php echo $countryname; ?></option>
+                                        <option value="<?php echo $countryname?>" <?php echo !empty($billingCountry) && $billingCountry == $countryname ? 'selected' : ''?>><?php echo $countryname; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <p class="label_control_error country_error hide">Country can't be empty</p>
@@ -135,7 +138,7 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
                             <div class="col-md-6">
                                 <label for="city"> TAXID</label>
                                 <input type="text" id="welcome_taxid" class="form-control le-input" name="welcome[taxid]" value="<?php echo $billing->getGstnumber(); ?>">
-                                <p class="label_control_error taxid_error hide">The City can't be empty</p>
+                                <p class="label_control_error taxid_error hide">TAXID can't be empty</p>
                             </div>
                         </div>
                         <br>
@@ -219,7 +222,4 @@ $plancurrency       = $view['translator']->trans('le.pricing.plan.currency.'.$pl
 </div>
 <script>
     mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
-    Le.selectedCountry = "<?php echo $country ?>";
-    Le.selectedState = "<?php echo $state ?>";
-    Le.selectedCity = "<?php echo $city ?>";
 </script>

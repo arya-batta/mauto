@@ -21,6 +21,7 @@ use Mautic\EmailBundle\Model\EmailModel;
 use Mautic\LeadBundle\Controller\EntityContactsTrait;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\SubscriptionBundle\Entity\Account;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -564,7 +565,7 @@ class DripEmailController extends FormController
         ];
         if ($this->request->getMethod() == 'POST') {
             if (!$cancelled = $this->isFormCancelled($form)) {
-                if ($valid = $this->isFormValid($form)) {
+                if ($valid = $this->isFormValid($form) && $this->checkDMARKinDefaultSendingDomain($form)) {
                     $formData = $this->request->request->get('dripemailform');
                     $entity->setName($formData['name']);
                     $entity->setFromAddress($formData['fromAddress']);
@@ -588,13 +589,7 @@ class DripEmailController extends FormController
                     $email = $this->getModel('email');
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
-                    $paymentrepository  =$this->get('le.subscription.repository.payment');
-                    $lastpayment        = $paymentrepository->getLastPayment();
-                    $prefix             = 'Trial';
-                    if ($lastpayment != null) {
-                        $prefix = 'Customer';
-                    }
-                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
                     $sendBtnClicked     =$form->get('buttons')->get('schedule')->isClicked();
                     $isUpdateFlashNeeded=true;
                     if (!$sendBtnClicked) {
@@ -782,13 +777,7 @@ class DripEmailController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -854,13 +843,7 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -1105,13 +1088,7 @@ class DripEmailController extends FormController
 
             return $this->viewAction($objectId);
         }
-        $paymentrepository  =$this->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        $prefix             = 'Trial';
-        if ($lastpayment != null) {
-            $prefix = 'Customer';
-        }
-        $isStateAlive=$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured');
+        $isStateAlive=$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         $configurl   =$this->factory->getRouter()->generate('le_sendingdomain_action');
         if ($isStateAlive) {
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -1707,7 +1684,7 @@ class DripEmailController extends FormController
             $email[0]['custom_html'] = $content;
             $email[1]['footer']      = $dripEntity->getUnsubscribeText() == '' ? $this->coreParametersHelper->getParameter('footer_text') : $dripEntity->getUnsubscribeText();
             $email[2]['type']        = $emailentity->getBeeJSON();
-            if ($account->getNeedpoweredby()) {
+            if (false) { //$account->getNeedpoweredby()
                 $url                     = 'https://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();
                 $icon                    = 'https://anyfunnels.com/wp-content/uploads/leproduct/anyfunnels-footer2.png'; //$this->factory->get('templating.helper.assets')->getUrl('media/images/le_branding.png');
                 $atag                    = "<br><br><div style='background-color: #FFFFFF;text-align: center;'><a href='$url' target='_blank'><img style='height: 35px;width:160px;' src='$icon'></a></div>";
@@ -1870,5 +1847,18 @@ class DripEmailController extends FormController
                 'objectId'     => $dripemail->getId(),
             ]
         ));
+    }
+
+    public function checkDMARKinDefaultSendingDomain($form)
+    {
+        $isValidForm = true;
+        $formData    = $this->request->request->get('dripemailform');
+        $isvalid     = $this->get('mautic.helper.licenseinfo')->checkDMARKinDefaultSendingDomain($formData['fromAddress']);
+        if (!$isvalid) {
+            $isValidForm = false;
+            $form['fromAddress']->addError(new FormError($this->translator->trans('le.lead.email.from.dmark.error', [], 'validators')));
+        }
+
+        return $isValidForm;
     }
 }

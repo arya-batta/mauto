@@ -145,7 +145,14 @@ if (!$isEmailVerified) {
             </div>
         </div>
     </div>
-
+<?php
+    if (!$hideRecommendPc && $isMobile) {
+        echo $view->render('MauticSubscriptionBundle:Subscription:desktop_recommend.html.php',
+            [
+                'typePrefix' => 'email',
+            ]);
+    }
+?>
 <div class="row" style="text-align: center;padding-top: 10px;margin-bottom: -20px;">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">

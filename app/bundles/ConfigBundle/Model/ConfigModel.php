@@ -60,11 +60,6 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Accounts.png',
                     'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'edit']),
                 ],
-                'Sender Reputation' => [
-                    'name'=> 'Sender Reputation',
-                    'img' => 'Sender-Reputation.png',
-                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction' => 'senderreputation']),
-                ],
                 'Billing' => [
                     'name'=> 'Billing',
                     'img' => 'Billing.png',
@@ -75,10 +70,17 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Payment-History.png',
                     'url' => $this->router->generate('le_accountinfo_action', ['objectAction'=>'payment']),
                 ],
+            ],
+            'User Profile'=> [
                 'Users' => [
                     'name'=> 'Users',
                     'img' => 'Users.png',
                     'url' => $this->router->generate('le_user_index'),
+                ],
+                'Sender Reputation' => [
+                    'name'=> 'Sender Reputation',
+                    'img' => 'Sender-Reputation.png',
+                    'url' => $this->router->generate('le_accountinfo_action', ['objectAction' => 'senderreputation']),
                 ],
             ],
             'Configurations' => [
@@ -92,11 +94,6 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Email-Settings.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'emailconfig']),
                 ],
-                'UTM Tracking' => [
-                    'name'=> 'UTM Tracking',
-                    'img' => 'UTM-Tracking.png',
-                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'analyticsconfig']),
-                ],
                 'Text Messages Settings' => [
                     'name'=> 'Text Messages Settings',
                     'img' => 'Text-Messages-Settings.png',
@@ -107,15 +104,10 @@ class ConfigModel extends AbstractCommonModel
                     'img' => 'Website-Tracking.png',
                     'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'trackingconfig']),
                 ],
-                'Group' => [
-                    'name'=> 'Group',
-                    'img' => 'Category.png',
-                    'url' => $this->router->generate('le_category_index'),
-                ],
             ],
             'Templates'=> [
-                'Notification Email' => [
-                    'name'=> 'Notification Emails',
+                'Notifications' => [
+                    'name'=> 'Notifications',
                     'img' => 'Notification-Email-Templates.png',
                     'url' => $this->router->generate('le_email_index'),
                 ],
@@ -128,6 +120,18 @@ class ConfigModel extends AbstractCommonModel
                     'name'=> 'Slack Messages',
                     'img' => 'slack.png',
                     'url' => $this->router->generate('le_slack_index'),
+                ],
+            ],
+            'Others'=> [
+                'UTM Tracking' => [
+                    'name'=> 'UTM Tracking',
+                    'img' => 'UTM-Tracking.png',
+                    'url' => $this->router->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> 'analyticsconfig']),
+                ],
+                'Group' => [
+                    'name'=> 'Group',
+                    'img' => 'Category.png',
+                    'url' => $this->router->generate('le_category_index'),
                 ],
                 'Files/ Lead Magnets' => [
                     'name'=> 'Files/ Lead Magnets',
@@ -188,10 +192,9 @@ class ConfigModel extends AbstractCommonModel
             ],
         ];
 
-        $paymentrepository  =$this->factory->get('le.subscription.repository.payment');
-        $lastpayment        = $paymentrepository->getLastPayment();
-        if ($lastpayment == null) {
-            unset($settingsMenu[0]['Account settings']['Sender Reputation']);
+        $apikey=$this->factory->getParameter('mailer_password');
+        if ($apikey == '' || $apikey == 'le_trial_password') {
+            unset($settingsMenu[0]['User Profile']['Sender Reputation']);
         }
 
         return $settingsMenu[0];

@@ -504,7 +504,7 @@ class ConfigController extends FormController
             [
                 'viewParameters' => [
                     'settingsMenu'        => $settingsMenu,
-                    'isTrialAccount'      => $smHelper->isStateAlive('Trial_Active'),
+                    'isTrialAccount'      => $smHelper->isStateAlive('Trial_Unverified_Email'),
                 ],
                 'contentTemplate' => 'MauticConfigBundle:setupMenu:setupmenu.html.php',
                 'passthroughVars' => [
