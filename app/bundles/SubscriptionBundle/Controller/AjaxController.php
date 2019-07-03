@@ -1127,7 +1127,7 @@ class AjaxController extends CommonAjaxController
                         $smHelper->newStateEntry('Customer_Active');
                     }
                     $smHelper->addStateWithLead();
-                    $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
+                    // $smHelper->sendInternalSlackMessage('90_days_trial_subscribed');
                     // }
                     if ($amount == 1) {
                         $amount = 0;

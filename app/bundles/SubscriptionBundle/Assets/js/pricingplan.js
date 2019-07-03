@@ -1,6 +1,3 @@
-Le.selectedCountry = "";
-Le.selectedState = "";
-Le.selectedCity = "";
 Le.accountinfoOnLoad = function (container) {
     if(mQuery('.cardholder-panel').is(':visible')) {
         var stripe = getStripeClient();
@@ -40,12 +37,6 @@ Le.accountinfoOnLoad = function (container) {
     }
 }
 Le.billingOnLoad = function (container) {
-    /*mQuery.getScript('http://www.geoplugin.net/javascript.gp', function(){
-        var state = geoplugin_regionName();
-        var country = geoplugin_countryName();
-        var city = geoplugin_city();
-    });*/
-    Le.setDefaultStateValues();
     var stripe = getStripeClient();
     var card=getStripeCard(stripe);
     if(mQuery('#card-holder-widget').is(':visible')) {
@@ -75,13 +66,6 @@ Le.billingOnLoad = function (container) {
         });
     });
     //Le.pricingplansOnLoad(container);
-}
-Le.setDefaultStateValues = function (){
-    mQuery('#selectstate').val(Le.selectedState);
-    mQuery('#selectcountry').val(Le.selectedCountry);
-    mQuery('#welcome_city').val(Le.selectedCity);
-    Le.activateChosenSelect(mQuery("#selectstate"));
-    Le.activateChosenSelect(mQuery("#selectcountry"));
 }
 Le.pricingplansOnLoad = function (container) {
     /*var stripe = getStripeClient();
@@ -361,7 +345,7 @@ Le.openCancelSubscriptionModel = function(){
 Le.cancelSubscription = function(){
     try{
         Le.activateBackdrop();
-        var cancelreason = mQuery('#cancel_reason').val();
+        var cancelreason = mQuery('#cancel_reason option:selected').text();
         var cancelfeedback = mQuery('#reason_feedback').val();
         Le.ajaxActionRequest('subscription:cancelsubscription', {cancelreason:cancelreason,cancelfeedback:cancelfeedback}, function(response) {
             Le.deactivateBackgroup();

@@ -1,127 +1,126 @@
 Le.welcomeOnLoad = function() {
-    Le.setDefaultStateValues(true);
-    mQuery('.welcome-input-text-1').on('input focusout', function() {
-        var firstname = mQuery("#welcome_firstname").val();
-        var lastname = mQuery("#welcome_lastname").val();
-        var phone = mQuery("#welcome_phone").val();
-        if(firstname == "" || phone == ""){
-            if(mQuery(this).hasClass('firstname') && firstname == ""){
-                mQuery(".firstname_error").removeClass('hide');
-            } //else if (mQuery(this).hasClass('firstname') && firstname != ""){
-               // mQuery(".firstname_error").addClass('hide');
-            //}
-            if (mQuery(this).hasClass('phone') && phone == ""){
-                mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Please provide a valid mobile number.");
-                mQuery(".phone_error").removeClass('hide');
-            } /*else if (mQuery(this).hasClass('phone') && phone != "" && (/^[0-9]+$/.test(phone))){
-                mQuery(".phone_error").addClass('hide');
-            } else if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
-                mQuery(".phone_error").removeClass('hide');
-                mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Please provide a valid mobile number.");
-            }*/
-            mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-        } else {
-            /*if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
-                mQuery(".phone_error").removeClass('hide');
-                mQuery(".phone_error").text('');
-                mQuery(".phone_error").text("Please provide a valid mobile number.");
-                mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-            } */
-            mQuery(".firstname_error").addClass('hide');
-            mQuery(".phone_error").addClass('hide');
-            mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
-
-        }
-    });
-    mQuery('.welcome-input-text-2').on('input focusout', function() {
-        var business = mQuery("#welcome_business").val();
-        var website = mQuery("#welcome_websiteurl").val();
-        var industry = mQuery("#welcome_industry").val();
-        var currentesp = mQuery("#welcome_currentesp").val();
-        if(business == "" || website == "" || industry == "" || currentesp == ""){
-            if(mQuery(this).hasClass('business') && business == ""){
-                mQuery(".business_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('business') && business != ""){
-                mQuery(".business_error").addClass('hide');
-            }
-            if (mQuery(this).hasClass('website_url') && website == ""){
-                mQuery(".website_error").text('');
-                mQuery(".website_error").text("Please provide a valid website URL.");
-                mQuery(".website_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('website_url') && website != "" && Le.IsProperURL(website)){
-                mQuery(".website_error").addClass('hide');
-            } else if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
-                mQuery(".website_error").removeClass('hide');
-                mQuery(".website_error").text('');
-                mQuery(".website_error").text("Please provide a valid website URL.");
-            }
-            if (mQuery(this).hasClass('industry') && industry == ""){
-                mQuery(".industry_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('industry') && industry != ""){
-                mQuery(".industry_error").addClass('hide');
-            }
-            if (mQuery(this).hasClass('currentesp') && currentesp == ""){
-                mQuery(".currentesp_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('currentesp') && currentesp != ""){
-                mQuery(".currentesp_error").addClass('hide');
-            }
-            mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-        } else {
-            if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
-                mQuery("#welcome_websiteurl").addClass('error_input');
-                mQuery(".website_error").removeClass('hide');
-                mQuery(".website_error").text('');
-                mQuery(".website_error").text("Please provide a valid website URL.");
-                mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-            } else {
-                mQuery(".business_error").addClass('hide');
-                mQuery(".website_error").addClass('hide');
-                mQuery(".industry_error").addClass('hide');
-                mQuery(".currentesp_error").addClass('hide');
-                mQuery("#welcome_websiteurl").removeClass('error_input');
-                mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
-            }
-        }
-    });
-    mQuery('.welcome-input-text-3').on('input focusout', function() {
-        var address = mQuery("#welcome_address").val();
-        var city = mQuery("#welcome_city").val();
-        var zipcode = mQuery("#welcome_zip").val();
-        if(address == "" || city == "" || zipcode == ""){
-            if(mQuery(this).hasClass('address') && address == ""){
-                mQuery(".address_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('address') && address != ""){
-                mQuery(".address_error").addClass('hide');
-            }
-            if (mQuery(this).hasClass('city') && city == ""){
-                mQuery(".city_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('city') && city != ""){
-                mQuery(".city_error").addClass('hide');
-            }
-            if (mQuery(this).hasClass('zip') && zipcode == ""){
-                mQuery(".zip_error").text('');
-                mQuery(".zip_error").text("Zip code can't be empty");
-                mQuery(".zip_error").removeClass('hide');
-            } else if (mQuery(this).hasClass('zip') && zipcode != ""){
-                mQuery(".zip_error").addClass('hide');
-            }
-            mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-        } else {
-            if (mQuery(this).hasClass('zip') && (!/^[0-9]+$/.test(zipcode))) {
-                mQuery(".zip_error").removeClass('hide');
-                mQuery(".zip_error").text('');
-                mQuery(".zip_error").text("Please provide valid Zip/ Postal code.");
-                mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
-            } else {
-                mQuery(".address_error").addClass('hide');
-                mQuery(".city_error").addClass('hide');
-                mQuery(".zip_error").addClass('hide');
-                mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
-            }
-        }
-    });
+    // mQuery('.welcome-input-text-1').on('input focusout', function() {
+    //     var firstname = mQuery("#welcome_firstname").val();
+    //     var lastname = mQuery("#welcome_lastname").val();
+    //     var phone = mQuery("#welcome_phone").val();
+    //     if(firstname == "" || phone == ""){
+    //         if(mQuery(this).hasClass('firstname') && firstname == ""){
+    //             mQuery(".firstname_error").removeClass('hide');
+    //         } //else if (mQuery(this).hasClass('firstname') && firstname != ""){
+    //            // mQuery(".firstname_error").addClass('hide');
+    //         //}
+    //         if (mQuery(this).hasClass('phone') && phone == ""){
+    //             mQuery(".phone_error").text('');
+    //             mQuery(".phone_error").text("Please provide a valid mobile number.");
+    //             mQuery(".phone_error").removeClass('hide');
+    //         } /*else if (mQuery(this).hasClass('phone') && phone != "" && (/^[0-9]+$/.test(phone))){
+    //             mQuery(".phone_error").addClass('hide');
+    //         } else if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
+    //             mQuery(".phone_error").removeClass('hide');
+    //             mQuery(".phone_error").text('');
+    //             mQuery(".phone_error").text("Please provide a valid mobile number.");
+    //         }*/
+    //         mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //     } else {
+    //         /*if (mQuery(this).hasClass('phone') && (!/^[0-9]+$/.test(phone))){
+    //             mQuery(".phone_error").removeClass('hide');
+    //             mQuery(".phone_error").text('');
+    //             mQuery(".phone_error").text("Please provide a valid mobile number.");
+    //             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //         } */
+    //         mQuery(".firstname_error").addClass('hide');
+    //         mQuery(".phone_error").addClass('hide');
+    //         mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
+    //
+    //     }
+    // });
+    // mQuery('.welcome-input-text-2').on('input focusout', function() {
+    //     var business = mQuery("#welcome_business").val();
+    //     var website = mQuery("#welcome_websiteurl").val();
+    //     var industry = mQuery("#welcome_industry").val();
+    //     var currentesp = mQuery("#welcome_currentesp").val();
+    //     if(business == "" || website == "" || industry == "" || currentesp == ""){
+    //         if(mQuery(this).hasClass('business') && business == ""){
+    //             mQuery(".business_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('business') && business != ""){
+    //             mQuery(".business_error").addClass('hide');
+    //         }
+    //         if (mQuery(this).hasClass('website_url') && website == ""){
+    //             mQuery(".website_error").text('');
+    //             mQuery(".website_error").text("Please provide a valid website URL.");
+    //             mQuery(".website_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('website_url') && website != "" && Le.IsProperURL(website)){
+    //             mQuery(".website_error").addClass('hide');
+    //         } else if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
+    //             mQuery(".website_error").removeClass('hide');
+    //             mQuery(".website_error").text('');
+    //             mQuery(".website_error").text("Please provide a valid website URL.");
+    //         }
+    //         if (mQuery(this).hasClass('industry') && industry == ""){
+    //             mQuery(".industry_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('industry') && industry != ""){
+    //             mQuery(".industry_error").addClass('hide');
+    //         }
+    //         if (mQuery(this).hasClass('currentesp') && currentesp == ""){
+    //             mQuery(".currentesp_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('currentesp') && currentesp != ""){
+    //             mQuery(".currentesp_error").addClass('hide');
+    //         }
+    //         mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //     } else {
+    //         if(mQuery(this).hasClass('website_url') && !Le.IsProperURL(website)){
+    //             mQuery("#welcome_websiteurl").addClass('error_input');
+    //             mQuery(".website_error").removeClass('hide');
+    //             mQuery(".website_error").text('');
+    //             mQuery(".website_error").text("Please provide a valid website URL.");
+    //             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //         } else {
+    //             mQuery(".business_error").addClass('hide');
+    //             mQuery(".website_error").addClass('hide');
+    //             mQuery(".industry_error").addClass('hide');
+    //             mQuery(".currentesp_error").addClass('hide');
+    //             mQuery("#welcome_websiteurl").removeClass('error_input');
+    //             mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
+    //         }
+    //     }
+    // });
+    // mQuery('.welcome-input-text-3').on('input focusout', function() {
+    //     var address = mQuery("#welcome_address").val();
+    //     var city = mQuery("#welcome_city").val();
+    //     var zipcode = mQuery("#welcome_zip").val();
+    //     if(address == "" || city == "" || zipcode == ""){
+    //         if(mQuery(this).hasClass('address') && address == ""){
+    //             mQuery(".address_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('address') && address != ""){
+    //             mQuery(".address_error").addClass('hide');
+    //         }
+    //         if (mQuery(this).hasClass('city') && city == ""){
+    //             mQuery(".city_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('city') && city != ""){
+    //             mQuery(".city_error").addClass('hide');
+    //         }
+    //         if (mQuery(this).hasClass('zip') && zipcode == ""){
+    //             mQuery(".zip_error").text('');
+    //             mQuery(".zip_error").text("Zip code can't be empty");
+    //             mQuery(".zip_error").removeClass('hide');
+    //         } else if (mQuery(this).hasClass('zip') && zipcode != ""){
+    //             mQuery(".zip_error").addClass('hide');
+    //         }
+    //         mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //     } else {
+    //         if (mQuery(this).hasClass('zip') && (!/^[0-9]+$/.test(zipcode))) {
+    //             mQuery(".zip_error").removeClass('hide');
+    //             mQuery(".zip_error").text('');
+    //             mQuery(".zip_error").text("Please provide valid Zip/ Postal code.");
+    //             mQuery('#continue-btn').attr('disabled',true).addClass('btn-disabled');
+    //         } else {
+    //             mQuery(".address_error").addClass('hide');
+    //             mQuery(".city_error").addClass('hide');
+    //             mQuery(".zip_error").addClass('hide');
+    //             mQuery('#continue-btn').attr('disabled', false).removeClass('btn-disabled');
+    //         }
+    //     }
+    // });
     mQuery("#continue-btn").on('click', function(){
         mQuery(this).val('Please wait...');
     });

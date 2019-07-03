@@ -1351,7 +1351,7 @@ class AjaxController extends CommonAjaxController
             $elaticApiKey=$smHelper->createElasticSubAccountandAssign();
             if (!$elaticApiKey) {
                 $status =false;
-                $message='Some technical error found! Please contact support.';
+                $message=$this->translator->trans('le.message.technical.error');
             }
         }
         if ($elaticApiKey) {
@@ -1374,11 +1374,11 @@ class AjaxController extends CommonAjaxController
                     ]);
                 } else {
                     $status =false;
-                    $message='Domain is already configured in another AnyFunnels account. Try with other domain or contact support.';
+                    $message=$this->translator->trans('le.email.sending.domain.already.configured.alert');
                 }
             } else {
                 $status =false;
-                $message='domain already exist!';
+                $message=$this->translator->trans('le.email.sending.domain.already.exist.alert');
             }
         }
         $data             = ['success'            => $status, 'content'=>$content, 'message'=>$message];
@@ -1388,22 +1388,28 @@ class AjaxController extends CommonAjaxController
 
     protected function senderDomainDeleteAction(Request $request)
     {
-        $status     =true;
-        $content    ='';
-        $message    ='';
-        $domain     = InputHelper::clean($request->request->get('domain'));
+        $status        =true;
+        $content       ='';
+        $message       ='';
+        $domainVal     = InputHelper::clean($request->request->get('domain'));
         /** @var EmailModel $model */
         $model            = $this->getModel('email');
         $elasticApiHelper = $this->get('mautic.helper.elasticapi');
-        $deleteStatus     =$elasticApiHelper->deleteDomain($domain);
-        if ($deleteStatus) {
-            $domainList=$model->getRepository()->getAllSendingDomains($domain);
-            foreach ($domainList as $domain) {
-                $model->getRepository()->deleteEntity($domain);
+        $domainList       =$model->getRepository()->getAllSendingDomains($domainVal);
+        foreach ($domainList as $domain) {
+            if ($domain->getIsDefault()) {
+                $status =false;
+                $message=$this->translator->trans('le.email.default.sending.domain.delete.alert');
+            } else {
+                $deleteStatus     =$elasticApiHelper->deleteDomain($domainVal);
+                if ($deleteStatus) {
+                    $model->getRepository()->deleteEntity($domain);
+                } else {
+                    $status =false;
+                    $message=$this->translator->trans('le.message.technical.error');
+                }
             }
-        } else {
-            $status =false;
-            $message='domain delete failed due to some technical error!';
+            break;
         }
         $domainList         =$model->getRepository()->getAllSendingDomains();
         $isAnyDomainVerified=false;
@@ -1453,6 +1459,10 @@ class AjaxController extends CommonAjaxController
             $sendingdomain->settrackingCheck($tracking_check);
             $sendingdomain->setdmarcCheck($dmark_check);
             $sendingdomain->setStatus($dkim_check && $spf_check);
+            if (!$this->isAnyDefaultDomainSet() && $sendingdomain->getStatus()) {
+                $sendingdomain->setIsDefault(true);
+                $elasticApiHelper->setDefaultDomain($domain);
+            }
             $model->getRepository()->saveEntity($sendingdomain);
         }
         $domainList          =$model->getRepository()->getAllSendingDomains();
@@ -1498,6 +1508,21 @@ class AjaxController extends CommonAjaxController
         return $this->sendJsonResponse($data);
     }
 
+    protected function isAnyDefaultDomainSet()
+    {
+        /** @var EmailModel $model */
+        $model               = $this->getModel('email');
+        $domainList          =$model->getRepository()->getAllSendingDomains();
+        $defaultset          =false;
+        foreach ($domainList as $sendingdomain) {
+            if ($sendingdomain->getStatus() && $sendingdomain->getIsDefault()) {
+                $defaultset=true;
+            }
+        }
+
+        return $defaultset;
+    }
+
     protected function senderDomainDefaultAction(Request $request)
     {
         $status     =true;
@@ -1509,7 +1534,7 @@ class AjaxController extends CommonAjaxController
         foreach ($domainList as $sendingdomain) {
             if (!$sendingdomain->getStatus()) {
                 $status =false;
-                $message='Please verify your domain before make it default';
+                $message=$this->translator->trans('le.email.sending.domain.verify.alert');
             }
             break;
         }
@@ -1533,6 +1558,8 @@ class AjaxController extends CommonAjaxController
                             $smHelper->newStateEntry($prefix.'_Active', '');
                         }
                     }
+                    $elasticApiHelper    = $this->get('mautic.helper.elasticapi');
+                    $response            =$elasticApiHelper->setDefaultDomain($domain);
                 } else {
                     $sendingdomain->setIsDefault(false);
                 }

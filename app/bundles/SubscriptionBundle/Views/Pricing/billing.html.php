@@ -102,7 +102,7 @@ $billingCountry     =$billing->getCountry();
                             </div>
                             <div class="col-md-6">
                                 <label for="state">State</label>
-                                <select name="welcome[state]" class="selop not-chosen" id="selectstate">
+                                <select name="welcome[state]" class="selop" id="selectstate">
                                     <option value="blank" <?php echo empty($billingState) ? 'selected' : ''?>>Choose your State</option>
                                     <?php foreach ($states as $stategrouplabel => $stategroup):?>
                                         <optgroup label="<?php echo $stategrouplabel; ?>">
@@ -124,7 +124,7 @@ $billingCountry     =$billing->getCountry();
                             </div>
                             <div class="col-md-6">
                                 <label for="country">Country</label>
-                                <select name="welcome[country]" class="selop not-chosen" id="selectcountry">
+                                <select name="welcome[country]" class="selop" id="selectcountry">
                                     <option value="blank" <?php echo empty($billingCountry) ? 'selected' : ''?>>Choose your Country</option>
                                     <?php foreach ($countries as $countryname):?>
                                         <option value="<?php echo $countryname?>" <?php echo !empty($billingCountry) && $billingCountry == $countryname ? 'selected' : ''?>><?php echo $countryname; ?></option>
@@ -222,7 +222,4 @@ $billingCountry     =$billing->getCountry();
 </div>
 <script>
     mQuery("#select_listsize option[value='<?php echo $kyc->getSubscribercount(); ?>']").attr('selected','selected');
-    Le.selectedCountry = "<?php echo $country ?>";
-    Le.selectedState = "<?php echo $state ?>";
-    Le.selectedCity = "<?php echo $city ?>";
 </script>

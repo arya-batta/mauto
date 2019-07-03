@@ -333,4 +333,19 @@ class ElasticApiHelper
             return false;
         }
     }
+
+    public function setDefaultDomain($domain)
+    {
+        $domain  ='mailer@'.$domain;
+        $response=$this->sendApiRequest('domain/setdefault', ['domain'=>$domain]);
+        if ($response) {
+            if (isset($response->success) && $response->success) {
+                return [true, ''];
+            } else {
+                return [false, $response->error];
+            }
+        } else {
+            return [false, ''];
+        }
+    }
 }
