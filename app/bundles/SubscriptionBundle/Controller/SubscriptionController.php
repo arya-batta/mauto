@@ -629,6 +629,11 @@ class SubscriptionController extends CommonController
 
         $countryChoices  = FormFieldHelper::getCountryChoices();
         $regionChoices   = FormFieldHelper::getRegionChoices();
+        $contentTemplate ='MauticSubscriptionBundle:Subscription:desktop-email-verify.html.php';
+        $ismobile        = InputHelper::isMobile();
+        if ($ismobile) {
+            $contentTemplate='MauticSubscriptionBundle:Subscription:mobile-email-verify.html.php';
+        }
 
         return $this->delegateView(
             [
@@ -645,7 +650,7 @@ class SubscriptionController extends CommonController
                     'billing'    => $billingEntity,
                     'kyc'        => $kyc,
                 ],
-                'contentTemplate' => 'MauticSubscriptionBundle:Subscription:setup.html.php',
+                'contentTemplate' => $contentTemplate,
                 'passthroughVars' => [
                     'activeLink'    => '#le_welcome_action',
                     'leContent'     => 'welcome',

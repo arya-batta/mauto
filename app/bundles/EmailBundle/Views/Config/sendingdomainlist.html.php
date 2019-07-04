@@ -16,7 +16,7 @@
         </th>
         <th style="width: 15%" data-help="dmark">
             DMARC
-            <i class="fa fa-question ecircle" aria-hidden="true"></i>
+            <!--<i class="fa fa-question ecircle" aria-hidden="true"></i>-->
         </th>
         <!--<th style="width: 15%" data-help="tracking">
          Tracking

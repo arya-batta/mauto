@@ -153,7 +153,7 @@ $billingCountry     =$billing->getCountry();
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card-holder-title">
-                                    Payment method
+                                    Credit Card Information
                                 </div>
                             </div>
                             <div class="col-md-4 hide">
@@ -163,9 +163,6 @@ $billingCountry     =$billing->getCountry();
                                 </span>
                             </div>
                         </div>
-                        <p class="header_desc">
-                            Add your credit card to subscribe.
-                        </p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div id="card-holder-widget" data-le-token="<?php echo $letoken?>">

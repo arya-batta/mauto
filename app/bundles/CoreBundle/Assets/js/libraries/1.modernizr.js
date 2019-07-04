@@ -259,9 +259,12 @@ window.Modernizr = (function( window, document, undefined ) {
         return testPropsAll('flexWrap');
     };
 
-    tests['sidebar-minimized'] = function () {
-        return !testPropsAll('sidebar-minimized')
-    };
+    //remove by prabhu.to open sidebar by default.
+    // tests['sidebar-minimized'] = function () {
+    //     return !testPropsAll('sidebar-minimized')
+    // };
+
+
     tests['flexboxlegacy'] = function() {
         return testPropsAll('boxDirection');
     };
