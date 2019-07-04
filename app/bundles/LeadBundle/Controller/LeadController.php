@@ -1861,7 +1861,6 @@ class LeadController extends FormController
             return $this->modalAccessDenied();
         }
         $smHelper           = $this->get('le.helper.statemachine');
-        $isStateAlive       =$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
             $this->addFlash($this->translator->trans('le.email.unverified.error'));
 
@@ -1874,7 +1873,7 @@ class LeadController extends FormController
                 ]
             );
         }
-        if ($isStateAlive) {
+        if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
 

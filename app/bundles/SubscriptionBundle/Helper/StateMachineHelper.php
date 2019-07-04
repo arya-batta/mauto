@@ -34,7 +34,7 @@ class StateMachineHelper
     public $channelList = [
                                 'new_signup'                            => 'CKAU44C1H',
                                 'new_activated_signup'                  => 'CKMRZN9NG',
-                                '90_days_trial_subscribed'              => 'CKMS0EWEQ',
+                                //'90_days_trial_subscribed'              => 'CKMS0EWEQ',
                                 'sending_domain_configured'             => 'CKMS1NCEQ',
                                 'subscription_payment_received'         => 'CK6UGDSJ0',
                                 'addon_payment_received'                => 'CK6UGDSJ0',
@@ -58,6 +58,7 @@ class StateMachineHelper
                                 'trial_inactive_sending_domain_issue'   => 'CK997TVB9',
                                 //'trial_sending_domain_not_configured'   => 'CK997TVB9',
                                // 'trial_unverified_email'                => 'CK997TVB9',
+                                'first_payment'                            => 'CKYBKNQP3',
                                ];
 
     public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', /*'current_contact_size'=>'*Current Contact Size*',*/ 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
