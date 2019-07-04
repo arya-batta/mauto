@@ -199,6 +199,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
             var zipcode = mQuery('#welcome_zip').val();
             var state = mQuery('#selectstate').val();
             var country = mQuery('#selectcountry').val();
+            var website = mQuery('#welcome_website').val();
             var isvalidrequest = true;
             if(businessname == ''){
                 isvalidrequest = false;
@@ -261,6 +262,7 @@ function stripeTokenHandler(card,token,rootclass,btnelement){
                 zipcode : zipcode,
                 state : state,
                 country : country,
+                website: website,
             };
         }
 

@@ -63,6 +63,13 @@ $billingCountry     =$billing->getCountry();
                             </div>
                         </div>
                         <div class="row hide">
+                        <div class="col-md-6">
+                            <label for="weburl">Website</label>
+                            <input type="url" id="welcome_website" class="form-control le-input" name="welcome[website]" value="<?php echo $account->getWebsite(); ?>">
+                            <p class="label_control_error website_error hide">WebSite Email can't be empty.</p>
+                        </div>
+                        </div>
+                        <div class="row hide">
                             <div class="col-md-6">
                                 <label for="phone">Current Contact Size</label>
                                 <select name="welcome[listsize]" class="selop" id="select_listsize">
