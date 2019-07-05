@@ -44,7 +44,7 @@ return [
                 'controller' => 'MauticSubscriptionBundle:Subscription:offer',
             ],
             'le_welcome_action' => [
-                'path'       => '/welcome',
+                'path'       => '/verify/email',
                 'controller' => 'MauticSubscriptionBundle:Subscription:welcome',
             ],
             'le_account_suspended_action' => [
