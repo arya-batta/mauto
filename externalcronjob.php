@@ -405,10 +405,17 @@ function checkLicenseAvailablity($con, $dbname, $appid)
 function checkSegmentAvailablity($con, $dbname)
 {
     $segmenttable = $dbname.'.lead_lists';
-    $sql          = "select * from $segmenttable where is_published = 1 and filters != ''";
+    $sql          = "select filters from $segmenttable where is_published = 1";
     $result       = getResultArray($con, $sql);
     if (count($result) > 0) {
-        return true;
+        for ($i = 0; $i < sizeof($result); ++$i) {
+            $filters = $result[$i][0];
+            if (sizeof($filters) > 0) {
+                return true;
+            }
+        }
+
+        return false;
     } else {
         return false;
     }

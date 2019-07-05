@@ -868,15 +868,25 @@ class CommonApiController extends FOSRestController implements MauticController
         }
         $parameters = $this->request->request->all();
 
-        $entity           = $this->getNewEntity($parameters);
-        $isValidRecordAdd = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
-        $actualrecord     = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
-        $totalrecord      = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
-        $actualrecord     = number_format($actualrecord);
-        $totalrecord      = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
-        $smHelper         = $this->get('le.helper.statemachine');
+        $entity             = $this->getNewEntity($parameters);
+        $isValidRecordAdd   = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
+        $actualrecord       = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $totalrecord        = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
+        $actualrecord       = number_format($actualrecord);
+        $totalrecord        = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
+        $smHelper           = $this->get('le.helper.statemachine');
+        $paymentrepository  =$this->get('le.subscription.repository.payment');
+        $lastpayment        = $paymentrepository->getLastPayment();
+        $msg                = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
+        $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
+        if ($lastpayment != null) {
+            $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+            if ($isvalid) {
+                $msg              = $isvalid;
+                $isValidRecordAdd = false;
+            }
+        }
         if (!$isValidRecordAdd && $this->entityNameOne == 'lead') {
-            $msg   = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
             $error = [
                 'code'    => Codes::HTTP_OK,
                 'message' => $msg,

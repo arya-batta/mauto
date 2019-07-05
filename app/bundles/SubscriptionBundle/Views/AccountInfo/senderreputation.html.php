@@ -38,7 +38,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                             <p style="font-size: 12px;"><?php echo $view['translator']->trans('le.email.config.sender.reputation.help'); ?></p>
                         </div>
                         <div class="panel-body">
-                            <table style="width: 100%;">
+                            <table style="width: 100%;line-height:30px;">
                                 <thead>
                                 <tr>
                                     <th style="width: 20%;">
