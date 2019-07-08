@@ -253,7 +253,7 @@ class DripEmailController extends FormController
         $action          = $this->generateUrl('le_dripemail_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]);
         $dateRangeForm   = $this->get('form.factory')->create('daterange', $dateRangeValues, ['action' => $action]);
 
-        if ($dripemail == null || $dripemail->getId() == '') {
+        if ($dripemail != null && $dripemail->getId() == '') {
             //set the return URL
             $returnUrl = $this->generateUrl('le_dripemail_index', ['page' => $page]);
 
@@ -1249,7 +1249,7 @@ class DripEmailController extends FormController
                     $this->addFlash('mautic.email.validity.expired');
                 } else {
                     $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
+                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount]);
                 }
 
                 return $this->postActionRedirect(
