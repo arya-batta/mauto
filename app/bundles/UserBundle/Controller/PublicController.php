@@ -185,7 +185,16 @@ class PublicController extends FormController
             $this->get('session')->set('_security_mautic', serialize($token));
             $this->get('session')->set('isLogin', true);
         }
-
+//        $redirectUrl=$this->generateUrl('login', [], 0);
+//
+//        return $this->delegateView([
+//            'viewParameters' => [
+//                'redirectUrl'     => $redirectUrl,
+//            ],
+//            'contentTemplate' => 'MauticUserBundle:Security:redirect.html.php',
+//            'passthroughVars' => [
+//            ],
+//        ]);
         return $this->delegateRedirect($this->generateUrl('login'));
     }
 }

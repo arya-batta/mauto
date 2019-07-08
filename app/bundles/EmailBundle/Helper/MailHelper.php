@@ -1411,7 +1411,7 @@ class MailHelper
     public function setIdHash($idHash = null, $statToBeGenerated = true)
     {
         if ($idHash === null) {
-            $idHash = uniqid();
+            $idHash = str_replace('.', '', uniqid('', true)); //uniqid();
         }
 
         $this->idHash      = $idHash;
