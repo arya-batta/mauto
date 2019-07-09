@@ -15,6 +15,8 @@ use Mautic\CoreBundle\Controller\FormController;
 use Mautic\CoreBundle\Helper\InputHelper;
 use Mautic\UserBundle\Security\Authentication\Token\PluginToken;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\SecurityEvents;
 
 class PublicController extends FormController
 {
@@ -181,9 +183,14 @@ class PublicController extends FormController
                 $userEntity->getUsername(),
                 $userEntity->getPassword()
             );
+            $authToken = $this->get('security.authentication.manager')->authenticate($token);
             $this->get('security.token_storage')->setToken($token);
             $this->get('session')->set('_security_mautic', serialize($token));
             $this->get('session')->set('isLogin', true);
+            if (null !== $this->dispatcher) {
+                $loginEvent = new InteractiveLoginEvent($this->request, $authToken);
+                $this->dispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $loginEvent);
+            }
         }
 //        $redirectUrl=$this->generateUrl('login', [], 0);
 //

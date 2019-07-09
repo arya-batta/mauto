@@ -28,9 +28,12 @@ class DashboardController extends FormController
 {
     public function indexAction()
     {
-        $paymentrepository = $this->get('le.subscription.repository.payment');
-        $lastpayment       = $paymentrepository->getLastPayment();
-
+        $paymentrepository   = $this->get('le.subscription.repository.payment');
+        $lastpayment         = $paymentrepository->getLastPayment();
+        $prefix              = 'Trial';
+        if ($lastpayment != null) {
+            $prefix = 'Customer';
+        }
         $loginsession   = $this->get('session');
         $loginarg       = $loginsession->get('isLogin');
         $dbhost         = $this->coreParametersHelper->getParameter('le_db_host');
@@ -67,7 +70,7 @@ class DashboardController extends FormController
         $model               = $this->getModel('email');
         $domainList          =$model->getRepository()->getAllVerifiedSendingDomains();
         $sendingDomainStatus = false;
-        if (count($domainList) > 0) {
+        if (!$smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured')) {
             $sendingDomainStatus = true;
         }
         $session                    = $this->get('session');

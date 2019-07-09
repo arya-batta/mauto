@@ -33,7 +33,7 @@
     <div class="col-md-2"></div>
 </div>
 <br>
-<div style="width:100%;margin-top:2%;">
+<div style="width:100%;margin-top:2%;margin-bottom:5%;">
 
     <div class="row">
         <form novalidate="" id="firstTimeSetup_Form" autocomplete="false" data-toggle="ajax" role="form" name="welcome" method="post" action="<?php echo $view['router']->generate('le_welcome_action'); ?>">

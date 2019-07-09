@@ -143,7 +143,7 @@ try {
             if (!sizeof($result) > 0) {
                 continue;
             }
-            if (checkLicenseAvailablity($con, $dbname, $appid)) {
+            if ($operation != 'le:statemachine:checker' && checkLicenseAvailablity($con, $dbname, $appid)) {
                 continue;
             }
             if (!isValidCronExecution($con, $domain, $dbname, $appid, $operation)) {
@@ -410,6 +410,7 @@ function checkSegmentAvailablity($con, $dbname)
     if (count($result) > 0) {
         for ($i = 0; $i < sizeof($result); ++$i) {
             $filters = $result[$i][0];
+            $filters = unserialize($filters);
             if (sizeof($filters) > 0) {
                 return true;
             }

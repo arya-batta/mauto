@@ -1111,16 +1111,24 @@ class AjaxController extends CommonAjaxController
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
                     $trialInActiveStatePresent=false;
                     if ($smHelper->isStateAlive('Trial_Inactive_Suspended')) {
+                        $smHelper->makeStateInActive(['Trial_Inactive_Suspended']);
                         $trialInActiveStatePresent=true;
                         $smHelper->newStateEntry('Customer_Inactive_Suspended');
                     }
                     if ($smHelper->isStateAlive('Trial_Inactive_Under_Review')) {
+                        $smHelper->makeStateInActive(['Trial_Inactive_Under_Review']);
                         $trialInActiveStatePresent=true;
                         $smHelper->newStateEntry('Customer_Inactive_Under_Review');
                     }
                     if ($smHelper->isStateAlive('Trial_Inactive_Sending_Domain_Issue')) {
+                        $smHelper->makeStateInActive(['Trial_Inactive_Sending_Domain_Issue']);
                         $trialInActiveStatePresent=true;
                         $smHelper->newStateEntry('Customer_Inactive_Sending_Domain_Issue');
+                    }
+                    if ($smHelper->isStateAlive('Trial_Sending_Domain_Not_Configured')) {
+                        $smHelper->makeStateInActive(['Trial_Sending_Domain_Not_Configured']);
+                        $trialInActiveStatePresent=true;
+                        $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                     }
 
                     if (!$smHelper->isStateAlive('Customer_Active') && !$trialInActiveStatePresent) {

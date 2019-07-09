@@ -1848,7 +1848,7 @@ class EmailCampaignController extends FormController
                     $this->addFlash('mautic.email.validity.expired');
                 } else {
                     $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
+                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount]);
                 }
 
                 return $this->postActionRedirect(

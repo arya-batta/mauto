@@ -1849,6 +1849,7 @@ class LeadController extends FormController
         $lead                  = $model->getEntity($objectId);
         $isValidEmailCount     = $this->get('mautic.helper.licenseinfo')->isValidEmailCount();
         $isHavingEmailValidity = $this->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
+        $actualEmailCount      = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
         $accountStatus         = $this->get('mautic.helper.licenseinfo')->getAccountStatus();
 
         if ($lead === null
@@ -2033,7 +2034,7 @@ class LeadController extends FormController
                                     $this->addFlash('mautic.email.validity.expired');
                                 } else {
                                     $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl]);
+                                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount]);
                                 }
                             }
                         } else {

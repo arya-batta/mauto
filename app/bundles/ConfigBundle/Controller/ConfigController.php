@@ -573,7 +573,7 @@ class ConfigController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_config_index',
                     'leContent'     => 'config',
-                    'route'         => $this->generateUrl('le_config_action', ['objectAction' => 'edit']),
+                    'route'         => $this->generateUrl('le_sendingdomain_action'),
                 ],
             ]
         );

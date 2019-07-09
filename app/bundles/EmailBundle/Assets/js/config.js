@@ -344,7 +344,11 @@ Le.configOnLoad = function (container){
    });
    var selectedConfigtab=mQuery("ul[class='list-group list-group-tabs']").find("li[class='list-group-item in active']").find("a[class='steps']");
    //Le.hideConfigButtonsByTabSelect(selectedConfigtab.attr('href'));
-    mQuery('#config_buttons_sendingdomain_toolbar').click(function(e) {
+    var sendingdomainbuttonid = "config_buttons_sendingdomain_toolbar";
+    if(Le.isMobile()){
+        sendingdomainbuttonid = "config_buttons_sendingdomain_toolbar_mobile";
+    }
+    mQuery('#'+sendingdomainbuttonid).click(function(e) {
         e.preventDefault();
         mQuery('#sender_domain_name').val('');
         mQuery('#sender_domain_name_errors').html('');

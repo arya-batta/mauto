@@ -115,7 +115,7 @@ class ElasticemailTransport extends \Swift_SmtpTransport implements CallbackTran
             $this->transportCallback->addFailureByAddress($email, $status, DoNotContact::UNSUBSCRIBED);
         } elseif ('Spam' === $category || in_array($status, ['AbuseReport'])) {
             $this->transportCallback->addFailureByAddress($email, $status, DoNotContact::SPAM);
-        } elseif (in_array($category, ['NoMailboxes', 'DNSProblem', 'Unknown', 'ConnectionTerminated', 'NotDelivered'])) {
+        } elseif (in_array($category, ['NoMailboxes', 'NoMailbox', 'DNSProblem', 'Unknown', 'ConnectionTerminated', 'NotDelivered'])) {
             $category = 'Bounce';
             $this->transportCallback->addFailureByAddress($email, $category);
         } elseif ($status == 'Error' || in_array($category, ['SPFProblem', 'AccountProblem', 'Ignore', 'BlackListed', 'GreyListed', 'Throttled', 'Timeout', 'ConnectionProblem', 'WhitelistingProblem', 'CodeError', 'ManualCancel', 'ContentFilter'])) {

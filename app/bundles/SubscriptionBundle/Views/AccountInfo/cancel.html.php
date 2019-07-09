@@ -56,9 +56,10 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
 
         <div class="cancel-subscription-modal-backdrop hide" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #2a323c; opacity: 0.9; z-index: 9000"></div>
 
-        <div class="modal fade in cancel-subscription-modal hide" style="display: block; z-index: 9999;">
-            <div class="modal-dialog">
-                <div class="modal-content">
+        <div class="modal le-modal-box-align fade in cancel-subscription-modal hide" style="display: block; z-index: 9999;">
+            <div class="le-modal-gradient">
+            <div class="modal-dialog le-gradient-align">
+                <div class="modal-content le-modal-content">
                     <div class="modal-header" style="padding-bottom:0px;">
                         <a href="javascript: void(0);" onclick="Le.closeModalAndRedirect('.cancel-subscription-modal', '<?php echo $view['router']->path($actionRoute, ['objectAction' => 'cancel']) ?>');" class="close" ><span aria-hidden="true">&times;</span></a>
                         <h4 class="modal-title">
@@ -98,6 +99,7 @@ $view['slots']->set('headerTitle', $view['translator']->trans('leadsengage.accou
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="clearfix"></div>
     </div>

@@ -3999,6 +3999,11 @@ File: Responsive
     margin-top: 2px;
   }
 }
+@media (max-width: 1024px){
+  body {
+    overflow-x: scroll !important;
+  }
+}
 @media (max-width: 767px) {
   body {
     overflow-x: hidden;
@@ -4164,6 +4169,9 @@ File: Responsive
 }
 .table .table-description >  a{
   color:#797979;
+}
+#welcome_city, #welcome_zip{
+  margin-top:0px;
 }
 
 /*# sourceMappingURL=style.css.map */

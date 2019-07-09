@@ -56,7 +56,7 @@ $view['slots']->set('headerTitle', $header);
                             <div>
                                 <li>Current Status: <b>Connected</b></li>
                                 <li>Connected (Authorized as <strong><?php echo $details['accountname'] ?></strong>)</li>
-                                <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
+                                <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-confirm-callback='executeAction' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
                             </div>
                             <div class="table-responsive integration-table-box" style="width:75%;">
                                 <table class="table table-bordered">
@@ -75,7 +75,7 @@ $view['slots']->set('headerTitle', $header);
                                                     <?php
                                                     $action     =$page[2] ? 'unsubscribe' : 'subscribe';
                                                     $actionlabel=$page[2] ? 'UnSubscribe' : 'Subscribe';
-                                                    $confirm    = $page[2] ? "data-toggle='confirmation' data-message='Do you want to UnSubscribe?' data-confirm-text='UnSubscribe' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'" : "data-toggle='ajax'";
+                                                    $confirm    = $page[2] ? "data-toggle='confirmation' data-message='Do you want to UnSubscribe?' data-confirm-text='UnSubscribe' data-confirm-callback='executeAction' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'" : "data-toggle='ajax'";
                                                     ?>
                                                     <a id="subscribe-btn" class="btn btn-default" href="<?php echo $view['router']->path('le_integrations_fb_page_subscription', ['integration' => $name, 'pageid'=>$page[0], 'action' => $action]) ?>" <?php echo $confirm; ?> onclick="Le.activateSpinner(this);"><span><i class="mr-5 fa fa-spinner fa-spin hide"></i></span><?php echo $actionlabel ?></a>
                                                 </td>

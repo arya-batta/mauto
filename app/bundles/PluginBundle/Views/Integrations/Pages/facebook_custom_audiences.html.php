@@ -34,7 +34,7 @@ $view['slots']->set('headerTitle', $header);
                     <div>
                         <li>Current Status: <b>Connected</b></li>
                         <li>Connected (Authorized as <strong><?php echo $details['accountname'] ?></strong>)</li>
-                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
+                        <a class="btn btn-default integration-click-btn" href="<?php echo $view['router']->path('le_integrations_account_remove', ['name' => $name]) ?>" data-toggle='confirmation' data-message='Do you want to Remove?' data-confirm-text='Remove' data-confirm-callback='executeAction' data-cancel-text='Cancel' data-cancel-callback='dismissConfirmation'>Remove</a>
                     </div>
                 <?php endif; ?>
             </div>
