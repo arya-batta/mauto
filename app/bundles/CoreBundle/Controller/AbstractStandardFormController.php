@@ -941,9 +941,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         $session = $this->get('session');
         if (empty($page)) {
@@ -1304,9 +1302,7 @@ abstract class AbstractStandardFormController extends AbstractFormController
         }
 
         // Set filters
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         // Audit log entries
         $logs = ($logObject) ? $this->getModel('core.auditLog')->getLogForObject($logObject, $objectId, $entity->getDateAdded(), 10, $logBundle) : [];

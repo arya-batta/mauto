@@ -601,11 +601,12 @@ class PageModel extends FormModel
             // timezone_offset holds timezone offset in minutes. Multiply by 60 to get seconds.
             // Multiply by -1 because Firgerprint2 seems to have it the other way around.
             $timezone = (-1 * $query['timezone_offset'] * 60);
-          /**  $lead->setTimezone($this->dateTimeHelper->guessTimezoneFromOffset($timezone)); */
+            /*  $lead->setTimezone($this->dateTimeHelper->guessTimezoneFromOffset($timezone)); */
         }
 
         // Set info from request
-        $query = InputHelper::cleanArray($query);
+//        $query = InputHelper::cleanArray($query);
+        $query = $this->cleanQuery($query);
 
         $hit->setQuery($query);
         $hit->setUrl((isset($query['page_url'])) ? $query['page_url'] : $request->getRequestUri());
@@ -613,10 +614,10 @@ class PageModel extends FormModel
             $hit->setReferer($query['page_referrer']);
         }
         if (isset($query['page_language'])) {
-           // $hit->setPageLanguage($query['page_language']);
+            // $hit->setPageLanguage($query['page_language']);
         }
         if (isset($query['page_title'])) {
-          // $hit->setUrlTitle($query['page_title']);
+            // $hit->setUrlTitle($query['page_title']);
         }
 
         // Add entry to contact log table
@@ -663,12 +664,12 @@ class PageModel extends FormModel
 
                     // If this is a trackable, up the trackable counts as well
                     if (!empty($clickthrough['channel'])) {
-                        if(current($clickthrough['channel'])=="sms") {
-                            $channel = current($clickthrough['channel']);
+                        if (current($clickthrough['channel']) == 'sms') {
+                            $channel   = current($clickthrough['channel']);
                             $channelId = next($clickthrough['channel']);
-                        }else {
+                        } else {
                             $channelId = reset($clickthrough['channel']);
-                            $channel = key($clickthrough['channel']);
+                            $channel   = key($clickthrough['channel']);
                         }
 
                         $this->pageTrackableModel->getRepository()->upHitCount($page->getId(), $channel, $channelId, 1, $isUnique);
@@ -728,19 +729,19 @@ class PageModel extends FormModel
                 $utmTags->setLead($lead);
 
                 if (key_exists('utm_campaign', $query)) {
-                   // $utmTags->setUtmCampaign($query['utm_campaign']);
+                    // $utmTags->setUtmCampaign($query['utm_campaign']);
                 }
                 if (key_exists('utm_term', $query)) {
-                  //  $utmTags->setUtmTerm($query['utm_term']);
+                    //  $utmTags->setUtmTerm($query['utm_term']);
                 }
                 if (key_exists('utm_content', $query)) {
-                   // $utmTags->setUtmContent($query['utm_content']);
+                    // $utmTags->setUtmContent($query['utm_content']);
                 }
                 if (key_exists('utm_medium', $query)) {
-                  //  $utmTags->setUtmMedium($query['utm_medium']);
+                    //  $utmTags->setUtmMedium($query['utm_medium']);
                 }
                 if (key_exists('utm_source', $query)) {
-                   // $utmTags->setUtmSource($query['utm_source']);
+                    // $utmTags->setUtmSource($query['utm_source']);
                 }
 
                 $repo = $this->em->getRepository('MauticLeadBundle:UtmTag');
@@ -877,9 +878,13 @@ class PageModel extends FormModel
             }
         }
 
-        if (!isset($query)) {
-            $query = $request->query->all();
-        }
+//        if (!isset($query)) {
+//            $query = $request->query->all();
+//        }
+
+        $get   = $request->query->all();
+        $post  = $request->request->all();
+        $query = \array_merge($get, $post);
 
         // Set generated page url
         $query['page_url'] = $pageURL;
@@ -1212,6 +1217,26 @@ class PageModel extends FormModel
      */
     public function setTrackByFingerprint($trackByFingerprint)
     {
+    }
+
+    /**
+     * Cleans query params saving url values.
+     *
+     * @param $query array
+     *
+     * @return array
+     */
+    private function cleanQuery($query)
+    {
+        foreach ($query as $key => $value) {
+            if (filter_var($value, FILTER_VALIDATE_URL)) {
+                $query[$key] = InputHelper::url($value);
+            } else {
+                $query[$key] = InputHelper::clean($value);
+            }
+        }
+
+        return $query;
     }
 
     public function getPageDisplayBlocks()

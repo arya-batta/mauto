@@ -52,9 +52,7 @@ class DynamicContentController extends FormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         //set limits
         $limit = $this->get('session')->get('mautic.dynamicContent.limit', $this->coreParametersHelper->getParameter('default_pagelimit'));
@@ -101,7 +99,7 @@ class DynamicContentController extends FormController
                 'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
-                    'leContent' => 'dynamicContent',
+                    'leContent'     => 'dynamicContent',
                     'route'         => $this->generateUrl('le_dynamicContent_index', ['page' => $page]),
                 ],
                 'viewParameters' => [
@@ -185,7 +183,7 @@ class DynamicContentController extends FormController
 
             $passthrough = [
                 'activeLink'    => '#le_dynamicContent_index',
-                'leContent' => 'dynamicContent',
+                'leContent'     => 'dynamicContent',
             ];
 
             // Check to see if this is a popup
@@ -251,7 +249,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_dynamicContent_index',
-                'leContent' => 'dynamicContent',
+                'leContent'     => 'dynamicContent',
             ],
         ];
 
@@ -332,7 +330,7 @@ class DynamicContentController extends FormController
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
                     'route'         => $action,
-                    'leContent' => 'dynamicContent',
+                    'leContent'     => 'dynamicContent',
                 ],
             ]
         );
@@ -366,7 +364,7 @@ class DynamicContentController extends FormController
                     'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_dynamicContent_index',
-                        'leContent' => 'dynamicContent',
+                        'leContent'     => 'dynamicContent',
                     ],
                     'flashes' => [
                         [
@@ -413,7 +411,7 @@ class DynamicContentController extends FormController
                 'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:details.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_dynamicContent_index',
-                    'leContent' => 'dynamicContent',
+                    'leContent'     => 'dynamicContent',
                 ],
                 'viewParameters' => [
                     'entity'       => $entity,
@@ -480,7 +478,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_dynamicContent_index',
-                'leContent' => 'dynamicContent',
+                'leContent'     => 'dynamicContent',
             ],
         ];
 
@@ -537,7 +535,7 @@ class DynamicContentController extends FormController
             'contentTemplate' => 'MauticDynamicContentBundle:DynamicContent:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_dynamicContent_index',
-                'leContent' => 'dynamicContent',
+                'leContent'     => 'dynamicContent',
             ],
         ];
 

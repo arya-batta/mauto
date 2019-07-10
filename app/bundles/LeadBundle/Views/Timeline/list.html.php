@@ -172,7 +172,7 @@ $baseUrl = $view['router']->path(
                                                 </div>
                                             </a>
                                         </div>
-                                        <span style="font-size: 12px;">
+                                        <span style="font-size: 12px;word-break: break-all;">
                                                 <?php echo $eventLabel; ?>
                                             </span><br>
                                          <span class="le-bullet"><i class="fa fa-circle"></i> </span>

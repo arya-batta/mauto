@@ -177,7 +177,7 @@ class FormSubscriber extends CommonSubscriber
         // replace line brakes with <br> for textarea values
         if ($tokens = $event->getTokens()) {
             foreach ($tokens as $token => &$value) {
-                $value = nl2br(html_entity_decode($value));
+                $value = nl2br(html_entity_decode($value, ENT_QUOTES));
             }
         }
 
@@ -204,7 +204,7 @@ class FormSubscriber extends CommonSubscriber
                 $emails = $this->getEmailsFromString($config['bcc']);
                 $this->mailer->setBcc($emails);
             }
-            $this->mailer->setFrom($config['from'],$config['fromname']);
+            $this->mailer->setFrom($config['from'], $config['fromname']);
             $this->mailer->send(true);
         }
 

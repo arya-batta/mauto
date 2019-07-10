@@ -56,9 +56,7 @@ class FormController extends CommonFormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         $listFilters = [
             'filters' => [
@@ -223,23 +221,23 @@ class FormController extends CommonFormController
         $page = $this->get('session')->get('mautic.form.page', 1);
         $tmpl = '';
         $tmpl = $this->request->get('tmpl');
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-            $name = 'mautic.form.results';
+//        if ($this->request->getMethod() == 'POST') {
+        $this->setListFilters();
+        $name = 'mautic.form.results';
 
-            if ($this->request->query->has('pageId')) {
-                $page = InputHelper::int($this->request->query->get('pageId'));
-                $session->set("$name.pageId", $page);
-            }
-
-            if ($this->request->query->has('orderby')) {
-                $orderBy = InputHelper::clean($this->request->query->get('orderby'), true);
-                $dir     = $session->get("$name.orderbydir", 'ASC');
-                $dir     = ($dir == 'ASC') ? 'DESC' : 'ASC';
-                $session->set("$name.orderby", $orderBy);
-                $session->set("$name.orderbydir", $dir);
-            }
+        if ($this->request->query->has('pageId')) {
+            $page = InputHelper::int($this->request->query->get('pageId'));
+            $session->set("$name.pageId", $page);
         }
+
+        if ($this->request->query->has('orderby')) {
+            $orderBy = InputHelper::clean($this->request->query->get('orderby'), true);
+            $dir     = $session->get("$name.orderbydir", 'ASC');
+            $dir     = ($dir == 'ASC') ? 'DESC' : 'ASC';
+            $session->set("$name.orderby", $orderBy);
+            $session->set("$name.orderbydir", $dir);
+        }
+//        }
         if ($activeForm === null) {
             //set the return URL
             $returnUrl = $this->generateUrl('le_embeddedform_index', ['page' => $page]);

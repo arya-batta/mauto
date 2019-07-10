@@ -912,6 +912,7 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
             lazyInit: true,
             validateOnBlur: false,
             allowBlank: true,
+            scrollMonth: false,
             scrollInput: false
         });
     } else if (fieldType == 'date') {
@@ -921,6 +922,7 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
             lazyInit: true,
             validateOnBlur: false,
             allowBlank: true,
+            scrollMonth: false,
             scrollInput: false,
             closeOnDateSelect: true
         });
@@ -933,6 +935,7 @@ Le.addDynamicContentFilter = function (selectedFilter, jQueryVariant) {
             lazyInit: true,
             validateOnBlur: false,
             allowBlank: true,
+            scrollMonth: false,
             scrollInput: false
         });*/
     } else if (fieldType == 'lookup_id') {

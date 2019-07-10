@@ -44,9 +44,7 @@ class PointController extends AbstractFormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         $listFilters = [
             'filters' => [

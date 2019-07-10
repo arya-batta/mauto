@@ -56,9 +56,7 @@ class SmsController extends FormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
         $listFilters = [
             'filters' => [
                 'placeholder' => $this->get('translator')->trans('le.category.filter.placeholder'),

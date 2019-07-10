@@ -30,9 +30,7 @@ class MonitoringController extends FormController
     {
         $session = $this->get('session');
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         /** @var \MauticPlugin\leSocialBundle\Model\MonitoringModel $model */
         $model = $this->getModel('social.monitoring');
@@ -80,7 +78,7 @@ class MonitoringController extends FormController
                     'contentTemplate' => 'leSocialBundle:Monitoring:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_social_index',
-                        'leContent' => 'monitoring',
+                        'leContent'     => 'monitoring',
                     ],
                 ]
             );
@@ -104,7 +102,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'leSocialBundle:Monitoring:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'leContent' => 'monitoring',
+                    'leContent'     => 'monitoring',
                     'route'         => $this->generateUrl('le_social_index', ['page' => $page]),
                 ],
             ]
@@ -203,7 +201,7 @@ class MonitoringController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => 'le_social_index',
-                            'leContent' => 'monitoring',
+                            'leContent'     => 'monitoring',
                         ],
                     ]
                 );
@@ -220,7 +218,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'leSocialBundle:Monitoring:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'leContent' => 'monitoring',
+                    'leContent'     => 'monitoring',
                     'route'         => $this->generateUrl(
                         'le_social_action',
                         [
@@ -264,7 +262,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'leSocial:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_social_index',
-                'leContent' => 'monitoring',
+                'leContent'     => 'monitoring',
             ],
         ];
 
@@ -369,7 +367,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'leSocialBundle:Monitoring:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'leContent' => 'monitoring',
+                    'leContent'     => 'monitoring',
                     'route'         => $this->generateUrl(
                         'le_social_action',
                         [
@@ -422,7 +420,7 @@ class MonitoringController extends FormController
                     'contentTemplate' => 'leSocialMonitoringBundle:Monitoring:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_social_index',
-                        'leContent' => 'monitoring',
+                        'leContent'     => 'monitoring',
                     ],
                     'flashes' => [
                         [
@@ -483,7 +481,7 @@ class MonitoringController extends FormController
                 'contentTemplate' => 'leSocialBundle:Monitoring:'.$tmpl.'.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_social_index',
-                    'leContent' => 'monitoring',
+                    'leContent'     => 'monitoring',
                 ],
             ]
         );
@@ -513,7 +511,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'leSocialBundle:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => 'le_social_index',
-                'leContent' => 'monitoring',
+                'leContent'     => 'monitoring',
             ],
         ];
 
@@ -580,7 +578,7 @@ class MonitoringController extends FormController
             'contentTemplate' => 'leSocialBundle:Monitoring:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_social_index',
-                'leContent' => 'monitoring',
+                'leContent'     => 'monitoring',
             ],
         ];
 

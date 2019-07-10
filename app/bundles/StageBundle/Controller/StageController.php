@@ -44,9 +44,7 @@ class StageController extends FormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         //set limits
         $limit = $this->get('session')->get(
@@ -88,7 +86,7 @@ class StageController extends FormController
                     'contentTemplate' => 'MauticStageBundle:Stage:index',
                     'passthroughVars' => [
                         'activeLink'    => '#le_stage_index',
-                        'leContent' => 'stage',
+                        'leContent'     => 'stage',
                     ],
                 ]
             );
@@ -116,7 +114,7 @@ class StageController extends FormController
                 'contentTemplate' => 'MauticStageBundle:Stage:list.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_stage_index',
-                    'leContent' => 'stage',
+                    'leContent'     => 'stage',
                     'route'         => $this->generateUrl('le_stage_index', ['page' => $page]),
                 ],
             ]
@@ -206,7 +204,7 @@ class StageController extends FormController
                         'contentTemplate' => $template,
                         'passthroughVars' => [
                             'activeLink'    => '#le_stage_index',
-                            'leContent' => 'stage',
+                            'leContent'     => 'stage',
                         ],
                     ]
                 );
@@ -229,7 +227,7 @@ class StageController extends FormController
                 'contentTemplate' => 'MauticStageBundle:Stage:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_stage_index',
-                    'leContent' => 'stage',
+                    'leContent'     => 'stage',
                     'route'         => $this->generateUrl(
                         'le_stage_action',
                         [
@@ -269,7 +267,7 @@ class StageController extends FormController
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_stage_index',
-                'leContent' => 'stage',
+                'leContent'     => 'stage',
             ],
         ];
 
@@ -379,7 +377,7 @@ class StageController extends FormController
                 'contentTemplate' => 'MauticStageBundle:Stage:form.html.php',
                 'passthroughVars' => [
                     'activeLink'    => '#le_stage_index',
-                    'leContent' => 'stage',
+                    'leContent'     => 'stage',
                     'route'         => $this->generateUrl(
                         'le_stage_action',
                         [
@@ -435,7 +433,7 @@ class StageController extends FormController
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_stage_index',
-                'leContent' => 'stage',
+                'leContent'     => 'stage',
             ],
         ];
 
@@ -495,7 +493,7 @@ class StageController extends FormController
             'contentTemplate' => 'MauticStageBundle:Stage:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_stage_index',
-                'leContent' => 'stage',
+                'leContent'     => 'stage',
             ],
         ];
 

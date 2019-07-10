@@ -42,9 +42,7 @@ class TriggerController extends FormController
             return $this->accessDenied();
         }
 
-        if ($this->request->getMethod() == 'POST') {
-            $this->setListFilters();
-        }
+        $this->setListFilters();
 
         //set limits
         $limit = $this->get('session')->get('mautic.point.trigger.limit', $this->coreParametersHelper->getParameter('default_pagelimit'));
@@ -81,7 +79,7 @@ class TriggerController extends FormController
                 'contentTemplate' => 'MauticPointBundle:Trigger:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_pointtrigger_index',
-                    'leContent' => 'pointTrigger',
+                    'leContent'     => 'pointTrigger',
                 ],
             ]);
         }
@@ -103,7 +101,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:list.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
                 'route'         => $this->generateUrl('le_pointtrigger_index', ['page' => $page]),
             ],
         ]);
@@ -141,7 +139,7 @@ class TriggerController extends FormController
                 'contentTemplate' => 'MauticPointBundle:Trigger:index',
                 'passthroughVars' => [
                     'activeLink'    => '#le_pointtrigger_index',
-                    'leContent' => 'pointTrigger',
+                    'leContent'     => 'pointTrigger',
                 ],
                 'flashes' => [
                     [
@@ -164,7 +162,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:details.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
                 'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => 'view',
                         'objectId'     => $entity->getId(), ]
@@ -259,7 +257,7 @@ class TriggerController extends FormController
                     'contentTemplate' => $template,
                     'passthroughVars' => [
                         'activeLink'    => '#le_pointtrigger_index',
-                        'leContent' => 'pointTrigger',
+                        'leContent'     => 'pointTrigger',
                     ],
                 ]);
             }
@@ -282,7 +280,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
                 'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => (!empty($valid) ? 'edit' : 'new'), //valid means a new form was applied
                         'objectId'     => $entity->getId(), ]
@@ -319,7 +317,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
             ],
         ];
 
@@ -446,7 +444,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:form.html.php',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
                 'route'         => $this->generateUrl('le_pointtrigger_action', [
                         'objectAction' => 'edit',
                         'objectId'     => $entity->getId(), ]
@@ -498,7 +496,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
             ],
         ];
 
@@ -555,7 +553,7 @@ class TriggerController extends FormController
             'contentTemplate' => 'MauticPointBundle:Trigger:index',
             'passthroughVars' => [
                 'activeLink'    => '#le_pointtrigger_index',
-                'leContent' => 'pointTrigger',
+                'leContent'     => 'pointTrigger',
             ],
         ];
 

@@ -532,7 +532,10 @@ class AppKernel extends Kernel
 
         // Warm up the cache if classes.php is missing or in dev mode
         if (!$fresh && $this->container->has('cache_warmer')) {
-            $this->container->get('cache_warmer')->warmUp($this->container->getParameter('kernel.cache_dir'));
+            // $this->container->get('cache_warmer')->warmUp($this->container->getParameter('kernel.cache_dir'));
+            $warmer = $this->container->get('cache_warmer');
+            $warmer->enableOptionalWarmers();
+            $warmer->warmUp($this->container->getParameter('kernel.cache_dir'));
         }
     }
 

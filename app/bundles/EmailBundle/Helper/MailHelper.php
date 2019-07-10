@@ -810,6 +810,7 @@ class MailHelper
         $this->fatal            = false;
         $this->idHashState      = true;
         $this->useGlobalFrom    = false;
+        $this->checkIfTransportNeedsRestart(true);
 
         $this->logger->clear();
 

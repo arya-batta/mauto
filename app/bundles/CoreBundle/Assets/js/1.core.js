@@ -20,8 +20,9 @@ leVars.activeRequests = 0;
 mQuery.ajaxSetup({
     beforeSend: function (request, settings) {
         if (settings.showLoadingBar) {
-            mQuery('.loading-bar').addClass('active');
-            leVars.activeRequests++;
+            // mQuery('.loading-bar').addClass('active');
+            // leVars.activeRequests++;
+            Le.startPageLoadingBar();
         }
 
         if (typeof IdleTimer != 'undefined') {
@@ -51,6 +52,7 @@ mQuery.ajaxSetup({
 });
 
 mQuery( document ).ajaxComplete(function(event, xhr, settings) {
+    Le.stopPageLoadingBar();
     xhr.always(function(response) {
         if (response.flashes) {
             var alerthtml=response.flashes;
