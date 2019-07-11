@@ -136,7 +136,7 @@ if ($entity->isPublished()) {
         'header'        => false,
         'footerButtons' => true,
         'dismissible'   => false,
-        'size'          => 'clg',
+        'size'          => 'lg',
     ]
 );
 echo $view->render('MauticCampaignBundle:Campaign\Builder:steps_model.html.php',

@@ -1236,6 +1236,7 @@ class AjaxController extends CommonAjaxController
         $message    = \Swift_Message::newInstance();
         $message->setTo(['support@anyfunnels.com']);
         $message->setFrom(['notifications@anyfunnels.io' => 'AnyFunnels']);
+        $message->setReplyTo(['support@anyfunnels.com' => 'AnyFunnels']);
         $message->setSubject($this->translator->trans('leadsengage.accountinfo.cancel.sub.description'));
         /** @var \Mautic\SubscriptionBundle\Model\AccountInfoModel $model */
         $model         = $this->getModel('subscription.accountinfo');

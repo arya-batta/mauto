@@ -1357,7 +1357,7 @@ class AjaxController extends CommonAjaxController
         if ($elaticApiKey) {
             if (sizeof($domainList) == 0) {
                 $domainCreated=$elasticApiHelper->createDomain($domain, $elaticApiKey);
-                if ($domainCreated) {
+                if ($domainCreated[0]) {
                     $newSendingDomain=new SendingDomain();
                     $newSendingDomain->setDomain($domain);
                     $newSendingDomain->setdkimCheck(false);
@@ -1374,7 +1374,11 @@ class AjaxController extends CommonAjaxController
                     ]);
                 } else {
                     $status =false;
-                    $message=$this->translator->trans('le.email.sending.domain.already.configured.alert');
+                    if (strpos($domainCreated[1], 'currently blacklisted')) {
+                        $message=$this->translator->trans('le.email.sending.domain.black.listed.alert', ['%domain%'=>$domain]);
+                    } else {
+                        $message=$domainCreated[1]; //$this->translator->trans('le.message.technical.error');
+                    }
                 }
             } else {
                 $status =false;

@@ -440,7 +440,7 @@ Le.refreshSendingDomainListeners=function(){
             if(response.success) {
                 Le.deactivateBackgroup();
             } else{
-                alert(response.message);
+                Le.successModel('Error!',response.message,'error');
             }
             mQuery('.sending-domain-container').html(response.content);
             Le.refreshSendingDomainListeners();
@@ -458,7 +458,7 @@ Le.refreshSendingDomainListeners=function(){
                 mQuery('.sending-domain-container').html(response.content);
                 Le.refreshSendingDomainListeners();
             } else{
-                alert(response.message);
+                Le.successModel('Error!',response.message,'error');
             }
         });
     });

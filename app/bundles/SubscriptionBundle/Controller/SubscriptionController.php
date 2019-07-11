@@ -610,6 +610,7 @@ class SubscriptionController extends CommonController
             }
             $signuprepository=$this->get('le.core.repository.signup');
             $signuprepository->updateAccountInfo($accountData, $accountEntity->getDomainname());
+            $subsrepository->updateAppCompanyName($accountEntity->getDomainname(), $accountData['business']);
             if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
                 $smHelper->makeStateInActive(['Trial_Unverified_Email']);
                 $smHelper->newStateEntry('Trial_Sending_Domain_Not_Configured', '');

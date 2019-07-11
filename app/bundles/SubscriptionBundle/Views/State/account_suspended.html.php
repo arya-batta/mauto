@@ -9,7 +9,7 @@ $view['slots']->set('headerTitle', 'Account Suspended');
             Sorry, we can’t approve your account
         </div>
         <div class="state-inactive-alert-content state-inactive-padding">
-            We review new customers in order to protect our system and others from potential spam email.
+            We review all customers in order to protect our system and others from potential spam email.
             Our system performs many checks and tests to determine the validity of accounts.
             Unfortunately, your account didn't pass those tests.
         </div>

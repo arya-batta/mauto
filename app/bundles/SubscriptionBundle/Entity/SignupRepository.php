@@ -712,10 +712,14 @@ class SignupRepository
     public function updateLeadStateInfo($states, $domain)
     {
         if ($domain != 'cops') {
-            $qb = $this->getConnection()->createQueryBuilder();
+            $dateAdded   = new DateTimeHelper();
+            $dateModified=$dateAdded->getString();
+            $qb          = $this->getConnection()->createQueryBuilder();
             $qb->update(MAUTIC_TABLE_PREFIX.'leads')
                 ->set('account_status', ':account_status')
+                ->set('date_modified', ':dateModified')
                 ->setParameter('account_status', $states)
+                ->setParameter('dateModified', $dateModified)
                 ->where(
                     $qb->expr()->eq('domain', ':domain')
                 )->setParameter('domain', $domain)->execute();

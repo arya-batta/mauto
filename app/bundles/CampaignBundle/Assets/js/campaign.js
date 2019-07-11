@@ -253,10 +253,13 @@ Le.campaignOnLoad = function (container, response) {
         });
     }
    Le.hideFlashMessage();
+    if(!mQuery('html').hasClass('sidebar-minimized')){
+        mQuery('.campaign-zoom-button-div').css("margin-left","-15%");
+    }
 };
 
 Le.getNodeElement = function(rootelement,type,id,width,label,incomplete,lastnode){
-    mQuery('.le-modal-box-align').attr("style","margin-left:18%");
+    mQuery('.le-modal-box-align').attr("style","margin-left:15%");
 var gelement = document.createElementNS(Le.SVGNAMESPACEURI,"g");
 if(incomplete){
     label='Define your '+type+'...';

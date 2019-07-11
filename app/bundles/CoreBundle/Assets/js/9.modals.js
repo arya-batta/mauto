@@ -160,7 +160,7 @@ Le.updateAjaxModal = function (target, route, method) {
         success: function (response) {
             if (response.newContent) {
                 if(!mQuery(target).hasClass('in')) {
-                    mQuery(target).attr('style', 'display:block;margin-left: 18%;')
+                    mQuery(target).attr('style', 'display:block;margin-left: 15%;')
                     mQuery(target).addClass('in');
                     mQuery('modal-backdrop').addClass('in');
                 }

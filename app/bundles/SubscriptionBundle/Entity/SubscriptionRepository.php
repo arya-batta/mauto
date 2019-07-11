@@ -208,6 +208,19 @@ class SubscriptionRepository
             ->execute();
     }
 
+    public function updateAppCompanyName($domain, $company)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->update(MAUTIC_TABLE_PREFIX.'applicationlist')
+            ->set('f2', ':company')
+            ->where(
+                $qb->expr()->eq('f5', ':domain')
+            )
+            ->setParameter('company', $company)
+            ->setParameter('domain', $domain)
+            ->execute();
+    }
+
     public function unSubscribeFbLeadGenWebHook($pageid, $callback)
     {
         $qb = $this->getConnection()->createQueryBuilder();

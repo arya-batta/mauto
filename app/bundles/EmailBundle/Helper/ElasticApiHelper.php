@@ -51,15 +51,18 @@ class ElasticApiHelper
     {
         $response=$this->sendApiRequest('domain/add', ['domain'=>$domain, 'trackingType' => '-2', 'apikey' => $apikey]);
         $status  =false;
+        $error   ='';
         if ($response) {
             if (isset($response->success) && $response->success) {
                 $status=true;
             } elseif (isset($response->success) && !$response->success && strpos($response->error, 'domain is already')) {
                 $status=true;
+            } elseif (isset($response->success) && !$response->success) {
+                $error=$response->error;
             }
         }
 
-        return $status;
+        return [$status, $error];
     }
 
     public function deleteDomain($domain)
