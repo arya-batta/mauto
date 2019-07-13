@@ -1713,9 +1713,14 @@ class CommonApiController extends FOSRestController implements MauticController
     {
         $configurator     = $this->get('mautic.configurator');
         $params           = $configurator->getParameters();
-
-        $lastrequesttime  = $params['last_batch_api_request_time'];
-        $lastrequestcount = $params['last_batch_api_request_count'];
+        $lastrequesttime  ='';
+        $lastrequestcount =0;
+        if (isset($params['last_batch_api_request_time'])) {
+            $lastrequesttime  = $params['last_batch_api_request_time'];
+        }
+        if (isset($params['last_batch_api_request_count'])) {
+            $lastrequestcount = $params['last_batch_api_request_count'];
+        }
         $currentTime      = (new \DateTime())->format('H:i:s');
         $currentTime      = strtotime($currentTime);
         if ($lastrequestcount > 0) {
@@ -1750,9 +1755,16 @@ class CommonApiController extends FOSRestController implements MauticController
     {
         $configurator     = $this->get('mautic.configurator');
         $params           = $configurator->getParameters();
+        $lastrequesttime  ='';
+        $lastrequestcount =0;
+        if (isset($params['last_api_request_time'])) {
+            $lastrequesttime  = $params['last_api_request_time'];
+        }
 
-        $lastrequesttime  = $params['last_api_request_time'];
-        $lastrequestcount = $params['last_api_request_count'];
+        if (isset($params['last_api_request_count'])) {
+            $lastrequestcount = $params['last_api_request_count'];
+        }
+
         $currentTime      = (new \DateTime())->format('H:i:s');
         $currentTime      = strtotime($currentTime);
         if ($lastrequestcount > 0) {

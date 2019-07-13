@@ -797,8 +797,17 @@ class LeadApiController extends CommonApiController
 
             unset($parameters['frequencyRules']);
         }
-        $entity->setCreatedSource(4); //Created Source API
-        $entity->setStatus(1); //Status set as Active
+        if (isset($parameters['created_source']) && is_numeric($parameters['created_source'])) {
+            $entity->setCreatedSource($parameters['created_source']); //Set Source
+        } else {
+            $entity->setCreatedSource(4); //Created Source API
+        }
+        if (isset($parameters['status']) && is_numeric($parameters['status'])) {
+            $entity->setStatus($parameters['status']);  //Set Status
+        } else {
+            $entity->setStatus(1); //Status set as Active
+        }
+
         $this->setCustomFieldValues($entity, $form, $parameters, 'POST' === $this->request->getMethod());
     }
 
