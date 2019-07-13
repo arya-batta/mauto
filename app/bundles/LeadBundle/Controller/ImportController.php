@@ -472,22 +472,24 @@ class ImportController extends FormController
                             $toBeinsertedCount = $actualRecordCount + $lineCount;
                             $actualrecord      = number_format($actualRecordCount);
                             $totalrecord       = $totalRecordCount == 'UL' ? 'Unlimited' : number_format($totalRecordCount);
-                            if ($lastpayment != null) {
-                                $isvalid = $licenseinfohelper->isValidMaxLimit($lineCount - 1, 'max_import_limit', 10000, 'le.lead.max.import.count.exceeds');
-                                if ($isvalid) {
-                                    $msg =$isvalid;
-                                    $this->addFlash($msg);
-                                    $this->resetImport($fullPath);
+//                            if ($lastpayment != null) {
+                            $isvalid = $licenseinfohelper->isValidMaxLimit($lineCount - 1, 'max_import_limit', 10000, 'le.lead.max.import.count.exceeds');
+                            if ($isvalid) {
+                                $msg =$isvalid;
+                                $this->addFlash($msg);
+                                $this->resetImport($fullPath);
 
-                                    return $this->listAction();
-                                } else {
-                                    $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+                                return $this->listAction();
+                            } else {
+                                $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+                                if ($isvalid) {
                                     $this->addFlash($isvalid);
                                     $this->resetImport($fullPath);
 
                                     return $this->listAction();
                                 }
                             }
+//                            }
                             if ($totalRecordCount >= $toBeinsertedCount || $totalRecordCount == 'UL') {
                                 $importModel->saveEntity($import);
                             } else {

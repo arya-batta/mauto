@@ -262,40 +262,73 @@ Le.emailOnLoad = function (container, response) {
 
 Le.loadEmailStatCounts = function(){
     if (mQuery('table.email-list').length) {
+        var ids = [];
         mQuery('tr.email-row-stats').each(function () {
             var id = mQuery(this).attr('data-stats');
-            // Process the request one at a time or the xhr will cancel the previous
+            ids.push(id);
+        });
+
+        // Get all stats numbers in batches of 10
+        while (ids.length > 0) {
+            var batchIds = ids.splice(0, 10);
             Le.ajaxActionRequest(
                 'email:getEmailCountStats',
-                {id: id},
+                {ids: batchIds},
                 function (response) {
-                    if (response.success && mQuery('#sent-count-' + id + ' div').length) {
-                        /* if (response.pending) {
-                             mQuery('#pending-' + id + ' > a').html(response.pending);
-                             mQuery('#pending-' + id).removeClass('hide');
-                         }*/
+                    // if (response.success && mQuery('#sent-count-' + id + ' div').length) {
+                    //     /* if (response.pending) {
+                    //          mQuery('#pending-' + id + ' > a').html(response.pending);
+                    //          mQuery('#pending-' + id).removeClass('hide');
+                    //      }*/
+                    //
+                    //     if (response.queued) {
+                    //         mQuery('#queued-' + id + ' > a').html(response.queued);
+                    //         mQuery('#queued-' + id).removeClass('hide');
+                    //     }
+                    //
+                    //     mQuery('#pending-' + id + ' > a').html(response.pending);
+                    //     mQuery('#sent-count-' + id + ' > a').html(response.sentCount);
+                    //     mQuery('#read-count-' + id + ' > a').html(response.readCount);
+                    //     mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
+                    //     mQuery('#failure-count-' + id + ' > a').html(response.failureCount);
+                    //     mQuery('#unsubscribe-count-' + id + ' > a').html(response.unsubscribeCount);
+                    //     mQuery('#bounce-count-' + id + ' > a').html(response.bounceCount);
+                    //     mQuery('#spam-count-' + id + ' > a').html(response.spamCount);
+                    //     mQuery('#failed-count-' + id + ' > a').html(response.failedCount);
+                    // }
 
-                        if (response.queued) {
-                            mQuery('#queued-' + id + ' > a').html(response.queued);
-                            mQuery('#queued-' + id).removeClass('hide');
+                    if (response.success && response.stats) {
+                        for (var i = 0; i < response.stats.length; i++) {
+                            var stat = response.stats[i];
+                            if (mQuery('#sent-count-' + stat.id + ' div').length) {
+                               /** if (stat.pending) {
+                                    mQuery('#pending-' + stat.id + ' > a').html(stat.pending);
+                                    mQuery('#pending-' + stat.id).removeClass('hide');
+                                }*/
+
+                                if (stat.queued) {
+                                    mQuery('#queued-' + stat.id + ' > a').html(stat.queued);
+                                    mQuery('#queued-' + stat.id).removeClass('hide');
+                                }
+
+                                mQuery('#pending-' + stat.id + ' > a').html(stat.pending);
+                                mQuery('#sent-count-' + stat.id + ' > a').html(stat.sentCount);
+                                mQuery('#read-count-' + stat.id + ' > a').html(stat.readCount);
+                                mQuery('#read-percent-' + stat.id + ' > a').html(stat.readPercent);
+                                mQuery('#failure-count-' + stat.id + ' > a').html(stat.failureCount);
+                                mQuery('#unsubscribe-count-' + stat.id + ' > a').html(stat.unsubscribeCount);
+                                mQuery('#bounce-count-' + stat.id + ' > a').html(stat.bounceCount);
+                                mQuery('#spam-count-' + stat.id + ' > a').html(stat.spamCount);
+                                mQuery('#failed-count-' + stat.id + ' > a').html(stat.failedCount);
+                            }
                         }
-
-                        mQuery('#pending-' + id + ' > a').html(response.pending);
-                        mQuery('#sent-count-' + id + ' > a').html(response.sentCount);
-                        mQuery('#read-count-' + id + ' > a').html(response.readCount);
-                        mQuery('#read-percent-' + id + ' > a').html(response.readPercent);
-                        mQuery('#failure-count-' + id + ' > a').html(response.failureCount);
-                        mQuery('#unsubscribe-count-' + id + ' > a').html(response.unsubscribeCount);
-                        mQuery('#bounce-count-' + id + ' > a').html(response.bounceCount);
-                        mQuery('#spam-count-' + id + ' > a').html(response.spamCount);
-                        mQuery('#failed-count-' + id + ' > a').html(response.failedCount);
                     }
                 },
                 false,
                 true
             );
 
-        });
+        }
     }
 }
 Le.emailOnUnload = function(id) {

@@ -70,10 +70,10 @@ class ResendListOptinCommand extends ModeratedCommand
                     try {
                         foreach ($result as $list) {
                             $lead      = $list->getLead();
-                            $lead      = $lead->getId();
+                            $lead      = $leadModel->getEntity($lead->getId()); //$lead->getId();
                             $listoptin = $list->getList();
-                            //$listoptin = $listoptin->getId();
-                            if ($listoptin != null && $lead != null && $list != null) {
+                            $listoptin = $listModel->getEntity($listoptin->getId()); //$listoptin->getId();
+                            if ($listoptin != null && $lead != null && $list != null && $lead->getId() != null) {
                                 $listModel->scheduleListOptInEmail($listoptin, $lead, $list);
                                 $list->setIsrescheduled(0);
                                 $listRepo->saveEntity($list);

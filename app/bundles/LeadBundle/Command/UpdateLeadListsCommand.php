@@ -60,6 +60,9 @@ class UpdateLeadListsCommand extends ModeratedCommand
 
                 return 0;
             }
+            $coreParameterHelper   = $container->get('mautic.helper.core_parameters');
+            $timezone              = $coreParameterHelper->getParameter('default_timezone');
+            date_default_timezone_set($timezone);
             if ($id) {
                 $list = $listModel->getEntity($id);
                 if ($list !== null && $list->isPublished()) {

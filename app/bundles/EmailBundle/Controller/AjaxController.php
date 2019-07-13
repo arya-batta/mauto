@@ -224,8 +224,15 @@ class AjaxController extends CommonAjaxController
         /** @var EmailModel $model */
         $model = $this->getModel('email');
 
+        $id  = $request->get('id');
+        $ids = $request->get('ids');
+        // Support for legacy calls
+        if (!$ids && $id) {
+            $ids = [$id];
+        }
+
         $data = [];
-        if ($id = $request->get('id')) {
+        foreach ($ids as $id) {
             if ($email = $model->getEntity($id)) {
                 $pending     = $model->getPendingLeads($email, null, true);
                 $queued      = $model->getQueuedCounts($email);
@@ -274,9 +281,9 @@ class AjaxController extends CommonAjaxController
                     $failedPercentage = round($failedCount / $totalCount * 100);
                 }
 
-                $data = [
-                    'success' => 1,
-                    'pending' => 'list' === $email->getEmailType() && $pending ? $this->translator->trans(
+                $data[] = [
+                    'id'          => $id,
+                    'pending'     => 'list' === $email->getEmailType() && $pending ? $this->translator->trans(
                         'le.email.stat.leadcount',
                         ['%count%' => $pending]
                     ) : 0,
@@ -291,6 +298,16 @@ class AjaxController extends CommonAjaxController
                     'failedCount'      => $this->translator->trans('le.email.stat.failedcount', ['%count%' => $failedCount, '%percentage%' => $failedPercentage]),
                 ];
             }
+        }
+
+        // Support for legacy calls
+        if ($request->get('id')) {
+            $data = $data[0];
+        } else {
+            $data = [
+                'success' => 1,
+                'stats'   => $data,
+            ];
         }
 
         return new JsonResponse($data);
