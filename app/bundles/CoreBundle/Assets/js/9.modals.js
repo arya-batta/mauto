@@ -147,8 +147,7 @@ Le.loadAjaxModal = function (target, route, method, header, footer, preventDismi
 Le.updateAjaxModal = function (target, route, method) {
     if (mQuery(target + ' .loading-placeholder').length) {
         mQuery(target + ' .loading-placeholder').removeClass('hide');
-        mQuery(target + ' .modal-body-content').addClass('hide');
-
+        mQuery(target + ' .modal-body-content').html("");
         if (mQuery(target + ' .modal-loading-bar').length) {
             mQuery(target + ' .modal-loading-bar').addClass('active');
         }
@@ -159,11 +158,6 @@ Le.updateAjaxModal = function (target, route, method) {
         dataType: "json",
         success: function (response) {
             if (response.newContent) {
-                if(!mQuery(target).hasClass('in')) {
-                    mQuery(target).attr('style', 'display:block;margin-left: 15%;')
-                    mQuery(target).addClass('in');
-                    mQuery('modal-backdrop').addClass('in');
-                }
                 //load the content
                 if (mQuery(target + ' .loading-placeholder').length) {
                     mQuery(target + ' .loading-placeholder').addClass('hide');
