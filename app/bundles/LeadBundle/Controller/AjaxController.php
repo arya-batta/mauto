@@ -939,7 +939,7 @@ class AjaxController extends CommonAjaxController
     {
         /** @var \Mautic\LeadBundle\Model\LeadModel $model */
         $model      = $this->getModel('lead');
-        $leadcount  = count($model->getEntities());
+        $leadcount  = $model->getRepository()->getTotalLeadsCount();
         if ($leadcount == 0) {
             $this->addFlash('No records to export');
             $dataArray['success']       = true;

@@ -228,9 +228,9 @@ class ButtonHelper extends Helper
      *
      * @return string
      */
-    public function renderButtons($dropdownHtml = '', $closingDropdownHtml = '')
+    public function renderButtons($dropdownHtml = '', $closingDropdownHtml = '', $source='')
     {
-        $this->fetchCustomButtons();
+        $this->fetchCustomButtons($source);
         $this->orderButtons();
 
         $content              = '';
@@ -369,12 +369,12 @@ class ButtonHelper extends Helper
     /**
      * @return $this
      */
-    protected function fetchCustomButtons()
+    protected function fetchCustomButtons($source)
     {
         if (!$this->buttonsFetched && $this->dispatcher->hasListeners(CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS)) {
             $event = $this->dispatcher->dispatch(
                 CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS,
-                new CustomButtonEvent($this->location, $this->request, $this->buttons, $this->item)
+                new CustomButtonEvent($this->location, $this->request, $this->buttons, $this->item, $source)
             );
             $this->buttonsFetched = true;
             $this->buttons        = $event->getButtons();

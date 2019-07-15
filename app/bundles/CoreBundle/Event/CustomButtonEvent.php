@@ -36,6 +36,13 @@ class CustomButtonEvent extends AbstractCustomRequestEvent
     protected $item;
 
     /**
+     * Event Source Identifier.
+     *
+     * @var
+     */
+    protected $source;
+
+    /**
      * CustomButtonEvent constructor.
      *
      * @param         $location
@@ -43,13 +50,13 @@ class CustomButtonEvent extends AbstractCustomRequestEvent
      * @param array   $buttons
      * @param null    $item
      */
-    public function __construct($location, Request $request, array $buttons = [], $item = null)
+    public function __construct($location, Request $request, array $buttons = [], $item = null, $source)
     {
         parent::__construct($request);
 
-        $this->location = $location;
-        $this->item     = $item;
-
+        $this->location   = $location;
+        $this->item       = $item;
+        $this->source     = $source;
         foreach ($buttons as $button) {
             $this->buttons[$this->generateButtonKey($button)] = $button;
         }
@@ -203,5 +210,10 @@ class CustomButtonEvent extends AbstractCustomRequestEvent
         }
 
         return $buttonKey;
+    }
+
+    public function getSource()
+    {
+        return $this->source;
     }
 }

@@ -176,9 +176,31 @@ class AccountRepository extends CommonRepository
 
     public function getEmailClickCounts()
     {
+        $sq = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $sq->select('distinct e.id')
+            ->from(MAUTIC_TABLE_PREFIX.'emails', 'e')
+            ->leftJoin('e', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
+                $sq->expr()->andX(
+                    $sq->expr()->eq('e.id', 'es.email_id')
+                ))
+            ->andWhere(
+                $sq->expr()->isNotNull('es.email_id')
+            );
+        $sq->andWhere(
+            $sq->expr()->neq('e.email_type', ':emailType')
+        );
+        $fromdate = date('Y-m-d', strtotime('-29 days'));
+        if ($fromdate !== null) {
+            $sq->andWhere(
+                $sq->expr()->gte('es.date_sent', $sq->expr()->literal($fromdate))
+            );
+        }
+        if ($this->currentUser->getId() != 1) {
+            $sq->andWhere($sq->expr()->neq('e.created_by', ':id'));
+        }
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-        $q->select('t.unique_hits')
+        $q->select('sum(t.unique_hits) as clickcount')
             ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
             ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
                 $q->expr()->andX(
@@ -187,36 +209,16 @@ class AccountRepository extends CommonRepository
                 )
             )
             ->setParameter('channel', 'email')
-            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
-                $q->expr()->andX(
-                    $q->expr()->eq('t.channel_id', 'es.email_id')
-                ))
-            ->leftJoin('es', MAUTIC_TABLE_PREFIX.'emails', 'e',
-                $q->expr()->andX(
-                    $q->expr()->eq('es.email_id', 'e.id')
-                ))
-            ->andWhere(
-                $q->expr()->isNotNull('es.email_id')
-            );
-        $q->andWhere(
-            $q->expr()->neq('e.email_type', ':emailType')
-        )->setParameter('emailType', 'template');
-        $fromdate = date('Y-m-d', strtotime('-29 days'));
-        if ($fromdate !== null) {
-            $q->andWhere(
-                $q->expr()->gte('es.date_sent', $q->expr()->literal($fromdate))
-            );
-        }
-        if ($this->currentUser->getId() != 1) {
-            $q->andWhere($q->expr()->neq('e.created_by', ':id'))
-                ->setParameter('id', '1');
-        }
+            ->setParameter('emailType', 'template')
+            ->setParameter('id', '1');
+        $q->andWhere('t.channel_id IN('.$sq->getSQL().')');
         $q->orderBy('r.url');
+
         $results = $q->execute()->fetchAll();
-        $count   = 0;
-        for ($i = 0; $i < sizeof($results); ++$i) {
-            $count += $results[$i]['unique_hits'];
-        }
+        $count   = $results[0]['clickcount'];
+//        for ($i = 0; $i < sizeof($results); ++$i) {
+//            $count += $results[$i]['unique_hits'];
+//        }
 
         return $count;
     }

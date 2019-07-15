@@ -516,9 +516,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
      */
     public function getEntitiesOrmQueryBuilder($order)
     {
+        if (!empty($order)) {
+            $order=','.$order;
+        }
         $alias = $this->getTableAlias();
         $q     = $this->getEntityManager()->createQueryBuilder();
-        $q->select($alias.', u, i,'.$order)
+        $q->select($alias.', u, i'.$order)
             ->from('MauticLeadBundle:Lead', $alias, $alias.'.id')
             ->leftJoin($alias.'.ipAddresses', 'i')
             ->leftJoin($alias.'.owner', 'u')
@@ -1717,12 +1720,12 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
         $q->select('count(*) as allleads')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
 
-        if (!$viewOthers) {
+        if (!$viewOthers && $this->currentUser != null) {
             $q->andWhere($q->expr()->eq('l.created_by', ':currentUserId'))
                 ->setParameter('currentUserId', $this->currentUser->getId());
         }
 
-        if ($this->currentUser->getId() != 1 && $viewOthers) {
+        if ($this->currentUser != null && $this->currentUser->getId() != 1 && $viewOthers) {
             /*$q->andWhere($q->expr()->neq('l.owner_id', ':id'))
                 ->setParameter('id', '1');*/
             $q->andWhere($q->expr()->neq('l.created_by', ':id'))

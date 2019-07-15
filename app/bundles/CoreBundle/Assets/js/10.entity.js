@@ -178,32 +178,36 @@ if(!value.startsWith('"')){
                 data: searchName + "=" + encodeURIComponent(value) + tmplParam,
                 dataType: "json",
                 success: function (response) {
-                    //cache the response
-                    if (response.newContent) {
-                        leVars[liveCacheVar][value] = response.newContent;
-                    }
-                    //note the target to be updated
-                    response.target = target;
-                    response.overlayEnabled = overlayEnabled;
-                    response.overlayTarget = overlayTarget;
-
-                    //update the buttons class and action
-                    if (mQuery(btn).length) {
-                        if (action == 'clear') {
-                            mQuery(btn).attr('data-livesearch-action', 'search');
-                            mQuery(btn).children('i').first().removeClass('fa-eraser').addClass('fa-search');
-                        } else {
-                            mQuery(btn).attr('data-livesearch-action', 'clear');
-                            mQuery(btn).children('i').first().removeClass('fa-search').addClass('fa-eraser');
+                    if (response.redirect) {
+                        window.location = response.redirect;
+                    }else{
+                        //cache the response
+                        if (response.newContent) {
+                            leVars[liveCacheVar][value] = response.newContent;
                         }
-                    }
+                        //note the target to be updated
+                        response.target = target;
+                        response.overlayEnabled = overlayEnabled;
+                        response.overlayTarget = overlayTarget;
 
-                    if (inModal) {
-                        Le.processModalContent(response);
-                        Le.stopModalLoadingBar(modalTarget);
-                    } else {
-                        Le.processPageContent(response);
-                        Le.stopPageLoadingBar();
+                        //update the buttons class and action
+                        if (mQuery(btn).length) {
+                            if (action == 'clear') {
+                                mQuery(btn).attr('data-livesearch-action', 'search');
+                                mQuery(btn).children('i').first().removeClass('fa-eraser').addClass('fa-search');
+                            } else {
+                                mQuery(btn).attr('data-livesearch-action', 'clear');
+                                mQuery(btn).children('i').first().removeClass('fa-search').addClass('fa-eraser');
+                            }
+                        }
+
+                        if (inModal) {
+                            Le.processModalContent(response);
+                            Le.stopModalLoadingBar(modalTarget);
+                        } else {
+                            Le.processPageContent(response);
+                            Le.stopPageLoadingBar();
+                        }
                     }
                 },
                 error: function (request, textStatus, errorThrown) {

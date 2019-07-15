@@ -1863,27 +1863,33 @@ Le.leadExport = function(ele){
     var startIndex = mQuery('#export_startIndex').val();
     var endIndex = mQuery('#export_endIndex').val();
     var link = mQuery(ele).attr('link');
-    if(startIndex != "" || endIndex != ""){
-        mQuery('#export-field-error').removeClass('hide');
-    }
-
     if(Le.isProperExportCount(startIndex,endIndex)){
         mQuery('#export-field-error').addClass('hide');
-        mQuery('#export-form-error').addClass('hide');
+        //mQuery('#export-form-error').addClass('hide');
         link = link+"&startIndex="+startIndex+"&endIndex="+endIndex;
         var iframe = mQuery("<iframe/>").attr({
             src: link,
             style: "visibility:hidden;display:none"
         }).appendTo(mQuery('body'));
     } else {
-        mQuery('#export-form-error').removeClass('hide');
+        if(startIndex == ''){
+            mQuery('#export-field-error').html("Start index can't be empty.");
+        }else if(endIndex == ''){
+            mQuery('#export-field-error').html("Limit can't be empty.");
+        }else{
+            mQuery('#export-field-error').html("Limit should not be greater than 10000");
+        }
+        mQuery('#export-field-error').removeClass('hide');
     }
 
     //Le.ajaxActionRequest('lead:exportLead',{},function(response){});
 }
 Le.isProperExportCount = function(startIndex, endIndex){
+    if(startIndex == '' || endIndex == ''){
+      return false;
+    }
     var diff = endIndex - startIndex;
-    if(diff > 10000){
+    if(endIndex > 10000){// if(diff > 10000){
         return false;
     }
     return true;

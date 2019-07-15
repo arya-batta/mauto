@@ -107,22 +107,28 @@ trait CustomFieldRepositoryTrait
             $ids = array_keys($fieldValues);
 
             if (count($ids)) {
-                //ORM
+                if ($object == 'lead') {
+                    $q = $this->getEntitiesOrmQueryBuilder('');
+                } else {
+                    //ORM
 
-                //build the order by id since the order was applied above
-                //unfortunately, doctrine does not have a way to natively support this and can't use MySQL's FIELD function
-                //since we have to be cross-platform; it's way ugly
+                    //build the order by id since the order was applied above
+                    //unfortunately, doctrine does not have a way to natively support this and can't use MySQL's FIELD function
+                    //since we have to be cross-platform; it's way ugly
 
-                //We should probably totally ditch orm for leads
-                $order = '(CASE';
-                foreach ($ids as $count => $id) {
-                    $order .= ' WHEN '.$this->getTableAlias().'.id = '.$id.' THEN '.$count;
-                    ++$count;
+                    //We should probably totally ditch orm for leads
+
+                    $order = '(CASE';
+                    foreach ($ids as $count => $id) {
+                        $order .= ' WHEN '.$this->getTableAlias().'.id = '.$id.' THEN '.$count;
+                        ++$count;
+                    }
+                    $order .= ' ELSE '.$count.' END) AS HIDDEN ORD';
+
+                    //ORM - generates lead entities
+                    $q = $this->getEntitiesOrmQueryBuilder($order);
                 }
-                $order .= ' ELSE '.$count.' END) AS HIDDEN ORD';
 
-                //ORM - generates lead entities
-                $q = $this->getEntitiesOrmQueryBuilder($order);
                 $this->buildSelectClause($dq, $args);
 
                 //only pull the leads as filtered via DBAL
@@ -130,7 +136,11 @@ trait CustomFieldRepositoryTrait
                     $q->expr()->in($this->getTableAlias().'.id', ':entityIds')
                 )->setParameter('entityIds', $ids);
 
-                $q->orderBy('ORD', 'ASC');
+                if ($object == 'lead') {
+                    $q->orderBy('l.id', 'DESC');
+                } else {
+                    $q->orderBy('ORD', 'ASC');
+                }
 
                 $results = $q->getQuery()
                     ->useQueryCache(false) // the query contains ID's, so there is no use in caching it

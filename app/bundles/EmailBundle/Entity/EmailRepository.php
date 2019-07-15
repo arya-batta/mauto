@@ -1233,7 +1233,7 @@ class EmailRepository extends CommonRepository
     {
         $q = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-        $q->select('t.unique_hits')
+        $q->select('sum(t.unique_hits) as clickcount')
             ->from(MAUTIC_TABLE_PREFIX.'page_redirects', 'r')
             ->leftJoin('r', MAUTIC_TABLE_PREFIX.'channel_url_trackables', 't',
                 $q->expr()->andX(
@@ -1244,17 +1244,16 @@ class EmailRepository extends CommonRepository
             )
             ->setParameter('channel', 'email')
             ->setParameter('channelId', $emailid)
-            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
-                $q->expr()->andX(
-                    $q->expr()->eq('t.channel_id', 'es.id')
-                ))
+//            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
+//                $q->expr()->andX(
+//                    $q->expr()->eq('t.channel_id', 'es.id')
+//                ))
             ->orderBy('r.url');
-
         $results = $q->execute()->fetchAll();
-        $count   = 0;
-        for ($i = 0; $i < sizeof($results); ++$i) {
-            $count += $results[$i]['unique_hits'];
-        }
+        $count   = $results[0]['clickcount'];
+//        for ($i = 0; $i < sizeof($results); ++$i) {
+//            $count += $results[$i]['unique_hits'];
+//        }
 
         return $count;
     }

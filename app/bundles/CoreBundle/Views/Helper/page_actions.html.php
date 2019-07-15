@@ -115,7 +115,7 @@ if (isset($onlyexport)) {
 
     $dropdownOpenHtml = '<button type="button" class="btn btn-default  le-btn-default waves-effect"  >';
 
-    echo $view['buttons']->renderButtons($dropdownOpenHtml, '</button>');
+    echo $view['buttons']->renderButtons($dropdownOpenHtml, '</button>', 'page_actions');
 
     echo '</div>';
 } else {
@@ -129,7 +129,7 @@ if (isset($onlyexport)) {
         }
         $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle le-btn-default waves-effect" data-toggle="dropdown" aria-expanded="false"><span>'.$data.'</span><i class="fa fa-caret-down"></i></button>'."\n";
         $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index: 10000">'."\n";
-        echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>');
+        echo $view['buttons']->renderButtons($dropdownOpenHtml, '</ul>', 'page_actions');
 
         echo '</div>';
     }

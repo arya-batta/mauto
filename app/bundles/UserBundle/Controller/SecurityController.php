@@ -88,7 +88,11 @@ class SecurityController extends CommonController
             $error = $session->get(Security::AUTHENTICATION_ERROR);
             $session->remove(Security::AUTHENTICATION_ERROR);
         }
-        $msg='';
+        $msg            ='';
+        $sessionexpired = $this->request->query->get('state', false);
+        if ($sessionexpired) {
+            $msg='Session Expired. Please Login.';
+        }
         if (!empty($error)) {
             if (($error instanceof Exception\BadCredentialsException)) {
                 $msg = 'mautic.user.auth.error.invalidlogin';
@@ -108,7 +112,6 @@ class SecurityController extends CommonController
         $integrationHelper = $this->get('mautic.helper.integration');
         $integrations      = $integrationHelper->getIntegrationObjects(null, ['sso_service'], true, null, true);
         $ismobile          = InputHelper::isMobile();
-
         if (!$this->request->isXmlHttpRequest()) {
             return $this->delegateView([
                 'viewParameters' => [
@@ -126,7 +129,7 @@ class SecurityController extends CommonController
             ]);
         } else {
             //to handle ajax request
-            return $this->delegateRedirect($this->generateUrl('login'));
+            return $this->delegateRedirect($this->generateUrl('login').'?state=session_expired');
         }
     }
 

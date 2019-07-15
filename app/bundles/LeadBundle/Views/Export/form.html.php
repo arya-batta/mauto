@@ -10,11 +10,11 @@
 <br>
 <?php echo $view['form']->start($form); ?>
     <div class="has-error">
-        <div id="export-form-error" class="help-block hide">
+       <!-- <div id="export-form-error" class="help-block hide">
             <?php echo $view['translator']->trans('le.lead.export.error.msg'); ?>
-        </div>
+        </div>-->
         <div id="export-field-error" class="help-block hide">
-            <?php echo $view['translator']->trans('le.lead.export.error.msg'); ?>
+            <!--<?php echo $view['translator']->trans('le.lead.export.error.msg'); ?>-->
         </div>
     </div>
     <div class="row">

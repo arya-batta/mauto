@@ -49,7 +49,7 @@ class ButtonSubscriber extends CommonSubscriber
      */
     public function injectViewButtons(CustomButtonEvent $event)
     {
-        if (0 === strpos($event->getRoute(), 'le_contact_index')) {
+        if (0 === strpos($event->getRoute(), 'le_contact_index') && $event->getSource() == 'page_actions') {
             $exportRoute = $this->router->generate(
                 'le_contact_action',
                 ['objectAction' => 'batchExport']
@@ -95,7 +95,7 @@ class ButtonSubscriber extends CommonSubscriber
                 ],
                 ButtonHelper::LOCATION_PAGE_ACTIONS
             );*/
-            $leadcount   = count($this->leadModel->getEntities());
+            $leadcount   = $this->leadModel->getRepository()->getTotalLeadsCount();
             $attr        = [
                 'href'          => $exportRoute,
                 'onclick'       => 'Le.exportLeads()',
