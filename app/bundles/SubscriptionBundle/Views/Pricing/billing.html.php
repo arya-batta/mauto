@@ -109,7 +109,7 @@ $billingCountry     =$billing->getCountry();
                             </div>
                             <div class="col-md-6">
                                 <label for="state">State</label>
-                                <select name="welcome[state]" class="selop" id="selectstate">
+                                <select name="welcome[state]" class="selop" id="selectstate" style="width: 95%;">
                                     <option value="blank" <?php echo empty($billingState) ? 'selected' : ''?>>Choose your State</option>
                                     <?php foreach ($states as $stategrouplabel => $stategroup):?>
                                         <optgroup label="<?php echo $stategrouplabel; ?>">
@@ -131,7 +131,7 @@ $billingCountry     =$billing->getCountry();
                             </div>
                             <div class="col-md-6">
                                 <label for="country">Country</label>
-                                <select name="welcome[country]" class="selop" id="selectcountry">
+                                <select name="welcome[country]" class="selop" id="selectcountry" style="width: 95%;">
                                     <option value="blank" <?php echo empty($billingCountry) ? 'selected' : ''?>>Choose your Country</option>
                                     <?php foreach ($countries as $countryname):?>
                                         <option value="<?php echo $countryname?>" <?php echo !empty($billingCountry) && $billingCountry == $countryname ? 'selected' : ''?>><?php echo $countryname; ?></option>
