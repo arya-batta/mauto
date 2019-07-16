@@ -870,9 +870,9 @@ class CommonApiController extends FOSRestController implements MauticController
 
         $entity             = $this->getNewEntity($parameters);
         $isValidRecordAdd   = $this->get('mautic.helper.licenseinfo')->isValidRecordAdd();
-        $actualrecord       = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
+        $actualRecord       = $this->get('mautic.helper.licenseinfo')->getActualRecordCount();
         $totalrecord        = $this->get('mautic.helper.licenseinfo')->getTotalRecordCount();
-        $actualrecord       = number_format($actualrecord);
+        $actualrecord       = number_format($actualRecord);
         $totalrecord        = $totalrecord == 'UL' ? 'Unlimited' : number_format($totalrecord);
         $smHelper           = $this->get('le.helper.statemachine');
         $paymentrepository  =$this->get('le.subscription.repository.payment');
@@ -880,7 +880,7 @@ class CommonApiController extends FOSRestController implements MauticController
         $msg                = $this->translator->trans('le.record.count.exceeds', ['%USEDCOUNT%' => $actualrecord, '%ACTUALCOUNT%' => $totalrecord]);
         $licenseinfohelper  =  $this->get('mautic.helper.licenseinfo');
         if ($lastpayment != null) {
-            $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+            $isvalid = $licenseinfohelper->isValidMaxLimit($actualRecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
             if ($isvalid) {
                 $msg              = $isvalid;
                 $isValidRecordAdd = false;
