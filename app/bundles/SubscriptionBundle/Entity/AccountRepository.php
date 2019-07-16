@@ -216,9 +216,9 @@ class AccountRepository extends CommonRepository
 
         $results = $q->execute()->fetchAll();
         $count   = $results[0]['clickcount'];
-//        for ($i = 0; $i < sizeof($results); ++$i) {
-//            $count += $results[$i]['unique_hits'];
-//        }
+        if (empty($count)) {
+            $count=0;
+        }
 
         return $count;
     }

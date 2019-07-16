@@ -1244,16 +1244,12 @@ class EmailRepository extends CommonRepository
             )
             ->setParameter('channel', 'email')
             ->setParameter('channelId', $emailid)
-//            ->leftJoin('t', MAUTIC_TABLE_PREFIX.'email_stats', 'es',
-//                $q->expr()->andX(
-//                    $q->expr()->eq('t.channel_id', 'es.id')
-//                ))
             ->orderBy('r.url');
         $results = $q->execute()->fetchAll();
         $count   = $results[0]['clickcount'];
-//        for ($i = 0; $i < sizeof($results); ++$i) {
-//            $count += $results[$i]['unique_hits'];
-//        }
+        if (empty($count)) {
+            $count=0;
+        }
 
         return $count;
     }

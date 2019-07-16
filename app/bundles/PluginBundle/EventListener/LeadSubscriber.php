@@ -43,9 +43,9 @@ class LeadSubscriber extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            LeadEvents::LEAD_PRE_DELETE    => ['onLeadDelete', 0],
-            LeadEvents::LEAD_POST_SAVE     => ['onLeadSave', 0],
-            LeadEvents::COMPANY_PRE_DELETE => ['onCompanyDelete', 0],
+//            LeadEvents::LEAD_PRE_DELETE    => ['onLeadDelete', 0],
+//            LeadEvents::LEAD_POST_SAVE     => ['onLeadSave', 0],
+//            LeadEvents::COMPANY_PRE_DELETE => ['onCompanyDelete', 0],
         ];
     }
 
