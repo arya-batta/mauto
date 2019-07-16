@@ -481,7 +481,7 @@ class ImportController extends FormController
 
                                 return $this->listAction();
                             } else {
-                                $isvalid = $licenseinfohelper->isValidMaxLimit($actualrecord, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
+                                $isvalid = $licenseinfohelper->isValidMaxLimit($actualRecordCount, 'max_contact_limit', 100000, 'le.lead.max.lead.count.exceeds');
                                 if ($isvalid) {
                                     $this->addFlash($isvalid);
                                     $this->resetImport($fullPath);
