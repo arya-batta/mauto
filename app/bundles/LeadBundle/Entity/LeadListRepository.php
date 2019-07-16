@@ -1083,16 +1083,24 @@ class LeadListRepository extends CommonRepository
                         $isRelative = true;
                     }
 
+                    // set date into datetime for this specific fields to compare correctly
+                    if (in_array($details['field'], ['hit_url_date', 'lead_email_click_date', 'lead_email_read_date']) && !$isRelative) {
+                        $isRelative=true;
+                        $dtHelper->setDateTime($details['filter']);
+                    }
+
                     if ($isRelative) {
                         if ($requiresBetween) {
-                            $startWith = ($isTimestamp) ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
+                            //this specific date type fields need datetime to work correctly
+                            $needTimeStamp = in_array($details['field'], ['hit_url_date', 'lead_email_click_date', 'lead_email_read_date']) ? true : false;
+                            $startWith     = ($isTimestamp) || $needTimeStamp ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
                             if ($timeframe == 'year_till') {
                                 $dtHelper->setDateTime('now', 'Y-m-d');
                             } else {
                                 $dtHelper->modify($modifier);
                             }
 
-                            $endWith = ($isTimestamp) ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
+                            $endWith = ($isTimestamp) || $needTimeStamp ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
 
                             // Use a between statement
                             $func              = ($func == 'neq') ? 'notBetween' : 'between';
@@ -1101,8 +1109,9 @@ class LeadListRepository extends CommonRepository
                             if ($modifier) {
                                 $dtHelper->modify($modifier);
                             }
-
-                            $details['filter'] = $isTimestamp ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
+                            //this specific date type fields need datetime to work correctly
+                            $needTimeStamp     = in_array($details['field'], ['hit_url_date', 'lead_email_click_date', 'lead_email_read_date']) ? true : false;
+                            $details['filter'] = $isTimestamp || $needTimeStamp ? $dtHelper->toUtcString('Y-m-d H:i:s') : $dtHelper->toUtcString('Y-m-d');
                         }
                     }
                 };
@@ -1324,8 +1333,12 @@ class LeadListRepository extends CommonRepository
                         case 'neq':
                             $parameters[$parameter]  = $details['filter'];
                             $parameter2              = $this->generateRandomParameterName();
-                            $parameters[$parameter]  = $details['filter'].' 00:00:00';
-                            $parameters[$parameter2] = $details['filter'].' 23:59:59';
+                            $parameters[$parameter]  = $details['filter'];
+                            $dateTimeHelper          = new DateTimeHelper('midnight today', null, 'local');
+                            $dateTimeHelper->setDateTime($details['filter']);
+                            $dateTimeHelper->modify('+1 day');
+                            $dtfilter2               = $dateTimeHelper->getString('Y-m-d H:i:s');
+                            $parameters[$parameter2] = $dtfilter2;
                             $exprParameter2          = ":$parameter2";
                             $ignoreAutoFilter        = true;
                             $field                   = $column;
