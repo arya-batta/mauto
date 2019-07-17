@@ -272,7 +272,7 @@ Le.configOnLoad = function (container){
         var currentLink = mQuery(this);
         var email = mQuery('#sender_profile_from_email').val();
         var fromname = mQuery('#sender_profile_from_name').val();
-        var mailformat =/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,4})?$/;
+        var mailformat =/^([\w-\.]+@(?!gmail.com)(?!yahoo.com)(?!yahoo.co.in)(?!yahoo.in)(?!hotmail.com)(?!yahoo.co.in)(?!aol.com)(?!abc.com)(?!xyz.com)(?!pqr.com)(?!rediffmail.com)(?!live.com)(?!outlook.com)(?!me.com)(?!msn.com)(?!ymail.com)([\w-]+\.)+[\w-]{2,6})?$/;
         if(fromname == ""){
             mQuery('#sender_profile_from_name_errors').html("From name cannot be empty!");
             return;
