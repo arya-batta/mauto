@@ -334,7 +334,7 @@ class DripEmailModel extends FormModel
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
      */
-    public function getEntities(array $args = [])
+    /** public function getEntities(array $args = [])
     {
         $entities = parent::getEntities($args);
         foreach ($entities as $entity) {
@@ -388,7 +388,7 @@ class DripEmailModel extends FormModel
         }
 
         return $entities;
-    }
+    } */
 
     /**
      * {@inheritdoc}
