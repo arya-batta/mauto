@@ -843,6 +843,7 @@ return [
                     'mautic.channel.model.queue',
                     'mautic.email.model.send_email_to_contacts',
                     'mautic.helper.licenseinfo',
+                    'mautic.helper.cache_storage',
                 ],
             ],
             'mautic.email.model.dripemail' => [

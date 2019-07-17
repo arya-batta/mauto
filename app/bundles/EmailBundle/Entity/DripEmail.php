@@ -126,6 +126,51 @@ class DripEmail extends FormEntity
      */
     private $recipients = [];
 
+    /**
+     * @var int
+     */
+    private $pendingCount = 0;
+
+    /**
+     * @var int
+     */
+    private $scheduledCount = 0;
+
+    /**
+     * @var int
+     */
+    private $sentCount = 0;
+
+    /**
+     * @var int
+     */
+    private $openCount = 0;
+
+    /**
+     * @var int
+     */
+    private $clickCount = 0;
+
+    /**
+     * @var int
+     */
+    private $unsubscribeCount = 0;
+
+    /**
+     * @var int
+     */
+    private $openPercentage = 0;
+
+    /**
+     * @var int
+     */
+    private $clickPercentage = 0;
+
+    /**
+     * @var int
+     */
+    private $unsubscribePercentage = 0;
+
     /*
      * @var bool
      */
@@ -621,5 +666,149 @@ class DripEmail extends FormEntity
     public function setIsScheduled($isScheduled)
     {
         $this->isScheduled = $isScheduled;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPendingCount()
+    {
+        return $this->pendingCount;
+    }
+
+    /**
+     * @param int $pendingCount
+     */
+    public function setPendingCount($pendingCount)
+    {
+        $this->pendingCount = $pendingCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScheduledCount()
+    {
+        return $this->scheduledCount;
+    }
+
+    /**
+     * @param int $scheduledCount
+     */
+    public function setScheduledCount($scheduledCount)
+    {
+        $this->scheduledCount = $scheduledCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSentCount()
+    {
+        return $this->sentCount;
+    }
+
+    /**
+     * @param int $sentCount
+     */
+    public function setSentCount($sentCount)
+    {
+        $this->sentCount = $sentCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOpenCount()
+    {
+        return $this->openCount;
+    }
+
+    /**
+     * @param int $openCount
+     */
+    public function setOpenCount($openCount)
+    {
+        $this->openCount = $openCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClickCount()
+    {
+        return $this->clickCount;
+    }
+
+    /**
+     * @param int $clickCount
+     */
+    public function setClickCount($clickCount)
+    {
+        $this->clickCount = $clickCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnsubscribeCount()
+    {
+        return $this->unsubscribeCount;
+    }
+
+    /**
+     * @param int $unsubscribeCount
+     */
+    public function setUnsubscribeCount($unsubscribeCount)
+    {
+        $this->unsubscribeCount = $unsubscribeCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOpenPercentage()
+    {
+        return $this->openPercentage;
+    }
+
+    /**
+     * @param int $openPercentage
+     */
+    public function setOpenPercentage($openPercentage)
+    {
+        $this->openPercentage = $openPercentage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClickPercentage()
+    {
+        return $this->clickPercentage;
+    }
+
+    /**
+     * @param int $clickPercentage
+     */
+    public function setClickPercentage($clickPercentage)
+    {
+        $this->clickPercentage = $clickPercentage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnsubscribePercentage()
+    {
+        return $this->unsubscribePercentage;
+    }
+
+    /**
+     * @param int $unsubscribePercentage
+     */
+    public function setUnsubscribePercentage($unsubscribePercentage)
+    {
+        $this->unsubscribePercentage = $unsubscribePercentage;
     }
 }

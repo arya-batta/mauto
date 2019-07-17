@@ -37,6 +37,8 @@ class ConfigController extends FormController
         $paymentrepository  =$this->get('le.subscription.repository.payment');
         $lastpayment        = $paymentrepository->getLastPayment();
         $prefix             = 'Trial';
+        $openTab            = null;
+
         if ($lastpayment != null) {
             $prefix = 'Customer';
         }
@@ -238,6 +240,10 @@ class ConfigController extends FormController
                             $cacheHelper = $this->get('mautic.helper.cache');
                             $cacheHelper->clearContainerFile();
                             $cacheHelper->clearRoutingCache();
+
+                            if ($isValid && !empty($formData['emailconfig']['last_shown_tab'])) {
+                                $openTab = $formData['emailconfig']['last_shown_tab'];
+                            }
                         } catch (\RuntimeException $exception) {
                             $this->addFlash('mautic.config.config.error.not.updated', ['%exception%' => $exception->getMessage()], 'error');
                         }
@@ -254,7 +260,12 @@ class ConfigController extends FormController
             // If the form is saved or cancelled, redirect back to the dashboard
             if ($cancelled || $isValid) {
                 if (!$cancelled && $this->isFormApplied($form)) {
-                    return $this->delegateRedirect($this->generateUrl('le_config_action', ['objectAction' => 'edit']));
+                    $redirectParameters = ['objectAction' => 'edit'];
+                    if ($openTab) {
+                        $redirectParameters['tab'] = $openTab;
+                    }
+
+                    return $this->delegateRedirect($this->generateUrl('le_config_action', $redirectParameters));
                 } else {
                     $loginsession = $this->get('session');
 

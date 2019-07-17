@@ -222,7 +222,8 @@ class AjaxController extends CommonAjaxController
     protected function getEmailCountStatsAction(Request $request)
     {
         /** @var EmailModel $model */
-        $model = $this->getModel('email');
+        $model       = $this->getModel('email');
+        $cacheHelper = $this->factory->getHelper('cache_storage');
 
         $id  = $request->get('id');
         $ids = $request->get('ids');
@@ -280,6 +281,9 @@ class AjaxController extends CommonAjaxController
                 if ($failedCount > 0 && $totalCount > 0) {
                     $failedPercentage = round($failedCount / $totalCount * 100);
                 }
+
+                $cacheHelper->set(sprintf('%s|%s|%s', 'email', $email->getId(), 'click_percentage'), $clickCountPercentage);
+                $cacheHelper->set(sprintf('%s|%s|%s', 'email', $email->getId(), 'unsubscribe_percentage'), $unSubPercentage);
 
                 $data[] = [
                     'id'          => $id,
@@ -1002,8 +1006,13 @@ class AjaxController extends CommonAjaxController
         /** @var DripEmailModel $model */
         $model = $this->getModel('email.dripemail');
 
-        $id   = $request->get('id');
-        $data = $model->getDripEmailStats($id, true);
+        $id  = $request->get('id');
+        $ids = $request->get('ids');
+        // Support for legacy calls
+        if (!$ids && $id) {
+            $ids = [$id];
+        }
+        $data = $model->getDripEmailStats($ids, true, $request);
 
         return new JsonResponse($data);
     }

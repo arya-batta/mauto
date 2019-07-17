@@ -72,6 +72,8 @@ class ConfigType extends AbstractType
         $emailProvider = $this->licenseHelper->getEmailProvider();
         $currentUser   = $this->currentUser->isAdmin();
 
+        $builder->add('last_shown_tab', 'hidden');
+
         $builder->add(
             $builder->create(
                 'footer_text',

@@ -37,6 +37,7 @@ use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\UserBundle\Model\UserModel;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
@@ -324,6 +325,69 @@ class DripEmailModel extends FormModel
         }
 
         return $entity;
+    }
+
+    /**
+     * Return a list of entities.
+     *
+     * @param array $args [start, limit, filter, orderBy, orderByDir]
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
+     */
+    public function getEntities(array $args = [])
+    {
+        $entities = parent::getEntities($args);
+        foreach ($entities as $entity) {
+            $cacheHelper = $this->factory->getHelper('cache_storage');
+
+            $pending                = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_pending'));
+            $scheduled              = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_scheduled'));
+            $sent                   = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_sent'));
+            $open                   = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open'));
+            $click                  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click'));
+            $unsubscribe            = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe'));
+            $openPercentage         = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open_percentage'));
+            $clickPercentage        = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click_percentage'));
+            $unsubscribePercentage  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe_percentage'));
+
+            if ($pending !== false) {
+                $entity->setPendingCount($pending);
+            }
+
+            if ($scheduled !== false) {
+                $entity->setScheduledCount($scheduled);
+            }
+
+            if ($sent !== false) {
+                $entity->setSentCount($sent);
+            }
+
+            if ($open !== false) {
+                $entity->setOpenCount($open);
+            }
+
+            if ($click !== false) {
+                $entity->setClickCount($click);
+            }
+
+            if ($unsubscribe !== false) {
+                $entity->setUnsubscribeCount($unsubscribe);
+            }
+
+            if ($openPercentage !== false) {
+                $entity->setOpenPercentage($openPercentage);
+            }
+
+            if ($clickPercentage !== false) {
+                $entity->setClickPercentage($clickPercentage);
+            }
+
+            if ($unsubscribePercentage !== false) {
+                $entity->setUnsubscribePercentage($unsubscribePercentage);
+            }
+        }
+
+        return $entities;
     }
 
     /**
@@ -849,8 +913,10 @@ class DripEmailModel extends FormModel
         return $this->getRepository()->getDripByLead($leadId, $publishedonly);
     }
 
-    public function getDripEmailStats($id = null, $percentageNeeded= true)
+    public function getDripEmailStats($ids = null, $percentageNeeded= true, Request $request = null)
     {
+        $cacheHelper = $this->factory->getHelper('cache_storage');
+
         /** @var DripEmailModel $model */
         $model = $this->factory->getModel('email.dripemail');
 
@@ -863,7 +929,7 @@ class DripEmailModel extends FormModel
 
         $data        = [];
         $activeLeads = [];
-        if ($id) {
+        foreach ($ids as $id) {
             if ($dripemail = $model->getEntity($id)) {
                 $emailEntities = $emailmodel->getEntities(
                     [
@@ -975,8 +1041,19 @@ class DripEmailModel extends FormModel
                 }
                 if ($percentageNeeded) {
                     $pending       = $this->getLeadsByDrip($dripemail, true);
-                    $data          = [
-                        'success'          => 1,
+
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_pending'), $pending);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_scheduled'), sizeof($activeLeads));
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_sent'), $dripSentCount);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_open'), $dripReadCount);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_click'), $dripClickCount);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_unsubscribe'), $dripUnsubCount);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_open_percentage'), $dripreadCountPercentage);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_click_percentage'), $dripclickCountPercentage);
+                    $cacheHelper->set(sprintf('%s|%s|%s', 'dripemail', $dripemail->getId(), 'drip_unsubscribe_percentage'), $dripunsubsCountPercentage);
+
+                    $data[]= [
+                        'id'               => $id,
                         'sentcount'        => $this->translator->trans('le.drip.email.stat.sentcount', ['%count%'  =>$dripSentCount]),
                         'readcount'        => $this->translator->trans('le.drip.email.stat.opencount', ['%count%'  =>$dripReadCount, '%percentage%'  => $dripreadCountPercentage]),
                         'clickcount'       => $this->translator->trans('le.drip.email.stat.clickcount', ['%count%' =>$dripClickCount, '%percentage%' => $dripclickCountPercentage]),
@@ -988,7 +1065,7 @@ class DripEmailModel extends FormModel
                         'pendingcount'     => $this->translator->trans('le.drip.email.stat.pendingcount', ['%count%'  => $pending]),
                     ];
                 } else {
-                    $data = [
+                    $data[]= [
                         'sentcount'   => $dripSentCount,
                         'readcount'   => $dripReadCount,
                         'clickcount'  => $dripClickCount,
@@ -999,6 +1076,18 @@ class DripEmailModel extends FormModel
                         'leadcount'   => sizeof($activeLeads),
                     ];
                 }
+            }
+        }
+
+        if ($percentageNeeded) {
+            // Support for legacy calls
+            if ($request->get('id')) {
+                $data = $data[0];
+            } else {
+                $data = [
+                    'success' => 1,
+                    'stats'   => $data,
+                ];
             }
         }
 

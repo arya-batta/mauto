@@ -242,6 +242,7 @@ $hidesmtpsettings =  ($lastPayment != null && $lastPayment->getPlanName() == 'le
         </div>
         <div class="row" id="unsubscribe_text_div" style="margin:0;">
             <?php echo $view['form']->rowIfExists($fields, 'footer_text'); ?>
+            <?php echo $view['form']->rowIfExists($fields, 'last_shown_tab'); ?>
         </div>
         <br>
         <br>

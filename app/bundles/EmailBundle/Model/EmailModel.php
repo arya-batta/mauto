@@ -15,6 +15,7 @@ use DeviceDetector\DeviceDetector;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Mautic\ChannelBundle\Entity\MessageQueue;
 use Mautic\ChannelBundle\Model\MessageQueueModel;
+use Mautic\CoreBundle\Helper\CacheStorageHelper;
 use Mautic\CoreBundle\Helper\Chart\BarChart;
 use Mautic\CoreBundle\Helper\Chart\ChartQuery;
 use Mautic\CoreBundle\Helper\Chart\LineChart;
@@ -128,6 +129,11 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     protected $licenseInfoHelper;
 
     /**
+     * @var CacheStorageHelper
+     */
+    private $cacheStorageHelper;
+
+    /**
      * EmailModel constructor.
      *
      * @param IpLookupHelper     $ipLookupHelper
@@ -141,6 +147,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      * @param MessageQueueModel  $messageQueueModel
      * @param SendEmailToContact $sendModel
      * @param LicenseInfoHelper  $licenseInfoHelper
+     * @param CacheStorageHelper $cacheStorageHelper
      */
     public function __construct(
         IpLookupHelper $ipLookupHelper,
@@ -153,7 +160,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         UserModel $userModel,
         MessageQueueModel $messageQueueModel,
         SendEmailToContact $sendModel,
-        LicenseInfoHelper  $licenseInfoHelper
+        LicenseInfoHelper  $licenseInfoHelper,
+        CacheStorageHelper $cacheStorageHelper
     ) {
         $this->ipLookupHelper     = $ipLookupHelper;
         $this->themeHelper        = $themeHelper;
@@ -165,7 +173,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $this->userModel          = $userModel;
         $this->messageQueueModel  = $messageQueueModel;
         $this->sendModel          = $sendModel;
-        $this->licenseInfoHelper  =  $licenseInfoHelper;
+        $this->licenseInfoHelper  = $licenseInfoHelper;
+        $this->cacheStorageHelper = $cacheStorageHelper;
     }
 
     /**
@@ -383,6 +392,42 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         }
 
         return $entity;
+    }
+
+    /**
+     * Return a list of entities.
+     *
+     * @param array $args [start, limit, filter, orderBy, orderByDir]
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
+     */
+    public function getEntities(array $args = [])
+    {
+        $entities = parent::getEntities($args);
+        foreach ($entities as $entity) {
+            $pending                = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'pending'));
+            $click                  = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click'));
+            $clickPercentage        = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click_percentage'));
+            $unsubscribePercentage  = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'unsubscribe_percentage'));
+
+            if ($pending !== false) {
+                $entity->setPendingCount($pending);
+            }
+
+            if ($click !== false) {
+                $entity->setClickCount($click);
+            }
+
+            if ($clickPercentage !== false) {
+                $entity->setClickPercentage($clickPercentage);
+            }
+
+            if ($unsubscribePercentage !== false) {
+                $entity->setUnsubscribePercentage($unsubscribePercentage);
+            }
+        }
+
+        return $entities;
     }
 
     /**
@@ -873,7 +918,10 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      */
     public function getEmailClickCount($emailId)
     {
-        return $this->pageTrackableModel->getTrackableCount('email', $emailId);
+        $clickCount = (int) $this->pageTrackableModel->getTrackableCount('email', $emailId);
+        $this->cacheStorageHelper->set(sprintf('%s|%s|%s', 'email', $emailId, 'click'), $clickCount);
+
+        return $clickCount;
     }
 
     /**
@@ -887,6 +935,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      * @param int   $minContactId    Filter by min contact ID
      * @param int   $maxContactId    Filter by max contact ID
      * @param bool  $countWithMaxMin Add min_id and max_id info to the count result
+     * @param bool  $storeToCache    Whether to store the result to the cache
      *
      * @return int|array
      */
@@ -898,7 +947,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $includeVariants = true,
         $minContactId = null,
         $maxContactId = null,
-        $countWithMaxMin = false
+        $countWithMaxMin = false,
+        $storeToCache = true
     ) {
         $variantIds = ($includeVariants) ? $email->getRelatedEntityIds() : null;
         $total      = $this->getRepository()->getEmailPendingLeads(
@@ -911,6 +961,17 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $maxContactId,
             $countWithMaxMin
         );
+
+        if ($storeToCache = true) {
+            if ($countOnly && $countWithMaxMin) {
+                $toStore = $total['count'];
+            } elseif ($countOnly) {
+                $toStore = $total;
+            } else {
+                $toStore = count($total);
+            }
+            $this->cacheStorageHelper->set(sprintf('%s|%s|%s', 'email', $email->getId(), 'pending'), $toStore);
+        }
 
         return $total;
     }
@@ -969,7 +1030,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $progress = false;
         if ($batch && $output) {
             $progressCounter = 0;
-            $totalLeadCount  = $this->getPendingLeads($email, null, true);
+            $totalLeadCount  = $this->getPendingLeads($email, null, true, null, true, null, null, false, false);
             if (!$totalLeadCount) {
                 return;
             }
@@ -986,7 +1047,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 //            }
 
         // $options['listId'] = $list->getId();
-            $leads             = $this->getPendingLeads($email, null, false, $limit); //$list->getId()
+            $leads             = $this->getPendingLeads($email, null, false, $limit, true, null, null, false, false); //$list->getId()
             $leadCount         = count($leads);
 
         while ($leadCount) {
@@ -1017,7 +1078,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 }
 
                 // Get the next batch of leads
-                    $leads     = $this->getPendingLeads($email, null, false, $limit); //$list->getId()
+                    $leads     = $this->getPendingLeads($email, null, false, $limit, true, null, null, false, false); //$list->getId()
                     $leadCount = count($leads);
             } else {
                 $leadCount = 0;

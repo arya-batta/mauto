@@ -296,9 +296,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_pending').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.pending.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.leadcount', ['%count%' => $item->getPendingCount()]); ?>
                             </a>
                         </span>
                     </td>
@@ -311,9 +312,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_sent').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.tooltip.sent'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.leadcount', ['%count%' => $item->getSentCount(true)]); ?>
                             </a>
                         </span>
                    </td>
@@ -325,9 +327,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_read').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.read.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.readcount', ['%count%' => $item->getReadCount(true), '%percentage%' => round($item->getReadPercentage(true))]); ?>
                             </a>
                         </span>
                     </td>
@@ -339,9 +342,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_click').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.click.percentage.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.readpercent', ['%count%' => $item->getClickCount(), '%percentage%'=>$item->getClickPercentage()]); ?>
                             </a>
                         </span>
                     </td>
@@ -354,9 +358,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_unsubscribe').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.unsubscribe.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.unsubscribecount', ['%count%' => $item->getUnsubscribeCount(true), '%percentage%'=>$item->getUnsubscribePercentage()]); ?>
                             </a>
                         </span>
                     </td>
@@ -370,9 +375,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_bounce').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.bounce.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.leadcount', ['%count%' => $item->getBounceCount(true)]); ?>
                             </a>
                         </span>
                     </td>
@@ -384,9 +390,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_spam').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.spam.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.leadcount', ['%count%' => $item->getSpamCount(true)]); ?>
                             </a>
                         </span>
                     </td>
@@ -398,9 +405,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.lead.searchcommand.email_failure').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.email.stat.failure.tooltip'); ?>">
-                                <div class="email-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="email-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.email.stat.leadcount', ['%count%' => $item->getFailureCount(true)]); ?>
                             </a>
                         </span>
                         </td>

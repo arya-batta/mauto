@@ -159,6 +159,26 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     private $revision = 1;
 
     /**
+     * @var int
+     */
+    private $pendingCount = 0;
+
+    /**
+     * @var int
+     */
+    private $clickCount = 0;
+
+    /**
+     * @var int
+     */
+    private $clickPercentage = 0;
+
+    /**
+     * @var int
+     */
+    private $unsubscribePercentage = 0;
+
+    /**
      * @var \Mautic\CategoryBundle\Entity\Category
      **/
     private $category;
@@ -1582,6 +1602,74 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     public function setIsScheduled($isScheduled)
     {
         $this->isScheduled = $isScheduled;
+    }
+
+    /**
+     * @param int $count
+     *
+     * @return $this
+     */
+    public function setPendingCount($count)
+    {
+        $this->pendingCount = $count;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPendingCount()
+    {
+        return $this->pendingCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClickCount()
+    {
+        return $this->clickCount;
+    }
+
+    /**
+     * @param int $clickCount
+     */
+    public function setClickCount($clickCount)
+    {
+        $this->clickCount = $clickCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClickPercentage()
+    {
+        return $this->clickPercentage;
+    }
+
+    /**
+     * @param int $clickPercentage
+     */
+    public function setClickPercentage($clickPercentage)
+    {
+        $this->clickPercentage = $clickPercentage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnsubscribePercentage()
+    {
+        return $this->unsubscribePercentage;
+    }
+
+    /**
+     * @param int $unsubscribePercentage
+     */
+    public function setUnsubscribePercentage($unsubscribePercentage)
+    {
+        $this->unsubscribePercentage = $unsubscribePercentage;
     }
 
     /**

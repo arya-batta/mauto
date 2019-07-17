@@ -199,30 +199,52 @@ Le.loadDripEmailScheduledStatCounts = function(){
 
 Le.loadDripEmailStatCounts = function(){
     if (mQuery('table.email-list').length) {
+        var ids = [];
         mQuery('tr.drip-email-col-stats').each(function () {
             var id = mQuery(this).attr('data-stats');
-            // Process the request one at a time or the xhr will cancel the previous
+            ids.push(id);
+        });
+
+        // Get all stats numbers in batches of 10
+        while (ids.length > 0) {
+            var batchIds = ids.splice(0, 10);
             Le.ajaxActionRequest(
                 'email:getDripEmailStats',
-                {id: id},
+                {ids: batchIds},
                 function (response) {
-                    if (response.success && mQuery('#drip-sent-count-' + id + ' div').length) {
-                        mQuery('#drip-sent-count-' + id + ' > a').html(response.sentcount);
-                        mQuery('#drip-read-count-' + id + ' > a').html(response.readcount);
-                        mQuery('#drip-click-count-' + id + ' > a').html(response.clickcount);
-                        mQuery('#drip-unsubscribe-count-' + id + ' > a').html(response.unsubscribe);
-                        mQuery('#drip-bounce-count-' + id + ' > a').html(response.bouncecount);
-                        mQuery('#drip-spam-count-' + id + ' > a').html(response.spam);
-                        mQuery('#drip-failed-count-' + id + ' > a').html(response.failed);
-                        mQuery('#drip-lead-count-' + id + ' > a').html(response.leadcount);
-                        mQuery('#drip-pending-count-' + id + ' > a').html(response.pendingcount);
+                    // if (response.success && mQuery('#drip-sent-count-' + id + ' div').length) {
+                    //     mQuery('#drip-sent-count-' + id + ' > a').html(response.sentcount);
+                    //     mQuery('#drip-read-count-' + id + ' > a').html(response.readcount);
+                    //     mQuery('#drip-click-count-' + id + ' > a').html(response.clickcount);
+                    //     mQuery('#drip-unsubscribe-count-' + id + ' > a').html(response.unsubscribe);
+                    //     mQuery('#drip-bounce-count-' + id + ' > a').html(response.bouncecount);
+                    //     mQuery('#drip-spam-count-' + id + ' > a').html(response.spam);
+                    //     mQuery('#drip-failed-count-' + id + ' > a').html(response.failed);
+                    //     mQuery('#drip-lead-count-' + id + ' > a').html(response.leadcount);
+                    //     mQuery('#drip-pending-count-' + id + ' > a').html(response.pendingcount);
+                    // }
+                    if (response.success && response.stats) {
+                        for (var i = 0; i < response.stats.length; i++) {
+                            var stat = response.stats[i];
+                            if (mQuery('#drip-sent-count-' + stat.id).length) {
+                                mQuery('#drip-sent-count-' + stat.id + ' > a').html(stat.sentcount);
+                                mQuery('#drip-read-count-' + stat.id + ' > a').html(stat.readcount);
+                                mQuery('#drip-click-count-' + stat.id + ' > a').html(stat.clickcount);
+                                mQuery('#drip-unsubscribe-count-' + stat.id + ' > a').html(stat.unsubscribe);
+                                mQuery('#drip-bounce-count-' + stat.id + ' > a').html(stat.bouncecount);
+                                mQuery('#drip-spam-count-' + stat.id + ' > a').html(stat.spam);
+                                mQuery('#drip-failed-count-' + stat.id + ' > a').html(stat.failed);
+                                mQuery('#drip-lead-count-' + stat.id + ' > a').html(stat.leadcount);
+                                mQuery('#drip-pending-count-' + stat.id + ' > a').html(stat.pendingcount);
+                            }
+                        }
                     }
                 },
                 false,
                 true
             );
 
-        });
+        }
     }
 }
 
