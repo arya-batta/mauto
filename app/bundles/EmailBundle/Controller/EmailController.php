@@ -200,7 +200,7 @@ class EmailController extends FormController
                 'orderBy'        => $orderBy,
                 'orderByDir'     => $orderByDir,
                 'ignoreListJoin' => $ignoreListJoin,
-            ]
+            ], true
         );
 
         $count = count($emails);

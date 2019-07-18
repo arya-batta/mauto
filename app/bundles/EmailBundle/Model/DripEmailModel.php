@@ -334,61 +334,63 @@ class DripEmailModel extends FormModel
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
      */
-    /** public function getEntities(array $args = [])
+    public function getEntities(array $args = [], $includeStat=false)
     {
         $entities = parent::getEntities($args);
-        foreach ($entities as $entity) {
-            $cacheHelper = $this->factory->getHelper('cache_storage');
+        if ($includeStat) {
+            foreach ($entities as $entity) {
+                $cacheHelper = $this->factory->getHelper('cache_storage');
 
-            $pending                = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_pending'));
-            $scheduled              = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_scheduled'));
-            $sent                   = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_sent'));
-            $open                   = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open'));
-            $click                  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click'));
-            $unsubscribe            = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe'));
-            $openPercentage         = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open_percentage'));
-            $clickPercentage        = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click_percentage'));
-            $unsubscribePercentage  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe_percentage'));
+                $pending               = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_pending'));
+                $scheduled             = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_scheduled'));
+                $sent                  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_sent'));
+                $open                  = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open'));
+                $click                 = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click'));
+                $unsubscribe           = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe'));
+                $openPercentage        = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_open_percentage'));
+                $clickPercentage       = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_click_percentage'));
+                $unsubscribePercentage = $cacheHelper->get(sprintf('%s|%s|%s', 'dripemail', $entity->getId(), 'drip_unsubscribe_percentage'));
 
-            if ($pending !== false) {
-                $entity->setPendingCount($pending);
-            }
+                if ($pending !== false) {
+                    $entity->setPendingCount($pending);
+                }
 
-            if ($scheduled !== false) {
-                $entity->setScheduledCount($scheduled);
-            }
+                if ($scheduled !== false) {
+                    $entity->setScheduledCount($scheduled);
+                }
 
-            if ($sent !== false) {
-                $entity->setSentCount($sent);
-            }
+                if ($sent !== false) {
+                    $entity->setSentCount($sent);
+                }
 
-            if ($open !== false) {
-                $entity->setOpenCount($open);
-            }
+                if ($open !== false) {
+                    $entity->setOpenCount($open);
+                }
 
-            if ($click !== false) {
-                $entity->setClickCount($click);
-            }
+                if ($click !== false) {
+                    $entity->setClickCount($click);
+                }
 
-            if ($unsubscribe !== false) {
-                $entity->setUnsubscribeCount($unsubscribe);
-            }
+                if ($unsubscribe !== false) {
+                    $entity->setUnsubscribeCount($unsubscribe);
+                }
 
-            if ($openPercentage !== false) {
-                $entity->setOpenPercentage($openPercentage);
-            }
+                if ($openPercentage !== false) {
+                    $entity->setOpenPercentage($openPercentage);
+                }
 
-            if ($clickPercentage !== false) {
-                $entity->setClickPercentage($clickPercentage);
-            }
+                if ($clickPercentage !== false) {
+                    $entity->setClickPercentage($clickPercentage);
+                }
 
-            if ($unsubscribePercentage !== false) {
-                $entity->setUnsubscribePercentage($unsubscribePercentage);
+                if ($unsubscribePercentage !== false) {
+                    $entity->setUnsubscribePercentage($unsubscribePercentage);
+                }
             }
         }
 
         return $entities;
-    } */
+    }
 
     /**
      * {@inheritdoc}
@@ -928,7 +930,6 @@ class DripEmailModel extends FormModel
         $leadEventLogRepo   = $this->factory->get('mautic.email.repository.LeadEventLog');
 
         $data        = [];
-        $activeLeads = [];
         foreach ($ids as $id) {
             if ($dripemail = $model->getEntity($id)) {
                 $emailEntities = $emailmodel->getEntities(
@@ -961,6 +962,7 @@ class DripEmailModel extends FormModel
                         'ignore_paginator' => true,
                     ]
                 );
+                $activeLeads = [];
                 foreach ($leads as $lead) {
                     $eventLogLead = $leadEventLogRepo->getEntities(
                         [

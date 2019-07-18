@@ -401,29 +401,31 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
      */
-    public function getEntities(array $args = [])
+    public function getEntities(array $args = [], $includeStat=false)
     {
         $entities = parent::getEntities($args);
-        foreach ($entities as $entity) {
-            $pending                = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'pending'));
-            $click                  = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click'));
-            $clickPercentage        = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click_percentage'));
-            $unsubscribePercentage  = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'unsubscribe_percentage'));
+        if ($includeStat) {
+            foreach ($entities as $entity) {
+                $pending               = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'pending'));
+                $click                 = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click'));
+                $clickPercentage       = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'click_percentage'));
+                $unsubscribePercentage = $this->cacheStorageHelper->get(sprintf('%s|%s|%s', 'email', $entity->getId(), 'unsubscribe_percentage'));
 
-            if ($pending !== false) {
-                $entity->setPendingCount($pending);
-            }
+                if ($pending !== false) {
+                    $entity->setPendingCount($pending);
+                }
 
-            if ($click !== false) {
-                $entity->setClickCount($click);
-            }
+                if ($click !== false) {
+                    $entity->setClickCount($click);
+                }
 
-            if ($clickPercentage !== false) {
-                $entity->setClickPercentage($clickPercentage);
-            }
+                if ($clickPercentage !== false) {
+                    $entity->setClickPercentage($clickPercentage);
+                }
 
-            if ($unsubscribePercentage !== false) {
-                $entity->setUnsubscribePercentage($unsubscribePercentage);
+                if ($unsubscribePercentage !== false) {
+                    $entity->setUnsubscribePercentage($unsubscribePercentage);
+                }
             }
         }
 
