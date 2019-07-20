@@ -589,16 +589,16 @@ class DripEmailController extends FormController
                     $email = $this->getModel('email');
                     $model->getRepository()->updateUtmInfoinEmail($entity, $email);
                     //}
-                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    // $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
                     $sendBtnClicked     =$form->get('buttons')->get('schedule')->isClicked();
                     $isUpdateFlashNeeded=true;
                     if (!$sendBtnClicked) {
-                        if ($entity->isPublished() && $isStateAlive) {
+                        /**if ($entity->isPublished() && $isStateAlive) {
                             $isUpdateFlashNeeded = false;
                             $configurl           = $this->factory->getRouter()->generate('le_sendingdomain_action');
                             $entity->setIsPublished(false);
                             $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'dripemail']));
-                        }
+                        }*/
                     } else {
                         $isUpdateFlashNeeded=false;
                     }
@@ -777,7 +777,7 @@ class DripEmailController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -790,7 +790,7 @@ class DripEmailController extends FormController
                     ],
                 ]
             );
-        }
+        }*/
         $newEntity = null;
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
@@ -843,7 +843,7 @@ class DripEmailController extends FormController
      */
     public function quickaddAction()
     {
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -856,7 +856,7 @@ class DripEmailController extends FormController
                     ],
                 ]
             );
-        }
+        }*/
         /** @var DripEmailModel $model */
         $model     = $this->getModel('email.dripemail');
         $dripemail = $model->getEntity();
@@ -1088,13 +1088,13 @@ class DripEmailController extends FormController
 
             return $this->viewAction($objectId);
         }
-        $isStateAlive=$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         $configurl   =$this->factory->getRouter()->generate('le_sendingdomain_action');
         if ($isStateAlive) {
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
 
             return $this->viewAction($objectId);
-        }
+        }*/
 
         //not found
         if ($entity === null) {

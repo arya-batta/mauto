@@ -1060,6 +1060,7 @@ class SubmissionModel extends CommonFormModel
             }
         }
         $lead->setStatus(1);
+        $lead->setScore('cold');
         //set the mapped fields
         $this->leadModel->setFieldValues($lead, $data, false, true, true);
 

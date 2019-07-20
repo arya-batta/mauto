@@ -183,7 +183,7 @@ class ElasticApiHelper
                     $rows[]                     =['Open rate', 'Your last 30 day open rate', $opened_emails_percentage.'%', $opened_emails_score];
                     $rows[]                     =['Click rate', 'Your last 30 day click rate', $clicked_emails_percentage.'%', $clicked_emails_score];
                     $details[]                  =$rows;
-                    $reputation                 =$data->reputation;
+                    $reputation                 =round($data->reputation, 2);
                     $details[]                  =$reputation;
                     $starrating                 =round(($reputation / 100) * 5, 0, PHP_ROUND_HALF_DOWN);
                     $details[]                  =$starrating;

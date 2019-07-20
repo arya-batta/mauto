@@ -1511,14 +1511,16 @@ class AjaxController extends CommonAjaxController
                     break;
                 }
             }
+            $removeRestriction = false;
             if ($isAnyDomainVerified) {
                 if ($smHelper->isStateAlive($prefix.'_Sending_Domain_Not_Configured')) {
                     $smHelper->sendInternalSlackMessage('sending_domain_configured');
+                    $removeRestriction = true;
                 }
                 $smHelper->makeStateInActive([$prefix.'_Sending_Domain_Not_Configured', $prefix.'_Inactive_Sending_Domain_Issue']);
                 if (!$smHelper->isAnyInActiveStateAlive()) {
                     $smHelper->newStateEntry($prefix.'_Active', '');
-                    if ($prefix == 'Trial') {
+                    if ($removeRestriction) {
                         $licenseinfoHelper = $this->get('mautic.helper.licenseinfo');
                         $license           = $licenseinfoHelper->getLicenseEntity();
                         $licenseRepo       = $licenseinfoHelper->getLicenseRepository();

@@ -274,7 +274,7 @@ class AjaxController extends CommonController
             } elseif ($name == 'campaign') {
                 $module='workflow';
             }
-            $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+            /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
             if ($isStateAlive && !$entity->isPublished()) {
                 $configurl          =$this->factory->getRouter()->generate('le_sendingdomain_action');
                 $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => $module]));
@@ -283,7 +283,7 @@ class AjaxController extends CommonController
                 $dataArray['flashes']       = $this->getFlashContent();
 
                 return $this->sendJsonResponse($dataArray);
-            }
+            }*/
 
             $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Trial_Unverified_Email');
             if ($isStateAlive && !$entity->isPublished()) {

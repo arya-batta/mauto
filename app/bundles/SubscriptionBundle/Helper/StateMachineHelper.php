@@ -121,7 +121,7 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Customer_Active', 'Trial_Active', 'Trial_Sending_Domain_Not_Configured'],
+                'state'   => ['Customer_Active', 'Trial_Active', 'Trial_Sending_Domain_Not_Configured', 'Customer_Sending_Domain_Not_Configured'],
                 'isalive' => true,
             ]
         );
@@ -136,7 +136,7 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Trial_Inactive_Expired', 'Trial_Inactive_Suspended', 'Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Inactive_Payment_Issue', 'Customer_Inactive_Archive'],
+                'state'   => ['Trial_Inactive_Expired', 'Trial_Inactive_Suspended', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Inactive_Payment_Issue', 'Customer_Inactive_Archive'],
                 'isalive' => true,
             ]//'Customer_Inactive_Exit_Cancel'
         );
@@ -151,7 +151,7 @@ class StateMachineHelper
     {
         $states      =$this->smrepo->findBy(
             [
-                'state'   => ['Trial_Sending_Domain_Not_Configured', 'Trial_Unverified_Email', 'Trial_Inactive_Under_Review', 'Trial_Inactive_Sending_Domain_Issue', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended', 'Customer_Inactive_Payment_Issue', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Sending_Domain_Not_Configured', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review'],
+                'state'   => ['Trial_Sending_Domain_Not_Configured', 'Trial_Unverified_Email', 'Trial_Inactive_Under_Review', 'Trial_Inactive_Sending_Domain_Issue', 'Trial_Inactive_Expired', 'Trial_Inactive_Suspended', 'Customer_Inactive_Payment_Issue', 'Customer_Inactive_Sending_Domain_Issue', 'Customer_Inactive_Suspended', 'Customer_Inactive_Under_Review'],
                 'isalive' => true,
             ],
             ['updatedOn'=> 'ASC'],

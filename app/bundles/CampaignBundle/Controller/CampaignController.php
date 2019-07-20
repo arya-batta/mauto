@@ -96,7 +96,7 @@ class CampaignController extends AbstractStandardFormController
             return $this->editDenied($this->generateUrl('le_campaign_index'));
         }
 
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
@@ -109,7 +109,7 @@ class CampaignController extends AbstractStandardFormController
                     ],
                 ]
             );
-        }
+        }*/
 
         return $this->cloneStandard($objectId);
     }
@@ -203,7 +203,7 @@ class CampaignController extends AbstractStandardFormController
 
     public function quickaddAction()
     {
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.wf.add.status.report', ['%url%' => $configurl]));
@@ -216,7 +216,7 @@ class CampaignController extends AbstractStandardFormController
                     ],
                 ]
             );
-        }
+        }*/
         $ismobile = InputHelper::isMobile();
         if ($ismobile) {
             $this->addFlash(

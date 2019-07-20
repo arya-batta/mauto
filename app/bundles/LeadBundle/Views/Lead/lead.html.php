@@ -465,7 +465,7 @@ $view['slots']->set(
                             <div class="uk-float-right">
                                 <i class="le-lead-dialogue fa fa-calendar-check-o" style="color: #3292e0"></i></div>
                             <span  class="le-lead-card-header"> <?php echo $view['translator']->trans('le.lead.lastactive'); ?> </span><br>
-                            <span class="le-lead-card-content"><?php echo $lastacitve = !empty($lead->getLastActive()) ? $view['date']->toCustDate($lead->getDateAdded(), 'local', 'M d, Y') : 'N/A'?> </span>
+                            <span class="le-lead-card-content"><?php echo $lastacitve = !empty($lead->getLastActive()) ? $view['date']->toCustDate($lead->getLastActive(), 'local', 'M d, Y') : 'N/A'?> </span>
                         </div>
                     </div>
                 </div>

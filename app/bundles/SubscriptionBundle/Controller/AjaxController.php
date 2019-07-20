@@ -1107,7 +1107,8 @@ class AjaxController extends CommonAjaxController
                     //$validitytill = $validityend;
                     // } else {
                     //$planname     = '90 Days Success Offer';
-                    $validitytill  = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                    $validitytill   = date('Y-m-d', strtotime('-1 day +'.$planvalidity.' months'));
+                    $restrictTo1000 = false;
                     $smHelper->makeStateInActive(['Trial_Inactive_Expired', 'Trial_Active']);
                     $trialInActiveStatePresent=false;
                     if ($smHelper->isStateAlive('Trial_Inactive_Suspended')) {
@@ -1128,6 +1129,7 @@ class AjaxController extends CommonAjaxController
                     if ($smHelper->isStateAlive('Trial_Sending_Domain_Not_Configured')) {
                         $smHelper->makeStateInActive(['Trial_Sending_Domain_Not_Configured']);
                         $trialInActiveStatePresent=true;
+                        $restrictTo1000           = true;
                         $smHelper->newStateEntry('Customer_Sending_Domain_Not_Configured');
                     }
 
@@ -1137,6 +1139,11 @@ class AjaxController extends CommonAjaxController
                     $smHelper->addStateWithLead();
                     $smHelper->sendInternalSlackMessage('first_payment');
                     // }
+
+                    if ($restrictTo1000) {
+                        $contactcredites = '1000';
+                        $emailplancredits= '1000';
+                    }
                     if ($amount == 1) {
                         $amount = 0;
                     }

@@ -1872,7 +1872,7 @@ class LeadController extends FormController
                 ]
             );
         }
-        if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
+        /**if ($smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured')) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%'=>$configurl]));
 
@@ -1884,7 +1884,7 @@ class LeadController extends FormController
                     ],
                 ]
             );
-        }
+        }*/
         if (!$isHavingEmailValidity) {
             $this->addFlash($this->translator->trans('mautic.email.validity.expired'));
 
@@ -2931,6 +2931,12 @@ class LeadController extends FormController
         if ($leadcount == 0) {
             return  $this->redirectToRoute('le_contact_index', ['leadcount' => 'true']);
         }
+
+        //  To handle(prevent) direct export action after session expired login
+        if (strpos($this->request->headers->get('referer'), '/login') !== false || strpos($this->request->server->get('HTTP_REFERER'), '/login') !== false) {
+            return  $this->redirectToRoute('le_contact_index');
+        }
+
         $session    = $this->get('session');
         $search     = $session->get('mautic.lead.filter', '');
         $orderBy    = $session->get('mautic.lead.orderby', 'l.last_active');

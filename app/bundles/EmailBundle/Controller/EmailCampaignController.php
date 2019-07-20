@@ -793,7 +793,7 @@ class EmailCampaignController extends FormController
 
     public function quickaddAction($objectId)
     {
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -806,7 +806,7 @@ class EmailCampaignController extends FormController
                     ],
                 ]
             );
-        }
+        }*/
         $isBeeEditor = $objectId;
         /** @var EmailModel $model */
         $model        = $this->getModel('email');
@@ -1060,16 +1060,16 @@ class EmailCampaignController extends FormController
                             $entity->addAssetAttachment($asset);
                         }
                     }
-                    $isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+                    //$isStateAlive       =$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
                     $isUpdateFlashNeeded=true;
                     $sendBtnClicked     =$form->get('buttons')->get('sendtest')->isClicked();
                     if (!$sendBtnClicked) {
-                        if ($entity->isPublished() && $isStateAlive) {
+                        /**if ($entity->isPublished() && $isStateAlive) {
                             $isUpdateFlashNeeded=false;
                             $configurl          =$this->factory->getRouter()->generate('le_sendingdomain_action');
                             $entity->setIsPublished(false);
                             $this->addFlash($this->translator->trans('le.email.config.mailer.publish.status.report', ['%url%' => $configurl, '%module%' => 'broadcast']));
-                        }
+                        }*/
                     } else {
                         $isUpdateFlashNeeded=false;
                     }
@@ -1258,7 +1258,7 @@ class EmailCampaignController extends FormController
         if ($redirectUrl=$this->get('le.helper.statemachine')->checkStateAndRedirectPage()) {
             return $this->delegateRedirect($redirectUrl);
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        /**$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($isStateAlive) {
             $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
@@ -1271,7 +1271,7 @@ class EmailCampaignController extends FormController
                     ],
                 ]
             );
-        }
+        }*/
         if ($entity != null) {
             if (!$this->get('mautic.security')->isGranted('email:emails:create')
                 || !$this->get('mautic.security')->hasEntityAccess(
@@ -1616,19 +1616,18 @@ class EmailCampaignController extends FormController
             ],
         ];
         $smHelper           = $this->get('le.helper.statemachine');
-        $isStateAlive       =$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        //$isStateAlive       =$smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
         if ($smHelper->isStateAlive('Trial_Unverified_Email')) {
             $this->addFlash($this->translator->trans('le.email.unverified.error'));
 
             return $this->viewAction($objectId);
         }
-        if ($isStateAlive || empty($entity->getCustomHtml())) {
-            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
+        if (empty($entity->getCustomHtml())) {
+            /* $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             if ($isStateAlive) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
-            } else {
-                $this->addFlash($this->translator->trans('le.email.content.empty'));
-            }
+            }*/
+            $this->addFlash($this->translator->trans('le.email.content.empty'));
 
             return $this->viewAction($objectId);
         }
@@ -1980,14 +1979,13 @@ class EmailCampaignController extends FormController
                 ]
             );
         }
-        $isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
-        if ($isStateAlive || empty($entity->getCustomHtml())) {
-            $configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
+        //$isStateAlive=$this->get('le.helper.statemachine')->isStateAlive('Customer_Sending_Domain_Not_Configured');
+        if (empty($entity->getCustomHtml())) {
+            /**$configurl=$this->factory->getRouter()->generate('le_sendingdomain_action');
             if ($isStateAlive) {
                 $this->addFlash($this->translator->trans('le.email.config.mailer.status.report', ['%url%' => $configurl]));
-            } else {
-                $this->addFlash($this->translator->trans('le.email.content.empty'));
-            }
+            }*/
+            $this->addFlash($this->translator->trans('le.email.content.empty'));
 
             return $this->postActionRedirect(
                 [

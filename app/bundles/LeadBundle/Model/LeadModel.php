@@ -1531,6 +1531,24 @@ class LeadModel extends FormModel
                 $fieldData[$leadField]  = InputHelper::_($data[$importField], 'string');
             }
         }
+
+        $fieldErrors=[];
+        try {
+            if (isset($fieldData['email'])) {
+                $this->emailValidator->validate($fieldData['email'], false);
+            } else {
+                $fieldErrors[] = 'email: Email is empty';
+            }
+        } catch (\Exception $exception) {
+            $fieldErrors[] = 'email: '.$exception->getMessage();
+        }
+
+        if ($fieldErrors) {
+            $fieldErrors = implode("\n", $fieldErrors);
+
+            throw new \Exception($fieldErrors);
+        }
+
         $lead   = $this->checkForDuplicateContact($fieldData);
         $merged = ($lead->getId());
 
@@ -1707,7 +1725,7 @@ class LeadModel extends FormModel
             );
         }
 
-        $fieldErrors = [];
+        // $fieldErrors = [];
 
         foreach ($this->leadFields as $leadField) {
             if (isset($fieldData[$leadField['alias']])) {

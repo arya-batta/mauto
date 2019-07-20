@@ -45,12 +45,17 @@ $isAdmin=$view['security']->isAdmin();
         <td class="visible-md visible-lg"><?php echo $item->getInsertedCount(); ?></td>
         <td class="visible-md visible-lg"><?php echo $item->getUpdatedCount(); ?></td>
         <td class="visible-md visible-lg"><?php
-            if ($item->getIgnoredCount() == 1) {
+            /**if ($item->getIgnoredCount() == 1) {
                 echo 'Success!';
             } elseif ($item->getIgnoredCount() == 0) {
                 echo 0;
             } else {
-                echo $item->getIgnoredCount() - 1;
+                echo $item->getIgnoredCount()-1 ;
+            }*/
+            if ($item->getIgnoredCount() == 0) {
+                echo 0;
+            } else {
+                echo $item->getIgnoredCount();
             }
              ?></td>
         <td class="visible-md visible-lg">

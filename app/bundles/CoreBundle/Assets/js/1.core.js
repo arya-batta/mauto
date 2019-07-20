@@ -73,6 +73,8 @@ mQuery( document ).ajaxComplete(function(event, xhr, settings) {
                     }
                 }
             }
+        }else if(response.redirect){
+            window.location= response.redirect;
         }
     });
 });
