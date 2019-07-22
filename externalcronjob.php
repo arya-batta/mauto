@@ -7,8 +7,8 @@ chdir('/var/www/mauto');
 include '../mautosaas/lib/process/config.php';
 include '../mautosaas/lib/process/field.php';
 include '../mautosaas/lib/util.php';
-include '../mautosaas/lib/process/createElasticEmailSubAccount.php';
-include '../mautosaas/lib/process/createSendGridAccount.php';
+//include '../mautosaas/lib/process/createElasticEmailSubAccount.php';
+//include '../mautosaas/lib/process/createSendGridAccount.php';
 
 $loader = require_once __DIR__.'/app/autoload.php';
 
@@ -116,7 +116,7 @@ try {
             displayCronlog('general', 'SQL QUERY:'.$sql);
             $result = execSQL($con, $sql);
         }
-        $sql        ='select f5 from applicationlist where '.$fcolname."='1' and f7 = 'Active'";
+        $sql        ='select f5,appid from applicationlist where '.$fcolname."='1' and f7 = 'Active'";
         $domainlist = getResultArray($con, $sql);
         //$SKIP_MAX_LIMIT=5;
         $errormsg = '';
@@ -125,27 +125,25 @@ try {
         for ($di=0; $di < sizeof($domainlist); ++$di) {
             $errormsg    = '';
             $domain      =$domainlist[$di][0];
-
+            $appid       = $domainlist[$di][1];
             if ($domain == '') {
                 continue;
             }
-
             if (!file_exists("app/config/$domain/local.php")) {
                 continue;
             }
+//            $sql         = "select appid from applicationlist where f5 = '$domain';";
+//            $appidarr    = getResultArray($con, $sql);
 
-            $sql         = "select appid from applicationlist where f5 = '$domain';";
-            $appidarr    = getResultArray($con, $sql);
-            $appid       = $appidarr[0][0];
             $dbname      = DBINFO::$COMMONDBNAME.$appid;
-            $sql         = "SELECT SCHEMA_NAME   FROM INFORMATION_SCHEMA.SCHEMATA  WHERE SCHEMA_NAME = '$dbname';";
+            $sql         = "show databases like '$dbname'";
             $result      = getResultArray($con, $sql);
             if (!sizeof($result) > 0) {
                 continue;
             }
-            if ($operation != 'le:statemachine:checker' && checkLicenseAvailablity($con, $dbname, $appid)) {
-                continue;
-            }
+//            if ($operation != 'le:statemachine:checker' && checkLicenseAvailablity($con, $dbname, $appid)) {
+//                continue;
+//            }
             if (!isValidCronExecution($con, $domain, $dbname, $appid, $operation)) {
                 displayCronlog($domain, "This operation ($operation) for ($domain) is skipped.");
                 continue;
@@ -171,19 +169,19 @@ try {
             if ($errormsg != '') {
                 displayCronlog('general', 'errorinfo:  '.$errormsg);
                 updatecronFailedstatus($con, $domain, $operation, $errormsg);
-                if ($operation == 'le:emails:send') {
-                    require_once "app/config/$domain/local.php";
-                    $mailer        = $parameters['mailer_transport'];
-                    $elasticapikey = $parameters['mailer_password'];
-                    $subusername   = $parameters['mailer_user'];
-                    if ($subusername != '') {
-                        if ($mailer == 'le.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
-                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
-                        } elseif ($mailer == 'le.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
-                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
-                        }
-                    }
-                }
+//                if ($operation == 'le:emails:send') {
+//                    require_once "app/config/$domain/local.php";
+//                    $mailer        = $parameters['mailer_transport'];
+//                    $elasticapikey = $parameters['mailer_password'];
+//                    $subusername   = $parameters['mailer_user'];
+//                    if ($subusername != '') {
+//                        if ($mailer == 'le.transport.elasticemail' && strpos($errormsg, 'Failed to authenticate on SMTP server with') !== false) {
+//                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
+//                        } elseif ($mailer == 'le.transport.sendgrid_api' && strpos($errormsg, 'The provided authorization grant is invalid, expired, or revoked') !== false) {
+//                            CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername);
+//                        }
+//                    }
+//                }
             }
             displayCronlog($domain, $domain.' : '.$command);
             displayCronlog($domain, 'Command Results:'.$output);
@@ -226,6 +224,7 @@ function executeCommand($command)
 {
     $output  ='';
     $process = new Process($command);
+    $process->setTimeout(null);
     try {
         $process->run();
         // executes after the command finishes
@@ -284,7 +283,7 @@ function isValidCronExecution($con, $domain, $dbname, $appid, $operation)
 function isActiveCustomer($con, $domain, $dbname)
 {
     $statetable  = $dbname.'.statemachine';
-    $sql         = "select * from $statetable where state in ('Customer_Active','Trial_Active') and isalive = '1'";
+    $sql         = "select * from $statetable where state in ('Customer_Active','Trial_Active','Trial_Sending_Domain_Not_Configured','Customer_Sending_Domain_Not_Configured') and isalive = '1'";
     $result      = getResultArray($con, $sql);
     if (sizeof($result) > 0) {
         return true;
@@ -329,7 +328,7 @@ function checkEmailAvailablity($domain)
     $files     = glob($directory.'*');
     if ($files) {
         $filecount = count($files);
-        displayCronlog('general', 'Email File Count from Spool:'.$filecount);
+        displayCronlog($domain, 'Email File Count from Spool:'.$filecount);
         if ($filecount > 0) {
             return true;
         } else {
