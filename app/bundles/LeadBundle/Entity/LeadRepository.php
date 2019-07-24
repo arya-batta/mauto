@@ -611,6 +611,17 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
      */
     protected function addCatchAllWhereClause($q, $filter)
     {
+        $customFields = [];
+        if (isset($this->customFieldList[0])) {
+            $leadFields = $this->customFieldList[0];
+
+            foreach ($leadFields as $key => $field) {
+                if (isset($field['is_fixed']) && $field['is_fixed'] == 0) {
+                    $customFields[]= 'l.'.$key;
+                }
+            }
+        }
+
         $columns = array_merge(
             [
                 'l.firstname',
@@ -623,7 +634,8 @@ class LeadRepository extends CommonRepository implements CustomFieldRepositoryIn
                 'l.zipcode',
                 'l.country',
             ],
-            $this->availableSocialFields
+            //$this->availableSocialFields
+            $customFields
         );
         $unique                 = $this->generateRandomParameterName();
         $xFunc                  = 'orX';

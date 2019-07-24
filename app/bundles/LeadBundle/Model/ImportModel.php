@@ -109,10 +109,21 @@ class ImportModel extends FormModel
      */
     public function getImportToProcess()
     {
-        $result = $this->getRepository()->getImportsWithStatuses([Import::QUEUED, Import::DELAYED], 1);
+        $results = $this->getRepository()->getImportsWithStatuses([Import::QUEUED, Import::DELAYED]);
 
-        if (isset($result[0]) && $result[0] instanceof Import) {
+        /**if (isset($result[0]) && $result[0] instanceof Import){
             return $result[0];
+        }*/
+        $imports = [];
+
+        if (!empty($results) && $results != null) {
+            foreach ($results as $result) {
+                if ($result instanceof Import) {
+                    $imports[]= $result;
+                }
+            }
+
+            return $imports;
         }
 
         return null;

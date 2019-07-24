@@ -1873,11 +1873,11 @@ Le.leadExport = function(ele){
         }).appendTo(mQuery('body'));
     } else {
         if(startIndex == ''){
-            mQuery('#export-field-error').html("Start index can't be empty.");
+            mQuery('#export-field-error').html("Start From can’t  be empty.");
         }else if(endIndex == ''){
-            mQuery('#export-field-error').html("Limit can't be empty.");
+            mQuery('#export-field-error').html("Number of rows can’t be empty.");
         }else{
-            mQuery('#export-field-error').html("Limit should not be greater than 10000");
+            mQuery('#export-field-error').html("Number of rows not to be greater than 10000");
         }
         mQuery('#export-field-error').removeClass('hide');
     }

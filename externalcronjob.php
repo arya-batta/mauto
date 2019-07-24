@@ -469,7 +469,7 @@ function checkDripEmailAvailablity($con, $dbname)
 function checkDripEmailRebuildAvailablity($con, $dbname)
 {
     $driptable   = $dbname.'.dripemail';
-    $sql         = "select * from $driptable where is_scheduled = 1;";
+    $sql         = "select * from $driptable where is_scheduled = 1 and is_published = 1;";
     $result      = getResultArray($con, $sql);
     if (count($result) > 0) {
         return true;
@@ -481,7 +481,7 @@ function checkDripEmailRebuildAvailablity($con, $dbname)
 function checkBroadcastEmailRebuildAvailablity($con, $dbname)
 {
     $emailtable  = $dbname.'.emails';
-    $sql         = "select * from $emailtable where is_scheduled = 1;";
+    $sql         = "select * from $emailtable where is_scheduled = 1 and is_published = 1;";
     $result      = getResultArray($con, $sql);
     if (count($result) > 0) {
         return true;
@@ -504,7 +504,7 @@ function checkListResentAvailablity($con, $dbname)
 function checkStateMachineAvailablity($con, $dbname)
 {
     $statetable  = $dbname.'.statemachine';
-    $sql         = "select * from $statetable where state = 'Customer_Inactive_Archive' and isalive = 1";
+    $sql         = "select * from $statetable where state in ('Customer_Inactive_Archive','Trial_Inactive_Archive') and isalive = 1";
     $result      = getResultArray($con, $sql);
     if (count($result) > 0) {
         return false;

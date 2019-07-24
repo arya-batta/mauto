@@ -49,8 +49,6 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $start = microtime(true);
-
             /** @var \Symfony\Bundle\FrameworkBundle\Translation\Translator $translator */
             $translator = $this->getContainer()->get('translator');
 
@@ -64,6 +62,7 @@ EOT
                 return 0;
             }
 
+            $imports  = [];
             $progress = new Progress($output);
             $id       = (int) $input->getOption('id');
             $limit    = (int) $input->getOption('limit');
@@ -77,56 +76,63 @@ EOT
 
                     return 1;
                 }
+                $imports[] = $import;
             } else {
-                $import = $model->getImportToProcess();
+                $imports = $model->getImportToProcess();
 
                 // No import waiting in the queue. Finish silently.
-                if ($import === null) {
+                if ($imports === null || empty($imports)) {
                     return 0;
                 }
             }
 
-            $output->writeln('<info>'.$translator->trans(
-                'le.lead.import.is.starting',
-                [
-                    '%id%'    => $import->getId(),
-                    '%lines%' => $import->getLineCount(),
-                ]
-            ).'</info>');
+            foreach ($imports as $key => $import) {
+                $start = microtime(true);
 
-            try {
-                $model->beginImport($import, $progress, $limit);
-            } catch (ImportFailedException $e) {
-                $output->writeln('<error>'.$translator->trans(
-                'le.lead.import.failed',
-                [
-                    '%reason%' => $import->getStatusInfo(),
-                ]
-            ).'</error>');
-
-                return 1;
-            } catch (ImportDelayedException $e) {
                 $output->writeln('<info>'.$translator->trans(
-                'le.lead.import.delayed',
-                [
-                    '%reason%' => $import->getStatusInfo(),
-                ]
-            ).'</info>');
+                        'le.lead.import.is.starting',
+                        [
+                            '%id%'    => $import->getId(),
+                            '%lines%' => $import->getLineCount(),
+                        ]
+                    ).'</info>');
 
-                return 0;
+                try {
+                    $model->beginImport($import, $progress, $limit);
+                } catch (ImportFailedException $e) {
+                    $output->writeln('<error>'.$translator->trans(
+                            'le.lead.import.failed',
+                            [
+                                '%reason%' => $import->getStatusInfo(),
+                            ]
+                        ).'</error>');
+
+                    // return 1;
+                    continue;
+                } catch (ImportDelayedException $e) {
+                    $output->writeln('<info>'.$translator->trans(
+                            'le.lead.import.delayed',
+                            [
+                                '%reason%' => $import->getStatusInfo(),
+                            ]
+                        ).'</info>');
+
+                    // return 0;
+                    continue;
+                }
+
+                // Success
+                $output->writeln('<info>'.$translator->trans(
+                        'le.lead.import.result',
+                        [
+                            '%lines%'   => $import->getProcessedRows(),
+                            '%created%' => $import->getInsertedCount(),
+                            '%updated%' => $import->getUpdatedCount(),
+                            '%ignored%' => $import->getIgnoredCount(),
+                            '%time%'    => round(microtime(true) - $start, 2),
+                        ]
+                    ).'</info>');
             }
-
-            // Success
-            $output->writeln('<info>'.$translator->trans(
-                'le.lead.import.result',
-                [
-                    '%lines%'   => $import->getProcessedRows(),
-                    '%created%' => $import->getInsertedCount(),
-                    '%updated%' => $import->getUpdatedCount(),
-                    '%ignored%' => $import->getIgnoredCount(),
-                    '%time%'    => round(microtime(true) - $start, 2),
-                ]
-            ).'</info>');
 
             return 0;
         } catch (\Exception $e) {
