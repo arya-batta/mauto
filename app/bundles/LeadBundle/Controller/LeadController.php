@@ -1848,7 +1848,10 @@ class LeadController extends FormController
         $isValidEmailCount     = $this->get('mautic.helper.licenseinfo')->isValidEmailCount();
         $isHavingEmailValidity = $this->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
         $actualEmailCount      = $this->get('mautic.helper.licenseinfo')->getActualEmailCount();
+        $totalEmailCount       = $this->get('mautic.helper.licenseinfo')->getTotalEmailCount();
         $accountStatus         = $this->get('mautic.helper.licenseinfo')->getAccountStatus();
+        $paymentrepository     = $this->get('le.subscription.repository.payment');
+        $lastpayment           = $paymentrepository->getLastPayment();
 
         if ($lead === null
             || !$this->get('mautic.security')->hasEntityAccess(
@@ -1989,8 +1992,9 @@ class LeadController extends FormController
                                 }
                             }
                         }
+                        $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
                         if (!$accountStatus) {
-                            if ($isValidEmailCount && $isHavingEmailValidity) {
+                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { // && $isHavingEmailValidity
                                 if ($mailer->send(true, false, false)) {
                                     if (!empty($email['templates'])) {
                                         $emailRepo->upCount($email['templates'], 'sent', 1, false);
@@ -2028,12 +2032,8 @@ class LeadController extends FormController
                                     $valid = false;
                                 }
                             } else {
-                                if (!$isHavingEmailValidity) {
-                                    $this->addFlash('mautic.email.validity.expired');
-                                } else {
-                                    $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount]);
-                                }
+                                $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                                $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount, '%total_email%' => $totalEmailCount]);
                             }
                         } else {
                             $this->addFlash('mautic.account.suspend');

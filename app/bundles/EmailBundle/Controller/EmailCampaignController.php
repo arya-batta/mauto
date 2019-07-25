@@ -1751,8 +1751,10 @@ class EmailCampaignController extends FormController
             }
         }
 
+        $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+
         if (!$accountStatus) {
-            if ((($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL')) && $isHavingEmailValidity) {
+            if (($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL') || ($lastpayment != null && !$cancelState)) {   //&& $isHavingEmailValidity
                 if ($this->request->getMethod() == 'POST' && $this->isFormValid($form)) {//($complete || $this->isFormValid($form))) {
                     /*if (!$complete) {
                         $progress = [0, (int) $pending];
@@ -1841,12 +1843,8 @@ class EmailCampaignController extends FormController
                     ]
                 );
             } else {
-                if (!$isHavingEmailValidity) {
-                    $this->addFlash('mautic.email.validity.expired');
-                } else {
-                    $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
-                    $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount]);
-                }
+                $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit']);
+                $this->addFlash('mautic.email.count.exceeds', ['%url%'=>$configurl, '%actual_email%' => $actualEmailCount, '%total_email%' => $totalEmailCount]);
 
                 return $this->postActionRedirect(
                 [

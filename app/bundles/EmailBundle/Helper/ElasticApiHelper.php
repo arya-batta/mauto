@@ -315,6 +315,8 @@ class ElasticApiHelper
                 } else {
                     return false;
                 }
+            } elseif (isset($response->error) && strpos($response->error, 'Access denied') !== false) {
+                return false;
             } else {
                 return true;
             }

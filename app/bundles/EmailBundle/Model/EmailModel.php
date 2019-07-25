@@ -964,7 +964,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $countWithMaxMin
         );
 
-        if ($storeToCache = true) {
+        if ($storeToCache) {
             if ($countOnly && $countWithMaxMin) {
                 $toStore = $total['count'];
             } elseif ($countOnly) {
