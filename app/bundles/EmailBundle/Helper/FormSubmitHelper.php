@@ -23,7 +23,7 @@ class FormSubmitHelper
      * @param MauticFactory $factory
      * @param               $feedback
      */
-    public static function sendEmail($tokens, Action $action, MauticFactory $factory, $feedback,$lead=null)
+    public static function sendEmail($tokens, Action $action, MauticFactory $factory, $feedback, $lead=null)
     {
         $properties = $action->getProperties();
         $emailId    = (isset($properties['useremail'])) ? (int) $properties['useremail']['email'] : (int) $properties['email'];
@@ -38,17 +38,21 @@ class FormSubmitHelper
         $isValidEmailCount     = $factory->get('mautic.helper.licenseinfo')->isValidEmailCount();
         $isHavingEmailValidity = $factory->get('mautic.helper.licenseinfo')->isHavingEmailValidity();
         $accountStatus         = $factory->get('mautic.helper.licenseinfo')->getAccountStatus();
+        $smHelper              = $factory->get('le.helper.statemachine');
+        $paymentrepository     = $factory->get('le.subscription.repository.payment');
+        $lastpayment           = $paymentrepository->getLastPayment();
 
         //make sure the email still exists and is published
         if ($email != null && $email->isPublished()) {
             if (!$accountStatus) {
-                if ($isValidEmailCount && $isHavingEmailValidity) {
+                $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+                if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { //&& $isHavingEmailValidity
                     // Deal with Lead email
                     if (!empty($feedback['lead.create']['lead'])) {
                         //the lead was just created via the lead.create action
                         $currentLead = $feedback['lead.create']['lead'];
                     } else {
-                        $currentLead = $lead!=null ?$lead:$leadModel->getCurrentLead();
+                        $currentLead = $lead != null ? $lead : $leadModel->getCurrentLead();
                     }
 
                     if ($currentLead instanceof Lead) {

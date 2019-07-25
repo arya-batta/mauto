@@ -16,6 +16,8 @@ use Mautic\EmailBundle\Exception\EmailCouldNotBeSentException;
 use Mautic\EmailBundle\OptionsAccessor\EmailToUserAccessor;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\NotificationBundle\Helper\NotificationHelper;
+use Mautic\SubscriptionBundle\Entity\PaymentRepository;
+use Mautic\SubscriptionBundle\Helper\StateMachineHelper;
 use Mautic\UserBundle\Hash\UserHash;
 
 class SendEmailToUser
@@ -33,11 +35,23 @@ class SendEmailToUser
      */
     private $notificationHelper;
 
-    public function __construct(EmailModel $emailModel, LicenseInfoHelper $licenseInfoHelper, NotificationHelper $notificationHelper)
+    /*
+     * @var StateMachineHelper
+     */
+    private $smHelper;
+
+    /*
+     * @var PaymentRepository
+     */
+    private $paymentRepo;
+
+    public function __construct(EmailModel $emailModel, LicenseInfoHelper $licenseInfoHelper, NotificationHelper $notificationHelper, StateMachineHelper $stateMachineHelper, PaymentRepository $paymentRepository)
     {
         $this->emailModel         = $emailModel;
         $this->licenseInfoHelper  = $licenseInfoHelper;
         $this->notificationHelper = $notificationHelper;
+        $this->smHelper           = $stateMachineHelper;
+        $this->paymentRepo        = $paymentRepository;
     }
 
     /**
@@ -55,6 +69,7 @@ class SendEmailToUser
         $isHavingEmailValidity = $this->licenseInfoHelper->isHavingEmailValidity();
         $accountStatus         = $this->licenseInfoHelper->getAccountStatus();
         $email                 = $this->emailModel->getEntity($emailToUserAccessor->getEmailID());
+        $lastpayment           = $this->paymentRepo->getLastPayment();
 
         if (!$email || !$email->isPublished()) {
             throw new EmailCouldNotBeSentException('Email not found or published');
@@ -72,7 +87,8 @@ class SendEmailToUser
         $idHash         = UserHash::getFakeUserHash();
         $sendResultTest = 'Success';
         if (!$accountStatus) {
-            if ($isValidEmailCount && $isHavingEmailValidity) {
+            $cancelState = $this->smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { //&& $isHavingEmailValidity
                 $tokens = $this->emailModel->dispatchEmailSendEvent($email, $leadCredentials, $idHash)->getTokens();
                 $errors = $this->emailModel->sendEmailToUser($email, $users, $leadCredentials, $tokens, [], true, $to, $cc, $bcc);
                 $this->licenseInfoHelper->intEmailCount('1');

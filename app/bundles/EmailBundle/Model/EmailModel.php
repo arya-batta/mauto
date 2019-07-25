@@ -1294,6 +1294,9 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
         $isValidEmailCount     =$this->licenseInfoHelper->isValidEmailCount();
         $isHavingEmailValidity = $this->licenseInfoHelper->isHavingEmailValidity();
         $accountStatus         = $this->licenseInfoHelper->getAccountStatus();
+        $smHelper              = $this->factory->get('le.helper.statemachine');
+        $paymentrepository     = $this->factory->get('le.subscription.repository.payment');
+        $lastpayment           = $paymentrepository->getLastPayment();
 
         if (empty($channel)) {
             $channel = (isset($options['source'])) ? $options['source'] : [];
@@ -1430,7 +1433,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 foreach ($contacts as $contact) {
                     try {
                         if (!$accountStatus) {
-                            if ($isValidEmailCount && $isHavingEmailValidity) {
+                            $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { // && $isHavingEmailValidity
                                 $this->sendModel->setContact($contact, $tokens)
                                     ->send();
                                 // Update $emailSetting so campaign a/b tests are handled correctly
