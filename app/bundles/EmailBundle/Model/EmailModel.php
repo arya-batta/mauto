@@ -1433,8 +1433,10 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
                 foreach ($contacts as $contact) {
                     try {
                         if (!$accountStatus) {
-                            $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
-                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { // && $isHavingEmailValidity
+                            $cancelState         = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+                            $domainNotConfigured = $smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+
+                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState && !$domainNotConfigured)) { // && $isHavingEmailValidity
                                 $this->sendModel->setContact($contact, $tokens)
                                     ->send();
                                 // Update $emailSetting so campaign a/b tests are handled correctly

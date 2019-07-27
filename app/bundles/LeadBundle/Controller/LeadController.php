@@ -1992,9 +1992,12 @@ class LeadController extends FormController
                                 }
                             }
                         }
-                        $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+
                         if (!$accountStatus) {
-                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { // && $isHavingEmailValidity
+                            $cancelState         = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+                            $domainNotConfigured = $smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+
+                            if ($isValidEmailCount || ($lastpayment != null && !$cancelState && !$domainNotConfigured)) { // && $isHavingEmailValidity
                                 if ($mailer->send(true, false, false)) {
                                     if (!empty($email['templates'])) {
                                         $emailRepo->upCount($email['templates'], 'sent', 1, false);

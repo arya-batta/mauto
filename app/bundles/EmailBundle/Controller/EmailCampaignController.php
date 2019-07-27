@@ -1751,10 +1751,11 @@ class EmailCampaignController extends FormController
             }
         }
 
-        $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
-
         if (!$accountStatus) {
-            if (($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL') || ($lastpayment != null && !$cancelState)) {   //&& $isHavingEmailValidity
+            $cancelState         = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+            $domainNotConfigured = $smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+
+            if (($totalEmailCount >= $remainingCount) || ($totalEmailCount == 'UL') || ($lastpayment != null && !$cancelState && !$domainNotConfigured)) {   //&& $isHavingEmailValidity
                 if ($this->request->getMethod() == 'POST' && $this->isFormValid($form)) {//($complete || $this->isFormValid($form))) {
                     /*if (!$complete) {
                         $progress = [0, (int) $pending];
@@ -1782,18 +1783,19 @@ class EmailCampaignController extends FormController
                         'email'      => $entity,
                         'batchlimit' => $batchlimit,
                     ];*/
-                    $pending                   = $model->getPendingLeads($entity, null, true);
+
+                    /**$pending                   = $model->getPendingLeads($entity, null, true);
                     $message                   = '';
                     $flashType                 = '';
                     if ($licenseinfohelper->isLeadsEngageEmailExpired($pending)) {
                         $message   = 'le.email.broadcast.usage.error';
                         $flashType = 'notice';
-                    } else {
-                        $entity->setIsScheduled(true);
-                        $model->saveEntity($entity);
-                        $message   ='le.email.broadcast.send';
-                        $flashType = 'sweetalert';
-                    }
+                    } else { */
+                    $entity->setIsScheduled(true);
+                    $model->saveEntity($entity);
+                    $message   ='le.email.broadcast.send';
+                    $flashType = 'sweetalert';
+//                    }
                     $postActionVars = [
                         'returnUrl'       => $this->generateUrl('le_email_campaign_action', ['objectAction' => 'view', 'objectId' => $objectId]),
                         'viewParameters'  => ['objectAction' => 'view', 'objectId' => $objectId],

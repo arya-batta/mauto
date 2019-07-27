@@ -87,8 +87,10 @@ class SendEmailToUser
         $idHash         = UserHash::getFakeUserHash();
         $sendResultTest = 'Success';
         if (!$accountStatus) {
-            $cancelState = $this->smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
-            if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { //&& $isHavingEmailValidity
+            $cancelState         = $this->smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+            $domainNotConfigured = $this->smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+
+            if ($isValidEmailCount || ($lastpayment != null && !$cancelState && !$domainNotConfigured)) { //&& $isHavingEmailValidity
                 $tokens = $this->emailModel->dispatchEmailSendEvent($email, $leadCredentials, $idHash)->getTokens();
                 $errors = $this->emailModel->sendEmailToUser($email, $users, $leadCredentials, $tokens, [], true, $to, $cc, $bcc);
                 $this->licenseInfoHelper->intEmailCount('1');

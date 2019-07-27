@@ -183,6 +183,9 @@ class ConfigController extends FormController
                             if ($key == 'analyticsconfig' && !in_array(key($object), $analyticsdata)) {
                                 continue;
                             }
+                            if ($key == 'coreconfig' && $object['link_shortener_url'] == null) {
+                                unset($object['link_shortener_url']);
+                            }
 
                             $configurator->mergeParameters($object);
                         }

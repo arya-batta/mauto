@@ -49,11 +49,16 @@ class FieldAliasHelper
         // clean the alias
         $alias = $this->fieldModel->cleanAlias($alias, 'f_', 25);
 
+        $reservedKeys = ['stage', 'owner', 'tag', 'tags'];
+
         // make sure alias is not already taken
         $repo      = $this->fieldModel->getRepository();
         $testAlias = $alias;
         $aliases   = $repo->getAliases($field->getId(), false, true, $field->getObject());
         $count     = (int) in_array($testAlias, $aliases);
+        if (in_array($testAlias, $reservedKeys)) {
+            $count = 1;
+        }
         $aliasTag  = $count;
 
         while ($count) {

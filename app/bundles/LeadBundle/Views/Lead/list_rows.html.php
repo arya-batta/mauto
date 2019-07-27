@@ -71,8 +71,8 @@ $isAdmin    =$view['security']->isAdmin();
                 <?php if (in_array($item->getId(), array_keys($noContactList)))  : ?>
                     <div class="pull-right label label-danger hide"><i class="fa fa-ban"> </i></div>
                 <?php endif; ?>
-                <div> <?php echo ($item->isAnonymous()) ? $view['translator']->trans($item->getPrimaryIdentifier()) : $item->getPrimaryIdentifier(); ?></div>
-                <div class="small"><?php echo $item->getSecondaryIdentifier(); ?></div>
+                <div> <?php echo ($item->isAnonymous()) ? $view['translator']->trans($item->getName()) : $item->getName(); ?></div>
+<!--                <div class="small">--><?php //echo $item->getSecondaryIdentifier();?><!--</div>-->
                 <div><?php echo $fields['core']['email']['value']; ?></div>
             </a>
         </td>

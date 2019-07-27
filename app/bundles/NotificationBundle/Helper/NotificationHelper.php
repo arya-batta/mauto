@@ -262,12 +262,13 @@ JS;
         $messagetext   = 'le.sms.configuration.failure.notification';
         $messageheader = 'le.sms.configuration.failure.header';
         $objectId      = 'smsconfig';
+        $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> $objectId]);
         if ($isemail) {
             $objectId      = 'emailconfig';
             $messagetext   = 'le.email.send.failed.message';
             $messageheader = 'le.email.send.failed';
+            $configurl     ='https://anyfunnels.freshdesk.com/support/tickets/new';
         }
-        $configurl     = $this->factory->getRouter()->generate('le_config_action', ['objectAction' => 'edit', 'objectId'=> $objectId]);
         // $message = $this->translator->trans($messagetext);
         $message = $this->translator->trans($messagetext, ['%URL%'=>$configurl]);
         if ($errorMessage != '' && $errorMessage != 'Failed') {

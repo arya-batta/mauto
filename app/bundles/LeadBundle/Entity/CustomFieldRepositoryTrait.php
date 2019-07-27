@@ -137,7 +137,21 @@ trait CustomFieldRepositoryTrait
                 )->setParameter('entityIds', $ids);
 
                 if ($object == 'lead') {
-                    $q->orderBy('l.id', 'DESC');
+                    if (isset($args['orderBy']) && !empty($args['orderBy'])) {
+                        $orderByDir = 'DESC';
+
+                        if (isset($args['orderByDir']) && !empty($args['orderByDir'])) {
+                            $orderByDir=$args['orderByDir'];
+                        }
+
+                        $orderBy = $this->toCamelCase($args['orderBy']);
+
+                        if (!empty($orderBy)) {
+                            $q->orderBy($orderBy, $orderByDir);
+                        }
+                    } else {
+                        $q->orderBy('l.id', 'DESC');
+                    }
                 } else {
                     $q->orderBy('ORD', 'ASC');
                 }
@@ -437,5 +451,24 @@ trait CustomFieldRepositoryTrait
     protected function postSaveEntity($entity)
     {
         // Inherit and use if required
+    }
+
+    protected function toCamelCase($orderby=[])
+    {
+        if (!empty($orderby)) {
+            $orderbyVal = [];
+            $columns    = explode(',', $orderby);
+
+            foreach ($columns as $column) {
+                $key          = lcfirst(implode('', array_map('ucfirst', explode('_', $column))));
+                $orderbyVal[] = $key;
+            }
+
+            $orderbyVal = implode(',', $orderbyVal);
+
+            return $orderbyVal;
+        }
+
+        return [];
     }
 }

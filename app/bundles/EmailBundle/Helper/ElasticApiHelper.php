@@ -87,6 +87,8 @@ class ElasticApiHelper
         if ($response) {
             if (isset($response->success) && $response->success) {
                 foreach ($response->data as $data) {
+                    $domainarray        = explode(' (', $data->domain);
+                    $data->domain       = $domainarray[0];
                     $list[$data->domain]=['spf'=>$data->spf, 'dkim'=>$data->dkim, 'mx'=>$data->mx, 'dmarc'=>$data->dmarc];
                 }
             }
@@ -234,7 +236,7 @@ class ElasticApiHelper
         $payLoad['requiresEmailCredits']  ='false';
         $payLoad['enableLitmusTest']      ='false';
         $payLoad['requiresLitmusCredits'] ='false';
-        $payLoad['maxContacts']           ='100000';
+        $payLoad['maxContacts']           ='0';
         $payLoad['enablePrivateIPRequest']='false';
         $payLoad['sendActivation']        ='false';
         $payLoad['sendingPermission']     ='Smtp';

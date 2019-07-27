@@ -45,8 +45,10 @@ class FormSubmitHelper
         //make sure the email still exists and is published
         if ($email != null && $email->isPublished()) {
             if (!$accountStatus) {
-                $cancelState = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
-                if ($isValidEmailCount || ($lastpayment != null && !$cancelState)) { //&& $isHavingEmailValidity
+                $cancelState         = $smHelper->isStateAlive('Customer_Inactive_Exit_Cancel');
+                $domainNotConfigured = $smHelper->isStateAlive('Customer_Sending_Domain_Not_Configured');
+
+                if ($isValidEmailCount || ($lastpayment != null && !$cancelState && !$domainNotConfigured)) { //&& $isHavingEmailValidity
                     // Deal with Lead email
                     if (!empty($feedback['lead.create']['lead'])) {
                         //the lead was just created via the lead.create action
