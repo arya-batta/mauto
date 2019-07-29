@@ -38,6 +38,11 @@ class IpLookupFactory
     protected $httpConnector;
 
     /**
+     * @var MauticFactory
+     */
+    protected $factory;
+
+    /**
      * IpLookupFactory constructor.
      *
      * @param array                $lookupServices
@@ -45,12 +50,13 @@ class IpLookupFactory
      * @param Http|null            $httpConnector
      * @param null                 $cacheDir
      */
-    public function __construct(array $lookupServices, LoggerInterface $logger = null, Http $httpConnector = null, $cacheDir = null)
+    public function __construct(array $lookupServices, LoggerInterface $logger = null, Http $httpConnector = null, $cacheDir = null, MauticFactory $factory)
     {
         $this->lookupServices = $lookupServices;
         $this->logger         = $logger;
         $this->cacheDir       = $cacheDir;
         $this->httpConnector  = $httpConnector;
+        $this->factory        = $factory;
     }
 
     /**
@@ -83,7 +89,8 @@ class IpLookupFactory
                 $ipLookupConfig,
                 $this->cacheDir,
                 $this->logger,
-                $this->httpConnector
+                $this->httpConnector,
+                $this->factory
             );
         }
 

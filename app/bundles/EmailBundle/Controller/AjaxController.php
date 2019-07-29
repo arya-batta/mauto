@@ -860,7 +860,8 @@ class AjaxController extends CommonAjaxController
         );
         $emailOrder = 0;
         foreach ($items as $item) {
-            $item->setDripEmailOrder($emailOrder + 1);
+            $emailOrder = $emailOrder + 1;
+            $item->setDripEmailOrder($emailOrder);
             $emailmodel->saveEntity($item);
         }
 

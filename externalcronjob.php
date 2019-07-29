@@ -247,7 +247,7 @@ function executeCommand($command)
 
 function isValidCronExecution($con, $domain, $dbname, $appid, $operation)
 {
-    if (!isActiveCustomer($con, $domain, $dbname)) {
+    if (!isActiveCustomer($con, $domain, $dbname, $operation)) {
         displayCronlog($domain, "This $domain is InActive");
 
         return false;
@@ -280,15 +280,26 @@ function isValidCronExecution($con, $domain, $dbname, $appid, $operation)
     return $status;
 }
 
-function isActiveCustomer($con, $domain, $dbname)
+function isActiveCustomer($con, $domain, $dbname, $operation)
 {
     $statetable  = $dbname.'.statemachine';
-    $sql         = "select * from $statetable where state in ('Customer_Active','Trial_Active','Trial_Sending_Domain_Not_Configured','Customer_Sending_Domain_Not_Configured') and isalive = '1'";
-    $result      = getResultArray($con, $sql);
-    if (sizeof($result) > 0) {
-        return true;
+
+    if ($operation == 'le:statemachine:checker') {
+        $sql         = "select * from $statetable where state in ('Trial_Inactive_Archive','Customer_Inactive_Archive') and isalive = '1'";
+        $result      = getResultArray($con, $sql);
+        if (sizeof($result) > 0) {
+            return false;
+        } else {
+            return true;
+        }
     } else {
-        return false;
+        $sql         = "select * from $statetable where state in ('Customer_Active','Trial_Active','Trial_Sending_Domain_Not_Configured','Customer_Sending_Domain_Not_Configured') and isalive = '1'";
+        $result      = getResultArray($con, $sql);
+        if (sizeof($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
@@ -457,7 +468,7 @@ function checkDripEmailAvailablity($con, $dbname)
 {
     $currentDate       = date('Y-m-d H:i:s');
     $driplogtable      = $dbname.'.dripemail_lead_event_log';
-    $sql               = "select * from $driplogtable where trigger_date <= '$currentDate'";
+    $sql               = "select * from $driplogtable where trigger_date <= '$currentDate' and is_scheduled=1;";
     $result            = getResultArray($con, $sql);
     if (count($result) > 0) {
         return true;

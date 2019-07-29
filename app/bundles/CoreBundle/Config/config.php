@@ -845,6 +845,7 @@ return [
                     'monolog.logger.mautic',
                     'mautic.http.connector',
                     '%kernel.cache_dir%',
+                    'mautic.factory',
                 ],
             ],
             'mautic.ip_lookup' => [
@@ -855,6 +856,7 @@ return [
                     '%mautic.ip_lookup_auth%',
                     '%mautic.ip_lookup_config%',
                     'mautic.http.connector',
+                    'mautic.factory',
                 ],
             ],
             // Other

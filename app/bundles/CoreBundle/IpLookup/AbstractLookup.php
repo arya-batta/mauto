@@ -12,6 +12,7 @@
 namespace Mautic\CoreBundle\IpLookup;
 
 use Joomla\Http\Http;
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractLookup
@@ -55,6 +56,11 @@ abstract class AbstractLookup
     protected $config;
 
     /**
+     * @var MauticFactory
+     */
+    protected $factory;
+
+    /**
      * Return attribution HTML displayed in the configuration UI.
      *
      * @return string
@@ -75,13 +81,14 @@ abstract class AbstractLookup
      * @param LoggerInterface|null $logger
      * @param Http|null            $httpConnector
      */
-    public function __construct($auth = null, $ipLookupConfig = null, $cacheDir = null, LoggerInterface $logger = null, Http $httpConnector = null)
+    public function __construct($auth = null, $ipLookupConfig = null, $cacheDir = null, LoggerInterface $logger = null, Http $httpConnector = null, MauticFactory $factory)
     {
         $this->cacheDir  = $cacheDir;
         $this->logger    = $logger;
         $this->auth      = $auth;
         $this->config    = $ipLookupConfig;
         $this->connector = $httpConnector;
+        $this->factory   = $factory;
     }
 
     /**

@@ -61,14 +61,15 @@ abstract class AbstractLocalDataLookup extends AbstractLookup implements IpLooku
     {
         $connector = HttpFactory::getHttp();
         $package   = $this->getRemoteDateStoreDownloadUrl();
-
+        $appIpDir  = $this->factory->getParameter('kernel.root_dir').'/ip';
         try {
             $data = $connector->get($package);
         } catch (\Exception $exception) {
             $this->logger->error('Failed to fetch remote IP data: '.$exception->getMessage());
         }
 
-        $tempTarget     = $this->cacheDir.'/'.basename($package);
+        // $tempTarget     = $this->cacheDir.'/'.basename($package);
+        $tempTarget     = $appIpDir.'/'.basename($package);
         $tempExt        = strtolower(pathinfo($package, PATHINFO_EXTENSION));
         $localTarget    = $this->getLocalDataStoreFilepath();
         $localTargetExt = strtolower(pathinfo($localTarget, PATHINFO_EXTENSION));
@@ -133,12 +134,13 @@ abstract class AbstractLocalDataLookup extends AbstractLookup implements IpLooku
      */
     protected function getDataDir()
     {
-        if (null !== $this->cacheDir) {
-            if (!file_exists($this->cacheDir)) {
-                mkdir($this->cacheDir);
+        $appIpDir  = $this->factory->getParameter('kernel.root_dir').'/ip';
+        if (null !== $appIpDir) {
+            if (!file_exists($appIpDir)) {
+                mkdir($appIpDir);
             }
 
-            $dataDir = $this->cacheDir.'/../ip_data';
+            $dataDir = $appIpDir.'/ip_data';
 
             if (!file_exists($dataDir)) {
                 mkdir($dataDir);
