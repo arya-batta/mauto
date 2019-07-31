@@ -285,10 +285,11 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     }
 
                     if (empty($leadPhoneNumber)) {
-                        $results[$leadId] = [
-                            'sent'   => false,
-                            'status' => 'mautic.sms.campaign.failed.missing_number',
-                        ];
+//                        $results[$leadId] = [
+//                            'sent'   => false,
+//                            'status' => 'mautic.sms.campaign.failed.missing_number',
+//                        ];
+                        $status = $this->translator->trans('mautic.sms.campaign.failed.missing_number');
                     }
 
                     $smsEvent = new SmsSendEvent($sms->getMessage(), $lead);
@@ -305,6 +306,11 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
                     );
 
                     $metadata = $this->transport->sendSms($leadPhoneNumber, $tokenEvent->getContent());
+
+                    if (empty($leadPhoneNumber)) {
+                        $metadata = $status;
+                    }
+
                     $status   = $this->translator->trans('mautic.sms.timeline.status.delivered');
                     if ($metadata != 'true') {
                         $status               = $metadata;

@@ -1485,7 +1485,9 @@ class Lead extends FormEntity implements CustomFieldEntityInterface
     {
         $this->changes['dateLastActive'] = [$this->lastActive, $lastActive];
         if ($this->isChanged('LastActive', $lastActive)) {
-            $this->setStatus(2); //update Lead Status as Engaged
+            if ($this->getStatus() == 1) {
+                $this->setStatus(2); //update Lead Status as Engaged
+            }
         }
         $this->lastActive                = $lastActive;
     }

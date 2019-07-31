@@ -1681,7 +1681,11 @@ class DripEmailController extends FormController
             }
             $dripEntity              = $emailentity->getDripEmail();
             $email[0]['custom_html'] = $content;
-            $email[1]['footer']      = $dripEntity->getUnsubscribeText() == '' ? $this->coreParametersHelper->getParameter('footer_text') : $dripEntity->getUnsubscribeText();
+
+            if ((strpos($content, '{unsubscribe_link}') === false) && (strpos($content, '{update_profile_link}') === false)) {
+                $email[1]['footer']      = $dripEntity->getUnsubscribeText() == '' ? $this->coreParametersHelper->getParameter('footer_text') : $dripEntity->getUnsubscribeText();
+            }
+
             $email[2]['type']        = $emailentity->getBeeJSON();
             if (false) { //$account->getNeedpoweredby()
                 $url                     = 'https://anyfunnels.com/?utm-src=email-footer-link&utm-med='.$account->getDomainname();

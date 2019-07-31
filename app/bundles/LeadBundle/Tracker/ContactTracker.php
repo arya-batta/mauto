@@ -143,7 +143,11 @@ class ContactTracker
 
         // Log last active for the tracked contact
         if (!defined('MAUTIC_LEAD_LASTACTIVE_LOGGED')) {
-            $this->leadRepository->updateLastActive($this->trackedContact->getId());
+            $updateToEngage = false;
+            if ($this->trackedContact->getStatus() == 1) {
+                $updateToEngage = true;
+            }
+            $this->leadRepository->updateLastActive($this->trackedContact->getId(), $updateToEngage);
             define('MAUTIC_LEAD_LASTACTIVE_LOGGED', 1);
         }
 

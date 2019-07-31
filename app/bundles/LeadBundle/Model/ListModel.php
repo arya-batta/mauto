@@ -888,6 +888,11 @@ class ListModel extends FormModel
 
             // Add leads
             while ($start < $leadCount) {
+                //skip if a segment not exist
+                $segment = $this->getEntity($entity->getId());
+                if ($segment == null) {
+                    break;
+                }
                 // Keep CPU down for large lists; sleep per $limit batch
                 $this->batchSleep();
 
@@ -915,10 +920,16 @@ class ListModel extends FormModel
 
                 $processedLeads = [];
                 foreach ($newLeadList[$id] as $l) {
+                    //skip if a segment not exist
+                    $listEntity = $this->getEntity($entity->getId());
+                    if ($listEntity == null) {
+                        break;
+                    }
+
                     if ($list_id) {
                         $already_not_inserted = $this->getRepository()->isAlreadyInserted($l, $list_id);
                         if ($already_not_inserted) {
-                            $this->addLead($l, $entity, false, true, -1, $localDateTime);
+                            $this->addLead($l, $entity, false, true, -1, $localDateTime, $output);
                             $processedLeads[] = $l;
                             unset($l);
 
@@ -932,7 +943,7 @@ class ListModel extends FormModel
                             }
                         }
                     } else {
-                        $this->addLead($l, $entity, false, true, -1, $localDateTime);
+                        $this->addLead($l, $entity, false, true, -1, $localDateTime, $output);
                         $processedLeads[] = $l;
                         unset($l);
 
@@ -1022,6 +1033,12 @@ class ListModel extends FormModel
 
             // Remove leads
             while ($start < $leadCount) {
+                //skip if a segment not exist
+                $segment = $this->getEntity($entity->getId());
+                if ($segment == null) {
+                    break;
+                }
+
                 // Keep CPU down for large lists; sleep per $limit batch
                 $this->batchSleep();
 
@@ -1044,7 +1061,13 @@ class ListModel extends FormModel
 
                 $processedLeads = [];
                 foreach ($removeLeadList[$id] as $l) {
-                    $this->removeLead($l, $entity, false, true, true);
+                    //skip if a segment not exist
+                    $segment = $this->getEntity($entity->getId());
+                    if ($segment == null) {
+                        break;
+                    }
+
+                    $this->removeLead($l, $entity, false, true, true, $output);
                     $processedLeads[] = $l;
                     ++$leadsProcessed;
                     if ($output && $leadsProcessed < $maxCount) {
@@ -1102,7 +1125,7 @@ class ListModel extends FormModel
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function addLead($lead, $lists, $manuallyAdded = false, $batchProcess = false, $searchListLead = 1, $dateManipulated = null)
+    public function addLead($lead, $lists, $manuallyAdded = false, $batchProcess = false, $searchListLead = 1, $dateManipulated = null, $output=null)
     {
         if ($dateManipulated == null) {
             $dateManipulated = new \DateTime();
@@ -1163,6 +1186,12 @@ class ListModel extends FormModel
                 continue;
             }
 
+            //Skip if a segment not exisits
+            $listentity =$this->getEntity($listId);
+            if ($listentity == null) {
+                continue;
+            }
+
             if ($searchListLead == -1) {
                 $listLead = null;
             } elseif ($searchListLead) {
@@ -1205,28 +1234,32 @@ class ListModel extends FormModel
                 $dispatchEvents[] = $listId;
             }
         }
+        try {
+            if (!empty($persistLists)) {
+                $this->getRepository()->saveEntities($persistLists);
+            }
 
-        if (!empty($persistLists)) {
-            $this->getRepository()->saveEntities($persistLists);
-        }
+            // Clear ListLead entities from Doctrine memory
+            $this->em->clear('Mautic\LeadBundle\Entity\ListLead');
 
-        // Clear ListLead entities from Doctrine memory
-        $this->em->clear('Mautic\LeadBundle\Entity\ListLead');
+            if ($batchProcess) {
+                // Detach for batch processing to preserve memory
+                $this->em->detach($lead);
+            } elseif (!empty($dispatchEvents) && ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_CHANGE))) {
+                foreach ($dispatchEvents as $listId) {
+                    $event = new ListChangeEvent($lead, $this->leadChangeLists[$listId]);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_CHANGE, $event);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_ADD, $event);
 
-        if ($batchProcess) {
-            // Detach for batch processing to preserve memory
-            $this->em->detach($lead);
-        } elseif (!empty($dispatchEvents) && ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_CHANGE))) {
-            foreach ($dispatchEvents as $listId) {
-                $event = new ListChangeEvent($lead, $this->leadChangeLists[$listId]);
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_CHANGE, $event);
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_ADD, $event);
-
-                unset($event);
+                    unset($event);
+                }
+            }
+            unset($lead, $persistLists, $lists);
+        } catch (\Exception $e) {
+            if ($output != null) {
+                $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');
             }
         }
-
-        unset($lead, $persistLists, $lists);
     }
 
     /**
@@ -1240,7 +1273,7 @@ class ListModel extends FormModel
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function removeLead($lead, $lists, $manuallyRemoved = false, $batchProcess = false, $skipFindOne = false)
+    public function removeLead($lead, $lists, $manuallyRemoved = false, $batchProcess = false, $skipFindOne = false, $output=null)
     {
         if (!$lead instanceof Lead) {
             $leadId = (is_array($lead) && isset($lead['id'])) ? $lead['id'] : $lead;
@@ -1326,31 +1359,36 @@ class ListModel extends FormModel
 
             unset($listLead);
         }
+        try {
+            if (!empty($persistLists)) {
+                $this->getRepository()->saveEntities($persistLists);
+            }
 
-        if (!empty($persistLists)) {
-            $this->getRepository()->saveEntities($persistLists);
-        }
+            if (!empty($deleteLists)) {
+                $this->getRepository()->deleteEntities($deleteLists);
+            }
 
-        if (!empty($deleteLists)) {
-            $this->getRepository()->deleteEntities($deleteLists);
-        }
+            // Clear ListLead entities from Doctrine memory
+            $this->em->clear('Mautic\LeadBundle\Entity\ListLead');
 
-        // Clear ListLead entities from Doctrine memory
-        $this->em->clear('Mautic\LeadBundle\Entity\ListLead');
+            if ($batchProcess) {
+                // Detach for batch processing to preserve memory
+                $this->em->detach($lead);
+            } elseif (!empty($dispatchEvents) && ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_CHANGE))) {
+                foreach ($dispatchEvents as $listId) {
+                    $event = new ListChangeEvent($lead, $this->leadChangeLists[$listId], false);
+                    $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_CHANGE, $event);
 
-        if ($batchProcess) {
-            // Detach for batch processing to preserve memory
-            $this->em->detach($lead);
-        } elseif (!empty($dispatchEvents) && ($this->dispatcher->hasListeners(LeadEvents::LEAD_LIST_CHANGE))) {
-            foreach ($dispatchEvents as $listId) {
-                $event = new ListChangeEvent($lead, $this->leadChangeLists[$listId], false);
-                $this->dispatcher->dispatch(LeadEvents::LEAD_LIST_CHANGE, $event);
+                    unset($event);
+                }
+            }
 
-                unset($event);
+            unset($lead, $deleteLists, $persistLists, $lists);
+        } catch (\Exception $e) {
+            if ($output != null) {
+                $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');
             }
         }
-
-        unset($lead, $deleteLists, $persistLists, $lists);
     }
 
     /**
