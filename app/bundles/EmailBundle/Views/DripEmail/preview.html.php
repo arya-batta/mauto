@@ -24,9 +24,13 @@ if (!empty($email) && !empty($email[0]) && $email[0]['custom_html']) {
 </head>
 <body>
 <?php echo $content; ?>
-<?php if ((isset($email[1]['footer']) && isset($email[2]['type'])) && ($email[2]['type'] == 'RichTextEditor' || $email[2]['type'] == null)):?>
-<hr>
+<?php if ((isset($email[1]['footer']) && isset($email[2]['type']))):?>
+
+<div style="margin-top:30px;background-color:#ffffff;border-top:1px solid #d0d0d0;font-family: 'GT-Walsheim-Regular', 'Poppins-Regular' , Helvetica, Arial, sans-serif;font-weight: normal;">
+    <br>
 <?php echo isset($email[1]['footer']) ? $email[1]['footer'] : '' ?>
+    <br><br><br>
+</div>
 <?php endif; ?>
 <?php echo isset($email[3]) ? $email[3]['branding'] : ''?>
 </body>
