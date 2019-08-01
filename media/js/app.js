@@ -808,9 +808,13 @@ Le.showMarketingOthersField=function(selectedval){if(selectedval=="Other"){mQuer
 Le.checkImportHistory=function(){if(!mQuery('#importpanel').has('table').length>0){mQuery('#importpanel').css('border-color','#2a323c');}else{mQuery('#importpanel').css('border-color','#ffffff');}}
 Le.showGSTNumber=function(selectedval){mQuery('#gstnumber_info').css("display","block");mQuery('#billinginfo_gstnumber').css("display","block");}
 Le.exportLeads=function(){Le.ajaxActionRequest('lead:exportLead',{},function(response){});}
-Le.leadExport=function(ele){var startIndex=mQuery('#export_startIndex').val();var endIndex=mQuery('#export_endIndex').val();var link=mQuery(ele).attr('link');if(Le.isProperExportCount(startIndex,endIndex)){mQuery('#export-field-error').addClass('hide');link=link+"&startIndex="+startIndex+"&endIndex="+endIndex;var iframe=mQuery("<iframe/>").attr({src:link,style:"visibility:hidden;display:none"}).appendTo(mQuery('body'));}else{if(startIndex==''){mQuery('#export-field-error').html("Start From can’t  be empty.");}else if(endIndex==''){mQuery('#export-field-error').html("Number of rows can’t be empty.");}else{mQuery('#export-field-error').html("Number of rows not to be greater than 10000");}
+Le.leadExport=function(ele){var startIndex=mQuery('#export_startIndex').val();var endIndex=mQuery('#export_endIndex').val();var link=mQuery(ele).attr('link');if(Le.isProperExportCount(startIndex,endIndex)){mQuery('#export-field-error').addClass('hide');link=link+"&startIndex="+startIndex+"&endIndex="+endIndex;var iframe=mQuery("<iframe/>").attr({src:link,style:"visibility:hidden;display:none"}).appendTo(mQuery('body'));}else{if(startIndex==''){mQuery('#export-field-error').html("Start From can’t  be empty.");}else if(endIndex==''){mQuery('#export-field-error').html("Number of rows can’t be empty.");}
+else if(isNaN(startIndex)||startIndex<0){mQuery('#export-field-error').html("Start From value is  Invalid .");}else if(isNaN(endIndex)||endIndex<0){mQuery('#export-field-error').html("Number of rows value is Invalid .");}
+else{mQuery('#export-field-error').html("Number of rows not to be greater than 10000");}
 mQuery('#export-field-error').removeClass('hide');}}
 Le.isProperExportCount=function(startIndex,endIndex){if(startIndex==''||endIndex==''){return false;}
+if(isNaN(startIndex)||isNaN(endIndex)){return false;}
+if(startIndex<0||endIndex<0){return false;}
 var diff=endIndex-startIndex;if(endIndex>10000){return false;}
 return true;}
 Le.hideActivity=function(){mQuery('#timeline-container').css('display','none');}

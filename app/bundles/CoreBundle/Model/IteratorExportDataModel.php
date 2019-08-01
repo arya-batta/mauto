@@ -101,8 +101,8 @@ class IteratorExportDataModel implements \Iterator
      */
     public function valid()
     {
-        if ($this->page > 1) { //to skip iterator after complete one page
-            return false;
+        if ($this->total <= $this->args['maxlimit'] && !is_null($this->data)) { //to skip iterator after complete one page
+            return true;
         } elseif ($this->position <= $this->totalResult && !is_null($this->data)) {
             return true;
         } else {

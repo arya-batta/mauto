@@ -1876,7 +1876,13 @@ Le.leadExport = function(ele){
             mQuery('#export-field-error').html("Start From can’t  be empty.");
         }else if(endIndex == ''){
             mQuery('#export-field-error').html("Number of rows can’t be empty.");
-        }else{
+        }
+        else if(isNaN(startIndex) || startIndex < 0){
+            mQuery('#export-field-error').html("Start From value is  Invalid .");
+        }else if(isNaN(endIndex) || endIndex < 0){
+            mQuery('#export-field-error').html("Number of rows value is Invalid .");
+        }
+        else{
             mQuery('#export-field-error').html("Number of rows not to be greater than 10000");
         }
         mQuery('#export-field-error').removeClass('hide');
@@ -1887,6 +1893,12 @@ Le.leadExport = function(ele){
 Le.isProperExportCount = function(startIndex, endIndex){
     if(startIndex == '' || endIndex == ''){
       return false;
+    }
+    if(isNaN(startIndex) || isNaN(endIndex)){
+        return false;
+    }
+    if(startIndex< 0 || endIndex < 0){
+        return false;
     }
     var diff = endIndex - startIndex;
     if(endIndex > 10000){// if(diff > 10000){

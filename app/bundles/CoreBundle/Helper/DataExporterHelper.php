@@ -27,8 +27,17 @@ class DataExporterHelper
      */
     public function getDataForExport($start, AbstractCommonModel $model, array $args, callable $resultsCallback = null)
     {
-        $args['limit'] = $args['limit'] < 200 ? 200 : $args['limit'];
-        $args['start'] = $start;
+        //$args['limit'] = $args['limit'] < 200 ? 200 : $args['limit'];
+
+        $currentval = $start + $args['limit'];
+
+        if ($start >= $args['maxlimit']) {
+            return null;
+        } elseif ($currentval > $args['maxlimit']) {
+            $args['limit'] = $args['maxlimit'] - $start;
+        }
+
+        $args['start'] = $start + $args['start'];
 
         $results = $model->getEntities($args);
         $items   = $results['results'];

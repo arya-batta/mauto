@@ -269,19 +269,56 @@ trait CustomFieldEntityTrait
                 foreach ($this->fields as $group => $fields) {
                     foreach ($fields as $alias => $field) {
                         if ($alias == 'status' || $alias == 'created_source') {
-                            continue;
+                            $field['value'] = $this->convertStatusAndSource($alias, $field['value']);
                         }
                         $fieldValues[$field['label']] = $field['value'];
                     }
                 }
             }
+            $leadFields  = array_merge($fieldValues, $this->updatedFields);
+            $extravalues = $this->getExtraLeadValues();
+            $leadFields  = array_merge($leadFields, $extravalues);
 
-            return array_merge($fieldValues, $this->updatedFields);
+            return $leadFields;
         } else {
             // The fields are already flattened
 
             return $this->fields;
         }
+    }
+
+    public function convertStatusAndSource($alias, $value)
+    {
+        $sourceAndstatus = [
+            'status'        => ['1'=>'Active', '2'=>'Engaged', '3'=>'Invalid', '4'=>'Complaint', '5'=>'Unsubscribed', '6'=>'Not Confirmed'],
+            'created_source'=> ['1'=>'Manual', '2'=>'Import', '3'=>'Form Submit', '4'=>'API', '5'=>'Integration'],
+        ];
+
+        return $sourceAndstatus[$alias][$value];
+    }
+
+    public function getExtraLeadValues()
+    {
+        $data['Lead Owner'] = '';
+        $data['Tags']       = '';
+
+        $owner = $this->getOwner();
+        $tags  = $this->getTags();
+
+        if ($owner != null) {
+            $data['Lead Owner'] = $owner->getFirstName().' '.$owner->getLastName();
+        }
+
+        $tagName = [];
+        if ($tags != null) {
+            foreach ($tags as $tag) {
+                $tagName[] = $tag->getTag();
+            }
+            $tagName      = implode(',', $tagName);
+            $data['Tags'] = $tagName;
+        }
+
+        return $data;
     }
 
     /**
