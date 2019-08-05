@@ -54,15 +54,7 @@ for ($index=1; $index < sizeof($argv); ++$index) {
 }
 try {
     if (!$domainattrfound) {
-        $pdoconn = new PDOConnection('');
-        if ($pdoconn) {
-            $con = $pdoconn->getConnection();
-            if ($con == null) {
-                throw new Exception($pdoconn->getDBErrorMsg());
-            }
-        } else {
-            throw new Exception('Not able to connect to DB');
-        }
+        $con=getDBConnection();
         date_default_timezone_set('UTC');
         $operation=$argv[1];
         if (isset($argv[1])) {
@@ -134,7 +126,7 @@ try {
             }
 //            $sql         = "select appid from applicationlist where f5 = '$domain';";
 //            $appidarr    = getResultArray($con, $sql);
-
+            $con         =checkDBConnection($con);
             $dbname      = DBINFO::$COMMONDBNAME.$appid;
             $sql         = "show databases like '$dbname'";
             $result      = getResultArray($con, $sql);
@@ -167,7 +159,7 @@ try {
             }
             //	    displayCronlog('general', $domain.'errorinfo:  '.$errormsg);
             if ($errormsg != '') {
-                displayCronlog('general', 'errorinfo:  '.$errormsg);
+                // displayCronlog($domain, 'Operation:'.$operation.',errorinfo:  '.$errormsg);
                 updatecronFailedstatus($con, $domain, $operation, $errormsg);
 //                if ($operation == 'le:emails:send') {
 //                    require_once "app/config/$domain/local.php";
@@ -186,7 +178,7 @@ try {
             displayCronlog($domain, $domain.' : '.$command);
             displayCronlog($domain, 'Command Results:'.$output);
             displayCronlog($domain, "This operation ($operation) for ($domain) is Completed.");
-            sleep(5);
+            sleep(2);
         }
         cleanCronStatus($con, $operation, '');
     } else {
@@ -206,6 +198,7 @@ try {
 
 function cleanCronStatus($con, $command, $domain)
 {
+    $con =checkDBConnection($con);
     $sql = "delete from cronmonitorinfo where  command='$command'";
     displayCronlog('general', 'SQL QUERY:'.$sql);
     $result = execSQL($con, $sql);
@@ -213,10 +206,11 @@ function cleanCronStatus($con, $command, $domain)
 
 function updatecronFailedstatus($con, $domain, $operation, $errorinfo)
 {
+    $con         =checkDBConnection($con);
     $errorinfo   = mysql_escape_string($errorinfo);
     $currentdate = date('Y-m-d H:i:s');
     $sql         = "insert into cronerrorinfo values ('$domain','$operation','$currentdate','$errorinfo')";
-    displayCronlog('general', 'SQL QUERY:'.$sql);
+    displayCronlog($domain, 'SQL QUERY:'.$sql);
     $result      = execSQL($con, $sql);
 }
 
@@ -303,34 +297,34 @@ function isActiveCustomer($con, $domain, $dbname, $operation)
     }
 }
 
-function CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername)
-{
-    $status = true;
-    if ($mailer == 'le.transport.elasticemail') {
-        if ($elasticapikey != '') {
-            $status = checkStatusofElastic($elasticapikey);
-        }
-    } elseif ($mailer == 'le.transport.sendgrid_api') {
-        if ($subusername != '') {
-            $status = checkStatus($subusername);
-        }
-    }
-    if (!$status) {
-        updateEmailAccountStatus($con, $domain);
-    }
-}
-
-function updateEmailAccountStatus($con, $domain)
-{
-    $sql         = "select appid from applicationlist where f5 = '$domain';";
-    $appidarr    = getResultArray($con, $sql);
-    $appid       = $appidarr[0][0];
-    $licenseinfo = DBINFO::$COMMONDBNAME.$appid.'.licenseinfo';
-    $sql         = "update $licenseinfo set app_status = 'Suspended'";
-    $result      = execSQL($con, $sql);
-    $sql         = "update applicationlist set f21 = 0 where f5 = '$domain'";
-    $result      = execSQL($con, $sql);
-}
+//function CheckESPStatus($con, $domain, $mailer, $elasticapikey, $subusername)
+//{
+//    $status = true;
+//    if ($mailer == 'le.transport.elasticemail') {
+//        if ($elasticapikey != '') {
+//            $status = checkStatusofElastic($elasticapikey);
+//        }
+//    } elseif ($mailer == 'le.transport.sendgrid_api') {
+//        if ($subusername != '') {
+//            $status = checkStatus($subusername);
+//        }
+//    }
+//    if (!$status) {
+//        updateEmailAccountStatus($con, $domain);
+//    }
+//}
+//
+//function updateEmailAccountStatus($con, $domain)
+//{
+//    $sql         = "select appid from applicationlist where f5 = '$domain';";
+//    $appidarr    = getResultArray($con, $sql);
+//    $appid       = $appidarr[0][0];
+//    $licenseinfo = DBINFO::$COMMONDBNAME.$appid.'.licenseinfo';
+//    $sql         = "update $licenseinfo set app_status = 'Suspended'";
+//    $result      = execSQL($con, $sql);
+//    $sql         = "update applicationlist set f21 = 0 where f5 = '$domain'";
+//    $result      = execSQL($con, $sql);
+//}
 
 function checkEmailAvailablity($domain)
 {
@@ -522,4 +516,35 @@ function checkStateMachineAvailablity($con, $dbname)
     } else {
         return true;
     }
+}
+
+function getDBConnection()
+{
+    $con     =null;
+    $pdoconn = new PDOConnection('');
+    if ($pdoconn) {
+        $con = $pdoconn->getConnection();
+        if ($con == null) {
+            throw new Exception($pdoconn->getDBErrorMsg());
+        }
+    } else {
+        throw new Exception('Not able to connect to DB');
+    }
+
+    return $con;
+}
+function checkDBConnection($con)
+{
+    try {
+        $sql         = 'show tables';
+        getResultArray($con, $sql);
+    } catch (Exception $ex) {
+        $message=$ex->getMessage();
+        if (strpos($message, 'MySQL server has gone away') !== false) {
+            $con=null;
+            $con=getDBConnection();
+        }
+    }
+
+    return $con;
 }

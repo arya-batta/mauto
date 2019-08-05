@@ -114,8 +114,7 @@ class UpdateScoreCommand extends ModeratedCommand
             unset($result);
             $output->writeln('<info>'.'===================================</info>');
         } catch (\Exception $e) {
-            echo 'exception->'.$e->getMessage()."\n";
-            $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');
+            $output->writeln('exception->'.$e->getMessage()."\n");
 
             return 0;
         }

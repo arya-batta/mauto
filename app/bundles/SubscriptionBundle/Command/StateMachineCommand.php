@@ -165,8 +165,7 @@ class StateMachineCommand extends ModeratedCommand
             // Something else happened, completely unrelated to Stripe
         }
         if ($errormsg != '') {
-            $output->writeln('<error>'.$errormsg.'</error>');
-            echo 'exception->'.$errormsg."\n";
+            $output->writeln('exception->'.$errormsg."\n");
 
             return 0;
         }

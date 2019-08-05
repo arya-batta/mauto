@@ -234,8 +234,7 @@ class UpdatePaymentCommand extends ModeratedCommand
             if (!$carderror) {
                 $smHelper->sendInternalSlackMessage('payment_failed_internal_action_needed');
             }
-            $output->writeln('<error>'.$errormsg.'</error>');
-            echo 'exception->'.$errormsg."\n";
+            $output->writeln('exception->'.$errormsg."\n");
 
             return 0;
         }

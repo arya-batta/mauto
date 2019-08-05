@@ -112,7 +112,7 @@ class LeadSubscriber extends CommonSubscriber
         //get campaigns for the list
         $listCampaigns = $repo->getPublishedCampaignbySourceType('lists');
 
-        $leadLists = $em->getRepository('MauticLeadBundle:LeadList')->getLeadLists($leads, true, true);
+        // $leadLists = $em->getRepository('MauticLeadBundle:LeadList')->getLeadLists($leads, true, true);
 
         if (!empty($listCampaigns)) {
             foreach ($listCampaigns as $c) {
@@ -167,7 +167,7 @@ class LeadSubscriber extends CommonSubscriber
         }*/
 
         // Save memory with batch processing
-        unset($event, $em, $model, $leads, $list, $listCampaigns, $leadLists);
+        unset($event, $em, $model, $leads, $list, $listCampaigns);
     }
 
     /**

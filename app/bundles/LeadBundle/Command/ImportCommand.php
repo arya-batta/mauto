@@ -136,7 +136,7 @@ EOT
 
             return 0;
         } catch (\Exception $e) {
-            echo 'exception->'.$e->getMessage()."\n";
+            $output->writeln('exception->'.$e->getMessage()."\n");
 
             return 0;
         }

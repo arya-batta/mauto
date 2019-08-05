@@ -153,8 +153,7 @@ class ProcessDripEmailCommand extends ModeratedCommand
                 }
             }
         } catch (\Exception $e) {
-            echo 'exception->'.$e->getMessage()."\n";
-            $output->writeln('<info>'.'Exception Occured:'.$e->getMessage().'</info>');
+            $output->writeln('exception->'.$e->getMessage()."\n");
 
             return 0;
         }

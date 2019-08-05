@@ -753,10 +753,10 @@ class CampaignModel extends CommonFormModel
      */
     public function addLeads(Campaign $campaign, array $leads, $manuallyAdded = false, $batchProcess = false, $searchListLead = 1)
     {
-        $batchSize = 20;
-        $i         = 0;
+        //$batchSize = 20;
+        // $i         = 0;
         foreach ($leads as $lead) {
-            ++$i;
+            //  ++$i;
             if ($lead instanceof Lead) {
                 $leadId = $lead->getId();
             } else {
@@ -783,7 +783,6 @@ class CampaignModel extends CommonFormModel
                 if ($campaignLead->wasManuallyRemoved()) {
                     $campaignLead->setManuallyRemoved(false);
                     $campaignLead->setManuallyAdded($manuallyAdded);
-
                     $dispatchEvent = $this->saveCampaignLead($campaignLead);
                 } else {
                     $this->em->detach($campaignLead);
@@ -801,13 +800,11 @@ class CampaignModel extends CommonFormModel
                 $campaignLead->setDateAdded(new \DateTime());
                 $campaignLead->setLead($lead);
                 $campaignLead->setManuallyAdded($manuallyAdded);
-
                 $dispatchEvent = $this->saveCampaignLead($campaignLead);
-                if ($i % $batchSize === 0) {
-                    $this->getEntityManager()->flush();
-                }
             }
-
+//            if ($i % $batchSize === 0) {
+//                $this->getEntityManager()->flush();
+//            }
             if ($dispatchEvent && $this->dispatcher->hasListeners(LeadEvents::LEAD_WORKFLOW_ADD)) {
                 $lead  = $this->leadModel->getEntity($lead->getId());
                 $event = new Events\CampaignLeadChangeEvent($campaign, $lead, 'added');
@@ -816,7 +813,6 @@ class CampaignModel extends CommonFormModel
 
                 unset($event);
             }
-
             // Detach CampaignLead to save memory
             $this->em->detach($campaignLead);
             if ($batchProcess) {
@@ -824,8 +820,12 @@ class CampaignModel extends CommonFormModel
             }
             unset($campaignLead, $lead);
         }
-
+//        if ($i < $batchSize) {
+//            $this->getEntityManager()->flush();
+//        }
         unset($leadModel, $campaign, $leads);
+//        $this->getEntityManager()->clear(CampaignLead::class);
+//        $this->getEntityManager()->clear(Lead::class);
     }
 
     /**
@@ -858,10 +858,9 @@ class CampaignModel extends CommonFormModel
         if (!$campaign instanceof Campaign) {
             $campaign   = $this->em->getReference('MauticCamapignBundle:Campaign', $campaign);
         }
-        $batchSize = 20;
-        $i         = 0;
+//        $batchSize = 20;
+//        $i         = 0;
         foreach ($leads as $lead) {
-            ++$i;
             if ($lead instanceof Lead) {
                 $leadId = $lead->getId();
             } else {
@@ -869,11 +868,11 @@ class CampaignModel extends CommonFormModel
                 $lead   = $this->em->getReference('MauticLeadBundle:Lead', $leadId);
             }
             $completedevents = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
-            if (empty($completedevents)) {
-                $this->addLead($campaign, $lead);
-                $this->putCampaignEventLog($eventid, $campaign, $lead);
-                $completedevents = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
-            }
+//            if (empty($completedevents)) {
+//                $this->addLead($campaign, $lead);
+//                $this->putCampaignEventLog($eventid, $campaign, $lead);
+//                $completedevents = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), []);
+//            }
             if ($completedevents > 0) {
                 $canvassettings = json_decode($campaign->getCanvasSettings());
                 $isLeadExited   = $this->checkCampaignLeadExited($campaign, $lead);
@@ -882,14 +881,15 @@ class CampaignModel extends CommonFormModel
                     if (sizeof($parellalgoals) > 0) {
                         $achievedgoals = $this->getEventRepository()->getCompletedEvents($campaign->getId(), $lead->getId(), $parellalgoals);
                         if ($achievedgoals == 0) {
+                            //++$i;
                             $this->getEventRepository()->unScheduleAllEvents($campaign->getId(), $lead->getId());
                             $log = $this->getLogEntity($eventid, $campaign, $lead);
                             $log->setTriggerDate(new \DateTime());
                             $log->setSystemTriggered(true);
                             $this->getCampaignLeadEventLogRepository()->saveEntity($log);
-                            if ($i % $batchSize === 0) {
-                                $this->getEntityManager()->flush();
-                            }
+//                            if ($i % $batchSize === 0) {
+//                                $this->getEntityManager()->flush();
+//                            }
                         }
                     }
                 }
@@ -899,8 +899,11 @@ class CampaignModel extends CommonFormModel
             }
             unset($lead);
         }
-        $this->getEntityManager()->flush();
+//        if ($i < $batchSize) {
+//            $this->getEntityManager()->flush();
+//        }
         unset($campaign);
+//        $this->getEntityManager()->clear(Lead::class);
     }
 
     /**
@@ -1537,10 +1540,10 @@ class CampaignModel extends CommonFormModel
     public function putCampaignEventLogs($eventid, $campaign, $leads, $batchProcess = false)
     {
         $event            = $this->em->getReference('MauticCampaignBundle:Event', $eventid);
-        $batchSize        = 20;
-        $i                = 0;
+        // $batchSize        = 20;
+        // $i                = 0;
         foreach ($leads as $lead) {
-            ++$i;
+            //  ++$i;
             if ($lead instanceof Lead) {
                 $leadId = $lead->getId();
             } else {
@@ -1577,18 +1580,20 @@ class CampaignModel extends CommonFormModel
                 $log->setDateTriggered(new \DateTime());
                 $log->setSystemTriggered(true);
                 $log->setRotation($leadrotation);
-                $this->getCampaignLeadEventLogRepository()->saveEntity($log, false);
-                if ($i % $batchSize === 0) {
-                    $this->getEntityManager()->flush();
-                }
+                $this->getCampaignLeadEventLogRepository()->saveEntity($log);
             }
+//            if ($i % $batchSize === 0) {
+//                $this->getEntityManager()->flush();
+//            }
             $this->em->detach($campaignlead);
             if ($batchProcess) {
                 $this->em->detach($lead);
             }
             unset($campaignlead, $lead);
         }
-        $this->getEntityManager()->flush();
+//        if ($i < $batchSize) {
+//            $this->getEntityManager()->flush();
+//        }
         unset($campaign);
     }
 

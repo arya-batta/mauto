@@ -202,7 +202,7 @@ EOT
             if (!$providerStatus) {
                 $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason2'));
             }
-            echo 'exception->'.$e->getMessage()."\n";
+            $output->writeln('exception->'.$e->getMessage()."\n");
             //$this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
             return 0;
         }
@@ -286,7 +286,7 @@ EOT
                 $output->writeln('<info>'.'Process completed to update all queued mails as failed'.'</info>');
             }
         } catch (\Exception $ex) {
-            //file_put_contents("/var/www/elastic.txt","Exception Occurs:".$ex->getMessage()."\n",FILE_APPEND);
+            //file_put_contents("/var/www/mauto/elastic.txt","Exception Occurs:".$ex->getMessage()."\n",FILE_APPEND);
         }
     }
 }

@@ -77,7 +77,7 @@ class ExportSchedulerCommand extends Command
                 return;
             }
         } catch (\Exception $e) {
-            echo 'exception->'.$e->getMessage()."\n";
+            $output->writeln('exception->'.$e->getMessage()."\n");
 
             return 0;
         }
