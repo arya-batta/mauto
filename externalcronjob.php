@@ -137,15 +137,15 @@ try {
 //                continue;
 //            }
             if (!isValidCronExecution($con, $domain, $dbname, $appid, $operation)) {
-                displayCronlog($domain, "This operation ($operation) for ($domain) is skipped.");
+                displayCronlog('general', "This operation ($operation) for ($domain) is skipped.");
                 continue;
             }
-            displayCronlog($domain, "This operation ($operation) for ($domain) is Progress.");
+            displayCronlog('general', "This operation ($operation) for ($domain) is Progress.");
             $currentdate = date('Y-m-d');
             $sql         = "select count(*) from cronerrorinfo where domain = '$domain' and operation = '$operation' and createdtime like '$currentdate%'";
             $errorinfo   = getResultArray($con, $sql);
             if (sizeof($errorinfo) != 0 && $errorinfo[0][0] > 5) {
-                displayCronlog($domain, "This operation ($operation) for ($domain) is failing repeatedly.");
+                displayCronlog('general', "This operation ($operation) for ($domain) is failing repeatedly.");
                 continue;
             }
             $command="app/console $arguments --domain=$domain";
@@ -177,7 +177,7 @@ try {
             }
             displayCronlog($domain, $domain.' : '.$command);
             displayCronlog($domain, 'Command Results:'.$output);
-            displayCronlog($domain, "This operation ($operation) for ($domain) is Completed.");
+            displayCronlog('general', "This operation ($operation) for ($domain) is Completed.");
             sleep(2);
         }
         cleanCronStatus($con, $operation, '');
